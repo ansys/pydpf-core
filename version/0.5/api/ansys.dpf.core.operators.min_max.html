@@ -1,0 +1,1273 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>ansys.dpf.core.operators.min_max package &#8212; PyDPF-Core</title>
+    
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../_static/styles/bootstrap.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css\ansys_sphinx_theme.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94">
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94">
+
+    
+        <link href="../_static/css/breadcrumbs.css" rel="stylesheet">
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/js\table.js"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/ansys.dpf.core.operators.min_max';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://dpf.docs.pyansys.com/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '0.5';
+        </script>
+    <link rel="shortcut icon" href="../_static/ansys-favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="max_by_component" href="ansys.dpf.core.operators.min_max.max_by_component.html" />
+    <link rel="prev" title="time_freq_provider" href="ansys.dpf.core.operators.metadata.time_freq_provider.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__primary" id="__primary">
+  <label class="overlay overlay-primary" for="__primary"></label>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__secondary" id="__secondary">
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+      
+<form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+    </div>
+  </div>
+
+  
+    
+  <nav class="bd-header navbar navbar-expand-lg bd-navbar" id="navbar-main"><div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+      <span class="fa-solid fa-bars"></span>
+  </label>
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../index.html">
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="../_static/pyansys-logo-black-cropped.png" class="logo__image only-light" alt="Logo image">
+    <img src="../_static/pyansys-logo-black-cropped.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  
+  <div class="col-lg-9 navbar-header-items">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../getting_started/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        APIs
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../operator_reference.html">
+                        Operators
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../examples/index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contributing.html">
+                        Contributing
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+    </ul>
+</nav>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+        <div class="navbar-end-item navbar-persistent--container">
+          
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+        </div>
+      
+      
+      <div class="navbar-end-item">
+        <div class="version-switcher__container dropdown">
+    <button type="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-toggle="dropdown">
+        0.5  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div class="version-switcher__menu dropdown-menu list-group-flush py-0">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+      </div>
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/pyansys/pydpf-core" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-toggle="tooltip"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+
+
+  
+  
+    <div class="navbar-persistent--mobile">
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+    </div>
+  
+
+  
+  <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+  </label>
+  
+
+</div>
+  </nav>
+  
+
+    
+    <div id="announcement_msg"></div>
+<script>
+  fetch("announcement.html")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(text => document.getElementById("announcement_msg").innerHTML = text)
+    .catch((error) => console.error(`Fetch problem: ${error.message}`));
+</script>
+    
+
+    
+    <div class="container-xl">
+    <div class="row">
+        <div class="col-12 col-md-3" id="breadcrumbs-spacer"></div>
+        <div class="col-12 col-md-11 col-xl-9" id="breadcrumbs">
+          
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+    
+        <li class="nav-item nav-item-additional-breadcrumb"><a href="https://docs.pyansys.com/">PyAnsys</a> » </li>
+    
+    
+        <li class="nav-item nav-item-0"><a href="../index.html">PyDPF-Core</a> » </li>
+    
+
+          <li class="nav-item nav-item-1"><a href="index.html" >APIs</a> » </li>
+          <li class="nav-item nav-item-2"><a href="ansys.dpf.core.html" >ansys.dpf.core package</a> » </li>
+          <li class="nav-item nav-item-3"><a href="ansys.dpf.core.operators.html" accesskey="U">ansys.dpf.core.operators package</a> » </li>
+        <li class="nav-item nav-item-this"><a href="">ansys.dpf.core.operators.min_max package</a></li> 
+      </ul>
+    </div>
+        </div>
+  </div>
+</div>
+    
+
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../getting_started/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        APIs
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../operator_reference.html">
+                        Operators
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../examples/index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contributing.html">
+                        Contributing
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+    </ul>
+</nav>
+      </div>
+      
+      </div>
+    
+
+    
+    
+    <div class="sidebar-header-items__end">
+      
+      <div class="navbar-end-item">
+        <div class="version-switcher__container dropdown">
+    <button type="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-toggle="dropdown">
+        0.5  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div class="version-switcher__menu dropdown-menu list-group-flush py-0">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+      </div>
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/pyansys/pydpf-core" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-toggle="tooltip"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+    
+  </div>
+
+  
+  <div class="sidebar-start-items sidebar-primary__section">
+    <div class="sidebar-start-items__item"><nav class="bd-links" id="bd-docs-nav" aria-label="Section navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">
+    Section Navigation
+  </p>
+  <div class="bd-toc-item navbar-nav">
+    <p aria-level="2" class="caption" role="heading"><span class="caption-text">APIs</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="ansys.dpf.core.html">ansys.dpf.core package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.examples.html">ansys.dpf.core.examples package</a></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="ansys.dpf.core.operators.html">ansys.dpf.core.operators package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.averaging.html">ansys.dpf.core.operators.averaging package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.filter.html">ansys.dpf.core.operators.filter package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.geo.html">ansys.dpf.core.operators.geo package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.invariant.html">ansys.dpf.core.operators.invariant package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.logic.html">ansys.dpf.core.operators.logic package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.mapping.html">ansys.dpf.core.operators.mapping package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.html">ansys.dpf.core.operators.math package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.mesh.html">ansys.dpf.core.operators.mesh package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.metadata.html">ansys.dpf.core.operators.metadata package</a></li>
+<li class="toctree-l3 current active has-children"><a class="current reference internal" href="#">ansys.dpf.core.operators.min_max package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_by_component.html">max_by_component</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_over_phase.html">max_over_phase</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_over_time_by_entity.html">max_over_time_by_entity</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_by_component.html">min_by_component</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max.html">min_max</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_by_entity.html">min_max_by_entity</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_by_time.html">min_max_by_time</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_fc.html">min_max_fc</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_fc_inc.html">min_max_fc_inc</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_inc.html">min_max_inc</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_label_fc.html">min_max_over_label_fc</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_time_by_entity.html">min_max_over_time_by_entity</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_over_time_by_entity.html">min_over_time_by_entity</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.min_max.phase_of_max.html">phase_of_max</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.min_max.time_of_max_by_entity.html">time_of_max_by_entity</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.min_max.time_of_min_by_entity.html">time_of_min_by_entity</a></li>
+
+
+
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.html">ansys.dpf.core.operators.result package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.scoping.html">ansys.dpf.core.operators.scoping package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.serialization.html">ansys.dpf.core.operators.serialization package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.server.html">ansys.dpf.core.operators.server namespace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.utility.html">ansys.dpf.core.operators.utility package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.available_result.html">AvailableResult</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.collection.html">Collection</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.common.html">Common</a></li>
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.config.html">Operator Configuration</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.core.html">Core</a></li>
+
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.custom_fields_container.html">Custom Fields Containers</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.custom_operator.html">Custom Operator Base</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.cyclic_support.html">Cyclic Support</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.data_sources.html">Data Sources</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.data_tree.html">DataTree</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.dimensionality.html">Dimensionality</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.dpf_array.html">DPFArray</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.dpf_operator.html">Operator</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.element_descriptor.html">Element Descriptor</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.elements.html">Elements</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.errors.html">Errors</a></li>
+
+
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.field.html">Field</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.field_definition.html">FieldDefinition</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.fields_container.html">FieldsContainer</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.fields_container_factory.html">fields_container_factory</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.fields_factory.html">fields_factory</a></li>
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.inputs.html">Inputs</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.mesh_scoping_factory.html">mesh_scoping_factory</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.meshed_region.html">MeshedRegion</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.meshes_container.html">MeshesContainer</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.model.html">Model</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.nodes.html">Nodes</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operator_specification.html">Operator Specification</a></li>
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.outputs.html">Outputs</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.path_utilities.html">path_utilities</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.plotter.html">Plotter</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.property_field.html">PropertyField</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.result_info.html">ResultInfo</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.results.html">Results</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.runtime_config.html">RuntimeConfig</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.scoping.html">Scoping</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.scopings_container.html">ScopingsContainer</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.server.html">Server</a></li>
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.server_factory.html">Server factory, server configuration and communication protocols</a></li>
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.server_types.html">Server types</a></li>
+
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.session.html">Session</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.settings.html">settings</a></li>
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.time_freq_scoping_factory.html">time_freq_scoping_factory</a></li>
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.time_freq_support.html">TimeFreqSupport</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.workflow.html">Workflow</a></li>
+
+</ul>
+</li>
+</ul>
+
+  </div>
+</nav>
+    </div>
+  </div>
+  
+
+  
+  <div class="sidebar-end-items sidebar-primary__section">
+    <div class="sidebar-end-items__item">
+    </div>
+  </div>
+
+  
+  <div id="rtd-footer-container"></div>
+
+      </div>
+      <main id="main-content" class="bd-main">
+        
+        
+        <div class="bd-content">
+          <div class="bd-article-container">
+            
+            <div class="bd-header-article">
+                
+            </div>
+            
+            
+            <article class="bd-article" role="main">
+              
+  <section id="ansys-dpf-core-operators-min-max-package">
+<h1>ansys.dpf.core.operators.min_max package<a class="headerlink" href="#ansys-dpf-core-operators-min-max-package" title="Permalink to this heading">#</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">#</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_by_component.html">max_by_component</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_by_component.html#ansys.dpf.core.operators.min_max.max_by_component.max_by_component"><code class="docutils literal notranslate"><span class="pre">max_by_component</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_by_component.html#ansys.dpf.core.operators.min_max.max_by_component.max_by_component.default_config"><code class="docutils literal notranslate"><span class="pre">max_by_component.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_by_component.html#ansys.dpf.core.operators.min_max.max_by_component.max_by_component.inputs"><code class="docutils literal notranslate"><span class="pre">max_by_component.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_by_component.html#ansys.dpf.core.operators.min_max.max_by_component.max_by_component.outputs"><code class="docutils literal notranslate"><span class="pre">max_by_component.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_by_component.html#ansys.dpf.core.operators.min_max.max_by_component.max_by_component.config"><code class="docutils literal notranslate"><span class="pre">max_by_component.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_by_component.html#ansys.dpf.core.operators.min_max.max_by_component.max_by_component.connect"><code class="docutils literal notranslate"><span class="pre">max_by_component.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_by_component.html#ansys.dpf.core.operators.min_max.max_by_component.max_by_component.eval"><code class="docutils literal notranslate"><span class="pre">max_by_component.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_by_component.html#ansys.dpf.core.operators.min_max.max_by_component.max_by_component.get_output"><code class="docutils literal notranslate"><span class="pre">max_by_component.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_by_component.html#ansys.dpf.core.operators.min_max.max_by_component.max_by_component.operator_specification"><code class="docutils literal notranslate"><span class="pre">max_by_component.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_by_component.html#ansys.dpf.core.operators.min_max.max_by_component.max_by_component.progress_bar"><code class="docutils literal notranslate"><span class="pre">max_by_component.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_by_component.html#ansys.dpf.core.operators.min_max.max_by_component.max_by_component.run"><code class="docutils literal notranslate"><span class="pre">max_by_component.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_by_component.html#ansys.dpf.core.operators.min_max.max_by_component.max_by_component.specification"><code class="docutils literal notranslate"><span class="pre">max_by_component.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_by_component.html#ansys.dpf.core.operators.min_max.max_by_component.InputsMaxByComponent"><code class="docutils literal notranslate"><span class="pre">InputsMaxByComponent</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_by_component.html#ansys.dpf.core.operators.min_max.max_by_component.InputsMaxByComponent.use_absolute_value"><code class="docutils literal notranslate"><span class="pre">InputsMaxByComponent.use_absolute_value</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_by_component.html#ansys.dpf.core.operators.min_max.max_by_component.InputsMaxByComponent.field1"><code class="docutils literal notranslate"><span class="pre">InputsMaxByComponent.field1</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_by_component.html#ansys.dpf.core.operators.min_max.max_by_component.InputsMaxByComponent.field2"><code class="docutils literal notranslate"><span class="pre">InputsMaxByComponent.field2</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_by_component.html#ansys.dpf.core.operators.min_max.max_by_component.InputsMaxByComponent.connect"><code class="docutils literal notranslate"><span class="pre">InputsMaxByComponent.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_by_component.html#ansys.dpf.core.operators.min_max.max_by_component.OutputsMaxByComponent"><code class="docutils literal notranslate"><span class="pre">OutputsMaxByComponent</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_by_component.html#ansys.dpf.core.operators.min_max.max_by_component.OutputsMaxByComponent.field"><code class="docutils literal notranslate"><span class="pre">OutputsMaxByComponent.field</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_over_phase.html">max_over_phase</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_over_phase.html#ansys.dpf.core.operators.min_max.max_over_phase.max_over_phase"><code class="docutils literal notranslate"><span class="pre">max_over_phase</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_over_phase.html#ansys.dpf.core.operators.min_max.max_over_phase.max_over_phase.default_config"><code class="docutils literal notranslate"><span class="pre">max_over_phase.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_over_phase.html#ansys.dpf.core.operators.min_max.max_over_phase.max_over_phase.inputs"><code class="docutils literal notranslate"><span class="pre">max_over_phase.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_over_phase.html#ansys.dpf.core.operators.min_max.max_over_phase.max_over_phase.outputs"><code class="docutils literal notranslate"><span class="pre">max_over_phase.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_over_phase.html#ansys.dpf.core.operators.min_max.max_over_phase.max_over_phase.config"><code class="docutils literal notranslate"><span class="pre">max_over_phase.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_over_phase.html#ansys.dpf.core.operators.min_max.max_over_phase.max_over_phase.connect"><code class="docutils literal notranslate"><span class="pre">max_over_phase.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_over_phase.html#ansys.dpf.core.operators.min_max.max_over_phase.max_over_phase.eval"><code class="docutils literal notranslate"><span class="pre">max_over_phase.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_over_phase.html#ansys.dpf.core.operators.min_max.max_over_phase.max_over_phase.get_output"><code class="docutils literal notranslate"><span class="pre">max_over_phase.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_over_phase.html#ansys.dpf.core.operators.min_max.max_over_phase.max_over_phase.operator_specification"><code class="docutils literal notranslate"><span class="pre">max_over_phase.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_over_phase.html#ansys.dpf.core.operators.min_max.max_over_phase.max_over_phase.progress_bar"><code class="docutils literal notranslate"><span class="pre">max_over_phase.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_over_phase.html#ansys.dpf.core.operators.min_max.max_over_phase.max_over_phase.run"><code class="docutils literal notranslate"><span class="pre">max_over_phase.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_over_phase.html#ansys.dpf.core.operators.min_max.max_over_phase.max_over_phase.specification"><code class="docutils literal notranslate"><span class="pre">max_over_phase.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_over_phase.html#ansys.dpf.core.operators.min_max.max_over_phase.InputsMaxOverPhase"><code class="docutils literal notranslate"><span class="pre">InputsMaxOverPhase</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_over_phase.html#ansys.dpf.core.operators.min_max.max_over_phase.InputsMaxOverPhase.real_field"><code class="docutils literal notranslate"><span class="pre">InputsMaxOverPhase.real_field</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_over_phase.html#ansys.dpf.core.operators.min_max.max_over_phase.InputsMaxOverPhase.imaginary_field"><code class="docutils literal notranslate"><span class="pre">InputsMaxOverPhase.imaginary_field</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_over_phase.html#ansys.dpf.core.operators.min_max.max_over_phase.InputsMaxOverPhase.abs_value"><code class="docutils literal notranslate"><span class="pre">InputsMaxOverPhase.abs_value</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_over_phase.html#ansys.dpf.core.operators.min_max.max_over_phase.InputsMaxOverPhase.phase_increment"><code class="docutils literal notranslate"><span class="pre">InputsMaxOverPhase.phase_increment</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_over_phase.html#ansys.dpf.core.operators.min_max.max_over_phase.InputsMaxOverPhase.connect"><code class="docutils literal notranslate"><span class="pre">InputsMaxOverPhase.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_over_phase.html#ansys.dpf.core.operators.min_max.max_over_phase.OutputsMaxOverPhase"><code class="docutils literal notranslate"><span class="pre">OutputsMaxOverPhase</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_over_phase.html#ansys.dpf.core.operators.min_max.max_over_phase.OutputsMaxOverPhase.field"><code class="docutils literal notranslate"><span class="pre">OutputsMaxOverPhase.field</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_over_time_by_entity.html">max_over_time_by_entity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_over_time_by_entity.html#ansys.dpf.core.operators.min_max.max_over_time_by_entity.max_over_time_by_entity"><code class="docutils literal notranslate"><span class="pre">max_over_time_by_entity</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_over_time_by_entity.html#ansys.dpf.core.operators.min_max.max_over_time_by_entity.max_over_time_by_entity.default_config"><code class="docutils literal notranslate"><span class="pre">max_over_time_by_entity.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_over_time_by_entity.html#ansys.dpf.core.operators.min_max.max_over_time_by_entity.max_over_time_by_entity.inputs"><code class="docutils literal notranslate"><span class="pre">max_over_time_by_entity.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_over_time_by_entity.html#ansys.dpf.core.operators.min_max.max_over_time_by_entity.max_over_time_by_entity.outputs"><code class="docutils literal notranslate"><span class="pre">max_over_time_by_entity.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_over_time_by_entity.html#ansys.dpf.core.operators.min_max.max_over_time_by_entity.max_over_time_by_entity.config"><code class="docutils literal notranslate"><span class="pre">max_over_time_by_entity.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_over_time_by_entity.html#ansys.dpf.core.operators.min_max.max_over_time_by_entity.max_over_time_by_entity.connect"><code class="docutils literal notranslate"><span class="pre">max_over_time_by_entity.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_over_time_by_entity.html#ansys.dpf.core.operators.min_max.max_over_time_by_entity.max_over_time_by_entity.eval"><code class="docutils literal notranslate"><span class="pre">max_over_time_by_entity.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_over_time_by_entity.html#ansys.dpf.core.operators.min_max.max_over_time_by_entity.max_over_time_by_entity.get_output"><code class="docutils literal notranslate"><span class="pre">max_over_time_by_entity.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_over_time_by_entity.html#ansys.dpf.core.operators.min_max.max_over_time_by_entity.max_over_time_by_entity.operator_specification"><code class="docutils literal notranslate"><span class="pre">max_over_time_by_entity.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_over_time_by_entity.html#ansys.dpf.core.operators.min_max.max_over_time_by_entity.max_over_time_by_entity.progress_bar"><code class="docutils literal notranslate"><span class="pre">max_over_time_by_entity.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_over_time_by_entity.html#ansys.dpf.core.operators.min_max.max_over_time_by_entity.max_over_time_by_entity.run"><code class="docutils literal notranslate"><span class="pre">max_over_time_by_entity.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_over_time_by_entity.html#ansys.dpf.core.operators.min_max.max_over_time_by_entity.max_over_time_by_entity.specification"><code class="docutils literal notranslate"><span class="pre">max_over_time_by_entity.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_over_time_by_entity.html#ansys.dpf.core.operators.min_max.max_over_time_by_entity.InputsMaxOverTimeByEntity"><code class="docutils literal notranslate"><span class="pre">InputsMaxOverTimeByEntity</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_over_time_by_entity.html#ansys.dpf.core.operators.min_max.max_over_time_by_entity.InputsMaxOverTimeByEntity.fields_container"><code class="docutils literal notranslate"><span class="pre">InputsMaxOverTimeByEntity.fields_container</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_over_time_by_entity.html#ansys.dpf.core.operators.min_max.max_over_time_by_entity.InputsMaxOverTimeByEntity.abs_value"><code class="docutils literal notranslate"><span class="pre">InputsMaxOverTimeByEntity.abs_value</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_over_time_by_entity.html#ansys.dpf.core.operators.min_max.max_over_time_by_entity.InputsMaxOverTimeByEntity.compute_amplitude"><code class="docutils literal notranslate"><span class="pre">InputsMaxOverTimeByEntity.compute_amplitude</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_over_time_by_entity.html#ansys.dpf.core.operators.min_max.max_over_time_by_entity.InputsMaxOverTimeByEntity.connect"><code class="docutils literal notranslate"><span class="pre">InputsMaxOverTimeByEntity.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_over_time_by_entity.html#ansys.dpf.core.operators.min_max.max_over_time_by_entity.OutputsMaxOverTimeByEntity"><code class="docutils literal notranslate"><span class="pre">OutputsMaxOverTimeByEntity</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_over_time_by_entity.html#ansys.dpf.core.operators.min_max.max_over_time_by_entity.OutputsMaxOverTimeByEntity.fields_container"><code class="docutils literal notranslate"><span class="pre">OutputsMaxOverTimeByEntity.fields_container</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_by_component.html">min_by_component</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_by_component.html#ansys.dpf.core.operators.min_max.min_by_component.min_by_component"><code class="docutils literal notranslate"><span class="pre">min_by_component</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_by_component.html#ansys.dpf.core.operators.min_max.min_by_component.min_by_component.default_config"><code class="docutils literal notranslate"><span class="pre">min_by_component.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_by_component.html#ansys.dpf.core.operators.min_max.min_by_component.min_by_component.inputs"><code class="docutils literal notranslate"><span class="pre">min_by_component.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_by_component.html#ansys.dpf.core.operators.min_max.min_by_component.min_by_component.outputs"><code class="docutils literal notranslate"><span class="pre">min_by_component.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_by_component.html#ansys.dpf.core.operators.min_max.min_by_component.min_by_component.config"><code class="docutils literal notranslate"><span class="pre">min_by_component.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_by_component.html#ansys.dpf.core.operators.min_max.min_by_component.min_by_component.connect"><code class="docutils literal notranslate"><span class="pre">min_by_component.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_by_component.html#ansys.dpf.core.operators.min_max.min_by_component.min_by_component.eval"><code class="docutils literal notranslate"><span class="pre">min_by_component.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_by_component.html#ansys.dpf.core.operators.min_max.min_by_component.min_by_component.get_output"><code class="docutils literal notranslate"><span class="pre">min_by_component.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_by_component.html#ansys.dpf.core.operators.min_max.min_by_component.min_by_component.operator_specification"><code class="docutils literal notranslate"><span class="pre">min_by_component.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_by_component.html#ansys.dpf.core.operators.min_max.min_by_component.min_by_component.progress_bar"><code class="docutils literal notranslate"><span class="pre">min_by_component.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_by_component.html#ansys.dpf.core.operators.min_max.min_by_component.min_by_component.run"><code class="docutils literal notranslate"><span class="pre">min_by_component.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_by_component.html#ansys.dpf.core.operators.min_max.min_by_component.min_by_component.specification"><code class="docutils literal notranslate"><span class="pre">min_by_component.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_by_component.html#ansys.dpf.core.operators.min_max.min_by_component.InputsMinByComponent"><code class="docutils literal notranslate"><span class="pre">InputsMinByComponent</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_by_component.html#ansys.dpf.core.operators.min_max.min_by_component.InputsMinByComponent.use_absolute_value"><code class="docutils literal notranslate"><span class="pre">InputsMinByComponent.use_absolute_value</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_by_component.html#ansys.dpf.core.operators.min_max.min_by_component.InputsMinByComponent.field1"><code class="docutils literal notranslate"><span class="pre">InputsMinByComponent.field1</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_by_component.html#ansys.dpf.core.operators.min_max.min_by_component.InputsMinByComponent.field2"><code class="docutils literal notranslate"><span class="pre">InputsMinByComponent.field2</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_by_component.html#ansys.dpf.core.operators.min_max.min_by_component.InputsMinByComponent.connect"><code class="docutils literal notranslate"><span class="pre">InputsMinByComponent.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_by_component.html#ansys.dpf.core.operators.min_max.min_by_component.OutputsMinByComponent"><code class="docutils literal notranslate"><span class="pre">OutputsMinByComponent</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_by_component.html#ansys.dpf.core.operators.min_max.min_by_component.OutputsMinByComponent.field"><code class="docutils literal notranslate"><span class="pre">OutputsMinByComponent.field</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max.html">min_max</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max.html#ansys.dpf.core.operators.min_max.min_max.min_max"><code class="docutils literal notranslate"><span class="pre">min_max</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max.html#ansys.dpf.core.operators.min_max.min_max.min_max.default_config"><code class="docutils literal notranslate"><span class="pre">min_max.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max.html#ansys.dpf.core.operators.min_max.min_max.min_max.inputs"><code class="docutils literal notranslate"><span class="pre">min_max.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max.html#ansys.dpf.core.operators.min_max.min_max.min_max.outputs"><code class="docutils literal notranslate"><span class="pre">min_max.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max.html#ansys.dpf.core.operators.min_max.min_max.min_max.config"><code class="docutils literal notranslate"><span class="pre">min_max.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max.html#ansys.dpf.core.operators.min_max.min_max.min_max.connect"><code class="docutils literal notranslate"><span class="pre">min_max.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max.html#ansys.dpf.core.operators.min_max.min_max.min_max.eval"><code class="docutils literal notranslate"><span class="pre">min_max.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max.html#ansys.dpf.core.operators.min_max.min_max.min_max.get_output"><code class="docutils literal notranslate"><span class="pre">min_max.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max.html#ansys.dpf.core.operators.min_max.min_max.min_max.operator_specification"><code class="docutils literal notranslate"><span class="pre">min_max.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max.html#ansys.dpf.core.operators.min_max.min_max.min_max.progress_bar"><code class="docutils literal notranslate"><span class="pre">min_max.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max.html#ansys.dpf.core.operators.min_max.min_max.min_max.run"><code class="docutils literal notranslate"><span class="pre">min_max.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max.html#ansys.dpf.core.operators.min_max.min_max.min_max.specification"><code class="docutils literal notranslate"><span class="pre">min_max.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max.html#ansys.dpf.core.operators.min_max.min_max.InputsMinMax"><code class="docutils literal notranslate"><span class="pre">InputsMinMax</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max.html#ansys.dpf.core.operators.min_max.min_max.InputsMinMax.field"><code class="docutils literal notranslate"><span class="pre">InputsMinMax.field</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max.html#ansys.dpf.core.operators.min_max.min_max.InputsMinMax.connect"><code class="docutils literal notranslate"><span class="pre">InputsMinMax.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max.html#ansys.dpf.core.operators.min_max.min_max.OutputsMinMax"><code class="docutils literal notranslate"><span class="pre">OutputsMinMax</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max.html#ansys.dpf.core.operators.min_max.min_max.OutputsMinMax.field_min"><code class="docutils literal notranslate"><span class="pre">OutputsMinMax.field_min</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max.html#ansys.dpf.core.operators.min_max.min_max.OutputsMinMax.field_max"><code class="docutils literal notranslate"><span class="pre">OutputsMinMax.field_max</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_by_entity.html">min_max_by_entity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_by_entity.html#ansys.dpf.core.operators.min_max.min_max_by_entity.min_max_by_entity"><code class="docutils literal notranslate"><span class="pre">min_max_by_entity</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_by_entity.html#ansys.dpf.core.operators.min_max.min_max_by_entity.min_max_by_entity.default_config"><code class="docutils literal notranslate"><span class="pre">min_max_by_entity.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_by_entity.html#ansys.dpf.core.operators.min_max.min_max_by_entity.min_max_by_entity.inputs"><code class="docutils literal notranslate"><span class="pre">min_max_by_entity.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_by_entity.html#ansys.dpf.core.operators.min_max.min_max_by_entity.min_max_by_entity.outputs"><code class="docutils literal notranslate"><span class="pre">min_max_by_entity.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_by_entity.html#ansys.dpf.core.operators.min_max.min_max_by_entity.min_max_by_entity.config"><code class="docutils literal notranslate"><span class="pre">min_max_by_entity.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_by_entity.html#ansys.dpf.core.operators.min_max.min_max_by_entity.min_max_by_entity.connect"><code class="docutils literal notranslate"><span class="pre">min_max_by_entity.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_by_entity.html#ansys.dpf.core.operators.min_max.min_max_by_entity.min_max_by_entity.eval"><code class="docutils literal notranslate"><span class="pre">min_max_by_entity.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_by_entity.html#ansys.dpf.core.operators.min_max.min_max_by_entity.min_max_by_entity.get_output"><code class="docutils literal notranslate"><span class="pre">min_max_by_entity.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_by_entity.html#ansys.dpf.core.operators.min_max.min_max_by_entity.min_max_by_entity.operator_specification"><code class="docutils literal notranslate"><span class="pre">min_max_by_entity.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_by_entity.html#ansys.dpf.core.operators.min_max.min_max_by_entity.min_max_by_entity.progress_bar"><code class="docutils literal notranslate"><span class="pre">min_max_by_entity.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_by_entity.html#ansys.dpf.core.operators.min_max.min_max_by_entity.min_max_by_entity.run"><code class="docutils literal notranslate"><span class="pre">min_max_by_entity.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_by_entity.html#ansys.dpf.core.operators.min_max.min_max_by_entity.min_max_by_entity.specification"><code class="docutils literal notranslate"><span class="pre">min_max_by_entity.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_by_entity.html#ansys.dpf.core.operators.min_max.min_max_by_entity.InputsMinMaxByEntity"><code class="docutils literal notranslate"><span class="pre">InputsMinMaxByEntity</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_by_entity.html#ansys.dpf.core.operators.min_max.min_max_by_entity.InputsMinMaxByEntity.fields_container"><code class="docutils literal notranslate"><span class="pre">InputsMinMaxByEntity.fields_container</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_by_entity.html#ansys.dpf.core.operators.min_max.min_max_by_entity.InputsMinMaxByEntity.connect"><code class="docutils literal notranslate"><span class="pre">InputsMinMaxByEntity.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_by_entity.html#ansys.dpf.core.operators.min_max.min_max_by_entity.OutputsMinMaxByEntity"><code class="docutils literal notranslate"><span class="pre">OutputsMinMaxByEntity</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_by_entity.html#ansys.dpf.core.operators.min_max.min_max_by_entity.OutputsMinMaxByEntity.field_min"><code class="docutils literal notranslate"><span class="pre">OutputsMinMaxByEntity.field_min</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_by_entity.html#ansys.dpf.core.operators.min_max.min_max_by_entity.OutputsMinMaxByEntity.field_max"><code class="docutils literal notranslate"><span class="pre">OutputsMinMaxByEntity.field_max</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_by_time.html">min_max_by_time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_by_time.html#ansys.dpf.core.operators.min_max.min_max_by_time.min_max_by_time"><code class="docutils literal notranslate"><span class="pre">min_max_by_time</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_by_time.html#ansys.dpf.core.operators.min_max.min_max_by_time.min_max_by_time.default_config"><code class="docutils literal notranslate"><span class="pre">min_max_by_time.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_by_time.html#ansys.dpf.core.operators.min_max.min_max_by_time.min_max_by_time.inputs"><code class="docutils literal notranslate"><span class="pre">min_max_by_time.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_by_time.html#ansys.dpf.core.operators.min_max.min_max_by_time.min_max_by_time.outputs"><code class="docutils literal notranslate"><span class="pre">min_max_by_time.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_by_time.html#ansys.dpf.core.operators.min_max.min_max_by_time.min_max_by_time.config"><code class="docutils literal notranslate"><span class="pre">min_max_by_time.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_by_time.html#ansys.dpf.core.operators.min_max.min_max_by_time.min_max_by_time.connect"><code class="docutils literal notranslate"><span class="pre">min_max_by_time.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_by_time.html#ansys.dpf.core.operators.min_max.min_max_by_time.min_max_by_time.eval"><code class="docutils literal notranslate"><span class="pre">min_max_by_time.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_by_time.html#ansys.dpf.core.operators.min_max.min_max_by_time.min_max_by_time.get_output"><code class="docutils literal notranslate"><span class="pre">min_max_by_time.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_by_time.html#ansys.dpf.core.operators.min_max.min_max_by_time.min_max_by_time.operator_specification"><code class="docutils literal notranslate"><span class="pre">min_max_by_time.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_by_time.html#ansys.dpf.core.operators.min_max.min_max_by_time.min_max_by_time.progress_bar"><code class="docutils literal notranslate"><span class="pre">min_max_by_time.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_by_time.html#ansys.dpf.core.operators.min_max.min_max_by_time.min_max_by_time.run"><code class="docutils literal notranslate"><span class="pre">min_max_by_time.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_by_time.html#ansys.dpf.core.operators.min_max.min_max_by_time.min_max_by_time.specification"><code class="docutils literal notranslate"><span class="pre">min_max_by_time.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_by_time.html#ansys.dpf.core.operators.min_max.min_max_by_time.InputsMinMaxByTime"><code class="docutils literal notranslate"><span class="pre">InputsMinMaxByTime</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_by_time.html#ansys.dpf.core.operators.min_max.min_max_by_time.InputsMinMaxByTime.fields_container"><code class="docutils literal notranslate"><span class="pre">InputsMinMaxByTime.fields_container</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_by_time.html#ansys.dpf.core.operators.min_max.min_max_by_time.InputsMinMaxByTime.connect"><code class="docutils literal notranslate"><span class="pre">InputsMinMaxByTime.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_by_time.html#ansys.dpf.core.operators.min_max.min_max_by_time.OutputsMinMaxByTime"><code class="docutils literal notranslate"><span class="pre">OutputsMinMaxByTime</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_by_time.html#ansys.dpf.core.operators.min_max.min_max_by_time.OutputsMinMaxByTime.min"><code class="docutils literal notranslate"><span class="pre">OutputsMinMaxByTime.min</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_by_time.html#ansys.dpf.core.operators.min_max.min_max_by_time.OutputsMinMaxByTime.max"><code class="docutils literal notranslate"><span class="pre">OutputsMinMaxByTime.max</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_fc.html">min_max_fc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_fc.html#ansys.dpf.core.operators.min_max.min_max_fc.min_max_fc"><code class="docutils literal notranslate"><span class="pre">min_max_fc</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_fc.html#ansys.dpf.core.operators.min_max.min_max_fc.min_max_fc.default_config"><code class="docutils literal notranslate"><span class="pre">min_max_fc.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_fc.html#ansys.dpf.core.operators.min_max.min_max_fc.min_max_fc.inputs"><code class="docutils literal notranslate"><span class="pre">min_max_fc.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_fc.html#ansys.dpf.core.operators.min_max.min_max_fc.min_max_fc.outputs"><code class="docutils literal notranslate"><span class="pre">min_max_fc.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_fc.html#ansys.dpf.core.operators.min_max.min_max_fc.min_max_fc.config"><code class="docutils literal notranslate"><span class="pre">min_max_fc.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_fc.html#ansys.dpf.core.operators.min_max.min_max_fc.min_max_fc.connect"><code class="docutils literal notranslate"><span class="pre">min_max_fc.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_fc.html#ansys.dpf.core.operators.min_max.min_max_fc.min_max_fc.eval"><code class="docutils literal notranslate"><span class="pre">min_max_fc.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_fc.html#ansys.dpf.core.operators.min_max.min_max_fc.min_max_fc.get_output"><code class="docutils literal notranslate"><span class="pre">min_max_fc.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_fc.html#ansys.dpf.core.operators.min_max.min_max_fc.min_max_fc.operator_specification"><code class="docutils literal notranslate"><span class="pre">min_max_fc.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_fc.html#ansys.dpf.core.operators.min_max.min_max_fc.min_max_fc.progress_bar"><code class="docutils literal notranslate"><span class="pre">min_max_fc.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_fc.html#ansys.dpf.core.operators.min_max.min_max_fc.min_max_fc.run"><code class="docutils literal notranslate"><span class="pre">min_max_fc.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_fc.html#ansys.dpf.core.operators.min_max.min_max_fc.min_max_fc.specification"><code class="docutils literal notranslate"><span class="pre">min_max_fc.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_fc.html#ansys.dpf.core.operators.min_max.min_max_fc.InputsMinMaxFc"><code class="docutils literal notranslate"><span class="pre">InputsMinMaxFc</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_fc.html#ansys.dpf.core.operators.min_max.min_max_fc.InputsMinMaxFc.fields_container"><code class="docutils literal notranslate"><span class="pre">InputsMinMaxFc.fields_container</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_fc.html#ansys.dpf.core.operators.min_max.min_max_fc.InputsMinMaxFc.connect"><code class="docutils literal notranslate"><span class="pre">InputsMinMaxFc.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_fc.html#ansys.dpf.core.operators.min_max.min_max_fc.OutputsMinMaxFc"><code class="docutils literal notranslate"><span class="pre">OutputsMinMaxFc</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_fc.html#ansys.dpf.core.operators.min_max.min_max_fc.OutputsMinMaxFc.field_min"><code class="docutils literal notranslate"><span class="pre">OutputsMinMaxFc.field_min</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_fc.html#ansys.dpf.core.operators.min_max.min_max_fc.OutputsMinMaxFc.field_max"><code class="docutils literal notranslate"><span class="pre">OutputsMinMaxFc.field_max</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_fc_inc.html">min_max_fc_inc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_fc_inc.html#ansys.dpf.core.operators.min_max.min_max_fc_inc.min_max_fc_inc"><code class="docutils literal notranslate"><span class="pre">min_max_fc_inc</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_fc_inc.html#ansys.dpf.core.operators.min_max.min_max_fc_inc.min_max_fc_inc.default_config"><code class="docutils literal notranslate"><span class="pre">min_max_fc_inc.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_fc_inc.html#ansys.dpf.core.operators.min_max.min_max_fc_inc.min_max_fc_inc.inputs"><code class="docutils literal notranslate"><span class="pre">min_max_fc_inc.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_fc_inc.html#ansys.dpf.core.operators.min_max.min_max_fc_inc.min_max_fc_inc.outputs"><code class="docutils literal notranslate"><span class="pre">min_max_fc_inc.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_fc_inc.html#ansys.dpf.core.operators.min_max.min_max_fc_inc.min_max_fc_inc.config"><code class="docutils literal notranslate"><span class="pre">min_max_fc_inc.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_fc_inc.html#ansys.dpf.core.operators.min_max.min_max_fc_inc.min_max_fc_inc.connect"><code class="docutils literal notranslate"><span class="pre">min_max_fc_inc.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_fc_inc.html#ansys.dpf.core.operators.min_max.min_max_fc_inc.min_max_fc_inc.eval"><code class="docutils literal notranslate"><span class="pre">min_max_fc_inc.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_fc_inc.html#ansys.dpf.core.operators.min_max.min_max_fc_inc.min_max_fc_inc.get_output"><code class="docutils literal notranslate"><span class="pre">min_max_fc_inc.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_fc_inc.html#ansys.dpf.core.operators.min_max.min_max_fc_inc.min_max_fc_inc.operator_specification"><code class="docutils literal notranslate"><span class="pre">min_max_fc_inc.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_fc_inc.html#ansys.dpf.core.operators.min_max.min_max_fc_inc.min_max_fc_inc.progress_bar"><code class="docutils literal notranslate"><span class="pre">min_max_fc_inc.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_fc_inc.html#ansys.dpf.core.operators.min_max.min_max_fc_inc.min_max_fc_inc.run"><code class="docutils literal notranslate"><span class="pre">min_max_fc_inc.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_fc_inc.html#ansys.dpf.core.operators.min_max.min_max_fc_inc.min_max_fc_inc.specification"><code class="docutils literal notranslate"><span class="pre">min_max_fc_inc.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_fc_inc.html#ansys.dpf.core.operators.min_max.min_max_fc_inc.InputsMinMaxFcInc"><code class="docutils literal notranslate"><span class="pre">InputsMinMaxFcInc</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_fc_inc.html#ansys.dpf.core.operators.min_max.min_max_fc_inc.InputsMinMaxFcInc.fields_container"><code class="docutils literal notranslate"><span class="pre">InputsMinMaxFcInc.fields_container</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_fc_inc.html#ansys.dpf.core.operators.min_max.min_max_fc_inc.InputsMinMaxFcInc.connect"><code class="docutils literal notranslate"><span class="pre">InputsMinMaxFcInc.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_fc_inc.html#ansys.dpf.core.operators.min_max.min_max_fc_inc.OutputsMinMaxFcInc"><code class="docutils literal notranslate"><span class="pre">OutputsMinMaxFcInc</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_fc_inc.html#ansys.dpf.core.operators.min_max.min_max_fc_inc.OutputsMinMaxFcInc.field_min"><code class="docutils literal notranslate"><span class="pre">OutputsMinMaxFcInc.field_min</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_fc_inc.html#ansys.dpf.core.operators.min_max.min_max_fc_inc.OutputsMinMaxFcInc.field_max"><code class="docutils literal notranslate"><span class="pre">OutputsMinMaxFcInc.field_max</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_inc.html">min_max_inc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_inc.html#ansys.dpf.core.operators.min_max.min_max_inc.min_max_inc"><code class="docutils literal notranslate"><span class="pre">min_max_inc</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_inc.html#ansys.dpf.core.operators.min_max.min_max_inc.min_max_inc.default_config"><code class="docutils literal notranslate"><span class="pre">min_max_inc.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_inc.html#ansys.dpf.core.operators.min_max.min_max_inc.min_max_inc.inputs"><code class="docutils literal notranslate"><span class="pre">min_max_inc.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_inc.html#ansys.dpf.core.operators.min_max.min_max_inc.min_max_inc.outputs"><code class="docutils literal notranslate"><span class="pre">min_max_inc.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_inc.html#ansys.dpf.core.operators.min_max.min_max_inc.min_max_inc.config"><code class="docutils literal notranslate"><span class="pre">min_max_inc.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_inc.html#ansys.dpf.core.operators.min_max.min_max_inc.min_max_inc.connect"><code class="docutils literal notranslate"><span class="pre">min_max_inc.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_inc.html#ansys.dpf.core.operators.min_max.min_max_inc.min_max_inc.eval"><code class="docutils literal notranslate"><span class="pre">min_max_inc.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_inc.html#ansys.dpf.core.operators.min_max.min_max_inc.min_max_inc.get_output"><code class="docutils literal notranslate"><span class="pre">min_max_inc.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_inc.html#ansys.dpf.core.operators.min_max.min_max_inc.min_max_inc.operator_specification"><code class="docutils literal notranslate"><span class="pre">min_max_inc.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_inc.html#ansys.dpf.core.operators.min_max.min_max_inc.min_max_inc.progress_bar"><code class="docutils literal notranslate"><span class="pre">min_max_inc.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_inc.html#ansys.dpf.core.operators.min_max.min_max_inc.min_max_inc.run"><code class="docutils literal notranslate"><span class="pre">min_max_inc.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_inc.html#ansys.dpf.core.operators.min_max.min_max_inc.min_max_inc.specification"><code class="docutils literal notranslate"><span class="pre">min_max_inc.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_inc.html#ansys.dpf.core.operators.min_max.min_max_inc.InputsMinMaxInc"><code class="docutils literal notranslate"><span class="pre">InputsMinMaxInc</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_inc.html#ansys.dpf.core.operators.min_max.min_max_inc.InputsMinMaxInc.field"><code class="docutils literal notranslate"><span class="pre">InputsMinMaxInc.field</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_inc.html#ansys.dpf.core.operators.min_max.min_max_inc.InputsMinMaxInc.domain_id"><code class="docutils literal notranslate"><span class="pre">InputsMinMaxInc.domain_id</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_inc.html#ansys.dpf.core.operators.min_max.min_max_inc.InputsMinMaxInc.connect"><code class="docutils literal notranslate"><span class="pre">InputsMinMaxInc.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_inc.html#ansys.dpf.core.operators.min_max.min_max_inc.OutputsMinMaxInc"><code class="docutils literal notranslate"><span class="pre">OutputsMinMaxInc</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_inc.html#ansys.dpf.core.operators.min_max.min_max_inc.OutputsMinMaxInc.field_min"><code class="docutils literal notranslate"><span class="pre">OutputsMinMaxInc.field_min</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_inc.html#ansys.dpf.core.operators.min_max.min_max_inc.OutputsMinMaxInc.field_max"><code class="docutils literal notranslate"><span class="pre">OutputsMinMaxInc.field_max</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_inc.html#ansys.dpf.core.operators.min_max.min_max_inc.OutputsMinMaxInc.domain_ids_min"><code class="docutils literal notranslate"><span class="pre">OutputsMinMaxInc.domain_ids_min</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_inc.html#ansys.dpf.core.operators.min_max.min_max_inc.OutputsMinMaxInc.domain_ids_max"><code class="docutils literal notranslate"><span class="pre">OutputsMinMaxInc.domain_ids_max</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_label_fc.html">min_max_over_label_fc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_label_fc.html#ansys.dpf.core.operators.min_max.min_max_over_label_fc.min_max_over_label_fc"><code class="docutils literal notranslate"><span class="pre">min_max_over_label_fc</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_label_fc.html#ansys.dpf.core.operators.min_max.min_max_over_label_fc.min_max_over_label_fc.default_config"><code class="docutils literal notranslate"><span class="pre">min_max_over_label_fc.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_label_fc.html#ansys.dpf.core.operators.min_max.min_max_over_label_fc.min_max_over_label_fc.inputs"><code class="docutils literal notranslate"><span class="pre">min_max_over_label_fc.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_label_fc.html#ansys.dpf.core.operators.min_max.min_max_over_label_fc.min_max_over_label_fc.outputs"><code class="docutils literal notranslate"><span class="pre">min_max_over_label_fc.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_label_fc.html#ansys.dpf.core.operators.min_max.min_max_over_label_fc.min_max_over_label_fc.config"><code class="docutils literal notranslate"><span class="pre">min_max_over_label_fc.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_label_fc.html#ansys.dpf.core.operators.min_max.min_max_over_label_fc.min_max_over_label_fc.connect"><code class="docutils literal notranslate"><span class="pre">min_max_over_label_fc.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_label_fc.html#ansys.dpf.core.operators.min_max.min_max_over_label_fc.min_max_over_label_fc.eval"><code class="docutils literal notranslate"><span class="pre">min_max_over_label_fc.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_label_fc.html#ansys.dpf.core.operators.min_max.min_max_over_label_fc.min_max_over_label_fc.get_output"><code class="docutils literal notranslate"><span class="pre">min_max_over_label_fc.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_label_fc.html#ansys.dpf.core.operators.min_max.min_max_over_label_fc.min_max_over_label_fc.operator_specification"><code class="docutils literal notranslate"><span class="pre">min_max_over_label_fc.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_label_fc.html#ansys.dpf.core.operators.min_max.min_max_over_label_fc.min_max_over_label_fc.progress_bar"><code class="docutils literal notranslate"><span class="pre">min_max_over_label_fc.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_label_fc.html#ansys.dpf.core.operators.min_max.min_max_over_label_fc.min_max_over_label_fc.run"><code class="docutils literal notranslate"><span class="pre">min_max_over_label_fc.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_label_fc.html#ansys.dpf.core.operators.min_max.min_max_over_label_fc.min_max_over_label_fc.specification"><code class="docutils literal notranslate"><span class="pre">min_max_over_label_fc.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_label_fc.html#ansys.dpf.core.operators.min_max.min_max_over_label_fc.InputsMinMaxOverLabelFc"><code class="docutils literal notranslate"><span class="pre">InputsMinMaxOverLabelFc</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_label_fc.html#ansys.dpf.core.operators.min_max.min_max_over_label_fc.InputsMinMaxOverLabelFc.fields_container"><code class="docutils literal notranslate"><span class="pre">InputsMinMaxOverLabelFc.fields_container</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_label_fc.html#ansys.dpf.core.operators.min_max.min_max_over_label_fc.InputsMinMaxOverLabelFc.label"><code class="docutils literal notranslate"><span class="pre">InputsMinMaxOverLabelFc.label</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_label_fc.html#ansys.dpf.core.operators.min_max.min_max_over_label_fc.InputsMinMaxOverLabelFc.connect"><code class="docutils literal notranslate"><span class="pre">InputsMinMaxOverLabelFc.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_label_fc.html#ansys.dpf.core.operators.min_max.min_max_over_label_fc.OutputsMinMaxOverLabelFc"><code class="docutils literal notranslate"><span class="pre">OutputsMinMaxOverLabelFc</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_label_fc.html#ansys.dpf.core.operators.min_max.min_max_over_label_fc.OutputsMinMaxOverLabelFc.field_min"><code class="docutils literal notranslate"><span class="pre">OutputsMinMaxOverLabelFc.field_min</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_label_fc.html#ansys.dpf.core.operators.min_max.min_max_over_label_fc.OutputsMinMaxOverLabelFc.field_max"><code class="docutils literal notranslate"><span class="pre">OutputsMinMaxOverLabelFc.field_max</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_label_fc.html#ansys.dpf.core.operators.min_max.min_max_over_label_fc.OutputsMinMaxOverLabelFc.domain_ids_min"><code class="docutils literal notranslate"><span class="pre">OutputsMinMaxOverLabelFc.domain_ids_min</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_label_fc.html#ansys.dpf.core.operators.min_max.min_max_over_label_fc.OutputsMinMaxOverLabelFc.domain_ids_max"><code class="docutils literal notranslate"><span class="pre">OutputsMinMaxOverLabelFc.domain_ids_max</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_label_fc.html#ansys.dpf.core.operators.min_max.min_max_over_label_fc.OutputsMinMaxOverLabelFc.scoping_ids_min"><code class="docutils literal notranslate"><span class="pre">OutputsMinMaxOverLabelFc.scoping_ids_min</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_label_fc.html#ansys.dpf.core.operators.min_max.min_max_over_label_fc.OutputsMinMaxOverLabelFc.scoping_ids_max"><code class="docutils literal notranslate"><span class="pre">OutputsMinMaxOverLabelFc.scoping_ids_max</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_time_by_entity.html">min_max_over_time_by_entity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_time_by_entity.html#ansys.dpf.core.operators.min_max.min_max_over_time_by_entity.min_max_over_time_by_entity"><code class="docutils literal notranslate"><span class="pre">min_max_over_time_by_entity</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_time_by_entity.html#ansys.dpf.core.operators.min_max.min_max_over_time_by_entity.min_max_over_time_by_entity.default_config"><code class="docutils literal notranslate"><span class="pre">min_max_over_time_by_entity.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_time_by_entity.html#ansys.dpf.core.operators.min_max.min_max_over_time_by_entity.min_max_over_time_by_entity.inputs"><code class="docutils literal notranslate"><span class="pre">min_max_over_time_by_entity.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_time_by_entity.html#ansys.dpf.core.operators.min_max.min_max_over_time_by_entity.min_max_over_time_by_entity.outputs"><code class="docutils literal notranslate"><span class="pre">min_max_over_time_by_entity.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_time_by_entity.html#ansys.dpf.core.operators.min_max.min_max_over_time_by_entity.min_max_over_time_by_entity.config"><code class="docutils literal notranslate"><span class="pre">min_max_over_time_by_entity.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_time_by_entity.html#ansys.dpf.core.operators.min_max.min_max_over_time_by_entity.min_max_over_time_by_entity.connect"><code class="docutils literal notranslate"><span class="pre">min_max_over_time_by_entity.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_time_by_entity.html#ansys.dpf.core.operators.min_max.min_max_over_time_by_entity.min_max_over_time_by_entity.eval"><code class="docutils literal notranslate"><span class="pre">min_max_over_time_by_entity.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_time_by_entity.html#ansys.dpf.core.operators.min_max.min_max_over_time_by_entity.min_max_over_time_by_entity.get_output"><code class="docutils literal notranslate"><span class="pre">min_max_over_time_by_entity.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_time_by_entity.html#ansys.dpf.core.operators.min_max.min_max_over_time_by_entity.min_max_over_time_by_entity.operator_specification"><code class="docutils literal notranslate"><span class="pre">min_max_over_time_by_entity.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_time_by_entity.html#ansys.dpf.core.operators.min_max.min_max_over_time_by_entity.min_max_over_time_by_entity.progress_bar"><code class="docutils literal notranslate"><span class="pre">min_max_over_time_by_entity.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_time_by_entity.html#ansys.dpf.core.operators.min_max.min_max_over_time_by_entity.min_max_over_time_by_entity.run"><code class="docutils literal notranslate"><span class="pre">min_max_over_time_by_entity.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_time_by_entity.html#ansys.dpf.core.operators.min_max.min_max_over_time_by_entity.min_max_over_time_by_entity.specification"><code class="docutils literal notranslate"><span class="pre">min_max_over_time_by_entity.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_time_by_entity.html#ansys.dpf.core.operators.min_max.min_max_over_time_by_entity.InputsMinMaxOverTimeByEntity"><code class="docutils literal notranslate"><span class="pre">InputsMinMaxOverTimeByEntity</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_time_by_entity.html#ansys.dpf.core.operators.min_max.min_max_over_time_by_entity.InputsMinMaxOverTimeByEntity.fields_container"><code class="docutils literal notranslate"><span class="pre">InputsMinMaxOverTimeByEntity.fields_container</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_time_by_entity.html#ansys.dpf.core.operators.min_max.min_max_over_time_by_entity.InputsMinMaxOverTimeByEntity.compute_amplitude"><code class="docutils literal notranslate"><span class="pre">InputsMinMaxOverTimeByEntity.compute_amplitude</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_time_by_entity.html#ansys.dpf.core.operators.min_max.min_max_over_time_by_entity.InputsMinMaxOverTimeByEntity.connect"><code class="docutils literal notranslate"><span class="pre">InputsMinMaxOverTimeByEntity.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_time_by_entity.html#ansys.dpf.core.operators.min_max.min_max_over_time_by_entity.OutputsMinMaxOverTimeByEntity"><code class="docutils literal notranslate"><span class="pre">OutputsMinMaxOverTimeByEntity</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_time_by_entity.html#ansys.dpf.core.operators.min_max.min_max_over_time_by_entity.OutputsMinMaxOverTimeByEntity.min"><code class="docutils literal notranslate"><span class="pre">OutputsMinMaxOverTimeByEntity.min</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_time_by_entity.html#ansys.dpf.core.operators.min_max.min_max_over_time_by_entity.OutputsMinMaxOverTimeByEntity.max"><code class="docutils literal notranslate"><span class="pre">OutputsMinMaxOverTimeByEntity.max</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_time_by_entity.html#ansys.dpf.core.operators.min_max.min_max_over_time_by_entity.OutputsMinMaxOverTimeByEntity.time_freq_of_min"><code class="docutils literal notranslate"><span class="pre">OutputsMinMaxOverTimeByEntity.time_freq_of_min</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_time_by_entity.html#ansys.dpf.core.operators.min_max.min_max_over_time_by_entity.OutputsMinMaxOverTimeByEntity.time_freq_of_max"><code class="docutils literal notranslate"><span class="pre">OutputsMinMaxOverTimeByEntity.time_freq_of_max</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_over_time_by_entity.html">min_over_time_by_entity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_over_time_by_entity.html#ansys.dpf.core.operators.min_max.min_over_time_by_entity.min_over_time_by_entity"><code class="docutils literal notranslate"><span class="pre">min_over_time_by_entity</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_over_time_by_entity.html#ansys.dpf.core.operators.min_max.min_over_time_by_entity.min_over_time_by_entity.default_config"><code class="docutils literal notranslate"><span class="pre">min_over_time_by_entity.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_over_time_by_entity.html#ansys.dpf.core.operators.min_max.min_over_time_by_entity.min_over_time_by_entity.inputs"><code class="docutils literal notranslate"><span class="pre">min_over_time_by_entity.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_over_time_by_entity.html#ansys.dpf.core.operators.min_max.min_over_time_by_entity.min_over_time_by_entity.outputs"><code class="docutils literal notranslate"><span class="pre">min_over_time_by_entity.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_over_time_by_entity.html#ansys.dpf.core.operators.min_max.min_over_time_by_entity.min_over_time_by_entity.config"><code class="docutils literal notranslate"><span class="pre">min_over_time_by_entity.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_over_time_by_entity.html#ansys.dpf.core.operators.min_max.min_over_time_by_entity.min_over_time_by_entity.connect"><code class="docutils literal notranslate"><span class="pre">min_over_time_by_entity.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_over_time_by_entity.html#ansys.dpf.core.operators.min_max.min_over_time_by_entity.min_over_time_by_entity.eval"><code class="docutils literal notranslate"><span class="pre">min_over_time_by_entity.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_over_time_by_entity.html#ansys.dpf.core.operators.min_max.min_over_time_by_entity.min_over_time_by_entity.get_output"><code class="docutils literal notranslate"><span class="pre">min_over_time_by_entity.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_over_time_by_entity.html#ansys.dpf.core.operators.min_max.min_over_time_by_entity.min_over_time_by_entity.operator_specification"><code class="docutils literal notranslate"><span class="pre">min_over_time_by_entity.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_over_time_by_entity.html#ansys.dpf.core.operators.min_max.min_over_time_by_entity.min_over_time_by_entity.progress_bar"><code class="docutils literal notranslate"><span class="pre">min_over_time_by_entity.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_over_time_by_entity.html#ansys.dpf.core.operators.min_max.min_over_time_by_entity.min_over_time_by_entity.run"><code class="docutils literal notranslate"><span class="pre">min_over_time_by_entity.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_over_time_by_entity.html#ansys.dpf.core.operators.min_max.min_over_time_by_entity.min_over_time_by_entity.specification"><code class="docutils literal notranslate"><span class="pre">min_over_time_by_entity.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_over_time_by_entity.html#ansys.dpf.core.operators.min_max.min_over_time_by_entity.InputsMinOverTimeByEntity"><code class="docutils literal notranslate"><span class="pre">InputsMinOverTimeByEntity</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_over_time_by_entity.html#ansys.dpf.core.operators.min_max.min_over_time_by_entity.InputsMinOverTimeByEntity.fields_container"><code class="docutils literal notranslate"><span class="pre">InputsMinOverTimeByEntity.fields_container</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_over_time_by_entity.html#ansys.dpf.core.operators.min_max.min_over_time_by_entity.InputsMinOverTimeByEntity.abs_value"><code class="docutils literal notranslate"><span class="pre">InputsMinOverTimeByEntity.abs_value</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_over_time_by_entity.html#ansys.dpf.core.operators.min_max.min_over_time_by_entity.InputsMinOverTimeByEntity.compute_amplitude"><code class="docutils literal notranslate"><span class="pre">InputsMinOverTimeByEntity.compute_amplitude</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_over_time_by_entity.html#ansys.dpf.core.operators.min_max.min_over_time_by_entity.InputsMinOverTimeByEntity.connect"><code class="docutils literal notranslate"><span class="pre">InputsMinOverTimeByEntity.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_over_time_by_entity.html#ansys.dpf.core.operators.min_max.min_over_time_by_entity.OutputsMinOverTimeByEntity"><code class="docutils literal notranslate"><span class="pre">OutputsMinOverTimeByEntity</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_over_time_by_entity.html#ansys.dpf.core.operators.min_max.min_over_time_by_entity.OutputsMinOverTimeByEntity.fields_container"><code class="docutils literal notranslate"><span class="pre">OutputsMinOverTimeByEntity.fields_container</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.phase_of_max.html">phase_of_max</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.phase_of_max.html#ansys.dpf.core.operators.min_max.phase_of_max.phase_of_max"><code class="docutils literal notranslate"><span class="pre">phase_of_max</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.phase_of_max.html#ansys.dpf.core.operators.min_max.phase_of_max.phase_of_max.default_config"><code class="docutils literal notranslate"><span class="pre">phase_of_max.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.phase_of_max.html#ansys.dpf.core.operators.min_max.phase_of_max.phase_of_max.inputs"><code class="docutils literal notranslate"><span class="pre">phase_of_max.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.phase_of_max.html#ansys.dpf.core.operators.min_max.phase_of_max.phase_of_max.outputs"><code class="docutils literal notranslate"><span class="pre">phase_of_max.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.phase_of_max.html#ansys.dpf.core.operators.min_max.phase_of_max.phase_of_max.config"><code class="docutils literal notranslate"><span class="pre">phase_of_max.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.phase_of_max.html#ansys.dpf.core.operators.min_max.phase_of_max.phase_of_max.connect"><code class="docutils literal notranslate"><span class="pre">phase_of_max.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.phase_of_max.html#ansys.dpf.core.operators.min_max.phase_of_max.phase_of_max.eval"><code class="docutils literal notranslate"><span class="pre">phase_of_max.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.phase_of_max.html#ansys.dpf.core.operators.min_max.phase_of_max.phase_of_max.get_output"><code class="docutils literal notranslate"><span class="pre">phase_of_max.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.phase_of_max.html#ansys.dpf.core.operators.min_max.phase_of_max.phase_of_max.operator_specification"><code class="docutils literal notranslate"><span class="pre">phase_of_max.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.phase_of_max.html#ansys.dpf.core.operators.min_max.phase_of_max.phase_of_max.progress_bar"><code class="docutils literal notranslate"><span class="pre">phase_of_max.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.phase_of_max.html#ansys.dpf.core.operators.min_max.phase_of_max.phase_of_max.run"><code class="docutils literal notranslate"><span class="pre">phase_of_max.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.phase_of_max.html#ansys.dpf.core.operators.min_max.phase_of_max.phase_of_max.specification"><code class="docutils literal notranslate"><span class="pre">phase_of_max.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.phase_of_max.html#ansys.dpf.core.operators.min_max.phase_of_max.InputsPhaseOfMax"><code class="docutils literal notranslate"><span class="pre">InputsPhaseOfMax</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.phase_of_max.html#ansys.dpf.core.operators.min_max.phase_of_max.InputsPhaseOfMax.real_field"><code class="docutils literal notranslate"><span class="pre">InputsPhaseOfMax.real_field</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.phase_of_max.html#ansys.dpf.core.operators.min_max.phase_of_max.InputsPhaseOfMax.imaginary_field"><code class="docutils literal notranslate"><span class="pre">InputsPhaseOfMax.imaginary_field</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.phase_of_max.html#ansys.dpf.core.operators.min_max.phase_of_max.InputsPhaseOfMax.abs_value"><code class="docutils literal notranslate"><span class="pre">InputsPhaseOfMax.abs_value</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.phase_of_max.html#ansys.dpf.core.operators.min_max.phase_of_max.InputsPhaseOfMax.phase_increment"><code class="docutils literal notranslate"><span class="pre">InputsPhaseOfMax.phase_increment</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.phase_of_max.html#ansys.dpf.core.operators.min_max.phase_of_max.InputsPhaseOfMax.connect"><code class="docutils literal notranslate"><span class="pre">InputsPhaseOfMax.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.phase_of_max.html#ansys.dpf.core.operators.min_max.phase_of_max.OutputsPhaseOfMax"><code class="docutils literal notranslate"><span class="pre">OutputsPhaseOfMax</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.phase_of_max.html#ansys.dpf.core.operators.min_max.phase_of_max.OutputsPhaseOfMax.field"><code class="docutils literal notranslate"><span class="pre">OutputsPhaseOfMax.field</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.time_of_max_by_entity.html">time_of_max_by_entity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.time_of_max_by_entity.html#ansys.dpf.core.operators.min_max.time_of_max_by_entity.time_of_max_by_entity"><code class="docutils literal notranslate"><span class="pre">time_of_max_by_entity</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.time_of_max_by_entity.html#ansys.dpf.core.operators.min_max.time_of_max_by_entity.time_of_max_by_entity.default_config"><code class="docutils literal notranslate"><span class="pre">time_of_max_by_entity.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.time_of_max_by_entity.html#ansys.dpf.core.operators.min_max.time_of_max_by_entity.time_of_max_by_entity.inputs"><code class="docutils literal notranslate"><span class="pre">time_of_max_by_entity.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.time_of_max_by_entity.html#ansys.dpf.core.operators.min_max.time_of_max_by_entity.time_of_max_by_entity.outputs"><code class="docutils literal notranslate"><span class="pre">time_of_max_by_entity.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.time_of_max_by_entity.html#ansys.dpf.core.operators.min_max.time_of_max_by_entity.time_of_max_by_entity.config"><code class="docutils literal notranslate"><span class="pre">time_of_max_by_entity.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.time_of_max_by_entity.html#ansys.dpf.core.operators.min_max.time_of_max_by_entity.time_of_max_by_entity.connect"><code class="docutils literal notranslate"><span class="pre">time_of_max_by_entity.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.time_of_max_by_entity.html#ansys.dpf.core.operators.min_max.time_of_max_by_entity.time_of_max_by_entity.eval"><code class="docutils literal notranslate"><span class="pre">time_of_max_by_entity.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.time_of_max_by_entity.html#ansys.dpf.core.operators.min_max.time_of_max_by_entity.time_of_max_by_entity.get_output"><code class="docutils literal notranslate"><span class="pre">time_of_max_by_entity.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.time_of_max_by_entity.html#ansys.dpf.core.operators.min_max.time_of_max_by_entity.time_of_max_by_entity.operator_specification"><code class="docutils literal notranslate"><span class="pre">time_of_max_by_entity.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.time_of_max_by_entity.html#ansys.dpf.core.operators.min_max.time_of_max_by_entity.time_of_max_by_entity.progress_bar"><code class="docutils literal notranslate"><span class="pre">time_of_max_by_entity.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.time_of_max_by_entity.html#ansys.dpf.core.operators.min_max.time_of_max_by_entity.time_of_max_by_entity.run"><code class="docutils literal notranslate"><span class="pre">time_of_max_by_entity.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.time_of_max_by_entity.html#ansys.dpf.core.operators.min_max.time_of_max_by_entity.time_of_max_by_entity.specification"><code class="docutils literal notranslate"><span class="pre">time_of_max_by_entity.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.time_of_max_by_entity.html#ansys.dpf.core.operators.min_max.time_of_max_by_entity.InputsTimeOfMaxByEntity"><code class="docutils literal notranslate"><span class="pre">InputsTimeOfMaxByEntity</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.time_of_max_by_entity.html#ansys.dpf.core.operators.min_max.time_of_max_by_entity.InputsTimeOfMaxByEntity.fields_container"><code class="docutils literal notranslate"><span class="pre">InputsTimeOfMaxByEntity.fields_container</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.time_of_max_by_entity.html#ansys.dpf.core.operators.min_max.time_of_max_by_entity.InputsTimeOfMaxByEntity.abs_value"><code class="docutils literal notranslate"><span class="pre">InputsTimeOfMaxByEntity.abs_value</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.time_of_max_by_entity.html#ansys.dpf.core.operators.min_max.time_of_max_by_entity.InputsTimeOfMaxByEntity.compute_amplitude"><code class="docutils literal notranslate"><span class="pre">InputsTimeOfMaxByEntity.compute_amplitude</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.time_of_max_by_entity.html#ansys.dpf.core.operators.min_max.time_of_max_by_entity.InputsTimeOfMaxByEntity.connect"><code class="docutils literal notranslate"><span class="pre">InputsTimeOfMaxByEntity.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.time_of_max_by_entity.html#ansys.dpf.core.operators.min_max.time_of_max_by_entity.OutputsTimeOfMaxByEntity"><code class="docutils literal notranslate"><span class="pre">OutputsTimeOfMaxByEntity</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.time_of_max_by_entity.html#ansys.dpf.core.operators.min_max.time_of_max_by_entity.OutputsTimeOfMaxByEntity.fields_container"><code class="docutils literal notranslate"><span class="pre">OutputsTimeOfMaxByEntity.fields_container</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.time_of_min_by_entity.html">time_of_min_by_entity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.time_of_min_by_entity.html#ansys.dpf.core.operators.min_max.time_of_min_by_entity.time_of_min_by_entity"><code class="docutils literal notranslate"><span class="pre">time_of_min_by_entity</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.time_of_min_by_entity.html#ansys.dpf.core.operators.min_max.time_of_min_by_entity.time_of_min_by_entity.default_config"><code class="docutils literal notranslate"><span class="pre">time_of_min_by_entity.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.time_of_min_by_entity.html#ansys.dpf.core.operators.min_max.time_of_min_by_entity.time_of_min_by_entity.inputs"><code class="docutils literal notranslate"><span class="pre">time_of_min_by_entity.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.time_of_min_by_entity.html#ansys.dpf.core.operators.min_max.time_of_min_by_entity.time_of_min_by_entity.outputs"><code class="docutils literal notranslate"><span class="pre">time_of_min_by_entity.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.time_of_min_by_entity.html#ansys.dpf.core.operators.min_max.time_of_min_by_entity.time_of_min_by_entity.config"><code class="docutils literal notranslate"><span class="pre">time_of_min_by_entity.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.time_of_min_by_entity.html#ansys.dpf.core.operators.min_max.time_of_min_by_entity.time_of_min_by_entity.connect"><code class="docutils literal notranslate"><span class="pre">time_of_min_by_entity.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.time_of_min_by_entity.html#ansys.dpf.core.operators.min_max.time_of_min_by_entity.time_of_min_by_entity.eval"><code class="docutils literal notranslate"><span class="pre">time_of_min_by_entity.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.time_of_min_by_entity.html#ansys.dpf.core.operators.min_max.time_of_min_by_entity.time_of_min_by_entity.get_output"><code class="docutils literal notranslate"><span class="pre">time_of_min_by_entity.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.time_of_min_by_entity.html#ansys.dpf.core.operators.min_max.time_of_min_by_entity.time_of_min_by_entity.operator_specification"><code class="docutils literal notranslate"><span class="pre">time_of_min_by_entity.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.time_of_min_by_entity.html#ansys.dpf.core.operators.min_max.time_of_min_by_entity.time_of_min_by_entity.progress_bar"><code class="docutils literal notranslate"><span class="pre">time_of_min_by_entity.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.time_of_min_by_entity.html#ansys.dpf.core.operators.min_max.time_of_min_by_entity.time_of_min_by_entity.run"><code class="docutils literal notranslate"><span class="pre">time_of_min_by_entity.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.time_of_min_by_entity.html#ansys.dpf.core.operators.min_max.time_of_min_by_entity.time_of_min_by_entity.specification"><code class="docutils literal notranslate"><span class="pre">time_of_min_by_entity.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.time_of_min_by_entity.html#ansys.dpf.core.operators.min_max.time_of_min_by_entity.InputsTimeOfMinByEntity"><code class="docutils literal notranslate"><span class="pre">InputsTimeOfMinByEntity</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.time_of_min_by_entity.html#ansys.dpf.core.operators.min_max.time_of_min_by_entity.InputsTimeOfMinByEntity.fields_container"><code class="docutils literal notranslate"><span class="pre">InputsTimeOfMinByEntity.fields_container</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.time_of_min_by_entity.html#ansys.dpf.core.operators.min_max.time_of_min_by_entity.InputsTimeOfMinByEntity.abs_value"><code class="docutils literal notranslate"><span class="pre">InputsTimeOfMinByEntity.abs_value</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.time_of_min_by_entity.html#ansys.dpf.core.operators.min_max.time_of_min_by_entity.InputsTimeOfMinByEntity.compute_amplitude"><code class="docutils literal notranslate"><span class="pre">InputsTimeOfMinByEntity.compute_amplitude</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.time_of_min_by_entity.html#ansys.dpf.core.operators.min_max.time_of_min_by_entity.InputsTimeOfMinByEntity.connect"><code class="docutils literal notranslate"><span class="pre">InputsTimeOfMinByEntity.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.time_of_min_by_entity.html#ansys.dpf.core.operators.min_max.time_of_min_by_entity.OutputsTimeOfMinByEntity"><code class="docutils literal notranslate"><span class="pre">OutputsTimeOfMinByEntity</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.time_of_min_by_entity.html#ansys.dpf.core.operators.min_max.time_of_min_by_entity.OutputsTimeOfMinByEntity.fields_container"><code class="docutils literal notranslate"><span class="pre">OutputsTimeOfMinByEntity.fields_container</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="module-ansys.dpf.core.operators.min_max">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-ansys.dpf.core.operators.min_max" title="Permalink to this heading">#</a></h2>
+</section>
+</section>
+
+
+            </article>
+            
+            
+            
+          </div>
+          
+          
+          
+            <div class="bd-sidebar-secondary bd-toc">
+              
+<div class="toc-item">
+  
+<div class="tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+</div>
+<nav id="bd-toc-nav" class="page-toc">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#submodules">
+   Submodules
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-ansys.dpf.core.operators.min_max">
+   Module contents
+  </a>
+ </li>
+</ul>
+
+</nav>
+</div>
+
+<div class="toc-item">
+  
+<div id="searchbox"></div>
+</div>
+
+<div class="toc-item">
+  
+</div>
+
+<div class="toc-item">
+  
+<div class="tocsection sourcelink">
+    <a href="../_sources/api/ansys.dpf.core.operators.min_max.rst.txt">
+        <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+</div>
+
+</div>
+
+            </div>
+          
+          
+        </div>
+        <footer class="bd-footer-content">
+          <div class="bd-footer-content__inner">
+            
+          </div>
+        </footer>
+        
+      </main>
+    </div>
+  </div>
+
+  
+    
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94"></script>
+
+  <footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    
+<p class="copyright">
+
+    &copy; Copyright (c) 2023 ANSYS, Inc. All rights reserved.<br>
+
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="theme-version">
+    Built with the
+    <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">
+        PyData Sphinx Theme
+    </a>
+    0.12.0.
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+<p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
+</p>
+
+  </div>
+  
+</div>
+  </footer>
+  </body>
+</html>
