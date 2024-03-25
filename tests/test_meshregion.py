@@ -98,6 +98,7 @@ def test_get_coordinates_field_meshedregion(simple_bar_model):
 
     coordinates = mesh.property_field(dpf.core.common.nodal_properties.coordinates)
     assert np.allclose(coordinates.data, field_coordinates.data)
+    assert np.all(coordinates.meshed_region.nodes.scoping.ids == mesh.nodes.scoping.ids)
 
 
 @conftest.raises_for_servers_version_under("3.0")

@@ -225,7 +225,9 @@ class Nodes:
         DPFArray([0.015, 0.045, 0.03 ]...
 
         """
-        return self._get_coordinates_field()
+        cf = self._get_coordinates_field()
+        cf.meshed_region = self._mesh
+        return cf
 
     @coordinates_field.setter
     @version_requires("3.0")
