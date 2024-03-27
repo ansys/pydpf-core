@@ -182,7 +182,7 @@ The following Ansys licensing increments provide rights to use the licensed DPF 
 - ``cfd_solve_level2`` available in the ``Ansys CFD Enterprise`` product
 - ``cfd_solve_level3`` available in the ``Ansys CFD Enterprise`` product
 - ``fluent_meshing`` available in the ``Ansys CFD Enterprise`` product
-- ``avrxp_snd_level1`` available in the ``Ansys Sound Enterprise`` product
+- ``avrxp_snd_level1`` available in the ``Ansys Sound Pro`` product
 - ``sherlock`` available in the ``Ansys Sherlock`` product
 
 Each increment may be available in other products. On the Ansys Customer Portal,
