@@ -7,7 +7,7 @@ The OperatorSpecification Provides a documentation for each Operator
 """
 
 import abc
-from typing import Any, Union
+from typing import Union
 from ansys.dpf.core import server as server_module
 from ansys.dpf.gate import (
     operator_specification_capi,
@@ -52,14 +52,14 @@ class PinSpecification:
     """
 
     name: str
-    _type_names: list[Any]
+    _type_names: list
     document: str
     optional: bool
     ellipsis: bool
     name_derived_class = str
 
     def __init__(
-        self, name: str, type_names: list[Any], document="", optional=False, ellipsis=False, name_derived_class=""
+        self, name: str, type_names: list, document="", optional=False, ellipsis=False, name_derived_class=""
     ):
         self.name = name
         self.type_names = type_names
@@ -69,7 +69,7 @@ class PinSpecification:
         self.name_derived_class = name_derived_class
 
     @property
-    def type_names(self) -> list[Any]:
+    def type_names(self) -> list:
         """
         Returns
         -------
@@ -504,7 +504,7 @@ class SpecificationProperties:
         scripting_name: Union[str, None] = None,
         exposure: Exposures = Exposures.public,
         plugin: Union[str, None] = None,
-        license: Union[str, None] = None,
+        license: str = None,
         spec=None,
         **kwargs,
     ):
