@@ -6,6 +6,7 @@ Operator Specification
 The OperatorSpecification Provides a documentation for each Operator
 """
 
+from __future__ import annotations
 import abc
 from typing import Union
 from ansys.dpf.core import server as server_module
@@ -69,7 +70,7 @@ class PinSpecification:
         self.name_derived_class = name_derived_class
 
     @property
-    def type_names(self) -> list:
+    def type_names(self) -> list[str]:
         """
         Returns
         -------
@@ -104,7 +105,7 @@ class PinSpecification:
         self._type_names = val
 
     @staticmethod
-    def _get_copy(other, changed_types) -> "PinSpecification":
+    def _get_copy(other, changed_types) -> PinSpecification:
         return PinSpecification(
             other.name,
             changed_types,
@@ -232,7 +233,7 @@ class Specification(SpecificationBase):
     'result file path container, used if no streams are set'
     """
 
-    def __init__(self, operator_name: Union[str, None]=None, specification: Union["Specification", None]=None, server: Union[server_module.BaseServer, None]=None):
+    def __init__(self, operator_name: Union[str, None]=None, specification: Union[Specification, None]=None, server: Union[server_module.BaseServer, None]=None):
         # step 1: get server
         self._server = server_module.get_or_create_server(server)
 
