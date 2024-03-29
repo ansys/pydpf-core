@@ -22,16 +22,18 @@ class vtu_export(Operator):
         Vtu base file name, (default is file)
     mesh : MeshedRegion
         Mesh
-    fields1 : Field or FieldsContainer
-        Nodal, face, or elemental fields (over time)
-        to export. when there is no support
-        available in the exported mesh, that
-        data is ignored.
-    fields2 : Field or FieldsContainer
-        Nodal, face, or elemental fields (over time)
-        to export. when there is no support
-        available in the exported mesh, that
-        data is ignored.
+    fields1 : Field or FieldsContainer or PropertyField
+        Nodal, face, or elemental field, fields
+        container (over time), or property
+        field to export. when there is no
+        support available in the exported
+        mesh, that data is ignored.
+    fields2 : Field or FieldsContainer or PropertyField
+        Nodal, face, or elemental field, fields
+        container (over time), or property
+        field to export. when there is no
+        support available in the exported
+        mesh, that data is ignored.
     write_mode : str, optional
         Available are rawbinarycompressed, rawbinary,
         base64appended, base64inline, ascii,
@@ -43,6 +45,8 @@ class vtu_export(Operator):
         Whether to also export faces as shell
         elements when the mesh contains
         cells. default is false.
+    mesh_properties : StringField, optional
+        List of names of mesh properties to export.
 
 
     Examples
@@ -69,6 +73,8 @@ class vtu_export(Operator):
     >>> op.inputs.as_point_cloud.connect(my_as_point_cloud)
     >>> my_export_faces = bool()
     >>> op.inputs.export_faces.connect(my_export_faces)
+    >>> my_mesh_properties = dpf.StringField()
+    >>> op.inputs.mesh_properties.connect(my_mesh_properties)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.serialization.vtu_export(
@@ -80,6 +86,7 @@ class vtu_export(Operator):
     ...     write_mode=my_write_mode,
     ...     as_point_cloud=my_as_point_cloud,
     ...     export_faces=my_export_faces,
+    ...     mesh_properties=my_mesh_properties,
     ... )
 
     >>> # Get output data
@@ -96,6 +103,7 @@ class vtu_export(Operator):
         write_mode=None,
         as_point_cloud=None,
         export_faces=None,
+        mesh_properties=None,
         config=None,
         server=None,
     ):
@@ -118,6 +126,8 @@ class vtu_export(Operator):
             self.inputs.as_point_cloud.connect(as_point_cloud)
         if export_faces is not None:
             self.inputs.export_faces.connect(export_faces)
+        if mesh_properties is not None:
+            self.inputs.mesh_properties.connect(mesh_properties)
 
     @staticmethod
     def _spec():
@@ -145,21 +155,23 @@ class vtu_export(Operator):
                 ),
                 3: PinSpecification(
                     name="fields",
-                    type_names=["field", "fields_container"],
+                    type_names=["field", "fields_container", "property_field"],
                     optional=False,
-                    document="""Nodal, face, or elemental fields (over time)
-        to export. when there is no support
-        available in the exported mesh, that
-        data is ignored.""",
+                    document="""Nodal, face, or elemental field, fields
+        container (over time), or property
+        field to export. when there is no
+        support available in the exported
+        mesh, that data is ignored.""",
                 ),
                 4: PinSpecification(
                     name="fields",
-                    type_names=["field", "fields_container"],
+                    type_names=["field", "fields_container", "property_field"],
                     optional=False,
-                    document="""Nodal, face, or elemental fields (over time)
-        to export. when there is no support
-        available in the exported mesh, that
-        data is ignored.""",
+                    document="""Nodal, face, or elemental field, fields
+        container (over time), or property
+        field to export. when there is no
+        support available in the exported
+        mesh, that data is ignored.""",
                 ),
                 100: PinSpecification(
                     name="write_mode",
@@ -183,6 +195,12 @@ class vtu_export(Operator):
                     document="""Whether to also export faces as shell
         elements when the mesh contains
         cells. default is false.""",
+                ),
+                103: PinSpecification(
+                    name="mesh_properties",
+                    type_names=["vector<string>", "string_field"],
+                    optional=True,
+                    document="""List of names of mesh properties to export.""",
                 ),
             },
             map_output_pin_spec={
@@ -257,6 +275,8 @@ class InputsVtuExport(_Inputs):
     >>> op.inputs.as_point_cloud.connect(my_as_point_cloud)
     >>> my_export_faces = bool()
     >>> op.inputs.export_faces.connect(my_export_faces)
+    >>> my_mesh_properties = dpf.StringField()
+    >>> op.inputs.mesh_properties.connect(my_mesh_properties)
     """
 
     def __init__(self, op: Operator):
@@ -277,6 +297,8 @@ class InputsVtuExport(_Inputs):
         self._inputs.append(self._as_point_cloud)
         self._export_faces = Input(vtu_export._spec().input_pin(102), 102, op, -1)
         self._inputs.append(self._export_faces)
+        self._mesh_properties = Input(vtu_export._spec().input_pin(103), 103, op, -1)
+        self._inputs.append(self._mesh_properties)
 
     @property
     def directory(self):
@@ -342,14 +364,15 @@ class InputsVtuExport(_Inputs):
     def fields1(self):
         """Allows to connect fields1 input to the operator.
 
-        Nodal, face, or elemental fields (over time)
-        to export. when there is no support
-        available in the exported mesh, that
-        data is ignored.
+        Nodal, face, or elemental field, fields
+        container (over time), or property
+        field to export. when there is no
+        support available in the exported
+        mesh, that data is ignored.
 
         Parameters
         ----------
-        my_fields1 : Field or FieldsContainer
+        my_fields1 : Field or FieldsContainer or PropertyField
 
         Examples
         --------
@@ -365,14 +388,15 @@ class InputsVtuExport(_Inputs):
     def fields2(self):
         """Allows to connect fields2 input to the operator.
 
-        Nodal, face, or elemental fields (over time)
-        to export. when there is no support
-        available in the exported mesh, that
-        data is ignored.
+        Nodal, face, or elemental field, fields
+        container (over time), or property
+        field to export. when there is no
+        support available in the exported
+        mesh, that data is ignored.
 
         Parameters
         ----------
-        my_fields2 : Field or FieldsContainer
+        my_fields2 : Field or FieldsContainer or PropertyField
 
         Examples
         --------
@@ -448,6 +472,26 @@ class InputsVtuExport(_Inputs):
         >>> op.inputs.export_faces(my_export_faces)
         """
         return self._export_faces
+
+    @property
+    def mesh_properties(self):
+        """Allows to connect mesh_properties input to the operator.
+
+        List of names of mesh properties to export.
+
+        Parameters
+        ----------
+        my_mesh_properties : StringField
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.serialization.vtu_export()
+        >>> op.inputs.mesh_properties.connect(my_mesh_properties)
+        >>> # or
+        >>> op.inputs.mesh_properties(my_mesh_properties)
+        """
+        return self._mesh_properties
 
 
 class OutputsVtuExport(_Outputs):
