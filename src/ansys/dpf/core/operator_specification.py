@@ -6,7 +6,9 @@ Operator Specification
 The OperatorSpecification Provides a documentation for each Operator
 """
 
+from __future__ import annotations
 import abc
+from typing import Union
 from ansys.dpf.core import server as server_module
 from ansys.dpf.gate import (
     operator_specification_capi,
@@ -58,7 +60,7 @@ class PinSpecification:
     name_derived_class = str
 
     def __init__(
-        self, name, type_names, document="", optional=False, ellipsis=False, name_derived_class=""
+        self, name: str, type_names: list, document="", optional=False, ellipsis=False, name_derived_class=""
     ):
         self.name = name
         self.type_names = type_names
@@ -68,7 +70,7 @@ class PinSpecification:
         self.name_derived_class = name_derived_class
 
     @property
-    def type_names(self):
+    def type_names(self) -> list[str]:
         """
         Returns
         -------
@@ -103,7 +105,7 @@ class PinSpecification:
         self._type_names = val
 
     @staticmethod
-    def _get_copy(other, changed_types):
+    def _get_copy(other, changed_types) -> PinSpecification:
         return PinSpecification(
             other.name,
             changed_types,
@@ -170,7 +172,7 @@ class ConfigOptionSpec:
     default_value_str: str
     document: str
 
-    def __init__(self, name, type_names, default_value_str, document):
+    def __init__(self, name: str, type_names: list, default_value_str: str, document: str):
         self.name = name
         self.type_names = type_names
         self.default_value_str = default_value_str
@@ -189,17 +191,17 @@ class ConfigOptionSpec:
 class SpecificationBase:
     @property
     @abc.abstractmethod
-    def description(self):
+    def description(self) -> Union[str, None]:
         pass
 
     @property
     @abc.abstractmethod
-    def inputs(self):
+    def inputs(self) -> dict:
         pass
 
     @property
     @abc.abstractmethod
-    def outputs(self):
+    def outputs(self) -> dict:
         pass
 
 
@@ -231,7 +233,7 @@ class Specification(SpecificationBase):
     'result file path container, used if no streams are set'
     """
 
-    def __init__(self, operator_name=None, specification=None, server=None):
+    def __init__(self, operator_name: Union[str, None]=None, specification: Union[Specification, None]=None, server: Union[server_module.BaseServer, None]=None):
         # step 1: get server
         self._server = server_module.get_or_create_server(server)
 
@@ -272,9 +274,9 @@ class Specification(SpecificationBase):
         return "Description:\n" + str(self.description) + "\nProperties:\n" + str(self.properties)
 
     @property
-    def properties(self):
-        """Returns some additional properties of the Operator, like the category, the exposure,
-        the scripting and user names and the plugin
+    def properties(self) -> dict:
+        """some additional properties of the Operator, like the category, the exposure,
+        the scripting and user names, and the plugin
 
         Examples
         --------
@@ -498,11 +500,11 @@ class SpecificationProperties:
 
     def __init__(
         self,
-        user_name: str = None,
-        category: str = None,
-        scripting_name: str = None,
+        user_name: Union[str, None] = None,
+        category: Union[str, None] = None,
+        scripting_name: Union[str, None] = None,
         exposure: Exposures = Exposures.public,
-        plugin: str = None,
+        plugin: Union[str, None] = None,
         license: str = None,
         spec=None,
         **kwargs,
