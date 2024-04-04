@@ -101,6 +101,15 @@ class AnyCAPI(any_abstract_api.AnyAbstractAPI):
 		return res
 
 	@staticmethod
+	def any_get_as_any_collection(any):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Any_getAs_AnyCollection(any._internal_obj if any is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def any_get_as_string(any):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
@@ -271,6 +280,15 @@ class AnyCAPI(any_abstract_api.AnyAbstractAPI):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.Any_getAs_CustomTypeFieldsContainer(any._internal_obj if any is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def any_get_as_custom_type_field(any):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Any_getAs_CustomTypeField(any._internal_obj if any is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res
@@ -510,6 +528,24 @@ class AnyCAPI(any_abstract_api.AnyAbstractAPI):
 		return res
 
 	@staticmethod
+	def any_new_from_custom_type_field(any):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Any_newFrom_CustomTypeField(any._internal_obj if any is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def any_new_from_any_collection(any):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Any_newFrom_AnyCollection(any._internal_obj if any is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def any_new_from_int_on_client(client, value):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
@@ -541,6 +577,15 @@ class AnyCAPI(any_abstract_api.AnyAbstractAPI):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.Any_newFrom_Double_on_client(client._internal_obj if client is not None else None, ctypes.c_double(any) if isinstance(any, float) else any, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def any_get_copy(id, client):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Any_getCopy(utils.to_int32(id), client._internal_obj if client is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res

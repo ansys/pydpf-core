@@ -7,10 +7,11 @@ Contains classes associated to the DPF ScopingsContainer
 """
 
 from ansys.dpf.core import scoping
-from ansys.dpf.core.collection import Collection
+from ansys.dpf.core.collection_base import CollectionBase
 
 
-class ScopingsContainer(Collection):
+class ScopingsContainer(CollectionBase[scoping.Scoping]):
+    entries_type = scoping.Scoping
     """A class used to represent a ScopingsContainer which contains
     scopings split on a given space
 
@@ -100,9 +101,3 @@ class ScopingsContainer(Collection):
             DPF scoping to add.
         """
         return super()._add_entry(label_space, scoping)
-
-    def __str__(self):
-        txt = "DPF Scopings Container with\n"
-        txt += "\t%d scoping(s)\n" % len(self)
-        txt += f"\tdefined on labels {self.labels} \n\n"
-        return txt

@@ -10,7 +10,9 @@ from .on_named_selection import on_named_selection
 from .on_property import on_property 
 from .reduce_sampling import reduce_sampling 
 from .rescope import rescope 
+from .rescope_custom_type_field import rescope_custom_type_field 
 from .rescope_fc import rescope_fc 
+from .rescope_property_field import rescope_property_field 
 from .scoping_get_attribute import scoping_get_attribute 
 from .split_on_property_type import split_on_property_type 
 from .transpose import transpose 

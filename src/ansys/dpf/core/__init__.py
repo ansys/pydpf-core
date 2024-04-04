@@ -1,4 +1,5 @@
 import os
+import pkg_resources
 
 from ansys.dpf.core._version import __version__
 
@@ -19,6 +20,14 @@ try:
         os.makedirs(LOCAL_DOWNLOADED_EXAMPLES_PATH)
 except:  # pragma: no cover
     pass
+
+installed = [d.project_name for d in pkg_resources.working_set]
+check_for = ["ansys-dpf-gatebin", "ansys-dpf-gate", "ansys-grpc-dpf"]
+if any([c in installed for c in check_for]):
+    raise ImportError(f"Error during import of ansys-dpf-core:\n"
+                      f"detected one of {check_for} installed. "
+                      f"The current version of ansys-dpf-core requires uninstalling these previous "
+                      f"dependencies to run correctly.")
 
 from ansys.dpf.core.dpf_operator import Operator, Config
 from ansys.dpf.core.model import Model
@@ -63,7 +72,7 @@ from ansys.dpf.core.generic_support import GenericSupport
 from ansys.dpf.core.meshed_region import MeshedRegion
 from ansys.dpf.core.elements import element_types
 from ansys.dpf.core.result_info import ResultInfo
-from ansys.dpf.core.collection import Collection
+from ansys.dpf.core.collection_base import CollectionBase
 from ansys.dpf.core.workflow import Workflow
 from ansys.dpf.core.cyclic_support import CyclicSupport
 from ansys.dpf.core.element_descriptor import ElementDescriptor
@@ -94,6 +103,17 @@ from ansys.dpf.core.generic_data_container import GenericDataContainer
 
 from ansys.dpf.core.dpf_operator import available_operator_names
 
+
+from ansys.dpf.core.collection import CollectionFactory as _CollectionFactory
+from ansys.dpf.core.collection import Collection as _Collection
+
+
+# register classes for collection types:
+CustomTypeFieldsCollection:type = _CollectionFactory(CustomTypeField)
+GenericDataContainersCollection:type = _CollectionFactory(GenericDataContainer)
+StringFieldsCollection:type = _CollectionFactory(StringField)
+AnyCollection:type = _Collection
+
 # for matplotlib
 # solves "QApplication: invalid style override passed, ignoring it."
 os.environ["QT_STYLE_OVERRIDE"] = ""
@@ -106,3 +126,4 @@ _server_instances = []
 
 settings.set_default_pyvista_config()
 settings._forward_to_gate()
+

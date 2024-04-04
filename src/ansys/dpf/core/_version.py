@@ -1,6 +1,6 @@
 """Version for ansys-dpf-core"""
 # major, minor, patch
-version_info = 0, 10, 2, "dev0"
+version_info = 0, 11, 1, "dev0"
 
 # Nice string for the version
 __version__ = ".".join(map(str, version_info))
@@ -22,6 +22,7 @@ class ServerToAnsysVersion:
         "7.0": "2024R1",
         "7.1": "2024R1",
         "8.0": "2024R2",
+        "8.1": "2024R2",
     }
 
     def __getitem__(self, item):

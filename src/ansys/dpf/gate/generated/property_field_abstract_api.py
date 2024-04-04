@@ -148,6 +148,22 @@ class PropertyFieldAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def csproperty_field_get_shared_field_definition(field):
+		raise NotImplementedError
+
+	@staticmethod
+	def csproperty_field_set_field_definition(field, field_definition):
+		raise NotImplementedError
+
+	@staticmethod
+	def csproperty_field_get_name(field):
+		raise NotImplementedError
+
+	@staticmethod
+	def csproperty_field_set_name(field, name):
+		raise NotImplementedError
+
+	@staticmethod
 	def csproperty_field_get_fast_access_ptr(field):
 		raise NotImplementedError
 

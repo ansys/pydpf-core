@@ -38,6 +38,8 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
             string_field,
             scoping,
             data_tree,
+            custom_type_field,
+            collection,
         )
 
         return [(int, base_pb2.Type.INT),
@@ -47,9 +49,11 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
                 (field.Field, base_pb2.Type.FIELD),
                 (property_field.PropertyField, base_pb2.Type.PROPERTY_FIELD),
                 (string_field.StringField, base_pb2.Type.STRING_FIELD),
+                (custom_type_field.CustomTypeField, base_pb2.Type.CUSTOM_TYPE_FIELD),
                 (generic_data_container.GenericDataContainer, base_pb2.Type.GENERIC_DATA_CONTAINER),
                 (scoping.Scoping, base_pb2.Type.SCOPING),
                 (data_tree.DataTree, base_pb2.Type.DATA_TREE),
+                (collection.Collection, base_pb2.Type.COLLECTION, base_pb2.Type.ANY),
                 ]
 
     @staticmethod
@@ -60,9 +64,13 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
         request.any.CopyFrom(any._internal_obj)
 
         for type_tuple in AnyGRPCAPI._type_to_message_type():
-            if any._internal_type == type_tuple[0]:
+            if issubclass(any._internal_type, type_tuple[0]):
                 request.type = type_tuple[1]
+                if len(type_tuple) > 2:
+                    request.subtype = type_tuple[2]
                 return _get_stub(any._server.client).GetAs(request)
+
+        raise KeyError(any._internal_type)
 
     @staticmethod
     def any_get_as_int(any):
@@ -106,6 +114,10 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
         return AnyGRPCAPI._get_as(any).field
 
     @staticmethod
+    def any_get_as_custom_type_field(any):
+        return AnyGRPCAPI._get_as(any).field
+
+    @staticmethod
     def any_get_as_generic_data_container(any):
         return AnyGRPCAPI._get_as(any).generic_data_container
 
@@ -116,6 +128,10 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
     @staticmethod
     def any_get_as_data_tree(any):
         return AnyGRPCAPI._get_as(any).data_tree
+
+    @staticmethod
+    def any_get_as_any_collection(any):
+        return AnyGRPCAPI._get_as(any).collection
 
     @staticmethod
     def _new_from(any, client=None):
@@ -177,6 +193,10 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
 
     @staticmethod
     def any_new_from_string_field(any):
+        return AnyGRPCAPI._new_from(any, any._server)
+
+    @staticmethod
+    def any_new_from_custom_type_field(any):
         return AnyGRPCAPI._new_from(any, any._server)
 
     @staticmethod

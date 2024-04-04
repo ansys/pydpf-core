@@ -239,7 +239,7 @@ class Operator:
             from ansys.dpf.core import collection
 
             if server_meet_version("3.0", self._server):
-                inpt = collection.Collection.integral_collection(inpt, self._server)
+                inpt = collection.CollectionBase.integral_collection(inpt, self._server)
                 self._api.operator_connect_collection_as_vector(self, pin, inpt)
             else:
                 if all(isinstance(x, int) for x in inpt):
@@ -339,6 +339,8 @@ class Operator:
             streams_container,
             generic_data_container,
             mesh_info,
+            collection_base,
+            any,
         )
 
         out = [
@@ -419,17 +421,24 @@ class Operator:
             (
                 dpf_vector.DPFVectorInt,
                 self._api.operator_getoutput_int_collection,
-                lambda obj: collection.IntCollection(
+                lambda obj, type: collection_base.IntCollection(
                     server=self._server, collection=obj
                 ).get_integral_entries(),
             ),
             (
                 dpf_vector.DPFVectorDouble,
                 self._api.operator_getoutput_double_collection,
-                lambda obj: collection.FloatCollection(
+                lambda obj, type: collection_base.FloatCollection(
                     server=self._server, collection=obj
                 ).get_integral_entries(),
             ),
+            (
+                collection.Collection,
+                self._api.operator_getoutput_as_any,
+                lambda obj, type: any.Any(
+                    server=self._server, any_dpf=obj
+                ).cast(type),
+            )
         ]
         if hasattr(self._api, "operator_getoutput_generic_data_container"):
             out.append(
@@ -447,7 +456,7 @@ class Operator:
             cyclic_support,
             data_sources,
             field,
-            collection,
+            collection_base,
             meshed_region,
             property_field,
             string_field,
@@ -474,7 +483,7 @@ class Operator:
                 self._api.operator_connect_custom_type_field,
             ),
             (scoping.Scoping, self._api.operator_connect_scoping),
-            (collection.Collection, self._api.operator_connect_collection),
+            (collection_base.CollectionBase, self._api.operator_connect_collection),
             (data_sources.DataSources, self._api.operator_connect_data_sources),
             (
                 model.Model,
@@ -527,7 +536,7 @@ class Operator:
             return self._api.operator_run(self)
         out = None
         for type_tuple in self._type_to_output_method:
-            if output_type is type_tuple[0]:
+            if issubclass(output_type, type_tuple[0]):
                 if len(type_tuple) >= 3:
                     internal_obj = type_tuple[1](self, pin)
                     if internal_obj is None:
@@ -537,7 +546,7 @@ class Operator:
                         parameters = {type_tuple[2]: internal_obj}
                         out = output_type(**parameters, server=self._server)
                     else:
-                        out = type_tuple[2](internal_obj)
+                        out = type_tuple[2](internal_obj, output_type)
                 if out is None:
                     internal_obj = type_tuple[1](self, pin)
                     if internal_obj is None:

@@ -263,6 +263,7 @@ def _description(dpf_entity_message, server=None):
         return ""
 
 
+
 def _deep_copy(dpf_entity, server=None):
     """Returns a copy of the entity in the requested server
 
@@ -598,7 +599,17 @@ class BaseService:
             server=self._server(),
         )
         data.get_ownership()
-        return self._api.data_processing_description_string(data=data)
+        try:
+            if server_meet_version("8.1", self._server()):
+                size = integral_types.MutableUInt64(0)
+                out = self._api.data_processing_description_string_with_size(data, size)
+                if out is not None and not isinstance(out, str):
+                    return out.decode('utf-8')
+            else:
+                return self._api.data_processing_description_string(data=data)
+        except Exception as e:
+            warnings.warn(str(e.args))
+            return ""
 
     def _get_separator(self, path):
         s1 = len(path.split("\\"))

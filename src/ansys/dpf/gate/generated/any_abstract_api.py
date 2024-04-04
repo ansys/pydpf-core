@@ -48,6 +48,10 @@ class AnyAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def any_get_as_any_collection(any):
+		raise NotImplementedError
+
+	@staticmethod
 	def any_get_as_string(any):
 		raise NotImplementedError
 
@@ -121,6 +125,10 @@ class AnyAbstractAPI:
 
 	@staticmethod
 	def any_get_as_custom_type_fields_container(any):
+		raise NotImplementedError
+
+	@staticmethod
+	def any_get_as_custom_type_field(any):
 		raise NotImplementedError
 
 	@staticmethod
@@ -228,6 +236,14 @@ class AnyAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def any_new_from_custom_type_field(any):
+		raise NotImplementedError
+
+	@staticmethod
+	def any_new_from_any_collection(any):
+		raise NotImplementedError
+
+	@staticmethod
 	def any_new_from_int_on_client(client, value):
 		raise NotImplementedError
 
@@ -241,5 +257,9 @@ class AnyAbstractAPI:
 
 	@staticmethod
 	def any_new_from_double_on_client(client, any):
+		raise NotImplementedError
+
+	@staticmethod
+	def any_get_copy(id, client):
 		raise NotImplementedError
 

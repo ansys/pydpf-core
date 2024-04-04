@@ -63,6 +63,15 @@ class DpfVectorCAPI(dpf_vector_abstract_api.DpfVectorAbstractAPI):
 		return res
 
 	@staticmethod
+	def dpf_vector_char_ptr_free_for_next_usage(dpf_vector, data, size, modified):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.DpfVector_char_ptr_free_for_next_usage(dpf_vector._internal_obj, utils.to_char_ptr_ptr_ptr(data), utils.to_int32_ptr(size), modified, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def dpf_vector_double_commit(dpf_vector, data, size, modified):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()

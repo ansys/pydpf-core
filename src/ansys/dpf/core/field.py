@@ -12,7 +12,6 @@ from ansys.dpf.core import dimensionality
 from ansys.dpf.core.common import locations, natures, types, _get_size_of_list
 from ansys.dpf.core.field_base import _FieldBase, _LocalFieldBase
 from ansys.dpf.core.field_definition import FieldDefinition
-from ansys.dpf.core.plotter import Plotter
 from ansys.dpf.gate import (
     field_abstract_api,
     field_capi,
@@ -36,8 +35,8 @@ class Field(_FieldBase):
     ``scoping`` identifies to which entity the first ``entity data`` belongs.
 
     For more information, see the `Fields container and fields
-    <https://dpf.docs.pyansys.com/user_guide/fields_container.html#ref-user-guide-fields-container>
-    `_ documentation section.
+    <https://dpf.docs.pyansys.com/version/stable/user_guide/fields_container.html>`_
+    documentation section.
 
 
     Parameters
@@ -480,6 +479,7 @@ class Field(_FieldBase):
             Additional keyword arguments for the plotter. For additional keyword
             arguments, see ``help(pyvista.plot)``.
         """
+        from ansys.dpf.core.plotter import Plotter
         pl = Plotter(self.meshed_region, **kwargs)
         return pl.plot_contour(
             self,

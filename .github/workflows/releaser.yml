@@ -47,7 +47,7 @@ jobs:
     needs: get_latest_tag
     steps:
       - name: "Download Release Assets"
-        uses: robinraju/release-downloader@v1.8
+        uses: robinraju/release-downloader@v1.9
         with:
           tag: ${{ github.event.inputs.release_tag || needs.get_latest_tag.outputs.version }}
           fileName: "*.whl"
@@ -75,7 +75,7 @@ jobs:
         with:
           file: HTML-doc-ansys-dpf-core.zip
           token: ${{ secrets.GITHUB_TOKEN }}
-          version: tags/${{ github.event.inputs.release_tag || needs.get_latest_tag.outputs.version }}
+          version: ${{ github.event.inputs.release_tag && format('tags/{0}', github.event.inputs.release_tag) || format('tags/{0}', needs.get_latest_tag.outputs.version) }}
 
       - name: "List downloaded assets"
         shell: bash
@@ -83,13 +83,13 @@ jobs:
           ls
 
       - name: "Upload artifact"
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: HTML-doc-ansys-dpf-core.zip
           path: HTML-doc-ansys-dpf-core.zip
 
       - name: "Deploy the stable documentation"
-        uses: ansys/actions/doc-deploy-stable@v4
+        uses: ansys/actions/doc-deploy-stable@v5
         with:
           cname: ${{ env.DOCUMENTATION_CNAME }}
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -121,7 +121,7 @@ jobs:
           echo "VERSION_MEILI=$VERSION_MEILI" >> $GITHUB_ENV
 
       - name: "Deploy the latest documentation index"
-        uses: ansys/actions/doc-deploy-index@v4
+        uses: ansys/actions/doc-deploy-index@v5
         with:
           cname: ${{ env.DOCUMENTATION_CNAME }}/version/${{ env.VERSION }}
           index-name: pydpf-core-v${{ env.VERSION_MEILI }}

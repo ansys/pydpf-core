@@ -7,6 +7,7 @@ Data Sources
 import os
 import warnings
 import traceback
+from typing import Union
 
 from ansys.dpf.core import server as server_module
 from ansys.dpf.gate import (
@@ -135,7 +136,9 @@ class DataSources:
                 return result_key
         return ""
 
-    def set_domain_result_file_path(self, path, domain_id):
+    def set_domain_result_file_path(
+            self, path: Union[str, os.PathLike], domain_id: int, key: Union[str, None] = None
+    ):
         """Add a result file path by domain.
 
         This method is used to handle files created by a
@@ -143,10 +146,12 @@ class DataSources:
 
         Parameters
         ----------
-        path: str or os.PathLike object
+        path:
             Path to the file.
-        domain_id: int
+        domain_id:
             Domain ID for the distributed files.
+        key:
+            Key to associate to the file.
 
         Examples
         --------
@@ -156,7 +161,12 @@ class DataSources:
         >>> data_sources.set_domain_result_file_path('/tmp/file1.sub', 1)
 
         """
-        self._api.data_sources_set_domain_result_file_path_utf8(self, str(path), domain_id)
+        if key:
+            self._api.data_sources_set_domain_result_file_path_with_key_utf8(
+                self, str(path), key, domain_id
+            )
+        else:
+            self._api.data_sources_set_domain_result_file_path_utf8(self, str(path), domain_id)
 
     def add_file_path(self, filepath, key="", is_domain: bool = False, domain_id=0):
         """Add a file path to the data sources.
@@ -200,6 +210,36 @@ class DataSources:
                 self._api.data_sources_add_file_path_utf8(self, str(filepath))
             else:
                 self._api.data_sources_add_file_path_with_key_utf8(self, str(filepath), key)
+
+    def add_domain_file_path(self, filepath, key, domain_id):
+        """Add a file path to the data sources.
+
+        Files not added as result files are accessory files, which contain accessory
+        information not present in the result files.
+
+        Parameters
+        ----------
+        filepath:
+            Path of the file.
+        key:
+            Extension of the file, which is used as a key for choosing the correct
+            plugin when a result is requested by an operator.
+        domain_id:
+            Domain ID for the distributed files.
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> data_sources = dpf.DataSources()
+        >>> data_sources.add_domain_file_path('/tmp/ds.dat', "dat", 1)
+
+        """
+        # The filename needs to be a fully qualified file name
+        if not os.path.dirname(filepath):
+            # append local path
+            filepath = os.path.join(os.getcwd(), os.path.basename(filepath))
+        self._api.data_sources_add_domain_file_path_with_key_utf8(
+            self, str(filepath), key, domain_id
+        )
 
     def add_file_path_for_specified_result(self, filepath, key="", result_key=""):
         """Add a file path for a specified result file key to the data sources.

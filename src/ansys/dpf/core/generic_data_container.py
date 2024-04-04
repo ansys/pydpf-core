@@ -9,6 +9,9 @@ import traceback
 import warnings
 import builtins
 from typing import Union, TYPE_CHECKING
+
+from ansys.dpf.core.check_version import server_meet_version
+
 if TYPE_CHECKING:  # pragma: no cover
     from ansys.dpf.core import Field, Scoping, StringField, GenericDataContainer
 
@@ -18,7 +21,7 @@ from ansys.dpf.core.dpf_operator import _write_output_type_to_type
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core import errors, types
 from ansys.dpf.core.any import Any
-from ansys.dpf.core import collection
+from ansys.dpf.core import collection_base
 from ansys.dpf.core.mapping_types import map_types_to_python
 
 
@@ -104,8 +107,11 @@ class GenericDataContainer:
             Property object.
         """
 
-        any_dpf = Any.new_from(prop, self._server)
-        self._api.generic_data_container_set_property_any(self, property_name, any_dpf)
+        if not isinstance(prop, (int, float, str, bytes)) and server_meet_version("8.1", self._server):
+            self._api.generic_data_container_set_property_dpf_type(self, property_name, prop)
+        else:
+            any_dpf = Any.new_from(prop, self._server)
+            self._api.generic_data_container_set_property_any(self, property_name, any_dpf)
 
     def get_property(self, property_name, output_type: Union[None, type, types] = None):
         """Get property with given name.
@@ -150,13 +156,13 @@ class GenericDataContainer:
             Description of the GenericDataContainer's contents
         """
 
-        coll_obj = collection.StringCollection(
+        coll_obj = collection_base.StringCollection(
             collection=self._api.generic_data_container_get_property_names(self),
             server=self._server,
         )
         property_names = coll_obj.get_integral_entries()
 
-        coll_obj = collection.StringCollection(
+        coll_obj = collection_base.StringCollection(
             collection=self._api.generic_data_container_get_property_types(self),
             server=self._server,
         )

@@ -25,11 +25,17 @@ def test_setresultpath_data_sources(allkindofcomplexity, server_type):
 def test_setdomainresultpath_data_sources(allkindofcomplexity, server_type):
     data_sources = dpf.core.DataSources(server=server_type)
     data_sources.set_domain_result_file_path(allkindofcomplexity, 0)
+    data_sources.set_domain_result_file_path(allkindofcomplexity, 0, key="rst")
 
 
 def test_addpath_data_sources(allkindofcomplexity, server_type):
     data_sources = dpf.core.DataSources(server=server_type)
     data_sources.add_file_path(allkindofcomplexity)
+
+
+def test_add_domain_file_path_data_sources(allkindofcomplexity, server_type):
+    data_sources = dpf.core.DataSources(server=server_type)
+    data_sources.add_domain_file_path(allkindofcomplexity, "rst", 1)
 
 
 def test_adddomainpath_data_sources(allkindofcomplexity, server_type):

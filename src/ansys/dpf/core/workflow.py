@@ -193,7 +193,7 @@ class Workflow:
             from ansys.dpf.core import collection
 
             if server_meet_version("3.0", self._server):
-                inpt = collection.Collection.integral_collection(inpt, self._server)
+                inpt = collection.CollectionBase.integral_collection(inpt, self._server)
                 self._api.work_flow_connect_collection_as_vector(self, pin_name, inpt)
             else:
                 if all(isinstance(x, int) for x in inpt):
@@ -249,7 +249,7 @@ class Workflow:
                 self._api.work_flow_connect_custom_type_field,
             ),
             (scoping.Scoping, self._api.work_flow_connect_scoping),
-            (collection.Collection, self._api.work_flow_connect_collection),
+            (collection.CollectionBase, self._api.work_flow_connect_collection),
             (data_sources.DataSources, self._api.work_flow_connect_data_sources),
             (
                 model.Model,
@@ -295,6 +295,8 @@ class Workflow:
             workflow,
             collection,
             generic_data_container,
+            any,
+            collection_base,
         )
 
         out = [
@@ -366,16 +368,23 @@ class Workflow:
             (
                 dpf_vector.DPFVectorInt,
                 self._api.work_flow_getoutput_int_collection,
-                lambda obj: collection.IntCollection(
+                lambda obj, type: collection_base.IntCollection(
                     server=self._server, collection=obj
                 ).get_integral_entries(),
             ),
             (
                 dpf_vector.DPFVectorDouble,
                 self._api.work_flow_getoutput_double_collection,
-                lambda obj: collection.FloatCollection(
+                lambda obj, type: collection_base.FloatCollection(
                     server=self._server, collection=obj
                 ).get_integral_entries(),
+            ),
+            (
+                collection.Collection,
+                self._api.work_flow_getoutput_as_any,
+                lambda obj, type: any.Any(
+                    server=self._server, any_dpf=obj
+                ).cast(type),
             ),
         ]
         if hasattr(self._api, "work_flow_connect_generic_data_container"):
@@ -407,13 +416,13 @@ class Workflow:
         output_type = dpf_operator._write_output_type_to_type(output_type)
         out = None
         for type_tuple in self._type_to_output_method:
-            if output_type is type_tuple[0]:
+            if issubclass(output_type, type_tuple[0]):
                 if len(type_tuple) >= 3:
                     if isinstance(type_tuple[2], str):
                         parameters = {type_tuple[2]: type_tuple[1](self, pin_name)}
                         out = output_type(**parameters, server=self._server)
                     else:
-                        out = type_tuple[2](type_tuple[1](self, pin_name))
+                        out = type_tuple[2](type_tuple[1](self, pin_name), output_type)
                 if out is None:
                     try:
                         out = output_type(type_tuple[1](self, pin_name), server=self._server)

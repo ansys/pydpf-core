@@ -6,12 +6,13 @@ FieldsContainer
 Contains classes associated with the DPF FieldsContainer.
 """
 from ansys import dpf
-from ansys.dpf.core.collection import Collection
+from ansys.dpf.core.collection_base import CollectionBase
 from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core import field
 
 
-class FieldsContainer(Collection):
+class FieldsContainer(CollectionBase[field.Field]):
+    entries_type = field.Field
     """Represents a fields container, which contains fields belonging to a common result.
 
     A fields container is a set of fields ordered by labels and IDs. Each field
@@ -24,8 +25,8 @@ class FieldsContainer(Collection):
     to be separated from imaginary parts (``id=1``).
 
     For more information, see the `Fields container and fields
-    <https://dpf.docs.pyansys.com/user_guide/fields_container.html#ref-user-guide-fields-container>
-    `_ documentation section.
+    <https://dpf.docs.pyansys.com/version/stable/user_guide/fields_container.html>`_
+    documentation section.
 
     Parameters
     ----------
@@ -350,7 +351,7 @@ class FieldsContainer(Collection):
         """
         labels = self.labels
         if not self.has_label("time") and (
-            len(self.labels) == 0 or (len(self.labels) == 1 and self.has_label("complex"))
+                len(self.labels) == 0 or (len(self.labels) == 1 and self.has_label("complex"))
         ):
             self.add_label("time")
         if len(self.labels) == 1:
@@ -373,7 +374,7 @@ class FieldsContainer(Collection):
             Time ID for the requested time set. The default is ``1``.
         """
         if not self.has_label("time") and (
-            len(self.labels) == 0 or (len(self.labels) == 1 and self.has_label("complex"))
+                len(self.labels) == 0 or (len(self.labels) == 1 and self.has_label("complex"))
         ):
             self.add_label("time")
         if not self.has_label("complex") and len(self.labels) == 1 and self.has_label("time"):
@@ -490,8 +491,8 @@ class FieldsContainer(Collection):
             A dictionary (LabelSpace) of labels of the :class:`FieldsContainer` with associated
             values to select for plotting.
             This is used to filter the data to plot, for example:
-              - if ``label_space={'time': 10}``: a single time step (mandatory for transient)
-              - if ``label_space={'complex': 0, 'part': 12}``: real part of complex data for a part
+            - if ``label_space={'time': 10}``: a single time step (mandatory for transient)
+            - if ``label_space={'complex': 0, 'part': 12}``: real part of complex data for a part
             See :func:`~fields_container.FieldsContainer.get_fields`.
             If None is given, it renders all fields available, which may not make sense.
         **kwargs:

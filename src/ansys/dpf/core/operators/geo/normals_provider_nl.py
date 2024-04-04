@@ -12,13 +12,13 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class normals_provider_nl(Operator):
-    """Computes the normals on nodes/elements based on integration points
-    (more accurate for non-linear elements) on a skin mesh.
+    """Computes the normals on nodes/faces/elements based on integration
+    points (more accurate for non-linear elements) on a skin mesh.
 
     Parameters
     ----------
     mesh : MeshedRegion
-        Skin or shell mesh region.
+        Skin, face, or shell mesh region.
     mesh_scoping : Scoping, optional
         Elemental, elementalnodal, or nodal scoping.
         location derived from this.
@@ -75,8 +75,9 @@ class normals_provider_nl(Operator):
 
     @staticmethod
     def _spec():
-        description = """Computes the normals on nodes/elements based on integration points
-            (more accurate for non-linear elements) on a skin mesh."""
+        description = """Computes the normals on nodes/faces/elements based on integration
+            points (more accurate for non-linear elements) on a skin
+            mesh."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -84,7 +85,7 @@ class normals_provider_nl(Operator):
                     name="mesh",
                     type_names=["abstract_meshed_region"],
                     optional=False,
-                    document="""Skin or shell mesh region.""",
+                    document="""Skin, face, or shell mesh region.""",
                 ),
                 1: PinSpecification(
                     name="mesh_scoping",
@@ -182,7 +183,7 @@ class InputsNormalsProviderNl(_Inputs):
     def mesh(self):
         """Allows to connect mesh input to the operator.
 
-        Skin or shell mesh region.
+        Skin, face, or shell mesh region.
 
         Parameters
         ----------

@@ -24,7 +24,7 @@ jobs:
     name: "Deploy examples for Ansys Lab"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: ${{ env.DESTINATION_BRANCH_NAME }}
 
@@ -72,5 +72,5 @@ jobs:
           git config --global user.name "pyansys-ci-bot"
           git add .
           git status
-          git commit -a -m ${{ inputs.version }}
+          git commit -a -m ${{ inputs.version }} || exit 0
           git push https://${{ secrets.PYANSYS_CI_BOT_TOKEN }}@github.com/ansys/pydpf-core.git --follow-tags

@@ -19,9 +19,14 @@ class elementary_data_selector_fc(Operator):
     ----------
     fields_container : FieldsContainer or Field
     elementary_data_index : int
-        One or several elementary data index that
+        One or several elementary data indices that
         will be extracted from the initial
-        field.
+        field. for a field with a nature
+        matrix, this extracts the line
+        indices.
+    elementary_data_index_2 : int, optional
+        For a field with nature matrix, this extracts
+        the column indices.
 
 
     Examples
@@ -36,11 +41,14 @@ class elementary_data_selector_fc(Operator):
     >>> op.inputs.fields_container.connect(my_fields_container)
     >>> my_elementary_data_index = int()
     >>> op.inputs.elementary_data_index.connect(my_elementary_data_index)
+    >>> my_elementary_data_index_2 = int()
+    >>> op.inputs.elementary_data_index_2.connect(my_elementary_data_index_2)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.logic.elementary_data_selector_fc(
     ...     fields_container=my_fields_container,
     ...     elementary_data_index=my_elementary_data_index,
+    ...     elementary_data_index_2=my_elementary_data_index_2,
     ... )
 
     >>> # Get output data
@@ -51,6 +59,7 @@ class elementary_data_selector_fc(Operator):
         self,
         fields_container=None,
         elementary_data_index=None,
+        elementary_data_index_2=None,
         config=None,
         server=None,
     ):
@@ -63,6 +72,8 @@ class elementary_data_selector_fc(Operator):
             self.inputs.fields_container.connect(fields_container)
         if elementary_data_index is not None:
             self.inputs.elementary_data_index.connect(elementary_data_index)
+        if elementary_data_index_2 is not None:
+            self.inputs.elementary_data_index_2.connect(elementary_data_index_2)
 
     @staticmethod
     def _spec():
@@ -81,9 +92,18 @@ class elementary_data_selector_fc(Operator):
                     name="elementary_data_index",
                     type_names=["int32", "vector<int32>"],
                     optional=False,
-                    document="""One or several elementary data index that
+                    document="""One or several elementary data indices that
         will be extracted from the initial
-        field.""",
+        field. for a field with a nature
+        matrix, this extracts the line
+        indices.""",
+                ),
+                3: PinSpecification(
+                    name="elementary_data_index_2",
+                    type_names=["int32", "vector<int32>"],
+                    optional=True,
+                    document="""For a field with nature matrix, this extracts
+        the column indices.""",
                 ),
             },
             map_output_pin_spec={
@@ -148,6 +168,8 @@ class InputsElementaryDataSelectorFc(_Inputs):
     >>> op.inputs.fields_container.connect(my_fields_container)
     >>> my_elementary_data_index = int()
     >>> op.inputs.elementary_data_index.connect(my_elementary_data_index)
+    >>> my_elementary_data_index_2 = int()
+    >>> op.inputs.elementary_data_index_2.connect(my_elementary_data_index_2)
     """
 
     def __init__(self, op: Operator):
@@ -160,6 +182,10 @@ class InputsElementaryDataSelectorFc(_Inputs):
             elementary_data_selector_fc._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._elementary_data_index)
+        self._elementary_data_index_2 = Input(
+            elementary_data_selector_fc._spec().input_pin(3), 3, op, -1
+        )
+        self._inputs.append(self._elementary_data_index_2)
 
     @property
     def fields_container(self):
@@ -183,9 +209,11 @@ class InputsElementaryDataSelectorFc(_Inputs):
     def elementary_data_index(self):
         """Allows to connect elementary_data_index input to the operator.
 
-        One or several elementary data index that
+        One or several elementary data indices that
         will be extracted from the initial
-        field.
+        field. for a field with a nature
+        matrix, this extracts the line
+        indices.
 
         Parameters
         ----------
@@ -200,6 +228,27 @@ class InputsElementaryDataSelectorFc(_Inputs):
         >>> op.inputs.elementary_data_index(my_elementary_data_index)
         """
         return self._elementary_data_index
+
+    @property
+    def elementary_data_index_2(self):
+        """Allows to connect elementary_data_index_2 input to the operator.
+
+        For a field with nature matrix, this extracts
+        the column indices.
+
+        Parameters
+        ----------
+        my_elementary_data_index_2 : int
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.logic.elementary_data_selector_fc()
+        >>> op.inputs.elementary_data_index_2.connect(my_elementary_data_index_2)
+        >>> # or
+        >>> op.inputs.elementary_data_index_2(my_elementary_data_index_2)
+        """
+        return self._elementary_data_index_2
 
 
 class OutputsElementaryDataSelectorFc(_Outputs):

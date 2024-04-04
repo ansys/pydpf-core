@@ -61,6 +61,7 @@ from .current_density import current_density
 from .custom import custom 
 from .cyclic_analytic_seqv_max import cyclic_analytic_seqv_max 
 from .cyclic_analytic_usum_max import cyclic_analytic_usum_max 
+from .cyclic_equivalent_mass import cyclic_equivalent_mass 
 from .cyclic_expanded_acceleration import cyclic_expanded_acceleration 
 from .cyclic_expanded_displacement import cyclic_expanded_displacement 
 from .cyclic_expanded_el_strain import cyclic_expanded_el_strain 
@@ -160,10 +161,10 @@ from .mach_number import mach_number
 from .mapdl_material_properties import mapdl_material_properties 
 from .mapdl_section import mapdl_section 
 from .mapdl_split_on_facet_indices import mapdl_split_on_facet_indices 
+from .mapdl_split_to_acmo_facet_indices import mapdl_split_to_acmo_facet_indices 
 from .mass_flow_rate import mass_flow_rate 
 from .mass_fraction import mass_fraction 
 from .material_property_of_element import material_property_of_element 
-from .mean_div_lighthill_tensor import mean_div_lighthill_tensor 
 from .mean_static_pressure import mean_static_pressure 
 from .mean_temperature import mean_temperature 
 from .mean_velocity import mean_velocity 

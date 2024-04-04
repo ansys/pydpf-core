@@ -59,7 +59,7 @@ jobs:
     name: "Documentation"
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: "Set licensing if necessary"
         if: inputs.ANSYS_VERSION > 231
@@ -138,7 +138,7 @@ jobs:
         run: pip list
 
       - name: "Build HTML Documentation"
-        shell: cmd
+        shell: cmd /D /E:ON /V:OFF /C "CALL "{0}""
         working-directory: .ci
         run: |
           build_doc.bat > ..\doc\log.txt && type ..\doc\log.txt 2>&1

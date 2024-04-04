@@ -35,9 +35,11 @@ class hdf5dpf_generate_result_file(Operator):
         Defines the timefreqsupport that is exported
         and provided by
         timefreqsupportprovider.
-    ansys_unit_system_id : int, optional
-        Defines the unitsystem the results are
-        exported with.
+    ansys_unit_system_id : int or ResultInfo, optional
+        Defines the unit system the results are
+        exported with. a result info can be
+        input to also export physics type and
+        analysis type.
     input_name1 : str or Any, optional
         Set of even and odd pins to serialize
         results. odd pins (4, 6, 8...) are
@@ -185,10 +187,12 @@ class hdf5dpf_generate_result_file(Operator):
                 ),
                 3: PinSpecification(
                     name="ansys_unit_system_id",
-                    type_names=["int32"],
+                    type_names=["int32", "result_info"],
                     optional=True,
-                    document="""Defines the unitsystem the results are
-        exported with.""",
+                    document="""Defines the unit system the results are
+        exported with. a result info can be
+        input to also export physics type and
+        analysis type.""",
                 ),
                 4: PinSpecification(
                     name="input_name",
@@ -446,12 +450,14 @@ class InputsHdf5DpfGenerateResultFile(_Inputs):
     def ansys_unit_system_id(self):
         """Allows to connect ansys_unit_system_id input to the operator.
 
-        Defines the unitsystem the results are
-        exported with.
+        Defines the unit system the results are
+        exported with. a result info can be
+        input to also export physics type and
+        analysis type.
 
         Parameters
         ----------
-        my_ansys_unit_system_id : int
+        my_ansys_unit_system_id : int or ResultInfo
 
         Examples
         --------

@@ -16,13 +16,11 @@ class merge_property_fields(Operator):
 
     Parameters
     ----------
-    vector_shared_ptr_property_field__1 : PropertyField or Class
-        Dataprocessing::Cpropertyfieldscontainer
+    vector_shared_ptr_property_field__1 : PropertyField or PropertyFieldsContainer
         Either a property fields container, a vector
         of property fields to merge or
         property fields from pin 0 to ...
-    vector_shared_ptr_property_field__2 : PropertyField or Class
-        Dataprocessing::Cpropertyfieldscontainer
+    vector_shared_ptr_property_field__2 : PropertyField or PropertyFieldsContainer
         Either a property fields container, a vector
         of property fields to merge or
         property fields from pin 0 to ...
@@ -78,10 +76,7 @@ class merge_property_fields(Operator):
             map_input_pin_spec={
                 0: PinSpecification(
                     name="vector_shared_ptr_property_field__",
-                    type_names=[
-                        "property_field",
-                        "class dataProcessing::CPropertyFieldsContainer",
-                    ],
+                    type_names=["property_field", "property_fields_container"],
                     optional=False,
                     document="""Either a property fields container, a vector
         of property fields to merge or
@@ -89,10 +84,7 @@ class merge_property_fields(Operator):
                 ),
                 1: PinSpecification(
                     name="vector_shared_ptr_property_field__",
-                    type_names=[
-                        "property_field",
-                        "class dataProcessing::CPropertyFieldsContainer",
-                    ],
+                    type_names=["property_field", "property_fields_container"],
                     optional=False,
                     document="""Either a property fields container, a vector
         of property fields to merge or
@@ -182,8 +174,7 @@ class InputsMergePropertyFields(_Inputs):
 
         Parameters
         ----------
-        my_vector_shared_ptr_property_field__1 : PropertyField or Class
-        Dataprocessing::Cpropertyfieldscontainer
+        my_vector_shared_ptr_property_field__1 : PropertyField or PropertyFieldsContainer
 
         Examples
         --------
@@ -205,8 +196,7 @@ class InputsMergePropertyFields(_Inputs):
 
         Parameters
         ----------
-        my_vector_shared_ptr_property_field__2 : PropertyField or Class
-        Dataprocessing::Cpropertyfieldscontainer
+        my_vector_shared_ptr_property_field__2 : PropertyField or PropertyFieldsContainer
 
         Examples
         --------

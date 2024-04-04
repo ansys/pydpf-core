@@ -1,4 +1,5 @@
 import os
+import sys
 from glob import glob
 from datetime import datetime
 
@@ -75,7 +76,6 @@ ignored_pattern += r")"
 extensions = [
     "enum_tools.autoenum",
     "nbsphinx",
-    "pydata_sphinx_theme",
     "sphinx.ext.autosectionlabel",
     "sphinx.ext.autodoc",
     "sphinx.ext.graphviz",
@@ -91,6 +91,7 @@ extensions = [
 typehints_defaults = "comma"
 typehints_use_signature = True
 simplify_optional_unions = False
+suppress_warnings = ['autosectionlabel.*']
 
 # Intersphinx mapping
 intersphinx_mapping = {
@@ -200,7 +201,6 @@ html_theme_options = {
         "json_url": f"https://{cname}/versions.json",
         "version_match": get_version_match(__version__),
     },
-    "navbar_end": ["version-switcher", "theme-switcher", "navbar-icon-links"],
     "use_meilisearch": {
         "api_key": os.getenv("MEILISEARCH_PUBLIC_API_KEY", ""),
         "index_uids": {
@@ -313,3 +313,14 @@ epub_title = project
 
 # A list of files that should not be packed into the epub file.
 epub_exclude_files = ["search.html"]
+
+
+def verify_meilisearch_is_active(app):
+    MEILISEARCH_PUBLIC_API_KEY = os.getenv("MEILISEARCH_PUBLIC_API_KEY", None)
+    if not MEILISEARCH_PUBLIC_API_KEY:
+        sys.stderr.write("Could not find MEILISEARCH_PUBLIC_API_KEY")
+        # sys.exit(1)
+
+
+def setup(app):
+    app.connect("builder-inited", verify_meilisearch_is_active)
