@@ -107,7 +107,7 @@ class GenericDataContainer:
             Property object.
         """
 
-        if not isinstance(prop, (int, float, str)) and server_meet_version("8.1", self._server):
+        if not isinstance(prop, (int, float, str, bytes)) and server_meet_version("8.1", self._server):
             self._api.generic_data_container_set_property_dpf_type(self, property_name, prop)
         else:
             any_dpf = Any.new_from(prop, self._server)
