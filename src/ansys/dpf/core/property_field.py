@@ -4,9 +4,12 @@ PropertyField
 """
 
 import numpy as np
+from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.core.common import natures, locations, _get_size_of_list
 from ansys.dpf.core import scoping, dimensionality
 from ansys.dpf.core.field_base import _FieldBase, _LocalFieldBase
+from ansys.dpf.core.check_version import meets_version
+from ansys.dpf.core.field_definition import FieldDefinition
 from ansys.dpf.gate import (
     property_field_abstract_api,
     property_field_capi,
@@ -69,6 +72,9 @@ class PropertyField(_FieldBase):
             field=property_field,
             server=server,
         )
+        self._field_definition = None
+        if meets_version(self._server.version, "8.1"):
+            self._field_definition = self._load_field_definition()
 
     @property
     def _api(self) -> property_field_abstract_api.PropertyFieldAbstractAPI:
@@ -100,6 +106,14 @@ class PropertyField(_FieldBase):
             )
         else:
             return api.csproperty_field_new(nentities, nentities * dim.component_count)
+
+
+    @version_requires("8.1")
+    def _load_field_definition(self):
+        """Attempt to load the field definition for this field."""
+        # try:
+        out = self._api.csproperty_field_get_shared_field_definition(self)
+        return FieldDefinition(out, self._server)
 
     @property
     def location(self):
@@ -298,6 +312,35 @@ class PropertyField(_FieldBase):
 
         """
         return _LocalPropertyField(self)
+
+    @property
+    @version_requires("8.1")
+    def name(self):
+        """Name of the property field.
+
+        ..note:
+            Available starting with DPF 2024.2.pre1.
+        """
+        if self._field_definition:
+            return self._field_definition.name
+
+    @name.setter
+    @version_requires("8.1")
+    def name(self, value):
+        """Change the name of the property field
+
+        Parameters
+        ----------
+        value : str
+            Name of the property field.
+
+        ..note:
+            Available starting with DPF 2024.2.pre1.
+        """
+        if self._field_definition:
+            self._field_definition._api.csfield_definition_set_name(
+                self._field_definition, name=value
+            )
 
 
 class _LocalPropertyField(_LocalFieldBase, PropertyField):
