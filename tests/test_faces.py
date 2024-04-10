@@ -88,7 +88,9 @@ def test_mesh_without_faces(mesh_wo_faces):
     assert mesh_wo_faces.faces.scoping.size == 0
     assert mesh_wo_faces.faces.faces_type_field.size == 0
     assert mesh_wo_faces.faces.faces_nodes_connectivity_field.size == 0
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError) as e:
         mesh_wo_faces.faces.face_by_id(1)
-    with pytest.raises(ValueError):
+        assert 'face not found' in e
+    with pytest.raises(ValueError) as e:
         mesh_wo_faces.faces.face_by_index(1)
+        assert 'face not found' in e
