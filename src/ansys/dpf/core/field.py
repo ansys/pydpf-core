@@ -338,7 +338,7 @@ class Field(_FieldBase):
         fielddef.shell_layers = value
         self.field_definition = fielddef
 
-    def get_entity_data(self, index):
+    def get_entity_data(self, index: int) -> dpf_array.DPFArray:
         try:
             vec = dpf_vector.DPFVectorDouble(client=self._server.client)
             self._api.csfield_get_entity_data_for_dpf_vector(
@@ -353,7 +353,7 @@ class Field(_FieldBase):
             data.shape = (data.size // n_comp, n_comp)
         return data
 
-    def get_entity_data_by_id(self, id):
+    def get_entity_data_by_id(self, id: int) -> dpf_array.DPFArray:
         try:
             vec = dpf_vector.DPFVectorDouble(client=self._server.client)
             self._api.csfield_get_entity_data_by_id_for_dpf_vector(
