@@ -61,6 +61,7 @@ body:
       label: Which DPF/Ansys version are you using?
       multiple: true
       options:
+       - 'DPF Server 2024.2.pre1'
        - 'DPF Server 2024.2.pre0'
        - 'Ansys 2024 R1'
        - 'DPF Server 2024.1.pre0'
