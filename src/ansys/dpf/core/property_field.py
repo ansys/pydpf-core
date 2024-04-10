@@ -4,6 +4,7 @@ PropertyField
 """
 
 import numpy as np
+from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.core.common import natures, locations, _get_size_of_list
 from ansys.dpf.core import scoping, dimensionality
 from ansys.dpf.core.field_base import _FieldBase, _LocalFieldBase
@@ -106,6 +107,8 @@ class PropertyField(_FieldBase):
         else:
             return api.csproperty_field_new(nentities, nentities * dim.component_count)
 
+
+    @version_requires("8.1")
     def _load_field_definition(self):
         """Attempt to load the field definition for this field."""
         # try:
@@ -311,6 +314,7 @@ class PropertyField(_FieldBase):
         return _LocalPropertyField(self)
 
     @property
+    @version_requires("8.1")
     def name(self):
         """Name of the property field.
 
@@ -321,6 +325,7 @@ class PropertyField(_FieldBase):
             return self._field_definition.name
 
     @name.setter
+    @version_requires("8.1")
     def name(self, value):
         """Change the name of the property field
 
