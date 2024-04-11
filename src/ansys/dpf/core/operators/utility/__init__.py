@@ -55,6 +55,7 @@ from .merge_to_field_matrix import merge_to_field_matrix
 from .merge_weighted_fields import merge_weighted_fields 
 from .merge_weighted_fields_containers import merge_weighted_fields_containers 
 from .mesh import mesh 
+from .mesh_to_mc import mesh_to_mc 
 from .overlap_fields import overlap_fields 
 from .producer_consumer_for_each import producer_consumer_for_each 
 from .property_field import property_field 
