@@ -406,6 +406,10 @@ def load_api(path):
 		dll.Collection_AddEntry.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Collection_AddEntry.restype = None
 
+	if hasattr(dll, "Collection_PushBackEntry"):
+		dll.Collection_PushBackEntry.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.Collection_PushBackEntry.restype = None
+
 	if hasattr(dll, "Collection_SetEntryByIndex"):
 		dll.Collection_SetEntryByIndex.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Collection_SetEntryByIndex.restype = None
@@ -421,6 +425,10 @@ def load_api(path):
 	if hasattr(dll, "Collection_GetObjLabelSpaceByIndex"):
 		dll.Collection_GetObjLabelSpaceByIndex.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Collection_GetObjLabelSpaceByIndex.restype = ctypes.c_void_p
+
+	if hasattr(dll, "Collection_GetObjsForLabelSpace"):
+		dll.Collection_GetObjsForLabelSpace.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_uint64), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.Collection_GetObjsForLabelSpace.restype = ctypes.POINTER(ctypes.c_void_p)
 
 	if hasattr(dll, "Collection_GetNumObjForLabelSpace"):
 		dll.Collection_GetNumObjForLabelSpace.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
@@ -682,6 +690,10 @@ def load_api(path):
 	if hasattr(dll, "DataProcessing_delete_shared_object"):
 		dll.DataProcessing_delete_shared_object.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.DataProcessing_delete_shared_object.restype = None
+
+	if hasattr(dll, "DataProcessing_delete_shared_object_array"):
+		dll.DataProcessing_delete_shared_object_array.argtypes = (ctypes.POINTER(ctypes.c_void_p), ctypes.c_size_t, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.DataProcessing_delete_shared_object_array.restype = None
 
 	if hasattr(dll, "DataProcessing_unknown_has_given_hash"):
 		dll.DataProcessing_unknown_has_given_hash.argtypes = (ctypes.c_void_p, ctypes.c_size_t, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )

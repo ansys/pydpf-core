@@ -27,7 +27,8 @@ class fft(Operator):
     field : Field or FieldsContainer
         Field or fields container.
     scale_forward_transform : float, optional
-        Scale for forward transform, default is 1.0.
+        Scale for forward transform, default is
+        2/field_num_elementary_data.
     inplace : bool, optional
         True if inplace, default is false.
     force_fft_points : int, optional
@@ -35,8 +36,13 @@ class fft(Operator):
         either rescope or perform zero
         padding.
     cutoff_frequency : float, optional
-        Restrict output frequency output up to this
-        cutoff frequency
+        Restrict output frequency up to this cutoff
+        frequency
+    scale_right_amplitude : bool, optional
+        If set to true (default is false),
+        2/field_num_entities scaling will be
+        applied, to have right amplitude
+        values.
 
 
     Examples
@@ -57,6 +63,8 @@ class fft(Operator):
     >>> op.inputs.force_fft_points.connect(my_force_fft_points)
     >>> my_cutoff_frequency = float()
     >>> op.inputs.cutoff_frequency.connect(my_cutoff_frequency)
+    >>> my_scale_right_amplitude = bool()
+    >>> op.inputs.scale_right_amplitude.connect(my_scale_right_amplitude)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.mapping.fft(
@@ -65,6 +73,7 @@ class fft(Operator):
     ...     inplace=my_inplace,
     ...     force_fft_points=my_force_fft_points,
     ...     cutoff_frequency=my_cutoff_frequency,
+    ...     scale_right_amplitude=my_scale_right_amplitude,
     ... )
 
     >>> # Get output data
@@ -78,6 +87,7 @@ class fft(Operator):
         inplace=None,
         force_fft_points=None,
         cutoff_frequency=None,
+        scale_right_amplitude=None,
         config=None,
         server=None,
     ):
@@ -94,6 +104,8 @@ class fft(Operator):
             self.inputs.force_fft_points.connect(force_fft_points)
         if cutoff_frequency is not None:
             self.inputs.cutoff_frequency.connect(cutoff_frequency)
+        if scale_right_amplitude is not None:
+            self.inputs.scale_right_amplitude.connect(scale_right_amplitude)
 
     @staticmethod
     def _spec():
@@ -120,7 +132,8 @@ class fft(Operator):
                     name="scale_forward_transform",
                     type_names=["double"],
                     optional=True,
-                    document="""Scale for forward transform, default is 1.0.""",
+                    document="""Scale for forward transform, default is
+        2/field_num_elementary_data.""",
                 ),
                 4: PinSpecification(
                     name="inplace",
@@ -140,8 +153,17 @@ class fft(Operator):
                     name="cutoff_frequency",
                     type_names=["double"],
                     optional=True,
-                    document="""Restrict output frequency output up to this
-        cutoff frequency""",
+                    document="""Restrict output frequency up to this cutoff
+        frequency""",
+                ),
+                7: PinSpecification(
+                    name="scale_right_amplitude",
+                    type_names=["bool"],
+                    optional=True,
+                    document="""If set to true (default is false),
+        2/field_num_entities scaling will be
+        applied, to have right amplitude
+        values.""",
                 ),
             },
             map_output_pin_spec={
@@ -213,6 +235,8 @@ class InputsFft(_Inputs):
     >>> op.inputs.force_fft_points.connect(my_force_fft_points)
     >>> my_cutoff_frequency = float()
     >>> op.inputs.cutoff_frequency.connect(my_cutoff_frequency)
+    >>> my_scale_right_amplitude = bool()
+    >>> op.inputs.scale_right_amplitude.connect(my_scale_right_amplitude)
     """
 
     def __init__(self, op: Operator):
@@ -227,6 +251,8 @@ class InputsFft(_Inputs):
         self._inputs.append(self._force_fft_points)
         self._cutoff_frequency = Input(fft._spec().input_pin(6), 6, op, -1)
         self._inputs.append(self._cutoff_frequency)
+        self._scale_right_amplitude = Input(fft._spec().input_pin(7), 7, op, -1)
+        self._inputs.append(self._scale_right_amplitude)
 
     @property
     def field(self):
@@ -252,7 +278,8 @@ class InputsFft(_Inputs):
     def scale_forward_transform(self):
         """Allows to connect scale_forward_transform input to the operator.
 
-        Scale for forward transform, default is 1.0.
+        Scale for forward transform, default is
+        2/field_num_elementary_data.
 
         Parameters
         ----------
@@ -314,8 +341,8 @@ class InputsFft(_Inputs):
     def cutoff_frequency(self):
         """Allows to connect cutoff_frequency input to the operator.
 
-        Restrict output frequency output up to this
-        cutoff frequency
+        Restrict output frequency up to this cutoff
+        frequency
 
         Parameters
         ----------
@@ -330,6 +357,29 @@ class InputsFft(_Inputs):
         >>> op.inputs.cutoff_frequency(my_cutoff_frequency)
         """
         return self._cutoff_frequency
+
+    @property
+    def scale_right_amplitude(self):
+        """Allows to connect scale_right_amplitude input to the operator.
+
+        If set to true (default is false),
+        2/field_num_entities scaling will be
+        applied, to have right amplitude
+        values.
+
+        Parameters
+        ----------
+        my_scale_right_amplitude : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.mapping.fft()
+        >>> op.inputs.scale_right_amplitude.connect(my_scale_right_amplitude)
+        >>> # or
+        >>> op.inputs.scale_right_amplitude(my_scale_right_amplitude)
+        """
+        return self._scale_right_amplitude
 
 
 class OutputsFft(_Outputs):
