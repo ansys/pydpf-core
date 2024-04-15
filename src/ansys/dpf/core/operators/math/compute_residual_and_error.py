@@ -46,6 +46,10 @@ class compute_residual_and_error(Operator):
         pin2 selection
         1 for l1, ie sum(abs(xi)),
         2 for l2, ie sqrt(sum((xi^2))
+    field_reference : int, optional
+        Field reference for the normalization step,
+        default: 0 for entry 1, 1 for
+        residuals - optional
     field_or_fields_container2 : Field or FieldsContainer, optional
         Field or fields container of same
         dimensionality as entry 1 - optional
@@ -65,6 +69,8 @@ class compute_residual_and_error(Operator):
     >>> op.inputs.normalization_type.connect(my_normalization_type)
     >>> my_norm_calculation_type = int()
     >>> op.inputs.norm_calculation_type.connect(my_norm_calculation_type)
+    >>> my_field_reference = int()
+    >>> op.inputs.field_reference.connect(my_field_reference)
     >>> my_field_or_fields_container2 = dpf.Field()
     >>> op.inputs.field_or_fields_container2.connect(my_field_or_fields_container2)
 
@@ -73,12 +79,15 @@ class compute_residual_and_error(Operator):
     ...     field_or_fields_container1=my_field_or_fields_container1,
     ...     normalization_type=my_normalization_type,
     ...     norm_calculation_type=my_norm_calculation_type,
+    ...     field_reference=my_field_reference,
     ...     field_or_fields_container2=my_field_or_fields_container2,
     ... )
 
     >>> # Get output data
     >>> result_residuals = op.outputs.residuals()
     >>> result_error = op.outputs.error()
+    >>> result_residuals_normalization_factor = op.outputs.residuals_normalization_factor()
+    >>> result_error_normalization_factor = op.outputs.error_normalization_factor()
     """
 
     def __init__(
@@ -86,6 +95,7 @@ class compute_residual_and_error(Operator):
         field_or_fields_container1=None,
         normalization_type=None,
         norm_calculation_type=None,
+        field_reference=None,
         field_or_fields_container2=None,
         config=None,
         server=None,
@@ -99,6 +109,8 @@ class compute_residual_and_error(Operator):
             self.inputs.normalization_type.connect(normalization_type)
         if norm_calculation_type is not None:
             self.inputs.norm_calculation_type.connect(norm_calculation_type)
+        if field_reference is not None:
+            self.inputs.field_reference.connect(field_reference)
         if field_or_fields_container2 is not None:
             self.inputs.field_or_fields_container2.connect(field_or_fields_container2)
 
@@ -151,6 +163,14 @@ class compute_residual_and_error(Operator):
         2 for l2, ie sqrt(sum((xi^2))""",
                 ),
                 3: PinSpecification(
+                    name="field_reference",
+                    type_names=["int32"],
+                    optional=True,
+                    document="""Field reference for the normalization step,
+        default: 0 for entry 1, 1 for
+        residuals - optional""",
+                ),
+                4: PinSpecification(
                     name="field_or_fields_container2",
                     type_names=["field", "fields_container"],
                     optional=True,
@@ -174,6 +194,18 @@ class compute_residual_and_error(Operator):
                     optional=False,
                     document="""1: error as a field or a field container
         depending on the entry's type.""",
+                ),
+                2: PinSpecification(
+                    name="residuals_normalization_factor",
+                    type_names=["field", "fields_container"],
+                    optional=False,
+                    document="""2: factor used for residual normalization""",
+                ),
+                3: PinSpecification(
+                    name="error_normalization_factor",
+                    type_names=["field", "fields_container"],
+                    optional=False,
+                    document="""3: factor used for error norm normalization""",
                 ),
             },
         )
@@ -230,6 +262,8 @@ class InputsComputeResidualAndError(_Inputs):
     >>> op.inputs.normalization_type.connect(my_normalization_type)
     >>> my_norm_calculation_type = int()
     >>> op.inputs.norm_calculation_type.connect(my_norm_calculation_type)
+    >>> my_field_reference = int()
+    >>> op.inputs.field_reference.connect(my_field_reference)
     >>> my_field_or_fields_container2 = dpf.Field()
     >>> op.inputs.field_or_fields_container2.connect(my_field_or_fields_container2)
     """
@@ -248,8 +282,12 @@ class InputsComputeResidualAndError(_Inputs):
             compute_residual_and_error._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._norm_calculation_type)
-        self._field_or_fields_container2 = Input(
+        self._field_reference = Input(
             compute_residual_and_error._spec().input_pin(3), 3, op, -1
+        )
+        self._inputs.append(self._field_reference)
+        self._field_or_fields_container2 = Input(
+            compute_residual_and_error._spec().input_pin(4), 4, op, -1
         )
         self._inputs.append(self._field_or_fields_container2)
 
@@ -327,6 +365,28 @@ class InputsComputeResidualAndError(_Inputs):
         return self._norm_calculation_type
 
     @property
+    def field_reference(self):
+        """Allows to connect field_reference input to the operator.
+
+        Field reference for the normalization step,
+        default: 0 for entry 1, 1 for
+        residuals - optional
+
+        Parameters
+        ----------
+        my_field_reference : int
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.math.compute_residual_and_error()
+        >>> op.inputs.field_reference.connect(my_field_reference)
+        >>> # or
+        >>> op.inputs.field_reference(my_field_reference)
+        """
+        return self._field_reference
+
+    @property
     def field_or_fields_container2(self):
         """Allows to connect field_or_fields_container2 input to the operator.
 
@@ -359,6 +419,8 @@ class OutputsComputeResidualAndError(_Outputs):
     >>> # Connect inputs : op.inputs. ...
     >>> result_residuals = op.outputs.residuals()
     >>> result_error = op.outputs.error()
+    >>> result_residuals_normalization_factor = op.outputs.residuals_normalization_factor()
+    >>> result_error_normalization_factor = op.outputs.error_normalization_factor()
     """
 
     def __init__(self, op: Operator):
@@ -395,3 +457,35 @@ class OutputsComputeResidualAndError(_Outputs):
             op,
         )
         self._outputs.append(self.error_as_fields_container)
+        self.residuals_normalization_factor_as_field = Output(
+            _modify_output_spec_with_one_type(
+                compute_residual_and_error._spec().output_pin(2), "field"
+            ),
+            2,
+            op,
+        )
+        self._outputs.append(self.residuals_normalization_factor_as_field)
+        self.residuals_normalization_factor_as_fields_container = Output(
+            _modify_output_spec_with_one_type(
+                compute_residual_and_error._spec().output_pin(2), "fields_container"
+            ),
+            2,
+            op,
+        )
+        self._outputs.append(self.residuals_normalization_factor_as_fields_container)
+        self.error_normalization_factor_as_field = Output(
+            _modify_output_spec_with_one_type(
+                compute_residual_and_error._spec().output_pin(3), "field"
+            ),
+            3,
+            op,
+        )
+        self._outputs.append(self.error_normalization_factor_as_field)
+        self.error_normalization_factor_as_fields_container = Output(
+            _modify_output_spec_with_one_type(
+                compute_residual_and_error._spec().output_pin(3), "fields_container"
+            ),
+            3,
+            op,
+        )
+        self._outputs.append(self.error_normalization_factor_as_fields_container)

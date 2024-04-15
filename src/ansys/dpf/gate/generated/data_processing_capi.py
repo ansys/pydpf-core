@@ -126,6 +126,15 @@ class DataProcessingCAPI(data_processing_abstract_api.DataProcessingAbstractAPI)
 		return res
 
 	@staticmethod
+	def data_processing_delete_shared_object_array(data, size):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.DataProcessing_delete_shared_object_array(data, size, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def data_processing_unknown_has_given_hash(data, expected_type_hash):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
