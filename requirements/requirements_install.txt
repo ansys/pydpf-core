@@ -2,4 +2,4 @@ importlib-metadata==7.0.1
 numpy==1.26.3
 packaging==23.1
 psutil==5.9.5
-tqdm==4.66.1
+tqdm==4.66.2
