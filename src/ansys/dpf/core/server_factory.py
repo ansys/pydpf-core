@@ -155,6 +155,9 @@ class DockerConfig:
         mounted_volumes_args = "-v " + " -v ".join(
             key + ":" + val for key, val in self.mounted_volumes.items()
         )
+
+        print("Mounted Volumes Args:", mounted_volumes_args)
+
         licensing_options = self.licensing_args
         return (
             f"docker run -d "
