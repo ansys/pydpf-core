@@ -13,17 +13,16 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class compute_residual_and_error(Operator):
-    """Computes the norm of a field or a field container.
+    """Computes the Lp-norm of a field or a field container.
     When a second entry is provided, the residual (the difference
     between the first and second entry) is calculated along with the
-    error.
+    error as the Lp-norm of the difference.
     When a second input is not provided, the calculation is only
     completed for the first entry.
     The type of calculation performed is based on the specifications
-    provided for pins 1 and pin 2 defines the type of error norm (L1
-    vs L2).
-    Note that if the input is a field container that only contains one
-    field, the operator's outputs are of type field
+    provided for pin 1, pin 2 defines the type of error norm (L1 vs
+    L2), and
+    pin 3 which entity to use as a reference
 
     Parameters
     ----------
@@ -36,10 +35,14 @@ class compute_residual_and_error(Operator):
         0 for absolute,
         1 for relative to the first entry at
         a given time step,
-        2 for normalized by the max of the
-        first entry at a given time step,
-        3 for normalized by the max of the
-        first entry over all time steps
+        2 for normalized by the max at a
+        given time step of the first entry or
+        residuals depending on the reference
+        field option,
+        3 for normalized by the max over all
+        time steps of the first entry or
+        residuals depending on the reference
+        field option
     norm_calculation_type : int, optional
         Type for norm calculation (optional, default:
         l2) - it is normalized depending on
@@ -116,18 +119,17 @@ class compute_residual_and_error(Operator):
 
     @staticmethod
     def _spec():
-        description = """Computes the norm of a field or a field container.
+        description = """Computes the Lp-norm of a field or a field container.
             When a second entry is provided, the residual (the
             difference between the first and second entry) is
-            calculated along with the error.
+            calculated along with the error as the Lp-norm of the
+            difference.
             When a second input is not provided, the calculation is
             only completed for the first entry.
             The type of calculation performed is based on the
-            specifications provided for pins 1 and pin 2 defines the
-            type of error norm (L1 vs L2).
-            Note that if the input is a field container that only
-            contains one field, the operator's outputs are of type
-            field"""
+            specifications provided for pin 1, pin 2 defines the type
+            of error norm (L1 vs L2), and
+            pin 3 which entity to use as a reference"""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -147,10 +149,14 @@ class compute_residual_and_error(Operator):
         0 for absolute,
         1 for relative to the first entry at
         a given time step,
-        2 for normalized by the max of the
-        first entry at a given time step,
-        3 for normalized by the max of the
-        first entry over all time steps""",
+        2 for normalized by the max at a
+        given time step of the first entry or
+        residuals depending on the reference
+        field option,
+        3 for normalized by the max over all
+        time steps of the first entry or
+        residuals depending on the reference
+        field option""",
                 ),
                 2: PinSpecification(
                     name="norm_calculation_type",
@@ -321,10 +327,14 @@ class InputsComputeResidualAndError(_Inputs):
         0 for absolute,
         1 for relative to the first entry at
         a given time step,
-        2 for normalized by the max of the
-        first entry at a given time step,
-        3 for normalized by the max of the
-        first entry over all time steps
+        2 for normalized by the max at a
+        given time step of the first entry or
+        residuals depending on the reference
+        field option,
+        3 for normalized by the max over all
+        time steps of the first entry or
+        residuals depending on the reference
+        field option
 
         Parameters
         ----------
