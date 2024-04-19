@@ -1210,7 +1210,7 @@ class LegacyGrpcServer(BaseServer):
 
     def shutdown(self):
         if self._own_process and self.live:
-            info = self.info # initializing the info variable (giving access to ip and port): this can be required if start_local_server is called afterwards
+            _ = self.info # initializing the info variable (giving access to ip and port): this can be required if start_local_server is called afterwards
             if self._remote_instance:
                 self._remote_instance.delete()
             try:
