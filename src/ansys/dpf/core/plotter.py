@@ -223,7 +223,10 @@ class _PyVistaPlotter:
             kwargs.setdefault("stitle", f"{name} ({unit})")
             kwargs = self._set_scalar_bar_title(kwargs)
         elif isinstance(field, dpf.core.PropertyField):
-            name = field.name
+            try:
+                name = field.name
+            except dpf_errors.DpfVersionNotSupported:
+                name = ""
             categories = True
             kwargs.setdefault("stitle", f"{name}")
             kwargs = self._set_scalar_bar_title(kwargs)
