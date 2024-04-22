@@ -2,12 +2,19 @@
 MeshedRegion
 ============
 """
+from __future__ import annotations
 import traceback
 import warnings
+from typing import Union, List, TYPE_CHECKING
 
+import ansys.dpf.core
 import ansys.dpf.core.errors
 
-from ansys.dpf.core import scoping, field, property_field
+from ansys.dpf.core import scoping, field, fields_container
+from ansys.dpf.core.property_field import PropertyField
+if TYPE_CHECKING:
+    from ansys.dpf.core.results import Result
+    from ansys.dpf.core.dpf_operator import Operator
 from ansys.dpf.core.check_version import server_meet_version, version_requires
 from ansys.dpf.core.common import (
     locations,
@@ -291,28 +298,29 @@ class MeshedRegion:
             )
         return available_property_fields
 
-    def property_field(self, property_name):
+    def property_field(self, property_name: str) -> Union[field.Field, PropertyField]:
         """
         Property field getter. It can be coordinates (field),
         element types (property field)...
 
         Returns
         -------
-        field_or_property_field : core.Field or core.PropertyField
+        field_or_property_field:
+            Field or PropertyField.
         """
         return self.field_of_properties(property_name)
 
     @version_requires("3.0")
-    def set_property_field(self, property_name, value):
+    def set_property_field(self, property_name: str, value: Union[field.Field, PropertyField]):
         """
         Property field setter. It can be coordinates (field),
         element types (property field)...
 
         Parameters
         ----------
-        property_name : str
+        property_name:
             property name of the field to set
-        value : PropertyField or Field
+        value:
         """
         if property_name is nodal_properties.coordinates:
             self.set_coordinates_field(value)
@@ -321,24 +329,24 @@ class MeshedRegion:
 
     @update_grid
     @version_requires("3.0")
-    def set_coordinates_field(self, coordinates_field):
+    def set_coordinates_field(self, coordinates_field: field.Field):
         """
         Coordinates field setter.
 
         Parameters
         ----------
-        coordinates_field : PropertyField or Field
+        coordinates_field:
         """
         self._api.meshed_region_set_coordinates_field(self, coordinates_field)
 
     @property
-    def available_named_selections(self):
+    def available_named_selections(self) -> List[str]:
         """
         List of available named selections.
 
         Returns
         -------
-        named_selections : list str
+        named_selections:
         """
         return self._get_available_named_selections()
 
@@ -356,18 +364,19 @@ class MeshedRegion:
             named_selections.append(self._api.meshed_region_get_named_selection_name(self, index))
         return named_selections
 
-    def named_selection(self, named_selection):
+    def named_selection(self, named_selection: str) -> scoping.Scoping:
         """
         Scoping containing the list of nodes or elements in the named selection.
 
         Parameters
         ----------
-        named_selection : str
+        named_selection:
             Name of the named selection.
 
         Returns
         -------
-        named_selection : Scoping
+        named_selection:
+            Scoping equivalent to the named selection.
         """
         if server_meet_version("2.1", self._server):
             out = self._api.meshed_region_get_named_selection_scoping(self, named_selection)
@@ -388,15 +397,16 @@ class MeshedRegion:
                 )
 
     @version_requires("3.0")
-    def set_named_selection_scoping(self, named_selection_name, scoping):
+    def set_named_selection_scoping(self, named_selection_name: str, scoping: scoping.Scoping):
         """
         Named selection scoping setter.
 
         Parameters
         ----------
-        named_selection_name : str
-            named selection name
-        scoping : Scoping
+        named_selection_name:
+            Name of the named selection.
+        scoping:
+            Scoping to associate to the named selection.
         """
         return self._api.meshed_region_set_named_selection_scoping(
             self, named_selection_name, scoping
@@ -529,27 +539,29 @@ class MeshedRegion:
 
     def plot(
         self,
-        field_or_fields_container=None,
+        field_or_fields_container: Union[
+            field.Field, PropertyField, fields_container.FieldsContainer, None
+        ] = None,
         shell_layers=None,
-        deform_by=None,
-        scale_factor=1.0,
+        deform_by: Union[field.Field, Result, Operator, None] = None,
+        scale_factor: float = 1.0,
         **kwargs,
     ):
         """
-        Plot the field or fields container on the mesh.
+        Plot the mesh, bare or with data.
 
         Parameters
         ----------
-        field_or_fields_container : dpf.core.Field or dpf.core.FieldsContainer
-            Field or fields container to plot. The default is ``None``.
-        shell_layers : core.shell_layers, optional
+        field_or_fields_container:
+            Field, PropertyField, or FieldsContainer to plot on the mesh.
+        shell_layers: core.shell_layers, optional
             Enum used to set the shell layers if the model to plot contains shell elements.
-        deform_by : Field, Result, Operator, optional
+        deform_by: Field, Result, Operator, optional
             Used to deform the plotted mesh. Must output a 3D vector field.
             Defaults to None.
-        scale_factor : float, optional
-            Scaling factor to apply when warping the mesh. Defaults to 1.0.
-        **kwargs : optional
+        scale_factor:
+            Scaling factor to apply when warping the mesh.
+        **kwargs: optional
             Additional keyword arguments for the plotter. For additional keyword
             arguments, see ``help(pyvista.plot)``.
 
@@ -565,7 +577,7 @@ class MeshedRegion:
         >>> model.metadata.meshed_region.plot(field)
 
         """
-        if field_or_fields_container is not None:
+        if isinstance(field_or_fields_container, (field.Field, fields_container.FieldsContainer)):
             pl = Plotter(self, **kwargs)
             return pl.plot_contour(
                 field_or_fields_container,
@@ -585,6 +597,8 @@ class MeshedRegion:
             show_axes=kwargs.pop("show_axes", True),
             **kwargs,
         )
+        if isinstance(field_or_fields_container, PropertyField):
+            pl.add_field(field=field_or_fields_container, meshed_region=self)
         kwargs.pop("notebook", None)
         return pl.show_figure(**kwargs)
 
@@ -670,11 +684,11 @@ class MeshedRegion:
         else:
             field_out = self._api.meshed_region_get_property_field(self, property_name)
             if isinstance(field_out, int):
-                res = property_field.PropertyField(server=self._server, property_field=field_out)
+                res = PropertyField(server=self._server, property_field=field_out)
                 return res
             else:
                 if field_out.datatype == "int":
-                    return property_field.PropertyField(
+                    return PropertyField(
                         server=self._server, property_field=field_out
                     )
                 else:

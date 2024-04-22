@@ -216,11 +216,18 @@ class _PyVistaPlotter:
         **kwargs,
     ):
         # Get the field name
-        name = field.name.split("_")[0]
-        unit = field.unit
-        kwargs.setdefault("stitle", f"{name} ({unit})")
-
-        kwargs = self._set_scalar_bar_title(kwargs)
+        if isinstance(field, dpf.core.Field):
+            name = field.name.split("_")[0]
+            categories = False
+            unit = field.unit
+            kwargs.setdefault("stitle", f"{name} ({unit})")
+            kwargs = self._set_scalar_bar_title(kwargs)
+        elif isinstance(field, dpf.core.PropertyField):
+            name = field.name
+            categories = True
+            kwargs.setdefault("stitle", f"{name}")
+            kwargs = self._set_scalar_bar_title(kwargs)
+            kwargs["scalar_bar_args"]["fmt"] = "%.0f"
 
         kwargs.setdefault("show_edges", True)
         kwargs.setdefault("nan_color", "grey")
@@ -277,7 +284,7 @@ class _PyVistaPlotter:
                 meshed_region.deform_by(deform_by, scale_factor), as_linear
             )
         grid.set_active_scalars(None)
-        self._plotter.add_mesh(grid, scalars=overall_data, **kwargs_in)
+        self._plotter.add_mesh(grid, scalars=overall_data, categories=categories, **kwargs_in)
 
         # If deformed geometry, print the scale_factor
         if deform_by and scale_factor_legend is not False:
