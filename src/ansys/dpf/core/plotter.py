@@ -227,7 +227,9 @@ class _PyVistaPlotter:
             categories = True
             kwargs.setdefault("stitle", f"{name}")
             kwargs = self._set_scalar_bar_title(kwargs)
+            kwargs["scalar_bar_args"]["n_labels"] = len(set(field.data))
             kwargs["scalar_bar_args"]["fmt"] = "%.0f"
+            kwargs["cmap"] = "brg"
 
         kwargs.setdefault("show_edges", True)
         kwargs.setdefault("nan_color", "grey")
