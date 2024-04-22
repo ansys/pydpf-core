@@ -354,13 +354,11 @@ jobs:
       - name: "Test API test_incremental"
         uses: nick-fields/retry@v2
         with:
-          timeout_minutes: 3
-          max_attempts: 4
-          retry_wait_seconds: 15
+          timeout_minutes: 2
+          max_attempts: 2
           shell: bash
           command: |
-             pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results11.xml test_incremental/.
-        if: always()
+            pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results11.xml test_incremental/.
 
       - name: "Kill all servers"
         uses: ansys/pydpf-actions/kill-dpf-servers@v2.2
