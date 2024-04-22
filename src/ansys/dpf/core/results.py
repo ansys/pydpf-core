@@ -263,7 +263,12 @@ class Result:
         >>> fc = disp.on_all_time_freqs.eval()
 
         """
-        fc = self.__call__().outputs.fields_container()
+        outputs = self.__call__().outputs
+        if hasattr(outputs, "fields_container"):
+            fc = outputs.fields_container()
+        else:
+            # Support operators where the first output is not named "field_container"
+            fc = outputs[0]()
         if self._specific_fc_type == "shape":
             fc = ElShapeFieldsContainer(fields_container=fc._get_ownership(), server=fc._server)
         elif self._specific_fc_type == "body":
