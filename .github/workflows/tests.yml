@@ -227,7 +227,7 @@ jobs:
         shell: bash
         working-directory: tests
         run: |
-          pytest $DEBUG $COVERAGE $RERUNS --junitxml=junit/test-results.xml  test_custom_type_field.py  test_collection.py test_codegeneration.py
+          pytest $DEBUG $COVERAGE $RERUNS --junitxml=junit/test-results.xml  test_custom_type_field.py  test_collection.py test_codegeneration.py test_field.py test_scoping.py
         if: always()
 
       - name: "Test API"
