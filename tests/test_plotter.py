@@ -66,6 +66,14 @@ def test_mesh_field_plot(multishells):
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_mesh_property_field_plot(multishells):
+    model = core.Model(multishells)
+    mesh = model.metadata.meshed_region
+    pf = mesh.property_field(property_name="mat")
+    mesh.plot(pf)
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_plotter_on_mesh(allkindofcomplexity):
     model = Model(allkindofcomplexity)
     pl = DpfPlotter()
