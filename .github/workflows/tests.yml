@@ -227,7 +227,7 @@ jobs:
         shell: bash
         working-directory: tests
         run: |
-          pytest $DEBUG $COVERAGE $RERUNS --junitxml=junit/test-results.xml  . -k "not test_empty_index"
+          pytest $DEBUG $COVERAGE $RERUNS --junitxml=junit/test-results.xml  .
         if: always()
 
       - name: "Kill all servers"
@@ -351,14 +351,14 @@ jobs:
         uses: ansys/pydpf-actions/kill-dpf-servers@v2.2
         if: always()
 
-      - name: "Test API test_incremental"
+      - name: "Test API test_custom_type_field"
         uses: nick-fields/retry@v2
         with:
           timeout_minutes: 2
           max_attempts: 2
           shell: bash
           command: |
-            pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results11.xml test_incremental/.
+            pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results11.xml test_custom_type_field/.
 
       - name: "Kill all servers"
         uses: ansys/pydpf-actions/kill-dpf-servers@v2.2
