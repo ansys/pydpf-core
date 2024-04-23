@@ -596,7 +596,7 @@ class MeshedRegion:
             **kwargs,
         )
         if isinstance(field_or_fields_container, PropertyField):
-            pl.add_field(field=field_or_fields_container, meshed_region=self)
+            pl.add_field(field=field_or_fields_container, meshed_region=self, **kwargs)
         kwargs.pop("notebook", None)
         return pl.show_figure(**kwargs)
 
