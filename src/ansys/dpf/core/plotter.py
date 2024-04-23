@@ -228,11 +228,14 @@ class _PyVistaPlotter:
             except dpf_errors.DpfVersionNotSupported:
                 name = ""
             categories = True
-            kwargs.setdefault("stitle", f"{name}")
-            kwargs = self._set_scalar_bar_title(kwargs)
-            kwargs["scalar_bar_args"]["n_labels"] = len(set(field.data))
-            kwargs["scalar_bar_args"]["fmt"] = "%.0f"
-            kwargs["cmap"] = "brg"
+            kwargs.setdefault("scalar_bar_args", {
+                "title": name,
+                "n_labels": 0,
+            })
+            kwargs.setdefault("cmap", "tab20")
+            values = set(field.data)
+            kwargs.setdefault("clim", [min(values)-0.5, max(values)+0.5])
+            kwargs.setdefault("annotations", dict([(v, str(int(v))) for v in values]))
 
         kwargs.setdefault("show_edges", True)
         kwargs.setdefault("nan_color", "grey")

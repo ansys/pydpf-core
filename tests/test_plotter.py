@@ -70,6 +70,7 @@ def test_mesh_property_field_plot(multishells):
     model = core.Model(multishells)
     mesh = model.metadata.meshed_region
     pf = mesh.property_field(property_name="mat")
+    pf.name = "mat_id"
     mesh.plot(pf)
 
 
