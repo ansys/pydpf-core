@@ -4,7 +4,7 @@ graphviz==0.20.1
 imageio==2.28.0
 imageio-ffmpeg==0.4.7
 nbsphinx==0.9.3
-pypandoc==1.11
+pypandoc==1.13
 pytest-sphinx==0.6.2
 pyvista==0.36.1
 sphinx==7.1.0
