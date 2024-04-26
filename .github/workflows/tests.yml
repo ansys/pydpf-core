@@ -194,11 +194,6 @@ jobs:
         working-directory: tests
         run: python -c "from ansys.dpf import core"
 
-      - name: "Try fix apt-get"
-        shell: bash
-        run: sudo rm /etc/apt/sources.list.d/microsoft-prod.list
-        if: matrix.os == 'ubuntu-latest'
-
       - name: "Prepare Testing Environment"
         uses: ansys/pydpf-actions/prepare_tests@v2.3
         with:

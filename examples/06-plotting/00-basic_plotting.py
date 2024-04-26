@@ -23,6 +23,7 @@ model.plot(
     screenshot="model_plot.png",
     title="Model",
     text="Model plot off",
+    parallel_projection=True
 )
 
 # Notes:
