@@ -2,5 +2,5 @@
 
 LS-Dyna examples
 ================
-These examples show how to post-process LS-Dyna models..
+These examples show how to post-process LS-Dyna models.
 
