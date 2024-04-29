@@ -1,4 +1,5 @@
 import ansys.dpf.core as dpf
+import conftest
 
 
 def test_operator_mesh_plan_clip_rst(simple_bar):
@@ -17,4 +18,15 @@ def test_operator_mesh_plan_clip_rst(simple_bar):
     assert node_scoping_ids[-1] == 1331
     elements_scoping_ids = cut_mesh.elements.scoping.ids
     assert len(elements_scoping_ids) == 6000
-    assert elements_scoping_ids[-1] == 6000
+    if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_2:
+        assert elements_scoping_ids[-1] == 6000
+
+    # Check clipping a field
+    if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_2:
+        disp = model.results.displacement.eval()[0]
+        op = dpf.operators.mesh.mesh_plan_clip()
+        op.inputs.mesh_or_field.connect(disp)
+        op.inputs.normal.connect(plane)
+        op.inputs.origin.connect(origin)
+        field: dpf.Field = op.outputs.field()
+        assert field.max().data[0] > 1.e-7
