@@ -4,8 +4,8 @@ import ansys.dpf.core as dpf
 
 
 @pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_9_0,
-    reason="Elemental mass operator not functional before 9.0,",
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_2,
+    reason="Elemental mass operator not functional before 8.2,",
 )
 def test_operator_elemental_mass_rst(allkindofcomplexity):
     model = dpf.Model(allkindofcomplexity)
