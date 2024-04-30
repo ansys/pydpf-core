@@ -201,12 +201,9 @@ def start_local_server(
     while port in used_ports:
         port += 1
 
-    init_port = port
     # verify port is free
     while port_in_use(port):
         port += 1
-        if port > init_port + 10000:
-            raise NotImplementedError("No port available")
 
     if use_docker:
         port = docker_config.find_port_available_for_docker_bind(port)
