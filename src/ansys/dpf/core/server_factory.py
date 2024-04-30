@@ -193,16 +193,21 @@ class DockerConfig:
         b_shell = False
         if os.name == "posix":
             b_shell = True
+        i = 0
         with subprocess.Popen(
             run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=b_shell
         ) as process:
             used_ports = []
             with io.TextIOWrapper(process.stdout, encoding="utf-8") as log_out:
                 for line in log_out:
+                    if i > 10000:
+                        raise NotImplementedError("Hanging on docker ps -all logout")
                     if not ("CONTAINER ID" in line):
                         split = line.split("0.0.0.0:")
                         if len(split) > 1:
                             used_ports.append(int(split[1].split("-")[0]))
+                    i += 1
+
 
             while port in used_ports:
                 port += 1
