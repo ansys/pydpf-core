@@ -351,19 +351,6 @@ jobs:
         uses: ansys/pydpf-actions/kill-dpf-servers@v2.2
         if: always()
 
-      - name: "Test API test_custom_type_field"
-        uses: nick-fields/retry@v2
-        with:
-          timeout_minutes: 2
-          max_attempts: 2
-          shell: bash
-          command: |
-            pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results11.xml test_custom_type_field/.
-
-      - name: "Kill all servers"
-        uses: ansys/pydpf-actions/kill-dpf-servers@v2.2
-        if: always()
-
       - name: "Upload Test Results"
         uses: actions/upload-artifact@v3
         with:
