@@ -32,12 +32,12 @@ def test_empty_index(server_type):
         sc[0]
 
 
-# def test_createby_message_copy_scopings_container(server_type_legacy_grpc):
-#     sc = ScopingsContainer(server=server_type_legacy_grpc)
-#     scopings_container2 = ScopingsContainer(
-#         scopings_container=sc._internal_obj, server=server_type_legacy_grpc
-#     )
-#     assert sc._internal_obj == scopings_container2._internal_obj
+def test_createby_message_copy_scopings_container(server_type_legacy_grpc):
+    sc = ScopingsContainer(server=server_type_legacy_grpc)
+    scopings_container2 = ScopingsContainer(
+        scopings_container=sc._internal_obj, server=server_type_legacy_grpc
+    )
+    assert sc._internal_obj == scopings_container2._internal_obj
 
 
 @pytest.mark.skipif(

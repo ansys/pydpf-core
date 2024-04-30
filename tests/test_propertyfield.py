@@ -109,18 +109,18 @@ def test_set_location(property_field):
     assert property_field.location == locations.nodal
 
 
-# def test_set_prop_field_from_message(simple_bar, server_type_legacy_grpc):
-#     model = dpf.core.Model(simple_bar, server=server_type_legacy_grpc)
-#     mesh = model.metadata.meshed_region
-#     op = dpf.core.Operator("meshed_skin_sector", server=server_type_legacy_grpc)
-#     op.inputs.mesh.connect(mesh)
-#     property_field = op.outputs.property_field_new_elements_to_old()
-#     prop_field_message = property_field._internal_obj
-#     new_prop_field = dpf.core.PropertyField(
-#         property_field=prop_field_message, server=server_type_legacy_grpc
-#     )
-#     assert isinstance(new_prop_field, dpf.core.PropertyField)
-#     check_on_property_field_from_simplebar(new_prop_field)
+def test_set_prop_field_from_message(simple_bar, server_type_legacy_grpc):
+    model = dpf.core.Model(simple_bar, server=server_type_legacy_grpc)
+    mesh = model.metadata.meshed_region
+    op = dpf.core.Operator("meshed_skin_sector", server=server_type_legacy_grpc)
+    op.inputs.mesh.connect(mesh)
+    property_field = op.outputs.property_field_new_elements_to_old()
+    prop_field_message = property_field._internal_obj
+    new_prop_field = dpf.core.PropertyField(
+        property_field=prop_field_message, server=server_type_legacy_grpc
+    )
+    assert isinstance(new_prop_field, dpf.core.PropertyField)
+    check_on_property_field_from_simplebar(new_prop_field)
 
 
 def test_set_prop_field_from_prop_field(property_field):
