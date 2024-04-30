@@ -16,6 +16,13 @@ class merge_meshes(Operator):
 
     Parameters
     ----------
+    should_merge_names_selection : bool, optional
+        For certain types of files (such as rst),
+        scoping from names selection does not
+        need to be merged.if this pin is
+        true, the merge occurs. if this pin
+        is false, the merge does not occur.
+        default is true.
     meshes1 : MeshedRegion
         A vector of meshed region to merge or meshed
         region from pin 0 to ...
@@ -41,6 +48,8 @@ class merge_meshes(Operator):
     >>> op = dpf.operators.utility.merge_meshes()
 
     >>> # Make input connections
+    >>> my_should_merge_names_selection = bool()
+    >>> op.inputs.should_merge_names_selection.connect(my_should_merge_names_selection)
     >>> my_meshes1 = dpf.MeshedRegion()
     >>> op.inputs.meshes1.connect(my_meshes1)
     >>> my_meshes2 = dpf.MeshedRegion()
@@ -54,6 +63,7 @@ class merge_meshes(Operator):
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.utility.merge_meshes(
+    ...     should_merge_names_selection=my_should_merge_names_selection,
     ...     meshes1=my_meshes1,
     ...     meshes2=my_meshes2,
     ...     merge_method=my_merge_method,
@@ -67,6 +77,7 @@ class merge_meshes(Operator):
 
     def __init__(
         self,
+        should_merge_names_selection=None,
         meshes1=None,
         meshes2=None,
         merge_method=None,
@@ -78,6 +89,10 @@ class merge_meshes(Operator):
         super().__init__(name="merge::mesh", config=config, server=server)
         self._inputs = InputsMergeMeshes(self)
         self._outputs = OutputsMergeMeshes(self)
+        if should_merge_names_selection is not None:
+            self.inputs.should_merge_names_selection.connect(
+                should_merge_names_selection
+            )
         if meshes1 is not None:
             self.inputs.meshes1.connect(meshes1)
         if meshes2 is not None:
@@ -95,6 +110,17 @@ class merge_meshes(Operator):
         spec = Specification(
             description=description,
             map_input_pin_spec={
+                -200: PinSpecification(
+                    name="should_merge_names_selection",
+                    type_names=["bool"],
+                    optional=True,
+                    document="""For certain types of files (such as rst),
+        scoping from names selection does not
+        need to be merged.if this pin is
+        true, the merge occurs. if this pin
+        is false, the merge does not occur.
+        default is true.""",
+                ),
                 0: PinSpecification(
                     name="meshes",
                     type_names=["abstract_meshed_region"],
@@ -187,6 +213,8 @@ class InputsMergeMeshes(_Inputs):
     --------
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.utility.merge_meshes()
+    >>> my_should_merge_names_selection = bool()
+    >>> op.inputs.should_merge_names_selection.connect(my_should_merge_names_selection)
     >>> my_meshes1 = dpf.MeshedRegion()
     >>> op.inputs.meshes1.connect(my_meshes1)
     >>> my_meshes2 = dpf.MeshedRegion()
@@ -201,6 +229,10 @@ class InputsMergeMeshes(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(merge_meshes._spec().inputs, op)
+        self._should_merge_names_selection = Input(
+            merge_meshes._spec().input_pin(-200), -200, op, -1
+        )
+        self._inputs.append(self._should_merge_names_selection)
         self._meshes1 = Input(merge_meshes._spec().input_pin(0), 0, op, 0)
         self._inputs.append(self._meshes1)
         self._meshes2 = Input(merge_meshes._spec().input_pin(1), 1, op, 1)
@@ -213,6 +245,31 @@ class InputsMergeMeshes(_Inputs):
             merge_meshes._spec().input_pin(103), 103, op, -1
         )
         self._inputs.append(self._remove_duplicate_elements)
+
+    @property
+    def should_merge_names_selection(self):
+        """Allows to connect should_merge_names_selection input to the operator.
+
+        For certain types of files (such as rst),
+        scoping from names selection does not
+        need to be merged.if this pin is
+        true, the merge occurs. if this pin
+        is false, the merge does not occur.
+        default is true.
+
+        Parameters
+        ----------
+        my_should_merge_names_selection : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.utility.merge_meshes()
+        >>> op.inputs.should_merge_names_selection.connect(my_should_merge_names_selection)
+        >>> # or
+        >>> op.inputs.should_merge_names_selection(my_should_merge_names_selection)
+        """
+        return self._should_merge_names_selection
 
     @property
     def meshes1(self):
