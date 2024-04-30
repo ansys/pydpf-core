@@ -394,11 +394,13 @@ def remove_none_available_config(configs, config_names):
 
 configsserver_type, config_namesserver_type = remove_none_available_config(
     [
-        ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
+        # ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
         ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
         ServerConfig(protocol=CommunicationProtocols.InProcess, legacy=False),
     ],
-    ["ansys-grpc-dpf", "gRPC CLayer", "in Process CLayer"],
+    [
+        # "ansys-grpc-dpf",
+        "gRPC CLayer", "in Process CLayer"],
 )
 
 
@@ -419,10 +421,12 @@ def server_type(request):
     config_names_server_type_remote_process,
 ) = remove_none_available_config(
     [
-        ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
+        # ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
         ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
     ],
-    ["ansys-grpc-dpf", "gRPC CLayer"],
+    [
+        # "ansys-grpc-dpf",
+        "gRPC CLayer"],
 )
 
 
