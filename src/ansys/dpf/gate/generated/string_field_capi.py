@@ -101,51 +101,6 @@ class StringFieldCAPI(string_field_abstract_api.StringFieldAbstractAPI):
 		return res
 
 	@staticmethod
-	def csstring_field_get_data_for_dpf_vector_with_size(field, out, data, sizes, size):
-		errorSize = ctypes.c_int(0)
-		sError = ctypes.c_wchar_p()
-		res = capi.dll.CSStringField_GetData_For_DpfVector_with_size(field._internal_obj if field is not None else None, out._internal_obj, utils.to_char_ptr_ptr_ptr(data), sizes, utils.to_int32_ptr(size), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
-		if errorSize.value != 0:
-			raise errors.DPFServerException(sError.value)
-		return res
-
-	@staticmethod
-	def csstring_field_get_entity_data_for_dpf_vector_with_size(dpf_object, out, data, sizes, size, EntityIndex):
-		errorSize = ctypes.c_int(0)
-		sError = ctypes.c_wchar_p()
-		res = capi.dll.CSStringField_GetEntityData_For_DpfVector_with_size(dpf_object._internal_obj if dpf_object is not None else None, out._internal_obj, utils.to_char_ptr_ptr_ptr(data), sizes, utils.to_int32_ptr(size), utils.to_int32(EntityIndex), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
-		if errorSize.value != 0:
-			raise errors.DPFServerException(sError.value)
-		return res
-
-	@staticmethod
-	def csstring_field_get_entity_data_by_id_for_dpf_vector_with_size(dpf_object, vec, data, sizes, size, EntityId):
-		errorSize = ctypes.c_int(0)
-		sError = ctypes.c_wchar_p()
-		res = capi.dll.CSStringField_GetEntityDataById_For_DpfVector_with_size(dpf_object._internal_obj if dpf_object is not None else None, vec._internal_obj, utils.to_char_ptr_ptr_ptr(data), sizes, utils.to_int32_ptr(size), utils.to_int32(EntityId), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
-		if errorSize.value != 0:
-			raise errors.DPFServerException(sError.value)
-		return res
-
-	@staticmethod
-	def string_field_get_entity_data_for_dpf_vector_with_size(dpf_object, out, data, sizes, size, EntityIndex):
-		errorSize = ctypes.c_int(0)
-		sError = ctypes.c_wchar_p()
-		res = capi.dll.StringField_GetEntityData_For_DpfVector_with_size(dpf_object, out._internal_obj, utils.to_char_ptr_ptr_ptr(data), sizes, utils.to_int32_ptr(size), utils.to_int32(EntityIndex), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
-		if errorSize.value != 0:
-			raise errors.DPFServerException(sError.value)
-		return res
-
-	@staticmethod
-	def string_field_get_entity_data_by_id_for_dpf_vector_with_size(dpf_object, vec, data, sizes, size, EntityId):
-		errorSize = ctypes.c_int(0)
-		sError = ctypes.c_wchar_p()
-		res = capi.dll.StringField_GetEntityDataById_For_DpfVector_with_size(dpf_object, vec._internal_obj, utils.to_char_ptr_ptr_ptr(data), sizes, utils.to_int32_ptr(size), utils.to_int32(EntityId), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
-		if errorSize.value != 0:
-			raise errors.DPFServerException(sError.value)
-		return res
-
-	@staticmethod
 	def csstring_field_get_cscoping(field):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
@@ -173,15 +128,6 @@ class StringFieldCAPI(string_field_abstract_api.StringFieldAbstractAPI):
 		return res
 
 	@staticmethod
-	def csstring_field_set_data_with_size(field, size, data, sizes):
-		errorSize = ctypes.c_int(0)
-		sError = ctypes.c_wchar_p()
-		res = capi.dll.CSStringField_SetData_with_size(field._internal_obj if field is not None else None, utils.to_int32(size), utils.to_char_ptr_ptr(data), utils.to_uint64_ptr(sizes), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
-		if errorSize.value != 0:
-			raise errors.DPFServerException(sError.value)
-		return res
-
-	@staticmethod
 	def csstring_field_set_cscoping(field, scoping):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
@@ -204,24 +150,6 @@ class StringFieldCAPI(string_field_abstract_api.StringFieldAbstractAPI):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.StringField_PushBack(field, utils.to_int32(EntityId), utils.to_int32(size), utils.to_char_ptr_ptr(data), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
-		if errorSize.value != 0:
-			raise errors.DPFServerException(sError.value)
-		return res
-
-	@staticmethod
-	def csstring_field_push_back_with_size(field, EntityId, size, data, sizes):
-		errorSize = ctypes.c_int(0)
-		sError = ctypes.c_wchar_p()
-		res = capi.dll.CSStringField_PushBack_with_size(field._internal_obj if field is not None else None, utils.to_int32(EntityId), utils.to_int32(size), utils.to_char_ptr_ptr(data), utils.to_uint64_ptr(sizes), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
-		if errorSize.value != 0:
-			raise errors.DPFServerException(sError.value)
-		return res
-
-	@staticmethod
-	def string_field_push_back_with_size(field, EntityId, size, data, sizes):
-		errorSize = ctypes.c_int(0)
-		sError = ctypes.c_wchar_p()
-		res = capi.dll.StringField_PushBack_with_size(field, utils.to_int32(EntityId), utils.to_int32(size), utils.to_char_ptr_ptr(data), utils.to_uint64_ptr(sizes), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res
