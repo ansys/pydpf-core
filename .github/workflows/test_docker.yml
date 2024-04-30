@@ -140,14 +140,14 @@ jobs:
           command: |
             pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_any.py
 
-      - name: "Test test_check_version"
+      - name: "Test test_checkversion"
         uses: nick-fields/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 1
           shell: bash
           command: |
-            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_check_version.py
+            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_checkversion.py
 
       - name: "Test test_code_docstrings"
         uses: nick-fields/retry@v2
