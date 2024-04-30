@@ -120,7 +120,7 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
-            pytest --full-trace $COVERAGE --junitxml=tests/junit/test-results.xml tests/.
+            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/.
 
       - name: "Test API test_launcher"
         uses: nick-fields/retry@v2
