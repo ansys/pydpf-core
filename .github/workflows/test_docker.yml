@@ -113,14 +113,113 @@ jobs:
         run: |
           echo "COVERAGE=--cov=ansys.dpf.${{env.MODULE}} --cov-report=xml --cov-report=html --log-level=ERROR --cov-append" >> $GITHUB_ENV
 
-      - name: "Test API"
+      - name: "Test test_animation"
         uses: nick-fields/retry@v2
         with:
           timeout_minutes: 10
-          max_attempts: 2
+          max_attempts: 1
           shell: bash
           command: |
-            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/.
+            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_animation.py
+
+      - name: "Test test_animator"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 1
+          shell: bash
+          command: |
+            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_animator.py
+
+      - name: "Test test_any"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 1
+          shell: bash
+          command: |
+            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_any.py
+
+      - name: "Test test_cache"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 1
+          shell: bash
+          command: |
+            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_cache.py
+
+      - name: "Test test_check_version"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 1
+          shell: bash
+          command: |
+            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_check_version.py
+
+      - name: "Test test_code_docstrings"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 1
+          shell: bash
+          command: |
+            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_code_docstrings.py
+
+      - name: "Test test_code_generation"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 1
+          shell: bash
+          command: |
+            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_code_generation.py
+
+      - name: "Test test_collection"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 1
+          shell: bash
+          command: |
+            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_collection.py
+
+      - name: "Test test_cyclic_support"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 1
+          shell: bash
+          command: |
+            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_cyclic_support.py
+
+      - name: "Test test_data_tree"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 1
+          shell: bash
+          command: |
+            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_data_tree.py
+
+      - name: "Test test_datasources"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 1
+          shell: bash
+          command: |
+            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_datasources.py
+
+      - name: "Test test_elements"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 1
+          shell: bash
+          command: |
+            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_elements.py
 
       - name: "Test API test_launcher"
         uses: nick-fields/retry@v2
