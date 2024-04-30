@@ -83,7 +83,7 @@ jobs:
         uses: ansys/pydpf-actions/install-dpf-docker@v2.3
         with:
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
-          standalone_suffix: ${{ inputs.standalone_suffix }}
+          standalone_suffix: _rcs_dev2
           ANSYS_VERSION : ${{inputs.ANSYS_VERSION}}
 
       - name: "Check licences of packages"
