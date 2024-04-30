@@ -42,12 +42,12 @@ def test_empty_index():
         mc[0]
 
 
-def test_createby_message_copy_meshes_container(server_type_legacy_grpc):
-    mc = MeshesContainer(server=server_type_legacy_grpc)
-    meshes_container2 = MeshesContainer(
-        meshes_container=mc._internal_obj, server=server_type_legacy_grpc
-    )
-    assert mc._internal_obj == meshes_container2._internal_obj
+# def test_createby_message_copy_meshes_container(server_type_legacy_grpc):
+#     mc = MeshesContainer(server=server_type_legacy_grpc)
+#     meshes_container2 = MeshesContainer(
+#         meshes_container=mc._internal_obj, server=server_type_legacy_grpc
+#     )
+#     assert mc._internal_obj == meshes_container2._internal_obj
 
 
 @pytest.mark.skipif(

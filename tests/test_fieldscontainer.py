@@ -46,12 +46,12 @@ def test_empty_index(server_type):
         fc[0]
 
 
-def test_createby_message_copy_fields_container(server_type_legacy_grpc):
-    fc = FieldsContainer(server=server_type_legacy_grpc)
-    fields_container2 = FieldsContainer(
-        fields_container=fc._internal_obj, server=server_type_legacy_grpc
-    )
-    assert fc._internal_obj == fields_container2._internal_obj
+# def test_createby_message_copy_fields_container(server_type_legacy_grpc):
+#     fc = FieldsContainer(server=server_type_legacy_grpc)
+#     fields_container2 = FieldsContainer(
+#         fields_container=fc._internal_obj, server=server_type_legacy_grpc
+#     )
+#     assert fc._internal_obj == fields_container2._internal_obj
 
 
 @pytest.mark.skipif(

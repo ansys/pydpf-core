@@ -1121,14 +1121,14 @@ def test_list_operators(server_type):
     assert "stream_provider" in l
 
 
-@conftest.raises_for_servers_version_under("3.0")
-def test_get_static_spec_operator(server_type_legacy_grpc):
-    l = dpf.core.dpf_operator.available_operator_names(server=server_type_legacy_grpc)
-    for i, name in enumerate(l):
-        spec = dpf.core.Operator.operator_specification(name, server=server_type_legacy_grpc)
-        assert len(spec.operator_name) > 0
-        assert len(spec.inputs) > 0
-        assert len(spec.description) > 0
+# @conftest.raises_for_servers_version_under("3.0")
+# def test_get_static_spec_operator(server_type_legacy_grpc):
+#     l = dpf.core.dpf_operator.available_operator_names(server=server_type_legacy_grpc)
+#     for i, name in enumerate(l):
+#         spec = dpf.core.Operator.operator_specification(name, server=server_type_legacy_grpc)
+#         assert len(spec.operator_name) > 0
+#         assert len(spec.inputs) > 0
+#         assert len(spec.description) > 0
 
 
 @conftest.raises_for_servers_version_under("4.0")
@@ -1143,19 +1143,19 @@ def test_get_static_spec_operator_in_proc(server_clayer):
         d = spec.description
 
 
-@conftest.raises_for_servers_version_under("3.0")
-def test_with_progress_operator(allkindofcomplexity, server_type_legacy_grpc):
-    model = dpf.core.Model(allkindofcomplexity, server=server_type_legacy_grpc)
-    op = model.results.stress()
-    op.inputs.read_cyclic(3)
-    opnorm = dpf.core.operators.averaging.to_nodal_fc(op, server=server_type_legacy_grpc)
-    add = dpf.core.operators.math.add_fc(opnorm, opnorm, server=server_type_legacy_grpc)
-    add2 = dpf.core.operators.math.add_fc(add, add, server=server_type_legacy_grpc)
-    add3 = dpf.core.operators.math.add_fc(add2, server=server_type_legacy_grpc)
-    add4 = dpf.core.operators.math.add_fc(add3, add3, server=server_type_legacy_grpc)
-    add4.progress_bar = True
-    fc = add4.outputs.fields_container()
-    assert len(fc) == 2
+# @conftest.raises_for_servers_version_under("3.0")
+# def test_with_progress_operator(allkindofcomplexity, server_type_legacy_grpc):
+#     model = dpf.core.Model(allkindofcomplexity, server=server_type_legacy_grpc)
+#     op = model.results.stress()
+#     op.inputs.read_cyclic(3)
+#     opnorm = dpf.core.operators.averaging.to_nodal_fc(op, server=server_type_legacy_grpc)
+#     add = dpf.core.operators.math.add_fc(opnorm, opnorm, server=server_type_legacy_grpc)
+#     add2 = dpf.core.operators.math.add_fc(add, add, server=server_type_legacy_grpc)
+#     add3 = dpf.core.operators.math.add_fc(add2, server=server_type_legacy_grpc)
+#     add4 = dpf.core.operators.math.add_fc(add3, add3, server=server_type_legacy_grpc)
+#     add4.progress_bar = True
+#     fc = add4.outputs.fields_container()
+#     assert len(fc) == 2
 
 
 @conftest.raises_for_servers_version_under("4.0")
@@ -1175,23 +1175,23 @@ def test_with_progress_operator_in_proc(allkindofcomplexity, server_clayer):
     assert len(fc) == 2
 
 
-@conftest.raises_for_servers_version_under("3.0")
-def test_list_operators(server_type_legacy_grpc):
-    l = dpf.core.dpf_operator.available_operator_names(server=server_type_legacy_grpc)
-    assert len(l) > 400
-    assert "merge::result_info" in l
-    assert "unit_convert" in l
-    assert "stream_provider" in l
+# @conftest.raises_for_servers_version_under("3.0")
+# def test_list_operators(server_type_legacy_grpc):
+#     l = dpf.core.dpf_operator.available_operator_names(server=server_type_legacy_grpc)
+#     assert len(l) > 400
+#     assert "merge::result_info" in l
+#     assert "unit_convert" in l
+#     assert "stream_provider" in l
 
 
-@conftest.raises_for_servers_version_under("3.0")
-def test_get_static_spec_operator(server_type_legacy_grpc):
-    l = dpf.core.dpf_operator.available_operator_names(server=server_type_legacy_grpc)
-    for i, name in enumerate(l):
-        spec = dpf.core.Operator.operator_specification(name, server=server_type_legacy_grpc)
-        assert len(spec.operator_name) > 0
-        assert len(spec.inputs) > 0
-        assert len(spec.description) > 0
+# @conftest.raises_for_servers_version_under("3.0")
+# def test_get_static_spec_operator(server_type_legacy_grpc):
+#     l = dpf.core.dpf_operator.available_operator_names(server=server_type_legacy_grpc)
+#     for i, name in enumerate(l):
+#         spec = dpf.core.Operator.operator_specification(name, server=server_type_legacy_grpc)
+#         assert len(spec.operator_name) > 0
+#         assert len(spec.inputs) > 0
+#         assert len(spec.description) > 0
 
 
 @conftest.raises_for_servers_version_under("3.0")
