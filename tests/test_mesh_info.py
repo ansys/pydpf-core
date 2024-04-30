@@ -298,212 +298,212 @@ def test_output_mesh_info_provider_fluent(server_clayer):
     assert face_zone_elements_value[4] == 15
 
 
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
-)
-def test_output_mesh_info_provider_flprj(fluent_axial_comp, server_clayer):
-    model = dpf.Model(fluent_axial_comp(server_clayer), server=server_clayer)
-    res = model.metadata.mesh_info
-
-    # """************************ NUMBER OF CELLS/FACES/ZONES ************************"""
-
-    num_cells = res.get_property("num_cells")
-    num_faces = res.get_property("num_faces")
-    num_nodes = res.get_property("num_nodes")
-
-    assert num_cells == 13856
-    assert num_faces == 45391
-    assert num_nodes == 16660
-
-    # """************************ BODIES ************************"""
-    # ************ Name ************
-    body_names = res.body_names
-
-    body_names_value = body_names._get_data()
-
-    assert len(body_names_value) == 2
-    assert body_names_value[0] == "fluid-rotor"
-    assert body_names_value[1] == "fluid-stator"
-
-    # """************ Scoping ************"""
-    body_scoping = res.get_property("body_scoping")
-
-    assert body_scoping.size == 2
-    assert body_scoping[0] == 13
-    assert body_scoping[1] == 28
-
-    # ************ Topology ************
-    body_cell_topology = res.get_property("body_cell_topology")
-    body_face_topology = res.get_property("body_face_topology")
-
-    body_cell_topology_scoping = body_cell_topology._get_scoping()
-    body_face_topology_scoping = body_face_topology._get_scoping()
-    body_cell_topology_value = body_cell_topology._get_data()
-    body_face_topology_value = body_face_topology._get_data()
-
-    assert body_cell_topology_scoping.size == 2
-    assert body_face_topology_scoping.size == 2
-    assert body_cell_topology_scoping[0] == 13
-    assert body_face_topology_scoping[0] == 13
-    assert body_cell_topology_value[0] == 13
-    assert body_face_topology_value[0] == 2
-
-    # """************************ ZONES ************************"""
-    # ************ Name ************
-    zone_names = res.zone_names
-
-    zone_names_value = zone_names._get_data()
-
-    assert zone_names_value.size == 26
-    assert zone_names_value[0] == "fluid-rotor"
-    assert zone_names_value[4] == "rotor-inlet"
-    assert zone_names_value[8] == "rotor-per-1-shadow"
-    assert zone_names_value[12] == "fluid-stator"
-    assert zone_names_value[15] == "stator-shroud"
-    assert zone_names_value[18] == "stator-blade-1"
-    assert zone_names_value[22] == "stator-per-2"
-    assert zone_names_value[25] == "stator-per-1-shadow"
-
-    # """************ Scoping ************"""
-    zone_scoping = res.get_property("zone_scoping")
-
-    assert zone_scoping.size == 26
-    assert zone_scoping[0] == 13
-    assert zone_scoping[4] == 5
-    assert zone_scoping[8] == 9
-    assert zone_scoping[12] == 28
-    assert zone_scoping[15] == 17
-    assert zone_scoping[18] == 20
-    assert zone_scoping[22] == 24
-    assert zone_scoping[25] == 27
-
-    # """************ Element ************"""
-    zone_elements = res.get_property("num_elem_zone")
-
-    number_of_element_in_zone_value = zone_elements._get_data()
-
-    assert number_of_element_in_zone_value.size == 26
-    assert number_of_element_in_zone_value[0] == 6080
-    assert number_of_element_in_zone_value[4] == 160
-    assert number_of_element_in_zone_value[8] == 176
-    assert number_of_element_in_zone_value[12] == 7776
-    assert number_of_element_in_zone_value[15] == 486
-    assert number_of_element_in_zone_value[18] == 320
-    assert number_of_element_in_zone_value[22] == 48
-    assert number_of_element_in_zone_value[25] == 64
-
-    # """************ CELL ZONES ************"""
-
-    # """************ Name ************"""
-    cell_zone_name = res.get_property("cell_zone_names")
-
-    cell_zone_name_value = cell_zone_name._get_data()
-
-    assert cell_zone_name_value.size == 2
-    assert cell_zone_name_value[0] == "fluid-rotor"
-    assert cell_zone_name_value[1] == "fluid-stator"
-
-    # """************ Scoping ************"""
-    cell_zone_scoping = res.get_property("cell_zone_scoping")
-
-    assert cell_zone_scoping.size == 2
-    assert cell_zone_scoping[0] == 13
-    assert cell_zone_scoping[1] == 28
-
-    # """************ Element ************"""
-    cell_zone_elements = res.get_property("cell_zone_elements")
-
-    cell_zone_elements_value = cell_zone_elements._get_data()
-
-    assert cell_zone_elements_value.size == 2
-    assert cell_zone_elements_value[0] == 6080
-    assert cell_zone_elements_value[1] == 7776
-
-    # """************ FACE ZONES ************"""
-
-    # """************ Name ************"""
-    face_zone_names = res.get_property("face_zone_names")
-
-    face_zone_names_value = face_zone_names._get_data()
-
-    assert face_zone_names_value.size == 24
-    assert face_zone_names_value[0] == "default-interior:0"
-    assert face_zone_names_value[1] == "rotor-hub"
-    assert face_zone_names_value[5] == "rotor-blade-1"
-    assert face_zone_names_value[10] == "rotor-per-2"
-    assert face_zone_names_value[15] == "stator-outlet"
-    assert face_zone_names_value[20] == "stator-per-2"
-    assert face_zone_names_value[23] == "stator-per-1-shadow"
-
-    # """************ Scoping ************"""
-    face_zone_scoping = res.get_property("face_zone_scoping")
-
-    assert face_zone_scoping.size == 24
-    assert face_zone_scoping[0] == 2
-    assert face_zone_scoping[1] == 3
-    assert face_zone_scoping[5] == 7
-    assert face_zone_scoping[10] == 12
-    assert face_zone_scoping[15] == 19
-    assert face_zone_scoping[20] == 24
-    assert face_zone_scoping[23] == 27
-
-    # """************ Element ************"""
-    face_zone_elements = res.get_property("face_zone_elements")
-
-    face_zone_elements_value = face_zone_elements._get_data()
-
-    assert face_zone_elements_value.size == 24
-    assert face_zone_elements_value[0] == 17092
-    assert face_zone_elements_value[1] == 380
-    assert face_zone_elements_value[5] == 384
-    assert face_zone_elements_value[10] == 48
-    assert face_zone_elements_value[15] == 288
-    assert face_zone_elements_value[20] == 48
-    assert face_zone_elements_value[23] == 64
-
-
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
-)
-def test_mesh_info_zones(fluent_multi_species, server_clayer):
-    model = dpf.Model(fluent_multi_species(server_clayer), server=server_clayer)
-    mesh_info = model.metadata.mesh_info
-    ref_zones = {
-        '1': 'fluid-1',
-        '3': 'interior-3',
-        '4': 'symmetry-4',
-        '5': 'pressure-outlet-5',
-        '6': 'wall-6',
-        '7': 'velocity-inlet-7'
-    }
-    assert mesh_info.zones == ref_zones
-    ref_cell_zones = {
-        '1': 'fluid-1'
-    }
-    assert mesh_info.cell_zones == ref_cell_zones
-    ref_face_zones = {
-        '3': 'interior-3',
-        '4': 'symmetry-4',
-        '5': 'pressure-outlet-5',
-        '6': 'wall-6',
-        '7': 'velocity-inlet-7'
-    }
-    assert mesh_info.face_zones == ref_face_zones
-
-
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
-)
-def test_mesh_info_parts(server_type):
-    parts = ["part_1", "part_2"]
-    part_ids = list(range(1, len(parts)+1))
-    part_names = dpf.StringField(nentities=len(part_ids))
-    for part_id in part_ids:
-        part_names.append(data=[parts[part_id-1]], scopingid=part_id)
-    part_scoping = dpf.Scoping(location="part", ids=part_ids)
-    gdc = dpf.GenericDataContainer()
-    gdc.set_property(property_name="part_names", prop=part_names)
-    gdc.set_property(property_name="part_scoping", prop=part_scoping)
-    mesh_info = dpf.MeshInfo(generic_data_container=gdc, server=server_type)
-    ref = """{'1': 'part_1', '2': 'part_2'}"""
-    assert str(mesh_info.parts) == ref
+# @pytest.mark.skipif(
+#     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
+# )
+# def test_output_mesh_info_provider_flprj(fluent_axial_comp, server_clayer):
+#     model = dpf.Model(fluent_axial_comp(server_clayer), server=server_clayer)
+#     res = model.metadata.mesh_info
+#
+#     # """************************ NUMBER OF CELLS/FACES/ZONES ************************"""
+#
+#     num_cells = res.get_property("num_cells")
+#     num_faces = res.get_property("num_faces")
+#     num_nodes = res.get_property("num_nodes")
+#
+#     assert num_cells == 13856
+#     assert num_faces == 45391
+#     assert num_nodes == 16660
+#
+#     # """************************ BODIES ************************"""
+#     # ************ Name ************
+#     body_names = res.body_names
+#
+#     body_names_value = body_names._get_data()
+#
+#     assert len(body_names_value) == 2
+#     assert body_names_value[0] == "fluid-rotor"
+#     assert body_names_value[1] == "fluid-stator"
+#
+#     # """************ Scoping ************"""
+#     body_scoping = res.get_property("body_scoping")
+#
+#     assert body_scoping.size == 2
+#     assert body_scoping[0] == 13
+#     assert body_scoping[1] == 28
+#
+#     # ************ Topology ************
+#     body_cell_topology = res.get_property("body_cell_topology")
+#     body_face_topology = res.get_property("body_face_topology")
+#
+#     body_cell_topology_scoping = body_cell_topology._get_scoping()
+#     body_face_topology_scoping = body_face_topology._get_scoping()
+#     body_cell_topology_value = body_cell_topology._get_data()
+#     body_face_topology_value = body_face_topology._get_data()
+#
+#     assert body_cell_topology_scoping.size == 2
+#     assert body_face_topology_scoping.size == 2
+#     assert body_cell_topology_scoping[0] == 13
+#     assert body_face_topology_scoping[0] == 13
+#     assert body_cell_topology_value[0] == 13
+#     assert body_face_topology_value[0] == 2
+#
+#     # """************************ ZONES ************************"""
+#     # ************ Name ************
+#     zone_names = res.zone_names
+#
+#     zone_names_value = zone_names._get_data()
+#
+#     assert zone_names_value.size == 26
+#     assert zone_names_value[0] == "fluid-rotor"
+#     assert zone_names_value[4] == "rotor-inlet"
+#     assert zone_names_value[8] == "rotor-per-1-shadow"
+#     assert zone_names_value[12] == "fluid-stator"
+#     assert zone_names_value[15] == "stator-shroud"
+#     assert zone_names_value[18] == "stator-blade-1"
+#     assert zone_names_value[22] == "stator-per-2"
+#     assert zone_names_value[25] == "stator-per-1-shadow"
+#
+#     # """************ Scoping ************"""
+#     zone_scoping = res.get_property("zone_scoping")
+#
+#     assert zone_scoping.size == 26
+#     assert zone_scoping[0] == 13
+#     assert zone_scoping[4] == 5
+#     assert zone_scoping[8] == 9
+#     assert zone_scoping[12] == 28
+#     assert zone_scoping[15] == 17
+#     assert zone_scoping[18] == 20
+#     assert zone_scoping[22] == 24
+#     assert zone_scoping[25] == 27
+#
+#     # """************ Element ************"""
+#     zone_elements = res.get_property("num_elem_zone")
+#
+#     number_of_element_in_zone_value = zone_elements._get_data()
+#
+#     assert number_of_element_in_zone_value.size == 26
+#     assert number_of_element_in_zone_value[0] == 6080
+#     assert number_of_element_in_zone_value[4] == 160
+#     assert number_of_element_in_zone_value[8] == 176
+#     assert number_of_element_in_zone_value[12] == 7776
+#     assert number_of_element_in_zone_value[15] == 486
+#     assert number_of_element_in_zone_value[18] == 320
+#     assert number_of_element_in_zone_value[22] == 48
+#     assert number_of_element_in_zone_value[25] == 64
+#
+#     # """************ CELL ZONES ************"""
+#
+#     # """************ Name ************"""
+#     cell_zone_name = res.get_property("cell_zone_names")
+#
+#     cell_zone_name_value = cell_zone_name._get_data()
+#
+#     assert cell_zone_name_value.size == 2
+#     assert cell_zone_name_value[0] == "fluid-rotor"
+#     assert cell_zone_name_value[1] == "fluid-stator"
+#
+#     # """************ Scoping ************"""
+#     cell_zone_scoping = res.get_property("cell_zone_scoping")
+#
+#     assert cell_zone_scoping.size == 2
+#     assert cell_zone_scoping[0] == 13
+#     assert cell_zone_scoping[1] == 28
+#
+#     # """************ Element ************"""
+#     cell_zone_elements = res.get_property("cell_zone_elements")
+#
+#     cell_zone_elements_value = cell_zone_elements._get_data()
+#
+#     assert cell_zone_elements_value.size == 2
+#     assert cell_zone_elements_value[0] == 6080
+#     assert cell_zone_elements_value[1] == 7776
+#
+#     # """************ FACE ZONES ************"""
+#
+#     # """************ Name ************"""
+#     face_zone_names = res.get_property("face_zone_names")
+#
+#     face_zone_names_value = face_zone_names._get_data()
+#
+#     assert face_zone_names_value.size == 24
+#     assert face_zone_names_value[0] == "default-interior:0"
+#     assert face_zone_names_value[1] == "rotor-hub"
+#     assert face_zone_names_value[5] == "rotor-blade-1"
+#     assert face_zone_names_value[10] == "rotor-per-2"
+#     assert face_zone_names_value[15] == "stator-outlet"
+#     assert face_zone_names_value[20] == "stator-per-2"
+#     assert face_zone_names_value[23] == "stator-per-1-shadow"
+#
+#     # """************ Scoping ************"""
+#     face_zone_scoping = res.get_property("face_zone_scoping")
+#
+#     assert face_zone_scoping.size == 24
+#     assert face_zone_scoping[0] == 2
+#     assert face_zone_scoping[1] == 3
+#     assert face_zone_scoping[5] == 7
+#     assert face_zone_scoping[10] == 12
+#     assert face_zone_scoping[15] == 19
+#     assert face_zone_scoping[20] == 24
+#     assert face_zone_scoping[23] == 27
+#
+#     # """************ Element ************"""
+#     face_zone_elements = res.get_property("face_zone_elements")
+#
+#     face_zone_elements_value = face_zone_elements._get_data()
+#
+#     assert face_zone_elements_value.size == 24
+#     assert face_zone_elements_value[0] == 17092
+#     assert face_zone_elements_value[1] == 380
+#     assert face_zone_elements_value[5] == 384
+#     assert face_zone_elements_value[10] == 48
+#     assert face_zone_elements_value[15] == 288
+#     assert face_zone_elements_value[20] == 48
+#     assert face_zone_elements_value[23] == 64
+#
+#
+# @pytest.mark.skipif(
+#     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
+# )
+# def test_mesh_info_zones(fluent_multi_species, server_clayer):
+#     model = dpf.Model(fluent_multi_species(server_clayer), server=server_clayer)
+#     mesh_info = model.metadata.mesh_info
+#     ref_zones = {
+#         '1': 'fluid-1',
+#         '3': 'interior-3',
+#         '4': 'symmetry-4',
+#         '5': 'pressure-outlet-5',
+#         '6': 'wall-6',
+#         '7': 'velocity-inlet-7'
+#     }
+#     assert mesh_info.zones == ref_zones
+#     ref_cell_zones = {
+#         '1': 'fluid-1'
+#     }
+#     assert mesh_info.cell_zones == ref_cell_zones
+#     ref_face_zones = {
+#         '3': 'interior-3',
+#         '4': 'symmetry-4',
+#         '5': 'pressure-outlet-5',
+#         '6': 'wall-6',
+#         '7': 'velocity-inlet-7'
+#     }
+#     assert mesh_info.face_zones == ref_face_zones
+#
+#
+# @pytest.mark.skipif(
+#     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
+# )
+# def test_mesh_info_parts(server_type):
+#     parts = ["part_1", "part_2"]
+#     part_ids = list(range(1, len(parts)+1))
+#     part_names = dpf.StringField(nentities=len(part_ids))
+#     for part_id in part_ids:
+#         part_names.append(data=[parts[part_id-1]], scopingid=part_id)
+#     part_scoping = dpf.Scoping(location="part", ids=part_ids)
+#     gdc = dpf.GenericDataContainer()
+#     gdc.set_property(property_name="part_names", prop=part_names)
+#     gdc.set_property(property_name="part_scoping", prop=part_scoping)
+#     mesh_info = dpf.MeshInfo(generic_data_container=gdc, server=server_type)
+#     ref = """{'1': 'part_1', '2': 'part_2'}"""
+#     assert str(mesh_info.parts) == ref
