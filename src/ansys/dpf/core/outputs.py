@@ -112,9 +112,6 @@ class _Outputs:
                         corresponding_pins.append(pin)
         return corresponding_pins
 
-    def __getitem__(self, index):
-        return self._outputs[index]
-
     def __str__(self):
         docstr = "Available outputs:\n"
         for output in self._outputs:
