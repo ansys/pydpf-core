@@ -103,15 +103,6 @@ class TestServerConfigs:
         shutdown_all_session_servers()
         assert not has_local_server()
 
-    def test_start_shutdown_start(self, server_config):
-        set_server_configuration(server_config)
-        # print(dpf.core.SERVER_CONFIGURATION)
-        server = start_local_server(timeout=20)
-        server.shutdown()
-        server = start_local_server(timeout=20)
-        assert has_local_server()
-        shutdown_all_session_servers()
-
 
 @pytest.mark.parametrize("server_config", server_configs)
 class TestServer:

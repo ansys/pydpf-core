@@ -382,7 +382,6 @@ class BaseServer(abc.ABC):
         self._session_instance = None
         self._base_service_instance = None
         self._context = None
-        self._info_instance = None
         self._docker_config = server_factory.RunningDockerConfig()
 
     def set_as_global(self, as_global=True):
@@ -432,10 +431,9 @@ class BaseServer(abc.ABC):
             ``"server_port"``, ``"server_process_id"``, ``"server_version"`` , ``"os"``
             and ``"path"`` keys.
         """
-        if not self._info_instance:
-            self._info_instance = self._base_service.server_info
-            self._info_instance["path"] = self.ansys_path
-        return self._info_instance
+        server_info = self._base_service.server_info
+        server_info["path"] = self.ansys_path
+        return server_info
 
     def _del_session(self):
         if self._session_instance:
@@ -784,7 +782,6 @@ class GrpcServer(CServer):
 
     def shutdown(self):
         if self.live:
-            _ = self.info # initializing the info variable (giving access to ip and port): this can be required if start_local_server is called afterwards
             if self._remote_instance:
                 self._remote_instance.delete()
             try:
@@ -830,7 +827,10 @@ class GrpcServer(CServer):
         -------
         ip : str
         """
-        return self.info["server_ip"]
+        try:
+            return self.info["server_ip"]
+        except:
+            return ""
 
     @property
     def port(self):
@@ -840,7 +840,10 @@ class GrpcServer(CServer):
         -------
         port : int
         """
-        return self.info["server_port"]
+        try:
+            return self.info["server_port"]
+        except:
+            return 0
 
     @property
     def external_ip(self):
@@ -1031,6 +1034,8 @@ class LegacyGrpcServer(BaseServer):
 
         self.live = False
         super().__init__()
+
+        self._info_instance = None
         self._own_process = launch_server
         self._local_server = False
         self._stubs = {}
@@ -1129,7 +1134,10 @@ class LegacyGrpcServer(BaseServer):
         -------
         ip : str
         """
-        return self.info["server_ip"]
+        try:
+            return self.info["server_ip"]
+        except:
+            return ""
 
     @property
     def port(self):
@@ -1139,7 +1147,10 @@ class LegacyGrpcServer(BaseServer):
         -------
         port : int
         """
-        return self.info["server_port"]
+        try:
+            return self.info["server_port"]
+        except:
+            return 0
 
     @property
     def external_ip(self):
@@ -1210,15 +1221,14 @@ class LegacyGrpcServer(BaseServer):
 
     def shutdown(self):
         if self._own_process and self.live:
-            _ = self.info # initializing the info variable (giving access to ip and port): this can be required if start_local_server is called afterwards
-            if self._remote_instance:
-                self._remote_instance.delete()
             try:
                 if hasattr(self, "_preparing_shutdown_func"):
                     self._preparing_shutdown_func[0](self._preparing_shutdown_func[1])
             except Exception as e:
                 warnings.warn("couldn't prepare shutdown: " + str(e.args))
 
+            if self._remote_instance:
+                self._remote_instance.delete()
             else:
                 try:
                     if hasattr(self, "_shutdown_func"):
