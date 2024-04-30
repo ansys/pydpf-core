@@ -126,7 +126,7 @@ def _wait_and_check_server_connection(
         def read_stderr():
             with io.TextIOWrapper(process.stderr, encoding="utf-8") as log_err:
                 for line in log_err:
-                    LOG.debug(line)
+                    LOG.error(line)
                     current_errors.append(line)
 
         stderr = read_stderr
@@ -140,6 +140,7 @@ def _wait_and_check_server_connection(
                     lines.append(line)
 
         stdout = read_stdout
+
     # must be in the background since the process reader is blocking
     Thread(target=stdout, daemon=True).start()
     Thread(target=stderr, daemon=True).start()
