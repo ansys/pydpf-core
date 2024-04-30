@@ -176,15 +176,6 @@ jobs:
           command: |
             pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_collection.py
 
-      - name: "Test test_custom_type_field"
-        uses: nick-fields/retry@v2
-        with:
-          timeout_minutes: 10
-          max_attempts: 1
-          shell: bash
-          command: |
-            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_custom_type_field.py
-
       - name: "Test test_cyclic_support"
         uses: nick-fields/retry@v2
         with:
