@@ -178,6 +178,9 @@ jobs:
         run: |
           pip install dist/${{ steps.wheel.outputs.wheel_name }}[plotting]
 
+      - name: "Check disk space"
+        run: df . -h
+
       - name: "Install DPF"
         id: set-server-path
         uses: ansys/pydpf-actions/install-dpf-server@fix/docker_disk_usage_issues
@@ -185,6 +188,9 @@ jobs:
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           standalone_suffix: ${{ inputs.standalone_suffix }}
           ANSYS_VERSION : ${{inputs.ANSYS_VERSION}}
+
+      - name: "Check disk space"
+        run: df . -h
 
       - name: "Check licences of packages"
         uses: ansys/pydpf-actions/check-licenses@v2.3
