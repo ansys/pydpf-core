@@ -105,7 +105,7 @@ jobs:
 
       - name: "Install DPF"
         id: set-server-path
-        uses: ansys/pydpf-actions/install-dpf-server@v2.3
+        uses: ansys/pydpf-actions/install-dpf-server@fix/docker_disk_usage_issues
         with:
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           standalone_suffix: ${{ inputs.standalone_suffix }}
