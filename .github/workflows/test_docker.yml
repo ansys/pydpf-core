@@ -121,7 +121,8 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
-            pytest $DEBUG --tb=long $COVERAGE $RERUNS --junitxml=tests/junit/test-results.xml tests/.
+            export DEBUG=-v -s --durations=10 --durations-min=1.0 --tb=long
+            pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results.xml tests/.
 
       - name: "Test API test_launcher"
         uses: nick-fields/retry@v2
