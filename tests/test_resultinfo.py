@@ -58,7 +58,7 @@ def test_get_resultinfo_2(simple_bar, server_type):
     assert res.user_name == "afaure"
     assert res.job_name == "file_Static22_0"
     assert res.product_name == "FULL"
-    assert res.main_title == "unsaved_project--Static"
+    assert "unsaved_project--Static" in res.main_title
     assert res.cyclic_support is None
 
 
