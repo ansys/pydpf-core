@@ -139,15 +139,15 @@ jobs:
       standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
     secrets: inherit
 
-#  docker_examples:
-#    name: "Run examples on Docker"
-#    uses: ./.github/workflows/examples_docker.yml
-#    needs: pick_server_suffix
-#    with:
-#      ANSYS_VERSION: "242"
-#      python_versions: '["3.9"]'
-#      standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
-#    secrets: inherit
+  docker_examples:
+    name: "Run examples on Docker"
+    uses: ./.github/workflows/examples_docker.yml
+    needs: pick_server_suffix
+    with:
+      ANSYS_VERSION: "242"
+      python_versions: '["3.9"]'
+      standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
+    secrets: inherit
 
 #  docs:
 #    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
