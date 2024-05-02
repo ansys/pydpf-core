@@ -22,6 +22,14 @@ class merge_supports(Operator):
     supports2 : AbstractFieldSupport
         A vector of supports to merge or supports
         from pin 0 to ...
+    should_merge_names_selection : bool, optional
+        For some result files (such as rst), the
+        scoping on names selection is
+        duplicated through all the
+        distributed files.if this pin is
+        false, the merging process is
+        skipped. if it is true, this scoping
+        is merged. default is true.
 
 
     Examples
@@ -36,18 +44,28 @@ class merge_supports(Operator):
     >>> op.inputs.supports1.connect(my_supports1)
     >>> my_supports2 = dpf.AbstractFieldSupport()
     >>> op.inputs.supports2.connect(my_supports2)
+    >>> my_should_merge_names_selection = bool()
+    >>> op.inputs.should_merge_names_selection.connect(my_should_merge_names_selection)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.utility.merge_supports(
     ...     supports1=my_supports1,
     ...     supports2=my_supports2,
+    ...     should_merge_names_selection=my_should_merge_names_selection,
     ... )
 
     >>> # Get output data
     >>> result_merged_support = op.outputs.merged_support()
     """
 
-    def __init__(self, supports1=None, supports2=None, config=None, server=None):
+    def __init__(
+        self,
+        supports1=None,
+        supports2=None,
+        should_merge_names_selection=None,
+        config=None,
+        server=None,
+    ):
         super().__init__(name="merge::abstract_support", config=config, server=server)
         self._inputs = InputsMergeSupports(self)
         self._outputs = OutputsMergeSupports(self)
@@ -55,6 +73,10 @@ class merge_supports(Operator):
             self.inputs.supports1.connect(supports1)
         if supports2 is not None:
             self.inputs.supports2.connect(supports2)
+        if should_merge_names_selection is not None:
+            self.inputs.should_merge_names_selection.connect(
+                should_merge_names_selection
+            )
 
     @staticmethod
     def _spec():
@@ -75,6 +97,18 @@ class merge_supports(Operator):
                     optional=False,
                     document="""A vector of supports to merge or supports
         from pin 0 to ...""",
+                ),
+                200: PinSpecification(
+                    name="should_merge_names_selection",
+                    type_names=["bool"],
+                    optional=True,
+                    document="""For some result files (such as rst), the
+        scoping on names selection is
+        duplicated through all the
+        distributed files.if this pin is
+        false, the merging process is
+        skipped. if it is true, this scoping
+        is merged. default is true.""",
                 ),
             },
             map_output_pin_spec={
@@ -137,6 +171,8 @@ class InputsMergeSupports(_Inputs):
     >>> op.inputs.supports1.connect(my_supports1)
     >>> my_supports2 = dpf.AbstractFieldSupport()
     >>> op.inputs.supports2.connect(my_supports2)
+    >>> my_should_merge_names_selection = bool()
+    >>> op.inputs.should_merge_names_selection.connect(my_should_merge_names_selection)
     """
 
     def __init__(self, op: Operator):
@@ -145,6 +181,10 @@ class InputsMergeSupports(_Inputs):
         self._inputs.append(self._supports1)
         self._supports2 = Input(merge_supports._spec().input_pin(1), 1, op, 1)
         self._inputs.append(self._supports2)
+        self._should_merge_names_selection = Input(
+            merge_supports._spec().input_pin(200), 200, op, -1
+        )
+        self._inputs.append(self._should_merge_names_selection)
 
     @property
     def supports1(self):
@@ -187,6 +227,32 @@ class InputsMergeSupports(_Inputs):
         >>> op.inputs.supports2(my_supports2)
         """
         return self._supports2
+
+    @property
+    def should_merge_names_selection(self):
+        """Allows to connect should_merge_names_selection input to the operator.
+
+        For some result files (such as rst), the
+        scoping on names selection is
+        duplicated through all the
+        distributed files.if this pin is
+        false, the merging process is
+        skipped. if it is true, this scoping
+        is merged. default is true.
+
+        Parameters
+        ----------
+        my_should_merge_names_selection : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.utility.merge_supports()
+        >>> op.inputs.should_merge_names_selection.connect(my_should_merge_names_selection)
+        >>> # or
+        >>> op.inputs.should_merge_names_selection(my_should_merge_names_selection)
+        """
+        return self._should_merge_names_selection
 
 
 class OutputsMergeSupports(_Outputs):
