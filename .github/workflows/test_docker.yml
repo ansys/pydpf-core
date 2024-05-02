@@ -44,12 +44,25 @@ jobs:
         os: ["ubuntu-latest"]
 
     steps:
+      - name: "Check disk space"
+        run: df . -h
+
+      - name: "Free disk space"
+        run: |
+          sudo docker rmi $(docker image ls -aq) >/dev/null 2>&1 || true
+
+      - name: "Check disk space"
+        run: df . -h
+
       - uses: actions/checkout@v4
 
       - name: "Setup Python"
         uses: actions/setup-python@v4.6.1
         with:
           python-version: ${{ matrix.python-version }}
+
+      - name: "Check disk space"
+        run: df . -h
 
       - name: "Install requirements"
         run: pip install -r requirements/requirements_build.txt
@@ -78,6 +91,9 @@ jobs:
         run: |
           pip install dist/${{ steps.wheel.outputs.wheel_name }}[plotting]
 
+      - name: "Check disk space"
+        run: df . -h
+
       - name: "Install DPF"
         id: set-server-path
         uses: ansys/pydpf-actions/install-dpf-docker@v2.3
@@ -85,6 +101,9 @@ jobs:
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           standalone_suffix: _rcs_dev2
           ANSYS_VERSION : ${{inputs.ANSYS_VERSION}}
+
+      - name: "Check disk space"
+        run: df . -h
 
       - name: "Check licences of packages"
         uses: ansys/pydpf-actions/check-licenses@v2.3
@@ -112,13 +131,6 @@ jobs:
         shell: bash
         run: |
           echo "COVERAGE=--cov=ansys.dpf.${{env.MODULE}} --cov-report=xml --cov-report=html --log-level=ERROR --cov-append" >> $GITHUB_ENV
-
-      - name: "Check disk space"
-        run: df . -h
-
-      - name: "Free disk space"
-        run: |
-          sudo docker rmi $(docker image ls -aq) >/dev/null 2>&1 || true
 
       - name: "Check disk space"
         run: df . -h
@@ -582,3 +594,6 @@ jobs:
 
       - name: "Upload coverage to Codecov"
         uses: codecov/codecov-action@v3
+
+      - name: "Check disk space"
+        run: df . -h
