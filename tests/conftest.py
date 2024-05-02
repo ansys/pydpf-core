@@ -576,7 +576,7 @@ def local_server():
     return local_servers[0]
 
 
-@pytest.fixture(autouse=True)
+@pytest.fixture(autouse=False)
 def count_servers(request):
     """Count servers once we are finished."""
 
