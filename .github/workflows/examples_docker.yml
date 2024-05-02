@@ -68,6 +68,7 @@ jobs:
 
       - name: "Check disk space"
         run: df . -h
+
       - uses: actions/checkout@v4
 
       - name: "Setup Python"
@@ -108,7 +109,6 @@ jobs:
 
       - name: "Check disk space"
         run: df . -h
-      - uses: actions/checkout@v4
 
       - name: "Install DPF"
         id: set-server-path
