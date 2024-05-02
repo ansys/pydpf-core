@@ -120,7 +120,295 @@ jobs:
           max_attempts: 1
           shell: bash
           command: |
-            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/.
+            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_animation.py
+
+      - name: "Test test_animator"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 1
+          shell: bash
+          command: |
+            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_animator.py
+
+      - name: "Test test_any"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 1
+          shell: bash
+          command: |
+            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_any.py
+
+      - name: "Test test_checkversion"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 1
+          shell: bash
+          command: |
+            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_checkversion.py
+
+      - name: "Test test_code_docstrings"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 1
+          shell: bash
+          command: |
+            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_code_docstrings.py
+
+      - name: "Test test_codegeneration"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 1
+          shell: bash
+          command: |
+            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_codegeneration.py
+
+      - name: "Test test_collection"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 1
+          shell: bash
+          command: |
+            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_collection.py
+
+      - name: "Test test_cyclic_support"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 1
+          shell: bash
+          command: |
+            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_cyclic_support.py
+
+      - name: "Test test_data_tree"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 1
+          shell: bash
+          command: |
+            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_data_tree.py
+
+      - name: "Test test_datasources"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 1
+          shell: bash
+          command: |
+            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_datasources.py
+
+      - name: "Test test_elements"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 1
+          shell: bash
+          command: |
+            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_elements.py
+
+      - name: "Test test_lsdyna"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 1
+          shell: bash
+          command: |
+            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_lsdyna.py
+
+      - name: "Test test_mesh_info"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 1
+          shell: bash
+          command: |
+            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_mesh_info.py
+
+      - name: "Test test_meshescontainer"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 1
+          shell: bash
+          command: |
+            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_meshescontainer.py
+
+      - name: "Test test_meshregion"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 1
+          shell: bash
+          command: |
+            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_meshregion.py
+
+      - name: "Test test_model"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 1
+          shell: bash
+          command: |
+            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_model.py
+
+      - name: "Test test_operator"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 1
+          shell: bash
+          command: |
+            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_operator.py
+
+      - name: "Test test_operatorshelper"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 1
+          shell: bash
+          command: |
+            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_operatorshelper.py
+
+      - name: "Test test_parallel"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 1
+          shell: bash
+          command: |
+            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_parallel.py
+
+      - name: "Test test_pathsupport"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 1
+          shell: bash
+          command: |
+            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_pathsupport.py
+
+      - name: "Test test_plotter"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 1
+          shell: bash
+          command: |
+            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_plotter.py
+
+      - name: "Test test_plugins"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 1
+          shell: bash
+          command: |
+            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_plugins.py
+
+      - name: "Test test_property_fields_container"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 1
+          shell: bash
+          command: |
+            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_property_fields_container.py
+
+      - name: "Test test_propertyfield"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 1
+          shell: bash
+          command: |
+            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_propertyfield.py
+
+      - name: "Test test_python_plugins"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 1
+          shell: bash
+          command: |
+            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_python_plugins.py
+
+      - name: "Test test_resultinfo"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 1
+          shell: bash
+          command: |
+            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_resultinfo.py
+
+      - name: "Test test_scoping"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 1
+          shell: bash
+          command: |
+            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_scoping.py
+
+      - name: "Test test_scopingscontainer"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 1
+          shell: bash
+          command: |
+            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_scopingscontainer.py
+
+      - name: "Test test_session"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 1
+          shell: bash
+          command: |
+            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_session.py
+
+      - name: "Test test_streams_container"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 1
+          shell: bash
+          command: |
+            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_streams_container.py
+
+      - name: "Test test_stringfield"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 1
+          shell: bash
+          command: |
+            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_stringfield.py
+
+      - name: "Test test_timefreqsupport"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 1
+          shell: bash
+          command: |
+            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_timefreqsupport.py
+
+      - name: "Test test_unit_systems"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 1
+          shell: bash
+          command: |
+            pytest -vv -s --durations=10 --durations-min=1.0 $COVERAGE --junitxml=tests/junit/test-results.xml tests/test_unit_systems.py
 
       - name: "Test API test_launcher"
         uses: nick-fields/retry@v2
