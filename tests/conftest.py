@@ -581,11 +581,22 @@ def count_servers(request):
     """Count servers once we are finished."""
 
     def count_servers():
-        num_dpf_exe = 0
+        # num_dpf_exe = 0
+        # for proc in psutil.process_iter():
+        #     if proc.name() == "Ans.Dpf.Grpc.exe":
+        #         num_dpf_exe += 1
+        # warnings.warn(UserWarning(f"Number of servers running: {num_dpf_exe}"))
+        # # assert num_dpf_exe == 1
+        proc_name = "Ans.Dpf.Grpc"
+        nb_procs = 0
         for proc in psutil.process_iter():
-            if proc.name() == "Ans.Dpf.Grpc.exe":
-                num_dpf_exe += 1
-        warnings.warn(UserWarning(f"Number of servers running: {num_dpf_exe}"))
-        # assert num_dpf_exe == 1
+            try:
+                # check whether the process name matches
+                if proc_name in proc.name():
+                    proc.kill()
+                    nb_procs += 1
+            except psutil.NoSuchProcess:
+                pass
+        print(f"Killed {nb_procs} {proc_name} processes.")
 
     request.addfinalizer(count_servers)
