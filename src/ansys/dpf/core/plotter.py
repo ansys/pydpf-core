@@ -52,6 +52,8 @@ class _PyVistaPlotter:
         kwargs_in = _sort_supported_kwargs(bound_method=pv.Plotter.__init__, **kwargs)
         # Initiate pyvista Plotter
         self._plotter = pv.Plotter(**kwargs_in)
+        if kwargs.pop("parallel_projection", False):
+            self._plotter.parallel_projection = True
 
     def add_scale_factor_legend(self, scale_factor, **kwargs):
         kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.add_text, **kwargs)

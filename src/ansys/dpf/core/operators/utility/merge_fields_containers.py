@@ -30,6 +30,14 @@ class merge_fields_containers(Operator):
     fields_containers2 : FieldsContainer
         A vector of fields containers to merge or
         fields containers from pin 0 to ...
+    should_merge_names_selection : bool, optional
+        For some result files (such as rst), the
+        scoping on names selection is
+        duplicated through all the
+        distributed files.if this pin is
+        false, the merging process is
+        skipped. if it is true, this scoping
+        is merged. default is true.
 
 
     Examples
@@ -50,6 +58,8 @@ class merge_fields_containers(Operator):
     >>> op.inputs.fields_containers1.connect(my_fields_containers1)
     >>> my_fields_containers2 = dpf.FieldsContainer()
     >>> op.inputs.fields_containers2.connect(my_fields_containers2)
+    >>> my_should_merge_names_selection = bool()
+    >>> op.inputs.should_merge_names_selection.connect(my_should_merge_names_selection)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.utility.merge_fields_containers(
@@ -58,6 +68,7 @@ class merge_fields_containers(Operator):
     ...     merged_fields_containers_support=my_merged_fields_containers_support,
     ...     fields_containers1=my_fields_containers1,
     ...     fields_containers2=my_fields_containers2,
+    ...     should_merge_names_selection=my_should_merge_names_selection,
     ... )
 
     >>> # Get output data
@@ -71,6 +82,7 @@ class merge_fields_containers(Operator):
         merged_fields_containers_support=None,
         fields_containers1=None,
         fields_containers2=None,
+        should_merge_names_selection=None,
         config=None,
         server=None,
     ):
@@ -89,6 +101,10 @@ class merge_fields_containers(Operator):
             self.inputs.fields_containers1.connect(fields_containers1)
         if fields_containers2 is not None:
             self.inputs.fields_containers2.connect(fields_containers2)
+        if should_merge_names_selection is not None:
+            self.inputs.should_merge_names_selection.connect(
+                should_merge_names_selection
+            )
 
     @staticmethod
     def _spec():
@@ -132,6 +148,18 @@ class merge_fields_containers(Operator):
                     optional=False,
                     document="""A vector of fields containers to merge or
         fields containers from pin 0 to ...""",
+                ),
+                200: PinSpecification(
+                    name="should_merge_names_selection",
+                    type_names=["bool"],
+                    optional=True,
+                    document="""For some result files (such as rst), the
+        scoping on names selection is
+        duplicated through all the
+        distributed files.if this pin is
+        false, the merging process is
+        skipped. if it is true, this scoping
+        is merged. default is true.""",
                 ),
             },
             map_output_pin_spec={
@@ -200,6 +228,8 @@ class InputsMergeFieldsContainers(_Inputs):
     >>> op.inputs.fields_containers1.connect(my_fields_containers1)
     >>> my_fields_containers2 = dpf.FieldsContainer()
     >>> op.inputs.fields_containers2.connect(my_fields_containers2)
+    >>> my_should_merge_names_selection = bool()
+    >>> op.inputs.should_merge_names_selection.connect(my_should_merge_names_selection)
     """
 
     def __init__(self, op: Operator):
@@ -224,6 +254,10 @@ class InputsMergeFieldsContainers(_Inputs):
             merge_fields_containers._spec().input_pin(1), 1, op, 1
         )
         self._inputs.append(self._fields_containers2)
+        self._should_merge_names_selection = Input(
+            merge_fields_containers._spec().input_pin(200), 200, op, -1
+        )
+        self._inputs.append(self._should_merge_names_selection)
 
     @property
     def sum_merge(self):
@@ -328,6 +362,32 @@ class InputsMergeFieldsContainers(_Inputs):
         >>> op.inputs.fields_containers2(my_fields_containers2)
         """
         return self._fields_containers2
+
+    @property
+    def should_merge_names_selection(self):
+        """Allows to connect should_merge_names_selection input to the operator.
+
+        For some result files (such as rst), the
+        scoping on names selection is
+        duplicated through all the
+        distributed files.if this pin is
+        false, the merging process is
+        skipped. if it is true, this scoping
+        is merged. default is true.
+
+        Parameters
+        ----------
+        my_should_merge_names_selection : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.utility.merge_fields_containers()
+        >>> op.inputs.should_merge_names_selection.connect(my_should_merge_names_selection)
+        >>> # or
+        >>> op.inputs.should_merge_names_selection(my_should_merge_names_selection)
+        """
+        return self._should_merge_names_selection
 
 
 class OutputsMergeFieldsContainers(_Outputs):
