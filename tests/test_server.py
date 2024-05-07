@@ -329,8 +329,8 @@ def test_available_servers():
     vout = ""
     for version, path in out.items():
         vout = str(version).replace(".", "_")
-        meth = "start_" + vout + "_server"
-        assert (hasattr(server, meth))
-        start = getattr(server, meth)
-        srv = start()
-        assert srv.local_server
+    meth = "start_" + vout + "_server"
+    assert (hasattr(server, meth))
+    start = getattr(server, meth)
+    srv = start()
+    assert srv.local_server
