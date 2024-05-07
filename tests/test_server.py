@@ -6,6 +6,7 @@ import platform
 import psutil
 import sys
 import os
+import packaging.version
 
 from ansys import dpf
 from ansys.dpf.core import errors, server_types
@@ -321,19 +322,21 @@ def test_check_ansys_grpc_dpf_version_raise():
     ):
         dpf.core.server_types.check_ansys_grpc_dpf_version(MockServer(remote_server), timeout=2.0)
 
+
 @pytest.mark.skipif(
-    os.name == "posix",
+    running_docker,
     reason="can only work with local DPF server install",
 )
 def test_available_servers():
-    out = {}
     out = server.available_servers()
-    assert (len(out))
-    vout = ""
-    for version, path in out.items():
+    assert len(out) > 0
+    for version in out:
         vout = str(version).replace(".", "_")
-    meth = "start_" + vout + "_server"
-    assert (hasattr(server, meth))
-    start = getattr(server, meth)
-    srv = start()
-    assert srv.local_server
+        if packaging.version.parse(version) > packaging.version.parse("2022.1"):
+            meth = "start_" + vout + "_server"
+            assert (hasattr(server, meth))
+            start = getattr(server, meth)
+            srv = start()
+            assert srv.local_server
+            srv = out[version]()
+            assert srv.local_server
