@@ -321,7 +321,10 @@ def test_check_ansys_grpc_dpf_version_raise():
     ):
         dpf.core.server_types.check_ansys_grpc_dpf_version(MockServer(remote_server), timeout=2.0)
 
-
+@pytest.mark.skipif(
+    os.name == "posix",
+    reason="can only work with local DPF server install",
+)
 def test_available_servers():
     out = {}
     out = server.available_servers()
