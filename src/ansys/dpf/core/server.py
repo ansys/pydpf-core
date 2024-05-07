@@ -3,8 +3,10 @@ Server
 ======
 Contains the directives necessary to start the DPF server.
 """
+import functools
 import os
 import socket
+import sys
 import weakref
 import copy
 import platform
@@ -388,3 +390,46 @@ def get_or_create_server(server: BaseServer) -> Union[BaseServer, None]:
     if server:
         return server
     return _global_server()
+
+
+def available_servers():
+    """Searches all available installed DPF servers in the current machine
+    Binds new functions to the server module which helps to choose the appropritae/suitable version
+
+    after this call, you can do the following:
+
+    Examples
+    --------
+
+    >>> from ansys.dpf import core as dpf
+    >>> #out = dpf.server.available_servers()
+
+    launch a server.
+    >>> #server = dpf.server.start_2024_2_server()
+
+
+    Parameters
+    ----------
+    server: BaseServer, None
+
+    Returns
+    -------
+    server: returns the map of available DPF servers.
+    """
+    from ansys.dpf.gate import load_api
+    unified = load_api._paths_to_dpf_in_unified_installs()
+    standalone = load_api._paths_to_dpf_server_library_installs()
+
+    strver = {}
+
+    out = {}
+    strver.update(unified)
+    strver.update(standalone)
+    for version, path in strver.items():
+        bound_method = start_local_server
+        method2 = functools.partial(bound_method, ansys_path=path)
+        vout = str(version).replace(".", "_")
+        setattr(sys.modules[__name__], "start_" + vout + "_server", method2)
+        out[str(version)] = method2
+
+    return out

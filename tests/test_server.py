@@ -14,6 +14,7 @@ from ansys.dpf.core.server import set_server_configuration, _global_server
 from ansys.dpf.core.server import start_local_server, connect_to_server
 from ansys.dpf.core.server import shutdown_all_session_servers, has_local_server
 from ansys.dpf.core.server import get_or_create_server
+from ansys.dpf.core import server
 from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
     running_docker,
@@ -225,17 +226,17 @@ def test_shutting_down_when_deleted():
 
 def test_eq_server_config():
     assert (
-        dpf.core.AvailableServerConfigs.InProcessServer
-        == dpf.core.AvailableServerConfigs.InProcessServer
+            dpf.core.AvailableServerConfigs.InProcessServer
+            == dpf.core.AvailableServerConfigs.InProcessServer
     )
     assert dpf.core.AvailableServerConfigs.GrpcServer == dpf.core.AvailableServerConfigs.GrpcServer
     assert (
-        dpf.core.AvailableServerConfigs.LegacyGrpcServer
-        == dpf.core.AvailableServerConfigs.LegacyGrpcServer
+            dpf.core.AvailableServerConfigs.LegacyGrpcServer
+            == dpf.core.AvailableServerConfigs.LegacyGrpcServer
     )
     assert (
         not dpf.core.AvailableServerConfigs.LegacyGrpcServer
-        == dpf.core.AvailableServerConfigs.InProcessServer
+            == dpf.core.AvailableServerConfigs.InProcessServer
     )
     assert dpf.core.AvailableServerConfigs.LegacyGrpcServer == dpf.core.ServerConfig(
         protocol=dpf.core.server_factory.CommunicationProtocols.gRPC, legacy=True
@@ -316,6 +317,20 @@ def test_check_ansys_grpc_dpf_version_raise():
 
     print(MockServer(remote_server).version)
     with pytest.raises(
-        ValueError, match="Error connecting to DPF LegacyGrpcServer with version 1.0"
+            ValueError, match="Error connecting to DPF LegacyGrpcServer with version 1.0"
     ):
         dpf.core.server_types.check_ansys_grpc_dpf_version(MockServer(remote_server), timeout=2.0)
+
+
+def test_available_servers():
+    out = {}
+    out = server.available_servers()
+    assert (len(out))
+    vout = ""
+    for version, path in out.items():
+        vout = str(version).replace(".", "_")
+        meth = "start_" + vout + "_server"
+        assert (hasattr(server, meth))
+        start = getattr(server, meth)
+        srv = start()
+        assert srv.local_server
