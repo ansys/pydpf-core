@@ -318,7 +318,7 @@ def test_check_ansys_grpc_dpf_version_raise():
 
     print(MockServer(remote_server).version)
     with pytest.raises(
-            ValueError, match="Error connecting to DPF LegacyGrpcServer with version 1.0"
+            ValueError, match="Could not connect to DPF legacy gRPC server with version 1.0."
     ):
         dpf.core.server_types.check_ansys_grpc_dpf_version(MockServer(remote_server), timeout=2.0)
 
