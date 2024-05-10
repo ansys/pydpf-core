@@ -105,6 +105,8 @@ class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
 
             random_color = "color" not in kwargs
             for mesh in self:
+                if mesh.nodes.n_nodes == 0:
+                    continue
                 if random_color:
                     kwargs["color"] = [random(), random(), random()]
                 pl.add_mesh(

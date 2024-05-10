@@ -274,6 +274,15 @@ class CollectionCAPI(collection_abstract_api.CollectionAbstractAPI):
 		return res
 
 	@staticmethod
+	def collection_push_back_entry(collection, labelspace, obj):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Collection_PushBackEntry(collection._internal_obj if collection is not None else None, labelspace._internal_obj if labelspace is not None else None, obj._internal_obj if obj is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def collection_set_entry_by_index(collection, index, obj):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
@@ -305,6 +314,15 @@ class CollectionCAPI(collection_abstract_api.CollectionAbstractAPI):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.Collection_GetObjLabelSpaceByIndex(collection._internal_obj if collection is not None else None, utils.to_int32(index), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def collection_get_objs_for_label_space(collection, space, size):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Collection_GetObjsForLabelSpace(collection._internal_obj if collection is not None else None, space._internal_obj if space is not None else None, utils.to_uint64_ptr(size), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res

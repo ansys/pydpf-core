@@ -296,8 +296,12 @@ class Faces:
         """
         if faceindex is None:
             faceindex = self._mesh.property_field(face_properties.faces_type).scoping.index(faceid)
+            if (faceindex < 0):
+                raise ValueError('face not found')
         elif faceid is None:
             faceid = self._mesh.property_field(face_properties.faces_type).scoping.id(faceindex)
+            if (faceid < 0):
+                raise ValueError('face not found')
         nodeIdx = self._mesh.property_field(
             face_properties.faces_nodes_connectivity
         ).get_entity_data(faceindex)

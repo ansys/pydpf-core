@@ -12,7 +12,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class field_to_fc(Operator):
-    """Creates a field container containing the field provided on pin 0.
+    """Creates a fields container containing the field provided on pin 0.
 
     Parameters
     ----------
@@ -59,7 +59,7 @@ class field_to_fc(Operator):
     @staticmethod
     def _spec():
         description = (
-            """Creates a field container containing the field provided on pin 0."""
+            """Creates a fields container containing the field provided on pin 0."""
         )
         spec = Specification(
             description=description,
