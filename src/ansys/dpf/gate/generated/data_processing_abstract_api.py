@@ -64,6 +64,10 @@ class DataProcessingAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def data_processing_delete_shared_object_array(data, size):
+		raise NotImplementedError
+
+	@staticmethod
 	def data_processing_unknown_has_given_hash(data, expected_type_hash):
 		raise NotImplementedError
 

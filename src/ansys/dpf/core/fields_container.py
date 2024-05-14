@@ -297,7 +297,7 @@ class FieldsContainer(CollectionBase[field.Field]):
 
         return super()._get_entry(label_space)
 
-    def __getitem__(self, key):
+    def __getitem__(self, key) -> field.Field:
         """Retrieve the field at a requested index.
 
         Parameters

@@ -124,6 +124,10 @@ class CollectionAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def collection_push_back_entry(collection, labelspace, obj):
+		raise NotImplementedError
+
+	@staticmethod
 	def collection_set_entry_by_index(collection, index, obj):
 		raise NotImplementedError
 
@@ -137,6 +141,10 @@ class CollectionAbstractAPI:
 
 	@staticmethod
 	def collection_get_obj_label_space_by_index(collection, index):
+		raise NotImplementedError
+
+	@staticmethod
+	def collection_get_objs_for_label_space(collection, space, size):
 		raise NotImplementedError
 
 	@staticmethod

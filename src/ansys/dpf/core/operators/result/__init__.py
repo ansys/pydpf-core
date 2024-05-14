@@ -91,6 +91,8 @@ from .elastic_strain_YZ import elastic_strain_YZ
 from .elastic_strain_Z import elastic_strain_Z 
 from .elastic_strain_energy_density import elastic_strain_energy_density 
 from .elastic_strain_eqv import elastic_strain_eqv 
+from .elastic_strain_intensity import elastic_strain_intensity 
+from .elastic_strain_max_shear import elastic_strain_max_shear 
 from .elastic_strain_principal_1 import elastic_strain_principal_1 
 from .elastic_strain_principal_2 import elastic_strain_principal_2 
 from .elastic_strain_principal_3 import elastic_strain_principal_3 
@@ -101,6 +103,9 @@ from .electric_potential import electric_potential
 from .element_centroids import element_centroids 
 from .element_nodal_forces import element_nodal_forces 
 from .element_orientations import element_orientations 
+from .element_orientations_X import element_orientations_X 
+from .element_orientations_Y import element_orientations_Y 
+from .element_orientations_Z import element_orientations_Z 
 from .elemental_heat_generation import elemental_heat_generation 
 from .elemental_mass import elemental_mass 
 from .elemental_volume import elemental_volume 
@@ -199,6 +204,8 @@ from .plastic_strain_YZ import plastic_strain_YZ
 from .plastic_strain_Z import plastic_strain_Z 
 from .plastic_strain_energy_density import plastic_strain_energy_density 
 from .plastic_strain_eqv import plastic_strain_eqv 
+from .plastic_strain_intensity import plastic_strain_intensity 
+from .plastic_strain_max_shear import plastic_strain_max_shear 
 from .plastic_strain_principal_1 import plastic_strain_principal_1 
 from .plastic_strain_principal_2 import plastic_strain_principal_2 
 from .plastic_strain_principal_3 import plastic_strain_principal_3 
@@ -239,6 +246,8 @@ from .stress_Y import stress_Y
 from .stress_YZ import stress_YZ 
 from .stress_Z import stress_Z 
 from .stress_eqv_as_mechanical import stress_eqv_as_mechanical 
+from .stress_intensity import stress_intensity 
+from .stress_max_shear import stress_max_shear 
 from .stress_principal_1 import stress_principal_1 
 from .stress_principal_2 import stress_principal_2 
 from .stress_principal_3 import stress_principal_3 
