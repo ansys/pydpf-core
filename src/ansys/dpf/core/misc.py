@@ -4,9 +4,6 @@ import glob
 import os
 import re
 
-import packaging.version
-import pkg_resources
-import importlib
 from pkgutil import iter_modules
 from ansys.dpf.core import errors
 from ansys.dpf.gate._version import __ansys_version__
