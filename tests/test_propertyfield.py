@@ -41,6 +41,14 @@ def test_set_get_data_property_field(server_type):
     assert np.allclose(field.data, data)
 
 
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_1,
+                    reason="Available starting with DPF 8.1")
+def test_set_get_name_property_field(server_type):
+    field = dpf.core.PropertyField(server=server_type)
+    field.name = "test"
+    assert field.name == "test"
+
+
 def test_create_property_field_push_back(server_type):
     f_vec = core.PropertyField(1, core.natures.vector, core.locations.nodal, server=server_type)
     f_vec.append([1, 2, 4], 1)
@@ -71,13 +79,20 @@ def check_on_property_field_from_simplebar(prop_field):
     assert prop_field.data is not None
     assert len(prop_field.data) != 0
     assert len(prop_field.data) == 1400
-    assert prop_field.data[15] == 29
-    assert np.allclose(prop_field.data[12], 10)
+    if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_1:
+        assert prop_field.data[15] == 1502
+        assert np.allclose(prop_field.data[12], 1603)
+        assert prop_field.data[1201] == 1980
+        assert prop_field.get_entity_data(8) == [1605]
+        assert prop_field.get_entity_data_by_id(23) == [1707]
+    else:
+        assert prop_field.data[15] == 29
+        assert np.allclose(prop_field.data[12], 10)
+        assert prop_field.data[1201] == 2500
+        assert prop_field.get_entity_data(8) == [7]
+        assert prop_field.get_entity_data_by_id(23) == [60]
     assert prop_field.elementary_data_count == 1400
-    assert prop_field.data[1201] == 2500
     assert prop_field.elementary_data_shape == 1
-    assert prop_field.get_entity_data(8) == [7]
-    assert prop_field.get_entity_data_by_id(23) == [60]
     assert prop_field.location == locations.elemental
     assert prop_field.location == prop_field.scoping.location
     assert prop_field.size == 1400

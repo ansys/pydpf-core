@@ -11,7 +11,7 @@ import traceback
 import warnings
 
 from enum import Enum
-from ansys.dpf.core.check_version import version_requires, server_meet_version
+from ansys.dpf.core.check_version import version_requires, server_meet_version, server_meet_version_and_raise
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.errors import DpfVersionNotSupported
 from ansys.dpf.core.inputs import Inputs
@@ -31,6 +31,7 @@ from ansys.dpf.gate import (
     collection_grpcapi,
     dpf_vector,
     object_handler,
+    integral_types
 )
 
 LOG = logging.getLogger(__name__)
@@ -238,7 +239,7 @@ class Operator:
             from ansys.dpf.core import collection
 
             if server_meet_version("3.0", self._server):
-                inpt = collection.Collection.integral_collection(inpt, self._server)
+                inpt = collection.CollectionBase.integral_collection(inpt, self._server)
                 self._api.operator_connect_collection_as_vector(self, pin, inpt)
             else:
                 if all(isinstance(x, int) for x in inpt):
@@ -280,6 +281,42 @@ class Operator:
         """
         self._api.operator_connect_operator_as_input(self, pin, op)
 
+    @staticmethod
+    def _getoutput_string(self, pin):
+        out = Operator._getoutput_string_as_bytes(self, pin)
+        if out is not None and not isinstance(out, str):
+            return out.decode('utf-8')
+        return out
+
+    @staticmethod
+    def _connect_string(self, pin, str):
+        return Operator._connect_string_as_bytes(self, pin, str.encode('utf-8'))
+
+    @staticmethod
+    def _getoutput_string_as_bytes(self, pin):
+        if server_meet_version("8.0", self._server):
+            size = integral_types.MutableUInt64(0)
+            return self._api.operator_getoutput_string_with_size(self, pin, size)
+        else:
+            return self._api.operator_getoutput_string(self, pin)
+
+    @staticmethod
+    def _getoutput_bytes(self, pin):
+        server_meet_version_and_raise(
+            "8.0",
+            self._server,
+            "output of type bytes available with server's version starting at 8.0 (Ansys 2024R2)."
+        )
+        return Operator._getoutput_string_as_bytes(self, pin)
+
+    @staticmethod
+    def _connect_string_as_bytes(self, pin, str):
+        if server_meet_version("8.0", self._server):
+            size = integral_types.MutableUInt64(len(str))
+            return self._api.operator_connect_string_with_size(self, pin, str, size)
+        else:
+            return self._api.operator_connect_string(self, pin, str)
+
     @property
     def _type_to_output_method(self):
         from ansys.dpf.core import (
@@ -302,12 +339,15 @@ class Operator:
             streams_container,
             generic_data_container,
             mesh_info,
+            collection_base,
+            any,
         )
 
         out = [
             (bool, self._api.operator_getoutput_bool),
             (int, self._api.operator_getoutput_int),
-            (str, self._api.operator_getoutput_string),
+            (str, self._getoutput_string),
+            (bytes, self._getoutput_bytes),
             (float, self._api.operator_getoutput_double),
             (field.Field, self._api.operator_getoutput_field, "field"),
             (
@@ -381,17 +421,24 @@ class Operator:
             (
                 dpf_vector.DPFVectorInt,
                 self._api.operator_getoutput_int_collection,
-                lambda obj: collection.IntCollection(
+                lambda obj, type: collection_base.IntCollection(
                     server=self._server, collection=obj
                 ).get_integral_entries(),
             ),
             (
                 dpf_vector.DPFVectorDouble,
                 self._api.operator_getoutput_double_collection,
-                lambda obj: collection.FloatCollection(
+                lambda obj, type: collection_base.FloatCollection(
                     server=self._server, collection=obj
                 ).get_integral_entries(),
             ),
+            (
+                collection.Collection,
+                self._api.operator_getoutput_as_any,
+                lambda obj, type: any.Any(
+                    server=self._server, any_dpf=obj
+                ).cast(type),
+            )
         ]
         if hasattr(self._api, "operator_getoutput_generic_data_container"):
             out.append(
@@ -409,7 +456,7 @@ class Operator:
             cyclic_support,
             data_sources,
             field,
-            collection,
+            collection_base,
             meshed_region,
             property_field,
             string_field,
@@ -425,7 +472,8 @@ class Operator:
         out = [
             (bool, self._api.operator_connect_bool),
             ((int, Enum), self._api.operator_connect_int),
-            (str, self._api.operator_connect_string),
+            (str, self._connect_string),
+            (bytes, self._connect_string_as_bytes),
             (float, self._api.operator_connect_double),
             (field.Field, self._api.operator_connect_field),
             (property_field.PropertyField, self._api.operator_connect_property_field),
@@ -435,7 +483,7 @@ class Operator:
                 self._api.operator_connect_custom_type_field,
             ),
             (scoping.Scoping, self._api.operator_connect_scoping),
-            (collection.Collection, self._api.operator_connect_collection),
+            (collection_base.CollectionBase, self._api.operator_connect_collection),
             (data_sources.DataSources, self._api.operator_connect_data_sources),
             (
                 model.Model,
@@ -488,19 +536,28 @@ class Operator:
             return self._api.operator_run(self)
         out = None
         for type_tuple in self._type_to_output_method:
-            if output_type is type_tuple[0]:
+            if issubclass(output_type, type_tuple[0]):
                 if len(type_tuple) >= 3:
+                    internal_obj = type_tuple[1](self, pin)
+                    if internal_obj is None:
+                        self._progress_thread = None
+                        return
                     if isinstance(type_tuple[2], str):
-                        parameters = {type_tuple[2]: type_tuple[1](self, pin)}
+                        parameters = {type_tuple[2]: internal_obj}
                         out = output_type(**parameters, server=self._server)
                     else:
-                        out = type_tuple[2](type_tuple[1](self, pin))
+                        out = type_tuple[2](internal_obj, output_type)
                 if out is None:
+                    internal_obj = type_tuple[1](self, pin)
+                    if internal_obj is None:
+                        self._progress_thread = None
+                        return
                     try:
-                        return output_type(type_tuple[1](self, pin), server=self._server)
+                        return output_type(internal_obj, server=self._server)
                     except TypeError:
                         self._progress_thread = None
-                        return output_type(type_tuple[1](self, pin))
+                        return output_type(internal_obj)
+
         if out is not None:
             self._progress_thread = None
             return out

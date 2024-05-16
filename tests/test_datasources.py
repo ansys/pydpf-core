@@ -25,11 +25,17 @@ def test_setresultpath_data_sources(allkindofcomplexity, server_type):
 def test_setdomainresultpath_data_sources(allkindofcomplexity, server_type):
     data_sources = dpf.core.DataSources(server=server_type)
     data_sources.set_domain_result_file_path(allkindofcomplexity, 0)
+    data_sources.set_domain_result_file_path(allkindofcomplexity, 0, key="rst")
 
 
 def test_addpath_data_sources(allkindofcomplexity, server_type):
     data_sources = dpf.core.DataSources(server=server_type)
     data_sources.add_file_path(allkindofcomplexity)
+
+
+def test_add_domain_file_path_data_sources(allkindofcomplexity, server_type):
+    data_sources = dpf.core.DataSources(server=server_type)
+    data_sources.add_domain_file_path(allkindofcomplexity, "rst", 1)
 
 
 def test_adddomainpath_data_sources(allkindofcomplexity, server_type):
@@ -40,6 +46,15 @@ def test_adddomainpath_data_sources(allkindofcomplexity, server_type):
 def test_addfilepathspecifiedresult_data_sources(allkindofcomplexity, server_type):
     data_sources = dpf.core.DataSources(server=server_type)
     data_sources.add_file_path_for_specified_result(allkindofcomplexity, "d3plot")
+
+
+def test_setresultpath_data_sources_no_extension(d3plot_beam, binout_glstat, server_type):
+    data_sources = dpf.core.DataSources(server=server_type)
+    data_sources.set_result_file_path(d3plot_beam)
+    assert data_sources.result_key == "d3plot"
+    data_sources = dpf.core.DataSources(server=server_type)
+    data_sources.set_result_file_path(binout_glstat)
+    assert data_sources.result_key == "binout"
 
 
 def test_addupstream_data_sources(allkindofcomplexity, server_type):
@@ -61,6 +76,9 @@ def test_print_data_sources(allkindofcomplexity, server_type):
 
 
 def test_data_sources_from_data_sources(allkindofcomplexity, server_type):
+    with pytest.raises(ValueError) as e:
+        data_sources_false = dpf.core.DataSources(data_sources="Wrong Input", server=server_type)
+        assert "gRPC data sources" in e
     data_sources = dpf.core.DataSources(server=server_type)
     data_sources2 = dpf.core.DataSources(data_sources=data_sources, server=server_type)
 

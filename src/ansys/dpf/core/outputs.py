@@ -56,6 +56,8 @@ class Output:
             type_output = types.vec_double
         elif type_output == "vector<int32>":
             type_output = types.vec_int
+        elif type_output == "int32":
+            type_output = types.int
 
         type_output_derive_class = self._spec.name_derived_class
 
@@ -109,6 +111,9 @@ class _Outputs:
                     elif asked_camel_types == "Any":
                         corresponding_pins.append(pin)
         return corresponding_pins
+
+    def __getitem__(self, index):
+        return self._outputs[index]
 
     def __str__(self):
         docstr = "Available outputs:\n"

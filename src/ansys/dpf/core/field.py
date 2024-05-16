@@ -12,7 +12,6 @@ from ansys.dpf.core import dimensionality
 from ansys.dpf.core.common import locations, natures, types, _get_size_of_list
 from ansys.dpf.core.field_base import _FieldBase, _LocalFieldBase
 from ansys.dpf.core.field_definition import FieldDefinition
-from ansys.dpf.core.plotter import Plotter
 from ansys.dpf.gate import (
     field_abstract_api,
     field_capi,
@@ -36,8 +35,8 @@ class Field(_FieldBase):
     ``scoping`` identifies to which entity the first ``entity data`` belongs.
 
     For more information, see the `Fields container and fields
-    <https://dpf.docs.pyansys.com/user_guide/fields_container.html#ref-user-guide-fields-container>
-    `_ documentation section.
+    <https://dpf.docs.pyansys.com/version/stable/user_guide/fields_container.html>`_
+    documentation section.
 
 
     Parameters
@@ -232,15 +231,19 @@ class Field(_FieldBase):
         ...     for i in range(1,num_entities+1):
         ...         f.append([[0.1*i,0.2*i, 0.3*i],[0.1*i,0.2*i, 0.3*i]],i)
         ...         f.get_entity_data(i-1),[[0.1*i,0.2*i, 0.3*i],[0.1*i,0.2*i, 0.3*i]]
-        (array([[0.1, 0.2, 0.3],
-               [0.1, 0.2, 0.3]]), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3]])
-        (array([[0.2, 0.4, 0.6],
-               [0.2, 0.4, 0.6]]), [[0.2, 0.4, 0.6], [0.2, 0.4, 0.6]])
-        (array([[0.3, 0.6, 0.9],
-               [0.3, 0.6, 0.9]]), [[0.30000000000000004, 0.6000000000000001, 0.8999999999999999], [0.30000000000000004, 0.6000000000000001, 0.8999999999999999]])
+        (DPFArray([[0.1, 0.2, 0.3],
+                  [0.1, 0.2, 0.3]]), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3]])
+        (DPFArray([[0.2, 0.4, 0.6],
+                  [0.2, 0.4, 0.6]]), [[0.2, 0.4, 0.6], [0.2, 0.4, 0.6]])
+        (DPFArray([[0.3, 0.6, 0.9],
+                  [0.3, 0.6, 0.9]]), [[0.30000000000000004, 0.6000000000000001, 0.8999999999999999], [0.30000000000000004, 0.6000000000000001, 0.8999999999999999]])
 
         """  # noqa: E501
-        return _LocalField(self)
+        # Do not copy data if using InProcess server
+        if self._server.client is not None:
+            return _LocalField(self)
+        else:
+            return self
 
     @property
     def location(self):
@@ -335,7 +338,7 @@ class Field(_FieldBase):
         fielddef.shell_layers = value
         self.field_definition = fielddef
 
-    def get_entity_data(self, index):
+    def get_entity_data(self, index: int) -> dpf_array.DPFArray:
         try:
             vec = dpf_vector.DPFVectorDouble(client=self._server.client)
             self._api.csfield_get_entity_data_for_dpf_vector(
@@ -350,7 +353,7 @@ class Field(_FieldBase):
             data.shape = (data.size // n_comp, n_comp)
         return data
 
-    def get_entity_data_by_id(self, id):
+    def get_entity_data_by_id(self, id: int) -> dpf_array.DPFArray:
         try:
             vec = dpf_vector.DPFVectorDouble(client=self._server.client)
             self._api.csfield_get_entity_data_by_id_for_dpf_vector(
@@ -476,6 +479,7 @@ class Field(_FieldBase):
             Additional keyword arguments for the plotter. For additional keyword
             arguments, see ``help(pyvista.plot)``.
         """
+        from ansys.dpf.core.plotter import Plotter
         pl = Plotter(self.meshed_region, **kwargs)
         return pl.plot_contour(
             self,
@@ -860,12 +864,12 @@ class _LocalField(_LocalFieldBase, Field):
     ...     for i in range(1,num_entities+1):
     ...         f.append(np.array([[0.1*i,0.2*i, 0.3*i],[0.1*i,0.2*i, 0.3*i]]),i)
     ...         f.get_entity_data(i-1),[[0.1*i,0.2*i, 0.3*i],[0.1*i,0.2*i, 0.3*i]]
-    (array([[0.1, 0.2, 0.3],
-           [0.1, 0.2, 0.3]]), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3]])
-    (array([[0.2, 0.4, 0.6],
-           [0.2, 0.4, 0.6]]), [[0.2, 0.4, 0.6], [0.2, 0.4, 0.6]])
-    (array([[0.3, 0.6, 0.9],
-           [0.3, 0.6, 0.9]]), [[0.30000000000000004, 0.6000000000000001, 0.8999999999999999], [0.30000000000000004, 0.6000000000000001, 0.8999999999999999]])
+    (DPFArray([[0.1, 0.2, 0.3],
+              [0.1, 0.2, 0.3]]), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3]])
+    (DPFArray([[0.2, 0.4, 0.6],
+              [0.2, 0.4, 0.6]]), [[0.2, 0.4, 0.6], [0.2, 0.4, 0.6]])
+    (DPFArray([[0.3, 0.6, 0.9],
+              [0.3, 0.6, 0.9]]), [[0.30000000000000004, 0.6000000000000001, 0.8999999999999999], [0.30000000000000004, 0.6000000000000001, 0.8999999999999999]])
 
     """  # noqa: E501
 

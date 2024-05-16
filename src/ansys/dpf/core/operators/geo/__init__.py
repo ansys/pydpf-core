@@ -4,6 +4,7 @@ from .element_nodal_contribution import element_nodal_contribution
 from .elements_facets_surfaces_over_time import elements_facets_surfaces_over_time 
 from .elements_volume import elements_volume 
 from .elements_volumes_over_time import elements_volumes_over_time 
+from .faces_area import faces_area 
 from .gauss_to_node import gauss_to_node 
 from .integrate_over_elements import integrate_over_elements 
 from .normals import normals 
@@ -15,4 +16,3 @@ from .rotate_in_cylindrical_cs_fc import rotate_in_cylindrical_cs_fc
 from .spherical_to_cartesian import spherical_to_cartesian 
 from .spherical_to_cartesian_fc import spherical_to_cartesian_fc 
 from .to_polar_coordinates import to_polar_coordinates 
-from .transform_invariant_terms_rbd import transform_invariant_terms_rbd 

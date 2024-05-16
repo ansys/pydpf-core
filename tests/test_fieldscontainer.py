@@ -29,6 +29,17 @@ def test_create_fields_container(server_type):
     assert fc._internal_obj is not None
 
 
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0,
+    reason="Renaming collections is supported via gRPC starting server version 8.0",
+)
+def test_rename_fields_container(server_type):
+    fc = FieldsContainer(server=server_type)
+    assert fc.name is None
+    fc.name = "test"
+    assert fc.name == "test"
+
+
 def test_empty_index(server_type):
     fc = FieldsContainer(server=server_type)
     with pytest.raises(IndexError):
@@ -527,7 +538,3 @@ def test_fields_container_empty_tf_support(server_type):
     fields_container = dpf.FieldsContainer(server=server_type)
 
     assert fields_container.time_freq_support == None
-
-
-if __name__ == "__main__":
-    test_add_field_by_time_id()

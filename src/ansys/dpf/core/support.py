@@ -10,7 +10,7 @@ from ansys.dpf.gate import support_capi, support_grpcapi
 from ansys.dpf.core.check_version import version_requires
 
 from ansys.dpf.core import server as server_module
-from ansys.dpf.core import collection
+from ansys.dpf.core import collection_base
 
 
 class Support:
@@ -127,7 +127,7 @@ class Support:
         -----
         Available with server's version starting at 5.0.
         """
-        coll_obj = collection.StringCollection(
+        coll_obj = collection_base.StringCollection(
             collection=self._support_api.support_get_property_names_as_string_coll_for_fields(self),
             server=self._server,
         )
@@ -145,7 +145,7 @@ class Support:
         -----
         Available with server's version starting at 5.0.
         """
-        coll_obj = collection.StringCollection(
+        coll_obj = collection_base.StringCollection(
             collection=self._support_api.support_get_property_names_as_string_coll_for_property_fields(  # noqa: E501
                 self
             ),
@@ -165,7 +165,7 @@ class Support:
         -----
         Available with server's version starting at 5.0.
         """
-        coll_obj = collection.StringCollection(
+        coll_obj = collection_base.StringCollection(
             collection=self._support_api.support_get_property_names_as_string_coll_for_string_fields(  # noqa: E501
                 self
             ),

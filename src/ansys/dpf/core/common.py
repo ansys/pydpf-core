@@ -99,6 +99,7 @@ class types(Enum):
     scopings_container = -2
     meshes_container = -3
     streams_container = -4
+    bytes = -5
 
 
 def types_enum_to_types():
@@ -131,7 +132,8 @@ def types_enum_to_types():
         types.int: int,
         types.double: float,
         types.bool: bool,
-        types.collection: collection.Collection,
+        types.bytes: bytes,
+        types.collection: collection.CollectionBase,
         types.fields_container: fields_container.FieldsContainer,
         types.scopings_container: scopings_container.ScopingsContainer,
         types.meshes_container: meshes_container.MeshesContainer,
@@ -337,9 +339,23 @@ def type_to_internal_object_keyword():
         workflow,
         streams_container,
         generic_data_container,
+        any,
+        collection,
     )
 
-    return {
+    class _smart_dict_types(dict):
+        def __getitem__(self, item):
+            """If found returns the item of key == ìtem`, else returns item with key matching `issubclass(item,
+            key)`."""
+            if item in self:
+                return super().__getitem__(item)
+            else:
+                for key, value in self.items():
+                    if issubclass(item, key):
+                        return value
+            raise KeyError
+
+    return _smart_dict_types({
         field.Field: "field",
         property_field.PropertyField: "property_field",
         string_field.StringField: "string_field",
@@ -358,4 +374,17 @@ def type_to_internal_object_keyword():
         data_tree.DataTree: "data_tree",
         dpf_operator.Operator: "operator",
         generic_data_container.GenericDataContainer: "generic_data_container",
-    }
+        any.Any: "any_dpf",
+        collection.Collection: "collection",
+    })
+
+
+def create_dpf_instance(type, internal_obj, server):
+    # get current type's constructors' variable keyword for passing the internal_obj
+    internal_obj_keyword = type_to_internal_object_keyword()[type]
+
+    # wrap parameters in a dictionary for parameters expansion when calling
+    # constructor
+    keyword_args = {internal_obj_keyword: internal_obj, "server": server}
+    # call constructor
+    return type(**keyword_args)

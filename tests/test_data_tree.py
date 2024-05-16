@@ -317,9 +317,9 @@ def test_runtime_core_config(server_type):
     timeout_init = core_config.license_timeout_in_seconds
     core_config.license_timeout_in_seconds = 4.0
     license_timeout_in_seconds = core_config.license_timeout_in_seconds
-    assert license_timeout_in_seconds == 4.0
+    assert abs(license_timeout_in_seconds - 4.0) < 1.0e-16
     core_config.license_timeout_in_seconds = timeout_init
-    assert core_config.license_timeout_in_seconds == timeout_init
+    assert abs(core_config.license_timeout_in_seconds - timeout_init) < 1.0e-16
 
 
 @conftest.raises_for_servers_version_under("4.0")
@@ -385,3 +385,33 @@ def test_attribute_errors_data_tree(server_type):
         data_tree.attribute_names = "hello"
     with pytest.raises(AttributeError, match="can't set attribute"):
         data_tree.sub_tree_names = "hello"
+
+
+@conftest.raises_for_servers_version_under("4.0")
+def test_add_data_bool_data_tree():
+    data_tree = dpf.DataTree()
+    with data_tree.to_fill() as to_fill:
+        data_tree.int = 1
+        data_tree.bool = True
+    assert data_tree.get_as("int", dpf.types.int) == 1
+    assert data_tree.get_as("bool", dpf.types.bool) == True
+
+
+@conftest.raises_for_servers_version_under("4.0")
+def test_typed_get_as_data_tree(server_type):
+    data_tree = dpf.DataTree(server=server_type)
+    with data_tree.to_fill() as to_fill:
+        to_fill.int = 1
+        to_fill.double = 1.0
+        to_fill.string = "hello"
+        to_fill.list_int = [1, 2]
+        to_fill.list_double = [1.5, 2.5]
+        to_fill.list_string = ["hello", "bye"]
+    assert data_tree.get_as("list_string") == "hello;bye"
+    assert data_tree.get_as("int", int) == 1
+    assert data_tree.get_as("int", bool) == True
+    assert data_tree.get_as("double", float) == 1.0
+    assert data_tree.get_as("string", str) == "hello"
+    assert data_tree.get_as("list_int", dpf.types.vec_int) == [1, 2]
+    assert data_tree.get_as("list_double", dpf.types.vec_double) == [1.5, 2.5]
+    assert data_tree.get_as("list_string", dpf.types.vec_string) == ["hello", "bye"]

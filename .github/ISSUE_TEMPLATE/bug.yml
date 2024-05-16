@@ -59,9 +59,12 @@ body:
     id: dpf-server-version
     attributes:
       label: Which DPF/Ansys version are you using?
-      multiple: false
+      multiple: true
       options:
+       - 'DPF Server 2024.2.pre1'
+       - 'DPF Server 2024.2.pre0'
        - 'Ansys 2024 R1'
+       - 'DPF Server 2024.1.pre0'
        - 'Ansys 2023 R2'
        - 'DPF Server 2023.2.pre1'
        - 'DPF Server 2023.2.pre0'
@@ -85,6 +88,7 @@ body:
        - '3.9'
        - '3.10'
        - '3.11'
+       - '3.12'
     validations:
       required: true
 

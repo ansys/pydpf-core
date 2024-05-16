@@ -1,10 +1,13 @@
 exclude: |
     (?x)^(
-        docs/source/|
+        doc/source/|
         src/ansys/dpf/core/operators/|
         examples_notebooks/|
         src/ansys/dpf/core/__init__.py|
-        docs/styles/
+        doc/styles/|
+        src/ansys/dpf/gate/|
+        src/ansys/dpf/gatebin/|
+        src/ansys/grpc/dpf/|
     )
 repos:
 

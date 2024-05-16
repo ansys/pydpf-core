@@ -285,8 +285,7 @@ def test_load_api_without_awp_root(restore_awp_root):
     ver_to_check = ver_to_check[2:4] + ver_to_check[5:6]
     awp_root_name = "AWP_ROOT" + ver_to_check
     # delete awp_root
-    if os.environ.get(awp_root_name, None):
-        del os.environ[awp_root_name]
+    os.environ.pop(awp_root_name, None)
 
     # start CServer
     conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
@@ -363,21 +362,25 @@ def test_load_api_without_awp_root_no_gatebin(restore_awp_root):
 
     awp_root_name = "AWP_ROOT" + dpf.core.misc.__ansys_version__
     # delete awp_root
-    del os.environ[awp_root_name]
+    os.environ.pop(awp_root_name, None)
 
     # start CServer
     conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
-    with pytest.warns(
-        UserWarning,
-        match="Could not connect to remote server as ansys-dpf--gatebin "
-        "is missing. Trying again using LegacyGrpcServer.\n",
-    ):
-        serv = dpf.core.connect_to_server(
-            config=conf,
-            as_global=False,
-            ip=loc_serv.external_ip,
-            port=loc_serv.external_port,
-        )
+    # Cannot test this warning as it only happens if the server is remote,
+    # which we cannot test in the CI
+    # with pytest.warns(
+    #     UserWarning,
+    #     match="Could not connect to remote server as ansys.dpf.gatebin "
+    #           "is missing. Trying again using LegacyGrpcServer.\n",
+    # ):
+    # Here it will work as ansys.dpf.gate.load_api._get_api_path_from_installer_or_package
+    # will find DPFClientAPI in the server local installation.
+    _ = dpf.core.connect_to_server(
+        config=conf,
+        as_global=False,
+        ip=loc_serv.external_ip,
+        port=loc_serv.external_port,
+    )
 
 
 @pytest.mark.skipif(conftest.IS_USING_GATEBIN, reason="This test must no have gatebin installed")
@@ -492,21 +495,22 @@ def test_release_dpf(server_type):
         dpf.core.Operator("expansion::modal_superposition", server=server_type)
 
 
+@pytest.mark.skipif(running_docker, reason="BUG: not working on docker")
 @conftest.raises_for_servers_version_under("6.1")
-def test_license_context_manager_as_context():
-    field = dpf.core.Field()
+def test_license_context_manager_as_context(server_type):
+    field = dpf.core.Field(server=server_type)
     field.append([0.0, 0.0, 0.0], 1)
-    op = dpf.core.operators.filter.field_high_pass()
+    op = dpf.core.operators.filter.field_high_pass(server=server_type)
     op.inputs.field(field)
     op.inputs.threshold(0.0)
-    with dpf.core.LicenseContextManager() as lic:
+    with dpf.core.LicenseContextManager(server=server_type) as lic:
         out = op.outputs.field()
         st = lic.status
 
     assert len(st) != 0
     new_st = lic.status
     assert new_st == ""
-    lic = dpf.core.LicenseContextManager()
+    lic = dpf.core.LicenseContextManager(server=server_type)
     op.inputs.field(field)
     op.inputs.threshold(0.0)
     out = op.outputs.field()
@@ -514,11 +518,11 @@ def test_license_context_manager_as_context():
     assert str(new_st) == str(st)
     lic = None
 
-    op = dpf.core.operators.filter.field_high_pass()
+    op = dpf.core.operators.filter.field_high_pass(server=server_type)
     op.inputs.field(field)
     op.inputs.threshold(0.0)
     with dpf.core.LicenseContextManager(
-        increment_name="ansys", license_timeout_in_seconds=1.0
+        increment_name="ansys", license_timeout_in_seconds=1.0, server=server_type
     ) as lic:
         out = op.outputs.field()
         st = lic.status

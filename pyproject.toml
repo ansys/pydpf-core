@@ -1,14 +1,14 @@
 [build-system]
-requires = ["flit_core >=3.2,<4"]
-build-backend = "flit_core.buildapi"
+build-backend = "setuptools.build_meta"
+requires = ["setuptools>=61.0.0", "wheel"]
 
 [project]
-# Check https://flit.readthedocs.io/en/latest/pyproject_toml.html for all available sections
+# Check https://setuptools.pypa.io/en/stable/userguide/quickstart.html for all available sections
 name = "ansys-dpf-core"
-version = "0.9.1.dev0"
+version = "0.12.1.dev0"
 description = "Data Processing Framework - Python Core "
 readme = "README.md"
-requires-python = ">=3.8, <4"
+requires-python = ">=3.9, <4"
 license = {file = "LICENSE"}
 authors = [
     {name = "ANSYS, Inc.", email = "pyansys.core@ansys.com"},
@@ -19,16 +19,20 @@ maintainers = [
 
 classifiers = [
     "Development Status :: 4 - Beta",
-    "Programming Language :: Python :: 3",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Information Analysis",
     "License :: OSI Approved :: MIT License",
-    "Operating System :: OS Independent",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX",
+    "Programming Language :: Python :: 3",
 ]
 dependencies = [
-    "ansys-dpf-gate>=0.3.0",
+    "google-api-python-client",
+    "grpcio",
     "importlib-metadata >=4.0",
     "numpy",
     "packaging",
-    "protobuf<4",
+    "protobuf",
     "psutil",
     "setuptools",
     "tqdm",
@@ -45,9 +49,6 @@ plotting = [
     "imageio-ffmpeg",
 ]
 
-[tool.flit.module]
-name = "ansys.dpf.core"
-
 [project.urls]
 Homepage = "https://dpf.docs.pyansys.com/"
 Documentation = "https://dpf.docs.pyansys.com/"
@@ -58,7 +59,15 @@ Tracker = "https://github.com/ansys/pydpf-core/issues"
 line-length = 100
 
 [tool.coverage.run]
-source = ["ansys.dpf"]
+source = ["ansys.dpf.core"]
 
 [tool.coverage.report]
 show_missing = true
+
+[tool.setuptools.packages.find]
+namespaces = true
+where = ["src"]
+
+[tool.setuptools.package-data]
+"ansys.dpf.gatebin" = ["*.so", "*.dll"]
+

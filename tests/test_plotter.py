@@ -138,6 +138,13 @@ def test_plot_fieldscontainer_on_mesh(allkindofcomplexity):
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_fields_container_plot(allkindofcomplexity):
+    model = dpf.core.Model(allkindofcomplexity)
+    disp_fc = model.results.displacement().outputs.fields_container()
+    disp_fc.plot()
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_field_elemental_plot(allkindofcomplexity):
     model = Model(allkindofcomplexity)
     mesh = model.metadata.meshed_region

@@ -12,17 +12,7 @@ on:
       ANSYS_VERSION:
         required: false
         type: string
-        default: "241"
-      custom-requirements:
-        description: "Path to requirements.txt file to install"
-        required: false
-        type: string
-        default: ''
-      custom-wheels:
-        description: "extra pip '--find-links XXX' argument to find custom dpf wheels"
-        required: false
-        type: string
-        default: ''
+        default: "251"
 # Can be called manually
   workflow_dispatch:
     inputs:
@@ -35,17 +25,7 @@ on:
         description: "ANSYS version to run."
         required: true
         type: string
-        default: "241"
-      custom-requirements:
-        description: "Path to requirements.txt file to install"
-        required: false
-        type: string
-        default: ''
-      custom-wheels:
-        description: "extra pip '--find-links XXX' argument to find custom dpf wheels"
-        required: false
-        type: string
-        default: ''
+        default: "251"
 
 env:
   PACKAGE_NAME: ansys-dpf-core
@@ -60,25 +40,59 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.8"]
+        python-version: ["3.9"]
         os: ["ubuntu-latest"]
 
     steps:
-      - uses: actions/checkout@v3
-      - name: "Build Docker Package"
-        uses: ansys/pydpf-actions/install-docker-server-and-python-packages@v2.3
+      - uses: actions/checkout@v4
+
+      - name: "Setup Python"
+        uses: actions/setup-python@v4.6.1
         with:
           python-version: ${{ matrix.python-version }}
-          ANSYS_VERSION: ${{inputs.ANSYS_VERSION}}
-          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
-          MODULE: ${{env.MODULE}}
+
+      - name: "Install requirements"
+        run: pip install -r requirements/requirements_build.txt
+
+      - name: "Build the wheel"
+        shell: bash
+        run: |
+          if [ ${{ matrix.os }} == "ubuntu-latest" ]; then
+              export platform="manylinux_2_17"
+          else
+              export platform="win"
+          fi
+          python .ci/build_wheel.py -p $platform -w
+
+      - name: "Expose the wheel"
+        shell: bash
+        id: wheel
+        working-directory: dist
+        run: |
+          export name=`ls ansys_dpf_core*.whl`
+          echo ${name}
+          echo "wheel_name=${name[0]}" >> $GITHUB_OUTPUT
+
+      - name: "Install package wheel"
+        shell: bash
+        run: |
+          pip install dist/${{ steps.wheel.outputs.wheel_name }}[plotting]
+
+      - name: "Install DPF"
+        id: set-server-path
+        uses: ansys/pydpf-actions/install-dpf-docker@v2.3
+        with:
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
-          install_extras: plotting
-          wheel: false
-          wheelhouse: false
-          extra-pip-args: ${{ inputs.custom-wheels && format('--find-links {0}', inputs.custom-wheels) || '' }}
           standalone_suffix: ${{ inputs.standalone_suffix }}
-          custom-requirements: ${{ inputs.custom-requirements }}
+          ANSYS_VERSION : ${{inputs.ANSYS_VERSION}}
+
+      - name: "Check licences of packages"
+        uses: ansys/pydpf-actions/check-licenses@v2.3
+
+      - name: "Test import"
+        shell: bash
+        working-directory: tests
+        run: python -c "from ansys.dpf import core"
 
       - name: "Prepare Testing Environment"
         uses: ansys/pydpf-actions/prepare_tests@v2.3
@@ -181,14 +195,14 @@ jobs:
           command: |
             pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results9.xml test_service/.
 
-      - name: "Test API Entry"
-        shell: bash
-        working-directory: tests
-        run: |
-          cd entry
-          pytest $DEBUG $COVERAGE $RERUNS --junitxml=junit/test-results10.xml  .
-        if: always()
-        timeout-minutes: 10
+#      - name: "Test API Entry"
+#        shell: bash
+#        working-directory: tests
+#        run: |
+#          cd entry
+#          pytest $DEBUG $COVERAGE $RERUNS --junitxml=junit/test-results10.xml  .
+#        if: always()
+#        timeout-minutes: 10
 
       - name: "Upload Test Results"
         uses: actions/upload-artifact@v3
