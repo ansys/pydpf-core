@@ -2,7 +2,7 @@ ansys-platform-instancemanagement==1.1.1
 coverage==7.5.0
 imageio==2.34.1
 imageio-ffmpeg==0.4.7
-pytest==8.2.0
+pytest==7.4.4
 pytest-cov==4.1.0
 pytest-order==1.1.0
 pytest-rerunfailures==13.0
