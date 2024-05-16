@@ -9,7 +9,7 @@ import weakref
 
 from ansys.dpf.core import errors, misc
 from ansys.dpf.core import server as server_module
-from ansys.dpf.core.check_version import version_requires
+from ansys.dpf.core.check_version import version_requires, server_meet_version
 from ansys.dpf.core.runtime_config import (
     RuntimeClientConfig,
     RuntimeCoreConfig,
@@ -263,6 +263,7 @@ def _description(dpf_entity_message, server=None):
         return ""
 
 
+
 def _deep_copy(dpf_entity, server=None):
     """Returns a copy of the entity in the requested server
 
@@ -282,12 +283,19 @@ def _deep_copy(dpf_entity, server=None):
                                 core.Field, core.FieldsContainer, core.MeshedRegion...
     """
     from ansys.dpf.core.operators.serialization import serializer_to_string, string_deserializer
-    from ansys.dpf.core.common import types_enum_to_types
-
-    serializer = serializer_to_string(server=server)
+    from ansys.dpf.core.common import types_enum_to_types, types
+    entity_server = dpf_entity._server if hasattr(dpf_entity, "_server") else None
+    serializer = serializer_to_string(server=entity_server)
     serializer.connect(1, dpf_entity)
     deserializer = string_deserializer(server=server)
-    deserializer.connect(0, serializer, 0)
+    stream_type = 1 if server_meet_version("8.0", serializer._server) else 0
+    serializer.connect(-1, stream_type)
+    if stream_type == 1:
+        out = serializer.get_output(0, types.bytes)
+    else:
+        out = serializer.outputs.serialized_string  # Required for retro with 241
+    deserializer.connect(-1, stream_type)
+    deserializer.connect(0, out)
     type_map = types_enum_to_types()
     output_type = list(type_map.keys())[list(type_map.values()).index(dpf_entity.__class__)]
     return deserializer.get_output(1, output_type)
@@ -504,21 +512,6 @@ class BaseService:
         else:
             error = self._api.data_processing_release(1)
 
-    def get_runtime_client_config(self):
-        if self._server().has_client():
-            data_tree_tmp = self._api.data_processing_get_client_config_as_data_tree()
-            config_to_return = RuntimeClientConfig(data_tree=data_tree_tmp, server=self._server())
-        else:
-            if misc.RUNTIME_CLIENT_CONFIG is None:
-                from ansys.dpf.core import data_tree
-
-                misc.RUNTIME_CLIENT_CONFIG = RuntimeClientConfig(
-                    data_tree=data_tree.DataTree(server=self._server())
-                )
-                misc.RUNTIME_CLIENT_CONFIG._data_tree._holds_server = False
-            config_to_return = misc.RUNTIME_CLIENT_CONFIG
-        return config_to_return
-
     @version_requires("4.0")
     def get_runtime_core_config(self):
         if self._server().has_client():
@@ -606,7 +599,17 @@ class BaseService:
             server=self._server(),
         )
         data.get_ownership()
-        return self._api.data_processing_description_string(data=data)
+        try:
+            if server_meet_version("8.1", self._server()):
+                size = integral_types.MutableUInt64(0)
+                out = self._api.data_processing_description_string_with_size(data, size)
+                if out is not None and not isinstance(out, str):
+                    return out.decode('utf-8')
+            else:
+                return self._api.data_processing_description_string(data=data)
+        except Exception as e:
+            warnings.warn(str(e.args))
+            return ""
 
     def _get_separator(self, path):
         s1 = len(path.split("\\"))

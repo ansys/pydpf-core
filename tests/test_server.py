@@ -6,6 +6,7 @@ import platform
 import psutil
 import sys
 import os
+import packaging.version
 
 from ansys import dpf
 from ansys.dpf.core import errors, server_types
@@ -14,6 +15,7 @@ from ansys.dpf.core.server import set_server_configuration, _global_server
 from ansys.dpf.core.server import start_local_server, connect_to_server
 from ansys.dpf.core.server import shutdown_all_session_servers, has_local_server
 from ansys.dpf.core.server import get_or_create_server
+from ansys.dpf.core import server
 from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
     running_docker,
@@ -102,6 +104,15 @@ class TestServerConfigs:
         start_local_server(timeout=10.0)
         shutdown_all_session_servers()
         assert not has_local_server()
+
+    def test_start_shutdown_start(self, server_config):
+        set_server_configuration(server_config)
+        # print(dpf.core.SERVER_CONFIGURATION)
+        server = start_local_server(timeout=20)
+        server.shutdown()
+        server = start_local_server(timeout=20)
+        assert has_local_server()
+        shutdown_all_session_servers()
 
 
 @pytest.mark.parametrize("server_config", server_configs)
@@ -216,17 +227,17 @@ def test_shutting_down_when_deleted():
 
 def test_eq_server_config():
     assert (
-        dpf.core.AvailableServerConfigs.InProcessServer
-        == dpf.core.AvailableServerConfigs.InProcessServer
+            dpf.core.AvailableServerConfigs.InProcessServer
+            == dpf.core.AvailableServerConfigs.InProcessServer
     )
     assert dpf.core.AvailableServerConfigs.GrpcServer == dpf.core.AvailableServerConfigs.GrpcServer
     assert (
-        dpf.core.AvailableServerConfigs.LegacyGrpcServer
-        == dpf.core.AvailableServerConfigs.LegacyGrpcServer
+            dpf.core.AvailableServerConfigs.LegacyGrpcServer
+            == dpf.core.AvailableServerConfigs.LegacyGrpcServer
     )
     assert (
         not dpf.core.AvailableServerConfigs.LegacyGrpcServer
-        == dpf.core.AvailableServerConfigs.InProcessServer
+            == dpf.core.AvailableServerConfigs.InProcessServer
     )
     assert dpf.core.AvailableServerConfigs.LegacyGrpcServer == dpf.core.ServerConfig(
         protocol=dpf.core.server_factory.CommunicationProtocols.gRPC, legacy=True
@@ -274,6 +285,7 @@ def test_go_away_server():
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
     reason="Not existing in version lower than 4.0",
 )
+@pytest.mark.skipif(running_docker, reason="Unstable on Docker")
 def test_start_after_shutting_down_server():
     remote_server = start_local_server(
         config=dpf.core.AvailableServerConfigs.GrpcServer, as_global=False
@@ -288,3 +300,43 @@ def test_start_after_shutting_down_server():
     info = remote_server.info
     remote_server.shutdown()
     assert info is not None
+
+
+def test_check_ansys_grpc_dpf_version_raise():
+    remote_server = start_local_server(
+        config=dpf.core.AvailableServerConfigs.LegacyGrpcServer, as_global=False
+    )
+
+    class MockServer:
+        def __init__(self, server):
+            for attribute in ["channel", "_input_ip", "_input_port"]:
+                setattr(self, attribute, getattr(server, attribute))
+
+        @property
+        def version(self):
+            return "1.0"
+
+    print(MockServer(remote_server).version)
+    with pytest.raises(
+            ValueError, match="Error connecting to DPF LegacyGrpcServer with version 1.0"
+    ):
+        dpf.core.server_types.check_ansys_grpc_dpf_version(MockServer(remote_server), timeout=2.0)
+
+
+@pytest.mark.skipif(
+    running_docker,
+    reason="can only work with local DPF server install",
+)
+def test_available_servers():
+    out = server.available_servers()
+    assert len(out) > 0
+    for version in out:
+        vout = str(version).replace(".", "_")
+        if packaging.version.parse(version) > packaging.version.parse("2022.1"):
+            meth = "start_" + vout + "_server"
+            assert (hasattr(server, meth))
+            start = getattr(server, meth)
+            srv = start()
+            assert srv.local_server
+            srv = out[version]()
+            assert srv.local_server

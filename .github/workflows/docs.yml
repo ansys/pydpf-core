@@ -7,23 +7,13 @@ on:
       python_version:
         required: false
         type: string
-        default: "3.8"
+        default: "3.9"
       ANSYS_VERSION:
         required: false
         type: string
-        default: "241"
+        default: "251"
       standalone_suffix:
         description: "Suffix of the branch on standalone"
-        required: false
-        type: string
-        default: ''
-      custom-requirements:
-        description: "Path to requirements.txt file to install"
-        required: false
-        type: string
-        default: ''
-      custom-wheels:
-        description: "extra pip '--find-links XXX' argument to find custom dpf wheels"
         required: false
         type: string
         default: ''
@@ -39,24 +29,14 @@ on:
         description: "Python interpreter"
         required: true
         type: string
-        default: "3.8"
+        default: "3.9"
       ANSYS_VERSION:
         description: "ANSYS version"
         required: true
         type: string
-        default: "241"
+        default: "251"
       standalone_suffix:
         description: "Suffix of the branch on standalone"
-        required: false
-        type: string
-        default: ''
-      custom-requirements:
-        description: "Path to requirements.txt file to install"
-        required: false
-        type: string
-        default: ''
-      custom-wheels:
-        description: "extra pip --find-links argument to find custom dpf wheels"
         required: false
         type: string
         default: ''
@@ -68,16 +48,18 @@ env:
 jobs:
   doc-style:
     name: "Check doc style"
-    uses: ./.github/workflows/docs-style.yml
-    with:
-      vale_reporter: ${{ (inputs.event_name == 'pull_request') && 'github-check' || 'local' }}
-    secrets: inherit
+    runs-on: ubuntu-latest
+    steps:
+        - name: "Running documentation style checks"
+          uses: ansys/actions/doc-style@v5.0
+          with:
+            token: ${{ secrets.GITHUB_TOKEN }}
 
   docs:
     name: "Documentation"
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: "Set licensing if necessary"
         if: inputs.ANSYS_VERSION > 231
@@ -86,26 +68,53 @@ jobs:
           echo "ANSYS_DPF_ACCEPT_LA=Y" >> $GITHUB_ENV
           echo "ANSYSLMD_LICENSE_FILE=1055@${{ secrets.LICENSE_SERVER }}" >> $GITHUB_ENV
 
-      - name: Setup Python
-        uses: actions/setup-python@v4.6.0
+      - name: "Setup Python"
+        uses: actions/setup-python@v4.6.1
         with:
           python-version: ${{ inputs.python_version }}
 
-      - name: "Build Package"
-        id: build-package
-        uses: ansys/pydpf-actions/build_package@v2.3
+      - name: "Install requirements"
+        run: pip install -r requirements/requirements_build.txt
+
+      - name: "Build the wheel"
+        shell: bash
+        run: |
+          if [ ${{ matrix.os }} == "ubuntu-latest" ]; then
+              export platform="manylinux_2_17"
+          else
+              export platform="win"
+          fi
+          python .ci/build_wheel.py -p $platform -w
+
+      - name: "Expose the wheel"
+        shell: bash
+        id: wheel
+        working-directory: dist
+        run: |
+          export name=`ls ansys_dpf_core*.whl`
+          echo ${name}
+          echo "wheel_name=${name[0]}" >> $GITHUB_OUTPUT
+
+      - name: "Install package wheel"
+        shell: bash
+        run: |
+          pip install dist/${{ steps.wheel.outputs.wheel_name }}[plotting]
+
+      - name: "Install DPF"
+        id: set-server-path
+        uses: ansys/pydpf-actions/install-dpf-server@v2.3
         with:
-          python-version: ${{ inputs.python_version }}
-          ANSYS_VERSION: ${{inputs.ANSYS_VERSION}}
-          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
-          MODULE: ${{env.MODULE}}
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
-          install_extras: plotting
-          wheel: false
-          wheelhouse: false
-          extra-pip-args: ${{ inputs.custom-wheels && format('--find-links {0}', inputs.custom-wheels) || '' }}
           standalone_suffix: ${{ inputs.standalone_suffix }}
-          custom-requirements: ${{ inputs.custom-requirements }}
+          ANSYS_VERSION : ${{inputs.ANSYS_VERSION}}
+
+      - name: "Check licences of packages"
+        uses: ansys/pydpf-actions/check-licenses@v2.3
+
+      - name: "Test import"
+        shell: bash
+        working-directory: tests
+        run: python -c "from ansys.dpf import core"
 
       - name: "Setup headless display"
         uses: pyvista/setup-headless-display-action@v1
@@ -129,15 +138,17 @@ jobs:
         run: pip list
 
       - name: "Build HTML Documentation"
-        shell: cmd
+        shell: cmd /D /E:ON /V:OFF /C "CALL "{0}""
         working-directory: .ci
         run: |
-          build_doc.bat > ..\docs\log.txt && type ..\docs\log.txt 2>&1
+          build_doc.bat > ..\doc\log.txt && type ..\doc\log.txt 2>&1
         timeout-minutes: 60
+        env:
+          MEILISEARCH_PUBLIC_API_KEY: ${{ secrets.MEILISEARCH_PUBLIC_API_KEY }}
 
       - name: "Check for success"
         shell: bash
-        working-directory: docs
+        working-directory: doc
         run: |
           case `grep -F "build succeeded" log.txt >/dev/null; echo $?` in
           0)
@@ -167,13 +178,13 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: doc-${{env.PACKAGE_NAME}}-log
-          path: docs/*.txt
+          path: doc/*.txt
         if: always()
 
       - name: "Zip HTML Documentation"
         shell: pwsh
         run: |
-          Compress-Archive -Path docs/build/html/* -Destination HTML-doc-${{env.PACKAGE_NAME}}.zip
+          Compress-Archive -Path doc/build/html/* -Destination HTML-doc-${{env.PACKAGE_NAME}}.zip
         if: always()
 
       - name: "Upload HTML Documentation"

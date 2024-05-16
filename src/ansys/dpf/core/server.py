@@ -3,13 +3,17 @@ Server
 ======
 Contains the directives necessary to start the DPF server.
 """
+import functools
 import os
 import socket
+import sys
 import weakref
 import copy
+import platform
 import inspect
 import warnings
 import traceback
+from typing import Union
 
 from ansys import dpf
 
@@ -21,7 +25,7 @@ from ansys.dpf.core.server_factory import (
     ServerFactory,
     CommunicationProtocols,
 )
-from ansys.dpf.core.server_types import DPF_DEFAULT_PORT, LOCALHOST, RUNNING_DOCKER
+from ansys.dpf.core.server_types import DPF_DEFAULT_PORT, LOCALHOST, RUNNING_DOCKER, BaseServer
 from ansys.dpf.core import server_context
 
 
@@ -124,17 +128,17 @@ def shutdown_all_session_servers():
 
 
 def start_local_server(
-    ip=LOCALHOST,
-    port=DPF_DEFAULT_PORT,
-    ansys_path=None,
-    as_global=True,
-    load_operators=True,
-    use_docker_by_default=True,
-    docker_config=RUNNING_DOCKER,
-    timeout=20.0,
-    config=None,
-    use_pypim_by_default=True,
-    context=None,
+        ip=LOCALHOST,
+        port=DPF_DEFAULT_PORT,
+        ansys_path=None,
+        as_global=True,
+        load_operators=True,
+        use_docker_by_default=True,
+        docker_config=RUNNING_DOCKER,
+        timeout=20.0,
+        config=None,
+        use_pypim_by_default=True,
+        context=None,
 ):
     """Start a new local DPF server at a given port and IP address.
 
@@ -188,15 +192,6 @@ def start_local_server(
     use_pypim = use_pypim_by_default and is_pypim_configured()
     if not use_docker and not use_pypim:
         ansys_path = get_ansys_path(ansys_path)
-        # parse the version to an int and check for supported
-        try:
-            ver = int(str(ansys_path)[-3:])
-            if ver < 211:
-                raise errors.InvalidANSYSVersionError(f"Ansys v{ver} does not support DPF")
-            if ver == 211 and is_ubuntu():
-                raise OSError("DPF on v211 does not support Ubuntu")
-        except ValueError:
-            pass
 
     # avoid using any ports in use from existing servers
     used_ports = []
@@ -225,13 +220,16 @@ def start_local_server(
     timed_out = False
     for _ in range(n_attempts):
         try:
+            # Force LegacyGrpc when on macOS
+            if platform.system() == "Darwin":
+                config = dpf.core.AvailableServerConfigs.LegacyGrpcServer
             server_type = ServerFactory.get_server_type_from_config(
                 config, ansys_path, docker_config
             )
             server_init_signature = inspect.signature(server_type.__init__)
             if (
-                "ip" in server_init_signature.parameters.keys()
-                and "port" in server_init_signature.parameters.keys()
+                    "ip" in server_init_signature.parameters.keys()
+                    and "port" in server_init_signature.parameters.keys()
             ):
                 server = server_type(
                     ansys_path,
@@ -280,12 +278,12 @@ def start_local_server(
 
 
 def connect_to_server(
-    ip=LOCALHOST,
-    port=DPF_DEFAULT_PORT,
-    as_global=True,
-    timeout=5,
-    config=None,
-    context=None,
+        ip=LOCALHOST,
+        port=DPF_DEFAULT_PORT,
+        as_global=True,
+        timeout=5,
+        config=None,
+        context=None,
 ):
     """Connect to an existing DPF server.
 
@@ -309,7 +307,7 @@ def connect_to_server(
         The default is ``10``. Once the specified number of seconds
         passes, the connection fails.
     config: ServerConfig, optional
-        Manages the type of server connection to use.
+        Manages the type of server connection to use. Forced to LegacyGrpc on macOS.
     context: ServerContext, optional
         Defines the settings that will be used to load DPF's plugins.
         A DPF xml file can be used to list the plugins and set up variables. Default is
@@ -340,8 +338,8 @@ def connect_to_server(
     def connect():
         server_init_signature = inspect.signature(server_type.__init__)
         if (
-            "ip" in server_init_signature.parameters.keys()
-            and "port" in server_init_signature.parameters.keys()
+                "ip" in server_init_signature.parameters.keys()
+                and "port" in server_init_signature.parameters.keys()
         ):
             server = server_type(
                 ip=ip,
@@ -355,17 +353,21 @@ def connect_to_server(
         dpf.core._server_instances.append(weakref.ref(server))
         return server
 
+    # Enforce LegacyGrpc when on macOS
+    if platform.system() == 'Darwin':
+        config = dpf.core.AvailableServerConfigs.LegacyGrpcServer
+
     server_type = ServerFactory.get_remote_server_type_from_config(config)
     try:
         return connect()
     except ModuleNotFoundError as e:
-        if "gatebin" in e.msg:
+        if "use a LegacyGrpcServer" in e.msg:
             server_type = ServerFactory.get_remote_server_type_from_config(
                 ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
             )
             warnings.warn(
                 UserWarning(
-                    "Could not connect to remote server as ansys-dpf-gatebin "
+                    "Could not connect to remote server as ansys.dpf.gatebin "
                     "is missing. Trying again using LegacyGrpcServer.\n"
                     f"The error stated:\n{e.msg}"
                 )
@@ -374,7 +376,7 @@ def connect_to_server(
         raise e
 
 
-def get_or_create_server(server):
+def get_or_create_server(server: BaseServer) -> Union[BaseServer, None]:
     """Returns the given server or if None, creates a new one.
 
     Parameters
@@ -388,3 +390,46 @@ def get_or_create_server(server):
     if server:
         return server
     return _global_server()
+
+
+def available_servers():
+    """Searches all available installed DPF servers on the current machine.
+
+    This method binds new functions to the server module, which helps to choose the appropriate version.
+
+    Examples
+    --------
+
+    >>> from ansys.dpf import core as dpf
+    >>> #out = dpf.server.available_servers()
+
+    After this call, you can do the following:
+
+    >>> #server = dpf.server.start_2024_2_server()
+
+    Equivalent to:
+    >>> #server = out["2024.1"]()
+
+    Returns
+    -------
+    server: dict{str:func}
+        Map of available DPF servers with key=version, value=function starting server when called.
+        See :py:func:`ansys.dpf.core.server.start_local_server` for function doc.
+    """
+    from ansys.dpf.gate import load_api
+    unified = load_api._paths_to_dpf_in_unified_installs()
+    standalone = load_api._paths_to_dpf_server_library_installs()
+
+    strver = {}
+
+    out = {}
+    strver.update(unified)
+    strver.update(standalone)
+    for version, path in strver.items():
+        bound_method = start_local_server
+        method2 = functools.partial(bound_method, ansys_path=path)
+        vout = str(version).replace(".", "_")
+        setattr(sys.modules[__name__], "start_" + vout + "_server", method2)
+        out[str(version)] = method2
+
+    return out

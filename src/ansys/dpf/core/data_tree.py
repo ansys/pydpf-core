@@ -11,8 +11,8 @@ import weakref
 
 from ansys.dpf.core.mapping_types import types
 from ansys.dpf.core import server as server_module
-from ansys.dpf.core import collection
-from ansys.dpf.core import errors
+from ansys.dpf.core import collection_base
+from ansys.dpf.core import errors, common
 from ansys.dpf.gate import (
     dpf_data_tree_abstract_api,
     dpf_data_tree_capi,
@@ -165,7 +165,7 @@ class DataTree:
                 if len(value) > 0 and isinstance(value[0], float):
                     self._api.dpf_data_tree_set_vec_double_attribute(self, key, value, len(value))
                 elif len(value) > 0 and isinstance(value[0], str):
-                    coll_obj = collection.StringCollection(
+                    coll_obj = collection_base.StringCollection(
                         list=value, local=True, server=self._server
                     )
                     self._api.dpf_data_tree_set_string_collection_attribute(self, key, coll_obj)
@@ -429,7 +429,7 @@ class DataTree:
         ----------
         name : str
             Name of the attribute to return
-        type_to_return : types
+        type_to_return : types, type (str, int, float...)
             Type of the attribute to return. String is supported for all attributes.
 
         Returns
@@ -450,10 +450,14 @@ class DataTree:
 
         """
         out = None
+        if isinstance(type_to_return, type):
+            type_to_return = list(common.types_enum_to_types().keys())[list( common.types_enum_to_types().values()).index(type_to_return)]
         if type_to_return == types.int:
             out = integral_types.MutableInt32()
             self._api.dpf_data_tree_get_int_attribute(self, name, out)
             out = int(out)
+        elif type_to_return == types.bool:
+            out = bool(self.get_as(name, types.int))
         elif type_to_return == types.double:
             out = integral_types.MutableDouble()
             self._api.dpf_data_tree_get_double_attribute(self, name, out)
@@ -472,7 +476,7 @@ class DataTree:
             self._api.dpf_data_tree_get_vec_int_attribute(self, name, out, out.internal_size)
             out = out.tolist()
         elif type_to_return == types.vec_string:
-            coll_obj = collection.StringCollection(
+            coll_obj = collection_base.StringCollection(
                 collection=self._api.dpf_data_tree_get_string_collection_attribute(self, name),
                 server=self._server,
             )
@@ -499,7 +503,7 @@ class DataTree:
         >>> data_tree.attribute_names
         ['id', 'name', 'qualities']
         """
-        coll_obj = collection.StringCollection(
+        coll_obj = collection_base.StringCollection(
             collection=self._api.dpf_data_tree_get_available_attributes_names_in_string_collection(
                 self
             ),
@@ -527,7 +531,7 @@ class DataTree:
         >>> data_tree.sub_tree_names
         ['first', 'second']
         """
-        coll_obj = collection.StringCollection(
+        coll_obj = collection_base.StringCollection(
             collection=self._api.dpf_data_tree_get_available_sub_tree_names_in_string_collection(
                 self
             ),
@@ -652,6 +656,9 @@ class _LocalDataTree(DataTree):
             self.release_data()
         else:
             print(tb)
+
+    def to_dict(self):
+        return self._dict
 
     def __del__(self):
         if not self._is_exited:

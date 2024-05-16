@@ -18,8 +18,10 @@ from .extract_sub_sc import extract_sub_sc
 from .extract_time_freq import extract_time_freq 
 from .fc_get_attribute import fc_get_attribute 
 from .field import field 
+from .field_get_attribute import field_get_attribute 
 from .field_to_fc import field_to_fc 
 from .fields_container import fields_container 
+from .fields_container_matrices_label import fields_container_matrices_label 
 from .for_each import for_each 
 from .forward import forward 
 from .forward_field import forward_field 
@@ -46,11 +48,15 @@ from .merge_property_fields import merge_property_fields
 from .merge_result_infos import merge_result_infos 
 from .merge_scopings import merge_scopings 
 from .merge_scopings_containers import merge_scopings_containers 
+from .merge_string_fields import merge_string_fields 
 from .merge_supports import merge_supports 
 from .merge_time_freq_supports import merge_time_freq_supports 
+from .merge_to_field_matrix import merge_to_field_matrix 
 from .merge_weighted_fields import merge_weighted_fields 
 from .merge_weighted_fields_containers import merge_weighted_fields_containers 
 from .mesh import mesh 
+from .mesh_to_mc import mesh_to_mc 
+from .meshes_container import meshes_container 
 from .overlap_fields import overlap_fields 
 from .producer_consumer_for_each import producer_consumer_for_each 
 from .property_field import property_field 
@@ -65,6 +71,7 @@ from .set_attribute import set_attribute
 from .set_property import set_property 
 from .split_in_for_each_range import split_in_for_each_range 
 from .strain_from_voigt import strain_from_voigt 
+from .strain_from_voigt_fc import strain_from_voigt_fc 
 from .txt_file_to_dpf import txt_file_to_dpf 
 from .unitary_field import unitary_field 
 from .weighted_merge_fields_by_label import weighted_merge_fields_by_label 

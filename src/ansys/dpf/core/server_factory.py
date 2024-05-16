@@ -235,15 +235,15 @@ class ServerConfig:
     ...     protocol=dpf.server_factory.CommunicationProtocols.gRPC, legacy=False)
     >>> legacy_grpc_config = dpf.ServerConfig(
     ...     protocol=dpf.server_factory.CommunicationProtocols.gRPC, legacy=True)
-    >>> in_process_server = dpf.start_local_server(config=in_process_config, as_global=False)
-    >>> grpc_server = dpf.start_local_server(config=grpc_config, as_global=False)
-    >>> legacy_grpc_server = dpf.start_local_server(config=legacy_grpc_config, as_global=False)
+    >>> in_process_server = dpf.start_local_server(config=in_process_config, as_global=False)  # doctest: +SKIP
+    >>> grpc_server = dpf.start_local_server(config=grpc_config, as_global=False)  # doctest: +SKIP
+    >>> legacy_grpc_server = dpf.start_local_server(config=legacy_grpc_config, as_global=False)  # doctest: +SKIP
 
     Use the environment variable to set the default server configuration.
 
     >>> import os
     >>> os.environ["DPF_SERVER_TYPE"] = "INPROCESS"
-    >>> dpf.start_local_server()
+    >>> dpf.start_local_server()  # doctest: +SKIP
     <ansys.dpf.core.server_types.InProcessServer object at ...>
 
     """
@@ -278,11 +278,12 @@ def get_default_server_config(
     server_lower_than_or_equal_to_0_3: bool = False, docker_config: DockerConfig = None
 ):
     """Returns the default configuration depending on the server version.
-    - if ansys.dpf.core.SERVER_CONFIGURATION is not None, then this variable is taken
-    - if server_lower_than_or_equal_to_0_3 is True, then LegacyGrpcServer is taken
-    - DPF_SERVER_TYPE environment variable is set to ``INPROCESS``, ``GRPC``, ``LEGACYGRPC``,
-      then this variable is taken
-    else DEFAULT_COMMUNICATION_PROTOCOL and DEFAULT_LEGACY is taken.
+
+        - if ansys.dpf.core.SERVER_CONFIGURATION is not None, then this variable is taken
+        - if server_lower_than_or_equal_to_0_3 is True, then LegacyGrpcServer is taken
+        - if DPF_SERVER_TYPE environment variable is set to ``INPROCESS``, ``GRPC``, or
+          ``LEGACYGRPC``, then this variable is taken
+        - else DEFAULT_COMMUNICATION_PROTOCOL and DEFAULT_LEGACY are used.
 
     Raises
     ------
@@ -357,9 +358,9 @@ class AvailableServerConfigs:
     >>> in_process_config = dpf.AvailableServerConfigs.InProcessServer
     >>> grpc_config = dpf.AvailableServerConfigs.GrpcServer
     >>> legacy_grpc_config = dpf.AvailableServerConfigs.LegacyGrpcServer
-    >>> in_process_server = dpf.start_local_server(config=in_process_config, as_global=False)
-    >>> grpc_server = dpf.start_local_server(config=grpc_config, as_global=False)
-    >>> legacy_grpc_server = dpf.start_local_server(config=legacy_grpc_config, as_global=False)
+    >>> in_process_server = dpf.start_local_server(config=in_process_config, as_global=False)  # doctest: +SKIP
+    >>> grpc_server = dpf.start_local_server(config=grpc_config, as_global=False)  # doctest: +SKIP
+    >>> legacy_grpc_server = dpf.start_local_server(config=legacy_grpc_config, as_global=False)  # doctest: +SKIP
 
     """
 

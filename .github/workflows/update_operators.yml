@@ -1,29 +1,25 @@
-name: update_operators
+name: Update generated code
 
 on:
 # Can be called manually or remotely
   workflow_dispatch:
     inputs:
+      distinct_id:
+        description: "ID to give the job when run via dpf-standalone repo"
+        required: false
+        type: string
+        default: ""
+
       ANSYS_VERSION:
         description: "ANSYS version"
         required: false
         type: string
-        default: "241"
-      standalone_suffix:
+        default: "251"
+      standalone_branch_suffix:
         description: "Suffix of the branch on standalone"
         required: false
         type: string
         default: ''
-      extra-pip-args:
-        description: "Args given to pip install command"
-        required: false
-        type: string
-        default: './dpf-standalone/v241/dist'
-      custom-requirements:
-        description: "Path to requirements.txt file to install"
-        required: false
-        type: string
-        default: 'requirements/requirements_dev.txt'
 
 env:
   PACKAGE_NAME: ansys-dpf-core
@@ -32,12 +28,15 @@ env:
   ANSYS_DPF_ACCEPT_LA: Y
 
 jobs:
-  update_operators:
-    name: "Update operators"
+  update_generated:
+    name: "Update Generated Code"
     runs-on: windows-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: echo distinct ID ${{ github.event.inputs.distinct_id }}
+        run: echo ${{ github.event.inputs.distinct_id }}
+
+      - uses: actions/checkout@v4
 
       - name: Setup Python
         uses: actions/setup-python@v4.6.0
@@ -50,14 +49,45 @@ jobs:
         with:
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-          ANSYS_VERSION : ${{ github.event.inputs.ANSYS_VERSION || '241' }}
+          ANSYS_VERSION : ${{ github.event.inputs.ANSYS_VERSION || '251' }}
 
-      - name: "Install custom requirements"
-        uses: ansys/pydpf-actions/install-custom-requirements@v2.3
-        if: inputs.custom-requirements != ''
-        with:
-          extra-pip-args: ${{ inputs.extra-pip-args && format('--find-links {0}', inputs.extra-pip-args) }}
-          custom-requirements: ${{ inputs.custom-requirements }}
+      - name: "Update ansys-grpc-dpf"
+        shell: bash
+        run: |
+          wheel_file=$(find ./dpf-standalone/v${{ github.event.inputs.ANSYS_VERSION }}/dist -name "ansys_grpc_dpf-*"  -type f)
+          echo $wheel_file
+          rm -r src/ansys/grpc
+          unzip -o $wheel_file "ansys/**/*" -d src/
+          chmod -R 777 src/ansys/grpc
+          git add -f src/ansys/grpc
+
+      - name: "Update ansys-dpf-gate"
+        shell: bash
+        run: |
+          wheel_file=$(find ./dpf-standalone/v${{ github.event.inputs.ANSYS_VERSION }}/dist -name "ansys_dpf_gate-*"  -type f)
+          echo $wheel_file
+          rm -r src/ansys/dpf/gate
+          unzip -o $wheel_file "ansys/**/*" -d src/
+          chmod -R 777 src/ansys/dpf/gate
+          git add -f src/ansys/dpf/gate
+
+      - name: "Update ansys-dpf-gatebin lin"
+        shell: bash
+        run: |
+          wheel_file=$(find ./dpf-standalone/v${{ github.event.inputs.ANSYS_VERSION }}/dist -name "ansys_dpf_gatebin-*linux1*"  -type f)
+          echo $wheel_file
+          rm -r src/ansys/dpf/gatebin
+          unzip -o $wheel_file "ansys/**/*" -d src/
+          chmod -R 777 src/ansys/dpf/gatebin
+
+      - name: "Update ansys-dpf-gatebin win"
+        shell: bash
+        run: |
+          wheel_file=$(find ./dpf-standalone/v${{ github.event.inputs.ANSYS_VERSION }}/dist -name "ansys_dpf_gatebin-*win*"  -type f)
+          echo $wheel_file
+          unzip -o $wheel_file "ansys/**/*" -d src/
+          chmod -R 777 src/ansys/dpf/gatebin
+          git add -f src/ansys/dpf/gatebin
 
       - name: "Install local package as editable"
         shell: bash
@@ -96,13 +126,19 @@ jobs:
         with:
           delete-branch: true
           add-paths: |
+            src/ansys/dpf/gate/*
+            src/ansys/dpf/gatebin/*
+            src/ansys/grpc/*
             src/ansys/dpf/core/operators/*
-            docs/source/_static/dpf_operators.html
-          commit-message: update operators
-          title: Update Operators for DPF ${{ github.event.inputs.ANSYS_VERSION || '241' }}${{ github.event.inputs.standalone_branch_suffix || '' }} on ${{ github.ref_name }}
-          body: An update of operators has been triggered either manually or by an update in the dpf-standalone repository.
-          branch: maint/update_operators_for_${{ github.event.inputs.ANSYS_VERSION || '241' }}${{ github.event.inputs.standalone_branch_suffix || '' }}_on_${{ github.ref_name }}
-          labels: maintenance
+            doc/source/_static/dpf_operators.html
+          commit-message: update generated code
+          title: Update generated code for DPF ${{ github.event.inputs.ANSYS_VERSION || '251' }}${{ github.event.inputs.standalone_branch_suffix || '' }} on ${{ github.ref_name }}
+          body: An update of generated code has been triggered either manually or by an update in the dpf-standalone repository.
+          branch: maint/update_code_for_${{ github.event.inputs.ANSYS_VERSION || '251' }}${{ github.event.inputs.standalone_branch_suffix || '' }}_on_${{ github.ref_name }}
+          labels: server-sync
+          token: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
+          reviewers: ansys/dpf_integration_proxies
+          assignees: ansys/dpf_integration_proxies
 
       - name: "Kill all servers"
         uses: ansys/pydpf-actions/kill-dpf-servers@v2.3

@@ -61,6 +61,7 @@ from .current_density import current_density
 from .custom import custom 
 from .cyclic_analytic_seqv_max import cyclic_analytic_seqv_max 
 from .cyclic_analytic_usum_max import cyclic_analytic_usum_max 
+from .cyclic_equivalent_mass import cyclic_equivalent_mass 
 from .cyclic_expanded_acceleration import cyclic_expanded_acceleration 
 from .cyclic_expanded_displacement import cyclic_expanded_displacement 
 from .cyclic_expanded_el_strain import cyclic_expanded_el_strain 
@@ -71,6 +72,7 @@ from .cyclic_expanded_temperature import cyclic_expanded_temperature
 from .cyclic_expanded_velocity import cyclic_expanded_velocity 
 from .cyclic_expansion import cyclic_expansion 
 from .cyclic_kinetic_energy import cyclic_kinetic_energy 
+from .cyclic_nmisc import cyclic_nmisc 
 from .cyclic_strain_energy import cyclic_strain_energy 
 from .cyclic_volume import cyclic_volume 
 from .density import density 
@@ -78,6 +80,7 @@ from .displacement import displacement
 from .displacement_X import displacement_X 
 from .displacement_Y import displacement_Y 
 from .displacement_Z import displacement_Z 
+from .div_lighthill_tensor import div_lighthill_tensor 
 from .dynamic_viscosity import dynamic_viscosity 
 from .elastic_strain import elastic_strain 
 from .elastic_strain_X import elastic_strain_X 
@@ -88,6 +91,8 @@ from .elastic_strain_YZ import elastic_strain_YZ
 from .elastic_strain_Z import elastic_strain_Z 
 from .elastic_strain_energy_density import elastic_strain_energy_density 
 from .elastic_strain_eqv import elastic_strain_eqv 
+from .elastic_strain_intensity import elastic_strain_intensity 
+from .elastic_strain_max_shear import elastic_strain_max_shear 
 from .elastic_strain_principal_1 import elastic_strain_principal_1 
 from .elastic_strain_principal_2 import elastic_strain_principal_2 
 from .elastic_strain_principal_3 import elastic_strain_principal_3 
@@ -98,6 +103,9 @@ from .electric_potential import electric_potential
 from .element_centroids import element_centroids 
 from .element_nodal_forces import element_nodal_forces 
 from .element_orientations import element_orientations 
+from .element_orientations_X import element_orientations_X 
+from .element_orientations_Y import element_orientations_Y 
+from .element_orientations_Z import element_orientations_Z 
 from .elemental_heat_generation import elemental_heat_generation 
 from .elemental_mass import elemental_mass 
 from .elemental_volume import elemental_volume 
@@ -108,7 +116,6 @@ from .epsilon import epsilon
 from .equivalent_mass import equivalent_mass 
 from .equivalent_radiated_power import equivalent_radiated_power 
 from .eqv_stress_parameter import eqv_stress_parameter 
-from .erp_accumulate_results import erp_accumulate_results 
 from .erp_radiation_efficiency import erp_radiation_efficiency 
 from .euler_load_buckling import euler_load_buckling 
 from .euler_nodes import euler_nodes 
@@ -158,6 +165,8 @@ from .kinetic_energy import kinetic_energy
 from .mach_number import mach_number 
 from .mapdl_material_properties import mapdl_material_properties 
 from .mapdl_section import mapdl_section 
+from .mapdl_split_on_facet_indices import mapdl_split_on_facet_indices 
+from .mapdl_split_to_acmo_facet_indices import mapdl_split_to_acmo_facet_indices 
 from .mass_flow_rate import mass_flow_rate 
 from .mass_fraction import mass_fraction 
 from .material_property_of_element import material_property_of_element 
@@ -172,7 +181,6 @@ from .modal_basis import modal_basis
 from .nmisc import nmisc 
 from .nodal_force import nodal_force 
 from .nodal_moment import nodal_moment 
-from .nodal_rotation_by_euler_nodes import nodal_rotation_by_euler_nodes 
 from .nodal_to_global import nodal_to_global 
 from .normal_contact_force import normal_contact_force 
 from .normal_contact_moment import normal_contact_moment 
@@ -196,6 +204,8 @@ from .plastic_strain_YZ import plastic_strain_YZ
 from .plastic_strain_Z import plastic_strain_Z 
 from .plastic_strain_energy_density import plastic_strain_energy_density 
 from .plastic_strain_eqv import plastic_strain_eqv 
+from .plastic_strain_intensity import plastic_strain_intensity 
+from .plastic_strain_max_shear import plastic_strain_max_shear 
 from .plastic_strain_principal_1 import plastic_strain_principal_1 
 from .plastic_strain_principal_2 import plastic_strain_principal_2 
 from .plastic_strain_principal_3 import plastic_strain_principal_3 
@@ -208,10 +218,15 @@ from .prns_to_field import prns_to_field
 from .raw_displacement import raw_displacement 
 from .raw_reaction_force import raw_reaction_force 
 from .reaction_force import reaction_force 
+from .reaction_force_X import reaction_force_X 
+from .reaction_force_Y import reaction_force_Y 
+from .reaction_force_Z import reaction_force_Z 
+from .read_cms_rbd_file import read_cms_rbd_file 
 from .recombine_harmonic_indeces_cyclic import recombine_harmonic_indeces_cyclic 
 from .remove_rigid_body_motion import remove_rigid_body_motion 
 from .remove_rigid_body_motion_fc import remove_rigid_body_motion_fc 
 from .rigid_transformation import rigid_transformation 
+from .rigid_transformation_provider import rigid_transformation_provider 
 from .rms_static_pressure import rms_static_pressure 
 from .rms_temperature import rms_temperature 
 from .rms_velocity import rms_velocity 
@@ -219,6 +234,7 @@ from .rom_data_provider import rom_data_provider
 from .run import run 
 from .smisc import smisc 
 from .specific_heat import specific_heat 
+from .spectrum_data import spectrum_data 
 from .static_pressure import static_pressure 
 from .stiffness_matrix_energy import stiffness_matrix_energy 
 from .strain_eqv_as_mechanical import strain_eqv_as_mechanical 
@@ -230,6 +246,8 @@ from .stress_Y import stress_Y
 from .stress_YZ import stress_YZ 
 from .stress_Z import stress_Z 
 from .stress_eqv_as_mechanical import stress_eqv_as_mechanical 
+from .stress_intensity import stress_intensity 
+from .stress_max_shear import stress_max_shear 
 from .stress_principal_1 import stress_principal_1 
 from .stress_principal_2 import stress_principal_2 
 from .stress_principal_3 import stress_principal_3 
@@ -265,6 +283,7 @@ from .total_mass import total_mass
 from .total_pressure import total_pressure 
 from .total_strain import total_strain 
 from .total_temperature import total_temperature 
+from .transform_invariant_terms_rbd import transform_invariant_terms_rbd 
 from .transient_rayleigh_integration import transient_rayleigh_integration 
 from .turbulent_kinetic_energy import turbulent_kinetic_energy 
 from .turbulent_viscosity import turbulent_viscosity 

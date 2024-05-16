@@ -17,7 +17,7 @@ from ansys.dpf.core import (
     meshes_container,
     result_info,
     string_field,
-    custom_type_field,
+    custom_type_field, generic_data_container,
 )
 
 external_operator_api = external_operator_capi.ExternalOperatorCAPI
@@ -45,7 +45,7 @@ _type_to_output_method = [
         external_operator_api.external_operator_put_out_string_field,
     ),
     (scoping.Scoping, external_operator_api.external_operator_put_out_scoping),
-    (collection.Collection, external_operator_api.external_operator_put_out_collection),
+    (collection.CollectionBase, external_operator_api.external_operator_put_out_collection),
     (
         data_sources.DataSources,
         external_operator_api.external_operator_put_out_data_sources,
@@ -70,6 +70,10 @@ _type_to_output_method = [
         custom_type_field.CustomTypeField,
         external_operator_api.external_operator_put_out_custom_type_field,
     ),
+    (
+        generic_data_container.GenericDataContainer,
+        external_operator_api.external_operator_put_out_generic_data_container,
+    )
 ]
 
 _type_to_input_method = [
@@ -140,6 +144,11 @@ _type_to_input_method = [
         external_operator_api.external_operator_get_in_data_tree,
         "data_tree",
     ),
+    (
+        generic_data_container.GenericDataContainer,
+        external_operator_api.external_operator_get_in_generic_data_container,
+        "generic_data_container",
+    )
     # TO DO : (dpf_operator.Operator, external_operator_api.external_operator_get_in_operator,
     # "operator"),
 ]

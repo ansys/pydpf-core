@@ -15,7 +15,10 @@ coverage:
         if_no_uploads: error
   ignore:
     - "examples"  # ignore folder and all its contents
-    - "docs"  # ignore folder and all its contents
+    - "doc"  # ignore folder and all its contents
     - "docker"  # ignore folder and all its contents
     - "tests"  # ignore folder and all its contents
     - "src/ansys/dpf/core/operators"  # ignore folder and all its contents
+    - "src/ansys/dpf/gate"  # ignore folder and all its contents
+    - "src/ansys/dpf/gatebin"  # ignore folder and all its contents
+    - "src/ansys/grpc/dpf"  # ignore folder and all its contents

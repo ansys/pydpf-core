@@ -1,7 +1,8 @@
 [flake8]
-exclude = venv, src/ansys/dpf/core/operators, __init__.py, docs/build, .venv
+exclude = venv, src/ansys/dpf/core/operators, __init__.py, doc/build, .venv, src/ansys/dpf/gate, src/ansys/dpf/gatebin, src/ansys/grpc/dpf
 select = W191, W391, E115, E117, E122, E124, E125, E301, W291, W293, E225, E231, E303, E501, F401, F403
-per-file-ignores = __init__.py:F401,F403
+per-file-ignores =
+    __init__.py:F401,F403
 count = True
 max-complexity = 10
 max-line-length = 100
