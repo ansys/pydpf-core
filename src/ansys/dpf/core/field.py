@@ -12,7 +12,6 @@ from ansys.dpf.core import dimensionality
 from ansys.dpf.core.common import locations, natures, types, _get_size_of_list
 from ansys.dpf.core.field_base import _FieldBase, _LocalFieldBase
 from ansys.dpf.core.field_definition import FieldDefinition
-from ansys.dpf.core.plotter import Plotter
 from ansys.dpf.gate import (
     field_abstract_api,
     field_capi,
@@ -339,7 +338,7 @@ class Field(_FieldBase):
         fielddef.shell_layers = value
         self.field_definition = fielddef
 
-    def get_entity_data(self, index):
+    def get_entity_data(self, index: int) -> dpf_array.DPFArray:
         try:
             vec = dpf_vector.DPFVectorDouble(client=self._server.client)
             self._api.csfield_get_entity_data_for_dpf_vector(
@@ -354,7 +353,7 @@ class Field(_FieldBase):
             data.shape = (data.size // n_comp, n_comp)
         return data
 
-    def get_entity_data_by_id(self, id):
+    def get_entity_data_by_id(self, id: int) -> dpf_array.DPFArray:
         try:
             vec = dpf_vector.DPFVectorDouble(client=self._server.client)
             self._api.csfield_get_entity_data_by_id_for_dpf_vector(
@@ -480,6 +479,7 @@ class Field(_FieldBase):
             Additional keyword arguments for the plotter. For additional keyword
             arguments, see ``help(pyvista.plot)``.
         """
+        from ansys.dpf.core.plotter import Plotter
         pl = Plotter(self.meshed_region, **kwargs)
         return pl.plot_contour(
             self,

@@ -11,7 +11,7 @@ import weakref
 
 from ansys.dpf.core.mapping_types import types
 from ansys.dpf.core import server as server_module
-from ansys.dpf.core import collection
+from ansys.dpf.core import collection_base
 from ansys.dpf.core import errors, common
 from ansys.dpf.gate import (
     dpf_data_tree_abstract_api,
@@ -165,7 +165,7 @@ class DataTree:
                 if len(value) > 0 and isinstance(value[0], float):
                     self._api.dpf_data_tree_set_vec_double_attribute(self, key, value, len(value))
                 elif len(value) > 0 and isinstance(value[0], str):
-                    coll_obj = collection.StringCollection(
+                    coll_obj = collection_base.StringCollection(
                         list=value, local=True, server=self._server
                     )
                     self._api.dpf_data_tree_set_string_collection_attribute(self, key, coll_obj)
@@ -476,7 +476,7 @@ class DataTree:
             self._api.dpf_data_tree_get_vec_int_attribute(self, name, out, out.internal_size)
             out = out.tolist()
         elif type_to_return == types.vec_string:
-            coll_obj = collection.StringCollection(
+            coll_obj = collection_base.StringCollection(
                 collection=self._api.dpf_data_tree_get_string_collection_attribute(self, name),
                 server=self._server,
             )
@@ -503,7 +503,7 @@ class DataTree:
         >>> data_tree.attribute_names
         ['id', 'name', 'qualities']
         """
-        coll_obj = collection.StringCollection(
+        coll_obj = collection_base.StringCollection(
             collection=self._api.dpf_data_tree_get_available_attributes_names_in_string_collection(
                 self
             ),
@@ -531,7 +531,7 @@ class DataTree:
         >>> data_tree.sub_tree_names
         ['first', 'second']
         """
-        coll_obj = collection.StringCollection(
+        coll_obj = collection_base.StringCollection(
             collection=self._api.dpf_data_tree_get_available_sub_tree_names_in_string_collection(
                 self
             ),

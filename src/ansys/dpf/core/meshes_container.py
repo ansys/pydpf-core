@@ -5,12 +5,13 @@ MeshesContainer
 Contains classes associated with the DPF MeshesContainer.
 """
 from ansys.dpf.core import meshed_region
-from ansys.dpf.core.collection import Collection
+from ansys.dpf.core.collection_base import CollectionBase
 from ansys.dpf.core.plotter import DpfPlotter
 from ansys.dpf.core import errors as dpf_errors
 
 
-class MeshesContainer(Collection):
+class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
+    entries_type = meshed_region.MeshedRegion
     """Represents a meshes container, which contains meshes split on a given space.
 
     Parameters
@@ -104,6 +105,8 @@ class MeshesContainer(Collection):
 
             random_color = "color" not in kwargs
             for mesh in self:
+                if mesh.nodes.n_nodes == 0:
+                    continue
                 if random_color:
                     kwargs["color"] = [random(), random(), random()]
                 pl.add_mesh(
@@ -167,7 +170,7 @@ class MeshesContainer(Collection):
         return super().__getitem__(key)
 
     def add_mesh(self, label_space, mesh):
-        """Add or update the scoping at a requested label space.
+        """Add or update the mesh at a requested label space.
 
         Parameters
         ----------

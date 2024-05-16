@@ -340,6 +340,12 @@ class WorkflowGRPCAPI(workflow_abstract_api.WorkflowAbstractAPI):
         return WorkflowGRPCAPI.get_output_finish(wf, request, stype)
 
     @staticmethod
+    def work_flow_getoutput_as_any(wf, pin_name):
+        request = WorkflowGRPCAPI.get_output_init(wf, pin_name)
+        stype = "any"
+        return WorkflowGRPCAPI.get_output_finish(wf, request, stype)
+
+    @staticmethod
     def work_flow_getoutput_string(wf, pin_name):
         request = WorkflowGRPCAPI.get_output_init(wf, pin_name)
         stype = "string"

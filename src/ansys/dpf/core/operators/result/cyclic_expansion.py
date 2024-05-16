@@ -22,10 +22,12 @@ class cyclic_expansion(Operator):
     fields_container : FieldsContainer
         Field container with the base and duplicate
         sectors
+    harmonic_index : int, optional
     bool_rotate_to_global : bool, optional
         Default is true
     map_size_scoping_out : optional
         Map provider by scoping adapter
+    normalization_factor : float, optional
     merge_stages : bool, optional
     cyclic_support : CyclicSupport
     sectors_to_expand : Scoping or ScopingsContainer, optional
@@ -50,10 +52,14 @@ class cyclic_expansion(Operator):
     >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
     >>> my_fields_container = dpf.FieldsContainer()
     >>> op.inputs.fields_container.connect(my_fields_container)
+    >>> my_harmonic_index = int()
+    >>> op.inputs.harmonic_index.connect(my_harmonic_index)
     >>> my_bool_rotate_to_global = bool()
     >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
     >>> my_map_size_scoping_out = dpf.()
     >>> op.inputs.map_size_scoping_out.connect(my_map_size_scoping_out)
+    >>> my_normalization_factor = float()
+    >>> op.inputs.normalization_factor.connect(my_normalization_factor)
     >>> my_merge_stages = bool()
     >>> op.inputs.merge_stages.connect(my_merge_stages)
     >>> my_cyclic_support = dpf.CyclicSupport()
@@ -68,8 +74,10 @@ class cyclic_expansion(Operator):
     ...     time_scoping=my_time_scoping,
     ...     mesh_scoping=my_mesh_scoping,
     ...     fields_container=my_fields_container,
+    ...     harmonic_index=my_harmonic_index,
     ...     bool_rotate_to_global=my_bool_rotate_to_global,
     ...     map_size_scoping_out=my_map_size_scoping_out,
+    ...     normalization_factor=my_normalization_factor,
     ...     merge_stages=my_merge_stages,
     ...     cyclic_support=my_cyclic_support,
     ...     sectors_to_expand=my_sectors_to_expand,
@@ -85,8 +93,10 @@ class cyclic_expansion(Operator):
         time_scoping=None,
         mesh_scoping=None,
         fields_container=None,
+        harmonic_index=None,
         bool_rotate_to_global=None,
         map_size_scoping_out=None,
+        normalization_factor=None,
         merge_stages=None,
         cyclic_support=None,
         sectors_to_expand=None,
@@ -103,10 +113,14 @@ class cyclic_expansion(Operator):
             self.inputs.mesh_scoping.connect(mesh_scoping)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
+        if harmonic_index is not None:
+            self.inputs.harmonic_index.connect(harmonic_index)
         if bool_rotate_to_global is not None:
             self.inputs.bool_rotate_to_global.connect(bool_rotate_to_global)
         if map_size_scoping_out is not None:
             self.inputs.map_size_scoping_out.connect(map_size_scoping_out)
+        if normalization_factor is not None:
+            self.inputs.normalization_factor.connect(normalization_factor)
         if merge_stages is not None:
             self.inputs.merge_stages.connect(merge_stages)
         if cyclic_support is not None:
@@ -142,6 +156,12 @@ class cyclic_expansion(Operator):
                     document="""Field container with the base and duplicate
         sectors""",
                 ),
+                3: PinSpecification(
+                    name="harmonic_index",
+                    type_names=["int32"],
+                    optional=True,
+                    document="""""",
+                ),
                 5: PinSpecification(
                     name="bool_rotate_to_global",
                     type_names=["bool"],
@@ -153,6 +173,12 @@ class cyclic_expansion(Operator):
                     type_names=["umap<int32,int32>"],
                     optional=True,
                     document="""Map provider by scoping adapter""",
+                ),
+                7: PinSpecification(
+                    name="normalization_factor",
+                    type_names=["double"],
+                    optional=True,
+                    document="""""",
                 ),
                 14: PinSpecification(
                     name="merge_stages",
@@ -243,10 +269,14 @@ class InputsCyclicExpansion(_Inputs):
     >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
     >>> my_fields_container = dpf.FieldsContainer()
     >>> op.inputs.fields_container.connect(my_fields_container)
+    >>> my_harmonic_index = int()
+    >>> op.inputs.harmonic_index.connect(my_harmonic_index)
     >>> my_bool_rotate_to_global = bool()
     >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
     >>> my_map_size_scoping_out = dpf.()
     >>> op.inputs.map_size_scoping_out.connect(my_map_size_scoping_out)
+    >>> my_normalization_factor = float()
+    >>> op.inputs.normalization_factor.connect(my_normalization_factor)
     >>> my_merge_stages = bool()
     >>> op.inputs.merge_stages.connect(my_merge_stages)
     >>> my_cyclic_support = dpf.CyclicSupport()
@@ -265,6 +295,8 @@ class InputsCyclicExpansion(_Inputs):
         self._inputs.append(self._mesh_scoping)
         self._fields_container = Input(cyclic_expansion._spec().input_pin(2), 2, op, -1)
         self._inputs.append(self._fields_container)
+        self._harmonic_index = Input(cyclic_expansion._spec().input_pin(3), 3, op, -1)
+        self._inputs.append(self._harmonic_index)
         self._bool_rotate_to_global = Input(
             cyclic_expansion._spec().input_pin(5), 5, op, -1
         )
@@ -273,6 +305,10 @@ class InputsCyclicExpansion(_Inputs):
             cyclic_expansion._spec().input_pin(6), 6, op, -1
         )
         self._inputs.append(self._map_size_scoping_out)
+        self._normalization_factor = Input(
+            cyclic_expansion._spec().input_pin(7), 7, op, -1
+        )
+        self._inputs.append(self._normalization_factor)
         self._merge_stages = Input(cyclic_expansion._spec().input_pin(14), 14, op, -1)
         self._inputs.append(self._merge_stages)
         self._cyclic_support = Input(cyclic_expansion._spec().input_pin(16), 16, op, -1)
@@ -342,6 +378,24 @@ class InputsCyclicExpansion(_Inputs):
         return self._fields_container
 
     @property
+    def harmonic_index(self):
+        """Allows to connect harmonic_index input to the operator.
+
+        Parameters
+        ----------
+        my_harmonic_index : int
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.cyclic_expansion()
+        >>> op.inputs.harmonic_index.connect(my_harmonic_index)
+        >>> # or
+        >>> op.inputs.harmonic_index(my_harmonic_index)
+        """
+        return self._harmonic_index
+
+    @property
     def bool_rotate_to_global(self):
         """Allows to connect bool_rotate_to_global input to the operator.
 
@@ -380,6 +434,24 @@ class InputsCyclicExpansion(_Inputs):
         >>> op.inputs.map_size_scoping_out(my_map_size_scoping_out)
         """
         return self._map_size_scoping_out
+
+    @property
+    def normalization_factor(self):
+        """Allows to connect normalization_factor input to the operator.
+
+        Parameters
+        ----------
+        my_normalization_factor : float
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.cyclic_expansion()
+        >>> op.inputs.normalization_factor.connect(my_normalization_factor)
+        >>> # or
+        >>> op.inputs.normalization_factor(my_normalization_factor)
+        """
+        return self._normalization_factor
 
     @property
     def merge_stages(self):

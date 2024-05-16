@@ -263,6 +263,7 @@ def _description(dpf_entity_message, server=None):
         return ""
 
 
+
 def _deep_copy(dpf_entity, server=None):
     """Returns a copy of the entity in the requested server
 
