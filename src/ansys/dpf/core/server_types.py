@@ -160,11 +160,12 @@ def _wait_and_check_server_connection(
     # verify there were no errors
     time.sleep(0.01)
     if current_errors:
+        process_args = process.args
         try:
             process.kill()
         except PermissionError:
             pass
-        errstr = "\n".join(current_errors)
+        errstr = f"\n{process_args}"+"\n".join(current_errors)
         if (
             "Only one usage of each socket address" in errstr
             or "port is already allocated" in errstr
