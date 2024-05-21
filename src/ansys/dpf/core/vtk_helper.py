@@ -1,5 +1,6 @@
 import numpy as np
 import pyvista as pv
+from typing import Union
 import ansys.dpf.core as dpf
 from ansys.dpf.core import errors
 from vtk import (
@@ -124,7 +125,7 @@ class PyVistaImportError(ModuleNotFoundError):
         ModuleNotFoundError.__init__(self, msg)
 
 
-def dpf_mesh_to_vtk_op(mesh, nodes, as_linear):
+def dpf_mesh_to_vtk_op(mesh, nodes=None, as_linear=True):
     """Return a pyvista unstructured grid given DPF node and element
     definitions from operators (server > 6.2)
 
@@ -134,7 +135,7 @@ def dpf_mesh_to_vtk_op(mesh, nodes, as_linear):
         Meshed Region to export to pyVista format
 
     nodes : dpf.Field
-        Field containing the nodes of the mesh.
+        Field containing the node coordinates of the mesh.
 
     as_linear : bool
         Export quadratic surface elements as linear.
@@ -333,25 +334,28 @@ def dpf_mesh_to_vtk_py(mesh, nodes, as_linear):
     return pv.UnstructuredGrid(offset, cells, vtk_cell_type, node_coordinates)
 
 
-def dpf_mesh_to_vtk(mesh, nodes=None, as_linear=True):
-    """Return a pyvista unstructured grid given DPF node and element
-    definitions.
+def dpf_mesh_to_vtk(
+        mesh: dpf.MeshedRegion,
+        nodes: Union[dpf.Field, None] = None,
+        as_linear: bool = True
+) -> pv.UnstructuredGrid:
+    """Return a pyvista UnstructuredGrid given a pydpf MeshedRegion.
 
     Parameters
     ----------
     mesh : dpf.MeshedRegion
-        Meshed Region to export to pyVista format
+        Meshed Region to export to pyVista format.
 
     nodes : dpf.Field, optional
-        Field containing the nodes of the mesh.
+        Field containing the node coordinates of the mesh (useful to get a deformed geometry).
 
     as_linear : bool, optional
         Export quadratic surface elements as linear.
 
     Returns
     -------
-    grid : pyvista.UnstructuredGrid
-        Unstructured grid of the DPF mesh.
+    grid:
+        UnstructuredGrid corresponding to the DPF mesh.
     """
     try:
         return dpf_mesh_to_vtk_op(mesh, nodes, as_linear)
@@ -363,3 +367,69 @@ def vtk_update_coordinates(vtk_grid, coordinates_array):
     from copy import copy
 
     vtk_grid.points = copy(coordinates_array)
+
+
+def dpf_field_to_vtk(
+        field: dpf.Field,
+        nodes: Union[dpf.Field, None] = None,
+        as_linear: bool = True
+) -> pv.UnstructuredGrid:
+    """Return a pyvista UnstructuredGrid given a DPF Field.
+
+    Parameters
+    ----------
+    field:
+        Field to export to pyVista format.
+
+    nodes:
+        Field containing the node coordinates of the mesh (useful to get a deformed geometry).
+
+    as_linear:
+        Export quadratic surface elements as linear.
+
+    Returns
+    -------
+    grid:
+        UnstructuredGrid corresponding to the DPF Field.
+    """
+    # Check Field location
+    supported_locations = [dpf.locations.nodal, dpf.locations.elemental, dpf.locations.overall]
+    if field.location not in supported_locations:
+        raise ValueError(
+            f"Supported field locations for translation to VTK are: {supported_locations}."
+        )
+
+    # Initialize the bare UnstructuredGrid
+    meshed_region = field.meshed_region
+    grid = dpf_mesh_to_vtk(mesh=meshed_region, nodes=nodes, as_linear=as_linear)
+
+    # Populate with Field.data
+    location = field.location
+    if location == dpf.locations.nodal:
+        mesh_location = meshed_region.nodes
+    elif location == dpf.locations.elemental:
+        mesh_location = meshed_region.elements
+    elif location == dpf.locations.faces:
+        mesh_location = meshed_region.faces
+        if len(mesh_location) == 0:
+            raise ValueError("No faces found to plot on")
+    elif location == dpf.locations.overall:
+        mesh_location = meshed_region.elements
+    else:
+        raise ValueError("Only elemental, nodal or faces location are supported for plotting.")
+    component_count = field.component_count
+    if component_count > 1:
+        overall_data = np.full((len(mesh_location), component_count), np.nan)
+    else:
+        overall_data = np.full(len(mesh_location), np.nan)
+    if location != dpf.locations.overall:
+        ind, mask = mesh_location.map_scoping(field.scoping)
+        overall_data[ind] = field.data[mask]
+    else:
+        overall_data[:] = field.data[0]
+
+    if field.location == dpf.locations.nodal:
+        grid.point_data[field.name] = overall_data
+    else:
+        grid.cell_data[field.name] = overall_data
+    return grid
