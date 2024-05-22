@@ -1,4 +1,5 @@
 import pytest
+import conftest
 import ansys.dpf.core as dpf
 from ansys.dpf.core import misc
 from ansys.dpf.core.vtk_helper import \
@@ -32,6 +33,10 @@ def test_dpf_mesh_to_vtk(simple_rst):
     pv.plot(ug)
 
 
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
+    reason="CFF source operators where not supported before 7.0,",
+)
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_dpf_field_to_vtk(simple_rst, fluent_mixing_elbow_steady_state):
     model = dpf.Model(simple_rst)
@@ -72,6 +77,10 @@ def test_dpf_field_to_vtk_errors(simple_rst):
         _ = dpf_field_to_vtk(field=field)
 
 
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
+    reason="CFF source operators where not supported before 7.0,",
+)
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_dpf_meshes_to_vtk(fluent_axial_comp):
     model = dpf.Model(fluent_axial_comp())
@@ -85,6 +94,10 @@ def test_dpf_meshes_to_vtk(fluent_axial_comp):
     pv.plot(ug)
 
 
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
+    reason="CFF source operators where not supported before 7.0,",
+)
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_dpf_fieldscontainer_to_vtk(fluent_axial_comp):
     model = dpf.Model(fluent_axial_comp())
@@ -103,7 +116,8 @@ def test_dpf_fieldscontainer_to_vtk(fluent_axial_comp):
     fields_container[1].meshed_region = meshes_container[1]
     ug = dpf_fieldscontainer_to_vtk(fields_container=fields_container)
     assert ug.GetNumberOfCells() == 13856
-    assert list(ug.cell_data.keys()) == ["h {'time': 1, 'zone': 13}", "h {'time': 1, 'zone': 28}"]
+    assert sorted(list(ug.cell_data.keys())) == ["h {'time': 1, 'zone': 13}",
+                                                 "h {'time': 1, 'zone': 28}"]
     pv.plot(ug)
     # Faces
     fields_container = dpf.operators.result.wall_shear_stress(
@@ -120,7 +134,7 @@ def test_dpf_fieldscontainer_to_vtk(fluent_axial_comp):
     fields_container[2].meshed_region = meshes_container[2]
     ug = dpf_fieldscontainer_to_vtk(fields_container=fields_container)
     assert ug.GetNumberOfCells() == 1144
-    assert list(ug.cell_data.keys()) == [
+    assert sorted(list(ug.cell_data.keys())) == [
         "tau_w {'time': 1, 'zone': 3}",
         "tau_w {'time': 1, 'zone': 4}",
         "tau_w {'time': 1, 'zone': 7}"]
