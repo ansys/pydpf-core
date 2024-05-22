@@ -426,7 +426,9 @@ def dpf_field_to_vtk(
         UnstructuredGrid corresponding to the DPF Field.
     """
     # Check Field location
-    supported_locations = [dpf.locations.nodal, dpf.locations.elemental, dpf.locations.overall]
+    supported_locations = [
+        dpf.locations.nodal, dpf.locations.elemental, dpf.locations.faces, dpf.locations.overall
+    ]
     if field.location not in supported_locations:
         raise ValueError(
             f"Supported field locations for translation to VTK are: {supported_locations}."
@@ -475,7 +477,9 @@ def dpf_fieldscontainer_to_vtk(
         UnstructuredGrid corresponding to the DPF Field.
     """
     # Check Field location
-    supported_locations = [dpf.locations.nodal, dpf.locations.elemental, dpf.locations.overall]
+    supported_locations = [
+        dpf.locations.nodal, dpf.locations.elemental, dpf.locations.faces, dpf.locations.overall
+    ]
     if fields_container[0].location not in supported_locations:
         raise ValueError(
             f"Supported field locations for translation to VTK are: {supported_locations}."
@@ -499,15 +503,16 @@ def dpf_fieldscontainer_to_vtk(
         raise ValueError("The meshed_region of the fields contains no nodes.")
     grid = dpf_mesh_to_vtk(mesh=meshed_region, nodes=nodes, as_linear=as_linear)
 
-    # Map Field.data to the VTK mesh
-    overall_data = _map_field_to_mesh(field=field, meshed_region=meshed_region)
-
-    # Update the UnstructuredGrid
-    if field.location == dpf.locations.nodal:
-        grid.point_data[field.name] = overall_data
-    else:
-        grid.cell_data[field.name] = overall_data
-
+    for i, field in enumerate(fields_container):
+        # Map Field.data to the VTK mesh
+        overall_data = _map_field_to_mesh(field=field, meshed_region=meshed_region)
+        label_space = fields_container.get_label_space(i)
+        field.name = field.name+f" {label_space}"
+        # Update the UnstructuredGrid
+        if field.location == dpf.locations.nodal:
+            grid.point_data[field.name] = overall_data
+        else:
+            grid.cell_data[field.name] = overall_data
 
     return grid
 

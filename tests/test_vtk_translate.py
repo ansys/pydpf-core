@@ -83,3 +83,45 @@ def test_dpf_meshes_to_vtk(fluent_axial_comp):
     ug = dpf_meshes_to_vtk(meshes_container=meshes_container)
     assert ug.GetNumberOfCells() == 13856
     pv.plot(ug)
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_dpf_fieldscontainer_to_vtk(fluent_axial_comp):
+    model = dpf.Model(fluent_axial_comp())
+    print(model)
+    # Elemental
+    fields_container = dpf.operators.result.enthalpy(
+        data_sources=model,
+        region_scoping=dpf.Scoping(ids=[13, 28], location=dpf.locations.zone),
+    ).eval()
+    assert len(fields_container) == 2
+    meshes_container = dpf.operators.mesh.meshes_provider(
+        data_sources=model,
+        region_scoping=dpf.Scoping(ids=[13, 28], location=dpf.locations.zone)
+    ).eval()
+    fields_container[0].meshed_region = meshes_container[0]
+    fields_container[1].meshed_region = meshes_container[1]
+    ug = dpf_fieldscontainer_to_vtk(fields_container=fields_container)
+    assert ug.GetNumberOfCells() == 13856
+    assert list(ug.cell_data.keys()) == ["h {'time': 1, 'zone': 13}", "h {'time': 1, 'zone': 28}"]
+    pv.plot(ug)
+    # Faces
+    fields_container = dpf.operators.result.wall_shear_stress(
+        data_sources=model,
+        region_scoping=dpf.Scoping(ids=[3, 4, 7], location=dpf.locations.zone),
+    ).eval()
+    assert len(fields_container) == 3
+    meshes_container = dpf.operators.mesh.meshes_provider(
+        data_sources=model,
+        region_scoping=dpf.Scoping(ids=[3, 4, 7], location=dpf.locations.zone)
+    ).eval()
+    fields_container[0].meshed_region = meshes_container[0]
+    fields_container[1].meshed_region = meshes_container[1]
+    fields_container[2].meshed_region = meshes_container[2]
+    ug = dpf_fieldscontainer_to_vtk(fields_container=fields_container)
+    assert ug.GetNumberOfCells() == 1144
+    assert list(ug.cell_data.keys()) == [
+        "tau_w {'time': 1, 'zone': 3}",
+        "tau_w {'time': 1, 'zone': 4}",
+        "tau_w {'time': 1, 'zone': 7}"]
+    pv.plot(ug)
