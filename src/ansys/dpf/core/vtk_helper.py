@@ -507,7 +507,7 @@ def dpf_fieldscontainer_to_vtk(
         # Map Field.data to the VTK mesh
         overall_data = _map_field_to_mesh(field=field, meshed_region=meshed_region)
         label_space = fields_container.get_label_space(i)
-        field.name = field.name+f" {label_space}"
+        field.name = field.name+f" {dict(sorted(list(label_space)))}"
         # Update the UnstructuredGrid
         if field.location == dpf.locations.nodal:
             grid.point_data[field.name] = overall_data
