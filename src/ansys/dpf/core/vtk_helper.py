@@ -401,9 +401,23 @@ def dpf_field_to_vtk(
 
     # Initialize the bare UnstructuredGrid
     meshed_region = field.meshed_region
+    if meshed_region.nodes.n_nodes == 0:
+        raise ValueError("The field.meshed_region contains no nodes.")
     grid = dpf_mesh_to_vtk(mesh=meshed_region, nodes=nodes, as_linear=as_linear)
 
-    # Populate with Field.data
+    # Map Field.data to the VTK mesh
+    overall_data = _map_field_to_mesh(field=field, meshed_region=meshed_region)
+
+    # Update the UnstructuredGrid
+    if field.location == dpf.locations.nodal:
+        grid.point_data[field.name] = overall_data
+    else:
+        grid.cell_data[field.name] = overall_data
+    return grid
+
+
+def _map_field_to_mesh(field: dpf.Field, meshed_region: dpf.MeshedRegion) -> np.ndarray:
+    """Return an NumPy array of Field.data mapped to the mesh on the field's location."""
     location = field.location
     if location == dpf.locations.nodal:
         mesh_location = meshed_region.nodes
@@ -427,9 +441,4 @@ def dpf_field_to_vtk(
         overall_data[ind] = field.data[mask]
     else:
         overall_data[:] = field.data[0]
-
-    if field.location == dpf.locations.nodal:
-        grid.point_data[field.name] = overall_data
-    else:
-        grid.cell_data[field.name] = overall_data
-    return grid
+    return overall_data
