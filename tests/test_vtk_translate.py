@@ -1,7 +1,8 @@
 import pytest
 import ansys.dpf.core as dpf
 from ansys.dpf.core import misc
-from ansys.dpf.core.vtk_helper import dpf_mesh_to_vtk, dpf_field_to_vtk
+from ansys.dpf.core.vtk_helper import \
+    dpf_mesh_to_vtk, dpf_field_to_vtk, dpf_meshes_to_vtk, dpf_fieldscontainer_to_vtk
 
 if misc.module_exists("pyvista"):
     HAS_PYVISTA = True
@@ -69,3 +70,16 @@ def test_dpf_field_to_vtk_errors(simple_rst):
     field = model.results.elemental_volume.on_last_time_freq().eval()[0]
     with pytest.raises(ValueError, match="The field.meshed_region contains no nodes."):
         _ = dpf_field_to_vtk(field=field)
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_dpf_meshes_to_vtk(fluent_axial_comp):
+    model = dpf.Model(fluent_axial_comp())
+    meshes_container = dpf.operators.mesh.meshes_provider(
+        data_sources=model,
+        region_scoping=dpf.Scoping(ids=[13, 28], location=dpf.locations.zone)
+    ).eval()
+    assert len(meshes_container) == 2
+    ug = dpf_meshes_to_vtk(meshes_container=meshes_container)
+    assert ug.GetNumberOfCells() == 13856
+    pv.plot(ug)
