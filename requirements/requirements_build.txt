@@ -1,4 +1,4 @@
-black==24.4.0
+black==24.4.2
 build==1.0.3
 chevron==0.14.0
-wheel==0.42.0
+wheel==0.43.0
