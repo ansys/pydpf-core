@@ -62,7 +62,7 @@ def test_dpf_field_to_vtk(simple_rst, fluent_mixing_elbow_steady_state):
     model = dpf.Model(fluent_mixing_elbow_steady_state())
     field = model.results.dynamic_viscosity.on_last_time_freq().eval()[0]
     field.name = "DV"
-    ug = dpf_field_to_vtk(field=field)
+    ug = dpf_field_to_vtk(field=field, meshed_region=model.metadata.meshed_region)
     assert isinstance(ug, pv.UnstructuredGrid)
     assert "DV" in ug.cell_data.keys()
     pv.plot(ug)
@@ -112,9 +112,9 @@ def test_dpf_fieldscontainer_to_vtk(fluent_axial_comp):
         data_sources=model,
         region_scoping=dpf.Scoping(ids=[13, 28], location=dpf.locations.zone)
     ).eval()
-    fields_container[0].meshed_region = meshes_container[0]
-    fields_container[1].meshed_region = meshes_container[1]
-    ug = dpf_fieldscontainer_to_vtk(fields_container=fields_container)
+    ug = dpf_fieldscontainer_to_vtk(
+        fields_container=fields_container, meshes_container=meshes_container
+    )
     assert ug.GetNumberOfCells() == 13856
     assert sorted(list(ug.cell_data.keys())) == ["h {'time': 1, 'zone': 13}",
                                                  "h {'time': 1, 'zone': 28}"]
@@ -129,10 +129,9 @@ def test_dpf_fieldscontainer_to_vtk(fluent_axial_comp):
         data_sources=model,
         region_scoping=dpf.Scoping(ids=[3, 4, 7], location=dpf.locations.zone)
     ).eval()
-    fields_container[0].meshed_region = meshes_container[0]
-    fields_container[1].meshed_region = meshes_container[1]
-    fields_container[2].meshed_region = meshes_container[2]
-    ug = dpf_fieldscontainer_to_vtk(fields_container=fields_container)
+    ug = dpf_fieldscontainer_to_vtk(
+        fields_container=fields_container, meshes_container=meshes_container
+    )
     assert ug.GetNumberOfCells() == 1144
     assert sorted(list(ug.cell_data.keys())) == [
         "tau_w {'time': 1, 'zone': 3}",

@@ -404,6 +404,7 @@ def dpf_meshes_to_vtk(
 
 def dpf_field_to_vtk(
         field: dpf.Field,
+        meshed_region: Union[dpf.MeshedRegion, None] = None,
         nodes: Union[dpf.Field, None] = None,
         as_linear: bool = True
 ) -> pv.UnstructuredGrid:
@@ -413,6 +414,10 @@ def dpf_field_to_vtk(
     ----------
     field:
         Field to export to pyVista format.
+
+    meshed_region:
+        Mesh to associate to the field.
+        Useful for fluid results where the field is not automatically associated to its mesh.
 
     nodes:
         Field containing the node coordinates of the mesh (useful to get a deformed geometry).
@@ -434,6 +439,10 @@ def dpf_field_to_vtk(
             f"Supported field locations for translation to VTK are: {supported_locations}."
         )
 
+    # Associate the provided mesh with the field
+    if meshed_region:
+        field.meshed_region = meshed_region
+
     # Initialize the bare UnstructuredGrid
     meshed_region = field.meshed_region
     if meshed_region.nodes.n_nodes == 0:
@@ -453,6 +462,7 @@ def dpf_field_to_vtk(
 
 def dpf_fieldscontainer_to_vtk(
         fields_container: dpf.FieldsContainer,
+        meshes_container: Union[dpf.MeshesContainer, None] = None,
         nodes: Union[dpf.Field, None] = None,
         as_linear: bool = True
 ) -> pv.UnstructuredGrid:
@@ -464,6 +474,10 @@ def dpf_fieldscontainer_to_vtk(
     ----------
     fields_container:
         FieldsContainer to export to pyVista format.
+
+    meshes_container:
+        MeshesContainer with meshes to associate to the fields in the FieldsContainer.
+        Useful for fluid results where the fields are not automatically associated to their mesh.
 
     nodes:
         Field containing the node coordinates of the mesh (useful to get a deformed geometry).
@@ -484,6 +498,14 @@ def dpf_fieldscontainer_to_vtk(
         raise ValueError(
             f"Supported field locations for translation to VTK are: {supported_locations}."
         )
+
+    # Associate the meshes in meshes_container to the corresponding fields if provided
+    if meshes_container:
+        for i, mesh in enumerate(meshes_container):
+            label_space = meshes_container.get_label_space(i)
+            fields_container.get_field(
+                label_space_or_index=label_space
+            ).meshed_region = meshes_container.get_mesh(label_space_or_index=label_space)
 
     # Initialize the bare UnstructuredGrid
     # Loop on the fields to check if merging supports is necessary
