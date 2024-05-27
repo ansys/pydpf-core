@@ -527,7 +527,7 @@ def dpf_fieldscontainer_to_vtk(
             meshes.append(field.meshed_region)
     if len(meshes)>1:
         # Merge the meshed_regions
-        merge_op = dpf.operators.utility.merge_meshes()
+        merge_op = dpf.operators.utility.merge_meshes(server=fields_container._server)
         for i, mesh in enumerate(meshes):
             merge_op.connect(i, mesh)
         meshed_region = merge_op.eval()

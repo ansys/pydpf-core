@@ -59,7 +59,7 @@ def test_dpf_field_to_vtk(simple_rst, fluent_mixing_elbow_steady_state, server_t
     assert isinstance(ug, pv.UnstructuredGrid)
     pv.plot(ug)
     # Elemental Field to VTK
-    model = dpf.Model(fluent_mixing_elbow_steady_state(), server=server_type)
+    model = dpf.Model(fluent_mixing_elbow_steady_state(server=server_type), server=server_type)
     field = model.results.dynamic_viscosity.on_last_time_freq().eval()[0]
     field.name = "DV"
     ug = dpf_field_to_vtk(field=field, meshed_region=model.metadata.meshed_region)
@@ -83,7 +83,7 @@ def test_dpf_field_to_vtk_errors(simple_rst, server_type):
 )
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_dpf_meshes_to_vtk(fluent_axial_comp, server_type):
-    model = dpf.Model(fluent_axial_comp(), server=server_type)
+    model = dpf.Model(fluent_axial_comp(server=server_type), server=server_type)
     meshes_container = dpf.operators.mesh.meshes_provider(
         data_sources=model,
         server=server_type,
@@ -101,8 +101,7 @@ def test_dpf_meshes_to_vtk(fluent_axial_comp, server_type):
 )
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_dpf_fieldscontainer_to_vtk(fluent_axial_comp, server_type):
-    model = dpf.Model(fluent_axial_comp(), server=server_type)
-    print(model)
+    model = dpf.Model(fluent_axial_comp(server=server_type), server=server_type)
     zone_scoping = dpf.Scoping(ids=[13, 28], location=dpf.locations.zone, server=server_type)
     # Elemental
     fields_container = dpf.operators.result.enthalpy(
@@ -114,7 +113,7 @@ def test_dpf_fieldscontainer_to_vtk(fluent_axial_comp, server_type):
     meshes_container = dpf.operators.mesh.meshes_provider(
         data_sources=model,
         server=server_type,
-        region_scoping=zone_scoping
+        region_scoping=zone_scoping,
     ).eval()
     ug = dpf_fieldscontainer_to_vtk(
         fields_container=fields_container, meshes_container=meshes_container
