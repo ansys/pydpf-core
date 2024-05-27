@@ -927,14 +927,7 @@ class InProcessServer(CServer):
             # Forced to use ctypes to get the updated PATH due to sys.exec not the Python
             # interpreter when running Python plugin test VS project
             # The better solution would be to not need to update the path
-            windll.kernel32.GetEnvironmentVariableA.argtypes = (c_char_p, c_char_p, c_int)
-            windll.kernel32.GetEnvironmentVariableA.restype = c_int
-            name = "PATH"
-            b_name = name.encode("utf-8")
-            size = 32767
-            buffer = create_string_buffer(b"", size)
-            _ = windll.kernel32.GetEnvironmentVariableA(b_name, buffer, size)
-            os.environ["PATH"] = buffer.value.decode("utf-8")
+            os.environ["PATH"] = get_system_path()
 
     @property
     def version(self):
@@ -975,6 +968,18 @@ class InProcessServer(CServer):
     @property
     def config(self):
         return server_factory.AvailableServerConfigs.InProcessServer
+
+
+def get_system_path() -> str:
+    """Return the current PATH environment variable value of the system."""
+    windll.kernel32.GetEnvironmentVariableA.argtypes = (c_char_p, c_char_p, c_int)
+    windll.kernel32.GetEnvironmentVariableA.restype = c_int
+    name = "PATH"
+    b_name = name.encode("utf-8")
+    size = 32767
+    buffer = create_string_buffer(b"", size)
+    _ = windll.kernel32.GetEnvironmentVariableA(b_name, buffer, size)
+    return buffer.value.decode("utf-8")
 
 
 class LegacyGrpcServer(BaseServer):
