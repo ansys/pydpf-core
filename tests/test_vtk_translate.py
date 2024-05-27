@@ -73,11 +73,7 @@ def test_dpf_field_to_vtk_errors(simple_rst, server_type):
     model = dpf.Model(simple_rst, server=server_type)
     # Elemental Field to VTK
     field = model.results.elemental_volume.on_last_time_freq().eval()[0]
-    if server_type.on_docker:
-        match_str = "the field doesn't have this support type"
-    else:
-        match_str = "The field.meshed_region contains no nodes."
-    with pytest.raises(ValueError, match=match_str):
+    with pytest.raises(ValueError, match="The field does not have a meshed_region."):
         _ = dpf_field_to_vtk(field=field)
 
 

@@ -442,11 +442,23 @@ def dpf_field_to_vtk(
     # Associate the provided mesh with the field
     if meshed_region:
         field.meshed_region = meshed_region
+    else:
+        try:
+            meshed_region = field.meshed_region
+        except errors.DPFServerException as e:
+            if "the field doesn't have this support type" in str(e):
+                raise ValueError("The field does not have a meshed_region.")
+            else:
+                raise e
+        except RuntimeError as e:
+            if "The field's support is not a mesh" in str(e):
+                raise ValueError("The field does not have a meshed_region.")
+            else:
+                raise e
 
     # Initialize the bare UnstructuredGrid
-    meshed_region = field.meshed_region
     if meshed_region.nodes.n_nodes == 0:
-        raise ValueError("The field.meshed_region contains no nodes.")
+        raise ValueError("The field does not have a meshed_region.")
     grid = dpf_mesh_to_vtk(mesh=meshed_region, nodes=nodes, as_linear=as_linear)
 
     # Map Field.data to the VTK mesh
