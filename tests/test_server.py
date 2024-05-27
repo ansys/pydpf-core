@@ -91,6 +91,15 @@ class TestServerConfigs:
         assert has_local_server()
         shutdown_all_session_servers()
 
+    def test_server_env_path_cleanup(self, server_config):
+        """Test that running and stopping servers does not pollute the system PATH."""
+        from ansys.dpf.core.server_types import get_system_path
+        path_len_init = len(get_system_path())
+        server_0 = dpf.core.start_local_server(config=server_config)
+        assert len(get_system_path()) == path_len_init
+        server_0.release()
+        assert len(get_system_path()) == path_len_init
+
     def test_start_local_server_with_config(self, server_config):
         set_server_configuration(None)
         shutdown_all_session_servers()
