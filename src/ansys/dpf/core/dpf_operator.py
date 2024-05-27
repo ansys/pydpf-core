@@ -240,7 +240,7 @@ class Operator:
             # If a list of strings, convert to StringField?
             if all(isinstance(s, str) for s in inpt):
                 from ansys.dpf.core import StringField
-                string_field = StringField(nentities=len(inpt))
+                string_field = StringField(nentities=len(inpt), server=self._server)
                 for i, s in enumerate(inpt):
                     string_field.append([s], i)
                 self._api.operator_connect_string_field(self, pin, string_field)
