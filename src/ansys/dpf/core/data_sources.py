@@ -142,11 +142,14 @@ class DataSources:
     @staticmethod
     def guess_second_key(filepath: str) -> str:
         """For files with an h5 or cff extension, look for another extension."""
+        accepted = ["cas", "dat"]
         without_ext = os.path.splitext(filepath)[0]
         new_split = os.path.splitext(without_ext)
         new_key = ""
         if len(new_split) > 1:
-            new_key = new_split[1][1:]
+            key = new_split[1][1:]
+            if key in accepted:
+                new_key = key
         return new_key
 
     def set_domain_result_file_path(
