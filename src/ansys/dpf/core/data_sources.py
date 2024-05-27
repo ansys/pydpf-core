@@ -120,6 +120,9 @@ class DataSources:
         # Handle no key given and no file extension
         if key == "" and os.path.splitext(filepath)[1] == "":
             key = self.guess_result_key(str(filepath))
+        # Look for another extension for .h5 and .cff files
+        if key == "" and os.path.splitext(filepath)[1] in [".h5", ".cff"]:
+            key = self.guess_second_key(str(filepath))
         if key == "":
             self._api.data_sources_set_result_file_path_utf8(self, str(filepath))
         else:
@@ -135,6 +138,16 @@ class DataSources:
             if result_key in base_name:
                 return result_key
         return ""
+
+    @staticmethod
+    def guess_second_key(filepath: str) -> str:
+        """For files with an h5 or cff extension, look for another extension."""
+        without_ext = os.path.splitext(filepath)[0]
+        new_split = os.path.splitext(without_ext)
+        new_key = ""
+        if len(new_split) > 1:
+            new_key = new_split[1][1:]
+        return new_key
 
     def set_domain_result_file_path(
             self, path: Union[str, os.PathLike], domain_id: int, key: Union[str, None] = None
