@@ -13,8 +13,8 @@ else:
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
-def test_dpf_mesh_to_vtk(simple_rst):
-    model = dpf.Model(simple_rst)
+def test_dpf_mesh_to_vtk(simple_rst, server_type):
+    model = dpf.Model(simple_rst, server=server_type)
     mesh = model.metadata.meshed_region
     # Mesh to VTK
     ug = dpf_mesh_to_vtk(mesh=mesh)
@@ -38,8 +38,8 @@ def test_dpf_mesh_to_vtk(simple_rst):
     reason="CFF source operators where not supported before 7.0,",
 )
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
-def test_dpf_field_to_vtk(simple_rst, fluent_mixing_elbow_steady_state):
-    model = dpf.Model(simple_rst)
+def test_dpf_field_to_vtk(simple_rst, fluent_mixing_elbow_steady_state, server_type):
+    model = dpf.Model(simple_rst, server=server_type)
     mesh = model.metadata.meshed_region
     field = model.results.displacement.on_last_time_freq().eval()[0]
     field.name = "disp"
@@ -59,7 +59,7 @@ def test_dpf_field_to_vtk(simple_rst, fluent_mixing_elbow_steady_state):
     assert isinstance(ug, pv.UnstructuredGrid)
     pv.plot(ug)
     # Elemental Field to VTK
-    model = dpf.Model(fluent_mixing_elbow_steady_state())
+    model = dpf.Model(fluent_mixing_elbow_steady_state(), server=server_type)
     field = model.results.dynamic_viscosity.on_last_time_freq().eval()[0]
     field.name = "DV"
     ug = dpf_field_to_vtk(field=field, meshed_region=model.metadata.meshed_region)
@@ -69,11 +69,15 @@ def test_dpf_field_to_vtk(simple_rst, fluent_mixing_elbow_steady_state):
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
-def test_dpf_field_to_vtk_errors(simple_rst):
-    model = dpf.Model(simple_rst)
+def test_dpf_field_to_vtk_errors(simple_rst, server_type):
+    model = dpf.Model(simple_rst, server=server_type)
     # Elemental Field to VTK
     field = model.results.elemental_volume.on_last_time_freq().eval()[0]
-    with pytest.raises(ValueError, match="The field.meshed_region contains no nodes."):
+    if server_type.on_docker:
+        match_str = "the field doesn't have this support type"
+    else:
+        match_str = "The field.meshed_region contains no nodes."
+    with pytest.raises(ValueError, match=match_str):
         _ = dpf_field_to_vtk(field=field)
 
 
@@ -82,11 +86,12 @@ def test_dpf_field_to_vtk_errors(simple_rst):
     reason="CFF source operators where not supported before 7.0,",
 )
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
-def test_dpf_meshes_to_vtk(fluent_axial_comp):
-    model = dpf.Model(fluent_axial_comp())
+def test_dpf_meshes_to_vtk(fluent_axial_comp, server_type):
+    model = dpf.Model(fluent_axial_comp(), server=server_type)
     meshes_container = dpf.operators.mesh.meshes_provider(
         data_sources=model,
-        region_scoping=dpf.Scoping(ids=[13, 28], location=dpf.locations.zone)
+        server=server_type,
+        region_scoping=dpf.Scoping(ids=[13, 28], location=dpf.locations.zone, server=server_type)
     ).eval()
     assert len(meshes_container) == 2
     ug = dpf_meshes_to_vtk(meshes_container=meshes_container)
@@ -99,18 +104,21 @@ def test_dpf_meshes_to_vtk(fluent_axial_comp):
     reason="CFF source operators where not supported before 7.0,",
 )
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
-def test_dpf_fieldscontainer_to_vtk(fluent_axial_comp):
-    model = dpf.Model(fluent_axial_comp())
+def test_dpf_fieldscontainer_to_vtk(fluent_axial_comp, server_type):
+    model = dpf.Model(fluent_axial_comp(), server=server_type)
     print(model)
+    zone_scoping = dpf.Scoping(ids=[13, 28], location=dpf.locations.zone, server=server_type)
     # Elemental
     fields_container = dpf.operators.result.enthalpy(
         data_sources=model,
-        region_scoping=dpf.Scoping(ids=[13, 28], location=dpf.locations.zone),
+        server=server_type,
+        region_scoping=zone_scoping,
     ).eval()
     assert len(fields_container) == 2
     meshes_container = dpf.operators.mesh.meshes_provider(
         data_sources=model,
-        region_scoping=dpf.Scoping(ids=[13, 28], location=dpf.locations.zone)
+        server=server_type,
+        region_scoping=zone_scoping
     ).eval()
     ug = dpf_fieldscontainer_to_vtk(
         fields_container=fields_container, meshes_container=meshes_container
@@ -119,15 +127,18 @@ def test_dpf_fieldscontainer_to_vtk(fluent_axial_comp):
     assert sorted(list(ug.cell_data.keys())) == ["h {'time': 1, 'zone': 13}",
                                                  "h {'time': 1, 'zone': 28}"]
     pv.plot(ug)
+    zone_scoping = dpf.Scoping(ids=[3, 4, 7], location=dpf.locations.zone, server=server_type)
     # Faces
     fields_container = dpf.operators.result.wall_shear_stress(
         data_sources=model,
-        region_scoping=dpf.Scoping(ids=[3, 4, 7], location=dpf.locations.zone),
+        server=server_type,
+        region_scoping=zone_scoping,
     ).eval()
     assert len(fields_container) == 3
     meshes_container = dpf.operators.mesh.meshes_provider(
         data_sources=model,
-        region_scoping=dpf.Scoping(ids=[3, 4, 7], location=dpf.locations.zone)
+        server=server_type,
+        region_scoping=zone_scoping
     ).eval()
     ug = dpf_fieldscontainer_to_vtk(
         fields_container=fields_container, meshes_container=meshes_container
