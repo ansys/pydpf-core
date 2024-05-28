@@ -602,14 +602,6 @@ class ServerFactory:
         if config.protocol == CommunicationProtocols.gRPC and config.legacy:
             return LegacyGrpcServer
         elif config.protocol == CommunicationProtocols.gRPC and not config.legacy:
-            # if ansys_path is None:
-            #     from ansys.dpf.core.misc import __ansys_version__
-            #
-            #     ansys_path = os.environ.get("AWP_ROOT" + str(__ansys_version__), None)
-            # if ansys_path is not None:
-            #     sub_folders = os.path.join(ansys_path, _get_path_in_install())
-            #     os.environ["PATH"] += sub_folders
-            #     print(f"{len(get_system_path())} Len(Python.PATH) after sub_folders")
             return GrpcServer
         elif config.protocol == CommunicationProtocols.InProcess and not config.legacy:
             return InProcessServer
