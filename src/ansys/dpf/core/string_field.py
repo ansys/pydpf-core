@@ -57,7 +57,9 @@ class StringField(_FieldBase):
         string_field=None,
         server=None,
     ):
-        self._server = server_module.get_or_create_server(server)
+        self._server = server_module.get_or_create_server(
+            string_field._server if isinstance(string_field, StringField) else server
+        )
         if string_field is None and not self._server.meet_version("5.0"):
             raise errors.DpfVersionNotSupported("5.0")
         super().__init__(

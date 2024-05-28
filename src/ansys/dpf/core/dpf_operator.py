@@ -103,7 +103,9 @@ class Operator:
         self._inputs = None
 
         # step 1: get server
-        self._server = server_module.get_or_create_server(server)
+        self._server = server_module.get_or_create_server(
+            config._server if isinstance(config, Config) else server
+        )
 
         # step 2: get api
         self._api_instance = None  # see _api property

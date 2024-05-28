@@ -93,7 +93,9 @@ class CustomTypeField(_FieldBase):
         """Initialize the field either with an optional field message or
         by connecting to a stub.
         """
-        self._server = server_module.get_or_create_server(server)
+        self._server = server_module.get_or_create_server(
+            field._server if isinstance(field, CustomTypeField) else server
+        )
         if field is None and not self._server.meet_version("5.0"):
             raise errors.DpfVersionNotSupported("5.0")
         if unitary_type is not None:

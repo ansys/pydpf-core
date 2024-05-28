@@ -45,7 +45,9 @@ class CyclicSupport:
     def __init__(self, cyclic_support, server=None):
         """Initialize time frequency support with its `TimeFreqSupport` message (if possible)."""
         # step 1: get server
-        self._server = server_module.get_or_create_server(server)
+        self._server = server_module.get_or_create_server(
+            cyclic_support._server if isinstance(cyclic_support, CyclicSupport) else server
+        )
 
         # step 2: get api
         self._api = self._server.get_api_for_type(

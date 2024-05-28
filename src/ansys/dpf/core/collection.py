@@ -33,7 +33,9 @@ class Collection(CollectionBase[TYPE]):
 
     def __init__(self, collection=None, server=None, entries_type: type = None):
         # step 1: get server
-        self._server = server_module.get_or_create_server(server)
+        self._server = server_module.get_or_create_server(
+            collection._server if isinstance(collection, Collection) else server
+        )
         if not self._server.meet_version("8.1"):
             raise errors.DpfVersionNotSupported("8.1")
 
