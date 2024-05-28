@@ -16,7 +16,9 @@ class LabelSpace:
     def __init__(self, label_space=None, obj=None, server=None):
         # ############################
         # step 1: get server
-        self._server = server_module.get_or_create_server(server)
+        self._server = server_module.get_or_create_server(
+            label_space._server if isinstance(label_space, LabelSpace) else server
+        )
 
         # step 2: get api
         self._api = self._server.get_api_for_type(

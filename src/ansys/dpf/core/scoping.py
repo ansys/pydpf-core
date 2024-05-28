@@ -63,10 +63,10 @@ class Scoping:
         by connecting to a stub.
         """
         # step 1: get server
-        if scoping:
-            self._server = scoping._server
-        else:
-            self._server = server_module.get_or_create_server(server)
+        self._server = server_module.get_or_create_server(
+            scoping._server if isinstance(scoping, Scoping) else server
+        )
+
         self._api = self._server.get_api_for_type(
             capi=scoping_capi.ScopingCAPI, grpcapi=scoping_grpcapi.ScopingGRPCAPI
         )

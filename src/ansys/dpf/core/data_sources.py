@@ -55,7 +55,9 @@ class DataSources:
     def __init__(self, result_path=None, data_sources=None, server=None):
         """Initialize a connection with the server."""
         # step 1: get server
-        self._server = server_module.get_or_create_server(server)
+        self._server = server_module.get_or_create_server(
+            data_sources._server if isinstance(data_sources, DataSources) else server
+        )
 
         # step 2: get api
         self._api = self._server.get_api_for_type(

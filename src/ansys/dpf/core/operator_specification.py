@@ -235,7 +235,9 @@ class Specification(SpecificationBase):
 
     def __init__(self, operator_name: Union[str, None]=None, specification: Union[Specification, None]=None, server: Union[server_module.BaseServer, None]=None):
         # step 1: get server
-        self._server = server_module.get_or_create_server(server)
+        self._server = server_module.get_or_create_server(
+            specification._server if isinstance(specification, Specification) else server
+        )
 
         # step 2: get api
         self._api = self._server.get_api_for_type(
