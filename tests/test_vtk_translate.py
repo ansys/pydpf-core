@@ -3,7 +3,8 @@ import conftest
 import ansys.dpf.core as dpf
 from ansys.dpf.core import misc
 from ansys.dpf.core.vtk_helper import \
-    dpf_mesh_to_vtk, dpf_field_to_vtk, dpf_meshes_to_vtk, dpf_fieldscontainer_to_vtk
+    dpf_mesh_to_vtk, dpf_field_to_vtk, dpf_meshes_to_vtk, \
+    dpf_fieldscontainer_to_vtk, dpf_property_field_to_vtk
 
 if misc.module_exists("pyvista"):
     HAS_PYVISTA = True
@@ -143,4 +144,18 @@ def test_dpf_fieldscontainer_to_vtk(fluent_axial_comp, server_type):
         "tau_w {'time': 1, 'zone': 3}",
         "tau_w {'time': 1, 'zone': 4}",
         "tau_w {'time': 1, 'zone': 7}"]
+    pv.plot(ug)
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_dpf_field_to_vtk(simple_rst, server_type):
+    model = dpf.Model(simple_rst, server=server_type)
+    mesh = model.metadata.meshed_region
+    property_field = mesh.property_field(property_name="mat")
+    print(property_field)
+    property_field.name = "mat_id"
+    # PropertyField to VTK
+    ug = dpf_property_field_to_vtk(property_field=property_field, meshed_region=mesh)
+    assert isinstance(ug, pv.UnstructuredGrid)
+    assert "mat_id" in ug.cell_data.keys()
     pv.plot(ug)
