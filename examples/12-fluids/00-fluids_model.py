@@ -84,6 +84,10 @@ print(minfo.cell_zones)
 print(minfo.face_zones)
 
 ###############################################################################
+# As well as a map of body ID to body name.
+print(minfo.bodies)
+
+###############################################################################
 # To facilitate the extraction of results, the body, cell and face zone ``Scoping``
 # are extracted. They can be used to scope results.
 
