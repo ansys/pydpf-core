@@ -147,8 +147,12 @@ def test_dpf_fieldscontainer_to_vtk(fluent_axial_comp, server_type):
     pv.plot(ug)
 
 
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_1,
+    reason="Could not set a PropertyField name before 8.1,",
+)
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
-def test_dpf_field_to_vtk(simple_rst, server_type):
+def test_dpf_property_field_to_vtk(simple_rst, server_type):
     model = dpf.Model(simple_rst, server=server_type)
     mesh = model.metadata.meshed_region
     property_field = mesh.property_field(property_name="mat")

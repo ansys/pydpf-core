@@ -579,6 +579,7 @@ def _map_field_to_mesh(field: dpf.Field, meshed_region: dpf.MeshedRegion) -> np.
     return overall_data
 
 
+@version_requires("8.1")
 def dpf_property_field_to_vtk(
         property_field: dpf.PropertyField,
         meshed_region: dpf.MeshedRegion,
@@ -586,6 +587,9 @@ def dpf_property_field_to_vtk(
         as_linear: bool = True
 ) -> pv.UnstructuredGrid:
     """Return a pyvista UnstructuredGrid given a DPF PropertyField.
+
+    ..note:
+        Available starting with DPF 2024.2.pre1.
 
     Parameters
     ----------
