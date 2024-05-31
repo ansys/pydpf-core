@@ -1,8 +1,6 @@
 import numpy as np
 import pyvista as pv
 from typing import Union
-import ansys.dpf.core as dpf
-from ansys.dpf.core import errors
 from vtk import (
     VTK_HEXAHEDRON,
     VTK_LINE,
@@ -23,6 +21,10 @@ from vtk import (
     VTK_WEDGE,
     vtkVersion,
 )
+
+import ansys.dpf.core as dpf
+from ansys.dpf.core import errors
+from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.core.elements import element_types
 
 VTK9 = vtkVersion().GetVTKMajorVersion() >= 9
