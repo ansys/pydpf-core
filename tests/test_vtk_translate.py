@@ -1,7 +1,7 @@
 import pytest
 import conftest
 import ansys.dpf.core as dpf
-from ansys.dpf.core import misc
+from ansys.dpf.core import errors, misc
 from ansys.dpf.core.vtk_helper import \
     dpf_mesh_to_vtk, dpf_field_to_vtk, dpf_meshes_to_vtk, \
     dpf_fieldscontainer_to_vtk, dpf_property_field_to_vtk
@@ -147,10 +147,7 @@ def test_dpf_fieldscontainer_to_vtk(fluent_axial_comp, server_type):
     pv.plot(ug)
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_1,
-    reason="Could not set a PropertyField name before 8.1,",
-)
+@pytest.mark.xfail(raises=errors.DpfVersionNotSupported)
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_dpf_property_field_to_vtk(simple_rst, server_type):
     model = dpf.Model(simple_rst, server=server_type)

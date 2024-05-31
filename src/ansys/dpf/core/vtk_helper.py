@@ -24,7 +24,7 @@ from vtk import (
 
 import ansys.dpf.core as dpf
 from ansys.dpf.core import errors
-from ansys.dpf.core.check_version import version_requires
+from ansys.dpf.core.check_version import server_meet_version_and_raise
 from ansys.dpf.core.elements import element_types
 
 VTK9 = vtkVersion().GetVTKMajorVersion() >= 9
@@ -553,8 +553,12 @@ def dpf_fieldscontainer_to_vtk(
 
     return grid
 
-def _map_field_to_mesh(field: dpf.Field, meshed_region: dpf.MeshedRegion) -> np.ndarray:
-    """Return an NumPy array of Field.data mapped to the mesh on the field's location."""
+
+def _map_field_to_mesh(
+        field: Union[dpf.Field, dpf.PropertyField],
+        meshed_region: dpf.MeshedRegion
+) -> np.ndarray:
+    """Return an NumPy array of 'Field.data' mapped to the mesh on the field's location."""
     location = field.location
     if location == dpf.locations.nodal:
         mesh_location = meshed_region.nodes
@@ -581,7 +585,6 @@ def _map_field_to_mesh(field: dpf.Field, meshed_region: dpf.MeshedRegion) -> np.
     return overall_data
 
 
-@version_requires("8.1")
 def dpf_property_field_to_vtk(
         property_field: dpf.PropertyField,
         meshed_region: dpf.MeshedRegion,
@@ -612,6 +615,11 @@ def dpf_property_field_to_vtk(
     grid:
         UnstructuredGrid corresponding to the DPF PropertyField.
     """
+    server_meet_version_and_raise(
+        required_version="8.1",
+        server=meshed_region._server,
+        msg="Use of dpf_property_field_to_vtk requires DPF 2024.2.pre1 or above."
+    )
     # Check Field location
     supported_locations = [
         dpf.locations.nodal, dpf.locations.elemental, dpf.locations.faces, dpf.locations.overall
