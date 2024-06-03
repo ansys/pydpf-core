@@ -5,7 +5,10 @@ Python DPF plugins utilities
 Contains the utilities specific to installing and using Python DPF plugins.
 """
 import os.path
-import importlib.metadata as importlib_metadata
+try:
+    import importlib.metadata as importlib_metadata
+except ImportError:  # Python < 3.10 (backport)
+    import importlib_metadata as importlib_metadata
 
 import ansys.dpf.core as dpf
 from ansys.dpf.core import server as server_module
