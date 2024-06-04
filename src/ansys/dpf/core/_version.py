@@ -1,7 +1,7 @@
 """Version for ansys-dpf-core"""
 # major, minor, patch
 
-version_info = 0, 13, 0, "dev0"
+version_info = 0, 12, 3, "dev0"
 
 
 # Nice string for the version
