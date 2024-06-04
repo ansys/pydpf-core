@@ -1,9 +1,11 @@
 """Version for ansys-dpf-core"""
 # major, minor, patch
 
-import importlib.metadata as importlib_metadata
+version_info = 0, 13, 0, "dev0"
 
-__version__ = importlib_metadata.version(__name__.replace(".", "-"))
+
+# Nice string for the version
+__version__ = ".".join(map(str, version_info))
 
 # Minimal DPF server version supported
 min_server_version = "4.0"
