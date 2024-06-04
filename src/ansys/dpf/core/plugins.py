@@ -30,14 +30,20 @@ def load_plugin_on_server(plugin, server=None, symbol="load_operators"):
     plugin_name = plugin.split("-")[-1]
     tmp_folder = dpf.make_tmp_dir_server(server=server)
 
+    try:
+        plugin_files = importlib_metadata.files(plugin)
+    except importlib_metadata.PackageNotFoundError as e:
+        raise ModuleNotFoundError(
+            f"Could not locate files for plugin {plugin}, check it is installed."
+        ) from e
     # Get the path to the plugin from the package installation
-    if len([p for p in importlib_metadata.files(plugin) if "__init__.py" in str(p)]) > 0:
-        file_path = [p for p in importlib_metadata.files(plugin) if "__init__.py" in str(p)][0]
+    if len([p for p in plugin_files if "__init__.py" in str(p)]) > 0:
+        file_path = [p for p in plugin_files if "__init__.py" in str(p)][0]
         plugin_path = str(os.path.dirname(file_path.locate()))
         # For some reason the "locate()" function returns a path with src doubled
         plugin_path = plugin_path.replace("src"+os.path.sep+"src", "src")
-    elif len([p for p in importlib_metadata.files(plugin) if ".pth" in str(p)]) > 0:
-        path_file = [p for p in importlib_metadata.files(plugin) if ".pth" in str(p)][0].locate()
+    elif len([p for p in plugin_files if ".pth" in str(p)]) > 0:
+        path_file = [p for p in plugin_files if ".pth" in str(p)][0].locate()
         with open(path_file, "r") as file:
             plugin_path = file.readline()[:-1]
         plugin_path = os.path.join(plugin_path, "ansys", "dpf", "plugins", plugin_name)
