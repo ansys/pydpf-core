@@ -6,7 +6,7 @@ try:
 except ImportError:  # Python < 3.10 (backport)
     import importlib_metadata as importlib_metadata
 
-__version__ = importlib_metadata.version(__name__.replace(".", "-"))
+__version__ = importlib_metadata.version("ansys-dpf-core")
 
 # Setup data directory
 USER_DATA_PATH = None
