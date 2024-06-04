@@ -1,7 +1,10 @@
 import os
 import pkg_resources
 
-import importlib.metadata as importlib_metadata
+try:
+    import importlib.metadata as importlib_metadata
+except ImportError:  # Python < 3.10 (backport)
+    import importlib_metadata as importlib_metadata
 
 __version__ = importlib_metadata.version(__name__.replace(".", "-"))
 
