@@ -72,7 +72,7 @@ jobs:
           echo "ANSYSLMD_LICENSE_FILE=1055@${{ secrets.LICENSE_SERVER }}" >> $GITHUB_ENV
 
       - name: "Setup Python"
-        uses: actions/setup-python@v4.6.0
+        uses: actions/setup-python@4.6
         with:
           python-version: ${{ matrix.python-version }}
 
