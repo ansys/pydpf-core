@@ -1,12 +1,4 @@
 """Version for ansys-dpf-core"""
-# major, minor, patch
-
-version_info = 0, 12, 3, "dev0"
-
-
-# Nice string for the version
-__version__ = ".".join(map(str, version_info))
-
 # Minimal DPF server version supported
 min_server_version = "4.0"
 

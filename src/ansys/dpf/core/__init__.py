@@ -1,8 +1,9 @@
 import os
 import pkg_resources
 
-from ansys.dpf.core._version import __version__
+import importlib.metadata as importlib_metadata
 
+__version__ = importlib_metadata.version(__name__.replace(".", "-"))
 
 # Setup data directory
 USER_DATA_PATH = None
