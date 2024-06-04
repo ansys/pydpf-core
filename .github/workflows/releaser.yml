@@ -67,7 +67,7 @@ jobs:
 
   upload_docs_release:
     name: "Upload stable documentation"
-    needs: [Publish_to_PyPI]
+    needs: [Publish_to_PyPI, get_latest_tag]
     runs-on: ubuntu-latest
     steps:
       - name: "Download Release Asset - HTML"
