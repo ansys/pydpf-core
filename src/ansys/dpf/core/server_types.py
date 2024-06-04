@@ -21,8 +21,8 @@ import psutil
 
 import ansys.dpf.core as core
 from ansys.dpf.core.check_version import server_meet_version
-from ansys.dpf.core import errors, server_factory
-from ansys.dpf.core._version import min_server_version, server_to_ansys_version, __version__
+from ansys.dpf.core import errors, server_factory, __version__
+from ansys.dpf.core._version import min_server_version, server_to_ansys_version
 from ansys.dpf.core import server_context
 from ansys.dpf.gate import load_api, data_processing_grpcapi
 
