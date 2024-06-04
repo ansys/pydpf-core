@@ -1,7 +1,6 @@
 import numpy as np
 import pyvista as pv
-import ansys.dpf.core as dpf
-from ansys.dpf.core import errors
+from typing import Union
 from vtk import (
     VTK_HEXAHEDRON,
     VTK_LINE,
@@ -22,6 +21,10 @@ from vtk import (
     VTK_WEDGE,
     vtkVersion,
 )
+
+import ansys.dpf.core as dpf
+from ansys.dpf.core import errors
+from ansys.dpf.core.check_version import server_meet_version_and_raise
 from ansys.dpf.core.elements import element_types
 
 VTK9 = vtkVersion().GetVTKMajorVersion() >= 9
@@ -124,7 +127,7 @@ class PyVistaImportError(ModuleNotFoundError):
         ModuleNotFoundError.__init__(self, msg)
 
 
-def dpf_mesh_to_vtk_op(mesh, nodes, as_linear):
+def dpf_mesh_to_vtk_op(mesh, nodes=None, as_linear=True):
     """Return a pyvista unstructured grid given DPF node and element
     definitions from operators (server > 6.2)
 
@@ -134,7 +137,7 @@ def dpf_mesh_to_vtk_op(mesh, nodes, as_linear):
         Meshed Region to export to pyVista format
 
     nodes : dpf.Field
-        Field containing the nodes of the mesh.
+        Field containing the node coordinates of the mesh.
 
     as_linear : bool
         Export quadratic surface elements as linear.
@@ -333,25 +336,28 @@ def dpf_mesh_to_vtk_py(mesh, nodes, as_linear):
     return pv.UnstructuredGrid(offset, cells, vtk_cell_type, node_coordinates)
 
 
-def dpf_mesh_to_vtk(mesh, nodes=None, as_linear=True):
-    """Return a pyvista unstructured grid given DPF node and element
-    definitions.
+def dpf_mesh_to_vtk(
+        mesh: dpf.MeshedRegion,
+        nodes: Union[dpf.Field, None] = None,
+        as_linear: bool = True
+) -> pv.UnstructuredGrid:
+    """Return a pyvista UnstructuredGrid given a pydpf MeshedRegion.
 
     Parameters
     ----------
     mesh : dpf.MeshedRegion
-        Meshed Region to export to pyVista format
+        Meshed Region to export to pyVista format.
 
     nodes : dpf.Field, optional
-        Field containing the nodes of the mesh.
+        Field containing the node coordinates of the mesh (useful to get a deformed geometry).
 
     as_linear : bool, optional
         Export quadratic surface elements as linear.
 
     Returns
     -------
-    grid : pyvista.UnstructuredGrid
-        Unstructured grid of the DPF mesh.
+    grid:
+        UnstructuredGrid corresponding to the DPF mesh.
     """
     try:
         return dpf_mesh_to_vtk_op(mesh, nodes, as_linear)
@@ -363,3 +369,277 @@ def vtk_update_coordinates(vtk_grid, coordinates_array):
     from copy import copy
 
     vtk_grid.points = copy(coordinates_array)
+
+
+def dpf_meshes_to_vtk(
+        meshes_container: dpf.MeshesContainer,
+        nodes: Union[dpf.FieldsContainer, None] = None,
+        as_linear: bool = True
+) -> pv.UnstructuredGrid:
+    """Return a pyvista UnstructuredGrid given a pydpf MeshedRegion.
+
+    Parameters
+    ----------
+    meshes_container:
+        MeshesContainer to export to pyVista format.
+
+    nodes:
+        FieldsContainer containing the node coordinates for each mesh
+        (useful to get a deformed geometry). The labels must match a field to a mesh.
+
+    as_linear : bool, optional
+        Export quadratic surface elements as linear.
+
+    Returns
+    -------
+    grid:
+        UnstructuredGrid corresponding to the DPF meshes.
+    """
+    grids = []
+    for i, mesh in enumerate(meshes_container):
+        nodes_i = None
+        if nodes:
+            nodes_i = nodes[i]
+        grids.append(dpf_mesh_to_vtk(mesh, nodes_i, as_linear))
+    return pv.MultiBlock(grids).combine()
+
+
+def dpf_field_to_vtk(
+        field: dpf.Field,
+        meshed_region: Union[dpf.MeshedRegion, None] = None,
+        nodes: Union[dpf.Field, None] = None,
+        as_linear: bool = True
+) -> pv.UnstructuredGrid:
+    """Return a pyvista UnstructuredGrid given a DPF Field.
+
+    Parameters
+    ----------
+    field:
+        Field to export to pyVista format.
+
+    meshed_region:
+        Mesh to associate to the field.
+        Useful for fluid results where the field is not automatically associated to its mesh.
+
+    nodes:
+        Field containing the node coordinates of the mesh (useful to get a deformed geometry).
+
+    as_linear:
+        Export quadratic surface elements as linear.
+
+    Returns
+    -------
+    grid:
+        UnstructuredGrid corresponding to the DPF Field.
+    """
+    # Check Field location
+    supported_locations = [
+        dpf.locations.nodal, dpf.locations.elemental, dpf.locations.faces, dpf.locations.overall
+    ]
+    if field.location not in supported_locations:
+        raise ValueError(
+            f"Supported field locations for translation to VTK are: {supported_locations}."
+        )
+
+    # Associate the provided mesh with the field
+    if meshed_region:
+        field.meshed_region = meshed_region
+    else:
+        try:
+            meshed_region = field.meshed_region
+        except errors.DPFServerException as e:
+            if "the field doesn't have this support type" in str(e):
+                raise ValueError("The field does not have a meshed_region.")
+            else:
+                raise e
+        except RuntimeError as e:
+            if "The field's support is not a mesh" in str(e):
+                raise ValueError("The field does not have a meshed_region.")
+            else:
+                raise e
+
+    # Initialize the bare UnstructuredGrid
+    if meshed_region.nodes.n_nodes == 0:
+        raise ValueError("The field does not have a meshed_region.")
+    grid = dpf_mesh_to_vtk(mesh=meshed_region, nodes=nodes, as_linear=as_linear)
+
+    # Map Field.data to the VTK mesh
+    overall_data = _map_field_to_mesh(field=field, meshed_region=meshed_region)
+
+    # Update the UnstructuredGrid
+    if field.location == dpf.locations.nodal:
+        grid.point_data[field.name] = overall_data
+    else:
+        grid.cell_data[field.name] = overall_data
+    return grid
+
+
+def dpf_fieldscontainer_to_vtk(
+        fields_container: dpf.FieldsContainer,
+        meshes_container: Union[dpf.MeshesContainer, None] = None,
+        nodes: Union[dpf.Field, None] = None,
+        as_linear: bool = True
+) -> pv.UnstructuredGrid:
+    """Return a pyvista UnstructuredGrid given a DPF FieldsContainer.
+
+    If the fields have different mesh supports, a global merged mesh support is created.
+
+    Parameters
+    ----------
+    fields_container:
+        FieldsContainer to export to pyVista format.
+
+    meshes_container:
+        MeshesContainer with meshes to associate to the fields in the FieldsContainer.
+        Useful for fluid results where the fields are not automatically associated to their mesh.
+
+    nodes:
+        Field containing the node coordinates of the mesh (useful to get a deformed geometry).
+
+    as_linear:
+        Export quadratic surface elements as linear.
+
+    Returns
+    -------
+    grid:
+        UnstructuredGrid corresponding to the DPF Field.
+    """
+    # Check Field location
+    supported_locations = [
+        dpf.locations.nodal, dpf.locations.elemental, dpf.locations.faces, dpf.locations.overall
+    ]
+    if fields_container[0].location not in supported_locations:
+        raise ValueError(
+            f"Supported field locations for translation to VTK are: {supported_locations}."
+        )
+
+    # Associate the meshes in meshes_container to the corresponding fields if provided
+    if meshes_container:
+        for i, mesh in enumerate(meshes_container):
+            label_space = meshes_container.get_label_space(i)
+            fields_container.get_field(
+                label_space_or_index=label_space
+            ).meshed_region = meshes_container.get_mesh(label_space_or_index=label_space)
+
+    # Initialize the bare UnstructuredGrid
+    # Loop on the fields to check if merging supports is necessary
+    meshes = []
+    for field in fields_container:
+        if field.meshed_region not in meshes:
+            meshes.append(field.meshed_region)
+    if len(meshes)>1:
+        # Merge the meshed_regions
+        merge_op = dpf.operators.utility.merge_meshes(server=fields_container._server)
+        for i, mesh in enumerate(meshes):
+            merge_op.connect(i, mesh)
+        meshed_region = merge_op.eval()
+    else:
+        meshed_region = meshes[0]
+    if meshed_region.nodes.n_nodes == 0:
+        raise ValueError("The meshed_region of the fields contains no nodes.")
+    grid = dpf_mesh_to_vtk(mesh=meshed_region, nodes=nodes, as_linear=as_linear)
+
+    for i, field in enumerate(fields_container):
+        # Map Field.data to the VTK mesh
+        overall_data = _map_field_to_mesh(field=field, meshed_region=meshed_region)
+        label_space = fields_container.get_label_space(i)
+        label_space = dict([(k, label_space[k]) for k in sorted(label_space.keys())])
+        field.name = field.name+f" {label_space}"
+        # Update the UnstructuredGrid
+        if field.location == dpf.locations.nodal:
+            grid.point_data[field.name] = overall_data
+        else:
+            grid.cell_data[field.name] = overall_data
+
+    return grid
+
+
+def _map_field_to_mesh(
+        field: Union[dpf.Field, dpf.PropertyField],
+        meshed_region: dpf.MeshedRegion
+) -> np.ndarray:
+    """Return an NumPy array of 'Field.data' mapped to the mesh on the field's location."""
+    location = field.location
+    if location == dpf.locations.nodal:
+        mesh_location = meshed_region.nodes
+    elif location == dpf.locations.elemental:
+        mesh_location = meshed_region.elements
+    elif location == dpf.locations.faces:
+        mesh_location = meshed_region.faces
+        if len(mesh_location) == 0:
+            raise ValueError("No faces found to plot on")
+    elif location == dpf.locations.overall:
+        mesh_location = meshed_region.elements
+    else:
+        raise ValueError("Only elemental, nodal or faces location are supported for plotting.")
+    component_count = field.component_count
+    if component_count > 1:
+        overall_data = np.full((len(mesh_location), component_count), np.nan)
+    else:
+        overall_data = np.full(len(mesh_location), np.nan)
+    if location != dpf.locations.overall:
+        ind, mask = mesh_location.map_scoping(field.scoping)
+        overall_data[ind] = field.data[mask]
+    else:
+        overall_data[:] = field.data[0]
+    return overall_data
+
+
+def dpf_property_field_to_vtk(
+        property_field: dpf.PropertyField,
+        meshed_region: dpf.MeshedRegion,
+        nodes: Union[dpf.Field, None] = None,
+        as_linear: bool = True
+) -> pv.UnstructuredGrid:
+    """Return a pyvista UnstructuredGrid given a DPF PropertyField.
+
+    ..note:
+        Available starting with DPF 2024.2.pre1.
+
+    Parameters
+    ----------
+    property_field:
+        PropertyField to export to pyVista format.
+
+    meshed_region:
+        Mesh to associate to the property field.
+
+    nodes:
+        Field containing the node coordinates of the mesh (useful to get a deformed geometry).
+
+    as_linear:
+        Export quadratic surface elements as linear.
+
+    Returns
+    -------
+    grid:
+        UnstructuredGrid corresponding to the DPF PropertyField.
+    """
+    server_meet_version_and_raise(
+        required_version="8.1",
+        server=meshed_region._server,
+        msg="Use of dpf_property_field_to_vtk requires DPF 2024.2.pre1 or above."
+    )
+    # Check Field location
+    supported_locations = [
+        dpf.locations.nodal, dpf.locations.elemental, dpf.locations.faces, dpf.locations.overall
+    ]
+    if property_field.location not in supported_locations:
+        raise ValueError(
+            f"Supported field locations for translation to VTK are: {supported_locations}."
+        )
+
+    # Initialize the bare UnstructuredGrid
+    if meshed_region.nodes.n_nodes == 0:
+        raise ValueError("The property field does not have a meshed_region.")
+    grid = dpf_mesh_to_vtk(mesh=meshed_region, nodes=nodes, as_linear=as_linear)
+
+    # Map Field.data to the VTK mesh
+    overall_data = _map_field_to_mesh(field=property_field, meshed_region=meshed_region)
+
+    # Update the UnstructuredGrid
+    if property_field.location == dpf.locations.nodal:
+        grid.point_data[property_field.name] = overall_data
+    else:
+        grid.cell_data[property_field.name] = overall_data
+    return grid

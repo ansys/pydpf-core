@@ -44,7 +44,9 @@ class Support:
 
     def __init__(self, support, server=None):
         # step 1: get server
-        self._server = server_module.get_or_create_server(server)
+        self._server = server_module.get_or_create_server(
+            support._server if isinstance(support, Support) else server
+        )
 
         if not self._server.meet_version("3.0"):  # pragma: no cover
             return

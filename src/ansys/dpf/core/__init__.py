@@ -57,6 +57,7 @@ from ansys.dpf.core.common import (
     config_options
     )
 from ansys.dpf.core import help
+from ansys.dpf.core import plugins
 from ansys.dpf.core.core import (
     BaseService,
     load_library,
