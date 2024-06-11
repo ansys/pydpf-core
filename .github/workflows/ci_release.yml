@@ -44,18 +44,9 @@ jobs:
     name: "Style Check"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
-      - name: "Setup Python"
-        uses: actions/setup-python@v5
+      - uses: ansys/actions/code-style@v6
         with:
-          python-version: ${{ env.MAIN_PYTHON_VERSION }}
-
-      - name: "Install pre-commit"
-        run: pip install pre-commit
-
-      - name: "Run pre-commit"
-        run: pre-commit run --all-files --show-diff-on-failure
+          use-python-cache: false
 
   build_linux1:
     name: "Build linux1 wheel"
