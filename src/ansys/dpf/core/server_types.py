@@ -738,11 +738,14 @@ class GrpcServer(CServer):
         self.live = True
         self._create_shutdown_funcs()
         self._check_first_call(num_connection_tryouts)
-        try:
-            self._base_service.initialize_with_context(context)
-            self._context = context
-        except errors.DpfVersionNotSupported:
-            pass
+        if context:
+            try:
+                self._base_service.initialize_with_context(context)
+                self._context = context
+            except errors.DpfVersionNotSupported:
+                pass
+        else:
+            self._base_service.initialize()
         self.set_as_global(as_global=as_global)
 
     def _check_first_call(self, num_connection_tryouts):
@@ -919,14 +922,17 @@ class InProcessServer(CServer):
                     f"Unable to locate the following file: {path}"
                 )
             raise e
-        try:
-            self.apply_context(context)
-        except errors.DpfVersionNotSupported:
-            self._base_service.initialize_with_context(
-                server_context.AvailableServerContexts.premium
-            )
-            self._context = server_context.AvailableServerContexts.premium
-            pass
+        if context:
+            try:
+                self.apply_context(context)
+            except errors.DpfVersionNotSupported:
+                self._base_service.initialize_with_context(
+                    server_context.AvailableServerContexts.premium
+                )
+                self._context = server_context.AvailableServerContexts.premium
+                pass
+        else:
+            self._base_service.initialize()
         self.set_as_global(as_global=as_global)
         # Update the python os.environment
         if not os.name == "posix":
