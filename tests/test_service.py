@@ -488,8 +488,8 @@ def test_server_without_context(remote_config_server_type):
         config=remote_config_server_type,
         context=dpf.core.AvailableServerContexts.no_context
     )
-    print(server.context)
-    assert server.context == dpf.core.AvailableServerContexts.no_context
+    none_type = dpf.core.AvailableServerContexts.no_context.licensing_context_type
+    assert server.context.licensing_context_type == none_type
 
 
 @pytest.mark.order("last")
