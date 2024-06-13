@@ -686,7 +686,7 @@ class GrpcServer(CServer):
         docker_config: DockerConfig = RUNNING_DOCKER,
         use_pypim: bool = True,
         num_connection_tryouts: int = 3,
-        context: Union[server_context.AvailableServerContexts, None] = server_context.SERVER_CONTEXT,
+        context: server_context.AvailableServerContexts = server_context.SERVER_CONTEXT,
     ):
         # Load DPFClientAPI
         from ansys.dpf.core.misc import is_pypim_configured
@@ -738,7 +738,7 @@ class GrpcServer(CServer):
         self.live = True
         self._create_shutdown_funcs()
         self._check_first_call(num_connection_tryouts)
-        if context:
+        if context != core.AvailableServerContexts.no_context:
             try:
                 self._base_service.initialize_with_context(context)
                 self._context = context
@@ -746,6 +746,7 @@ class GrpcServer(CServer):
                 pass
         else:
             self._base_service.initialize()
+            self._context = context
         self.set_as_global(as_global=as_global)
 
     def _check_first_call(self, num_connection_tryouts):
@@ -904,7 +905,7 @@ class InProcessServer(CServer):
         as_global: bool = True,
         load_operators: bool = True,
         timeout: None = None,
-        context: Union[server_context.AvailableServerContexts, None] = server_context.SERVER_CONTEXT,
+        context: server_context.AvailableServerContexts = server_context.SERVER_CONTEXT,
     ):
         # Load DPFClientAPI
         super().__init__(ansys_path=ansys_path, load_operators=load_operators)
@@ -922,7 +923,7 @@ class InProcessServer(CServer):
                     f"Unable to locate the following file: {path}"
                 )
             raise e
-        if context:
+        if context != core.AvailableServerContexts.no_context:
             try:
                 self.apply_context(context)
             except errors.DpfVersionNotSupported:
@@ -933,6 +934,7 @@ class InProcessServer(CServer):
                 pass
         else:
             self._base_service.initialize()
+            self._context = context
         self.set_as_global(as_global=as_global)
         # Update the python os.environment
         if not os.name == "posix":
@@ -1044,7 +1046,7 @@ class LegacyGrpcServer(BaseServer):
         launch_server: bool = True,
         docker_config: DockerConfig = RUNNING_DOCKER,
         use_pypim: bool = True,
-        context: Union[server_context.AvailableServerContexts, None] = server_context.SERVER_CONTEXT,
+        context: server_context.AvailableServerContexts = server_context.SERVER_CONTEXT,
     ):
         """Start the DPF server."""
         # Use ansys.grpc.dpf
@@ -1109,11 +1111,14 @@ class LegacyGrpcServer(BaseServer):
         self._create_shutdown_funcs()
 
         check_ansys_grpc_dpf_version(self, timeout)
-        try:
-            self._base_service.initialize_with_context(context)
+        if context != core.AvailableServerContexts.no_context:
+            try:
+                self._base_service.initialize_with_context(context)
+                self._context = context
+            except errors.DpfVersionNotSupported:
+                pass
+        else:
             self._context = context
-        except errors.DpfVersionNotSupported:
-            pass
         self.set_as_global(as_global=as_global)
 
     def _create_shutdown_funcs(self):
