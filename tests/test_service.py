@@ -481,6 +481,17 @@ def test_context_environment_variable(reset_context_environment_variable):
             continue
 
 
+def test_server_without_context(remote_config_server_type):
+    """Tests starting a server without a no_context given."""
+    server = dpf.core.start_local_server(
+        as_global=True,
+        config=remote_config_server_type,
+        context=dpf.core.AvailableServerContexts.no_context
+    )
+    print(server.context)
+    assert server.context == dpf.core.AvailableServerContexts.no_context
+
+
 @pytest.mark.order("last")
 @pytest.mark.skipif(
     running_docker or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
