@@ -499,6 +499,10 @@ class BaseService:
                 int(context.licensing_context_type), context.xml_path
             )
 
+    def initialize(self):
+        """Initialize a DPF server without a context."""
+        self._api.data_processing_initialization()
+
     @version_requires("6.0")
     def release_dpf(self):
         """Clears the available Operators and Releases licenses when necessary.
