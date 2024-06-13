@@ -34,6 +34,9 @@ class LicensingContextType(Enum):
 
     @staticmethod
     def same_licensing_context(first, second):
+        if ((first == LicensingContextType.none and second != LicensingContextType.none)
+           or (first != LicensingContextType.none and second == LicensingContextType.none)):
+            return False
         if int(first) == int(LicensingContextType.entry) and int(second) != int(
             LicensingContextType.entry
         ):
