@@ -484,7 +484,7 @@ def test_context_environment_variable(reset_context_environment_variable):
 def test_server_without_context(remote_config_server_type):
     """Tests starting a server without a no_context given."""
     server = dpf.core.start_local_server(
-        as_global=True,
+        as_global=False,
         config=remote_config_server_type,
         context=dpf.core.AvailableServerContexts.no_context
     )
