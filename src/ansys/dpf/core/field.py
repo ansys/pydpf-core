@@ -4,6 +4,7 @@
 Field
 =====
 """
+from typing import Union
 
 import numpy as np
 from ansys import dpf
@@ -371,7 +372,12 @@ class Field(_FieldBase):
             data.shape = (data.size // n_comp, n_comp)
         return data
 
-    def append(self, data, scopingid):
+    def append(
+            self,
+            data: Union[float, list[float], list[list[float]], np.ndarray],
+            scopingid: int
+    ):
+        """Append data to the Field."""
         if isinstance(data, list):
             if isinstance(data[0], list):
                 data = np.array(data)
