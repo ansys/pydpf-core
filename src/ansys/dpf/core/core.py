@@ -501,7 +501,12 @@ class BaseService:
 
     def initialize(self):
         """Initialize a DPF server without a context."""
-        self._api.data_processing_initialization()
+        if self._server().has_client():
+            self._api.data_processing_initialization_on_client(
+                self._server().client
+            )
+        else:
+            self._api.data_processing_initialization()
 
     @version_requires("6.0")
     def release_dpf(self):
