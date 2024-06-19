@@ -24,7 +24,7 @@ apps by DPF and their related formats:
 |                    || .rst, .mode           || **1.0** and later               | :ref:`ref_basic_example`         |
 |        MAPDL       || .rfrq, .rdsp          || (*Ansys 2021 R1*)               |                                  |
 +--------------------+------------------------+----------------------------------+----------------------------------+
-|       LS DYNA      |   .d3plot, .binout     || **4.0** and later               | :ref:`lsdyna_operators`          |
+|       LS DYNA      |   .d3plot, .binout     || **4.0** and later               | :ref:`examples_lsdyna`           |
 |                    |                        || (*Ansys 2022 R2*)               |                                  |
 +--------------------+------------------------+----------------------------------+----------------------------------+
 |                    || *CFF restart files*   ||                                 | :ref:`ref_fluids_model`          |
@@ -34,12 +34,13 @@ apps by DPF and their related formats:
 |                    || *Project files*       |                                  | :ref:`ref_fluids_results`        |
 |                    || .flprj                |                                  |                                  |
 +--------------------+------------------------+----------------------------------+----------------------------------+
-|                    || *CFF files*           ||                                 | :ref:`ref_fluids_model`          |
+|                    || *CFF files*           ||                                 | :ref:`examples_cfx`              |
 |                    || .cas/dat.cff          ||                                 +----------------------------------+
-|                    || .res                  || **7.0** and later               | :ref:`ref_fluids_mesh`           |
+|                    || .res                  || **7.0** and later               | :ref:`ref_fluids_model`          |
 |          CFX       +------------------------+| (*Ansys 2024 R1 pre0*)          +----------------------------------+
-|                    || *Project files*       |                                  | :ref:`ref_fluids_results`        |
-|                    || .flprj                |                                  |                                  |
+|                    || *Project files*       |                                  | :ref:`ref_fluids_mesh`           |
+|                    || .flprj                |                                  +----------------------------------+
+|                    ||                       |                                  | :ref:`ref_fluids_results`        |
 +--------------------+------------------------+----------------------------------+----------------------------------+
 
 Visualisation is ensured by VTK and leverages `PyVista tools
