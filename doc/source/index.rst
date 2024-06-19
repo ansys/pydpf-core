@@ -36,7 +36,7 @@ apps by DPF and their related formats:
 +--------------------+------------------------+----------------------------------+----------------------------------+
 |                    || *CFF files*           ||                                 | :ref:`ref_fluids_model`          |
 |                    || .cas/dat.cff          ||                                 +----------------------------------+
-|                    |                        || **7.0** and later               | :ref:`ref_fluids_mesh`           |
+|                    || .res                  || **7.0** and later               | :ref:`ref_fluids_mesh`           |
 |          CFX       +------------------------+| (*Ansys 2024 R1 pre0*)          +----------------------------------+
 |                    || *Project files*       |                                  | :ref:`ref_fluids_results`        |
 |                    || .flprj                |                                  |                                  |
