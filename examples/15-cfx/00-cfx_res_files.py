@@ -22,8 +22,6 @@ import ansys.dpf.core as dpf
 from ansys.dpf.core import examples
 
 path = examples.download_cfx_mixing_elbow()
-ds = dpf.DataSources()
-ds.set_result_file_path(path, key="cas")
-ds.add_file_path(path, key="dat")
+ds = dpf.DataSources(path)
 model = dpf.Model(data_sources=ds)
 print(model)
