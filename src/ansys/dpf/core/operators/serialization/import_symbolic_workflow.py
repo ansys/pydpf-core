@@ -19,8 +19,9 @@ class import_symbolic_workflow(Operator):
     ----------
     string_or_path : str or DataSources
     format : int, optional
-        0 is ascii format and 1 is binary, default is
-        0.
+        -1 is auto-detection, 0 is ascii format, 1 is
+        binary, 2 is json, default is -1
+        (auto-detection).
 
 
     Examples
@@ -72,8 +73,9 @@ class import_symbolic_workflow(Operator):
                     name="format",
                     type_names=["int32"],
                     optional=True,
-                    document="""0 is ascii format and 1 is binary, default is
-        0.""",
+                    document="""-1 is auto-detection, 0 is ascii format, 1 is
+        binary, 2 is json, default is -1
+        (auto-detection).""",
                 ),
             },
             map_output_pin_spec={
@@ -169,8 +171,9 @@ class InputsImportSymbolicWorkflow(_Inputs):
     def format(self):
         """Allows to connect format input to the operator.
 
-        0 is ascii format and 1 is binary, default is
-        0.
+        -1 is auto-detection, 0 is ascii format, 1 is
+        binary, 2 is json, default is -1
+        (auto-detection).
 
         Parameters
         ----------

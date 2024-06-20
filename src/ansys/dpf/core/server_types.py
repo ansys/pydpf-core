@@ -4,26 +4,32 @@ Server types
 Contains the different kinds of
 servers available for the factory.
 """
+from __future__ import annotations
 import abc
 import io
 import os
 import socket
 import subprocess
+import sys
 import time
 import warnings
 import traceback
 from threading import Thread, Lock
 from abc import ABC
-from ctypes import *
+import ctypes
+from typing import TYPE_CHECKING, Union
 
 import psutil
 
 import ansys.dpf.core as core
 from ansys.dpf.core.check_version import server_meet_version
-from ansys.dpf.core import errors, server_factory
-from ansys.dpf.core._version import min_server_version, server_to_ansys_version, __version__
+from ansys.dpf.core import errors, server_factory, __version__
+from ansys.dpf.core._version import min_server_version, server_to_ansys_version
 from ansys.dpf.core import server_context
 from ansys.dpf.gate import load_api, data_processing_grpcapi
+
+if TYPE_CHECKING:
+    from ansys.dpf.core.server_factory import DockerConfig
 
 import logging
 
@@ -670,17 +676,17 @@ class GrpcServer(CServer):
 
     def __init__(
         self,
-        ansys_path=None,
-        ip=LOCALHOST,
-        port=DPF_DEFAULT_PORT,
-        timeout=10,
-        as_global=True,
-        load_operators=True,
-        launch_server=True,
-        docker_config=RUNNING_DOCKER,
-        use_pypim=True,
-        num_connection_tryouts=3,
-        context=server_context.SERVER_CONTEXT,
+        ansys_path: Union[str, None] = None,
+        ip: str = LOCALHOST,
+        port: str = DPF_DEFAULT_PORT,
+        timeout: float = 10.,
+        as_global: bool = True,
+        load_operators: bool = True,
+        launch_server: bool = True,
+        docker_config: DockerConfig = RUNNING_DOCKER,
+        use_pypim: bool = True,
+        num_connection_tryouts: int = 3,
+        context: server_context.AvailableServerContexts = server_context.SERVER_CONTEXT,
     ):
         # Load DPFClientAPI
         from ansys.dpf.core.misc import is_pypim_configured
@@ -732,11 +738,16 @@ class GrpcServer(CServer):
         self.live = True
         self._create_shutdown_funcs()
         self._check_first_call(num_connection_tryouts)
-        try:
-            self._base_service.initialize_with_context(context)
-            self._context = context
-        except errors.DpfVersionNotSupported:
-            pass
+        if context:
+            if context == core.AvailableServerContexts.no_context:
+                self._base_service.initialize()
+                self._context = context
+            else:
+                try:
+                    self._base_service.initialize_with_context(context)
+                    self._context = context
+                except errors.DpfVersionNotSupported:
+                    pass
         self.set_as_global(as_global=as_global)
 
     def _check_first_call(self, num_connection_tryouts):
@@ -891,11 +902,11 @@ class InProcessServer(CServer):
 
     def __init__(
         self,
-        ansys_path=None,
-        as_global=True,
-        load_operators=True,
-        timeout=None,
-        context=server_context.SERVER_CONTEXT,
+        ansys_path: Union[str, None] = None,
+        as_global: bool = True,
+        load_operators: bool = True,
+        timeout: None = None,
+        context: server_context.AvailableServerContexts = server_context.SERVER_CONTEXT,
     ):
         # Load DPFClientAPI
         super().__init__(ansys_path=ansys_path, load_operators=load_operators)
@@ -913,28 +924,26 @@ class InProcessServer(CServer):
                     f"Unable to locate the following file: {path}"
                 )
             raise e
-        try:
-            self.apply_context(context)
-        except errors.DpfVersionNotSupported:
-            self._base_service.initialize_with_context(
-                server_context.AvailableServerContexts.premium
-            )
-            self._context = server_context.AvailableServerContexts.premium
-            pass
+        if context:
+            if context == core.AvailableServerContexts.no_context:
+                self._base_service.initialize()
+                self._context = context
+            else:
+                try:
+                    self.apply_context(context)
+                except errors.DpfVersionNotSupported:
+                    self._base_service.initialize_with_context(
+                        server_context.AvailableServerContexts.premium
+                    )
+                    self._context = server_context.AvailableServerContexts.premium
+                    pass
         self.set_as_global(as_global=as_global)
         # Update the python os.environment
         if not os.name == "posix":
             # Forced to use ctypes to get the updated PATH due to sys.exec not the Python
             # interpreter when running Python plugin test VS project
             # The better solution would be to not need to update the path
-            windll.kernel32.GetEnvironmentVariableA.argtypes = (c_char_p, c_char_p, c_int)
-            windll.kernel32.GetEnvironmentVariableA.restype = c_int
-            name = "PATH"
-            b_name = name.encode("utf-8")
-            size = 32767
-            buffer = create_string_buffer(b"", size)
-            _ = windll.kernel32.GetEnvironmentVariableA(b_name, buffer, size)
-            os.environ["PATH"] = buffer.value.decode("utf-8")
+            os.environ["PATH"] = get_system_path()
 
     @property
     def version(self):
@@ -977,6 +986,23 @@ class InProcessServer(CServer):
         return server_factory.AvailableServerConfigs.InProcessServer
 
 
+def get_system_path() -> str:
+    """Return the current PATH environment variable value of the system."""
+    if not os.name == "posix":
+        ctypes.windll.kernel32.GetEnvironmentVariableA.argtypes = (
+            ctypes.c_char_p, ctypes.c_char_p, ctypes.c_int
+        )
+        ctypes.windll.kernel32.GetEnvironmentVariableA.restype = ctypes.c_int
+        name = "PATH"
+        b_name = name.encode("utf-8")
+        size = 32767
+        buffer = ctypes.create_string_buffer(b"", size)
+        _ = ctypes.windll.kernel32.GetEnvironmentVariableA(b_name, buffer, size)
+        return buffer.value.decode("utf-8")
+    else:
+        return sys.path
+
+
 class LegacyGrpcServer(BaseServer):
     """Provides an instance of the DPF server using InProcess gRPC.
     Kept for backward-compatibility with dpf servers <0.5.0.
@@ -1013,16 +1039,16 @@ class LegacyGrpcServer(BaseServer):
 
     def __init__(
         self,
-        ansys_path=None,
-        ip=LOCALHOST,
-        port=DPF_DEFAULT_PORT,
-        timeout=5,
-        as_global=True,
-        load_operators=True,
-        launch_server=True,
-        docker_config=RUNNING_DOCKER,
-        use_pypim=True,
-        context=server_context.SERVER_CONTEXT,
+        ansys_path: Union[str, None] = None,
+        ip: str = LOCALHOST,
+        port: str = DPF_DEFAULT_PORT,
+        timeout: float = 5.,
+        as_global: bool = True,
+        load_operators: bool = True,
+        launch_server: bool = True,
+        docker_config: DockerConfig = RUNNING_DOCKER,
+        use_pypim: bool = True,
+        context: server_context.AvailableServerContexts = server_context.SERVER_CONTEXT,
     ):
         """Start the DPF server."""
         # Use ansys.grpc.dpf
@@ -1087,11 +1113,15 @@ class LegacyGrpcServer(BaseServer):
         self._create_shutdown_funcs()
 
         check_ansys_grpc_dpf_version(self, timeout)
-        try:
-            self._base_service.initialize_with_context(context)
-            self._context = context
-        except errors.DpfVersionNotSupported:
-            pass
+        if context:
+            if context == core.AvailableServerContexts.no_context:
+                self._context = context
+            else:
+                try:
+                    self._base_service.initialize_with_context(context)
+                    self._context = context
+                except errors.DpfVersionNotSupported:
+                    pass
         self.set_as_global(as_global=as_global)
 
     def _create_shutdown_funcs(self):

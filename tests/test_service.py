@@ -481,6 +481,21 @@ def test_context_environment_variable(reset_context_environment_variable):
             continue
 
 
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
+    reason="Failures on Windows 231"
+)
+def test_server_without_context(remote_config_server_type):
+    """Tests starting a server without a no_context given."""
+    server = dpf.core.start_local_server(
+        as_global=False,
+        config=remote_config_server_type,
+        context=dpf.core.AvailableServerContexts.no_context
+    )
+    none_type = dpf.core.AvailableServerContexts.no_context.licensing_context_type
+    assert server.context.licensing_context_type == none_type
+
+
 @pytest.mark.order("last")
 @pytest.mark.skipif(
     running_docker or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,

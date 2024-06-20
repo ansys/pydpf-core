@@ -106,7 +106,9 @@ class ResultInfo:
         """Initialize with a ResultInfo message"""
         # ############################
         # step 1: get server
-        self._server = server_module.get_or_create_server(server)
+        self._server = server_module.get_or_create_server(
+            result_info._server if isinstance(result_info, ResultInfo) else server
+        )
 
         # step 2: get api
         self._api = self._server.get_api_for_type(

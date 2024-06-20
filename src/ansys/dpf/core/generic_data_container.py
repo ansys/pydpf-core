@@ -43,7 +43,11 @@ class GenericDataContainer:
 
     def __init__(self, generic_data_container=None, server=None):
         # step 1: get server
-        self._server = server_module.get_or_create_server(server)
+        self._server = server_module.get_or_create_server(
+            generic_data_container._server if isinstance(
+                generic_data_container, GenericDataContainer
+            ) else server
+        )
 
         if not self._server.meet_version("7.0"):
             raise errors.DpfVersionNotSupported("7.0")

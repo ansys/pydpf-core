@@ -11,7 +11,7 @@ on:
       ANSYS_VERSION:
         required: false
         type: string
-        default: "242"
+        default: "251"
       wheel:
         required: false
         type: string
@@ -46,7 +46,7 @@ on:
         description: "ANSYS version"
         required: true
         type: string
-        default: "242"
+        default: "251"
       wheel:
         description: "Generate a wheel"
         required: false
@@ -110,7 +110,7 @@ jobs:
           echo "ANSYSLMD_LICENSE_FILE=1055@${{ secrets.LICENSE_SERVER }}" >> $GITHUB_ENV      
 
       - name: "Setup Python"
-        uses: actions/setup-python@v4.6.1
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
 

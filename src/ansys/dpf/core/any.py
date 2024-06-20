@@ -33,7 +33,9 @@ class Any:
 
     def __init__(self, any_dpf=None, server=None):
         # step 1: get server
-        self._server = server_module.get_or_create_server(server)
+        self._server = server_module.get_or_create_server(
+            any_dpf._server if isinstance(any_dpf, Any) else server
+        )
 
         if any_dpf is None and not self._server.meet_version("7.0"):
             raise errors.DpfVersionNotSupported("7.0")

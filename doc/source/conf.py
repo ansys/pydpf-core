@@ -86,7 +86,12 @@ extensions = [
     "sphinx_copybutton",
     "sphinx_design",
     "sphinx_gallery.gen_gallery",
+    'sphinx_reredirects',
 ]
+
+redirects = {
+     "user_guide/getting_started_with_dpf_server": "../getting_started/dpf_server.html"
+}
 
 typehints_defaults = "comma"
 typehints_use_signature = True
