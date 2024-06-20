@@ -30,7 +30,7 @@ dependencies = [
     "google-api-python-client",
     "grpcio",
     "importlib-metadata >=4.0",
-    "numpy",
+    "numpy<2",
     "packaging",
     "protobuf",
     "psutil",
