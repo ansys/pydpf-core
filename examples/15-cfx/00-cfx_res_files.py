@@ -24,3 +24,40 @@ from ansys.dpf.core import examples
 path = examples.download_cfx_mixing_elbow()
 model = dpf.Model(path)
 print(model)
+
+###############################################################################
+# Exploring the mesh
+# ~~~~~~~~~~~~~~~~~~
+# Explore the mesh through the ``MeshInfo``. The ``MeshInfo`` provides metadata
+# information about the mesh. For fluid models, it is useful to know the bodies and
+# face zones, as well as the topological relationships between them. First get all
+# the available information in the ``MeshInfo``.
+mesh_info = model.metadata.mesh_info
+print(mesh_info)
+
+###############################################################################
+# The ``MeshInfo`` exposes several helpers, such as a dictionary of available bodies:
+print(mesh_info.bodies)
+
+###############################################################################
+# Or the dictionary of available face zones:
+print(mesh_info.face_zones)
+
+###############################################################################
+# Exploring the results
+# ~~~~~~~~~~~~~~~~~~~~~
+# Explore the available results through the ``ResultInfo``.
+# The ``ResultInfo`` provides metadata information about the results stored in the files.
+# First get all the available information in the ``ResultInfo``.
+# As you can see above, the ``ResultInfo`` information is also listed when printing the ``Model``.
+result_info = model.metadata.result_info
+print(result_info)
+
+###############################################################################
+# The ``ResultInfo`` class exposes the list of ``AvailableResults``.
+print(result_info.available_results)
+
+###############################################################################
+# Extracting data
+# ~~~~~~~~~~~~~~~
+# Extracting the mesh or results is then the same as for any other file type.
