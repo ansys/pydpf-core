@@ -5,8 +5,10 @@ import conftest
 import pytest
 import numpy as np
 from ansys.dpf.core import CustomTypeField, CustomTypeFieldsCollection, GenericDataContainersCollection, \
-    StringFieldsCollection, StringField, GenericDataContainer, operators, types, Workflow
+    StringFieldsCollection, StringField, GenericDataContainer, operators, Workflow, fields_factory
 from ansys.dpf.core.collection import Collection
+from ansys.dpf.core.time_freq_support import TimeFreqSupport
+from ansys.dpf.core.generic_support import GenericSupport
 import random
 from dataclasses import dataclass, field
 
@@ -101,6 +103,32 @@ def test_fill_gdc_collection(server_type):
         assert coll.get_label_space(i - 1) == {"body": 1, "time": i}
     assert (lab in coll.labels for lab in ("body", "time"))
     # assert "collection" in str(coll)
+
+
+@pytest.mark.parametrize("subtype_creator",
+                         [collection_helper, cust_type_field_collection_helper, string_field_collection_helper],
+                         ids=[collection_helper.name, cust_type_field_collection_helper.name,
+                              string_field_collection_helper.name])
+@conftest.raises_for_servers_version_under("8.1")
+def test_set_support_collection(server_type, subtype_creator):
+    coll = subtype_creator.type(server=server_type, **subtype_creator.kwargs)
+    coll.labels = ["body", "time"]
+    tfq = TimeFreqSupport(server=server_type)
+    frequencies = fields_factory.create_scalar_field(3, server=server_type)
+    frequencies.append([1.0], 1)
+    tfq.time_frequencies = frequencies
+
+    gen_support = GenericSupport(name="body", server=server_type)
+    str_f = StringField(server=server_type)
+    str_f.append(["inlet"], 1)
+    gen_support.set_support_of_property("name", str_f)
+
+    coll.set_support("time", tfq)
+    coll.set_support("body", gen_support)
+
+    assert coll.get_support("time").available_field_supported_properties() == ["time_freqs"]
+    assert coll.get_support("body").available_string_field_supported_properties() == ["name"]
+    assert coll.get_support("body").string_field_support_by_property("name").data == ["inlet"]
 
 
 @pytest.mark.parametrize("subtype_creator",

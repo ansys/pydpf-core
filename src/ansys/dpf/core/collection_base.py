@@ -443,6 +443,13 @@ class CollectionBase(Generic[TYPE]):
         """Set the time frequency support of the collection."""
         self._api.collection_set_support(self, "time", time_freq_support)
 
+    def set_support(self, label: str, support: Support) -> None:
+        self._api.collection_set_support(self, label, support)
+
+    def get_support(self, label: str) -> Support:
+        from ansys.dpf.core.support import Support
+        return Support(support=self._api.collection_get_support(self, label), server=self._server)
+
     def __str__(self):
         """Describe the entity.
 
