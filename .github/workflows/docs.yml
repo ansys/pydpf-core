@@ -44,7 +44,7 @@ on:
 env:
   PACKAGE_NAME: ansys-dpf-core
   MODULE: core
-
+  VTK_OSMESA_VERSION: "9.2.20230527.dev0"
 jobs:
   doc-style:
     name: "Check doc style"
@@ -117,7 +117,7 @@ jobs:
         run: python -c "from ansys.dpf import core"
 
       - name: "Setup headless display"
-        uses: pyvista/setup-headless-display-action@v1
+        uses: pyvista/setup-headless-display-action@v2
 
       - name: "Setup Graphviz"
         uses: ts-graphviz/setup-graphviz@v1
@@ -132,6 +132,11 @@ jobs:
 
       - name: "Kill all servers"
         uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
+
+      - name: "Ensure VTK compatibility"
+        run: |
+          python -m pip uninstall --yes vtk
+          python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==${{ env.VTK_OSMESA_VERSION }}
 
       - name: "List installed packages"
         shell: bash
