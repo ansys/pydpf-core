@@ -361,17 +361,17 @@ def test_el_shape_fc(allkindofcomplexity):
     mesh = model.metadata.meshed_region
 
     f = fc.beam_field()
-    ids = f.scoping.ids[0 : int(len(f.scoping) / 4)]
+    ids = f.scoping.ids[0: int(len(f.scoping) / 4)]
     for id in ids:
         assert mesh.elements.element_by_id(id).shape == "beam"
 
     f = fc.shell_field()
-    ids = f.scoping.ids[0 : int(len(f.scoping) / 10)]
+    ids = f.scoping.ids[0: int(len(f.scoping) / 10)]
     for id in ids:
         assert mesh.elements.element_by_id(id).shape == "shell"
 
     f = fc.solid_field()
-    ids = f.scoping.ids[0 : int(len(f.scoping) / 10)]
+    ids = f.scoping.ids[0: int(len(f.scoping) / 10)]
     for id in ids:
         assert mesh.elements.element_by_id(id).shape == "solid"
 
@@ -389,15 +389,15 @@ def test_el_shape_time_fc():
     mesh = model.metadata.meshed_region
 
     f = fc.beam_field(3)
-    for id in f.scoping.ids[0 : int(len(f.scoping.ids) / 3)]:
+    for id in f.scoping.ids[0: int(len(f.scoping.ids) / 3)]:
         assert mesh.elements.element_by_id(id).shape == "beam"
 
     f = fc.shell_field(4)
-    for id in f.scoping.ids[0 : int(len(f.scoping.ids) / 10)]:
+    for id in f.scoping.ids[0: int(len(f.scoping.ids) / 10)]:
         assert mesh.elements.element_by_id(id).shape == "shell"
 
     f = fc.solid_field(5)
-    for id in f.scoping.ids[0 : int(len(f.scoping.ids) / 10)]:
+    for id in f.scoping.ids[0: int(len(f.scoping.ids) / 10)]:
         assert mesh.elements.element_by_id(id).shape == "solid"
 
 
@@ -529,6 +529,28 @@ def test_fields_container_factory_with_dict():
 def test_fields_container_get_time_scoping(server_type, disp_fc):
     freq_scoping = disp_fc.get_time_scoping()
     assert freq_scoping.size == 1
+
+
+@conftest.raises_for_servers_version_under("5.0")
+def test_fields_container_set_tfsupport(server_type):
+    coll = dpf.FieldsContainer(server=server_type)
+    coll.labels = ["body", "time"]
+    tfq = TimeFreqSupport(server=server_type)
+    frequencies = fields_factory.create_scalar_field(3, server=server_type)
+    frequencies.append([1.0], 1)
+    tfq.time_frequencies = frequencies
+
+    gen_support = dpf.GenericSupport(name="body", server=server_type)
+    str_f = dpf.StringField(server=server_type)
+    str_f.append(["inlet"], 1)
+    gen_support.set_support_of_property("name", str_f)
+
+    coll.set_support("time", tfq)
+    coll.set_support("body", gen_support)
+
+    assert coll.get_support("time").available_field_supported_properties() == ["time_freqs"]
+    assert coll.get_support("body").available_string_field_supported_properties() == ["name"]
+    assert coll.get_support("body").string_field_support_by_property("name").data == ["inlet"]
 
 
 @pytest.mark.skipif(

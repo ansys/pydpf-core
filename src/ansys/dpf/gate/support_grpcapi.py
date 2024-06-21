@@ -36,11 +36,14 @@ class SupportGRPCAPI(support_abstract_api.SupportAbstractAPI):
         if isinstance(internal_obj, time_freq_support_pb2.TimeFreqSupport):
             message = support
         elif isinstance(internal_obj, support_pb2.Support):
-            message = time_freq_support_pb2.TimeFreqSupport()
-            if isinstance(message.id, int):
-                message.id = internal_obj.id
+            if hasattr(_get_stub(support._server), "GetSupport"):
+                message = _get_stub(support._server).GetSupport(internal_obj).time_freq_support
             else:
-                message.id.CopyFrom(internal_obj.id)
+                message = time_freq_support_pb2.TimeFreqSupport()
+                if isinstance(message.id, int):
+                    message.id = internal_obj.id
+                else:
+                    message.id.CopyFrom(internal_obj.id)
         else:
             raise NotImplementedError(f"Tried to get {support} as TimeFreqSupport.")
         return message
