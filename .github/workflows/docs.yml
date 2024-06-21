@@ -133,6 +133,11 @@ jobs:
       - name: "Kill all servers"
         uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
 
+      - name: "Ensure VTK compatibility"
+        run: |
+          python -m pip uninstall --yes vtk
+          python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0
+
       - name: "List installed packages"
         shell: bash
         run: pip list
