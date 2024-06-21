@@ -117,7 +117,7 @@ jobs:
         run: python -c "from ansys.dpf import core"
 
       - name: "Setup headless display"
-        uses: pyvista/setup-headless-display-action@v1
+        uses: pyvista/setup-headless-display-action@v2
 
       - name: "Setup Graphviz"
         uses: ts-graphviz/setup-graphviz@v1
