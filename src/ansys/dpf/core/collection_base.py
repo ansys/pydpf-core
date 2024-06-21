@@ -140,6 +140,8 @@ class CollectionBase(Generic[TYPE]):
             return IntCollection(inpt, server=server)
         if all(isinstance(x, (float, np.float64)) for x in inpt):
             return FloatCollection(inpt, server=server)
+        if all(isinstance(x, str) for x in inpt):
+            return StringCollection(inpt, server=server)
         else:
             raise NotImplementedError(
                 f"{IntegralCollection.__name__} is only "

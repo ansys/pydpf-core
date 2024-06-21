@@ -782,6 +782,12 @@ def test_connect_get_output_double_list_operator(server_type):
     assert np.allclose(d, d_out)
 
 
+@conftest.raises_for_servers_version_under("5.0")
+def test_connect_get_output_string_list_operator(server_type):
+    d = ["hello", "bye"]
+    op = dpf.core.operators.utility.forward(d, server=server_type)
+
+
 def test_connect_result(plate_msup, server_type):
     model = dpf.core.Model(plate_msup, server=server_type)
     stress = model.results.stress
