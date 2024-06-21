@@ -44,7 +44,7 @@ on:
 env:
   PACKAGE_NAME: ansys-dpf-core
   MODULE: core
-
+  VTK_OSMESA_VERSION: "9.2.20230527.dev0"
 jobs:
   doc-style:
     name: "Check doc style"
@@ -136,7 +136,7 @@ jobs:
       - name: "Ensure VTK compatibility"
         run: |
           python -m pip uninstall --yes vtk
-          python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0
+          python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==${{ env.VTK_OSMESA_VERSION }}
 
       - name: "List installed packages"
         shell: bash
