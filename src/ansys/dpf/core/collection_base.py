@@ -445,6 +445,29 @@ class CollectionBase(Generic[TYPE]):
         """Set the time frequency support of the collection."""
         self._api.collection_set_support(self, "time", time_freq_support)
 
+    @version_requires("5.0")
+    def set_support(self, label: str, support: Support) -> None:
+        """Set the support of the collection for a given label.
+
+        Notes
+        -----
+        Available starting with DPF 2023 R1.
+
+        """
+        self._api.collection_set_support(self, label, support)
+
+    @version_requires("5.0")
+    def get_support(self, label: str) -> Support:
+        """Get the support of the collection for a given label.
+
+        Notes
+        -----
+        Available starting with DPF 2023 R1.
+
+        """
+        from ansys.dpf.core.support import Support
+        return Support(support=self._api.collection_get_support(self, label), server=self._server)
+
     def __str__(self):
         """Describe the entity.
 
