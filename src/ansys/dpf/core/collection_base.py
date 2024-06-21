@@ -46,7 +46,9 @@ class CollectionBase(Generic[TYPE]):
 
     def __init__(self, collection=None, server: BaseServer = None):
         # step 1: get server
-        self._server = server_module.get_or_create_server(server)
+        self._server = server_module.get_or_create_server(
+            collection._server if isinstance(collection, CollectionBase) else server
+        )
 
         # step2: if object exists, take the instance, else create it
         self._internal_obj = None

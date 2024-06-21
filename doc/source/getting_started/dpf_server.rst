@@ -38,8 +38,7 @@ Install DPF Server
 
 
 As detailed in :ref:`licensing`, a standalone DPF Server is protected using the license terms specified in the
-`DPFPreviewLicenseAgreement <https://download.ansys.com/-/media/dpf/dpfpreviewlicenseagreement.ashx?la=en&hash=CCFB07AE38C638F0D43E50D877B5BC87356006C9>`_
-file, which is available on the `DPF Pre-Release page <https://download.ansys.com/Others/DPF%20Pre-Release>`_
+``DPFPreviewLicenseAgreement`` file, which is available on the `DPF Pre-Release page <https://download.ansys.com/Others/DPF%20Pre-Release>`_
 of the Ansys Customer Portal.
 To accept these terms, you must set this environment variable:
 
@@ -56,8 +55,7 @@ Use DPF Server
 --------------
 
 DPF Server is protected using the license terms specified in the
-`DPFPreviewLicenseAgreement <https://download.ansys.com/-/media/dpf/dpfpreviewlicenseagreement.ashx?la=en&hash=CCFB07AE38C638F0D43E50D877B5BC87356006C9>`_
-file, which is available on the `DPF Pre-Release page <https://download.ansys.com/Others/DPF%20Pre-Release>`_
+``DPFPreviewLicenseAgreement`` file, which is available on the `DPF Pre-Release page <https://download.ansys.com/Others/DPF%20Pre-Release>`_
 of the Ansys Customer Portal.
 
 Run DPF Server with PyDPF

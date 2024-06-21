@@ -6,6 +6,7 @@ import platform
 import psutil
 import sys
 import os
+import packaging.version
 
 from ansys import dpf
 from ansys.dpf.core import errors, server_types
@@ -14,6 +15,7 @@ from ansys.dpf.core.server import set_server_configuration, _global_server
 from ansys.dpf.core.server import start_local_server, connect_to_server
 from ansys.dpf.core.server import shutdown_all_session_servers, has_local_server
 from ansys.dpf.core.server import get_or_create_server
+from ansys.dpf.core import server
 from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
     running_docker,
@@ -88,6 +90,13 @@ class TestServerConfigs:
         start_local_server(timeout=20)
         assert has_local_server()
         shutdown_all_session_servers()
+
+    def test_server_env_path_cleanup(self, server_config):
+        """Test that running and stopping servers does not pollute the system PATH."""
+        from ansys.dpf.core.server_types import get_system_path
+        path_len_init = len(get_system_path())
+        _ = dpf.core.start_local_server(config=server_config)
+        assert len(get_system_path()) == path_len_init
 
     def test_start_local_server_with_config(self, server_config):
         set_server_configuration(None)
@@ -225,17 +234,17 @@ def test_shutting_down_when_deleted():
 
 def test_eq_server_config():
     assert (
-        dpf.core.AvailableServerConfigs.InProcessServer
-        == dpf.core.AvailableServerConfigs.InProcessServer
+            dpf.core.AvailableServerConfigs.InProcessServer
+            == dpf.core.AvailableServerConfigs.InProcessServer
     )
     assert dpf.core.AvailableServerConfigs.GrpcServer == dpf.core.AvailableServerConfigs.GrpcServer
     assert (
-        dpf.core.AvailableServerConfigs.LegacyGrpcServer
-        == dpf.core.AvailableServerConfigs.LegacyGrpcServer
+            dpf.core.AvailableServerConfigs.LegacyGrpcServer
+            == dpf.core.AvailableServerConfigs.LegacyGrpcServer
     )
     assert (
         not dpf.core.AvailableServerConfigs.LegacyGrpcServer
-        == dpf.core.AvailableServerConfigs.InProcessServer
+            == dpf.core.AvailableServerConfigs.InProcessServer
     )
     assert dpf.core.AvailableServerConfigs.LegacyGrpcServer == dpf.core.ServerConfig(
         protocol=dpf.core.server_factory.CommunicationProtocols.gRPC, legacy=True
@@ -316,6 +325,25 @@ def test_check_ansys_grpc_dpf_version_raise():
 
     print(MockServer(remote_server).version)
     with pytest.raises(
-        ValueError, match="Error connecting to DPF LegacyGrpcServer with version 1.0"
+            ValueError, match="Error connecting to DPF LegacyGrpcServer with version 1.0"
     ):
         dpf.core.server_types.check_ansys_grpc_dpf_version(MockServer(remote_server), timeout=2.0)
+
+
+@pytest.mark.skipif(
+    running_docker,
+    reason="can only work with local DPF server install",
+)
+def test_available_servers():
+    out = server.available_servers()
+    assert len(out) > 0
+    for version in out:
+        vout = str(version).replace(".", "_")
+        if packaging.version.parse(version) > packaging.version.parse("2022.1"):
+            meth = "start_" + vout + "_server"
+            assert (hasattr(server, meth))
+            start = getattr(server, meth)
+            srv = start()
+            assert srv.local_server
+            srv = out[version]()
+            assert srv.local_server
