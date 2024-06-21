@@ -244,8 +244,9 @@ class CollectionGRPCAPI(collection_abstract_api.CollectionAbstractAPI):
         from ansys.grpc.dpf import collection_pb2, base_pb2
         request = collection_pb2.SupportRequest()
         request.collection.CopyFrom(collection._internal_obj)
-        request.label = label
-        request.type = base_pb2.Type.Value("SUPPORT")
+        if collection._server.meet_version("5.0"):
+            request.label = label
+            request.type = base_pb2.Type.Value("SUPPORT")
         message = _get_stub(collection._server).GetSupport(request)
         return message
 
