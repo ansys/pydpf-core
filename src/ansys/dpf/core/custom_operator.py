@@ -8,7 +8,6 @@ Contains utilities allowing you to implement and record custom Python operators.
 
 import abc
 import ctypes
-import glob
 import os
 import pathlib
 import re
