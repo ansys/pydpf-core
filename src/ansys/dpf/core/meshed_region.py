@@ -88,7 +88,9 @@ class MeshedRegion:
 
     def __init__(self, num_nodes=None, num_elements=None, mesh=None, server=None):
         # step 1: get server
-        self._server = server_module.get_or_create_server(server)
+        self._server = server_module.get_or_create_server(
+            mesh._server if isinstance(mesh, MeshedRegion) else server
+        )
 
         # step 2: get api
         self._api = self._server.get_api_for_type(

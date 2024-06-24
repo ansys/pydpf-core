@@ -21,6 +21,7 @@ from ansys.dpf.core import errors
 
 
 class LicensingContextType(Enum):
+    none = 5
     premium = 1
     """Checks if at least one license increment exists
     and allows operators to block an increment."""
@@ -33,6 +34,9 @@ class LicensingContextType(Enum):
 
     @staticmethod
     def same_licensing_context(first, second):
+        if ((first == LicensingContextType.none and second != LicensingContextType.none)
+           or (first != LicensingContextType.none and second == LicensingContextType.none)):
+            return False
         if int(first) == int(LicensingContextType.entry) and int(second) != int(
             LicensingContextType.entry
         ):
@@ -207,6 +211,7 @@ class ServerContext:
 class AvailableServerContexts:
     """Defines available server contexts."""
 
+    no_context = ServerContext(LicensingContextType.none, "")
     pre_defined_environment = ServerContext(0)
     """DataProcessingCore.xml that is next to DataProcessingCore.dll/libDataProcessingCore.so will
     be taken"""

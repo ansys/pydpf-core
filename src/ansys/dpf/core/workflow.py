@@ -70,7 +70,9 @@ class Workflow:
 
     def __init__(self, workflow=None, server=None):
         # step 1: get server
-        self._server = server_module.get_or_create_server(server)
+        self._server = server_module.get_or_create_server(
+            workflow._server if isinstance(workflow, Workflow) else server
+        )
 
         # step 2: get api
         self._api_instance = None  # see property self._api

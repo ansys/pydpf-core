@@ -507,3 +507,13 @@ def test_mesh_info_parts(server_type):
     mesh_info = dpf.MeshInfo(generic_data_container=gdc, server=server_type)
     ref = """{'1': 'part_1', '2': 'part_2'}"""
     assert str(mesh_info.parts) == ref
+
+
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
+)
+def test_mesh_info_bodies(fluent_multi_species, server_type):
+    model = dpf.Model(fluent_multi_species(server_type), server=server_type)
+    mesh_info = model.metadata.mesh_info
+    ref_bodies = {'1': 'fluid-1'}
+    assert mesh_info.bodies == ref_bodies

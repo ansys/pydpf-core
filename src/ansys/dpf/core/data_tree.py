@@ -84,7 +84,9 @@ class DataTree:
             "_holds_server",
         ]
         # step 1: get server
-        self._server_instance = server_module.get_or_create_server(server)
+        self._server_instance = server_module.get_or_create_server(
+            data_tree._server_instance if isinstance(data_tree, DataTree) else server
+        )
 
         if data_tree is None and not self._server.meet_version("4.0"):
             raise errors.DpfVersionNotSupported("4.0")

@@ -1273,17 +1273,33 @@ def load_api(path):
 		dll.ExternalOperator_record.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.ExternalOperator_record.restype = None
 
+	if hasattr(dll, "ExternalOperator_record_with_derivative"):
+		dll.ExternalOperator_record_with_derivative.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.ExternalOperator_record_with_derivative.restype = None
+
 	if hasattr(dll, "ExternalOperator_recordWithAbstractCore"):
 		dll.ExternalOperator_recordWithAbstractCore.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.ExternalOperator_recordWithAbstractCore.restype = None
+
+	if hasattr(dll, "ExternalOperator_recordWithAbstractCore_with_derivative"):
+		dll.ExternalOperator_recordWithAbstractCore_with_derivative.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.ExternalOperator_recordWithAbstractCore_with_derivative.restype = None
 
 	if hasattr(dll, "ExternalOperator_recordInternalWithAbstractCore"):
 		dll.ExternalOperator_recordInternalWithAbstractCore.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.ExternalOperator_recordInternalWithAbstractCore.restype = None
 
+	if hasattr(dll, "ExternalOperator_recordInternalWithAbstractCore_with_derivative"):
+		dll.ExternalOperator_recordInternalWithAbstractCore_with_derivative.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.ExternalOperator_recordInternalWithAbstractCore_with_derivative.restype = None
+
 	if hasattr(dll, "ExternalOperator_recordWithAbstractCoreAndWrapper"):
 		dll.ExternalOperator_recordWithAbstractCoreAndWrapper.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.ExternalOperator_recordWithAbstractCoreAndWrapper.restype = None
+
+	if hasattr(dll, "ExternalOperator_recordWithAbstractCoreAndWrapper_with_derivative"):
+		dll.ExternalOperator_recordWithAbstractCoreAndWrapper_with_derivative.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.ExternalOperator_recordWithAbstractCoreAndWrapper_with_derivative.restype = None
 
 	if hasattr(dll, "ExternalOperator_putStatus"):
 		dll.ExternalOperator_putStatus.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
@@ -1560,6 +1576,18 @@ def load_api(path):
 	if hasattr(dll, "ExternalOperator_getOperatorConfig"):
 		dll.ExternalOperator_getOperatorConfig.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.ExternalOperator_getOperatorConfig.restype = ctypes.c_void_p
+
+	if hasattr(dll, "ExternalOperator_getDerivativeOfInput"):
+		dll.ExternalOperator_getDerivativeOfInput.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.ExternalOperator_getDerivativeOfInput.restype = ctypes.c_void_p
+
+	if hasattr(dll, "ExternalOperator_forwardInput"):
+		dll.ExternalOperator_forwardInput.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.c_int32, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.ExternalOperator_forwardInput.restype = None
+
+	if hasattr(dll, "ExternalOperator_setDerivative"):
+		dll.ExternalOperator_setDerivative.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.ExternalOperator_setDerivative.restype = None
 
 	#-------------------------------------------------------------------------------
 	# FEModel

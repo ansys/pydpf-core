@@ -46,7 +46,9 @@ class CollectionBase(Generic[TYPE]):
 
     def __init__(self, collection=None, server: BaseServer = None):
         # step 1: get server
-        self._server = server_module.get_or_create_server(server)
+        self._server = server_module.get_or_create_server(
+            collection._server if isinstance(collection, CollectionBase) else server
+        )
 
         # step2: if object exists, take the instance, else create it
         self._internal_obj = None
@@ -138,6 +140,8 @@ class CollectionBase(Generic[TYPE]):
             return IntCollection(inpt, server=server)
         if all(isinstance(x, (float, np.float64)) for x in inpt):
             return FloatCollection(inpt, server=server)
+        if all(isinstance(x, str) for x in inpt):
+            return StringCollection(inpt, server=server)
         else:
             raise NotImplementedError(
                 f"{IntegralCollection.__name__} is only "
@@ -442,6 +446,29 @@ class CollectionBase(Generic[TYPE]):
     def _set_time_freq_support(self, time_freq_support):
         """Set the time frequency support of the collection."""
         self._api.collection_set_support(self, "time", time_freq_support)
+
+    @version_requires("5.0")
+    def set_support(self, label: str, support: Support) -> None:
+        """Set the support of the collection for a given label.
+
+        Notes
+        -----
+        Available starting with DPF 2023 R1.
+
+        """
+        self._api.collection_set_support(self, label, support)
+
+    @version_requires("5.0")
+    def get_support(self, label: str) -> Support:
+        """Get the support of the collection for a given label.
+
+        Notes
+        -----
+        Available starting with DPF 2023 R1.
+
+        """
+        from ansys.dpf.core.support import Support
+        return Support(support=self._api.collection_get_support(self, label), server=self._server)
 
     def __str__(self):
         """Describe the entity.
