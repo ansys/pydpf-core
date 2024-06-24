@@ -79,6 +79,7 @@ def update_virtual_environment_for_custom_operators(
         # Store original dpf-site.zip for this DPF Server if no original is stored
         if not os.path.exists(os.path.dirname(original_dpf_site_zip_path)):
             os.mkdir(os.path.dirname(original_dpf_site_zip_path))
+        if not os.path.exists(original_dpf_site_zip_path):
             shutil.move(src=current_dpf_site_zip_path, dst=original_dpf_site_zip_path)
         # Get the current paths to site_packages
         import site
@@ -93,11 +94,16 @@ def update_virtual_environment_for_custom_operators(
             warnings.warn("Could not find a currently loaded site-packages folder to update from.")
             return
         # If an ansys.dpf.core.path file exists, then the installation is editable
-        path_file = os.path.join(current_site_packages_path, "ansys.dpf.core.pth")
+        search_path = pathlib.Path(current_site_packages_path)
+        potential_editable = list(search_path.rglob("__editable__.ansys_dpf_core-*.pth"))
+        if potential_editable:
+            path_file = potential_editable[0]
+        else:  # Keep for older setuptools versions
+            path_file = os.path.join(current_site_packages_path, "ansys.dpf.core.pth")
         if os.path.exists(path_file):
             # Treat editable installation of ansys-dpf-core
             with open(path_file, "r") as f:
-                current_site_packages_path = f.readline()
+                current_site_packages_path = f.readline().strip()
         with tempfile.TemporaryDirectory() as tmpdir:
             os.mkdir(os.path.join(tmpdir, "ansys_dpf_core"))
             ansys_dir = os.path.join(tmpdir, "ansys_dpf_core")
