@@ -149,7 +149,6 @@ class GenericDataContainer:
         class_ = getattr(builtins, output_type, None)
         if class_ is None:
             from ansys.dpf import core
-            from ansys.dpf.gate import dpf_vector
             if hasattr(dpf_vector, output_type):
                 class_ = getattr(dpf_vector, output_type)
             else:
