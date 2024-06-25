@@ -20,7 +20,7 @@ def animate_mode(
 
     Parameters
     ----------
-    field_container :
+    fields_container :
         Field container containing the modal results.
     mode_number : int, optional
         Mode number of the results to animation. The default is ``1``.
@@ -28,6 +28,9 @@ def animate_mode(
         Whether it is 0 or 1. Default to 0.
         If 0, the norm of the displacements will be scaled from 1 to -1 to 1.
         If 1, the norm of the displacements will be scaled between -1 and 1.
+    frame_number: int, optional
+        Number of frames to create for the animation.
+        Defaults to 41 when type_mode=0, or 21 when type_mode=1
     save_as : Path of file to save the animation to. Defaults to None. Can be of any format
         supported by pyvista.Plotter.write_frame (.gif, .mp4, ...).
     deform_scale_factor : float, optional
@@ -106,5 +109,116 @@ def animate_mode(
         save_as=save_as,
         mode_number=mode_number,
         clim=[0, max_data],
+        **kwargs,
+    )
+
+
+def animate_transient(
+    fields_container, save_as=None, deform_by=None, deform_scale_factor=1.0, **kwargs
+):
+    """Creates an animation based on the Fields contained in the FieldsContainer.
+
+    This method creates a movie or a gif based on the time ids of a FieldsContainer.
+    For kwargs see pyvista.Plotter.open_movie/add_text/show.
+
+    Parameters
+    ----------
+    fields_container: FieldsContainer
+        Field container containing the results to animate.
+    save_as :
+        Path of file to save the animation to. Defaults to None. Can be of any format
+        supported by pyvista.Plotter.write_frame (.gif, .mp4, ...).
+    deform_by : FieldsContainer, Result, Operator, optional
+        Used to deform the plotted mesh. Must return a FieldsContainer of the same length as
+        fields_container, containing 3D vector Fields of distances.
+        Defaults to None, which takes fields_container if possible.
+        Set as False to force static animation.
+    deform_scale_factor : float, list, optional
+        Scale factor to apply when warping the mesh. Defaults to 1.0. Can be a list to make
+        scaling frequency-dependent.
+    """
+    from ansys.dpf.core.animator import Animator
+
+    # Create a workflow defining the result to render at each step of the animation
+    wf = dpf.Workflow()
+    # First define the workflow index input
+    forward_index = dpf.operators.utility.forward()
+    wf.set_input_name("loop_over", forward_index.inputs.any)
+    # Define the field extraction using the fields_container and indices
+    extract_field_op = dpf.operators.utility.extract_field(fields_container)
+    to_render = extract_field_op.outputs.field
+    n_components = fields_container[0].component_count
+    if n_components > 1:
+        norm_op = dpf.operators.math.norm(extract_field_op.outputs.field)
+        to_render = norm_op.outputs.field
+
+    loop_over = fields_container.get_time_scoping()
+    frequencies = fields_container.time_freq_support.time_frequencies
+    if frequencies is None:
+        raise ValueError("The fields_container has no time_frequencies.")
+
+    # TODO /!\ We should be using a mechanical::time_selector, however it is not wrapped.
+
+    wf.set_input_name("indices", extract_field_op.inputs.indices)  # Have to do it this way
+    wf.connect("indices", forward_index)  # Otherwise not accepted
+    # Add the operators to the workflow
+    wf.add_operators([extract_field_op, forward_index])
+
+    deform = True
+    # Define whether to deform and what with
+    if deform_by is not False:
+        if deform_by is None or isinstance(deform_by, bool):
+            # By default, set deform_by as fields_container if nodal 3D vector field
+            if fields_container[0].location == dpf.common.locations.nodal and n_components == 3:
+                deform_by = fields_container
+            else:
+                deform = False
+        if deform_by and not isinstance(deform_by, dpf.FieldsContainer):
+            deform_by = deform_by.eval()
+            if len(deform_by) != len(fields_container):
+                raise ValueError(
+                    "'deform_by' argument must result in a FieldsContainer "
+                    "of same length as the animated one "
+                    f"(len(deform_by.eval())={len(deform_by)} "
+                    f"!= len(fields_container)={len(fields_container)})."
+                )
+    else:
+        deform = False
+
+    if deform:
+        scale_factor_fc = dpf.animator.scale_factor_to_fc(deform_scale_factor, deform_by)
+        scale_factor_invert = dpf.operators.math.invert_fc(scale_factor_fc)
+        # Extraction of the field of interest based on index
+        # time_selector = dpf.Operator("mechanical::time_selector")
+        extract_field_op_2 = dpf.operators.utility.extract_field(deform_by)
+        wf.set_input_name("indices", extract_field_op_2.inputs.indices)
+        wf.connect("indices", forward_index)  # Otherwise not accepted
+        # Scaling of the field based on scale_factor and index
+        extract_scale_factor_op = dpf.operators.utility.extract_field(scale_factor_invert)
+        wf.set_input_name("indices", extract_scale_factor_op.inputs.indices)
+        wf.connect("indices", forward_index)  # Otherwise not accepted
+
+        divide_op = dpf.operators.math.component_wise_divide(
+            extract_field_op_2.outputs.field, extract_scale_factor_op.outputs.field
+        )
+        wf.set_output_name("deform_by", divide_op.outputs.field)
+    else:
+        deform_scale_factor = None
+    wf.set_output_name("to_render", to_render)
+    wf.progress_bar = False
+
+    loop_over_field = dpf.fields_factory.field_from_array(frequencies.data[loop_over.ids - 1])
+    loop_over_field.scoping.ids = loop_over.ids
+    loop_over_field.unit = frequencies.unit
+
+    # Initiate the Animator
+    anim = Animator(workflow=wf, **kwargs)
+
+    kwargs.setdefault("freq_kwargs", {"font_size": 12, "fmt": ".3e"})
+
+    return anim.animate(
+        loop_over=loop_over_field,
+        save_as=save_as,
+        scale_factor=deform_scale_factor,
         **kwargs,
     )
