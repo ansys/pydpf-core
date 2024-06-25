@@ -339,20 +339,23 @@ def dpf_mesh_to_vtk_py(mesh, nodes, as_linear):
 def dpf_mesh_to_vtk(
         mesh: dpf.MeshedRegion,
         nodes: Union[dpf.Field, None] = None,
-        as_linear: bool = True
+        as_linear: bool = True,
 ) -> pv.UnstructuredGrid:
     """Return a pyvista UnstructuredGrid given a pydpf MeshedRegion.
 
     Parameters
     ----------
-    mesh : dpf.MeshedRegion
+    mesh:
         Meshed Region to export to pyVista format.
 
-    nodes : dpf.Field, optional
+    nodes:
         Field containing the node coordinates of the mesh (useful to get a deformed geometry).
 
-    as_linear : bool, optional
+    as_linear:
         Export quadratic surface elements as linear.
+
+    export_faces:
+        Whether to export face elements along with volume elements for fluid meshes.
 
     Returns
     -------
@@ -463,14 +466,8 @@ def dpf_field_to_vtk(
         raise ValueError("The field does not have a meshed_region.")
     grid = dpf_mesh_to_vtk(mesh=meshed_region, nodes=nodes, as_linear=as_linear)
 
-    # Map Field.data to the VTK mesh
-    overall_data = _map_field_to_mesh(field=field, meshed_region=meshed_region)
-
-    # Update the UnstructuredGrid
-    if field.location == dpf.locations.nodal:
-        grid.point_data[field.name] = overall_data
-    else:
-        grid.cell_data[field.name] = overall_data
+    grid = append_field_to_grid(field=field, meshed_region=meshed_region, grid=grid)
+    
     return grid
 
 
@@ -527,7 +524,7 @@ def dpf_fieldscontainer_to_vtk(
     for field in fields_container:
         if field.meshed_region not in meshes:
             meshes.append(field.meshed_region)
-    if len(meshes)>1:
+    if len(meshes) > 1:
         # Merge the meshed_regions
         merge_op = dpf.operators.utility.merge_meshes(server=fields_container._server)
         for i, mesh in enumerate(meshes):
@@ -538,19 +535,9 @@ def dpf_fieldscontainer_to_vtk(
     if meshed_region.nodes.n_nodes == 0:
         raise ValueError("The meshed_region of the fields contains no nodes.")
     grid = dpf_mesh_to_vtk(mesh=meshed_region, nodes=nodes, as_linear=as_linear)
-
-    for i, field in enumerate(fields_container):
-        # Map Field.data to the VTK mesh
-        overall_data = _map_field_to_mesh(field=field, meshed_region=meshed_region)
-        label_space = fields_container.get_label_space(i)
-        label_space = dict([(k, label_space[k]) for k in sorted(label_space.keys())])
-        field.name = field.name+f" {label_space}"
-        # Update the UnstructuredGrid
-        if field.location == dpf.locations.nodal:
-            grid.point_data[field.name] = overall_data
-        else:
-            grid.cell_data[field.name] = overall_data
-
+    grid = append_fields_container_to_grid(
+        fields_container=fields_container, meshed_region=meshed_region, grid=grid
+    )
     return grid
 
 
@@ -633,13 +620,37 @@ def dpf_property_field_to_vtk(
     if meshed_region.nodes.n_nodes == 0:
         raise ValueError("The property field does not have a meshed_region.")
     grid = dpf_mesh_to_vtk(mesh=meshed_region, nodes=nodes, as_linear=as_linear)
+    
+    grid = append_field_to_grid(field=property_field, meshed_region=meshed_region, grid=grid)
+    
+    return grid
 
+
+def append_field_to_grid(
+        field: Union[dpf.Field, dpf.PropertyField],
+        meshed_region: dpf.MeshedRegion,
+        grid: pv.UnstructuredGrid,
+) -> pv.UnstructuredGrid:
+    """Append field data to a VTK UnstructuredGrid based on a MeshedRegion."""
     # Map Field.data to the VTK mesh
-    overall_data = _map_field_to_mesh(field=property_field, meshed_region=meshed_region)
-
+    overall_data = _map_field_to_mesh(field=field, meshed_region=meshed_region)
     # Update the UnstructuredGrid
-    if property_field.location == dpf.locations.nodal:
-        grid.point_data[property_field.name] = overall_data
+    if field.location == dpf.locations.nodal:
+        grid.point_data[field.name] = overall_data
     else:
-        grid.cell_data[property_field.name] = overall_data
+        grid.cell_data[field.name] = overall_data
+    return grid
+
+
+def append_fields_container_to_grid(
+        fields_container: dpf.FieldsContainer,
+        meshed_region: dpf.MeshedRegion,
+        grid: pv.UnstructuredGrid,
+) -> pv.UnstructuredGrid:
+    """Append fields data to a VTK UnstructuredGrid based on a MeshedRegion."""
+    for i, field in enumerate(fields_container):
+        label_space = fields_container.get_label_space(i)
+        label_space = dict([(k, label_space[k]) for k in sorted(label_space.keys())])
+        field.name = field.name+f" {label_space}"
+        grid = append_field_to_grid(field=field, meshed_region=meshed_region, grid=grid)
     return grid
