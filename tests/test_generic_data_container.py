@@ -109,7 +109,9 @@ def test_get_by_type_generic_data_container(server_type):
     assert isinstance(new_entity, dpf.Field)
 
 
-@conftest.raises_for_servers_version_under("7.0")
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0, reason="Available for servers >=8.0"
+)
 def test_get_bytes_generic_data_container(server_type):
     gdc = dpf.GenericDataContainer(server=server_type)
 
