@@ -379,7 +379,20 @@ def type_to_internal_object_keyword():
     })
 
 
+def type_to_special_dpf_constructors():
+    from ansys.dpf.gate.dpf_vector import DPFVectorInt
+    from ansys.dpf.core import collection_base
+    return {DPFVectorInt:
+                lambda obj, server: collection_base.IntCollection(
+                    server=server, collection=obj
+                ).get_integral_entries()
+            }
+
+
 def create_dpf_instance(type, internal_obj, server):
+    spe_constructors = type_to_special_dpf_constructors()
+    if type in spe_constructors:
+        return spe_constructors[type](internal_obj, server)
     # get current type's constructors' variable keyword for passing the internal_obj
     internal_obj_keyword = type_to_internal_object_keyword()[type]
 
