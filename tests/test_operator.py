@@ -202,6 +202,16 @@ def test_connect_label_space_operator(server_type):
     op.connect(0, dic)
 
 
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
+    reason="Copying data is " "supported starting server version 5.0",
+)
+def test_connect_string_list_as_string_field_operator(server_type):
+    op = dpf.core.Operator("Rescope", server=server_type)
+    string_list = ["test1", "test2"]
+    op.connect(0, string_list)
+
+
 def test_connect_datasources_operator(fields_container_csv, server_type):
     op = dpf.core.Operator("csv_to_field", server=server_type)
     data_sources = dpf.core.DataSources(server=server_type)
