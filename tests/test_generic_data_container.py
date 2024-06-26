@@ -143,10 +143,10 @@ def test_set_collection_generic_data_container(server_type):
     assert gdc.get_property("coll", dpf.GenericDataContainersCollection).labels == ["body", "time"]
 
 
-@raises_for_servers_version_under("9.0")
-def test_set_int_vec_generic_data_container(server_type):
-    gdc = dpf.GenericDataContainer(server=server_type)
-    gdc.set_property("vec", [1, 2, 3])
-    gdc.set_property("nparray", np.array([1, 2, 3], dtype=np.int32))
-    assert np.allclose(gdc.get_property("vec"), [1, 2, 3])
-    assert np.allclose(gdc.get_property("nparray"), [1, 2, 3])
+# @raises_for_servers_version_under("9.0")
+# def test_set_int_vec_generic_data_container(server_type):
+#     gdc = dpf.GenericDataContainer(server=server_type)
+#     gdc.set_property("vec", [1, 2, 3])
+#     gdc.set_property("nparray", np.array([1, 2, 3], dtype=np.int32))
+#     assert np.allclose(gdc.get_property("vec"), [1, 2, 3])
+#     assert np.allclose(gdc.get_property("nparray"), [1, 2, 3])

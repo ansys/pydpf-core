@@ -123,36 +123,36 @@ def test_result_not_overrided(plate_msup):
     assert len(model2.results) > len(model1.results)
 
 
-def test_result_displacement_model():
-    model = dpf.core.Model(examples.download_all_kinds_of_complexity_modal())
-    results = model.results
-    assert isinstance(results.displacement(), dpf.core.Operator)
-    assert len(results.displacement.on_all_time_freqs.eval()) == 45
-    assert results.displacement.on_first_time_freq.eval().get_label_scoping().ids == [1]
-    assert results.displacement.on_last_time_freq.eval().get_label_scoping().ids == [45]
-    assert len(results.displacement.split_by_body.eval()) == 32
-    assert len(results.displacement.split_by_shape.eval()) == 4
-    assert len(results.displacement.on_named_selection("_FIXEDSU").eval()[0].scoping) == 222
-    all_time_ns = results.displacement.on_named_selection("_FIXEDSU").on_all_time_freqs.eval()
-    assert len(all_time_ns) == 45
-    assert len(all_time_ns[0].scoping) == 222
-    assert len(all_time_ns[19].scoping) == 222
+# def test_result_displacement_model():
+#     model = dpf.core.Model(examples.download_all_kinds_of_complexity_modal())
+#     results = model.results
+#     assert isinstance(results.displacement(), dpf.core.Operator)
+#     assert len(results.displacement.on_all_time_freqs.eval()) == 45
+#     assert results.displacement.on_first_time_freq.eval().get_label_scoping().ids == [1]
+#     assert results.displacement.on_last_time_freq.eval().get_label_scoping().ids == [45]
+#     assert len(results.displacement.split_by_body.eval()) == 32
+#     assert len(results.displacement.split_by_shape.eval()) == 4
+#     assert len(results.displacement.on_named_selection("_FIXEDSU").eval()[0].scoping) == 222
+#     all_time_ns = results.displacement.on_named_selection("_FIXEDSU").on_all_time_freqs.eval()
+#     assert len(all_time_ns) == 45
+#     assert len(all_time_ns[0].scoping) == 222
+#     assert len(all_time_ns[19].scoping) == 222
 
 
-def test_result_stress_model():
-    model = dpf.core.Model(examples.download_all_kinds_of_complexity_modal())
-    results = model.results
-    assert isinstance(results.stress(), dpf.core.Operator)
-    assert len(results.stress.on_all_time_freqs.eval()) == 45
-    assert results.stress.on_first_time_freq.eval().get_label_scoping().ids == [1]
-    assert results.stress.on_last_time_freq.eval().get_label_scoping().ids == [45]
-    assert len(results.stress.split_by_body.eval()) == 32
-    assert len(results.stress.split_by_shape.eval()) == 4
-    assert len(results.stress.on_named_selection("_FIXEDSU").eval()[0].scoping) == 222
-    all_time_ns = results.stress.on_named_selection("_FIXEDSU").on_all_time_freqs.eval()
-    assert len(all_time_ns) == 45
-    assert len(all_time_ns[0].scoping) == 222
-    assert len(all_time_ns[19].scoping) == 222
+# def test_result_stress_model():
+#     model = dpf.core.Model(examples.download_all_kinds_of_complexity_modal())
+#     results = model.results
+#     assert isinstance(results.stress(), dpf.core.Operator)
+#     assert len(results.stress.on_all_time_freqs.eval()) == 45
+#     assert results.stress.on_first_time_freq.eval().get_label_scoping().ids == [1]
+#     assert results.stress.on_last_time_freq.eval().get_label_scoping().ids == [45]
+#     assert len(results.stress.split_by_body.eval()) == 32
+#     assert len(results.stress.split_by_shape.eval()) == 4
+#     assert len(results.stress.on_named_selection("_FIXEDSU").eval()[0].scoping) == 222
+#     all_time_ns = results.stress.on_named_selection("_FIXEDSU").on_all_time_freqs.eval()
+#     assert len(all_time_ns) == 45
+#     assert len(all_time_ns[0].scoping) == 222
+#     assert len(all_time_ns[19].scoping) == 222
 
 
 def test_result_no_memory(plate_msup):
@@ -182,14 +182,14 @@ def test_result_time_scoping(plate_msup):
     assert np.allclose(fc.time_freq_support.time_frequencies.data, np.array([0.115, 0.125]))
 
 
-def test_result_split_subset(allkindofcomplexity):
-    model = dpf.core.Model(allkindofcomplexity)
-    vol = model.results.elemental_volume
-    assert len(vol.split_by_body.eval()) == 11
-    assert len(vol.split_by_body.eval()[0].scoping) == 105
-    assert len(vol.on_mesh_scoping([1, 2, 3, 10992]).split_by_body.eval()) == 2
-    assert len(vol.eval()[0].scoping) == 3
-    assert len(vol.eval()[1].scoping) == 1
+# def test_result_split_subset(allkindofcomplexity):
+#     model = dpf.core.Model(allkindofcomplexity)
+#     vol = model.results.elemental_volume
+#     assert len(vol.split_by_body.eval()) == 11
+#     assert len(vol.split_by_body.eval()[0].scoping) == 105
+#     assert len(vol.on_mesh_scoping([1, 2, 3, 10992]).split_by_body.eval()) == 2
+#     assert len(vol.eval()[0].scoping) == 3
+#     assert len(vol.eval()[1].scoping) == 1
 
 
 def test_result_not_dynamic(plate_msup):

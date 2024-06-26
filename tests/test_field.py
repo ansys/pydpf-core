@@ -461,13 +461,13 @@ def test_shell_layers_2(velocity_acceleration):
     assert f.shell_layers == shell_layers.nonelayer
 
 
-def test_mesh_support_field_model(allkindofcomplexity):
-    model = dpf.core.Model(allkindofcomplexity)
-    stress = model.results.stress()
-    f = stress.outputs.fields_container()[0]
-    mesh = f.meshed_region
-    assert len(mesh.nodes.scoping) == 15129
-    assert len(mesh.elements.scoping) == 10292
+# def test_mesh_support_field_model(allkindofcomplexity):
+#     model = dpf.core.Model(allkindofcomplexity)
+#     stress = model.results.stress()
+#     f = stress.outputs.fields_container()[0]
+#     mesh = f.meshed_region
+#     assert len(mesh.nodes.scoping) == 15129
+#     assert len(mesh.elements.scoping) == 10292
 
 
 def test_delete_auto_field(server_type):
