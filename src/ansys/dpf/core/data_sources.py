@@ -119,11 +119,16 @@ class DataSources:
         ['/tmp/file.rst']
 
         """
+        extension = os.path.splitext(filepath)[1]
+        # Handle .res files from CFX
+        if key == "" and extension == ".res":
+            key = "cas"
+            self.add_file_path(filepath, key="dat")
         # Handle no key given and no file extension
-        if key == "" and os.path.splitext(filepath)[1] == "":
+        if key == "" and extension == "":
             key = self.guess_result_key(str(filepath))
         # Look for another extension for .h5 and .cff files
-        if key == "" and os.path.splitext(filepath)[1] in [".h5", ".cff"]:
+        if key == "" and extension in [".h5", ".cff"]:
             key = self.guess_second_key(str(filepath))
         if key == "":
             self._api.data_sources_set_result_file_path_utf8(self, str(filepath))
