@@ -26,6 +26,8 @@ from ansys.dpf.gate import (
 )
 from typing import Optional, Generic, TypeVar
 
+from ansys.dpf.gate.integral_types import MutableListInt32
+
 TYPE = TypeVar('TYPE')
 
 
@@ -269,6 +271,33 @@ class CollectionBase(Generic[TYPE]):
             return self.create_subtype(
                 self._api.collection_get_obj_by_index(self, label_space_or_index)
             )
+
+    @version_requires("9.0")
+    def get_entries_indices(self, label_space):
+        """Retrieve the indices of the entries corresponding a requested label space .
+
+        Notes
+        -----
+        Available starting with DPF 2024R2.
+
+        Parameters
+        ----------
+        label_space : dict[str,int]
+            Label space or index. For example,
+            ``{"time": 1, "complex": 0}`` or the index of the field.
+
+        Returns
+        -------
+        indices : list[int], list[Field], list[MeshedRegion]
+            Indices of the entries corresponding to the request.
+        """
+        client_label_space = LabelSpace(
+            label_space=label_space, obj=self, server=self._server
+        )
+        num = self._api.collection_get_num_obj_for_label_space(self, client_label_space)
+        int_list = MutableListInt32(num)
+        self._api.collection_fill_obj_indeces_for_label_space(self, client_label_space, int_list)
+        return int_list.tolist()
 
     def _get_entry(self, label_space_or_index) -> TYPE:
         """Retrieve the entry at a requested label space or index.
