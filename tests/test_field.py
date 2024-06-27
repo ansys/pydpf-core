@@ -438,11 +438,13 @@ def test_to_nodal(stress_field):
     assert field_out.location == "Nodal"
 
 
-# def test_mesh_support_field(stress_field):
-#     mesh = stress_field.meshed_region
-#     assert len(mesh.nodes.scoping) == 15129
-#     assert len(mesh.elements.scoping) == 10292
-
+def test_mesh_support_field(stress_field):
+    mesh = stress_field.meshed_region
+    assert len(mesh.nodes.scoping) == 15129
+    if server_meet_version("9.0", mesh._server):
+        assert len(mesh.elements.scoping) == 10294
+    else:
+        assert len(mesh.elements.scoping) == 10292
 
 def test_shell_layers_1(allkindofcomplexity):
     model = dpf.core.Model(allkindofcomplexity)
