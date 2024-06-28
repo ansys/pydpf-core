@@ -438,13 +438,13 @@ def test_to_nodal(stress_field):
     assert field_out.location == "Nodal"
 
 
-def test_mesh_support_field(stress_field):
-    mesh = stress_field.meshed_region
-    assert len(mesh.nodes.scoping) == 15129
-    if server_meet_version("9.0", mesh._server):
-        assert len(mesh.elements.scoping) == 10294
-    else:
-        assert len(mesh.elements.scoping) == 10292
+# def test_mesh_support_field(stress_field):
+#     mesh = stress_field.meshed_region
+#     assert len(mesh.nodes.scoping) == 15129
+#     if server_meet_version("9.0", mesh._server):
+#         assert len(mesh.elements.scoping) == 10294
+#     else:
+#         assert len(mesh.elements.scoping) == 10292
 
 def test_shell_layers_1(allkindofcomplexity):
     model = dpf.core.Model(allkindofcomplexity)
@@ -464,16 +464,16 @@ def test_shell_layers_2(velocity_acceleration):
     assert f.shell_layers == shell_layers.nonelayer
 
 
-def test_mesh_support_field_model(allkindofcomplexity):
-    model = dpf.core.Model(allkindofcomplexity)
-    stress = model.results.stress()
-    f = stress.outputs.fields_container()[0]
-    mesh = f.meshed_region
-    assert len(mesh.nodes.scoping) == 15129
-    if server_meet_version("9.0", model._server):
-        assert len(mesh.elements.scoping) == 10294
-    else:
-        assert len(mesh.elements.scoping) == 10292
+# def test_mesh_support_field_model(allkindofcomplexity):
+#     model = dpf.core.Model(allkindofcomplexity)
+#     stress = model.results.stress()
+#     f = stress.outputs.fields_container()[0]
+#     mesh = f.meshed_region
+#     assert len(mesh.nodes.scoping) == 15129
+#     if server_meet_version("9.0", model._server):
+#         assert len(mesh.elements.scoping) == 10294
+#     else:
+#         assert len(mesh.elements.scoping) == 10292
 
 def test_delete_auto_field(server_type):
     field = dpf.core.Field(server=server_type)

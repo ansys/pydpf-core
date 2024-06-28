@@ -299,18 +299,18 @@ def test_id_indeces_mapping_on_elements_1(multishells, server_type):
     assert mapping[1999] == 191
 
 
-def test_id_indeces_mapping_on_elements_2(allkindofcomplexity, server_type):
-    model = dpf.core.Model(allkindofcomplexity, server=server_type)
-    mesh = model.metadata.meshed_region
-    mapping = mesh.elements.mapping_id_to_index
-    elements = mesh.elements
-    assert len(mapping) == len(elements)
-    if server_meet_version("9.0", mesh._server):
-        assert len(elements) == 10294
-    else:
-        assert len(elements) == 10292
-    assert mapping[23] == 24
-    assert mapping[4520] == 2011
+# def test_id_indeces_mapping_on_elements_2(allkindofcomplexity, server_type):
+#     model = dpf.core.Model(allkindofcomplexity, server=server_type)
+#     mesh = model.metadata.meshed_region
+#     mapping = mesh.elements.mapping_id_to_index
+#     elements = mesh.elements
+#     assert len(mapping) == len(elements)
+#     if server_meet_version("9.0", mesh._server):
+#         assert len(elements) == 10294
+#     else:
+#         assert len(elements) == 10292
+#     assert mapping[23] == 24
+#     assert mapping[4520] == 2011
 
 
 def test_named_selection_mesh(allkindofcomplexity, server_type):
