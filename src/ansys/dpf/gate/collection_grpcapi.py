@@ -246,7 +246,7 @@ class CollectionGRPCAPI(collection_abstract_api.CollectionAbstractAPI):
         request.collection.CopyFrom(collection._internal_obj)
         if collection._server.meet_version("5.0"):
             request.label = label
-            request.type = base_pb2.Type.Value("SUPPORT")
+            request.type = base_pb2.Type.Value("SUPPORT")        
         else:
             request.type = base_pb2.Type.Value("TIME_FREQ_SUPPORT")
         message = _get_stub(collection._server).GetSupport(request)

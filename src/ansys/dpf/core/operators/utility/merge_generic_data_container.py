@@ -55,7 +55,7 @@ class merge_generic_data_container(Operator):
     ... )
 
     >>> # Get output data
-    >>> result_any = op.outputs.any()
+    >>> result_generic_data_container = op.outputs.generic_data_container()
     """
 
     def __init__(
@@ -109,8 +109,8 @@ class merge_generic_data_container(Operator):
             },
             map_output_pin_spec={
                 0: PinSpecification(
-                    name="any",
-                    type_names=["any"],
+                    name="generic_data_container",
+                    type_names=["generic_data_container"],
                     optional=False,
                     document="""""",
                 ),
@@ -242,27 +242,29 @@ class OutputsMergeGenericDataContainer(_Outputs):
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.utility.merge_generic_data_container()
     >>> # Connect inputs : op.inputs. ...
-    >>> result_any = op.outputs.any()
+    >>> result_generic_data_container = op.outputs.generic_data_container()
     """
 
     def __init__(self, op: Operator):
         super().__init__(merge_generic_data_container._spec().outputs, op)
-        self._any = Output(merge_generic_data_container._spec().output_pin(0), 0, op)
-        self._outputs.append(self._any)
+        self._generic_data_container = Output(
+            merge_generic_data_container._spec().output_pin(0), 0, op
+        )
+        self._outputs.append(self._generic_data_container)
 
     @property
-    def any(self):
-        """Allows to get any output of the operator
+    def generic_data_container(self):
+        """Allows to get generic_data_container output of the operator
 
         Returns
         ----------
-        my_any : Any
+        my_generic_data_container : GenericDataContainer
 
         Examples
         --------
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.utility.merge_generic_data_container()
         >>> # Connect inputs : op.inputs. ...
-        >>> result_any = op.outputs.any()
+        >>> result_generic_data_container = op.outputs.generic_data_container()
         """  # noqa: E501
-        return self._any
+        return self._generic_data_container
