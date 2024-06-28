@@ -278,7 +278,7 @@ class CollectionBase(Generic[TYPE]):
 
         Notes
         -----
-        Available starting with DPF 2024R2.
+        Available starting with DPF 2025R1.
 
         Parameters
         ----------
