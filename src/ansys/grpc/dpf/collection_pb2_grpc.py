@@ -71,11 +71,6 @@ class CollectionServiceStub(object):
                 request_serializer=collection__pb2.EntryRequest.SerializeToString,
                 response_deserializer=collection__pb2.GetEntriesResponse.FromString,
                 _registered_method=True)
-        self.GetEntriesIndices = channel.unary_unary(
-                '/ansys.api.dpf.collection.v0.CollectionService/GetEntriesIndices',
-                request_serializer=collection__pb2.EntryRequest.SerializeToString,
-                response_deserializer=collection__pb2.GetEntriesIndicesResponse.FromString,
-                _registered_method=True)
         self.GetSupport = channel.unary_unary(
                 '/ansys.api.dpf.collection.v0.CollectionService/GetSupport',
                 request_serializer=collection__pb2.SupportRequest.SerializeToString,
@@ -147,12 +142,6 @@ class CollectionServiceServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def GetEntries(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def GetEntriesIndices(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -239,11 +228,6 @@ def add_CollectionServiceServicer_to_server(servicer, server):
                     servicer.GetEntries,
                     request_deserializer=collection__pb2.EntryRequest.FromString,
                     response_serializer=collection__pb2.GetEntriesResponse.SerializeToString,
-            ),
-            'GetEntriesIndices': grpc.unary_unary_rpc_method_handler(
-                    servicer.GetEntriesIndices,
-                    request_deserializer=collection__pb2.EntryRequest.FromString,
-                    response_serializer=collection__pb2.GetEntriesIndicesResponse.SerializeToString,
             ),
             'GetSupport': grpc.unary_unary_rpc_method_handler(
                     servicer.GetSupport,
@@ -443,33 +427,6 @@ class CollectionService(object):
             '/ansys.api.dpf.collection.v0.CollectionService/GetEntries',
             collection__pb2.EntryRequest.SerializeToString,
             collection__pb2.GetEntriesResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-            _registered_method=True)
-
-    @staticmethod
-    def GetEntriesIndices(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            '/ansys.api.dpf.collection.v0.CollectionService/GetEntriesIndices',
-            collection__pb2.EntryRequest.SerializeToString,
-            collection__pb2.GetEntriesIndicesResponse.FromString,
             options,
             channel_credentials,
             insecure,
