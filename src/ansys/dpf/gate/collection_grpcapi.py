@@ -4,6 +4,7 @@ import weakref
 
 from ansys.dpf.gate.generated import collection_abstract_api
 from ansys.dpf.gate import object_handler, data_processing_grpcapi, grpc_stream_helpers, errors
+from ansys.dpf.gate.integral_types import MutableListInt32
 
 
 # -------------------------------------------------------------------------------
@@ -128,6 +129,16 @@ class CollectionGRPCAPI(collection_abstract_api.CollectionAbstractAPI):
     @staticmethod
     def collection_get_num_obj_for_label_space(collection, space):
         return len(CollectionGRPCAPI._collection_get_entries(collection, space))
+
+    @staticmethod
+    def collection_fill_obj_indeces_for_label_space(collection, space, indices: MutableListInt32):
+        from ansys.grpc.dpf import collection_pb2
+        request = collection_pb2.EntryRequest()
+        request.collection.CopyFrom(collection._internal_obj)
+        request.label_space.CopyFrom(space._internal_obj)
+
+        out = _get_stub(collection._server).GetEntriesIndices(request)
+        indices.set(out.indices.rep_int)
 
     @staticmethod
     def collection_get_obj_by_index_for_label_space(collection, space, index):
