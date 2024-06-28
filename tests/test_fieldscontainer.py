@@ -5,7 +5,7 @@ import pytest
 import os
 
 import conftest
-from ansys.dpf.core.check_version import server_meet_version
+# from ansys.dpf.core.check_version import server_meet_version
 from ansys.dpf import core as dpf
 from ansys.dpf.core import FieldsContainer, Field, TimeFreqSupport
 from ansys.dpf.core import errors as dpf_errors

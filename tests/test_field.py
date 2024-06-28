@@ -9,7 +9,7 @@ from ansys.dpf.core import FieldDefinition
 from ansys.dpf.core import operators as ops
 from ansys.dpf.core.common import locations, shell_layers
 from conftest import running_docker, SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0
-from ansys.dpf.core.check_version import server_meet_version
+# from ansys.dpf.core.check_version import server_meet_version
 
 
 @pytest.fixture()
