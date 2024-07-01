@@ -5,7 +5,6 @@ import pytest
 import os
 
 import conftest
-# from ansys.dpf.core.check_version import server_meet_version
 from ansys.dpf import core as dpf
 from ansys.dpf.core import FieldsContainer, Field, TimeFreqSupport
 from ansys.dpf.core import errors as dpf_errors
@@ -408,10 +407,7 @@ def test_el_shape_time_fc():
 #     assert isinstance(fc, BodyFieldsContainer)
 #     assert len(fc.get_fields_by_mat_id(45)) == 45
 #     assert np.allclose(fc.get_fields_by_mat_id(45)[0].data, fc.get_field_by_mat_id(45, 1).data)
-#     if server_meet_version("9.0", model._server):
-#         assert len(fc.get_mat_scoping().ids) == 44
-#     else:
-#         assert len(fc.get_mat_scoping().ids) == 32
+#     assert len(fc.get_mat_scoping().ids) == 32
 
 
 def test_add_operator_fields_container():

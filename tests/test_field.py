@@ -9,7 +9,6 @@ from ansys.dpf.core import FieldDefinition
 from ansys.dpf.core import operators as ops
 from ansys.dpf.core.common import locations, shell_layers
 from conftest import running_docker, SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0
-# from ansys.dpf.core.check_version import server_meet_version
 
 
 @pytest.fixture()
@@ -441,10 +440,7 @@ def test_to_nodal(stress_field):
 # def test_mesh_support_field(stress_field):
 #     mesh = stress_field.meshed_region
 #     assert len(mesh.nodes.scoping) == 15129
-#     if server_meet_version("9.0", mesh._server):
-#         assert len(mesh.elements.scoping) == 10294
-#     else:
-#         assert len(mesh.elements.scoping) == 10292
+#     assert len(mesh.elements.scoping) == 10292
 
 
 def test_shell_layers_1(allkindofcomplexity):
@@ -471,10 +467,8 @@ def test_shell_layers_2(velocity_acceleration):
 #     f = stress.outputs.fields_container()[0]
 #     mesh = f.meshed_region
 #     assert len(mesh.nodes.scoping) == 15129
-#     if server_meet_version("9.0", model._server):
-#         assert len(mesh.elements.scoping) == 10294
-#     else:
-#         assert len(mesh.elements.scoping) == 10292
+#     assert len(mesh.elements.scoping) == 10292
+
 
 def test_delete_auto_field(server_type):
     field = dpf.core.Field(server=server_type)
