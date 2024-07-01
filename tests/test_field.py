@@ -446,6 +446,7 @@ def test_to_nodal(stress_field):
 #     else:
 #         assert len(mesh.elements.scoping) == 10292
 
+
 def test_shell_layers_1(allkindofcomplexity):
     model = dpf.core.Model(allkindofcomplexity)
     stress = model.results.stress()
