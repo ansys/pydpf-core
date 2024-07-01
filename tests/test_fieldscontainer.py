@@ -564,3 +564,15 @@ def test_fields_container_empty_tf_support(server_type):
     fields_container = dpf.FieldsContainer(server=server_type)
 
     assert fields_container.time_freq_support == None
+
+
+@conftest.raises_for_servers_version_under("9.0")
+def test_get_entries_indices_fields_container(server_type):
+    fc = FieldsContainer(server=server_type)
+    fc.labels = ["time", "complex"]
+    for i in range(0, 20):
+        mscop = {"time": i + 1, "complex": 0}
+        fc.add_field(mscop, Field(nentities=i + 10, server=server_type))
+    assert np.allclose(fc.get_entries_indices({"time": 1, "complex": 0}), [0])
+    assert np.allclose(fc.get_entries_indices({"time": 2}), [1])
+    assert np.allclose(fc.get_entries_indices({"complex": 0}), range(0, 20))
