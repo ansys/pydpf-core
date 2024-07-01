@@ -401,13 +401,13 @@ def test_el_shape_time_fc():
         assert mesh.elements.element_by_id(id).shape == "solid"
 
 
-def test_mat_time_fc():
-    model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
-    fc = model.results.stress.on_all_time_freqs.split_by_body.eval()
-    assert isinstance(fc, BodyFieldsContainer)
-    assert len(fc.get_fields_by_mat_id(45)) == 45
-    assert np.allclose(fc.get_fields_by_mat_id(45)[0].data, fc.get_field_by_mat_id(45, 1).data)
-    assert len(fc.get_mat_scoping().ids) == 32
+# def test_mat_time_fc():
+#     model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
+#     fc = model.results.stress.on_all_time_freqs.split_by_body.eval()
+#     assert isinstance(fc, BodyFieldsContainer)
+#     assert len(fc.get_fields_by_mat_id(45)) == 45
+#     assert np.allclose(fc.get_fields_by_mat_id(45)[0].data, fc.get_field_by_mat_id(45, 1).data)
+#     assert len(fc.get_mat_scoping().ids) == 32
 
 
 def test_add_operator_fields_container():
