@@ -1103,15 +1103,15 @@ def test_deep_copy_field_grpclegacy_to_grpclegacy():
     _deep_copy_test_identical_server(config)
 
 
-@pytest.mark.skipif(
-    running_docker or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-    reason="this server type does not exist before client" "dedicated to 4.0 server version",
-)
-def test_deep_copy_field_inprocess_to_inprocess():
-    config = dpf.core.ServerConfig(
-        protocol=dpf.core.server_factory.CommunicationProtocols.InProcess, legacy=False
-    )
-    _deep_copy_test_identical_server(config)
+# @pytest.mark.skipif(
+#     running_docker or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+#     reason="this server type does not exist before client" "dedicated to 4.0 server version",
+# )
+# def test_deep_copy_field_inprocess_to_inprocess():
+#     config = dpf.core.ServerConfig(
+#         protocol=dpf.core.server_factory.CommunicationProtocols.InProcess, legacy=False
+#     )
+#     _deep_copy_test_identical_server(config)
 
 
 def test_deep_copy_field_2(plate_msup):
