@@ -78,7 +78,21 @@ fields = displacements.outputs.fields_container()
 
 # Finally, extract the data of the displacement field:
 disp = fields[0].data
-disp
+print(disp[0])
+
+# To improve performance, the result data comes ordered the same way it is stored on the server,
+# which is not necessarily by node or element ID.
+# The link between data position and corresponding entity ID is defined by the field's scoping.
+# To reorder the data according to ascending node or element ID or any other,
+# a new scoping is set for the field using a ``'rescope'`` operation.
+
+# Use the scoping of the mesh's nodes to order data the same way the mesh's nodes are ordered:
+reordered_fields = dpf.operators.scoping.rescope_fc(
+    fields_container=fields,
+    mesh_scoping=metadata.meshed_region.nodes.scoping,
+).outputs.fields_container()
+disp = fields[0].data
+print(disp[0])
 
 ###############################################################################
 model.metadata.meshed_region.plot(fields)
