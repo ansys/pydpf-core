@@ -1,0 +1,1012 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Contributing &#8212; PyDPF-Core</title>
+    
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="_static/styles/bootstrap.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css\ansys_sphinx_theme.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94">
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94">
+
+    
+        <link href="_static/css/breadcrumbs.css" rel="stylesheet">
+    
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/js\table.js"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'contributing';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://dpf.docs.pyansys.com/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '0.5';
+        </script>
+    <link rel="shortcut icon" href="_static/ansys-favicon.png"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Averaging order" href="examples/08-averaging/00-compute_and_average.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__primary" id="__primary">
+  <label class="overlay overlay-primary" for="__primary"></label>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__secondary" id="__secondary">
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+      
+<form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+    </div>
+  </div>
+
+  
+    
+  <nav class="bd-header navbar navbar-expand-lg bd-navbar" id="navbar-main"><div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+      <span class="fa-solid fa-bars"></span>
+  </label>
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="index.html">
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="_static/pyansys-logo-black-cropped.png" class="logo__image only-light" alt="Logo image">
+    <img src="_static/pyansys-logo-black-cropped.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  
+  <div class="col-lg-9 navbar-header-items">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="getting_started/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="api/index.html">
+                        APIs
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="operator_reference.html">
+                        Operators
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="examples/index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
+                        Contributing
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+    </ul>
+</nav>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+        <div class="navbar-end-item navbar-persistent--container">
+          
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+        </div>
+      
+      
+      <div class="navbar-end-item">
+        <div class="version-switcher__container dropdown">
+    <button type="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-toggle="dropdown">
+        0.5  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div class="version-switcher__menu dropdown-menu list-group-flush py-0">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+      </div>
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/pyansys/pydpf-core" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-toggle="tooltip"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+
+
+  
+  
+    <div class="navbar-persistent--mobile">
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+    </div>
+  
+
+  
+  <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+  </label>
+  
+
+</div>
+  </nav>
+  
+
+    
+    <div id="announcement_msg"></div>
+<script>
+  fetch("announcement.html")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(text => document.getElementById("announcement_msg").innerHTML = text)
+    .catch((error) => console.error(`Fetch problem: ${error.message}`));
+</script>
+    
+
+    
+    <div class="container-xl">
+    <div class="row">
+        <div class="col-12 col-md-3" id="breadcrumbs-spacer"></div>
+        <div class="col-12 col-md-11 col-xl-9" id="breadcrumbs">
+          
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+    
+        <li class="nav-item nav-item-additional-breadcrumb"><a href="https://docs.pyansys.com/">PyAnsys</a> » </li>
+    
+    
+        <li class="nav-item nav-item-0"><a href="index.html">PyDPF-Core</a> » </li>
+    
+
+        <li class="nav-item nav-item-this"><a href="">Contributing</a></li> 
+      </ul>
+    </div>
+        </div>
+  </div>
+</div>
+    
+
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="getting_started/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="api/index.html">
+                        APIs
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="operator_reference.html">
+                        Operators
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="examples/index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
+                        Contributing
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+    </ul>
+</nav>
+      </div>
+      
+      </div>
+    
+
+    
+    
+    <div class="sidebar-header-items__end">
+      
+      <div class="navbar-end-item">
+        <div class="version-switcher__container dropdown">
+    <button type="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-toggle="dropdown">
+        0.5  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div class="version-switcher__menu dropdown-menu list-group-flush py-0">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+      </div>
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/pyansys/pydpf-core" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-toggle="tooltip"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+    
+  </div>
+
+  
+
+  
+  <div class="sidebar-end-items sidebar-primary__section">
+    <div class="sidebar-end-items__item">
+    </div>
+  </div>
+
+  
+  <div id="rtd-footer-container"></div>
+
+      </div>
+      <main id="main-content" class="bd-main">
+        
+        
+        <div class="bd-content">
+          <div class="bd-article-container">
+            
+            <div class="bd-header-article">
+                
+            </div>
+            
+            
+            <article class="bd-article" role="main">
+              
+  <section id="contributing">
+<span id="id1"></span><h1>Contributing<a class="headerlink" href="#contributing" title="Permalink to this heading">#</a></h1>
+<p>We absolutely welcome any code contributions and we hope that this
+guide will facilitate an understanding of the DPF-Core code
+repository. It is important to note that while the DPF-Core software
+package is maintained by Ansys and any submissions will be reviewed
+thoroughly before merging, we still seek to foster a community that
+can support user questions and develop new features to make this
+software a useful tool for all users.  As such, we welcome and
+encourage any questions or submissions to this repository.</p>
+<section id="cloning-the-source-repository">
+<h2>Cloning the Source Repository<a class="headerlink" href="#cloning-the-source-repository" title="Permalink to this heading">#</a></h2>
+<p>You can clone the source repository from <a class="reference external" href="https://https://github.com/pyansys/DPF-Core">DPF-Core
+GitHub</a>
+and install the latest version in development mode by running:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">pyansys</span><span class="o">/</span><span class="n">pydpf</span><span class="o">-</span><span class="n">core</span>
+<span class="n">cd</span> <span class="n">pydpf</span><span class="o">-</span><span class="n">core</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">e</span> <span class="o">.</span>
+</pre></div>
+</div>
+</section>
+<section id="questions">
+<h2>Questions<a class="headerlink" href="#questions" title="Permalink to this heading">#</a></h2>
+<p>For general or technical questions about the project, its
+applications, or about software usage, please create an issue at
+<a class="reference external" href="https://github.com/pyansys/DPF-Core/issues">DPF-Core Issues</a> where the
+community or DPF-Core developers can collectively address your
+questions. To reach the project support team,
+email <a class="reference external" href="mailto:pyansys&#46;support&#37;&#52;&#48;ansys&#46;com">pyansys<span>&#46;</span>support<span>&#64;</span>ansys<span>&#46;</span>com</a>.</p>
+<p>By posting on the issues page, your question can be addressed by
+community members with the needed expertise and the knowledge gained
+will remain available on the issues page for other users.</p>
+</section>
+<section id="reporting-bugs">
+<h2>Reporting Bugs<a class="headerlink" href="#reporting-bugs" title="Permalink to this heading">#</a></h2>
+<p>If you encounter any bugs or crashes while using DPF-Core, please
+report it at <a class="reference external" href="https://github.com/pyansys/DPF-Core/issues">DPF-Core Issues</a>
+with an appropriate label so we can promptly address it.  When
+reporting an issue, please be overly descriptive so that we may
+reproduce it. Whenever possible, please provide tracebacks,
+screenshots, and sample files to help us address the issue.</p>
+</section>
+<section id="feature-requests">
+<h2>Feature Requests<a class="headerlink" href="#feature-requests" title="Permalink to this heading">#</a></h2>
+<p>We encourage users to submit ideas for improvements to DPF-Core!
+Please create an issue on the <a class="reference external" href="https://github.com/pyansys/DPF-Core/issues">DPF-Core Issues</a>
+with a <strong>Feature Request</strong> label to suggest an improvement.
+Please use a descriptive title and provide ample background information to help
+the community implement that functionality. For example, if you would like a
+reader for a specific file format, please provide a link to documentation of
+that file format and possibly provide some sample files with screenshots to work
+with. We will use the issue thread as a place to discuss and provide feedback.</p>
+</section>
+<section id="contributing-new-code">
+<h2>Contributing New Code<a class="headerlink" href="#contributing-new-code" title="Permalink to this heading">#</a></h2>
+<p>If you have an idea for how to improve DPF-Core, consider first
+creating an issue as a feature request which we can use as a
+discussion thread to work through how to implement the contribution.</p>
+<p>Once you are ready to start coding, please see the <a class="reference external" href="#development-practices">Development
+Practices</a> section for more details.</p>
+</section>
+<section id="licensing">
+<h2>Licensing<a class="headerlink" href="#licensing" title="Permalink to this heading">#</a></h2>
+<p>All contributed code will be licensed under The MIT License found in
+the repository. If you did not write the code yourself, it is your
+responsibility to ensure that the existing license is compatible and
+included in the contributed files or you can obtain permission from
+the original author to relicense the code.</p>
+</section>
+<hr class="docutils" />
+<section id="development-practices">
+<h2>Development Practices<a class="headerlink" href="#development-practices" title="Permalink to this heading">#</a></h2>
+<p>This section provides a guide to how we conduct development in the
+DPF-Core repository. Please follow the practices outlined here when
+contributing directly to this repository.</p>
+<section id="guidelines">
+<h3>Guidelines<a class="headerlink" href="#guidelines" title="Permalink to this heading">#</a></h3>
+<p>Consider the following general coding paradigms when contributing:</p>
+<ol class="arabic">
+<li><p>Follow the <a class="reference external" href="https://www.python.org/dev/peps/pep-0020/">Zen of Python</a>. As
+silly as the core Python developers are sometimes, there’s much to
+be gained by following the basic guidelines listed in PEP 20.
+Without repeating them here, focus on making your additions
+intuitive, novel, and helpful for DPF-Core and its users.</p>
+<p>When in doubt, <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">this</span></code></p>
+</li>
+<li><p><strong>Document it</strong>. Include a docstring for any function, method, or
+class added.  Follow the <a class="reference external" href="https://numpydoc.readthedocs.io/en/latest/format.html">numpydocs docstring</a>
+guidelines, and always provide a for simple use cases for the new
+features.</p></li>
+<li><p><strong>Test it</strong>. Since Python is an interperted language, if it’s not
+tested, it’s probably broken.  At the minimum, include unit tests
+for each new feature within the <code class="docutils literal notranslate"><span class="pre">tests</span></code> directory.  Ensure that
+each new method, class, or function has reasonable (&gt;90%) coverage.</p></li>
+</ol>
+<p>Additionally, please do not include any data sets for which a license
+is not available or commercial use is prohibited.</p>
+<p>Finally, please take a look at our <a class="reference external" href="https://github.com/pyansys/DPF-Core/blob/master/CODE_OF_CONDUCT.md">Code of Conduct</a></p>
+</section>
+</section>
+<section id="contributing-to-dpf-core-through-github">
+<h2>Contributing to DPF-Core through GitHub<a class="headerlink" href="#contributing-to-dpf-core-through-github" title="Permalink to this heading">#</a></h2>
+<p>To submit new code to DPF-Core, first fork the <a class="reference external" href="https://github.com/pyansys/DPF-Core">DPF-Core GitHub Repo</a> and then clone the forked
+repository to your computer.  Next, create a new branch based on the
+<a class="reference external" href="#branch-naming-conventions">Branch Naming Conventions Section</a> in
+your local repository.</p>
+<p>Next, add your new feature and commit it locally. Be sure to commit
+often as it is often helpful to revert to past commits, especially if
+your change is complex. Also, be sure to test often. See the <a class="reference external" href="#testing">Testing
+Section</a> below for automating testing.</p>
+<p>When you are ready to submit your code, create a pull request by
+following the steps in the <a class="reference external" href="#creating-a-new-pull-request">Creating a New Pull Request
+section</a>.</p>
+<section id="creating-a-new-pull-request">
+<h3>Creating a New Pull Request<a class="headerlink" href="#creating-a-new-pull-request" title="Permalink to this heading">#</a></h3>
+<p>Once you have tested your branch locally, create a pull request on
+<a class="reference external" href="https://github.com/pyansys/DPF-Core">DPF-Core</a> and target your
+merge to <cite>master</cite>.  This will automatically run continuous
+integration (CI) testing and verify your changes will work across all
+supported platforms.</p>
+<p>For code verification, someone from the pyansys developers team will
+review your code to verify your code meets our our standards.  Once
+approved, if you have write permission you may merge the branch.  If
+you don’t have write permission, the reviewer or someone else with
+write permission will merge the branch and delete the PR branch.</p>
+<p>Since it may be necessary to merge your branch with the current
+release branch (see below), please do not delete your branch if it
+is a <code class="docutils literal notranslate"><span class="pre">fix/</span></code> branch.</p>
+</section>
+<section id="branch-naming-conventions">
+<h3>Branch Naming Conventions<a class="headerlink" href="#branch-naming-conventions" title="Permalink to this heading">#</a></h3>
+<p>To streamline development, we have the following requirements for
+naming branches. These requirements help the core developers know what
+kind of changes any given branch is introducing before looking at the
+code.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">fix/</span></code>: any bug fixes, patches, or experimental changes that are
+minor</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">feat/</span></code>: any changes that introduce a new feature or significant
+addition</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">junk/</span></code>: for any experimental changes that can be deleted if gone
+stale</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">maint/</span></code>: for general maintenance of the repository or CI routines</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">doc/</span></code>: for any changes only pertaining to documentation</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">no-ci/</span></code>: for low impact activity that should NOT trigger the CI
+routines</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">testing/</span></code>: improvements or changes to testing</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">release/</span></code>: releases (see below)</p></li>
+</ul>
+</section>
+<section id="testing">
+<h3>Testing<a class="headerlink" href="#testing" title="Permalink to this heading">#</a></h3>
+<p>Periodically when making changes, be sure to test locally before
+creating a pull request. The following tests will be executed after
+any commit or pull request, so we ask that you perform the following
+sequence locally to track down any new issues from your changes.</p>
+<p>To test the core API, be sure to have ANSYS 2021R1 or newer
+installed.  Next, install the testing requirements with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">requirements</span><span class="o">/</span><span class="n">requirements_test</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+<p>Run the primary test suite and generate a coverage report with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">v</span> <span class="o">--</span><span class="n">cov</span> <span class="n">ansys</span><span class="o">-</span><span class="n">dpf</span><span class="o">-</span><span class="n">core</span>
+</pre></div>
+</div>
+<p>If you do not have DPF-Core installed locally, setup the following
+environment variables to connect to a remote server.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">DPF_START_SERVER</span><span class="o">=</span><span class="kc">False</span>
+<span class="n">export</span> <span class="n">DPF_PORT</span><span class="o">=</span><span class="mi">50054</span>
+<span class="n">export</span> <span class="n">DPF_IP</span><span class="o">=&lt;</span><span class="n">XXX</span><span class="o">.</span><span class="n">XXX</span><span class="o">.</span><span class="n">XXX</span><span class="o">.</span><span class="n">XXX</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Or on windows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span> <span class="n">DPF_START_SERVER</span><span class="o">=</span><span class="kc">False</span>
+<span class="nb">set</span> <span class="n">DPF_PORT</span><span class="o">=</span><span class="mi">50054</span>
+<span class="nb">set</span> <span class="n">DPF_IP</span><span class="o">=&lt;</span><span class="n">XXX</span><span class="o">.</span><span class="n">XXX</span><span class="o">.</span><span class="n">XXX</span><span class="o">.</span><span class="n">XXX</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>This will tell <cite>ansys.dpf.core</cite> to attempt to connect to the existing
+DPF service by default rather than launching a new service.</p>
+</section>
+<section id="spelling-and-code-style">
+<h3>Spelling and Code Style<a class="headerlink" href="#spelling-and-code-style" title="Permalink to this heading">#</a></h3>
+<p>If you are using Linux or Mac OS, run check spelling and coding style
+with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span>
+</pre></div>
+</div>
+<p>Any misspelled words will be reported.  You can add words to be
+ignored to <code class="docutils literal notranslate"><span class="pre">ignore_words.txt</span></code></p>
+</section>
+</section>
+<section id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this heading">#</a></h2>
+<p>Documentation for DPF-Core is generated from three sources:</p>
+<ul class="simple">
+<li><p>Docstrings from the classes, functions, and modules of <code class="docutils literal notranslate"><span class="pre">ansys.dpf.core</span></code> using <a class="reference external" href="https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html">sphinx.ext.autodoc</a>.</p></li>
+<li><p>Restructured test from <cite>docs/</cite></p></li>
+<li><p>Examples from <cite>examples/</cite></p></li>
+</ul>
+<p>General usage and API descriptions should be placed within <cite>docs/</cite> and
+the docstrings.  Full examples should be placed in <cite>examples</cite>.</p>
+<section id="documentation-style-and-organization">
+<h3>Documentation Style and Organization<a class="headerlink" href="#documentation-style-and-organization" title="Permalink to this heading">#</a></h3>
+<p>Docstrings should follow the <a class="reference external" href="https://numpydoc.readthedocs.io/en/latest/format.html">numpydocs docstring</a> guidelines.
+Documentation from <cite>docs</cite> use reStructuredText format.  Examples
+within the <cite>examples/</cite> directory should be PEP8 compliant and will be
+compiled dynamically during the build process; ensure they run
+properly locally as they will be verified through the continuous
+integration performed on GitHub Actions.</p>
+</section>
+<section id="building-the-documentation-locally">
+<h3>Building the Documentation Locally<a class="headerlink" href="#building-the-documentation-locally" title="Permalink to this heading">#</a></h3>
+<p>Documentation for DPF-Core is hosted at docs.pyansys.com and is
+automatically built and deployed using the GitHub Actions.  You can
+build and verify the html documentation locally by install <code class="docutils literal notranslate"><span class="pre">sphinx</span></code>
+and the other documentation build dependencies by running the
+following from the DPF-Core source directory:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">requirements</span><span class="o">/</span><span class="n">requirements_docs</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+<p>Next, if running Linux/Mac OS, build the documentation with</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="o">-</span><span class="n">C</span> <span class="n">docs</span> <span class="n">html</span>
+</pre></div>
+</div>
+<p>Otherwise, if running Windows, build the documentation by running</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">docs</span>
+<span class="n">make</span><span class="o">.</span><span class="n">bat</span> <span class="n">html</span>
+</pre></div>
+</div>
+<p>Upon the successful build of the documentation, you can open the local
+build by opening <code class="docutils literal notranslate"><span class="pre">index.html</span></code> at <code class="docutils literal notranslate"><span class="pre">docs/build/html/</span></code> with
+your browser.</p>
+<p>If you are running DPF remotely or through docker, see the <a class="reference external" href="#testing">Testing Section</a> for setting up the correct environment variables.</p>
+</section>
+</section>
+<section id="continuous-integration-and-continuous-delivery">
+<h2>Continuous Integration and Continuous Delivery<a class="headerlink" href="#continuous-integration-and-continuous-delivery" title="Permalink to this heading">#</a></h2>
+<p>The DPF-Core project uses continuous integration and delivery (CI/CD)
+to automate the building, testing, and deployment tasks.  The CI
+Pipeline is deployed on both GitHub Actions and Azure Pipelines and
+performs following tasks:</p>
+<ul class="simple">
+<li><p>Module wheel build</p></li>
+<li><p>Core API testing</p></li>
+<li><p>Spelling and style verification</p></li>
+<li><p>Documentation build</p></li>
+</ul>
+<section id="branching-model">
+<h3>Branching Model<a class="headerlink" href="#branching-model" title="Permalink to this heading">#</a></h3>
+<p>This project has a branching model that enables rapid development of
+features without sacrificing stability, and closely follows the
+<a class="reference external" href="https://trunkbaseddevelopment.com/">Trunk Based Development</a> approach.</p>
+<p>The main features of our branching model are:</p>
+<ul class="simple">
+<li><p>The <cite>master</cite> branch is the main development branch.  All features,
+patches, and other branches should be merged here.  While all PRs
+should pass all applicable CI checks, this branch may be
+functionally unstable as changes might have introduced unintended
+side-effects or bugs that were not caught through unit testing.</p></li>
+<li><p>There will be one or many <cite>release/</cite> branches based on minor
+releases (for example <cite>release/0.2</cite>) which contain a stable version
+of the code base that is also reflected on PyPi/.  Hotfixes from
+<cite>fix/</cite> branches should be merged both to master and to these
+branches.  When necessary to create a new patch release these
+release branches will have their <cite>__version__.py</cite> updated and be
+tagged with a patched semantic version (e.g. <cite>0.2.1</cite>).  This
+triggers CI to push to PyPi, and allow us to rapidly push hotfixes
+for past versions of <code class="docutils literal notranslate"><span class="pre">ansys.dpf.core</span></code> without having to worry about
+untested features.</p></li>
+<li><p>When a minor release candidate is ready, a new <cite>release</cite> branch will
+be created from <cite>master</cite> with the next incremented minor version
+(e.g. <cite>release/0.2</cite>), which will be thoroughly tested.  When deemed
+stable, the release branch will be tagged with the version (<cite>0.2.0</cite>
+in this case), and if necessary merged with master if any changes
+were pushed to it.  Feature development then continues on <cite>master</cite>
+and any hotfixes will now be merged with this release.  Older
+release branches should not be deleted so they can be patched as
+needed.</p></li>
+</ul>
+</section>
+<section id="minor-release-steps">
+<h3>Minor Release Steps<a class="headerlink" href="#minor-release-steps" title="Permalink to this heading">#</a></h3>
+<p>Minor releases are feature and bug releases that improve the
+functionality and stability of <code class="docutils literal notranslate"><span class="pre">DPF-Core</span></code>.  Before a minor release is
+created the following will occur:</p>
+<ol class="arabic simple">
+<li><p>Create a new branch from the <code class="docutils literal notranslate"><span class="pre">master</span></code> branch with name
+<code class="docutils literal notranslate"><span class="pre">release/MAJOR.MINOR</span></code> (e.g. <cite>release/0.2</cite>).</p></li>
+</ol>
+<p>2. Locally run all tests as outlined in the <a class="reference external" href="#testing">Testing Section</a>
+and ensure all are passing.</p>
+<p>3. Locally test and build the documentation with link checking to make sure
+no links are outdated. Be sure to run <cite>make clean</cite> to ensure no results are
+cached.</p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">docs</span>
+<span class="n">make</span> <span class="n">clean</span>  <span class="c1"># deletes the sphinx-gallery cache</span>
+<span class="n">make</span> <span class="n">html</span> <span class="o">-</span><span class="n">b</span> <span class="n">linkcheck</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="arabic" start="4">
+<li><p>After building the documentation, open the local build and examine
+the examples gallery for any obvious issues.</p></li>
+<li><p>Update the version numbers in <code class="docutils literal notranslate"><span class="pre">ansys/dpf/core/_version.py</span></code> and commit it.
+Push the branch to GitHub and create a new PR for this release that
+merges it to master.  Development to master should be limited at
+this point while effort is focused on the release.</p></li>
+<li><p>It is now the responsibility of the <cite>DPF-Core</cite> community and
+developers to functionally test the new release.  It is best to
+locally install this branch and use it in production.  Any bugs
+identified should have their hotfixes pushed to this release
+branch.</p></li>
+<li><p>When the branch is deemed as stable for public release, the PR will
+be merged to master and the <cite>master</cite> branch will be tagged with a
+<cite>MAJOR.MINOR.0</cite> release.  The release branch will not be deleted.
+Tag the release with:</p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">tag</span> <span class="o">&lt;</span><span class="n">MAJOR</span><span class="o">.</span><span class="n">MINOR</span><span class="mf">.0</span><span class="o">&gt;</span>
+<span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="o">--</span><span class="n">tags</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>Create a list of all changes for the release. It is often helpful
+to leverage <a class="reference external" href="https://github.com/pyansys/DPF-Core/compare">GitHub’s compare feature</a> to see the
+differences from the last tag and the <cite>master</cite> branch.  Be sure to
+acknowledge new contributors by their GitHub username and place
+mentions where appropriate if a specific contributor is to thank
+for a new feature.</p></li>
+<li><p>Place your release notes from step 8 in the description within
+<a class="reference external" href="https://github.com/pyansys/mapdl/releases/new">DPF-Core Releases</a></p></li>
+</ol>
+</section>
+<section id="patch-release-steps">
+<h3>Patch Release Steps<a class="headerlink" href="#patch-release-steps" title="Permalink to this heading">#</a></h3>
+<p>Patch releases are for critical and important bugfixes that can not or
+should not wait until a minor release.  The steps for a patch release</p>
+<ol class="arabic simple">
+<li><p>Push the necessary bugfix(es) to the applicable release branch.
+This will generally be the latest release branch
+(e.g. <cite>release/0.2</cite>).</p></li>
+<li><p>Update <cite>__version__.py</cite> with the next patch increment
+(e.g. <cite>0.2.1</cite>), commit it, and open a PR that merge with the
+release branch.  This gives the <cite>DPF-Core</cite> developers and community
+a chance to validate and approve the bugfix release.  Any
+additional hotfixes should be outside of this PR.</p></li>
+<li><p>When approved, merge with the release branch, but not <cite>master</cite> as
+there is no reason to increment the version of the <cite>master</cite> branch.
+Then create a tag from the release branch with the applicable
+version number (see above for the correct steps).</p></li>
+<li><p>If deemed necessary a release notes page.</p></li>
+</ol>
+</section>
+</section>
+</section>
+
+
+            </article>
+            
+            
+            
+          </div>
+          
+          
+          
+            <div class="bd-sidebar-secondary bd-toc">
+              
+<div class="toc-item">
+  
+<div class="tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+</div>
+<nav id="bd-toc-nav" class="page-toc">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#cloning-the-source-repository">
+   Cloning the Source Repository
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#questions">
+   Questions
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#reporting-bugs">
+   Reporting Bugs
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#feature-requests">
+   Feature Requests
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#contributing-new-code">
+   Contributing New Code
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#licensing">
+   Licensing
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#development-practices">
+   Development Practices
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#guidelines">
+     Guidelines
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#contributing-to-dpf-core-through-github">
+   Contributing to DPF-Core through GitHub
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#creating-a-new-pull-request">
+     Creating a New Pull Request
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#branch-naming-conventions">
+     Branch Naming Conventions
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#testing">
+     Testing
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#spelling-and-code-style">
+     Spelling and Code Style
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#documentation">
+   Documentation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#documentation-style-and-organization">
+     Documentation Style and Organization
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#building-the-documentation-locally">
+     Building the Documentation Locally
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#continuous-integration-and-continuous-delivery">
+   Continuous Integration and Continuous Delivery
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#branching-model">
+     Branching Model
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#minor-release-steps">
+     Minor Release Steps
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#patch-release-steps">
+     Patch Release Steps
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+</nav>
+</div>
+
+<div class="toc-item">
+  
+<div id="searchbox"></div>
+</div>
+
+<div class="toc-item">
+  
+</div>
+
+<div class="toc-item">
+  
+<div class="tocsection sourcelink">
+    <a href="_sources/contributing.rst.txt">
+        <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+</div>
+
+</div>
+
+            </div>
+          
+          
+        </div>
+        <footer class="bd-footer-content">
+          <div class="bd-footer-content__inner">
+            
+          </div>
+        </footer>
+        
+      </main>
+    </div>
+  </div>
+
+  
+    
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94"></script>
+
+  <footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    
+<p class="copyright">
+
+    &copy; Copyright (c) 2023 ANSYS, Inc. All rights reserved.<br>
+
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="theme-version">
+    Built with the
+    <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">
+        PyData Sphinx Theme
+    </a>
+    0.12.0.
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+<p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
+</p>
+
+  </div>
+  
+</div>
+  </footer>
+  </body>
+</html>
