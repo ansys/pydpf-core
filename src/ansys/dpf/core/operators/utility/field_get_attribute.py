@@ -8,6 +8,7 @@ from warnings import warn
 from ansys.dpf.core.dpf_operator import Operator
 from ansys.dpf.core.inputs import Input, _Inputs
 from ansys.dpf.core.outputs import Output, _Outputs
+from ansys.dpf.core.outputs import _modify_output_spec_with_one_type
 from ansys.dpf.core.operators.specification import PinSpecification, Specification
 
 
@@ -19,7 +20,8 @@ class field_get_attribute(Operator):
     ----------
     field : Field
     property_name : str
-        Accepted inputs are: 'time_freq_support'.
+        Accepted inputs are: 'time_freq_support' and
+        'scoping'.
 
 
     Examples
@@ -71,13 +73,14 @@ class field_get_attribute(Operator):
                     name="property_name",
                     type_names=["string"],
                     optional=False,
-                    document="""Accepted inputs are: 'time_freq_support'.""",
+                    document="""Accepted inputs are: 'time_freq_support' and
+        'scoping'.""",
                 ),
             },
             map_output_pin_spec={
                 0: PinSpecification(
                     name="property",
-                    type_names=["time_freq_support"],
+                    type_names=["time_freq_support", "scoping"],
                     optional=False,
                     document="""Property value.""",
                 ),
@@ -165,7 +168,8 @@ class InputsFieldGetAttribute(_Inputs):
     def property_name(self):
         """Allows to connect property_name input to the operator.
 
-        Accepted inputs are: 'time_freq_support'.
+        Accepted inputs are: 'time_freq_support' and
+        'scoping'.
 
         Parameters
         ----------
@@ -196,22 +200,19 @@ class OutputsFieldGetAttribute(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(field_get_attribute._spec().outputs, op)
-        self._property = Output(field_get_attribute._spec().output_pin(0), 0, op)
-        self._outputs.append(self._property)
-
-    @property
-    def property(self):
-        """Allows to get property output of the operator
-
-        Returns
-        ----------
-        my_property : TimeFreqSupport
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.utility.field_get_attribute()
-        >>> # Connect inputs : op.inputs. ...
-        >>> result_property = op.outputs.property()
-        """  # noqa: E501
-        return self._property
+        self.property_as_time_freq_support = Output(
+            _modify_output_spec_with_one_type(
+                field_get_attribute._spec().output_pin(0), "time_freq_support"
+            ),
+            0,
+            op,
+        )
+        self._outputs.append(self.property_as_time_freq_support)
+        self.property_as_scoping = Output(
+            _modify_output_spec_with_one_type(
+                field_get_attribute._spec().output_pin(0), "scoping"
+            ),
+            0,
+            op,
+        )
+        self._outputs.append(self.property_as_scoping)
