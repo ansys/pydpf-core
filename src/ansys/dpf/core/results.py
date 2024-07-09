@@ -430,8 +430,8 @@ class Result:
         # <BLANKLINE>
         # ...1, 5, 6, 10, 2, 7, 8, 13, 4, 12, 15]...
         # >>> disp_mat_10 = fc_disp.get_field_by_mat_id(10)
-        #
-        # """
+
+        """
         self._specific_fc_type = "body"
         return self._add_split_on_property_type("mat")
 
