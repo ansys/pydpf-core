@@ -2325,6 +2325,10 @@ def load_api(path):
 		dll.MeshedRegion_GetHasSolidRegion.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.MeshedRegion_GetHasSolidRegion.restype = ctypes.c_bool
 
+	if hasattr(dll, "MeshedRegion_GetHasGasketRegion"):
+		dll.MeshedRegion_GetHasGasketRegion.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.MeshedRegion_GetHasGasketRegion.restype = ctypes.c_bool
+
 	if hasattr(dll, "MeshedRegion_GetHasShellRegion"):
 		dll.MeshedRegion_GetHasShellRegion.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.MeshedRegion_GetHasShellRegion.restype = ctypes.c_bool
