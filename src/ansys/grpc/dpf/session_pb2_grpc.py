@@ -6,7 +6,7 @@ import warnings
 import ansys.grpc.dpf.base_pb2 as base__pb2
 import ansys.grpc.dpf.session_pb2 as session__pb2
 
-GRPC_GENERATED_VERSION = '1.64.1'
+GRPC_GENERATED_VERSION = '1.65.0'
 GRPC_VERSION = grpc.__version__
 EXPECTED_ERROR_RELEASE = '1.65.0'
 SCHEDULED_RELEASE_DATE = 'June 25, 2024'
