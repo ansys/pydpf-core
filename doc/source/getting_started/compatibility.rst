@@ -7,7 +7,7 @@ Compatibility
 Operating system
 ----------------
 
-DPF supports Windows 10 and Rocky 8 and later.
+DPF supports Windows 10 and Rocky Linux 8 and later.
 To run DPF on CentOS 7, use DPF for 2024R2 (8.2) or older.
 For more information, see `Ansys Platform Support <https://www.ansys.com/solutions/solutions-by-role/it-professionals/platform-support>`_.
 
