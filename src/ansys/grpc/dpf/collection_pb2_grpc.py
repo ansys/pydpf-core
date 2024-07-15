@@ -7,7 +7,7 @@ import ansys.grpc.dpf.base_pb2 as base__pb2
 import ansys.grpc.dpf.collection_pb2 as collection__pb2
 import ansys.grpc.dpf.support_pb2 as support__pb2
 
-GRPC_GENERATED_VERSION = '1.65.0'
+GRPC_GENERATED_VERSION = '1.64.1'
 GRPC_VERSION = grpc.__version__
 EXPECTED_ERROR_RELEASE = '1.65.0'
 SCHEDULED_RELEASE_DATE = 'June 25, 2024'
