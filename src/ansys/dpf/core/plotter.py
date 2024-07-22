@@ -232,6 +232,8 @@ class _PyVistaPlotter:
                 "title": name,
                 "n_labels": 0,
             })
+            # from itertools import cycle
+            # cycler = cycle(['Reds', 'Greens', 'Blues', 'Greys', 'Oranges', 'Purples'])
             kwargs.setdefault("cmap", "tab20")
             values = set(field.data)
             kwargs.setdefault("clim", [min(values)-0.5, max(values)+0.5])
