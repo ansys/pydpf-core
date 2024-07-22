@@ -1,6 +1,6 @@
 ansys-platform-instancemanagement==1.1.2
 coverage==7.6.0
-imageio==2.34.1
+imageio==2.34.2
 imageio-ffmpeg==0.4.7
 pytest==7.4.2
 pytest-cov==5.0.0
