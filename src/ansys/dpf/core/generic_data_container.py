@@ -10,7 +10,10 @@ import warnings
 import builtins
 from typing import Union, TYPE_CHECKING
 
+import numpy as np
+
 from ansys.dpf.core.check_version import server_meet_version
+from ansys.dpf.gate import dpf_vector
 
 if TYPE_CHECKING:  # pragma: no cover
     from ansys.dpf.core import Field, Scoping, StringField, GenericDataContainer
@@ -111,7 +114,7 @@ class GenericDataContainer:
             Property object.
         """
 
-        if not isinstance(prop, (int, float, str, bytes)) and server_meet_version("8.1", self._server):
+        if not isinstance(prop, (int, float, str, bytes, list, np.ndarray)) and server_meet_version("8.1", self._server):
             self._api.generic_data_container_set_property_dpf_type(self, property_name, prop)
         else:
             any_dpf = Any.new_from(prop, self._server)
@@ -146,8 +149,10 @@ class GenericDataContainer:
         class_ = getattr(builtins, output_type, None)
         if class_ is None:
             from ansys.dpf import core
-
-            class_ = getattr(core, output_type)
+            if hasattr(dpf_vector, output_type):
+                class_ = getattr(dpf_vector, output_type)
+            else:
+                class_ = getattr(core, output_type)
 
         return any_dpf.cast(class_)
 
@@ -174,7 +179,11 @@ class GenericDataContainer:
 
         python_property_types = []
         for _, property_type in enumerate(property_types):
-            python_property_types.append(map_types_to_python[property_type])
+            if property_type == "vector<int32>":
+                python_type = dpf_vector.DPFVectorInt.__name__
+            else:
+                python_type = map_types_to_python[property_type]
+            python_property_types.append(python_type)
 
         return dict(zip(property_names, python_property_types))
 

@@ -4,6 +4,7 @@ from .component_selector import component_selector
 from .component_selector_fc import component_selector_fc 
 from .component_transformer import component_transformer 
 from .component_transformer_fc import component_transformer_fc 
+from .data_sources import data_sources 
 from .descending_sort import descending_sort 
 from .descending_sort_fc import descending_sort_fc 
 from .elementary_data_selector import elementary_data_selector 
