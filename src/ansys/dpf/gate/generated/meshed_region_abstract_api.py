@@ -56,6 +56,10 @@ class MeshedRegionAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def meshed_region_get_has_gasket_region(meshedRegion):
+		raise NotImplementedError
+
+	@staticmethod
 	def meshed_region_get_has_shell_region(meshedRegion):
 		raise NotImplementedError
 
