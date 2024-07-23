@@ -31,6 +31,7 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
     @staticmethod
     def _type_to_message_type():
         from ansys.grpc.dpf import base_pb2
+        from ansys.dpf.gate import dpf_vector
         from ansys.dpf.core import (
             field,
             property_field,
@@ -39,7 +40,7 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
             scoping,
             data_tree,
             custom_type_field,
-            collection,
+            collection_base,
         )
 
         return [(int, base_pb2.Type.INT),
@@ -53,7 +54,8 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
                 (generic_data_container.GenericDataContainer, base_pb2.Type.GENERIC_DATA_CONTAINER),
                 (scoping.Scoping, base_pb2.Type.SCOPING),
                 (data_tree.DataTree, base_pb2.Type.DATA_TREE),
-                (collection.Collection, base_pb2.Type.COLLECTION, base_pb2.Type.ANY),
+                (collection_base.CollectionBase, base_pb2.Type.COLLECTION, base_pb2.Type.ANY),
+                (dpf_vector.DPFVectorInt, base_pb2.Type.COLLECTION, base_pb2.Type.INT),
                 ]
 
     @staticmethod
@@ -134,6 +136,10 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
         return AnyGRPCAPI._get_as(any).collection
 
     @staticmethod
+    def any_get_as_int_collection(any):
+        return AnyGRPCAPI._get_as(any).collection
+
+    @staticmethod
     def _new_from(any, client=None):
         from ansys.grpc.dpf import dpf_any_pb2
         request = dpf_any_pb2.CreateRequest()
@@ -182,6 +188,10 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
     @staticmethod
     def any_new_from_double_on_client(client, any):
         return AnyGRPCAPI._new_from(any, client)
+
+    @staticmethod
+    def any_new_from_int_collection(any):
+        return AnyGRPCAPI._new_from(any, any._server)
 
     @staticmethod
     def any_new_from_field(any):

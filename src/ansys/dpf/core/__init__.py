@@ -1,8 +1,12 @@
 import os
 import pkg_resources
 
-from ansys.dpf.core._version import __version__
+try:
+    import importlib.metadata as importlib_metadata
+except ImportError:  # Python < 3.10 (backport)
+    import importlib_metadata as importlib_metadata
 
+__version__ = importlib_metadata.version("ansys-dpf-core")
 
 # Setup data directory
 USER_DATA_PATH = None
@@ -57,6 +61,7 @@ from ansys.dpf.core.common import (
     config_options
     )
 from ansys.dpf.core import help
+from ansys.dpf.core import plugins
 from ansys.dpf.core.core import (
     BaseService,
     load_library,

@@ -13,6 +13,7 @@ from .elemental_to_nodal import elemental_to_nodal
 from .elemental_to_nodal_fc import elemental_to_nodal_fc 
 from .extend_to_mid_nodes import extend_to_mid_nodes 
 from .extend_to_mid_nodes_fc import extend_to_mid_nodes_fc 
+from .force_summation import force_summation 
 from .gauss_to_node_fc import gauss_to_node_fc 
 from .nodal_difference import nodal_difference 
 from .nodal_difference_fc import nodal_difference_fc 

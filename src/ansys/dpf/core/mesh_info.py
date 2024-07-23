@@ -64,6 +64,7 @@ class MeshInfo:
         self._zone_map = None
         self._cell_zone_map = None
         self._face_zone_map = None
+        self._bodies_map = None
 
     def __str__(self):
         txt = "DPF MeshInfo\n"
@@ -295,6 +296,29 @@ class MeshInfo:
             return None
 
     @property
+    def bodies(self) -> dict:
+        """Dictionary of available body IDs to body names.
+
+        Returns
+        -------
+        bodies:
+            Map of body IDs to body names.
+
+        .. warning:
+            Currently unavailable for LegacyGrpc servers.
+        """
+        if self._bodies_map:
+            return self._bodies_map
+        body_names = self.body_names
+        bodies_map = {}
+        if body_names:
+            names = body_names.data
+            for i, key in enumerate(body_names.scoping.ids):
+                bodies_map[str(key)] = names[i]
+        self._bodies_map = bodies_map
+        return self._bodies_map
+
+    @property
     def zone_names(self):
         """
         Returns
@@ -362,12 +386,12 @@ class MeshInfo:
 
     @property
     def cell_zones(self) -> dict:
-        """Dictionary of available cell zone IDs to face zone names.
+        """Dictionary of available cell zone IDs to cell zone names.
 
         Returns
         -------
         cell_zones:
-            Map of cell zone IDs to face zone names.
+            Map of cell zone IDs to cell zone names.
 
         .. warning:
             Currently unavailable for LegacyGrpc servers.

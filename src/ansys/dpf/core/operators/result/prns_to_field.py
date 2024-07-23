@@ -18,6 +18,8 @@ class prns_to_field(Operator):
     ----------
     filepath : str
         Filepath
+    columns_to_read : int, optional
+        Columns_to_read
 
 
     Examples
@@ -30,22 +32,27 @@ class prns_to_field(Operator):
     >>> # Make input connections
     >>> my_filepath = str()
     >>> op.inputs.filepath.connect(my_filepath)
+    >>> my_columns_to_read = int()
+    >>> op.inputs.columns_to_read.connect(my_columns_to_read)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.prns_to_field(
     ...     filepath=my_filepath,
+    ...     columns_to_read=my_columns_to_read,
     ... )
 
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
 
-    def __init__(self, filepath=None, config=None, server=None):
+    def __init__(self, filepath=None, columns_to_read=None, config=None, server=None):
         super().__init__(name="PRNS_Reader", config=config, server=server)
         self._inputs = InputsPrnsToField(self)
         self._outputs = OutputsPrnsToField(self)
         if filepath is not None:
             self.inputs.filepath.connect(filepath)
+        if columns_to_read is not None:
+            self.inputs.columns_to_read.connect(columns_to_read)
 
     @staticmethod
     def _spec():
@@ -58,6 +65,12 @@ class prns_to_field(Operator):
                     type_names=["string"],
                     optional=False,
                     document="""Filepath""",
+                ),
+                1: PinSpecification(
+                    name="columns_to_read",
+                    type_names=["int32", "vector<int32>"],
+                    optional=True,
+                    document="""Columns_to_read""",
                 ),
             },
             map_output_pin_spec={
@@ -118,12 +131,16 @@ class InputsPrnsToField(_Inputs):
     >>> op = dpf.operators.result.prns_to_field()
     >>> my_filepath = str()
     >>> op.inputs.filepath.connect(my_filepath)
+    >>> my_columns_to_read = int()
+    >>> op.inputs.columns_to_read.connect(my_columns_to_read)
     """
 
     def __init__(self, op: Operator):
         super().__init__(prns_to_field._spec().inputs, op)
         self._filepath = Input(prns_to_field._spec().input_pin(0), 0, op, -1)
         self._inputs.append(self._filepath)
+        self._columns_to_read = Input(prns_to_field._spec().input_pin(1), 1, op, -1)
+        self._inputs.append(self._columns_to_read)
 
     @property
     def filepath(self):
@@ -144,6 +161,26 @@ class InputsPrnsToField(_Inputs):
         >>> op.inputs.filepath(my_filepath)
         """
         return self._filepath
+
+    @property
+    def columns_to_read(self):
+        """Allows to connect columns_to_read input to the operator.
+
+        Columns_to_read
+
+        Parameters
+        ----------
+        my_columns_to_read : int
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.prns_to_field()
+        >>> op.inputs.columns_to_read.connect(my_columns_to_read)
+        >>> # or
+        >>> op.inputs.columns_to_read(my_columns_to_read)
+        """
+        return self._columns_to_read
 
 
 class OutputsPrnsToField(_Outputs):

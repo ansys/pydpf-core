@@ -11,7 +11,7 @@ on:
       ANSYS_VERSION:
         required: false
         type: string
-        default: "242"
+        default: "251"
       standalone_suffix:
         description: "Suffix of the branch on standalone"
         required: false
@@ -29,7 +29,7 @@ on:
         description: "ANSYS version to run."
         required: true
         type: string
-        default: "242"
+        default: "251"
       standalone_suffix:
         description: "Suffix of the branch on standalone"
         required: false
@@ -72,7 +72,7 @@ jobs:
           echo "ANSYSLMD_LICENSE_FILE=1055@${{ secrets.LICENSE_SERVER }}" >> $GITHUB_ENV
 
       - name: "Setup Python"
-        uses: actions/setup-python@v4.6.0
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
 

@@ -4,10 +4,12 @@ import weakref
 
 from ansys.dpf.gate.generated import collection_abstract_api
 from ansys.dpf.gate import object_handler, data_processing_grpcapi, grpc_stream_helpers, errors
+from ansys.dpf.gate.integral_types import MutableListInt32
 
-#-------------------------------------------------------------------------------
+
+# -------------------------------------------------------------------------------
 # Collection
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
 
 def _get_stub(server):
     return server.get_stub(CollectionGRPCAPI.STUBNAME)
@@ -29,7 +31,8 @@ class CollectionGRPCAPI(collection_abstract_api.CollectionAbstractAPI):
         server.create_stub_if_necessary(
             CollectionGRPCAPI.STUBNAME, collection_pb2_grpc.CollectionServiceStub)
 
-        object._deleter_func = (_get_stub(server).Delete, lambda obj: obj._internal_obj if isinstance(obj,collection_pb2.Collection) else None)
+        object._deleter_func = (
+        _get_stub(server).Delete, lambda obj: obj._internal_obj if isinstance(obj, collection_pb2.Collection) else None)
 
     @staticmethod
     def collection_of_scoping_new_on_client(client):
@@ -128,6 +131,16 @@ class CollectionGRPCAPI(collection_abstract_api.CollectionAbstractAPI):
         return len(CollectionGRPCAPI._collection_get_entries(collection, space))
 
     @staticmethod
+    def collection_fill_obj_indeces_for_label_space(collection, space, indices: MutableListInt32):
+        from ansys.grpc.dpf import collection_pb2
+        request = collection_pb2.EntryRequest()
+        request.collection.CopyFrom(collection._internal_obj)
+        request.label_space.CopyFrom(space._internal_obj)
+
+        out = _get_stub(collection._server).GetEntriesIndices(request)
+        indices.set(out.indices.rep_int)
+
+    @staticmethod
     def collection_get_obj_by_index_for_label_space(collection, space, index):
         return data_processing_grpcapi.DataProcessingGRPCAPI.data_processing_duplicate_object_reference(
             CollectionGRPCAPI._collection_get_entries(collection, space)[index].entry
@@ -135,7 +148,7 @@ class CollectionGRPCAPI(collection_abstract_api.CollectionAbstractAPI):
 
     @staticmethod
     def collection_get_obj_by_index(collection, index):
-        return  data_processing_grpcapi.DataProcessingGRPCAPI.data_processing_duplicate_object_reference(
+        return data_processing_grpcapi.DataProcessingGRPCAPI.data_processing_duplicate_object_reference(
             CollectionGRPCAPI._collection_get_entries(collection, index)[0].entry
         )
 
@@ -145,7 +158,8 @@ class CollectionGRPCAPI(collection_abstract_api.CollectionAbstractAPI):
 
     @staticmethod
     def _collection_get_entries(collection, label_space_or_index):
-        from ansys.grpc.dpf import collection_pb2, scoping_pb2, field_pb2, meshed_region_pb2, base_pb2, dpf_any_message_pb2
+        from ansys.grpc.dpf import collection_pb2, scoping_pb2, field_pb2, meshed_region_pb2, base_pb2, \
+            dpf_any_message_pb2
         request = collection_pb2.EntryRequest()
         request.collection.CopyFrom(collection._internal_obj)
 
@@ -154,7 +168,7 @@ class CollectionGRPCAPI(collection_abstract_api.CollectionAbstractAPI):
         else:
             request.label_space.CopyFrom(label_space_or_index._internal_obj)
 
-        out =  _get_stub(collection._server).GetEntries(request)
+        out = _get_stub(collection._server).GetEntries(request)
         list_out = []
         for obj in out.entries:
             label_space = {}
@@ -163,15 +177,19 @@ class CollectionGRPCAPI(collection_abstract_api.CollectionAbstractAPI):
                     label_space[key] = obj.label_space.label_space[key]
             if obj.HasField("dpf_type"):
                 if collection._internal_obj.type == base_pb2.Type.Value("SCOPING"):
-                    entry = object_handler.ObjHandler(data_processing_grpcapi.DataProcessingGRPCAPI, scoping_pb2.Scoping())
+                    entry = object_handler.ObjHandler(data_processing_grpcapi.DataProcessingGRPCAPI,
+                                                      scoping_pb2.Scoping())
                 elif collection._internal_obj.type == base_pb2.Type.Value("FIELD"):
                     entry = object_handler.ObjHandler(data_processing_grpcapi.DataProcessingGRPCAPI, field_pb2.Field())
                 elif collection._internal_obj.type == base_pb2.Type.Value("MESHED_REGION"):
-                    entry = object_handler.ObjHandler(data_processing_grpcapi.DataProcessingGRPCAPI, meshed_region_pb2.MeshedRegion())
+                    entry = object_handler.ObjHandler(data_processing_grpcapi.DataProcessingGRPCAPI,
+                                                      meshed_region_pb2.MeshedRegion())
                 elif collection._internal_obj.type == base_pb2.Type.Value("ANY"):
-                    entry = object_handler.ObjHandler(data_processing_grpcapi.DataProcessingGRPCAPI, dpf_any_message_pb2.DpfAny())
+                    entry = object_handler.ObjHandler(data_processing_grpcapi.DataProcessingGRPCAPI,
+                                                      dpf_any_message_pb2.DpfAny())
                 else:
-                    raise NotImplementedError(f"collection {base_pb2.Type.Name(collection._internal_obj.type)} type is not implemented")
+                    raise NotImplementedError(
+                        f"collection {base_pb2.Type.Name(collection._internal_obj.type)} type is not implemented")
                 obj.dpf_type.Unpack(entry._internal_obj)
                 entry._server = collection._server
                 list_out.append(_CollectionEntry(label_space, entry))
@@ -193,7 +211,7 @@ class CollectionGRPCAPI(collection_abstract_api.CollectionAbstractAPI):
         request = collection_pb2.UpdateRequest()
         request.collection.CopyFrom(collection._internal_obj)
         if hasattr(obj, "_message"):
-            #TO DO: remove
+            # TO DO: remove
             request.entry.dpf_type.Pack(obj._message)
         else:
             request.entry.dpf_type.Pack(obj._internal_obj)
@@ -206,7 +224,8 @@ class CollectionGRPCAPI(collection_abstract_api.CollectionAbstractAPI):
         metadata = [(u"size_bytes", f"{size * data.itemsize}")]
         request = collection_pb2.UpdateAllDataRequest()
         request.collection.CopyFrom(collection._internal_obj)
-        _get_stub(collection._server).UpdateAllData(grpc_stream_helpers._data_chunk_yielder(request, data), metadata=metadata)
+        _get_stub(collection._server).UpdateAllData(grpc_stream_helpers._data_chunk_yielder(request, data),
+                                                    metadata=metadata)
 
     @staticmethod
     def collection_set_data_as_int(collection, data, size):
@@ -219,9 +238,15 @@ class CollectionGRPCAPI(collection_abstract_api.CollectionAbstractAPI):
     @staticmethod
     def collection_set_support(collection, label, support):
         from ansys.grpc.dpf import collection_pb2
+        from ansys.grpc.dpf import time_freq_support_pb2
+        from ansys.grpc.dpf import support_pb2
         request = collection_pb2.UpdateSupportRequest()
         request.collection.CopyFrom(collection._internal_obj)
-        request.time_freq_support.CopyFrom(support._internal_obj)
+        if isinstance(support._internal_obj, time_freq_support_pb2.TimeFreqSupport):
+            request.time_freq_support.CopyFrom(support._internal_obj)
+        else:
+            supp = support_pb2.Support(id=support._internal_obj.id)
+            request.support.CopyFrom(supp)
         request.label = label
         _get_stub(collection._server).UpdateSupport(request)
 
@@ -230,7 +255,11 @@ class CollectionGRPCAPI(collection_abstract_api.CollectionAbstractAPI):
         from ansys.grpc.dpf import collection_pb2, base_pb2
         request = collection_pb2.SupportRequest()
         request.collection.CopyFrom(collection._internal_obj)
-        request.type = base_pb2.Type.Value("TIME_FREQ_SUPPORT")
+        if collection._server.meet_version("5.0"):
+            request.label = label
+            request.type = base_pb2.Type.Value("SUPPORT")
+        else:
+            request.type = base_pb2.Type.Value("TIME_FREQ_SUPPORT")
         message = _get_stub(collection._server).GetSupport(request)
         return message
 
@@ -284,5 +313,3 @@ class CollectionGRPCAPI(collection_abstract_api.CollectionAbstractAPI):
 class _CollectionEntry(NamedTuple):
     label_space: dict
     entry: object
-
-

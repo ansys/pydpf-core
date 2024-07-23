@@ -1565,9 +1565,9 @@ def download_cfx_heating_coil(
 
 def download_cfx_mixing_elbow(
     should_upload: bool = True, server=None, return_local_path=False
-) -> dict:
-    """Download the flprj, cas and dat files of a CFX analysis of a mixing elbow
-    and return the download paths into a dictionary extension->path.
+) -> str:
+    """Download the res file of a CFX analysis of a mixing elbow
+    and return the download path.
     If the server is remote (or doesn't share memory), the file is uploaded or made available
     on the server side.
 
@@ -1587,28 +1587,26 @@ def download_cfx_mixing_elbow(
 
     Returns
     -------
-    dict[str:str]
-        Path to the example files.
+    str:
+        Path to the example file.
 
     Examples
     --------
     Download an example result file and return the path of the file
 
     >>> from ansys.dpf.core import examples
-    >>> paths = examples.download_cfx_mixing_elbow()
-    >>> paths
-    {'cas': 'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\cfx-mixing_elbow\\InjectMixer.res',
-     'dat': 'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\cfx-mixing_elbow\\InjectMixer.res'} # noqa: E501
+    >>> path = examples.download_cfx_mixing_elbow()
+    >>> path
+    'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\cfx-mixing_elbow\\InjectMixer.res' # noqa: E501
 
     """
-    file = _download_file(
+    return _download_file(
         "result_files/cfx-mixing_elbow",
         "InjectMixer.res",
         should_upload,
         server,
         return_local_path,
     )
-    return {"cas": file, "dat": file}
 
 
 def find_simple_bar(should_upload: bool = True, server=None, return_local_path=False) -> str:

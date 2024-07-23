@@ -16,6 +16,14 @@ class merge_fields_containers(Operator):
 
     Parameters
     ----------
+    should_merge_named_selections : bool, optional
+        For some result files (such as rst), the
+        scoping on names selection is
+        duplicated through all the
+        distributed files.if this pin is
+        false, the merging process is
+        skipped. if it is true, this scoping
+        is merged. default is true.
     sum_merge : bool, optional
         Default is false. if true, redundant
         quantities are summed instead of
@@ -40,6 +48,8 @@ class merge_fields_containers(Operator):
     >>> op = dpf.operators.utility.merge_fields_containers()
 
     >>> # Make input connections
+    >>> my_should_merge_named_selections = bool()
+    >>> op.inputs.should_merge_named_selections.connect(my_should_merge_named_selections)
     >>> my_sum_merge = bool()
     >>> op.inputs.sum_merge.connect(my_sum_merge)
     >>> my_merged_fields_support = dpf.AbstractFieldSupport()
@@ -53,6 +63,7 @@ class merge_fields_containers(Operator):
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.utility.merge_fields_containers(
+    ...     should_merge_named_selections=my_should_merge_named_selections,
     ...     sum_merge=my_sum_merge,
     ...     merged_fields_support=my_merged_fields_support,
     ...     merged_fields_containers_support=my_merged_fields_containers_support,
@@ -66,6 +77,7 @@ class merge_fields_containers(Operator):
 
     def __init__(
         self,
+        should_merge_named_selections=None,
         sum_merge=None,
         merged_fields_support=None,
         merged_fields_containers_support=None,
@@ -77,6 +89,10 @@ class merge_fields_containers(Operator):
         super().__init__(name="merge::fields_container", config=config, server=server)
         self._inputs = InputsMergeFieldsContainers(self)
         self._outputs = OutputsMergeFieldsContainers(self)
+        if should_merge_named_selections is not None:
+            self.inputs.should_merge_named_selections.connect(
+                should_merge_named_selections
+            )
         if sum_merge is not None:
             self.inputs.sum_merge.connect(sum_merge)
         if merged_fields_support is not None:
@@ -96,6 +112,18 @@ class merge_fields_containers(Operator):
         spec = Specification(
             description=description,
             map_input_pin_spec={
+                -200: PinSpecification(
+                    name="should_merge_named_selections",
+                    type_names=["bool"],
+                    optional=True,
+                    document="""For some result files (such as rst), the
+        scoping on names selection is
+        duplicated through all the
+        distributed files.if this pin is
+        false, the merging process is
+        skipped. if it is true, this scoping
+        is merged. default is true.""",
+                ),
                 -3: PinSpecification(
                     name="sum_merge",
                     type_names=["bool"],
@@ -190,6 +218,8 @@ class InputsMergeFieldsContainers(_Inputs):
     --------
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.utility.merge_fields_containers()
+    >>> my_should_merge_named_selections = bool()
+    >>> op.inputs.should_merge_named_selections.connect(my_should_merge_named_selections)
     >>> my_sum_merge = bool()
     >>> op.inputs.sum_merge.connect(my_sum_merge)
     >>> my_merged_fields_support = dpf.AbstractFieldSupport()
@@ -204,6 +234,10 @@ class InputsMergeFieldsContainers(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(merge_fields_containers._spec().inputs, op)
+        self._should_merge_named_selections = Input(
+            merge_fields_containers._spec().input_pin(-200), -200, op, -1
+        )
+        self._inputs.append(self._should_merge_named_selections)
         self._sum_merge = Input(
             merge_fields_containers._spec().input_pin(-3), -3, op, -1
         )
@@ -224,6 +258,32 @@ class InputsMergeFieldsContainers(_Inputs):
             merge_fields_containers._spec().input_pin(1), 1, op, 1
         )
         self._inputs.append(self._fields_containers2)
+
+    @property
+    def should_merge_named_selections(self):
+        """Allows to connect should_merge_named_selections input to the operator.
+
+        For some result files (such as rst), the
+        scoping on names selection is
+        duplicated through all the
+        distributed files.if this pin is
+        false, the merging process is
+        skipped. if it is true, this scoping
+        is merged. default is true.
+
+        Parameters
+        ----------
+        my_should_merge_named_selections : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.utility.merge_fields_containers()
+        >>> op.inputs.should_merge_named_selections.connect(my_should_merge_named_selections)
+        >>> # or
+        >>> op.inputs.should_merge_named_selections(my_should_merge_named_selections)
+        """
+        return self._should_merge_named_selections
 
     @property
     def sum_merge(self):

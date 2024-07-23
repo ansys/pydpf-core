@@ -18,6 +18,12 @@ class migrate_to_h5dpf(Operator):
 
     Parameters
     ----------
+    dataset_size_compression_threshold : int, optional
+        Integer value that defines the minimum
+        dataset size (in bytes) to use h5
+        native compression applicable for
+        arrays of floats, doubles and
+        integers.
     h5_native_compression : int, optional
         Integer value that defines the h5 native
         compression used 0: no compression
@@ -65,6 +71,8 @@ class migrate_to_h5dpf(Operator):
     >>> op = dpf.operators.result.migrate_to_h5dpf()
 
     >>> # Make input connections
+    >>> my_dataset_size_compression_threshold = int()
+    >>> op.inputs.dataset_size_compression_threshold.connect(my_dataset_size_compression_threshold)
     >>> my_h5_native_compression = int()
     >>> op.inputs.h5_native_compression.connect(my_h5_native_compression)
     >>> my_export_floats = bool()
@@ -86,6 +94,7 @@ class migrate_to_h5dpf(Operator):
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.migrate_to_h5dpf(
+    ...     dataset_size_compression_threshold=my_dataset_size_compression_threshold,
     ...     h5_native_compression=my_h5_native_compression,
     ...     export_floats=my_export_floats,
     ...     filename=my_filename,
@@ -103,6 +112,7 @@ class migrate_to_h5dpf(Operator):
 
     def __init__(
         self,
+        dataset_size_compression_threshold=None,
         h5_native_compression=None,
         export_floats=None,
         filename=None,
@@ -118,6 +128,10 @@ class migrate_to_h5dpf(Operator):
         super().__init__(name="hdf5::h5dpf::migrate_file", config=config, server=server)
         self._inputs = InputsMigrateToH5Dpf(self)
         self._outputs = OutputsMigrateToH5Dpf(self)
+        if dataset_size_compression_threshold is not None:
+            self.inputs.dataset_size_compression_threshold.connect(
+                dataset_size_compression_threshold
+            )
         if h5_native_compression is not None:
             self.inputs.h5_native_compression.connect(h5_native_compression)
         if export_floats is not None:
@@ -147,6 +161,16 @@ class migrate_to_h5dpf(Operator):
         spec = Specification(
             description=description,
             map_input_pin_spec={
+                -5: PinSpecification(
+                    name="dataset_size_compression_threshold",
+                    type_names=["int32"],
+                    optional=True,
+                    document="""Integer value that defines the minimum
+        dataset size (in bytes) to use h5
+        native compression applicable for
+        arrays of floats, doubles and
+        integers.""",
+                ),
                 -2: PinSpecification(
                     name="h5_native_compression",
                     type_names=["int32"],
@@ -277,6 +301,8 @@ class InputsMigrateToH5Dpf(_Inputs):
     --------
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.result.migrate_to_h5dpf()
+    >>> my_dataset_size_compression_threshold = int()
+    >>> op.inputs.dataset_size_compression_threshold.connect(my_dataset_size_compression_threshold)
     >>> my_h5_native_compression = int()
     >>> op.inputs.h5_native_compression.connect(my_h5_native_compression)
     >>> my_export_floats = bool()
@@ -299,6 +325,10 @@ class InputsMigrateToH5Dpf(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(migrate_to_h5dpf._spec().inputs, op)
+        self._dataset_size_compression_threshold = Input(
+            migrate_to_h5dpf._spec().input_pin(-5), -5, op, -1
+        )
+        self._inputs.append(self._dataset_size_compression_threshold)
         self._h5_native_compression = Input(
             migrate_to_h5dpf._spec().input_pin(-2), -2, op, -1
         )
@@ -327,6 +357,30 @@ class InputsMigrateToH5Dpf(_Inputs):
             migrate_to_h5dpf._spec().input_pin(7), 7, op, -1
         )
         self._inputs.append(self._filtering_workflow)
+
+    @property
+    def dataset_size_compression_threshold(self):
+        """Allows to connect dataset_size_compression_threshold input to the operator.
+
+        Integer value that defines the minimum
+        dataset size (in bytes) to use h5
+        native compression applicable for
+        arrays of floats, doubles and
+        integers.
+
+        Parameters
+        ----------
+        my_dataset_size_compression_threshold : int
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.migrate_to_h5dpf()
+        >>> op.inputs.dataset_size_compression_threshold.connect(my_dataset_size_compression_threshold)
+        >>> # or
+        >>> op.inputs.dataset_size_compression_threshold(my_dataset_size_compression_threshold)
+        """
+        return self._dataset_size_compression_threshold
 
     @property
     def h5_native_compression(self):

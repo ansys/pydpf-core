@@ -7,12 +7,15 @@ Any
 import traceback
 import warnings
 
+import numpy as np
+
 import ansys.dpf.core.server_types
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core import errors
-from ansys.dpf.core.check_version import server_meet_version
+from ansys.dpf.core.check_version import server_meet_version, server_meet_version_and_raise
 from ansys.dpf.core.common import create_dpf_instance
 from ansys.dpf.gate import any_abstract_api, integral_types
+from ansys.dpf.gate import dpf_vector
 
 
 class Any:
@@ -33,7 +36,9 @@ class Any:
 
     def __init__(self, any_dpf=None, server=None):
         # step 1: get server
-        self._server = server_module.get_or_create_server(server)
+        self._server = server_module.get_or_create_server(
+            any_dpf._server if isinstance(any_dpf, Any) else server
+        )
 
         if any_dpf is None and not self._server.meet_version("7.0"):
             raise errors.DpfVersionNotSupported("7.0")
@@ -157,6 +162,11 @@ class Any:
                 self._api.any_new_from_any_collection,
                 self._api.any_get_as_any_collection,
             ),
+            (
+                dpf_vector.DPFVectorInt,
+                self._api.any_new_from_int_collection,
+                self._api.any_get_as_int_collection,
+            ),
         ]
 
     @staticmethod
@@ -194,6 +204,16 @@ class Any:
                 any_dpf._get_as_method = type_tuple[2]
 
                 return any_dpf
+            if isinstance(obj, (list, np.ndarray)) and type_tuple[0]==dpf_vector.DPFVectorInt:
+                from ansys.dpf.core import collection
+                if server_meet_version_and_raise("9.0", inner_server, "Creating an Any from a list is only supported "
+                                                                      "with"
+                                                                      "server versions starting at 9.0"):
+                    inpt = collection.CollectionBase.integral_collection(obj, inner_server)
+                    any_dpf._internal_obj = type_tuple[1](inpt)
+                    any_dpf._internal_type = type_tuple[0]
+                    any_dpf._get_as_method = type_tuple[2]
+                    return any_dpf
 
         raise TypeError(f"{obj.__class__} is not currently supported by the Any class.")
 

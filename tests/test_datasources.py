@@ -57,6 +57,34 @@ def test_setresultpath_data_sources_no_extension(d3plot_beam, binout_glstat, ser
     assert data_sources.result_key == "binout"
 
 
+def test_set_resultpath_data_sources_h5(server_type):
+    from ansys.dpf.core import examples
+    cas_h5_file = examples.download_fluent_axial_comp(server=server_type)["cas"][0]
+    data_sources = dpf.core.DataSources(server=server_type)
+    data_sources.set_result_file_path(cas_h5_file)
+    assert data_sources.result_key == "cas"
+    data_sources = dpf.core.DataSources(result_path=cas_h5_file, server=server_type)
+    assert data_sources.result_key == "cas"
+
+
+def test_set_resultpath_data_sources_cff(server_type):
+    from ansys.dpf.core import examples
+    cas_h5_file = examples.download_cfx_heating_coil(server=server_type)["cas"]
+    data_sources = dpf.core.DataSources(server=server_type)
+    data_sources.set_result_file_path(cas_h5_file)
+    assert data_sources.result_key == "cas"
+    data_sources = dpf.core.DataSources(result_path=cas_h5_file, server=server_type)
+    assert data_sources.result_key == "cas"
+
+
+def test_set_resultpath_data_sources_cfx_res(server_type):
+    from ansys.dpf.core import examples
+    res_file = examples.download_cfx_mixing_elbow(server=server_type)
+    data_sources = dpf.core.DataSources(server=server_type)
+    data_sources.set_result_file_path(res_file)
+    assert data_sources.result_key == "cas"
+
+
 def test_addupstream_data_sources(allkindofcomplexity, server_type):
     data_sources = dpf.core.DataSources(server=server_type)
     data_sources2 = dpf.core.DataSources(server=server_type)

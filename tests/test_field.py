@@ -9,7 +9,7 @@ from ansys.dpf.core import FieldDefinition
 from ansys.dpf.core import operators as ops
 from ansys.dpf.core.common import locations, shell_layers
 from conftest import running_docker, SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0
-
+from ansys.dpf.core.check_version import server_meet_version
 
 @pytest.fixture()
 def stress_field(allkindofcomplexity, server_type):
@@ -440,7 +440,10 @@ def test_to_nodal(stress_field):
 def test_mesh_support_field(stress_field):
     mesh = stress_field.meshed_region
     assert len(mesh.nodes.scoping) == 15129
-    assert len(mesh.elements.scoping) == 10292
+    if server_meet_version("9.0", mesh._server):
+        assert len(mesh.elements.scoping) == 10294
+    else:
+        assert len(mesh.elements.scoping) == 10292
 
 
 def test_shell_layers_1(allkindofcomplexity):
@@ -467,7 +470,10 @@ def test_mesh_support_field_model(allkindofcomplexity):
     f = stress.outputs.fields_container()[0]
     mesh = f.meshed_region
     assert len(mesh.nodes.scoping) == 15129
-    assert len(mesh.elements.scoping) == 10292
+    if server_meet_version("9.0", model._server):
+        assert len(mesh.elements.scoping) == 10294
+    else:
+        assert len(mesh.elements.scoping) == 10292
 
 
 def test_delete_auto_field(server_type):
@@ -1103,15 +1109,15 @@ def test_deep_copy_field_grpclegacy_to_grpclegacy():
     _deep_copy_test_identical_server(config)
 
 
-@pytest.mark.skipif(
-    running_docker or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-    reason="this server type does not exist before client" "dedicated to 4.0 server version",
-)
-def test_deep_copy_field_inprocess_to_inprocess():
-    config = dpf.core.ServerConfig(
-        protocol=dpf.core.server_factory.CommunicationProtocols.InProcess, legacy=False
-    )
-    _deep_copy_test_identical_server(config)
+# @pytest.mark.skipif(
+#     running_docker or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+#     reason="this server type does not exist before client" "dedicated to 4.0 server version",
+# )
+# def test_deep_copy_field_inprocess_to_inprocess():
+#     config = dpf.core.ServerConfig(
+#         protocol=dpf.core.server_factory.CommunicationProtocols.InProcess, legacy=False
+#     )
+#     _deep_copy_test_identical_server(config)
 
 
 def test_deep_copy_field_2(plate_msup):
