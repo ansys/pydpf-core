@@ -70,6 +70,7 @@ class GenericDataContainer:
                 )
             else:
                 self._internal_obj = self._api.generic_data_container_new()
+        self._prop_description_instance = None
 
     @property
     def _api(self):
@@ -114,6 +115,7 @@ class GenericDataContainer:
             Property object.
         """
 
+        self._prop_description_instance = None
         if not isinstance(prop, (int, float, str, bytes, list, np.ndarray)) and server_meet_version("8.1", self._server):
             self._api.generic_data_container_set_property_dpf_type(self, property_name, prop)
         else:
@@ -164,28 +166,29 @@ class GenericDataContainer:
         description: dict
             Description of the GenericDataContainer's contents
         """
+        if self._prop_description_instance is None:
+            coll_obj = collection_base.StringCollection(
+                collection=self._api.generic_data_container_get_property_names(self),
+                server=self._server,
+            )
+            property_names = coll_obj.get_integral_entries()
 
-        coll_obj = collection_base.StringCollection(
-            collection=self._api.generic_data_container_get_property_names(self),
-            server=self._server,
-        )
-        property_names = coll_obj.get_integral_entries()
+            coll_obj = collection_base.StringCollection(
+                collection=self._api.generic_data_container_get_property_types(self),
+                server=self._server,
+            )
+            property_types = coll_obj.get_integral_entries()
 
-        coll_obj = collection_base.StringCollection(
-            collection=self._api.generic_data_container_get_property_types(self),
-            server=self._server,
-        )
-        property_types = coll_obj.get_integral_entries()
+            python_property_types = []
+            for _, property_type in enumerate(property_types):
+                if property_type == "vector<int32>":
+                    python_type = dpf_vector.DPFVectorInt.__name__
+                else:
+                    python_type = map_types_to_python[property_type]
+                python_property_types.append(python_type)
 
-        python_property_types = []
-        for _, property_type in enumerate(property_types):
-            if property_type == "vector<int32>":
-                python_type = dpf_vector.DPFVectorInt.__name__
-            else:
-                python_type = map_types_to_python[property_type]
-            python_property_types.append(python_type)
-
-        return dict(zip(property_names, python_property_types))
+            self._prop_description_instance = dict(zip(property_names, python_property_types))
+        return self._prop_description_instance
 
     def __del__(self):
         if self._internal_obj is not None:
