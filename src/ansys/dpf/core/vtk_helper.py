@@ -535,7 +535,7 @@ def dpf_fieldscontainer_to_vtk(
     if meshed_region.nodes.n_nodes == 0:
         raise ValueError("The meshed_region of the fields contains no nodes.")
     grid = dpf_mesh_to_vtk(mesh=meshed_region, nodes=nodes, as_linear=as_linear)
-    grid = append_fields_container_to_grid(
+    grid = append_fieldscontainer_to_grid(
         fields_container=fields_container, meshed_region=meshed_region, grid=grid
     )
     return grid
@@ -642,7 +642,7 @@ def append_field_to_grid(
     return grid
 
 
-def append_fields_container_to_grid(
+def append_fieldscontainer_to_grid(
         fields_container: dpf.FieldsContainer,
         meshed_region: dpf.MeshedRegion,
         grid: pv.UnstructuredGrid,

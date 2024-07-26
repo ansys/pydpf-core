@@ -4,7 +4,8 @@ import ansys.dpf.core as dpf
 from ansys.dpf.core import errors, misc
 from ansys.dpf.core.vtk_helper import \
     dpf_mesh_to_vtk, dpf_field_to_vtk, dpf_meshes_to_vtk, \
-    dpf_fieldscontainer_to_vtk, dpf_property_field_to_vtk
+    dpf_fieldscontainer_to_vtk, dpf_property_field_to_vtk, \
+    append_field_to_grid, append_fieldscontainer_to_grid
 
 if misc.module_exists("pyvista"):
     HAS_PYVISTA = True
@@ -160,3 +161,41 @@ def test_dpf_property_field_to_vtk(simple_rst, server_type):
     assert isinstance(ug, pv.UnstructuredGrid)
     assert "mat_id" in ug.cell_data.keys()
     pv.plot(ug)
+
+
+@pytest.mark.xfail(raises=errors.DpfVersionNotSupported)
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_append_field_to_grid(simple_rst, server_type):
+    model = dpf.Model(simple_rst, server=server_type)
+    mesh = model.metadata.meshed_region
+    field = model.results.displacement.on_last_time_freq().eval()[0]
+    field.name = "disp"
+    # Nodal Field to VTK
+    ug = dpf_field_to_vtk(field=field)
+    assert isinstance(ug, pv.UnstructuredGrid)
+    assert "disp" in ug.point_data.keys()
+    # Append Elemental Field
+    field = model.results.elemental_volume.on_last_time_freq().eval()[0]
+    field.name = "elemental_volume"
+    ug = append_field_to_grid(field=field, meshed_region=mesh, grid=ug)
+    assert isinstance(ug, pv.UnstructuredGrid)
+    assert "disp" in ug.point_data.keys()
+    assert "elemental_volume" in ug.cell_data.keys()
+
+
+@pytest.mark.xfail(raises=errors.DpfVersionNotSupported)
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_append_fields_container_to_grid(simple_rst, server_type):
+    model = dpf.Model(simple_rst, server=server_type)
+    mesh = model.metadata.meshed_region
+    fc = model.results.displacement.on_last_time_freq().eval()
+    # Nodal Field to VTK
+    ug = dpf_fieldscontainer_to_vtk(fields_container=fc)
+    assert isinstance(ug, pv.UnstructuredGrid)
+    assert "displacement_1.s {'time': 1}" in ug.point_data.keys()
+    # Append Elemental Field
+    fc = model.results.elemental_volume.on_last_time_freq().eval()
+    ug = append_fieldscontainer_to_grid(fields_container=fc, meshed_region=mesh, grid=ug)
+    assert isinstance(ug, pv.UnstructuredGrid)
+    assert "displacement_1.s {'time': 1}" in ug.point_data.keys()
+    assert "elemental_volume_1.s {'time': 1}" in ug.cell_data.keys()
