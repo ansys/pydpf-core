@@ -47,6 +47,7 @@ from .kronecker_prod import kronecker_prod
 from .linear_combination import linear_combination 
 from .ln import ln 
 from .ln_fc import ln_fc 
+from .mac import mac 
 from .make_one_on_comp import make_one_on_comp 
 from .matrix_inverse import matrix_inverse 
 from .minus import minus 

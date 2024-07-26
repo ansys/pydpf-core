@@ -7,10 +7,10 @@ import ansys.grpc.dpf.available_result_pb2 as available__result__pb2
 import ansys.grpc.dpf.base_pb2 as base__pb2
 import ansys.grpc.dpf.result_info_pb2 as result__info__pb2
 
-GRPC_GENERATED_VERSION = '1.64.1'
+GRPC_GENERATED_VERSION = '1.65.1'
 GRPC_VERSION = grpc.__version__
-EXPECTED_ERROR_RELEASE = '1.65.0'
-SCHEDULED_RELEASE_DATE = 'June 25, 2024'
+EXPECTED_ERROR_RELEASE = '1.66.0'
+SCHEDULED_RELEASE_DATE = 'August 6, 2024'
 _version_not_supported = False
 
 try:
