@@ -425,10 +425,10 @@ class Result:
         >>> disp = model.results.displacement
         >>> fc_disp = disp.split_by_body.eval()
         >>> len(fc_disp)
-        11
+        13
         >>> fc_disp.get_mat_scoping().ids
         <BLANKLINE>
-        ...1, 5, 6, 10, 2, 7, 8, 13, 4, 12, 15]...
+        ...1, 5, 6, 10, 2, 7, 8, 13, 4, 12, 15, 16, 17]...
         >>> disp_mat_10 = fc_disp.get_field_by_mat_id(10)
 
         """

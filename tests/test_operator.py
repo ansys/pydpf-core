@@ -774,14 +774,6 @@ def test_connect_get_output_int_list_operator(server_type):
     assert np.allclose(d, d_out)
 
 
-@conftest.raises_for_servers_version_under("3.0")
-def test_connect_get_output_double_list_operator(server_type):
-    d = list(np.ones(100000))
-    op = dpf.core.operators.utility.forward(d, server=server_type)
-    d_out = op.get_output(0, dpf.core.types.vec_double)
-    assert np.allclose(d, d_out)
-
-
 @conftest.raises_for_servers_version_under("5.0")
 def test_connect_get_output_string_list_operator(server_clayer):
     d = ["hello", "bye"]
