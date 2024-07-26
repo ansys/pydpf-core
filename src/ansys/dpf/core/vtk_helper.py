@@ -411,7 +411,8 @@ def dpf_field_to_vtk(
         field: dpf.Field,
         meshed_region: Union[dpf.MeshedRegion, None] = None,
         nodes: Union[dpf.Field, None] = None,
-        as_linear: bool = True
+        as_linear: bool = True,
+        field_name : str = "",
 ) -> pv.UnstructuredGrid:
     """Return a pyvista UnstructuredGrid given a DPF Field.
 
@@ -429,6 +430,9 @@ def dpf_field_to_vtk(
 
     as_linear:
         Export quadratic surface elements as linear.
+
+    field_name:
+        Oberride the default field name with this.
 
     Returns
     -------
@@ -460,13 +464,14 @@ def dpf_field_to_vtk(
                 raise ValueError("The field does not have a meshed_region.")
             else:
                 raise e
-
     # Initialize the bare UnstructuredGrid
     if meshed_region.nodes.n_nodes == 0:
         raise ValueError("The field does not have a meshed_region.")
     grid = dpf_mesh_to_vtk(mesh=meshed_region, nodes=nodes, as_linear=as_linear)
 
-    grid = append_field_to_grid(field=field, meshed_region=meshed_region, grid=grid)
+    grid = append_field_to_grid(
+        field=field, meshed_region=meshed_region, grid=grid, field_name=field_name
+    )
     
     return grid
 
@@ -475,7 +480,8 @@ def dpf_fieldscontainer_to_vtk(
         fields_container: dpf.FieldsContainer,
         meshes_container: Union[dpf.MeshesContainer, None] = None,
         nodes: Union[dpf.Field, None] = None,
-        as_linear: bool = True
+        as_linear: bool = True,
+        field_name: str = "",
 ) -> pv.UnstructuredGrid:
     """Return a pyvista UnstructuredGrid given a DPF FieldsContainer.
 
@@ -495,6 +501,9 @@ def dpf_fieldscontainer_to_vtk(
 
     as_linear:
         Export quadratic surface elements as linear.
+
+    field_name:
+        Oberride the default field name with this.
 
     Returns
     -------
@@ -536,7 +545,8 @@ def dpf_fieldscontainer_to_vtk(
         raise ValueError("The meshed_region of the fields contains no nodes.")
     grid = dpf_mesh_to_vtk(mesh=meshed_region, nodes=nodes, as_linear=as_linear)
     grid = append_fieldscontainer_to_grid(
-        fields_container=fields_container, meshed_region=meshed_region, grid=grid
+        fields_container=fields_container, meshed_region=meshed_region, grid=grid,
+        field_name=field_name
     )
     return grid
 
@@ -576,7 +586,8 @@ def dpf_property_field_to_vtk(
         property_field: dpf.PropertyField,
         meshed_region: dpf.MeshedRegion,
         nodes: Union[dpf.Field, None] = None,
-        as_linear: bool = True
+        as_linear: bool = True,
+        field_name: str = "",
 ) -> pv.UnstructuredGrid:
     """Return a pyvista UnstructuredGrid given a DPF PropertyField.
 
@@ -596,6 +607,9 @@ def dpf_property_field_to_vtk(
 
     as_linear:
         Export quadratic surface elements as linear.
+
+    field_name:
+        Oberride the default field name with this.
 
     Returns
     -------
@@ -621,7 +635,9 @@ def dpf_property_field_to_vtk(
         raise ValueError("The property field does not have a meshed_region.")
     grid = dpf_mesh_to_vtk(mesh=meshed_region, nodes=nodes, as_linear=as_linear)
     
-    grid = append_field_to_grid(field=property_field, meshed_region=meshed_region, grid=grid)
+    grid = append_field_to_grid(
+        field=property_field, meshed_region=meshed_region, grid=grid, field_name=field_name
+    )
     
     return grid
 
@@ -630,15 +646,18 @@ def append_field_to_grid(
         field: Union[dpf.Field, dpf.PropertyField],
         meshed_region: dpf.MeshedRegion,
         grid: pv.UnstructuredGrid,
+        field_name: str = "",
 ) -> pv.UnstructuredGrid:
     """Append field data to a VTK UnstructuredGrid based on a MeshedRegion."""
     # Map Field.data to the VTK mesh
     overall_data = _map_field_to_mesh(field=field, meshed_region=meshed_region)
+    if not field_name:
+        field_name = field.name
     # Update the UnstructuredGrid
     if field.location == dpf.locations.nodal:
-        grid.point_data[field.name] = overall_data
+        grid.point_data[field_name] = overall_data
     else:
-        grid.cell_data[field.name] = overall_data
+        grid.cell_data[field_name] = overall_data
     return grid
 
 
@@ -646,11 +665,16 @@ def append_fieldscontainer_to_grid(
         fields_container: dpf.FieldsContainer,
         meshed_region: dpf.MeshedRegion,
         grid: pv.UnstructuredGrid,
+        field_name: str = "",
 ) -> pv.UnstructuredGrid:
     """Append fields data to a VTK UnstructuredGrid based on a MeshedRegion."""
     for i, field in enumerate(fields_container):
         label_space = fields_container.get_label_space(i)
         label_space = dict([(k, label_space[k]) for k in sorted(label_space.keys())])
-        field.name = field.name+f" {label_space}"
-        grid = append_field_to_grid(field=field, meshed_region=meshed_region, grid=grid)
+        if not field_name:
+            field_name = field.name
+        grid = append_field_to_grid(
+            field=field, meshed_region=meshed_region, grid=grid,
+            field_name=field_name+f" {label_space}"
+        )
     return grid

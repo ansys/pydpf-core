@@ -188,14 +188,16 @@ def test_append_field_to_grid(simple_rst, server_type):
 def test_append_fields_container_to_grid(simple_rst, server_type):
     model = dpf.Model(simple_rst, server=server_type)
     mesh = model.metadata.meshed_region
-    fc = model.results.displacement.on_last_time_freq().eval()
+    fc = model.results.displacement.eval()
     # Nodal Field to VTK
-    ug = dpf_fieldscontainer_to_vtk(fields_container=fc)
+    ug = dpf_fieldscontainer_to_vtk(fields_container=fc, field_name="disp")
     assert isinstance(ug, pv.UnstructuredGrid)
-    assert "displacement_1.s {'time': 1}" in ug.point_data.keys()
+    assert "disp {'time': 1}" in ug.point_data.keys()
     # Append Elemental Field
-    fc = model.results.elemental_volume.on_last_time_freq().eval()
-    ug = append_fieldscontainer_to_grid(fields_container=fc, meshed_region=mesh, grid=ug)
+    fc = model.results.elemental_volume.eval()
+    ug = append_fieldscontainer_to_grid(
+        fields_container=fc, meshed_region=mesh, grid=ug, field_name="volume"
+    )
     assert isinstance(ug, pv.UnstructuredGrid)
-    assert "displacement_1.s {'time': 1}" in ug.point_data.keys()
-    assert "elemental_volume_1.s {'time': 1}" in ug.cell_data.keys()
+    assert "disp {'time': 1}" in ug.point_data.keys()
+    assert "volume {'time': 1}" in ug.cell_data.keys()
