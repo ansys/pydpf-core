@@ -127,36 +127,32 @@ def _run_launch_server_process(
 def _wait_and_check_server_connection(
     process, port, timeout, lines, current_errors, stderr=None, stdout=None
 ):
-    if not stderr:
-
-        def read_stderr():
-            with io.TextIOWrapper(process.stderr, encoding="utf-8") as log_err:
-                for line in log_err:
-                    LOG.debug(line)
-                    current_errors.append(line)
-
-        stderr = read_stderr
-        # check to see if the service started
-    if not stdout:
-
-        def read_stdout():
-            with io.TextIOWrapper(process.stdout, encoding="utf-8") as log_out:
-                for line in log_out:
-                    LOG.debug(line)
-                    lines.append(line)
-
-        stdout = read_stdout
-    # must be in the background since the process reader is blocking
-    Thread(target=stdout, daemon=True).start()
-    Thread(target=stderr, daemon=True).start()
-
     t_timeout = time.time() + timeout
     started = False
     timedout = False
     while not started and len(current_errors) == 0:
-        # print(lines)
-        started = any("server started" in line for line in lines)
+        ## STDOUT parsing
+        # Block for stdout output
+        stdout_line = process.stdout.readline().decode("utf-8")
 
+        # Detect when server is started
+        if stdout_line != None and "server started" in stdout_line:
+            started = True
+
+        ## STDERR parsing
+        # Block for stderr only if there is data to read
+        stderr_line = None
+        process.stderr.seek(0, os.SEEK_END)
+        is_stderr_empty = process.stderr.tell() == 0
+        if not is_stderr_empty:
+            process.stderr.seek(0, os.SEEK_SET)
+            stderr_line = process.stderr.readline().decode('utf-8')
+
+        # Append any string on stderr
+        if stderr_line != None and len(stderr_line) != 0:
+            current_errors.append(stderr_line)
+
+        ## timeout check
         if time.time() > t_timeout:
             if timedout:
                 raise TimeoutError(f"Server did not start in {timeout + timeout} seconds")
