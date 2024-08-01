@@ -58,6 +58,8 @@ class Output:
             type_output = types.vec_int
         elif type_output == "int32":
             type_output = types.int
+        elif type_output == "collection":
+            type_output = types.collection
 
         type_output_derive_class = self._spec.name_derived_class
 
