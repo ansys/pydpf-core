@@ -2,7 +2,7 @@
 .. _ref_fluids_isosurface:
 
 Compute iso-surfaces on fluid models
-------------------------------------------
+------------------------------------
 
 This example demonstrates how to compute iso-surfaces on fluid models.
 
@@ -14,7 +14,7 @@ This example demonstrates how to compute iso-surfaces on fluid models.
 
 ###############################################################################
 # Import the ``dpf-core`` module and its examples files.
-# ~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 import ansys.dpf.core as dpf
 from ansys.dpf.core import examples
@@ -22,7 +22,7 @@ from ansys.dpf.core.plotter import DpfPlotter
 
 ###############################################################################
 # Specify the file path.
-# ~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~
 # We work on a cas/dat.h5 file with only nodal variables.
 
 path = examples.download_cfx_heating_coil()
@@ -33,7 +33,7 @@ streams = dpf.operators.metadata.streams_provider(data_sources=ds)
 
 ###############################################################################
 # Whole mesh scoping.
-# ~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~
 # We evaluate the mesh with the mesh_provider operator to scope the mesh_cut operator
 # with the whole mesh.
 
@@ -44,7 +44,7 @@ whole_mesh.plot()
 
 ###############################################################################
 # Extract the physics variable
-# ~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Here we choose to work with the static pressure by default which is a scalar and
 # nodal variable without multi-species/phases. With a multi-species case,
 # select one using qualifier ellipsis pins and connecting a LabelSpace "species"/"phase".
@@ -63,7 +63,7 @@ pl.show_figure(cpos=cpos_mesh_variable, show_axes=True)
 
 ###############################################################################
 # Evaluate iso-surfaces
-# ~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~
 # We can finally use the iso_surfaces operator on this specific variable.
 # We choose to cut the whole mesh with 9 iso-surface manually selected between
 # the min and max of the static_pressure variable.
@@ -102,7 +102,7 @@ pl.show_figure(show_axes=True, cpos=c_pos_iso)
 
 ###############################################################################
 # Important note
-# ------------------------------
+# --------------
 # Iso-surfaces computation through the `mesh_cut` operator are only supported for Nodal Fields.
 # For Elemental variables, you must perform an averaging operation on the Nodes before
 # running the `mesh_cut` operator. This can be done by chaining the `elemental_to_nodal` operator
