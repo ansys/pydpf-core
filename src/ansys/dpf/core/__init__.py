@@ -114,10 +114,10 @@ from ansys.dpf.core.collection import Collection as _Collection
 
 
 # register classes for collection types:
-CustomTypeFieldsCollection:type = _CollectionFactory(CustomTypeField)
-GenericDataContainersCollection:type = _CollectionFactory(GenericDataContainer)
-StringFieldsCollection:type = _CollectionFactory(StringField)
-AnyCollection:type = _Collection
+CustomTypeFieldsCollection: type = _CollectionFactory(CustomTypeField)
+GenericDataContainersCollection: type = _CollectionFactory(GenericDataContainer)
+StringFieldsCollection: type = _CollectionFactory(StringField)
+AnyCollection: type = _Collection
 
 # for matplotlib
 # solves "QApplication: invalid style override passed, ignoring it."

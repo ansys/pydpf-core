@@ -344,6 +344,7 @@ class Operator:
             collection_base,
             any,
         )
+        from ansys.dpf.core import GenericDataContainersCollection
 
         out = [
             (bool, self._api.operator_getoutput_bool),
@@ -416,6 +417,10 @@ class Operator:
             (
                 mesh_info.MeshInfo,
                 "mesh_info",
+            ),
+            (
+                GenericDataContainersCollection,
+                "generic_data_containers_collection",
             ),
             (workflow.Workflow, self._api.operator_getoutput_workflow, "workflow"),
             (data_tree.DataTree, self._api.operator_getoutput_data_tree, "data_tree"),
@@ -559,6 +564,8 @@ class Operator:
                     except TypeError:
                         self._progress_thread = None
                         return output_type(internal_obj)
+                else:
+                    break
 
         if out is not None:
             self._progress_thread = None
