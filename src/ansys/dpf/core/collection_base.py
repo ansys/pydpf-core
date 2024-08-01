@@ -26,6 +26,8 @@ from ansys.dpf.gate import (
 )
 from typing import Optional, Generic, TypeVar
 
+from ansys.dpf.gate.integral_types import MutableListInt32
+
 TYPE = TypeVar('TYPE')
 
 
@@ -46,7 +48,9 @@ class CollectionBase(Generic[TYPE]):
 
     def __init__(self, collection=None, server: BaseServer = None):
         # step 1: get server
-        self._server = server_module.get_or_create_server(server)
+        self._server = server_module.get_or_create_server(
+            collection._server if isinstance(collection, CollectionBase) else server
+        )
 
         # step2: if object exists, take the instance, else create it
         self._internal_obj = None
@@ -138,6 +142,8 @@ class CollectionBase(Generic[TYPE]):
             return IntCollection(inpt, server=server)
         if all(isinstance(x, (float, np.float64)) for x in inpt):
             return FloatCollection(inpt, server=server)
+        if all(isinstance(x, str) for x in inpt):
+            return StringCollection(inpt, server=server)
         else:
             raise NotImplementedError(
                 f"{IntegralCollection.__name__} is only "
@@ -265,6 +271,33 @@ class CollectionBase(Generic[TYPE]):
             return self.create_subtype(
                 self._api.collection_get_obj_by_index(self, label_space_or_index)
             )
+
+    @version_requires("9.0")
+    def get_entries_indices(self, label_space):
+        """Retrieve the indices of the entries corresponding a requested label space .
+
+        Notes
+        -----
+        Available starting with DPF 2025R1.
+
+        Parameters
+        ----------
+        label_space : dict[str,int]
+            Label space or index. For example,
+            ``{"time": 1, "complex": 0}`` or the index of the field.
+
+        Returns
+        -------
+        indices : list[int], list[Field], list[MeshedRegion]
+            Indices of the entries corresponding to the request.
+        """
+        client_label_space = LabelSpace(
+            label_space=label_space, obj=self, server=self._server
+        )
+        num = self._api.collection_get_num_obj_for_label_space(self, client_label_space)
+        int_list = MutableListInt32(num)
+        self._api.collection_fill_obj_indeces_for_label_space(self, client_label_space, int_list)
+        return int_list.tolist()
 
     def _get_entry(self, label_space_or_index) -> TYPE:
         """Retrieve the entry at a requested label space or index.
@@ -442,6 +475,29 @@ class CollectionBase(Generic[TYPE]):
     def _set_time_freq_support(self, time_freq_support):
         """Set the time frequency support of the collection."""
         self._api.collection_set_support(self, "time", time_freq_support)
+
+    @version_requires("5.0")
+    def set_support(self, label: str, support: Support) -> None:
+        """Set the support of the collection for a given label.
+
+        Notes
+        -----
+        Available starting with DPF 2023 R1.
+
+        """
+        self._api.collection_set_support(self, label, support)
+
+    @version_requires("5.0")
+    def get_support(self, label: str) -> Support:
+        """Get the support of the collection for a given label.
+
+        Notes
+        -----
+        Available starting with DPF 2023 R1.
+
+        """
+        from ansys.dpf.core.support import Support
+        return Support(support=self._api.collection_get_support(self, label), server=self._server)
 
     def __str__(self):
         """Describe the entity.

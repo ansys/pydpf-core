@@ -55,7 +55,9 @@ class DataSources:
     def __init__(self, result_path=None, data_sources=None, server=None):
         """Initialize a connection with the server."""
         # step 1: get server
-        self._server = server_module.get_or_create_server(server)
+        self._server = server_module.get_or_create_server(
+            data_sources._server if isinstance(data_sources, DataSources) else server
+        )
 
         # step 2: get api
         self._api = self._server.get_api_for_type(
@@ -117,9 +119,17 @@ class DataSources:
         ['/tmp/file.rst']
 
         """
+        extension = os.path.splitext(filepath)[1]
+        # Handle .res files from CFX
+        if key == "" and extension == ".res":
+            key = "cas"
+            self.add_file_path(filepath, key="dat")
         # Handle no key given and no file extension
-        if key == "" and os.path.splitext(filepath)[1] == "":
+        if key == "" and extension == "":
             key = self.guess_result_key(str(filepath))
+        # Look for another extension for .h5 and .cff files
+        if key == "" and extension in [".h5", ".cff"]:
+            key = self.guess_second_key(str(filepath))
         if key == "":
             self._api.data_sources_set_result_file_path_utf8(self, str(filepath))
         else:
@@ -135,6 +145,19 @@ class DataSources:
             if result_key in base_name:
                 return result_key
         return ""
+
+    @staticmethod
+    def guess_second_key(filepath: str) -> str:
+        """For files with an h5 or cff extension, look for another extension."""
+        accepted = ["cas", "dat"]
+        without_ext = os.path.splitext(filepath)[0]
+        new_split = os.path.splitext(without_ext)
+        new_key = ""
+        if len(new_split) > 1:
+            key = new_split[1][1:]
+            if key in accepted:
+                new_key = key
+        return new_key
 
     def set_domain_result_file_path(
             self, path: Union[str, os.PathLike], domain_id: int, key: Union[str, None] = None

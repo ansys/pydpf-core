@@ -40,7 +40,9 @@ class StreamsContainer:
 
     def __init__(self, streams_container=None, server: BaseServer = None):
         # step 1: get server
-        self._server = server_module.get_or_create_server(server)
+        self._server = server_module.get_or_create_server(
+            streams_container._server if isinstance(streams_container, StreamsContainer) else server
+        )
         if self._server.has_client():
             txt = """
             StreamsContainer only available for server with InProcess communication protocol

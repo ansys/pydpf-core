@@ -1017,6 +1017,6 @@ class Plotter:
             if field_name in n:
                 field_name = n  # default: will plot the last time_step
         val = grid.get_array(field_name)
-        plotter.add_mesh(grid, scalars=val, stitle=field_name, show_edges=True)
+        plotter.add_mesh(grid, scalars=val, scalar_bar_args={"title": field_name}, show_edges=True)
         plotter.add_axes()
         plotter.show()

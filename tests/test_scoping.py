@@ -299,3 +299,17 @@ def test_mutable_ids_data(server_clayer):
     data = None
     changed_data = scop.ids
     assert np.allclose(changed_data[0], data_copy[0] + 2)
+
+
+def test_scoping_dont_start_server(server_type):
+    s = dpf.core.server._global_server()
+    dpf.core.SERVER = None
+    assert not dpf.core.server.has_local_server()
+    scop = Scoping(server=server_type)
+    assert not dpf.core.server.has_local_server()
+    ids = [1, 2, 3, 5, 8, 9, 10]
+    scop.ids = ids
+    scop = Scoping(scoping=scop)
+    assert not dpf.core.server.has_local_server()
+    assert np.allclose(scop.ids, ids)
+    dpf.core.SERVER = s

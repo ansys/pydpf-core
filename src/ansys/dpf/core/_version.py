@@ -1,10 +1,4 @@
 """Version for ansys-dpf-core"""
-# major, minor, patch
-version_info = 0, 12, 1, "dev0"
-
-# Nice string for the version
-__version__ = ".".join(map(str, version_info))
-
 # Minimal DPF server version supported
 min_server_version = "4.0"
 
@@ -24,6 +18,8 @@ class ServerToAnsysVersion:
         "8.0": "2024R2",
         "8.1": "2024R2",
         "8.2": "2024R2",
+        "9.0": "2025R1",
+        "9.1": "2025R1",
     }
 
     def __getitem__(self, item):
