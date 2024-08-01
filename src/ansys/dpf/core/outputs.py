@@ -61,19 +61,17 @@ class Output:
         elif type_output == "collection":
             type_output = types.collection
 
-        out = self._operator.get_output(self._pin, type_output)
-
         type_output_derive_class = self._spec.name_derived_class
+
         if type_output_derive_class != "":
             out_type = [
                 type_tuple
                 for type_tuple in self._operator._type_to_output_method
                 if type_output_derive_class in type_tuple
             ]
-            out_wrapper_class = out_type[0][0]
-            out = out_wrapper_class(out)
-
-        return out
+            return out_type[0][0](self._operator.get_output(self._pin, type_output))
+        else:
+            return self._operator.get_output(self._pin, type_output)
 
     def __call__(self):
         return self.get_data()

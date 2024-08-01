@@ -101,19 +101,8 @@ class Collection(CollectionBase[TYPE]):
 
 def CollectionFactory(subtype, BaseClass=Collection):
     """Creates classes deriving from Collection at runtime for a given subtype."""
-    def __init__(self, *args, **kwargs):
-        BaseClass.__init__(self, *args, **kwargs)
+    def __init__(self, **kwargs):
+        BaseClass.__init__(self, **kwargs)
 
-    def __str__(self):
-        return BaseClass.__str__(self).replace("any", subtype.__name__)
-
-    new_class = type(
-        str(subtype.__name__) + "sCollection",
-        (BaseClass,),
-        {
-            "__init__": __init__,
-            "__str__": __str__,
-            "entries_type": subtype,
-        }
-    )
+    new_class = type(str(subtype.__name__) + "sCollection", (BaseClass,), {"__init__": __init__, "entries_type": subtype})
     return new_class
