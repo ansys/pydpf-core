@@ -16,6 +16,7 @@ For more information on installing DPF Server, see :ref:`ref_dpf_server`.
 
 
 .. _target_to_license_terms:
+
 License terms
 -------------
 
@@ -46,6 +47,7 @@ existing license for the edition and version of DPF Server that you intend to us
 
 
 .. _configure_licensing:
+
 Configure licensing
 -------------------
 
@@ -78,6 +80,7 @@ the Ansys license mechanism that is used with DPF Server.
 
 
 .. _target_to_ansys_license_mechanism:
+
 License checks and usage
 ------------------------
 
@@ -119,6 +122,7 @@ location is not the native result location. In that case, averaging occurs which
 as data transformation (such as elemental to nodal, nodal to elemental, or any other location change).
 
 .. _licensing_server_context:
+
 Server context
 ~~~~~~~~~~~~~~
 
@@ -137,6 +141,7 @@ To update the context, apply a new server context:
     server.apply_context(dpf.AvailableServerContexts.premium)
 
 .. _licensing_errors:
+
 Licensing errors
 ~~~~~~~~~~~~~~~~
 
@@ -153,6 +158,7 @@ The following user actions may fail due to licensing:
 
 
 .. _target_to_ansys_license_increments_list:
+
 Compatible Ansys license increments
 -----------------------------------
 

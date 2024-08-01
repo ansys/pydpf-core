@@ -61,8 +61,7 @@ class LicenseContextManager:
          License increment to check out. To improve script efficiency, this license increment
          should be consistent with the increments required by the following Operators. If ``None``,
          the first available increment of this
-         `list <https://dpf.docs.pyansys.com/version/dev/user_guide/getting_started_with_dpf_server.
-         html#ansys-licensing>`_
+         `list <https://dpf.docs.pyansys.com/version/stable/getting_started/licensing.html#compatible-ansys-license-increments>`_
          is checked out.
     license_timeout_in_seconds: float, optional
          If an increment is not available by the maximum time set here, check out fails. Default is:

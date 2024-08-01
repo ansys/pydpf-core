@@ -1,6 +1,6 @@
 # noqa: D400
 """
-.. _ref_basic_hdf5:
+.. _ref_io_hdf5_export_precision:
 
 HDF5 export and compare precision
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

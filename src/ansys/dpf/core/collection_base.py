@@ -24,7 +24,10 @@ from ansys.dpf.gate import (
     dpf_vector,
     dpf_array,
 )
-from typing import Optional, Generic, TypeVar
+from typing import Optional, Generic, TypeVar, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from ansys.dpf.core.support import Support
 
 from ansys.dpf.gate.integral_types import MutableListInt32
 

@@ -1,5 +1,5 @@
 """
-.. _ref_basic_hdf5:
+.. _ref_io_hdf5_import_export:
 
 HDF5 export and import operations
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
