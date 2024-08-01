@@ -496,7 +496,7 @@ class SpecificationProperties:
         Optional license name to check out that is used to run the operator.
         The value "any_dpf_supported_increments" tells DPF than any DPF-accepted license
         is accepted by this operator (see `here
-        <https://dpf.docs.pyansys.com/version/stable/user_guide/getting_started_with_dpf_server.html#ansys-licensing>`_).  # noqa
+        <https://dpf.docs.pyansys.com/version/stable/getting_started/licensing.html#license-checks-and-usage>`_).  # noqa
 
     """
 
