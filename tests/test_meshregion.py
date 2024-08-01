@@ -4,7 +4,7 @@ import vtk
 
 from ansys import dpf
 import conftest
-
+from ansys.dpf.core.check_version import server_meet_version
 
 @pytest.fixture()
 def simple_bar_model(simple_bar, server_type):
@@ -304,7 +304,10 @@ def test_id_indeces_mapping_on_elements_2(allkindofcomplexity, server_type):
     mapping = mesh.elements.mapping_id_to_index
     elements = mesh.elements
     assert len(mapping) == len(elements)
-    assert len(elements) == 10292
+    if server_meet_version("9.0", mesh._server):
+        assert len(elements) == 10294
+    else:
+        assert len(elements) == 10292
     assert mapping[23] == 24
     assert mapping[4520] == 2011
 

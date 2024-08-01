@@ -7,7 +7,7 @@ from ansys import dpf
 from ansys.dpf.core import examples, misc
 from ansys.dpf.core.errors import ServerTypeError
 from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0
-
+from ansys.dpf.core.check_version import server_meet_version
 
 NO_PLOTTING = True
 
@@ -130,7 +130,10 @@ def test_result_displacement_model():
     assert len(results.displacement.on_all_time_freqs.eval()) == 45
     assert results.displacement.on_first_time_freq.eval().get_label_scoping().ids == [1]
     assert results.displacement.on_last_time_freq.eval().get_label_scoping().ids == [45]
-    assert len(results.displacement.split_by_body.eval()) == 32
+    if server_meet_version("9.0", model._server):
+        assert len(results.displacement.split_by_body.eval()) == 44
+    else:
+        assert len(results.displacement.split_by_body.eval()) == 32
     assert len(results.displacement.split_by_shape.eval()) == 4
     assert len(results.displacement.on_named_selection("_FIXEDSU").eval()[0].scoping) == 222
     all_time_ns = results.displacement.on_named_selection("_FIXEDSU").on_all_time_freqs.eval()
@@ -146,7 +149,10 @@ def test_result_stress_model():
     assert len(results.stress.on_all_time_freqs.eval()) == 45
     assert results.stress.on_first_time_freq.eval().get_label_scoping().ids == [1]
     assert results.stress.on_last_time_freq.eval().get_label_scoping().ids == [45]
-    assert len(results.stress.split_by_body.eval()) == 32
+    if server_meet_version("9.0", model._server):
+        assert len(results.stress.split_by_body.eval()) == 44
+    else:
+        assert len(results.stress.split_by_body.eval()) == 32
     assert len(results.stress.split_by_shape.eval()) == 4
     assert len(results.stress.on_named_selection("_FIXEDSU").eval()[0].scoping) == 222
     all_time_ns = results.stress.on_named_selection("_FIXEDSU").on_all_time_freqs.eval()
@@ -185,7 +191,10 @@ def test_result_time_scoping(plate_msup):
 def test_result_split_subset(allkindofcomplexity):
     model = dpf.core.Model(allkindofcomplexity)
     vol = model.results.elemental_volume
-    assert len(vol.split_by_body.eval()) == 11
+    if server_meet_version("9.0", model._server):
+        assert len(vol.split_by_body.eval()) == 13
+    else:
+        assert len(vol.split_by_body.eval()) == 11
     assert len(vol.split_by_body.eval()[0].scoping) == 105
     assert len(vol.on_mesh_scoping([1, 2, 3, 10992]).split_by_body.eval()) == 2
     assert len(vol.eval()[0].scoping) == 3

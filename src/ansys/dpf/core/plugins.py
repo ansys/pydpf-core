@@ -14,7 +14,7 @@ import ansys.dpf.core as dpf
 from ansys.dpf.core import server as server_module
 
 
-def load_plugin_on_server(plugin, server=None, symbol="load_operators"):
+def load_plugin_on_server(plugin, server=None, symbol="load_operators", generate_operators=False):
     """Load a DPF Python plugin on the global or given DPF server.
 
         Parameters
@@ -77,4 +77,5 @@ def load_plugin_on_server(plugin, server=None, symbol="load_operators"):
         name=f"py_{plugin_name}",
         symbol=symbol,
         server=server,
+        generate_operators=generate_operators,
     )

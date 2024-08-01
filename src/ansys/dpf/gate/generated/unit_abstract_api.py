@@ -32,6 +32,26 @@ class UnitAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def unit_multiply_s(optional_output, a, b):
+		raise NotImplementedError
+
+	@staticmethod
+	def unit_divide_s(optional_output, a, b):
+		raise NotImplementedError
+
+	@staticmethod
+	def unit_invert_s(optional_output, a):
+		raise NotImplementedError
+
+	@staticmethod
+	def unit_simplify_s(optional_output, a):
+		raise NotImplementedError
+
+	@staticmethod
+	def unit_pow_s(optional_output, a, pow_value):
+		raise NotImplementedError
+
+	@staticmethod
 	def unit_get_homogeneity_for_object(api_to_use, pre_allocated_char_64, symbol):
 		raise NotImplementedError
 
@@ -49,5 +69,25 @@ class UnitAbstractAPI:
 
 	@staticmethod
 	def unit_get_symbol_for_object(api_to_use, pre_allocated_char_64, homogeneity, unit_system_id):
+		raise NotImplementedError
+
+	@staticmethod
+	def unit_multiply_s_for_object(api_to_use, optional_output, a, b):
+		raise NotImplementedError
+
+	@staticmethod
+	def unit_divide_s_for_object(api_to_use, optional_output, a, b):
+		raise NotImplementedError
+
+	@staticmethod
+	def unit_invert_s_for_object(api_to_use, optional_output, a):
+		raise NotImplementedError
+
+	@staticmethod
+	def unit_simplify_s_for_object(api_to_use, optional_output, a):
+		raise NotImplementedError
+
+	@staticmethod
+	def unit_pow_s_for_object(api_to_use, optional_output, a, pow_value):
 		raise NotImplementedError
 
