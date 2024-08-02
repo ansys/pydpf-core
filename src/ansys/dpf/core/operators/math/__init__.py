@@ -17,6 +17,8 @@ from .centroid import centroid
 from .centroid_fc import centroid_fc 
 from .component_wise_divide import component_wise_divide 
 from .component_wise_divide_fc import component_wise_divide_fc 
+from .component_wise_product import component_wise_product 
+from .component_wise_product_fc import component_wise_product_fc 
 from .compute_residual_and_error import compute_residual_and_error 
 from .conjugate import conjugate 
 from .correlation import correlation 
@@ -47,6 +49,7 @@ from .kronecker_prod import kronecker_prod
 from .linear_combination import linear_combination 
 from .ln import ln 
 from .ln_fc import ln_fc 
+from .mac import mac 
 from .make_one_on_comp import make_one_on_comp 
 from .matrix_inverse import matrix_inverse 
 from .minus import minus 
