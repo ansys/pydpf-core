@@ -331,3 +331,19 @@ class ExternalOperatorAbstractAPI:
 	def external_operator_set_derivative(deriv_data, derivative):
 		raise NotImplementedError
 
+	@staticmethod
+	def external_operator_forward_output(deriv_data, output_pin_from_base, input_pin_from_op, op):
+		raise NotImplementedError
+
+	@staticmethod
+	def external_operator_assert_instantiate(deriv_data, op_name):
+		raise NotImplementedError
+
+	@staticmethod
+	def external_operator_connect_to_upstream_derivative(deriv_data, current_op, out_pin, ancestor_pin):
+		raise NotImplementedError
+
+	@staticmethod
+	def external_operator_map_down_stream_derivative(deriv_data, in_pin, current_op):
+		raise NotImplementedError
+
