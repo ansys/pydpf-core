@@ -1589,6 +1589,22 @@ def load_api(path):
 		dll.ExternalOperator_setDerivative.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.ExternalOperator_setDerivative.restype = None
 
+	if hasattr(dll, "ExternalOperator_forwardOutput"):
+		dll.ExternalOperator_forwardOutput.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.c_int32, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.ExternalOperator_forwardOutput.restype = None
+
+	if hasattr(dll, "ExternalOperator_assertInstantiate"):
+		dll.ExternalOperator_assertInstantiate.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.ExternalOperator_assertInstantiate.restype = ctypes.c_void_p
+
+	if hasattr(dll, "ExternalOperator_connectToUpstreamDerivative"):
+		dll.ExternalOperator_connectToUpstreamDerivative.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.c_int32, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.ExternalOperator_connectToUpstreamDerivative.restype = None
+
+	if hasattr(dll, "ExternalOperator_mapDownStreamDerivative"):
+		dll.ExternalOperator_mapDownStreamDerivative.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.ExternalOperator_mapDownStreamDerivative.restype = None
+
 	#-------------------------------------------------------------------------------
 	# FEModel
 	#-------------------------------------------------------------------------------
