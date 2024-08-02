@@ -29,19 +29,37 @@ class DataProcessingCAPI(data_processing_abstract_api.DataProcessingAbstractAPI)
 		return res
 
 	@staticmethod
-	def data_processing_initialize_with_context(context, dataProcessingCore_xml_path):
+	def data_processing_initialize_with_context(context, xml_path):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
-		res = capi.dll.dataProcessing_initializeWithContext(utils.to_int32(context), utils.to_char_ptr(dataProcessingCore_xml_path), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		res = capi.dll.dataProcessing_initializeWithContext(utils.to_int32(context), utils.to_char_ptr(xml_path), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res
 
 	@staticmethod
-	def data_processing_apply_context(context, dataProcessingCore_xml_path):
+	def data_processing_initialize_with_context_v2(var1):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
-		res = capi.dll.dataProcessing_applyContext(utils.to_int32(context), utils.to_char_ptr(dataProcessingCore_xml_path), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		res = capi.dll.dataProcessing_initializeWithContext_v2(var1._internal_obj if var1 is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def data_processing_apply_context(context, xml_path):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.dataProcessing_applyContext(utils.to_int32(context), utils.to_char_ptr(xml_path), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def data_processing_apply_context_v2(context_data):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.dataProcessing_applyContext_v2(context_data._internal_obj if context_data is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res
@@ -259,6 +277,15 @@ class DataProcessingCAPI(data_processing_abstract_api.DataProcessingAbstractAPI)
 		return res
 
 	@staticmethod
+	def data_processing_create_param_tree():
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.DataProcessing_create_param_tree(ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def data_processing_initialization_on_client(client):
 		res = capi.dll.DataProcessing_initialization_on_client(client._internal_obj if client is not None else None)
 		return res
@@ -286,6 +313,15 @@ class DataProcessingCAPI(data_processing_abstract_api.DataProcessingAbstractAPI)
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.dataProcessing_applyContext_on_client(client._internal_obj if client is not None else None, utils.to_int32(context), utils.to_char_ptr(dataProcessingCore_xml_path), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def data_processing_apply_context_v2_on_client(client, context_data):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.dataProcessing_applyContext_v2_on_client(client._internal_obj if client is not None else None, context_data._internal_obj if context_data is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res
@@ -475,6 +511,15 @@ class DataProcessingCAPI(data_processing_abstract_api.DataProcessingAbstractAPI)
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.DataProcessing_ProcessId_on_client(client._internal_obj if client is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def data_processing_create_param_tree_on_client(client):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.DataProcessing_create_param_tree_on_client(client._internal_obj if client is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res

@@ -54,9 +54,6 @@ class equivalent_mass(Operator):
     data_sources : DataSources
         Result file path container, used if no
         streams are set
-    bool_rotate_to_global : bool, optional
-        If true the field is rotated to global
-        coordinate system (default true)
     all_dofs : bool, optional
         Default is false.
     mesh : MeshedRegion or MeshesContainer, optional
@@ -88,8 +85,6 @@ class equivalent_mass(Operator):
     >>> op.inputs.streams_container.connect(my_streams_container)
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
-    >>> my_bool_rotate_to_global = bool()
-    >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
     >>> my_all_dofs = bool()
     >>> op.inputs.all_dofs.connect(my_all_dofs)
     >>> my_mesh = dpf.MeshedRegion()
@@ -104,7 +99,6 @@ class equivalent_mass(Operator):
     ...     fields_container=my_fields_container,
     ...     streams_container=my_streams_container,
     ...     data_sources=my_data_sources,
-    ...     bool_rotate_to_global=my_bool_rotate_to_global,
     ...     all_dofs=my_all_dofs,
     ...     mesh=my_mesh,
     ...     read_cyclic=my_read_cyclic,
@@ -121,7 +115,6 @@ class equivalent_mass(Operator):
         fields_container=None,
         streams_container=None,
         data_sources=None,
-        bool_rotate_to_global=None,
         all_dofs=None,
         mesh=None,
         read_cyclic=None,
@@ -141,8 +134,6 @@ class equivalent_mass(Operator):
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:
             self.inputs.data_sources.connect(data_sources)
-        if bool_rotate_to_global is not None:
-            self.inputs.bool_rotate_to_global.connect(bool_rotate_to_global)
         if all_dofs is not None:
             self.inputs.all_dofs.connect(all_dofs)
         if mesh is not None:
@@ -220,13 +211,6 @@ class equivalent_mass(Operator):
                     optional=False,
                     document="""Result file path container, used if no
         streams are set""",
-                ),
-                5: PinSpecification(
-                    name="bool_rotate_to_global",
-                    type_names=["bool"],
-                    optional=True,
-                    document="""If true the field is rotated to global
-        coordinate system (default true)""",
                 ),
                 6: PinSpecification(
                     name="all_dofs",
@@ -318,8 +302,6 @@ class InputsEquivalentMass(_Inputs):
     >>> op.inputs.streams_container.connect(my_streams_container)
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
-    >>> my_bool_rotate_to_global = bool()
-    >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
     >>> my_all_dofs = bool()
     >>> op.inputs.all_dofs.connect(my_all_dofs)
     >>> my_mesh = dpf.MeshedRegion()
@@ -340,10 +322,6 @@ class InputsEquivalentMass(_Inputs):
         self._inputs.append(self._streams_container)
         self._data_sources = Input(equivalent_mass._spec().input_pin(4), 4, op, -1)
         self._inputs.append(self._data_sources)
-        self._bool_rotate_to_global = Input(
-            equivalent_mass._spec().input_pin(5), 5, op, -1
-        )
-        self._inputs.append(self._bool_rotate_to_global)
         self._all_dofs = Input(equivalent_mass._spec().input_pin(6), 6, op, -1)
         self._inputs.append(self._all_dofs)
         self._mesh = Input(equivalent_mass._spec().input_pin(7), 7, op, -1)
@@ -477,27 +455,6 @@ class InputsEquivalentMass(_Inputs):
         >>> op.inputs.data_sources(my_data_sources)
         """
         return self._data_sources
-
-    @property
-    def bool_rotate_to_global(self):
-        """Allows to connect bool_rotate_to_global input to the operator.
-
-        If true the field is rotated to global
-        coordinate system (default true)
-
-        Parameters
-        ----------
-        my_bool_rotate_to_global : bool
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.result.equivalent_mass()
-        >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
-        >>> # or
-        >>> op.inputs.bool_rotate_to_global(my_bool_rotate_to_global)
-        """
-        return self._bool_rotate_to_global
 
     @property
     def all_dofs(self):
