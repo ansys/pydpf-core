@@ -204,7 +204,7 @@ jobs:
         run: pip list
 
       - name: "Test Docstrings"
-        if: inputs.DOCSTRING == 'true'
+        if: (inputs.DOCSTRING == 'true') && !((inputs.test_any == 'true') && (matrix.os == 'ubuntu-latest'))
         uses: ansys/pydpf-actions/test_docstrings@v2.3
         with:
           MODULE: ${{env.MODULE}}
