@@ -139,7 +139,7 @@ jobs:
           echo "wheel_name=${name[0]}" >> $GITHUB_OUTPUT
 
       - name: "Upload wheel to artifacts"
-        if: inputs.wheel == 'true'
+        if: (inputs.wheel == 'true') && !(inputs.test_any && (matrix.os == 'ubuntu-latest') )
         uses: actions/upload-artifact@v4
         with:
           name: ${{ steps.wheel.outputs.wheel_name }}
@@ -351,7 +351,7 @@ jobs:
       - name: "Upload Test Results"
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ inputs.ANSYS_VERSION }}
+          name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ inputs.ANSYS_VERSION }}_${{ inputs.test_any && 'any' || '' }}
           path: tests/junit/test-results.xml
 
       - name: "Upload coverage to Codecov"
