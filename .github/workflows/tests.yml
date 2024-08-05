@@ -140,7 +140,7 @@ jobs:
 
       - name: "Upload wheel to artifacts"
         if: inputs.wheel == 'true'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ steps.wheel.outputs.wheel_name }}
           path: dist/${{ steps.wheel.outputs.wheel_name }}
@@ -167,7 +167,7 @@ jobs:
 
       - name: "Upload wheelhouse to artifacts"
         if: inputs.wheelhouse == 'true'
-        uses: actions/upload-artifact@v3.1.2
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ steps.wheelhouse.outputs.name }}
           path: ${{ steps.wheelhouse.outputs.name }}
@@ -349,7 +349,7 @@ jobs:
         uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
 
       - name: "Upload Test Results"
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ inputs.ANSYS_VERSION }}
           path: tests/junit/test-results.xml
