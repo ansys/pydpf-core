@@ -351,7 +351,7 @@ jobs:
       - name: "Upload Test Results"
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ inputs.ANSYS_VERSION }}_${{ inputs.test_any == 'true' && 'any' || '' }}
+          name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ inputs.ANSYS_VERSION }}${{ inputs.test_any == 'true' && '_any' || '' }}
           path: tests/junit/test-results.xml
 
       - name: "Upload coverage to Codecov"
