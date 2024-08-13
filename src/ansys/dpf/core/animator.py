@@ -98,6 +98,7 @@ class _PyVistaAnimator(_PyVistaPlotter):
             self.add_field(
                 field,
                 deform_by=deform,
+                scale_factor=scale_factor[frame],
                 scale_factor_legend=scale_factor[frame],
                 **kwargs,
             )
