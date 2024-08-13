@@ -107,5 +107,6 @@ def animate_mode(
         save_as=save_as,
         mode_number=mode_number,
         clim=[0, max_data],
+        scale_factor=deform_scale_factor,
         **kwargs,
     )
