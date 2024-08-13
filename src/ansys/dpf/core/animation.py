@@ -96,6 +96,7 @@ def animate_mode(
 
     wf.set_input_name("ponderation", scaling_op.inputs.ponderation)
     wf.set_output_name("field", scaling_op.outputs.field)
+    wf.set_output_name("deform_by", scaling_op.outputs.field)
 
     anim = Animator(workflow=wf, **kwargs)
 
