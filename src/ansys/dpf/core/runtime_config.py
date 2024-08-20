@@ -35,23 +35,6 @@ class RuntimeClientConfig(_RuntimeConfig):
     -----
     Available from 4.0 server version.
 
-    Examples
-    --------
-    Get runtime configuration for Client.
-
-    >>> from ansys.dpf import core as dpf
-    >>> server = dpf.start_local_server(config=dpf.server_factory.AvailableServerConfigs.GrpcServer
-    ...    , as_global=False)
-    >>> client_config = dpf.settings.get_runtime_client_config(server=server)
-    >>> cache_enabled = client_config.cache_enabled
-    >>> stream_floats_instead_of_doubles = client_config.stream_floats_instead_of_doubles
-    >>> streaming_buffer_size = client_config.streaming_buffer_size
-    >>> return_arrays = client_config.return_arrays
-    >>> client_config.return_arrays = return_arrays # or True/False
-    >>> client_config.cache_enabled = cache_enabled # or True/False
-    >>> client_config.stream_floats_instead_of_doubles = stream_floats_instead_of_doubles
-    ... # or True/False
-    >>> client_config.streaming_buffer_size = streaming_buffer_size # or 10000, 2000 ...
     """
 
     def __init__(self, data_tree, server=None):

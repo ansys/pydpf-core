@@ -1,8 +1,8 @@
 """
 Python DPF plugins utilities
 ============================
-
 Contains the utilities specific to installing and using Python DPF plugins.
+
 """
 import os.path
 try:
@@ -14,10 +14,10 @@ import ansys.dpf.core as dpf
 from ansys.dpf.core import server as server_module
 
 
-def load_plugin_on_server(plugin, server=None, symbol="load_operators"):
+def load_plugin_on_server(plugin, server=None, symbol="load_operators", generate_operators=False):
     """Load a DPF Python plugin on the global or given DPF server.
 
-        Parameters
+    Parameters
     ----------
     plugin:
         DPF Python plugin to load.
@@ -25,6 +25,9 @@ def load_plugin_on_server(plugin, server=None, symbol="load_operators"):
         DPF server to load the plugin onto.
     symbol:
         Name of the function recording the operators in the plugin.
+    generate_operators:
+        Whether to generate the Python code for the operators in the plugin.
+
     """
     server = server_module.get_or_create_server(server)
     plugin_name = plugin.split("-")[-1]
@@ -77,4 +80,5 @@ def load_plugin_on_server(plugin, server=None, symbol="load_operators"):
         name=f"py_{plugin_name}",
         symbol=symbol,
         server=server,
+        generate_operators=generate_operators,
     )

@@ -264,4 +264,4 @@ print("operator ran successfully")
 dpf.download_file(os.path.join(tmp, "out.glb"), os.path.join(os.getcwd(), "out.glb"))
 
 # %%
-# You can download :download:`output <images/thumb/out02.glb>` from the ``gltf`` operator.
+# You can download :download:`output <images/thumb/out.glb>` from the ``gltf`` operator.

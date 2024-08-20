@@ -72,9 +72,7 @@ class PropertyField(_FieldBase):
             field=property_field,
             server=server,
         )
-        self._field_definition = None
-        if meets_version(self._server.version, "8.1"):
-            self._field_definition = self._load_field_definition()
+        self._field_definition_instance = None
 
     @property
     def _api(self) -> property_field_abstract_api.PropertyFieldAbstractAPI:
@@ -84,6 +82,12 @@ class PropertyField(_FieldBase):
                 grpcapi=property_field_grpcapi.PropertyFieldGRPCAPI,
             )
         return self._api_instance
+
+    @property
+    def _field_definition(self):
+        if self._field_definition_instance is None and meets_version(self._server.version, "8.1"):
+            self._field_definition_instance = self._load_field_definition()
+        return self._field_definition_instance
 
     def _init_api_env(self):
         self._api.init_property_field_environment(self)

@@ -8,7 +8,7 @@ How-tos
 
     plotting.rst
     custom_operators.rst
-    getting_started_with_dpf_server.rst
+    dpf_server.rst
     server_types.rst
     server_context.rst
     xmlfiles.rst
