@@ -107,7 +107,7 @@ my_data_sources_g.add_domain_file_path(filepath=r"file1.extension", key='extensi
 # processes" section in the examples documentation webpage
 
 # 1.h) function 'add_upstream_for_domain()'
-# - If you believe needing a recursive workflow, and you have more then one results file, you need to create a new
+# - If you believe needing a recursive workflow, and you have more than one results file, you need to create a new
 # object 'DataSouces' with the involved data and then add it as an upstream in the correspondent main 'DataSources'
 # object.
 from ansys.dpf import core as dpf
@@ -122,19 +122,32 @@ my_data_sources_g.add_upstream_for_domain(upstream_data_sources=my_data_sources_
 
 # 1.i) function 'add_file_path_for_specified_result()'
 
-# 1.j) register_namespace()
+# 1.j) function 'register_namespace()'
+# When using an operators that requires data from a DataSources, DPF needs to find in its code a internal
+# correspondence to this call. This correspondence is given by the namespace, the file extension and the
+# operator name: "namespace::key::operator_name". For example, if the results file comes from a MAPDL solver
+# and has an 'rst' extension and you want to get the displacement results in this file, DPF code will get the
+# correspondence: 'mapdl::rst::displacement'. So, if you have an extension that is not know by DPF you have to
+# define its namespace. This function is mainly used when creating your own operators and plugins, or when you have a
+# file with an unknown namespace but you know that it corresponds to certain solver.
+# The accepted namespaces are:
+# -
 
+from ansys.dpf import core as dpf
+my_data_sources_j = dpf.DataSources()
+my_data_sources_j.set_result_file_path(filepath=r'file.extension', key='extension')
+my_data_sources_j.register_namespace(result_key='extension', namespace='namespace')
 ##################################################################################################################
 
 # # ~~~~~~~ 2) DataSources exploring ~~~~~~~ # #
 
-# You can check some properties that your DataSources object have. They are:
+# You can check some properties that your DataSources object have by using a helper. They are:
 
-# 2.k) result_key
+# 2.k) helper 'result_key'
 # You can verify which file extension was used by your DataSources.
 # - This extension correspond to the file that you set, either with the 'set_result_file_path()' function, either if you
 # called the class with the file path as an argument
-# - If the file that you set had more then one extension, only the first one will be returned
+# - If the file that you set had more than one extension, only the first one will be returned
 
 from ansys.dpf import core as dpf
 my_data_sources_k = dpf.DataSources()
@@ -143,7 +156,7 @@ my_data_sources_k.set_result_file_path(filepath=r'file.extension', key='extensio
 print(my_data_sources_k.result_key)
 # 'extension'
 
-# 2.l) result_files
+# 2.l) helper 'result_files'
 # You can verify the list o List of result files contained in the data sources. It returns the file path of those files
 # - If you use the 'set_result_file_path' function it will return only the file path given as an argument to this
 # function
@@ -173,7 +186,7 @@ print(my_data_sources_l2.result_files)
 print(my_data_sources_upstream_l2.result_files)
 # ['/folder/file1.extension1]
 
-# - If you have a DataSources object with more then one domain, a empty list will be returned
+# - If you have a DataSources object with more than one domain, a empty list will be returned
 from ansys.dpf import core as dpf
 my_data_sources_l3 = dpf.DataSources()
 my_data_sources_l3.set_domain_result_file_path(path=r"file0.extension", key='extension', domain_id=0)
