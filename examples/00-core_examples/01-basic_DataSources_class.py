@@ -57,7 +57,7 @@ my_data_sources_b.set_result_file_path(filepath=r'file.extension1234', key='exte
 # be created by:
 from ansys.dpf import core as dpf
 my_data_sources_c = dpf.DataSources()
-my_file_key = my_data_sources_c.guess_file_key(filepath=r'file.extension1234')
+my_file_key = my_data_sources_c.guess_result_key(filepath=r'file.extension1234')
 my_data_sources_c.set_result_file_path(filepath=r'file.extension1234', key=my_file_key)
 
 # 1.d) function 'add_file_path()'
@@ -76,8 +76,8 @@ my_data_sources_d.add_file_path(filepath=r'file2.extension')
 # the 'guess_second_key_' function, you will need to use the 'add.file_path' function
 from ansys.dpf import core as dpf
 my_data_sources_e = dpf.DataSources()
-my_file_key1 = my_data_sources_e.guess_file_key(filepath=r'file1.extension1.extension2')
-my_file_key2 = my_data_sources_e.guess_file_key(filepath=r'file2.extension3.extension4')
+my_file_key1 = my_data_sources_e.guess_result_key(filepath=r'file1.extension1.extension2')
+my_file_key2 = my_data_sources_e.guess_result_key(filepath=r'file2.extension3.extension4')
 my_data_sources_e.set_result_file_path(filepath=r'file1.extension1.extension2', key=my_file_key1)
 my_data_sources_e.add_file_path(filepath=r'file2.extension3.extension4', key=my_file_key2)
 
@@ -173,7 +173,7 @@ print(my_data_sources_l1.result_files)
 from ansys.dpf import core as dpf
 my_data_sources_l2 = dpf.DataSources(result_path=r'file0.extension0')
 
-my_data_sources_upstream_l2 = dpf.DataSources(filepath=r'file1.extension1')
+my_data_sources_upstream_l2 = dpf.DataSources(result_path=r'file1.extension1')
 my_data_sources_upstream_l2.add_file_path(filepath=r'file2.extension2')
 
 my_data_sources_l2.add_upstream(upstream_data_sources=my_data_sources_upstream_l2)
