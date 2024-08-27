@@ -20,11 +20,19 @@ class DataProcessingAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
-	def data_processing_initialize_with_context(context, dataProcessingCore_xml_path):
+	def data_processing_initialize_with_context(context, xml_path):
 		raise NotImplementedError
 
 	@staticmethod
-	def data_processing_apply_context(context, dataProcessingCore_xml_path):
+	def data_processing_initialize_with_context_v2(var1):
+		raise NotImplementedError
+
+	@staticmethod
+	def data_processing_apply_context(context, xml_path):
+		raise NotImplementedError
+
+	@staticmethod
+	def data_processing_apply_context_v2(context_data):
 		raise NotImplementedError
 
 	@staticmethod
@@ -124,6 +132,10 @@ class DataProcessingAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def data_processing_create_param_tree():
+		raise NotImplementedError
+
+	@staticmethod
 	def data_processing_initialization_on_client(client):
 		raise NotImplementedError
 
@@ -137,6 +149,10 @@ class DataProcessingAbstractAPI:
 
 	@staticmethod
 	def data_processing_apply_context_on_client(client, context, dataProcessingCore_xml_path):
+		raise NotImplementedError
+
+	@staticmethod
+	def data_processing_apply_context_v2_on_client(client, context_data):
 		raise NotImplementedError
 
 	@staticmethod
@@ -221,5 +237,9 @@ class DataProcessingAbstractAPI:
 
 	@staticmethod
 	def data_processing_process_id_on_client(client):
+		raise NotImplementedError
+
+	@staticmethod
+	def data_processing_create_param_tree_on_client(client):
 		raise NotImplementedError
 
