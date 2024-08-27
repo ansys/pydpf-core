@@ -300,8 +300,9 @@ class Workflow:
             any,
             collection_base,
         )
-
+        
         out = [
+            (any.Any, self._api.work_flow_getoutput_as_any),
             (bool, self._api.work_flow_getoutput_bool),
             (int, self._api.work_flow_getoutput_int),
             (str, self._getoutput_string),
