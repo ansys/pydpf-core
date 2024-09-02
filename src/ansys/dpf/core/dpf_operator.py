@@ -346,6 +346,7 @@ class Operator:
         )
 
         out = [
+            (any.Any, self._api.operator_getoutput_as_any),
             (bool, self._api.operator_getoutput_bool),
             (int, self._api.operator_getoutput_int),
             (str, self._getoutput_string),
