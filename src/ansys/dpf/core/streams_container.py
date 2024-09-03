@@ -14,7 +14,7 @@ from ansys.dpf.gate import (
     data_processing_capi,
     data_processing_grpcapi,
 )
-from ansys.dpf.core import errors
+from ansys.dpf.core import errors, data_sources
 
 
 class StreamsContainer:
@@ -79,6 +79,9 @@ class StreamsContainer:
             raise NotImplementedError("StreamsContainer unavailable for LegacyGrpc servers")
         # step3: init environment
         self._api.init_streams_environment(self)  # creates stub when gRPC
+
+    def datasources(self):
+        return data_sources.DataSources(data_sources=self._api.streams_get_data_sources(self))
 
     def release_handles(self):
         """Release the streams."""
