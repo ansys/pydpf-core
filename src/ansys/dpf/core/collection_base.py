@@ -235,7 +235,13 @@ class CollectionBase(Generic[TYPE]):
             out.append(self._api.collection_get_label(self, i))
         return out
 
-    labels = property(_get_labels, set_labels, "labels")
+    @property
+    def labels(self) -> list[str]:
+        return self._get_labels()
+
+    @labels.setter
+    def labels(self, labels: list[str]):
+        self.set_labels(labels=labels)
 
     def has_label(self, label) -> bool:
         """Check if a collection has a specified label.
