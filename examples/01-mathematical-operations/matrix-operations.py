@@ -98,17 +98,17 @@ print(assemble_1[0])
 assemble_2 = dpf.FieldsContainer()
 assemble_2.labels = ['time','complex']
 for m in my_nodes_scoping.ids:
-    globals()[f'stress_tensor_{m}'] = dpf.fields_factory.create_tensor_field(num_entities=1,
-                                                                             location=dpf.locations.elemental)
-    globals()[f'stress_tensor_complex_{m}'] = dpf.fields_factory.create_tensor_field(num_entities=1,
-                                                                             location=dpf.locations.elemental)
+    # globals()[f'stress_tensor_{m}'] = dpf.fields_factory.field_from_array([])
+    globals()[f'stress_list_{m}']=[]
     for k in range(0,6):
-        globals()[f'stress_tensor_{m}'].append(data=globals()[f'stress_{k+1}'][0].get_entity_data_by_id(id=m),
-                                               scopingid=m)
-        globals()[f'stress_tensor_complex_{m}'].append(data=globals()[f'stress_{k + 1}'][1].get_entity_data_by_id(id=m),
-                                               scopingid=m)
+        # globals()[f'stress_tensor_{m}'].append(data=globals()[f'stress_{k+1}'][0].get_entity_data_by_id(id=m),
+        #                                        scopingid=m)
+        # globals()[f'stress_tensor_complex_{m}'].append(data=globals()[f'stress_{k + 1}'][1].get_entity_data_by_id(id=m),
+        #                                        scopingid=m)
+        globals()[f'stress_list_{m}'][k]=globals()[f'stress_{k+1}'][0].get_entity_data_by_id(id=m)
+    globals()[f'stress_tensor_{m}'] = dpf.fields_factory.create_tensor_field(num_entities=1, lo
     assemble_2.add_field(label_space={'time': 1, 'complex': 0}, field=globals()[f'stress_tensor_{m}'])
-    assemble_2.add_field(label_space={'time': 1, 'complex': 1}, field=globals()[f'stress_tensor_complex_{m}'])
+    # assemble_2.add_field(label_space={'time': 1, 'complex': 1}, field=globals()[f'stress_tensor_complex_{m}'])
 print(assemble_2[0])
 
 
