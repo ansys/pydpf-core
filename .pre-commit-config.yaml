@@ -1,25 +1,22 @@
-exclude: |
-    (?x)^(
-        doc/source/|
-        src/ansys/dpf/core/operators/|
-        examples_notebooks/|
-        src/ansys/dpf/core/__init__.py|
-        doc/styles/|
-        src/ansys/dpf/gate/|
-        src/ansys/dpf/gatebin/|
-        src/ansys/grpc/dpf/|
-    )
+exclude: >
+  (?x)^(
+    doc/source/
+    |src/ansys/dpf/core/operators/
+    |examples_notebooks/
+    |src/ansys/dpf/core/__init__.py
+    |doc/styles/
+    |src/ansys/dpf/gate/
+    |src/ansys/dpf/gatebin/
+    |src/ansys/grpc/dpf/
+  )
 repos:
 
-- repo: https://github.com/psf/black
-  rev: 24.4.2
+- repo: https://github.com/charliermarsh/ruff-pre-commit
+  rev: v0.6.3
   hooks:
-  - id: black
-
-- repo: https://github.com/PyCQA/flake8
-  rev: 7.0.0
-  hooks:
-  - id: flake8
+    - id: ruff
+      args: [ --fix ]
+    - id: ruff-format
 
 - repo: https://github.com/codespell-project/codespell
   rev: v2.3.0
@@ -36,6 +33,6 @@ repos:
 
 # this validates our github workflow files
 - repo: https://github.com/python-jsonschema/check-jsonschema
-  rev: 0.28.5
+  rev: 0.29.2
   hooks:
     - id: check-github-workflows
