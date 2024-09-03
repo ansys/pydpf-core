@@ -5,9 +5,7 @@ Matrix Operations
 ~~~~~~~~~~~~~~~~~
 
 This example shows how to do some matrix operations, including basic mathematical operation (power, add and multiply by
-a constant, add field containers and invert )
-
-Here we will operate in ...?
+a constant, add field containers and invert ) and separating and assembling fields and fields containers
 
 """
 
@@ -93,27 +91,5 @@ stress_6 = maths.invert_fc(fields_container=stress_6).eval()
 assemble_1 = dpf.operators.utility.assemble_scalars_to_matrices_fc(xx=stress_1, yy=stress_2, zz=stress_3,
                                                                    xy=stress_4, yz=stress_5, xz=stress_6,
                                                                    symmetrical=True).eval()
-# print(assemble_1[0])
-
-# 2) With the function :func:'create_tensor_field() <ansys.dpf.core.fields_factory.create_tensor_field>'
-assemble_2 = dpf.FieldsContainer()
-assemble_2.labels = ["time", "complex"]
-for i in range(0, 2):
-    loop_size = my_nodes_scoping.size
-    globals()[f'fields_list_{i}'] = [None] * loop_size
-    for m in range(loop_size):
-        globals()[f'stress_list_{m}{i}'] = [None] * my_avg_stress[i].component_count
-        for k in range(0, 6):
-            globals()[f'stress_list_{m}{i}'][k] = globals()[f'stress_{k + 1}'][i].get_entity_data_by_id(
-                id=my_nodes_scoping.ids[m])
-        globals()[f'stress_tensor_{i}'] = dpf.fields_factory.create_tensor_field(num_entities=my_nodes_scoping.size,
-                                                                                    location=dpf.locations.elemental)
-        globals()[f'stress_tensor_{i}'].append(data=globals()[f'stress_list_{m}{i}'],
-                                                  scopingid=my_nodes_scoping.ids[m])
-        globals()[f'fields_list_{i}'][m] = globals()[f'stress_tensor_{i}']
-        assemble_2.add_field(label_space={'time': 1, 'complex': i}, field=globals()[f'stress_tensor_{i}'])
-
-assemble_3 = dpf.fields_container_factory.over_time_freq_complex_fields_container(real_fields=globals()[f'fields_list_0'],
-                                                                                  imaginary_fields=globals()[f'fields_list_1'])
-# print(assemble_2)
+print(assemble_1, assemble_1[0])
 
