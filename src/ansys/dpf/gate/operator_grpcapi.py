@@ -209,7 +209,7 @@ class OperatorGRPCAPI(operator_abstract_api.OperatorAbstractAPI):
     @staticmethod
     def operator_connect_any(op, pin, ptr):
         request = OperatorGRPCAPI.update_init(op, pin)
-        request.any.CopyFrom(ptr._internal_obj)
+        request.as_any.CopyFrom(ptr._internal_obj)
         OperatorGRPCAPI.update(op, request)
 
     @staticmethod
