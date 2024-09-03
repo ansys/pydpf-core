@@ -1341,3 +1341,19 @@ def test_deep_copy_non_ascii_string(server_type):
     str = "\N{GREEK CAPITAL LETTER DELTA}"
     str_out = dpf.core.core._deep_copy(str, server_type)
     assert str == str_out
+
+def test_output_any(server_type):
+    inpt = dpf.core.Field(nentities=3, server=server_type)
+    data = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    scop = dpf.core.Scoping(server=server_type)
+    scop.ids = [1, 2, 3]
+    inpt.data = data
+    inpt.scoping = scop
+
+    op = dpf.core.Operator("forward", server=server_type)
+    op.connect(0, inpt)
+
+    output_field = op.get_output(0, dpf.core.types.any).cast(dpf.core.Field)
+    assert isinstance(output_field, dpf.core.Field)
+    assert output_field.data.size == 9
+    assert output_field.scoping.size == 3

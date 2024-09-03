@@ -124,6 +124,7 @@ def types_enum_to_types():
         streams_container,
         generic_data_container,
         mesh_info,
+        Any
     )
     from ansys.dpf.gate import dpf_vector
 
@@ -155,6 +156,7 @@ def types_enum_to_types():
         types.streams_container: streams_container.StreamsContainer,
         types.generic_data_container: generic_data_container.GenericDataContainer,
         types.mesh_info: mesh_info.MeshInfo,
+        types.any: Any
     }
 
 

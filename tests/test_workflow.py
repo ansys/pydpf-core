@@ -931,6 +931,26 @@ def test_connect_get_non_ascii_string_str(server_type):
     str_out = deep_copy_using_workflow(str, server_type, 0)
     assert str == str_out
 
+def test_output_any(server_type):
+    inpt = dpf.core.Field(nentities=3, server=server_type)
+    data = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    scop = dpf.core.Scoping(server=server_type)
+    scop.ids = [1, 2, 3]
+    inpt.data = data
+    inpt.scoping = scop
+    
+    fwd = dpf.core.Operator("forward", server=server_type)
+    fwd.connect(0, inpt)
+
+    wf = dpf.core.Workflow(server=server_type)
+    wf.add_operator(fwd)
+    wf.set_output_name("field", fwd, 0)
+
+    output_field = wf.get_output("field", dpf.core.types.any).cast(dpf.core.Field)
+    assert isinstance(output_field, dpf.core.Field)
+    assert output_field.data.size == 9
+    assert output_field.scoping.size == 3
+
 
 def main():
     test_connect_field_workflow()
