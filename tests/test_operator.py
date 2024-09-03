@@ -1357,3 +1357,18 @@ def test_output_any(server_type):
     assert isinstance(output_field, dpf.core.Field)
     assert output_field.data.size == 9
     assert output_field.scoping.size == 3
+
+
+def test_input_any(server_type):
+    field = dpf.core.Field(nentities=3, server=server_type)
+    data = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    scop = dpf.core.Scoping(server=server_type)
+    scop.ids = [1, 2, 3]
+    field.data = data
+    field.scoping = scop
+    inpt = dpf.core.Any.new_from(field)
+    op = dpf.core.Operator(name="forward", server=server_type)
+    op.connect(pin=0, inpt=inpt)
+    output = op.get_output(pin=0, output_type=dpf.core.types.field)
+    assert isinstance(output, dpf.core.Field)
+    assert len(output.data_as_list) == len(data)
