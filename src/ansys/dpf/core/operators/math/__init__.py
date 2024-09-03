@@ -57,6 +57,7 @@ from .minus_fc import minus_fc
 from .modal_damping_ratio import modal_damping_ratio 
 from .modal_participation import modal_participation 
 from .modal_superposition import modal_superposition 
+from .mode_contribution import mode_contribution 
 from .modulus import modulus 
 from .nodal_density import nodal_density 
 from .norm import norm 
