@@ -939,14 +939,14 @@ def test_output_any(server_type):
     inpt.data = data
     inpt.scoping = scop
     
-    fwd = dpf.core.Operator("forward")
+    fwd = dpf.core.Operator("forward", server=server_type)
     fwd.connect(0, inpt)
 
-    wf = dpf.core.Workflow()
+    wf = dpf.core.Workflow(server=server_type)
     wf.add_operator(fwd)
     wf.set_output_name("field", fwd, 0)
 
-    output_field = wf.get_output("field", dpf.core.types.any)
+    output_field = wf.get_output("field", dpf.core.types.any).cast(dpf.core.Field)
     assert isinstance(output_field, dpf.core.Field)
     assert output_field.data.size == 9
     assert output_field.scoping.size == 3
