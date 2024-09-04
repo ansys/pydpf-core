@@ -649,10 +649,10 @@ class WorkflowCAPI(workflow_abstract_api.WorkflowAbstractAPI):
 		return res
 
 	@staticmethod
-	def work_flow_connect_any(wf, pin_name, any):
+	def work_flow_connect_any(wf, pin_name, ptr):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
-		res = capi.dll.WorkFlow_connect_Any(wf._internal_obj if wf is not None else None, utils.to_char_ptr(pin_name), any._internal_obj if any is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		res = capi.dll.WorkFlow_connect_Any(wf._internal_obj if wf is not None else None, utils.to_char_ptr(pin_name), ptr._internal_obj if ptr is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res
