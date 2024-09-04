@@ -19,6 +19,7 @@ from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_2,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0,
 )
 
@@ -1336,11 +1337,13 @@ def test_connect_get_non_ascii_string(server_type):
     assert str == str_out
 
 
-@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0, reason="Available for servers >=8.0")
+@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0,
+                    reason="Available for servers >=8.0")
 def test_deep_copy_non_ascii_string(server_type):
     str = "\N{GREEK CAPITAL LETTER DELTA}"
     str_out = dpf.core.core._deep_copy(str, server_type)
     assert str == str_out
+
 
 def test_output_any(server_type):
     inpt = dpf.core.Field(nentities=3, server=server_type)
@@ -1359,6 +1362,8 @@ def test_output_any(server_type):
     assert output_field.scoping.size == 3
 
 
+@pytest.mark.skipif(condition=not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
+                    reason="Input of Any requires DPF 7.0 or above.")
 def test_input_any(server_type):
     field = dpf.core.Field(nentities=3, server=server_type)
     data = [1, 2, 3, 4, 5, 6, 7, 8, 9]
