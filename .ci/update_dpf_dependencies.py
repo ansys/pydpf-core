@@ -62,6 +62,15 @@ if gate_path is not None:
         dirs_exist_ok=True,
         ignore=lambda directory, contents: ["__pycache__"] if directory[-5:] == "gate" else [],
     )
+    dist_path = os.path.join(gate_path, "ansys-dpf-gate", "ansys", "dpf", "gate", "__init__.py")
+    print(f"from {dist_path}")
+    destination = os.path.join(core_path, "src", "ansys", "dpf", "gate", "__init__.py")
+    print(f"into {destination}")
+    shutil.copytree(
+        src=dist_path,
+        dst=destination,
+        dirs_exist_ok=True,
+    )
     print("Done updating ansys.dpf.gate generated code")
 
     # Update ansys-dpf-gatebin

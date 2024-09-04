@@ -68,8 +68,9 @@ jobs:
           echo $wheel_file
           rm -r src/ansys/dpf/gate/generated
           unzip -o $wheel_file "ansys/dpf/gate/generated/*" -d src/ansys/dpf/gate/generated
-          chmod -R 777 src/ansys/dpf/gate/generated
-          git add -f src/ansys/dpf/gate/generated
+          unzip -o $wheel_file "ansys/dpf/gate/__init__.py" -d src/ansys/dpf/gate
+          chmod -R 777 src/ansys/dpf/gate
+          git add -f src/ansys/dpf/gate
 
       - name: "Update ansys-dpf-gatebin lin"
         shell: bash
