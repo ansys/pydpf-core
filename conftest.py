@@ -21,8 +21,8 @@ if module_exists("matplotlib"):
 
 
 # enable off_screen plotting to avoid test interruption
-core.settings.disable_off_screen_rendering()
-core.settings.bypass_pv_opengl_osmesa_crash()
+# core.settings.disable_off_screen_rendering()
+# core.settings.bypass_pv_opengl_osmesa_crash()
 
 
 class DPFDocTestRunner(DocTestRunner):

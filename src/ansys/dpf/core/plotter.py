@@ -216,11 +216,28 @@ class _PyVistaPlotter:
         **kwargs,
     ):
         # Get the field name
-        name = field.name.split("_")[0]
-        unit = field.unit
-        kwargs.setdefault("stitle", f"{name} ({unit})")
-
-        kwargs = self._set_scalar_bar_title(kwargs)
+        if isinstance(field, dpf.core.Field):
+            name = field.name.split("_")[0]
+            categories = False
+            unit = field.unit
+            kwargs.setdefault("stitle", f"{name} ({unit})")
+            kwargs = self._set_scalar_bar_title(kwargs)
+        elif isinstance(field, dpf.core.PropertyField):
+            try:
+                name = field.name
+            except dpf_errors.DpfVersionNotSupported:
+                name = ""
+            categories = True
+            kwargs.setdefault("scalar_bar_args", {
+                "title": name,
+                "n_labels": 0,
+            })
+            # from itertools import cycle
+            # cycler = cycle(['Reds', 'Greens', 'Blues', 'Greys', 'Oranges', 'Purples'])
+            kwargs.setdefault("cmap", "tab20")
+            values = set(field.data)
+            kwargs.setdefault("clim", [min(values)-0.5, max(values)+0.5])
+            kwargs.setdefault("annotations", dict([(v, str(int(v))) for v in values]))
 
         kwargs.setdefault("show_edges", True)
         kwargs.setdefault("nan_color", "grey")
@@ -277,7 +294,7 @@ class _PyVistaPlotter:
                 meshed_region.deform_by(deform_by, scale_factor), as_linear
             )
         grid.set_active_scalars(None)
-        self._plotter.add_mesh(grid, scalars=overall_data, **kwargs_in)
+        self._plotter.add_mesh(grid, scalars=overall_data, categories=categories, **kwargs_in)
 
         # If deformed geometry, print the scale_factor
         if deform_by and scale_factor_legend is not False:

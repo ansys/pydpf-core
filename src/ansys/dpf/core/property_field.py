@@ -2,8 +2,15 @@
 PropertyField
 =============
 """
+from __future__ import annotations
 
 import numpy as np
+from typing import Union, TYPE_CHECKING
+if TYPE_CHECKING:
+    from ansys.dpf.core.results import Result
+    from ansys.dpf.core.field import Field
+    from ansys.dpf.core.dpf_operator import Operator
+    from ansys.dpf.core.meshed_region import MeshedRegion
 from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.core.common import natures, locations, _get_size_of_list
 from ansys.dpf.core import scoping, dimensionality
@@ -17,6 +24,7 @@ from ansys.dpf.gate import (
     dpf_array,
     dpf_vector,
 )
+from ansys.dpf.core.plotter import DpfPlotter
 
 
 class PropertyField(_FieldBase):
@@ -345,6 +353,51 @@ class PropertyField(_FieldBase):
             self._field_definition._api.csfield_definition_set_name(
                 self._field_definition, name=value
             )
+
+    def plot(
+            self,
+            meshed_region: MeshedRegion,
+            deform_by: Union[Field, Result, Operator, None] = None,
+            scale_factor: float = 1.0,
+            **kwargs,
+    ):
+        """Plot the PropertyField on a MeshedRegion.
+
+        Parameters
+        ----------
+        meshed_region:
+            The mesh to plot the property field onto.
+        deform_by: Field, Result, Operator, optional
+            Used to deform the plotted mesh. Must output a 3D vector field.
+            Defaults to None.
+        scale_factor:
+            Scaling factor to apply when warping the mesh.
+        **kwargs: optional
+            Additional keyword arguments for the plotter. For additional keyword
+            arguments, see ``help(pyvista.plot)``.
+
+        Examples
+        --------
+        Plot the displacement field from an example file.
+
+        >>> import ansys.dpf.core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.find_multishells_rst())
+        >>> mesh = model.metadata.meshed_region
+        >>> pf = mesh.property_field(property_name="mat")
+        >>> pf.plot(meshed_region=mesh)
+        """
+        pl = DpfPlotter(**kwargs)
+        pl.add_field(
+            field=self,
+            meshed_region=meshed_region,
+            deform_by=deform_by,
+            scale_factor=scale_factor,
+            show_axes=kwargs.pop("show_axes", True),
+            **kwargs,
+        )
+        kwargs.pop("notebook", None)
+        return pl.show_figure(**kwargs)
 
 
 class _LocalPropertyField(_LocalFieldBase, PropertyField):
