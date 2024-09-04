@@ -25,7 +25,7 @@ from ansys.dpf.core import examples
 # contain information related to Units. In this case, as the simulation was run
 # through Mechanical, a file.actunits file is produced. If this file is
 # supplemented in the data_sources, the units will be correctly fetched for all
-# resuls in the file as well as for the mesh.
+# results in the file as well as for the mesh.
 
 d3plot = examples.download_d3plot_beam()
 ds = dpf.DataSources()

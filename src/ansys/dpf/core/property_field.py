@@ -111,7 +111,6 @@ class PropertyField(_FieldBase):
         else:
             return api.csproperty_field_new(nentities, nentities * dim.component_count)
 
-
     @version_requires("8.1")
     def _load_field_definition(self):
         """Attempt to load the field definition for this field."""

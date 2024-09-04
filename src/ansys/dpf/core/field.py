@@ -480,6 +480,7 @@ class Field(_FieldBase):
             arguments, see ``help(pyvista.plot)``.
         """
         from ansys.dpf.core.plotter import Plotter
+
         pl = Plotter(self.meshed_region, **kwargs)
         return pl.plot_contour(
             self,

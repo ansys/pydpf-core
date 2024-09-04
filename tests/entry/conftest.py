@@ -5,6 +5,7 @@ Must be run separately from the other tests.
 Launch or connect to a persistent local Entry DPF server to be shared in
 pytest as a session fixture
 """
+
 import os
 import functools
 import pytest
@@ -43,9 +44,9 @@ if os.name == "posix":
     ssl._create_default_https_context = ssl._create_unverified_context
 
 if running_docker:
-    ansys.dpf.core.server_types.RUNNING_DOCKER.mounted_volumes[
-        _get_test_files_directory()
-    ] = "/tmp/test_files"
+    ansys.dpf.core.server_types.RUNNING_DOCKER.mounted_volumes[_get_test_files_directory()] = (
+        "/tmp/test_files"
+    )
 
 SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_1 = meets_version(
     get_server_version(core._global_server()), "8.1"

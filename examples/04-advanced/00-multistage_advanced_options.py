@@ -8,6 +8,7 @@ This example shows how to expand on selected sectors the mesh and results
 from a multi-stage cyclic analysis. It also shows how to use the cyclic support
 for advanced postprocessing
 """
+
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 from ansys.dpf.core import operators as ops

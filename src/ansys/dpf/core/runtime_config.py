@@ -2,6 +2,7 @@
 RuntimeConfig
 =============
 """
+
 from ansys.dpf.core.data_tree import DataTree
 from ansys.dpf.core.common import types
 from ansys.dpf.core import misc
@@ -19,7 +20,7 @@ class _RuntimeConfig:
 
 class RuntimeClientConfig(_RuntimeConfig):
     """Enables to access and set runtime configuration
-    options to gRPC client. Mostly used to configurate gRPC streaming and calls options.
+    options to gRPC client. Mostly used to configure gRPC streaming and calls options.
 
     Parameters
     ----------

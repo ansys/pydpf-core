@@ -41,8 +41,10 @@ def test_set_get_data_property_field(server_type):
     assert np.allclose(field.data, data)
 
 
-@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_1,
-                    reason="Available starting with DPF 8.1")
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_1,
+    reason="Available starting with DPF 8.1",
+)
 def test_set_get_name_property_field(server_type):
     field = dpf.core.PropertyField(server=server_type)
     field.name = "test"

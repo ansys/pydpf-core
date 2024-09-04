@@ -40,7 +40,7 @@ from ansys.dpf.gate import object_handler, capi, dpf_vector, integral_types
 
 
 def update_virtual_environment_for_custom_operators(
-        restore_original: bool = False,
+    restore_original: bool = False,
 ):
     """Updates the dpf-site.zip file used to start a venv for Python custom operators to run in.
 
@@ -83,6 +83,7 @@ def update_virtual_environment_for_custom_operators(
             shutil.move(src=current_dpf_site_zip_path, dst=original_dpf_site_zip_path)
         # Get the current paths to site_packages
         import site
+
         paths_to_current_site_packages = site.getsitepackages()
         current_site_packages_path = None
         # Get the first one targeting an actual site-packages folder
@@ -126,7 +127,7 @@ def update_virtual_environment_for_custom_operators(
                 ignore=lambda directory, contents: ["__pycache__"],
             )
             # Find the .dist_info folder
-            pattern = re.compile(r'^ansys_dpf_core\S*')
+            pattern = re.compile(r"^ansys_dpf_core\S*")
             for p in pathlib.Path(current_site_packages_path).iterdir():
                 if p.is_dir():
                     # print(p.stem)
@@ -141,14 +142,16 @@ def update_virtual_environment_for_custom_operators(
             base_name = os.path.join(tmpdir, "ansys_dpf_core_zip")
             base_dir = "."
             root_dir = os.path.join(tmpdir, "ansys_dpf_core")  # OK
-            shutil.make_archive(base_name=base_name, root_dir=root_dir, base_dir=base_dir, format='zip')
+            shutil.make_archive(
+                base_name=base_name, root_dir=root_dir, base_dir=base_dir, format="zip"
+            )
             # Include files of interest from the original dpf-site.zip and the ansys_dpf_core.zip
             with zipfile.ZipFile(current_dpf_site_zip_path, "w") as archive:
                 with zipfile.ZipFile(original_dpf_site_zip_path, mode="r") as original:
                     for item in original.infolist():
                         if "ansys" not in item.filename:
                             archive.writestr(item, original.read(item))
-                with zipfile.ZipFile(base_name+'.zip', mode="r") as original:
+                with zipfile.ZipFile(base_name + ".zip", mode="r") as original:
                     for item in original.infolist():
                         archive.writestr(item, original.read(item))
 

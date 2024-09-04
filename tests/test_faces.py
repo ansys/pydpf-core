@@ -11,6 +11,7 @@ def model_faces(fluent_axial_comp):
     faces = model.metadata.meshed_region.faces
     return faces
 
+
 @pytest.fixture()
 def mesh_wo_faces(simple_bar):
     model = dpf.Model(simple_bar)
@@ -79,6 +80,7 @@ def test_face_scoping():
     assert faces_sco.size == 3
     assert faces_sco.ids[2] == 4
 
+
 @pytest.mark.skipif(
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
     reason="faces location was not supported before 7.0",
@@ -90,7 +92,7 @@ def test_mesh_without_faces(mesh_wo_faces):
     assert mesh_wo_faces.faces.faces_nodes_connectivity_field.size == 0
     with pytest.raises(ValueError) as e:
         mesh_wo_faces.faces.face_by_id(1)
-        assert 'face not found' in e
+        assert "face not found" in e
     with pytest.raises(ValueError) as e:
         mesh_wo_faces.faces.face_by_index(1)
-        assert 'face not found' in e
+        assert "face not found" in e

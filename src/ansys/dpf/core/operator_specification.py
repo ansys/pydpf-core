@@ -60,7 +60,13 @@ class PinSpecification:
     name_derived_class = str
 
     def __init__(
-        self, name: str, type_names: list, document="", optional=False, ellipsis=False, name_derived_class=""
+        self,
+        name: str,
+        type_names: list,
+        document="",
+        optional=False,
+        ellipsis=False,
+        name_derived_class="",
     ):
         self.name = name
         self.type_names = type_names
@@ -233,7 +239,12 @@ class Specification(SpecificationBase):
     'result file path container, used if no streams are set'
     """
 
-    def __init__(self, operator_name: Union[str, None]=None, specification: Union[Specification, None]=None, server: Union[server_module.BaseServer, None]=None):
+    def __init__(
+        self,
+        operator_name: Union[str, None] = None,
+        specification: Union[Specification, None] = None,
+        server: Union[server_module.BaseServer, None] = None,
+    ):
         # step 1: get server
         self._server = server_module.get_or_create_server(
             specification._server if isinstance(specification, Specification) else server

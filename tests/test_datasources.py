@@ -59,6 +59,7 @@ def test_setresultpath_data_sources_no_extension(d3plot_beam, binout_glstat, ser
 
 def test_set_resultpath_data_sources_h5(server_type):
     from ansys.dpf.core import examples
+
     cas_h5_file = examples.download_fluent_axial_comp(server=server_type)["cas"][0]
     data_sources = dpf.core.DataSources(server=server_type)
     data_sources.set_result_file_path(cas_h5_file)
@@ -69,6 +70,7 @@ def test_set_resultpath_data_sources_h5(server_type):
 
 def test_set_resultpath_data_sources_cff(server_type):
     from ansys.dpf.core import examples
+
     cas_h5_file = examples.download_cfx_heating_coil(server=server_type)["cas"]
     data_sources = dpf.core.DataSources(server=server_type)
     data_sources.set_result_file_path(cas_h5_file)
@@ -79,6 +81,7 @@ def test_set_resultpath_data_sources_cff(server_type):
 
 def test_set_resultpath_data_sources_cfx_res(server_type):
     from ansys.dpf.core import examples
+
     res_file = examples.download_cfx_mixing_elbow(server=server_type)
     data_sources = dpf.core.DataSources(server=server_type)
     data_sources.set_result_file_path(res_file)

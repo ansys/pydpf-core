@@ -102,7 +102,6 @@ class _PyVistaPlotter:
         self._plotter.add_mesh(plane_plot, **kwargs)
 
     def add_mesh(self, meshed_region, deform_by=None, scale_factor=1.0, as_linear=True, **kwargs):
-
         kwargs = self._set_scalar_bar_title(kwargs)
 
         # Set defaults for PyDPF
@@ -337,7 +336,6 @@ class _PyVistaPlotter:
             self._plotter.add_mesh(src, **kwargs_in)
 
     def show_figure(self, **kwargs):
-
         text = kwargs.pop("text", None)
         if text is not None:
             self._plotter.add_text(text, position="lower_edge")

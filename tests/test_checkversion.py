@@ -12,14 +12,14 @@ def test_get_server_version(server_type):
     assert isinstance(version_blank, str)
     split = version_blank.split(".")
     assert len(split) >= 2
-    v_blank = float(split[0]+"."+split[1])
+    v_blank = float(split[0] + "." + split[1])
     assert v_blank >= 2.0
     # version specifying sever
     version = check_version.get_server_version(server_type)
     assert isinstance(version, str)
     split = version.split(".")
     assert len(split) >= 2
-    v = float(split[0]+"."+split[1])
+    v = float(split[0] + "." + split[1])
     assert v >= 2.0
 
 

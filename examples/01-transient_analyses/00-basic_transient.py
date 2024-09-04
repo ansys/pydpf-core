@@ -9,6 +9,7 @@ This example shows how to postprocess a transient result and
 visualize the outputs.
 
 """
+
 # Import the necessary modules
 import matplotlib.pyplot as plt
 import numpy as np

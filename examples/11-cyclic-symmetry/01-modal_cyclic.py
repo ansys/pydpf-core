@@ -80,7 +80,7 @@ scyc_op = dpf.operators.result.cyclic_expanded_stress(
 # extract Sx (use component selector and select the first component)
 comp_sel = dpf.operators.logic.component_selector_fc(scyc_op, 0)
 
-# expand the displacements and get the resuls
+# expand the displacements and get the results
 fields = comp_sel.outputs.fields_container()
 
 # plot the expanded result on the expanded mesh
@@ -105,7 +105,7 @@ to_elemental = dpf.operators.averaging.to_elemental_fc(scyc_op)
 # extract Sy (use component selector and select the component 1)
 comp_sel = dpf.operators.logic.component_selector_fc(to_elemental, 1)
 
-# expand the displacements and get the resuls
+# expand the displacements and get the results
 fields = comp_sel.outputs.fields_container()
 
 # # plot the expanded result on the expanded mesh

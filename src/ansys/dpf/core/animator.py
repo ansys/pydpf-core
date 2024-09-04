@@ -5,6 +5,7 @@ This module contains the DPF animator class.
 
 Contains classes used to animate results based on workflows using PyVista.
 """
+
 import numpy as np
 from typing import Union, Sequence
 
@@ -39,7 +40,6 @@ class _PyVistaAnimator(_PyVistaPlotter):
         scale_factor=1.0,
         **kwargs,
     ):
-
         unit = loop_over.unit
         indices = loop_over.scoping.ids
 

@@ -2,6 +2,7 @@
 Core
 ====
 """
+
 import os
 import logging
 import warnings
@@ -263,7 +264,6 @@ def _description(dpf_entity_message, server=None):
         return ""
 
 
-
 def _deep_copy(dpf_entity, server=None):
     """Returns a copy of the entity in the requested server
 
@@ -284,6 +284,7 @@ def _deep_copy(dpf_entity, server=None):
     """
     from ansys.dpf.core.operators.serialization import serializer_to_string, string_deserializer
     from ansys.dpf.core.common import types_enum_to_types, types
+
     entity_server = dpf_entity._server if hasattr(dpf_entity, "_server") else None
     serializer = serializer_to_string(server=entity_server)
     serializer.connect(1, dpf_entity)
@@ -502,9 +503,7 @@ class BaseService:
     def initialize(self):
         """Initialize a DPF server without a context."""
         if self._server().has_client():
-            self._api.data_processing_initialization_on_client(
-                self._server().client
-            )
+            self._api.data_processing_initialization_on_client(self._server().client)
         else:
             self._api.data_processing_initialization()
 
@@ -613,7 +612,7 @@ class BaseService:
                 size = integral_types.MutableUInt64(0)
                 out = self._api.data_processing_description_string_with_size(data, size)
                 if out is not None and not isinstance(out, str):
-                    return out.decode('utf-8')
+                    return out.decode("utf-8")
             else:
                 return self._api.data_processing_description_string(data=data)
         except Exception as e:

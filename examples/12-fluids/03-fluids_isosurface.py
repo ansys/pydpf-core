@@ -85,8 +85,9 @@ pl.add_mesh(
 
 vec_iso_values = [-153.6, -100.0, -50.0, 50.0, 100.0, 150.0, 200.0, 300.0, 361.8]
 
-iso_surfaces_op = dpf.operators.mesh.iso_surfaces(field=P_S[0], mesh=whole_mesh, slice_surfaces=True,
-                                              vector_iso_values=vec_iso_values)
+iso_surfaces_op = dpf.operators.mesh.iso_surfaces(
+    field=P_S[0], mesh=whole_mesh, slice_surfaces=True, vector_iso_values=vec_iso_values
+)
 
 iso_surfaces_meshes = iso_surfaces_op.outputs.meshes()
 
@@ -94,8 +95,11 @@ iso_surfaces_fields = iso_surfaces_op.outputs.fields_container()
 
 for i in range(len(iso_surfaces_fields)):
     pl.add_field(
-        field=iso_surfaces_fields[i], meshed_region=iso_surfaces_meshes[i], style="surface", show_edges=False,
-        show_axes=True
+        field=iso_surfaces_fields[i],
+        meshed_region=iso_surfaces_meshes[i],
+        style="surface",
+        show_edges=False,
+        show_axes=True,
     )
 
 pl.show_figure(show_axes=True, cpos=c_pos_iso)

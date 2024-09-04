@@ -127,6 +127,7 @@ def get_runtime_client_config(server=None):
     """
     from ansys.dpf.core.runtime_config import RuntimeClientConfig
     from ansys.dpf import core as root
+
     if server is None:
         server = root.SERVER
     if server is not None and server.has_client():
@@ -140,6 +141,7 @@ def get_runtime_client_config(server=None):
     else:
         if misc.RUNTIME_CLIENT_CONFIG is None:
             from ansys.dpf.gate import misc as gate_misc
+
             misc.RUNTIME_CLIENT_CONFIG = gate_misc.client_config()
         config_to_return = misc.RUNTIME_CLIENT_CONFIG
     return config_to_return
