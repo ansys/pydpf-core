@@ -66,10 +66,10 @@ jobs:
         run: |
           wheel_file=$(find ./dpf-standalone/v${{ github.event.inputs.ANSYS_VERSION }}/dist -name "ansys_dpf_gate-*"  -type f)
           echo $wheel_file
-          rm -r src/ansys/dpf/gate
-          unzip -o $wheel_file "ansys/**/*" -d src/
-          chmod -R 777 src/ansys/dpf/gate
-          git add -f src/ansys/dpf/gate
+          rm -r src/ansys/dpf/gate/generated
+          unzip -o $wheel_file "ansys/dpf/gate/generated/*" -d src/ansys/dpf/gate/generated
+          chmod -R 777 src/ansys/dpf/gate/generated
+          git add -f src/ansys/dpf/gate/generated
 
       - name: "Update ansys-dpf-gatebin lin"
         shell: bash
