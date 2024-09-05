@@ -958,6 +958,29 @@ def test_output_any(server_type):
     assert output_field.scoping.size == 3
 
 
+@pytest.mark.skipif(condition=not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
+                    reason="Input of Any requires DPF 7.0 or above.")
+def test_input_any(server_type):
+    field = dpf.core.Field(nentities=3, server=server_type)
+    data = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    scop = dpf.core.Scoping(server=server_type)
+    scop.ids = [1, 2, 3]
+    field.data = data
+    field.scoping = scop
+
+    inpt = dpf.core.Any.new_from(field)
+    fwd = dpf.core.Operator(name="forward", server=server_type)
+
+    wf = dpf.core.Workflow(server=server_type)
+    wf.add_operator(fwd)
+    wf.set_input_name("in", fwd, 0)
+    wf.set_output_name("out", fwd, 0)
+
+    wf.connect(pin_name="in", inpt=inpt)
+    output = wf.get_output(pin_name="out", output_type=dpf.core.types.field)
+    assert isinstance(output, dpf.core.Field)
+
+
 def main():
     test_connect_field_workflow()
     velocity_acceleration = conftest.resolve_test_file("velocity_acceleration.rst", "rst_operators")

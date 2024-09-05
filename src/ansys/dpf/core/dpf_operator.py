@@ -472,9 +472,11 @@ class Operator:
             workflow,
             model,
             generic_data_container,
+            any,
         )
 
         out = [
+            (any.Any, self._api.operator_connect_any),
             (bool, self._api.operator_connect_bool),
             ((int, Enum), self._api.operator_connect_int),
             (str, self._connect_string),
