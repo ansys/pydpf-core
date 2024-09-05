@@ -73,10 +73,10 @@ class LabelSpace:
             self._api.label_space_add_data(self, key, index)
 
     def __str__(self):
-        return str(self.__dict__())
+        return str(dict(self))
 
     def __iter__(self):
-        return iter(self.__dict__())
+        return iter(dict(self))
 
     def __dict__(self):
         if isinstance(self._internal_obj, dict):
