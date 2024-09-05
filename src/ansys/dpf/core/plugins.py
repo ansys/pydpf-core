@@ -4,7 +4,9 @@ Python DPF plugins utilities
 Contains the utilities specific to installing and using Python DPF plugins.
 
 """
+
 import os.path
+
 try:
     import importlib.metadata as importlib_metadata
 except ImportError:  # Python < 3.10 (backport)
@@ -38,7 +40,7 @@ def load_plugin_on_server(plugin, server=None, symbol="load_operators", generate
         file_path = [p for p in importlib_metadata.files(plugin) if "__init__.py" in str(p)][0]
         plugin_path = str(os.path.dirname(file_path.locate()))
         # For some reason the "locate()" function returns a path with src doubled
-        plugin_path = plugin_path.replace("src"+os.path.sep+"src", "src")
+        plugin_path = plugin_path.replace("src" + os.path.sep + "src", "src")
     elif len([p for p in importlib_metadata.files(plugin) if ".pth" in str(p)]) > 0:
         path_file = [p for p in importlib_metadata.files(plugin) if ".pth" in str(p)][0].locate()
         with open(path_file, "r") as file:
@@ -46,7 +48,7 @@ def load_plugin_on_server(plugin, server=None, symbol="load_operators", generate
         plugin_path = os.path.join(plugin_path, "ansys", "dpf", "plugins", plugin_name)
     else:
         raise ModuleNotFoundError(f"Could not locate files for plugin {plugin}")
-    
+
     target_plugin_path = dpf.path_utilities.join(tmp_folder, "ansys", "dpf", "plugins", plugin_name)
     target_xml_path = dpf.path_utilities.join(tmp_folder, "ansys", "dpf", "plugins")
 

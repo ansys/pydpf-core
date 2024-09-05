@@ -6,6 +6,7 @@ from ansys import dpf
 import conftest
 from ansys.dpf.core.check_version import server_meet_version
 
+
 @pytest.fixture()
 def simple_bar_model(simple_bar, server_type):
     return dpf.core.Model(simple_bar, server=server_type)
@@ -581,7 +582,8 @@ def test_mesh_deep_copy(allkindofcomplexity, server_type):
 
 
 @pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available with CFF starting 7.0"
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
+    reason="Available with CFF starting 7.0",
 )
 def test_mesh_deep_copy_large(fluent_multiphase, server_type):
     model = dpf.core.Model(fluent_multiphase(server=server_type), server=server_type)

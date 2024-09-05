@@ -74,7 +74,6 @@ class CacheHandler:
     """
 
     def __init__(self, cls, getters_to_setters_dict):
-
         self.getter_to_setters_name = {}
         for getter, setters in getters_to_setters_dict.items():
             setters_name = []

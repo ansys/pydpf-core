@@ -1,5 +1,4 @@
-"""Streamlines computation specific helpers.
-"""
+"""Streamlines computation specific helpers."""
 
 import numpy as np
 import warnings

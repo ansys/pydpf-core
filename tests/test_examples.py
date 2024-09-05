@@ -1,4 +1,5 @@
 """Verify all examples can be accessed or downloaded"""
+
 import os.path
 
 import pytest

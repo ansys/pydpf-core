@@ -29,4 +29,4 @@ def test_operator_mesh_plan_clip_rst(simple_bar):
         op.inputs.normal.connect(plane)
         op.inputs.origin.connect(origin)
         field: dpf.Field = op.outputs.field()
-        assert field.max().data[0] > 1.e-7
+        assert field.max().data[0] > 1.0e-7

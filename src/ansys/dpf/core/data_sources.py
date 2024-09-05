@@ -4,6 +4,7 @@
 Data Sources
 ============
 """
+
 import os
 import warnings
 import traceback
@@ -160,7 +161,7 @@ class DataSources:
         return new_key
 
     def set_domain_result_file_path(
-            self, path: Union[str, os.PathLike], domain_id: int, key: Union[str, None] = None
+        self, path: Union[str, os.PathLike], domain_id: int, key: Union[str, None] = None
     ):
         """Add a result file path by domain.
 

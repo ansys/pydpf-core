@@ -11,6 +11,7 @@ from ansys.dpf.core.common import locations, shell_layers
 from conftest import running_docker, SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0
 from ansys.dpf.core.check_version import server_meet_version
 
+
 @pytest.fixture()
 def stress_field(allkindofcomplexity, server_type):
     model = dpf.core.Model(allkindofcomplexity, server=server_type)
@@ -1305,6 +1306,7 @@ def test_field_no_inprocess_localfield(server_in_process, allkindofcomplexity):
 
 
 if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0:
+
     def test_deep_copy_2_field(server_type, server_in_process):
         data = np.random.random(10)
         field_a = dpf.core.field_from_array(data, server=server_type)
@@ -1312,7 +1314,6 @@ if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0:
 
         out = dpf.core.core._deep_copy(field_a, server_in_process)
         assert np.allclose(out.data, data)
-
 
     def test_deep_copy_2_field_remote(server_type, server_type_remote_process):
         data = np.random.random(10)
@@ -1334,7 +1335,6 @@ elif conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0:
         out = dpf.core.core._deep_copy(field_a, server_in_process)
         assert np.allclose(out.data, data)
 
-
     def test_deep_copy_2_field_remote(server_type):
         data = np.random.random(10)
         field_a = dpf.core.field_from_array(data, server=server_type)
@@ -1344,7 +1344,9 @@ elif conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0:
         assert np.allclose(out.data, data)
 
 
-@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0, reason="Available for servers >=8.0")
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0, reason="Available for servers >=8.0"
+)
 def test_deep_copy_big_field(server_type, server_in_process):
     data = np.random.random(100000)
     field_a = dpf.core.field_from_array(data, server=server_type)
@@ -1354,7 +1356,9 @@ def test_deep_copy_big_field(server_type, server_in_process):
     assert np.allclose(out.data, data)
 
 
-@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0, reason="Available for servers >=8.0")
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0, reason="Available for servers >=8.0"
+)
 def test_deep_copy_big_field_remote(server_type, server_type_remote_process):
     data = np.random.random(100000)
     field_a = dpf.core.field_from_array(data, server=server_type)

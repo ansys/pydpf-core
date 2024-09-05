@@ -132,9 +132,9 @@ class Config:
         options = {}
         num_options = self._api.operator_config_get_num_config(self)
         for i in range(num_options):
-            options[
-                self._api.operator_config_get_config_option_name(self, i)
-            ] = self._api.operator_config_get_config_option_printable_value(self, i)
+            options[self._api.operator_config_get_config_option_name(self, i)] = (
+                self._api.operator_config_get_config_option_printable_value(self, i)
+            )
         return options
 
     def __set_config_option__(self, config_value, config_name):

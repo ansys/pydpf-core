@@ -11,7 +11,11 @@ import traceback
 import warnings
 
 from enum import Enum
-from ansys.dpf.core.check_version import version_requires, server_meet_version, server_meet_version_and_raise
+from ansys.dpf.core.check_version import (
+    version_requires,
+    server_meet_version,
+    server_meet_version_and_raise,
+)
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.errors import DpfVersionNotSupported
 from ansys.dpf.core.inputs import Inputs
@@ -31,7 +35,7 @@ from ansys.dpf.gate import (
     collection_grpcapi,
     dpf_vector,
     object_handler,
-    integral_types
+    integral_types,
 )
 
 LOG = logging.getLogger(__name__)
@@ -287,12 +291,12 @@ class Operator:
     def _getoutput_string(self, pin):
         out = Operator._getoutput_string_as_bytes(self, pin)
         if out is not None and not isinstance(out, str):
-            return out.decode('utf-8')
+            return out.decode("utf-8")
         return out
 
     @staticmethod
     def _connect_string(self, pin, str):
-        return Operator._connect_string_as_bytes(self, pin, str.encode('utf-8'))
+        return Operator._connect_string_as_bytes(self, pin, str.encode("utf-8"))
 
     @staticmethod
     def _getoutput_string_as_bytes(self, pin):
@@ -307,7 +311,7 @@ class Operator:
         server_meet_version_and_raise(
             "8.0",
             self._server,
-            "output of type bytes available with server's version starting at 8.0 (Ansys 2024R2)."
+            "output of type bytes available with server's version starting at 8.0 (Ansys 2024R2).",
         )
         return Operator._getoutput_string_as_bytes(self, pin)
 
@@ -438,10 +442,8 @@ class Operator:
             (
                 collection.Collection,
                 self._api.operator_getoutput_as_any,
-                lambda obj, type: any.Any(
-                    server=self._server, any_dpf=obj
-                ).cast(type),
-            )
+                lambda obj, type: any.Any(server=self._server, any_dpf=obj).cast(type),
+            ),
         ]
         if hasattr(self._api, "operator_getoutput_generic_data_container"):
             out.append(

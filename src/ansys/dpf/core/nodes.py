@@ -4,6 +4,7 @@
 Nodes
 =====
 """
+
 import numpy as np
 from ansys.dpf.core.common import nodal_properties, locations
 from ansys.dpf.core.check_version import version_requires

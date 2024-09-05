@@ -13,7 +13,7 @@ from conftest import (
 if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0:
     mechanical = "mechanical"
 else:
-    mechanical = "mecanic"
+    mechanical = "mecanic"  # codespell:ignore mecanic
 
 
 @pytest.fixture()
@@ -120,6 +120,7 @@ Available qualifier labels:"""  # noqa: E501
     else:
         assert len(ar.qualifier_combinations) == 20
 
+
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available with CFF starting 7.0"
 )
@@ -170,11 +171,12 @@ def test_result_info_memory_leaks(model):
 
 def test_create_result_info(server_type):
     from ansys.dpf.core.available_result import Homogeneity
+
     if not server_type.has_client():
         result_info = dpf.core.ResultInfo(
             analysis_type=dpf.core.result_info.analysis_types.static,
             physics_type=dpf.core.result_info.physics_types.mechanical,
-            server=server_type
+            server=server_type,
         )
         result_info.add_result(
             operator_name="operator_name",
@@ -214,15 +216,29 @@ Available results:
             _ = dpf.core.ResultInfo(
                 analysis_type=dpf.core.result_info.analysis_types.static,
                 physics_type=dpf.core.result_info.physics_types.mechanical,
-                server=server_type
+                server=server_type,
             )
 
 
 def test_result_info_add_result(model):
     from ansys.dpf.core.available_result import Homogeneity
+
     res = model.metadata.result_info
     if not model._server.has_client():
         res.add_result(
+            operator_name="operator_name",
+            scripting_name="scripting_name",
+            homogeneity=Homogeneity.temperature,
+            location=dpf.core.locations.nodal,
+            nature=dpf.core.natures.scalar,
+            dimensions=None,
+            description="description",
+        )
+    else:
+        with pytest.raises(
+            NotImplementedError, match="Cannot add a result to a ResultInfo via gRPC."
+        ):
+            res.add_result(
                 operator_name="operator_name",
                 scripting_name="scripting_name",
                 homogeneity=Homogeneity.temperature,
@@ -231,18 +247,3 @@ def test_result_info_add_result(model):
                 dimensions=None,
                 description="description",
             )
-    else:
-        with pytest.raises(
-                NotImplementedError,
-                match="Cannot add a result to a ResultInfo via gRPC."
-        ):
-            res.add_result(
-                    operator_name="operator_name",
-                    scripting_name="scripting_name",
-                    homogeneity=Homogeneity.temperature,
-                    location=dpf.core.locations.nodal,
-                    nature=dpf.core.natures.scalar,
-                    dimensions=None,
-                    description="description",
-                )
-

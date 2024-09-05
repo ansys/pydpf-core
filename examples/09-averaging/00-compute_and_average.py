@@ -74,7 +74,6 @@ analysis = examples.download_crankshaft()
 
 
 def compute_von_mises_then_average(analysis):
-
     # Create a model from the results of the simulation and retrieve its mesh
     model = dpf.Model(analysis)
     mesh = model.metadata.meshed_region
@@ -112,7 +111,6 @@ def compute_von_mises_then_average(analysis):
 
 
 def average_then_compute_von_mises(analysis):
-
     # Creating the model from the results of the simulation
     model = dpf.Model(analysis)
     mesh = model.metadata.meshed_region
@@ -158,9 +156,7 @@ print("Max stress when Von Mises is computed first: {:.2f} Pa".format(max1))
 print("Max stress when the stress averaging is done first: {:.2f} Pa".format(max2))
 print(
     "The maximum Von Mises stress value is {:.2f}% higher when \
-the averaging is done after the calculations.".format(
-        diff
-    )
+the averaging is done after the calculations.".format(diff)
 )
 
 ###############################################################################

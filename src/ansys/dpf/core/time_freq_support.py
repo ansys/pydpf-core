@@ -4,6 +4,7 @@
 TimeFreqSupport
 ===============
 """
+
 from ansys.dpf.gate import time_freq_support_capi, time_freq_support_grpcapi
 
 from ansys import dpf
@@ -243,7 +244,7 @@ class TimeFreqSupport(Support):
         return self._sets_count()
 
     def get_frequency(self, step=0, substep=0, cumulative_index=None, cplx=False):
-        """Retrieve the frequence corresponding to a requested step/substep or
+        """Retrieve the frequency corresponding to a requested step/substep or
         cumulative index.
 
         Parameters
@@ -265,7 +266,7 @@ class TimeFreqSupport(Support):
         return self._get_frequency(step, substep, cumulative_index, cplx)
 
     def _get_frequency(self, step, substep, cumulative_index, cplx):
-        """Retrieves the frequence corresponding to the requested step/substep or
+        """Retrieves the frequency corresponding to the requested step/substep or
         cumulative index.
         """
         if cumulative_index is None:

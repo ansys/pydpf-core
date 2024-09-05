@@ -8,6 +8,7 @@ Extracting the skin of a mesh to reduce the amount of data to operate on
 can be useful for specific results and for performance.
 
 """
+
 # Import necessary modules
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples

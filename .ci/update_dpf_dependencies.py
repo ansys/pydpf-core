@@ -12,6 +12,7 @@ Define environment variables to know where to get the code from:
 It will update the current repo
 or the repo defined by the environment variable "ANSYSDPFCORE_ROOT" if it exists.
 """
+
 import os
 import glob
 import pathlib

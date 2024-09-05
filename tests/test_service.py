@@ -50,7 +50,7 @@ def test_loadplugin(server_type):
 @pytest.mark.skipif(
     platform.system() == "Windows"
     and (
-            platform.python_version().startswith("3.8") or platform.python_version().startswith("3.7")
+        platform.python_version().startswith("3.8") or platform.python_version().startswith("3.7")
     ),
     reason="Random SEGFAULT in the GitHub pipeline for 3.7-8 on Windows",
 )
@@ -84,7 +84,7 @@ def test_upload_download(tmpdir, server_type_remote_process):
 
 @pytest.mark.skipif(running_docker, reason="Path hidden within docker container")
 def test_download_folder(
-        allkindofcomplexity, plate_msup, multishells, tmpdir, server_type_remote_process
+    allkindofcomplexity, plate_msup, multishells, tmpdir, server_type_remote_process
 ):
     tmpdir = str(tmpdir)
     file = dpf.core.upload_file_in_tmp_folder(
@@ -465,8 +465,8 @@ def test_context_environment_variable(reset_context_environment_variable):
     # Test raise on wrong value
     os.environ[key] = "PREM"
     with pytest.warns(
-            UserWarning,
-            match="which is not recognized as an available " "DPF ServerContext type.",
+        UserWarning,
+        match="which is not recognized as an available " "DPF ServerContext type.",
     ):
         reload(s_c)
     assert s_c.SERVER_CONTEXT == s_c.AvailableServerContexts.premium
@@ -482,15 +482,14 @@ def test_context_environment_variable(reset_context_environment_variable):
 
 
 @pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
-    reason="Failures on Windows 231"
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0, reason="Failures on Windows 231"
 )
 def test_server_without_context(remote_config_server_type):
     """Tests starting a server without a no_context given."""
     server = dpf.core.start_local_server(
         as_global=False,
         config=remote_config_server_type,
-        context=dpf.core.AvailableServerContexts.no_context
+        context=dpf.core.AvailableServerContexts.no_context,
     )
     none_type = dpf.core.AvailableServerContexts.no_context.licensing_context_type
     assert server.context.licensing_context_type == none_type
@@ -537,7 +536,7 @@ def test_license_context_manager_as_context(server_type):
     op.inputs.field(field)
     op.inputs.threshold(0.0)
     with dpf.core.LicenseContextManager(
-            increment_name="ansys", license_timeout_in_seconds=1.0, server=server_type
+        increment_name="ansys", license_timeout_in_seconds=1.0, server=server_type
     ) as lic:
         out = op.outputs.field()
         st = lic.status
@@ -546,10 +545,7 @@ def test_license_context_manager_as_context(server_type):
     assert "ansys" not in st
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_9_1,
-    reason="Bug"
-)
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_9_1, reason="Bug")
 def test_print_non_utf8_string():
     op = dpf.core.Operator("generate_uuid")
     out_str = op.get_output(0, dpf.core.types.string)

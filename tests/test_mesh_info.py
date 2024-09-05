@@ -469,24 +469,22 @@ def test_mesh_info_zones(fluent_multi_species, server_clayer):
     model = dpf.Model(fluent_multi_species(server_clayer), server=server_clayer)
     mesh_info = model.metadata.mesh_info
     ref_zones = {
-        '1': 'fluid-1',
-        '3': 'interior-3',
-        '4': 'symmetry-4',
-        '5': 'pressure-outlet-5',
-        '6': 'wall-6',
-        '7': 'velocity-inlet-7'
+        "1": "fluid-1",
+        "3": "interior-3",
+        "4": "symmetry-4",
+        "5": "pressure-outlet-5",
+        "6": "wall-6",
+        "7": "velocity-inlet-7",
     }
     assert mesh_info.zones == ref_zones
-    ref_cell_zones = {
-        '1': 'fluid-1'
-    }
+    ref_cell_zones = {"1": "fluid-1"}
     assert mesh_info.cell_zones == ref_cell_zones
     ref_face_zones = {
-        '3': 'interior-3',
-        '4': 'symmetry-4',
-        '5': 'pressure-outlet-5',
-        '6': 'wall-6',
-        '7': 'velocity-inlet-7'
+        "3": "interior-3",
+        "4": "symmetry-4",
+        "5": "pressure-outlet-5",
+        "6": "wall-6",
+        "7": "velocity-inlet-7",
     }
     assert mesh_info.face_zones == ref_face_zones
 
@@ -496,10 +494,10 @@ def test_mesh_info_zones(fluent_multi_species, server_clayer):
 )
 def test_mesh_info_parts(server_type):
     parts = ["part_1", "part_2"]
-    part_ids = list(range(1, len(parts)+1))
+    part_ids = list(range(1, len(parts) + 1))
     part_names = dpf.StringField(nentities=len(part_ids))
     for part_id in part_ids:
-        part_names.append(data=[parts[part_id-1]], scopingid=part_id)
+        part_names.append(data=[parts[part_id - 1]], scopingid=part_id)
     part_scoping = dpf.Scoping(location="part", ids=part_ids)
     gdc = dpf.GenericDataContainer()
     gdc.set_property(property_name="part_names", prop=part_names)
@@ -515,5 +513,5 @@ def test_mesh_info_parts(server_type):
 def test_mesh_info_bodies(fluent_multi_species, server_type):
     model = dpf.Model(fluent_multi_species(server_type), server=server_type)
     mesh_info = model.metadata.mesh_info
-    ref_bodies = {'1': 'fluid-1'}
+    ref_bodies = {"1": "fluid-1"}
     assert mesh_info.bodies == ref_bodies

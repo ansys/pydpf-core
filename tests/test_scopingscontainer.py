@@ -10,7 +10,7 @@ from ansys.dpf.core import Scoping, ScopingsContainer
 
 @pytest.fixture()
 def elshape_body_sc(server_type):
-    """Returns a scopings continer with 20 scoping split on body and elshape"""
+    """Returns a scopings container with 20 scoping split on body and elshape"""
     sc = ScopingsContainer(server=server_type)
     sc.labels = ["elshape", "body"]
     for i in range(0, 20):

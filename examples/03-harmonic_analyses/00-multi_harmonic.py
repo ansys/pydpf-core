@@ -8,6 +8,7 @@ This example shows how to compute a multi-harmonic response
 using ``fft`` transformations.
 
 """
+
 import matplotlib.pyplot as pyplot
 
 from ansys.dpf import core as dpf

@@ -5,6 +5,7 @@ Results
 ========
 This module contains the Results and Result classes that are created by the model
 to easily access results in result files."""
+
 import functools
 
 from ansys.dpf.core import Operator

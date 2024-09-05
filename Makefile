@@ -21,7 +21,7 @@ pydocstyle:
 	@pydocstyle ansys.dpf.core
 
 doctest-modules:
-	@echo "Runnnig module doctesting"
+	@echo "Running module doctesting"
 	pytest -v --doctest-modules ansys.dpf.core
 
 coverage:
