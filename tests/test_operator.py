@@ -1365,8 +1365,8 @@ def test_output_any(server_type):
 
 
 @pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, 
-   reason="Input of Any requires DPF 7.0 or above."
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
+    reason="Input of Any requires DPF 7.0 or above.",
 )
 def test_input_any(server_type):
     field = dpf.core.Field(nentities=3, server=server_type)
