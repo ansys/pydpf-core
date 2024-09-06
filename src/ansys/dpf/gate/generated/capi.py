@@ -763,6 +763,18 @@ def load_api(path):
 		dll.DataProcessing_create_param_tree.argtypes = (ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.DataProcessing_create_param_tree.restype = ctypes.c_void_p
 
+	if hasattr(dll, "DataProcessing_logging_register_logger"):
+		dll.DataProcessing_logging_register_logger.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.DataProcessing_logging_register_logger.restype = None
+
+	if hasattr(dll, "DataProcessing_logging_log_message"):
+		dll.DataProcessing_logging_log_message.argtypes = (ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_char), ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.DataProcessing_logging_log_message.restype = None
+
+	if hasattr(dll, "DataProcessing_logging_flush"):
+		dll.DataProcessing_logging_flush.argtypes = (ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.DataProcessing_logging_flush.restype = None
+
 	if hasattr(dll, "DataProcessing_initialization_on_client"):
 		dll.DataProcessing_initialization_on_client.argtypes = (ctypes.c_void_p, )
 		dll.DataProcessing_initialization_on_client.restype = None
