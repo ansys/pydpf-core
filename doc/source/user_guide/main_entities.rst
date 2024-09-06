@@ -1,14 +1,7 @@
 .. _ref_main_entities:
 
-DPF most-used entities
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. toctree::
-   :hidden:
-
-   model
-   operators
-   fields_container
+Tutorials
+~~~~~~~~~
 
 .. card-carousel:: 2
 

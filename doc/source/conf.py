@@ -87,6 +87,8 @@ extensions = [
     "sphinx_design",
     "sphinx_gallery.gen_gallery",
     'sphinx_reredirects',
+    "sphinx_codeautolink",
+
 ]
 
 redirects = {
@@ -185,6 +187,7 @@ sphinx_gallery_conf = {
     #                         "set_plot_theme('document')"),
     "reset_modules_order": 'both',
     "reset_modules": (reset_servers,),
+
 }
 
 autodoc_member_order = "bysource"
