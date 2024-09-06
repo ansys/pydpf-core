@@ -76,7 +76,13 @@ class LabelSpace:
         return str(dict(self))
 
     def __iter__(self):
-        return iter(dict(self))
+        yield from [
+            (
+                self._api.label_space_get_labels_name(self, i),
+                self._api.label_space_get_labels_value(self, i),
+            )
+            for i in range(self._api.label_space_get_size(self))
+        ]
 
     def __dict__(self):
         if isinstance(self._internal_obj, dict):
