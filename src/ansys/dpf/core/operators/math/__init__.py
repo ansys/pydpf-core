@@ -85,7 +85,9 @@ from .sqrt_fc import sqrt_fc
 from .svd import svd 
 from .sweeping_phase import sweeping_phase 
 from .sweeping_phase_fc import sweeping_phase_fc 
+from .time_derivation import time_derivation 
 from .time_freq_interpolation import time_freq_interpolation 
+from .time_integration import time_integration 
 from .unit_convert import unit_convert 
 from .unit_convert_fc import unit_convert_fc 
 from .window_bartlett import window_bartlett 
