@@ -286,6 +286,33 @@ class DataProcessingCAPI(data_processing_abstract_api.DataProcessingAbstractAPI)
 		return res
 
 	@staticmethod
+	def data_processing_logging_register_logger(logger_config_params):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.DataProcessing_logging_register_logger(logger_config_params._internal_obj if logger_config_params is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def data_processing_logging_log_message(logger_name, message, log_level):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.DataProcessing_logging_log_message(utils.to_char_ptr(logger_name), utils.to_char_ptr(message), utils.to_int32(log_level), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def data_processing_logging_flush():
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.DataProcessing_logging_flush(ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def data_processing_initialization_on_client(client):
 		res = capi.dll.DataProcessing_initialization_on_client(client._internal_obj if client is not None else None)
 		return res
