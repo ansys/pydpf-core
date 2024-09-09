@@ -1,5 +1,4 @@
-ANSYS
-Ansys
+(?i)ansys
 APIs
 Abaqus
 CPython
