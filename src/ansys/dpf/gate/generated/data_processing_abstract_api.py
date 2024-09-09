@@ -136,6 +136,18 @@ class DataProcessingAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def data_processing_logging_register_logger(logger_config_params):
+		raise NotImplementedError
+
+	@staticmethod
+	def data_processing_logging_log_message(logger_name, message, log_level):
+		raise NotImplementedError
+
+	@staticmethod
+	def data_processing_logging_flush():
+		raise NotImplementedError
+
+	@staticmethod
 	def data_processing_initialization_on_client(client):
 		raise NotImplementedError
 
