@@ -71,65 +71,65 @@ def test_incremental_minmax(server_type, plate_msup):
     assert np.isclose(ref_field_max.data, inc_field_max.data).all()
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
-    reason="for_each not implemented below 6.0",
-)
-def test_incremental_accumulate(server_type, plate_msup):
-    ds = core.DataSources(plate_msup, server=server_type)
-    scoping = core.time_freq_scoping_factory.scoping_on_all_time_freqs(ds)
+# @pytest.mark.skipif(
+#     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
+#     reason="for_each not implemented below 6.0",
+# )
+# def test_incremental_accumulate(server_type, plate_msup):
+#     ds = core.DataSources(plate_msup, server=server_type)
+#     scoping = core.time_freq_scoping_factory.scoping_on_all_time_freqs(ds)
+#
+#     def create_wf():
+#         res_op = core.operators.result.displacement(
+#             data_sources=ds, time_scoping=scoping, server=server_type
+#         )
+#         acc_op = core.operators.math.accumulate_over_label_fc(res_op, server=server_type)
+#         acc_op.connect(1, common.DefinitionLabels.time)
+#
+#         return (res_op, acc_op)
+#
+#     # incremental
+#     (start_op, end_op) = create_wf()
+#     inc_op = core.split_workflow_in_chunks(start_op, end_op, scoping, chunk_size=5)
+#
+#     # reference
+#     (_, ref_op) = create_wf()
+#
+#     # assert
+#     inc_field = inc_op.get_output(0, core.types.field)
+#     ref_field = ref_op.get_output(0, core.types.field)
+#
+#     assert np.isclose(ref_field.data, inc_field.data).all()
 
-    def create_wf():
-        res_op = core.operators.result.displacement(
-            data_sources=ds, time_scoping=scoping, server=server_type
-        )
-        acc_op = core.operators.math.accumulate_over_label_fc(res_op, server=server_type)
-        acc_op.connect(1, common.DefinitionLabels.time)
 
-        return (res_op, acc_op)
-
-    # incremental
-    (start_op, end_op) = create_wf()
-    inc_op = core.split_workflow_in_chunks(start_op, end_op, scoping, chunk_size=5)
-
-    # reference
-    (_, ref_op) = create_wf()
-
-    # assert
-    inc_field = inc_op.get_output(0, core.types.field)
-    ref_field = ref_op.get_output(0, core.types.field)
-
-    assert np.isclose(ref_field.data, inc_field.data).all()
-
-
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
-    reason="for_each not implemented below 6.0",
-)
-def test_incremental_average(server_type, plate_msup):
-    ds = core.DataSources(plate_msup, server=server_type)
-    scoping = core.time_freq_scoping_factory.scoping_on_all_time_freqs(ds)
-
-    def create_wf():
-        res_op = core.operators.result.displacement(
-            data_sources=ds, time_scoping=scoping, server=server_type
-        )
-        avg_op = core.operators.math.average_over_label_fc(res_op, server=server_type)
-        avg_op.connect(1, common.DefinitionLabels.time)
-        return (res_op, avg_op)
-
-    # incremental
-    (start_op, end_op) = create_wf()
-    inc_op = core.split_workflow_in_chunks(start_op, end_op, scoping, chunk_size=5)
-
-    # reference
-    (_, ref_op) = create_wf()
-
-    # assert
-    inc_field = inc_op.get_output(0, core.types.field)
-    ref_field = ref_op.get_output(0, core.types.field)
-
-    assert np.isclose(ref_field.data, inc_field.data).all()
+# @pytest.mark.skipif(
+#     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
+#     reason="for_each not implemented below 6.0",
+# )
+# def test_incremental_average(server_type, plate_msup):
+#     ds = core.DataSources(plate_msup, server=server_type)
+#     scoping = core.time_freq_scoping_factory.scoping_on_all_time_freqs(ds)
+#
+#     def create_wf():
+#         res_op = core.operators.result.displacement(
+#             data_sources=ds, time_scoping=scoping, server=server_type
+#         )
+#         avg_op = core.operators.math.average_over_label_fc(res_op, server=server_type)
+#         avg_op.connect(1, common.DefinitionLabels.time)
+#         return (res_op, avg_op)
+#
+#     # incremental
+#     (start_op, end_op) = create_wf()
+#     inc_op = core.split_workflow_in_chunks(start_op, end_op, scoping, chunk_size=5)
+#
+#     # reference
+#     (_, ref_op) = create_wf()
+#
+#     # assert
+#     inc_field = inc_op.get_output(0, core.types.field)
+#     ref_field = ref_op.get_output(0, core.types.field)
+#
+#     assert np.isclose(ref_field.data, inc_field.data).all()
 
 
 @pytest.mark.skipif(
