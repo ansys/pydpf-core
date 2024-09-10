@@ -242,9 +242,11 @@ class Workflow:
             model,
             generic_data_container,
             any,
+            streams_container,
         )
 
         out = [
+            (streams_container.StreamsContainer, self._api.work_flow_connect_streams),
             (any.Any, self._api.work_flow_connect_any),
             (bool, self._api.work_flow_connect_bool),
             ((int, Enum), self._api.work_flow_connect_int),
