@@ -473,9 +473,11 @@ class Operator:
             model,
             generic_data_container,
             any,
+            streams_container,
         )
 
         out = [
+            (streams_container.StreamsContainer, self._api.operator_connect_streams),
             (any.Any, self._api.operator_connect_any),
             (bool, self._api.operator_connect_bool),
             ((int, Enum), self._api.operator_connect_int),
