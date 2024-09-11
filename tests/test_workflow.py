@@ -983,7 +983,7 @@ def test_input_any(server_type):
     assert isinstance(output, dpf.core.Field)
 
 
-def test_workflow_input_output_streams(server_type, simple_bar):
+def test_workflow_input_output_streams(server_in_process, simple_bar):
     data_source = dpf.core.DataSources(simple_bar, server=server_type)
     streams_op = dpf.core.operators.metadata.streams_provider(server=server_type)
     streams_op.inputs.data_sources.connect(data_source)
