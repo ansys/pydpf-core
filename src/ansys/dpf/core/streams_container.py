@@ -80,6 +80,7 @@ class StreamsContainer:
         # step3: init environment
         self._api.init_streams_environment(self)  # creates stub when gRPC
 
+    @property
     def datasources(self):
         return data_sources.DataSources(data_sources=self._api.streams_get_data_sources(self))
 
