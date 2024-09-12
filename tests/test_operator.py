@@ -1383,6 +1383,10 @@ def test_input_any(server_type):
     assert len(output.data_as_list) == len(data)
 
 
+@pytest.mark.skipif(
+    condition=not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
+    reason="Input/output of Streams requires DPF 6.0 or above.",
+)
 def test_operator_input_output_streams(server_in_process, simple_bar):
     data_source = dpf.core.DataSources(simple_bar, server=server_in_process)
     streams_op = dpf.core.operators.metadata.streams_provider(server=server_in_process)
