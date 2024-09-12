@@ -1381,3 +1381,18 @@ def test_input_any(server_type):
     output = op.get_output(pin=0, output_type=dpf.core.types.field)
     assert isinstance(output, dpf.core.Field)
     assert len(output.data_as_list) == len(data)
+
+
+@pytest.mark.skipif(
+    condition=not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
+    reason="Input/output of Streams requires DPF 6.0 or above.",
+)
+def test_operator_input_output_streams(server_in_process, simple_bar):
+    data_source = dpf.core.DataSources(simple_bar, server=server_in_process)
+    streams_op = dpf.core.operators.metadata.streams_provider(server=server_in_process)
+    streams_op.inputs.data_sources.connect(data_source)
+    streams = streams_op.outputs.streams_container()
+    time_provider = dpf.core.operators.metadata.time_freq_provider(server=server_in_process)
+    time_provider.connect(pin=3, inpt=streams)
+    times = time_provider.outputs.time_freq_support()
+    assert times

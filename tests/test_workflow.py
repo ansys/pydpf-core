@@ -983,6 +983,31 @@ def test_input_any(server_type):
     assert isinstance(output, dpf.core.Field)
 
 
+@pytest.mark.skipif(
+    condition=not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
+    reason="Input/output of Streams requires DPF 6.0 or above.",
+)
+def test_workflow_input_output_streams(server_in_process, simple_bar):
+    data_source = dpf.core.DataSources(simple_bar, server=server_in_process)
+    streams_op = dpf.core.operators.metadata.streams_provider(server=server_in_process)
+    streams_op.inputs.data_sources.connect(data_source)
+    wf_1 = dpf.core.Workflow(server=server_in_process)
+    wf_1.add_operator(streams_op)
+    wf_1.set_output_name("output_streams", streams_op.outputs.streams_container)
+
+    streams = wf_1.get_output("output_streams", dpf.core.types.streams_container)
+
+    time_provider = dpf.core.operators.metadata.time_freq_provider(server=server_in_process)
+
+    wf_2 = dpf.core.Workflow(server=server_in_process)
+    wf_2.add_operator(time_provider)
+    wf_2.set_input_name("input_streams", time_provider.inputs.streams_container)
+    wf_2.set_output_name("output_tfs", time_provider.outputs.time_freq_support)
+    wf_2.connect("input_streams", streams)
+    times = wf_2.get_output("output_tfs", dpf.core.types.time_freq_support)
+    assert times
+
+
 def main():
     test_connect_field_workflow()
     velocity_acceleration = conftest.resolve_test_file("velocity_acceleration.rst", "rst_operators")
