@@ -34,7 +34,7 @@ class merge_meshes(Operator):
         (default)
     box_size : float, optional
         Box size used when merging by distance.
-        default value is 1e-10.
+        default value is 1e-12.
     remove_duplicate_elements : int, optional
         0: keep duplicate elements (default), 1:
         remove duplicate elements
@@ -147,7 +147,7 @@ class merge_meshes(Operator):
                     type_names=["double"],
                     optional=True,
                     document="""Box size used when merging by distance.
-        default value is 1e-10.""",
+        default value is 1e-12.""",
                 ),
                 103: PinSpecification(
                     name="remove_duplicate_elements",
@@ -339,7 +339,7 @@ class InputsMergeMeshes(_Inputs):
         """Allows to connect box_size input to the operator.
 
         Box size used when merging by distance.
-        default value is 1e-10.
+        default value is 1e-12.
 
         Parameters
         ----------

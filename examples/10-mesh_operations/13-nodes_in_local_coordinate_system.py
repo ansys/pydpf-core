@@ -16,6 +16,7 @@ the GCS, a transformation is required after the rotation to get the correct coor
 The script below demonstrates the methodology using PyDPF.
 
 """
+
 # Import necessary modules
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
@@ -32,7 +33,8 @@ ncoord_f = model.metadata.meshed_region.nodes.coordinates_field
 ###############################################################################
 # Get the rotation matrix of the LCS ID 12.
 # The first 9 values in the ``cs`` output is the rotation matrix.
-cs = model.operator(r"mapdl::rst::CS")
+cs = dpf.operators.result.coordinate_system()
+cs.inputs.data_sources.connect(model)
 cs.inputs.cs_id.connect(12)
 cs_rot_mat = cs.outputs.field.get_data().data.T[0:9]
 

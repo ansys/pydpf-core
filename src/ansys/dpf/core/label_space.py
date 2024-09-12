@@ -1,6 +1,7 @@
 """
 Internal Usage
 """
+
 import warnings
 import traceback
 from ansys.dpf.gate import (
@@ -55,9 +56,9 @@ class LabelSpace:
         out = {}
 
         for i in range(0, self._api.label_space_get_size(self)):
-            out[
-                self._api.label_space_get_labels_name(self, i)
-            ] = self._api.label_space_get_labels_value(self, i)
+            out[self._api.label_space_get_labels_name(self, i)] = (
+                self._api.label_space_get_labels_value(self, i)
+            )
         return out
 
     def __del__(self):

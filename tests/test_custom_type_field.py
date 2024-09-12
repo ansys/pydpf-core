@@ -148,8 +148,7 @@ def test_mutable_data_custom_type_field(server_clayer):
     vec[1][2] = 4
     assert np.allclose(vec, np.array([1, 7, 8, 9, 10, 4]).reshape(2, 3))
     vec = None
-    assert np.allclose(field.get_entity_data_by_id(2), np.array([1, 7, 8, 9, 10, 4]).reshape(2, 3)
-                       )
+    assert np.allclose(field.get_entity_data_by_id(2), np.array([1, 7, 8, 9, 10, 4]).reshape(2, 3))
 
 
 # not using a fixture on purpose: the instance of simple field SHOULD be owned by each test

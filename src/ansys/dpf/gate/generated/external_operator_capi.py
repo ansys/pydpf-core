@@ -739,3 +739,39 @@ class ExternalOperatorCAPI(external_operator_abstract_api.ExternalOperatorAbstra
 			raise errors.DPFServerException(sError.value)
 		return res
 
+	@staticmethod
+	def external_operator_forward_output(deriv_data, output_pin_from_base, input_pin_from_op, op):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.ExternalOperator_forwardOutput(deriv_data, utils.to_int32(output_pin_from_base), utils.to_int32(input_pin_from_op), op._internal_obj if op is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def external_operator_assert_instantiate(deriv_data, op_name):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.ExternalOperator_assertInstantiate(deriv_data, utils.to_char_ptr(op_name), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def external_operator_connect_to_upstream_derivative(deriv_data, current_op, out_pin, ancestor_pin):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.ExternalOperator_connectToUpstreamDerivative(deriv_data, current_op._internal_obj if current_op is not None else None, utils.to_int32(out_pin), utils.to_int32(ancestor_pin), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def external_operator_map_down_stream_derivative(deriv_data, in_pin, current_op):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.ExternalOperator_mapDownStreamDerivative(deriv_data, utils.to_int32(in_pin), current_op._internal_obj if current_op is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+

@@ -19,6 +19,7 @@ from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_2,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0,
 )
 
@@ -315,8 +316,8 @@ def test_inputs_outputs_1_operator(cyclic_lin_rst, cyclic_ds, tmpdir):
     coord = meshed_region.nodes.coordinates_field
     assert coord.shape == (meshed_region.nodes.n_nodes, 3)
     assert (
-            meshed_region.elements.connectivities_field.data.size
-            == meshed_region.elements.connectivities_field.size
+        meshed_region.elements.connectivities_field.data.size
+        == meshed_region.elements.connectivities_field.size
     )
 
 
@@ -1244,8 +1245,8 @@ def test_operator_config_specification_simple(server_type):
     conf_spec = spec.config_specification
     if server_type.os != "posix":
         assert (
-                "enum dataProcessing::EBinaryOperation"
-                or "binary_operation_enum" in conf_spec["binary_operation"].type_names
+            "enum dataProcessing::EBinaryOperation"
+            or "binary_operation_enum" in conf_spec["binary_operation"].type_names
         )
     elif SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_2:
         assert "binary_operation_enum" in conf_spec["binary_operation"].type_names
@@ -1262,8 +1263,8 @@ def test_generated_operator_config_specification_simple(server_type):
     conf_spec = spec.config_specification
     if server_type.os != "posix":
         assert (
-                "enum dataProcessing::EBinaryOperation"
-                or "binary_operation_enum" in conf_spec["binary_operation"].type_names
+            "enum dataProcessing::EBinaryOperation"
+            or "binary_operation_enum" in conf_spec["binary_operation"].type_names
         )
     elif SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_2:
         assert "binary_operation_enum" in conf_spec["binary_operation"].type_names
@@ -1307,6 +1308,7 @@ def test_delete_auto_operator(server_type):
 
 def deep_copy_using_operator(dpf_entity, server, stream_type=1):
     from ansys.dpf.core.operators.serialization import serializer_to_string, string_deserializer
+
     serializer = serializer_to_string(server=server)
     serializer.connect(-1, stream_type)
     serializer.connect(1, dpf_entity)
@@ -1336,8 +1338,46 @@ def test_connect_get_non_ascii_string(server_type):
     assert str == str_out
 
 
-@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0, reason="Available for servers >=8.0")
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0, reason="Available for servers >=8.0"
+)
 def test_deep_copy_non_ascii_string(server_type):
     str = "\N{GREEK CAPITAL LETTER DELTA}"
     str_out = dpf.core.core._deep_copy(str, server_type)
     assert str == str_out
+
+
+def test_output_any(server_type):
+    inpt = dpf.core.Field(nentities=3, server=server_type)
+    data = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    scop = dpf.core.Scoping(server=server_type)
+    scop.ids = [1, 2, 3]
+    inpt.data = data
+    inpt.scoping = scop
+
+    op = dpf.core.Operator("forward", server=server_type)
+    op.connect(0, inpt)
+
+    output_field = op.get_output(0, dpf.core.types.any).cast(dpf.core.Field)
+    assert isinstance(output_field, dpf.core.Field)
+    assert output_field.data.size == 9
+    assert output_field.scoping.size == 3
+
+
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
+    reason="Input of Any requires DPF 7.0 or above.",
+)
+def test_input_any(server_type):
+    field = dpf.core.Field(nentities=3, server=server_type)
+    data = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    scop = dpf.core.Scoping(server=server_type)
+    scop.ids = [1, 2, 3]
+    field.data = data
+    field.scoping = scop
+    inpt = dpf.core.Any.new_from(field)
+    op = dpf.core.Operator(name="forward", server=server_type)
+    op.connect(pin=0, inpt=inpt)
+    output = op.get_output(pin=0, output_type=dpf.core.types.field)
+    assert isinstance(output, dpf.core.Field)
+    assert len(output.data_as_list) == len(data)

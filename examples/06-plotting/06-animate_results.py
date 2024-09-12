@@ -8,6 +8,7 @@ This example lists the different commands available for creating animations of t
 shown with the arguments available.
 
 """
+
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 

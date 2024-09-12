@@ -333,8 +333,8 @@ def test_output_mesh_workflow(cyclic_lin_rst, cyclic_ds, server_type):
     coord = meshed_region.nodes.coordinates_field
     assert coord.shape == (meshed_region.nodes.n_nodes, 3)
     assert (
-            meshed_region.elements.connectivities_field.data.size
-            == meshed_region.elements.connectivities_field.size
+        meshed_region.elements.connectivities_field.data.size
+        == meshed_region.elements.connectivities_field.size
     )
 
     fields = wf.get_output("fields", dpf.core.types.fields_container)
@@ -434,7 +434,7 @@ def test_connect_get_output_custom_type_field_workflow(server_type):
 
 
 def test_inputs_outputs_inputs_outputs_scopings_container_workflow(
-        allkindofcomplexity, server_type
+    allkindofcomplexity, server_type
 ):
     data_sources = dpf.core.DataSources(allkindofcomplexity, server=server_type)
     model = dpf.core.Model(data_sources, server=server_type)
@@ -879,6 +879,7 @@ def test_create_on_other_server_and_connect_workflow(allkindofcomplexity, local_
 def deep_copy_using_workflow(dpf_entity, server, stream_type=1):
     from ansys.dpf.core.operators.serialization import serializer_to_string, string_deserializer
     from ansys.dpf.core.common import types_enum_to_types, types
+
     entity_server = dpf_entity._server if hasattr(dpf_entity, "_server") else None
     serializer_wf = dpf.core.Workflow(server=entity_server)
     serializer = serializer_to_string(server=entity_server)
@@ -899,7 +900,9 @@ def deep_copy_using_workflow(dpf_entity, server, stream_type=1):
     return deserializer.get_output(1, output_type)
 
 
-@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0, reason="Available for servers >=8.0")
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0, reason="Available for servers >=8.0"
+)
 def test_connect_get_output_big_strings(server_type, server_in_process):
     data = np.random.random(100000)
     field_a = dpf.core.field_from_array(data, server=server_type)
@@ -909,7 +912,9 @@ def test_connect_get_output_big_strings(server_type, server_in_process):
     assert np.allclose(out.data, data)
 
 
-@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0, reason="Available for servers >=8.0")
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0, reason="Available for servers >=8.0"
+)
 def test_connect_get_output_big_strings(server_type, server_type_remote_process):
     data = np.random.random(100000)
     field_a = dpf.core.field_from_array(data, server=server_type)
@@ -930,6 +935,52 @@ def test_connect_get_non_ascii_string_str(server_type):
     str = "\N{GREEK CAPITAL LETTER DELTA}"
     str_out = deep_copy_using_workflow(str, server_type, 0)
     assert str == str_out
+
+
+def test_output_any(server_type):
+    inpt = dpf.core.Field(nentities=3, server=server_type)
+    data = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    scop = dpf.core.Scoping(server=server_type)
+    scop.ids = [1, 2, 3]
+    inpt.data = data
+    inpt.scoping = scop
+
+    fwd = dpf.core.Operator("forward", server=server_type)
+    fwd.connect(0, inpt)
+
+    wf = dpf.core.Workflow(server=server_type)
+    wf.add_operator(fwd)
+    wf.set_output_name("field", fwd, 0)
+
+    output_field = wf.get_output("field", dpf.core.types.any).cast(dpf.core.Field)
+    assert isinstance(output_field, dpf.core.Field)
+    assert output_field.data.size == 9
+    assert output_field.scoping.size == 3
+
+
+@pytest.mark.skipif(
+    condition=not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
+    reason="Input of Any requires DPF 7.0 or above.",
+)
+def test_input_any(server_type):
+    field = dpf.core.Field(nentities=3, server=server_type)
+    data = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    scop = dpf.core.Scoping(server=server_type)
+    scop.ids = [1, 2, 3]
+    field.data = data
+    field.scoping = scop
+
+    inpt = dpf.core.Any.new_from(field)
+    fwd = dpf.core.Operator(name="forward", server=server_type)
+
+    wf = dpf.core.Workflow(server=server_type)
+    wf.add_operator(fwd)
+    wf.set_input_name("in", fwd, 0)
+    wf.set_output_name("out", fwd, 0)
+
+    wf.connect(pin_name="in", inpt=inpt)
+    output = wf.get_output(pin_name="out", output_type=dpf.core.types.field)
+    assert isinstance(output, dpf.core.Field)
 
 
 def main():

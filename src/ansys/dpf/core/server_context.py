@@ -13,6 +13,7 @@ The default context can be overwritten using the ANSYS_DPF_SERVER_CONTEXT enviro
 variable.
 ANSYS_DPF_SERVER_CONTEXT=ENTRY and ANSYS_DPF_SERVER_CONTEXT=PREMIUM can be used.
 """
+
 import os
 import warnings
 from enum import Enum
@@ -34,8 +35,9 @@ class LicensingContextType(Enum):
 
     @staticmethod
     def same_licensing_context(first, second):
-        if ((first == LicensingContextType.none and second != LicensingContextType.none)
-           or (first != LicensingContextType.none and second == LicensingContextType.none)):
+        if (first == LicensingContextType.none and second != LicensingContextType.none) or (
+            first != LicensingContextType.none and second == LicensingContextType.none
+        ):
             return False
         if int(first) == int(LicensingContextType.entry) and int(second) != int(
             LicensingContextType.entry

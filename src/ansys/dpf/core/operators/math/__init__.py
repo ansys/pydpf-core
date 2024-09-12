@@ -17,6 +17,8 @@ from .centroid import centroid
 from .centroid_fc import centroid_fc 
 from .component_wise_divide import component_wise_divide 
 from .component_wise_divide_fc import component_wise_divide_fc 
+from .component_wise_product import component_wise_product 
+from .component_wise_product_fc import component_wise_product_fc 
 from .compute_residual_and_error import compute_residual_and_error 
 from .conjugate import conjugate 
 from .correlation import correlation 
@@ -47,6 +49,7 @@ from .kronecker_prod import kronecker_prod
 from .linear_combination import linear_combination 
 from .ln import ln 
 from .ln_fc import ln_fc 
+from .mac import mac 
 from .make_one_on_comp import make_one_on_comp 
 from .matrix_inverse import matrix_inverse 
 from .minus import minus 
@@ -54,6 +57,7 @@ from .minus_fc import minus_fc
 from .modal_damping_ratio import modal_damping_ratio 
 from .modal_participation import modal_participation 
 from .modal_superposition import modal_superposition 
+from .mode_contribution import mode_contribution 
 from .modulus import modulus 
 from .nodal_density import nodal_density 
 from .norm import norm 
@@ -81,7 +85,9 @@ from .sqrt_fc import sqrt_fc
 from .svd import svd 
 from .sweeping_phase import sweeping_phase 
 from .sweeping_phase_fc import sweeping_phase_fc 
+from .time_derivation import time_derivation 
 from .time_freq_interpolation import time_freq_interpolation 
+from .time_integration import time_integration 
 from .unit_convert import unit_convert 
 from .unit_convert_fc import unit_convert_fc 
 from .window_bartlett import window_bartlett 

@@ -94,6 +94,7 @@ class TestServerConfigs:
     def test_server_env_path_cleanup(self, server_config):
         """Test that running and stopping servers does not pollute the system PATH."""
         from ansys.dpf.core.server_types import get_system_path
+
         path_len_init = len(get_system_path())
         _ = dpf.core.start_local_server(config=server_config)
         assert len(get_system_path()) == path_len_init
@@ -234,17 +235,17 @@ def test_shutting_down_when_deleted():
 
 def test_eq_server_config():
     assert (
-            dpf.core.AvailableServerConfigs.InProcessServer
-            == dpf.core.AvailableServerConfigs.InProcessServer
+        dpf.core.AvailableServerConfigs.InProcessServer
+        == dpf.core.AvailableServerConfigs.InProcessServer
     )
     assert dpf.core.AvailableServerConfigs.GrpcServer == dpf.core.AvailableServerConfigs.GrpcServer
     assert (
-            dpf.core.AvailableServerConfigs.LegacyGrpcServer
-            == dpf.core.AvailableServerConfigs.LegacyGrpcServer
+        dpf.core.AvailableServerConfigs.LegacyGrpcServer
+        == dpf.core.AvailableServerConfigs.LegacyGrpcServer
     )
     assert (
         not dpf.core.AvailableServerConfigs.LegacyGrpcServer
-            == dpf.core.AvailableServerConfigs.InProcessServer
+        == dpf.core.AvailableServerConfigs.InProcessServer
     )
     assert dpf.core.AvailableServerConfigs.LegacyGrpcServer == dpf.core.ServerConfig(
         protocol=dpf.core.server_factory.CommunicationProtocols.gRPC, legacy=True
@@ -325,7 +326,7 @@ def test_check_ansys_grpc_dpf_version_raise():
 
     print(MockServer(remote_server).version)
     with pytest.raises(
-            ValueError, match="Error connecting to DPF LegacyGrpcServer with version 1.0"
+        ValueError, match="Error connecting to DPF LegacyGrpcServer with version 1.0"
     ):
         dpf.core.server_types.check_ansys_grpc_dpf_version(MockServer(remote_server), timeout=2.0)
 
@@ -341,7 +342,7 @@ def test_available_servers():
         vout = str(version).replace(".", "_")
         if packaging.version.parse(version) > packaging.version.parse("2022.1"):
             meth = "start_" + vout + "_server"
-            assert (hasattr(server, meth))
+            assert hasattr(server, meth)
             start = getattr(server, meth)
             srv = start()
             assert srv.local_server

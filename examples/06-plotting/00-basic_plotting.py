@@ -23,7 +23,7 @@ model.plot(
     screenshot="model_plot.png",
     title="Model",
     text="Model plot off",
-    parallel_projection=True
+    parallel_projection=True,
 )
 
 # Notes:
@@ -81,14 +81,19 @@ split_mesh_op = dpf.Operator("split_mesh")
 split_mesh_op.connect(7, mesh)
 split_mesh_op.connect(13, "mat")
 meshes_cont = split_mesh_op.get_output(0, dpf.types.meshes_container)
-meshes_cont.plot(title='Meshes Container', text='Meshes Container plot')
+meshes_cont.plot(title="Meshes Container", text="Meshes Container plot")
 # A fields_container can be given as input, with results on each part of our split mesh.
 disp_op = dpf.Operator("U")
 disp_op.connect(7, meshes_cont)
 ds = dpf.DataSources(examples.find_multishells_rst())
 disp_op.connect(4, ds)
 disp_fc = disp_op.outputs.fields_container()
-meshes_cont.plot(disp_fc, title='Meshes Container disp_fc', text='Meshes Container disp_fc plot')
+meshes_cont.plot(disp_fc, title="Meshes Container disp_fc", text="Meshes Container disp_fc plot")
 # Additional PyVista kwargs are supported, such as:
-meshes_cont.plot(off_screen=True, notebook=False, screenshot='meshes_cont_plot.png',
-                 title='Meshes Container', text='Meshes Container plot')
+meshes_cont.plot(
+    off_screen=True,
+    notebook=False,
+    screenshot="meshes_cont_plot.png",
+    title="Meshes Container",
+    text="Meshes Container plot",
+)

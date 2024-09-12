@@ -4,6 +4,7 @@
 DataTree
 ========
 """
+
 import enum
 import traceback
 import warnings
@@ -453,7 +454,9 @@ class DataTree:
         """
         out = None
         if isinstance(type_to_return, type):
-            type_to_return = list(common.types_enum_to_types().keys())[list( common.types_enum_to_types().values()).index(type_to_return)]
+            type_to_return = list(common.types_enum_to_types().keys())[
+                list(common.types_enum_to_types().values()).index(type_to_return)
+            ]
         if type_to_return == types.int:
             out = integral_types.MutableInt32()
             self._api.dpf_data_tree_get_int_attribute(self, name, out)

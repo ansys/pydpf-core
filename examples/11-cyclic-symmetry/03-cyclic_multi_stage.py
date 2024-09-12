@@ -9,6 +9,7 @@ This example shows how to expand the mesh and results from a
 multi-stage cyclic analysis.
 
 """
+
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 

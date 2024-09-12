@@ -1,4 +1,5 @@
 """Miscellaneous functions for the DPF module."""
+
 import platform
 import glob
 import os
@@ -98,9 +99,7 @@ def get_ansys_path(ansys_path=None):
         )
     # parse the version to an int and check for supported
     ansys_folder_name = str(ansys_path).split(os.sep)[-1]
-    reobj_vXYZ = re.compile(
-        "^v[0123456789]{3}$"
-    )
+    reobj_vXYZ = re.compile("^v[0123456789]{3}$")
     if reobj_vXYZ.match(ansys_folder_name):
         # vXYZ Unified Install folder
         ver = int(str(ansys_path)[-3:])

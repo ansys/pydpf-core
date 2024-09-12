@@ -2,6 +2,7 @@
 ResultInfo
 ==========
 """
+
 import traceback
 import warnings
 
@@ -102,7 +103,13 @@ class ResultInfo:
 
     """
 
-    def __init__(self, result_info=None, server=None, analysis_type: analysis_types = None, physics_type: physics_types = None):
+    def __init__(
+        self,
+        result_info=None,
+        server=None,
+        analysis_type: analysis_types = None,
+        physics_type: physics_types = None,
+    ):
         """Initialize with a ResultInfo message"""
         # ############################
         # step 1: get server
@@ -129,8 +136,12 @@ class ResultInfo:
             if not self._server.has_client():
                 if not (analysis_type or physics_type):
                     self._internal_obj = None
-                    raise ValueError("Creating a new ResultInfo requires an analysis_type and a physics_type.")
-                self._internal_obj = self._api.result_info_new(analysis_type=analysis_type.value, physics_type=physics_type.value)
+                    raise ValueError(
+                        "Creating a new ResultInfo requires an analysis_type and a physics_type."
+                    )
+                self._internal_obj = self._api.result_info_new(
+                    analysis_type=analysis_type.value, physics_type=physics_type.value
+                )
             else:
                 raise NotImplementedError("Cannot create a new ResultInfo via gRPC.")
 
@@ -182,14 +193,14 @@ class ResultInfo:
         return value in self._names
 
     def add_result(
-            self,
-            operator_name: str,
-            scripting_name: str,
-            homogeneity: Homogeneity,
-            location: locations,
-            nature: natures,
-            dimensions: Union[List[int], None] = None,
-            description: str = "",
+        self,
+        operator_name: str,
+        scripting_name: str,
+        homogeneity: Homogeneity,
+        location: locations,
+        nature: natures,
+        dimensions: Union[List[int], None] = None,
+        description: str = "",
     ):
         """Add an available result to the ResultInfo.
 
@@ -227,8 +238,15 @@ class ResultInfo:
                 raise ValueError(f"Argument 'dimensions' is required for a {nature.name} result.")
         size_dim = len(dimensions)
         self._api.result_info_add_result(
-            self, operator_name, scripting_name, dimensions,
-            size_dim, nature.value, location, homogeneity.name, description
+            self,
+            operator_name,
+            scripting_name,
+            dimensions,
+            size_dim,
+            nature.value,
+            location,
+            homogeneity.name,
+            description,
         )
 
     @property

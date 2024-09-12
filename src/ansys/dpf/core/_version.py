@@ -1,4 +1,5 @@
 """Version for ansys-dpf-core"""
+
 # Minimal DPF server version supported
 min_server_version = "4.0"
 

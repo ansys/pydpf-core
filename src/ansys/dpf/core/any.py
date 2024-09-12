@@ -4,6 +4,7 @@
 Any
 ====================
 """
+
 import traceback
 import warnings
 
@@ -55,13 +56,13 @@ class Any:
         self._get_as_method = None
 
     def _new_from_string(self, str):
-        return self._new_from_string_as_bytes(str.encode('utf-8'))
+        return self._new_from_string_as_bytes(str.encode("utf-8"))
 
     @staticmethod
     def _get_as_string(self):
         out = Any._get_as_string_as_bytes(self)
         if out is not None and not isinstance(out, str):
-            return out.decode('utf-8')
+            return out.decode("utf-8")
         return out
 
     @staticmethod
@@ -73,7 +74,7 @@ class Any:
             return self._api.any_get_as_string(self)
 
     def _new_from_string_on_client(self, client, str):
-        return self._new_from_string_as_bytes_on_client(client, str.encode('utf-8'))
+        return self._new_from_string_as_bytes_on_client(client, str.encode("utf-8"))
 
     def _new_from_string_as_bytes(self, str):
         if server_meet_version("8.0", self._server):
@@ -100,6 +101,7 @@ class Any:
             custom_type_field,
             collection,
         )
+
         if issubclass(obj, int):
             return (
                 self._api.any_new_from_int,
@@ -192,7 +194,7 @@ class Any:
         if type_tuple is not None:
             # call respective new_from function
             if isinstance(server, ansys.dpf.core.server_types.InProcessServer) or not (
-                    isinstance(obj, (int, str, float, bytes))
+                isinstance(obj, (int, str, float, bytes))
             ):
                 any_dpf._internal_obj = type_tuple[0](obj)
             else:
@@ -205,9 +207,14 @@ class Any:
         elif isinstance(obj, (list, np.ndarray)):
             type_tuple = any_dpf._type_to_new_from_get_as_method(dpf_vector.DPFVectorInt)
             from ansys.dpf.core import collection
-            if server_meet_version_and_raise("9.0", inner_server, "Creating an Any from a list is only supported "
-                                                                  "with"
-                                                                  "server versions starting at 9.0"):
+
+            if server_meet_version_and_raise(
+                "9.0",
+                inner_server,
+                "Creating an Any from a list is only supported "
+                "with"
+                "server versions starting at 9.0",
+            ):
                 inpt = collection.CollectionBase.integral_collection(obj, inner_server)
                 any_dpf._internal_obj = type_tuple[0](inpt)
                 any_dpf._internal_type = dpf_vector.DPFVectorInt
@@ -261,11 +268,10 @@ class Any:
         if type_tuple is not None:
             internal_obj = type_tuple[1](self)
             if (
-                    self._internal_type is int
-                    or self._internal_type is str
-                    or self._internal_type is float
-                    or self._internal_type is bytes
-
+                self._internal_type is int
+                or self._internal_type is str
+                or self._internal_type is float
+                or self._internal_type is bytes
             ):
                 obj = internal_obj
             else:

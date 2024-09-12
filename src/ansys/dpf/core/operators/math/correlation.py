@@ -25,7 +25,7 @@ class correlation(Operator):
         correlation is computed for each
         field.
     ponderation : Field or FieldsContainer
-        Field m, optional weighting for correclation
+        Field m, optional weighting for correlation
         computation.
 
 
@@ -96,7 +96,7 @@ class correlation(Operator):
                     name="ponderation",
                     type_names=["field", "fields_container"],
                     optional=False,
-                    document="""Field m, optional weighting for correclation
+                    document="""Field m, optional weighting for correlation
         computation.""",
                 ),
             },
@@ -227,7 +227,7 @@ class InputsCorrelation(_Inputs):
     def ponderation(self):
         """Allows to connect ponderation input to the operator.
 
-        Field m, optional weighting for correclation
+        Field m, optional weighting for correlation
         computation.
 
         Parameters

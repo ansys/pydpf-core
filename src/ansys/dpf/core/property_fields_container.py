@@ -5,6 +5,7 @@ _MockPropertyFieldsContainer
 ============================
 Contains classes associated with the _MockPropertyFieldsContainer.
 """
+
 from __future__ import annotations
 
 from collections.abc import Sequence

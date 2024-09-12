@@ -2,6 +2,7 @@
 Session
 ========
 """
+
 import abc
 import ctypes
 import logging

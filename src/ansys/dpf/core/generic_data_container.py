@@ -4,6 +4,7 @@
 GenericDataContainer
 ====================
 """
+
 from __future__ import annotations
 import traceback
 import warnings
@@ -47,9 +48,9 @@ class GenericDataContainer:
     def __init__(self, generic_data_container=None, server=None):
         # step 1: get server
         self._server = server_module.get_or_create_server(
-            generic_data_container._server if isinstance(
-                generic_data_container, GenericDataContainer
-            ) else server
+            generic_data_container._server
+            if isinstance(generic_data_container, GenericDataContainer)
+            else server
         )
 
         if not self._server.meet_version("7.0"):
@@ -101,9 +102,9 @@ class GenericDataContainer:
         return _description(self._internal_obj, self._server)
 
     def set_property(
-            self,
-            property_name: str,
-            prop: Union[int, float, str, Field, StringField, GenericDataContainer, Scoping]
+        self,
+        property_name: str,
+        prop: Union[int, float, str, Field, StringField, GenericDataContainer, Scoping],
     ):
         """Register given property with the given name.
 
@@ -116,7 +117,9 @@ class GenericDataContainer:
         """
 
         self._prop_description_instance = None
-        if not isinstance(prop, (int, float, str, bytes, list, np.ndarray)) and server_meet_version("8.1", self._server):
+        if not isinstance(prop, (int, float, str, bytes, list, np.ndarray)) and server_meet_version(
+            "8.1", self._server
+        ):
             self._api.generic_data_container_set_property_dpf_type(self, property_name, prop)
         else:
             any_dpf = Any.new_from(prop, self._server)
@@ -151,6 +154,7 @@ class GenericDataContainer:
         class_ = getattr(builtins, output_type, None)
         if class_ is None:
             from ansys.dpf import core
+
             if hasattr(dpf_vector, output_type):
                 class_ = getattr(dpf_vector, output_type)
             else:
