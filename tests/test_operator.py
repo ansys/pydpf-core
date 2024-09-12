@@ -1384,11 +1384,11 @@ def test_input_any(server_type):
 
 
 def test_operator_input_output_streams(server_in_process, simple_bar):
-    data_source = dpf.core.DataSources(simple_bar, server=server_type)
-    streams_op = dpf.core.operators.metadata.streams_provider(server=server_type)
+    data_source = dpf.core.DataSources(simple_bar, server=server_in_process)
+    streams_op = dpf.core.operators.metadata.streams_provider(server=server_in_process)
     streams_op.inputs.data_sources.connect(data_source)
     streams = streams_op.outputs.streams_container()
-    time_provider = dpf.core.operators.metadata.time_freq_provider(server=server_type)
+    time_provider = dpf.core.operators.metadata.time_freq_provider(server=server_in_process)
     time_provider.connect(pin=3, inpt=streams)
     times = time_provider.outputs.time_freq_support()
     assert times

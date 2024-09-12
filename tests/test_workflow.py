@@ -984,18 +984,18 @@ def test_input_any(server_type):
 
 
 def test_workflow_input_output_streams(server_in_process, simple_bar):
-    data_source = dpf.core.DataSources(simple_bar, server=server_type)
-    streams_op = dpf.core.operators.metadata.streams_provider(server=server_type)
+    data_source = dpf.core.DataSources(simple_bar, server=server_in_process)
+    streams_op = dpf.core.operators.metadata.streams_provider(server=server_in_process)
     streams_op.inputs.data_sources.connect(data_source)
-    wf_1 = dpf.core.Workflow(server=server_type)
+    wf_1 = dpf.core.Workflow(server=server_in_process)
     wf_1.add_operator(streams_op)
     wf_1.set_output_name("output_streams", streams_op.outputs.streams_container)
 
     streams = wf_1.get_output("output_streams", dpf.core.types.streams_container)
 
-    time_provider = dpf.core.operators.metadata.time_freq_provider(server=server_type)
+    time_provider = dpf.core.operators.metadata.time_freq_provider(server=server_in_process)
 
-    wf_2 = dpf.core.Workflow(server=server_type)
+    wf_2 = dpf.core.Workflow(server=server_in_process)
     wf_2.add_operator(time_provider)
     wf_2.set_input_name("input_streams", time_provider.inputs.streams_container)
     wf_2.set_output_name("output_tfs", time_provider.outputs.time_freq_support)
