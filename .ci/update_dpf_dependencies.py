@@ -1,4 +1,4 @@
-"""Script to update ansys-dpf-gate, ansys-dpf-gatebin and ansys-grpc-dpf based on repositories
+"""Script to update ansys.dpf.gate.generated, ansys.dpf.gatebin and ansys.grpc.dpf.
 
 This script should only be used to quickly test changes to any of these dependencies.
 Actual commit of updated code should not occur.
@@ -12,6 +12,7 @@ Define environment variables to know where to get the code from:
 It will update the current repo
 or the repo defined by the environment variable "ANSYSDPFCORE_ROOT" if it exists.
 """
+
 import os
 import glob
 import pathlib
@@ -45,16 +46,16 @@ if grpc_path is not None:
                     file,
                     path=destination,
                 )
-    print("Done updating ansys-grpc-dpf")
+    print("Done updating ansys.grpc.dpf")
 else:
     print(f"{grpc_path_key} environment variable is not defined. " "Cannot update ansys-grpc-dpf.")
 
 if gate_path is not None:
     # Update ansys-dpf-gate
-    print("Updating ansys.dpf.gate")
-    dist_path = os.path.join(gate_path, "ansys-dpf-gate", "ansys")
+    print("Updating ansys.dpf.gate generated code")
+    dist_path = os.path.join(gate_path, "ansys-dpf-gate", "ansys", "dpf", "gate", "generated")
     print(f"from {dist_path}")
-    destination = os.path.join(core_path, "src", "ansys")
+    destination = os.path.join(core_path, "src", "ansys", "dpf", "gate", "generated")
     print(f"into {destination}")
     shutil.copytree(
         src=dist_path,
@@ -62,7 +63,15 @@ if gate_path is not None:
         dirs_exist_ok=True,
         ignore=lambda directory, contents: ["__pycache__"] if directory[-5:] == "gate" else [],
     )
-    print("Done updating ansys-dpf-gate")
+    dist_path = os.path.join(gate_path, "ansys-dpf-gate", "ansys", "dpf", "gate", "__init__.py")
+    print(f"from {dist_path}")
+    destination = os.path.join(core_path, "src", "ansys", "dpf", "gate", "__init__.py")
+    print(f"into {destination}")
+    shutil.copy(
+        src=dist_path,
+        dst=destination,
+    )
+    print("Done updating ansys.dpf.gate generated code")
 
     # Update ansys-dpf-gatebin
     print("Updating ansys.dpf.gatebin")
@@ -75,9 +84,9 @@ if gate_path is not None:
         dst=destination,
         dirs_exist_ok=True,
     )
-    print(f"Done updating ansys-dpf-gatebin for {platform.system()}")
+    print(f"Done updating ansys.dpf.gatebin for {platform.system()}")
 else:
     print(
         f"{gate_path_key} environment variable is not defined. "
-        "Cannot update ansys-dpf-gate or ansys-dpf-gatebin."
+        "Cannot update ansys.dpf.gate or ansys.dpf.gatebin."
     )

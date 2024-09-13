@@ -1,3 +1,25 @@
+# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """
 .. _ref_fluids_isosurface:
 
@@ -85,8 +107,9 @@ pl.add_mesh(
 
 vec_iso_values = [-153.6, -100.0, -50.0, 50.0, 100.0, 150.0, 200.0, 300.0, 361.8]
 
-iso_surfaces_op = dpf.operators.mesh.iso_surfaces(field=P_S[0], mesh=whole_mesh, slice_surfaces=True,
-                                              vector_iso_values=vec_iso_values)
+iso_surfaces_op = dpf.operators.mesh.iso_surfaces(
+    field=P_S[0], mesh=whole_mesh, slice_surfaces=True, vector_iso_values=vec_iso_values
+)
 
 iso_surfaces_meshes = iso_surfaces_op.outputs.meshes()
 
@@ -94,8 +117,11 @@ iso_surfaces_fields = iso_surfaces_op.outputs.fields_container()
 
 for i in range(len(iso_surfaces_fields)):
     pl.add_field(
-        field=iso_surfaces_fields[i], meshed_region=iso_surfaces_meshes[i], style="surface", show_edges=False,
-        show_axes=True
+        field=iso_surfaces_fields[i],
+        meshed_region=iso_surfaces_meshes[i],
+        style="surface",
+        show_edges=False,
+        show_axes=True,
     )
 
 pl.show_figure(show_axes=True, cpos=c_pos_iso)
