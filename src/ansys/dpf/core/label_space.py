@@ -68,7 +68,7 @@ class LabelSpace:
         core_api.init_data_processing_environment(self)
         return core_api
 
-    def fill(self, label_space: dict):
+    def fill(self, label_space: dict[str, int]):
         for key, index in label_space.items():
             self._api.label_space_add_data(self, key, index)
 

@@ -8,4 +8,3 @@ def test_label_space_(server_type):
     assert str(ls)
     reference = {"test": 1, "various": 2}
     ls.fill(label_space=reference)
-    print(ls)
