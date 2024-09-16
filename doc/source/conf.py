@@ -74,7 +74,6 @@ ignored_pattern += r")"
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    # "ansys_sphinx_theme.extension.autoapi",
     "sphinx.ext.autosummary",
     "enum_tools.autoenum",
     "nbsphinx",
@@ -110,7 +109,7 @@ autosummary_generate = True
 autodoc_mock_imports = ["ansys.dpf.core.examples.python_plugins"]
 
 # Add any paths that contain _templates here, relative to this directory.
-templates_path = ['_templates']
+# templates_path = ['_templates']
 
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
@@ -188,8 +187,6 @@ sphinx_gallery_conf = {
     #                         "set_plot_theme('document')"),
     "reset_modules_order": 'both',
     "reset_modules": (reset_servers,),
-    # "copyfile_regex": 'index.rst',
-
 }
 
 autodoc_member_order = "bysource"
@@ -217,10 +214,6 @@ html_theme_options = {
             f"pydpf-core-v{get_version_match(__version__).replace('.', '-')}": "PyDPF-Core",
         },
     },
-    # "ansys_sphinx_theme_autoapi": {"project": project,
-    #                                "templates": "_templates/autoapi",
-    #                                },
-
 }
 
 
@@ -246,9 +239,7 @@ html_css_files = [
 #
 # html_sidebars = {}
 
-html_sidebars = {"testing": [],
-                 "examples/**": ["custom-template.html"],
-                 }
+html_sidebars = {"testing": [] }
 
 
 # -- Options for HTMLHelp output ---------------------------------------------
