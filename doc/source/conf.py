@@ -108,7 +108,7 @@ autosummary_generate = True
 
 autodoc_mock_imports = ["ansys.dpf.core.examples.python_plugins"]
 
-# Add any paths that contain _templates here, relative to this directory.
+# Add any paths that contain templates here, relative to this directory.
 # templates_path = ['_templates']
 
 # The suffix(es) of source filenames.
@@ -165,7 +165,7 @@ sphinx_gallery_conf = {
     # convert rst to md for ipynb
     "pypandoc": True,
     # path to your examples scripts
-    "examples_dirs": ["../../examples" ],
+    "examples_dirs": ["../../examples"],
     # abort build at first example error
     'abort_on_example_error': True,
     # path where to save gallery generated examples
@@ -179,16 +179,13 @@ sphinx_gallery_conf = {
     # Sort gallery example by file name instead of number of lines (default)
     "within_subsection_order": FileNameSortKey,
     # directory where function granular galleries are stored
-    # "backreferences_dir": "gen_modules/backreferences",
-    # 'doc_module': 'src',
+    "backreferences_dir": None,
     "image_scrapers": ("pyvista", "matplotlib"),
     # 'first_notebook_cell': ("%matplotlib inline\n"
     #                         "from pyvista import set_plot_theme\n"
     #                         "set_plot_theme('document')"),
     "reset_modules_order": 'both',
     "reset_modules": (reset_servers,),
-    # "copyfile_regex": 'index.rst',
-
 }
 
 autodoc_member_order = "bysource"
@@ -218,8 +215,6 @@ html_theme_options = {
     },
 }
 
-
-
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
@@ -231,19 +226,17 @@ html_css_files = [
     'custom.css',
 ]
 
-# Custom sidebar _templates, must be a dictionary that maps document names
+# Custom sidebar templates, must be a dictionary that maps document names
 # to template names.
 #
 # The default sidebars (for documents that don't match any pattern) are
-# defined by theme itself.  Builtin themes are using these _templates by
+# defined by theme itself.  Builtin themes are using these templates by
 # default: ``['localtoc.html', 'relations.html', 'sourcelink.html',
 # 'searchbox.html']``.
 #
 # html_sidebars = {}
 
-html_sidebars = {"testing": [],
-                 "examples/**": ["custom-template.html"],
-                 }
+html_sidebars = {"testing": []}
 
 
 # -- Options for HTMLHelp output ---------------------------------------------
