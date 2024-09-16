@@ -1,12 +1,12 @@
 """
 .. _ref_multi_stage_cyclic_advanced:
 
-Multi-stage cyclic symmetry using 00-dvanced customization
+Multi-stage cyclic symmetry using advanced customization
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This example shows how to expand on selected sectors the mesh and results
 from a multi-stage cyclic analysis. It also shows how to use the cyclic support
-for 00-dvanced postprocessing
+for advanced postprocessing
 """
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples

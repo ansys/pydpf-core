@@ -877,13 +877,13 @@ class Workflow:
         Parameters
         ----------
         title:
-            Name to use in 02-intermediate files and in the viewer.
+            Name to use in intermediate files and in the viewer.
         save_as:
             Path to a file to save the workflow view as.
         off_screen:
             Render the image off_screen.
         keep_dot_file:
-            Whether to keep the 02-intermediate DOT file generated.
+            Whether to keep the intermediate DOT file generated.
 
         Returns
         -------
