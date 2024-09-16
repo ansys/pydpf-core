@@ -20,7 +20,7 @@ class Config:
     """Represents an operator's configuration.
 
     You can use configurations to choose how an operator will run.
-    This is an 00-dvanced feature for deep customization.
+    This is an advanced feature for deep customization.
     The different options can change the way loops are done.
     They can also change whether the operator needs to perform checks on the input.
 
