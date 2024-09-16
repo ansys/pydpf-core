@@ -36,6 +36,7 @@ Accessing and enriching DPF capabilities
        :text-align: center
 
        .. image:: ../images/drawings/entry_premium.png
+            :width: 50%
 	   
 
     .. grid-item-card:: Use DPF XML Files
