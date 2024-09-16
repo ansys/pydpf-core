@@ -29,7 +29,7 @@ import numpy as np
 
 def test_operator_coordinate_system_rst(server_type):
     model = dpf.Model(examples.download_hemisphere(server=server_type), server=server_type)
-    if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_9_0:
+    if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_9_1:
         # Starting with DPF 2025.1.pre1
         cs = dpf.operators.result.coordinate_system(server=server_type)
         cs.inputs.data_sources.connect(model)
