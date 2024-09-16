@@ -22,8 +22,13 @@
 
 import ansys.dpf.core as dpf
 import conftest
+import pytest
 
 
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
+    reason="Mesh clip plan operator not functional before 5.0,",
+)
 def test_operator_mesh_plan_clip_rst(simple_bar):
     model = dpf.Model(simple_bar)
     main_mesh = model.metadata.meshed_region
