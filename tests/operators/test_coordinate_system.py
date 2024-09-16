@@ -28,8 +28,13 @@ import numpy as np
 
 def test_operator_coordinate_system_rst(server_type):
     model = dpf.Model(examples.download_hemisphere(server=server_type), server=server_type)
-    cs = dpf.operators.result.coordinate_system(server=server_type)
-    cs.inputs.data_sources.connect(model)
+    try:
+        # Starting with DPF 2025.1.pre1
+        cs = dpf.operators.result.coordinate_system(server=server_type)
+        cs.inputs.data_sources.connect(model)
+    except KeyError:
+        # For previous DPF versions
+        cs = model.operator(r"mapdl::rst::CS")
     cs.inputs.cs_id.connect(12)
     cs_rot_mat = cs.outputs.field().data
     ref = np.array(
