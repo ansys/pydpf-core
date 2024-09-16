@@ -11,7 +11,7 @@ Accessing and enriching DPF capabilities
        :text-align: center
 
        .. image:: ../images/drawings/plugin-logo.png
-          :width: 50%
+          :width: 25%
 		  
 
     .. grid-item-card:: Use DPF Server package
@@ -36,7 +36,7 @@ Accessing and enriching DPF capabilities
        :text-align: center
 
        .. image:: ../images/drawings/entry_premium.png
-            :width: 50%
+            :width: 25%
 	   
 
     .. grid-item-card:: Use DPF XML Files
@@ -45,3 +45,4 @@ Accessing and enriching DPF capabilities
        :text-align: center
 
        .. image:: ../images/drawings/xml.png
+            :width: 25%
