@@ -7,7 +7,7 @@ Create a plug-in package that has third-party dependencies
 
 This example shows how to create a Python plug-in package with
 third-party dependencies. You should be familiar with these
-examples before proceeding with this more advanced one:
+examples before proceeding with this more 00-dvanced one:
 
 - :ref:`ref_wrapping_numpy_capabilities`
 - :ref:`ref_python_plugin_package`

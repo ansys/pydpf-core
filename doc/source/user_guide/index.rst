@@ -14,7 +14,7 @@ The goals of this section are to:
  - Provide simple how-tos for tackling the most common use cases.
 
 Concepts
-~~~~~~~~
+--------
 
 .. card-carousel:: 2
 
@@ -51,7 +51,7 @@ Concepts
 
 
 Troubleshooting
-~~~~~~~~~~~~~~~
+---------------
 
 .. toctree::
     :maxdepth: 2
