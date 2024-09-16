@@ -74,7 +74,6 @@ ignored_pattern += r")"
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    # "ansys_sphinx_theme.extension.autoapi",
     "sphinx.ext.autosummary",
     "enum_tools.autoenum",
     "nbsphinx",
@@ -217,10 +216,6 @@ html_theme_options = {
             f"pydpf-core-v{get_version_match(__version__).replace('.', '-')}": "PyDPF-Core",
         },
     },
-    # "ansys_sphinx_theme_autoapi": {"project": project,
-    #                                "templates": "_templates/autoapi",
-    #                                },
-
 }
 
 
