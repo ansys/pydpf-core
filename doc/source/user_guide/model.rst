@@ -4,10 +4,15 @@
 DPF model
 =========
 
-The DPF model provides the starting point for opening a result file.
-From the ``Model`` object, you can connect various operators and display results
-and data.
+The model is a helper designed to give shortcuts to the user to access the analysis results
+metadata, by opening a DataSources or a Streams, and to instanciate results provider for it.
+The metadata is made of all the entities describing the analysis: its MeshedRegion, its
+TimeFreqSupport and its ResultInfo. Therefore, from the ``Model`` object, the user can easily
+access and display information about the mesh, the time or frequency steps and substeps used
+in the analysis and the list of available results.
 
+Creating the model
+------------------
 To create an instance of the ``Model`` object, import the ``pydpf-core`` package and
 load a result file. The path that you provide must be an absolute path
 or a path relative to the DPF server.
@@ -17,7 +22,10 @@ or a path relative to the DPF server.
     from ansys.dpf import core as dpf
     from ansys.dpf.core import examples
 
+    # File from PyDPF-Core package
     path = examples.find_simple_bar()
+    path
+    'C:/Users/user/AppData/local/temp/ASimpleBar.rst'
     model = dpf.Model(path)
 
 To understand what is available in the result file, you can print the model
@@ -61,21 +69,24 @@ To understand what is available in the result file, you can print the model
 
 
 
-For a comprehensive model example, see :ref:`ref_basic_example`.
+For a model example, see :ref:`ref_basic_example`.
 
-For a description of the ``Model`` object, see :ref:`ref_model`.
+For a complete description of the ``Model`` object and its methods, see :ref:`ref_model`.
 
+Accessing model metadata
+------------------------
 
-Model metadata
---------------
-To access all information about an analysis, you can use model metadata:
+The model metadata give you access to the following informations:
 
-- Type of analysis
+- Data Sources (result files paths)
 - Time or frequency descriptions
-- Mesh
-- Available results
+- Meshed region
+- Available results information (which results are available, type of analysis, unit system
+and analysis physical type )
 
-This example shows how you get the analysis type:
+In the sequence are examples on how accessing some of these information:
+
+1) How you get the analysis type:
 
 
 .. code-block:: python
@@ -88,13 +99,15 @@ This example shows how you get the analysis type:
 
     'static'
 
-This example shows how you get mesh information:
+2) How you get mesh information:
 
 
 .. code:: python
-
+    # a) Number of nodes in the meshed region
     model.metadata.meshed_region.nodes.n_nodes
+    # b) Number of elements in the meshed region
     model.metadata.meshed_region.elements.n_elements
+    # c) Get an element by its id and give its description
     print(model.metadata.meshed_region.elements.element_by_id(1))
 
 .. rst-class:: sphx-glr-script-out
@@ -110,27 +123,33 @@ This example shows how you get mesh information:
     	Shape:        Solid
 
 
-This example shows how you get time sets:
+3) How you get time sets:
 
 
 .. code-block:: python
 
     time_freq_support =  model.metadata.time_freq_support
-    print(time_freq_support.time_frequencies.data)
+    print(time_freq_support, '\n')  # print all the time_freq support
+    print(time_freq_support.time_frequencies.data)  # print the time sets values
 
 .. rst-class:: sphx-glr-script-out
 
  .. code-block:: none
 
+    DPF  Time/Freq Support:
+    Number of sets: 1
+    Cumulative     Time (s)       LoadStep       Substep
+    1              1.000000       1              1
+
     [1.]
 
 
-For a description of the ``Metadata`` object, see :ref:`ref_model`.
+For a more detailed description of the ``Metadata`` object, see :class:`Metadata<ansys.dpf.core.model.Metadata>`.
 
-Model results
--------------
+Accessing model results
+-----------------------
 The model contains the ``results`` attribute, which you can use to
-create operators to access certain results.
+easily access certain results.
 
 This example shows how you view available results:
 
@@ -159,10 +178,7 @@ This example shows how you view available results:
          -  structural_temperature: ElementalNodal Temperature
 
 
-.. autoattribute:: ansys.dpf.core.model.Model.results
-  :noindex:
-
-With the ``results`` attribute, choosing the time, frequencies, or spatial subset
+Also, with the ``results`` attribute, choosing the time, frequencies, or spatial subset
 on which to get a given result is straightforward.
 
 This example shows how you get displacement results on all time frequencies on
@@ -170,17 +186,24 @@ the mesh scoping:
 
 .. code-block:: python
 
+    # Define which result will be used
     disp_result = model.results.displacement
+    # Define the time and mesh scoping
     disp_at_all_times_on_node_1 =  disp_result.on_all_time_freqs.on_mesh_scoping([1])
+    print(disp_at_all_times_on_node_1.eval())
+
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+    DPF displacement(s)Fields Container
+      with 1 field(s)
+      defined on labels: time
+
+      with:
+      - field 0 {time:  1} with Nodal location, 3 components and 1 entities.
 
 
 For an example using the ``Result`` object, see :ref:`ref_transient_easy_time_scoping`.
 
-For a description of the ``Model`` object, see :ref:`ref_results`.
+For a description of the ``Results`` object, see :ref:`ref_results`.
 
-
-
-API reference
-~~~~~~~~~~~~~
-
-For more information, see :ref:`ref_model` or :ref:`ref_results`.
