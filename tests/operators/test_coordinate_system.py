@@ -23,16 +23,17 @@
 # Tests the result.coordinate_system operator
 import ansys.dpf.core as dpf
 from ansys.dpf.core import examples
+import conftest
 import numpy as np
 
 
 def test_operator_coordinate_system_rst(server_type):
     model = dpf.Model(examples.download_hemisphere(server=server_type), server=server_type)
-    try:
+    if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_9_0:
         # Starting with DPF 2025.1.pre1
         cs = dpf.operators.result.coordinate_system(server=server_type)
         cs.inputs.data_sources.connect(model)
-    except KeyError:
+    else:
         # For previous DPF versions
         cs = model.operator(r"mapdl::rst::CS")
     cs.inputs.cs_id.connect(12)
