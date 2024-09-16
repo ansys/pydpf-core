@@ -55,7 +55,12 @@ ncoord_f = model.metadata.meshed_region.nodes.coordinates_field
 ###############################################################################
 # Get the rotation matrix of the LCS ID 12.
 # The first 9 values in the ``cs`` output is the rotation matrix.
-cs = dpf.operators.result.coordinate_system()
+try:
+  # Starting with DPF 2025.1.pre1
+  cs = dpf.operators.result.coordinate_system()
+except KeyError:
+  # For previous DPF versions
+  cs = model.operator(r"mapdl::rst::CS")
 cs.inputs.data_sources.connect(model)
 cs.inputs.cs_id.connect(12)
 cs_rot_mat = cs.outputs.field.get_data().data.T[0:9]
