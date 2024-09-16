@@ -204,9 +204,6 @@ jobs:
           command: |
             pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results12.xml tests/operators/.
 
-      - name: "Kill all servers"
-        uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
-
 #      - name: "Test API Entry"
 #        shell: bash
 #        working-directory: tests
