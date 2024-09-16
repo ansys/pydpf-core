@@ -3,10 +3,10 @@
 Tutorials
 ---------
 
-The following tutorials show how to use basic features of PyDPF-Core
-at different steps in a typical data analysis process.
+The following tutorials shows in details how to use basic features of PyDPF-Core
+for each usage main step.
 
-Define the origins of the data
+Define simulation data
 ~~~~~~~~~~~~~~~~~~~~~~
 
 .. card-carousel:: 2
