@@ -7,7 +7,7 @@ import numpy as np
 import pyvista
 from ansys.dpf.core import __version__, server, server_factory
 from ansys.dpf.core.examples import get_example_required_minimum_dpf_version
-from ansys_sphinx_theme import pyansys_logo_black, ansys_favicon, get_version_match
+from ansys_sphinx_theme import pyansys_logo_light_mode, ansys_favicon, get_version_match
 
 # Manage errors
 pyvista.set_error_output_file("errors.txt")
@@ -74,6 +74,8 @@ ignored_pattern += r")"
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    # "ansys_sphinx_theme.extension.autoapi",
+    "sphinx.ext.autosummary",
     "enum_tools.autoenum",
     "nbsphinx",
     "sphinx.ext.autosectionlabel",
@@ -87,8 +89,6 @@ extensions = [
     "sphinx_design",
     "sphinx_gallery.gen_gallery",
     'sphinx_reredirects',
-    "sphinx_codeautolink",
-
 ]
 
 redirects = {
@@ -109,8 +109,8 @@ autosummary_generate = True
 
 autodoc_mock_imports = ["ansys.dpf.core.examples.python_plugins"]
 
-# Add any paths that contain templates here, relative to this directory.
-# templates_path = ['_templates']
+# Add any paths that contain _templates here, relative to this directory.
+templates_path = ['_templates']
 
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
@@ -166,7 +166,7 @@ sphinx_gallery_conf = {
     # convert rst to md for ipynb
     "pypandoc": True,
     # path to your examples scripts
-    "examples_dirs": ["../../examples"],
+    "examples_dirs": ["../../examples" ],
     # abort build at first example error
     'abort_on_example_error': True,
     # path where to save gallery generated examples
@@ -180,13 +180,15 @@ sphinx_gallery_conf = {
     # Sort gallery example by file name instead of number of lines (default)
     "within_subsection_order": FileNameSortKey,
     # directory where function granular galleries are stored
-    "backreferences_dir": None,
+    # "backreferences_dir": "gen_modules/backreferences",
+    # 'doc_module': 'src',
     "image_scrapers": ("pyvista", "matplotlib"),
     # 'first_notebook_cell': ("%matplotlib inline\n"
     #                         "from pyvista import set_plot_theme\n"
     #                         "set_plot_theme('document')"),
     "reset_modules_order": 'both',
     "reset_modules": (reset_servers,),
+    # "copyfile_regex": 'index.rst',
 
 }
 
@@ -196,7 +198,7 @@ autodoc_member_order = "bysource"
 # -- Options for HTML output -------------------------------------------------
 html_short_title = html_title = "PyDPF-Core"
 html_theme = "ansys_sphinx_theme"
-html_logo = pyansys_logo_black
+html_logo = pyansys_logo_light_mode
 html_favicon = ansys_favicon
 html_theme_options = {
     "github_url": "https://github.com/ansys/pydpf-core",
@@ -215,6 +217,10 @@ html_theme_options = {
             f"pydpf-core-v{get_version_match(__version__).replace('.', '-')}": "PyDPF-Core",
         },
     },
+    # "ansys_sphinx_theme_autoapi": {"project": project,
+    #                                "templates": "_templates/autoapi",
+    #                                },
+
 }
 
 
@@ -230,17 +236,19 @@ html_css_files = [
     'custom.css',
 ]
 
-# Custom sidebar templates, must be a dictionary that maps document names
+# Custom sidebar _templates, must be a dictionary that maps document names
 # to template names.
 #
 # The default sidebars (for documents that don't match any pattern) are
-# defined by theme itself.  Builtin themes are using these templates by
+# defined by theme itself.  Builtin themes are using these _templates by
 # default: ``['localtoc.html', 'relations.html', 'sourcelink.html',
 # 'searchbox.html']``.
 #
 # html_sidebars = {}
 
-html_sidebars = {"testing": []}
+html_sidebars = {"testing": [],
+                 "examples/**": ["custom-template.html"],
+                 }
 
 
 # -- Options for HTMLHelp output ---------------------------------------------
