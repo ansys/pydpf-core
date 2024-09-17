@@ -4,8 +4,8 @@
 Matrix Operations
 ~~~~~~~~~~~~~~~~~
 
-This example shows how to do some matrix operations, including basic mathematical operation (power, add and multiply by
-a constant, add field containers and invert ) and separating and assembling fields and fields containers
+This example shows how to do some matrix operations, including basic mathematical operations (power, add and multiply by
+a constant, add field containers and invert) and separating and assembling fields and fields containers.
 
 """
 
