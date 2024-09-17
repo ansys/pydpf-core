@@ -289,11 +289,12 @@ returns the file path of those files
 - If your checking the DataSources object created to define the upstream data, only the first one will be listed
 
 .. code-block:: python
+
     # Print the path to the upstream file of the upstream DataSources object
     print(my_data_sources_upstream_l2.result_files)
     # ['/folder/file1.extension1]
 
-- If you have a DataSources object with more than one domain, a empty list will be returned
+- If you have a ``DataSources`` object with more than one domain, a empty list will be returned
 
 .. code-block:: python
 
