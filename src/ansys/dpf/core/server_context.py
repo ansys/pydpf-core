@@ -1,3 +1,25 @@
+# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """
 ServerContext
 =============
@@ -13,6 +35,7 @@ The default context can be overwritten using the ANSYS_DPF_SERVER_CONTEXT enviro
 variable.
 ANSYS_DPF_SERVER_CONTEXT=ENTRY and ANSYS_DPF_SERVER_CONTEXT=PREMIUM can be used.
 """
+
 import os
 import warnings
 from enum import Enum
@@ -34,8 +57,9 @@ class LicensingContextType(Enum):
 
     @staticmethod
     def same_licensing_context(first, second):
-        if ((first == LicensingContextType.none and second != LicensingContextType.none)
-           or (first != LicensingContextType.none and second == LicensingContextType.none)):
+        if (first == LicensingContextType.none and second != LicensingContextType.none) or (
+            first != LicensingContextType.none and second == LicensingContextType.none
+        ):
             return False
         if int(first) == int(LicensingContextType.entry) and int(second) != int(
             LicensingContextType.entry

@@ -1,4 +1,27 @@
+# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """Miscellaneous functions for the DPF module."""
+
 import platform
 import glob
 import os
@@ -98,9 +121,7 @@ def get_ansys_path(ansys_path=None):
         )
     # parse the version to an int and check for supported
     ansys_folder_name = str(ansys_path).split(os.sep)[-1]
-    reobj_vXYZ = re.compile(
-        "^v[0123456789]{3}$"
-    )
+    reobj_vXYZ = re.compile("^v[0123456789]{3}$")
     if reobj_vXYZ.match(ansys_folder_name):
         # vXYZ Unified Install folder
         ver = int(str(ansys_path)[-3:])

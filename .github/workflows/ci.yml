@@ -73,7 +73,7 @@ jobs:
     name: "Style Check"
     runs-on: ubuntu-latest
     steps:
-      - uses: ansys/actions/code-style@v6
+      - uses: ansys/actions/code-style@v7
         with:
           use-python-cache: false
 
@@ -161,7 +161,7 @@ jobs:
     needs: [docs]
     steps:
       - name: "Upload development documentation"
-        uses: ansys/actions/doc-deploy-dev@v4
+        uses: ansys/actions/doc-deploy-dev@v7
         with:
           cname: ${{ env.DOCUMENTATION_CNAME }}
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -174,7 +174,7 @@ jobs:
     needs: upload-development-docs
     steps:
       - name: "Deploy the latest documentation index"
-        uses: ansys/actions/doc-deploy-index@v4
+        uses: ansys/actions/doc-deploy-index@v7
         with:
           cname: ${{ env.DOCUMENTATION_CNAME }}/version/dev
           index-name: pydpf-core-vdev
