@@ -1,9 +1,32 @@
+# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """
 Server types
 ============
 Contains the different kinds of
 servers available for the factory.
 """
+
 from __future__ import annotations
 import abc
 import io
@@ -657,12 +680,13 @@ class GrpcClient:
 
     def set_address(self, address, server):
         from ansys.dpf.core import misc, settings
+
         if misc.RUNTIME_CLIENT_CONFIG is not None:
             self_config = settings.get_runtime_client_config(server=server)
             misc.RUNTIME_CLIENT_CONFIG.copy_config(self_config)
         from ansys.dpf.gate import client_capi
-        self._internal_obj = client_capi.ClientCAPI.client_new_full_address(address)
 
+        self._internal_obj = client_capi.ClientCAPI.client_new_full_address(address)
 
     def __del__(self):
         try:
@@ -679,7 +703,7 @@ class GrpcServer(CServer):
         ansys_path: Union[str, None] = None,
         ip: str = LOCALHOST,
         port: str = DPF_DEFAULT_PORT,
-        timeout: float = 10.,
+        timeout: float = 10.0,
         as_global: bool = True,
         load_operators: bool = True,
         launch_server: bool = True,
@@ -794,7 +818,7 @@ class GrpcServer(CServer):
 
     def shutdown(self):
         if self.live:
-            _ = self.info # initializing the info variable (giving access to ip and port): this can be required if start_local_server is called afterwards
+            _ = self.info  # initializing the info variable (giving access to ip and port): this can be required if start_local_server is called afterwards
             if self._remote_instance:
                 self._remote_instance.delete()
             try:
@@ -990,7 +1014,9 @@ def get_system_path() -> str:
     """Return the current PATH environment variable value of the system."""
     if not os.name == "posix":
         ctypes.windll.kernel32.GetEnvironmentVariableA.argtypes = (
-            ctypes.c_char_p, ctypes.c_char_p, ctypes.c_int
+            ctypes.c_char_p,
+            ctypes.c_char_p,
+            ctypes.c_int,
         )
         ctypes.windll.kernel32.GetEnvironmentVariableA.restype = ctypes.c_int
         name = "PATH"
@@ -1042,7 +1068,7 @@ class LegacyGrpcServer(BaseServer):
         ansys_path: Union[str, None] = None,
         ip: str = LOCALHOST,
         port: str = DPF_DEFAULT_PORT,
-        timeout: float = 5.,
+        timeout: float = 5.0,
         as_global: bool = True,
         load_operators: bool = True,
         launch_server: bool = True,
@@ -1084,7 +1110,6 @@ class LegacyGrpcServer(BaseServer):
                 ip = address.split(":")[-2]
                 port = int(address.split(":")[-1])
             else:
-
                 if docker_config.use_docker:
                     self.docker_config = server_factory.RunningDockerConfig(docker_config)
                     launch_dpf_on_docker(
@@ -1098,6 +1123,7 @@ class LegacyGrpcServer(BaseServer):
                     launch_dpf(ansys_path, ip, port, timeout=timeout)
                     self._local_server = True
         from ansys.dpf.core import misc, settings
+
         if misc.RUNTIME_CLIENT_CONFIG is not None:
             self_config = settings.get_runtime_client_config(server=self)
             misc.RUNTIME_CLIENT_CONFIG.copy_config(self_config)
@@ -1239,7 +1265,7 @@ class LegacyGrpcServer(BaseServer):
 
     def shutdown(self):
         if self._own_process and self.live:
-            _ = self.info # initializing the info variable (giving access to ip and port): this can be required if start_local_server is called afterwards
+            _ = self.info  # initializing the info variable (giving access to ip and port): this can be required if start_local_server is called afterwards
             if self._remote_instance:
                 self._remote_instance.delete()
             try:

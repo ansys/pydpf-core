@@ -12,7 +12,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class scale(Operator):
-    """Scales a field by a constant factor.
+    """Scales a field by a constant factor. This factor can be a scalar or a
+    vector, where each value of the vector represents a scaler per
+    component. Number of the components are corresponding to the input
+    field dimensionality
 
     Parameters
     ----------
@@ -20,10 +23,16 @@ class scale(Operator):
         Field or fields container with only one field
         is expected
     ponderation : float or Field
-        Double/field scoped on overall
+        Double/field/vector of doubles. when scoped
+        on overall, same value(s) applied on
+        all the data, when scoped elsewhere,
+        corresponding values will be
+        multiplied due to the scoping
     boolean : bool, optional
         Default is false. if set to true, output of
         scale is made dimensionless
+    algorithm : int, optional
+        Default is 0 use mkl. if set to 1, don't
 
 
     Examples
@@ -40,12 +49,15 @@ class scale(Operator):
     >>> op.inputs.ponderation.connect(my_ponderation)
     >>> my_boolean = bool()
     >>> op.inputs.boolean.connect(my_boolean)
+    >>> my_algorithm = int()
+    >>> op.inputs.algorithm.connect(my_algorithm)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.math.scale(
     ...     field=my_field,
     ...     ponderation=my_ponderation,
     ...     boolean=my_boolean,
+    ...     algorithm=my_algorithm,
     ... )
 
     >>> # Get output data
@@ -53,7 +65,13 @@ class scale(Operator):
     """
 
     def __init__(
-        self, field=None, ponderation=None, boolean=None, config=None, server=None
+        self,
+        field=None,
+        ponderation=None,
+        boolean=None,
+        algorithm=None,
+        config=None,
+        server=None,
     ):
         super().__init__(name="scale", config=config, server=server)
         self._inputs = InputsScale(self)
@@ -64,10 +82,15 @@ class scale(Operator):
             self.inputs.ponderation.connect(ponderation)
         if boolean is not None:
             self.inputs.boolean.connect(boolean)
+        if algorithm is not None:
+            self.inputs.algorithm.connect(algorithm)
 
     @staticmethod
     def _spec():
-        description = """Scales a field by a constant factor."""
+        description = """Scales a field by a constant factor. This factor can be a scalar or a
+            vector, where each value of the vector represents a scaler
+            per component. Number of the components are corresponding
+            to the input field dimensionality"""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -80,9 +103,13 @@ class scale(Operator):
                 ),
                 1: PinSpecification(
                     name="ponderation",
-                    type_names=["double", "field"],
+                    type_names=["double", "field", "vector<double>"],
                     optional=False,
-                    document="""Double/field scoped on overall""",
+                    document="""Double/field/vector of doubles. when scoped
+        on overall, same value(s) applied on
+        all the data, when scoped elsewhere,
+        corresponding values will be
+        multiplied due to the scoping""",
                 ),
                 2: PinSpecification(
                     name="boolean",
@@ -90,6 +117,12 @@ class scale(Operator):
                     optional=True,
                     document="""Default is false. if set to true, output of
         scale is made dimensionless""",
+                ),
+                3: PinSpecification(
+                    name="algorithm",
+                    type_names=["int32"],
+                    optional=True,
+                    document="""Default is 0 use mkl. if set to 1, don't""",
                 ),
             },
             map_output_pin_spec={
@@ -154,6 +187,8 @@ class InputsScale(_Inputs):
     >>> op.inputs.ponderation.connect(my_ponderation)
     >>> my_boolean = bool()
     >>> op.inputs.boolean.connect(my_boolean)
+    >>> my_algorithm = int()
+    >>> op.inputs.algorithm.connect(my_algorithm)
     """
 
     def __init__(self, op: Operator):
@@ -164,6 +199,8 @@ class InputsScale(_Inputs):
         self._inputs.append(self._ponderation)
         self._boolean = Input(scale._spec().input_pin(2), 2, op, -1)
         self._inputs.append(self._boolean)
+        self._algorithm = Input(scale._spec().input_pin(3), 3, op, -1)
+        self._inputs.append(self._algorithm)
 
     @property
     def field(self):
@@ -190,7 +227,11 @@ class InputsScale(_Inputs):
     def ponderation(self):
         """Allows to connect ponderation input to the operator.
 
-        Double/field scoped on overall
+        Double/field/vector of doubles. when scoped
+        on overall, same value(s) applied on
+        all the data, when scoped elsewhere,
+        corresponding values will be
+        multiplied due to the scoping
 
         Parameters
         ----------
@@ -226,6 +267,26 @@ class InputsScale(_Inputs):
         >>> op.inputs.boolean(my_boolean)
         """
         return self._boolean
+
+    @property
+    def algorithm(self):
+        """Allows to connect algorithm input to the operator.
+
+        Default is 0 use mkl. if set to 1, don't
+
+        Parameters
+        ----------
+        my_algorithm : int
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.math.scale()
+        >>> op.inputs.algorithm.connect(my_algorithm)
+        >>> # or
+        >>> op.inputs.algorithm(my_algorithm)
+        """
+        return self._algorithm
 
 
 class OutputsScale(_Outputs):
