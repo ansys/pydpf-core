@@ -32,7 +32,7 @@ import ansys.dpf.core.operators.math as maths
 #
 my_model = dpf.Model(examples.find_complex_rst())
 my_mesh = my_model.metadata.meshed_region
-# print(my_model)
+print(my_model)
 ###############################################################################
 # Get the stress tensor and define it's scoping. Here, only three nodes will be take into account to facilitate the
 # results visualisation
