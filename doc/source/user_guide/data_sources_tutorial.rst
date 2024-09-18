@@ -69,10 +69,10 @@ key is, the DataSources object can be created by:
 
 **d) Function** :func:`add_file_path() <ansys.dpf.core.data_sources.DataSources.add_file_path>`
 
-If the results are not entirely in the same file you need to use this function.
-For example the '.d3plot' files does not contain information related to Units,
-however, if the simulation was run through Mechanical, a file.actunits file is
-produced and need to be added.
+If the results are not in the same file, you must use this function.
+For example, if the '.d3plot' files does not contain information related to units, but
+the simulation was run through Mechanical, a file.actunits file is
+produced and must be added.
 
 .. code-block:: python
     from ansys.dpf import core as dpf
