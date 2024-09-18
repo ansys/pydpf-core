@@ -47,7 +47,7 @@ from ansys.dpf.gate import (
     dpf_vector,
     dpf_array,
 )
-from typing import Optional, Generic, TypeVar, TYPE_CHECKING
+from typing import List, Optional, Generic, TypeVar, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from ansys.dpf.core.support import Support
@@ -236,11 +236,11 @@ class CollectionBase(Generic[TYPE]):
         return out
 
     @property
-    def labels(self) -> list[str]:
+    def labels(self) -> List[str]:
         return self._get_labels()
 
     @labels.setter
-    def labels(self, labels: list[str]):
+    def labels(self, labels: List[str]):
         self.set_labels(labels=labels)
 
     def has_label(self, label) -> bool:

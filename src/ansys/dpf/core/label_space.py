@@ -26,6 +26,7 @@ Internal Usage
 
 import warnings
 import traceback
+from typing import Dict
 from ansys.dpf.gate import (
     label_space_capi,
     label_space_grpcapi,
@@ -68,7 +69,7 @@ class LabelSpace:
         core_api.init_data_processing_environment(self)
         return core_api
 
-    def fill(self, label_space: dict[str, int]):
+    def fill(self, label_space: Dict[str, int]):
         for key, index in label_space.items():
             self._api.label_space_add_data(self, key, index)
 
