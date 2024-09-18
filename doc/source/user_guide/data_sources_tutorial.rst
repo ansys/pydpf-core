@@ -24,7 +24,7 @@ DataSources creation
 --------------------
 
 **a) Class** :class:`DataSources <ansys.dpf.core.data_sources.DataSources>`
-If you are sure that your file has exactly the extensions keys listed above,
+When dealing with a single file of a format listed above,
 instantiate a ``DataSources`` directly with the
 file path as an argument :
 
@@ -34,7 +34,7 @@ file path as an argument :
     # Create a DataSources object for a single file
     my_data_sources_a = dpf.DataSources(result_path=r'file.extension')
 
-It is preferable to generate a raw string (by putting the letter 'r' before
+Generate a raw string (by putting the letter 'r' before
 the file path string) in order to ensure the file path is read correctly.
 
 **b) Function** :func:`set_result_file_path() <ansys.dpf.core.data_sources.DataSources.set_result_file_path>`
