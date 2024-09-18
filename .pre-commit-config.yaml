@@ -22,7 +22,7 @@ repos:
   rev: v2.3.0
   hooks:
   - id: codespell
-    args: ["--ignore-words=./doc/styles/Vocab/ANSYS/accept.txt"]
+    args: ["--ignore-words=./doc/styles/config/vocabularies/ANSYS/accept.txt"]
 
 - repo: https://github.com/pre-commit/pre-commit-hooks
   rev: v4.6.0
@@ -30,6 +30,13 @@ repos:
   - id: check-merge-conflict
   - id: debug-statements
   - id: requirements-txt-fixer
+
+- repo: https://github.com/ansys/pre-commit-hooks
+  rev: v0.4.3
+  hooks:
+    - id: add-license-headers
+      args:
+      - --start_year=2020
 
 # this validates our github workflow files
 - repo: https://github.com/python-jsonschema/check-jsonschema

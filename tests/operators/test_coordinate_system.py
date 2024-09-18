@@ -20,33 +20,40 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""
-.. _ref_load_plugin:
-
-Load plugin
-~~~~~~~~~~~
-
-This example shows how to load a plugin that is not loaded automatically.
-
-"""
-
-###############################################################################
-# Import DPF-Core:
-from ansys.dpf import core as dpf
+# Tests the result.coordinate_system operator
+import ansys.dpf.core as dpf
+from ansys.dpf.core import examples
+import conftest
+import numpy as np
 
 
-server = dpf.global_server()
-
-###############################################################################
-# Create a base service for loading a plugin:
-if server.os == "posix":
-    dpf.core.load_library("libAns.Dpf.Math.so", "math_operators")
-else:
-    dpf.core.load_library("Ans.Dpf.Math.dll", "math_operators")
-
-###############################################################################
-# Math operators are now loaded and accessible in ``ansys.dpf.core.operators``:
-
-from ansys.dpf.core import operators as ops
-
-math_op = ops.math.fft_eval()
+def test_operator_coordinate_system_rst(server_type):
+    model = dpf.Model(examples.download_hemisphere(server=server_type), server=server_type)
+    if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_9_1:
+        # Starting with DPF 2025.1.pre1
+        cs = dpf.operators.result.coordinate_system(server=server_type)
+        cs.inputs.data_sources.connect(model)
+    else:
+        # For previous DPF versions
+        cs = model.operator(r"mapdl::rst::CS")
+    cs.inputs.cs_id.connect(12)
+    cs_rot_mat = cs.outputs.field().data
+    ref = np.array(
+        [
+            [
+                -0.18966565,
+                0.91517569,
+                0.35564083,
+                -0.91517569,
+                -0.03358143,
+                -0.40165376,
+                -0.35564083,
+                -0.40165376,
+                0.84391579,
+                4.74164122,
+                22.87939222,
+                8.89102077,
+            ]
+        ]
+    )
+    assert np.allclose(cs_rot_mat.data, ref)
