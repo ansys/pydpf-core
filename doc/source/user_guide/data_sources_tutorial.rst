@@ -4,7 +4,7 @@
 DPF DataSources
 ===============
 
-The DataSources operator is a class available as a submodule of the 'ansys.dpf.core'
+The DataSources is a class available as a submodule of the 'ansys.dpf.core'
 package. It contains files with the analysis results. So this object is used in
 the first basic step: define simulation data, by defining where it is located.
 
