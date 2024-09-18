@@ -74,6 +74,7 @@ ignored_pattern += r")"
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    "ansys_sphinx_theme.extension.autoapi",
     "sphinx.ext.autosummary",
     "enum_tools.autoenum",
     "nbsphinx",
@@ -197,6 +198,9 @@ html_theme = "ansys_sphinx_theme"
 html_favicon = ansys_favicon
 html_theme_options = {
     "github_url": "https://github.com/ansys/pydpf-core",
+    "ansys_sphinx_theme_autoapi": {
+        "project": project,
+    },
     "show_prev_next": False,
     "show_breadcrumbs": True,
     "additional_breadcrumbs": [
