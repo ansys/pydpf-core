@@ -1,9 +1,32 @@
+# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """
 .. _ref_data_sources:
 
 Data Sources
 ============
 """
+
 import os
 import warnings
 import traceback
@@ -119,11 +142,16 @@ class DataSources:
         ['/tmp/file.rst']
 
         """
+        extension = os.path.splitext(filepath)[1]
+        # Handle .res files from CFX
+        if key == "" and extension == ".res":
+            key = "cas"
+            self.add_file_path(filepath, key="dat")
         # Handle no key given and no file extension
-        if key == "" and os.path.splitext(filepath)[1] == "":
+        if key == "" and extension == "":
             key = self.guess_result_key(str(filepath))
         # Look for another extension for .h5 and .cff files
-        if key == "" and os.path.splitext(filepath)[1] in [".h5", ".cff"]:
+        if key == "" and extension in [".h5", ".cff"]:
             key = self.guess_second_key(str(filepath))
         if key == "":
             self._api.data_sources_set_result_file_path_utf8(self, str(filepath))
@@ -155,7 +183,7 @@ class DataSources:
         return new_key
 
     def set_domain_result_file_path(
-            self, path: Union[str, os.PathLike], domain_id: int, key: Union[str, None] = None
+        self, path: Union[str, os.PathLike], domain_id: int, key: Union[str, None] = None
     ):
         """Add a result file path by domain.
 

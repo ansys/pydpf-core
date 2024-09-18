@@ -16,3 +16,5 @@ from .identical_property_fields import identical_property_fields
 from .identical_string_fields import identical_string_fields 
 from .included_fields import included_fields 
 from .solid_shell_fields import solid_shell_fields 
+from .split_data_sources import split_data_sources 
+from .split_streams import split_streams 

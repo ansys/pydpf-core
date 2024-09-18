@@ -8,6 +8,7 @@ from warnings import warn
 from ansys.dpf.core.dpf_operator import Operator
 from ansys.dpf.core.inputs import Input, _Inputs
 from ansys.dpf.core.outputs import Output, _Outputs
+from ansys.dpf.core.outputs import _modify_output_spec_with_one_type
 from ansys.dpf.core.operators.specification import PinSpecification, Specification
 
 
@@ -143,9 +144,12 @@ class apply_svd(Operator):
                 ),
                 2: PinSpecification(
                     name="sigma",
-                    type_names=["field"],
+                    type_names=["field", "fields_container"],
                     optional=False,
-                    document="""The output entity is a field, containing
+                    document="""The output entity is a field (or a field
+        container if input fc contains
+        several labels, where field contains
+        results per label), containing
         singular (s) values of the input
         data, where a=u.s.vt""",
                 ),
@@ -328,8 +332,20 @@ class OutputsApplySvd(_Outputs):
         self._outputs.append(self._us_svd)
         self._vt_svd = Output(apply_svd._spec().output_pin(1), 1, op)
         self._outputs.append(self._vt_svd)
-        self._sigma = Output(apply_svd._spec().output_pin(2), 2, op)
-        self._outputs.append(self._sigma)
+        self.sigma_as_field = Output(
+            _modify_output_spec_with_one_type(apply_svd._spec().output_pin(2), "field"),
+            2,
+            op,
+        )
+        self._outputs.append(self.sigma_as_field)
+        self.sigma_as_fields_container = Output(
+            _modify_output_spec_with_one_type(
+                apply_svd._spec().output_pin(2), "fields_container"
+            ),
+            2,
+            op,
+        )
+        self._outputs.append(self.sigma_as_fields_container)
 
     @property
     def us_svd(self):
@@ -364,20 +380,3 @@ class OutputsApplySvd(_Outputs):
         >>> result_vt_svd = op.outputs.vt_svd()
         """  # noqa: E501
         return self._vt_svd
-
-    @property
-    def sigma(self):
-        """Allows to get sigma output of the operator
-
-        Returns
-        ----------
-        my_sigma : Field
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.compression.apply_svd()
-        >>> # Connect inputs : op.inputs. ...
-        >>> result_sigma = op.outputs.sigma()
-        """  # noqa: E501
-        return self._sigma

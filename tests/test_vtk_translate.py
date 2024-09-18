@@ -1,10 +1,38 @@
+# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 import pytest
 import conftest
 import ansys.dpf.core as dpf
 from ansys.dpf.core import errors, misc
-from ansys.dpf.core.vtk_helper import \
-    dpf_mesh_to_vtk, dpf_field_to_vtk, dpf_meshes_to_vtk, \
-    dpf_fieldscontainer_to_vtk, dpf_property_field_to_vtk
+from ansys.dpf.core.vtk_helper import (
+    dpf_mesh_to_vtk,
+    dpf_field_to_vtk,
+    dpf_meshes_to_vtk,
+    dpf_fieldscontainer_to_vtk,
+    dpf_property_field_to_vtk,
+    append_field_to_grid,
+    append_fieldscontainer_to_grid,
+)
 
 if misc.module_exists("pyvista"):
     HAS_PYVISTA = True
@@ -43,9 +71,8 @@ def test_dpf_field_to_vtk(simple_rst, fluent_mixing_elbow_steady_state, server_t
     model = dpf.Model(simple_rst, server=server_type)
     mesh = model.metadata.meshed_region
     field = model.results.displacement.on_last_time_freq().eval()[0]
-    field.name = "disp"
     # Nodal Field to VTK
-    ug = dpf_field_to_vtk(field=field)
+    ug = dpf_field_to_vtk(field=field, field_name="disp")
     assert isinstance(ug, pv.UnstructuredGrid)
     assert "disp" in ug.point_data.keys()
     pv.plot(ug)
@@ -62,8 +89,7 @@ def test_dpf_field_to_vtk(simple_rst, fluent_mixing_elbow_steady_state, server_t
     # Elemental Field to VTK
     model = dpf.Model(fluent_mixing_elbow_steady_state(server=server_type), server=server_type)
     field = model.results.dynamic_viscosity.on_last_time_freq().eval()[0]
-    field.name = "DV"
-    ug = dpf_field_to_vtk(field=field, meshed_region=model.metadata.meshed_region)
+    ug = dpf_field_to_vtk(field=field, meshed_region=model.metadata.meshed_region, field_name="DV")
     assert isinstance(ug, pv.UnstructuredGrid)
     assert "DV" in ug.cell_data.keys()
     pv.plot(ug)
@@ -88,7 +114,7 @@ def test_dpf_meshes_to_vtk(fluent_axial_comp, server_type):
     meshes_container = dpf.operators.mesh.meshes_provider(
         data_sources=model,
         server=server_type,
-        region_scoping=dpf.Scoping(ids=[13, 28], location=dpf.locations.zone, server=server_type)
+        region_scoping=dpf.Scoping(ids=[13, 28], location=dpf.locations.zone, server=server_type),
     ).eval()
     assert len(meshes_container) == 2
     ug = dpf_meshes_to_vtk(meshes_container=meshes_container)
@@ -120,8 +146,10 @@ def test_dpf_fieldscontainer_to_vtk(fluent_axial_comp, server_type):
         fields_container=fields_container, meshes_container=meshes_container
     )
     assert ug.GetNumberOfCells() == 13856
-    assert sorted(list(ug.cell_data.keys())) == ["h {'time': 1, 'zone': 13}",
-                                                 "h {'time': 1, 'zone': 28}"]
+    assert sorted(list(ug.cell_data.keys())) == [
+        "h {'time': 1, 'zone': 13}",
+        "h {'time': 1, 'zone': 28}",
+    ]
     pv.plot(ug)
     zone_scoping = dpf.Scoping(ids=[3, 4, 7], location=dpf.locations.zone, server=server_type)
     # Faces
@@ -132,9 +160,7 @@ def test_dpf_fieldscontainer_to_vtk(fluent_axial_comp, server_type):
     ).eval()
     assert len(fields_container) == 3
     meshes_container = dpf.operators.mesh.meshes_provider(
-        data_sources=model,
-        server=server_type,
-        region_scoping=zone_scoping
+        data_sources=model, server=server_type, region_scoping=zone_scoping
     ).eval()
     ug = dpf_fieldscontainer_to_vtk(
         fields_container=fields_container, meshes_container=meshes_container
@@ -143,7 +169,8 @@ def test_dpf_fieldscontainer_to_vtk(fluent_axial_comp, server_type):
     assert sorted(list(ug.cell_data.keys())) == [
         "tau_w {'time': 1, 'zone': 3}",
         "tau_w {'time': 1, 'zone': 4}",
-        "tau_w {'time': 1, 'zone': 7}"]
+        "tau_w {'time': 1, 'zone': 7}",
+    ]
     pv.plot(ug)
 
 
@@ -154,9 +181,48 @@ def test_dpf_property_field_to_vtk(simple_rst, server_type):
     mesh = model.metadata.meshed_region
     property_field = mesh.property_field(property_name="mat")
     print(property_field)
-    property_field.name = "mat_id"
     # PropertyField to VTK
-    ug = dpf_property_field_to_vtk(property_field=property_field, meshed_region=mesh)
+    ug = dpf_property_field_to_vtk(
+        property_field=property_field, meshed_region=mesh, field_name="mat_id"
+    )
     assert isinstance(ug, pv.UnstructuredGrid)
     assert "mat_id" in ug.cell_data.keys()
     pv.plot(ug)
+
+
+@pytest.mark.xfail(raises=errors.DpfVersionNotSupported)
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_append_field_to_grid(simple_rst, server_type):
+    model = dpf.Model(simple_rst, server=server_type)
+    mesh = model.metadata.meshed_region
+    field = model.results.displacement.on_last_time_freq().eval()[0]
+    # Nodal Field to VTK
+    ug = dpf_field_to_vtk(field=field, field_name="disp")
+    assert isinstance(ug, pv.UnstructuredGrid)
+    assert "disp" in ug.point_data.keys()
+    # Append Elemental Field
+    field = model.results.elemental_volume.on_last_time_freq().eval()[0]
+    ug = append_field_to_grid(field=field, meshed_region=mesh, grid=ug, field_name="volume")
+    assert isinstance(ug, pv.UnstructuredGrid)
+    assert "disp" in ug.point_data.keys()
+    assert "volume" in ug.cell_data.keys()
+
+
+@pytest.mark.xfail(raises=errors.DpfVersionNotSupported)
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_append_fields_container_to_grid(simple_rst, server_type):
+    model = dpf.Model(simple_rst, server=server_type)
+    mesh = model.metadata.meshed_region
+    fc = model.results.displacement.eval()
+    # Nodal Field to VTK
+    ug = dpf_fieldscontainer_to_vtk(fields_container=fc, field_name="disp")
+    assert isinstance(ug, pv.UnstructuredGrid)
+    assert "disp {'time': 1}" in ug.point_data.keys()
+    # Append Elemental Field
+    fc = model.results.elemental_volume.eval()
+    ug = append_fieldscontainer_to_grid(
+        fields_container=fc, meshed_region=mesh, grid=ug, field_name="volume"
+    )
+    assert isinstance(ug, pv.UnstructuredGrid)
+    assert "disp {'time': 1}" in ug.point_data.keys()
+    assert "volume {'time': 1}" in ug.cell_data.keys()

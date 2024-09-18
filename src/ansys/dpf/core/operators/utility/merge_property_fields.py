@@ -16,11 +16,16 @@ class merge_property_fields(Operator):
 
     Parameters
     ----------
-    vector_shared_ptr_property_field__1 : PropertyField or PropertyFieldsContainer
+    naive_merge : bool
+        If true, merge the input property fields
+        assuming that there is no repetition
+        in their scoping ids. default is
+        false.
+    property_fields1 : PropertyField or PropertyFieldsContainer
         Either a property fields container, a vector
         of property fields to merge or
         property fields from pin 0 to ...
-    vector_shared_ptr_property_field__2 : PropertyField or PropertyFieldsContainer
+    property_fields2 : PropertyField or PropertyFieldsContainer
         Either a property fields container, a vector
         of property fields to merge or
         property fields from pin 0 to ...
@@ -34,15 +39,18 @@ class merge_property_fields(Operator):
     >>> op = dpf.operators.utility.merge_property_fields()
 
     >>> # Make input connections
-    >>> my_vector_shared_ptr_property_field__1 = dpf.PropertyField()
-    >>> op.inputs.vector_shared_ptr_property_field__1.connect(my_vector_shared_ptr_property_field__1)
-    >>> my_vector_shared_ptr_property_field__2 = dpf.PropertyField()
-    >>> op.inputs.vector_shared_ptr_property_field__2.connect(my_vector_shared_ptr_property_field__2)
+    >>> my_naive_merge = bool()
+    >>> op.inputs.naive_merge.connect(my_naive_merge)
+    >>> my_property_fields1 = dpf.PropertyField()
+    >>> op.inputs.property_fields1.connect(my_property_fields1)
+    >>> my_property_fields2 = dpf.PropertyField()
+    >>> op.inputs.property_fields2.connect(my_property_fields2)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.utility.merge_property_fields(
-    ...     vector_shared_ptr_property_field__1=my_vector_shared_ptr_property_field__1,
-    ...     vector_shared_ptr_property_field__2=my_vector_shared_ptr_property_field__2,
+    ...     naive_merge=my_naive_merge,
+    ...     property_fields1=my_property_fields1,
+    ...     property_fields2=my_property_fields2,
     ... )
 
     >>> # Get output data
@@ -51,22 +59,21 @@ class merge_property_fields(Operator):
 
     def __init__(
         self,
-        vector_shared_ptr_property_field__1=None,
-        vector_shared_ptr_property_field__2=None,
+        naive_merge=None,
+        property_fields1=None,
+        property_fields2=None,
         config=None,
         server=None,
     ):
         super().__init__(name="merge::property_field", config=config, server=server)
         self._inputs = InputsMergePropertyFields(self)
         self._outputs = OutputsMergePropertyFields(self)
-        if vector_shared_ptr_property_field__1 is not None:
-            self.inputs.vector_shared_ptr_property_field__1.connect(
-                vector_shared_ptr_property_field__1
-            )
-        if vector_shared_ptr_property_field__2 is not None:
-            self.inputs.vector_shared_ptr_property_field__2.connect(
-                vector_shared_ptr_property_field__2
-            )
+        if naive_merge is not None:
+            self.inputs.naive_merge.connect(naive_merge)
+        if property_fields1 is not None:
+            self.inputs.property_fields1.connect(property_fields1)
+        if property_fields2 is not None:
+            self.inputs.property_fields2.connect(property_fields2)
 
     @staticmethod
     def _spec():
@@ -74,8 +81,17 @@ class merge_property_fields(Operator):
         spec = Specification(
             description=description,
             map_input_pin_spec={
+                -201: PinSpecification(
+                    name="naive_merge",
+                    type_names=["bool"],
+                    optional=False,
+                    document="""If true, merge the input property fields
+        assuming that there is no repetition
+        in their scoping ids. default is
+        false.""",
+                ),
                 0: PinSpecification(
-                    name="vector_shared_ptr_property_field__",
+                    name="property_fields",
                     type_names=["property_field", "property_fields_container"],
                     optional=False,
                     document="""Either a property fields container, a vector
@@ -83,7 +99,7 @@ class merge_property_fields(Operator):
         property fields from pin 0 to ...""",
                 ),
                 1: PinSpecification(
-                    name="vector_shared_ptr_property_field__",
+                    name="property_fields",
                     type_names=["property_field", "property_fields_container"],
                     optional=False,
                     document="""Either a property fields container, a vector
@@ -147,26 +163,55 @@ class InputsMergePropertyFields(_Inputs):
     --------
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.utility.merge_property_fields()
-    >>> my_vector_shared_ptr_property_field__1 = dpf.PropertyField()
-    >>> op.inputs.vector_shared_ptr_property_field__1.connect(my_vector_shared_ptr_property_field__1)
-    >>> my_vector_shared_ptr_property_field__2 = dpf.PropertyField()
-    >>> op.inputs.vector_shared_ptr_property_field__2.connect(my_vector_shared_ptr_property_field__2)
+    >>> my_naive_merge = bool()
+    >>> op.inputs.naive_merge.connect(my_naive_merge)
+    >>> my_property_fields1 = dpf.PropertyField()
+    >>> op.inputs.property_fields1.connect(my_property_fields1)
+    >>> my_property_fields2 = dpf.PropertyField()
+    >>> op.inputs.property_fields2.connect(my_property_fields2)
     """
 
     def __init__(self, op: Operator):
         super().__init__(merge_property_fields._spec().inputs, op)
-        self._vector_shared_ptr_property_field__1 = Input(
+        self._naive_merge = Input(
+            merge_property_fields._spec().input_pin(-201), -201, op, -1
+        )
+        self._inputs.append(self._naive_merge)
+        self._property_fields1 = Input(
             merge_property_fields._spec().input_pin(0), 0, op, 0
         )
-        self._inputs.append(self._vector_shared_ptr_property_field__1)
-        self._vector_shared_ptr_property_field__2 = Input(
+        self._inputs.append(self._property_fields1)
+        self._property_fields2 = Input(
             merge_property_fields._spec().input_pin(1), 1, op, 1
         )
-        self._inputs.append(self._vector_shared_ptr_property_field__2)
+        self._inputs.append(self._property_fields2)
 
     @property
-    def vector_shared_ptr_property_field__1(self):
-        """Allows to connect vector_shared_ptr_property_field__1 input to the operator.
+    def naive_merge(self):
+        """Allows to connect naive_merge input to the operator.
+
+        If true, merge the input property fields
+        assuming that there is no repetition
+        in their scoping ids. default is
+        false.
+
+        Parameters
+        ----------
+        my_naive_merge : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.utility.merge_property_fields()
+        >>> op.inputs.naive_merge.connect(my_naive_merge)
+        >>> # or
+        >>> op.inputs.naive_merge(my_naive_merge)
+        """
+        return self._naive_merge
+
+    @property
+    def property_fields1(self):
+        """Allows to connect property_fields1 input to the operator.
 
         Either a property fields container, a vector
         of property fields to merge or
@@ -174,21 +219,21 @@ class InputsMergePropertyFields(_Inputs):
 
         Parameters
         ----------
-        my_vector_shared_ptr_property_field__1 : PropertyField or PropertyFieldsContainer
+        my_property_fields1 : PropertyField or PropertyFieldsContainer
 
         Examples
         --------
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.utility.merge_property_fields()
-        >>> op.inputs.vector_shared_ptr_property_field__1.connect(my_vector_shared_ptr_property_field__1)
+        >>> op.inputs.property_fields1.connect(my_property_fields1)
         >>> # or
-        >>> op.inputs.vector_shared_ptr_property_field__1(my_vector_shared_ptr_property_field__1)
+        >>> op.inputs.property_fields1(my_property_fields1)
         """
-        return self._vector_shared_ptr_property_field__1
+        return self._property_fields1
 
     @property
-    def vector_shared_ptr_property_field__2(self):
-        """Allows to connect vector_shared_ptr_property_field__2 input to the operator.
+    def property_fields2(self):
+        """Allows to connect property_fields2 input to the operator.
 
         Either a property fields container, a vector
         of property fields to merge or
@@ -196,17 +241,17 @@ class InputsMergePropertyFields(_Inputs):
 
         Parameters
         ----------
-        my_vector_shared_ptr_property_field__2 : PropertyField or PropertyFieldsContainer
+        my_property_fields2 : PropertyField or PropertyFieldsContainer
 
         Examples
         --------
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.utility.merge_property_fields()
-        >>> op.inputs.vector_shared_ptr_property_field__2.connect(my_vector_shared_ptr_property_field__2)
+        >>> op.inputs.property_fields2.connect(my_property_fields2)
         >>> # or
-        >>> op.inputs.vector_shared_ptr_property_field__2(my_vector_shared_ptr_property_field__2)
+        >>> op.inputs.property_fields2(my_property_fields2)
         """
-        return self._vector_shared_ptr_property_field__2
+        return self._property_fields2
 
 
 class OutputsMergePropertyFields(_Outputs):
