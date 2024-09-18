@@ -4,7 +4,6 @@ from .component_selector import component_selector
 from .component_selector_fc import component_selector_fc 
 from .component_transformer import component_transformer 
 from .component_transformer_fc import component_transformer_fc 
-from .data_sources import data_sources 
 from .descending_sort import descending_sort 
 from .descending_sort_fc import descending_sort_fc 
 from .elementary_data_selector import elementary_data_selector 
@@ -17,3 +16,5 @@ from .identical_property_fields import identical_property_fields
 from .identical_string_fields import identical_string_fields 
 from .included_fields import included_fields 
 from .solid_shell_fields import solid_shell_fields 
+from .split_data_sources import split_data_sources 
+from .split_streams import split_streams 

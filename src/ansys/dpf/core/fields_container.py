@@ -1,3 +1,25 @@
+# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """
 .. _ref_fields_container:
 
@@ -5,6 +27,7 @@ FieldsContainer
 ===============
 Contains classes associated with the DPF FieldsContainer.
 """
+
 from ansys import dpf
 from ansys.dpf.core.collection_base import CollectionBase
 from ansys.dpf.core import errors as dpf_errors
@@ -351,7 +374,7 @@ class FieldsContainer(CollectionBase[field.Field]):
         """
         labels = self.labels
         if not self.has_label("time") and (
-                len(self.labels) == 0 or (len(self.labels) == 1 and self.has_label("complex"))
+            len(self.labels) == 0 or (len(self.labels) == 1 and self.has_label("complex"))
         ):
             self.add_label("time")
         if len(self.labels) == 1:
@@ -374,7 +397,7 @@ class FieldsContainer(CollectionBase[field.Field]):
             Time ID for the requested time set. The default is ``1``.
         """
         if not self.has_label("time") and (
-                len(self.labels) == 0 or (len(self.labels) == 1 and self.has_label("complex"))
+            len(self.labels) == 0 or (len(self.labels) == 1 and self.has_label("complex"))
         ):
             self.add_label("time")
         if not self.has_label("complex") and len(self.labels) == 1 and self.has_label("time"):
@@ -500,6 +523,7 @@ class FieldsContainer(CollectionBase[field.Field]):
             :class:`~plotter.DpfPlotter`.
         """
         from ansys.dpf.core import plotter
+
         plt = plotter.DpfPlotter(**kwargs)
         if label_space is None:
             label_space = {}

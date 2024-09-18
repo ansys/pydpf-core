@@ -13,8 +13,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 class split_on_property_type(Operator):
     """Splits a given scoping or the mesh scoping (nodal or elemental) on
-    given properties (elshape and/or material) and returns a scopings
-    container with those split scopings.
+    given properties (elshape and/or material, since 2025R1 it
+    supports any scalar property field name contained in the mesh
+    property fields) and returns a scopings container with those split
+    scopings.
 
     Parameters
     ----------
@@ -31,12 +33,16 @@ class split_on_property_type(Operator):
         elements (default)
     label1 : str, optional
         Properties to apply the filtering 'mat'
-        and/or 'elshape' (default is
-        'elshape')
+        and/or 'elshape' (since 2025r1 it
+        supports any property name contained
+        in the mesh property fields) (default
+        is 'elshape')
     label2 : str, optional
         Properties to apply the filtering 'mat'
-        and/or 'elshape' (default is
-        'elshape')
+        and/or 'elshape' (since 2025r1 it
+        supports any property name contained
+        in the mesh property fields) (default
+        is 'elshape')
 
 
     Examples
@@ -104,8 +110,10 @@ class split_on_property_type(Operator):
     @staticmethod
     def _spec():
         description = """Splits a given scoping or the mesh scoping (nodal or elemental) on
-            given properties (elshape and/or material) and returns a
-            scopings container with those split scopings."""
+            given properties (elshape and/or material, since 2025R1 it
+            supports any scalar property field name contained in the
+            mesh property fields) and returns a scopings container
+            with those split scopings."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -141,16 +149,20 @@ class split_on_property_type(Operator):
                     type_names=["string"],
                     optional=True,
                     document="""Properties to apply the filtering 'mat'
-        and/or 'elshape' (default is
-        'elshape')""",
+        and/or 'elshape' (since 2025r1 it
+        supports any property name contained
+        in the mesh property fields) (default
+        is 'elshape')""",
                 ),
                 14: PinSpecification(
                     name="label",
                     type_names=["string"],
                     optional=True,
                     document="""Properties to apply the filtering 'mat'
-        and/or 'elshape' (default is
-        'elshape')""",
+        and/or 'elshape' (since 2025r1 it
+        supports any property name contained
+        in the mesh property fields) (default
+        is 'elshape')""",
                 ),
             },
             map_output_pin_spec={
@@ -332,8 +344,10 @@ class InputsSplitOnPropertyType(_Inputs):
         """Allows to connect label1 input to the operator.
 
         Properties to apply the filtering 'mat'
-        and/or 'elshape' (default is
-        'elshape')
+        and/or 'elshape' (since 2025r1 it
+        supports any property name contained
+        in the mesh property fields) (default
+        is 'elshape')
 
         Parameters
         ----------
@@ -354,8 +368,10 @@ class InputsSplitOnPropertyType(_Inputs):
         """Allows to connect label2 input to the operator.
 
         Properties to apply the filtering 'mat'
-        and/or 'elshape' (default is
-        'elshape')
+        and/or 'elshape' (since 2025r1 it
+        supports any property name contained
+        in the mesh property fields) (default
+        is 'elshape')
 
         Parameters
         ----------

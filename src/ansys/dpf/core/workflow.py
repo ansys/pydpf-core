@@ -1,9 +1,32 @@
+# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """
 .. _ref_workflow_apis:
 
 Workflow
 ========
 """
+
 import logging
 import os
 import traceback
@@ -14,7 +37,11 @@ from typing import Union
 
 from ansys import dpf
 from ansys.dpf.core import dpf_operator, inputs, outputs
-from ansys.dpf.core.check_version import server_meet_version, version_requires, server_meet_version_and_raise
+from ansys.dpf.core.check_version import (
+    server_meet_version,
+    version_requires,
+    server_meet_version_and_raise,
+)
 from ansys.dpf.core import server as server_module
 from ansys.dpf.gate import (
     workflow_abstract_api,
@@ -23,7 +50,8 @@ from ansys.dpf.gate import (
     data_processing_capi,
     data_processing_grpcapi,
     dpf_vector,
-    object_handler, integral_types,
+    object_handler,
+    integral_types,
 )
 
 LOG = logging.getLogger(__name__)
@@ -115,12 +143,12 @@ class Workflow:
     def _getoutput_string(self, pin):
         out = Workflow._getoutput_string_as_bytes(self, pin)
         if out is not None and not isinstance(out, str):
-            return out.decode('utf-8')
+            return out.decode("utf-8")
         return out
 
     @staticmethod
     def _connect_string(self, pin, str):
-        return Workflow._connect_string_as_bytes(self, pin, str.encode('utf-8'))
+        return Workflow._connect_string_as_bytes(self, pin, str.encode("utf-8"))
 
     @staticmethod
     def _getoutput_string_as_bytes(self, pin):
@@ -135,7 +163,7 @@ class Workflow:
         server_meet_version_and_raise(
             "8.0",
             self._server,
-            "output of type bytes available with server's version starting at 8.0 (Ansys 2024R2)."
+            "output of type bytes available with server's version starting at 8.0 (Ansys 2024R2).",
         )
         return Workflow._getoutput_string_as_bytes(self, pin)
 
@@ -235,9 +263,13 @@ class Workflow:
             workflow,
             model,
             generic_data_container,
+            any,
+            streams_container,
         )
 
         out = [
+            (streams_container.StreamsContainer, self._api.work_flow_connect_streams),
+            (any.Any, self._api.work_flow_connect_any),
             (bool, self._api.work_flow_connect_bool),
             ((int, Enum), self._api.work_flow_connect_int),
             (str, self._connect_string),
@@ -299,9 +331,12 @@ class Workflow:
             generic_data_container,
             any,
             collection_base,
+            streams_container,
         )
 
         out = [
+            (streams_container.StreamsContainer, self._api.work_flow_getoutput_streams),
+            (any.Any, self._api.work_flow_getoutput_as_any),
             (bool, self._api.work_flow_getoutput_bool),
             (int, self._api.work_flow_getoutput_int),
             (str, self._getoutput_string),
@@ -384,9 +419,7 @@ class Workflow:
             (
                 collection.Collection,
                 self._api.work_flow_getoutput_as_any,
-                lambda obj, type: any.Any(
-                    server=self._server, any_dpf=obj
-                ).cast(type),
+                lambda obj, type: any.Any(server=self._server, any_dpf=obj).cast(type),
             ),
         ]
         if hasattr(self._api, "work_flow_connect_generic_data_container"):
@@ -859,11 +892,11 @@ class Workflow:
             )
 
     def view(
-            self,
-            title: Union[None, str] = None,
-            save_as: Union[None, str, os.PathLike] = None,
-            off_screen: bool = False,
-            keep_dot_file: bool = False,
+        self,
+        title: Union[None, str] = None,
+        save_as: Union[None, str, os.PathLike] = None,
+        off_screen: bool = False,
+        keep_dot_file: bool = False,
     ) -> Union[str, None]:
         """Run a viewer to show a rendering of the workflow.
 
@@ -899,7 +932,7 @@ class Workflow:
             name = title
 
         if save_as:
-            dot_path = os.path.splitext(str(save_as))[0]+".dot"
+            dot_path = os.path.splitext(str(save_as))[0] + ".dot"
             image_path = save_as
         else:
             dot_path = os.path.join(os.getcwd(), f"{name}.dot")
@@ -908,7 +941,7 @@ class Workflow:
         # Create graphviz file of workflow
         self.to_graphviz(dot_path)
         # Render workflow
-        graphviz.render(engine='dot', filepath=dot_path, outfile=image_path)
+        graphviz.render(engine="dot", filepath=dot_path, outfile=image_path)
         if not off_screen:
             # View workflow
             graphviz.view(filepath=image_path)
