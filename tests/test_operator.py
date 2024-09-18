@@ -1,3 +1,25 @@
+# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 import gc
 import os
 import shutil
@@ -1381,3 +1403,18 @@ def test_input_any(server_type):
     output = op.get_output(pin=0, output_type=dpf.core.types.field)
     assert isinstance(output, dpf.core.Field)
     assert len(output.data_as_list) == len(data)
+
+
+@pytest.mark.skipif(
+    condition=not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
+    reason="Input/output of Streams requires DPF 6.0 or above.",
+)
+def test_operator_input_output_streams(server_in_process, simple_bar):
+    data_source = dpf.core.DataSources(simple_bar, server=server_in_process)
+    streams_op = dpf.core.operators.metadata.streams_provider(server=server_in_process)
+    streams_op.inputs.data_sources.connect(data_source)
+    streams = streams_op.outputs.streams_container()
+    time_provider = dpf.core.operators.metadata.time_freq_provider(server=server_in_process)
+    time_provider.connect(pin=3, inpt=streams)
+    times = time_provider.outputs.time_freq_support()
+    assert times

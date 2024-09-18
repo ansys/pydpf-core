@@ -1,9 +1,32 @@
+# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """
 Internal Usage
 """
 
 import warnings
 import traceback
+from typing import Dict
 from ansys.dpf.gate import (
     label_space_capi,
     label_space_grpcapi,
@@ -46,9 +69,21 @@ class LabelSpace:
         core_api.init_data_processing_environment(self)
         return core_api
 
-    def fill(self, label_space):
+    def fill(self, label_space: Dict[str, int]):
         for key, index in label_space.items():
             self._api.label_space_add_data(self, key, index)
+
+    def __str__(self):
+        return str(dict(self))
+
+    def __iter__(self):
+        yield from [
+            (
+                self._api.label_space_get_labels_name(self, i),
+                self._api.label_space_get_labels_value(self, i),
+            )
+            for i in range(self._api.label_space_get_size(self))
+        ]
 
     def __dict__(self):
         if isinstance(self._internal_obj, dict):
