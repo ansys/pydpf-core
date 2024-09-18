@@ -19,6 +19,10 @@ class euler_nodes(Operator):
     ----------
     streams_container : StreamsContainer or Stream, optional
     data_sources : DataSources
+    filter_zeros : bool
+        If true, then the field will only contain the
+        scoping if any rotation is not zero.
+        (default is false).
     coord_and_euler : bool
         If true, then the field has ncomp=6 with 3
         coordinates and 3 euler angles, else
@@ -39,6 +43,8 @@ class euler_nodes(Operator):
     >>> op.inputs.streams_container.connect(my_streams_container)
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
+    >>> my_filter_zeros = bool()
+    >>> op.inputs.filter_zeros.connect(my_filter_zeros)
     >>> my_coord_and_euler = bool()
     >>> op.inputs.coord_and_euler.connect(my_coord_and_euler)
     >>> my_mesh = dpf.MeshedRegion()
@@ -48,6 +54,7 @@ class euler_nodes(Operator):
     >>> op = dpf.operators.result.euler_nodes(
     ...     streams_container=my_streams_container,
     ...     data_sources=my_data_sources,
+    ...     filter_zeros=my_filter_zeros,
     ...     coord_and_euler=my_coord_and_euler,
     ...     mesh=my_mesh,
     ... )
@@ -60,6 +67,7 @@ class euler_nodes(Operator):
         self,
         streams_container=None,
         data_sources=None,
+        filter_zeros=None,
         coord_and_euler=None,
         mesh=None,
         config=None,
@@ -72,6 +80,8 @@ class euler_nodes(Operator):
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:
             self.inputs.data_sources.connect(data_sources)
+        if filter_zeros is not None:
+            self.inputs.filter_zeros.connect(filter_zeros)
         if coord_and_euler is not None:
             self.inputs.coord_and_euler.connect(coord_and_euler)
         if mesh is not None:
@@ -95,6 +105,14 @@ class euler_nodes(Operator):
                     type_names=["data_sources"],
                     optional=False,
                     document="""""",
+                ),
+                5: PinSpecification(
+                    name="filter_zeros",
+                    type_names=["bool"],
+                    optional=False,
+                    document="""If true, then the field will only contain the
+        scoping if any rotation is not zero.
+        (default is false).""",
                 ),
                 6: PinSpecification(
                     name="coord_and_euler",
@@ -172,6 +190,8 @@ class InputsEulerNodes(_Inputs):
     >>> op.inputs.streams_container.connect(my_streams_container)
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
+    >>> my_filter_zeros = bool()
+    >>> op.inputs.filter_zeros.connect(my_filter_zeros)
     >>> my_coord_and_euler = bool()
     >>> op.inputs.coord_and_euler.connect(my_coord_and_euler)
     >>> my_mesh = dpf.MeshedRegion()
@@ -184,6 +204,8 @@ class InputsEulerNodes(_Inputs):
         self._inputs.append(self._streams_container)
         self._data_sources = Input(euler_nodes._spec().input_pin(4), 4, op, -1)
         self._inputs.append(self._data_sources)
+        self._filter_zeros = Input(euler_nodes._spec().input_pin(5), 5, op, -1)
+        self._inputs.append(self._filter_zeros)
         self._coord_and_euler = Input(euler_nodes._spec().input_pin(6), 6, op, -1)
         self._inputs.append(self._coord_and_euler)
         self._mesh = Input(euler_nodes._spec().input_pin(7), 7, op, -1)
@@ -224,6 +246,28 @@ class InputsEulerNodes(_Inputs):
         >>> op.inputs.data_sources(my_data_sources)
         """
         return self._data_sources
+
+    @property
+    def filter_zeros(self):
+        """Allows to connect filter_zeros input to the operator.
+
+        If true, then the field will only contain the
+        scoping if any rotation is not zero.
+        (default is false).
+
+        Parameters
+        ----------
+        my_filter_zeros : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.euler_nodes()
+        >>> op.inputs.filter_zeros.connect(my_filter_zeros)
+        >>> # or
+        >>> op.inputs.filter_zeros(my_filter_zeros)
+        """
+        return self._filter_zeros
 
     @property
     def coord_and_euler(self):

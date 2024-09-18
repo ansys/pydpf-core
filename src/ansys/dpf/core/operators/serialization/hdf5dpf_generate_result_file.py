@@ -22,12 +22,16 @@ class hdf5dpf_generate_result_file(Operator):
         native compression applicable for
         arrays of floats, doubles and
         integers.
-    h5_native_compression : int, optional
-        Integer value that defines the h5 native
-        compression used 0: no compression
-        (default)1-9: gzip level compression
-        : 9 gives us maximum compression but
-        at the slowest speed.
+    h5_native_compression : int or DataTree, optional
+        Integer value / datatree that defines the h5
+        native compression used for integer
+        input {0: no compression (default);
+        1-9: gzip compression : 9 provides
+        maximum compression but at the
+        slowest speed.}for datatree input
+        {type: none / gzip / zstd; level:
+        gzip (1-9) / zstd (1-20);
+        num_threads: zstd (>0)}
     export_floats : bool, optional
         Converts double to float to reduce file size
         (default is true)
@@ -172,13 +176,17 @@ class hdf5dpf_generate_result_file(Operator):
                 ),
                 -2: PinSpecification(
                     name="h5_native_compression",
-                    type_names=["int32"],
+                    type_names=["int32", "abstract_data_tree"],
                     optional=True,
-                    document="""Integer value that defines the h5 native
-        compression used 0: no compression
-        (default)1-9: gzip level compression
-        : 9 gives us maximum compression but
-        at the slowest speed.""",
+                    document="""Integer value / datatree that defines the h5
+        native compression used for integer
+        input {0: no compression (default);
+        1-9: gzip compression : 9 provides
+        maximum compression but at the
+        slowest speed.}for datatree input
+        {type: none / gzip / zstd; level:
+        gzip (1-9) / zstd (1-20);
+        num_threads: zstd (>0)}""",
                 ),
                 -1: PinSpecification(
                     name="export_floats",
@@ -395,15 +403,19 @@ class InputsHdf5DpfGenerateResultFile(_Inputs):
     def h5_native_compression(self):
         """Allows to connect h5_native_compression input to the operator.
 
-        Integer value that defines the h5 native
-        compression used 0: no compression
-        (default)1-9: gzip level compression
-        : 9 gives us maximum compression but
-        at the slowest speed.
+        Integer value / datatree that defines the h5
+        native compression used for integer
+        input {0: no compression (default);
+        1-9: gzip compression : 9 provides
+        maximum compression but at the
+        slowest speed.}for datatree input
+        {type: none / gzip / zstd; level:
+        gzip (1-9) / zstd (1-20);
+        num_threads: zstd (>0)}
 
         Parameters
         ----------
-        my_h5_native_compression : int
+        my_h5_native_compression : int or DataTree
 
         Examples
         --------

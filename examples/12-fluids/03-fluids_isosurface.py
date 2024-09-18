@@ -1,8 +1,30 @@
+# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """
 .. _ref_fluids_isosurface:
 
 Compute iso-surfaces on fluid models
-------------------------------------------
+------------------------------------
 
 This example demonstrates how to compute iso-surfaces on fluid models.
 
@@ -14,7 +36,7 @@ This example demonstrates how to compute iso-surfaces on fluid models.
 
 ###############################################################################
 # Import the ``dpf-core`` module and its examples files.
-# ~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 import ansys.dpf.core as dpf
 from ansys.dpf.core import examples
@@ -22,7 +44,7 @@ from ansys.dpf.core.plotter import DpfPlotter
 
 ###############################################################################
 # Specify the file path.
-# ~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~
 # We work on a cas/dat.h5 file with only nodal variables.
 
 path = examples.download_cfx_heating_coil()
@@ -33,7 +55,7 @@ streams = dpf.operators.metadata.streams_provider(data_sources=ds)
 
 ###############################################################################
 # Whole mesh scoping.
-# ~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~
 # We evaluate the mesh with the mesh_provider operator to scope the mesh_cut operator
 # with the whole mesh.
 
@@ -44,7 +66,7 @@ whole_mesh.plot()
 
 ###############################################################################
 # Extract the physics variable
-# ~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Here we choose to work with the static pressure by default which is a scalar and
 # nodal variable without multi-species/phases. With a multi-species case,
 # select one using qualifier ellipsis pins and connecting a LabelSpace "species"/"phase".
@@ -63,7 +85,7 @@ pl.show_figure(cpos=cpos_mesh_variable, show_axes=True)
 
 ###############################################################################
 # Evaluate iso-surfaces
-# ~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~
 # We can finally use the iso_surfaces operator on this specific variable.
 # We choose to cut the whole mesh with 9 iso-surface manually selected between
 # the min and max of the static_pressure variable.
@@ -85,8 +107,9 @@ pl.add_mesh(
 
 vec_iso_values = [-153.6, -100.0, -50.0, 50.0, 100.0, 150.0, 200.0, 300.0, 361.8]
 
-iso_surfaces_op = dpf.operators.mesh.iso_surfaces(field=P_S[0], mesh=whole_mesh, slice_surfaces=True,
-                                              vector_iso_values=vec_iso_values)
+iso_surfaces_op = dpf.operators.mesh.iso_surfaces(
+    field=P_S[0], mesh=whole_mesh, slice_surfaces=True, vector_iso_values=vec_iso_values
+)
 
 iso_surfaces_meshes = iso_surfaces_op.outputs.meshes()
 
@@ -94,15 +117,18 @@ iso_surfaces_fields = iso_surfaces_op.outputs.fields_container()
 
 for i in range(len(iso_surfaces_fields)):
     pl.add_field(
-        field=iso_surfaces_fields[i], meshed_region=iso_surfaces_meshes[i], style="surface", show_edges=False,
-        show_axes=True
+        field=iso_surfaces_fields[i],
+        meshed_region=iso_surfaces_meshes[i],
+        style="surface",
+        show_edges=False,
+        show_axes=True,
     )
 
 pl.show_figure(show_axes=True, cpos=c_pos_iso)
 
 ###############################################################################
 # Important note
-# ------------------------------
+# --------------
 # Iso-surfaces computation through the `mesh_cut` operator are only supported for Nodal Fields.
 # For Elemental variables, you must perform an averaging operation on the Nodes before
 # running the `mesh_cut` operator. This can be done by chaining the `elemental_to_nodal` operator

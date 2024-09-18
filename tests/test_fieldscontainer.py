@@ -1,3 +1,25 @@
+# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 import weakref
 
 import numpy as np
@@ -5,6 +27,7 @@ import pytest
 import os
 
 import conftest
+from ansys.dpf.core.check_version import server_meet_version
 from ansys.dpf import core as dpf
 from ansys.dpf.core import FieldsContainer, Field, TimeFreqSupport
 from ansys.dpf.core import errors as dpf_errors
@@ -361,17 +384,17 @@ def test_el_shape_fc(allkindofcomplexity):
     mesh = model.metadata.meshed_region
 
     f = fc.beam_field()
-    ids = f.scoping.ids[0: int(len(f.scoping) / 4)]
+    ids = f.scoping.ids[0 : int(len(f.scoping) / 4)]
     for id in ids:
         assert mesh.elements.element_by_id(id).shape == "beam"
 
     f = fc.shell_field()
-    ids = f.scoping.ids[0: int(len(f.scoping) / 10)]
+    ids = f.scoping.ids[0 : int(len(f.scoping) / 10)]
     for id in ids:
         assert mesh.elements.element_by_id(id).shape == "shell"
 
     f = fc.solid_field()
-    ids = f.scoping.ids[0: int(len(f.scoping) / 10)]
+    ids = f.scoping.ids[0 : int(len(f.scoping) / 10)]
     for id in ids:
         assert mesh.elements.element_by_id(id).shape == "solid"
 
@@ -389,15 +412,15 @@ def test_el_shape_time_fc():
     mesh = model.metadata.meshed_region
 
     f = fc.beam_field(3)
-    for id in f.scoping.ids[0: int(len(f.scoping.ids) / 3)]:
+    for id in f.scoping.ids[0 : int(len(f.scoping.ids) / 3)]:
         assert mesh.elements.element_by_id(id).shape == "beam"
 
     f = fc.shell_field(4)
-    for id in f.scoping.ids[0: int(len(f.scoping.ids) / 10)]:
+    for id in f.scoping.ids[0 : int(len(f.scoping.ids) / 10)]:
         assert mesh.elements.element_by_id(id).shape == "shell"
 
     f = fc.solid_field(5)
-    for id in f.scoping.ids[0: int(len(f.scoping.ids) / 10)]:
+    for id in f.scoping.ids[0 : int(len(f.scoping.ids) / 10)]:
         assert mesh.elements.element_by_id(id).shape == "solid"
 
 
@@ -407,7 +430,10 @@ def test_mat_time_fc():
     assert isinstance(fc, BodyFieldsContainer)
     assert len(fc.get_fields_by_mat_id(45)) == 45
     assert np.allclose(fc.get_fields_by_mat_id(45)[0].data, fc.get_field_by_mat_id(45, 1).data)
-    assert len(fc.get_mat_scoping().ids) == 32
+    if server_meet_version("9.0", model._server):
+        assert len(fc.get_mat_scoping().ids) == 44
+    else:
+        assert len(fc.get_mat_scoping().ids) == 32
 
 
 def test_add_operator_fields_container():
@@ -560,3 +586,15 @@ def test_fields_container_empty_tf_support(server_type):
     fields_container = dpf.FieldsContainer(server=server_type)
 
     assert fields_container.time_freq_support == None
+
+
+@conftest.raises_for_servers_version_under("9.0")
+def test_get_entries_indices_fields_container(server_type):
+    fc = FieldsContainer(server=server_type)
+    fc.labels = ["time", "complex"]
+    for i in range(0, 20):
+        mscop = {"time": i + 1, "complex": 0}
+        fc.add_field(mscop, Field(nentities=i + 10, server=server_type))
+    assert np.allclose(fc.get_entries_indices({"time": 1, "complex": 0}), [0])
+    assert np.allclose(fc.get_entries_indices({"time": 2}), [1])
+    assert np.allclose(fc.get_entries_indices({"complex": 0}), range(0, 20))

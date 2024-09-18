@@ -7,10 +7,8 @@ import ansys.grpc.dpf.base_pb2 as base__pb2
 import ansys.grpc.dpf.collection_pb2 as collection__pb2
 import ansys.grpc.dpf.support_pb2 as support__pb2
 
-GRPC_GENERATED_VERSION = '1.64.1'
+GRPC_GENERATED_VERSION = '1.66.1'
 GRPC_VERSION = grpc.__version__
-EXPECTED_ERROR_RELEASE = '1.65.0'
-SCHEDULED_RELEASE_DATE = 'June 25, 2024'
 _version_not_supported = False
 
 try:
@@ -20,15 +18,12 @@ except ImportError:
     _version_not_supported = True
 
 if _version_not_supported:
-    warnings.warn(
+    raise RuntimeError(
         f'The grpc package installed is at version {GRPC_VERSION},'
         + f' but the generated code in collection_pb2_grpc.py depends on'
         + f' grpcio>={GRPC_GENERATED_VERSION}.'
         + f' Please upgrade your grpc module to grpcio>={GRPC_GENERATED_VERSION}'
         + f' or downgrade your generated code using grpcio-tools<={GRPC_VERSION}.'
-        + f' This warning will become an error in {EXPECTED_ERROR_RELEASE},'
-        + f' scheduled for release on {SCHEDULED_RELEASE_DATE}.',
-        RuntimeWarning
     )
 
 
@@ -61,6 +56,11 @@ class CollectionServiceStub(object):
                 request_serializer=collection__pb2.UpdateRequest.SerializeToString,
                 response_deserializer=base__pb2.Empty.FromString,
                 _registered_method=True)
+        self.UpdateSize = channel.unary_unary(
+                '/ansys.api.dpf.collection.v0.CollectionService/UpdateSize',
+                request_serializer=collection__pb2.UpdateSizeRequest.SerializeToString,
+                response_deserializer=base__pb2.Empty.FromString,
+                _registered_method=True)
         self.List = channel.unary_unary(
                 '/ansys.api.dpf.collection.v0.CollectionService/List',
                 request_serializer=collection__pb2.Collection.SerializeToString,
@@ -70,6 +70,11 @@ class CollectionServiceStub(object):
                 '/ansys.api.dpf.collection.v0.CollectionService/GetEntries',
                 request_serializer=collection__pb2.EntryRequest.SerializeToString,
                 response_deserializer=collection__pb2.GetEntriesResponse.FromString,
+                _registered_method=True)
+        self.GetEntriesIndices = channel.unary_unary(
+                '/ansys.api.dpf.collection.v0.CollectionService/GetEntriesIndices',
+                request_serializer=collection__pb2.EntryRequest.SerializeToString,
+                response_deserializer=collection__pb2.GetEntriesIndicesResponse.FromString,
                 _registered_method=True)
         self.GetSupport = channel.unary_unary(
                 '/ansys.api.dpf.collection.v0.CollectionService/GetSupport',
@@ -135,6 +140,12 @@ class CollectionServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def UpdateSize(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
     def List(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -142,6 +153,12 @@ class CollectionServiceServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def GetEntries(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetEntriesIndices(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -219,6 +236,11 @@ def add_CollectionServiceServicer_to_server(servicer, server):
                     request_deserializer=collection__pb2.UpdateRequest.FromString,
                     response_serializer=base__pb2.Empty.SerializeToString,
             ),
+            'UpdateSize': grpc.unary_unary_rpc_method_handler(
+                    servicer.UpdateSize,
+                    request_deserializer=collection__pb2.UpdateSizeRequest.FromString,
+                    response_serializer=base__pb2.Empty.SerializeToString,
+            ),
             'List': grpc.unary_unary_rpc_method_handler(
                     servicer.List,
                     request_deserializer=collection__pb2.Collection.FromString,
@@ -228,6 +250,11 @@ def add_CollectionServiceServicer_to_server(servicer, server):
                     servicer.GetEntries,
                     request_deserializer=collection__pb2.EntryRequest.FromString,
                     response_serializer=collection__pb2.GetEntriesResponse.SerializeToString,
+            ),
+            'GetEntriesIndices': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetEntriesIndices,
+                    request_deserializer=collection__pb2.EntryRequest.FromString,
+                    response_serializer=collection__pb2.GetEntriesIndicesResponse.SerializeToString,
             ),
             'GetSupport': grpc.unary_unary_rpc_method_handler(
                     servicer.GetSupport,
@@ -384,6 +411,33 @@ class CollectionService(object):
             _registered_method=True)
 
     @staticmethod
+    def UpdateSize(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/ansys.api.dpf.collection.v0.CollectionService/UpdateSize',
+            collection__pb2.UpdateSizeRequest.SerializeToString,
+            base__pb2.Empty.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
     def List(request,
             target,
             options=(),
@@ -427,6 +481,33 @@ class CollectionService(object):
             '/ansys.api.dpf.collection.v0.CollectionService/GetEntries',
             collection__pb2.EntryRequest.SerializeToString,
             collection__pb2.GetEntriesResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def GetEntriesIndices(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/ansys.api.dpf.collection.v0.CollectionService/GetEntriesIndices',
+            collection__pb2.EntryRequest.SerializeToString,
+            collection__pb2.GetEntriesIndicesResponse.FromString,
             options,
             channel_credentials,
             insecure,
