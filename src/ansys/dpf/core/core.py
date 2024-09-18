@@ -1,7 +1,30 @@
+# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """
 Core
 ====
 """
+
 import os
 import logging
 import warnings
@@ -263,7 +286,6 @@ def _description(dpf_entity_message, server=None):
         return ""
 
 
-
 def _deep_copy(dpf_entity, server=None):
     """Returns a copy of the entity in the requested server
 
@@ -284,6 +306,7 @@ def _deep_copy(dpf_entity, server=None):
     """
     from ansys.dpf.core.operators.serialization import serializer_to_string, string_deserializer
     from ansys.dpf.core.common import types_enum_to_types, types
+
     entity_server = dpf_entity._server if hasattr(dpf_entity, "_server") else None
     serializer = serializer_to_string(server=entity_server)
     serializer.connect(1, dpf_entity)
@@ -499,6 +522,13 @@ class BaseService:
                 int(context.licensing_context_type), context.xml_path
             )
 
+    def initialize(self):
+        """Initialize a DPF server without a context."""
+        if self._server().has_client():
+            self._api.data_processing_initialization_on_client(self._server().client)
+        else:
+            self._api.data_processing_initialization()
+
     @version_requires("6.0")
     def release_dpf(self):
         """Clears the available Operators and Releases licenses when necessary.
@@ -604,7 +634,7 @@ class BaseService:
                 size = integral_types.MutableUInt64(0)
                 out = self._api.data_processing_description_string_with_size(data, size)
                 if out is not None and not isinstance(out, str):
-                    return out.decode('utf-8')
+                    return out.decode("utf-8")
             else:
                 return self._api.data_processing_description_string(data=data)
         except Exception as e:

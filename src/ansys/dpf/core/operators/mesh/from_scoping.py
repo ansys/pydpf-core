@@ -14,9 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 class from_scoping(Operator):
     """Extracts a meshed region from another meshed region based on a
     scoping. Regarding the property fields of the meshed region: the
-    'Elemental' and 'Nodal' property fields are scoped to the elements
-    or nodes of the output mesh, the 'Global' property fields are
-    transferred from the input mesh to the output mesh without
+    'Elemental', 'Face', and 'Nodal' property fields are scoped to the
+    elements or nodes of the output mesh, the 'Global' property fields
+    are transferred from the input mesh to the output mesh without
     changes, and the rest of the property fields are not present in
     the output mesh.
 
@@ -94,11 +94,12 @@ class from_scoping(Operator):
     def _spec():
         description = """Extracts a meshed region from another meshed region based on a
             scoping. Regarding the property fields of the meshed
-            region: the 'Elemental' and 'Nodal' property fields are
-            scoped to the elements or nodes of the output mesh, the
-            'Global' property fields are transferred from the input
-            mesh to the output mesh without changes, and the rest of
-            the property fields are not present in the output mesh."""
+            region: the 'Elemental', 'Face', and 'Nodal' property
+            fields are scoped to the elements or nodes of the output
+            mesh, the 'Global' property fields are transferred from
+            the input mesh to the output mesh without changes, and the
+            rest of the property fields are not present in the output
+            mesh."""
         spec = Specification(
             description=description,
             map_input_pin_spec={

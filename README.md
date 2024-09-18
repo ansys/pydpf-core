@@ -70,7 +70,7 @@ To reach the project support team, email [pyansys.core@ansys.com](mailto:pyansys
 
 PyDPF-Core requires DPF to be available. You can either have a compatible Ansys version installed
 or install the standalone ``ansys-dpf-server`` server package. For more information, see
-[Getting Started with DPF Server](https://dpf.docs.pyansys.com/version/stable/user_guide/getting_started_with_dpf_server.html)
+[Getting Started with DPF Server](https://dpf.docs.pyansys.com/version/stable/getting_started/dpf_server.html)
 in the PyDPF-Core documentation.
 
 For the compatibility between PyDPF-Core and Ansys, see

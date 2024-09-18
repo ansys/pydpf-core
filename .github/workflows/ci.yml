@@ -73,18 +73,9 @@ jobs:
     name: "Style Check"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
-      - name: "Setup Python"
-        uses: actions/setup-python@v4.6.0
+      - uses: ansys/actions/code-style@v7
         with:
-          python-version: ${{ env.MAIN_PYTHON_VERSION }}
-
-      - name: "Install pre-commit"
-        run: pip install pre-commit
-
-      - name: "Run pre-commit"
-        run: pre-commit run --all-files --show-diff-on-failure
+          use-python-cache: false
 
   build_linux1:
     name: "Build linux1 wheel"
@@ -107,7 +98,7 @@ jobs:
           cd ..
 
       - name: "Upload wheel any as artifact"
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ steps.wheel.outputs.wheel_name }}
           path: dist/${{ steps.wheel.outputs.wheel_name }}
@@ -170,7 +161,7 @@ jobs:
     needs: [docs]
     steps:
       - name: "Upload development documentation"
-        uses: ansys/actions/doc-deploy-dev@v4
+        uses: ansys/actions/doc-deploy-dev@v7
         with:
           cname: ${{ env.DOCUMENTATION_CNAME }}
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -183,7 +174,7 @@ jobs:
     needs: upload-development-docs
     steps:
       - name: "Deploy the latest documentation index"
-        uses: ansys/actions/doc-deploy-index@v4
+        uses: ansys/actions/doc-deploy-index@v7
         with:
           cname: ${{ env.DOCUMENTATION_CNAME }}/version/dev
           index-name: pydpf-core-vdev

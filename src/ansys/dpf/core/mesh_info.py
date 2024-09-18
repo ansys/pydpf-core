@@ -1,7 +1,30 @@
+# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """
 MeshInfo
 ==========
 """
+
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core.generic_data_container import GenericDataContainer
 
@@ -64,6 +87,7 @@ class MeshInfo:
         self._zone_map = None
         self._cell_zone_map = None
         self._face_zone_map = None
+        self._bodies_map = None
 
     def __str__(self):
         txt = "DPF MeshInfo\n"
@@ -295,6 +319,29 @@ class MeshInfo:
             return None
 
     @property
+    def bodies(self) -> dict:
+        """Dictionary of available body IDs to body names.
+
+        Returns
+        -------
+        bodies:
+            Map of body IDs to body names.
+
+        .. warning:
+            Currently unavailable for LegacyGrpc servers.
+        """
+        if self._bodies_map:
+            return self._bodies_map
+        body_names = self.body_names
+        bodies_map = {}
+        if body_names:
+            names = body_names.data
+            for i, key in enumerate(body_names.scoping.ids):
+                bodies_map[str(key)] = names[i]
+        self._bodies_map = bodies_map
+        return self._bodies_map
+
+    @property
     def zone_names(self):
         """
         Returns
@@ -362,12 +409,12 @@ class MeshInfo:
 
     @property
     def cell_zones(self) -> dict:
-        """Dictionary of available cell zone IDs to face zone names.
+        """Dictionary of available cell zone IDs to cell zone names.
 
         Returns
         -------
         cell_zones:
-            Map of cell zone IDs to face zone names.
+            Map of cell zone IDs to cell zone names.
 
         .. warning:
             Currently unavailable for LegacyGrpc servers.

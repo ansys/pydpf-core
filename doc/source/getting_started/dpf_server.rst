@@ -25,11 +25,11 @@ Install DPF Server
 
 .. _target_installing_server:
 
-#. Download the ``ansys_dpf_server_win_v2024.2.pre0.zip`` or ``ansys_dpf_server_lin_v2024.2.pre0.zip`` file as appropriate.
+#. Download the ``ansys_dpf_server_win_v2025.1.pre0.zip`` or ``ansys_dpf_server_lin_v2025.1.pre0.zip`` file as appropriate.
 #. Unzip the package.
 #. Optional: download any other plugin ZIP file as appropriate and unzip the package. For example, to access the ``composites`` plugin for Linux, 
-   download ``ansys_dpf_composites_lin_v2024.2.pre0.zip`` and unzip the package in the same location as ``ansys_dpf_server_lin_v2024.2.pre0.zip``.
-#. Change to the root folder (``ansys_dpf_server_win_v2024.2.pre0``) of the unzipped package.
+   download ``ansys_dpf_composites_lin_v2025.1.pre0.zip`` and unzip the package in the same location as ``ansys_dpf_server_lin_v2025.1.pre0.zip``.
+#. Change to the root folder (``ansys_dpf_server_win_v2025.1.pre0``) of the unzipped package.
 #. In a Python environment, run this command:
 
 .. code::
@@ -38,8 +38,7 @@ Install DPF Server
 
 
 As detailed in :ref:`licensing`, a standalone DPF Server is protected using the license terms specified in the
-`DPFPreviewLicenseAgreement <https://download.ansys.com/-/media/dpf/dpfpreviewlicenseagreement.ashx?la=en&hash=CCFB07AE38C638F0D43E50D877B5BC87356006C9>`_
-file, which is available on the `DPF Pre-Release page <https://download.ansys.com/Others/DPF%20Pre-Release>`_
+``DPFPreviewLicenseAgreement`` file, which is available on the `DPF Pre-Release page <https://download.ansys.com/Others/DPF%20Pre-Release>`_
 of the Ansys Customer Portal.
 To accept these terms, you must set this environment variable:
 
@@ -56,8 +55,7 @@ Use DPF Server
 --------------
 
 DPF Server is protected using the license terms specified in the
-`DPFPreviewLicenseAgreement <https://download.ansys.com/-/media/dpf/dpfpreviewlicenseagreement.ashx?la=en&hash=CCFB07AE38C638F0D43E50D877B5BC87356006C9>`_
-file, which is available on the `DPF Pre-Release page <https://download.ansys.com/Others/DPF%20Pre-Release>`_
+``DPFPreviewLicenseAgreement`` file, which is available on the `DPF Pre-Release page <https://download.ansys.com/Others/DPF%20Pre-Release>`_
 of the Ansys Customer Portal.
 
 Run DPF Server with PyDPF
@@ -109,15 +107,15 @@ Run DPF Server in a Docker container
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 DPF Server can be run in a Docker container.
 
-#. Along with the ``ansys_dpf_server_lin_v2024.2.pre0.zip`` file mentioned earlier
+#. Along with the ``ansys_dpf_server_lin_v2025.1.pre0.zip`` file mentioned earlier
    in :ref:`Install DPF Server <target_installing_server>`, download the ``Dockerfile`` file.
 #. Optional: download any other plugin ZIP file as appropriate. For example, to access the ``composites`` plugin for Linux, 
-   download ``ansys_dpf_composites_lin_v2024.2.pre0.zip``.
+   download ``ansys_dpf_composites_lin_v2025.1.pre0.zip``.
 #. Copy all the ZIP files and ``Dockerfile`` file in a folder and navigate into that folder.
 #. To build the DPF Docker container, run the following command:
 
 .. code::
 
-    docker build . -t dpf-core:v2024.2.pre0 --build-arg DPF_VERSION=242
+    docker build . -t dpf-core:v2025.1.pre0 --build-arg DPF_VERSION=251
 
 5. To run the DPF Docker container, license it. For more information, see :ref:`DPF Preview License Agreement<target_to_license_terms>`.

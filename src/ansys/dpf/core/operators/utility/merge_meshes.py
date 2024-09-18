@@ -16,6 +16,18 @@ class merge_meshes(Operator):
 
     Parameters
     ----------
+    naive_merge_elements : bool, optional
+        If true, merge the elemental property fields
+        of the input meshes assuming that
+        there is no repetition in their
+        scoping ids. default is false.
+    should_merge_named_selections : bool, optional
+        For certain types of files (such as rst),
+        scoping from names selection does not
+        need to be merged.if this pin is
+        true, the merge occurs. if this pin
+        is false, the merge does not occur.
+        default is true.
     meshes1 : MeshedRegion
         A vector of meshed region to merge or meshed
         region from pin 0 to ...
@@ -27,17 +39,10 @@ class merge_meshes(Operator):
         (default)
     box_size : float, optional
         Box size used when merging by distance.
-        default value is 1e-10.
+        default value is 1e-12.
     remove_duplicate_elements : int, optional
         0: keep duplicate elements (default), 1:
         remove duplicate elements
-    should_merge_names_selection : bool, optional
-        For certain types of files (such as rst),
-        scoping from names selection does not
-        need to be merged.if this pin is
-        true, the merge occurs. if this pin
-        is false, the merge does not occur.
-        default is true.
 
 
     Examples
@@ -48,6 +53,10 @@ class merge_meshes(Operator):
     >>> op = dpf.operators.utility.merge_meshes()
 
     >>> # Make input connections
+    >>> my_naive_merge_elements = bool()
+    >>> op.inputs.naive_merge_elements.connect(my_naive_merge_elements)
+    >>> my_should_merge_named_selections = bool()
+    >>> op.inputs.should_merge_named_selections.connect(my_should_merge_named_selections)
     >>> my_meshes1 = dpf.MeshedRegion()
     >>> op.inputs.meshes1.connect(my_meshes1)
     >>> my_meshes2 = dpf.MeshedRegion()
@@ -58,17 +67,16 @@ class merge_meshes(Operator):
     >>> op.inputs.box_size.connect(my_box_size)
     >>> my_remove_duplicate_elements = int()
     >>> op.inputs.remove_duplicate_elements.connect(my_remove_duplicate_elements)
-    >>> my_should_merge_names_selection = bool()
-    >>> op.inputs.should_merge_names_selection.connect(my_should_merge_names_selection)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.utility.merge_meshes(
+    ...     naive_merge_elements=my_naive_merge_elements,
+    ...     should_merge_named_selections=my_should_merge_named_selections,
     ...     meshes1=my_meshes1,
     ...     meshes2=my_meshes2,
     ...     merge_method=my_merge_method,
     ...     box_size=my_box_size,
     ...     remove_duplicate_elements=my_remove_duplicate_elements,
-    ...     should_merge_names_selection=my_should_merge_names_selection,
     ... )
 
     >>> # Get output data
@@ -77,18 +85,25 @@ class merge_meshes(Operator):
 
     def __init__(
         self,
+        naive_merge_elements=None,
+        should_merge_named_selections=None,
         meshes1=None,
         meshes2=None,
         merge_method=None,
         box_size=None,
         remove_duplicate_elements=None,
-        should_merge_names_selection=None,
         config=None,
         server=None,
     ):
         super().__init__(name="merge::mesh", config=config, server=server)
         self._inputs = InputsMergeMeshes(self)
         self._outputs = OutputsMergeMeshes(self)
+        if naive_merge_elements is not None:
+            self.inputs.naive_merge_elements.connect(naive_merge_elements)
+        if should_merge_named_selections is not None:
+            self.inputs.should_merge_named_selections.connect(
+                should_merge_named_selections
+            )
         if meshes1 is not None:
             self.inputs.meshes1.connect(meshes1)
         if meshes2 is not None:
@@ -99,10 +114,6 @@ class merge_meshes(Operator):
             self.inputs.box_size.connect(box_size)
         if remove_duplicate_elements is not None:
             self.inputs.remove_duplicate_elements.connect(remove_duplicate_elements)
-        if should_merge_names_selection is not None:
-            self.inputs.should_merge_names_selection.connect(
-                should_merge_names_selection
-            )
 
     @staticmethod
     def _spec():
@@ -110,6 +121,26 @@ class merge_meshes(Operator):
         spec = Specification(
             description=description,
             map_input_pin_spec={
+                -201: PinSpecification(
+                    name="naive_merge_elements",
+                    type_names=["bool"],
+                    optional=True,
+                    document="""If true, merge the elemental property fields
+        of the input meshes assuming that
+        there is no repetition in their
+        scoping ids. default is false.""",
+                ),
+                -200: PinSpecification(
+                    name="should_merge_named_selections",
+                    type_names=["bool"],
+                    optional=True,
+                    document="""For certain types of files (such as rst),
+        scoping from names selection does not
+        need to be merged.if this pin is
+        true, the merge occurs. if this pin
+        is false, the merge does not occur.
+        default is true.""",
+                ),
                 0: PinSpecification(
                     name="meshes",
                     type_names=["abstract_meshed_region"],
@@ -136,7 +167,7 @@ class merge_meshes(Operator):
                     type_names=["double"],
                     optional=True,
                     document="""Box size used when merging by distance.
-        default value is 1e-10.""",
+        default value is 1e-12.""",
                 ),
                 103: PinSpecification(
                     name="remove_duplicate_elements",
@@ -144,17 +175,6 @@ class merge_meshes(Operator):
                     optional=True,
                     document="""0: keep duplicate elements (default), 1:
         remove duplicate elements""",
-                ),
-                200: PinSpecification(
-                    name="should_merge_names_selection",
-                    type_names=["bool"],
-                    optional=True,
-                    document="""For certain types of files (such as rst),
-        scoping from names selection does not
-        need to be merged.if this pin is
-        true, the merge occurs. if this pin
-        is false, the merge does not occur.
-        default is true.""",
                 ),
             },
             map_output_pin_spec={
@@ -213,6 +233,10 @@ class InputsMergeMeshes(_Inputs):
     --------
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.utility.merge_meshes()
+    >>> my_naive_merge_elements = bool()
+    >>> op.inputs.naive_merge_elements.connect(my_naive_merge_elements)
+    >>> my_should_merge_named_selections = bool()
+    >>> op.inputs.should_merge_named_selections.connect(my_should_merge_named_selections)
     >>> my_meshes1 = dpf.MeshedRegion()
     >>> op.inputs.meshes1.connect(my_meshes1)
     >>> my_meshes2 = dpf.MeshedRegion()
@@ -223,12 +247,18 @@ class InputsMergeMeshes(_Inputs):
     >>> op.inputs.box_size.connect(my_box_size)
     >>> my_remove_duplicate_elements = int()
     >>> op.inputs.remove_duplicate_elements.connect(my_remove_duplicate_elements)
-    >>> my_should_merge_names_selection = bool()
-    >>> op.inputs.should_merge_names_selection.connect(my_should_merge_names_selection)
     """
 
     def __init__(self, op: Operator):
         super().__init__(merge_meshes._spec().inputs, op)
+        self._naive_merge_elements = Input(
+            merge_meshes._spec().input_pin(-201), -201, op, -1
+        )
+        self._inputs.append(self._naive_merge_elements)
+        self._should_merge_named_selections = Input(
+            merge_meshes._spec().input_pin(-200), -200, op, -1
+        )
+        self._inputs.append(self._should_merge_named_selections)
         self._meshes1 = Input(merge_meshes._spec().input_pin(0), 0, op, 0)
         self._inputs.append(self._meshes1)
         self._meshes2 = Input(merge_meshes._spec().input_pin(1), 1, op, 1)
@@ -241,10 +271,54 @@ class InputsMergeMeshes(_Inputs):
             merge_meshes._spec().input_pin(103), 103, op, -1
         )
         self._inputs.append(self._remove_duplicate_elements)
-        self._should_merge_names_selection = Input(
-            merge_meshes._spec().input_pin(200), 200, op, -1
-        )
-        self._inputs.append(self._should_merge_names_selection)
+
+    @property
+    def naive_merge_elements(self):
+        """Allows to connect naive_merge_elements input to the operator.
+
+        If true, merge the elemental property fields
+        of the input meshes assuming that
+        there is no repetition in their
+        scoping ids. default is false.
+
+        Parameters
+        ----------
+        my_naive_merge_elements : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.utility.merge_meshes()
+        >>> op.inputs.naive_merge_elements.connect(my_naive_merge_elements)
+        >>> # or
+        >>> op.inputs.naive_merge_elements(my_naive_merge_elements)
+        """
+        return self._naive_merge_elements
+
+    @property
+    def should_merge_named_selections(self):
+        """Allows to connect should_merge_named_selections input to the operator.
+
+        For certain types of files (such as rst),
+        scoping from names selection does not
+        need to be merged.if this pin is
+        true, the merge occurs. if this pin
+        is false, the merge does not occur.
+        default is true.
+
+        Parameters
+        ----------
+        my_should_merge_named_selections : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.utility.merge_meshes()
+        >>> op.inputs.should_merge_named_selections.connect(my_should_merge_named_selections)
+        >>> # or
+        >>> op.inputs.should_merge_named_selections(my_should_merge_named_selections)
+        """
+        return self._should_merge_named_selections
 
     @property
     def meshes1(self):
@@ -314,7 +388,7 @@ class InputsMergeMeshes(_Inputs):
         """Allows to connect box_size input to the operator.
 
         Box size used when merging by distance.
-        default value is 1e-10.
+        default value is 1e-12.
 
         Parameters
         ----------
@@ -350,31 +424,6 @@ class InputsMergeMeshes(_Inputs):
         >>> op.inputs.remove_duplicate_elements(my_remove_duplicate_elements)
         """
         return self._remove_duplicate_elements
-
-    @property
-    def should_merge_names_selection(self):
-        """Allows to connect should_merge_names_selection input to the operator.
-
-        For certain types of files (such as rst),
-        scoping from names selection does not
-        need to be merged.if this pin is
-        true, the merge occurs. if this pin
-        is false, the merge does not occur.
-        default is true.
-
-        Parameters
-        ----------
-        my_should_merge_names_selection : bool
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.utility.merge_meshes()
-        >>> op.inputs.should_merge_names_selection.connect(my_should_merge_names_selection)
-        >>> # or
-        >>> op.inputs.should_merge_names_selection(my_should_merge_names_selection)
-        """
-        return self._should_merge_names_selection
 
 
 class OutputsMergeMeshes(_Outputs):

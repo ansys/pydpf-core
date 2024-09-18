@@ -1,3 +1,25 @@
+# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 import pytest
 
 from ansys import dpf
@@ -55,6 +77,37 @@ def test_setresultpath_data_sources_no_extension(d3plot_beam, binout_glstat, ser
     data_sources = dpf.core.DataSources(server=server_type)
     data_sources.set_result_file_path(binout_glstat)
     assert data_sources.result_key == "binout"
+
+
+def test_set_resultpath_data_sources_h5(server_type):
+    from ansys.dpf.core import examples
+
+    cas_h5_file = examples.download_fluent_axial_comp(server=server_type)["cas"][0]
+    data_sources = dpf.core.DataSources(server=server_type)
+    data_sources.set_result_file_path(cas_h5_file)
+    assert data_sources.result_key == "cas"
+    data_sources = dpf.core.DataSources(result_path=cas_h5_file, server=server_type)
+    assert data_sources.result_key == "cas"
+
+
+def test_set_resultpath_data_sources_cff(server_type):
+    from ansys.dpf.core import examples
+
+    cas_h5_file = examples.download_cfx_heating_coil(server=server_type)["cas"]
+    data_sources = dpf.core.DataSources(server=server_type)
+    data_sources.set_result_file_path(cas_h5_file)
+    assert data_sources.result_key == "cas"
+    data_sources = dpf.core.DataSources(result_path=cas_h5_file, server=server_type)
+    assert data_sources.result_key == "cas"
+
+
+def test_set_resultpath_data_sources_cfx_res(server_type):
+    from ansys.dpf.core import examples
+
+    res_file = examples.download_cfx_mixing_elbow(server=server_type)
+    data_sources = dpf.core.DataSources(server=server_type)
+    data_sources.set_result_file_path(res_file)
+    assert data_sources.result_key == "cas"
 
 
 def test_addupstream_data_sources(allkindofcomplexity, server_type):

@@ -1,3 +1,25 @@
+# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """
 Operator Configuration
 ======================
@@ -57,7 +79,9 @@ class Config:
 
     def __init__(self, operator_name=None, config=None, server=None, spec=None):
         # step 1: get server
-        self._server = server_module.get_or_create_server(server)
+        self._server = server_module.get_or_create_server(
+            config._server if isinstance(config, Config) else server
+        )
 
         # step 2: get api
         self._api_instance = None  # see _api property
@@ -130,9 +154,9 @@ class Config:
         options = {}
         num_options = self._api.operator_config_get_num_config(self)
         for i in range(num_options):
-            options[
-                self._api.operator_config_get_config_option_name(self, i)
-            ] = self._api.operator_config_get_config_option_printable_value(self, i)
+            options[self._api.operator_config_get_config_option_name(self, i)] = (
+                self._api.operator_config_get_config_option_printable_value(self, i)
+            )
         return options
 
     def __set_config_option__(self, config_value, config_name):

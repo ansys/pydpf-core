@@ -16,7 +16,15 @@ class ExternalOperatorAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def external_operator_record_with_derivative(operator_main, func, operator_deriv, deriv_callback, operator_identifier, spec):
+		raise NotImplementedError
+
+	@staticmethod
 	def external_operator_record_with_abstract_core(operator_main, func, operator_identifier, spec, core):
+		raise NotImplementedError
+
+	@staticmethod
+	def external_operator_record_with_abstract_core_with_derivative(operator_main, func, operator_deriv, deriv_callback, operator_identifier, spec, core):
 		raise NotImplementedError
 
 	@staticmethod
@@ -24,7 +32,15 @@ class ExternalOperatorAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def external_operator_record_internal_with_abstract_core_with_derivative(operator_main, func, operator_deriv, deriv_callback, operator_identifier, spec, core, policy):
+		raise NotImplementedError
+
+	@staticmethod
 	def external_operator_record_with_abstract_core_and_wrapper(operator_main, func, operator_identifier, spec, core, wrapper):
+		raise NotImplementedError
+
+	@staticmethod
+	def external_operator_record_with_abstract_core_and_wrapper_with_derivative(operator_main, func, operator_deriv, deriv_callback, operator_identifier, spec, core, wrapper):
 		raise NotImplementedError
 
 	@staticmethod
@@ -301,5 +317,33 @@ class ExternalOperatorAbstractAPI:
 
 	@staticmethod
 	def external_operator_get_operator_config(operator_data):
+		raise NotImplementedError
+
+	@staticmethod
+	def external_operator_get_derivative_of_input(deriv_data, input_pin, out_pin):
+		raise NotImplementedError
+
+	@staticmethod
+	def external_operator_forward_input(deriv_data, input_pin_from_base, input_pin_from_op, op):
+		raise NotImplementedError
+
+	@staticmethod
+	def external_operator_set_derivative(deriv_data, derivative):
+		raise NotImplementedError
+
+	@staticmethod
+	def external_operator_forward_output(deriv_data, output_pin_from_base, input_pin_from_op, op):
+		raise NotImplementedError
+
+	@staticmethod
+	def external_operator_assert_instantiate(deriv_data, op_name):
+		raise NotImplementedError
+
+	@staticmethod
+	def external_operator_connect_to_upstream_derivative(deriv_data, current_op, out_pin, ancestor_pin):
+		raise NotImplementedError
+
+	@staticmethod
+	def external_operator_map_down_stream_derivative(deriv_data, in_pin, current_op):
 		raise NotImplementedError
 

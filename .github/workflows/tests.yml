@@ -110,7 +110,7 @@ jobs:
           echo "ANSYSLMD_LICENSE_FILE=1055@${{ secrets.LICENSE_SERVER }}" >> $GITHUB_ENV      
 
       - name: "Setup Python"
-        uses: actions/setup-python@v4.6.1
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -139,8 +139,8 @@ jobs:
           echo "wheel_name=${name[0]}" >> $GITHUB_OUTPUT
 
       - name: "Upload wheel to artifacts"
-        if: inputs.wheel == 'true'
-        uses: actions/upload-artifact@v3
+        if: (inputs.wheel == 'true') && !(inputs.test_any && (matrix.os == 'ubuntu-latest') )
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ steps.wheel.outputs.wheel_name }}
           path: dist/${{ steps.wheel.outputs.wheel_name }}
@@ -167,7 +167,7 @@ jobs:
 
       - name: "Upload wheelhouse to artifacts"
         if: inputs.wheelhouse == 'true'
-        uses: actions/upload-artifact@v3.1.2
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ steps.wheelhouse.outputs.name }}
           path: ${{ steps.wheelhouse.outputs.name }}
@@ -204,7 +204,7 @@ jobs:
         run: pip list
 
       - name: "Test Docstrings"
-        if: inputs.DOCSTRING == 'true'
+        if: (inputs.DOCSTRING == 'true') && !((inputs.test_any == 'true') && (matrix.os == 'ubuntu-latest'))
         uses: ansys/pydpf-actions/test_docstrings@v2.3
         with:
           MODULE: ${{env.MODULE}}
@@ -215,7 +215,6 @@ jobs:
         shell: pwsh
         run: |
           .github\workflows\scripts\separate_long_core_tests.ps1
-        if: always()
 
       - name: "Set pytest arguments"
         shell: bash
@@ -228,11 +227,9 @@ jobs:
         working-directory: tests
         run: |
           pytest $DEBUG $COVERAGE $RERUNS --junitxml=junit/test-results.xml  .
-        if: always()
 
       - name: "Kill all servers"
         uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
-        if: always()
 
       - name: "Test API test_launcher"
         uses: nick-fields/retry@v2
@@ -245,7 +242,6 @@ jobs:
 
       - name: "Kill all servers"
         uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
-        if: always()
 
       - name: "Test API test_server"
         uses: nick-fields/retry@v2
@@ -255,11 +251,9 @@ jobs:
           shell: bash
           command: |
             pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results3.xml test_server/.
-        if: always()
 
       - name: "Kill all servers"
         uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
-        if: always()
 
       - name: "Test API test_local_server"
         uses: nick-fields/retry@v2
@@ -272,7 +266,6 @@ jobs:
 
       - name: "Kill all servers"
         uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
-        if: always()
 
       - name: "Test API test_multi_server"
         uses: nick-fields/retry@v2
@@ -285,7 +278,6 @@ jobs:
 
       - name: "Kill all servers"
         uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
-        if: always()
 
       - name: "Test API test_remote_workflow"
         uses: nick-fields/retry@v2
@@ -298,7 +290,6 @@ jobs:
 
       - name: "Kill all servers"
         uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
-        if: always()
 
       - name: "Test API test_remote_operator"
         shell: bash
@@ -308,7 +299,6 @@ jobs:
 
       - name: "Kill all servers"
         uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
-        if: always()
 
       - name: "Test API test_workflow"
         uses: nick-fields/retry@v2
@@ -319,11 +309,9 @@ jobs:
           shell: bash
           command: |
             pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results8.xml test_workflow/.
-        if: always()
 
       - name: "Kill all servers"
         uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
-        if: always()
 
       - name: "Test API test_service"
         uses: nick-fields/retry@v2
@@ -335,8 +323,7 @@ jobs:
             pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results9.xml test_service/.
 
       - name: "Kill all servers"
-        uses: ansys/pydpf-actions/kill-dpf-servers@v2.2
-        if: always()
+        uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
 
       - name: "Test API Entry"
         shell: bash
@@ -344,12 +331,10 @@ jobs:
         run: |
           cd entry
           pytest $DEBUG $COVERAGE $RERUNS --junitxml=../junit/test-results10.xml  .
-        if: always()
         timeout-minutes: 30
 
       - name: "Kill all servers"
-        uses: ansys/pydpf-actions/kill-dpf-servers@v2.2
-        if: always()
+        uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
 
       - name: "Test API test_custom_type_field"
         uses: nick-fields/retry@v2
@@ -361,15 +346,25 @@ jobs:
             pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results11.xml test_custom_type_field/.
 
       - name: "Kill all servers"
-        uses: ansys/pydpf-actions/kill-dpf-servers@v2.2
-        if: always()
+        uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
+
+      - name: "Test Operators"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 2
+          max_attempts: 2
+          shell: bash
+          command: |
+            pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results12.xml tests/operators/.
+
+      - name: "Kill all servers"
+        uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
 
       - name: "Upload Test Results"
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ inputs.ANSYS_VERSION }}
+          name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ inputs.ANSYS_VERSION }}${{ inputs.test_any == 'true' && '_any' || '' }}
           path: tests/junit/test-results.xml
-        if: always()
 
       - name: "Upload coverage to Codecov"
         uses: codecov/codecov-action@v3

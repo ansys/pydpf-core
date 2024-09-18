@@ -1,3 +1,27 @@
+# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+import numpy as np
+
 from ansys.dpf import core as dpf
 from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
@@ -5,19 +29,16 @@ from conftest import (
     raises_for_servers_version_under,
 )
 import pytest
+import conftest
 
 
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
-)
+@conftest.raises_for_servers_version_under("7.0")
 def test_create_generic_data_container(server_type):
     gdc = dpf.GenericDataContainer(server=server_type)
     assert gdc._internal_obj is not None
 
 
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
-)
+@conftest.raises_for_servers_version_under("7.0")
 def test_set_get_property_generic_data_container(server_type):
     gdc = dpf.GenericDataContainer(server=server_type)
     entity = dpf.Field(location="phase", nature=dpf.natures.scalar, server=server_type)
@@ -26,9 +47,7 @@ def test_set_get_property_generic_data_container(server_type):
     assert entity.location == new_entity.location
 
 
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
-)
+@conftest.raises_for_servers_version_under("7.0")
 def test_set_get_data_tree_generic_data_container(server_type):
     gdc = dpf.GenericDataContainer(server=server_type)
     entity = dpf.DataTree(server=server_type)
@@ -38,9 +57,7 @@ def test_set_get_data_tree_generic_data_container(server_type):
     assert new_entity.get_as("name") == "john"
 
 
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
-)
+@conftest.raises_for_servers_version_under("7.0")
 def test_get_property_description_generic_data_container(server_type):
     gdc = dpf.GenericDataContainer(server=server_type)
     entity = 42
@@ -72,9 +89,7 @@ def test_get_property_description_generic_data_container(server_type):
     }
 
 
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
-)
+@conftest.raises_for_servers_version_under("7.0")
 def test_get_by_type_generic_data_container(server_type):
     gdc = dpf.GenericDataContainer(server=server_type)
     entity = 42
@@ -148,3 +163,12 @@ def test_set_collection_generic_data_container(server_type):
     coll.labels = ["body", "time"]
     gdc.set_property("coll", coll)
     assert gdc.get_property("coll", dpf.GenericDataContainersCollection).labels == ["body", "time"]
+
+
+@raises_for_servers_version_under("9.0")
+def test_set_int_vec_generic_data_container(server_type):
+    gdc = dpf.GenericDataContainer(server=server_type)
+    gdc.set_property("vec", [1, 2, 3])
+    gdc.set_property("nparray", np.array([1, 2, 3], dtype=np.int32))
+    assert np.allclose(gdc.get_property("vec"), [1, 2, 3])
+    assert np.allclose(gdc.get_property("nparray"), [1, 2, 3])

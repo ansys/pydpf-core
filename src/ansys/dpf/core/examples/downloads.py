@@ -1,7 +1,30 @@
+# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """
 Downloads
 =========
 Download example datasets from https://github.com/ansys/example-data"""
+
 import os
 import urllib.request
 import warnings
@@ -1565,9 +1588,9 @@ def download_cfx_heating_coil(
 
 def download_cfx_mixing_elbow(
     should_upload: bool = True, server=None, return_local_path=False
-) -> dict:
-    """Download the flprj, cas and dat files of a CFX analysis of a mixing elbow
-    and return the download paths into a dictionary extension->path.
+) -> str:
+    """Download the res file of a CFX analysis of a mixing elbow
+    and return the download path.
     If the server is remote (or doesn't share memory), the file is uploaded or made available
     on the server side.
 
@@ -1587,28 +1610,26 @@ def download_cfx_mixing_elbow(
 
     Returns
     -------
-    dict[str:str]
-        Path to the example files.
+    str:
+        Path to the example file.
 
     Examples
     --------
     Download an example result file and return the path of the file
 
     >>> from ansys.dpf.core import examples
-    >>> paths = examples.download_cfx_mixing_elbow()
-    >>> paths
-    {'cas': 'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\cfx-mixing_elbow\\InjectMixer.res',
-     'dat': 'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\cfx-mixing_elbow\\InjectMixer.res'} # noqa: E501
+    >>> path = examples.download_cfx_mixing_elbow()
+    >>> path
+    'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\cfx-mixing_elbow\\InjectMixer.res' # noqa: E501
 
     """
-    file = _download_file(
+    return _download_file(
         "result_files/cfx-mixing_elbow",
         "InjectMixer.res",
         should_upload,
         server,
         return_local_path,
     )
-    return {"cas": file, "dat": file}
 
 
 def find_simple_bar(should_upload: bool = True, server=None, return_local_path=False) -> str:

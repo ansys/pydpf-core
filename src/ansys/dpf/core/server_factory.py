@@ -1,3 +1,25 @@
+# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """
 Server factory, server configuration and communication protocols
 ================================================================
@@ -5,6 +27,7 @@ Server factory, server configuration and communication protocols
 Contains the server factory as well as the communication
 protocols and server configurations available.
 """
+
 import logging
 import os
 import subprocess
@@ -602,13 +625,6 @@ class ServerFactory:
         if config.protocol == CommunicationProtocols.gRPC and config.legacy:
             return LegacyGrpcServer
         elif config.protocol == CommunicationProtocols.gRPC and not config.legacy:
-            if ansys_path is None:
-                from ansys.dpf.core.misc import __ansys_version__
-
-                ansys_path = os.environ.get("AWP_ROOT" + str(__ansys_version__), None)
-            if ansys_path is not None:
-                sub_folders = os.path.join(ansys_path, _get_path_in_install())
-                os.environ["PATH"] += sub_folders
             return GrpcServer
         elif config.protocol == CommunicationProtocols.InProcess and not config.legacy:
             return InProcessServer

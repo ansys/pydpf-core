@@ -24,6 +24,11 @@ class skin(Operator):
         skin element is added to the skin
         mesh if all its nodes are in the
         scoping.
+    duplicate_shell : bool, optional
+        If input mesh contains shell elements, output
+        mesh shell elements (boolean = 1) are
+        duplicated, one per each orientation,
+        or (boolean = 0) remain unchanged.
 
 
     Examples
@@ -38,11 +43,14 @@ class skin(Operator):
     >>> op.inputs.mesh.connect(my_mesh)
     >>> my_mesh_scoping = dpf.Scoping()
     >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+    >>> my_duplicate_shell = bool()
+    >>> op.inputs.duplicate_shell.connect(my_duplicate_shell)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.mesh.skin(
     ...     mesh=my_mesh,
     ...     mesh_scoping=my_mesh_scoping,
+    ...     duplicate_shell=my_duplicate_shell,
     ... )
 
     >>> # Get output data
@@ -53,7 +61,14 @@ class skin(Operator):
     >>> result_facet_indices = op.outputs.facet_indices()
     """
 
-    def __init__(self, mesh=None, mesh_scoping=None, config=None, server=None):
+    def __init__(
+        self,
+        mesh=None,
+        mesh_scoping=None,
+        duplicate_shell=None,
+        config=None,
+        server=None,
+    ):
         super().__init__(name="meshed_skin_sector", config=config, server=server)
         self._inputs = InputsSkin(self)
         self._outputs = OutputsSkin(self)
@@ -61,6 +76,8 @@ class skin(Operator):
             self.inputs.mesh.connect(mesh)
         if mesh_scoping is not None:
             self.inputs.mesh_scoping.connect(mesh_scoping)
+        if duplicate_shell is not None:
+            self.inputs.duplicate_shell.connect(duplicate_shell)
 
     @staticmethod
     def _spec():
@@ -84,6 +101,15 @@ class skin(Operator):
         skin element is added to the skin
         mesh if all its nodes are in the
         scoping.""",
+                ),
+                2: PinSpecification(
+                    name="duplicate_shell",
+                    type_names=["bool"],
+                    optional=True,
+                    document="""If input mesh contains shell elements, output
+        mesh shell elements (boolean = 1) are
+        duplicated, one per each orientation,
+        or (boolean = 0) remain unchanged.""",
                 ),
             },
             map_output_pin_spec={
@@ -182,6 +208,8 @@ class InputsSkin(_Inputs):
     >>> op.inputs.mesh.connect(my_mesh)
     >>> my_mesh_scoping = dpf.Scoping()
     >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+    >>> my_duplicate_shell = bool()
+    >>> op.inputs.duplicate_shell.connect(my_duplicate_shell)
     """
 
     def __init__(self, op: Operator):
@@ -190,6 +218,8 @@ class InputsSkin(_Inputs):
         self._inputs.append(self._mesh)
         self._mesh_scoping = Input(skin._spec().input_pin(1), 1, op, -1)
         self._inputs.append(self._mesh_scoping)
+        self._duplicate_shell = Input(skin._spec().input_pin(2), 2, op, -1)
+        self._inputs.append(self._duplicate_shell)
 
     @property
     def mesh(self):
@@ -232,6 +262,29 @@ class InputsSkin(_Inputs):
         >>> op.inputs.mesh_scoping(my_mesh_scoping)
         """
         return self._mesh_scoping
+
+    @property
+    def duplicate_shell(self):
+        """Allows to connect duplicate_shell input to the operator.
+
+        If input mesh contains shell elements, output
+        mesh shell elements (boolean = 1) are
+        duplicated, one per each orientation,
+        or (boolean = 0) remain unchanged.
+
+        Parameters
+        ----------
+        my_duplicate_shell : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.mesh.skin()
+        >>> op.inputs.duplicate_shell.connect(my_duplicate_shell)
+        >>> # or
+        >>> op.inputs.duplicate_shell(my_duplicate_shell)
+        """
+        return self._duplicate_shell
 
 
 class OutputsSkin(_Outputs):

@@ -1,3 +1,25 @@
+# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 import os
 
 import pytest
@@ -481,6 +503,20 @@ def test_context_environment_variable(reset_context_environment_variable):
             continue
 
 
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0, reason="Failures on Windows 231"
+)
+def test_server_without_context(remote_config_server_type):
+    """Tests starting a server without a no_context given."""
+    server = dpf.core.start_local_server(
+        as_global=False,
+        config=remote_config_server_type,
+        context=dpf.core.AvailableServerContexts.no_context,
+    )
+    none_type = dpf.core.AvailableServerContexts.no_context.licensing_context_type
+    assert server.context.licensing_context_type == none_type
+
+
 @pytest.mark.order("last")
 @pytest.mark.skipif(
     running_docker or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
@@ -529,6 +565,13 @@ def test_license_context_manager_as_context(server_type):
         assert "ansys" in st
     st = lic.status
     assert "ansys" not in st
+
+
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_9_1, reason="Bug")
+def test_print_non_utf8_string():
+    op = dpf.core.Operator("generate_uuid")
+    out_str = op.get_output(0, dpf.core.types.string)
+    assert len(str(out_str)) > 0
 
 
 if __name__ == "__main__":

@@ -36,6 +36,7 @@ from .make_label_space import make_label_space
 from .make_overall import make_overall 
 from .make_producer_consumer_for_each_iterator import make_producer_consumer_for_each_iterator 
 from .merge_any import merge_any 
+from .merge_collections import merge_collections 
 from .merge_data_tree import merge_data_tree 
 from .merge_fields import merge_fields 
 from .merge_fields_by_label import merge_fields_by_label 

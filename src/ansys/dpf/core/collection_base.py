@@ -1,9 +1,32 @@
+# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """
 CollectionBase
 ==============
 Contains classes associated with the DPF collection.
 
 """
+
 from __future__ import annotations
 import abc
 import warnings
@@ -24,9 +47,14 @@ from ansys.dpf.gate import (
     dpf_vector,
     dpf_array,
 )
-from typing import Optional, Generic, TypeVar
+from typing import List, Optional, Generic, TypeVar, TYPE_CHECKING
 
-TYPE = TypeVar('TYPE')
+if TYPE_CHECKING:
+    from ansys.dpf.core.support import Support
+
+from ansys.dpf.gate.integral_types import MutableListInt32
+
+TYPE = TypeVar("TYPE")
 
 
 class CollectionBase(Generic[TYPE]):
@@ -46,7 +74,9 @@ class CollectionBase(Generic[TYPE]):
 
     def __init__(self, collection=None, server: BaseServer = None):
         # step 1: get server
-        self._server = server_module.get_or_create_server(server)
+        self._server = server_module.get_or_create_server(
+            collection._server if isinstance(collection, CollectionBase) else server
+        )
 
         # step2: if object exists, take the instance, else create it
         self._internal_obj = None
@@ -92,7 +122,7 @@ class CollectionBase(Generic[TYPE]):
         str
         """
         out = self._api.collection_get_name(self)
-        return out if out != '' else None
+        return out if out != "" else None
 
     @name.setter
     @version_requires("8.0")
@@ -138,6 +168,8 @@ class CollectionBase(Generic[TYPE]):
             return IntCollection(inpt, server=server)
         if all(isinstance(x, (float, np.float64)) for x in inpt):
             return FloatCollection(inpt, server=server)
+        if all(isinstance(x, str) for x in inpt):
+            return StringCollection(inpt, server=server)
         else:
             raise NotImplementedError(
                 f"{IntegralCollection.__name__} is only "
@@ -203,7 +235,13 @@ class CollectionBase(Generic[TYPE]):
             out.append(self._api.collection_get_label(self, i))
         return out
 
-    labels = property(_get_labels, set_labels, "labels")
+    @property
+    def labels(self) -> List[str]:
+        return self._get_labels()
+
+    @labels.setter
+    def labels(self, labels: List[str]):
+        self.set_labels(labels=labels)
 
     def has_label(self, label) -> bool:
         """Check if a collection has a specified label.
@@ -265,6 +303,31 @@ class CollectionBase(Generic[TYPE]):
             return self.create_subtype(
                 self._api.collection_get_obj_by_index(self, label_space_or_index)
             )
+
+    @version_requires("9.0")
+    def get_entries_indices(self, label_space):
+        """Retrieve the indices of the entries corresponding a requested label space .
+
+        Notes
+        -----
+        Available starting with DPF 2025R1.
+
+        Parameters
+        ----------
+        label_space : dict[str,int]
+            Label space or index. For example,
+            ``{"time": 1, "complex": 0}`` or the index of the field.
+
+        Returns
+        -------
+        indices : list[int], list[Field], list[MeshedRegion]
+            Indices of the entries corresponding to the request.
+        """
+        client_label_space = LabelSpace(label_space=label_space, obj=self, server=self._server)
+        num = self._api.collection_get_num_obj_for_label_space(self, client_label_space)
+        int_list = MutableListInt32(num)
+        self._api.collection_fill_obj_indeces_for_label_space(self, client_label_space, int_list)
+        return int_list.tolist()
 
     def _get_entry(self, label_space_or_index) -> TYPE:
         """Retrieve the entry at a requested label space or index.
@@ -442,6 +505,30 @@ class CollectionBase(Generic[TYPE]):
     def _set_time_freq_support(self, time_freq_support):
         """Set the time frequency support of the collection."""
         self._api.collection_set_support(self, "time", time_freq_support)
+
+    @version_requires("5.0")
+    def set_support(self, label: str, support: Support) -> None:
+        """Set the support of the collection for a given label.
+
+        Notes
+        -----
+        Available starting with DPF 2023 R1.
+
+        """
+        self._api.collection_set_support(self, label, support)
+
+    @version_requires("5.0")
+    def get_support(self, label: str) -> Support:
+        """Get the support of the collection for a given label.
+
+        Notes
+        -----
+        Available starting with DPF 2023 R1.
+
+        """
+        from ansys.dpf.core.support import Support
+
+        return Support(support=self._api.collection_get_support(self, label), server=self._server)
 
     def __str__(self):
         """Describe the entity.

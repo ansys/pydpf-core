@@ -1,3 +1,25 @@
+# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """
 ServerContext
 =============
@@ -13,6 +35,7 @@ The default context can be overwritten using the ANSYS_DPF_SERVER_CONTEXT enviro
 variable.
 ANSYS_DPF_SERVER_CONTEXT=ENTRY and ANSYS_DPF_SERVER_CONTEXT=PREMIUM can be used.
 """
+
 import os
 import warnings
 from enum import Enum
@@ -21,6 +44,7 @@ from ansys.dpf.core import errors
 
 
 class LicensingContextType(Enum):
+    none = 5
     premium = 1
     """Checks if at least one license increment exists
     and allows operators to block an increment."""
@@ -33,6 +57,10 @@ class LicensingContextType(Enum):
 
     @staticmethod
     def same_licensing_context(first, second):
+        if (first == LicensingContextType.none and second != LicensingContextType.none) or (
+            first != LicensingContextType.none and second == LicensingContextType.none
+        ):
+            return False
         if int(first) == int(LicensingContextType.entry) and int(second) != int(
             LicensingContextType.entry
         ):
@@ -57,8 +85,7 @@ class LicenseContextManager:
          License increment to check out. To improve script efficiency, this license increment
          should be consistent with the increments required by the following Operators. If ``None``,
          the first available increment of this
-         `list <https://dpf.docs.pyansys.com/version/dev/user_guide/getting_started_with_dpf_server.
-         html#ansys-licensing>`_
+         `list <https://dpf.docs.pyansys.com/version/stable/getting_started/licensing.html#compatible-ansys-license-increments>`_
          is checked out.
     license_timeout_in_seconds: float, optional
          If an increment is not available by the maximum time set here, check out fails. Default is:
@@ -207,6 +234,7 @@ class ServerContext:
 class AvailableServerContexts:
     """Defines available server contexts."""
 
+    no_context = ServerContext(LicensingContextType.none, "")
     pre_defined_environment = ServerContext(0)
     """DataProcessingCore.xml that is next to DataProcessingCore.dll/libDataProcessingCore.so will
     be taken"""
