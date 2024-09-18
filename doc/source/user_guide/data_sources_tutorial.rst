@@ -31,11 +31,11 @@ file path as an argument :
 .. code-block:: python
 
     from ansys.dpf import core as dpf
-    # Create the DataSources object containing the given file
+    # Create a DataSources object for a single file
     my_data_sources_a = dpf.DataSources(result_path=r'file.extension')
 
 It is preferable to generate a raw string (by putting the letter 'r' before
-the file path string) in order to ensure the file path will be correctly read.
+the file path string) in order to ensure the file path is read correctly.
 
 **b) Function** :func:`set_result_file_path() <ansys.dpf.core.data_sources.DataSources.set_result_file_path>`
 
@@ -85,14 +85,14 @@ produced and need to be added.
 
 **e) Function** :func:`guess_second_key() <ansys.dpf.core.data_sources.DataSources.guess_second_key>`
 
-If the results file have different extensions keys you need to use this function.
-For example, we have a particular case for the Fluent and CFX results files that
+If the results file has different extensions keys, you must use this function.
+For example, there is a specific case for the Fluent and CFX results files that
 often have one case and one data file (``file.cas.h5`` and ``file.dat.h5`` respectively).
-In this case, you need to use the two following functions:
+In this case, you must use the two following functions:
 :func:`guess_second_key() <ansys.dpf.core.data_sources.DataSources.guess_second_key>` and
 :func:`add_file_path() <ansys.dpf.core.data_sources.DataSources.add_file_path>`
 
-Note that the ``file.cas.h5`` have to be declared as the main result data source (by the
+Note that ``file.cas.h5`` has to be declared as the main result data source (by the
 :func:`set_result_file_path() <ansys.dpf.core.data_sources.DataSources.set_result_file_path>` function)
 
 .. code-block:: python
@@ -108,7 +108,7 @@ Note that the ``file.cas.h5`` have to be declared as the main result data source
     # Add the additional result data to the DataSources object
     my_data_sources_e.add_file_path(filepath=r'file2.extension3.extension4', key=my_file_key2)
 
-If you know the extensions keys you can the first extension key as an argument
+If you know the extensions keys, you can add the first extension key as an argument.
 
 .. code-block:: python
 
@@ -122,8 +122,8 @@ If you know the extensions keys you can the first extension key as an argument
 
 **f) Function** :func:`add_upstream() <ansys.dpf.core.data_sources.DataSources.add_upstream>`
 
-If you believe needing a recursive workflow, you need to create a new ``DataSources``
-object with the involved data and then add it as an upstream in the main ``DataSources``
+To create a recursive workflow, create a new ``DataSources``
+object with the required data and then add it upstream in the main ``DataSources``
 object. Upstream refers to a source that provides data to a particular process.
 For example, the expansion of the analysis results data is recursive in DPF.
 
@@ -146,7 +146,7 @@ For example, the expansion of the analysis results data is recursive in DPF.
 **g) Functions** :func:`set_domain_result_file_path() <ansys.dpf.core.data_sources.DataSources.set_domain_result_file_path>`
 and :func:`add_domain_file_path() <ansys.dpf.core.data_sources.DataSources.add_domain_file_path>`
 
-If you need to post-process an analysis results that are distributed in two files,
+To post-process analysis results that are distributed in two files,
 you can merge them directly at the DataSources indentation.
 
 .. code-block:: python
@@ -159,16 +159,16 @@ you can merge them directly at the DataSources indentation.
     # Add the additional result data to the DataSources object and specify its domain
     my_data_sources_g.add_domain_file_path(filepath=r"file1.extension", key='extension', domain_id=1)
 
-If you need to post-process an analysis results from/into different servers, you
+To post-process an analysis results from/into different servers, you
 can also work in different remotes processes. This application is explained in
 details in the :ref:`Examples for postprocessing on distributed processes <distributed_post>`
 section in the examples documentation webpage
 
 **h) Function** :func:`add_upstream_for_domain() <ansys.dpf.core.data_sources.DataSources.add_upstream_for_domain>`
 
-If you believe needing a recursive workflow, and you have more than one results file,
-you need to create a new ``DataSouces`` object with the involved data and then add
-it as an upstream in the correspondent main ``DataSources`` object.
+To create a recursive workflow, and you have more than one results file, 
+create a new ``DataSouces`` object with the required data and then add
+it as an upstream in the corresponding main ``DataSources`` object.
 
 .. code-block:: python
 
@@ -192,9 +192,9 @@ it as an upstream in the correspondent main ``DataSources`` object.
 
 **j) Function** :func:`register_namespace() <ansys.dpf.core.data_sources.DataSources.register_namespace>`
 
-When using an operator that requires data from a DataSources, DPF needs to find
-in its code an internal correspondence to this call. This correspondence is given
-by the namespace, the file extension and the operator name: ``namespace::key::operator_name``.
+When using an operator that requires data from a ``DataSources`` object, DPF must find
+a corresponding entry to this call in its code. This entry is given
+by the namespace, the file extension, and the operator name: ``namespace::key::operator_name``.
 
 For example, if the results file comes from a MAPDL solver and has an '.rst' extension
 and you want to get the displacement results in this file, DPF code will get the
@@ -228,10 +228,10 @@ a helper. They are:
 
 Give which file extension was used by your ``DataSources``.
 
-This extension correspond to the given file, either with the :func:`set_result_file_path() <ansys.dpf.core.data_sources.DataSources.set_result_file_path>` function,
-either if you called the class with the file path as an argument
+This extension corresponds to the given file, either with the :func:`set_result_file_path() <ansys.dpf.core.data_sources.DataSources.set_result_file_path>` function,
+either if you called the class with the file path as an argument.
 
-If the file that you set had more than one extension, only the first one will be returned
+If the file that you set had more than one extension, only the first one is returned.
 
 .. code-block:: python
 
@@ -247,10 +247,10 @@ If the file that you set had more than one extension, only the first one will be
 
 **l) Helper** :attr:`result_files <ansys.dpf.core.data_sources.DataSources.result_files>`
 
-Give the list o list of result files contained in the ``DataSources``. It
-returns the file path of those files
+Give the list a list of result files contained in the ``DataSources`` object. It
+returns the file path of those files.
 
-- If you use the :py:func:`set_result_file_path() <ansys.dpf.core.data_sources.DataSources.set_result_file_path>` function it will return only the file path given as an argument to this function
+- If you use the :py:func:`set_result_file_path() <ansys.dpf.core.data_sources.DataSources.set_result_file_path>` function, it will return only the file path given as an argument to this function.
 
 .. code-block:: python
 
@@ -266,7 +266,7 @@ returns the file path of those files
     print(my_data_sources_l1.result_files)
     # ['/folder/file.extension]
 
-- If you added an upstream result file, it will not be listed in the main ``DataSources`` object. You have to check directly in the ``DataSources`` object created to define the upstream data
+- If you added an upstream result file, it is not listed in the main ``DataSources`` object. You have to check directly in the ``DataSources`` object created to define the upstream data.
 
 .. code-block:: python
 
@@ -286,7 +286,7 @@ returns the file path of those files
     print(my_data_sources_l2.result_files)
     # ['/folder/file0.extension0]
 
-- If your checking the DataSources object created to define the upstream data, only the first one will be listed
+- If you are checking the DataSources object created to define the upstream data, only the first one is listed.
 
 .. code-block:: python
 
@@ -294,7 +294,7 @@ returns the file path of those files
     print(my_data_sources_upstream_l2.result_files)
     # ['/folder/file1.extension1]
 
-- If you have a ``DataSources`` object with more than one domain, a empty list will be returned
+- If you have a ``DataSources`` object with more than one domain, a empty list is returned.
 
 .. code-block:: python
 
