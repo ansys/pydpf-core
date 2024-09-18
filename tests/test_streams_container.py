@@ -69,9 +69,11 @@ def test_create_from_streams_container(server_in_process, simple_bar):
     dpf.core.streams_container.StreamsContainer(streams_container=sc, server=server_in_process)
 
 
-def test_streams_container_datasources(server_type, simple_bar):
-    ds = dpf.core.DataSources(simple_bar)
-    streams = dpf.core.operators.metadata.streams_provider(data_sources=ds).eval()
+def test_streams_container_datasources(server_in_process, simple_bar):
+    ds = dpf.core.DataSources(simple_bar, server=server_in_process)
+    streams = dpf.core.operators.metadata.streams_provider(
+        data_sources=ds, server=server_in_process
+    ).eval()
     ds2 = streams.datasources
     assert ds.result_files[0] == ds2.result_files[0]
 
