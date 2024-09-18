@@ -66,8 +66,9 @@ jobs:
         run: |
           wheel_file=$(find ./dpf-standalone/v${{ github.event.inputs.ANSYS_VERSION }}/dist -name "ansys_dpf_gate-*"  -type f)
           echo $wheel_file
-          rm -r src/ansys/dpf/gate
-          unzip -o $wheel_file "ansys/**/*" -d src/
+          rm -r src/ansys/dpf/gate/generated
+          unzip -o $wheel_file "ansys/dpf/gate/generated/*" -d src/
+          unzip -o $wheel_file "ansys/dpf/gate/__init__.py" -d src/
           chmod -R 777 src/ansys/dpf/gate
           git add -f src/ansys/dpf/gate
 

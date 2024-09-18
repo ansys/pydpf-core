@@ -1,9 +1,32 @@
+# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """
 CollectionBase
 ==============
 Contains classes associated with the DPF collection.
 
 """
+
 from __future__ import annotations
 import abc
 import warnings
@@ -24,14 +47,14 @@ from ansys.dpf.gate import (
     dpf_vector,
     dpf_array,
 )
-from typing import Optional, Generic, TypeVar, TYPE_CHECKING
+from typing import List, Optional, Generic, TypeVar, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from ansys.dpf.core.support import Support
 
 from ansys.dpf.gate.integral_types import MutableListInt32
 
-TYPE = TypeVar('TYPE')
+TYPE = TypeVar("TYPE")
 
 
 class CollectionBase(Generic[TYPE]):
@@ -99,7 +122,7 @@ class CollectionBase(Generic[TYPE]):
         str
         """
         out = self._api.collection_get_name(self)
-        return out if out != '' else None
+        return out if out != "" else None
 
     @name.setter
     @version_requires("8.0")
@@ -212,7 +235,13 @@ class CollectionBase(Generic[TYPE]):
             out.append(self._api.collection_get_label(self, i))
         return out
 
-    labels = property(_get_labels, set_labels, "labels")
+    @property
+    def labels(self) -> List[str]:
+        return self._get_labels()
+
+    @labels.setter
+    def labels(self, labels: List[str]):
+        self.set_labels(labels=labels)
 
     def has_label(self, label) -> bool:
         """Check if a collection has a specified label.
@@ -294,9 +323,7 @@ class CollectionBase(Generic[TYPE]):
         indices : list[int], list[Field], list[MeshedRegion]
             Indices of the entries corresponding to the request.
         """
-        client_label_space = LabelSpace(
-            label_space=label_space, obj=self, server=self._server
-        )
+        client_label_space = LabelSpace(label_space=label_space, obj=self, server=self._server)
         num = self._api.collection_get_num_obj_for_label_space(self, client_label_space)
         int_list = MutableListInt32(num)
         self._api.collection_fill_obj_indeces_for_label_space(self, client_label_space, int_list)
@@ -500,6 +527,7 @@ class CollectionBase(Generic[TYPE]):
 
         """
         from ansys.dpf.core.support import Support
+
         return Support(support=self._api.collection_get_support(self, label), server=self._server)
 
     def __str__(self):

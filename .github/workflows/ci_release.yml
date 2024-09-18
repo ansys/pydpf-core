@@ -29,7 +29,6 @@ on:
 
 env:
   DOCUMENTATION_CNAME: 'dpf.docs.pyansys.com'
-  MAIN_PYTHON_VERSION: '3.9'
 
 jobs:
   debug:
@@ -69,7 +68,7 @@ jobs:
           cd ..
 
       - name: "Upload wheel any as artifact"
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ steps.wheel.outputs.wheel_name }}
           path: dist/${{ steps.wheel.outputs.wheel_name }}
@@ -79,7 +78,7 @@ jobs:
     with:
       ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '251' }}
       python_versions: '["3.9", "3.10", "3.11"]'
-      wheel: true
+      wheel: ${{ matrix.python-version == '3.9' }}
       wheelhouse: true
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
     secrets: inherit
@@ -89,7 +88,7 @@ jobs:
     with:
       ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '251' }}
       python_versions: '["3.9", "3.10", "3.11"]'
-      wheel: true
+      wheel: ${{ matrix.python-version == '3.9' }}
       wheelhouse: false
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
       test_any: true
