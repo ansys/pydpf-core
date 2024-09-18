@@ -4,15 +4,15 @@
 DPF DataSources
 ===============
 
-The DataSources is a class available as a submodule of the 'ansys.dpf.core'
-package. It contains files with the analysis results. So this object is used in
-the first basic step: define simulation data, by defining where it is located.
+``DataSources`` is a class available as a submodule of the 'ansys.dpf.core'
+package. It manages paths to their files. Use this object to declare data
+inputs for DPF and define their locations.
 
-This example will describe the functionalities and functions of the class DataSources
-and can be generalised for all the files formats accepted by Py-DPF:
+This tutorial describes the behavior of the ``DataSources`` class
+for all files formats accepted by PyDPF-Core:
 
 .. _list_extensions_solvers:
-**Supported apps by DPF and their related formats**
+**Solver output formats supported by DPF:**
 
 
    - MAPDL files: .rst, .mode, .rfrq, .rdsp
@@ -25,7 +25,7 @@ DataSources creation
 
 **a) Class** :class:`DataSources <ansys.dpf.core.data_sources.DataSources>`
 If you are sure that your file has exactly the extensions keys listed above,
-the DataSources object can be created by directly calling the class with the
+instantiate a ``DataSources`` directly with the
 file path as an argument :
 
 .. code-block:: python
