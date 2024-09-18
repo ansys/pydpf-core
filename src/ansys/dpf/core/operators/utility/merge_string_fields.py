@@ -16,10 +16,10 @@ class merge_string_fields(Operator):
 
     Parameters
     ----------
-    vector_shared_ptr_string_field__1 : StringField
+    string_fields1 : StringField
         Either a a vector of string fields to merge
         or string fields from pin 0 to ...
-    vector_shared_ptr_string_field__2 : StringField
+    string_fields2 : StringField
         Either a a vector of string fields to merge
         or string fields from pin 0 to ...
 
@@ -32,15 +32,15 @@ class merge_string_fields(Operator):
     >>> op = dpf.operators.utility.merge_string_fields()
 
     >>> # Make input connections
-    >>> my_vector_shared_ptr_string_field__1 = dpf.StringField()
-    >>> op.inputs.vector_shared_ptr_string_field__1.connect(my_vector_shared_ptr_string_field__1)
-    >>> my_vector_shared_ptr_string_field__2 = dpf.StringField()
-    >>> op.inputs.vector_shared_ptr_string_field__2.connect(my_vector_shared_ptr_string_field__2)
+    >>> my_string_fields1 = dpf.StringField()
+    >>> op.inputs.string_fields1.connect(my_string_fields1)
+    >>> my_string_fields2 = dpf.StringField()
+    >>> op.inputs.string_fields2.connect(my_string_fields2)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.utility.merge_string_fields(
-    ...     vector_shared_ptr_string_field__1=my_vector_shared_ptr_string_field__1,
-    ...     vector_shared_ptr_string_field__2=my_vector_shared_ptr_string_field__2,
+    ...     string_fields1=my_string_fields1,
+    ...     string_fields2=my_string_fields2,
     ... )
 
     >>> # Get output data
@@ -48,23 +48,15 @@ class merge_string_fields(Operator):
     """
 
     def __init__(
-        self,
-        vector_shared_ptr_string_field__1=None,
-        vector_shared_ptr_string_field__2=None,
-        config=None,
-        server=None,
+        self, string_fields1=None, string_fields2=None, config=None, server=None
     ):
         super().__init__(name="merge::string_field", config=config, server=server)
         self._inputs = InputsMergeStringFields(self)
         self._outputs = OutputsMergeStringFields(self)
-        if vector_shared_ptr_string_field__1 is not None:
-            self.inputs.vector_shared_ptr_string_field__1.connect(
-                vector_shared_ptr_string_field__1
-            )
-        if vector_shared_ptr_string_field__2 is not None:
-            self.inputs.vector_shared_ptr_string_field__2.connect(
-                vector_shared_ptr_string_field__2
-            )
+        if string_fields1 is not None:
+            self.inputs.string_fields1.connect(string_fields1)
+        if string_fields2 is not None:
+            self.inputs.string_fields2.connect(string_fields2)
 
     @staticmethod
     def _spec():
@@ -73,14 +65,14 @@ class merge_string_fields(Operator):
             description=description,
             map_input_pin_spec={
                 0: PinSpecification(
-                    name="vector_shared_ptr_string_field__",
+                    name="string_fields",
                     type_names=["string_field"],
                     optional=False,
                     document="""Either a a vector of string fields to merge
         or string fields from pin 0 to ...""",
                 ),
                 1: PinSpecification(
-                    name="vector_shared_ptr_string_field__",
+                    name="string_fields",
                     type_names=["string_field"],
                     optional=False,
                     document="""Either a a vector of string fields to merge
@@ -143,64 +135,60 @@ class InputsMergeStringFields(_Inputs):
     --------
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.utility.merge_string_fields()
-    >>> my_vector_shared_ptr_string_field__1 = dpf.StringField()
-    >>> op.inputs.vector_shared_ptr_string_field__1.connect(my_vector_shared_ptr_string_field__1)
-    >>> my_vector_shared_ptr_string_field__2 = dpf.StringField()
-    >>> op.inputs.vector_shared_ptr_string_field__2.connect(my_vector_shared_ptr_string_field__2)
+    >>> my_string_fields1 = dpf.StringField()
+    >>> op.inputs.string_fields1.connect(my_string_fields1)
+    >>> my_string_fields2 = dpf.StringField()
+    >>> op.inputs.string_fields2.connect(my_string_fields2)
     """
 
     def __init__(self, op: Operator):
         super().__init__(merge_string_fields._spec().inputs, op)
-        self._vector_shared_ptr_string_field__1 = Input(
-            merge_string_fields._spec().input_pin(0), 0, op, 0
-        )
-        self._inputs.append(self._vector_shared_ptr_string_field__1)
-        self._vector_shared_ptr_string_field__2 = Input(
-            merge_string_fields._spec().input_pin(1), 1, op, 1
-        )
-        self._inputs.append(self._vector_shared_ptr_string_field__2)
+        self._string_fields1 = Input(merge_string_fields._spec().input_pin(0), 0, op, 0)
+        self._inputs.append(self._string_fields1)
+        self._string_fields2 = Input(merge_string_fields._spec().input_pin(1), 1, op, 1)
+        self._inputs.append(self._string_fields2)
 
     @property
-    def vector_shared_ptr_string_field__1(self):
-        """Allows to connect vector_shared_ptr_string_field__1 input to the operator.
+    def string_fields1(self):
+        """Allows to connect string_fields1 input to the operator.
 
         Either a a vector of string fields to merge
         or string fields from pin 0 to ...
 
         Parameters
         ----------
-        my_vector_shared_ptr_string_field__1 : StringField
+        my_string_fields1 : StringField
 
         Examples
         --------
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.utility.merge_string_fields()
-        >>> op.inputs.vector_shared_ptr_string_field__1.connect(my_vector_shared_ptr_string_field__1)
+        >>> op.inputs.string_fields1.connect(my_string_fields1)
         >>> # or
-        >>> op.inputs.vector_shared_ptr_string_field__1(my_vector_shared_ptr_string_field__1)
+        >>> op.inputs.string_fields1(my_string_fields1)
         """
-        return self._vector_shared_ptr_string_field__1
+        return self._string_fields1
 
     @property
-    def vector_shared_ptr_string_field__2(self):
-        """Allows to connect vector_shared_ptr_string_field__2 input to the operator.
+    def string_fields2(self):
+        """Allows to connect string_fields2 input to the operator.
 
         Either a a vector of string fields to merge
         or string fields from pin 0 to ...
 
         Parameters
         ----------
-        my_vector_shared_ptr_string_field__2 : StringField
+        my_string_fields2 : StringField
 
         Examples
         --------
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.utility.merge_string_fields()
-        >>> op.inputs.vector_shared_ptr_string_field__2.connect(my_vector_shared_ptr_string_field__2)
+        >>> op.inputs.string_fields2.connect(my_string_fields2)
         >>> # or
-        >>> op.inputs.vector_shared_ptr_string_field__2(my_vector_shared_ptr_string_field__2)
+        >>> op.inputs.string_fields2(my_string_fields2)
         """
-        return self._vector_shared_ptr_string_field__2
+        return self._string_fields2
 
 
 class OutputsMergeStringFields(_Outputs):
