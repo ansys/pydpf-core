@@ -1,21 +1,7 @@
 .. _ref_concepts:
 
-========
 Concepts
-========
-
-This section provides in-depth descriptions and explanations of DPF concepts, including terminology.
-
-DPF concepts
-~~~~~~~~~~~~
-
-.. toctree::
-   :hidden:
-
-   concepts.rst
-   waysofusing.rst
-   stepbystep.rst
-
+--------
 
 .. card-carousel:: 2
 
