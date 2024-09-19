@@ -22,18 +22,42 @@ The goals of this section are to:
 .. include::
    how-to/index.rst
 
+.. include::
+   troubleshooting/index.rst
+
 
 .. toctree::
-   :hidden:
+    :maxdepth: 2
+    :hidden:
+    :caption: Concepts
 
-   concepts.rst
-   waysofusing.rst
-   stepbystep.rst
-
-
-
-Troubleshooting
-~~~~~~~~~~~~~~~
+    concepts/concepts.rst
+    concepts/waysofusing.rst
+    concepts/stepbystep.rst
 
 .. toctree::
-   troubleshooting
+    :maxdepth: 2
+    :hidden:
+    :caption: Tutorials
+
+    tutorials/model.rst
+    tutorials/operators.rst
+    tutorials/fields_container.rst
+
+.. toctree::
+    :maxdepth: 2
+    :hidden:
+    :caption: Accessing and enriching DPF capabilities
+
+    how-to/plotting.rst
+    how-to/custom_operators.rst
+    how-to/server_context.rst
+    how-to/server_types.rst
+    how-to/xmlfiles.rst
+
+.. toctree::
+    :maxdepth: 3
+    :hidden:
+    :caption: Troubleshooting
+
+    troubleshooting/troubleshooting.rst

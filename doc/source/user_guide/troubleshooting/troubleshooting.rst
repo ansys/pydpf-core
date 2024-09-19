@@ -1,10 +1,13 @@
 .. _user_guide_troubleshooting:
 
-===============
+
 Troubleshooting
-===============
+---------------
+
 This page explains how to resolve the most common issues encountered when
 using PyDPF-Core. It also includes suggestions for improving scripts.
+
+.. _ref_server_issues:
 
 Server issues
 -------------
@@ -38,6 +41,8 @@ If an error lists missing modules, see :ref:`ref_compatibility`.
 For ``PyDPF-Core``<0.10.0, the `ansys.grpc.dpf <https://pypi.org/project/ansys-grpc-dpf/>`_ module
 should always be synchronized with its server version.
 
+.. _ref_model_issues:
+
 Model issues
 ------------
 
@@ -66,6 +71,8 @@ Then, with result files reproducing this issue, you can prevent the warning from
 However, the preceding code disables the reading and generation of the available results for the model.
 Any static results that are available for the model are used instead.
 
+.. _ref_plotting_issues:
+
 Plotting issues
 ---------------
 
@@ -83,6 +90,8 @@ In that case, simply install `PyVista <https://pyvista.org/>`_` with this comman
 
 Another option is to install PyVista along with PyDPF-Core. For more information, see 
 :ref:`Install with plotting capabilities<target_to_install_with_plotting_capabilities>`
+
+.. _ref_performance_issues:
 
 Performance issues
 ------------------
