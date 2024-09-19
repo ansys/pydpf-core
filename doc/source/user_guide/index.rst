@@ -56,8 +56,11 @@ The goals of this section are to:
     how-to/xmlfiles.rst
 
 .. toctree::
-    :maxdepth: 3
+    :maxdepth: 2
     :hidden:
     :caption: Troubleshooting
 
-    troubleshooting/troubleshooting.rst
+    Server issues <ref_server_issues>
+    Model issues <ref_model_issues>
+    `Plotting issues <ref_plotting_issues>`
+    `Performance issues <ref_performance_issues>`
