@@ -11,14 +11,14 @@ inputs for DPF and define their locations.
 This tutorial describes the behavior of the ``DataSources`` class
 for all files formats accepted by PyDPF-Core:
 
-.. _list_extensions_solvers:
+.. include:: ../substitution_solvers.rst
+
 **Solver output formats supported by DPF:**
 
-
-   - MAPDL files: .rst, .mode, .rfrq, .rdsp
-   - LS-DYNA files: .d3plot, .binout
-   - Fluent files: CFF restart files(.cas/dat.h5) and Project files (.flprj)
-   - CFX files: CFF files(.cas/dat.cff.res) and Project files (.flprj)
+   - MAPDL files: |MAPDL_files|
+   - LS-DYNA files: |LS-DYNA_files|
+   - Fluent files: |Fluent_files1| and |Fluent_files2|
+   - CFX files: |CFX_files1| and |CFX_files2|
 
 DataSources creation
 --------------------
