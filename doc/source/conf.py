@@ -7,7 +7,7 @@ import numpy as np
 import pyvista
 from ansys.dpf.core import __version__, server, server_factory
 from ansys.dpf.core.examples import get_example_required_minimum_dpf_version
-from ansys_sphinx_theme import pyansys_logo_black, ansys_favicon, get_version_match
+from ansys_sphinx_theme import ansys_favicon, get_version_match, pyansys_logo_light_mode, pyansys_logo_dark_mode
 
 # Manage errors
 pyvista.set_error_output_file("errors.txt")
@@ -76,6 +76,7 @@ ignored_pattern += r")"
 extensions = [
     "enum_tools.autoenum",
     "nbsphinx",
+    "sphinx.ext.autosummary",
     "sphinx.ext.autosectionlabel",
     "sphinx.ext.autodoc",
     "sphinx.ext.graphviz",
@@ -193,7 +194,6 @@ autodoc_member_order = "bysource"
 # -- Options for HTML output -------------------------------------------------
 html_short_title = html_title = "PyDPF-Core"
 html_theme = "ansys_sphinx_theme"
-html_logo = pyansys_logo_black
 html_favicon = ansys_favicon
 html_theme_options = {
     "github_url": "https://github.com/ansys/pydpf-core",
@@ -202,6 +202,10 @@ html_theme_options = {
     "additional_breadcrumbs": [
         ("PyAnsys", "https://docs.pyansys.com/"),
     ],
+    "logo": {
+        "image_dark": pyansys_logo_dark_mode,
+        "image_light": pyansys_logo_light_mode,
+    },
     "switcher": {
         "json_url": f"https://{cname}/versions.json",
         "version_match": get_version_match(__version__),
