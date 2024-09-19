@@ -17,7 +17,7 @@ The goals of this section are to:
    concepts/index.rst
 
 .. include::
-   main_entities.rst
+   tutorials/index.rst
 
 .. include::
    how_to.rst

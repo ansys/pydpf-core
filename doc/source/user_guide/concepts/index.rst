@@ -1,4 +1,4 @@
-.. _ref_concepts:
+.. _ref_concepts_index:
 
 Concepts
 --------

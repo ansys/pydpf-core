@@ -1,4 +1,4 @@
-.. _user_guide_model:
+.. _ref_tutorials_model:
 
 =========
 DPF model
