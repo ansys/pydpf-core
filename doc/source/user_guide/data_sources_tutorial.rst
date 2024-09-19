@@ -13,6 +13,8 @@ for all files formats accepted by PyDPF-Core:
 
 .. include:: ../substitution_solvers.rst
 
+.. _ref_list_extensions_solvers:
+
 **Solver output formats supported by DPF:**
 
    - MAPDL files: |MAPDL_files|
