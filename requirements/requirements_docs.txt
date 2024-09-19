@@ -8,7 +8,7 @@ pypandoc==1.13
 pytest-sphinx==0.6.3
 pyvista==0.44.1
 sphinx==7.1.0
-sphinx-autobuild==2024.2.4
+sphinx-autobuild==2024.9.19
 sphinx-copybutton==0.5.2
 sphinx-gallery==0.17.0
 sphinx-notfound-page==1.0.4
