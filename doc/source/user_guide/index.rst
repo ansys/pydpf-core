@@ -20,7 +20,7 @@ The goals of this section are to:
    tutorials/index.rst
 
 .. include::
-   how_to.rst
+   how-to/index.rst
 
 
 .. toctree::

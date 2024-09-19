@@ -1,18 +1,7 @@
 .. _ref_how_to:
 
-How-tos
-~~~~~~~
-
-.. toctree::
-    :hidden:
-
-    plotting.rst
-    custom_operators.rst
-    dpf_server.rst
-    server_types.rst
-    server_context.rst
-    xmlfiles.rst
-
+Accessing and enriching DPF capabilities
+----------------------------------------
 
 .. card-carousel:: 2
 
