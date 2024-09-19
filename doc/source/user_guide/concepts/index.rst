@@ -3,9 +3,9 @@
 Concepts
 --------
 
-.. card-carousel:: 2
+.. grid:: 3
 
-    .. card:: Concepts and terminology
+    .. grid-item-card:: Concepts and terminology
        :link: user_guide_concepts
        :link-type: ref
        :width: 25%
@@ -13,7 +13,7 @@ Concepts
 
        .. image:: ../images/drawings/book-logo.png
 
-    .. card:: Ways of using DPF
+    .. grid-item-card:: Ways of using DPF
        :link: user_guide_waysofusing
        :link-type: ref
        :width: 25%
@@ -21,7 +21,7 @@ Concepts
 
        .. image:: ../images/drawings/using-dpf.png
 
-    .. card:: Using DPF: Step by step
+    .. grid-item-card:: Using DPF: Step by step
        :link: user_guide_stepbystep
        :link-type: ref
        :width: 25%
