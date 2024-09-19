@@ -1,16 +1,17 @@
 .. _user_guide_troubleshooting:
 
-
+===============
 Troubleshooting
----------------
+===============
 
 This page explains how to resolve the most common issues encountered when
 using PyDPF-Core. It also includes suggestions for improving scripts.
 
 .. _ref_server_issues:
 
+==============
 Server issues
--------------
+==============
 
 Start the DPF server
 ~~~~~~~~~~~~~~~~~~~~~
@@ -43,8 +44,9 @@ should always be synchronized with its server version.
 
 .. _ref_model_issues:
 
+============
 Model issues
-------------
+============
 
 Invalid UTF-8 error
 ~~~~~~~~~~~~~~~~~~~
@@ -73,8 +75,9 @@ Any static results that are available for the model are used instead.
 
 .. _ref_plotting_issues:
 
+===============
 Plotting issues
----------------
+===============
 
 When trying to plot a result with DPF, the following error might be raised:
 
@@ -93,8 +96,9 @@ Another option is to install PyVista along with PyDPF-Core. For more information
 
 .. _ref_performance_issues:
 
+==================
 Performance issues
-------------------
+==================
 
 Get and set a field's data
 ~~~~~~~~~~~~~~~~~~~~~~~~~~

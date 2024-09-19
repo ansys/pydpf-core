@@ -4,11 +4,11 @@ Accessing and enriching DPF capabilities
 ----------------------------------------
 
 .. grid:: 3
+    :gutter: 2
 
     .. grid-item-card:: Create custom operators
        :link: user_guide_custom_operators
        :link-type: ref
-       :width: 25%
        :text-align: center
 
        .. image:: ../images/drawings/plugin-logo.png
@@ -18,7 +18,6 @@ Accessing and enriching DPF capabilities
     .. grid-item-card:: Use DPF Server package
        :link: ref_dpf_server
        :link-type: ref
-       :width: 25%
        :text-align: center
 
        .. image:: ../images/drawings/dpf_server_client.png
@@ -27,7 +26,6 @@ Accessing and enriching DPF capabilities
     .. grid-item-card:: Switch between local and remote server
        :link: user_guide_server_types
        :link-type: ref
-       :width: 25%
        :text-align: center
 
        .. image:: ../images/drawings/remote_machines.png
@@ -36,7 +34,6 @@ Accessing and enriching DPF capabilities
     .. grid-item-card:: Access Entry and Premium capabilities
        :link: user_guide_server_context
        :link-type: ref
-       :width: 25%
        :text-align: center
 
        .. image:: ../images/drawings/entry_premium.png
@@ -45,7 +42,6 @@ Accessing and enriching DPF capabilities
     .. grid-item-card:: Use DPF XML Files
        :link: user_guide_xmlfiles
        :link-type: ref
-       :width: 25%
        :text-align: center
 
        .. image:: ../images/drawings/xml.png

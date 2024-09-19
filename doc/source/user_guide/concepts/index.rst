@@ -4,11 +4,11 @@ Concepts
 --------
 
 .. grid:: 3
+    :gutter: 2
 
     .. grid-item-card:: Concepts and terminology
        :link: user_guide_concepts
        :link-type: ref
-       :width: 25%
        :text-align: center
 
        .. image:: ../images/drawings/book-logo.png
@@ -16,7 +16,6 @@ Concepts
     .. grid-item-card:: Ways of using DPF
        :link: user_guide_waysofusing
        :link-type: ref
-       :width: 25%
        :text-align: center
 
        .. image:: ../images/drawings/using-dpf.png
@@ -24,7 +23,6 @@ Concepts
     .. grid-item-card:: Using DPF: Step by step
        :link: user_guide_stepbystep
        :link-type: ref
-       :width: 25%
        :text-align: center
 
        .. image:: ../images/drawings/checklist.png
