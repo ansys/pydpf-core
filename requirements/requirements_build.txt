@@ -1,4 +1,4 @@
 black==24.8.0
-build==1.2.1
+build==1.2.2
 chevron==0.14.0
 wheel==0.44.0
