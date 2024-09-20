@@ -24,7 +24,7 @@ for each usage main step.
        :link-type: ref
        :text-align: center
 
-**Store input data in DPF**
+**Load data**
 
 
 .. grid:: 3

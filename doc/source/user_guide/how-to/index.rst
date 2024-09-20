@@ -6,7 +6,7 @@ Enriching DPF capabilities
 .. grid:: 3
     :gutter: 2
 
-    .. grid-item-card:: Create custom operators
+    .. grid-item-card:: Create custom operators and plugins
        :link: user_guide_custom_operators
        :link-type: ref
        :text-align: center
