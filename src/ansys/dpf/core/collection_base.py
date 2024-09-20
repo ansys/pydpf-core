@@ -47,7 +47,7 @@ from ansys.dpf.gate import (
     dpf_vector,
     dpf_array,
 )
-from typing import Optional, Generic, TypeVar, TYPE_CHECKING
+from typing import List, Optional, Generic, TypeVar, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from ansys.dpf.core.support import Support
@@ -235,7 +235,13 @@ class CollectionBase(Generic[TYPE]):
             out.append(self._api.collection_get_label(self, i))
         return out
 
-    labels = property(_get_labels, set_labels, "labels")
+    @property
+    def labels(self) -> List[str]:
+        return self._get_labels()
+
+    @labels.setter
+    def labels(self, labels: List[str]):
+        self.set_labels(labels=labels)
 
     def has_label(self, label) -> bool:
         """Check if a collection has a specified label.
