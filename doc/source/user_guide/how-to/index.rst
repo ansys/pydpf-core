@@ -1,6 +1,6 @@
 .. _ref_how_to:
 
-Accessing and enriching DPF capabilities
+Enriching DPF capabilities
 ----------------------------------------
 
 .. grid:: 3
@@ -39,7 +39,7 @@ Accessing and enriching DPF capabilities
        .. image:: ../images/drawings/entry_premium.png
 	   
 
-    .. grid-item-card:: Use DPF XML Files
+    .. grid-item-card:: Configure DPF plugins load
        :link: user_guide_xmlfiles
        :link-type: ref
        :text-align: center

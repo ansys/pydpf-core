@@ -4,12 +4,12 @@ Tutorials
 ---------
 
 
-The following tutorials shows in details how to use basic features of PyDPF-Core
+The following tutorials show in details how to use basic features of PyDPF-Core
 for each usage main step.
 
 :bdg-dark-line:`Define simulation data` :octicon:`arrow-right;1em` :bdg-dark-line:`Store input data in DPF` :octicon:`arrow-right;1em` :bdg-dark-line:`Transform available data` :octicon:`arrow-right;1em` :bdg-dark-line:`Extract data`
 
-**Define simulation data**
+**Define input data**
 
 
 .. grid:: 3
@@ -62,7 +62,7 @@ for each usage main step.
 
        MeshContainer
 
-**Transform available data**
+**Transform data**
 
 
 .. grid:: 3
