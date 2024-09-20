@@ -13,14 +13,6 @@ Enriching DPF capabilities
 
        .. image:: ../images/drawings/plugin-logo.png
           :width: 50%
-		  
-
-    .. grid-item-card:: Use DPF Server package
-       :link: ref_dpf_server
-       :link-type: ref
-       :text-align: center
-
-       .. image:: ../images/drawings/dpf_server_client.png
 
 
     .. grid-item-card:: Switch between local and remote server
