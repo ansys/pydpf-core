@@ -123,9 +123,9 @@ with open(os.path.join(plugin_path, "requirements.txt"), "r") as f:
 # Download the script for your operating system.
 #
 # - For Windows, download this
-#   :download:`PowerShell script </user_guide/create_sites_for_python_operators.ps1>`.
+#   :download:`PowerShell script </user_guide/how-to/create_sites_for_python_operators.ps1>`.
 # - For Linux, download this
-#   :download:`Shell script </user_guide/create_sites_for_python_operators.sh>`.
+#   :download:`Shell script </user_guide/how-to/create_sites_for_python_operators.sh>`.
 #
 # Run the downloaded script with the mandatory arguments:
 #
@@ -157,6 +157,7 @@ if os.name == "nt" and not os.path.exists(
         "doc",
         "source",
         "user_guide",
+        "how-to",
         "create_sites_for_python_operators.ps1",
     )
     args = [
@@ -189,6 +190,7 @@ elif os.name == "posix" and not os.path.exists(
         "doc",
         "source",
         "user_guide",
+        "how-to",
         "create_sites_for_python_operators.sh",
     )
     run_cmd = f"{cmd_file}"
