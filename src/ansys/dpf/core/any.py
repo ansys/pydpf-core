@@ -1,9 +1,32 @@
+# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """
 .. _ref_any:
 
 Any
 ====================
 """
+
 import traceback
 import warnings
 
@@ -55,13 +78,13 @@ class Any:
         self._get_as_method = None
 
     def _new_from_string(self, str):
-        return self._new_from_string_as_bytes(str.encode('utf-8'))
+        return self._new_from_string_as_bytes(str.encode("utf-8"))
 
     @staticmethod
     def _get_as_string(self):
         out = Any._get_as_string_as_bytes(self)
         if out is not None and not isinstance(out, str):
-            return out.decode('utf-8')
+            return out.decode("utf-8")
         return out
 
     @staticmethod
@@ -73,7 +96,7 @@ class Any:
             return self._api.any_get_as_string(self)
 
     def _new_from_string_on_client(self, client, str):
-        return self._new_from_string_as_bytes_on_client(client, str.encode('utf-8'))
+        return self._new_from_string_as_bytes_on_client(client, str.encode("utf-8"))
 
     def _new_from_string_as_bytes(self, str):
         if server_meet_version("8.0", self._server):
@@ -89,7 +112,7 @@ class Any:
         else:
             return self._api.any_new_from_string_on_client(client, str)
 
-    def _type_to_new_from_get_as_method(self):
+    def _type_to_new_from_get_as_method(self, obj):
         from ansys.dpf.core import (
             field,
             property_field,
@@ -101,73 +124,72 @@ class Any:
             collection,
         )
 
-        return [
-            (
-                int,
+        if issubclass(obj, int):
+            return (
                 self._api.any_new_from_int,
                 self._api.any_get_as_int,
                 self._api.any_new_from_int_on_client,
-            ),
-            (
-                str,
+            )
+        elif issubclass(obj, str):
+            return (
                 self._new_from_string,
                 self._get_as_string,
                 self._new_from_string_on_client,
-            ),
-            (
-                float,
+            )
+        elif issubclass(obj, float):
+            return (
                 self._api.any_new_from_double,
                 self._api.any_get_as_double,
                 self._api.any_new_from_double_on_client,
-            ),
-            (
-                bytes,
+            )
+        elif issubclass(obj, bytes):
+            return (
                 self._new_from_string_as_bytes,
                 self._get_as_string_as_bytes,
                 self._new_from_string_as_bytes_on_client,
-            ),
-            (field.Field, self._api.any_new_from_field, self._api.any_get_as_field),
-            (
-                property_field.PropertyField,
+            )
+        elif issubclass(obj, field.Field):
+            return self._api.any_new_from_field, self._api.any_get_as_field
+        elif issubclass(obj, property_field.PropertyField):
+            return (
                 self._api.any_new_from_property_field,
                 self._api.any_get_as_property_field,
-            ),
-            (
-                string_field.StringField,
+            )
+        elif issubclass(obj, string_field.StringField):
+            return (
                 self._api.any_new_from_string_field,
                 self._api.any_get_as_string_field,
-            ),
-            (
-                generic_data_container.GenericDataContainer,
+            )
+        elif issubclass(obj, generic_data_container.GenericDataContainer):
+            return (
                 self._api.any_new_from_generic_data_container,
                 self._api.any_get_as_generic_data_container,
-            ),
-            (
-                scoping.Scoping,
+            )
+        elif issubclass(obj, scoping.Scoping):
+            return (
                 self._api.any_new_from_scoping,
                 self._api.any_get_as_scoping,
-            ),
-            (
-                data_tree.DataTree,
+            )
+        elif issubclass(obj, data_tree.DataTree):
+            return (
                 self._api.any_new_from_data_tree,
                 self._api.any_get_as_data_tree,
-            ),
-            (
-                custom_type_field.CustomTypeField,
+            )
+        elif issubclass(obj, custom_type_field.CustomTypeField):
+            return (
                 self._api.any_new_from_custom_type_field,
                 self._api.any_get_as_custom_type_field,
-            ),
-            (
-                collection.Collection,
+            )
+        elif issubclass(obj, collection.Collection):
+            return (
                 self._api.any_new_from_any_collection,
                 self._api.any_get_as_any_collection,
-            ),
-            (
-                dpf_vector.DPFVectorInt,
+            )
+        elif issubclass(obj, dpf_vector.DPFVectorInt):
+            return (
                 self._api.any_new_from_int_collection,
                 self._api.any_get_as_int_collection,
-            ),
-        ]
+            )
 
     @staticmethod
     def new_from(obj, server=None):
@@ -190,30 +212,36 @@ class Any:
 
         any_dpf = Any(server=inner_server)
 
-        for type_tuple in any_dpf._type_to_new_from_get_as_method():
-            if isinstance(obj, type_tuple[0]):
-                # call respective new_from function
-                if isinstance(server, ansys.dpf.core.server_types.InProcessServer) or not (
-                        isinstance(obj, (int, str, float, bytes))
-                ):
-                    any_dpf._internal_obj = type_tuple[1](obj)
-                else:
-                    any_dpf._internal_obj = type_tuple[3](inner_server.client, obj)
-                # store get_as & type for casting back to original type
-                any_dpf._internal_type = type_tuple[0]
-                any_dpf._get_as_method = type_tuple[2]
+        type_tuple = any_dpf._type_to_new_from_get_as_method(type(obj))
+        if type_tuple is not None:
+            # call respective new_from function
+            if isinstance(server, ansys.dpf.core.server_types.InProcessServer) or not (
+                isinstance(obj, (int, str, float, bytes))
+            ):
+                any_dpf._internal_obj = type_tuple[0](obj)
+            else:
+                any_dpf._internal_obj = type_tuple[2](inner_server.client, obj)
+            # store get_as & type for casting back to original type
+            any_dpf._internal_type = type(obj)
+            any_dpf._get_as_method = type_tuple[1]
 
+            return any_dpf
+        elif isinstance(obj, (list, np.ndarray)):
+            type_tuple = any_dpf._type_to_new_from_get_as_method(dpf_vector.DPFVectorInt)
+            from ansys.dpf.core import collection
+
+            if server_meet_version_and_raise(
+                "9.0",
+                inner_server,
+                "Creating an Any from a list is only supported "
+                "with"
+                "server versions starting at 9.0",
+            ):
+                inpt = collection.CollectionBase.integral_collection(obj, inner_server)
+                any_dpf._internal_obj = type_tuple[0](inpt)
+                any_dpf._internal_type = dpf_vector.DPFVectorInt
+                any_dpf._get_as_method = type_tuple[1]
                 return any_dpf
-            if isinstance(obj, (list, np.ndarray)) and type_tuple[0]==dpf_vector.DPFVectorInt:
-                from ansys.dpf.core import collection
-                if server_meet_version_and_raise("9.0", inner_server, "Creating an Any from a list is only supported "
-                                                                      "with"
-                                                                      "server versions starting at 9.0"):
-                    inpt = collection.CollectionBase.integral_collection(obj, inner_server)
-                    any_dpf._internal_obj = type_tuple[1](inpt)
-                    any_dpf._internal_type = type_tuple[0]
-                    any_dpf._get_as_method = type_tuple[2]
-                    return any_dpf
 
         raise TypeError(f"{obj.__class__} is not currently supported by the Any class.")
 
@@ -258,22 +286,20 @@ class Any:
 
         self._internal_type = output_type if output_type is not None else self._internal_type
 
-        for type_tuple in Any._type_to_new_from_get_as_method(self):
-            if issubclass(self._internal_type, type_tuple[0]):
-                # call the get_as function for the appropriate type
-                internal_obj = type_tuple[2](self)
-                if (
-                        self._internal_type is int
-                        or self._internal_type is str
-                        or self._internal_type is float
-                        or self._internal_type is bytes
+        type_tuple = self._type_to_new_from_get_as_method(self._internal_type)
+        if type_tuple is not None:
+            internal_obj = type_tuple[1](self)
+            if (
+                self._internal_type is int
+                or self._internal_type is str
+                or self._internal_type is float
+                or self._internal_type is bytes
+            ):
+                obj = internal_obj
+            else:
+                return create_dpf_instance(self._internal_type, internal_obj, self._server)
 
-                ):
-                    obj = internal_obj
-                else:
-                    return create_dpf_instance(self._internal_type, internal_obj, self._server)
-
-                return obj
+            return obj
 
         raise TypeError(f"{output_type} is not currently supported by the Any class.")
 

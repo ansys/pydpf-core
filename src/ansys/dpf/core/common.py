@@ -1,3 +1,25 @@
+# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """
 Common
 ======
@@ -6,6 +28,7 @@ Common
    :members:
 
 """
+
 import re
 import sys
 from enum import Enum
@@ -124,6 +147,7 @@ def types_enum_to_types():
         streams_container,
         generic_data_container,
         mesh_info,
+        Any,
     )
     from ansys.dpf.gate import dpf_vector
 
@@ -155,6 +179,7 @@ def types_enum_to_types():
         types.streams_container: streams_container.StreamsContainer,
         types.generic_data_container: generic_data_container.GenericDataContainer,
         types.mesh_info: mesh_info.MeshInfo,
+        types.any: Any,
     }
 
 
@@ -319,74 +344,90 @@ def _common_percentage_progress_bar(text):
     return TqdmProgressBar(text, "%", 100)
 
 
+class SubClassSmartDict(dict):
+    def __getitem__(self, item):
+        """If found returns the item of key == ìtem`, else returns item with key matching `issubclass(item,
+        key)`."""
+        if item in self:
+            return super().__getitem__(item)
+        else:
+            for key, value in self.items():
+                if issubclass(item, key):
+                    return value
+        raise KeyError
+
+
+_type_to_internal_object_keyword = None
+
+
 def type_to_internal_object_keyword():
-    from ansys.dpf.core import (
-        cyclic_support,
-        data_sources,
-        field,
-        fields_container,
-        meshed_region,
-        meshes_container,
-        property_field,
-        string_field,
-        custom_type_field,
-        result_info,
-        scoping,
-        scopings_container,
-        time_freq_support,
-        dpf_operator,
-        data_tree,
-        workflow,
-        streams_container,
-        generic_data_container,
-        any,
-        collection,
-    )
+    global _type_to_internal_object_keyword
+    if _type_to_internal_object_keyword is None:
+        from ansys.dpf.core import (
+            cyclic_support,
+            data_sources,
+            field,
+            fields_container,
+            meshed_region,
+            meshes_container,
+            property_field,
+            string_field,
+            custom_type_field,
+            result_info,
+            scoping,
+            scopings_container,
+            time_freq_support,
+            dpf_operator,
+            data_tree,
+            workflow,
+            streams_container,
+            generic_data_container,
+            any,
+            collection,
+        )
 
-    class _smart_dict_types(dict):
-        def __getitem__(self, item):
-            """If found returns the item of key == ìtem`, else returns item with key matching `issubclass(item,
-            key)`."""
-            if item in self:
-                return super().__getitem__(item)
-            else:
-                for key, value in self.items():
-                    if issubclass(item, key):
-                        return value
-            raise KeyError
+        _type_to_internal_object_keyword = SubClassSmartDict(
+            {
+                field.Field: "field",
+                property_field.PropertyField: "property_field",
+                string_field.StringField: "string_field",
+                custom_type_field.CustomTypeField: "field",
+                scoping.Scoping: "scoping",
+                fields_container.FieldsContainer: "fields_container",
+                scopings_container.ScopingsContainer: "scopings_container",
+                meshes_container.MeshesContainer: "meshes_container",
+                streams_container.StreamsContainer: "streams_container",
+                data_sources.DataSources: "data_sources",
+                cyclic_support.CyclicSupport: "cyclic_support",
+                meshed_region.MeshedRegion: "mesh",
+                result_info.ResultInfo: "result_info",
+                time_freq_support.TimeFreqSupport: "time_freq_support",
+                workflow.Workflow: "workflow",
+                data_tree.DataTree: "data_tree",
+                dpf_operator.Operator: "operator",
+                generic_data_container.GenericDataContainer: "generic_data_container",
+                any.Any: "any_dpf",
+                collection.Collection: "collection",
+            }
+        )
+    return _type_to_internal_object_keyword
 
-    return _smart_dict_types({
-        field.Field: "field",
-        property_field.PropertyField: "property_field",
-        string_field.StringField: "string_field",
-        custom_type_field.CustomTypeField: "field",
-        scoping.Scoping: "scoping",
-        fields_container.FieldsContainer: "fields_container",
-        scopings_container.ScopingsContainer: "scopings_container",
-        meshes_container.MeshesContainer: "meshes_container",
-        streams_container.StreamsContainer: "streams_container",
-        data_sources.DataSources: "data_sources",
-        cyclic_support.CyclicSupport: "cyclic_support",
-        meshed_region.MeshedRegion: "mesh",
-        result_info.ResultInfo: "result_info",
-        time_freq_support.TimeFreqSupport: "time_freq_support",
-        workflow.Workflow: "workflow",
-        data_tree.DataTree: "data_tree",
-        dpf_operator.Operator: "operator",
-        generic_data_container.GenericDataContainer: "generic_data_container",
-        any.Any: "any_dpf",
-        collection.Collection: "collection",
-    })
+
+_type_to_special_dpf_constructors = None
 
 
 def type_to_special_dpf_constructors():
-    from ansys.dpf.gate.dpf_vector import DPFVectorInt
-    from ansys.dpf.core import collection_base
-    return {DPFVectorInt:
-                lambda obj, server: collection_base.IntCollection(
-                    server=server, collection=obj
-                ).get_integral_entries()
-            }
+    global _type_to_special_dpf_constructors
+    if _type_to_special_dpf_constructors is None:
+        from ansys.dpf.gate.dpf_vector import DPFVectorInt
+        from ansys.dpf.core import collection_base
+
+        _type_to_special_dpf_constructors = {
+            DPFVectorInt: lambda obj, server: collection_base.IntCollection(
+                server=server, collection=obj
+            ).get_integral_entries()
+        }
+    return _type_to_special_dpf_constructors
 
 
 def create_dpf_instance(type, internal_obj, server):

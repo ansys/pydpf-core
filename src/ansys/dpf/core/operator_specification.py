@@ -1,3 +1,25 @@
+# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """
 .. _ref_operator_specification:
 
@@ -60,7 +82,13 @@ class PinSpecification:
     name_derived_class = str
 
     def __init__(
-        self, name: str, type_names: list, document="", optional=False, ellipsis=False, name_derived_class=""
+        self,
+        name: str,
+        type_names: list,
+        document="",
+        optional=False,
+        ellipsis=False,
+        name_derived_class="",
     ):
         self.name = name
         self.type_names = type_names
@@ -233,7 +261,12 @@ class Specification(SpecificationBase):
     'result file path container, used if no streams are set'
     """
 
-    def __init__(self, operator_name: Union[str, None]=None, specification: Union[Specification, None]=None, server: Union[server_module.BaseServer, None]=None):
+    def __init__(
+        self,
+        operator_name: Union[str, None] = None,
+        specification: Union[Specification, None] = None,
+        server: Union[server_module.BaseServer, None] = None,
+    ):
         # step 1: get server
         self._server = server_module.get_or_create_server(
             specification._server if isinstance(specification, Specification) else server
@@ -496,7 +529,7 @@ class SpecificationProperties:
         Optional license name to check out that is used to run the operator.
         The value "any_dpf_supported_increments" tells DPF than any DPF-accepted license
         is accepted by this operator (see `here
-        <https://dpf.docs.pyansys.com/version/stable/user_guide/getting_started_with_dpf_server.html#ansys-licensing>`_).  # noqa
+        <https://dpf.docs.pyansys.com/version/stable/getting_started/licensing.html#license-checks-and-usage>`_).  # noqa
 
     """
 

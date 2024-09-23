@@ -1,3 +1,25 @@
+# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """
 PropertyField
 =============
@@ -72,9 +94,7 @@ class PropertyField(_FieldBase):
             field=property_field,
             server=server,
         )
-        self._field_definition = None
-        if meets_version(self._server.version, "8.1"):
-            self._field_definition = self._load_field_definition()
+        self._field_definition_instance = None
 
     @property
     def _api(self) -> property_field_abstract_api.PropertyFieldAbstractAPI:
@@ -84,6 +104,12 @@ class PropertyField(_FieldBase):
                 grpcapi=property_field_grpcapi.PropertyFieldGRPCAPI,
             )
         return self._api_instance
+
+    @property
+    def _field_definition(self):
+        if self._field_definition_instance is None and meets_version(self._server.version, "8.1"):
+            self._field_definition_instance = self._load_field_definition()
+        return self._field_definition_instance
 
     def _init_api_env(self):
         self._api.init_property_field_environment(self)
@@ -106,7 +132,6 @@ class PropertyField(_FieldBase):
             )
         else:
             return api.csproperty_field_new(nentities, nentities * dim.component_count)
-
 
     @version_requires("8.1")
     def _load_field_definition(self):
