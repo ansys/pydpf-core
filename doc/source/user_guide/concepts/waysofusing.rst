@@ -29,7 +29,7 @@ enabled using the DPF Server application.
 These capabilities can be accessed through client APIs, as shown here:
 
 
-.. image:: ../images/drawings/apis_2.png
+.. image:: ../../images/drawings/apis_2.png
 
 
 1. DPF server application can be accessed using Ansys Inc product, or DPF Server package (see :ref:`ref_dpf_server`) available on the Customer portal.
@@ -71,7 +71,7 @@ files. You can use it to generate TH-plots, screenshots, and animations or
 to create custom result plots using the `numpy <https://numpy.org/>`_
 and `matplotlib <https://matplotlib.org/>`_ packages.
 
-.. image:: ../images/drawings/dpf-reports.png
+.. image:: ../../images/drawings/dpf-reports.png
 
 Mechanical
 ~~~~~~~~~~
@@ -79,4 +79,4 @@ Mechanical
 Use it to perform custom postprocessing and visualization of results directly 
 within the Mechanical application.
 
-.. image:: ../images/drawings/dpf-mech.png
+.. image:: ../../images/drawings/dpf-mech.png

@@ -34,8 +34,8 @@ installer's Python interpreter.
 
 #. Download the script for you operating system:
 
-   - For Windows, download this :download:`PowerShell script </user_guide/install_ansys_dpf_core_in_ansys.ps1>`.
-   - For Linux, download this :download:`Shell script </user_guide/install_ansys_dpf_core_in_ansys.sh>`
+   - For Windows, download this :download:`PowerShell script </user_guide/how-to/install_ansys_dpf_core_in_ansys.ps1>`.
+   - For Linux, download this :download:`Shell script </user_guide/how-to/install_ansys_dpf_core_in_ansys.sh>`
 
 #. Run the downloaded script for installing with optional arguments:
 
@@ -48,8 +48,8 @@ If you ever want to uninstall the ``ansys-dpf-core`` module from the Ansys insta
 
 #. Download the script for your operating system:
 
-   - For Windows, download this :download:`PowerShell script </user_guide/uninstall_ansys_dpf_core_in_ansys.ps1>`.
-   - For Linux, download this :download:`Shell script </user_guide/uninstall_ansys_dpf_core_in_ansys.sh>`.
+   - For Windows, download this :download:`PowerShell script </user_guide/how-to/uninstall_ansys_dpf_core_in_ansys.ps1>`.
+   - For Linux, download this :download:`Shell script </user_guide/how-to/uninstall_ansys_dpf_core_in_ansys.sh>`.
   
 3. Run the downloaded script for uninstalling with the optional argument:
 

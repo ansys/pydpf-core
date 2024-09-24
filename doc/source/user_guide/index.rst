@@ -11,18 +11,55 @@ computation, customization, and remote postprocessing accessible in Python.
 The goals of this section are to:
 
  - Describe the most-used DPF entities and how they can help you to access and modify solver data.
- - Provide simple how-tos for tackling the most common use cases.
-
-
-.. include::
-   main_entities.rst
+ - Provide simple tutorials for tackling the most common use cases.
+ - Explain how to customize DPF behavior.
+ - Present some systematic approaches to determine the cause of a malfunction or failure when using DPF.
 
 .. include::
-   how_to.rst
+   concepts/index.rst
 
+.. include::
+   tutorials/index.rst
 
-Troubleshooting
-~~~~~~~~~~~~~~~
+.. include::
+   how-to/index.rst
+
+.. include::
+   troubleshooting/index.rst
+
 
 .. toctree::
-   troubleshooting
+    :maxdepth: 2
+    :hidden:
+    :caption: Concepts
+
+    concepts/concepts.rst
+    concepts/waysofusing.rst
+    concepts/stepbystep.rst
+
+.. toctree::
+    :maxdepth: 2
+    :hidden:
+    :caption: Tutorials
+
+    tutorials/model.rst
+    tutorials/operators.rst
+    tutorials/fields_container.rst
+
+.. toctree::
+    :maxdepth: 2
+    :hidden:
+    :caption: Accessing and enriching DPF capabilities
+
+    how-to/plotting.rst
+    how-to/custom_operators.rst
+    how-to/server_context.rst
+    how-to/server_types.rst
+    how-to/xmlfiles.rst
+
+.. toctree::
+    :maxdepth: 1
+    :hidden:
+    :caption: Troubleshooting
+
+    troubleshooting/troubleshooting.rst

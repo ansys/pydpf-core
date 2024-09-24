@@ -67,7 +67,7 @@ Concept summary
 ---------------
 This image summarizes the preceding concepts:
 
-.. image:: ../images/drawings/field-breakdown.png
+.. image:: ../../images/drawings/field-breakdown.png
 
 
 Operators
@@ -79,7 +79,7 @@ You use :ref:`ref_dpf_operators_reference` to create, transform, and stream the 
 - The input and output pins, like those in an integrated circuit in electronics,
   submit data to the operator and output the computed result from the operator.
 
-.. image:: ../images/drawings/OperatorPins.png
+.. image:: ../../images/drawings/OperatorPins.png
 
 Workflows
 ---------
@@ -90,10 +90,10 @@ to operators, which computes requested outputs.
 Think of a workflow as a black box in which some operators are chained, 
 computing the information for which the workflow is made:
 
-.. image:: ../images/drawings/Workflow1.png
+.. image:: ../../images/drawings/Workflow1.png
 
 The following image shows operators that have been chained together to create a
 total deformation workflow. You can use this workflow in any simulation
 workflow with any data sources as inputs.
 
-.. image:: ../images/drawings/Workflow2.png
+.. image:: ../../images/drawings/Workflow2.png
