@@ -12,8 +12,8 @@ The goals of this section are to:
 
  - Describe the most-used DPF entities and how they can help you to access and modify solver data.
  - Provide simple tutorials for tackling the most common use cases.
- - Explain how to customize DPF behavior
- - Present some systematic approaches to determine the cause of a malfunction or failure when using DPF
+ - Explain how to customize DPF behavior.
+ - Present some systematic approaches to determine the cause of a malfunction or failure when using DPF.
 
 .. include::
    concepts/index.rst
