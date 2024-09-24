@@ -76,7 +76,7 @@ for each usage main step.
 
        Workflow
 
-    .. grid-item-card:: Results visualisation
+    .. grid-item-card:: Results visualization
        :link: ref_tutorials_model
        :link-type: ref
        :text-align: center
@@ -90,7 +90,7 @@ for each usage main step.
 
 .. grid:: 3
 
-    .. grid-item-card:: Serialisation
+    .. grid-item-card:: Serialization
        :link: ref_tutorials_model
        :link-type: ref
        :text-align: center
