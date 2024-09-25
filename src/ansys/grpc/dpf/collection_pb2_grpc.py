@@ -7,7 +7,7 @@ import ansys.grpc.dpf.base_pb2 as base__pb2
 import ansys.grpc.dpf.collection_pb2 as collection__pb2
 import ansys.grpc.dpf.support_pb2 as support__pb2
 
-GRPC_GENERATED_VERSION = '1.66.0'
+GRPC_GENERATED_VERSION = '1.66.1'
 GRPC_VERSION = grpc.__version__
 _version_not_supported = False
 
@@ -54,6 +54,11 @@ class CollectionServiceStub(object):
         self.UpdateEntry = channel.unary_unary(
                 '/ansys.api.dpf.collection.v0.CollectionService/UpdateEntry',
                 request_serializer=collection__pb2.UpdateRequest.SerializeToString,
+                response_deserializer=base__pb2.Empty.FromString,
+                _registered_method=True)
+        self.UpdateSize = channel.unary_unary(
+                '/ansys.api.dpf.collection.v0.CollectionService/UpdateSize',
+                request_serializer=collection__pb2.UpdateSizeRequest.SerializeToString,
                 response_deserializer=base__pb2.Empty.FromString,
                 _registered_method=True)
         self.List = channel.unary_unary(
@@ -130,6 +135,12 @@ class CollectionServiceServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def UpdateEntry(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def UpdateSize(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -223,6 +234,11 @@ def add_CollectionServiceServicer_to_server(servicer, server):
             'UpdateEntry': grpc.unary_unary_rpc_method_handler(
                     servicer.UpdateEntry,
                     request_deserializer=collection__pb2.UpdateRequest.FromString,
+                    response_serializer=base__pb2.Empty.SerializeToString,
+            ),
+            'UpdateSize': grpc.unary_unary_rpc_method_handler(
+                    servicer.UpdateSize,
+                    request_deserializer=collection__pb2.UpdateSizeRequest.FromString,
                     response_serializer=base__pb2.Empty.SerializeToString,
             ),
             'List': grpc.unary_unary_rpc_method_handler(
@@ -383,6 +399,33 @@ class CollectionService(object):
             target,
             '/ansys.api.dpf.collection.v0.CollectionService/UpdateEntry',
             collection__pb2.UpdateRequest.SerializeToString,
+            base__pb2.Empty.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def UpdateSize(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/ansys.api.dpf.collection.v0.CollectionService/UpdateSize',
+            collection__pb2.UpdateSizeRequest.SerializeToString,
             base__pb2.Empty.FromString,
             options,
             channel_credentials,

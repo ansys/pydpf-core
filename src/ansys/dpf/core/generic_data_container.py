@@ -1,9 +1,32 @@
+# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """
 .. _ref_generic_data_container:
 
 GenericDataContainer
 ====================
 """
+
 from __future__ import annotations
 import traceback
 import warnings
@@ -47,9 +70,9 @@ class GenericDataContainer:
     def __init__(self, generic_data_container=None, server=None):
         # step 1: get server
         self._server = server_module.get_or_create_server(
-            generic_data_container._server if isinstance(
-                generic_data_container, GenericDataContainer
-            ) else server
+            generic_data_container._server
+            if isinstance(generic_data_container, GenericDataContainer)
+            else server
         )
 
         if not self._server.meet_version("7.0"):
@@ -101,9 +124,9 @@ class GenericDataContainer:
         return _description(self._internal_obj, self._server)
 
     def set_property(
-            self,
-            property_name: str,
-            prop: Union[int, float, str, Field, StringField, GenericDataContainer, Scoping]
+        self,
+        property_name: str,
+        prop: Union[int, float, str, Field, StringField, GenericDataContainer, Scoping],
     ):
         """Register given property with the given name.
 
@@ -116,7 +139,9 @@ class GenericDataContainer:
         """
 
         self._prop_description_instance = None
-        if not isinstance(prop, (int, float, str, bytes, list, np.ndarray)) and server_meet_version("8.1", self._server):
+        if not isinstance(prop, (int, float, str, bytes, list, np.ndarray)) and server_meet_version(
+            "8.1", self._server
+        ):
             self._api.generic_data_container_set_property_dpf_type(self, property_name, prop)
         else:
             any_dpf = Any.new_from(prop, self._server)
@@ -151,6 +176,7 @@ class GenericDataContainer:
         class_ = getattr(builtins, output_type, None)
         if class_ is None:
             from ansys.dpf import core
+
             if hasattr(dpf_vector, output_type):
                 class_ = getattr(dpf_vector, output_type)
             else:

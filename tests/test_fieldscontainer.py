@@ -1,3 +1,25 @@
+# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 import weakref
 
 import numpy as np
@@ -362,17 +384,17 @@ def test_el_shape_fc(allkindofcomplexity):
     mesh = model.metadata.meshed_region
 
     f = fc.beam_field()
-    ids = f.scoping.ids[0: int(len(f.scoping) / 4)]
+    ids = f.scoping.ids[0 : int(len(f.scoping) / 4)]
     for id in ids:
         assert mesh.elements.element_by_id(id).shape == "beam"
 
     f = fc.shell_field()
-    ids = f.scoping.ids[0: int(len(f.scoping) / 10)]
+    ids = f.scoping.ids[0 : int(len(f.scoping) / 10)]
     for id in ids:
         assert mesh.elements.element_by_id(id).shape == "shell"
 
     f = fc.solid_field()
-    ids = f.scoping.ids[0: int(len(f.scoping) / 10)]
+    ids = f.scoping.ids[0 : int(len(f.scoping) / 10)]
     for id in ids:
         assert mesh.elements.element_by_id(id).shape == "solid"
 
@@ -390,15 +412,15 @@ def test_el_shape_time_fc():
     mesh = model.metadata.meshed_region
 
     f = fc.beam_field(3)
-    for id in f.scoping.ids[0: int(len(f.scoping.ids) / 3)]:
+    for id in f.scoping.ids[0 : int(len(f.scoping.ids) / 3)]:
         assert mesh.elements.element_by_id(id).shape == "beam"
 
     f = fc.shell_field(4)
-    for id in f.scoping.ids[0: int(len(f.scoping.ids) / 10)]:
+    for id in f.scoping.ids[0 : int(len(f.scoping.ids) / 10)]:
         assert mesh.elements.element_by_id(id).shape == "shell"
 
     f = fc.solid_field(5)
-    for id in f.scoping.ids[0: int(len(f.scoping.ids) / 10)]:
+    for id in f.scoping.ids[0 : int(len(f.scoping.ids) / 10)]:
         assert mesh.elements.element_by_id(id).shape == "solid"
 
 

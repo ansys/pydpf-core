@@ -1,9 +1,32 @@
+# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """
 .. _ref_timefreqsupport:
 
 TimeFreqSupport
 ===============
 """
+
 from ansys.dpf.gate import time_freq_support_capi, time_freq_support_grpcapi
 
 from ansys import dpf
@@ -243,7 +266,7 @@ class TimeFreqSupport(Support):
         return self._sets_count()
 
     def get_frequency(self, step=0, substep=0, cumulative_index=None, cplx=False):
-        """Retrieve the frequence corresponding to a requested step/substep or
+        """Retrieve the frequency corresponding to a requested step/substep or
         cumulative index.
 
         Parameters
@@ -265,7 +288,7 @@ class TimeFreqSupport(Support):
         return self._get_frequency(step, substep, cumulative_index, cplx)
 
     def _get_frequency(self, step, substep, cumulative_index, cplx):
-        """Retrieves the frequence corresponding to the requested step/substep or
+        """Retrieves the frequency corresponding to the requested step/substep or
         cumulative index.
         """
         if cumulative_index is None:

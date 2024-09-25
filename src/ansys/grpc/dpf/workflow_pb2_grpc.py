@@ -7,7 +7,7 @@ import ansys.grpc.dpf.base_pb2 as base__pb2
 import ansys.grpc.dpf.workflow_message_pb2 as workflow__message__pb2
 import ansys.grpc.dpf.workflow_pb2 as workflow__pb2
 
-GRPC_GENERATED_VERSION = '1.66.0'
+GRPC_GENERATED_VERSION = '1.66.1'
 GRPC_VERSION = grpc.__version__
 _version_not_supported = False
 
