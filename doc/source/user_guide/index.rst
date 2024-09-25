@@ -42,6 +42,7 @@ The goals of this section are to:
     :hidden:
     :caption: Tutorials
 
+    tutorials/data_sources.rst
     tutorials/model.rst
     tutorials/operators.rst
     tutorials/fields_container.rst
