@@ -44,7 +44,7 @@ The goals of this section are to:
 
     tutorials/model.rst
     tutorials/operators.rst
-    tutorials/fields_container.rst
+    tutorials/fields.rst
 
 .. toctree::
     :maxdepth: 2

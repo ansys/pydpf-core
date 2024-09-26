@@ -30,7 +30,7 @@ for each usage main step.
 .. grid:: 3
 
     .. grid-item-card:: Data arrays
-       :link: ref_tutorials_model
+       :link: ref_tutorials_fields
        :link-type: ref
        :text-align: center
 
