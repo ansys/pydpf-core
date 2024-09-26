@@ -4,7 +4,7 @@ Abaqus
 CPython
 DPF [Ss]erver
 DPFArray
-Entry
+[Ee]ntry
 GLTF
 Gaussian
 IronPython
@@ -33,6 +33,7 @@ inpt
 mane
 matplotlib
 mecanic
+namespace
 numpy
 parm
 postprocess
