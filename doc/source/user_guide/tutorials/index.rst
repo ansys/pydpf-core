@@ -15,7 +15,7 @@ for each usage main step.
 .. grid:: 3
 
     .. grid-item-card:: Data Sources
-       :link: ref_tutorials_model
+       :link: ref_tutorials_data_sources
        :link-type: ref
        :text-align: center
 
