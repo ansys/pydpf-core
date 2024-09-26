@@ -10,7 +10,7 @@ a constant, add field containers and invert) and separating and assembling field
 """
 
 ###############################################################################
-# Import the ``ansys.dpf.core`` module, included examples file, and the ``DpfPlotter``
+# Import the ``ansys.dpf.core`` module, included examples file, and the ``operators.math``
 # module.
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
@@ -59,7 +59,7 @@ for i in range(0, 6):  # Separating the results in different fields containers f
 
 # Here we will do some basic mathematical operations on
 # Power
-# Compute the power operation for each elementary data
+# Raise each value of the field to power 2
 stress_1 = maths.pow_fc(fields_container=stress_1, factor=2.0).eval()
 
 # Add a constant
