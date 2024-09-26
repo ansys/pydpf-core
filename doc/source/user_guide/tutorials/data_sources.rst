@@ -1,8 +1,8 @@
 .. _ref_tutorials_data_sources:
 
-===============
-DPF DataSources
-===============
+===========
+DataSources
+===========
 
 ``DataSources`` is a class available as a submodule of the 'ansys.dpf.core'
 package. It manages paths to their files. Use this object to declare data
@@ -23,7 +23,7 @@ Solver output formats supported by DPF
    - Fluent files: |Fluent_files1| and |Fluent_files2|
    - CFX files: |CFX_files1| and |CFX_files2|
 
-This tutoriam will present a general code, with generic files, and examples
+This tutorial will present a general code, with generic files, and examples
 with results files available with the PyDPF-Core package.
 
 DataSources creation
