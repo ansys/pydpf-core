@@ -57,7 +57,7 @@ for i in range(0, 6):  # Separating the results in different fields containers f
 # Mathematical operation on each field
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-# Here we will do some basic mathematical operations on
+# Here we will do some basic mathematical operations on each stress field 
 # Power
 # Raise each value of the field to power 2
 stress_1 = maths.pow_fc(fields_container=stress_1, factor=2.0).eval()
