@@ -17,7 +17,7 @@ from ansys.dpf.core import examples
 import ansys.dpf.core.operators.math as maths
 
 ###############################################################################
-Open an example and print the ``Model`` object
+# Open an example and print the ``Model`` object
 # The :class:`Model <ansys.dpf.core.model.Model>` class helps to organize access
 # methods for the result by keeping track of the operators and data sources
 # used by the result file.
