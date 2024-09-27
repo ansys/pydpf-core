@@ -1,13 +1,13 @@
-.. _ref_tutorials_fields:
-
-.. |Field| replace::  :class:`Field <ansys.dpf.core.field.Field>`:
-.. |PropertyField| replace:: :class:`PropertyField <ansys.dpf.core.string_field.PropertyField>`:
-.. |StringField| replace:: :class:`StringField <ansys.dpf.core.string_field.StringField>`:
-.. |CustomTypeField| replace:: :class:`CustomTypeField <ansys.dpf.core.custom_type_field.CustomTypeField>`
+.. _ref_tutorials_data_arrays:
 
 ===========
 Data Arrays
 ===========
+
+.. |Field| replace::  :class:`Field <ansys.dpf.core.field.Field>`
+.. |PropertyField| replace:: :class:`PropertyField <ansys.dpf.core.property_field.PropertyField>`
+.. |StringField| replace:: :class:`StringField <ansys.dpf.core.string_field.StringField>`
+.. |CustomTypeField| replace:: :class:`CustomTypeField <ansys.dpf.core.custom_type_field.CustomTypeField>`
 
 When DPF employ operators to manipulate the data, it uses data containers to
 store and return it. Therefore, it is important to be aware of how the data is
@@ -15,11 +15,8 @@ structured in those containers.
 
 The data containers can be:
 
-    - **Raw data storage structures**: Data arrays (a ``Field`` for example)
-        or Data Maps (a ``DataTree`` for example)
-    - **Collections**: a group of same labeled objects from one DPF raw data storage
-        structure (a ``FieldsContainer`` for example, that is a group of ``Fields``
-        with the same label)
+    - **Raw data storage structures**: Data arrays (a ``Field`` for example) or Data Maps (a ``DataTree`` for example)
+    - **Collections**: a group of same labeled objects from one DPF raw data storage structure (a ``FieldsContainer`` for example, that is a group of ``Fields`` with the same label)
 
 This tutorial presents how some DPF data arrays are defined and manipulated. The main difference between
 them is the data type they contain:
@@ -32,16 +29,11 @@ them is the data type they contain:
 Therefore, the first one is typically found when manipulating the results. The two following are
 typically found when analysing the mesh and its properties.
 
- Their data is always associated to:
+Their data is always associated to:
 
-    - A ``location``: What typology of the finite element method was used to give
-        the results. There are different spatial ``locations`` that can be found
-        at: :class:`locations <ansys.dpf.core.common.locations>` but the most used
-        are : ``Nodal``, ``Elemental`` and ``Elemental Nodal``.
+    - A ``location``: What typology of the finite element method was used to give the results. There are different spatial ``locations`` that can be found at: :class:`locations <ansys.dpf.core.common.locations>` but the most used are : ``Nodal``, ``Elemental`` and ``Elemental Nodal``.
 
-    - The ``support``: The simulation basis functions are integrated over a calculus
-        domain, the support of the analysis. This domain is a physical component,
-        usually represented by: a mesh, geometrical component, time or frequency values.
+    - The ``support``: The simulation basis functions are integrated over a calculus domain, the support of the analysis. This domain is a physical component, usually represented by: a mesh, geometrical component, time or frequency values.
 
 When defining an operator, you must narrow down which parts of the initial data
 are relevant for the goals of the analysis. Thus, you must define the data container
@@ -174,8 +166,7 @@ To define the scope we have to make two considerations: the location and the
 support of interest:
 
     1) The location: which component will be enumerated (list of nodes for example)
-    2) The support: the list is relative about which domain (list of nodes of a given
-        meshed region)
+    2) The support: the list is relative about which domain (list of nodes of a given, meshed region)
 
 Therefore, we have two main supports to scope in: time and mesh domains. You specify
 the set of components by defining a range of IDs:
@@ -251,7 +242,7 @@ The final operator with those scopes would look like:
     # Time scoping targets the times ids 14, 15, 16, 17
     # Mesh scoping targets the nodes with the ids 103, 204, 334, 1802
     my_disp = my_model.results.displacement(time_scoping=my_time_scoping, mesh_scoping=my_mesh_scoping)
-    print(my_disp)
+    print(my_disp.eval())
 
 .. rst-class:: sphx-glr-script-out
 
@@ -263,14 +254,14 @@ The final operator with those scopes would look like:
     my_model = dpf.Model(examples.download_transient_result())
     my_mesh_scoping = dpf.Scoping(ids=[103, 204, 334, 1802], location=dpf.locations.nodal)
     my_disp = my_model.results.displacement(time_scoping=[14, 15, 16, 17], mesh_scoping=my_mesh_scoping)
-    print(my_disp)
+    print(my_disp.eval())
 
 Other scope helpers are available at: :class:`Result <ansys.dpf.core.results.Result>`.
 
 Specific examples about how to implement some scopings can be found at:
 
-    - :mod:'Scope results over time domain <ref_results_over_time>'
-    - :mod:'Scope results over space domain <ref_results_over_space>'
+    - :mod:`Scope results over time domain <ref_results_over_time>`
+    - :mod:`Scope results over space domain <ref_results_over_space>`
 
 Fields
 ------
@@ -362,10 +353,10 @@ module:
             # By default, the field contains 3d vectors
             # So with 2 entities we need 6 data values
             my_PropertyField.data = [12, 25]
-            # Assign a location
-            my_PropertyField.location = dpf.locations.nodal
             # Define the scoping
             my_PropertyField.scoping.ids = range(num_entities)
+            # Assign a location
+            my_PropertyField.location = dpf.locations.nodal
 
             print(my_PropertyField)
 
@@ -378,8 +369,8 @@ module:
             num_entities = 2
             my_PropertyField = dpf.PropertyField(nentities=num_entities)
             my_PropertyField.data = [12, 25]
-            my_PropertyField.location = dpf.locations.nodal
             my_PropertyField.scoping.ids = range(num_entities)
+            my_PropertyField.location = dpf.locations.nodal
             print(my_PropertyField)
 
 
@@ -549,7 +540,7 @@ and units of the data.
             # Components count
             # Vectors dimension, here we have a displacement so we expect to have 3 components (X, Y and Z)
             my_components_count = my_disp_field.component_count
-            print("component_count", '\n', my_component_count, '\n')
+            print("components_count", '\n', my_components_count, '\n')
 
             # Size
             # Length of the data entire vector (equal to the number of elementary data times the number of components.)
@@ -562,7 +553,7 @@ and units of the data.
             print("shape", '\n', my_shape, '\n')
 
             # Units
-            my_units = my_disp_field.unit
+            my_unit = my_disp_field.unit
             print("unit", '\n', my_unit, '\n')
 
         .. rst-class:: sphx-glr-script-out
@@ -578,19 +569,17 @@ and units of the data.
             print("location", '\n', my_location,'\n')
             my_scoping = my_disp_field.scoping
             print("scoping", '\n',my_scoping, '\n')
-            print('\n', "We have a location entity of type 'Nodal' (consistent with the output of the `location` helper) and
-            3820 nodes", '\n')
+            print("We have a location entity of type 'Nodal' (consistent with the output of the `location` helper) and 3820 nodes", '\n')
             my_scoping_ids = my_disp_field.scoping.ids
             print("scoping.ids", '\n', my_scoping_ids, '\n')
             my_components_count = my_disp_field.component_count
-            print("component_count", '\n', my_component_count, '\n')
+            print("components_count", '\n', my_components_count, '\n')
             my_elementary_data_count = my_disp_field.elementary_data_count
             print("elementary_data_count", '\n', my_elementary_data_count, '\n')
             my_shape = my_disp_field.shape
             print("shape", '\n', my_shape, '\n')
-            print('\n', "We have a Field with 3820 data vectors (consistent with the number of nodes) and each vector has
-            3 components (consistent with a displacement vector dimension)", '\n')
-            my_units = my_disp_field.unit
+            print("We have a Field with 3820 data vectors (consistent with the number of nodes) and each vector has 3 components (consistent with a displacement vector dimension)", '\n')
+            my_unit = my_disp_field.unit
             print("unit", '\n', my_unit, '\n')
 
     .. tab-item:: StringField
@@ -616,7 +605,7 @@ and units of the data.
             # Components count
             # Data dimension, here we expect one name by zone
             my_components_count = my_string_field.component_count
-            print("component_count", '\n', my_component_count, '\n')
+            print("components_count", '\n', my_components_count, '\n')
 
             # Size
             # Length of the data entire array (equal to the number of elementary data times the number of components.)
@@ -643,18 +632,16 @@ and units of the data.
             print("location", '\n', my_location,'\n')
             my_scoping = my_string_field.scoping
             print("scoping", '\n',my_scoping, '\n')
-            print('\n', "We have a location entity of type 'Zone' (consistent with the output of the `location` helper) and
-            24 zones", '\n')
+            print("We have a location entity of type 'Zone' (consistent with the output of the `location` helper) and 24 zones", '\n')
             my_scoping_ids = my_string_field.scoping.ids
             print("scoping.ids", '\n', my_scoping_ids, '\n')
             my_components_count = my_string_field.component_count
-            print("component_count", '\n', my_component_count, '\n')
+            print("components_count", '\n', my_components_count, '\n')
             my_elementary_data_count = my_string_field.elementary_data_count
             print("elementary_data_count", '\n', my_elementary_data_count, '\n')
             my_shape = my_string_field.shape
             print("shape", '\n', my_shape, '\n')
-            print('\n', "We have a StringField with 24 names (consistent with the number of zones) and
-            each zone has one name)
+            print("We have a StringField with 24 names (consistent with the number of zones) and each zone has one name", '\n')
 
     .. tab-item:: PropertyField
 
@@ -679,7 +666,7 @@ and units of the data.
             # Components count
             # Data dimension, we expect to have one id by face that makes part of a body
             my_components_count = my_property_field.component_count
-            print("component_count", '\n', my_component_count, '\n')
+            print("components_count", '\n', my_component_count, '\n')
 
             # Size
             # Length of the data entire array (equal to the number of elementary data times the number of components.)
@@ -706,18 +693,16 @@ and units of the data.
             print("location", '\n', my_location,'\n')
             my_scoping = my_property_field.scoping
             print("scoping", '\n',my_scoping, '\n')
-            print('\n', "We have a location entity of type 'Body' (consistent with the output of the `location` helper) and
-            2 bodies", '\n')
+            print("We have a location entity of type 'Body' (consistent with the output of the `location` helper) and  2 bodies", '\n')
             my_scoping_ids = my_property_field.scoping.ids
             print("scoping.ids", '\n', my_scoping_ids, '\n')
             my_components_count = my_property_field.component_count
-            print("component_count", '\n', my_component_count, '\n')
+            print("components_count", '\n', my_components_count, '\n')
             my_elementary_data_count = my_property_field.elementary_data_count
             print("elementary_data_count", '\n', my_elementary_data_count, '\n')
             my_shape = my_property_field.shape
             print("shape", '\n', my_shape, '\n')
-            print('\n', "We have a Field with 24 face ids (consistent with the number of faces) and each face has one
-            id, '\n')
+            print("We have a Field with 24 face ids (consistent with the number of faces) and each face has one id", '\n')
 
 Accessing fields data
 ~~~~~~~~~~~~~~~~~~~~~
@@ -793,7 +778,7 @@ To access the entire data in the field as an array (``numpy`` array``):
             my_model_2 = dpf.Model(data_sources=my_data_sources)
             my_mesh_info = my_model_2.metadata.mesh_info
             my_string_field = my_mesh_info.get_property(property_name="face_zone_names")
-            my_data_array = my_disp_field.data
+            my_data_array = my_string_field.data
             print(my_data_array)
 
     .. tab-item:: PropertyField
@@ -823,57 +808,61 @@ If you need to access an individual node or element, request it
 using either the :func:`get_entity_data()<ansys.dpf.core.field.Field.get_entity_data>` or
 :func:`get_entity_data_by_id()<ansys.dpf.core.field.Field.get_entity_data_by_id>` methods:
 
-.. code-block:: python
+.. tab-set::
 
-    # Get the data from the third element in the field
-    my_disp_field.get_entity_data(index=3)
+    .. tab-item:: Field
 
-.. rst-class:: sphx-glr-script-out
+        .. code-block:: python
 
- .. exec_code::
-    :hide_code:
+            # Get the data from the third element in the field
+            my_disp_field.get_entity_data(index=3)
 
-    from ansys.dpf import core as dpf
-    from ansys.dpf.core import examples
-    my_model = dpf.Model(examples.download_transient_result())
-    my_disp_field = my_model.results.displacement.eval()[0]
-    print(my_disp_field.get_entity_data(index=3))
+        .. rst-class:: sphx-glr-script-out
 
-.. code-block:: python
+         .. exec_code::
+            :hide_code:
 
-    # Get the data from the element with id 533
-    my_disp_field.get_entity_data_by_id(id=533)
+            from ansys.dpf import core as dpf
+            from ansys.dpf.core import examples
+            my_model = dpf.Model(examples.download_transient_result())
+            my_disp_field = my_model.results.displacement.eval()[0]
+            print(my_disp_field.get_entity_data(index=3))
 
-.. rst-class:: sphx-glr-script-out
+        .. code-block:: python
 
- .. exec_code::
-    :hide_code:
+            # Get the data from the element with id 533
+            my_disp_field.get_entity_data_by_id(id=533)
 
-    from ansys.dpf import core as dpf
-    from ansys.dpf.core import examples
-    my_model = dpf.Model(examples.download_transient_result())
-    my_disp_field = my_model.results.displacement.eval()[0]
-    print(my_disp_field.get_entity_data(id=533))
+        .. rst-class:: sphx-glr-script-out
 
-Note that this would correspond to an index of 2 within the
-field. Be aware that scoping IDs are not sequential. You would
-get the index of element 2 in the field with:
+         .. exec_code::
+            :hide_code:
 
-.. code-block:: python
+            from ansys.dpf import core as dpf
+            from ansys.dpf.core import examples
+            my_model = dpf.Model(examples.download_transient_result())
+            my_disp_field = my_model.results.displacement.eval()[0]
+            print(my_disp_field.get_entity_data_by_id(id=533))
 
-    # Get index of the element with id 533
-    my_disp_field.scoping.index(id=533)
+        Note that this would correspond to an index of 2 within the
+        field. Be aware that scoping IDs are not sequential. You would
+        get the index of element 2 in the field with:
 
-.. rst-class:: sphx-glr-script-out
+        .. code-block:: python
 
- .. exec_code::
-    :hide_code:
+            # Get index of the element with id 533
+            my_disp_field.scoping.index(id=533)
 
-    from ansys.dpf import core as dpf
-    from ansys.dpf.core import examples
-    my_model = dpf.Model(examples.download_transient_result())
-    my_disp_field = my_model.results.displacement.eval()[0]
-    print(my_disp_field.scoping.index(id=533))
+        .. rst-class:: sphx-glr-script-out
+
+         .. exec_code::
+            :hide_code:
+
+            from ansys.dpf import core as dpf
+            from ansys.dpf.core import examples
+            my_model = dpf.Model(examples.download_transient_result())
+            my_disp_field = my_model.results.displacement.eval()[0]
+            print(my_disp_field.scoping.index(id=533))
 
 While these methods are acceptable when requesting data for a few elements
 or nodes, they should not be used when looping over the entire array. For efficiency,
