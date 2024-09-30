@@ -8,7 +8,7 @@ import ansys.grpc.dpf.field_pb2 as field__pb2
 import ansys.grpc.dpf.meshed_region_pb2 as meshed__region__pb2
 import ansys.grpc.dpf.scoping_pb2 as scoping__pb2
 
-GRPC_GENERATED_VERSION = '1.66.1'
+GRPC_GENERATED_VERSION = '1.66.2'
 GRPC_VERSION = grpc.__version__
 _version_not_supported = False
 

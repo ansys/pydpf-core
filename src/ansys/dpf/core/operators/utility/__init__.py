@@ -1,3 +1,4 @@
+from .Workflow_to_PyDPF_Generator import Workflow_to_PyDPF_Generator 
 from .assemble_scalars_to_matrices import assemble_scalars_to_matrices 
 from .assemble_scalars_to_matrices_fc import assemble_scalars_to_matrices_fc 
 from .assemble_scalars_to_vectors import assemble_scalars_to_vectors 

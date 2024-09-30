@@ -1283,6 +1283,18 @@ def load_api(path):
 		dll.DpfVector_duplicate_dpf_vector.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.DpfVector_duplicate_dpf_vector.restype = ctypes.c_void_p
 
+	if hasattr(dll, "DpfVector_double_extract_sub"):
+		dll.DpfVector_double_extract_sub.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_double), ctypes.c_int32, ctypes.c_void_p, ctypes.c_int32, ctypes.c_int32, ctypes.POINTER(ctypes.POINTER(ctypes.c_double)), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.DpfVector_double_extract_sub.restype = None
+
+	if hasattr(dll, "DpfVector_int_extract_sub"):
+		dll.DpfVector_int_extract_sub.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.c_int32, ctypes.c_void_p, ctypes.c_int32, ctypes.c_int32, ctypes.POINTER(ctypes.POINTER(ctypes.c_int32)), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.DpfVector_int_extract_sub.restype = None
+
+	if hasattr(dll, "DpfVector_char_extract_sub"):
+		dll.DpfVector_char_extract_sub.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.c_int32, ctypes.c_void_p, ctypes.c_int32, ctypes.c_int32, ctypes.POINTER(ctypes.POINTER(ctypes.c_char)), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.DpfVector_char_extract_sub.restype = None
+
 	if hasattr(dll, "DpfVector_new_for_object"):
 		dll.DpfVector_new_for_object.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.DpfVector_new_for_object.restype = ctypes.c_void_p

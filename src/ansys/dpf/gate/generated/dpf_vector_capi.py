@@ -162,6 +162,33 @@ class DpfVectorCAPI(dpf_vector_abstract_api.DpfVectorAbstractAPI):
 		return res
 
 	@staticmethod
+	def dpf_vector_double_extract_sub(init_dpf_vector, init_data, init_size, dpf_vector_to_update, first_index, size, data):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.DpfVector_double_extract_sub(init_dpf_vector._internal_obj, utils.to_double_ptr(init_data), utils.to_int32(init_size), dpf_vector_to_update._internal_obj, utils.to_int32(first_index), utils.to_int32(size), utils.to_double_ptr_ptr(data), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def dpf_vector_int_extract_sub(init_dpf_vector, init_data, init_size, dpf_vector_to_update, first_index, size, data):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.DpfVector_int_extract_sub(init_dpf_vector._internal_obj, utils.to_int32_ptr(init_data), utils.to_int32(init_size), dpf_vector_to_update._internal_obj, utils.to_int32(first_index), utils.to_int32(size), utils.to_int32_ptr_ptr(data), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def dpf_vector_char_extract_sub(init_dpf_vector, init_data, init_size, dpf_vector_to_update, first_index, size, data):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.DpfVector_char_extract_sub(init_dpf_vector._internal_obj, utils.to_char_ptr(init_data), utils.to_int32(init_size), dpf_vector_to_update._internal_obj, utils.to_int32(first_index), utils.to_int32(size), utils.to_char_ptr_ptr(data), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def dpf_vector_new_for_object(api_to_use):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
