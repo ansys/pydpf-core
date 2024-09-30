@@ -3,19 +3,17 @@
 Tutorials
 ---------
 
-What do you need to know
-++++++++++++++++++++++++
+What you need to know
++++++++++++++++++++++
 
-This tutorials will guide you through the steps required to access, analyze,
+These tutorials go through the steps required to access, analyze,
 and transform simulation data using  PyDPF-Core.
 
-The tutorials are more substantive and complex than examples found in the standard
-documentation set. They are designed to teach how to perform a task and understand
-some concepts, providing detailed explanations at each stage.
+Tutorials are more substantive and complex than examples. They are designed to teach how to perform a task and understand
+the underlying concepts, providing detailed explanations at each stage, whereas examples showcase end-to-end specific processes.
 
-DPF interacts with results data that have to be stored in some kind  of structure.
-They can be automatically generated from the results file (detailed in the access
-and extract results part ) or generated from scripting.
+DPF interacts with data stored in DPF data structures.
+These DPF data structures are generated automatically when reading data from results file (`ref_to_section`) but they can also be generated from scratch (`ref_to_section`) when no supported result file is available.
 
 Overview
 ++++++++
@@ -25,8 +23,7 @@ be used to visualize and analyze simulation results:
 
     :bdg-dark-line:`Define simulation data` :octicon:`arrow-right;1em` :bdg-dark-line:`Store input data in DPF` :octicon:`arrow-right;1em` :bdg-dark-line:`Transform available data` :octicon:`arrow-right;1em` :bdg-dark-line:`Extract data`
 
-The following tutorials will guide through those steps. The tutorials explains separately
-the used methods for files of each acceptable solver types.
+The following tutorials go through each of these steps. Each tutorial presents code snippets specific to each supported file format.
 
 
 .. topic:: Importing and opening results files
