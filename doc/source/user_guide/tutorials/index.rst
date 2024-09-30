@@ -25,7 +25,8 @@ be used to visualize and analyze simulation results:
 
     :bdg-dark-line:`Define simulation data` :octicon:`arrow-right;1em` :bdg-dark-line:`Store input data in DPF` :octicon:`arrow-right;1em` :bdg-dark-line:`Transform available data` :octicon:`arrow-right;1em` :bdg-dark-line:`Extract data`
 
-The following tutorials will guide through those steps:
+The following tutorials will guide through those steps. The tutorials explains separately
+the used methods for files of each acceptable solver types.
 
 
 .. topic:: Importing and opening results files
