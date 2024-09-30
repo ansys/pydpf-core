@@ -26,16 +26,16 @@ Operator Configuration
 """
 
 import functools
-import warnings
 import traceback
+import warnings
 
 from ansys.dpf.core import server as server_module
+from ansys.dpf.core.operator_specification import Specification
 from ansys.dpf.gate import (
+    operator_config_abstract_api,
     operator_config_capi,
     operator_config_grpcapi,
-    operator_config_abstract_api,
 )
-from ansys.dpf.core.operator_specification import Specification
 
 
 class Config:

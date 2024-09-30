@@ -43,7 +43,6 @@ The script below demonstrates the methodology using PyDPF.
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
-
 ###############################################################################
 # Create a model object to establish a connection with an example result file:
 model = dpf.Model(examples.download_hemisphere())

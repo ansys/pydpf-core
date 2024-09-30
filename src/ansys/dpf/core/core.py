@@ -25,27 +25,26 @@ Core
 ====
 """
 
-import os
 import logging
+import os
 import warnings
 import weakref
 
-from ansys.dpf.core import errors, misc
-from ansys.dpf.core import server as server_module
-from ansys.dpf.core.check_version import version_requires, server_meet_version
+from ansys.dpf.core import errors, misc, server as server_module
+from ansys.dpf.core.check_version import server_meet_version, version_requires
 from ansys.dpf.core.runtime_config import (
     RuntimeClientConfig,
     RuntimeCoreConfig,
 )
 from ansys.dpf.gate import (
-    data_processing_capi,
-    data_processing_grpcapi,
-    tmp_dir_capi,
-    tmp_dir_grpcapi,
     collection_capi,
     collection_grpcapi,
+    data_processing_capi,
+    data_processing_grpcapi,
     integral_types,
     object_handler,
+    tmp_dir_capi,
+    tmp_dir_grpcapi,
 )
 
 try:
@@ -304,8 +303,8 @@ def _deep_copy(dpf_entity, server=None):
        deep_copy of dpf_entity: core.Operator, core.Workflow, core.Scoping,
                                 core.Field, core.FieldsContainer, core.MeshedRegion...
     """
+    from ansys.dpf.core.common import types, types_enum_to_types
     from ansys.dpf.core.operators.serialization import serializer_to_string, string_deserializer
-    from ansys.dpf.core.common import types_enum_to_types, types
 
     entity_server = dpf_entity._server if hasattr(dpf_entity, "_server") else None
     serializer = serializer_to_string(server=entity_server)

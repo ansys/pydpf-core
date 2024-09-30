@@ -30,13 +30,12 @@ to easily access results in result files."""
 
 import functools
 
-from ansys.dpf.core import Operator
-from ansys.dpf.core import errors
-from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core import Operator, errors
 from ansys.dpf.core.custom_fields_container import (
-    ElShapeFieldsContainer,
     BodyFieldsContainer,
+    ElShapeFieldsContainer,
 )
+from ansys.dpf.core.scoping import Scoping
 
 
 class Results:

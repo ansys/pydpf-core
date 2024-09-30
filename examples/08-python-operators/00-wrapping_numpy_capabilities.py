@@ -56,9 +56,8 @@ be wrapped in Python plugins.
 #
 # Download and display the Python script.
 
-from ansys.dpf.core import examples
 from ansys.dpf import core as dpf
-
+from ansys.dpf.core import examples
 
 GITHUB_SOURCE_URL = (
     "https://github.com/ansys/pydpf-core/" "raw/examples/first_python_plugins/python_plugins"
@@ -85,6 +84,7 @@ with open(operator_file_path, "r") as f:
 #
 
 import os
+
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 

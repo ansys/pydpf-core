@@ -30,19 +30,19 @@ Contains classes used to plot a mesh and a fields container using PyVista.
 
 from __future__ import annotations
 
-import tempfile
 import os
 import sys
-import numpy as np
-import warnings
+import tempfile
 from typing import TYPE_CHECKING, List, Union
+import warnings
+
+import numpy as np
 
 from ansys import dpf
 from ansys.dpf import core
-from ansys.dpf.core.common import locations, DefinitionLabels
-from ansys.dpf.core.common import shell_layers as eshell_layers
-from ansys.dpf.core.helpers.streamlines import _sort_supported_kwargs
 from ansys.dpf.core import errors as dpf_errors
+from ansys.dpf.core.common import DefinitionLabels, locations, shell_layers as eshell_layers
+from ansys.dpf.core.helpers.streamlines import _sort_supported_kwargs
 from ansys.dpf.core.nodes import Node, Nodes
 
 if TYPE_CHECKING:  # pragma: no cover
@@ -186,10 +186,9 @@ class _PyVistaPlotter:
 
         # Filter kwargs
         kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.add_point_labels, **kwargs)
-        import pyvista as pv
-
         # The scalar data used will be the one of the last field added.
         from packaging.version import parse
+        import pyvista as pv
 
         active_scalars = None
         if parse(pv.__version__) >= parse("0.35.2"):

@@ -34,9 +34,7 @@ using ``fft`` transformations.
 import matplotlib.pyplot as pyplot
 
 from ansys.dpf import core as dpf
-from ansys.dpf.core import examples
-from ansys.dpf.core import operators as ops
-
+from ansys.dpf.core import examples, operators as ops
 
 ###############################################################################
 # Begin by downloading the example harmonic result. This result is
