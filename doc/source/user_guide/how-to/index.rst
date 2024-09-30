@@ -1,39 +1,40 @@
 .. _ref_how_to:
 
-Enriching DPF capabilities
-----------------------------------------
-
-.. grid:: 3
-    :gutter: 2
-
-    .. grid-item-card:: Create custom operators and plugins
-       :link: user_guide_custom_operators
-       :link-type: ref
-       :text-align: center
-
-       .. image:: ../images/drawings/plugin-logo.png
-          :width: 50%
+.. topic::  Enriching DPF capabilities
 
 
-    .. grid-item-card:: Switch between local and remote server
-       :link: user_guide_server_types
-       :link-type: ref
-       :text-align: center
+    .. grid:: 3
+        :gutter: 2
 
-       .. image:: ../images/drawings/remote_machines.png
+        .. grid-item-card:: Create custom operators and plugins
+           :link: user_guide_custom_operators
+           :link-type: ref
+           :text-align: center
+
+           .. image:: ../images/drawings/plugin-logo.png
+              :width: 25%
 
 
-    .. grid-item-card:: Access Entry and Premium capabilities
-       :link: user_guide_server_context
-       :link-type: ref
-       :text-align: center
+        .. grid-item-card:: Switch between local and remote server
+           :link: user_guide_server_types
+           :link-type: ref
+           :text-align: center
 
-       .. image:: ../images/drawings/entry_premium.png
-	   
+           .. image:: ../images/drawings/remote_machines.png
+                :width: 25%
 
-    .. grid-item-card:: Configure DPF plugins load
-       :link: user_guide_xmlfiles
-       :link-type: ref
-       :text-align: center
+        .. grid-item-card:: Access Entry and Premium capabilities
+           :link: user_guide_server_context
+           :link-type: ref
+           :text-align: center
 
-       .. image:: ../images/drawings/xml.png
+           .. image:: ../images/drawings/entry_premium.png
+                :width: 25%
+
+        .. grid-item-card:: Configure DPF plugins load
+           :link: user_guide_xmlfiles
+           :link-type: ref
+           :text-align: center
+
+           .. image:: ../images/drawings/xml.png
+                :width: 25%
