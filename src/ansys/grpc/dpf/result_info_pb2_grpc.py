@@ -7,7 +7,7 @@ import ansys.grpc.dpf.available_result_pb2 as available__result__pb2
 import ansys.grpc.dpf.base_pb2 as base__pb2
 import ansys.grpc.dpf.result_info_pb2 as result__info__pb2
 
-GRPC_GENERATED_VERSION = '1.66.1'
+GRPC_GENERATED_VERSION = '1.66.2'
 GRPC_VERSION = grpc.__version__
 _version_not_supported = False
 
