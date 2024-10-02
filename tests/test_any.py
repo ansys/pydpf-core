@@ -120,3 +120,16 @@ def test_cast_scoping_any(server_type):
     new_entity = any_dpf.cast()
 
     assert entity.location == new_entity.location
+
+@conftest.raises_for_servers_version_under("7.0")
+def test_cast_fields_container_any(server_type):
+    fc = dpf.FieldsContainer(server=server_type)
+    fc.labels = ["time"]
+
+    field1 = dpf.Field(nentities=2,server=server_type)
+    field1.data = [1, 2, 3, 4, 5, 6]
+    fc.add_field({"time": 0}, field1)
+    any_dpf = dpf.Any.new_from(fc)
+    
+    entity: dpf.FieldsContainer = any_dpf.cast()
+    assert entity.get_field({"time":0}).size == 6
