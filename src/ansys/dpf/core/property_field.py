@@ -26,18 +26,18 @@ PropertyField
 """
 
 import numpy as np
-from ansys.dpf.core.check_version import version_requires
-from ansys.dpf.core.common import natures, locations, _get_size_of_list
-from ansys.dpf.core import scoping, dimensionality
+
+from ansys.dpf.core import dimensionality, scoping
+from ansys.dpf.core.check_version import meets_version, version_requires
+from ansys.dpf.core.common import _get_size_of_list, locations, natures
 from ansys.dpf.core.field_base import _FieldBase, _LocalFieldBase
-from ansys.dpf.core.check_version import meets_version
 from ansys.dpf.core.field_definition import FieldDefinition
 from ansys.dpf.gate import (
+    dpf_array,
+    dpf_vector,
     property_field_abstract_api,
     property_field_capi,
     property_field_grpcapi,
-    dpf_array,
-    dpf_vector,
 )
 
 

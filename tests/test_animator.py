@@ -25,8 +25,7 @@ import os
 import pytest
 
 from ansys.dpf import core as dpf
-from ansys.dpf.core import misc, Workflow
-from ansys.dpf.core import examples
+from ansys.dpf.core import Workflow, examples, misc
 
 if misc.module_exists("pyvista"):
     HAS_PYVISTA = True

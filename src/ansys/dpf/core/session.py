@@ -33,17 +33,13 @@ import traceback
 import warnings
 import weakref
 
-from ansys.dpf.gate import session_capi, session_grpcapi, capi
-
-from ansys.dpf.core import server as server_module
-from ansys.dpf.core import server_types, errors
-from ansys.dpf.core.check_version import version_requires, server_meet_version
+from ansys.dpf.core import data_tree, errors, server as server_module, server_types
+from ansys.dpf.core.check_version import server_meet_version, version_requires
 from ansys.dpf.core.common import (
     _common_percentage_progress_bar,
     _progress_bar_is_available,
 )
-from ansys.dpf.core import data_tree
-
+from ansys.dpf.gate import capi, session_capi, session_grpcapi
 
 LOG = logging.getLogger(__name__)
 LOG.setLevel("DEBUG")

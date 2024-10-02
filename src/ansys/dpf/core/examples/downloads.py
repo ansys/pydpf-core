@@ -28,6 +28,7 @@ Download example datasets from https://github.com/ansys/example-data"""
 import os
 import urllib.request
 import warnings
+
 from ansys.dpf.core.examples.examples import find_files
 
 EXAMPLE_REPO = "https://github.com/ansys/example-data/raw/master/"

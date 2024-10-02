@@ -71,9 +71,9 @@ remote processes.
 # Import the ``dpf-core`` module and its examples files.
 
 import os
+
 from ansys.dpf import core as dpf
-from ansys.dpf.core import examples
-from ansys.dpf.core import operators as ops
+from ansys.dpf.core import examples, operators as ops
 
 ###############################################################################
 # Configure the servers.

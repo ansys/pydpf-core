@@ -29,8 +29,8 @@ These new classes offer helpers to access data for specific usage, such as
 results split by body or split by material.
 """
 
-from ansys.dpf.core.fields_container import FieldsContainer
 from ansys.dpf.core import elements
+from ansys.dpf.core.fields_container import FieldsContainer
 
 
 class ElShapeFieldsContainer(FieldsContainer):

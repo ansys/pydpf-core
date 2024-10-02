@@ -27,12 +27,11 @@ TimeFreqSupport
 ===============
 """
 
-from ansys.dpf.gate import time_freq_support_capi, time_freq_support_grpcapi
-
 from ansys import dpf
 from ansys.dpf import core
 from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core.support import Support
+from ansys.dpf.gate import time_freq_support_capi, time_freq_support_grpcapi
 
 
 class TimeFreqSupport(Support):

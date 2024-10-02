@@ -32,16 +32,14 @@ import traceback
 import warnings
 import weakref
 
+from ansys.dpf.core import collection_base, common, errors, server as server_module
 from ansys.dpf.core.mapping_types import types
-from ansys.dpf.core import server as server_module
-from ansys.dpf.core import collection_base
-from ansys.dpf.core import errors, common
 from ansys.dpf.gate import (
+    data_processing_capi,
+    data_processing_grpcapi,
     dpf_data_tree_abstract_api,
     dpf_data_tree_capi,
     dpf_data_tree_grpcapi,
-    data_processing_capi,
-    data_processing_grpcapi,
     integral_types,
 )
 

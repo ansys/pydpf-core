@@ -20,6 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import copy
 import gc
 import os
 import shutil
@@ -28,11 +29,9 @@ import weakref
 
 import numpy as np
 import pytest
-import copy
 
 from ansys import dpf
-from ansys.dpf.core import errors
-from ansys.dpf.core import operators as ops
+from ansys.dpf.core import errors, operators as ops
 from ansys.dpf.core.misc import get_ansys_path
 from ansys.dpf.core.operator_specification import Specification
 import conftest

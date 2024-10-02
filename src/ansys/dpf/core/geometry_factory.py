@@ -25,12 +25,12 @@
 import numpy as np
 
 from ansys.dpf.core.geometry import (
-    Points,
     Line,
     Plane,
-    normalize_vector,
-    get_plane_local_axis,
+    Points,
     get_local_coords_from_global,
+    get_plane_local_axis,
+    normalize_vector,
 )
 
 

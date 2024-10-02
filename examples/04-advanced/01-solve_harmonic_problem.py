@@ -37,7 +37,6 @@ import math
 from ansys.dpf import core as dpf
 from ansys.dpf.core import operators as ops
 
-
 ###############################################################################
 # Create 2D (x,y) matrix fields for inertia, damping, and stiffness.
 

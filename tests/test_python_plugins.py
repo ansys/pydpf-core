@@ -20,22 +20,24 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import pytest
 import os
 import platform
+
 import numpy as np
-from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0
+import pytest
+
 from ansys.dpf import core as dpf
-import conftest
 from ansys.dpf.core.custom_operator import update_virtual_environment_for_custom_operators
 from ansys.dpf.core.errors import DPFServerException
 from ansys.dpf.core.operator_specification import (
-    CustomSpecification,
-    SpecificationProperties,
     CustomConfigOptionSpec,
+    CustomSpecification,
     PinSpecification,
+    SpecificationProperties,
 )
+import conftest
 from conftest import (
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
 )
 

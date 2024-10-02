@@ -28,10 +28,11 @@ Faces
 """
 
 import numpy as np
+
 from ansys.dpf.core import scoping
+from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.core.common import face_properties
 from ansys.dpf.core.elements import element_types
-from ansys.dpf.core.check_version import version_requires
 
 
 @version_requires("7.0")

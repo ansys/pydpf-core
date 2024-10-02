@@ -38,7 +38,6 @@ reduces the size of the result files.
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
-
 ###############################################################################
 # Create data sources
 # ~~~~~~~~~~~~~~~~~~~

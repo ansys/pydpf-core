@@ -25,10 +25,11 @@ AvailableResult
 ===============
 """
 
+from enum import Enum, unique
 from typing import List
 from warnings import warn
-from ansys.dpf.core.common import _remove_spaces, _make_as_function_name, natures
-from enum import Enum, unique
+
+from ansys.dpf.core.common import _make_as_function_name, _remove_spaces, natures
 
 
 @unique

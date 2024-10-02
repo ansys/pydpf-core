@@ -20,8 +20,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import ansys.dpf.core as dpf
 import numpy as np
+
+import ansys.dpf.core as dpf
 
 
 def animate_mode(

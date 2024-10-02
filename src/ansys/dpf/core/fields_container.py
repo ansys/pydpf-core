@@ -29,9 +29,8 @@ Contains classes associated with the DPF FieldsContainer.
 """
 
 from ansys import dpf
+from ansys.dpf.core import errors as dpf_errors, field
 from ansys.dpf.core.collection_base import CollectionBase
-from ansys.dpf.core import errors as dpf_errors
-from ansys.dpf.core import field
 
 
 class FieldsContainer(CollectionBase[field.Field]):
@@ -645,8 +644,7 @@ class FieldsContainer(CollectionBase[field.Field]):
         -------
         add : operators.math.add_fc
         """
-        from ansys.dpf.core import dpf_operator
-        from ansys.dpf.core import operators
+        from ansys.dpf.core import dpf_operator, operators
 
         if hasattr(operators, "math") and hasattr(operators.math, "add_fc"):
             op = operators.math.add_fc(self, fields_b, server=self._server)
@@ -663,8 +661,7 @@ class FieldsContainer(CollectionBase[field.Field]):
         -------
         minus : operators.math.minus_fc
         """
-        from ansys.dpf.core import dpf_operator
-        from ansys.dpf.core import operators
+        from ansys.dpf.core import dpf_operator, operators
 
         if hasattr(operators, "math") and hasattr(operators.math, "minus_fc"):
             op = operators.math.minus_fc(server=self._server)
@@ -677,8 +674,7 @@ class FieldsContainer(CollectionBase[field.Field]):
     def __pow__(self, value):
         if value != 2:
             raise ValueError('DPF only the value is "2" supported')
-        from ansys.dpf.core import dpf_operator
-        from ansys.dpf.core import operators
+        from ansys.dpf.core import dpf_operator, operators
 
         if hasattr(operators, "math") and hasattr(operators.math, "sqr_fc"):
             op = operators.math.sqr_fc(server=self._server)
@@ -695,8 +691,7 @@ class FieldsContainer(CollectionBase[field.Field]):
         -------
         mul : operators.math.generalized_inner_product_fc
         """
-        from ansys.dpf.core import dpf_operator
-        from ansys.dpf.core import operators
+        from ansys.dpf.core import dpf_operator, operators
 
         if hasattr(operators, "math") and hasattr(operators.math, "generalized_inner_product_fc"):
             op = operators.math.generalized_inner_product_fc(server=self._server)

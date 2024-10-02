@@ -25,9 +25,9 @@ RuntimeConfig
 =============
 """
 
-from ansys.dpf.core.data_tree import DataTree
-from ansys.dpf.core.common import types
 from ansys.dpf.core import misc
+from ansys.dpf.core.common import types
+from ansys.dpf.core.data_tree import DataTree
 
 
 class _RuntimeConfig:

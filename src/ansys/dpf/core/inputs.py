@@ -27,11 +27,12 @@ Inputs
 ======
 """
 
-import weakref
 from textwrap import wrap
-from ansys.dpf.core.mapping_types import map_types_to_python
-from ansys.dpf.core.outputs import _Outputs, Output
+import weakref
+
 from ansys.dpf import core
+from ansys.dpf.core.mapping_types import map_types_to_python
+from ansys.dpf.core.outputs import Output, _Outputs
 
 
 class Input:

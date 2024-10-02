@@ -26,11 +26,10 @@ import numpy as np
 import pytest
 
 from ansys.dpf import core
-from ansys.dpf.core import examples
+from ansys.dpf.core import examples, operators as ops
 from ansys.dpf.core.errors import ServerTypeError
-from ansys.dpf.core import operators as ops
-from conftest import local_servers, running_docker
 import conftest
+from conftest import local_servers, running_docker
 
 
 @pytest.mark.xfail(raises=ServerTypeError)

@@ -57,7 +57,6 @@ Here are the steps for extrapolation:
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
-
 ###############################################################################
 # Get the data source's analyse of integration points and data source's analyse reference
 datafile = examples.download_extrapolation_2d_result()

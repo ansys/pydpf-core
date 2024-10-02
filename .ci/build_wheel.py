@@ -2,12 +2,11 @@
 # Input can be one of ["any", "win", "manylinux1", "manylinux_2_17"]
 
 import argparse
-import subprocess
 import os
-import sys
 import shutil
+import subprocess
+import sys
 import tempfile
-
 
 supported_platforms = {
     "any": "any",

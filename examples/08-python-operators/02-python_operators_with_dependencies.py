@@ -59,9 +59,8 @@ file at the given path.
 
 import os
 
-from ansys.dpf.core import examples
 from ansys.dpf import core as dpf
-
+from ansys.dpf.core import examples
 
 print("\033[1m gltf_plugin")
 file_list = [

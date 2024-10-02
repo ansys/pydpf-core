@@ -28,21 +28,19 @@ MeshedRegion
 import traceback
 import warnings
 
-import ansys.dpf.core.errors
-
-from ansys.dpf.core import scoping, field, property_field
+from ansys.dpf.core import field, property_field, scoping, server as server_module
+from ansys.dpf.core.cache import class_handling_cache
 from ansys.dpf.core.check_version import server_meet_version, version_requires
 from ansys.dpf.core.common import (
     locations,
-    types,
     nodal_properties,
+    types,
 )
 from ansys.dpf.core.elements import Elements, element_types
-from ansys.dpf.core.nodes import Nodes
+import ansys.dpf.core.errors
 from ansys.dpf.core.faces import Faces
+from ansys.dpf.core.nodes import Nodes
 from ansys.dpf.core.plotter import DpfPlotter, Plotter
-from ansys.dpf.core.cache import class_handling_cache
-from ansys.dpf.core import server as server_module
 from ansys.dpf.gate import meshed_region_capi, meshed_region_grpcapi
 
 

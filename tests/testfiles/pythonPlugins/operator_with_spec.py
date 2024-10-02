@@ -20,12 +20,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from ansys.dpf.core.custom_operator import CustomOperatorBase, record_operator
 from ansys.dpf.core import Field
+from ansys.dpf.core.custom_operator import CustomOperatorBase, record_operator
 from ansys.dpf.core.operator_specification import (
     CustomSpecification,
-    SpecificationProperties,
     PinSpecification,
+    SpecificationProperties,
 )
 
 

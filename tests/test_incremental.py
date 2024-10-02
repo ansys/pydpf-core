@@ -20,10 +20,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from ansys.dpf import core
-from ansys.dpf.core import common
 import numpy as np
 import pytest
+
+from ansys.dpf import core
+from ansys.dpf.core import common
 import conftest
 
 
