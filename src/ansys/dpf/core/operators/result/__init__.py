@@ -254,6 +254,7 @@ from .spectrum_data import spectrum_data
 from .static_pressure import static_pressure 
 from .stiffness_matrix_energy import stiffness_matrix_energy 
 from .strain_eqv_as_mechanical import strain_eqv_as_mechanical 
+from .strain_eqv_as_mechanical_workflow import strain_eqv_as_mechanical_workflow 
 from .stress import stress 
 from .stress_X import stress_X 
 from .stress_XY import stress_XY 
@@ -262,6 +263,7 @@ from .stress_Y import stress_Y
 from .stress_YZ import stress_YZ 
 from .stress_Z import stress_Z 
 from .stress_eqv_as_mechanical import stress_eqv_as_mechanical 
+from .stress_eqv_as_mechanical_workflow import stress_eqv_as_mechanical_workflow 
 from .stress_intensity import stress_intensity 
 from .stress_max_shear import stress_max_shear 
 from .stress_principal_1 import stress_principal_1 
