@@ -77,12 +77,20 @@ class plastic_strain_eqv(Operator):
     split_shells : bool, optional
         This pin forces elemental nodal shell and
         solid results to be split if this pin
-        is set to true (default is false)
+        is set to true. if set to false
+        (default), a specific shell layer is
+        still needed to merge the fields.
+        merge is possible only if a shell
+        layer is provided.
     shell_layer : int, optional
         If the requested_location pin is not
-        connected, and if spli_shells pin is
+        connected, and if split_shells pin is
         set to true, we choose one of the
-        shell layer for shell element.
+        shell layer for shell element. if
+        split_shells pin is set to false
+        (default value) and a specific shell
+        layer is provided, results will be
+        merged on this specific shell layer.
 
 
     Examples
@@ -300,16 +308,24 @@ class plastic_strain_eqv(Operator):
                     optional=True,
                     document="""This pin forces elemental nodal shell and
         solid results to be split if this pin
-        is set to true (default is false)""",
+        is set to true. if set to false
+        (default), a specific shell layer is
+        still needed to merge the fields.
+        merge is possible only if a shell
+        layer is provided.""",
                 ),
                 27: PinSpecification(
                     name="shell_layer",
                     type_names=["int32"],
                     optional=True,
                     document="""If the requested_location pin is not
-        connected, and if spli_shells pin is
+        connected, and if split_shells pin is
         set to true, we choose one of the
-        shell layer for shell element.""",
+        shell layer for shell element. if
+        split_shells pin is set to false
+        (default value) and a specific shell
+        layer is provided, results will be
+        merged on this specific shell layer.""",
                 ),
             },
             map_output_pin_spec={
@@ -670,7 +686,11 @@ class InputsPlasticStrainEqv(_Inputs):
 
         This pin forces elemental nodal shell and
         solid results to be split if this pin
-        is set to true (default is false)
+        is set to true. if set to false
+        (default), a specific shell layer is
+        still needed to merge the fields.
+        merge is possible only if a shell
+        layer is provided.
 
         Parameters
         ----------
@@ -691,9 +711,13 @@ class InputsPlasticStrainEqv(_Inputs):
         """Allows to connect shell_layer input to the operator.
 
         If the requested_location pin is not
-        connected, and if spli_shells pin is
+        connected, and if split_shells pin is
         set to true, we choose one of the
-        shell layer for shell element.
+        shell layer for shell element. if
+        split_shells pin is set to false
+        (default value) and a specific shell
+        layer is provided, results will be
+        merged on this specific shell layer.
 
         Parameters
         ----------

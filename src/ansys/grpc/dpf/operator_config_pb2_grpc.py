@@ -6,7 +6,7 @@ import warnings
 import ansys.grpc.dpf.base_pb2 as base__pb2
 import ansys.grpc.dpf.operator_config_pb2 as operator__config__pb2
 
-GRPC_GENERATED_VERSION = '1.66.1'
+GRPC_GENERATED_VERSION = '1.66.2'
 GRPC_VERSION = grpc.__version__
 _version_not_supported = False
 

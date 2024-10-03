@@ -22,9 +22,9 @@ class global_to_nodal(Operator):
         expressed in global coordinate
         system.
     fieldB : Field
-        Nodal euler angles defined from an rst file.
-        those  must be the rotations from
-        nodal to global.
+        Nodal euler angles defined from a result
+        file. those  must be the rotations
+        from nodal to global.
 
 
     Examples
@@ -78,9 +78,9 @@ class global_to_nodal(Operator):
                     name="fieldB",
                     type_names=["field"],
                     optional=False,
-                    document="""Nodal euler angles defined from an rst file.
-        those  must be the rotations from
-        nodal to global.""",
+                    document="""Nodal euler angles defined from a result
+        file. those  must be the rotations
+        from nodal to global.""",
                 ),
             },
             map_output_pin_spec={
@@ -178,9 +178,9 @@ class InputsGlobalToNodal(_Inputs):
     def fieldB(self):
         """Allows to connect fieldB input to the operator.
 
-        Nodal euler angles defined from an rst file.
-        those  must be the rotations from
-        nodal to global.
+        Nodal euler angles defined from a result
+        file. those  must be the rotations
+        from nodal to global.
 
         Parameters
         ----------
