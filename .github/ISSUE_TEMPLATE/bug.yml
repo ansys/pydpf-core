@@ -62,6 +62,7 @@ body:
       multiple: true
       options:
        - 'DPF Server 2025.2.pre0'
+       - 'Ansys 2025 R1'
        - 'DPF Server 2025.1.pre0'
        - 'Ansys 2024 R2'
        - 'DPF Server 2024.2.pre1'

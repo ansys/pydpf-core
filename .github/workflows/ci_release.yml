@@ -110,6 +110,26 @@ jobs:
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
     secrets: inherit
 
+  retro_251:
+    name: "retro 251"
+    uses: ./.github/workflows/tests.yml
+    with:
+      ANSYS_VERSION: "251"
+      python_versions: '["3.9"]'
+      standalone_suffix: '.sp01'
+      DOCSTRING: false
+    secrets: inherit
+
+  retro_242:
+    name: "retro 242"
+    uses: ./.github/workflows/tests.yml
+    with:
+      ANSYS_VERSION: "242"
+      python_versions: '["3.9"]'
+      standalone_suffix: '.sp01'
+      DOCSTRING: false
+    secrets: inherit
+
   retro_241:
     name: "retro 241"
     uses: ./.github/workflows/tests.yml
@@ -154,6 +174,13 @@ jobs:
       ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '252' }}
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
       test_docstrings: "true"
+    secrets: inherit
+  
+  pydpf-post_251:
+    name: "PyDPF-Post with 251"
+    uses: ./.github/workflows/pydpf-post.yml
+    with:
+      ANSYS_VERSION: "251"
     secrets: inherit
 
   pydpf-post_242:
