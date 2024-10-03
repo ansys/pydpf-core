@@ -12,7 +12,7 @@ on:
       ANSYS_VERSION:
         required: false
         type: string
-        default: "251"
+        default: "252"
 # Can be called manually
   workflow_dispatch:
     inputs:
@@ -25,7 +25,7 @@ on:
         description: "ANSYS version to run."
         required: true
         type: string
-        default: "251"
+        default: "252"
 
 env:
   PACKAGE_NAME: ansys-dpf-core

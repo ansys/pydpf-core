@@ -14,7 +14,7 @@ on:
         description: "ANSYS version"
         required: false
         type: string
-        default: "251"
+        default: "252"
       standalone_branch_suffix:
         description: "Suffix of the branch on standalone"
         required: false
@@ -49,7 +49,7 @@ jobs:
         with:
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-          ANSYS_VERSION : ${{ github.event.inputs.ANSYS_VERSION || '251' }}
+          ANSYS_VERSION : ${{ github.event.inputs.ANSYS_VERSION || '252' }}
 
       - name: "Update ansys-grpc-dpf"
         shell: bash
@@ -133,9 +133,9 @@ jobs:
             src/ansys/dpf/core/operators/*
             doc/source/_static/dpf_operators.html
           commit-message: update generated code
-          title: Update generated code for DPF ${{ github.event.inputs.ANSYS_VERSION || '251' }}${{ github.event.inputs.standalone_branch_suffix || '' }} on ${{ github.ref_name }}
+          title: Update generated code for DPF ${{ github.event.inputs.ANSYS_VERSION || '252' }}${{ github.event.inputs.standalone_branch_suffix || '' }} on ${{ github.ref_name }}
           body: An update of generated code has been triggered either manually or by an update in the dpf-standalone repository.
-          branch: maint/update_code_for_${{ github.event.inputs.ANSYS_VERSION || '251' }}${{ github.event.inputs.standalone_branch_suffix || '' }}_on_${{ github.ref_name }}
+          branch: maint/update_code_for_${{ github.event.inputs.ANSYS_VERSION || '252' }}${{ github.event.inputs.standalone_branch_suffix || '' }}_on_${{ github.ref_name }}
           labels: server-sync
           token: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
           reviewers: ansys/dpf_integration_proxies

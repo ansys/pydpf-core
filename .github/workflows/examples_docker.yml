@@ -11,7 +11,7 @@ on:
       ANSYS_VERSION:
         required: false
         type: string
-        default: "251"
+        default: "252"
       standalone_suffix:
         description: "Suffix of the branch on standalone"
         required: false
@@ -29,7 +29,7 @@ on:
         description: "ANSYS version to run."
         required: true
         type: string
-        default: "251"
+        default: "252"
       standalone_suffix:
         description: "Suffix of the branch on standalone"
         required: false
