@@ -380,7 +380,7 @@ class DataSources:
         >>>
         >>> # Create the DataSources object
         >>> my_data_sources = dpf.DataSources()
-        >>># Define the path where the main result data can be found and specify its domain
+        >>> # Define the path where the main result data can be found and specify its domain
         >>> my_data_sources.set_domain_result_file_path(path='/tmp/ds.cas', key='cas', domain_id=1)
         >>> # Add the additional result data to the DataSources object and specify its domain
         >>> my_data_sources.add_domain_file_path(path='/tmp/ds.dat', key="dat", domain_id=1)
