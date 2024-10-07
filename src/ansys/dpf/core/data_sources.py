@@ -49,10 +49,11 @@ from ansys.dpf.core import errors
 if TYPE_CHECKING:
     from ansys.dpf import core as dpf
     from ansys.dpf.core import server_types
+    from ansys.grpc.dpf import data_sources_pb2 as DataSourcesPB2
 
 
 class DataSources:
-    """Manages paths to their files.
+    """Manages paths to files as sources of data.
 
     Use this object to declare data inputs for DPF and define their locations.
 
@@ -88,9 +89,9 @@ class DataSources:
 
     def __init__(
         self,
-        result_path: Optional[Union[str, os.PathLike]] = None,
-        data_sources: Optional[dpf.DataSources] = None,
-        server: Optional[server_types.DpfServer] = None,
+        result_path: Optional[str, os.PathLike] = None,
+        data_sources: Optional[dpf.DataSources, int, DataSourcesPB2.DataSources] = None,
+        server: Optional[type[server_types.BaseServer]] = None,
     ):
         """Initialize a connection with the server."""
         # step 1: get server
@@ -649,12 +650,12 @@ class DataSources:
 
         For example, if the results file comes from a MAPDL solver and has an '.rst' extension
         and you want to get the displacement results in this file, DPF code will get the
-        correspondence: ``mapdl::rst::displacement``.
+        corresponding operator: ``mapdl::rst::displacement``.
 
         So, if you have an extension that is not
-        know by DPF you have to define its namespace. This function is mainly used when
+        registered in DPF you have to define its namespace. This function is mainly used when
         creating your own operators and plugins, or when you have a file with an unknown
-        namespace, but you know that it corresponds to certain solver.
+        namespace, but you know that it corresponds to a given solver.
 
         Parameters
         ----------
@@ -662,7 +663,7 @@ class DataSources:
             Extension of the file, which is used as a key for choosing the correct
             plugin when a result is requested by an operator.
         namespace:
-            Name of the correspondent solver
+            Namespace to associate the file extension to.
 
         Notes
         -----
