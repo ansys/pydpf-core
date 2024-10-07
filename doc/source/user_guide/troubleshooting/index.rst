@@ -3,8 +3,10 @@
 Troubleshooting
 ---------------
 
-.. grid:: 3
+.. grid:: 2
     :gutter: 2
+    :padding: 2
+    :margin: 2
 
     .. grid-item-card:: Server issues
        :link: ref_server_issues
