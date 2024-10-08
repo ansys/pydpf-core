@@ -61,7 +61,6 @@ class DataSources:
     results files versus accessory files. You can set a result file path when
     initializing this class.
 
-
     Parameters
     ----------
     result_path :
@@ -191,7 +190,7 @@ class DataSources:
             Path to the file.
 
         Returns
-        ----------
+        -------
         str
             Extension key name
 
@@ -232,7 +231,7 @@ class DataSources:
             Path to the file.
 
         Returns
-        ----------
+        -------
         str
             First extension key name
 
@@ -523,7 +522,7 @@ class DataSources:
         >>> # Add the additional upstream files to the upstream DataSources objectS
         >>> my_data_sources_upstream_g0.add_file_path(filepath=rf"{paths}\file0.rst", key='rst')
         >>> my_data_sources_upstream_g1.add_file_path(filepath=rf"{paths}\file1.rst", key='rst')
-
+        >>>
         >>> # Add the upstream DataSources to the main DataSources object and specify its domain
         >>> my_data_sources.add_upstream_for_domain(upstream_data_sources=my_data_sources_upstream_g0, domain_id=0)
         >>> my_data_sources.add_upstream_for_domain(upstream_data_sources=my_data_sources_upstream_g1, domain_id=1)
