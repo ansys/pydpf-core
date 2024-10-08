@@ -211,7 +211,7 @@ class DataSources:
         >>> # Define the extension key for the file in the given path
         >>> my_file_key = my_data_sources.guess_result_key(filepath=path[0])
         >>> print(my_file_key)
-        'd3plot'
+        d3plot
 
         """
         result_keys = ["d3plot", "binout"]
@@ -254,7 +254,7 @@ class DataSources:
         >>> # - the file index in that list
         >>> my_file_key = my_data_sources.guess_second_key(filepath=paths["cas"][0])
         >>> print(my_file_key)
-        'cas'
+        cas
 
         """
         accepted = ["cas", "dat"]
@@ -468,7 +468,7 @@ class DataSources:
         >>> # Create the DataSources object for the upstream data
         >>> my_data_sources_upstream = dpf.DataSources()
         >>> # Define the path where the main upstream data can be found
-        >>> my_data_sources_upstream.set_result_file_path(filepath=paths["mode"])
+        >>> my_data_sources_upstream.set_result_file_path(filepath=paths["mode"], key='mode')
         >>> # Add the additional upstream data to the upstream DataSources object
         >>> my_data_sources_upstream.add_file_path(filepath=paths["rst"], key='rst')
         >>>
@@ -507,7 +507,7 @@ class DataSources:
         >>> # Download the result files
         >>> paths = examples.find_distributed_msup_folder()
         >>> # Create the main DataSources object
-        >>>  my_data_sources = dpf.DataSources()
+        >>> my_data_sources = dpf.DataSources()
         >>> # Define the path where the main result file can be found and specify its domain
         >>> # We use a format string here because the function used to define the path gives the path to a folder
         >>> my_data_sources.set_domain_result_file_path(path=rf"{paths}\file_load_1.rfrq", key='rfrq', domain_id=0)
@@ -609,7 +609,7 @@ class DataSources:
         >>>
         >>> # Get the path to the main result file of the main DataSources object
         >>> my_data_sources.result_files
-        >>> # ['../site-packages/ansys/dpf/core/examples/result_files/msup/file.rfrq']
+        ['C:\\hostedtoolcache\\windows\\Python\\3.9.13\\x64\\lib\\site-packages\\ansys\\dpf\\core\\examples\\result_files\\msup\\file.rfrq']
 
         - If you are checking the DataSources object created to define the upstream data, only the first one is listed.
 
