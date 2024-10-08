@@ -588,8 +588,6 @@ class DataSources:
         - If you added an upstream result file, it is not listed in the main ``DataSources`` object. You have to
         check directly in the ``DataSources`` object created to define the upstream data.
 
-        Examples
-        --------
         >>> from ansys.dpf import core as dpf
         >>>
         >>> # Create the main DataSources object with a main file path
