@@ -205,12 +205,13 @@ class DataSources:
         >>> # Create the DataSources object
         >>> my_data_sources = dpf.DataSources()
         >>> # Download the result files
-        >>> path = examples.find_simple_bar()
+        >>> path = examples.download_d3plot_beam()
         >>> # Define the path where the main result file can be found
-        >>> my_data_sources.set_result_file_path(filepath=path)
+        >>> my_data_sources.set_result_file_path(filepath=path[0])
         >>> # Define the extension key for the file in the given path
-        >>> my_file_key = my_data_sources.guess_result_key(filepath=path)
-        'rst'
+        >>> my_file_key = my_data_sources.guess_result_key(filepath=path[0])
+        >>> print(my_file_key)
+        'd3plot'
 
         """
         result_keys = ["d3plot", "binout"]
@@ -246,14 +247,13 @@ class DataSources:
         >>> paths = examples.download_fluent_axial_comp()
         >>> # Create the DataSources object
         >>> my_data_sources = dpf.DataSources()
-        >>> # Define the path where the main result file can be found
+        >>> # Define the extension key for the file in the given path
         >>> # We see that the paths are given in a dictionary.
         >>> # So to choose the correct file you need to give as an argument:
         >>> # - the list label
         >>> # - the file index in that list
-        >>> my_data_sources.set_result_file_path(filepath=paths['cas'][0])
-        >>> # Define the extension key for the file in the given path
-        >>> my_file_key = my_data_sources.guess_second_key(filepath=paths['cas'][0])
+        >>> my_file_key = my_data_sources.guess_second_key(filepath=paths["cas"][0])
+        >>> print(my_file_key)
         'cas'
 
         """
@@ -503,7 +503,7 @@ class DataSources:
 
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
-
+        >>>
         >>> # Download the result files
         >>> paths = examples.find_distributed_msup_folder()
         >>> # Create the main DataSources object
@@ -609,7 +609,7 @@ class DataSources:
         >>>
         >>> # Get the path to the main result file of the main DataSources object
         >>> my_data_sources.result_files
-        ['../site-packages/ansys/dpf/core/examples/result_files/msup/file.rfrq']
+        >>> # ['../site-packages/ansys/dpf/core/examples/result_files/msup/file.rfrq']
 
         - If you are checking the DataSources object created to define the upstream data, only the first one is listed.
 
