@@ -592,30 +592,27 @@ class DataSources:
         Examples
         --------
         >>> from ansys.dpf import core as dpf
-        >>> from ansys.dpf.core import examples
         >>>
-        >>> # Download the result files
-        >>> paths = examples.download_msup_files_to_dict()
         >>> # Create the main DataSources object with a main file path
-        >>> my_data_sources = dpf.DataSources(result_path=paths["rfrq"])
+        >>> my_data_sources = dpf.DataSources(result_path='/tmp/file.rfrq')
         >>>
         >>> # Create the DataSources object for the upstream data
-        >>> my_data_sources_upstream = dpf.DataSources(result_path=paths["mode"])
+        >>> my_data_sources_upstream = dpf.DataSources(result_path='/tmp/file.mode')
         >>> # Add the additional upstream data to the upstream DataSources object
-        >>> my_data_sources_upstream.add_file_path(filepath=paths["rst"], key='rst')
+        >>> my_data_sources_upstream.add_file_path(filepath='/tmp/file.rst', key='rst')
         >>>
         >>> # Add the upstream DataSources to the main DataSources object
         >>> my_data_sources.add_upstream(upstream_data_sources=my_data_sources_upstream)
         >>>
         >>> # Get the path to the main result file of the main DataSources object
         >>> my_data_sources.result_files
-        ['C:\\hostedtoolcache\\windows\\Python\\3.9.13\\x64\\lib\\site-packages\\ansys\\dpf\\core\\examples\\result_files\\msup\\file.rfrq']
+        ['/tmp/file.rfrq']
 
         - If you are checking the DataSources object created to define the upstream data, only the first one is listed.
 
         >>> # Get the path to the upstream file of the upstream DataSources object
         >>> my_data_sources_upstream.result_files
-        [..\\.venv\\Lib\\site-packages\\ansys\\dpf\\core\\examples\\result_files\\msup\\file.mode']
+        ['/tmp/file.mode']
 
         - If you have a ``DataSources`` object with more than one domain, a empty list is returned.
 
