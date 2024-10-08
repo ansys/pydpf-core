@@ -566,13 +566,13 @@ class DataSources:
         list
             List of result files.
 
-        Notes
-        -----
-        - If you use the :func:`set_result_file_path() <ansys.dpf.core.data_sources.DataSources.set_result_file_path>`
-        function, it will return only the file path given as an argument to this function.
+
 
         Examples
         --------
+        >>> # If you use the :func:`set_result_file_path() <ansys.dpf.core.data_sources.DataSources.set_result_file_path>`
+        >>> # function, it will return only the file path given as an argument to this function.
+        >>>
         >>> from ansys.dpf import core as dpf
         >>>
         >>> # Create the DataSources object
@@ -585,9 +585,9 @@ class DataSources:
         >>> my_data_sources.result_files
         ['/tmp/file.cas']
 
-        - If you added an upstream result file, it is not listed in the main ``DataSources`` object. You have to
-        check directly in the ``DataSources`` object created to define the upstream data.
-
+        >>> # If you added an upstream result file, it is not listed in the main ``DataSources`` object. You have to
+        >>> # check directly in the ``DataSources`` object created to define the upstream data.
+        >>>
         >>> from ansys.dpf import core as dpf
         >>>
         >>> # Create the main DataSources object with a main file path
@@ -605,14 +605,14 @@ class DataSources:
         >>> my_data_sources.result_files
         ['/tmp/file.rfrq']
 
-        - If you are checking the DataSources object created to define the upstream data, only the first one is listed.
-
+        >>> # If you are checking the DataSources object created to define the upstream data, only the first one is listed.
+        >>>
         >>> # Get the path to the upstream file of the upstream DataSources object
         >>> my_data_sources_upstream.result_files
         ['/tmp/file.mode']
 
-        - If you have a ``DataSources`` object with more than one domain, a empty list is returned.
-
+        >>> #If you have a ``DataSources`` object with more than one domain, a empty list is returned.
+        >>>
         >>> from ansys.dpf import core as dpf
         >>>
         >>> # Create the DataSources object
