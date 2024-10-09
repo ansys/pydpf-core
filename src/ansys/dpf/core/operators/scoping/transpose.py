@@ -25,11 +25,11 @@ class transpose(Operator):
     meshed_region : MeshedRegion or MeshesContainer
     inclusive : int, optional
         If inclusive == 1 then all the elements/faces
-        adjacent to the nodes ids in input
-        are added, if inclusive == 0, only
-        the elements/faces which have all
-        their nodes in the scoping are
-        included
+        adjacent to the nodes/faces ids in
+        input are added, if inclusive == 0,
+        only the elements/faces which have
+        all their nodes/faces in the scoping
+        are included
     requested_location : str, optional
         Output scoping location for meshes with
         nodes, faces and elements. by
@@ -114,11 +114,11 @@ class transpose(Operator):
                     type_names=["int32"],
                     optional=True,
                     document="""If inclusive == 1 then all the elements/faces
-        adjacent to the nodes ids in input
-        are added, if inclusive == 0, only
-        the elements/faces which have all
-        their nodes in the scoping are
-        included""",
+        adjacent to the nodes/faces ids in
+        input are added, if inclusive == 0,
+        only the elements/faces which have
+        all their nodes/faces in the scoping
+        are included""",
                 ),
                 9: PinSpecification(
                     name="requested_location",
@@ -253,11 +253,11 @@ class InputsTranspose(_Inputs):
         """Allows to connect inclusive input to the operator.
 
         If inclusive == 1 then all the elements/faces
-        adjacent to the nodes ids in input
-        are added, if inclusive == 0, only
-        the elements/faces which have all
-        their nodes in the scoping are
-        included
+        adjacent to the nodes/faces ids in
+        input are added, if inclusive == 0,
+        only the elements/faces which have
+        all their nodes/faces in the scoping
+        are included
 
         Parameters
         ----------
