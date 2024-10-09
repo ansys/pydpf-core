@@ -142,9 +142,9 @@ class DataSources:
 
         Parameters
         ----------
-        filepath:
+        filepath :
             Path to the result file.
-        key:
+        key :
             Extension of the file, which is used as a key for choosing the correct
             plugin when a result is requested by an operator. The default is ``""``,
             in which case the key is found directly.
@@ -191,7 +191,7 @@ class DataSources:
 
         Returns
         -------
-        str:
+        str :
             Extension key name
 
         Examples
@@ -227,12 +227,12 @@ class DataSources:
 
         Parameters
         ----------
-        filepath:
+        filepath :
             Path to the file.
 
         Returns
         -------
-        str:
+        str :
             First extension key name
 
         Examples
@@ -276,11 +276,11 @@ class DataSources:
 
         Parameters
         ----------
-        path:
+        path :
             Path to the file.
-        domain_id:
+        domain_id :
             Domain ID for the distributed files.
-        key:
+        key :
             Key to associate to the file.
 
         Examples
@@ -317,15 +317,15 @@ class DataSources:
 
         Parameters
         ----------
-        filepath:
+        filepath :
             Path of the file.
-        key:
+        key :
             Extension of the file, which is used as a key for choosing the correct
             plugin when a result is requested by an operator. The default is ``""``,
             in which case the key is found directly.
-        is_domain:
+        is_domain :
             Whether the file path is the domain path. The default is ``False``.
-        domain_id:
+        domain_id :
             Domain ID for the distributed files. The default is ``0``. For this
             parameter to be taken into account, ``domain_path=True`` must be set.
 
@@ -370,12 +370,12 @@ class DataSources:
 
         Parameters
         ----------
-        filepath:
+        filepath :
             Path of the file.
-        key:
+        key :
             Extension of the file, which is used as a key for choosing the correct
             plugin when a result is requested by an operator.
-        domain_id:
+        domain_id :
             Domain ID for the distributed files.
 
         Examples
@@ -420,7 +420,7 @@ class DataSources:
             Extension of the file, which is used as a key for choosing the correct
             plugin when a result is requested by an operator. The default is ``""``,
             in which case the key is found directly.
-        result_key:
+        result_key :
             Extension of the results file that the specified file path belongs to.
             The default is ``""``, in which case the key is found directly.
 
@@ -444,10 +444,10 @@ class DataSources:
 
         Parameters
         ----------
-        upstream_data_sources:
+        upstream_data_sources :
             Set of paths creating an upstream for recursive workflows.
 
-        result_key:
+        result_key :
             Extension of the result file group with which this upstream belongs
 
         Examples
@@ -493,7 +493,7 @@ class DataSources:
         upstream_data_sources :
             Set of paths creating an upstream for recursive workflows.
 
-        domain_id:
+        domain_id :
             Domain id for distributed files.
 
         Examples
@@ -538,7 +538,7 @@ class DataSources:
 
         Returns
         -------
-        str:
+        str :
            Result key.
 
         Examples
@@ -563,7 +563,7 @@ class DataSources:
 
         Returns
         ----------
-        list:
+        list :
             List of result files.
 
         Examples
@@ -658,10 +658,10 @@ class DataSources:
 
         Parameters
         ----------
-        result_key:
+        result_key :
             Extension of the file, which is used as a key for choosing the correct
             plugin when a result is requested by an operator.
-        namespace:
+        namespace :
             Namespace to associate the file extension to.
 
         Notes
@@ -688,7 +688,7 @@ class DataSources:
 
         Returns
         -------
-        str:
+        str :
             Description of the entity.
         """
         from ansys.dpf.core.core import _description
