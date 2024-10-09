@@ -142,9 +142,9 @@ class DataSources:
 
         Parameters
         ----------
-        filepath :
+        filepath:
             Path to the result file.
-        key :
+        key:
             Extension of the file, which is used as a key for choosing the correct
             plugin when a result is requested by an operator. The default is ``""``,
             in which case the key is found directly.
@@ -191,7 +191,7 @@ class DataSources:
 
         Returns
         -------
-        str
+        str:
             Extension key name
 
         Examples
@@ -227,12 +227,12 @@ class DataSources:
 
         Parameters
         ----------
-        filepath :
+        filepath:
             Path to the file.
 
         Returns
         -------
-        str
+        str:
             First extension key name
 
         Examples
@@ -317,9 +317,9 @@ class DataSources:
 
         Parameters
         ----------
-        filepath :
+        filepath:
             Path of the file.
-        key :
+        key:
             Extension of the file, which is used as a key for choosing the correct
             plugin when a result is requested by an operator. The default is ``""``,
             in which case the key is found directly.
@@ -538,7 +538,7 @@ class DataSources:
 
         Returns
         -------
-        str
+        str:
            Result key.
 
         Examples
@@ -563,7 +563,7 @@ class DataSources:
 
         Returns
         ----------
-        list
+        list:
             List of result files.
 
         Examples
@@ -688,7 +688,7 @@ class DataSources:
 
         Returns
         -------
-        str
+        str:
             Description of the entity.
         """
         from ansys.dpf.core.core import _description
