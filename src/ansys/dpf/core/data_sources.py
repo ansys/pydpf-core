@@ -566,8 +566,6 @@ class DataSources:
         list
             List of result files.
 
-
-
         Examples
         --------
         >>> # If you use the :func:`set_result_file_path() <ansys.dpf.core.data_sources.DataSources.set_result_file_path>`
