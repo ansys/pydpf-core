@@ -271,8 +271,7 @@ class DataSources:
     ) -> None:
         """Set a result file path by domain.
 
-        This method is used to handle files created by a
-        distributed solve.
+        This method is used to handle files created by a distributed solve.
 
         Parameters
         ----------
@@ -562,9 +561,66 @@ class DataSources:
         """List of result files contained in the data sources.
 
         Returns
-        ----------
+        -------
         list :
             List of result files.
+
+        Examples
+        --------
+        >>>  # If you use the :func:`set_result_file_path() <ansys.dpf.core.data_sources.DataSources.set_result_file_path>`
+        >>>  # function, it will return only the file path given as an argument to this function.
+        >>>
+        >>> from ansys.dpf import core as dpf
+        >>>
+        >>>  # Create the DataSources object
+        >>> my_data_sources = dpf.DataSources()
+        >>>  # Define the path where the main result file can be found
+        >>> my_data_sources.set_result_file_path(filepath='/tmp/file.cas', key='cas')
+        >>>  # Add the additional result file to the DataSources object
+        >>> my_data_sources.add_file_path(filepath='/tmp/ds.dat', key='dat')
+        >>>  # Get the path to the main result file
+        >>> my_data_sources.result_files
+        ['/tmp/file.cas']
+
+        >>>  # If you added an upstream result file, it is not listed in the main ``DataSources`` object. You have to
+        >>>  # check directly in the ``DataSources`` object created to define the upstream data.
+        >>>
+        >>> from ansys.dpf import core as dpf
+        >>>
+        >>>  # Create the main DataSources object with a main file path
+        >>> my_data_sources = dpf.DataSources(result_path='/tmp/file.rfrq')
+        >>>
+        >>>  # Create the DataSources object for the upstream data
+        >>> my_data_sources_upstream = dpf.DataSources(result_path='/tmp/file.mode')
+        >>>  # Add the additional upstream data to the upstream DataSources object
+        >>> my_data_sources_upstream.add_file_path(filepath='/tmp/file.rst', key='rst')
+        >>>
+        >>>  # Add the upstream DataSources to the main DataSources object
+        >>> my_data_sources.add_upstream(upstream_data_sources=my_data_sources_upstream)
+        >>>
+        >>>  # Get the path to the main result file of the main DataSources object
+        >>> my_data_sources.result_files
+        ['/tmp/file.rfrq']
+
+        >>>  # If you are checking the DataSources object created to define the upstream data, only the first one is listed.
+        >>>
+        >>>  # Get the path to the upstream file of the upstream DataSources object
+        >>> my_data_sources_upstream.result_files
+        ['/tmp/file.mode']
+
+        >>>  # If you have a ``DataSources`` object with more than one domain, a empty list is returned.
+        >>>
+        >>> from ansys.dpf import core as dpf
+        >>>
+        >>>  # Create the DataSources object
+        >>> my_data_sources = dpf.DataSources()
+        >>>  # Define the path where the main result data can be found and specify its domain
+        >>> my_data_sources.set_domain_result_file_path(path='/tmp/file0.rst', key='rst', domain_id=0)
+        >>> my_data_sources.set_domain_result_file_path(path='/tmp/file1.rst', key='rst', domain_id=1)
+        >>>
+        >>>  # Get the path to the main result files of the DataSources object
+        >>> my_data_sources.result_files
+        [None, None]
 
         """
         result_key = self.result_key
