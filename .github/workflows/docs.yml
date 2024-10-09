@@ -7,7 +7,7 @@ on:
       python_version:
         required: false
         type: string
-        default: "3.9"
+        default: "3.10"
       ANSYS_VERSION:
         required: false
         type: string
@@ -29,7 +29,7 @@ on:
         description: "Python interpreter"
         required: true
         type: string
-        default: "3.9"
+        default: "3.10"
       ANSYS_VERSION:
         description: "ANSYS version"
         required: true
