@@ -537,8 +537,8 @@ class DataSources:
 
         Returns
         -------
-        str :
-           Result key.
+        str
+            Result key.
 
         Examples
         --------
@@ -562,7 +562,7 @@ class DataSources:
 
         Returns
         -------
-        list :
+        list
             List of result files.
 
         Examples
@@ -687,7 +687,7 @@ class DataSources:
 
         Returns
         -------
-        str :
+        str
             Description of the entity.
         """
         from ansys.dpf.core.core import _description
