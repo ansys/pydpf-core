@@ -66,7 +66,11 @@ my_model = dpf.Model(ds)
 
 my_meshed_region = my_model.metadata.meshed_region
 
-my_meshes = ops.mesh.split_mesh(mesh=my_meshed_region, property="elemental").eval()
+my_meshes = ops.mesh.split_mesh(
+    mesh=my_meshed_region, property=dpf.common.elemental_properties.element_shape
+).eval()
+my_ball_mesh = my_meshes.get_mesh(label_space_or_index={"body": 1, "elshape": 1})
+my_plate_mesh = my_meshes.get_mesh(label_space_or_index={"body": 2, "elshape": 2})
 # print(my_meshes)
 ###############################################################################
 # Ball
@@ -86,6 +90,9 @@ my_meshes = ops.mesh.split_mesh(mesh=my_meshed_region, property="elemental").eva
 # analysing the results
 
 my_meshes_scopings = ops.scoping.split_on_property_type(mesh=my_meshed_region).eval()
+my_ball_scoping = my_meshes_scopings.get_scoping(label_space_or_index={"elshape": 1})
+my_plate_scoping = my_meshes_scopings.get_scoping(label_space_or_index={"elshape": 2})
+
 my_time_scoping = my_model.metadata.time_freq_support.time_frequencies
 # For example the ball velocity
 v = my_model.results.velocity(time_scoping=my_time_scoping).eval()
@@ -97,11 +104,15 @@ v = my_model.results.velocity(time_scoping=my_time_scoping).eval()
 # compare results in different time steps
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Sforces = my_model.results.beam_s_shear_force(mesh_scoping=my_meshes_scopings[1]).eval()
-Sforces2 = my_model.results.beam_s_shear_force(mesh_scoping=my_meshes_scopings[0]).eval()
+Sballforces = my_model.results.beam_s_shear_force(mesh_scoping=my_ball_scoping).eval()
+Splateforces = my_model.results.beam_s_shear_force(mesh_scoping=my_plate_scoping).eval()
 
-comparison_plot = dpf.plotter.DpfPlotter
-comparison_plot.add_field(field=Sforces, meshed_region=my_meshes[1])
-comparison_plot.add_field(field=Sforces2, meshed_region=my_meshes[0])
 
+comparison_plot = dpf.plotter.DpfPlotter()
+comparison_plot.add_field(
+    field=Sballforces.get_field(label_space_or_index={"time": 12}), meshed_region=my_ball_mesh
+)
+comparison_plot.add_field(
+    field=Splateforces.get_field(label_space_or_index={"time": 12}), meshed_region=my_plate_mesh
+)
 comparison_plot.show_figure()
