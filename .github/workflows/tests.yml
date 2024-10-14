@@ -223,14 +223,6 @@ jobs:
           name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_doctest_${{ inputs.ANSYS_VERSION }}${{ inputs.test_any == 'true' && '_any' || '' }}
           path: src/junit/test-doctests-results.xml
 
-      - name: "Upload Docstring coverage to Codecov"
-        uses: codecov/codecov-action@v4
-        if: (inputs.DOCSTRING == 'true')
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }} # required
-          name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_doctest_${{ inputs.ANSYS_VERSION }}${{ inputs.test_any == 'true' && '_any' || '' }}.xml
-          flags: doctest,${{ inputs.ANSYS_VERSION }},${{ matrix.os }},${{ matrix.python-version }}${{ inputs.test_any == 'true' && ',any' || '' }}
-
       - name: "Separate long Core tests"
         shell: pwsh
         run: |
