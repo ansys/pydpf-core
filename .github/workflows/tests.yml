@@ -206,6 +206,7 @@ jobs:
       - name: "Test API Docstrings"
         shell: bash
         working-directory: src
+        if: (inputs.DOCSTRING == 'true')
         run: |
           echo "TMP: "$TMP
           echo "TEMP: "$TEMP
@@ -213,15 +214,18 @@ jobs:
 
       - name: "Kill all servers"
         uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
+        if: (inputs.DOCSTRING == 'true')
 
       - name: "Upload Docstring Test Results to artifacts"
         uses: actions/upload-artifact@v4
+        if: (inputs.DOCSTRING == 'true')
         with:
           name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_doctest_${{ inputs.ANSYS_VERSION }}${{ inputs.test_any == 'true' && '_any' || '' }}
           path: src/junit/test-doctests-results.xml
 
       - name: "Upload Docstring coverage to Codecov"
         uses: codecov/codecov-action@v4
+        if: (inputs.DOCSTRING == 'true')
         with:
           token: ${{ secrets.CODECOV_TOKEN }} # required
           name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_doctest_${{ inputs.ANSYS_VERSION }}${{ inputs.test_any == 'true' && '_any' || '' }}.xml
