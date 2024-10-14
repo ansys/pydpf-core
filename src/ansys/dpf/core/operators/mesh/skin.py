@@ -29,6 +29,10 @@ class skin(Operator):
         mesh shell elements (boolean = 1) are
         duplicated, one per each orientation,
         or (boolean = 0) remain unchanged.
+    add_beam : bool, optional
+        If input mesh contains beam elements, output
+        mesh beam elements (boolean = 1) are
+        added or (boolean = 0) are ignored.
 
 
     Examples
@@ -45,12 +49,15 @@ class skin(Operator):
     >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
     >>> my_duplicate_shell = bool()
     >>> op.inputs.duplicate_shell.connect(my_duplicate_shell)
+    >>> my_add_beam = bool()
+    >>> op.inputs.add_beam.connect(my_add_beam)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.mesh.skin(
     ...     mesh=my_mesh,
     ...     mesh_scoping=my_mesh_scoping,
     ...     duplicate_shell=my_duplicate_shell,
+    ...     add_beam=my_add_beam,
     ... )
 
     >>> # Get output data
@@ -66,6 +73,7 @@ class skin(Operator):
         mesh=None,
         mesh_scoping=None,
         duplicate_shell=None,
+        add_beam=None,
         config=None,
         server=None,
     ):
@@ -78,6 +86,8 @@ class skin(Operator):
             self.inputs.mesh_scoping.connect(mesh_scoping)
         if duplicate_shell is not None:
             self.inputs.duplicate_shell.connect(duplicate_shell)
+        if add_beam is not None:
+            self.inputs.add_beam.connect(add_beam)
 
     @staticmethod
     def _spec():
@@ -110,6 +120,14 @@ class skin(Operator):
         mesh shell elements (boolean = 1) are
         duplicated, one per each orientation,
         or (boolean = 0) remain unchanged.""",
+                ),
+                3: PinSpecification(
+                    name="add_beam",
+                    type_names=["bool"],
+                    optional=True,
+                    document="""If input mesh contains beam elements, output
+        mesh beam elements (boolean = 1) are
+        added or (boolean = 0) are ignored.""",
                 ),
             },
             map_output_pin_spec={
@@ -210,6 +228,8 @@ class InputsSkin(_Inputs):
     >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
     >>> my_duplicate_shell = bool()
     >>> op.inputs.duplicate_shell.connect(my_duplicate_shell)
+    >>> my_add_beam = bool()
+    >>> op.inputs.add_beam.connect(my_add_beam)
     """
 
     def __init__(self, op: Operator):
@@ -220,6 +240,8 @@ class InputsSkin(_Inputs):
         self._inputs.append(self._mesh_scoping)
         self._duplicate_shell = Input(skin._spec().input_pin(2), 2, op, -1)
         self._inputs.append(self._duplicate_shell)
+        self._add_beam = Input(skin._spec().input_pin(3), 3, op, -1)
+        self._inputs.append(self._add_beam)
 
     @property
     def mesh(self):
@@ -285,6 +307,28 @@ class InputsSkin(_Inputs):
         >>> op.inputs.duplicate_shell(my_duplicate_shell)
         """
         return self._duplicate_shell
+
+    @property
+    def add_beam(self):
+        """Allows to connect add_beam input to the operator.
+
+        If input mesh contains beam elements, output
+        mesh beam elements (boolean = 1) are
+        added or (boolean = 0) are ignored.
+
+        Parameters
+        ----------
+        my_add_beam : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.mesh.skin()
+        >>> op.inputs.add_beam.connect(my_add_beam)
+        >>> # or
+        >>> op.inputs.add_beam(my_add_beam)
+        """
+        return self._add_beam
 
 
 class OutputsSkin(_Outputs):
