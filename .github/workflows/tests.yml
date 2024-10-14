@@ -203,13 +203,29 @@ jobs:
         shell: bash
         run: pip list
 
-      - name: "Test Docstrings"
-        if: (inputs.DOCSTRING == 'true') && !((inputs.test_any == 'true') && (matrix.os == 'ubuntu-latest'))
-        uses: ansys/pydpf-actions/test_docstrings@v2.3
+      - name: "Test API Docstrings"
+        shell: bash
+        working-directory: src
+        run: |
+          echo "TMP: "$TMP
+          echo "TEMP: "$TEMP
+          pytest --doctest-modules $DEBUG --junitxml=junit/test-doctests-results.xml ansys/dpf/core
+
+      - name: "Kill all servers"
+        uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
+
+      - name: "Upload Docstring Test Results to artifacts"
+        uses: actions/upload-artifact@v4
         with:
-          MODULE: ${{env.MODULE}}
-          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
-          working-directory: src
+          name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_doctest_${{ inputs.ANSYS_VERSION }}${{ inputs.test_any == 'true' && '_any' || '' }}
+          path: src/junit/test-doctests-results.xml
+
+      - name: "Upload Docstring coverage to Codecov"
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }} # required
+          name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_doctest_${{ inputs.ANSYS_VERSION }}${{ inputs.test_any == 'true' && '_any' || '' }}.xml
+          flags: doctest,${{ inputs.ANSYS_VERSION }},${{ matrix.os }},${{ matrix.python-version }}${{ inputs.test_any == 'true' && ',any' || '' }}
 
       - name: "Separate long Core tests"
         shell: pwsh
