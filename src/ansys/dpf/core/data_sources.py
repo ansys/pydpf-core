@@ -27,10 +27,12 @@ Data Sources
 ============
 """
 
+from __future__ import annotations
+
 import os
 import warnings
 import traceback
-from typing import Union
+from typing import Union, Optional, TYPE_CHECKING
 
 from ansys.dpf.core import server as server_module
 from ansys.dpf.gate import (
@@ -44,10 +46,16 @@ from ansys.dpf.gate import (
 from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.core import errors
 
+if TYPE_CHECKING:
+    from ansys.dpf import core as dpf
+    from ansys.dpf.core import server_types
+    from ansys.grpc.dpf import data_sources_pb2 as DataSourcesPB2
+
 
 class DataSources:
-    """Contains files with analysis results.
+    """Manages paths to files as sources of data.
 
+    Use this object to declare data inputs for DPF and define their locations.
     An extension key (``'rst'`` for example) is used to choose which files represent
     results files versus accessory files. You can set a result file path when
     initializing this class.
@@ -55,11 +63,11 @@ class DataSources:
 
     Parameters
     ----------
-    result_path : str or os.PathLike object, optional
+    result_path
         Path of the result. The default is ``None``.
-    data_sources : ansys.grpc.dpf.data_sources_pb2.DataSources
+    data_sources
         gRPC data sources message. The default is ``None``.
-    server : server.DPFServer, optional
+    server
         Server with the channel connected to the remote or local instance. The
         default is ``None``, in which case an attempt is made to use the global
         server.
@@ -69,13 +77,20 @@ class DataSources:
     Initialize a model from a result path.
 
     >>> from ansys.dpf import core as dpf
+    >>> # Create the DataSources object with a main file path
     >>> my_data_sources = dpf.DataSources('file.rst')
+    >>> # Get the path to the main result file
     >>> my_data_sources.result_files
     ['file.rst']
 
     """
 
-    def __init__(self, result_path=None, data_sources=None, server=None):
+    def __init__(
+        self,
+        result_path: Optional[str, os.PathLike] = None,
+        data_sources: Optional[dpf.DataSources, int, DataSourcesPB2.DataSources] = None,
+        server: Optional[type[server_types.BaseServer]] = None,
+    ):
         """Initialize a connection with the server."""
         # step 1: get server
         self._server = server_module.get_or_create_server(
