@@ -46,7 +46,7 @@ from ansys.dpf.core import errors
 
 
 class DataSources:
-    """Contains files with analysis results.
+    """Contains files results.
 
     An extension key (``'rst'`` for example) is used to choose which files represent
     results files versus accessory files. You can set a result file path when
