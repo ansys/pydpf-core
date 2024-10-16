@@ -78,7 +78,7 @@ class DataSources:
 
     >>> from ansys.dpf import core as dpf
     >>> # Create the DataSources object with a main file path
-    >>> my_data_sources = dpf.DataSources('file.rst')
+    >>> my_data_sources = dpf.DataSources(result_path='file.rst')
     >>> # Get the path to the main result file
     >>> my_data_sources.result_files
     ['file.rst']
