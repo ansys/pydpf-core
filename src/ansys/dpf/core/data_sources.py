@@ -49,7 +49,7 @@ from ansys.dpf.core import errors
 if TYPE_CHECKING:
     from ansys.dpf import core as dpf
     from ansys.dpf.core import server_types
-    from ansys.grpc.dpf import data_sources_pb2 as DataSourcesPB2
+    from ansys.grpc.dpf import data_sources_pb2
 
 
 class DataSources:
@@ -63,9 +63,9 @@ class DataSources:
 
     Parameters
     ----------
-    result_path : str or os.PathLike object, optional
+    result_path
         Path of the result. The default is ``None``.
-    data_sources : ansys.grpc.dpf.data_sources_pb2.DataSources
+    data_sources
         gRPC data sources message. The default is ``None``.
     server
         Server with the channel connected to the remote or local instance. The
@@ -85,7 +85,12 @@ class DataSources:
 
     """
 
-    def __init__(self, result_path=None, data_sources=None, server: Optional[type[server_types.BaseServer]] = None):
+    def __init__(
+        self,
+        result_path: Optional[str, os.PathLike] = None,
+        data_sources: Optional[dpf.DataSources, int, data_sources_pb2.DataSources] = None,
+        server: Optional[type[server_types.BaseServer]] = None,
+    ):
         """Initialize a connection with the server."""
         # step 1: get server
         self._server = server_module.get_or_create_server(
