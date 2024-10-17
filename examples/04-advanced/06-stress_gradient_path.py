@@ -41,10 +41,8 @@ A path is created of a defined length.
 import matplotlib.pyplot as plt
 
 from ansys.dpf import core as dpf
-from ansys.dpf.core import examples
-from ansys.dpf.core import operators as ops
+from ansys.dpf.core import examples, operators as ops
 from ansys.dpf.core.plotter import DpfPlotter
-
 
 ###############################################################################
 # Open an example and print out the ``Model`` object. The

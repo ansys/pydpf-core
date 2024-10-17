@@ -35,30 +35,30 @@ import pathlib
 import re
 import shutil
 import tempfile
+import traceback
 import warnings
 import zipfile
 
 import numpy
-import traceback
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import (
-    settings,
+    AvailableServerContexts,
+    collection,
+    dpf_operator,
+    operator_specification,
     server,
     server_factory,
-    operator_specification,
-    dpf_operator,
-    collection,
-    AvailableServerContexts,
+    settings,
 )
 from ansys.dpf.core._custom_operators_helpers import (
     __operator_main__,
-    functions_registry,
-    external_operator_api,
-    _type_to_output_method,
     _type_to_input_method,
+    _type_to_output_method,
+    external_operator_api,
+    functions_registry,
 )
-from ansys.dpf.gate import object_handler, capi, dpf_vector, integral_types
+from ansys.dpf.gate import capi, dpf_vector, integral_types, object_handler
 
 
 def update_virtual_environment_for_custom_operators(

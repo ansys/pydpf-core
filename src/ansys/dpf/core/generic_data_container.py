@@ -28,10 +28,11 @@ GenericDataContainer
 """
 
 from __future__ import annotations
-import traceback
-import warnings
+
 import builtins
-from typing import Union, TYPE_CHECKING
+import traceback
+from typing import TYPE_CHECKING, Union
+import warnings
 
 import numpy as np
 
@@ -39,15 +40,11 @@ from ansys.dpf.core.check_version import server_meet_version
 from ansys.dpf.gate import dpf_vector
 
 if TYPE_CHECKING:  # pragma: no cover
-    from ansys.dpf.core import Field, Scoping, StringField, GenericDataContainer
+    from ansys.dpf.core import Field, GenericDataContainer, Scoping, StringField
 
-from ansys.dpf.core.dpf_operator import _write_output_type_to_type
-
-
-from ansys.dpf.core import server as server_module
-from ansys.dpf.core import errors, types
+from ansys.dpf.core import collection_base, errors, server as server_module, types
 from ansys.dpf.core.any import Any
-from ansys.dpf.core import collection_base
+from ansys.dpf.core.dpf_operator import _write_output_type_to_type
 from ansys.dpf.core.mapping_types import map_types_to_python
 
 

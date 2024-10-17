@@ -57,9 +57,8 @@ For this example, the plug-in package contains two different operators:
 
 import os
 
-from ansys.dpf.core import examples
 from ansys.dpf import core as dpf
-
+from ansys.dpf.core import examples
 
 print("\033[1m average_filter_plugin")
 file_list = ["__init__.py", "operators.py", "operators_loader.py", "common.py"]

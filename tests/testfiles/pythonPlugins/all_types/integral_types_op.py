@@ -20,13 +20,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+from ansys.dpf.core import types
 from ansys.dpf.core.custom_operator import CustomOperatorBase
 from ansys.dpf.core.operator_specification import (
     CustomSpecification,
     PinSpecification,
     SpecificationProperties,
 )
-from ansys.dpf.core import types
 
 
 class ForwardIntOperator(CustomOperatorBase):

@@ -27,9 +27,9 @@ GenericSupport
 ==============
 """
 
-from ansys.dpf.gate import generic_support_capi, generic_support_grpcapi
+from ansys.dpf.core import errors, field, property_field, string_field
 from ansys.dpf.core.support import Support
-from ansys.dpf.core import field, property_field, string_field, errors
+from ansys.dpf.gate import generic_support_capi, generic_support_grpcapi
 
 
 class GenericSupport(Support):

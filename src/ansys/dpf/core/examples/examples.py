@@ -30,10 +30,8 @@ Examples result files.
 
 import os
 
-from ansys.dpf.core import server as server_module
+from ansys.dpf.core import DataSources, path_utilities, server as server_module
 from ansys.dpf.core.core import upload_file_in_tmp_folder
-from ansys.dpf.core import path_utilities
-from ansys.dpf.core import DataSources
 
 
 def get_example_required_minimum_dpf_version(file: os.PathLike) -> str:
