@@ -192,7 +192,7 @@ class TestServerConfigs:
     def test_launch_server_full_path(self, server_config):
         ansys_path = core.misc.get_ansys_path()
         if os.name == "nt":
-            path = os.path.join(ansys_path, "aisol", "bin", "winx64")
+            path = os.path.join(ansys_path, "dpf", "bin", "winx64")
         else:
             if server_config.protocol == core.server_factory.CommunicationProtocols.InProcess:
                 path = os.path.join(ansys_path, "aisol", "dll", "linx64")
