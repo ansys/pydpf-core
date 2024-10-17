@@ -146,7 +146,7 @@ jobs:
         shell: cmd /D /E:ON /V:OFF /C "CALL "{0}""
         working-directory: .ci
         run: |
-          build_doc.bat > ..\doc\log.txt && type ..\doc\log.txt 2>&1
+          build_doc.bat
         timeout-minutes: 60
         env:
           MEILISEARCH_PUBLIC_API_KEY: ${{ secrets.MEILISEARCH_PUBLIC_API_KEY }}
