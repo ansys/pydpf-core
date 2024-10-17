@@ -11,7 +11,7 @@ on:
       ANSYS_VERSION:
         required: false
         type: string
-        default: "251"
+        default: "252"
       wheel:
         required: false
         type: string
@@ -46,7 +46,7 @@ on:
         description: "ANSYS version"
         required: true
         type: string
-        default: "251"
+        default: "252"
       wheel:
         description: "Generate a wheel"
         required: false
