@@ -59,7 +59,7 @@ try:
     # Starting with DPF 2025.1.pre1
     cs = dpf.operators.result.coordinate_system()
     cs.inputs.data_sources.connect(model)
-except KeyError:
+except KeyError, ansys.dpf.gate.errors.DPFServerException:
     # For previous DPF versions
     cs = model.operator(r"mapdl::rst::CS")
 
