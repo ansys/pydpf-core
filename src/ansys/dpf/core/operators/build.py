@@ -182,11 +182,16 @@ def build_operators():
 
     succeeded = 0
     done = 0
+    hidden = 0
     for operator_name in available_operators:
         if succeeded == done + 100:
             done += 100
             print(f"{done} operators done...")
         specification = dpf.Operator.operator_specification(operator_name)
+
+        if specification.properties["exposure"] in ["hidden", "private"]:
+            hidden += 1
+            continue
 
         category = specification.properties.get("category", "")
         if not category:
@@ -233,8 +238,8 @@ def build_operators():
                     error_file.write(f"Class: {operator_str}")
                 print(error_message)
 
-    print(f"Generated {succeeded} out of {len(available_operators)}")
-    if succeeded == len(available_operators):
+    print(f"Generated {succeeded} out of {len(available_operators)} ({hidden} hidden)")
+    if succeeded == len(available_operators) - hidden:
         print("Success")
         exit(0)
     else:
