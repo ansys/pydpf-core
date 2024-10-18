@@ -216,7 +216,7 @@ def build_operators():
 
         # Write to operator file
         operator_file = os.path.join(category_path, scripting_name + ".py")
-        with open(operator_file, "w") as f:
+        with open(operator_file, "wb") as f:
             try:
                 operator_str = build_operator(
                     specification,
@@ -226,7 +226,7 @@ def build_operators():
                     category,
                 )
                 exec(operator_str, globals())
-                f.write(operator_str)
+                f.write(operator_str.encode())
                 succeeded += 1
             except SyntaxError as e:
                 error_message = (
