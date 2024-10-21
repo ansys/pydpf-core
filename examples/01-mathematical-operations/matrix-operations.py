@@ -64,8 +64,8 @@ my_stress = my_model.results.stress(mesh_scoping=my_nodes_scoping).eval()
 my_avg_stress = dpf.operators.averaging.to_elemental_fc(
     fields_container=my_stress, mesh=my_mesh
 ).eval()
-print(my_avg_stress, my_avg_stress[0])
-
+print(my_avg_stress)
+print(my_avg_stress[0])
 #########################################################
 # Separating tensor by component
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -74,10 +74,13 @@ print(my_avg_stress, my_avg_stress[0])
 # :func:'select_component()<ansys.dpf.core.fields_container.FieldsContainer.select_component>'.
 # Here, the stress tensor has 6 components per elementary data (symmetrical tensor XX,YY,ZZ,XY,YZ,XZ).
 
-for i in range(
-    0, 6
-):  # Separating the results in different fields containers for each stress tensor component
-    globals()[f"stress_{i + 1}"] = my_avg_stress.select_component(i)
+# Separating the results in different fields containers for each stress tensor component
+stress_1 = my_avg_stress.select_component(0)
+stress_2 = my_avg_stress.select_component(1)
+stress_3 = my_avg_stress.select_component(2)
+stress_4 = my_avg_stress.select_component(3)
+stress_5 = my_avg_stress.select_component(4)
+stress_6 = my_avg_stress.select_component(5)
 
 ################################################################################
 # Mathematical operation on each field
@@ -117,4 +120,5 @@ re_assemble = dpf.operators.utility.assemble_scalars_to_matrices_fc(
     xx=stress_1, yy=stress_2, zz=stress_3, xy=stress_4, yz=stress_5, xz=stress_6, symmetrical=True
 ).eval()
 
-print(re_assemble, re_assemble[0])
+print(re_assemble)
+print(re_assemble[0])
