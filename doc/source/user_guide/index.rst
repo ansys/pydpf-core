@@ -13,6 +13,8 @@ The goals of this section are to:
  - Describe the most-used DPF entities and how they can help you to access and modify solver data.
  - Provide simple how-tos for tackling the most common use cases.
 
+.. include::
+   concepts/index.rst
 
 .. include::
    main_entities.rst
@@ -23,6 +25,15 @@ The goals of this section are to:
 
 Troubleshooting
 ~~~~~~~~~~~~~~~
+
+.. toctree::
+   :max_depth: 2
+   :hidden:
+   :caption: Concepts
+
+   concepts/concepts.rst
+   concepts/waysofusing.rst
+   concepts/stepbystep.rst
 
 .. toctree::
    troubleshooting
