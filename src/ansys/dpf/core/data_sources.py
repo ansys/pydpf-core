@@ -221,7 +221,39 @@ class DataSources:
 
     @staticmethod
     def guess_second_key(filepath: str) -> str:
-        """For files with an h5 or cff extension, look for another extension."""
+        """For files with an h5 or cff extension, look for another extension.
+
+        Parameters
+        ----------
+        filepath
+            Path to the file.
+
+        Returns
+        -------
+        str
+            First extension key name
+
+        Examples
+        --------
+        Find the first extension key of a result file with multiple extensions keys
+
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>>
+        >>> # Download the result files
+        >>> paths = examples.download_fluent_axial_comp()
+        >>> # Create the DataSources object
+        >>> my_data_sources = dpf.DataSources()
+        >>> # Define the extension key for the file in the given path
+        >>> # We see that the paths are given in a dictionary.
+        >>> # So to choose the correct file you need to give as an argument:
+        >>> # - the list label
+        >>> # - the file index in that list
+        >>> my_file_key = my_data_sources.guess_second_key(filepath=paths["cas"][0])
+        >>> print(my_file_key)
+        cas
+
+        """
         accepted = ["cas", "dat"]
         without_ext = os.path.splitext(filepath)[0]
         new_split = os.path.splitext(without_ext)
