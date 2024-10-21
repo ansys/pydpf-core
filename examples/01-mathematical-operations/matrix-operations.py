@@ -84,6 +84,7 @@ for i in range(
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # Here we will do some basic mathematical operations on each stress field
+
 # Power
 # Raise each value of the field to power 2
 stress_1 = maths.pow_fc(fields_container=stress_1, factor=2.0).eval()
@@ -109,10 +110,11 @@ stress_6 = maths.invert_fc(fields_container=stress_6).eval()
 # Reassembling the stress tensor
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-# There are different methods to re-assemble the components
+# There are different methods to re-assemble the components, here we use the
+# operator :class:'assemble_scalars_to_matrices_fc <ansys.dpf.core.operators.utility.assemble_scalars_to_matrices_fc.assemble_scalars_to_matrices_fc>'
 
-# 1) With the operator :class:'assemble_scalars_to_matrices_fc <ansys.dpf.core.operators.utility.assemble_scalars_to_matrices_fc.assemble_scalars_to_matrices_fc>'
-assemble_1 = dpf.operators.utility.assemble_scalars_to_matrices_fc(
+re_assemble = dpf.operators.utility.assemble_scalars_to_matrices_fc(
     xx=stress_1, yy=stress_2, zz=stress_3, xy=stress_4, yz=stress_5, xz=stress_6, symmetrical=True
 ).eval()
-print(assemble_1, assemble_1[0])
+
+print(re_assemble, re_assemble[0])
