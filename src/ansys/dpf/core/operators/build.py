@@ -183,6 +183,7 @@ def build_operators():
     succeeded = 0
     done = 0
     hidden = 0
+    categories = set()
     for operator_name in available_operators:
         if succeeded == done + 100:
             done += 100
@@ -194,6 +195,7 @@ def build_operators():
             continue
 
         category = specification.properties.get("category", "")
+        categories.add(category)
         if not category:
             raise ValueError(f"Category not defined for operator {operator_name}.")
         scripting_name = specification.properties.get("scripting_name", "")
@@ -239,6 +241,21 @@ def build_operators():
                 print(error_message)
 
     print(f"Generated {succeeded} out of {len(available_operators)} ({hidden} hidden)")
+
+    # Create __init__.py files
+    print(f"Generating __init__.py files...")
+    with open(os.path.join(this_path, "__init__.py"), "wb") as main_init:
+        for category in sorted(categories):
+            # Add category to main init file imports
+            main_init.write(f"from . import {category}\n".encode())
+            # Create category init file
+            category_operators = os.listdir(os.path.join(this_path, category.split(".")[0]))
+            with open(os.path.join(this_path, category, "__init__.py"), "wb") as category_init:
+                for category_operator in category_operators:
+                    category_init.write(
+                        f"from .{category_operator} import {category_operator}\n".encode()
+                    )
+
     if succeeded == len(available_operators) - hidden:
         print("Success")
         exit(0)
