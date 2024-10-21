@@ -1,4 +1,5 @@
 from . import averaging
+from . import compression
 from . import filter
 from . import geo
 from . import invariant
@@ -11,4 +12,5 @@ from . import min_max
 from . import result
 from . import scoping
 from . import serialization
+from . import server
 from . import utility
