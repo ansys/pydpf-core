@@ -301,30 +301,44 @@ class DataSources:
         else:
             self._api.data_sources_set_domain_result_file_path_utf8(self, str(path), domain_id)
 
-    def add_file_path(self, filepath, key="", is_domain: bool = False, domain_id=0):
-        """Add a file path to the data sources.
+    def add_file_path(
+        self,
+        filepath: Union[str, os.PathLike],
+        key: Optional[str] = "",
+        is_domain: Optional[bool] = False,
+        domain_id: Optional[int] = 0,
+    ) -> None:
+        """Add an acccesory file path to the data sources.
 
         Files not added as result files are accessory files, which contain accessory
         information not present in the result files.
 
         Parameters
         ----------
-        filepath : str or os.PathLike object
+        filepath
             Path of the file.
-        key : str, optional
+        key
             Extension of the file, which is used as a key for choosing the correct
             plugin when a result is requested by an operator. The default is ``""``,
             in which case the key is found directly.
-        is_domain: bool, optional
+        is_domain
             Whether the file path is the domain path. The default is ``False``.
-        domain_id: int, optional
+        domain_id
             Domain ID for the distributed files. The default is ``0``. For this
             parameter to be taken into account, ``domain_path=True`` must be set.
+
         Examples
         --------
+        Add an accessory file to the DataSources object
+
         >>> from ansys.dpf import core as dpf
-        >>> data_sources = dpf.DataSources()
-        >>> data_sources.add_file_path('/tmp/ds.dat')
+        >>>
+        >>> # Create the DataSources object
+        >>> my_data_sources = dpf.DataSources()
+        >>> # Define the path where the main result file can be found
+        >>> my_data_sources.set_result_file_path(filepath='/tmp/file.cas', key='cas')
+        >>> # Add the additional result file to the DataSources object
+        >>> my_data_sources.add_file_path(filepath='/tmp/ds.dat', key='dat')
 
         """
         # The filename needs to be a fully qualified file name
@@ -344,8 +358,10 @@ class DataSources:
             else:
                 self._api.data_sources_add_file_path_with_key_utf8(self, str(filepath), key)
 
-    def add_domain_file_path(self, filepath, key, domain_id):
-        """Add a file path to the data sources.
+    def add_domain_file_path(
+        self, filepath: Union[str, os.PathLike], key: str, domain_id: int
+    ) -> None:
+        """Add a file path to the data sources in the given domain.
 
         Files not added as result files are accessory files, which contain accessory
         information not present in the result files.
@@ -361,9 +377,16 @@ class DataSources:
             Domain ID for the distributed files.
         Examples
         --------
+        Add an accessory file to its domain
+
         >>> from ansys.dpf import core as dpf
-        >>> data_sources = dpf.DataSources()
-        >>> data_sources.add_domain_file_path('/tmp/ds.dat', "dat", 1)
+        >>>
+        >>> # Create the DataSources object
+        >>> my_data_sources = dpf.DataSources()
+        >>> # Define the path where the main result data can be found and specify its domain
+        >>> my_data_sources.set_domain_result_file_path(path='/tmp/ds.cas', key='cas', domain_id=1)
+        >>> # Add the additional result data to the DataSources object and specify its domain
+        >>> my_data_sources.add_domain_file_path(filepath='/tmp/ds.dat', key="dat", domain_id=1)
 
         """
         # The filename needs to be a fully qualified file name
