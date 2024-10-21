@@ -5,16 +5,6 @@ Concepts
 
 This section provides in-depth descriptions and explanations of DPF concepts, including terminology.
 
-
-.. toctree::
-   :maxdepth: 2
-   :hidden:
-   :caption: Concepts
-
-   concepts/concepts.rst
-   concepts/waysofusing.rst
-   concepts/stepbystep.rst
-
 .. grid:: 1 1 3 3
     :gutter: 2
     :padding: 2

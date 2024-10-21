@@ -24,7 +24,70 @@ The goals of this section are to:
 
 
 Troubleshooting
-~~~~~~~~~~~~~~~
+---------------
+
+.. grid:: 1 1 2 2
+    :gutter: 2
+    :padding: 2
+    :margin: 2
+
+    .. grid-item-card:: Server issues
+       :link: user_guide_troubleshooting_server_issues
+       :link-type: ref
+       :text-align: center
+
+    .. grid-item-card:: Model issues
+       :link: user_guide_troubleshooting_model_issues
+       :link-type: ref
+       :text-align: center
+
+    .. grid-item-card::  Plotting issues
+       :link: user_guide_troubleshooting_plotting_issues
+       :link-type: ref
+       :text-align: center
+
+    .. grid-item-card::  Performance issues
+       :link: user_guide_troubleshooting_performance_issues
+       :link-type: ref
+       :text-align: center
+
 
 .. toctree::
-   troubleshooting
+   :maxdepth: 2
+   :hidden:
+   :caption: Concepts
+
+   concepts/concepts.rst
+   concepts/waysofusing.rst
+   concepts/stepbystep.rst
+
+
+.. toctree::
+    :maxdepth: 2
+    :hidden:
+    :caption: DPF most-used entities
+
+    model
+    operators
+    fields_container
+
+
+.. toctree::
+    :maxdepth: 2
+    :hidden:
+    :caption: How-tos
+
+    plotting.rst
+    custom_operators.rst
+    dpf_server.rst
+    server_types.rst
+    server_context.rst
+    xmlfiles.rst
+
+
+.. toctree::
+    :maxdepth: 3
+    :hidden:
+    :caption: Troubleshooting
+
+    troubleshooting
