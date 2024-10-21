@@ -25,6 +25,9 @@ class faces_area(Operator):
         the scoping needs to have "faces"
         location.
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

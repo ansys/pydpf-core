@@ -21,6 +21,9 @@ class mechanical_csv_to_field(Operator):
     data_sources : DataSources
     requested_location : str or FieldDefinition
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

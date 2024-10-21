@@ -20,6 +20,15 @@ class svd(Operator):
     fields_container : FieldsContainer
         Fields_container
 
+    Returns
+    -------
+    s_svd : FieldsContainer
+        Singular values of the input data, where
+        a=u.s.vt
+    u_svd : FieldsContainer
+        U of the input data, where a=u.s.vt
+    vt_svd : FieldsContainer
+        Vt of the input data, where a=u.s.vt
 
     Examples
     --------

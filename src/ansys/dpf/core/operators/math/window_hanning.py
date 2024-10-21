@@ -21,6 +21,9 @@ class window_hanning(Operator):
     ----------
     field : Field or FieldsContainer
 
+    Returns
+    -------
+    field : Field or FieldsContainer
 
     Examples
     --------

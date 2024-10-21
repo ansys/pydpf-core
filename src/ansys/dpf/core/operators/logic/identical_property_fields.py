@@ -19,6 +19,10 @@ class identical_property_fields(Operator):
     property_fieldA : MeshedRegion
     property_fieldB : MeshedRegion
 
+    Returns
+    -------
+    are_identical : bool
+    information : str
 
     Examples
     --------

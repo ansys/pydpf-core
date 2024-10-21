@@ -23,6 +23,9 @@ class set_property(Operator):
     property_value : str or int or float
         Property to set
 
+    Returns
+    -------
+    field : Field or FieldsContainer
 
     Examples
     --------

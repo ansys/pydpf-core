@@ -20,6 +20,10 @@ class cms_dst_table_provider(Operator):
         Data_sources (must contain at least one
         subfile).
 
+    Returns
+    -------
+    dst_table : PropertyField
+        Returns integer values of the dst table
 
     Examples
     --------

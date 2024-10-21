@@ -19,6 +19,9 @@ class segalman_von_mises_eqv_fc(Operator):
     ----------
     fields_container : FieldsContainer
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

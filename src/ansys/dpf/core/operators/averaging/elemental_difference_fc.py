@@ -38,6 +38,9 @@ class elemental_difference_fc(Operator):
         through the different shell layers if
         true (default is false).
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

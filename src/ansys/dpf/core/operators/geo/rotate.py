@@ -22,6 +22,9 @@ class rotate(Operator):
     field_rotation_matrix : Field
         3-3 rotation matrix
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

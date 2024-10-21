@@ -23,6 +23,9 @@ class von_mises_eqv(Operator):
         Poisson ratio to be used in equivalent strain
         calculation.
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

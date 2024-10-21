@@ -28,6 +28,12 @@ class remote_operator_instantiate(Operator):
     output_name : str
         Output's name of the workflow to return
 
+    Returns
+    -------
+    remote_workflow : Workflow
+        Remote workflow containing an image of the
+        remote workflow and the protocols
+        streams
 
     Examples
     --------

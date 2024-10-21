@@ -24,6 +24,10 @@ class nodal_to_global(Operator):
         file. those must be the rotations
         from nodal to global.
 
+    Returns
+    -------
+    field : Field
+        Rotated field
 
     Examples
     --------

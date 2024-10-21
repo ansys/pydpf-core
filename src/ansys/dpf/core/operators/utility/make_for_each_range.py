@@ -36,6 +36,9 @@ class make_for_each_range(Operator):
     valueC1 :
     valueC2 :
 
+    Returns
+    -------
+    output :
 
     Examples
     --------

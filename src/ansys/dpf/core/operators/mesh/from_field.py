@@ -18,6 +18,9 @@ class from_field(Operator):
     ----------
     field : Field
 
+    Returns
+    -------
+    mesh : MeshedRegion
 
     Examples
     --------

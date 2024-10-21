@@ -44,6 +44,9 @@ class merge_meshes(Operator):
         0: keep duplicate elements (default), 1:
         remove duplicate elements
 
+    Returns
+    -------
+    merges_mesh : MeshedRegion
 
     Examples
     --------

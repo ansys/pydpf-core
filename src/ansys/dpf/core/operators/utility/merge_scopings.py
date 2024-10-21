@@ -25,6 +25,9 @@ class merge_scopings(Operator):
         scopings to merge, or scopings from
         pin 0 to ...
 
+    Returns
+    -------
+    merged_scoping : Scoping
 
     Examples
     --------

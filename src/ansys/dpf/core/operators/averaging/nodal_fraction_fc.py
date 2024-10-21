@@ -34,6 +34,9 @@ class nodal_fraction_fc(Operator):
         fraction instead of
         elemental_nodal_to_nodal_fc.
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

@@ -20,6 +20,9 @@ class make_one_on_comp(Operator):
     fieldA : Field
     scalar_int : int
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

@@ -32,6 +32,11 @@ class included_fields(Operator):
         considered identical (v1-v2)/v2 <
         relativetol (default is 0.001).
 
+    Returns
+    -------
+    included : bool
+        Bool (true if belongs...)
+    message : str
 
     Examples
     --------

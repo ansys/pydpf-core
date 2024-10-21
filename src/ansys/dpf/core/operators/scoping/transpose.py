@@ -37,6 +37,11 @@ class transpose(Operator):
         transpose to nodal, and nodal
         scopings transpose to elemental.
 
+    Returns
+    -------
+    mesh_scoping : Scoping or ScopingsContainer
+        Scoping or scopings container (the input type
+        is the output type)
 
     Examples
     --------

@@ -21,6 +21,9 @@ class rotate_fc(Operator):
     coordinate_system : Field
         3-3 rotation matrix
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

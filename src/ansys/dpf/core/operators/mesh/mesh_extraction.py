@@ -22,6 +22,9 @@ class mesh_extraction(Operator):
     extension : int, optional
         Number of extension layer
 
+    Returns
+    -------
+    abstract_meshed_region : MeshedRegion
 
     Examples
     --------

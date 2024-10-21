@@ -34,6 +34,9 @@ class scale(Operator):
     algorithm : int, optional
         Default is 0 use mkl. if set to 1, don't
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------
