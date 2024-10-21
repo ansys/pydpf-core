@@ -90,7 +90,8 @@ extensions = [
 ]
 
 redirects = {
-     "user_guide/getting_started_with_dpf_server": "../getting_started/dpf_server.html"
+     "user_guide/getting_started_with_dpf_server": "../getting_started/dpf_server.html",
+     "concepts/index": "../user_guide/index.html#concepts"
 }
 
 typehints_defaults = "comma"
