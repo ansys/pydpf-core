@@ -252,8 +252,9 @@ def build_operators():
             category_operators = os.listdir(os.path.join(this_path, category.split(".")[0]))
             with open(os.path.join(this_path, category, "__init__.py"), "wb") as category_init:
                 for category_operator in category_operators:
+                    operator_name = category_operator.split(".")[0]
                     category_init.write(
-                        f"from .{category_operator} import {category_operator}\n".encode()
+                        f"from .{operator_name} import {operator_name}\n".encode()
                     )
 
     if succeeded == len(available_operators) - hidden:
