@@ -1,3 +1,25 @@
+# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """
 .. _ref_matrix-operations:
 
@@ -39,7 +61,9 @@ my_nodes_scoping = dpf.Scoping(ids=[38, 37, 36], location=dpf.locations.elementa
 my_stress = my_model.results.stress(mesh_scoping=my_nodes_scoping).eval()
 
 # We need to average the result from 'elemental_nodal' to an 'elemental' location to plot it.
-my_avg_stress = dpf.operators.averaging.to_elemental_fc(fields_container=my_stress, mesh=my_mesh).eval()
+my_avg_stress = dpf.operators.averaging.to_elemental_fc(
+    fields_container=my_stress, mesh=my_mesh
+).eval()
 print(my_avg_stress, my_avg_stress[0])
 
 #########################################################
@@ -50,14 +74,16 @@ print(my_avg_stress, my_avg_stress[0])
 # :func:'select_component()<ansys.dpf.core.fields_container.FieldsContainer.select_component>'.
 # Here, the stress tensor has 6 components per elementary data (symmetrical tensor XX,YY,ZZ,XY,YZ,XZ).
 
-for i in range(0, 6):  # Separating the results in different fields containers for each stress tensor component
-    globals()[f'stress_{i + 1}'] = my_avg_stress.select_component(i)
+for i in range(
+    0, 6
+):  # Separating the results in different fields containers for each stress tensor component
+    globals()[f"stress_{i + 1}"] = my_avg_stress.select_component(i)
 
 ################################################################################
 # Mathematical operation on each field
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-# Here we will do some basic mathematical operations on each stress field 
+# Here we will do some basic mathematical operations on each stress field
 # Power
 # Raise each value of the field to power 2
 stress_1 = maths.pow_fc(fields_container=stress_1, factor=2.0).eval()
@@ -86,8 +112,7 @@ stress_6 = maths.invert_fc(fields_container=stress_6).eval()
 # There are different methods to re-assemble the components
 
 # 1) With the operator :class:'assemble_scalars_to_matrices_fc <ansys.dpf.core.operators.utility.assemble_scalars_to_matrices_fc.assemble_scalars_to_matrices_fc>'
-assemble_1 = dpf.operators.utility.assemble_scalars_to_matrices_fc(xx=stress_1, yy=stress_2, zz=stress_3,
-                                                                   xy=stress_4, yz=stress_5, xz=stress_6,
-                                                                   symmetrical=True).eval()
+assemble_1 = dpf.operators.utility.assemble_scalars_to_matrices_fc(
+    xx=stress_1, yy=stress_2, zz=stress_3, xy=stress_4, yz=stress_5, xz=stress_6, symmetrical=True
+).eval()
 print(assemble_1, assemble_1[0])
-
