@@ -180,7 +180,37 @@ class DataSources:
 
     @staticmethod
     def guess_result_key(filepath: str) -> str:
-        """Guess result key for files without a file extension."""
+        """Guess result key for files without a file extension.
+
+        Parameters
+        ----------
+        filepath
+            Path to the file.
+
+        Returns
+        -------
+        str
+            Extension key name
+
+        Examples
+        --------
+        Gives the result key for the result file of the given path
+
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>>
+        >>> # Create the DataSources object
+        >>> my_data_sources = dpf.DataSources()
+        >>> # Download the result files
+        >>> path = examples.download_d3plot_beam()
+        >>> # Define the path where the main result file can be found
+        >>> my_data_sources.set_result_file_path(filepath=path[0])
+        >>> # Define the extension key for the file in the given path
+        >>> my_file_key = my_data_sources.guess_result_key(filepath=path[0])
+        >>> print(my_file_key)
+        d3plot
+
+        """
         result_keys = ["d3plot", "binout"]
         base_name = os.path.basename(filepath)
         # Handle files without extension
