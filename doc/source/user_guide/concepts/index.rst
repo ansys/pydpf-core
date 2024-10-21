@@ -1,44 +1,32 @@
 .. _ref_concepts:
 
-========
 Concepts
-========
+--------
 
 This section provides in-depth descriptions and explanations of DPF concepts, including terminology.
 
-DPF concepts
-~~~~~~~~~~~~
+.. grid:: 1 1 3 3
+    :gutter: 2
+    :padding: 2
+    :margin: 2
 
-.. toctree::
-   :hidden:
-
-   concepts.rst
-   waysofusing.rst
-   stepbystep.rst
-
-
-.. card-carousel:: 2
-
-    .. card:: Concepts and terminology
+    .. grid-item-card:: Concepts and terminology
        :link: user_guide_concepts
        :link-type: ref
-       :width: 25%
        :text-align: center
 
-       .. image:: ../images/drawings/book-logo.png
+       .. image:: ../../images/drawings/book-logo.png
 
-    .. card:: Ways of using DPF
+    .. grid-item-card:: Ways of using DPF
        :link: user_guide_waysofusing
        :link-type: ref
-       :width: 25%
        :text-align: center
 
-       .. image:: ../images/drawings/using-dpf.png
+       .. image:: ../../images/drawings/using-dpf.png
 
-    .. card:: Using DPF: Step by step
+    .. grid-item-card:: Using DPF: Step by step
        :link: user_guide_stepbystep
        :link-type: ref
-       :width: 25%
        :text-align: center
 
-       .. image:: ../images/drawings/checklist.png
+       .. image:: ../../images/drawings/checklist.png
