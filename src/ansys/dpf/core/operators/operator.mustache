@@ -34,6 +34,19 @@ class {{class_name}}(Operator):
     {{/document}}
     {{/input_pins}}
 
+    Returns
+    -------
+    {{#output_pins}}
+    {{#optional}}
+    {{name}} :{{#types_for_docstring}} {{types_for_docstring}},{{/types_for_docstring}} optional
+    {{/optional}}
+    {{^optional}}
+    {{name}} :{{#types_for_docstring}} {{types_for_docstring}}{{/types_for_docstring}}
+    {{/optional}}
+    {{#document}}
+        {{{document}}}
+    {{/document}}
+    {{/output_pins}}
 
     Examples
     --------
