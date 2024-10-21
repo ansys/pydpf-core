@@ -134,14 +134,16 @@ class DataSources:
         if result_path is not None:
             self.set_result_file_path(result_path)
 
-    def set_result_file_path(self, filepath, key=""):
-        """Add a result file path to the data sources.
+    def set_result_file_path(
+        self, filepath: Union[str, os.PathLike], key: Optional[str] = ""
+    ) -> None:
+        """et the main result file path to the data sources.
 
         Parameters
         ----------
-        filepath : str or os.PathLike object
+        filepath
             Path to the result file.
-        key : str, optional
+        key
             Extension of the file, which is used as a key for choosing the correct
             plugin when a result is requested by an operator. The default is ``""``,
             in which case the key is found directly.
@@ -151,9 +153,12 @@ class DataSources:
         Create a data source and set the result file path.
 
         >>> from ansys.dpf import core as dpf
-        >>> data_sources = dpf.DataSources()
-        >>> data_sources.set_result_file_path('/tmp/file.rst')
-        >>> data_sources.result_files
+        >>> # Create the DataSources object
+        >>> my_data_sources = dpf.DataSources()
+        >>> # Define the path where the main result file can be found
+        >>> my_data_sources.set_result_file_path(filepath='/tmp/file.rst', key='rst')
+        >>> # Get the path to the main result file
+        >>> my_data_sources.result_files
         ['/tmp/file.rst']
 
         """
