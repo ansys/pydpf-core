@@ -266,27 +266,32 @@ class DataSources:
 
     def set_domain_result_file_path(
         self, path: Union[str, os.PathLike], domain_id: int, key: Union[str, None] = None
-    ):
-        """Add a result file path by domain.
+    ) -> None:
+        """Set a result file path by domain.
 
         This method is used to handle files created by a
         distributed solve.
 
         Parameters
         ----------
-        path:
+        path
             Path to the file.
-        domain_id:
+        domain_id
             Domain ID for the distributed files.
-        key:
+        key
             Key to associate to the file.
 
         Examples
         --------
+        Set the main result file path to the data sources in their respective domains.
+
         >>> from ansys.dpf import core as dpf
-        >>> data_sources = dpf.DataSources()
-        >>> data_sources.set_domain_result_file_path('/tmp/file0.sub', 0)
-        >>> data_sources.set_domain_result_file_path('/tmp/file1.sub', 1)
+        >>>
+        >>> # Create the DataSources object
+        >>> my_data_sources = dpf.DataSources()
+        >>> # Define the path where the main result data can be found and specify its domain
+        >>> my_data_sources.set_domain_result_file_path(path='/tmp/file0.rst', key='rst', domain_id=0)
+        >>> my_data_sources.set_domain_result_file_path(path='/tmp/file1.rst', key='rst', domain_id=1)
 
         """
         if key:
