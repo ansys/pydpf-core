@@ -27,13 +27,4 @@ Troubleshooting
 ~~~~~~~~~~~~~~~
 
 .. toctree::
-   :max_depth: 2
-   :hidden:
-   :caption: Concepts
-
-   concepts/concepts.rst
-   concepts/waysofusing.rst
-   concepts/stepbystep.rst
-
-.. toctree::
    troubleshooting
