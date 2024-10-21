@@ -15,18 +15,18 @@ This section provides in-depth descriptions and explanations of DPF concepts, in
        :link-type: ref
        :text-align: center
 
-       .. image:: ../../images/drawings/book-logo.png
+       .. image:: ../images/drawings/book-logo.png
 
     .. grid-item-card:: Ways of using DPF
        :link: user_guide_waysofusing
        :link-type: ref
        :text-align: center
 
-       .. image:: ../../images/drawings/using-dpf.png
+       .. image:: ../images/drawings/using-dpf.png
 
     .. grid-item-card:: Using DPF: Step by step
        :link: user_guide_stepbystep
        :link-type: ref
        :text-align: center
 
-       .. image:: ../../images/drawings/checklist.png
+       .. image:: ../images/drawings/checklist.png
