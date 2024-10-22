@@ -69,8 +69,8 @@ Troubleshooting
     :hidden:
     :caption: Tutorials
 
-    tutorials/basic_tutorial.rst
-    tutorials/other_tutorials.rst
+    tutorials/basic_tutorial_index.rst
+    tutorials/other_tutorials_index.rst
 
 .. toctree::
     :maxdepth: 2
