@@ -635,9 +635,43 @@ class DataSources:
         This ``result_key`` to ``namespace`` mapping is used by source operators
         to find internal operators to call.
 
+
+        When using an operator that requires data from a ``DataSources`` object, DPF must find
+        a corresponding entry to this call in its code. This entry is given
+        by the namespace, the file extension, and the operator name: ``namespace::key::operator_name``.
+
+        For example, if the results file comes from a MAPDL solver and has an '.rst' extension
+        and you want to get the displacement results in this file, DPF code will get the
+        corresponding operator: ``mapdl::rst::displacement``.
+
+        So, if you have an extension that is not registered in DPF you have to define its namespace.
+        This function is mainly used when creating your own operators and plugins, or when you have
+        a file with an unknown namespace, but you know that it corresponds to a given solver.
+
+        Parameters
+        ----------
+        result_key
+            Extension of the file, which is used as a key for choosing the correct
+            plugin when a result is requested by an operator.
+        namespace
+            Namespace to associate the file extension to.
+
         Notes
         -----
         Available with server's version starting at 7.0.
+
+        Examples
+        --------
+
+        >>> from ansys.dpf import core as dpf
+        >>>
+        >>> # Create the main DataSources object
+        >>> my_data_sources = dpf.DataSources()
+        >>> # Define the path where the main result data can be found
+        >>> my_data_sources.set_result_file_path(filepath=r'file.extension', key='extension')
+        >>> # Define the namespace for the results in the given path
+        >>> my_data_sources.register_namespace(result_key='extension', namespace='namespace')
+
         """
         self._api.data_sources_register_namespace(self, result_key, namespace)
 
