@@ -14,13 +14,18 @@ the underlying concepts, providing detailed explanations at each stage, whereas 
     :padding: 2
     :margin: 2
 
-    .. grid-item-card:: Beginners guide
+    .. grid-item-card:: :fa:`person-running` Onboarding
        :link: user_guide_concepts
        :link-type: ref
        :text-align: center
 
+       New to PyDPF-Core? Check our beginner's tutorial. It offers an overview
+       of our basic key features and links to additional tutorials.
 
-    .. grid-item-card:: Fundamentals and usage
+    .. grid-item-card:: :fa:`book-open-reader` Fundamentals and usage
        :link: user_guide_waysofusing
        :link-type: ref
        :text-align: center
+
+       These tutorials provides detailed demonstrations on PyDPF-Core key features.
+
