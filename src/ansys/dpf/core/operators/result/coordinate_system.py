@@ -21,6 +21,12 @@ class coordinate_system(Operator):
     streams_container : StreamsContainer, optional
     data_sources : DataSources
 
+    Returns
+    -------
+    field : Field
+        The first 9 double are the rotation (3x3
+        matrix) and the last 3 is the
+        translation vector
 
     Examples
     --------

@@ -19,6 +19,9 @@ class nodal_from_mesh(Operator):
     ----------
     mesh : MeshedRegion
 
+    Returns
+    -------
+    mesh_scoping : Scoping
 
     Examples
     --------

@@ -36,6 +36,9 @@ class scalars_to_field(Operator):
     scoping : Scoping, optional
         Scoping.
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

@@ -29,6 +29,13 @@ class prep_sampling_fft(Operator):
         For number of sampling point (calculation
         with cutoff_frequency is ignored).
 
+    Returns
+    -------
+    time_tfs_sampled : TimeFreqSupport
+        Optimum sampled time domain timefreqsupport.
+    freq_tfs_fft : TimeFreqSupport
+        Frequency domain timefreqsupport expected in
+        output of fft.
 
     Examples
     --------

@@ -23,6 +23,15 @@ class zfp_decompress(Operator):
         zfp_compression operator to
         decompress
 
+    Returns
+    -------
+    dataOut : Field or FieldsContainer
+        The output entity is a field or a fields
+        container; it contains decompressed
+        data
+    decompress_speed : float
+        The output entity is a double, containing
+        decompression speed (mb/sec)
 
     Examples
     --------

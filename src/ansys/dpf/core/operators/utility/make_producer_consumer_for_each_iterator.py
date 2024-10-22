@@ -47,6 +47,10 @@ class make_producer_consumer_for_each_iterator(Operator):
     consumer_op11 : Operator
     consumer_op12 : Operator
 
+    Returns
+    -------
+    iterator :
+        To connect to producer_consumer_for_each
 
     Examples
     --------

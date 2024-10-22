@@ -23,6 +23,9 @@ class centroid_fc(Operator):
     step : int, optional
     time_freq_support : TimeFreqSupport, optional
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

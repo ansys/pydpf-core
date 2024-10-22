@@ -19,6 +19,9 @@ class recombine_harmonic_indeces_cyclic(Operator):
     ----------
     fields_container : FieldsContainer
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

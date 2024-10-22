@@ -23,6 +23,9 @@ class prepare_mapping_workflow(Operator):
         Radius size for the rbf filter
     influence_box : float, optional
 
+    Returns
+    -------
+    mapping_workflow : Workflow
 
     Examples
     --------

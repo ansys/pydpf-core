@@ -67,6 +67,9 @@ class normal_contact_moment(Operator):
         done and stages are merged (default
         is 1)
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

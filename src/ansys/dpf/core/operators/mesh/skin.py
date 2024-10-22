@@ -30,6 +30,28 @@ class skin(Operator):
         duplicated, one per each orientation,
         or (boolean = 0) remain unchanged.
 
+    Returns
+    -------
+    mesh : MeshedRegion
+        Skin meshed region with facets and
+        facets_to_ele property fields.
+    nodes_mesh_scoping : Scoping
+    map_new_elements_to_old :
+    property_field_new_elements_to_old : PropertyField
+        This property field provides, for each new
+        face element id (in the scoping), the
+        corresponding 3d volume element index
+        (in the data) it has been extracted
+        from. the 3d volume element id can be
+        found with the element scoping of the
+        input mesh.
+    facet_indices : PropertyField
+        This property field gives, for each new face
+        element id (in the scoping), the
+        corresponding face index on the
+        source 3d volume element. the 3d
+        volume element can be extracted from
+        the previous output.
 
     Examples
     --------

@@ -39,6 +39,9 @@ class merge_fields_containers(Operator):
         A vector of fields containers to merge or
         fields containers from pin 0 to ...
 
+    Returns
+    -------
+    merged_fields_container : FieldsContainer
 
     Examples
     --------

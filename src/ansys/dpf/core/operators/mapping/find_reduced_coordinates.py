@@ -33,6 +33,13 @@ class find_reduced_coordinates(Operator):
         quadratic (more precise but less
         performant). default is false.
 
+    Returns
+    -------
+    reduced_coordinates : FieldsContainer
+        Coordinates in the reference elements
+    element_ids : ScopingsContainer
+        Ids of the elements where each set of reduced
+        coordinates is found
 
     Examples
     --------
