@@ -472,19 +472,50 @@ class DataSources:
                 self, upstream_data_sources, result_key
             )
 
-    def add_upstream_for_domain(self, upstream_data_sources, domain_id):
-        """Add an upstream data sources for a given domain.
+    def add_upstream_for_domain(self, upstream_data_sources: DataSources, domain_id: int):
+        """Add an upstream data sources to the main DataSources object for a given domain.
 
         This is used to add a set of path creating an upstream for
         recursive workflows in a distributed solve.
 
         Parameters
         ----------
-        upstream_data_sources : DataSources
+        upstream_data_sources
             Set of paths creating an upstream for recursive workflows.
 
-        domain_id: int
+        domain_id
             Domain id for distributed files.
+
+        Examples
+        --------
+        Add an upstream data to the main DataSources object of an expansion distributed analysis
+
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>>
+        >>> # Download the result files
+        >>> paths = examples.find_distributed_msup_folder()
+        >>> # Create the main DataSources object
+        >>> my_data_sources = dpf.DataSources()
+        >>> # Define the path where the main result file can be found and specify its domain
+        >>> # We use a format string here because the function used to define the path gives the path to a folder
+        >>> my_data_sources.set_domain_result_file_path(path=rf"{paths}\file_load_1.rfrq", key='rfrq', domain_id=0)
+        >>> # Add the additional result file to the DataSources object and specify its domain
+        >>> my_data_sources.add_domain_file_path(filepath=rf"{paths}\file_load_2.rfrq", key='rfrq', domain_id=1)
+        >>>
+        >>> # Create the DataSources object for the first and second upstream files
+        >>> my_data_sources_upstream_g0 = dpf.DataSources()
+        >>> my_data_sources_upstream_g1 = dpf.DataSources()
+        >>> # Define the path where the main upstream files can be found
+        >>> my_data_sources_upstream_g0.set_result_file_path(filepath=rf"{paths}\file0.mode", key='mode')
+        >>> my_data_sources_upstream_g1.set_result_file_path(filepath=rf"{paths}\file1.mode", key='mode')
+        >>> # Add the additional upstream files to the upstream DataSources objectS
+        >>> my_data_sources_upstream_g0.add_file_path(filepath=rf"{paths}\file0.rst", key='rst')
+        >>> my_data_sources_upstream_g1.add_file_path(filepath=rf"{paths}\file1.rst", key='rst')
+        >>>
+        >>> # Add the upstream DataSources to the main DataSources object and specify its domain
+        >>> my_data_sources.add_upstream_for_domain(upstream_data_sources=my_data_sources_upstream_g0, domain_id=0)
+        >>> my_data_sources.add_upstream_for_domain(upstream_data_sources=my_data_sources_upstream_g1, domain_id=1)
 
         """
         self._api.data_sources_add_upstream_domain_data_sources(
