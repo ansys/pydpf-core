@@ -64,6 +64,12 @@ Troubleshooting
    concepts/waysofusing.rst
    concepts/stepbystep.rst
 
+.. toctree::
+    :maxdepth: 2
+    :hidden:
+    :caption: Tutorials
+
+    tutorials/basic_tutorial.rst
 
 .. toctree::
     :maxdepth: 2
