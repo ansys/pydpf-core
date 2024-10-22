@@ -23,9 +23,8 @@ the underlying concepts, providing detailed explanations at each stage, whereas 
        of our basic key features and links to additional tutorials.
 
     .. grid-item-card:: :fa:`book-open-reader` Fundamentals and usage
-       :link: user_guide_waysofusing
+       :link: ref_tutorials_others
        :link-type: ref
        :text-align: center
 
        These tutorials provides detailed demonstrations on PyDPF-Core key features.
-

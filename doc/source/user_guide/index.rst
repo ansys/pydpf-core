@@ -70,6 +70,7 @@ Troubleshooting
     :caption: Tutorials
 
     tutorials/basic_tutorial.rst
+    tutorials/other_tutorials.rst
 
 .. toctree::
     :maxdepth: 2
