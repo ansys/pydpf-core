@@ -397,7 +397,12 @@ class DataSources:
             self, str(filepath), key, domain_id
         )
 
-    def add_file_path_for_specified_result(self, filepath, key="", result_key=""):
+    def add_file_path_for_specified_result(
+        self,
+        filepath: Union[str, os.PathLike],
+        key: Optional[str] = "",
+        result_key: Optional[str] = "",
+    ):
         """Add a file path for a specified result file key to the data sources.
 
         This method can be used when results files with different keys (extensions) are
