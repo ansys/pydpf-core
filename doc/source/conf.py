@@ -87,6 +87,7 @@ extensions = [
     "sphinx_design",
     "sphinx_gallery.gen_gallery",
     'sphinx_reredirects',
+    "jupyter_sphinx",
 ]
 
 redirects = {

@@ -15,7 +15,7 @@ the underlying concepts, providing detailed explanations at each stage, whereas 
     :margin: 2
 
     .. grid-item-card:: :fa:`person-running` Onboarding
-       :link: user_guide_concepts
+       :link: ref_tutorials_basic
        :link-type: ref
        :text-align: center
 
