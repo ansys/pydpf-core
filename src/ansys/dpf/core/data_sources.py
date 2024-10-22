@@ -531,6 +531,19 @@ class DataSources:
         str
            Result key.
 
+        Examples
+        --------
+
+        >>> from ansys.dpf import core as dpf
+        >>>
+        >>> # Create the DataSources object
+        >>> my_data_sources = dpf.DataSources()
+        >>> # Define the path where the main result file can be found
+        >>> my_data_sources.set_result_file_path(filepath='/tmp/file.rst', key='rst')
+        >>> # Get the to the main result file
+        >>> my_data_sources.result_key
+        'rst'
+
         """
         return self._api.data_sources_get_result_key(self)
 
