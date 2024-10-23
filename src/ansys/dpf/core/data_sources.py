@@ -361,7 +361,7 @@ class DataSources:
     def add_domain_file_path(
         self, filepath: Union[str, os.PathLike], key: str, domain_id: int
     ) -> None:
-        """Add a file path to the data sources in the given domain.
+        """Add an accessory file path to the data sources in the given domain.
 
         Files not added as result files are accessory files, which contain accessory
         information not present in the result files.
