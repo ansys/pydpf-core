@@ -479,7 +479,7 @@ class DataSources:
                 self, upstream_data_sources, result_key
             )
 
-    def add_upstream_for_domain(self, upstream_data_sources: DataSources, domain_id: int):
+    def add_upstream_for_domain(self, upstream_data_sources: DataSources, domain_id: int) -> None:
         """Add an upstream data sources to the main DataSources object for a given domain.
 
         This is used to add a set of path creating an upstream for
