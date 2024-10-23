@@ -449,7 +449,7 @@ class DataSources:
 
         Examples
         --------
-        Add an upstream data to the main DataSources object of an expansion analysis
+        Add upstream data to the main DataSources object of an expansion analysis
 
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
