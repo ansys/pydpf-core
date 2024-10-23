@@ -267,7 +267,7 @@ class DataSources:
     def set_domain_result_file_path(
         self, path: Union[str, os.PathLike], domain_id: int, key: Union[str, None] = None
     ) -> None:
-        """Set a result file path by domain.
+        """Set a result file path for a specific domain.
 
         This method is used to handle files created by a
         distributed solve.
