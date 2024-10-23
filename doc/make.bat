@@ -9,11 +9,13 @@ if "%SPHINXBUILD%" == "" (
 )
 set SOURCEDIR=source
 set BUILDDIR=build
+set AUTOAPI_OUTDIR=source\api
 
 if "%1" == "" goto help
 if "%1" == "clean" goto clean
 
 %SPHINXBUILD% >NUL 2>NUL
+
 if errorlevel 9009 (
 	echo.
 	echo.The 'sphinx-build' command was not found. Make sure you have Sphinx
@@ -33,6 +35,9 @@ goto end
 echo.Cleaning files form previous build...
 IF EXIST "build" (
     rmdir "build" /s /q
+)
+IF EXIST "source\api" (
+    rmdir "source\api" /s /q
 )
 IF EXIST "source\images\auto-generated" (
     rmdir "source\images\auto-generated" /s /q
