@@ -119,3 +119,10 @@ To use PyDPF-Core, in the same Python environment, run this command:
    licensing
    dependencies
 
+.. toctree::
+    :maxdepth: 3
+    :hidden:
+    :caption: Contribute
+
+    ../contributing.rst
+
