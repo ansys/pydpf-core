@@ -46,7 +46,7 @@ from ansys.dpf.gate import (
 from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.core import errors
 
-if TYPE_CHECKING:
+if TYPE_CHECKING:  # pragma: no cover
     from ansys.dpf import core as dpf
     from ansys.dpf.core import server_types
     from ansys.grpc.dpf import data_sources_pb2
