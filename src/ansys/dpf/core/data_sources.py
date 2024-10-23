@@ -375,6 +375,7 @@ class DataSources:
             plugin when a result is requested by an operator.
         domain_id:
             Domain ID for the distributed files.
+
         Examples
         --------
         Add an accessory file to its domain
