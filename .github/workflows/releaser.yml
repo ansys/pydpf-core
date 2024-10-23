@@ -93,7 +93,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           doc-artifact-name: HTML-doc-ansys-dpf-core.zip
           decompress-artifact: true
-          
+
   update_ansys_lab_examples:
     uses: ./.github/workflows/ansys_lab.yml
     needs: get_latest_tag
