@@ -308,7 +308,7 @@ class DataSources:
         is_domain: Optional[bool] = False,
         domain_id: Optional[int] = 0,
     ) -> None:
-        """Add an acccesory file path to the data sources.
+        """Add an accessory file path to the data sources.
 
         Files not added as result files are accessory files, which contain accessory
         information not present in the result files.
