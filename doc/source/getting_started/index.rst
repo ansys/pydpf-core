@@ -111,18 +111,14 @@ To use PyDPF-Core, in the same Python environment, run this command:
 
 
 .. toctree::
+   :maxdepth: 2
    :hidden:
+   :caption: Introduction
 
    install
    dpf_server
    compatibility
    licensing
    dependencies
-
-.. toctree::
-    :maxdepth: 3
-    :hidden:
-    :caption: Contribute
-
-    ../contributing.rst
+   contributing
 
