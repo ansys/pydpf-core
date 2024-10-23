@@ -137,7 +137,7 @@ class DataSources:
     def set_result_file_path(
         self, filepath: Union[str, os.PathLike], key: Optional[str] = ""
     ) -> None:
-        """et the main result file path to the data sources.
+        """Set the main result file path to the data sources.
 
         Parameters
         ----------
