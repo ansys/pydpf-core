@@ -436,7 +436,7 @@ class DataSources:
     ) -> None:
         """Add upstream data sources to the main DataSources object.
 
-        This is used to add a set of path creating an upstream for
+        This is used to add a set of paths creating an upstream for
         recursive workflows.
 
         Parameters
