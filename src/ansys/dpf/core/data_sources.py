@@ -606,7 +606,7 @@ class DataSources:
         >>> my_data_sources_upstream.result_files
         ['/tmp/file.mode']
 
-        If you have a ``DataSources`` object with more than one domain, a empty list is returned.
+        If you have a ``DataSources`` object with more than one domain, an empty list is returned.
 
         >>> from ansys.dpf import core as dpf
         >>>
