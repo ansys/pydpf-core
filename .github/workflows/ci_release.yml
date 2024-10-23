@@ -43,7 +43,7 @@ jobs:
     name: "Style Check"
     runs-on: ubuntu-latest
     steps:
-      - uses: ansys/actions/code-style@v6
+      - uses: ansys/actions/code-style@v8
         with:
           use-python-cache: false
 

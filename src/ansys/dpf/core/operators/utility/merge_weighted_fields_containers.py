@@ -31,10 +31,12 @@ class merge_weighted_fields_containers(Operator):
     fields_containers2 : FieldsContainer
         A vector of fields containers to merge or
         fields containers from pin 0 to ...
-    weights1 : PropertyField
+    weights1 : Class Dataprocessing::Dpftypecollection&lt;Class
+        Dataprocessing::Cpropertyfield&gt;
         Weights to apply to each field from pin 1000
         to ...
-    weights2 : PropertyField
+    weights2 : Class Dataprocessing::Dpftypecollection&lt;Class
+        Dataprocessing::Cpropertyfield&gt;
         Weights to apply to each field from pin 1000
         to ...
 
@@ -57,9 +59,9 @@ class merge_weighted_fields_containers(Operator):
     >>> op.inputs.fields_containers1.connect(my_fields_containers1)
     >>> my_fields_containers2 = dpf.FieldsContainer()
     >>> op.inputs.fields_containers2.connect(my_fields_containers2)
-    >>> my_weights1 = dpf.PropertyField()
+    >>> my_weights1 = dpf.Class Dataprocessing::Dpftypecollection&lt;Class Dataprocessing::Cpropertyfield&gt;()
     >>> op.inputs.weights1.connect(my_weights1)
-    >>> my_weights2 = dpf.PropertyField()
+    >>> my_weights2 = dpf.Class Dataprocessing::Dpftypecollection&lt;Class Dataprocessing::Cpropertyfield&gt;()
     >>> op.inputs.weights2.connect(my_weights2)
 
     >>> # Instantiate operator and connect inputs in one line
@@ -157,14 +159,18 @@ class merge_weighted_fields_containers(Operator):
                 ),
                 1000: PinSpecification(
                     name="weights",
-                    type_names=["property_field"],
+                    type_names=[
+                        "class dataProcessing::DpfTypeCollection<class dataProcessing::CPropertyField>"
+                    ],
                     optional=False,
                     document="""Weights to apply to each field from pin 1000
         to ...""",
                 ),
                 1001: PinSpecification(
                     name="weights",
-                    type_names=["property_field"],
+                    type_names=[
+                        "class dataProcessing::DpfTypeCollection<class dataProcessing::CPropertyField>"
+                    ],
                     optional=False,
                     document="""Weights to apply to each field from pin 1000
         to ...""",
@@ -238,9 +244,9 @@ class InputsMergeWeightedFieldsContainers(_Inputs):
     >>> op.inputs.fields_containers1.connect(my_fields_containers1)
     >>> my_fields_containers2 = dpf.FieldsContainer()
     >>> op.inputs.fields_containers2.connect(my_fields_containers2)
-    >>> my_weights1 = dpf.PropertyField()
+    >>> my_weights1 = dpf.Class Dataprocessing::Dpftypecollection&lt;Class Dataprocessing::Cpropertyfield&gt;()
     >>> op.inputs.weights1.connect(my_weights1)
-    >>> my_weights2 = dpf.PropertyField()
+    >>> my_weights2 = dpf.Class Dataprocessing::Dpftypecollection&lt;Class Dataprocessing::Cpropertyfield&gt;()
     >>> op.inputs.weights2.connect(my_weights2)
     """
 
@@ -388,7 +394,8 @@ class InputsMergeWeightedFieldsContainers(_Inputs):
 
         Parameters
         ----------
-        my_weights1 : PropertyField
+        my_weights1 : Class Dataprocessing::Dpftypecollection&lt;Class
+        Dataprocessing::Cpropertyfield&gt;
 
         Examples
         --------
@@ -409,7 +416,8 @@ class InputsMergeWeightedFieldsContainers(_Inputs):
 
         Parameters
         ----------
-        my_weights2 : PropertyField
+        my_weights2 : Class Dataprocessing::Dpftypecollection&lt;Class
+        Dataprocessing::Cpropertyfield&gt;
 
         Examples
         --------

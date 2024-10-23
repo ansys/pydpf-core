@@ -115,7 +115,7 @@ jobs:
           echo "RERUNS=--reruns 2 --reruns-delay 1" >> $GITHUB_ENV
 
       - name: "Test API"
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@v3
         with:
           timeout_minutes: 10
           max_attempts: 2
@@ -124,7 +124,7 @@ jobs:
             pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results.xml tests/.
 
       - name: "Test API test_launcher"
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@v3
         with:
           timeout_minutes: 2
           max_attempts: 2
@@ -133,7 +133,7 @@ jobs:
             pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results2.xml test_launcher/.
 
       - name: "Test API test_server"
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@v3
         with:
           timeout_minutes: 5
           max_attempts: 2
@@ -142,7 +142,7 @@ jobs:
             pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results3.xml test_server/.
 
       - name: "Test API test_local_server"
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@v3
         with:
           timeout_minutes: 2
           max_attempts: 2
@@ -151,7 +151,7 @@ jobs:
             pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results4.xml test_local_server/.
 
       - name: "Test API test_multi_server"
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@v3
         with:
           timeout_minutes: 5
           max_attempts: 2
@@ -160,7 +160,7 @@ jobs:
             pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results5.xml test_multi_server/.
 
       - name: "Test API test_remote_workflow"
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@v3
         with:
           timeout_minutes: 2
           max_attempts: 3
@@ -169,7 +169,7 @@ jobs:
             pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results6.xml test_remote_workflow/.
 
       - name: "Test API test_remote_operator"
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@v3
         with:
           timeout_minutes: 2
           max_attempts: 2
@@ -178,7 +178,7 @@ jobs:
             pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results7.xml test_remote_operator/.
 
       - name: "Test API test_workflow"
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@v3
         with:
           timeout_minutes: 3
           max_attempts: 3
@@ -187,7 +187,7 @@ jobs:
             pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results8.xml test_workflow/.
 
       - name: "Test API test_service"
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@v3
         with:
           timeout_minutes: 3
           max_attempts: 2
@@ -196,7 +196,7 @@ jobs:
             pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results9.xml test_service/.
 
       - name: "Test Operators"
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@v3
         with:
           timeout_minutes: 3
           max_attempts: 2
@@ -221,4 +221,8 @@ jobs:
         timeout-minutes: 5
 
       - name: "Upload coverage to Codecov"
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }} # required
+          name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ inputs.ANSYS_VERSION }}_docker.xml
+          flags: docker,${{ inputs.ANSYS_VERSION }},${{ matrix.os }},${{ matrix.python-version }}

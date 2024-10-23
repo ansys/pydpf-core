@@ -51,7 +51,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
         - name: "Running documentation style checks"
-          uses: ansys/actions/doc-style@v7
+          uses: ansys/actions/doc-style@v8
           with:
             token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -120,7 +120,7 @@ jobs:
         uses: pyvista/setup-headless-display-action@v2
 
       - name: "Setup Graphviz"
-        uses: ts-graphviz/setup-graphviz@v1
+        uses: ts-graphviz/setup-graphviz@v2
 
       - name: "Install OS packages"
         run: |
