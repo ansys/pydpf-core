@@ -378,7 +378,7 @@ class DataSources:
 
         Examples
         --------
-        Add an accessory file to its domain
+        Add an accessory file for a specific domain
 
         >>> from ansys.dpf import core as dpf
         >>>
