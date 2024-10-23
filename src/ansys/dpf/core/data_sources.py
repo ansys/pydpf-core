@@ -205,7 +205,7 @@ class DataSources:
         >>> path = examples.download_d3plot_beam()
         >>> # Define the path where the main result file can be found
         >>> my_data_sources.set_result_file_path(filepath=path[0])
-        >>> # Define the extension key for the file in the given path
+        >>> # Detect the result key for the file in the given path
         >>> my_file_key = my_data_sources.guess_result_key(filepath=path[0])
         >>> print(my_file_key)
         d3plot
