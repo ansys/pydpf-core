@@ -28,8 +28,6 @@ concurrency:
 env:
   DOCUMENTATION_CNAME: 'dpf.docs.pyansys.com'
   MAIN_PYTHON_VERSION: '3.9'
-  MEILISEARCH_API_KEY: ${{ secrets.MEILISEARCH_API_KEY }}
-  MEILISEARCH_PUBLIC_API_KEY: ${{ secrets.MEILISEARCH_PUBLIC_API_KEY }}
 
 jobs:
   debug:
@@ -167,6 +165,8 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           doc-artifact-name: HTML-doc-ansys-dpf-core.zip
           decompress-artifact: true
+          bot-user: ${{ secrets.PYANSYS_CI_BOT_USERNAME }}
+          bot-email: ${{ secrets.PYANSYS_CI_BOT_EMAIL }}
 
   examples:
     if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
