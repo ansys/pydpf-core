@@ -403,7 +403,7 @@ class DataSources:
         filepath: Union[str, os.PathLike],
         key: Optional[str] = "",
         result_key: Optional[str] = "",
-    ):
+    ) -> None:
         """Add a file path for a specified result file key to the data sources.
 
         This method can be used when results files with different keys (extensions) are
