@@ -446,6 +446,7 @@ class DataSources:
 
         result_key
             Extension of the result file group with which this upstream belongs
+
         Examples
         --------
         Add an upstream data to the main DataSources object of an expansion analysis
