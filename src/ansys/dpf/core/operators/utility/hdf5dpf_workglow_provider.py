@@ -30,6 +30,9 @@ class hdf5dpf_workglow_provider(Operator):
         Name of the result that must be extracted
         from the hdf5dpf file
 
+    Returns
+    -------
+    field_or_fields_container : Workflow
 
     Examples
     --------

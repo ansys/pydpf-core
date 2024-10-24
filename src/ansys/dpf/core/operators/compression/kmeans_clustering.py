@@ -30,6 +30,12 @@ class kmeans_clustering(Operator):
         '0' for x-displacement, '1' for
         y-displacement,...
 
+    Returns
+    -------
+    scoping_clusters : ScopingsContainer
+        Scopings container with the space scoping
+        (entities' ids) corresponding to each
+        of k-clusters
 
     Examples
     --------

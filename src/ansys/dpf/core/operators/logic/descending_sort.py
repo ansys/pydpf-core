@@ -27,6 +27,9 @@ class descending_sort(Operator):
         If true, uses scoping to sort the field
         (default is false)
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

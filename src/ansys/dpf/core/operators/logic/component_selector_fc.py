@@ -22,6 +22,9 @@ class component_selector_fc(Operator):
         One or several component index that will be
         extracted from the initial field.
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

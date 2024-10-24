@@ -21,6 +21,9 @@ class ints_to_scoping(Operator):
         Int or vector of int
     location : str, optional
 
+    Returns
+    -------
+    scoping : Scoping
 
     Examples
     --------

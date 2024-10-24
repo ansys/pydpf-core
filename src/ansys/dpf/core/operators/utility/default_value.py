@@ -20,6 +20,9 @@ class default_value(Operator):
     forced_value : optional
     default_value :
 
+    Returns
+    -------
+    output :
 
     Examples
     --------

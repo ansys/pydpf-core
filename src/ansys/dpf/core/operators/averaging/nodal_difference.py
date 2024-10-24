@@ -26,6 +26,9 @@ class nodal_difference(Operator):
         Average only on these entities
     mesh : MeshedRegion, optional
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

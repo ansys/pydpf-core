@@ -18,6 +18,14 @@ class invariants(Operator):
     ----------
     field : Field
 
+    Returns
+    -------
+    field_int : Field
+        Stress intensity field
+    field_eqv : Field
+        Stress equivalent intensity
+    field_max_shear : Field
+        Max shear stress field
 
     Examples
     --------

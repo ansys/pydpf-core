@@ -51,6 +51,10 @@ class ds_get_attribute(Operator):
         'domain_file_path' and
         'domain_result_file_name'.
 
+    Returns
+    -------
+    property : str or int
+        Property value.
 
     Examples
     --------

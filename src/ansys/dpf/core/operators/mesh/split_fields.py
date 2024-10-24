@@ -22,6 +22,9 @@ class split_fields(Operator):
         Body meshes in the mesh controller cannot be
         mixed shell/solid
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

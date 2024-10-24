@@ -23,6 +23,9 @@ class merge_materials(Operator):
         A vector of materials to merge or materials
         from pin 0 to ...
 
+    Returns
+    -------
+    merged_materials : Materials
 
     Examples
     --------

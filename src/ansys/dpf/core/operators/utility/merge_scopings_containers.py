@@ -23,6 +23,9 @@ class merge_scopings_containers(Operator):
         A vector of scopings containers to merge or
         scopings containers from pin 0 to ...
 
+    Returns
+    -------
+    merged_scopings_container : ScopingsContainer
 
     Examples
     --------

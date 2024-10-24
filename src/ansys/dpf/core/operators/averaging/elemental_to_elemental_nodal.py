@@ -23,6 +23,9 @@ class elemental_to_elemental_nodal(Operator):
         Average only on these entities
     mesh : MeshedRegion, optional
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

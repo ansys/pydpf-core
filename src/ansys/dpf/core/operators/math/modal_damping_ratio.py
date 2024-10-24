@@ -28,6 +28,10 @@ class modal_damping_ratio(Operator):
     k_coefficient : float
         Global stiffness matrix multiplier
 
+    Returns
+    -------
+    field : Field
+        Field of modal damping ratio.
 
     Examples
     --------

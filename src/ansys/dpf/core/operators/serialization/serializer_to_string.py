@@ -23,6 +23,9 @@ class serializer_to_string(Operator):
     any_input2 : Any
         Any input
 
+    Returns
+    -------
+    serialized_string : str
 
     Examples
     --------

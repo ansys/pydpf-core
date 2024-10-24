@@ -44,6 +44,11 @@ class write_motion_dfmf_file(Operator):
         export occurs
     rstfile_path : str
 
+    Returns
+    -------
+    dfmf_data_source : DataSources
+        Data source containing the dfmf file
+        generated.
 
     Examples
     --------

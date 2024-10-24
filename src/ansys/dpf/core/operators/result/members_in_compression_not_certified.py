@@ -57,6 +57,18 @@ class members_in_compression_not_certified(Operator):
         define its fabrication type. true:
         rolled section, false: welded section
 
+    Returns
+    -------
+    buckling_resistance_compression_yy : FieldsContainer
+        Fields container of buckling resistance
+        factor on axis y-y in case of
+        compression. these factors should be
+        less than 1 and positive.
+    buckling_resistance_compression_zz : FieldsContainer
+        Fields container of buckling resistance
+        factor on axis z-z in case of
+        compression. these factors should be
+        less than 1 and positive.
 
     Examples
     --------

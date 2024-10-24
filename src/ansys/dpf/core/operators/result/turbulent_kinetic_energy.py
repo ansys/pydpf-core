@@ -69,6 +69,9 @@ class turbulent_kinetic_energy(Operator):
         combination of zone, phases or
         species ids
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

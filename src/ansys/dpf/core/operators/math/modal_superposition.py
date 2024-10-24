@@ -37,6 +37,9 @@ class modal_superposition(Operator):
         domain defined in the modal_basis
         fields container.
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

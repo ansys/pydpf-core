@@ -24,6 +24,9 @@ class rescope_fc(Operator):
         field are added with this default
         value.
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

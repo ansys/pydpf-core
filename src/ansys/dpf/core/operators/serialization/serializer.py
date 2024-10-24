@@ -22,6 +22,9 @@ class serializer(Operator):
     any_input2 : Any
         Any input
 
+    Returns
+    -------
+    file_path : str
 
     Examples
     --------

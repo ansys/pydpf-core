@@ -22,6 +22,9 @@ class from_mesh(Operator):
         scoping, possible locations are:
         nodal(default) or elemental
 
+    Returns
+    -------
+    scoping : Scoping
 
     Examples
     --------

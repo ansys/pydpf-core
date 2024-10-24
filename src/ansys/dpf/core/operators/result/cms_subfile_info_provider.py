@@ -23,6 +23,19 @@ class cms_subfile_info_provider(Operator):
         If this pin i set to true, data are return in
         a field.
 
+    Returns
+    -------
+    int32 : int
+        Returns integer values in the order : unit
+        system used, stiffness matrix present
+        key, damping matrix present key, mass
+        matrix present key, number of master
+        nodes, number of virtual nodes
+    field : PropertyField
+        Returns integer values in the order : number
+        of load vectors (nvects), number of
+        nodes (nnod), number of virtual nodes
+        (nvnodes), number of modes (nvmodes)
 
     Examples
     --------

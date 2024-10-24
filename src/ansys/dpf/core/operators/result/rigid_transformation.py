@@ -22,6 +22,9 @@ class rigid_transformation(Operator):
         If the stream is null, retrieves the file
         path from the data sources.
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

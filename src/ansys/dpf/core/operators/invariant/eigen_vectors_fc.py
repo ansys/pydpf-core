@@ -19,6 +19,9 @@ class eigen_vectors_fc(Operator):
     ----------
     fields_container : FieldsContainer or Field
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

@@ -18,6 +18,9 @@ class field(Operator):
     ----------
     input : Field
 
+    Returns
+    -------
+    incremented_result :
 
     Examples
     --------

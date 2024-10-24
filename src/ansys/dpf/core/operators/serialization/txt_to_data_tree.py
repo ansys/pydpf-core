@@ -18,6 +18,9 @@ class txt_to_data_tree(Operator):
     ----------
     string_or_path : str or DataSources
 
+    Returns
+    -------
+    data_tree : DataTree
 
     Examples
     --------

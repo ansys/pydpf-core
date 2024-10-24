@@ -47,6 +47,9 @@ class stress_eqv_as_mechanical_workflow(Operator):
         averaged across bodies if true or not
         if false (default).
 
+    Returns
+    -------
+    workflow : Workflow
 
     Examples
     --------

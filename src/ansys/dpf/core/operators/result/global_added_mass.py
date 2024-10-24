@@ -28,6 +28,9 @@ class global_added_mass(Operator):
         list of base unit strings (str) or
         unitsystem instance
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

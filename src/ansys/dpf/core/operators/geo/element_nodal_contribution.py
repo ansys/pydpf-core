@@ -30,6 +30,9 @@ class element_nodal_contribution(Operator):
         normalized with the element volume,
         area or length. default: true.
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

@@ -24,6 +24,9 @@ class component_transformer(Operator):
     default_value : float, optional
         Set a default value for components selected.
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

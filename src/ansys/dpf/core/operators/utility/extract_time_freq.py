@@ -23,6 +23,9 @@ class extract_time_freq(Operator):
         False for real only (default). true for
         complex output.
 
+    Returns
+    -------
+    field : Field or FieldsContainer
 
     Examples
     --------

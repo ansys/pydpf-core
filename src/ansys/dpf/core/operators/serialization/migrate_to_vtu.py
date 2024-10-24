@@ -45,6 +45,10 @@ class migrate_to_vtu(Operator):
         base64appended, base64inline, ascii,
         default is (rawbinarycompressed)
 
+    Returns
+    -------
+    path : DataSources
+        List of output vtu file path
 
     Examples
     --------

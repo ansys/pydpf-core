@@ -23,6 +23,9 @@ class phase_of_max(Operator):
     phase_increment : float
         Phase increment.
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

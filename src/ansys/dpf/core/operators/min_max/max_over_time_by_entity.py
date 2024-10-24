@@ -22,6 +22,9 @@ class max_over_time_by_entity(Operator):
     compute_amplitude : bool, optional
         Do calculate amplitude.
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

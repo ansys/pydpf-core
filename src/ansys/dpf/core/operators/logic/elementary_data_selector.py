@@ -29,6 +29,9 @@ class elementary_data_selector(Operator):
         For field with nature matrix, this is the
         column indices to extract.
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

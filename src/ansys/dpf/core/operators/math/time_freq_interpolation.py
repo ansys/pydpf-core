@@ -43,6 +43,9 @@ class time_freq_interpolation(Operator):
         existing ones.
     time_freq_support : TimeFreqSupport, optional
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

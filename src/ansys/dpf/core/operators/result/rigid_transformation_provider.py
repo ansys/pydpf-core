@@ -21,6 +21,9 @@ class rigid_transformation_provider(Operator):
     data_sources : DataSources
         Data source of dsub file.
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

@@ -20,6 +20,11 @@ class mesh_to_graphics_edges(Operator):
     include_mid_nodes : bool, optional
     mesh : MeshedRegion
 
+    Returns
+    -------
+    nodes : Field
+        Node coordinates
+    connectivity : PropertyField
 
     Examples
     --------

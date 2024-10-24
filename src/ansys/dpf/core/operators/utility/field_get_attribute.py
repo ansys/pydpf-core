@@ -23,6 +23,10 @@ class field_get_attribute(Operator):
         Accepted inputs are: 'time_freq_support' and
         'scoping'.
 
+    Returns
+    -------
+    property : TimeFreqSupport or Scoping
+        Property value.
 
     Examples
     --------

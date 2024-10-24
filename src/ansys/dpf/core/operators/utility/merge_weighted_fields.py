@@ -36,6 +36,9 @@ class merge_weighted_fields(Operator):
         Weights to apply to each field from pin 1000
         to ...
 
+    Returns
+    -------
+    merged_field : Field
 
     Examples
     --------

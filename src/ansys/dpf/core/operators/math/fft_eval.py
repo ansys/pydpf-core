@@ -22,6 +22,10 @@ class fft_eval(Operator):
         If specified only the results at these set
         ids are used
 
+    Returns
+    -------
+    field : Field
+    offset : Field
 
     Examples
     --------

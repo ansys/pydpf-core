@@ -19,6 +19,12 @@ class delegate_to_operator(Operator):
     ----------
     operator_name : str
 
+    Returns
+    -------
+    any1 : Any
+        Inputs
+    any2 : Any
+        Inputs
 
     Examples
     --------

@@ -66,6 +66,9 @@ class migrate_to_h5dpf(Operator):
         map a filtering workflow to a result
         name.
 
+    Returns
+    -------
+    migrated_file : DataSources
 
     Examples
     --------

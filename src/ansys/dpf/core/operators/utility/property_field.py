@@ -18,6 +18,9 @@ class property_field(Operator):
     ----------
     input : PropertyField
 
+    Returns
+    -------
+    incremented_result :
 
     Examples
     --------

@@ -27,6 +27,9 @@ class split_in_for_each_range(Operator):
     scoping : Scoping
     chunk_size : int
 
+    Returns
+    -------
+    output :
 
     Examples
     --------

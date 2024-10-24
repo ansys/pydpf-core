@@ -31,6 +31,10 @@ class cyclic_support_provider(Operator):
         multistage: use scopings container
         with 'stage' label.
 
+    Returns
+    -------
+    cyclic_support : CyclicSupport
+    sector_meshes : MeshesContainer
 
     Examples
     --------

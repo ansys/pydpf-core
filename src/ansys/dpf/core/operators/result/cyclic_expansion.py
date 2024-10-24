@@ -37,6 +37,10 @@ class cyclic_expansion(Operator):
     phi : float, optional
         Angle phi in degrees (default value 0.0)
 
+    Returns
+    -------
+    fields_container : FieldsContainer
+        Fieldscontainer filled in
 
     Examples
     --------

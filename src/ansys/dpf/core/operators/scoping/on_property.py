@@ -39,6 +39,10 @@ class on_property(Operator):
         nodes/faces in the scoping are
         included
 
+    Returns
+    -------
+    mesh_scoping : Scoping
+        Scoping
 
     Examples
     --------

@@ -26,6 +26,9 @@ class add_rigid_body_motion(Operator):
     mesh : MeshedRegion, optional
         Default is the mesh in the support
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

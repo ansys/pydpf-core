@@ -19,6 +19,9 @@ class combine_levelset(Operator):
     fieldA : Field
     fieldB : Field
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

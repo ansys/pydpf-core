@@ -44,6 +44,9 @@ class nodal_to_elemental_fc(Operator):
         one field all solids and shells (only
         on one layer).
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

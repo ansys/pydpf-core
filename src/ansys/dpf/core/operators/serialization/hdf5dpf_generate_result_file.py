@@ -73,6 +73,11 @@ class hdf5dpf_generate_result_file(Operator):
         be a result) and connected
         sequentially.
 
+    Returns
+    -------
+    data_sources : DataSources
+        Data_sources filed with the h5 generated file
+        path.
 
     Examples
     --------

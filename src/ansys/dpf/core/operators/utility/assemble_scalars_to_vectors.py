@@ -20,6 +20,9 @@ class assemble_scalars_to_vectors(Operator):
     y : Field, optional
     z : Field, optional
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

@@ -27,6 +27,8 @@ class html_doc(Operator):
         operator, 3 includes operator without
         specifications.
 
+    Returns
+    -------
 
     Examples
     --------

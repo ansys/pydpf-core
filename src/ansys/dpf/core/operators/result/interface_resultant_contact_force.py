@@ -32,6 +32,9 @@ class interface_resultant_contact_force(Operator):
         list of base unit strings (str) or
         unitsystem instance
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

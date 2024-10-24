@@ -21,6 +21,10 @@ class vtk_to_fields(Operator):
     streams : StreamsContainer, optional
     data_sources : DataSources
 
+    Returns
+    -------
+    fields_container : FieldsContainer
+        Fields_container
 
     Examples
     --------

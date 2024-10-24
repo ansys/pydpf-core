@@ -29,6 +29,9 @@ class field_low_pass(Operator):
         container is returned on output pin
         1.
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

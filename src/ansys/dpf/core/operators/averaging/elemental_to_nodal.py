@@ -40,6 +40,9 @@ class elemental_to_nodal(Operator):
         (default is chosen based on the type
         of mesh).
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

@@ -69,6 +69,9 @@ class surface_heat_rate(Operator):
         combination of zone, phases or
         species ids
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

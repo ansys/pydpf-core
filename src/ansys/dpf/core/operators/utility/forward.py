@@ -19,6 +19,10 @@ class forward(Operator):
     any : Any
         Any type of input
 
+    Returns
+    -------
+    any : Any
+        Same types as inputs
 
     Examples
     --------

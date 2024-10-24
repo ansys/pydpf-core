@@ -25,6 +25,9 @@ class rescope(Operator):
         field are added with this default
         value.
 
+    Returns
+    -------
+    fields : FieldsContainer or Field
 
     Examples
     --------

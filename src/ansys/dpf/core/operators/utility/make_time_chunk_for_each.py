@@ -47,6 +47,11 @@ class make_time_chunk_for_each(Operator):
     consumer_op11 : Operator
     consumer_op12 : Operator
 
+    Returns
+    -------
+    chunks :
+        To connect to "producer_consumer_for_each"
+        operator on pin 0
 
     Examples
     --------

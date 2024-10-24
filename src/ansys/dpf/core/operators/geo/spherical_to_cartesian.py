@@ -18,6 +18,9 @@ class spherical_to_cartesian(Operator):
     ----------
     field : Field or FieldsContainer
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

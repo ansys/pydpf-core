@@ -31,6 +31,9 @@ class merge_any(Operator):
         existing type specific merge
         operators.
 
+    Returns
+    -------
+    any : Any
 
     Examples
     --------

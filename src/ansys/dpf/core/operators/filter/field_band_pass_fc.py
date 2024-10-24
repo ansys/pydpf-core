@@ -28,6 +28,9 @@ class field_band_pass_fc(Operator):
         A maximum threshold scalar or a field
         containing one value is expected.
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

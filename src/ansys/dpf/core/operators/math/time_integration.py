@@ -27,6 +27,9 @@ class time_integration(Operator):
     integration_constant : float, optional
         Constant to be added to the integrated field
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

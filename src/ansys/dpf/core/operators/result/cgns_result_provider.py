@@ -41,6 +41,10 @@ class cgns_result_provider(Operator):
     region_scoping : Scoping or int, optional
         Optional zone name/id of the mesh.
 
+    Returns
+    -------
+    fields : FieldsContainer
+        Results
 
     Examples
     --------

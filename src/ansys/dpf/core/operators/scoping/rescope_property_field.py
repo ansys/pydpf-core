@@ -26,6 +26,9 @@ class rescope_property_field(Operator):
         property field are added with this
         default value.
 
+    Returns
+    -------
+    fields : PropertyFieldsContainer or PropertyField
 
     Examples
     --------

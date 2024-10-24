@@ -21,6 +21,9 @@ class change_location(Operator):
         New location of the output field ex 'nodal',
         'elementalnodal', 'elemental'...
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

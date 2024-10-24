@@ -39,6 +39,9 @@ class from_scoping(Operator):
         is false.
     mesh : MeshedRegion
 
+    Returns
+    -------
+    mesh : MeshedRegion
 
     Examples
     --------

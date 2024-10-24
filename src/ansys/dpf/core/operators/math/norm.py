@@ -24,6 +24,9 @@ class norm(Operator):
         Lp normalisation type, p = 1, 2, ...n -
         default lp=l2
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

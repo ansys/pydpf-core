@@ -22,6 +22,9 @@ class wireframe(Operator):
         Angle threshold in radian that will trigger
         an edge detection.
 
+    Returns
+    -------
+    wireframe : MeshedRegion
 
     Examples
     --------

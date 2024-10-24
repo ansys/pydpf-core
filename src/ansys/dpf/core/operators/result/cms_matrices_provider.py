@@ -24,6 +24,13 @@ class cms_matrices_provider(Operator):
         If this pin i set to true, data are return as
         matrix form.
 
+    Returns
+    -------
+    fields_container : FieldsContainer
+        Fields container containing in this order :
+        stiffness, damping, mass matrices,
+        and then load vector. but if pin 200
+        is set to true, it's in matrix form.
 
     Examples
     --------

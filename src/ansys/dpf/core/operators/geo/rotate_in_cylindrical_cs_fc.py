@@ -30,6 +30,9 @@ class rotate_in_cylindrical_cs_fc(Operator):
         Mesh support of the input fields_container,
         in case it does not have one defined.
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

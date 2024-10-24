@@ -36,6 +36,11 @@ class compute_stress_YZ(Operator):
         Field/or fields container containing only the
         elastic strain field (element nodal).
 
+    Returns
+    -------
+    fields_container : FieldsContainer
+        The computed result fields container
+        (elemental nodal).
 
     Examples
     --------

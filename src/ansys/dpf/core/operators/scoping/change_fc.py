@@ -20,6 +20,9 @@ class change_fc(Operator):
     field_or_fields_container : FieldsContainer or Field
     scopings_container : ScopingsContainer
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

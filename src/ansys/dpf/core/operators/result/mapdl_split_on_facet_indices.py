@@ -47,6 +47,10 @@ class mapdl_split_on_facet_indices(Operator):
     volume_mesh : MeshedRegion
         The solid support.
 
+    Returns
+    -------
+    fields_container : FieldsContainer
+        Output splitted fields containter
 
     Examples
     --------

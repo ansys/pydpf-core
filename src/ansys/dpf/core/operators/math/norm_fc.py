@@ -22,6 +22,9 @@ class norm_fc(Operator):
         Lp normalisation type, p = 1, 2, ...n -
         default lp=2
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

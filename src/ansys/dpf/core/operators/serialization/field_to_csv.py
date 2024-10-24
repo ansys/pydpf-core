@@ -28,6 +28,8 @@ class field_to_csv(Operator):
         the csv can not be read by "csv to
         field" operator anymore. default : 0.
 
+    Returns
+    -------
 
     Examples
     --------

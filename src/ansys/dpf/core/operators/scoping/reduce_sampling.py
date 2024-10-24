@@ -22,6 +22,9 @@ class reduce_sampling(Operator):
         (default is 2). must be integer value
         above 1.
 
+    Returns
+    -------
+    mesh_scoping : Scoping
 
     Examples
     --------

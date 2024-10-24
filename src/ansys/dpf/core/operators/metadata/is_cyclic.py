@@ -22,6 +22,11 @@ class is_cyclic(Operator):
         If the stream is null, retrieves the file
         path from the data sources.
 
+    Returns
+    -------
+    file_path : str
+        Returns 'single_stage' or 'multi_stage' or an
+        empty string for non cyclic model
 
     Examples
     --------

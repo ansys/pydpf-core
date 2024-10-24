@@ -48,6 +48,12 @@ class grpc_start_server(Operator):
         string with the path of the xml
         specifying the context.
 
+    Returns
+    -------
+    grpc_streams : StreamsContainer, optional
+        Dpf streams handling the server, if the
+        server is started in this thread,
+        then nothing is added in output
 
     Examples
     --------

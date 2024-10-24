@@ -49,6 +49,10 @@ class strain_eqv_as_mechanical(Operator):
         averaged across bodies if true or not
         if false (default).
 
+    Returns
+    -------
+    fields_container : FieldsContainer
+    meshes_container : MeshesContainer
 
     Examples
     --------

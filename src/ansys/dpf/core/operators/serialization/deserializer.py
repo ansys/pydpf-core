@@ -20,6 +20,14 @@ class deserializer(Operator):
     file_path : str
         File path
 
+    Returns
+    -------
+    any_output1 : Any
+        Number and types of outputs corresponding of
+        the inputs used in the serialization
+    any_output2 : Any
+        Number and types of outputs corresponding of
+        the inputs used in the serialization
 
     Examples
     --------

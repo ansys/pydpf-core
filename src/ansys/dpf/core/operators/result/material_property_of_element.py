@@ -20,6 +20,10 @@ class material_property_of_element(Operator):
     streams_container : StreamsContainer, optional
     data_sources : DataSources
 
+    Returns
+    -------
+    material_properties : Field
+        Material properties
 
     Examples
     --------

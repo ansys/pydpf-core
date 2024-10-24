@@ -33,6 +33,8 @@ class vtk_export(Operator):
     fields2 : FieldsContainer or Field
         Fields exported
 
+    Returns
+    -------
 
     Examples
     --------

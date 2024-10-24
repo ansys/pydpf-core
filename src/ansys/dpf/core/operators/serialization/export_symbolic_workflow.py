@@ -30,6 +30,9 @@ class export_symbolic_workflow(Operator):
         inputs and ouputs with their data.
         default is 7.
 
+    Returns
+    -------
+    data_sources : DataSources or str
 
     Examples
     --------

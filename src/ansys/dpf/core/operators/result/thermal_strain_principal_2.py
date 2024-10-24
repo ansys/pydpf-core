@@ -73,6 +73,9 @@ class thermal_strain_principal_2(Operator):
         Elemental nodal beam results are read if this
         pin is set to true (default is false)
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

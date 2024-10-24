@@ -23,6 +23,9 @@ class change_cs(Operator):
         3-3 rotation matrix + 3 translations (x, y,
         z)
 
+    Returns
+    -------
+    meshed_region : MeshedRegion or MeshesContainer
 
     Examples
     --------

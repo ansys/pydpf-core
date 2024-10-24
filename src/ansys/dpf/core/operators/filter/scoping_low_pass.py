@@ -29,6 +29,9 @@ class scoping_low_pass(Operator):
         container is returned on output pin
         1.
 
+    Returns
+    -------
+    scoping : Scoping
 
     Examples
     --------

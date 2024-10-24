@@ -27,6 +27,9 @@ class remove_unnecessary_labels(Operator):
         Label to be removed from the fields
         container.
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

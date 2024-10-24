@@ -19,6 +19,9 @@ class pow(Operator):
     field : Field
     factor : float
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

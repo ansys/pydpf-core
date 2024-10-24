@@ -22,6 +22,9 @@ class add_constant_fc(Operator):
     ponderation : float
         Double or vector of double
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

@@ -21,6 +21,8 @@ class python_generator(Operator):
     load_symbol : str, optional
     library_key : str, optional
 
+    Returns
+    -------
 
     Examples
     --------

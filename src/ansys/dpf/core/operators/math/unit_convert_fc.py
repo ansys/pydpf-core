@@ -21,6 +21,9 @@ class unit_convert_fc(Operator):
         Unit as a string, ex 'm' for meter, 'pa' for
         pascal,...
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

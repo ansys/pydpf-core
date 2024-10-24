@@ -19,6 +19,9 @@ class pow_fc(Operator):
     fields_container : FieldsContainer
     factor : float
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

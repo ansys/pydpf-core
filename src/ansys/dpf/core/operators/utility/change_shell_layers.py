@@ -39,6 +39,9 @@ class change_shell_layers(Operator):
         regarding the shell layer set in
         s_shell_layer pin (false by default).
 
+    Returns
+    -------
+    fields_container : FieldsContainer or Field
 
     Examples
     --------

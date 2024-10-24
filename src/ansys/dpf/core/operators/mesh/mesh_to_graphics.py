@@ -23,6 +23,13 @@ class mesh_to_graphics(Operator):
         node normals)
     mesh : MeshedRegion
 
+    Returns
+    -------
+    nodes : Field
+        Node coordinates
+    normals : Field
+        Node normals
+    connectivity : PropertyField
 
     Examples
     --------

@@ -18,6 +18,9 @@ class forward_fields_container(Operator):
     ----------
     fields : FieldsContainer or Field
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

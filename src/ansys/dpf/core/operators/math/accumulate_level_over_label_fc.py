@@ -26,6 +26,9 @@ class accumulate_level_over_label_fc(Operator):
         Label of the fields container where it should
         operate.
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

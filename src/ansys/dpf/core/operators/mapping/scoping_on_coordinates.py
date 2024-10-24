@@ -19,6 +19,9 @@ class scoping_on_coordinates(Operator):
     coordinates : Field
     mesh : MeshedRegion
 
+    Returns
+    -------
+    scoping : Scoping
 
     Examples
     --------

@@ -30,6 +30,17 @@ class run(Operator):
         server inside mapdl to interact with
         mapdl using dpf client api
 
+    Returns
+    -------
+    data_sources : DataSources
+        Returns the data source if the server_mode
+        pin is not set to yes
+    ip : str
+        Returns the ip if the server_mode pin is set
+        to yes
+    port : str
+        Returns a port when the server mode pin is
+        set to yes
 
     Examples
     --------

@@ -18,6 +18,9 @@ class streams_provider(Operator):
     ----------
     data_sources : DataSources
 
+    Returns
+    -------
+    streams_container : StreamsContainer
 
     Examples
     --------

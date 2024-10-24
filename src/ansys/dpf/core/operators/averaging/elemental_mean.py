@@ -29,6 +29,9 @@ class elemental_mean(Operator):
         correspond to the one of the fields
         containers.
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

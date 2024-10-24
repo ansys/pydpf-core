@@ -24,6 +24,9 @@ class sweeping_phase_fc(Operator):
         "rad". default: "rad".
     abs_value : bool
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

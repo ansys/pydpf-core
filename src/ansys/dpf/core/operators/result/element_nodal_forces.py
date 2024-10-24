@@ -102,6 +102,9 @@ class element_nodal_forces(Operator):
         and 2 for inertial terms). default is
         false.
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

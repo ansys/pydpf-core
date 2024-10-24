@@ -20,6 +20,10 @@ class total_mass(Operator):
         Data sources (must contain at least one mode
         file).
 
+    Returns
+    -------
+    mass : float
+        The unit should be grabbed from the rst file
 
     Examples
     --------

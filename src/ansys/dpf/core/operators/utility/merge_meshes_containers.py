@@ -23,6 +23,9 @@ class merge_meshes_containers(Operator):
         A vector of meshes containers to merge or
         meshes containers from pin 0 to ...
 
+    Returns
+    -------
+    merged_meshes_container : MeshesContainer
 
     Examples
     --------

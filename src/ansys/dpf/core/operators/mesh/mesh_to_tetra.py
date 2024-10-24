@@ -23,6 +23,14 @@ class mesh_to_tetra(Operator):
     mesh : MeshedRegion
         Mesh with arbitrary element types.
 
+    Returns
+    -------
+    mesh : MeshedRegion
+        Tetrahedralized mesh.
+    node_mapping : Scoping
+        Node mapping.
+    element_mapping : Scoping
+        Element mapping.
 
     Examples
     --------

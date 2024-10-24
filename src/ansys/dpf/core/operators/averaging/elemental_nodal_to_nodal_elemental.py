@@ -22,6 +22,9 @@ class elemental_nodal_to_nodal_elemental(Operator):
         is expected
     mesh_scoping : Scoping, optional
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

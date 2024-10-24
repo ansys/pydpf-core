@@ -23,6 +23,9 @@ class make_sphere_levelset(Operator):
     radius : float
         Sphere radius.
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

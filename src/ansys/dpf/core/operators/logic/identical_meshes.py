@@ -31,6 +31,9 @@ class identical_meshes(Operator):
         scopings...). default value is
         'false'.
 
+    Returns
+    -------
+    are_identical : bool
 
     Examples
     --------

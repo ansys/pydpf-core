@@ -50,6 +50,9 @@ class beam_rs_shear_stress(Operator):
         list of base unit strings (str) or
         unitsystem instance
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

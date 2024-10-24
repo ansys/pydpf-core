@@ -22,6 +22,9 @@ class add_constant(Operator):
     ponderation : float
         Double or vector of double
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

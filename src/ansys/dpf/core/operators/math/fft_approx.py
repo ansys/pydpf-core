@@ -43,6 +43,18 @@ class fft_approx(Operator):
     cutoff_fr : float or int, optional
         Cutoff frequency.
 
+    Returns
+    -------
+    fitted_entity_y : FieldsContainer
+        The fitted entity is fitted using fft along
+        the space scoping (node i: x=time,
+        y=data). fitted y is expected to be
+        close to the input data.
+    first_der_dy : FieldsContainer
+        The first derivative (dy) from the fitted y.
+    second_der_d2y : FieldsContainer
+        The second derivative (d2y) from the fitted
+        y.
 
     Examples
     --------

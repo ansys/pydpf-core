@@ -27,6 +27,9 @@ class nodal_extend_to_mid_nodes(Operator):
         (improves performances).
     mesh : MeshedRegion, optional
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

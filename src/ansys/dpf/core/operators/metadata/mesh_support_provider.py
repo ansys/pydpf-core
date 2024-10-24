@@ -22,6 +22,9 @@ class mesh_support_provider(Operator):
         If the stream is null, retrieves the file
         path from the data sources.
 
+    Returns
+    -------
+    abstract_field_support : AbstractFieldSupport
 
     Examples
     --------

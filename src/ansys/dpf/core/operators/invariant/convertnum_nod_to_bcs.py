@@ -21,6 +21,9 @@ class convertnum_nod_to_bcs(Operator):
     data_sources : DataSources
         Data_sources (must contain the full file).
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

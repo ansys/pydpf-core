@@ -25,6 +25,9 @@ class elements_volume(Operator):
         provided, the scoping needs to have
         "elemental" location.
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

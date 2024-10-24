@@ -19,6 +19,11 @@ class external_layer(Operator):
     ----------
     mesh : MeshedRegion
 
+    Returns
+    -------
+    mesh : MeshedRegion
+    nodes_mesh_scoping : Scoping
+    elements_mesh_scoping : Scoping
 
     Examples
     --------

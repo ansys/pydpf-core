@@ -21,6 +21,9 @@ class assemble_scalars_to_vectors_fc(Operator):
     y : FieldsContainer, optional
     z : FieldsContainer, optional
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

@@ -23,6 +23,9 @@ class merge_string_fields(Operator):
         Either a a vector of string fields to merge
         or string fields from pin 0 to ...
 
+    Returns
+    -------
+    string_field : StringField
 
     Examples
     --------

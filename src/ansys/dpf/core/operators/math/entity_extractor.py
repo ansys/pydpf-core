@@ -19,6 +19,9 @@ class entity_extractor(Operator):
     fieldA : Field
     scalar_int : int
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

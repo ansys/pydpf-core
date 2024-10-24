@@ -26,6 +26,9 @@ class rescope_custom_type_field(Operator):
         custom type field are added with this
         default value.
 
+    Returns
+    -------
+    fields : CustomTypeFieldsContainer or CustomTypeField
 
     Examples
     --------

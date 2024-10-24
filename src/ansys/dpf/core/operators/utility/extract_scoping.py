@@ -20,6 +20,9 @@ class extract_scoping(Operator):
     ----------
     field_or_fields_container : Field or FieldsContainer, optional
 
+    Returns
+    -------
+    mesh_scoping : Scoping or ScopingsContainer
 
     Examples
     --------

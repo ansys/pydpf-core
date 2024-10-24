@@ -20,6 +20,9 @@ class overlap_fields(Operator):
     base_field : Field, optional
     overlapping_field : Field, optional
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

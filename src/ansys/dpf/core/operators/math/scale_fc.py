@@ -34,6 +34,9 @@ class scale_fc(Operator):
     algorithm : int, optional
         Default is 0 use mkl. if set to 1, don't
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

@@ -39,6 +39,14 @@ class force_summation(Operator):
         Coordinate field of a point for moment
         summations. defaults to (0,0,0).
 
+    Returns
+    -------
+    force_accumulation : FieldsContainer
+    moment_accumulation : FieldsContainer
+    heat_accumulation : FieldsContainer
+    forces_on_nodes : FieldsContainer
+    moments_on_nodes : FieldsContainer
+    heats_on_nodes : FieldsContainer
 
     Examples
     --------

@@ -67,6 +67,9 @@ class joint_relative_angular_acceleration(Operator):
         done and stages are merged (default
         is 1)
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

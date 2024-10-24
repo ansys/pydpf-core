@@ -21,6 +21,9 @@ class enrich_materials(Operator):
     streams : StreamsContainer or FieldsContainer
     streams_mapping : PropertyFieldsContainer
 
+    Returns
+    -------
+    MaterialContainer : bool
 
     Examples
     --------

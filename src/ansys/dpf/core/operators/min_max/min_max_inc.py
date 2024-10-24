@@ -20,6 +20,12 @@ class min_max_inc(Operator):
     field : Field
     domain_id : int, optional
 
+    Returns
+    -------
+    field_min : Field
+    field_max : Field
+    domain_ids_min : Scoping
+    domain_ids_max : Scoping
 
     Examples
     --------

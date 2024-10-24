@@ -18,6 +18,9 @@ class sin(Operator):
     ----------
     field : Field
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

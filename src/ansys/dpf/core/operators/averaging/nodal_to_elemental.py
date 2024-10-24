@@ -25,6 +25,9 @@ class nodal_to_elemental(Operator):
         If true, shell layers are averaged as well
         (default is false).
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

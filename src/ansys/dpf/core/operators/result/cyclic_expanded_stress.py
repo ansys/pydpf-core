@@ -53,6 +53,11 @@ class cyclic_expanded_stress(Operator):
     phi : float, optional
         Phi angle (default value 0.0)
 
+    Returns
+    -------
+    fields_container : FieldsContainer
+        Fieldscontainer filled in
+    expanded_meshes : MeshesContainer
 
     Examples
     --------

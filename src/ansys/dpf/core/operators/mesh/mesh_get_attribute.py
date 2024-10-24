@@ -37,6 +37,23 @@ class mesh_get_attribute(Operator):
         number or by name, example: a named
         selection's name.
 
+    Returns
+    -------
+    property : Scoping or Field or PropertyField or int or StringField
+        Returns a property field for properties:
+        "connectivity",
+        "reverse_connectivity", "mat",
+        "faces_nodes_connectivity",
+        "elements_faces_connectivity" (or any
+        mesh's property field), a field for
+        property: "coordinates", a scoping
+        for properties:"named_selection",
+        "node_scoping", "element_scoping",
+        ace_scoping", a string field for
+        properties: "named_selection_names",
+        "named_selection_locations" and an
+        int for property:
+        "num_named_selections".
 
     Examples
     --------

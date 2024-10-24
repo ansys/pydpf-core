@@ -24,6 +24,9 @@ class component_selector(Operator):
         Set a default value for components that do
         not exist.
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

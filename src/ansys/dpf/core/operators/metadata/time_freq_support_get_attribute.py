@@ -34,6 +34,14 @@ class time_freq_support_get_attribute(Operator):
         (if none, last substep is
         considered).
 
+    Returns
+    -------
+    property : float or Field or Scoping
+        Returns a double for property:
+        "frequency_tolerance", a single-value
+        scoping for properties for "set_id"
+        and "cummulative_index", and a field
+        otherwise.
 
     Examples
     --------

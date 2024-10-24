@@ -21,6 +21,9 @@ class window_hamming(Operator):
     ----------
     field : Field or FieldsContainer
 
+    Returns
+    -------
+    field : Field or FieldsContainer
 
     Examples
     --------

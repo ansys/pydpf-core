@@ -21,6 +21,9 @@ class prns_to_field(Operator):
     columns_to_read : int, optional
         Columns_to_read
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

@@ -22,6 +22,9 @@ class extend_to_mid_nodes(Operator):
         is expected
     mesh : MeshedRegion, optional
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

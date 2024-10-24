@@ -21,6 +21,9 @@ class to_elemental_nodal_fc(Operator):
     mesh_scoping : Scoping, optional
     mesh : MeshedRegion, optional
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

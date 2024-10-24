@@ -31,6 +31,10 @@ class extract_sub_sc(Operator):
         container, otherwise, label space is
         kept.
 
+    Returns
+    -------
+    scopings_container : ScopingsContainer
+        Scopings_container
 
     Examples
     --------

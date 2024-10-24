@@ -28,6 +28,9 @@ class to_polar_coordinates(Operator):
         rotation axis is the z axis and the
         origin is [0,0,0].
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

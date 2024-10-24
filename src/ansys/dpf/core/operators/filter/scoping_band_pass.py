@@ -28,6 +28,9 @@ class scoping_band_pass(Operator):
         A maximum threshold scalar or a field
         containing one value is expected.
 
+    Returns
+    -------
+    scoping : Scoping
 
     Examples
     --------

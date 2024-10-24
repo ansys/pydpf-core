@@ -45,6 +45,11 @@ class cyclic_kinetic_energy(Operator):
         Mesh expanded.
     cyclic_support : CyclicSupport, optional
 
+    Returns
+    -------
+    fields_container : FieldsContainer
+        Fieldscontainer filled in
+    expanded_meshes : MeshesContainer
 
     Examples
     --------

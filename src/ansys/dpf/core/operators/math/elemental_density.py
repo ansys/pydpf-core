@@ -27,6 +27,9 @@ class elemental_density(Operator):
         Take custom ponderation_field from the topo
         file by name
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

@@ -67,6 +67,9 @@ class reaction_force_Y(Operator):
         done and stages are merged (default
         is 1)
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

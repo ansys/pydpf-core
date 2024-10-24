@@ -23,6 +23,9 @@ class merge_collections(Operator):
         A vector of collections to merge or
         collections from pin 0 to ...
 
+    Returns
+    -------
+    merged_collections : AnyCollection
 
     Examples
     --------

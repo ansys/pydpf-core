@@ -23,6 +23,14 @@ class split_data_sources(Operator):
     output_count : int
         Number of desired outputs.
 
+    Returns
+    -------
+    output_count : int
+        Actual number of outputs.
+    outputs1 : DataSources
+        Data sources outputs.
+    outputs2 : DataSources
+        Data sources outputs.
 
     Examples
     --------
