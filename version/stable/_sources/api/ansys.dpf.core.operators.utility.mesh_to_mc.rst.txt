@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.utility.mesh_to_mc
+   :inherited-members:

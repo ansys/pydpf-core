@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.utility.Workflow_to_PyDPF_Generator
+   :inherited-members:
