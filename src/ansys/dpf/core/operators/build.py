@@ -183,6 +183,14 @@ def build_operators():
     succeeded = 0
     done = 0
     hidden = 0
+    # List of hidden operators to still expose for retro-compatibility
+    # until they are fully deprecated
+    hidden_to_expose = [  # Use internal names
+        "rescope_fc",  # Switch to "change_fc" once server is updated
+        "dot", "dot_tensor",
+        "scale_by_field", "scale_by_field_fc",
+        "invert", "invert_fc",
+    ]
     categories = set()
     for operator_name in available_operators:
         if succeeded == done + 100:
@@ -190,7 +198,9 @@ def build_operators():
             print(f"{done} operators done...")
         specification = dpf.Operator.operator_specification(operator_name)
 
-        if specification.properties["exposure"] in ["hidden", "private"]:
+        if (specification.properties["exposure"] in ["hidden", "private"]
+                and
+                operator_name not in hidden_to_expose):
             hidden += 1
             continue
 
