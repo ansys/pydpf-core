@@ -19,8 +19,10 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
+import warnings
 
 import numpy as np
+import pyvista
 import pyvista as pv
 from typing import Union
 from vtk import (
@@ -362,6 +364,7 @@ def dpf_mesh_to_vtk(
     mesh: dpf.MeshedRegion,
     nodes: Union[dpf.Field, None] = None,
     as_linear: bool = True,
+    check_validity: bool = False,
 ) -> pv.UnstructuredGrid:
     """Return a pyvista UnstructuredGrid given a pydpf MeshedRegion.
 
@@ -376,8 +379,8 @@ def dpf_mesh_to_vtk(
     as_linear:
         Export quadratic surface elements as linear.
 
-    export_faces:
-        Whether to export face elements along with volume elements for fluid meshes.
+    check_validity:
+        Whether to run the VTK cell validity check on the generated mesh and warn if not valid.
 
     Returns
     -------
@@ -385,9 +388,106 @@ def dpf_mesh_to_vtk(
         UnstructuredGrid corresponding to the DPF mesh.
     """
     try:
-        return dpf_mesh_to_vtk_op(mesh, nodes, as_linear)
+        grid = dpf_mesh_to_vtk_op(mesh, nodes, as_linear)
     except (AttributeError, KeyError, errors.DPFServerException):
-        return dpf_mesh_to_vtk_py(mesh, nodes, as_linear)
+        grid = dpf_mesh_to_vtk_py(mesh, nodes, as_linear)
+    if check_validity:
+        valid, msg = vtk_mesh_is_valid(grid)
+        if not valid:
+            warnings.warn(f"\nVTK mesh validity check\n{msg}")
+    return grid
+
+
+def vtk_mesh_is_valid(grid: pv.UnstructuredGrid, verbose: bool = False) -> (bool, str):
+    """Runs a vtk.CellValidator filter on the input grid.
+
+    Parameters
+    ----------
+    grid:
+        A vtk mesh to validate.
+    verbose:
+        Whether to print the complete validation.
+
+    Returns
+    -------
+    valid:
+        Whether the vtk mesh is valid according to the vtkCellValidator.
+    message:
+        Output message.
+
+    """
+    from enum import Enum
+
+    from vtkmodules.vtkFiltersGeneral import vtkCellValidator
+    from vtkmodules.util.numpy_support import vtk_to_numpy
+
+    # Prepare the Enum of possible validity states
+    class State(Enum):
+        Valid = 0
+        WrongNumberOfPoints = (1,)
+        IntersectingEdges = (2,)
+        IntersectingFaces = (4,)
+        NoncontiguousEdges = (8,)
+        Nonconvex = (16,)
+        FacesAreOrientedIncorrectly = (32,)
+
+    # Run the cell validator
+    cell_validator = vtkCellValidator()
+    cell_validator.SetInputData(grid)
+    cell_validator.Update()
+    # Get the states for all cells as a numpy array
+    cell_states = vtk_to_numpy(
+        cell_validator.GetUnstructuredGridOutput().GetCellData().GetArray("ValidityState")
+    )
+    # Check for invalid states
+    elem_with_wrong_number_of_nodes = np.where(cell_states == State.WrongNumberOfPoints.value)[0]
+    elem_with_intersecting_edges = np.where(cell_states == State.IntersectingEdges.value)[0]
+    elem_with_intersecting_faces = np.where(cell_states == State.IntersectingFaces.value)[0]
+    elem_with_noncontiguous_edges = np.where(cell_states == State.NoncontiguousEdges.value)[0]
+    elem_with_nonconvex_shape = np.where(cell_states == State.Nonconvex.value)[0]
+    elem_with_badly_oriented_faces = np.where(
+        cell_states == State.FacesAreOrientedIncorrectly.value
+    )[0]
+    # Build list of number of elements failing each test
+    failing_elements_number = [
+        len(elem_with_wrong_number_of_nodes),
+        len(elem_with_intersecting_edges),
+        len(elem_with_intersecting_faces),
+        len(elem_with_noncontiguous_edges),
+        len(elem_with_nonconvex_shape),
+        len(elem_with_badly_oriented_faces),
+    ]
+    # Define whether mesh is valid
+    mesh_is_valid = np.sum(failing_elements_number) == 0
+    # Build output message
+    out_msg = ""
+    if mesh_is_valid:
+        out_msg += "Mesh is valid."
+    else:
+        out_msg += "Mesh is invalid because of (by index):\n"
+        if failing_elements_number[0] > 0:
+            out_msg += (
+                f"  - {failing_elements_number[0]} elements with the wrong number of points:\n"
+            )
+            out_msg += f"      {elem_with_wrong_number_of_nodes}\n"
+        if failing_elements_number[1] > 0:
+            out_msg += f"  - {failing_elements_number[1]} elements with intersecting edges:\n"
+            out_msg += f"      {elem_with_intersecting_edges}\n"
+        if failing_elements_number[2] > 0:
+            out_msg += f"  - {failing_elements_number[2]} elements with intersecting faces:\n"
+            out_msg += f"      {elem_with_intersecting_faces}\n"
+        if failing_elements_number[3] > 0:
+            out_msg += f"  - {failing_elements_number[3]} elements with non contiguous edges:\n"
+            out_msg += f"      {elem_with_noncontiguous_edges}\n"
+        if failing_elements_number[4] > 0:
+            out_msg += f"  - {failing_elements_number[4]} elements with non convex shape:\n"
+            out_msg += f"      {elem_with_nonconvex_shape}\n"
+        if failing_elements_number[5] > 0:
+            out_msg += f"  - {failing_elements_number[5]} elements with bad face orientations:\n"
+            out_msg += f"      {elem_with_badly_oriented_faces}\n"
+    if verbose:
+        print(out_msg)
+    return mesh_is_valid, out_msg
 
 
 def vtk_update_coordinates(vtk_grid, coordinates_array):
