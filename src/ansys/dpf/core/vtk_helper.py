@@ -443,12 +443,18 @@ def vtk_mesh_is_valid(
     validity_grid = cell_validator.GetUnstructuredGridOutput()
     cell_states = vtk_to_numpy(validity_grid.GetCellData().GetArray("ValidityState"))
     # Check for invalid states
-    elem_with_wrong_number_of_nodes = np.where(cell_states & State.WrongNumberOfPoints.value)[0]
-    elem_with_intersecting_edges = np.where(cell_states & State.IntersectingEdges.value)[0]
-    elem_with_intersecting_faces = np.where(cell_states & State.IntersectingFaces.value)[0]
-    elem_with_noncontiguous_edges = np.where(cell_states & State.NoncontiguousEdges.value)[0]
-    elem_with_nonconvex_shape = np.where(cell_states & State.Nonconvex.value)[0]
-    elem_with_badly_oriented_faces = np.where(cell_states & State.FacesAreOrientedIncorrectly.value)[0]
+    elem_with_wrong_number_of_nodes = np.where(
+        cell_states & State.WrongNumberOfPoints.value)[0]
+    elem_with_intersecting_edges = np.where(
+        cell_states & State.IntersectingEdges.value)[0]
+    elem_with_intersecting_faces = np.where(
+        cell_states & State.IntersectingFaces.value)[0]
+    elem_with_noncontiguous_edges = np.where(
+        cell_states & State.NoncontiguousEdges.value)[0]
+    elem_with_nonconvex_shape = np.where(
+        cell_states & State.Nonconvex.value)[0]
+    elem_with_badly_oriented_faces = np.where(
+        cell_states & State.FacesAreOrientedIncorrectly.value)[0]
 
     # Build list of number of elements failing each test
     failing_elements_number = [
