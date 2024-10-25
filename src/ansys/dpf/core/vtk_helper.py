@@ -490,7 +490,9 @@ def vtk_mesh_is_valid(
             out_msg += f"      {elem_with_badly_oriented_faces}\n"
     if verbose:
         print(out_msg)
-    return mesh_is_valid, out_msg, pv.UnstructuredGrid(validity_grid)
+    validity_grid = pv.UnstructuredGrid(validity_grid)
+    validity_grid.set_active_scalars("ValidityState")
+    return mesh_is_valid, out_msg, validity_grid
 
 
 def vtk_update_coordinates(vtk_grid, coordinates_array):
