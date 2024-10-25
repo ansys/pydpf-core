@@ -392,13 +392,15 @@ def dpf_mesh_to_vtk(
     except (AttributeError, KeyError, errors.DPFServerException):
         grid = dpf_mesh_to_vtk_py(mesh, nodes, as_linear)
     if check_validity:
-        valid, msg = vtk_mesh_is_valid(grid)
+        valid, msg, _ = vtk_mesh_is_valid(grid)
         if not valid:
             warnings.warn(f"\nVTK mesh validity check\n{msg}")
     return grid
 
 
-def vtk_mesh_is_valid(grid: pv.UnstructuredGrid, verbose: bool = False) -> (bool, str):
+def vtk_mesh_is_valid(
+    grid: pv.UnstructuredGrid, verbose: bool = False
+) -> tuple[bool, str, pv.UnstructuredGrid]:
     """Runs a vtk.CellValidator filter on the input grid.
 
     Parameters
@@ -414,6 +416,8 @@ def vtk_mesh_is_valid(grid: pv.UnstructuredGrid, verbose: bool = False) -> (bool
         Whether the vtk mesh is valid according to the vtkCellValidator.
     message:
         Output message.
+    validity_grid:
+        A copy of the original grid, with validity fields.
 
     """
     from enum import Enum
@@ -436,9 +440,8 @@ def vtk_mesh_is_valid(grid: pv.UnstructuredGrid, verbose: bool = False) -> (bool
     cell_validator.SetInputData(grid)
     cell_validator.Update()
     # Get the states for all cells as a numpy array
-    cell_states = vtk_to_numpy(
-        cell_validator.GetUnstructuredGridOutput().GetCellData().GetArray("ValidityState")
-    )
+    validity_grid = cell_validator.GetUnstructuredGridOutput()
+    cell_states = vtk_to_numpy(validity_grid.GetCellData().GetArray("ValidityState"))
     # Check for invalid states
     elem_with_wrong_number_of_nodes = np.where(cell_states == State.WrongNumberOfPoints.value)[0]
     elem_with_intersecting_edges = np.where(cell_states == State.IntersectingEdges.value)[0]
@@ -487,7 +490,7 @@ def vtk_mesh_is_valid(grid: pv.UnstructuredGrid, verbose: bool = False) -> (bool
             out_msg += f"      {elem_with_badly_oriented_faces}\n"
     if verbose:
         print(out_msg)
-    return mesh_is_valid, out_msg
+    return mesh_is_valid, out_msg, pv.UnstructuredGrid(validity_grid)
 
 
 def vtk_update_coordinates(vtk_grid, coordinates_array):
