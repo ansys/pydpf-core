@@ -25,6 +25,12 @@ class min_max_over_time_by_entity(Operator):
     compute_amplitude : bool, optional
         Do calculate amplitude.
 
+    Returns
+    -------
+    min : FieldsContainer
+    max : FieldsContainer
+    time_freq_of_min : FieldsContainer
+    time_freq_of_max : FieldsContainer
 
     Examples
     --------

@@ -24,6 +24,9 @@ class make_plane_levelset(Operator):
         An overall 3d vector that gives a point of
         the plane.
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

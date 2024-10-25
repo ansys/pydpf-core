@@ -23,6 +23,10 @@ class min_max_by_time(Operator):
         entities before computing the
         min/max.
 
+    Returns
+    -------
+    min : FieldsContainer
+    max : FieldsContainer
 
     Examples
     --------

@@ -27,6 +27,9 @@ class modal_participation(Operator):
         If set, will force a label space for output
         result.
 
+    Returns
+    -------
+    output : FieldsContainer
 
     Examples
     --------

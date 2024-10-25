@@ -28,6 +28,9 @@ class elementary_data_selector_fc(Operator):
         For a field with nature matrix, this extracts
         the column indices.
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

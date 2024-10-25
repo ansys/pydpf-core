@@ -32,6 +32,31 @@ class compute_invariant_terms_motion(Operator):
         Coordinates of all nodes
     nod :
 
+    Returns
+    -------
+    model_data : PropertyField
+        Data describing the finite element model
+    mode_shapes : FieldsContainer
+        Fieldscontainers containing the mode shapes,
+        which are cst and nor for the cms
+        method
+    lumped_mass : FieldsContainer
+        Fieldscontainers containing the lumped mass
+    field_coordinates_and_euler_angles : FieldsContainer
+        Coordinates and euler angles of all nodes
+    nod :
+    used_node_index :
+    eigenvalue :
+    translational_mode_shape :
+    rotational_mode_shape :
+    invrt_1 : float
+    invrt_2 :
+    invrt_3 :
+    invrt_4 :
+    invrt_5 :
+    invrt_6 :
+    invrt_7 :
+    invrt_8 :
 
     Examples
     --------

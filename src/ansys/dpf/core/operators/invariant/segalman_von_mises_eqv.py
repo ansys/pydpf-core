@@ -21,6 +21,9 @@ class segalman_von_mises_eqv(Operator):
         Field or fields container with only one field
         is expected
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

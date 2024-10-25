@@ -23,6 +23,12 @@ class scoping_get_attribute(Operator):
         Supported property names are: "ids",
         "location".
 
+    Returns
+    -------
+    property : str
+        Returns a vector of int for property: "ids"
+        and a string for property:
+        "location".
 
     Examples
     --------

@@ -26,6 +26,10 @@ class cyclic_analytic_usum_max(Operator):
         Default is true
     cyclic_support : CyclicSupport
 
+    Returns
+    -------
+    fields_container : FieldsContainer
+        Fieldscontainer filled in
 
     Examples
     --------

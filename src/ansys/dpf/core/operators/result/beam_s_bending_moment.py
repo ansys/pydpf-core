@@ -46,6 +46,9 @@ class beam_s_bending_moment(Operator):
         list of base unit strings (str) or
         unitsystem instance
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

@@ -28,6 +28,9 @@ class normals_provider_nl(Operator):
         overrides scoping. default is
         elemental.
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

@@ -40,6 +40,9 @@ class merge_weighted_fields_containers(Operator):
         Weights to apply to each field from pin 1000
         to ...
 
+    Returns
+    -------
+    merged_fields_container : FieldsContainer
 
     Examples
     --------

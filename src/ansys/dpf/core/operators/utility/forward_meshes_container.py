@@ -22,6 +22,9 @@ class forward_meshes_container(Operator):
         container needs to be created
         (default is unknown)
 
+    Returns
+    -------
+    meshes_container : MeshesContainer
 
     Examples
     --------

@@ -27,6 +27,10 @@ class workflow_energy_per_harmonic(Operator):
         energy, 2: kinetic energy)
     data_sources : DataSources
 
+    Returns
+    -------
+    harmonic_energy : FieldsContainer
+    harmonic_energy_percentage : FieldsContainer
 
     Examples
     --------

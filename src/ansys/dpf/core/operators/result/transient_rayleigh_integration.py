@@ -43,6 +43,9 @@ class transient_rayleigh_integration(Operator):
         default value of the speed of sound
         in the air is applied).
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

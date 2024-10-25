@@ -92,6 +92,9 @@ class thermal_strains_eqv(Operator):
         layer is provided, results will be
         merged on this specific shell layer.
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

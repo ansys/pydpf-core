@@ -29,6 +29,10 @@ class abc_weightings(Operator):
         time freq scoping and not by ids.
         default is false
 
+    Returns
+    -------
+    weightings : FieldsContainer
+        Weighted data in db units.
 
     Examples
     --------

@@ -24,6 +24,9 @@ class generalized_inner_product_fc(Operator):
         Field or fields container with only one field
         is expected
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

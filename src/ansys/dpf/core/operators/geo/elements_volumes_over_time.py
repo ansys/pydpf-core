@@ -27,6 +27,9 @@ class elements_volumes_over_time(Operator):
         field's container does not contain
         it, or if there is no displacement.
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

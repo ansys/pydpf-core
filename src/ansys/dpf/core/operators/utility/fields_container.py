@@ -18,6 +18,9 @@ class fields_container(Operator):
     ----------
     input : FieldsContainer
 
+    Returns
+    -------
+    incremented_result :
 
     Examples
     --------

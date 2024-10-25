@@ -30,6 +30,9 @@ class elemental_difference(Operator):
         through the different shell layers if
         true (default is false).
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------
