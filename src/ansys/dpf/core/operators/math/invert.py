@@ -12,8 +12,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class invert(Operator):
-    """Computes the element-wise and component-wise inverse of a field
-    (1./x).
+    """DEPRECATED, PLEASE USE DIVIDE. Computes the element-wise and
+    component-wise inverse of a field (1./x).
 
     Parameters
     ----------
@@ -54,8 +54,8 @@ class invert(Operator):
 
     @staticmethod
     def _spec():
-        description = """Computes the element-wise and component-wise inverse of a field
-            (1./x)."""
+        description = """DEPRECATED, PLEASE USE DIVIDE. Computes the element-wise and
+            component-wise inverse of a field (1./x)."""
         spec = Specification(
             description=description,
             map_input_pin_spec={

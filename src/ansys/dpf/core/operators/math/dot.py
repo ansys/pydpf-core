@@ -12,11 +12,12 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class dot(Operator):
-    """Computes element-wise dot product between two vector fields. If one
-    field's scoping has an 'overall' location, then this field's
-    values are applied on the other field entirely.When using a
-    constant or 'work_by_index', you can use 'inplace' to reuse one of
-    the fields, but only in the case where both fields are scalar.
+    """DEPRECATED, PLEASE USE GENERALIZED INNER PRODUCT. Computes element -
+    wise dot product between two vector fields. If one field's scoping
+    has an 'overall' location, then this field's values are applied on
+    the other field entirely.When using a constant or 'work_by_index',
+    you can use 'inplace' to reuse one of the fields, but only in the
+    case where both fields are scalar.
 
     Parameters
     ----------
@@ -65,12 +66,13 @@ class dot(Operator):
 
     @staticmethod
     def _spec():
-        description = """Computes element-wise dot product between two vector fields. If one
-            field's scoping has an 'overall' location, then this
-            field's values are applied on the other field
-            entirely.When using a constant or 'work_by_index', you can
-            use 'inplace' to reuse one of the fields, but only in the
-            case where both fields are scalar."""
+        description = """DEPRECATED, PLEASE USE GENERALIZED INNER PRODUCT. Computes element -
+            wise dot product between two vector fields. If one field's
+            scoping has an 'overall' location, then this field's
+            values are applied on the other field entirely.When using
+            a constant or 'work_by_index', you can use 'inplace' to
+            reuse one of the fields, but only in the case where both
+            fields are scalar."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
