@@ -349,7 +349,7 @@ class Specification(SpecificationBase):
         >>> from ansys.dpf import core as dpf
         >>> operator = dpf.operators.math.scale()
         >>> operator.specification.description
-        "Scales a field by a constant factor. This factor can be a scalar ..."
+        Scales a field by a constant factor. This factor can be a scalar ...
         """
         if self._internal_obj is not None:
             return self._api.operator_specification_get_description(self)
