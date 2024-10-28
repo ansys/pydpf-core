@@ -1,4 +1,5 @@
 from .adapt_with_scopings_container import adapt_with_scopings_container
+from .change_fc import change_fc
 from .compute_element_centroids import compute_element_centroids
 from .connectivity_ids import connectivity_ids
 from .elemental_from_mesh import elemental_from_mesh
