@@ -120,3 +120,12 @@ def test_cast_scoping_any(server_type):
     new_entity = any_dpf.cast()
 
     assert entity.location == new_entity.location
+
+
+@conftest.raises_for_servers_version_under("9.1")
+def test_cast_workflow_any(server_type):
+    entity = dpf.Workflow(server=server_type)
+    any_dpf = dpf.Any.new_from(entity)
+    new_entity = any_dpf.cast()
+
+    assert new_entity.input_names == []
