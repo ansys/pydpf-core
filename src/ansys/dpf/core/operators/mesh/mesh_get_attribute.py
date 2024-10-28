@@ -30,7 +30,7 @@ class mesh_get_attribute(Operator):
         "named_selection_names",
         "named_selection_locations",
         "node_scoping", "element_scoping",
-        ace_scoping"...
+        "face_scoping"...
     property_identifier : int or str, optional
         Can be used to get a property at a given
         index, example: a named selection's
@@ -49,7 +49,7 @@ class mesh_get_attribute(Operator):
         property: "coordinates", a scoping
         for properties:"named_selection",
         "node_scoping", "element_scoping",
-        ace_scoping", a string field for
+        "face_scoping", a string field for
         properties: "named_selection_names",
         "named_selection_locations" and an
         int for property:
@@ -126,7 +126,7 @@ class mesh_get_attribute(Operator):
         "named_selection_names",
         "named_selection_locations",
         "node_scoping", "element_scoping",
-        ace_scoping"...""",
+        "face_scoping"...""",
                 ),
                 2: PinSpecification(
                     name="property_identifier",
@@ -158,7 +158,7 @@ class mesh_get_attribute(Operator):
         property: "coordinates", a scoping
         for properties:"named_selection",
         "node_scoping", "element_scoping",
-        ace_scoping", a string field for
+        "face_scoping", a string field for
         properties: "named_selection_names",
         "named_selection_locations" and an
         int for property:
@@ -266,7 +266,7 @@ class InputsMeshGetAttribute(_Inputs):
         "named_selection_names",
         "named_selection_locations",
         "node_scoping", "element_scoping",
-        ace_scoping"...
+        "face_scoping"...
 
         Parameters
         ----------

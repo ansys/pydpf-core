@@ -3,6 +3,7 @@ from .assemble_scalars_to_matrices_fc import assemble_scalars_to_matrices_fc
 from .assemble_scalars_to_vectors import assemble_scalars_to_vectors
 from .assemble_scalars_to_vectors_fc import assemble_scalars_to_vectors_fc
 from .bind_support import bind_support
+from .bind_support_fc import bind_support_fc
 from .change_location import change_location
 from .change_shell_layers import change_shell_layers
 from .compute_time_scoping import compute_time_scoping
@@ -72,5 +73,6 @@ from .split_in_for_each_range import split_in_for_each_range
 from .strain_from_voigt import strain_from_voigt
 from .strain_from_voigt_fc import strain_from_voigt_fc
 from .txt_file_to_dpf import txt_file_to_dpf
+from .unitary_field import unitary_field
 from .weighted_merge_fields_by_label import weighted_merge_fields_by_label
 from .Workflow_to_PyDPF_Generator import Workflow_to_PyDPF_Generator

@@ -186,7 +186,7 @@ def build_operators():
     # List of hidden operators to still expose for retro-compatibility
     # until they are fully deprecated
     hidden_to_expose = [  # Use internal names
-        "rescope_fc",  # Switch to "change_fc" once server is updated
+        "change_fc",
         "dot", "dot_tensor",
         "scale_by_field", "scale_by_field_fc",
         "invert", "invert_fc",

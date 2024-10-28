@@ -12,9 +12,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class scale_by_field_fc(Operator):
-    """Scales a field (in 0) by a scalar field (in 1). If one field's scoping
-    has an 'overall' location, then this field's values are applied on
-    the other field entirely.
+    """DEPRECATED, PLEASE USE SCALE. Scales a field (in 0) by a scalar field
+    (in 1). If one field's scoping has an 'overall' location, then
+    this field's values are applied on the other field entirely.
 
     Parameters
     ----------
@@ -69,9 +69,10 @@ class scale_by_field_fc(Operator):
 
     @staticmethod
     def _spec():
-        description = """Scales a field (in 0) by a scalar field (in 1). If one field's scoping
-            has an 'overall' location, then this field's values are
-            applied on the other field entirely."""
+        description = """DEPRECATED, PLEASE USE SCALE. Scales a field (in 0) by a scalar field
+            (in 1). If one field's scoping has an 'overall' location,
+            then this field's values are applied on the other field
+            entirely."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
