@@ -12,7 +12,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class dot_tensor(Operator):
-    """Computes element-wise dot product between two tensor fields.
+    """DEPRECATED, PLEASE USE GENERALIZED INNER PRODUCT. Computes element-
+    wise dot product between two tensor fields.
 
     Parameters
     ----------
@@ -61,7 +62,8 @@ class dot_tensor(Operator):
 
     @staticmethod
     def _spec():
-        description = """Computes element-wise dot product between two tensor fields."""
+        description = """DEPRECATED, PLEASE USE GENERALIZED INNER PRODUCT. Computes element-
+            wise dot product between two tensor fields."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
