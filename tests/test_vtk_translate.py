@@ -32,6 +32,7 @@ from ansys.dpf.core.vtk_helper import (
     dpf_property_field_to_vtk,
     append_field_to_grid,
     append_fieldscontainer_to_grid,
+    vtk_mesh_is_valid,
 )
 
 if misc.module_exists("pyvista"):
@@ -226,3 +227,44 @@ def test_append_fields_container_to_grid(simple_rst, server_type):
     assert isinstance(ug, pv.UnstructuredGrid)
     assert "disp {'time': 1}" in ug.point_data.keys()
     assert "volume {'time': 1}" in ug.cell_data.keys()
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_vtk_mesh_is_valid_polyhedron():
+    # Element type is polyhedron
+    cell_types = [42]
+
+    # Start with a valid element
+    nodes_1 = [
+        [0.0, 0.0, 0.0],
+        [1.0, 0.0, 0.0],
+        [0.0, 1.0, 0.0],
+        [0.0, 0.0, 0.5],
+        [1.0, 0.0, 0.5],
+        [0.0, 1.0, 0.5],
+    ]
+    cells_1 = [24, 5, 4, 4, 1, 2, 5, 4, 3, 0, 1, 4, 3, 2, 1, 0, 3, 3, 4, 5, 4, 5, 2, 0, 3]
+    grid = pv.UnstructuredGrid(cells_1, cell_types, nodes_1)
+    valid, msg, out_grid = vtk_mesh_is_valid(grid)
+    assert valid
+
+    # Move one node
+    nodes_2 = [
+        [0.0, 0.0, 0.0],
+        [1.0, 0.0, 0.0],
+        [0.0, 1.0, 0.0],
+        [0.0, -0.05, 0.5],  # Moved one node along Y axis
+        [1.0, 0.0, 0.5],
+        [0.0, 1.0, 0.5],
+    ]
+    grid = pv.UnstructuredGrid(cells_1, cell_types, nodes_2)
+    valid, msg, out_grid = vtk_mesh_is_valid(grid)
+    print(msg)
+    assert not valid  # For some reason this element is found to be non-convex
+
+    # Invert one face
+    cells_2 = [24, 5, 4, 4, 1, 2, 5, 4, 3, 0, 1, 4, 3, 2, 1, 0, 3, 5, 4, 3, 4, 5, 2, 0, 3]
+    grid = pv.UnstructuredGrid(cells_2, cell_types, nodes_1)
+    valid, msg, out_grid = vtk_mesh_is_valid(grid)
+    print(msg)
+    assert not valid  # Non-convex AND bad face orientation
