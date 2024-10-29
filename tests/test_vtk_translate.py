@@ -232,7 +232,7 @@ def test_append_fields_container_to_grid(simple_rst, server_type):
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_vtk_mesh_is_valid_polyhedron():
     # Element type is polyhedron
-    cell_types = [42]
+    cell_types = [pv.CellType.POLYHEDRON]
 
     # Start with a valid element
     nodes_1 = [
