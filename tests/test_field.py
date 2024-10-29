@@ -79,6 +79,33 @@ def test_append_scalar_data(server_type):
     assert np.allclose(field.data, list(range(0, 10)))
 
 
+def test_append_slice_data(server_type):
+    field = dpf.core.Field(
+        nature=dpf.core.natures.scalar,
+        location=dpf.core.locations.elemental_nodal,
+        server=server_type
+    )
+    assert field.component_count == 1
+
+    input_data = np.array([[1, 2], [3, 4]])
+    sliced_data = input_data[:, 0]
+    print(type(sliced_data))
+    print(sliced_data.flags["OWNDATA"])     # False
+    print(sliced_data.base)                 # None
+    field.append(sliced_data, 1)
+    assert field.elementary_data_count == 2
+    assert np.allclose(field.get_entity_data_by_id(1), sliced_data)
+
+    input_data = np.array([[1, 2], [3, 4]])
+    sliced_data = input_data[:, 1].copy()
+    print(type(sliced_data))
+    print(sliced_data.flags["OWNDATA"])     # True
+    print(sliced_data.base)                 # input_array
+    field.append(sliced_data, 2)
+    assert field.elementary_data_count == 4
+    assert np.allclose(field.get_entity_data_by_id(2), sliced_data)
+
+
 @pytest.mark.skipif(
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
     reason="Connecting data from different servers is " "supported starting server version 3.0",
