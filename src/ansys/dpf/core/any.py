@@ -122,6 +122,7 @@ class Any:
             data_tree,
             custom_type_field,
             collection,
+            fields_container
         )
 
         if issubclass(obj, int):
@@ -189,6 +190,11 @@ class Any:
             return (
                 self._api.any_new_from_int_collection,
                 self._api.any_get_as_int_collection,
+            )
+        elif issubclass(obj, fields_container.FieldsContainer):
+            return (
+                self._api.any_new_from_fields_container,
+                self._api.any_get_as_fields_container
             )
 
     @staticmethod
