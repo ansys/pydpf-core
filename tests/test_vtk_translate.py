@@ -245,8 +245,17 @@ def test_vtk_mesh_is_valid_polyhedron():
     ]
     cells_1 = [24, 5, 4, 4, 1, 2, 5, 4, 3, 0, 1, 4, 3, 2, 1, 0, 3, 3, 4, 5, 4, 5, 2, 0, 3]
     grid = pv.UnstructuredGrid(cells_1, cell_types, nodes_1)
-    valid, msg, out_grid = vtk_mesh_is_valid(grid)
-    assert valid
+    validity = vtk_mesh_is_valid(grid)
+    print(validity)
+    assert validity.valid
+    assert "valid" in validity.msg
+    assert validity.grid.active_scalars_name == "ValidityState"
+    assert len(validity.wrong_number_of_points) == 0
+    assert len(validity.intersecting_edges) == 0
+    assert len(validity.intersecting_faces) == 0
+    assert len(validity.non_contiguous_edges) == 0
+    assert len(validity.non_convex) == 0
+    assert len(validity.inverted_faces) == 0
 
     # Move one node
     nodes_2 = [
@@ -258,13 +267,25 @@ def test_vtk_mesh_is_valid_polyhedron():
         [0.0, 1.0, 0.5],
     ]
     grid = pv.UnstructuredGrid(cells_1, cell_types, nodes_2)
-    valid, msg, out_grid = vtk_mesh_is_valid(grid)
-    print(msg)
-    assert not valid  # For some reason this element is found to be non-convex
+    validity = vtk_mesh_is_valid(grid)
+    print(validity)
+    assert not validity.valid  # For some reason this element is found to be non-convex
+    assert len(validity.wrong_number_of_points) == 0
+    assert len(validity.intersecting_edges) == 0
+    assert len(validity.intersecting_faces) == 0
+    assert len(validity.non_contiguous_edges) == 0
+    assert len(validity.non_convex) == 1
+    assert len(validity.inverted_faces) == 0
 
     # Invert one face
     cells_2 = [24, 5, 4, 4, 1, 2, 5, 4, 3, 0, 1, 4, 3, 2, 1, 0, 3, 5, 4, 3, 4, 5, 2, 0, 3]
     grid = pv.UnstructuredGrid(cells_2, cell_types, nodes_1)
-    valid, msg, out_grid = vtk_mesh_is_valid(grid)
-    print(msg)
-    assert not valid  # Non-convex AND bad face orientation
+    validity = vtk_mesh_is_valid(grid)
+    print(validity)
+    assert not validity.valid  # Non-convex AND bad face orientation
+    assert len(validity.wrong_number_of_points) == 0
+    assert len(validity.intersecting_edges) == 0
+    assert len(validity.intersecting_faces) == 0
+    assert len(validity.non_contiguous_edges) == 0
+    assert len(validity.non_convex) == 1
+    assert len(validity.inverted_faces) == 1
