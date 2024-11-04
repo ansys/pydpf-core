@@ -243,8 +243,19 @@ def test_vtk_mesh_is_valid_polyhedron():
         [1.0, 0.0, 0.5],
         [0.0, 1.0, 0.5],
     ]
-    cells_1 = [24, 5, 4, 4, 1, 2, 5, 4, 3, 0, 1, 4, 3, 2, 1, 0, 3, 3, 4, 5, 4, 5, 2, 0, 3]
-    grid = pv.UnstructuredGrid(cells_1, cell_types, nodes_1)
+    cells_1 = [
+        5,
+            4, 4, 1, 2, 5,
+        4,
+            3, 0, 1, 4,
+        3,
+            2, 1, 0,
+        3,
+            3, 4, 5,
+        4,
+            5, 2, 0, 3
+    ]
+    grid = pv.UnstructuredGrid([len(cells_1), *cells_1], cell_types, nodes_1)
     validity = vtk_mesh_is_valid(grid)
     print(validity)
     assert validity.valid
@@ -278,8 +289,19 @@ def test_vtk_mesh_is_valid_polyhedron():
     assert len(validity.inverted_faces) == 0
 
     # Invert one face
-    cells_2 = [24, 5, 4, 4, 1, 2, 5, 4, 3, 0, 1, 4, 3, 2, 1, 0, 3, 5, 4, 3, 4, 5, 2, 0, 3]
-    grid = pv.UnstructuredGrid(cells_2, cell_types, nodes_1)
+    cells_2 = [
+        5,
+            4, 4, 1, 2, 5,
+        4,
+            3, 0, 1, 4,
+        3,
+            2, 1, 0,
+        3,
+            5, 4, 3,    # Inverted face
+        4,
+            5, 2, 0, 3
+    ]
+    grid = pv.UnstructuredGrid([len(cells_2), *cells_2], cell_types, nodes_1)
     validity = vtk_mesh_is_valid(grid)
     print(validity)
     assert not validity.valid  # Non-convex AND bad face orientation
