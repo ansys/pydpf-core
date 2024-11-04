@@ -42,6 +42,7 @@ The script below demonstrates the methodology using PyDPF.
 # Import necessary modules
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
+from ansys.dpf.gate.errors import DPFServerException
 
 
 ###############################################################################
@@ -59,7 +60,7 @@ try:
     # Starting with DPF 2025.1.pre1
     cs = dpf.operators.result.coordinate_system()
     cs.inputs.data_sources.connect(model)
-except (KeyError, ansys.dpf.gate.errors.DPFServerException) as e:
+except (KeyError, DPFServerException) as e:
     # For previous DPF versions
     cs = model.operator(r"mapdl::rst::CS")
 
