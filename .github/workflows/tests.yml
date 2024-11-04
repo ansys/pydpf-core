@@ -139,7 +139,7 @@ jobs:
           echo "wheel_name=${name[0]}" >> $GITHUB_OUTPUT
 
       - name: "Upload wheel to artifacts"
-        if: (inputs.wheel == 'true') && !( (inputs.test_any) && (matrix.os == 'ubuntu-latest') )
+        if: (inputs.wheel == 'true') && !( (inputs.test_any == 'true') && (matrix.os == 'ubuntu-latest') )
         uses: actions/upload-artifact@v4
         with:
           name: ${{ steps.wheel.outputs.wheel_name }}
