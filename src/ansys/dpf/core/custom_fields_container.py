@@ -294,9 +294,9 @@ class BodyFieldsContainer(FieldsContainer):
     >>> model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
     >>> fc = model.results.displacement.on_all_time_freqs.split_by_body.eval()
     >>> fc.get_mat_scoping().ids[3]
-    45
+    np.int32(45)
     >>> len(fc.get_fields_by_mat_id(45))
-    45
+    np.int32(45)
     >>> f_time_2 = fc.get_field_by_mat_id(45, timeid=2)
 
     """
