@@ -334,7 +334,7 @@ class CyclicSupport:
         Returns
         -------
         low_high_map : PropertyField
-            Node correspondance between low to high in the base sector of the given stage.
+            Node correspondence between low to high in the base sector of the given stage.
 
         Examples
         --------
@@ -360,7 +360,7 @@ class CyclicSupport:
         Returns
         -------
         low_high_map : PropertyField
-            Node correspondance between high to low in the base sector of the given stage.
+            Node correspondence between high to low in the base sector of the given stage.
 
         Examples
         --------
