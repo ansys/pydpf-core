@@ -13,11 +13,11 @@ Licensing
        :link-type: ref
        :text-align: center
 
-       This tutorial
+       This tutorial explains the DPF server licensing logic
 
 .. toctree::
     :maxdepth: 2
     :hidden:
 
-    server_context.rst
+    Access Entry and Premium Capabilities <server_context.rst>
 
