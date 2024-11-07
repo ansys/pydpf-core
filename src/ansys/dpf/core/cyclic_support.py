@@ -315,7 +315,7 @@ class CyclicSupport:
         >>> multi_stage = examples.download_multi_stage_cyclic_result()
         >>> cyc_support = Model(multi_stage).metadata.result_info.cyclic_support
         >>> cs = cyc_support.cs()
-        [12]
+
         """
 
         cs = self._api.cyclic_support_get_cs(self)
