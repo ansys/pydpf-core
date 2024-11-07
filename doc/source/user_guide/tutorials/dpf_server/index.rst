@@ -22,3 +22,5 @@ This tutorial explains how to manipulate DPF client-server architecture
     :maxdepth: 2
     :hidden:
 
+    server_types.rst
+

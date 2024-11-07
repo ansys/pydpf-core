@@ -29,30 +29,33 @@ using the :class:`InProcess <ansys.dpf.core.server_types.InProcessServer>` class
 
 .. rst-class:: sphx-glr-script-out
 
- .. code-block:: none
- 
-    <ansys.dpf.core.server_types.InProcessServer object at ...>
+ .. jupyter-execute::
+    :hide-code:
+
+    from ansys.dpf import core as dpf
+    local_server = dpf.start_local_server()
+    local_server
 
 This DPF Server can now be used to instantiate models, operators, and more.
 
 .. code-block::
-	
+
     # instantiate an operator
     local_operator = dpf.operators.results.displacement(server=local_server)
-	
+
     # instantiate a model
     from ansys.dpf.core import examples
     local_model = dpf.Model(examples.find_simple_bar(), server=local_server)
-	
+
 
 DPF Server through the network using gRPC
 -----------------------------------------
 
 The :class:`GrpcServer <ansys.dpf.core.server_types.GrpcServer>` class is used
-to enable gRPC communication: 
+to enable gRPC communication:
 
 .. code-block::
-	   
+
     from ansys.dpf import core as dpf
     grpc_server_config = dpf.AvailableServerConfigs.GrpcServer
     grpc_server = dpf.start_local_server(config=grpc_server_config)
@@ -60,21 +63,26 @@ to enable gRPC communication:
 
 .. rst-class:: sphx-glr-script-out
 
- .. code-block:: none
- 
-    <ansys.dpf.core.server_types.GrpcServer object at ...>
+ .. jupyter-execute::
+    :hide-code:
+
+    from ansys.dpf import core as dpf
+    grpc_server_config = dpf.AvailableServerConfigs.GrpcServer
+    grpc_server = dpf.start_local_server(config=grpc_server_config)
+    grpc_server
 
 You can obtain the server port and IP address:
 
 .. code-block::
 
     print(grpc_server)
-	
+
 .. rst-class:: sphx-glr-script-out
 
- .. code-block:: none
+ .. jupyter-execute::
+    :hide-code:
 
-    DPF Server: {'server_ip': '127.0.0.1', 'server_port': 50052, 'server_process_id': 9999, 'server_version': '6.0', 'os': 'nt'}
+    print(grpc_server)
 	
 From another machine, you can connect remotely to this DPF Server and instantiate models, operators, and more:
 
