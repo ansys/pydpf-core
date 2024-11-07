@@ -187,12 +187,12 @@ def test_cyc_support_multistage(cyclic_multistage):
     )
     assert np.allclose(cyc_support.sectors_set_for_expansion(stage_num=1).ids, list(range(0, 12)))
 
-    high_low_map = my_cyclic_support.high_low_map(0)
+    high_low_map = cyc_support.high_low_map(0)
     assert np.allclose(high_low_map.get_entity_data_by_id(1446), 1447)
     assert np.allclose(high_low_map.get_entity_data_by_id(2946), 2948)
     assert np.allclose(high_low_map.get_entity_data_by_id(1452), 1466)
 
-    low_high_map = my_cyclic_support.low_high_map(1)
+    low_high_map = cyc_support.low_high_map(1)
     assert np.allclose(low_high_map.get_entity_data_by_id(995), 939)
     assert np.allclose(low_high_map.get_entity_data_by_id(53), 54)
     assert np.allclose(low_high_map.get_entity_data_by_id(70), 56)
