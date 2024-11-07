@@ -128,6 +128,12 @@ Transform data
 
        This tutorial
 
+    .. grid-item-card:: Mathematical operations with PyDPF-Core data storage structures
+       :link: ref_tutorials
+       :link-type: ref
+       :text-align: center
+
+       This tutorial
 
 Plot
 ----
@@ -144,20 +150,26 @@ Plot
 
        This tutorial
 
-    .. grid-item-card:: Plotting 3D data
+    .. grid-item-card:: Plotting data on the mesh
        :link: ref_tutorials
        :link-type: ref
        :text-align: center
 
        This tutorial
 
-    .. grid-item-card:: Plotting 2D data
+    .. grid-item-card:: Plotting data on specific placements
        :link: ref_tutorials
        :link-type: ref
        :text-align: center
 
        This tutorial
 
+    .. grid-item-card:: Plotting a graph
+       :link: ref_tutorials
+       :link-type: ref
+       :text-align: center
+
+       This tutorial
 
 Animate
 -------
@@ -167,14 +179,7 @@ Animate
     :padding: 2
     :margin: 2
 
-    .. grid-item-card:: Animate transient data
-       :link: ref_tutorials
-       :link-type: ref
-       :text-align: center
-
-       This tutorial
-
-    .. grid-item-card:: Animate modal data
+    .. grid-item-card:: Animate data
        :link: ref_tutorials
        :link-type: ref
        :text-align: center
@@ -219,8 +224,36 @@ Enriching DPF capabilities
 
        This tutorial
 
+    .. grid-item-card:: Create a plug-in package with multiple operators
+       :link: ref_tutorials
+       :link-type: ref
+       :text-align: center
+
+       This tutorial
+
+    .. grid-item-card:: Create a plug-in package that has third-party dependencies
+       :link: ref_tutorials
+       :link-type: ref
+       :text-align: center
+
+       This tutorial
+
 Post-process distributed files
 ------------------------------
+
+    .. grid-item-card:: Post process data on distributed processes
+       :link: ref_tutorials
+       :link-type: ref
+       :text-align: center
+
+       This tutorial
+
+    .. grid-item-card:: Create a custom workflow on distributed processes
+       :link: ref_tutorials
+       :link-type: ref
+       :text-align: center
+
+       This tutorial
 
 DPF server
 ----------
