@@ -44,9 +44,15 @@ Once a DPF Server is started in **Entry** context, it can be upgraded to the
 	
 .. rst-class:: sphx-glr-script-out
 
- .. code-block:: none
- 
-    Server Context of type LicensingContextType.entry with no xml path
+ .. jupyter-execute::
+    :hide-code:
+
+    from ansys.dpf import core as dpf
+    # start a server with entry capabilities
+    server = dpf.start_local_server(
+        context=dpf.AvailableServerContexts.entry
+    )
+    print(server.context)
 
 .. code-block::
  
@@ -56,9 +62,12 @@ Once a DPF Server is started in **Entry** context, it can be upgraded to the
 
 .. rst-class:: sphx-glr-script-out
 
- .. code-block:: none
- 
-    Server Context of type LicensingContextType.premium with no xml path
+ .. jupyter-execute::
+    :hide-code:
+
+    # apply a premium context on the server
+    server.apply_context(dpf.AvailableServerContexts.premium)
+    print(server.context)
 
 
 Change the default server context
@@ -77,9 +86,12 @@ with this code:
 	
 .. rst-class:: sphx-glr-script-out
 
- .. code-block:: none
- 
-    Server Context of type LicensingContextType.entry with no xml path
+ .. jupyter-execute::
+    :hide-code:
+
+    from ansys.dpf import core as dpf
+    dpf.set_default_server_context(dpf.AvailableServerContexts.entry)
+    print(dpf.server_context.SERVER_CONTEXT)
 
 .. warning::
     As starting an ``InProcess`` server means linking the DPF binaries to your current Python
