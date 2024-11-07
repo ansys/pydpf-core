@@ -305,7 +305,7 @@ class CyclicSupport:
         )
         return Scoping(scoping=expanded_ids, server=self._server)
 
-    def cs(self):
+    def cs(self) -> field.Field:
         """Coordinate system of the cyclic support.
 
         Examples
@@ -315,25 +315,24 @@ class CyclicSupport:
         >>> multi_stage = examples.download_multi_stage_cyclic_result()
         >>> cyc_support = Model(multi_stage).metadata.result_info.cyclic_support
         >>> cs = cyc_support.cs()
-        >>> print(expanded_scoping.ids)
         [12]
         """
 
         cs = self._api.cyclic_support_get_cs(self)
         return field.Field(field=cs, server=self._server)
 
-    def low_high_map(self, stage_num=0):
+    def low_high_map(self, stage_num: int = 0) -> property_field.PropertyField:
         """Retrieve a property field containing node map from low to high
         base sector of the given stage.
 
         Parameters
         ----------
-        stage_num : int, optional
+        stage_num:
             Number of the stage required (from 0 to num_stages).
 
         Returns
         -------
-        low_high_map : PropertyField
+        low_high_map:
             Node correspondence between low to high in the base sector of the given stage.
 
         Examples
@@ -348,18 +347,18 @@ class CyclicSupport:
         low_high_map = self._api.cyclic_support_get_low_high_map(self, stage_num)
         return property_field.PropertyField(property_field=low_high_map, server=self._server)
 
-    def high_low_map(self, stage_num=0):
+    def high_low_map(self, stage_num: int = 0) -> property_field.PropertyField:
         """Retrieve a property field containing node map from high to low
         base sector of the given stage.
 
         Parameters
         ----------
-        stage_num : int, optional
+        stage_num:
             Number of the stage required (from 0 to num_stages).
 
         Returns
         -------
-        low_high_map : PropertyField
+        low_high_map:
             Node correspondence between high to low in the base sector of the given stage.
 
         Examples
