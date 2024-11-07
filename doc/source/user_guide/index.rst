@@ -91,7 +91,6 @@ Troubleshooting
     custom_operators.rst
     dpf_server.rst
     server_types.rst
-    server_context.rst
     xmlfiles.rst
 
 

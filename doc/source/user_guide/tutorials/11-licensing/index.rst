@@ -9,7 +9,7 @@ Licensing
     :margin: 2
 
     .. grid-item-card:: Access Entry and Premium Capabilities
-       :link: ref_tutorials
+       :link: user_guide_server_context
        :link-type: ref
        :text-align: center
 
@@ -18,4 +18,6 @@ Licensing
 .. toctree::
     :maxdepth: 2
     :hidden:
+
+    server_context.rst
 

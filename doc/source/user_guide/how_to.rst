@@ -40,13 +40,6 @@ How-tos
        :text-align: center
 
        .. image:: ../images/drawings/remote_machines.png
-
-    .. grid-item-card:: Access Entry and Premium capabilities
-       :link: user_guide_server_context
-       :link-type: ref
-       :text-align: center
-
-       .. image:: ../images/drawings/entry_premium.png
 	   
 
     .. grid-item-card:: Use DPF XML Files
