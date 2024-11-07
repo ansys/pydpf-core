@@ -296,7 +296,7 @@ class BodyFieldsContainer(FieldsContainer):
     >>> fc.get_mat_scoping().ids[3]
     np.int32(45)
     >>> len(fc.get_fields_by_mat_id(45))
-    np.int32(45)
+    45
     >>> f_time_2 = fc.get_field_by_mat_id(45, timeid=2)
 
     """
