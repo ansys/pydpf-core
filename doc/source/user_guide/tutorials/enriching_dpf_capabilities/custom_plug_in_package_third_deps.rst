@@ -142,3 +142,17 @@ Use the :func:`load_library() <ansys.dpf.core.core.load_library>` method to load
     r"path/to/plugins/custom_plugin",
     "py_my_custom_plugin", #if the load_operators function is defined in path/to/plugins/custom_plugin/__init__.py
     "load_operators")
+
+Use the custom operators
+--------------------
+
+Once the plugin is loaded, you can instantiate the custom operator:
+
+.. code::
+
+    new_operator = dpf.Operator("custom_operator") # if "custom_operator" is what is returned by the ``name`` property
+
+References
+----------
+For more information, see :ref:`ref_custom_operator` in the **API reference**
+and :ref:`python_operators` in **Examples**.
