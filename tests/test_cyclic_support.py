@@ -94,8 +94,8 @@ def test_cyc_support_from_model(cyclic_lin_rst):
     exp = cyc_support.expand_element_id(1, [0, 1, 2])
     assert np.allclose(exp.ids, [1, 10, 19])
 
-    cs = cyc_support.cs()
-    assert np.allclose(cs.scoping.ids, [12])
+    exp = cyc_support.cs().scoping
+    assert np.allclose(exp.ids, [12])
 
 
 def test_cyc_support_from_to_operator(cyclic_lin_rst, server_type):
@@ -187,7 +187,7 @@ def test_cyc_support_multistage(cyclic_multistage):
     )
     assert np.allclose(cyc_support.sectors_set_for_expansion(stage_num=1).ids, list(range(0, 12)))
 
-    high_low_map = my_cyclic_support.high_low_map()
+    high_low_map = my_cyclic_support.high_low_map(0)
     assert np.allclose(high_low_map.get_entity_data_by_id(1446), 1447)
     assert np.allclose(high_low_map.get_entity_data_by_id(2946), 2948)
     assert np.allclose(high_low_map.get_entity_data_by_id(1452), 1466)
@@ -196,7 +196,6 @@ def test_cyc_support_multistage(cyclic_multistage):
     assert np.allclose(low_high_map.get_entity_data_by_id(995), 939)
     assert np.allclose(low_high_map.get_entity_data_by_id(53), 54)
     assert np.allclose(low_high_map.get_entity_data_by_id(70), 56)
-
 
 
 def test_delete_cyc_support(cyclic_lin_rst, server_type_legacy_grpc):
