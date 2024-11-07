@@ -9,278 +9,47 @@ understanding the fundamental PyDPF-Core functionalities and clarify some concep
 
 They are categorised based on PyDPF-Core usage :
 
-Import Data
------------
+.. include:: 02-import_data/index.rst
+   :end-before: toctree
 
-From user input
-***************
+.. include:: 03-mesh/index.rst
+   :end-before: toctree
 
-.. grid:: 2
-    :gutter: 2
-    :padding: 2
-    :margin: 2
+.. include:: 04-transform_data/index.rst
+   :end-before: toctree
 
-    .. grid-item-card:: Import data from csv file
-       :link: ref_tutorials
-       :link-type: ref
-       :text-align: center
+.. include:: 05-plot/index.rst
+   :end-before: toctree
 
-       This tutorial
+.. include:: 06-animate/index.rst
+   :end-before: toctree
 
-    .. grid-item-card:: Create a data storage structure from scratch
-       :link: ref_tutorials
-       :link-type: ref
-       :text-align: center
+.. include:: 07-export_data/index.rst
+   :end-before: toctree
 
-       This tutorial
+.. include:: 08-enriching_dpf_capabilities/index.rst
+   :end-before: toctree
 
-    .. grid-item-card:: Create a mesh from scratch
-       :link: ref_tutorials
-       :link-type: ref
-       :text-align: center
+.. include:: 09-distributed_files/index.rst
+   :end-before: toctree
 
-       This tutorial
+.. include:: 10-dpf_server/index.rst
+   :end-before: toctree
 
-From result files
-*****************
+.. include:: 11-licensing/index.rst
+   :end-before: toctree
 
-.. grid:: 2
-    :gutter: 2
-    :padding: 2
-    :margin: 2
+.. toctree::
+    :maxdepth: 2
+    :hidden:
 
-    .. grid-item-card:: Extract and explore results metadata
-       :link: ref_tutorials
-       :link-type: ref
-       :text-align: center
-
-       This tutorial
-
-    .. grid-item-card:: Extract and explore results
-       :link: ref_tutorials
-       :link-type: ref
-       :text-align: center
-
-       This tutorial
-
-    .. grid-item-card:: Narrow down data (scoping tutorial)
-       :link: ref_tutorials
-       :link-type: ref
-       :text-align: center
-
-       This tutorial
-
-Mesh
-----
-
-.. grid:: 2
-    :gutter: 2
-    :padding: 2
-    :margin: 2
-
-    .. grid-item-card:: Read the mesh metadata
-       :link: ref_tutorials
-       :link-type: ref
-       :text-align: center
-
-       This tutorial
-
-    .. grid-item-card:: Read the mesh
-       :link: ref_tutorials
-       :link-type: ref
-       :text-align: center
-
-       This tutorial
-
-    .. grid-item-card:: Read a subpart of the mesh
-       :link: ref_tutorials
-       :link-type: ref
-       :text-align: center
-
-       This tutorial
-
-    .. grid-item-card:: Split the mesh
-       :link: ref_tutorials
-       :link-type: ref
-       :text-align: center
-
-       This tutorial
-
-Transform data
---------------
-
-.. grid:: 2
-    :gutter: 2
-    :padding: 2
-    :margin: 2
-
-    .. grid-item-card:: Using operators
-       :link: ref_tutorials
-       :link-type: ref
-       :text-align: center
-
-       This tutorial
-
-    .. grid-item-card:: Create a workflow
-       :link: ref_tutorials
-       :link-type: ref
-       :text-align: center
-
-       This tutorial
-
-    .. grid-item-card:: Mathematical operations with PyDPF-Core data storage structures
-       :link: ref_tutorials
-       :link-type: ref
-       :text-align: center
-
-       This tutorial
-
-Plot
-----
-
-.. grid:: 2
-    :gutter: 2
-    :padding: 2
-    :margin: 2
-
-    .. grid-item-card:: Plotting meshes
-       :link: ref_tutorials
-       :link-type: ref
-       :text-align: center
-
-       This tutorial
-
-    .. grid-item-card:: Plotting data on the mesh
-       :link: ref_tutorials
-       :link-type: ref
-       :text-align: center
-
-       This tutorial
-
-    .. grid-item-card:: Plotting data on specific placements
-       :link: ref_tutorials
-       :link-type: ref
-       :text-align: center
-
-       This tutorial
-
-    .. grid-item-card:: Plotting a graph
-       :link: ref_tutorials
-       :link-type: ref
-       :text-align: center
-
-       This tutorial
-
-Animate
--------
-
-.. grid:: 2
-    :gutter: 2
-    :padding: 2
-    :margin: 2
-
-    .. grid-item-card:: Animate data
-       :link: ref_tutorials
-       :link-type: ref
-       :text-align: center
-
-       This tutorial
-
-Export data
------------
-
-.. grid:: 2
-    :gutter: 2
-    :padding: 2
-    :margin: 2
-
-    .. grid-item-card:: Export to XXX
-       :link: ref_tutorials
-       :link-type: ref
-       :text-align: center
-
-       This tutorial
-
-
-Enriching DPF capabilities
---------------------------
-
-.. grid:: 2
-    :gutter: 2
-    :padding: 2
-    :margin: 2
-
-    .. grid-item-card:: Create custom operators and plugins
-       :link: ref_tutorials
-       :link-type: ref
-       :text-align: center
-
-       This tutorial
-
-    .. grid-item-card:: Configure DPF plugins load
-       :link: ref_tutorials
-       :link-type: ref
-       :text-align: center
-
-       This tutorial
-
-    .. grid-item-card:: Create a plug-in package with multiple operators
-       :link: ref_tutorials
-       :link-type: ref
-       :text-align: center
-
-       This tutorial
-
-    .. grid-item-card:: Create a plug-in package that has third-party dependencies
-       :link: ref_tutorials
-       :link-type: ref
-       :text-align: center
-
-       This tutorial
-
-Post-process distributed files
-------------------------------
-
-    .. grid-item-card:: Post process data on distributed processes
-       :link: ref_tutorials
-       :link-type: ref
-       :text-align: center
-
-       This tutorial
-
-    .. grid-item-card:: Create a custom workflow on distributed processes
-       :link: ref_tutorials
-       :link-type: ref
-       :text-align: center
-
-       This tutorial
-
-DPF server
-----------
-
-.. grid:: 2
-    :gutter: 2
-    :padding: 2
-    :margin: 2
-
-    .. grid-item-card:: Switch between local and remote server
-       :link: ref_tutorials
-       :link-type: ref
-       :text-align: center
-
-       This tutorial
-
-Licensing
----------
-
-.. grid:: 2
-    :gutter: 2
-    :padding: 2
-    :margin: 2
-
-    .. grid-item-card:: Access Entry and Premium Capabilities
-       :link: ref_tutorials
-       :link-type: ref
-       :text-align: center
-
-       This tutorial
+    02-import_data/index.rst
+    03-mesh/index.rst
+    04-transform_data/index.rst
+    05-plot/index.rst
+    06-animate/index.rst
+    07-export_data/index.rst
+    08-enriching_dpf_capabilities/index.rst
+    09-distributed_files/index.rst
+    10-dpf_server/index.rst
+    11-licensing/index.rst
