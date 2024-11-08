@@ -172,9 +172,7 @@ def test_cyc_support_from_to_workflow(cyclic_lin_rst, server_type):
     assert len(exp.base_nodes_scoping().ids) == 32
 
 
-
-
-@conftest.raises_for_servers_version_under("8.2")
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_2)
 def test_cyc_support_coordinate_system(cyclic_lin_rst):
     data_sources = dpf.DataSources(cyclic_lin_rst)
     model = dpf.Model(data_sources)
@@ -198,7 +196,7 @@ def test_cyc_support_multistage(cyclic_multistage):
     assert np.allclose(cyc_support.sectors_set_for_expansion(stage_num=1).ids, list(range(0, 12)))
 
 
-@conftest.raises_for_servers_version_under("8.2")
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_2)
 def test_cyc_support_multistage_low_high_map(cyclic_multistage):
     model = dpf.Model(cyclic_multistage)
     cyc_support = model.metadata.result_info.cyclic_support
