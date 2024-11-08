@@ -172,6 +172,18 @@ def test_cyc_support_from_to_workflow(cyclic_lin_rst, server_type):
     assert len(exp.base_nodes_scoping().ids) == 32
 
 
+
+
+@conftest.raises_for_servers_version_under("8.2")
+def test_cyc_support_coordinate_system(cyclic_lin_rst):
+    data_sources = dpf.DataSources(cyclic_lin_rst)
+    model = dpf.Model(data_sources)
+    result_info = model.metadata.result_info
+    cyc_support = result_info.cyclic_support
+    exp = cyc_support.cs().scoping
+    assert np.allclose(exp.ids, [12])
+
+
 def test_cyc_support_multistage(cyclic_multistage):
     model = dpf.Model(cyclic_multistage)
     cyc_support = model.metadata.result_info.cyclic_support
@@ -187,8 +199,8 @@ def test_cyc_support_multistage(cyclic_multistage):
 
 
 @conftest.raises_for_servers_version_under("8.2")
-def test_cyc_support_multistage_low_high_map(cyclic_multistage, server_type):
-    model = dpf.Model(cyclic_multistage, server=server_type)
+def test_cyc_support_multistage_low_high_map(cyclic_multistage):
+    model = dpf.Model(cyclic_multistage)
     cyc_support = model.metadata.result_info.cyclic_support
 
     high_low_map = cyc_support.high_low_map(0)
@@ -200,18 +212,6 @@ def test_cyc_support_multistage_low_high_map(cyclic_multistage, server_type):
     assert np.allclose(low_high_map.get_entity_data_by_id(995), 939)
     assert np.allclose(low_high_map.get_entity_data_by_id(53), 54)
     assert np.allclose(low_high_map.get_entity_data_by_id(70), 56)
-
-
-@conftest.raises_for_servers_version_under("8.2")
-def test_cyc_support_coordinate_system(cyclic_lin_rst, server_type):
-    data_sources = dpf.DataSources(cyclic_lin_rst, server=server_type)
-    model = dpf.Model(data_sources, server=server_type)
-    result_info = model.metadata.result_info
-
-    cyc_support = result_info.cyclic_support
-
-    exp = cyc_support.cs().scoping
-    assert np.allclose(exp.ids, [12])
 
 
 def test_delete_cyc_support(cyclic_lin_rst, server_type_legacy_grpc):
