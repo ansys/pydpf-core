@@ -186,7 +186,7 @@ def test_cyc_support_multistage(cyclic_multistage):
     assert np.allclose(cyc_support.sectors_set_for_expansion(stage_num=1).ids, list(range(0, 12)))
 
 
-@conftest.raises_for_servers_version_under("8.2")
+@conftest.raises_for_servers_version_under("8.1")
 def test_cyc_support_multistage_low_high_map(cyclic_multistage):
     model = dpf.Model(cyclic_multistage)
     cyc_support = model.metadata.result_info.cyclic_support
@@ -202,7 +202,7 @@ def test_cyc_support_multistage_low_high_map(cyclic_multistage):
     assert np.allclose(low_high_map.get_entity_data_by_id(70), 56)
 
 
-@conftest.raises_for_servers_version_under("8.2")
+@conftest.raises_for_servers_version_under("8.1")
 def test_cyc_support_coordinate_system(cyclic_lin_rst):
     data_sources = dpf.DataSources(cyclic_lin_rst)
     model = dpf.Model(data_sources)
