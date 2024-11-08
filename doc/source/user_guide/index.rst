@@ -4,27 +4,24 @@
 User guide
 ==========
 
-PyDPF-Core is a Python client API for accessing DPF postprocessing
-capabilities. The ``ansys.dpf.core`` package makes highly efficient 
-computation, customization, and remote postprocessing accessible in Python.
+**DPF** provides numerical simulation users and engineers with a toolbox for accessing and
+transforming data.
+
+**PyDPF-Core** is a Python client API for accessing DPF
+capabilities. The ``ansys.dpf.core`` package makes highly efficient
+computation, customization, and remote data processing accessible in Python.
 
 The goals of this section are to:
 
- - Describe the most-used DPF entities and how they can help you to access and modify solver data.
- - Provide simple how-tos for tackling the most common use cases.
-
-.. include::
-   concepts/index.rst
+ - Describe some DPF entities and how they can help you to access and modify solver data.
+ - Provide detailed tutorials to demonstrate PyDPF-Core functionalities.
+ - Explain how to resolve the most common issues encountered when using PyDPF-Core
 
 .. include::
    tutorials/index.rst
 
 .. include::
-   main_entities.rst
-
-.. include::
-   how_to.rst
-
+   concepts/index.rst
 
 Troubleshooting
 ---------------
@@ -56,6 +53,23 @@ Troubleshooting
 
 
 .. toctree::
+    :maxdepth: 2
+    :hidden:
+    :caption: Tutorials
+
+    tutorials/basic_tutorial_index.rst
+    tutorials/02-import_data/index.rst
+    tutorials/03-mesh/index.rst
+    tutorials/04-transform_data/index.rst
+    tutorials/05-plot/index.rst
+    tutorials/06-animate/index.rst
+    tutorials/07-export_data/index.rst
+    tutorials/08-enriching_dpf_capabilities/index.rst
+    tutorials/09-distributed_files/index.rst
+    tutorials/10-dpf_server/index.rst
+    tutorials/11-licensing/index.rst
+
+.. toctree::
    :maxdepth: 2
    :hidden:
    :caption: Concepts
@@ -63,37 +77,6 @@ Troubleshooting
    concepts/concepts.rst
    concepts/waysofusing.rst
    concepts/stepbystep.rst
-
-.. toctree::
-    :maxdepth: 2
-    :hidden:
-    :caption: Tutorials
-
-    tutorials/basic_tutorial_index.rst
-    tutorials/other_tutorials_index.rst
-
-.. toctree::
-    :maxdepth: 2
-    :hidden:
-    :caption: DPF most-used entities
-
-    model
-    operators
-    fields_container
-
-
-.. toctree::
-    :maxdepth: 2
-    :hidden:
-    :caption: How-tos
-
-    plotting.rst
-    custom_operators.rst
-    dpf_server.rst
-    server_types.rst
-    server_context.rst
-    xmlfiles.rst
-
 
 .. toctree::
     :maxdepth: 3
