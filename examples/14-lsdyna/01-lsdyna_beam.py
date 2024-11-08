@@ -23,8 +23,8 @@
 """
 .. _lsdyna_operators:
 
-Results extraction and analysis from LS-DYNA sources
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Beam results manipulations
+--------------------------
 
 This example provides an overview of the LS-DYNA beam results manipulations.
 
@@ -40,12 +40,12 @@ from ansys.dpf.core import examples
 from ansys.dpf.core import operators as ops
 
 ###############################################################################
-# d3plot file results extraction
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# d3plot file data extraction
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Create the model and print its contents. This LS-DYNA d3plot file contains
 # several individual results, each at different times. The d3plot file does not
 # contain information related to Units.
-
+#
 # In this case, as the simulation was run  through Mechanical, a ''file.actunits''
 # file is produced. If this file is supplemented in the data_sources, the units
 # will be correctly fetched for all results in the file as well as for the mesh.
@@ -58,58 +58,67 @@ my_model = dpf.Model(my_data_sources)
 print(my_model)
 
 ###############################################################################
+# Exploring the mesh
+# ~~~~~~~~~~~~~~~~~~
+#
 # The model has solid (3D) elements and beam (1D) elements. Some of the results
 # only apply to one type of elements (such as the stress tensor for solids, or
 # the axial force for beams, for example).
-
+#
 # By splitting the mesh by element shape we see that the ball is made by the solid
 # 3D elements and the plate by the beam 1D elements
-
-# Define the analysis mesh
+#
+# - Define the analysis mesh
 my_meshed_region = my_model.metadata.meshed_region
 
-# Get separate meshes for each body
+# - Get separate meshes for each body
 my_meshes = ops.mesh.split_mesh(
     mesh=my_meshed_region, property=dpf.common.elemental_properties.element_shape
 ).eval()
 
-# Define the meshes for each body in separate variables
+# - Define the meshes for each body in separate variables
 ball_mesh = my_meshes.get_mesh(label_space_or_index={"body": 1, "elshape": 1})
 plate_mesh = my_meshes.get_mesh(label_space_or_index={"body": 2, "elshape": 2})
 
-# print(my_meshes)
+print(my_meshes)
 
 ###############################################################################
-# Ball
-
-print("Ball mesh", "\n", ball_mesh, "\n")
-ball_mesh.plot(title="Ball mesh", text="Ball mesh")
-
-###############################################################################
-# Plate
+# Plate mesh
 
 print("Plate mesh", "\n", plate_mesh)
 plate_mesh.plot(title="Plate mesh", text="Plate mesh")
 
 ###############################################################################
-# Define the mesh scoping to use it with the operators
+# Ball mesh
+
+print("Ball mesh", "\n", ball_mesh, "\n")
+ball_mesh.plot(title="Ball mesh", text="Ball mesh")
+
+###############################################################################
+# Scoping
+# ~~~~~~~
+#
+# - Define the mesh scoping to use it with the operators
 my_meshes_scoping = ops.scoping.split_on_property_type(mesh=my_meshed_region).eval()
 
-# Define the mesh scoping for each body/element shape in separate variables
+###############################################################################
+# - Define the mesh scoping for each body/element shape in separate variables
 ball_scoping = my_meshes_scoping.get_scoping(label_space_or_index={"elshape": 1})
 plate_scoping = my_meshes_scoping.get_scoping(label_space_or_index={"elshape": 2})
 
-# We will plot the results in a mesh deformed by the displacement. The displacement
-# is in a nodal location, so we need to define a nodal scoping for the palte
+###############################################################################
+# - We will plot the results in a mesh deformed by the displacement.
+#   The displacement is in a nodal location, so we need to define a nodal scoping for the plate
 plate_scoping_nodal = dpf.operators.scoping.transpose(
     mesh_scoping=plate_scoping, meshed_region=my_meshed_region
 ).eval()
 
 ###############################################################################
-
+# Beam results
+# ~~~~~~~~~~~~
 # The next manipulations can be applied to the following beam operators
 # that handle the correspondent results :
-
+#
 #      -  beam_axial_force: Beam Axial Force
 #      -  beam_s_shear_force: Beam S Shear Force
 #      -  beam_t_shear_force: Beam T Shear Force
@@ -121,10 +130,10 @@ plate_scoping_nodal = dpf.operators.scoping.transpose(
 #      -  beam_tr_shear_stress: Beam Tr Shear Stress
 #      -  beam_axial_plastic_strain: Beam Axial Plastic Strain
 #      -  beam_axial_total_strain: Beam Axial Total Strain
-
+#
 # We do not demonstrate separately how to use each of them in this example
-# once they have similar methods. We .... in the beam stress and forces results
-
+# once they have similar methods.
+#
 # So, if you want to operate on other operator, uou just need to change their
 # scripting name in the code lines.
 
@@ -137,22 +146,22 @@ time_steps_set = [2, 6, 12]
 
 # 2) Prepare the collections to store the results for each time step
 
-# To compare the results in the same image you have to copy the mesh for each plot
+#    a. To compare the results in the same image you have to copy the mesh for each plot
 plate_meshes = dpf.MeshesContainer()
 plate_meshes.add_label("time")
 
-# The displacements for each time steps to deform the mesh accordingly
+#    b. The displacements for each time steps to deform the mesh accordingly
 plate_displacements = dpf.FieldsContainer()
 plate_displacements.add_label(label="time")
 
-# The axial force results for each time steps. Here
+#   c. The axial force results for each time steps. Here
 plate_axial_force = dpf.FieldsContainer()
 plate_axial_force.add_label(label="time")
 
-# 3)  Use the :class: `Plotter <ansys.dpf.core.plotter.DpfPlotter>` class
-# to add the plots in the same image
+# 3)  Use the Plotter class to add the plots in the same image
 comparison_plot = dpf.plotter.DpfPlotter()
 
+#   Side bar arguments definition
 side_bar_args = dict(
     title="Beam axial force (N)", fmt="%.2e", title_font_size=15, label_font_size=15
 )
@@ -161,9 +170,9 @@ side_bar_args = dict(
 # It represents the distance between the meshes
 j = -400
 
+# 5) Copy the mesh of interest. Here it is the plate mesh that we copy along the X axis
 # Here we use a loop where each iteration correspond to the manipulations for a given time step
 
-# 5) Copy the mesh of interest. Here it is the plate mesh that we copy along the X axis
 for i in time_steps_set:  # Loop through the time steps
     # Copy the mesh
     plate_meshes.add_mesh(label_space={"time": i}, mesh=plate_mesh.deep_copy())
@@ -213,18 +222,19 @@ for i in time_steps_set:  # Loop through the time steps
     # 12) Increment the coordinate value for the loop
     j = j - 400
 
+
 # Visualise the plot
 comparison_plot.show_figure()
 
 ###############################################################################
 # Plot a graph over time for the elements with max and min results values
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+#
 # Here we make a workflow with a more verbose approach. This is useful because we use operators
 # having several matching inputs or outputs. So the connexions are more clear, and it is
 # easier to use and reuse the workflow.
-
-# Find the element with the max values over all the time steps and return its ID
+#
+# The following workflow finds the element with the max values over all the time steps and return its ID
 
 # Define the workflow object
 max_workflow = dpf.Workflow()
@@ -249,8 +259,13 @@ max_workflow.set_output_name("max_id", max_id.outputs.property_as_vector_int32_)
 max_workflow.set_output_name("max_entity_scoping", max_scop.outputs.mesh_scoping_as_scoping)
 
 ###############################################################################
+# Using the workflow to the stresses results on the plate:
+#
+# - Extract the results
+
 # Get all the time steps
 time_all = my_model.metadata.time_freq_support.time_frequencies
+
 # Extract all the stresses results on the plate
 plate_beam_axial_stress = my_model.results.beam_axial_stress(
     time_scoping=time_all, mesh_scoping=plate_scoping
@@ -262,21 +277,30 @@ plate_beam_tr_shear_stress = my_model.results.beam_tr_shear_stress(
     time_scoping=time_all, mesh_scoping=plate_scoping
 ).eval()
 
-# List of operators to simplify the code
+###############################################################################
+# - As we will use the workflow for different results operators we group them and
+#   use a loop through the group. Here we prepare where the workflow outputs will be stored
+
+# List of operators to be used in the workflow
 beam_stresses = [plate_beam_axial_stress, plate_beam_rs_shear_stress, plate_beam_tr_shear_stress]
 graph_labels = [
     "Beam axial stress",
     "Beam rs shear stress",
     "Beam tr shear stress",
 ]
-# List of elements ids
+
+# List of elements ids that we will get from the workflow
 max_stress_elements_ids = []
+
 # Scopings container
 max_stress_elements_scopings = dpf.ScopingsContainer()
 max_stress_elements_scopings.add_label("stress_result")
 
-# Loop through each stress result that gets the elements with maximum solicitation id, re-escope the fields
-# container to keep only the data for this element, and finally plot a stress x time graph
+###############################################################################
+# - The following loop:
+#       a) Goes through each stress result and get the element id with maximum solicitation
+#       b) Re-escope the fields container to keep only the data for this element
+#       c) Plot a stress x time graph
 
 for j in range(0, len(beam_stresses)):  # Loop through each stress result
     # Use the pre-defined workflow to define the element with maximum solicitation
@@ -309,6 +333,7 @@ for j in range(0, len(beam_stresses)):  # Loop through each stress result
         label=f"{graph_labels[j]}, element id:{max_stress_elements_ids[j][0]}",
     )
 
+# Graph formatting
 plt.title("Beam stresses evolution")
 plt.xlabel("Time (s)")
 plt.ylabel("Beam stresses (MPa)")
@@ -318,17 +343,17 @@ plt.show()
 ###############################################################################
 # Results coordinates system
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-# The results are given in the Cartesian coordinates system by default.
-
-# The beam results are given directly in the local directions. For example the beam stresses:
-
-# We have the axial stress, given in the beam axis, and the stresses defined in the
-# cross-section directions, tr stress in the transverse direction (t) and rs stress
-# perpendicular to the tr direction (s).
-
-# Those results are given as scalars.
-
+#
+# The general results are given in the Cartesian coordinates system by default.
+#
+# The beam results are given directly in the local directions as scalars.
+# For example the beam stresses we have:
+#
+# - The axial stress, given in the beam axis
+# - The stresses defined in the cross-section directions: tr stress in the transverse
+#   direction (t) and rs stress perpendicular to the tr direction (s).
+#
+#
 # Unfortunately there are no operators for LS-DYNA files that directly  allows you to:
 # - Rotate results from local coordinate system to global coordinate system;
 # - Extract the rotation matrix between the local and global coordinate systems;
