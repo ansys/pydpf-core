@@ -3,28 +3,117 @@
 Tutorials
 ---------
 
-The tutorials go through the steps required to access, analyze,
-and transform simulation data using  PyDPF-Core.
+The tutorials cover specifics features with detailed demonstrations to help
+understanding the fundamental PyDPF-Core functionalities and clarify some concepts.
+They are designed to teach how to perform a task, providing explanations at each stage.
 
-Tutorials are more substantive and complex than examples. They are designed to teach how to perform a task and understand
-the underlying concepts, providing detailed explanations at each stage, whereas examples showcase end-to-end specific processes.
+:fa:`person-running` Beginner's guide
+*************************************
 
-.. grid:: 1 1 2 2
+New to PyDPF-Core? Check our beginner's tutorials. They offer an overview
+of our package background so you can understand how to work with it.
+
+.. grid:: 1 1 3 3
     :gutter: 2
     :padding: 2
     :margin: 2
 
-    .. grid-item-card:: :fa:`person-running` Onboarding
+    .. grid-item-card:: PyDPF-Core language fundamentals
        :link: ref_tutorials_basic
        :link-type: ref
        :text-align: center
 
-       New to PyDPF-Core? Check our beginner's tutorial. It offers an overview
-       of our basic key features and links to additional tutorials.
+       These tutorials gives you an overview on how to use PyDPF-Core API
 
-    .. grid-item-card:: :fa:`book-open-reader` Fundamentals and usage
+    .. grid-item-card::  Processing data basics
        :link: ref_tutorials_others
        :link-type: ref
        :text-align: center
 
-       These tutorials provides detailed demonstrations on PyDPF-Core key features.
+       These tutorials shows the basics on how data can be manipulated with PyDPF-Core.
+
+    .. grid-item-card::  Post processing simulations basics
+       :link: ref_tutorials_others
+       :link-type: ref
+       :text-align: center
+
+       This tutorial shows a basic post-processing procedure using PyDPf-Core
+
+:fa:`book-open-reader` Features usage
+*************************************
+
+.. grid:: 1 1 3 3
+    :gutter: 2
+    :padding: 2
+    :margin: 2
+
+    .. grid-item-card:: Import Data on DPF
+       :link: ref_tutorials_basic
+       :link-type: ref
+       :text-align: center
+
+       These tutorials demonstrate how to represent data in DPF: either from manual input either form result files.
+
+    .. grid-item-card:: Export data from DPF
+       :link: ref_tutorials_others
+       :link-type: ref
+       :text-align: center
+
+       These tutorials provides demonstrations on how to export data from your manipulation.
+
+    .. grid-item-card:: Transform data with PyDPF-Core
+       :link: ref_tutorials_basic
+       :link-type: ref
+       :text-align: center
+
+       These tutorials demonstrate how to transform and operate on the data to obtain the desired input.
+
+    .. grid-item-card:: Mesh analysis
+       :link: ref_tutorials_others
+       :link-type: ref
+       :text-align: center
+
+       These tutorials provides detailed demonstrations on how to explore the simulation models mesh.
+
+    .. grid-item-card:: Plot
+       :link: ref_tutorials_others
+       :link-type: ref
+       :text-align: center
+
+       These tutorials shows how to visualise the data in plots.
+
+    .. grid-item-card:: Animate
+       :link: ref_tutorials_basic
+       :link-type: ref
+       :text-align: center
+
+       These tutorials shows how to visualise the data in an animation.
+
+    .. grid-item-card:: Enriching DPF capabilities
+       :link: ref_tutorials_basic
+       :link-type: ref
+       :text-align: center
+
+       These tutorials demonstrate how to enhance DPF capabilities by creating new operator’s libraries.
+
+    .. grid-item-card:: Post-process distributed files
+       :link: ref_tutorials_others
+       :link-type: ref
+       :text-align: center
+
+       These tutorials provides demonstrations on how to use PyDPF-Core with distributed files.
+
+    .. grid-item-card:: DPF server
+       :link: ref_tutorials_basic
+       :link-type: ref
+       :text-align: center
+
+       These tutorial explains how to manipulate DPF client-server architecture
+
+    .. grid-item-card:: Licensing
+       :link: ref_tutorials_others
+       :link-type: ref
+       :text-align: center
+
+       These tutorials provide detailed demonstrations on how to access
+       the Entry and Premium licensing capabilities
