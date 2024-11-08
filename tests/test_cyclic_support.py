@@ -24,6 +24,7 @@ import gc
 import weakref
 import numpy as np
 
+import conftest
 import pytest
 
 from ansys import dpf
@@ -189,7 +190,7 @@ def test_cyc_support_multistage(cyclic_multistage):
 def test_cyc_support_multistage_low_high_map(cyclic_multistage):
     model = dpf.Model(cyclic_multistage)
     cyc_support = model.metadata.result_info.cyclic_support
-    
+
     high_low_map = cyc_support.high_low_map(0)
     assert np.allclose(high_low_map.get_entity_data_by_id(1446), 1447)
     assert np.allclose(high_low_map.get_entity_data_by_id(2946), 2948)
