@@ -25,6 +25,9 @@ class merge_time_freq_supports(Operator):
         or time/frequency supports from pin 0
         to ...
 
+    Returns
+    -------
+    merged_support : TimeFreqSupport
 
     Examples
     --------

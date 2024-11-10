@@ -111,6 +111,7 @@ To use PyDPF-Core, in the same Python environment, run this command:
 
 
 .. toctree::
+   :maxdepth: 2
    :hidden:
 
    install
@@ -118,4 +119,5 @@ To use PyDPF-Core, in the same Python environment, run this command:
    compatibility
    licensing
    dependencies
+   contributing
 

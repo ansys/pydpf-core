@@ -20,6 +20,9 @@ class min_max_over_time(Operator):
     int32 : int
         Define min or max.
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

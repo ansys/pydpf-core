@@ -19,6 +19,9 @@ class stl_export(Operator):
     mesh : MeshedRegion
     file_path : str
 
+    Returns
+    -------
+    data_sources : DataSources
 
     Examples
     --------

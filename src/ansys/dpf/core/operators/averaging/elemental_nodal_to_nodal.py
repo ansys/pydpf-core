@@ -36,6 +36,13 @@ class elemental_nodal_to_nodal(Operator):
         available). default is false.
     mesh : MeshedRegion, optional
 
+    Returns
+    -------
+    field : Field
+    weight : PropertyField
+        Provides the number of times it was found in
+        the elemental nodal field, for each
+        node. can be used to average later.
 
     Examples
     --------

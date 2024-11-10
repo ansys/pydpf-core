@@ -21,6 +21,9 @@ class make_overall(Operator):
     field : Field
     id : int
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

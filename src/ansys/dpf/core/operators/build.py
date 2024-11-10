@@ -182,13 +182,30 @@ def build_operators():
 
     succeeded = 0
     done = 0
+    hidden = 0
+    # List of hidden operators to still expose for retro-compatibility
+    # until they are fully deprecated
+    hidden_to_expose = [  # Use internal names
+        "change_fc",
+        "dot", "dot_tensor",
+        "scale_by_field", "scale_by_field_fc",
+        "invert", "invert_fc",
+    ]
+    categories = set()
     for operator_name in available_operators:
         if succeeded == done + 100:
             done += 100
             print(f"{done} operators done...")
         specification = dpf.Operator.operator_specification(operator_name)
 
+        if (specification.properties["exposure"] in ["hidden", "private"]
+                and
+                operator_name not in hidden_to_expose):
+            hidden += 1
+            continue
+
         category = specification.properties.get("category", "")
+        categories.add(category)
         if not category:
             raise ValueError(f"Category not defined for operator {operator_name}.")
         scripting_name = specification.properties.get("scripting_name", "")
@@ -211,7 +228,7 @@ def build_operators():
 
         # Write to operator file
         operator_file = os.path.join(category_path, scripting_name + ".py")
-        with open(operator_file, "w") as f:
+        with open(operator_file, "wb") as f:
             try:
                 operator_str = build_operator(
                     specification,
@@ -221,7 +238,7 @@ def build_operators():
                     category,
                 )
                 exec(operator_str, globals())
-                f.write(operator_str)
+                f.write(operator_str.encode())
                 succeeded += 1
             except SyntaxError as e:
                 error_message = (
@@ -233,8 +250,24 @@ def build_operators():
                     error_file.write(f"Class: {operator_str}")
                 print(error_message)
 
-    print(f"Generated {succeeded} out of {len(available_operators)}")
-    if succeeded == len(available_operators):
+    print(f"Generated {succeeded} out of {len(available_operators)} ({hidden} hidden)")
+
+    # Create __init__.py files
+    print(f"Generating __init__.py files...")
+    with open(os.path.join(this_path, "__init__.py"), "wb") as main_init:
+        for category in sorted(categories):
+            # Add category to main init file imports
+            main_init.write(f"from . import {category}\n".encode())
+            # Create category init file
+            category_operators = os.listdir(os.path.join(this_path, category.split(".")[0]))
+            with open(os.path.join(this_path, category, "__init__.py"), "wb") as category_init:
+                for category_operator in category_operators:
+                    operator_name = category_operator.split(".")[0]
+                    category_init.write(
+                        f"from .{operator_name} import {operator_name}\n".encode()
+                    )
+
+    if succeeded == len(available_operators) - hidden:
         print("Success")
         exit(0)
     else:

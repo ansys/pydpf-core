@@ -29,6 +29,9 @@ class field_signed_high_pass(Operator):
         container is returned on output pin
         1.
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

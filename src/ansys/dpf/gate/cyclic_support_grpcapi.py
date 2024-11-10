@@ -76,6 +76,16 @@ class CyclicSupportGRPCAPI(cyclic_support_abstract_api.CyclicSupportAbstractAPI)
                        "base_elements_scoping_"+str(i_stage)).get_ownership()
 
     @staticmethod
+    def cyclic_support_get_low_high_map(support, i_stage):
+        return getattr(CyclicSupportGRPCAPI.list(support),
+                       "low_high_map_"+str(i_stage)).get_ownership()
+
+    @staticmethod
+    def cyclic_support_get_high_low_map(support, i_stage):
+        return getattr(CyclicSupportGRPCAPI.list(support),
+                       "high_low_map_"+str(i_stage)).get_ownership()
+
+    @staticmethod
     def get_expanded_ids(support, request):
         return _get_stub(support._server).GetExpandedIds(request).expanded_ids
 
@@ -100,3 +110,19 @@ class CyclicSupportGRPCAPI(cyclic_support_abstract_api.CyclicSupportAbstractAPI)
         request = CyclicSupportGRPCAPI.init_get_expanded_ids(support, i_stage, sectorsScoping)
         request.element_id = baseElementId
         return CyclicSupportGRPCAPI.get_expanded_ids(support, request)
+
+    @staticmethod
+    def get_cs(support, request):
+        return _get_stub(support._server).GetCS(request).cs
+
+    @staticmethod
+    def init_get_cs(support):
+        from ansys.grpc.dpf import cyclic_support_pb2
+        request = cyclic_support_pb2.GetCSRequest()
+        request.support.CopyFrom(support._internal_obj)
+        return request
+
+    @staticmethod
+    def cyclic_support_get_cs(support):
+        request = CyclicSupportGRPCAPI.init_get_cs(support)
+        return CyclicSupportGRPCAPI.get_cs(support, request)

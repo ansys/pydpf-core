@@ -56,6 +56,9 @@ class mesh_provider(Operator):
         option set to 0 will return all
         possible properties
 
+    Returns
+    -------
+    mesh : MeshedRegion
 
     Examples
     --------

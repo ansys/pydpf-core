@@ -20,6 +20,9 @@ class matrix_inverse(Operator):
     fields_container : FieldsContainer
         Fields_container
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------
