@@ -214,7 +214,7 @@ class Nodes:
         >>> meshed_region = model.metadata.meshed_region
         >>> nodes = model.metadata.meshed_region.nodes
         >>> nodes.scoping.ids[2]
-        3
+        np.int32(3)
 
         """
         return self._mesh._get_scoping(loc=locations.nodal)
