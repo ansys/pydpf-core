@@ -57,17 +57,19 @@ Troubleshooting
     :hidden:
     :caption: Tutorials
 
-    tutorials/basic_tutorial_index.rst
-    tutorials/02-import_data/index.rst
-    tutorials/03-mesh/index.rst
-    tutorials/04-transform_data/index.rst
-    tutorials/05-plot/index.rst
-    tutorials/06-animate/index.rst
+    tutorials/01-language_and_usage/index.rst
+    tutorials/02-processing_basics/index.rst
+    tutorials/03-post_processing_basics/index.rst
+    tutorials/04-import_data/index.rst
+    tutorials/05-mesh/index.rst
+    tutorials/06-transform_data/index.rst
     tutorials/07-export_data/index.rst
-    tutorials/08-enriching_dpf_capabilities/index.rst
-    tutorials/09-distributed_files/index.rst
-    tutorials/10-dpf_server/index.rst
-    tutorials/11-licensing/index.rst
+    tutorials/08-plot/index.rst
+    tutorials/09-animate/index.rst
+    tutorials/10-enriching_dpf_capabilities/index.rst
+    tutorials/11-distributed_files/index.rst
+    tutorials/12-dpf_server/index.rst
+    tutorials/13-licensing/index.rst
 
 .. toctree::
    :maxdepth: 2

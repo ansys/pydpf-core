@@ -1,14 +1,15 @@
-.. _ref_tutorials_others_licensing:
+.. _ref_tutorials_dpf_server:
 
-Licensing
----------
+==========
+DPF server
+==========
 
 .. grid:: 2
     :gutter: 2
     :padding: 2
     :margin: 2
 
-    .. grid-item-card:: Access Entry and Premium Capabilities
+    .. grid-item-card:: Switch between local and remote server
        :link: ref_tutorials
        :link-type: ref
        :text-align: center

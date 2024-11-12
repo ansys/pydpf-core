@@ -1,14 +1,15 @@
-.. _ref_tutorials_others_dpf_server:
+.. _ref_tutorials_animate:
 
-DPF server
-----------
+=======
+Animate
+=======
 
 .. grid:: 2
     :gutter: 2
     :padding: 2
     :margin: 2
 
-    .. grid-item-card:: Switch between local and remote server
+    .. grid-item-card:: Animate data
        :link: ref_tutorials
        :link-type: ref
        :text-align: center

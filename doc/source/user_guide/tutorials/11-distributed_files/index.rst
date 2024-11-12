@@ -1,7 +1,8 @@
-.. _ref_tutorials_others_distributed_files:
+.. _ref_tutorials_distributed_files:
 
+==============================
 Post-process distributed files
-------------------------------
+==============================
 
 .. grid:: 2
     :gutter: 2

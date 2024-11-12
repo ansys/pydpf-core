@@ -1,35 +1,36 @@
-.. _ref_tutorials_others_mesh:
+.. _ref_tutorials_enriching:
 
-Mesh
-----
+==========================
+Enriching DPF capabilities
+==========================
 
 .. grid:: 2
     :gutter: 2
     :padding: 2
     :margin: 2
 
-    .. grid-item-card:: Read the mesh metadata
+    .. grid-item-card:: Create custom operators and plugins
        :link: ref_tutorials
        :link-type: ref
        :text-align: center
 
        This tutorial
 
-    .. grid-item-card:: Read the mesh
+    .. grid-item-card:: Configure DPF plugins load
        :link: ref_tutorials
        :link-type: ref
        :text-align: center
 
        This tutorial
 
-    .. grid-item-card:: Read a subpart of the mesh
+    .. grid-item-card:: Create a plug-in package with multiple operators
        :link: ref_tutorials
        :link-type: ref
        :text-align: center
 
        This tutorial
 
-    .. grid-item-card:: Split the mesh
+    .. grid-item-card:: Create a plug-in package that has third-party dependencies
        :link: ref_tutorials
        :link-type: ref
        :text-align: center
@@ -39,3 +40,4 @@ Mesh
 .. toctree::
     :maxdepth: 2
     :hidden:
+
