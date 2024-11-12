@@ -17,9 +17,11 @@ learn about the Entry and Premium licensing capabilities
        :link-type: ref
        :text-align: center
 
-       This tutorial
+       This tutorial explains the DPF server licensing logic
 
 .. toctree::
     :maxdepth: 2
     :hidden:
+
+    Access Entry and Premium Capabilities <server_context.rst>
 
