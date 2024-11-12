@@ -40,3 +40,9 @@ If you are not familiarized with those concepts you can check our concepts secti
        using PyDPf-Core based on its usual main steps. The goal is to
        transform simulation data into output data that can be used to
        visualize and analyze simulation results.
+
+.. toctree::
+    :maxdepth: 2
+    :hidden:
+
+    01-main-steps.rst
