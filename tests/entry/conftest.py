@@ -70,6 +70,9 @@ if running_docker:
         "/tmp/test_files"
     )
 
+SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0 = meets_version(
+    get_server_version(core._global_server()), "10.0"
+)
 SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_1 = meets_version(
     get_server_version(core._global_server()), "8.1"
 )
