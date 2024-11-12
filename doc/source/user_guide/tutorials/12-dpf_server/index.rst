@@ -4,6 +4,8 @@
 DPF server
 ==========
 
+This tutorial explains how to manipulate DPF client-server architecture
+
 .. grid:: 1 1 3 3
     :gutter: 2
     :padding: 2

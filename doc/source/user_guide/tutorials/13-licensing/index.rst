@@ -4,6 +4,9 @@
 Licensing
 =========
 
+This tutorial explains the DPF server licensing logic. Here you
+learn about the Entry and Premium licensing capabilities
+
 .. grid:: 1 1 3 3
     :gutter: 2
     :padding: 2

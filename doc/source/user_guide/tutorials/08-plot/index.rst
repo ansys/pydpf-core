@@ -4,6 +4,8 @@
 Plot
 ====
 
+These tutorials demonstrate some different approaches to visualise the data in plots.
+
 .. grid:: 1 1 3 3
     :gutter: 2
     :padding: 2

@@ -4,7 +4,7 @@
 PyDPF-Core language and usage
 =============================
 
-This tutorial gives you an overview on how the the PyDPF-COre API can be used.
+This tutorial gives you an overview on how the PyDPF-Core API can be used.
 Here you will learn the different ways to interact with data by calling PyDPF-Core
 commands and operators.
 

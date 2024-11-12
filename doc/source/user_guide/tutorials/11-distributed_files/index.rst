@@ -4,6 +4,8 @@
 Post-process distributed files
 ==============================
 
+These tutorials show how to create workflows on different processes (possibly on different machines) and connect them.
+
 .. grid:: 1 1 3 3
     :gutter: 2
     :padding: 2

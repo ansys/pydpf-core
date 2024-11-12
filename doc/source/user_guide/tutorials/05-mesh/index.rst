@@ -4,6 +4,11 @@
 Mesh
 ====
 
+The mesh in DPF is represented by the :class:`MeshedRegion<ansys.dpf.core.meshed_region.MeshedRegion>` entity.
+
+These tutorials explains how to explore different attributes of a given mesh with PyDPF-Core.
+
+
 .. grid:: 1 1 3 3
     :gutter: 2
     :padding: 2
