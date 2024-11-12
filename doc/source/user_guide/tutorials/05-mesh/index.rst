@@ -4,7 +4,7 @@
 Mesh
 ====
 
-The mesh in DPF is represented by the :class:`MeshedRegion<ansys.dpf.core.meshed_region.MeshedRegion>` entity.
+The mesh in DPF is represented by the :class:`MeshedRegion <ansys.dpf.core.meshed_region.MeshedRegion>` entity.
 
 These tutorials explains how to explore different attributes of a given mesh with PyDPF-Core.
 
@@ -13,6 +13,20 @@ These tutorials explains how to explore different attributes of a given mesh wit
     :gutter: 2
     :padding: 2
     :margin: 2
+
+    .. grid-item-card:: Create a mesh from scratch
+       :link: ref_tutorials
+       :link-type: ref
+       :text-align: center
+
+       This tutorial
+
+    .. grid-item-card:: Get the mesh from a result file
+       :link: ref_tutorials
+       :link-type: ref
+       :text-align: center
+
+       This tutorial
 
     .. grid-item-card:: Read the mesh metadata
        :link: ref_tutorials

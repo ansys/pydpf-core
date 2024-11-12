@@ -20,21 +20,14 @@ From user input
        :link-type: ref
        :text-align: center
 
-       This tutorial
+       Learn how to import data in DPF from csv file
 
-    .. grid-item-card:: Create a data storage structure from scratch
+    .. grid-item-card:: Represent your data in DPF
        :link: ref_tutorials
        :link-type: ref
        :text-align: center
 
-       This tutorial
-
-    .. grid-item-card:: Create a mesh from scratch
-       :link: ref_tutorials
-       :link-type: ref
-       :text-align: center
-
-       This tutorial
+       Learn how to represent your manual input data in a DPF data storage structure
 
 From result files
 *****************
