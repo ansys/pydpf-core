@@ -2,8 +2,13 @@
 
 Enriching DPF capabilities
 --------------------------
+The available DPF capabilities loaded in a DPF application can be enhanced
+by creating new operator’s libraries. DPF offers multiple development APIs
+depending on your environment.
 
-.. grid:: 2
+These tutorials demonstrate how to develop those plugins for PyDPF-Core (CPython based)
+
+.. grid:: 1 1 3 3
     :gutter: 2
     :padding: 2
     :margin: 2
