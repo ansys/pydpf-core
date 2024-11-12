@@ -4,7 +4,7 @@
 DPF server
 ==========
 
-.. grid:: 2
+.. grid:: 1 1 3 3
     :gutter: 2
     :padding: 2
     :margin: 2

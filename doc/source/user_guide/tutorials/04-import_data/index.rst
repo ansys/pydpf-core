@@ -4,10 +4,13 @@
 Import Data
 ===========
 
+These tutorials demonstrate how to represent data in DPF: either from manual input either
+form simulation result files.
+
 From user input
 ***************
 
-.. grid:: 2
+.. grid:: 1 1 3 3
     :gutter: 2
     :padding: 2
     :margin: 2
