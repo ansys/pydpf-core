@@ -1,7 +1,8 @@
-.. _ref_tutorials_others_import_data:
+.. _ref_tutorials_import_data:
 
+===========
 Import Data
------------
+===========
 
 From user input
 ***************

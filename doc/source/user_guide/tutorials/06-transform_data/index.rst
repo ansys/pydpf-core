@@ -1,35 +1,29 @@
-.. _ref_tutorials_others_plot:
+.. _ref_tutorials_transform_data:
 
-Plot
-----
+==============
+Transform data
+==============
 
 .. grid:: 2
     :gutter: 2
     :padding: 2
     :margin: 2
 
-    .. grid-item-card:: Plotting meshes
+    .. grid-item-card:: Using operators
        :link: ref_tutorials
        :link-type: ref
        :text-align: center
 
        This tutorial
 
-    .. grid-item-card:: Plotting data on the mesh
+    .. grid-item-card:: Create a workflow
        :link: ref_tutorials
        :link-type: ref
        :text-align: center
 
        This tutorial
 
-    .. grid-item-card:: Plotting data on specific placements
-       :link: ref_tutorials
-       :link-type: ref
-       :text-align: center
-
-       This tutorial
-
-    .. grid-item-card:: Plotting a graph
+    .. grid-item-card:: Mathematical operations with PyDPF-Core data storage structures
        :link: ref_tutorials
        :link-type: ref
        :text-align: center
@@ -39,3 +33,4 @@ Plot
 .. toctree::
     :maxdepth: 2
     :hidden:
+

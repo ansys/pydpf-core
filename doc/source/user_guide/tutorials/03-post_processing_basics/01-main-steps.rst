@@ -44,7 +44,7 @@ be used to visualize and analyze simulation results:
        :link-type: ref
        :text-align: center
 
-       Extract data
+       Export data
 
 .. _tutorials_main_steps_1:
 
