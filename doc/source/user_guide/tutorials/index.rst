@@ -68,7 +68,7 @@ of our package background so you can understand how to work with it.
        :link-type: ref
        :text-align: center
 
-       Learn how to explore the simulation models mesh.
+       Learn how to explore a mesh in DPF.
 
     .. grid-item-card:: Transform data with PyDPF-Core
        :link: ref_tutorials_transform_data
@@ -82,7 +82,7 @@ of our package background so you can understand how to work with it.
        :link-type: ref
        :text-align: center
 
-       Discover the best ways to export data from your manipulation.
+       Discover the best ways to export data from your manipulations with PyDPF-Core.
 
     .. grid-item-card:: Plot
        :link: ref_tutorials_plot
