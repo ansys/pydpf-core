@@ -36,3 +36,7 @@ These tutorials explains how these structures work and how you can manipulate da
 
        This tutorial shows how to create and work with some DPF collections:
        FieldsContainer, MeshesContainer and ScopingContainer
+
+.. toctree::
+    :maxdepth: 2
+    :hidden:
