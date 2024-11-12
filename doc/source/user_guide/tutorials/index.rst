@@ -24,29 +24,28 @@ of our package background so you can understand how to work with it.
     :padding: 2
     :margin: 2
 
-    .. grid-item-card:: PyDPF-Core language fundamentals
+    .. grid-item-card:: PyDPF-Core data structures
+       :link: ref_tutorials_data_structures
+       :link-type: ref
+       :text-align: center
+
+       Learn the different data structures used by DPF when handling data
+
+    .. grid-item-card:: PyDPF-Core language
        :link: ref_tutorials_language_and_usage
        :link-type: ref
        :text-align: center
 
        Check an overview on how to use PyDPF-Core API.
-       Learn the different ways to interact with data by calling PyDPF-Core
-       classes and operators.
+       Learn the different ways to interact with data by using PyDPF-Core
+       objects and methods.
 
     .. grid-item-card::  Processing data basics
        :link: ref_tutorials_processing_basics
        :link-type: ref
        :text-align: center
 
-       Learn the basics on how data can be manipulated with PyDPF-Core:
-       How to create data storage structures, basic mathematics with the data...
-
-    .. grid-item-card::  Post processing simulations basics
-       :link: ref_tutorials_post_processing_basics
-       :link-type: ref
-       :text-align: center
-
-       Check a basic post-processing procedure using PyDPf-Core.
+       Learn the basics on how data can be manipulated with PyDPF-Core
 
 :fa:`book-open-reader` Features usage
 *************************************

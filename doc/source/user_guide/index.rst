@@ -57,9 +57,9 @@ Troubleshooting
     :hidden:
     :caption: Tutorials
 
-    tutorials/01-language_and_usage/index.rst
-    tutorials/02-processing_basics/index.rst
-    tutorials/03-post_processing_basics/index.rst
+    tutorials/01-data_structures/index.rst
+    tutorials/02-language_and_usage/index.rst
+    tutorials/03-processing_basics/index.rst
     tutorials/04-import_data/index.rst
     tutorials/05-mesh/index.rst
     tutorials/06-transform_data/index.rst
