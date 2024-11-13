@@ -12,28 +12,28 @@ These tutorials demonstrate some different approaches to visualise the data in p
     :margin: 2
 
     .. grid-item-card:: Plotting meshes
-       :link: ref_tutorials
+       :link: ref_tutorials_plotting_meshes
        :link-type: ref
        :text-align: center
 
-       This tutorial
+       This tutorial shows different plotting commands to plot a bare mesh
 
     .. grid-item-card:: Plotting data on the mesh
-       :link: ref_tutorials
+       :link: ref_plotting_data_on_the_mesh
        :link-type: ref
        :text-align: center
 
        This tutorial
 
     .. grid-item-card:: Plotting data on specific placements
-       :link: ref_tutorials
+       :link: ref_plotting_data_on_specific_placements
        :link-type: ref
        :text-align: center
 
        This tutorial
 
     .. grid-item-card:: Plotting a graph
-       :link: ref_tutorials
+       :link: ref_plotting_a_graph
        :link-type: ref
        :text-align: center
 
@@ -42,3 +42,8 @@ These tutorials demonstrate some different approaches to visualise the data in p
 .. toctree::
     :maxdepth: 2
     :hidden:
+
+    01-plotting_meshes.rst
+    02-plotting_data_on_the_mesh.rst
+    03-plotting_data_on_specific_placements.rst
+    04-plotting_a_graph.rst
