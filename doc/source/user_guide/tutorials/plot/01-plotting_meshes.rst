@@ -17,6 +17,9 @@ simplify plotting.
 This tutorial shows different plotting commands to plot the bare mesh
 of a model.
 
+Define the mesh
+---------------
+
 The mesh object in DPF is a |MeshedRegion|. In this tutorial we will download
 a pontoon simulation result file available in our `Examples` package:
 
