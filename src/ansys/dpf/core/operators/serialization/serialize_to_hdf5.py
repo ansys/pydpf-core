@@ -33,6 +33,8 @@ class serialize_to_hdf5(Operator):
         Only the data set explicitly to export is
         exported
 
+    Returns
+    -------
 
     Examples
     --------

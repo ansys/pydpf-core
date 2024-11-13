@@ -27,6 +27,9 @@ class mesh_info_provider(Operator):
         If the stream is null, retrieves the file
         path from the data sources.
 
+    Returns
+    -------
+    mesh_info : GenericDataContainer
 
     Examples
     --------

@@ -15,30 +15,33 @@ class from_scoping(Operator):
     """Extracts a meshed region from another meshed region based on a
     scoping. Regarding the property fields of the meshed region: the
     'Elemental', 'Face', and 'Nodal' property fields are scoped to the
-    elements or nodes of the output mesh, the 'Global' property fields
-    are transferred from the input mesh to the output mesh without
-    changes, and the rest of the property fields are not present in
-    the output mesh.
+    elements, faces or nodes of the output mesh, the 'Global' property
+    fields are transferred from the input mesh to the output mesh
+    without changes, and the rest of the property fields are not
+    present in the output mesh.
 
     Parameters
     ----------
     scoping : Scoping
-        If nodal scoping, then the scoping is
+        If nodal/face scoping, then the scoping is
         transposed respecting the inclusive
         pin
     inclusive : int, optional
         If inclusive == 1 then all the elements/faces
-        adjacent to the nodes ids in input
-        are added, if inclusive == 0, only
-        the elements/faces which have all
-        their nodes in the scoping are
-        included
+        adjacent to the nodes/faces ids in
+        input are added, if inclusive == 0,
+        only the elements/faces which have
+        all their nodes/faces in the scoping
+        are included
     nodes_only : bool, optional
         Returns mesh with nodes only (without any
         elements or property fields). default
         is false.
     mesh : MeshedRegion
 
+    Returns
+    -------
+    mesh : MeshedRegion
 
     Examples
     --------
@@ -95,11 +98,11 @@ class from_scoping(Operator):
         description = """Extracts a meshed region from another meshed region based on a
             scoping. Regarding the property fields of the meshed
             region: the 'Elemental', 'Face', and 'Nodal' property
-            fields are scoped to the elements or nodes of the output
-            mesh, the 'Global' property fields are transferred from
-            the input mesh to the output mesh without changes, and the
-            rest of the property fields are not present in the output
-            mesh."""
+            fields are scoped to the elements, faces or nodes of the
+            output mesh, the 'Global' property fields are transferred
+            from the input mesh to the output mesh without changes,
+            and the rest of the property fields are not present in the
+            output mesh."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -107,7 +110,7 @@ class from_scoping(Operator):
                     name="scoping",
                     type_names=["scoping"],
                     optional=False,
-                    document="""If nodal scoping, then the scoping is
+                    document="""If nodal/face scoping, then the scoping is
         transposed respecting the inclusive
         pin""",
                 ),
@@ -116,11 +119,11 @@ class from_scoping(Operator):
                     type_names=["int32"],
                     optional=True,
                     document="""If inclusive == 1 then all the elements/faces
-        adjacent to the nodes ids in input
-        are added, if inclusive == 0, only
-        the elements/faces which have all
-        their nodes in the scoping are
-        included""",
+        adjacent to the nodes/faces ids in
+        input are added, if inclusive == 0,
+        only the elements/faces which have
+        all their nodes/faces in the scoping
+        are included""",
                 ),
                 3: PinSpecification(
                     name="nodes_only",
@@ -218,7 +221,7 @@ class InputsFromScoping(_Inputs):
     def scoping(self):
         """Allows to connect scoping input to the operator.
 
-        If nodal scoping, then the scoping is
+        If nodal/face scoping, then the scoping is
         transposed respecting the inclusive
         pin
 
@@ -241,11 +244,11 @@ class InputsFromScoping(_Inputs):
         """Allows to connect inclusive input to the operator.
 
         If inclusive == 1 then all the elements/faces
-        adjacent to the nodes ids in input
-        are added, if inclusive == 0, only
-        the elements/faces which have all
-        their nodes in the scoping are
-        included
+        adjacent to the nodes/faces ids in
+        input are added, if inclusive == 0,
+        only the elements/faces which have
+        all their nodes/faces in the scoping
+        are included
 
         Parameters
         ----------

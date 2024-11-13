@@ -44,6 +44,10 @@ class split_on_property_type(Operator):
         in the mesh property fields) (default
         is 'elshape')
 
+    Returns
+    -------
+    mesh_scoping : ScopingsContainer
+        Scoping
 
     Examples
     --------

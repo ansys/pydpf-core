@@ -23,6 +23,10 @@ class set_attribute(Operator):
         Value of the property to be set : vector of
         string or labelspace for "labels".
 
+    Returns
+    -------
+    fields_container : FieldsContainer
+        Returns the modified fieldscontainer.
 
     Examples
     --------

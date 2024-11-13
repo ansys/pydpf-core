@@ -23,6 +23,9 @@ class field_to_fc(Operator):
     label : dict
         Sets a label space.
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

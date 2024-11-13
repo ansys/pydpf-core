@@ -34,6 +34,9 @@ class merge_generic_data_container(Operator):
         existing type specific merge
         operators.
 
+    Returns
+    -------
+    generic_data_container : GenericDataContainer
 
     Examples
     --------

@@ -22,6 +22,9 @@ class normals(Operator):
     mesh_scoping : Scoping, optional
     field : Field, optional
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

@@ -46,7 +46,33 @@ class mapdl_split_on_facet_indices(Operator):
         the previous output.
     volume_mesh : MeshedRegion
         The solid support.
+    degenerated_tets : Scoping, optional
+        Elemental scoping of tet elements. if
+        connected, the tets in the scoping
+        are treated as degenerated tets
+        (solid185), and the rest as non-
+        degenerated tets (solid285). pins 185
+        and 285 are mutually exclusionary
+        (they cannot be connected at the same
+        time), and if none of them is
+        connected, all tets are treated as
+        non-degenerated (solid285).
+    non_degenerated_tets : Scoping, optional
+        Elemental scoping of tet elements. if
+        connected, the tets in the scoping
+        are treated as non-degenerated tets
+        (solid285), and the rest as
+        degenerated tets (solid185). pins 185
+        and 285 are mutually exclusionary
+        (they cannot be connected at the same
+        time), and if none of them is
+        connected, all tets are treated as
+        non-degenerated (solid285).
 
+    Returns
+    -------
+    fields_container : FieldsContainer
+        Output splitted fields containter
 
     Examples
     --------
@@ -64,6 +90,10 @@ class mapdl_split_on_facet_indices(Operator):
     >>> op.inputs.facet_indices.connect(my_facet_indices)
     >>> my_volume_mesh = dpf.MeshedRegion()
     >>> op.inputs.volume_mesh.connect(my_volume_mesh)
+    >>> my_degenerated_tets = dpf.Scoping()
+    >>> op.inputs.degenerated_tets.connect(my_degenerated_tets)
+    >>> my_non_degenerated_tets = dpf.Scoping()
+    >>> op.inputs.non_degenerated_tets.connect(my_non_degenerated_tets)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.mapdl_split_on_facet_indices(
@@ -71,6 +101,8 @@ class mapdl_split_on_facet_indices(Operator):
     ...     property_field_new_elements_to_old=my_property_field_new_elements_to_old,
     ...     facet_indices=my_facet_indices,
     ...     volume_mesh=my_volume_mesh,
+    ...     degenerated_tets=my_degenerated_tets,
+    ...     non_degenerated_tets=my_non_degenerated_tets,
     ... )
 
     >>> # Get output data
@@ -83,6 +115,8 @@ class mapdl_split_on_facet_indices(Operator):
         property_field_new_elements_to_old=None,
         facet_indices=None,
         volume_mesh=None,
+        degenerated_tets=None,
+        non_degenerated_tets=None,
         config=None,
         server=None,
     ):
@@ -101,6 +135,10 @@ class mapdl_split_on_facet_indices(Operator):
             self.inputs.facet_indices.connect(facet_indices)
         if volume_mesh is not None:
             self.inputs.volume_mesh.connect(volume_mesh)
+        if degenerated_tets is not None:
+            self.inputs.degenerated_tets.connect(degenerated_tets)
+        if non_degenerated_tets is not None:
+            self.inputs.non_degenerated_tets.connect(non_degenerated_tets)
 
     @staticmethod
     def _spec():
@@ -154,6 +192,36 @@ class mapdl_split_on_facet_indices(Operator):
                     type_names=["abstract_meshed_region"],
                     optional=False,
                     document="""The solid support.""",
+                ),
+                185: PinSpecification(
+                    name="degenerated_tets",
+                    type_names=["scoping"],
+                    optional=True,
+                    document="""Elemental scoping of tet elements. if
+        connected, the tets in the scoping
+        are treated as degenerated tets
+        (solid185), and the rest as non-
+        degenerated tets (solid285). pins 185
+        and 285 are mutually exclusionary
+        (they cannot be connected at the same
+        time), and if none of them is
+        connected, all tets are treated as
+        non-degenerated (solid285).""",
+                ),
+                285: PinSpecification(
+                    name="non_degenerated_tets",
+                    type_names=["scoping"],
+                    optional=True,
+                    document="""Elemental scoping of tet elements. if
+        connected, the tets in the scoping
+        are treated as non-degenerated tets
+        (solid285), and the rest as
+        degenerated tets (solid185). pins 185
+        and 285 are mutually exclusionary
+        (they cannot be connected at the same
+        time), and if none of them is
+        connected, all tets are treated as
+        non-degenerated (solid285).""",
                 ),
             },
             map_output_pin_spec={
@@ -222,6 +290,10 @@ class InputsMapdlSplitOnFacetIndices(_Inputs):
     >>> op.inputs.facet_indices.connect(my_facet_indices)
     >>> my_volume_mesh = dpf.MeshedRegion()
     >>> op.inputs.volume_mesh.connect(my_volume_mesh)
+    >>> my_degenerated_tets = dpf.Scoping()
+    >>> op.inputs.degenerated_tets.connect(my_degenerated_tets)
+    >>> my_non_degenerated_tets = dpf.Scoping()
+    >>> op.inputs.non_degenerated_tets.connect(my_non_degenerated_tets)
     """
 
     def __init__(self, op: Operator):
@@ -242,6 +314,14 @@ class InputsMapdlSplitOnFacetIndices(_Inputs):
             mapdl_split_on_facet_indices._spec().input_pin(3), 3, op, -1
         )
         self._inputs.append(self._volume_mesh)
+        self._degenerated_tets = Input(
+            mapdl_split_on_facet_indices._spec().input_pin(185), 185, op, -1
+        )
+        self._inputs.append(self._degenerated_tets)
+        self._non_degenerated_tets = Input(
+            mapdl_split_on_facet_indices._spec().input_pin(285), 285, op, -1
+        )
+        self._inputs.append(self._non_degenerated_tets)
 
     @property
     def fields_container(self):
@@ -338,6 +418,64 @@ class InputsMapdlSplitOnFacetIndices(_Inputs):
         >>> op.inputs.volume_mesh(my_volume_mesh)
         """
         return self._volume_mesh
+
+    @property
+    def degenerated_tets(self):
+        """Allows to connect degenerated_tets input to the operator.
+
+        Elemental scoping of tet elements. if
+        connected, the tets in the scoping
+        are treated as degenerated tets
+        (solid185), and the rest as non-
+        degenerated tets (solid285). pins 185
+        and 285 are mutually exclusionary
+        (they cannot be connected at the same
+        time), and if none of them is
+        connected, all tets are treated as
+        non-degenerated (solid285).
+
+        Parameters
+        ----------
+        my_degenerated_tets : Scoping
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.mapdl_split_on_facet_indices()
+        >>> op.inputs.degenerated_tets.connect(my_degenerated_tets)
+        >>> # or
+        >>> op.inputs.degenerated_tets(my_degenerated_tets)
+        """
+        return self._degenerated_tets
+
+    @property
+    def non_degenerated_tets(self):
+        """Allows to connect non_degenerated_tets input to the operator.
+
+        Elemental scoping of tet elements. if
+        connected, the tets in the scoping
+        are treated as non-degenerated tets
+        (solid285), and the rest as
+        degenerated tets (solid185). pins 185
+        and 285 are mutually exclusionary
+        (they cannot be connected at the same
+        time), and if none of them is
+        connected, all tets are treated as
+        non-degenerated (solid285).
+
+        Parameters
+        ----------
+        my_non_degenerated_tets : Scoping
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.mapdl_split_on_facet_indices()
+        >>> op.inputs.non_degenerated_tets.connect(my_non_degenerated_tets)
+        >>> # or
+        >>> op.inputs.non_degenerated_tets(my_non_degenerated_tets)
+        """
+        return self._non_degenerated_tets
 
 
 class OutputsMapdlSplitOnFacetIndices(_Outputs):

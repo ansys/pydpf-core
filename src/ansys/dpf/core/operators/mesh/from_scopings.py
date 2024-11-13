@@ -23,16 +23,19 @@ class from_scopings(Operator):
         pin
     inclusive : int, optional
         If inclusive == 1 then all the elements/faces
-        adjacent to the nodes ids in input
-        are added, if inclusive == 0, only
-        the elements/faces which have all
-        their nodes in the scoping are
-        included
+        adjacent to the nodes/faces ids in
+        input are added, if inclusive == 0,
+        only the elements/faces which have
+        all their nodes/faces in the scoping
+        are included
     nodes_only : bool, optional
         Returns mesh with nodes only (without any
         elements). default is false.
     mesh : MeshedRegion
 
+    Returns
+    -------
+    meshes : MeshesContainer
 
     Examples
     --------
@@ -104,11 +107,11 @@ class from_scopings(Operator):
                     type_names=["int32"],
                     optional=True,
                     document="""If inclusive == 1 then all the elements/faces
-        adjacent to the nodes ids in input
-        are added, if inclusive == 0, only
-        the elements/faces which have all
-        their nodes in the scoping are
-        included""",
+        adjacent to the nodes/faces ids in
+        input are added, if inclusive == 0,
+        only the elements/faces which have
+        all their nodes/faces in the scoping
+        are included""",
                 ),
                 3: PinSpecification(
                     name="nodes_only",
@@ -228,11 +231,11 @@ class InputsFromScopings(_Inputs):
         """Allows to connect inclusive input to the operator.
 
         If inclusive == 1 then all the elements/faces
-        adjacent to the nodes ids in input
-        are added, if inclusive == 0, only
-        the elements/faces which have all
-        their nodes in the scoping are
-        included
+        adjacent to the nodes/faces ids in
+        input are added, if inclusive == 0,
+        only the elements/faces which have
+        all their nodes/faces in the scoping
+        are included
 
         Parameters
         ----------

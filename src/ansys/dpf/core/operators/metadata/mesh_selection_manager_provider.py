@@ -24,6 +24,9 @@ class mesh_selection_manager_provider(Operator):
         If the stream is null, retrieves the file
         path from the data sources.
 
+    Returns
+    -------
+    mesh_selection_manager : MeshSelectionManager
 
     Examples
     --------

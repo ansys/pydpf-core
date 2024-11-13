@@ -26,6 +26,11 @@ class accumulate_fc(Operator):
     time_scoping : Scoping, optional
         Time_scoping
 
+    Returns
+    -------
+    fields_container : FieldsContainer
+        Field containing the (weighted) sum for each
+        component in an elementary data
 
     Examples
     --------

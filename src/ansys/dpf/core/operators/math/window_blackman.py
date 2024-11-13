@@ -21,6 +21,9 @@ class window_blackman(Operator):
     ----------
     field : Field or FieldsContainer
 
+    Returns
+    -------
+    field : Field or FieldsContainer
 
     Examples
     --------

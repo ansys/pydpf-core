@@ -27,6 +27,9 @@ class timescoping_signed_high_pass(Operator):
         container is returned on output pin
         1.
 
+    Returns
+    -------
+    scoping : Scoping
 
     Examples
     --------

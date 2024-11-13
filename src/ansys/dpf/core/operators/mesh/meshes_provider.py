@@ -36,6 +36,9 @@ class meshes_provider(Operator):
         zone for fluid results or part for
         lsdyna results).
 
+    Returns
+    -------
+    meshes : MeshesContainer
 
     Examples
     --------

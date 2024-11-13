@@ -42,6 +42,9 @@ class on_reduced_coordinates(Operator):
         is false. to use only when results
         have mid side nodes values.
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

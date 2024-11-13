@@ -26,6 +26,10 @@ class timefreq_band_pass(Operator):
         A maximum threshold scalar or a field
         containing one value is expected.
 
+    Returns
+    -------
+    time_freq_support : TimeFreqSupport
+    scoping : Scoping
 
     Examples
     --------

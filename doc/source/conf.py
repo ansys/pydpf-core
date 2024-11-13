@@ -7,7 +7,7 @@ import numpy as np
 import pyvista
 from ansys.dpf.core import __version__, server, server_factory
 from ansys.dpf.core.examples import get_example_required_minimum_dpf_version
-from ansys_sphinx_theme import pyansys_logo_black, ansys_favicon, get_version_match
+from ansys_sphinx_theme import ansys_favicon, get_version_match, pyansys_logo_light_mode, pyansys_logo_dark_mode
 
 # Manage errors
 pyvista.set_error_output_file("errors.txt")
@@ -90,7 +90,9 @@ extensions = [
 ]
 
 redirects = {
-     "user_guide/getting_started_with_dpf_server": "../getting_started/dpf_server.html"
+     "user_guide/getting_started_with_dpf_server": "../getting_started/dpf_server.html",
+     "concepts/index": "../user_guide/index.html#concepts",
+     "contributing": "getting_started/contributing.html"
 }
 
 typehints_defaults = "comma"
@@ -193,9 +195,12 @@ autodoc_member_order = "bysource"
 # -- Options for HTML output -------------------------------------------------
 html_short_title = html_title = "PyDPF-Core"
 html_theme = "ansys_sphinx_theme"
-html_logo = pyansys_logo_black
 html_favicon = ansys_favicon
 html_theme_options = {
+    "logo": {
+        "image_dark": pyansys_logo_dark_mode,
+        "image_light": pyansys_logo_light_mode,
+    },
     "github_url": "https://github.com/ansys/pydpf-core",
     "show_prev_next": False,
     "show_breadcrumbs": True,
@@ -206,11 +211,10 @@ html_theme_options = {
         "json_url": f"https://{cname}/versions.json",
         "version_match": get_version_match(__version__),
     },
-    "use_meilisearch": {
-        "api_key": os.getenv("MEILISEARCH_PUBLIC_API_KEY", ""),
-        "index_uids": {
-            f"pydpf-core-v{get_version_match(__version__).replace('.', '-')}": "PyDPF-Core",
-        },
+    "static_search": {
+        "threshold": 0.5,
+        "min_chars_for_search": 2,
+        "ignoreLocation": True,
     },
 }
 
@@ -318,14 +322,3 @@ epub_title = project
 
 # A list of files that should not be packed into the epub file.
 epub_exclude_files = ["search.html"]
-
-
-def verify_meilisearch_is_active(app):
-    MEILISEARCH_PUBLIC_API_KEY = os.getenv("MEILISEARCH_PUBLIC_API_KEY", None)
-    if not MEILISEARCH_PUBLIC_API_KEY:
-        sys.stderr.write("Could not find MEILISEARCH_PUBLIC_API_KEY")
-        # sys.exit(1)
-
-
-def setup(app):
-    app.connect("builder-inited", verify_meilisearch_is_active)

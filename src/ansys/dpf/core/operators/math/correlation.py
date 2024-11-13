@@ -27,7 +27,18 @@ class correlation(Operator):
     ponderation : Field or FieldsContainer
         Field m, optional weighting for correlation
         computation.
+    absoluteValue : bool
+        If true, correlation factor is
+        ||amb||/(||ama||.||bmb||)
 
+    Returns
+    -------
+    field : Field
+        Correlation factor for each input field b.
+    index : int
+        If several b are provided, this output
+        contains the index of the highest
+        correlation factor.
 
     Examples
     --------
@@ -43,12 +54,15 @@ class correlation(Operator):
     >>> op.inputs.fieldB.connect(my_fieldB)
     >>> my_ponderation = dpf.Field()
     >>> op.inputs.ponderation.connect(my_ponderation)
+    >>> my_absoluteValue = bool()
+    >>> op.inputs.absoluteValue.connect(my_absoluteValue)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.math.correlation(
     ...     fieldA=my_fieldA,
     ...     fieldB=my_fieldB,
     ...     ponderation=my_ponderation,
+    ...     absoluteValue=my_absoluteValue,
     ... )
 
     >>> # Get output data
@@ -57,7 +71,13 @@ class correlation(Operator):
     """
 
     def __init__(
-        self, fieldA=None, fieldB=None, ponderation=None, config=None, server=None
+        self,
+        fieldA=None,
+        fieldB=None,
+        ponderation=None,
+        absoluteValue=None,
+        config=None,
+        server=None,
     ):
         super().__init__(name="correlation", config=config, server=server)
         self._inputs = InputsCorrelation(self)
@@ -68,6 +88,8 @@ class correlation(Operator):
             self.inputs.fieldB.connect(fieldB)
         if ponderation is not None:
             self.inputs.ponderation.connect(ponderation)
+        if absoluteValue is not None:
+            self.inputs.absoluteValue.connect(absoluteValue)
 
     @staticmethod
     def _spec():
@@ -98,6 +120,13 @@ class correlation(Operator):
                     optional=False,
                     document="""Field m, optional weighting for correlation
         computation.""",
+                ),
+                3: PinSpecification(
+                    name="absoluteValue",
+                    type_names=["bool"],
+                    optional=False,
+                    document="""If true, correlation factor is
+        ||amb||/(||ama||.||bmb||)""",
                 ),
             },
             map_output_pin_spec={
@@ -170,6 +199,8 @@ class InputsCorrelation(_Inputs):
     >>> op.inputs.fieldB.connect(my_fieldB)
     >>> my_ponderation = dpf.Field()
     >>> op.inputs.ponderation.connect(my_ponderation)
+    >>> my_absoluteValue = bool()
+    >>> op.inputs.absoluteValue.connect(my_absoluteValue)
     """
 
     def __init__(self, op: Operator):
@@ -180,6 +211,8 @@ class InputsCorrelation(_Inputs):
         self._inputs.append(self._fieldB)
         self._ponderation = Input(correlation._spec().input_pin(2), 2, op, -1)
         self._inputs.append(self._ponderation)
+        self._absoluteValue = Input(correlation._spec().input_pin(3), 3, op, -1)
+        self._inputs.append(self._absoluteValue)
 
     @property
     def fieldA(self):
@@ -243,6 +276,27 @@ class InputsCorrelation(_Inputs):
         >>> op.inputs.ponderation(my_ponderation)
         """
         return self._ponderation
+
+    @property
+    def absoluteValue(self):
+        """Allows to connect absoluteValue input to the operator.
+
+        If true, correlation factor is
+        ||amb||/(||ama||.||bmb||)
+
+        Parameters
+        ----------
+        my_absoluteValue : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.math.correlation()
+        >>> op.inputs.absoluteValue.connect(my_absoluteValue)
+        >>> # or
+        >>> op.inputs.absoluteValue(my_absoluteValue)
+        """
+        return self._absoluteValue
 
 
 class OutputsCorrelation(_Outputs):

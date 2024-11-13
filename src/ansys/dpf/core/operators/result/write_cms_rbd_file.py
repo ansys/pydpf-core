@@ -48,6 +48,11 @@ class write_cms_rbd_file(Operator):
         Path with cms_rbd extension where the export
         occurs
 
+    Returns
+    -------
+    data_sources : DataSources
+        Data source containing the cms_rbd file
+        generated.
 
     Examples
     --------
