@@ -158,7 +158,7 @@ if os.name == "nt" and not os.path.exists(
         "source",
         "user_guide",
         "tutorials",
-        "10-enriching_dpf_capabilities",
+        "enriching_dpf_capabilities",
         "create_sites_for_python_operators.ps1",
     )
     args = [
@@ -192,7 +192,7 @@ elif os.name == "posix" and not os.path.exists(
         "source",
         "user_guide",
         "tutorials",
-        "10-enriching_dpf_capabilities",
+        "enriching_dpf_capabilities",
         "create_sites_for_python_operators.sh",
     )
     run_cmd = f"{cmd_file}"

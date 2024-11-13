@@ -34,8 +34,8 @@ installer's Python interpreter.
 
 #. Download the script for you operating system:
 
-   - For Windows, download this :download:`PowerShell script </user_guide/tutorials/08-enriching_dpf_capabilities/install_ansys_dpf_core_in_ansys.ps1>`.
-   - For Linux, download this :download:`Shell script </user_guide/tutorials/08-enriching_dpf_capabilities/install_ansys_dpf_core_in_ansys.sh>`
+   - For Windows, download this :download:`PowerShell script </user_guide/tutorials/enriching_dpf_capabilities/install_ansys_dpf_core_in_ansys.ps1>`.
+   - For Linux, download this :download:`Shell script </user_guide/tutorials/enriching_dpf_capabilities/install_ansys_dpf_core_in_ansys.sh>`
 
 #. Run the downloaded script for installing with optional arguments:
 
