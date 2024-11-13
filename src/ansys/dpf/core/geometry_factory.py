@@ -20,7 +20,14 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""Geometry factory module containing functions to create the different geometries."""
+"""
+.. _ref_geometry_factory:
+
+Geometry Factory
+================
+Geometry factory module containing functions to create the different geometries.
+
+"""
 
 import numpy as np
 
