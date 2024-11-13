@@ -140,5 +140,5 @@ of our package background so you can understand how to work with it.
        :link-type: ref
        :text-align: center
 
-       Learn how to do manipulate the physics data associate to a
+       Learn how to manipulate the physics data associate to a
        data storage structure. (Unit, homogeneity ...)
