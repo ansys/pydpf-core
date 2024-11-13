@@ -40,12 +40,15 @@ of our package background so you can understand how to work with it.
        Learn the different ways to interact with data by using PyDPF-Core
        objects and methods.
 
-    .. grid-item-card::  Processing data basics
+    .. grid-item-card::  Post-processing data basics
        :link: ref_tutorials_processing_basics
        :link-type: ref
        :text-align: center
 
-       Learn the basics on how data can be manipulated with PyDPF-Core
+       Learn the basics on a post-processing procedure
+       using PyDPf-Core based on its usual main steps. The goal is to
+       transform simulation data into output data that can be used to
+       visualize and analyze simulation results.
 
 :fa:`book-open-reader` Features usage
 *************************************
