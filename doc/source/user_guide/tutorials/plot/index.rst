@@ -23,21 +23,23 @@ These tutorials demonstrate some different approaches to visualise the data in p
        :link-type: ref
        :text-align: center
 
-       This tutorial
+       This tutorial explains how to plot data on its supporting mesh by
+       different approaches.
 
     .. grid-item-card:: Plotting data on specific placements
        :link: ref_plotting_data_on_specific_placements
        :link-type: ref
        :text-align: center
 
-       This tutorial
+       This tutorial shows how to plot data on specific placements of a
+       mesh (a specific path, a geometry elements ...)
 
     .. grid-item-card:: Plotting a graph
        :link: ref_plotting_a_graph
        :link-type: ref
        :text-align: center
 
-       This tutorial
+       This tutorial explains how to plot a graph with the data in DPF
 
 .. toctree::
     :maxdepth: 2
