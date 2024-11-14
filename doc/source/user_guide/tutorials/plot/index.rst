@@ -43,7 +43,7 @@ These tutorials demonstrate some different approaches to visualise the data in p
     :maxdepth: 2
     :hidden:
 
-    01-plotting_meshes.rst
-    02-plotting_data_on_the_mesh.rst
-    03-plotting_data_on_specific_placements.rst
-    04-plotting_a_graph.rst
+    plotting_meshes.rst
+    plotting_data_on_the_mesh.rst
+    plotting_data_on_specific_placements.rst
+    plotting_a_graph.rst

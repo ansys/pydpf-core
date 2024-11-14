@@ -142,10 +142,10 @@ parameter (the argument must be supported by the installed PyVista version).
 More information about the available arguments are available at :class:`pyvista.Plotter`.
 
 First you have to define the |DpfPlotter| object and then add the |MeshedRegion|
-to it using the :func:`show_figure()<ansys.dpf.core.plotter.DpfPlotter.show_figure>` method.
+to it using the :func::func:`add_mesh()<ansys.dpf.core.plotter.DpfPlotter.add_mesh>` method.
 
 To display the figure built by the plotter object you need to use the
-:func:`add_mesh()<ansys.dpf.core.plotter.DpfPlotter.add_mesh>` method.
+:func:`show_figure()<ansys.dpf.core.plotter.DpfPlotter.show_figure>`  method.
 
 .. code-block:: python
 
