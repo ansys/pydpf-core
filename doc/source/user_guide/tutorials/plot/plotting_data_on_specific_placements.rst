@@ -201,8 +201,9 @@ Plot data on geometry elements
 This part shows how to get a result mapped over different geometric objects:
 
 - Points_
-- Lines_
-- Planes_
+- Line_
+- Plane_
+
 Define the data
 ^^^^^^^^^^^^^^^
 
@@ -231,7 +232,7 @@ We choose to plot the displacement results field. Extract the displacements resu
 
 .. code-block:: python
 
-    # Get the displacement result field
+    # Get the displacement results
     my_disp = my_model.results.displacement.eval()
 
 We use the the plot method [1]_ to display the geometry elements with the mesh. To a better
