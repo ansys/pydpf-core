@@ -48,3 +48,19 @@ def _sort_supported_kwargs(bound_method, **kwargs):
         warnings.warn(txt)
     # Return the accepted arguments
     return kwargs_in
+
+
+def indent(text, subsequent_indent="", initial_indent=None):
+    if initial_indent is None:
+        initial_indent = subsequent_indent
+
+    if not isinstance(text, str):
+        text = str(text)
+
+    lines = text.rstrip().splitlines()
+    indented_lines = [
+        f"{initial_indent if index == 0 else subsequent_indent}{line}"
+        for (index, line) in enumerate(lines)
+    ]
+
+    return "\n".join(indented_lines)

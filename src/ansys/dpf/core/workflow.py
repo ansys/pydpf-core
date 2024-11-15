@@ -43,6 +43,7 @@ from ansys.dpf.core.check_version import (
     server_meet_version_and_raise,
 )
 from ansys.dpf.core import server as server_module
+from ansys.dpf.core.workflow_topology.workflow_topology import WorkflowTopology
 from ansys.dpf.gate import (
     workflow_abstract_api,
     workflow_grpcapi,
@@ -952,6 +953,13 @@ class Workflow:
     def to_graphviz(self, path: Union[os.PathLike, str]):
         """Saves the workflow to a GraphViz file."""
         return self._api.work_flow_export_graphviz(self, str(path))
+
+    def get_topology(self):
+        workflow_to_workflow_topology_op = dpf_operator.Operator("workflow_to_workflow_topology")
+        workflow_to_workflow_topology_op.inputs.workflow.connect(self)
+        workflow_topology_container = workflow_to_workflow_topology_op.outputs.workflow_topology()
+
+        return WorkflowTopology(workflow_topology_container)
 
     def __del__(self):
         try:

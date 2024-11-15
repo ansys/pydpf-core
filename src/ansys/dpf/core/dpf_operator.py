@@ -726,8 +726,10 @@ class Operator:
 
     def __del__(self):
         try:
-            if self._internal_obj is not None:
-                self._deleter_func[0](self._deleter_func[1](self))
+            if hasattr(self, "_deleter_func"):
+                obj = self._deleter_func[1](self)
+                if obj is not None:
+                    self._deleter_func[0](obj)
         except:
             warnings.warn(traceback.format_exc())
 
