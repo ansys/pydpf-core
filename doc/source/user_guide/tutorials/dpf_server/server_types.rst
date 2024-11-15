@@ -25,7 +25,7 @@ using the :class:`InProcess <ansys.dpf.core.server_types.InProcessServer>` class
 	   
     from ansys.dpf import core as dpf
     local_server = dpf.start_local_server()
-    local_server
+    print(local_server)
 
 .. rst-class:: sphx-glr-script-out
 
@@ -34,7 +34,7 @@ using the :class:`InProcess <ansys.dpf.core.server_types.InProcessServer>` class
 
     from ansys.dpf import core as dpf
     local_server = dpf.start_local_server()
-    local_server
+    print(local_server)
 
 This DPF Server can now be used to instantiate models, operators, and more.
 
@@ -59,7 +59,7 @@ to enable gRPC communication:
     from ansys.dpf import core as dpf
     grpc_server_config = dpf.AvailableServerConfigs.GrpcServer
     grpc_server = dpf.start_local_server(config=grpc_server_config)
-    grpc_server
+    print(grpc_server)
 
 .. rst-class:: sphx-glr-script-out
 
@@ -69,7 +69,7 @@ to enable gRPC communication:
     from ansys.dpf import core as dpf
     grpc_server_config = dpf.AvailableServerConfigs.GrpcServer
     grpc_server = dpf.start_local_server(config=grpc_server_config)
-    grpc_server
+    print(grpc_server)
 
 You can obtain the server port and IP address:
 
