@@ -33,9 +33,10 @@ our `Examples` package:
 
 .. code-block:: python
 
-    # Import the ``ansys.dpf.core`` module, including examples files
+    # Import the ``ansys.dpf.core`` module, including examples files and operators subpackage
     from ansys.dpf import core as dpf
     from ansys.dpf.core import examples
+    from ansys.dpf.core import operators as ops
     # Define the result file
     pontoon_file = examples.download_pontoon()
 
@@ -73,6 +74,7 @@ method, it plots the bare mesh by default.
 
     from ansys.dpf import core as dpf
     from ansys.dpf.core import examples
+    from ansys.dpf.core import operators as ops
     pontoon_file = examples.download_pontoon()
     my_model = dpf.Model(data_sources=pontoon_file)
     my_model.plot()
