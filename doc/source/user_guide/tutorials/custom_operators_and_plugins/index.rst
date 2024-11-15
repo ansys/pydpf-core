@@ -1,7 +1,7 @@
 .. _ref_tutorials_others_enriching:
 
-Enriching DPF capabilities
---------------------------
+Custom Operators and Plugins
+----------------------------
 The available DPF capabilities loaded in a DPF application can be enhanced
 by creating new operator’s libraries. DPF offers multiple development APIs
 depending on your environment.
