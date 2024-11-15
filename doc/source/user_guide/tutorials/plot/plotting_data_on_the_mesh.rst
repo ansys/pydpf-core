@@ -23,7 +23,7 @@ in our ``Examples`` package:
 
 .. code-block:: python
 
-    # Import the ``ansys.dpf.core`` module, including examples file
+    # Import the ``ansys.dpf.core`` module, including examples files
     from ansys.dpf import core as dpf
     from ansys.dpf.core import examples
     # Define the result file
@@ -167,7 +167,7 @@ You have to give the Fields supporting mesh as a attribute:
 Using the DpfPlotter class
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-First you have to define the |DpfPlotter| object [2]_ and then add the Field
+First define the |DpfPlotter| object [2]_ and then add the Field
 to it using the :func:`add_field()<ansys.dpf.core.plotter.DpfPlotter.add_field>` method.
 You have to give the Fields supporting mesh as an attribute to this method.
 
@@ -241,7 +241,7 @@ You have to give the Field or the FieldsContainer with the stress data as a attr
 Using the DpfPlotter class
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-First you have to define the |DpfPlotter| object [2]_ and then add |MeshedRegion|
+First, define the |DpfPlotter| object [2]_ and then add |MeshedRegion|
 to it using the :func:`add_mesh()<ansys.dpf.core.plotter.DpfPlotter.add_mesh>` method and add the
 field using the :func:`add_field()<ansys.dpf.core.plotter.DpfPlotter.add_field>` method.
 

@@ -25,7 +25,7 @@ a pontoon simulation result file available in our `Examples` package:
 
 .. code-block:: python
 
-    # Import the ``ansys.dpf.core`` module, including examples file
+    # Import the ``ansys.dpf.core`` module, including examples files
     from ansys.dpf import core as dpf
     from ansys.dpf.core import examples
     # Define the result file
