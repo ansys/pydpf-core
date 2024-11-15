@@ -115,10 +115,14 @@ from ansys.dpf.core.label_space import LabelSpace
 
 
 # register classes for collection types:
-CustomTypeFieldsCollection:type = _CollectionFactory(CustomTypeField)
-GenericDataContainersCollection:type = _CollectionFactory(GenericDataContainer)
-StringFieldsCollection:type = _CollectionFactory(StringField)
-AnyCollection:type = _Collection
+class CustomTypeFieldsCollection(_Collection[CustomTypeField]):
+    entries_type = CustomTypeField
+class GenericDataContainersCollection(_Collection[GenericDataContainer]):
+    entries_type = GenericDataContainer
+class StringFieldsCollection(_Collection[StringField]):
+    entries_type = StringField
+class AnyCollection(_Collection[Any]):
+    entries_type = Any
 
 # for matplotlib
 # solves "QApplication: invalid style override passed, ignoring it."
