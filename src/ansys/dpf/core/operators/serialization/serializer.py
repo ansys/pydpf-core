@@ -16,6 +16,8 @@ class serializer(Operator):
 
     Parameters
     ----------
+    stream_type : int
+        0 for ascii (default), and 1 for binary
     file_path : str
     any_input1 : Any
         Any input
@@ -34,6 +36,8 @@ class serializer(Operator):
     >>> op = dpf.operators.serialization.serializer()
 
     >>> # Make input connections
+    >>> my_stream_type = int()
+    >>> op.inputs.stream_type.connect(my_stream_type)
     >>> my_file_path = str()
     >>> op.inputs.file_path.connect(my_file_path)
     >>> my_any_input1 = dpf.Any()
@@ -43,6 +47,7 @@ class serializer(Operator):
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.serialization.serializer(
+    ...     stream_type=my_stream_type,
     ...     file_path=my_file_path,
     ...     any_input1=my_any_input1,
     ...     any_input2=my_any_input2,
@@ -53,11 +58,19 @@ class serializer(Operator):
     """
 
     def __init__(
-        self, file_path=None, any_input1=None, any_input2=None, config=None, server=None
+        self,
+        stream_type=None,
+        file_path=None,
+        any_input1=None,
+        any_input2=None,
+        config=None,
+        server=None,
     ):
         super().__init__(name="serializer", config=config, server=server)
         self._inputs = InputsSerializer(self)
         self._outputs = OutputsSerializer(self)
+        if stream_type is not None:
+            self.inputs.stream_type.connect(stream_type)
         if file_path is not None:
             self.inputs.file_path.connect(file_path)
         if any_input1 is not None:
@@ -71,6 +84,12 @@ class serializer(Operator):
         spec = Specification(
             description=description,
             map_input_pin_spec={
+                -1: PinSpecification(
+                    name="stream_type",
+                    type_names=["int32"],
+                    optional=False,
+                    document="""0 for ascii (default), and 1 for binary""",
+                ),
                 0: PinSpecification(
                     name="file_path",
                     type_names=["string"],
@@ -146,6 +165,8 @@ class InputsSerializer(_Inputs):
     --------
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.serialization.serializer()
+    >>> my_stream_type = int()
+    >>> op.inputs.stream_type.connect(my_stream_type)
     >>> my_file_path = str()
     >>> op.inputs.file_path.connect(my_file_path)
     >>> my_any_input1 = dpf.Any()
@@ -156,12 +177,34 @@ class InputsSerializer(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(serializer._spec().inputs, op)
+        self._stream_type = Input(serializer._spec().input_pin(-1), -1, op, -1)
+        self._inputs.append(self._stream_type)
         self._file_path = Input(serializer._spec().input_pin(0), 0, op, -1)
         self._inputs.append(self._file_path)
         self._any_input1 = Input(serializer._spec().input_pin(1), 1, op, 0)
         self._inputs.append(self._any_input1)
         self._any_input2 = Input(serializer._spec().input_pin(2), 2, op, 1)
         self._inputs.append(self._any_input2)
+
+    @property
+    def stream_type(self):
+        """Allows to connect stream_type input to the operator.
+
+        0 for ascii (default), and 1 for binary
+
+        Parameters
+        ----------
+        my_stream_type : int
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.serialization.serializer()
+        >>> op.inputs.stream_type.connect(my_stream_type)
+        >>> # or
+        >>> op.inputs.stream_type(my_stream_type)
+        """
+        return self._stream_type
 
     @property
     def file_path(self):
