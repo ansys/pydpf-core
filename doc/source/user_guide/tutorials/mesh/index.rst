@@ -15,47 +15,56 @@ These tutorials explains how to explore different attributes of a given mesh wit
     :margin: 2
 
     .. grid-item-card:: Create a mesh from scratch
-       :link: ref_tutorials
+       :link: tutorials_create_a_mesh_from_scratch
        :link-type: ref
        :text-align: center
 
-       This tutorial
+       This tutorial demonstrates how to build a mesh from the scratch
 
-    .. grid-item-card:: Get the mesh from a result file
-       :link: ref_tutorials
+    .. grid-item-card:: Get a mesh from a result file
+       :link: tutorials_get_mesh_from_result_file
        :link-type: ref
        :text-align: center
 
-       This tutorial
+       This tutorial explains how to extract the models mesh from a result file
 
-    .. grid-item-card:: Read the mesh metadata
-       :link: ref_tutorials
+    .. grid-item-card:: Read a mesh definition information
+       :link: tutorials_read_mesh_metadata
        :link-type: ref
        :text-align: center
 
-       This tutorial
+       This tutorial explains how to access and read the mesh metadata information
 
-    .. grid-item-card:: Read the mesh
-       :link: ref_tutorials
+    .. grid-item-card:: Read a mesh structure
+       :link: tutorials_read_mesh_structure
        :link-type: ref
        :text-align: center
 
-       This tutorial
+       This tutorial explains how to access the data about the mesh structure
+       (data about the elements, nodes, faces ...) so it can be manipulated.
 
-    .. grid-item-card:: Read a subpart of the mesh
-       :link: ref_tutorials
+    .. grid-item-card:: Get a specific part of a mesh
+       :link: tutorials_get_specific_part_mesh
        :link-type: ref
        :text-align: center
 
-       This tutorial
+       This tutorial shows how to to access the data about a specific part of a mesh
+       (data about a region, zone ...) so it can be manipulated.
 
-    .. grid-item-card:: Split the mesh
-       :link: ref_tutorials
+    .. grid-item-card:: Split a mesh
+       :link: tutorials_split_mesh
        :link-type: ref
        :text-align: center
 
-       This tutorial
+       This tutorial show how to split a mesh into different meshes.
 
 .. toctree::
     :maxdepth: 2
     :hidden:
+
+    create_a_mesh_from_scratch
+    get_mesh_from_result_file
+    read_mesh_metadata
+    read_mesh_structure
+    get_specific_part_mesh
+    split_mesh
