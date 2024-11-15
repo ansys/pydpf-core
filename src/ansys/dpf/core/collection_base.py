@@ -409,19 +409,36 @@ class CollectionBase(Generic[TYPE]):
         scoping = Scoping(self._api.collection_get_label_scoping(self, label), server=self._server)
         return scoping
 
-    def __getitem__(self, index):
-        """Retrieves the entry at a requested index value.
+    def __getitem__(self, index: int | slice):
+        """Retrieves the entry at a requested index value or build a new collection from a slice.
 
         Parameters
         ----------
-        index : int
+        index:
             Index value.
 
         Returns
         -------
-        entry : Field , Scoping
-            Entry at the index value.
+        entry:
+            Entry at the index value or new collection for entries at requested slice.
         """
+        if isinstance(index, slice):
+            # handle slice
+            indices = list(range(
+                index.start if index.start else 0,
+                index.stop,
+                index.step if index.step else 1
+            ))
+            out_collection = self.__class__()
+            out_collection.set_labels(labels=self._get_labels())
+            [
+                out_collection._add_entry(
+                    label_space=self.get_label_space(index=i),
+                    entry=self._get_entries(label_space_or_index=i)
+                )
+                for i in indices
+            ]
+            return out_collection
         self_len = len(self)
         if index < 0:
             # convert to a positive index
