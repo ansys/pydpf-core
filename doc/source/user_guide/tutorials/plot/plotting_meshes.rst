@@ -8,6 +8,8 @@ Plotting meshes
 .. |Model| replace:: :class:`Model <ansys.dpf.core.model.Model>`
 .. |plot| replace:: :func:`plot()<ansys.dpf.core.model.Model.plot>`
 .. |DpfPlotter| replace:: :class:`DpfPlotter<ansys.dpf.core.plotter.DpfPlotter>`
+.. |add_mesh| replace:: :func:`add_mesh()<ansys.dpf.core.plotter.DpfPlotter.add_mesh>`
+.. |show_figure| replace:: :func:`show_figure()<ansys.dpf.core.plotter.DpfPlotter.show_figure>`
 
 DPF-Core has a variety of plotting methods for generating 3D plots of
 Ansys models directly from Python. These methods use VTK and leverage
@@ -142,10 +144,10 @@ parameter (the argument must be supported by the installed PyVista version).
 More information about the available arguments are available at :class:`pyvista.Plotter`.
 
 First you have to define the |DpfPlotter| object and then add the |MeshedRegion|
-to it using the :func::func:`add_mesh()<ansys.dpf.core.plotter.DpfPlotter.add_mesh>` method.
+to it using the |add_mesh| method.
 
 To display the figure built by the plotter object you need to use the
-:func:`show_figure()<ansys.dpf.core.plotter.DpfPlotter.show_figure>`  method.
+|show_figure|  method.
 
 .. code-block:: python
 
@@ -168,7 +170,7 @@ To display the figure built by the plotter object you need to use the
 The default |DpfPlotter| object settings display the mesh with edges,and lighting
 enabled. Nevertheless, as we use the `PyVista <https://github.com/pyvista/pyvista>`_
 library to create the plot you can use additional PyVista arguments for the |DpfPlotter|
-object and :func:`add_mesh()<ansys.dpf.core.plotter.DpfPlotter.add_mesh>` method
+object and |add_mesh| method
 (available at: :func:`pyvista.plot`).
 
 You can also plot results data on its supporting mesh. For a detailed demonstration

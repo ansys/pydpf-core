@@ -10,6 +10,9 @@ Plotting data on the mesh
 .. |plot| replace:: :func:`plot()<ansys.dpf.core.field.Field.plot>`
 .. |plotMesh| replace:: :func:`plot()<ansys.dpf.core.meshed_region.MeshedRegion.plot>`
 .. |DpfPlotter| replace:: :class:`DpfPlotter<ansys.dpf.core.plotter.DpfPlotter>`
+.. |add_mesh| replace:: :func:`add_mesh()<ansys.dpf.core.plotter.DpfPlotter.add_mesh>`
+.. |add_field| replace:: :func:`add_field()<ansys.dpf.core.plotter.DpfPlotter.add_field>`
+.. |show_figure| replace:: :func:`show_figure()<ansys.dpf.core.plotter.DpfPlotter.show_figure>`
 .. |Field| replace:: :class:`Field<ansys.dpf.core.field.Field>`
 .. |FieldsContainer| replace:: :class:`FieldsContainer<ansys.dpf.core.field.Field>`
 
@@ -167,12 +170,10 @@ You have to give the Fields supporting mesh as a attribute:
 Using the DpfPlotter class
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-First define the |DpfPlotter| object [2]_ and then add the Field
-to it using the :func:`add_field()<ansys.dpf.core.plotter.DpfPlotter.add_field>` method.
+First define the |DpfPlotter| object [2]_ and then add the Field to it using the |add_field| method.
 You have to give the Fields supporting mesh as an attribute to this method.
 
-To display the figure built by the plotter object you need to use the
-:func:`show_figure()<ansys.dpf.core.plotter.DpfPlotter.show_figure>`  method.
+To display the figure built by the plotter object you need to use the |show_figure|  method.
 
 .. code-block:: python
 
@@ -242,11 +243,9 @@ Using the DpfPlotter class
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 First, define the |DpfPlotter| object [2]_ and then add |MeshedRegion|
-to it using the :func:`add_mesh()<ansys.dpf.core.plotter.DpfPlotter.add_mesh>` method and add the
-field using the :func:`add_field()<ansys.dpf.core.plotter.DpfPlotter.add_field>` method.
+to it using the |add_mesh| method and add the field using the |add_field| method.
 
-To display the figure built by the plotter object use the
-:func:`show_figure()<ansys.dpf.core.plotter.DpfPlotter.show_figure>`  method.
+To display the figure built by the plotter object use the |show_figure|  method.
 
 .. code-block:: python
 
@@ -291,5 +290,4 @@ parameter (the argument must be supported by the installed PyVista version).
 The default |DpfPlotter| object settings display the mesh with edges and lighting
 enabled. Nevertheless, as we use the `PyVista <https://github.com/pyvista/pyvista>`_
 library to create the plot you can use additional PyVista arguments for the |DpfPlotter|
-object and :func:`add_field()<ansys.dpf.core.plotter.DpfPlotter.add_field>` method
-(available at: :func:`pyvista.plot`).
+object and |add_field| method (available at: :func:`pyvista.plot`).

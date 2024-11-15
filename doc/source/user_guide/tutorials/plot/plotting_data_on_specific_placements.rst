@@ -152,7 +152,7 @@ Plot the result on the path
 Create the plotter and add fields and meshes. For more information about
 plotting data on a mesh check the tutorial: :ref:`ref_plotting_data_on_the_mesh`
 
-First, define the |DpfPlotter| object [2]_ and then add |MeshedRegion|
+First, define the |DpfPlotter| object [2]_, then add |MeshedRegion|
 to it using the |add_mesh| method and add the field using the |add_field| method.
 
 To display the figure built by the plotter object use the |show_figure|  method.
@@ -375,10 +375,10 @@ elements with shape functions.
 
     # Map the points coordinates with the displacement results and get the field
     mapped_disp_points = ops.mapping.on_coordinates(fields_container=my_disp,
-                                               coordinates=dpf.fields_factory.field_from_array(arr=my_points.coordinates.data),
-                                               create_support=True,
-                                               mesh=my_meshed_region
-                                               ).eval()[0]
+                                                    coordinates=dpf.fields_factory.field_from_array(arr=my_points.coordinates.data),
+                                                    create_support=True,
+                                                    mesh=my_meshed_region
+                                                    ).eval()[0]
 
 Plot displacement field on the points
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -386,7 +386,7 @@ Plot displacement field on the points
 Create the plotter and add fields and meshes. For more information about
 plotting data on a mesh check the tutorial: :ref:`ref_plotting_data_on_the_mesh`
 
-First, define the |DpfPlotter| object [2]_ and then add |MeshedRegion|
+First, define the |DpfPlotter| object [2]_, then add |MeshedRegion|
 to it using the |add_mesh| method and add the field using the |add_field| method.
 
 To display the figure built by the plotter object use the |show_figure| method.
@@ -409,10 +409,10 @@ To display the figure built by the plotter object use the |show_figure| method.
     :hide-code:
 
     mapped_disp_points = ops.mapping.on_coordinates(fields_container=my_disp,
-                                               coordinates=dpf.fields_factory.field_from_array(arr=my_points.coordinates.data),
-                                               create_support=True,
-                                               mesh=my_meshed_region
-                                               ).eval()[0]
+                                                    coordinates=dpf.fields_factory.field_from_array(arr=my_points.coordinates.data),
+                                                    create_support=True,
+                                                    mesh=my_meshed_region
+                                                    ).eval()[0]
     my_plotter = dpf.plotter.DpfPlotter()
     my_plotter.add_mesh(meshed_region=my_meshed_region,style="surface", show_edges=True, color="w", opacity=0.3)
     my_plotter.add_field(field=mapped_disp_points,point_size=20.0, render_points_as_spheres=True)
@@ -433,7 +433,7 @@ Check the `Create points`_ section to understand how we defined the points coord
 .. code-block:: python
 
     # Create the Line object
-    my_line = geo.Line(coordinates=[[0.0, 0.06, 0.0], [0.03, 0.03, 0.03]]
+    my_line = geo.Line(coordinates=[[0.0, 0.06, 0.0], [0.03, 0.03, 0.03]],
                        n_points=50
                        )
 
@@ -452,7 +452,7 @@ You can plot the |Line| together with the mesh:
  .. jupyter-execute::
     :hide-code:
 
-    my_line = geo.Line(coordinates=[[0.0, 0.06, 0.0], [0.03, 0.03, 0.03]]
+    my_line = geo.Line(coordinates=[[0.0, 0.06, 0.0], [0.03, 0.03, 0.03]],
                        n_points=50
                        )
     my_line.plot(mesh=my_meshed_region, cpos=camera_position)
@@ -471,18 +471,19 @@ elements with shape functions.
 
     # Map the line coordinates with the displacement results and get the field
     mapped_disp_line = ops.mapping.on_coordinates(fields_container=my_disp,
-                                               coordinates=my_line.mesh.nodes.coordinates_field,
-                                               create_support=True,
-                                               mesh=my_meshed_region
-                                               ).eval()[0]
+                                                  coordinates=my_line.mesh.nodes.coordinates_field,
+                                                  create_support=True,
+                                                  mesh=my_meshed_region
+                                                   ).eval()[0]
 
 Plot displacement field on the line
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Plot displacement field on the |Line| and display mesh in background.
 Create the plotter and add fields and meshes. For more information about
 plotting data on a mesh check the tutorial: :ref:`ref_plotting_data_on_the_mesh`
 
-First, define the |DpfPlotter| object [2]_ and then add |MeshedRegion|
+First, define the |DpfPlotter| object [2]_, then add |MeshedRegion|
 to it using the |add_mesh| method and add the field using the |add_field| method.
 
 To display the figure built by the plotter object use the |show_figure| method.
@@ -505,13 +506,13 @@ To display the figure built by the plotter object use the |show_figure| method.
     :hide-code:
 
     mapped_disp_line = ops.mapping.on_coordinates(fields_container=my_disp,
-                                               coordinates=my_line.mesh.nodes.coordinates_field),
-                                               create_support=True,
-                                               mesh=my_meshed_region
-                                               ).eval()[0]
+                                                  coordinates=my_line.mesh.nodes.coordinates_field,
+                                                  create_support=True,
+                                                  mesh=my_meshed_region
+                                                   ).eval()[0]
     my_plotter = dpf.plotter.DpfPlotter()
     my_plotter.add_mesh(meshed_region=my_meshed_region,style="surface", show_edges=True, color="w", opacity=0.3)
-    my_plotter.add_field(field=mapped_disp_line)
+    my_plotter.add_field(field=mapped_disp_line,meshed_region=my_line.mesh)
     my_plotter.show_figure(show_axes=True, cpos=camera_position)
 
 Plane
@@ -576,18 +577,19 @@ elements with shape functions.
 
     # Map the line coordinates with the displacement results and get the field
     mapped_disp_plane = ops.mapping.on_coordinates(fields_container=my_disp,
-                                               coordinates=my_plane.mesh.nodes.coordinates_field,
-                                               create_support=True,
-                                               mesh=my_meshed_region
-                                               ).eval()[0]
+                                                   coordinates=my_plane.mesh.nodes.coordinates_field,
+                                                   create_support=True,
+                                                   mesh=my_meshed_region
+                                                   ).eval()[0]
 
 Plot displacement field on the plane
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Plot displacement field on the |Plane| and display mesh in background.
 Create the plotter and add fields and meshes. For more information about
 plotting data on a mesh check the tutorial: :ref:`ref_plotting_data_on_the_mesh`
 
-First, define the |DpfPlotter| object [2]_ and then add |MeshedRegion|
+First, define the |DpfPlotter| object [2]_, then add |MeshedRegion|
 to it using the |add_mesh| method and add the field using the |add_field| method.
 
 To display the figure built by the plotter object use the |show_figure| method.
@@ -600,7 +602,7 @@ To display the figure built by the plotter object use the |show_figure| method.
     # We use custom style for the mesh so we can visualise the points
     my_plotter.add_mesh(meshed_region=my_meshed_region,style="surface", show_edges=True, color="w", opacity=0.3)
     # Add the Field to the DpfPlotter object
-    my_plotter.add_field(field=mapped_disp_plane)
+    my_plotter.add_field(field=mapped_disp_plane, meshed_region=my_plane.mesh, show_edges=False)
     # Display the plot
     my_plotter.show_figure(show_axes=True, cpos=camera_position)
 
@@ -610,13 +612,13 @@ To display the figure built by the plotter object use the |show_figure| method.
     :hide-code:
 
     mapped_disp_plane = ops.mapping.on_coordinates(fields_container=my_disp,
-                                               coordinates=my_plane.mesh.nodes.coordinates_field,
-                                               create_support=True,
-                                               mesh=my_meshed_region
-                                               ).eval()[0]
+                                                   coordinates=my_plane.mesh.nodes.coordinates_field,
+                                                   create_support=True,
+                                                   mesh=my_meshed_region
+                                                   ).eval()[0]
     my_plotter = dpf.plotter.DpfPlotter()
     my_plotter.add_mesh(meshed_region=my_meshed_region,style="surface", show_edges=True, color="w", opacity=0.3)
-    my_plotter.add_field(field=mapped_disp_plane)
+    my_plotter.add_field(field=mapped_disp_plane, meshed_region=my_plane.mesh, show_edges=False)
     my_plotter.show_figure(show_axes=True, cpos=camera_position)
 
 .. rubric:: Footnotes
