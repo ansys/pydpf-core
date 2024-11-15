@@ -56,7 +56,7 @@ Printing the model displays the available results.
     print(my_model)
 
 We need to extract the data we want to plot. Mind that the results location must be of
-type ``Elemental`` or ``Nodal``. Fot more information about extracting results from a
+type ``Elemental`` or ``Nodal`` for plotting. Fot more information about extracting results from a
 result file check the :ref:`ref_tutorials_import_data` tutorials section.
 
 Here we choose to get the XX stress tensor component result. We start by extracting the stress results:
@@ -76,8 +76,7 @@ Here we choose to get the XX stress tensor component result. We start by extract
     my_stress = my_model.results.stress()
     print(my_stress.eval())
 
-As the stress result is in a ``ElementalNodal`` location we have to change it
-(for plotting the location needs to be of type ``Elemental`` or ``Nodal``).
+As the stress result is in a ``ElementalNodal`` location we have to change it.
 
 Here we define the new location with a input of the
 :class:`stress() <ansys.dpf.core.operators.result.stress.stress>` operator.

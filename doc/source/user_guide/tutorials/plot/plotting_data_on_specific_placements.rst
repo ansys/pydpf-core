@@ -14,6 +14,7 @@ Plotting data on specific placements
 .. |Points| replace:: :class:`Points <ansys.dpf.core.geometry.Points>`
 .. |Plane| replace:: :class:`Plane <ansys.dpf.core.geometry.Plane>`
 .. |mapping| replace:: :class:`mapping <ansys.dpf.core.operators.mapping.on_coordinates.on_coordinates>`
+
 This tutorial shows how to plot data on specific placements of a mesh:
 
 - :ref:`plot_specific_path`
