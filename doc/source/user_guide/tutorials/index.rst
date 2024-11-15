@@ -101,7 +101,7 @@ of our package background so you can understand how to work with it.
        Explore the different approaches to visualise the data in an animation.
 
     .. grid-item-card:: Custom Operators and Plugins
-       :link: ref_tutorials_enriching
+       :link: ref_tutorials_custom_operators_and_plugins
        :link-type: ref
        :text-align: center
 

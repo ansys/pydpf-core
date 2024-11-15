@@ -1,4 +1,4 @@
-.. _ref_tutorials_others_enriching:
+.. _ref_tutorials_custom_operators_and_plugins:
 
 Custom Operators and Plugins
 ----------------------------
