@@ -10,10 +10,6 @@ on:
         description: 'Release tag'
         default: 'latest'
         type: string
-      checkout_ref:
-        description: 'Ref to checkout for doc index (default to current branch)'
-        default: ''
-        type: string
 
 env:
   DOCUMENTATION_CNAME: 'dpf.docs.pyansys.com'
@@ -93,6 +89,8 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           doc-artifact-name: HTML-doc-ansys-dpf-core.zip
           decompress-artifact: true
+          bot-user: ${{ secrets.PYANSYS_CI_BOT_USERNAME }}
+          bot-email: ${{ secrets.PYANSYS_CI_BOT_EMAIL }}
 
   update_ansys_lab_examples:
     uses: ./.github/workflows/ansys_lab.yml
