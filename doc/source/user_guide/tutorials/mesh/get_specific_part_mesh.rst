@@ -57,9 +57,8 @@ Instanciate the |meshes_provider| operator.
     my_meshes_2 =  ops.mesh.meshes_provider(data_sources=my_data_sources).eval()
     print(my_meshes_2)
 
-You can specify the mesh regions you want to get with the ``region_scoping`` argument.
-A region corresponds to a zone for Fluid results or a part for LSDyna
-results.
+You can specify the mesh regions you want to get by giving the region id to the ``region_scoping`` argument.
+A region corresponds to a zone for Fluid results or a part for LSDyna results.
 
 The given meshes can be spatially or temporally varying, it depends on your result file.
 
