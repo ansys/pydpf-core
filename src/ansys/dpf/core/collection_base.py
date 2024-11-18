@@ -431,8 +431,15 @@ class CollectionBase(Generic[TYPE]):
             ))
             out_collection = self.__class__()
             out_collection.set_labels(labels=self._get_labels())
+            if hasattr(out_collection, "add_entry"):
+                # For any direct subclass of Collection
+                func = out_collection.add_entry
+            else:
+                # For FieldsContainers, ScopingsContainers and MeshesContainers
+                # because they have dedicated APIs
+                func = out_collection._add_entry
             [
-                out_collection._add_entry(
+                func(
                     label_space=self.get_label_space(index=i),
                     entry=self._get_entries(label_space_or_index=i)
                 )
