@@ -33,13 +33,20 @@ These tutorials demonstrate some different approaches to visualise the data in p
 
        This tutorial explains how to plot data on its supporting deformed mesh.
 
-    .. grid-item-card:: Plotting data on specific placements
-       :link: ref_plotting_data_on_specific_placements
+    .. grid-item-card:: Plotting data on a path
+       :link: ref_plotting_data_on_specific_path
        :link-type: ref
        :text-align: center
 
-       This tutorial shows how to plot data on specific placements of a
-       mesh (a specific path, a geometry elements ...)
+       This tutorial shows how to plot data on a specific path of a
+       mesh
+
+    .. grid-item-card:: Plotting data on geometry elements
+       :link: ref_plotting_data_on_geometry_elements
+       :link-type: ref
+       :text-align: center
+
+       This tutorial shows how to plot data on geometry elements
 
     .. grid-item-card:: Plotting a graph
        :link: ref_plotting_a_graph
@@ -55,5 +62,6 @@ These tutorials demonstrate some different approaches to visualise the data in p
     plotting_meshes.rst
     plotting_data_on_the_mesh.rst
     plotting_data_on_deformed_mesh.rst
-    plotting_data_on_specific_placements.rst
+    plotting_data_on_specific_path.rst
+    plotting_data_on_geometry_elements.rst
     plotting_a_graph.rst
