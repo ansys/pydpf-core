@@ -123,6 +123,13 @@ to the entity their are defined at:
     # Print the element types
     print(my_el_types)
 
+.. rst-class:: sphx-glr-script-out
+
+ .. jupyter-execute::
+    :hide-code:
+
+    my_el_types = my_meshed_region_1.property_field(property_name="eltype")
+    print(my_el_types)
 
 .. _read_mesh_fluids_lsdyna:
 
