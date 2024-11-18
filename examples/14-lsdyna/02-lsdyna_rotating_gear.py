@@ -125,6 +125,8 @@ fragment_mesh = ops.mesh.mesh_provider(data_sources=my_data_sources, region_scop
 #
 # # Define the fragment scoping
 fragment_nodal_scop = ops.scoping.from_mesh(mesh=fragment_mesh).eval()
+
+# # Testing extracting rigid body v
 # fragment_v = ops.result.part_rigid_body_velocity(data_sources=my_data_sources, entity_scoping=dpf.Scoping(ids=[3],location=dpf.locations.zone) ).eval()
 # print(fragment_v)
 # print(fragment_v[0])
@@ -134,28 +136,20 @@ fragment_nodal_scop = ops.scoping.from_mesh(mesh=fragment_mesh).eval()
 # print(max_fc.eval(pin=0))
 # print(max_fc.eval(pin=1))
 #
-#
+# # Testing cyl rotation op
 # # print(norm_fc)
 # # cyl = ops.geo.rotate_in_cylindrical_cs_fc(field=fragment_v, mesh=fragment_mesh).eval()
 # # print(cyl)
 #
+# # Testing extracting global v
 # global_v = my_model.results.global_velocity.eval()
-#
 # # print(global_v[0])
 # norm_fc2 = ops.math.norm(field= global_v[0]).eval()
 # max_fc2 = ops.min_max.min_max(field=norm_fc2)
 # print(max_fc2.eval(pin=0))
 # print(max_fc2.eval(pin=1))
 #
-# mudar_loc = ops.utility.extract_scoping(field_or_fields_container=fragment_v[0]).eval()
-# print(mudar_loc)
-
-# test_disp = my_model.results.displacement(mesh_scoping=fragment_nodal_scop).eval()
-# temps = my_model.metadata.time_freq_support.time_frequencies
-
-# print(test_disp)
-# print(temps)
-
+# # Testing extracting nodal v
 # nodout_vx = my_model.results.nodout_velocity_x.eval()
 # max_nod = ops.min_max.min_max_fc(fields_container=nodout_vx).eval()
 # # print(nodout_vx)
