@@ -28,21 +28,21 @@ These tutorials explains how to explore different attributes of a given mesh wit
 
        This tutorial explains how to extract the models mesh from a result file
 
-    .. grid-item-card:: Read a mesh
+    .. grid-item-card:: Read and get specific information from a mesh
        :link: tutorials_read_mesh
        :link-type: ref
        :text-align: center
 
        This tutorial explains how to access the mesh data and metadata
-       (data about the elements, nodes, faces ...).
+       (data about the elements, nodes, faces, region, zone ...)
+       so it can be manipulated.
 
-    .. grid-item-card:: Get a specific part of a mesh
-       :link: tutorials_get_specific_part_mesh
+    .. grid-item-card:: Get a mesh split on different parts
+       :link: tutorials_split_mesh
        :link-type: ref
        :text-align: center
 
-       This tutorial shows how to to access the data about a specific part of a mesh
-       (data about a region, zone ...) so it can be manipulated.
+       This tutorial show how to get meshes split on a given space or time.
 
     .. grid-item-card:: Split a mesh
        :link: tutorials_split_mesh
