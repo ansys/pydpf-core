@@ -121,7 +121,7 @@ class Operator:
 
     """
 
-    def __init__(self, name=None, operator=None, config=None, server=None):
+    def __init__(self, name=None, config=None, server=None, operator=None):
         """Initialize the operator with its name by connecting to a stub."""
         self.name = name
         self._internal_obj = None
@@ -135,7 +135,6 @@ class Operator:
 
         # step 2: get api
         self._api_instance = None  # see _api property
-
 
         # step2: if object exists, take the instance, else create it
         if operator is not None:
@@ -159,7 +158,9 @@ class Operator:
                 self.name = self._api.operator_name(self)
         else:
             if self._server.has_client():
-                self._internal_obj = self._api.operator_new_on_client(self.name, self._server.client)
+                self._internal_obj = self._api.operator_new_on_client(
+                    self.name, self._server.client
+                )
             else:
                 self._internal_obj = self._api.operator_new(self.name)
 
