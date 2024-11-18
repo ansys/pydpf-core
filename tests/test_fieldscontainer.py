@@ -598,3 +598,9 @@ def test_get_entries_indices_fields_container(server_type):
     assert np.allclose(fc.get_entries_indices({"time": 1, "complex": 0}), [0])
     assert np.allclose(fc.get_entries_indices({"time": 2}), [1])
     assert np.allclose(fc.get_entries_indices({"complex": 0}), range(0, 20))
+
+
+def test_fields_container_slice(server_type, disp_fc):
+    print(disp_fc)
+    fc = disp_fc[:1]
+    assert len(fc) == 1
