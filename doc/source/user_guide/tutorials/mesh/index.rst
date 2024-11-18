@@ -28,20 +28,13 @@ These tutorials explains how to explore different attributes of a given mesh wit
 
        This tutorial explains how to extract the models mesh from a result file
 
-    .. grid-item-card:: Read a mesh definition information
-       :link: tutorials_read_mesh_metadata
+    .. grid-item-card:: Read a mesh
+       :link: tutorials_read_mesh
        :link-type: ref
        :text-align: center
 
-       This tutorial explains how to access and read the mesh metadata information
-
-    .. grid-item-card:: Read a mesh structure
-       :link: tutorials_read_mesh_structure
-       :link-type: ref
-       :text-align: center
-
-       This tutorial explains how to access the data about the mesh structure
-       (data about the elements, nodes, faces ...) so it can be manipulated.
+       This tutorial explains how to access the mesh data and metadata
+       (data about the elements, nodes, faces ...).
 
     .. grid-item-card:: Get a specific part of a mesh
        :link: tutorials_get_specific_part_mesh
@@ -62,9 +55,8 @@ These tutorials explains how to explore different attributes of a given mesh wit
     :maxdepth: 2
     :hidden:
 
-    create_a_mesh_from_scratch
-    get_mesh_from_result_file
-    read_mesh_metadata
-    read_mesh_structure
-    get_specific_part_mesh
-    split_mesh
+    create_a_mesh_from_scratch.rst
+    get_mesh_from_result_file.rst
+    read_mesh.rst
+    get_specific_part_mesh.rst
+    split_mesh.rst
