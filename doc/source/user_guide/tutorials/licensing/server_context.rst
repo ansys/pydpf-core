@@ -16,7 +16,7 @@ The server context is composed of the following information:
 For more information, see the :class:`AvailableServerContexts <ansys.dpf.core.server_context.AvailableServerContexts>`
 class and :ref:`user_guide_xmlfiles`.
 
-Two main licensing context type capabilities are available: 
+Two main licensing context type capabilities are available:
 
 - **Premium:** This default context allows DPF to perform license checkouts,
   making licensed DPF operators available.
@@ -26,7 +26,7 @@ Two main licensing context type capabilities are available:
 For the operator list for each licensing context type, see :ref:`ref_dpf_operators_reference`.
 The **Premium** operators reference includes licensed DPF operators.
 The **Entry** operators reference only includes unlicensed DPF operators.
-	   
+
 Change server context from Entry to Premium
 -------------------------------------------
 
@@ -41,24 +41,33 @@ Once a DPF Server is started in **Entry** context, it can be upgraded to the
         context=dpf.AvailableServerContexts.entry
     )
     print(server.context)
-	
+
 .. rst-class:: sphx-glr-script-out
 
- .. code-block:: none
- 
-    Server Context of type LicensingContextType.entry with no xml path
+ .. jupyter-execute::
+    :hide-code:
+
+    from ansys.dpf import core as dpf
+    # start a server with entry capabilities
+    server = dpf.start_local_server(
+        context=dpf.AvailableServerContexts.entry
+    )
+    print(server.context)
 
 .. code-block::
- 
+
     # apply a premium context on the server
     server.apply_context(dpf.AvailableServerContexts.premium)
     print(server.context)
 
 .. rst-class:: sphx-glr-script-out
 
- .. code-block:: none
- 
-    Server Context of type LicensingContextType.premium with no xml path
+ .. jupyter-execute::
+    :hide-code:
+
+    # apply a premium context on the server
+    server.apply_context(dpf.AvailableServerContexts.premium)
+    print(server.context)
 
 
 Change the default server context
@@ -74,12 +83,15 @@ with this code:
     from ansys.dpf import core as dpf
     dpf.set_default_server_context(dpf.AvailableServerContexts.entry)
     print(dpf.server_context.SERVER_CONTEXT)
-	
+
 .. rst-class:: sphx-glr-script-out
 
- .. code-block:: none
- 
-    Server Context of type LicensingContextType.entry with no xml path
+ .. jupyter-execute::
+    :hide-code:
+
+    from ansys.dpf import core as dpf
+    dpf.set_default_server_context(dpf.AvailableServerContexts.entry)
+    print(dpf.server_context.SERVER_CONTEXT)
 
 .. warning::
     As starting an ``InProcess`` server means linking the DPF binaries to your current Python
@@ -93,9 +105,9 @@ with this code:
 Release history
 ---------------
 
-The **Entry** server context is available in server version 6.0 
-(Ansys 2023 R2) and later. 
+The **Entry** server context is available in server version 6.0
+(Ansys 2023 R2) and later.
 
 With a server version earlier than 6.0, **Premium** is the default server
-context and all **Premium** :ref:`ref_dpf_operators_reference` 
+context and all **Premium** :ref:`ref_dpf_operators_reference`
 are available, depending only on their release date.
