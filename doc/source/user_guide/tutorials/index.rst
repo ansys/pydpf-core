@@ -105,7 +105,7 @@ of our package background so you can understand how to work with it.
        :link-type: ref
        :text-align: center
 
-       Discover how to enhance DPF capabilities by creating new operator’s libraries.
+       Discover how to enhance DPF capabilities by creating your own operators and plugins.
 
     .. grid-item-card:: Post-process distributed files
        :link: ref_tutorials_distributed_files
