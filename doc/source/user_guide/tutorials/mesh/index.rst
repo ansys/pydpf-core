@@ -37,12 +37,13 @@ These tutorials explains how to explore different attributes of a given mesh wit
        (data about the elements, nodes, faces, region, zone ...)
        so it can be manipulated.
 
-    .. grid-item-card:: Get a mesh split on different parts
+    .. grid-item-card:: Extract a mesh in split parts
        :link: tutorials_split_mesh
        :link-type: ref
        :text-align: center
 
-       This tutorial show how to get meshes split on a given space or time.
+       This tutorial show how to get meshes split on a given space or time for Fluent,
+       CFX or LSDYNA result files.
 
     .. grid-item-card:: Split a mesh
        :link: tutorials_split_mesh

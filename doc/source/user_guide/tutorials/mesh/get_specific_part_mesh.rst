@@ -1,15 +1,15 @@
 .. _tutorials_get_specific_part_mesh:
 
-======================================
-Get a mesh split on on different parts
-======================================
+===================================
+Get a mesh split on different parts
+===================================
 
 .. |MeshedRegion| replace:: :class:`MeshedRegion <ansys.dpf.core.meshed_region.MeshedRegion>`
 .. |MeshesContainer| replace:: :class:`MeshesContainer <ansys.dpf.core.meshes_container.MeshesContainer>`
 .. |DataSources| replace:: :class:`Model <ansys.dpf.core.data_sources.DataSources>`
 .. |meshes_provider| replace:: :class:`mesh_provider <ansys.dpf.core.operators.mesh.mesh_provider.mesh_provider>`
 
-This tutorial show how to get meshes split on a given space or time
+This tutorial show how to get meshes split on a given space or time for Fluent, CFX or LSDYNA result files.
 
 You have one operator that can be used to get your split mesh: |meshes_provider|
 
@@ -64,7 +64,7 @@ The given meshes can be spatially or temporally varying, it depends on your resu
 
 .. code-block:: python
 
-    # Instanciate the meshes_provider operator specifing a region
+    # Instanciate the meshes_provider operator specifying a region
     my_meshes_3 =  ops.mesh.meshes_provider(data_sources=my_data_sources, region_scoping=[3,12]).eval()
     # Print the meshes
     print(my_meshes_3)
