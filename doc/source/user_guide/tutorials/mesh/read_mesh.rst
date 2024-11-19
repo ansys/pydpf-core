@@ -70,7 +70,7 @@ The mesh information includes :
 Check all the information you can get at: |MeshedRegion|.
 
 When instantiating the nodes, element, faces and named selection you get the correspondent DPF objects:
-|Nodes|,|Elements|,|Faces| and |Scoping|. For example:
+|Nodes|, |Elements|, |Faces| and |Scoping|. For example:
 
 .. code-block:: python
 
