@@ -1,0 +1,16 @@
+name: 🎓 Adding a tutorial
+description: Proposing a new tutorial for the library
+title: "Tutorial proposal: ..."
+labels: ["tutorial"]
+assignees: [""]
+
+body:
+
+  - type: textarea
+    id: tutorial-description
+    attributes:
+      label: '📝 Description of the tutorial'
+      placeholder: Describe what tutorial you devised and why it is useful for the project.
+
+    validations:
+      required: true
