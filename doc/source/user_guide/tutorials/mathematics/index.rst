@@ -16,7 +16,7 @@ PyDPF-Core API and data structures.
     :margin: 2
 
     .. grid-item-card:: Basic maths
-       :link: ref_tutorials
+       :link: ref_basic_math
        :link-type: ref
        :text-align: center
 
@@ -27,6 +27,7 @@ PyDPF-Core API and data structures.
     :maxdepth: 2
     :hidden:
 
+    basic_maths.rst
 
 
 
