@@ -174,7 +174,7 @@ a) |add| and |add_fc| operators
     :hide-code:
 
     add_field = maths.add(fieldA=field1, fieldB=field2).eval()
-    print("Addition",add_field , "\n")
+    print("Addition Fields",add_field , "\n")
 
 - |add_fc|: Selects all fields with the same label space in the input |FieldsContainers| and add those together
 
