@@ -438,13 +438,11 @@ class CollectionBase(Generic[TYPE]):
                 # For FieldsContainers, ScopingsContainers and MeshesContainers
                 # because they have dedicated APIs
                 func = out_collection._add_entry
-            [
+            for i in indices:
                 func(
                     label_space=self.get_label_space(index=i),
                     entry=self._get_entries(label_space_or_index=i)
                 )
-                for i in indices
-            ]
             return out_collection
         self_len = len(self)
         if index < 0:
