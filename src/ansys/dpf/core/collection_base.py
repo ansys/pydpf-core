@@ -424,11 +424,11 @@ class CollectionBase(Generic[TYPE]):
         """
         if isinstance(index, slice):
             # handle slice
-            indices = list(range(
-                index.start if index.start else 0,
-                index.stop,
-                index.step if index.step else 1
-            ))
+            indices = list(
+                range(
+                    index.start if index.start else 0, index.stop, index.step if index.step else 1
+                )
+            )
             out_collection = self.__class__()
             out_collection.set_labels(labels=self._get_labels())
             if hasattr(out_collection, "add_entry"):
@@ -441,7 +441,7 @@ class CollectionBase(Generic[TYPE]):
             for i in indices:
                 func(
                     label_space=self.get_label_space(index=i),
-                    entry=self._get_entries(label_space_or_index=i)
+                    entry=self._get_entries(label_space_or_index=i),
                 )
             return out_collection
         self_len = len(self)

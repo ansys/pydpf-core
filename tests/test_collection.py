@@ -245,14 +245,14 @@ def test_connect_collection_workflow(server_type, subtype_creator):
     assert out is not None
     assert len(out) == 1
 
+
 def test_generic_data_containers_collection_slice(server_type):
     coll = GenericDataContainersCollection(server=server_type)
 
     coll.labels = ["id1", "id2"]
     for i in range(5):
         coll.add_entry(
-            label_space={"id1": i, "id2": 0},
-            entry=create_dummy_gdc(server_type=server_type)
+            label_space={"id1": i, "id2": 0}, entry=create_dummy_gdc(server_type=server_type)
         )
     assert len(coll) == 5
     print(coll)
@@ -268,7 +268,7 @@ def test_string_containers_collection_slice(server_type):
     for i in range(5):
         coll.add_entry(
             label_space={"id1": i, "id2": 0},
-            entry=create_dummy_string_field(server_type=server_type)
+            entry=create_dummy_string_field(server_type=server_type),
         )
     assert len(coll) == 5
     print(coll)
