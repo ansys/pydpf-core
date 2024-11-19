@@ -1,7 +1,7 @@
 name: 🎓 Adding a tutorial
 description: Proposing a new tutorial for the library
 title: "Tutorial proposal: ..."
-labels: ["tutorial"]
+labels: ["tutorials"]
 assignees: [""]
 
 body:
