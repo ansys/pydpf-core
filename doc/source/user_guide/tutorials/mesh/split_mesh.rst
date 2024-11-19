@@ -9,10 +9,19 @@ This tutorial show how to split a mesh into different meshes.
 .. |MeshedRegion| replace:: :class:`MeshedRegion <ansys.dpf.core.meshed_region.MeshedRegion>`
 .. |MeshesContainer| replace:: :class:`MeshesContainer <ansys.dpf.core.meshes_container.MeshesContainer>`
 .. |split_mesh| replace:: :class:`split_mesh <ansys.dpf.core.operators.mesh.split_mesh.split_mesh>`
+.. |split_on_property_type| replace:: :class:`split_on_property_type <ansys.dpf.core.operators.scoping.split_on_property_type.split_on_property_type>`
+.. |from_scopings| replace:: :class:`from_scopings <ansys.dpf.core.operators.mesh.from_scopings.from_scopings>`
+.. |DataSources| replace:: :class:`Model <ansys.dpf.core.data_sources.DataSources>`
+.. |Scoping| replace:: :class:`Scoping <ansys.dpf.core.scoping.Scoping>`
+.. |ScopingsContainer| replace:: :class:`ScopingsContainer <ansys.dpf.core.scopings_container.ScopingsContainer>`
 
-The mesh object in DPF is a |MeshedRegion|. If you want to split your mesh you can store them in a |MeshesContainer|.
+The mesh object in DPF is a |MeshedRegion|. If you want to split your mesh you can store them in a |MeshedRegion|.
 
-You have one operator that can be used to split your mesh: |split_mesh|
+You have two approaches to split your mesh:
+
+1) Using the |split_mesh|, to split a already existing |MeshedRegion| into a MeshesContainer;
+2) Split the scoping with the |split_on_property_type| operator and than creating the |MeshedRegion|
+  objects with the |from_scopings| operator.
 
 Define the mesh
 ---------------
@@ -37,11 +46,10 @@ in our ``Examples`` package.
     # Get the mesh
     my_meshed_region_1 = my_model_1.metadata.meshed_region
 
+1) First approach
+-----------------
 
-Use the |split_mesh| operator
------------------------------
-
-The |split_mesh| operator divides a |MeshedRegion| based on a property.
+Use the |split_mesh| operator to split a already existing |MeshedRegion| into a MeshesContainer based on a property.
 Currently you can split a mesh by material or eltype.
 
 .. code-block:: python
@@ -64,3 +72,31 @@ Currently you can split a mesh by material or eltype.
     my_meshed_region_1 = my_model_1.metadata.meshed_region
     my_meshes_1 = ops.mesh.split_mesh(mesh=my_meshed_region_1,property="mat").eval()
     print(my_meshes_1)
+
+2) Second approach
+------------------
+
+Use the |split_on_property_type| operator to split the scoping and then creating the |MeshedRegion|
+objects with the |from_scopings| operator.
+
+The |split_on_property_type| a given |Scoping| on given properties (elshape and/or material, since 2025R1
+it supports any scalar property field name contained in the mesh property fields) and returns a |ScopingsContainer|
+with those split scopings.
+
+.. code-block:: python
+
+    # Define the scoping split by material
+    split_scoping = ops.scoping.split_on_property_type(mesh=my_meshed_region_1, label1="mat").eval()
+    # Get the split meshes
+    my_meshes_2 = ops.mesh.from_scopings(scopings_container=split_scoping,mesh=my_meshed_region_1).eval()
+    # Print the meshes
+    print(my_meshes_2)
+
+.. rst-class:: sphx-glr-script-out
+
+ .. jupyter-execute::
+    :hide-code:
+
+    split_scoping = ops.scoping.split_on_property_type(mesh=my_meshed_region_1, label1="mat").eval()
+    my_meshes_2 = ops.mesh.from_scopings(scopings_container=split_scoping,mesh=my_meshed_region_1).eval()
+    print(my_meshes_2)
