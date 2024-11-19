@@ -9,7 +9,7 @@ Get a mesh from a result file
 .. |MeshedRegion| replace:: :class:`MeshedRegion <ansys.dpf.core.meshed_region.MeshedRegion>`
 .. |Model| replace:: :class:`Model <ansys.dpf.core.model.Model>`
 .. |DataSources| replace:: :class:`Model <ansys.dpf.core.data_sources.DataSources>`
-.. |mesh_provider| replace:: <ansys.dpf.core.operators.mesh.mesh_provider.mesh_provider>`
+.. |mesh_provider| replace:: :class:`mesh_provider <ansys.dpf.core.operators.mesh.mesh_provider.mesh_provider>`
 
 The mesh object in DPF is a |MeshedRegion|. You can obtain a |MeshedRegion| by creating your
 own by scratch or by getting it from a result file.
