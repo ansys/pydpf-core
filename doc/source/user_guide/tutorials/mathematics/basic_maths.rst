@@ -6,8 +6,8 @@ Basic maths
 
 .. |Field| replace:: :class:`Field<ansys.dpf.core.field.Field>`
 .. |Fields| replace:: :class:`Field<ansys.dpf.core.field.Field>`
-.. |FieldsContainer| replace:: :class:`FieldsContainer<ansys.dpf.core.field.Field>`
-.. |FieldsContainers| replace:: :class:`FieldsContainer<ansys.dpf.core.field.Field>`
+.. |FieldsContainer| replace:: :class:`FieldsContainer<ansys.dpf.core.fields_container.FieldsContainer>`
+.. |FieldsContainers| replace:: :class:`FieldsContainer<ansys.dpf.core.fields_container.FieldsContainer>`
 .. |add| replace:: :class:`add<ansys.dpf.core.operators.math.add.add>`
 .. |add_fc| replace:: :class:`add_fc<ansys.dpf.core.operators.math.add_fc.add_fc>`
 .. |minus| replace:: :class:`minus<ansys.dpf.core.operators.math.minus.minus>`
