@@ -1,8 +1,8 @@
 .. _tutorials_get_specific_part_mesh:
 
-===================================
-Get a mesh split on different parts
-===================================
+=============================
+Extract a mesh in split parts
+=============================
 
 :bdg-info:`Fluent` :bdg-light:`CFX`
 
