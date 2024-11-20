@@ -21,7 +21,7 @@ You have two approaches to split your mesh:
 
 1) Using the |split_mesh|, to split a already existing |MeshedRegion| into a MeshesContainer;
 2) Split the scoping with the |split_on_property_type| operator and than creating the |MeshedRegion|
-  objects with the |from_scopings| operator.
+   objects with the |from_scopings| operator.
 
 Define the mesh
 ---------------
@@ -30,21 +30,75 @@ The mesh object in DPF is a |MeshedRegion|. You can obtain a |MeshedRegion| by c
 own by scratch or by getting it from a result file. For more information check the
 :ref:`tutorials_create_a_mesh_from_scratch` and :ref:`tutorials_get_mesh_from_result_file` tutorials.
 
-In this part we will download a simulation result file available
+In this part we will download simulation result files available
 in our ``Examples`` package.
 
-.. code-block:: python
+.. tab-set::
 
-    # Import the ``ansys.dpf.core`` module, including examples files and the operators subpackage
-    from ansys.dpf import core as dpf
-    from ansys.dpf.core import examples
-    from ansys.dpf.core import operators as ops
-    # Define the result file
-    result_file_path_1 = examples.find_multishells_rst()
-    # Create the model
-    my_model_1 = dpf.Model(data_sources=result_file_path_1)
-    # Get the mesh
-    my_meshed_region_1 = my_model_1.metadata.meshed_region
+    .. tab-item:: MAPDL
+
+
+        .. code-block:: python
+
+            # Import the ``ansys.dpf.core`` module, including examples files and the operators subpackage
+            from ansys.dpf import core as dpf
+            from ansys.dpf.core import examples
+            from ansys.dpf.core import operators as ops
+            # Define the result file
+            result_file_path_1 = examples.find_static_rst()
+            # Create the model
+            my_model_1 = dpf.Model(data_sources=result_file_path_1)
+            # Get the mesh
+            my_meshed_region_1 = my_model_1.metadata.meshed_region
+
+    .. tab-item:: LSDYNA
+
+        .. code-block:: python
+
+            # Import the ``ansys.dpf.core`` module, including examples files and the operators subpackage
+            from ansys.dpf import core as dpf
+            from ansys.dpf.core import examples
+            from ansys.dpf.core import operators as ops
+            # Define the result file
+            result_file_path_2 = examples.download_d3plot_beam()
+            # Create the DataSources object
+            my_data_sources_2 = dpf.DataSources()
+            my_data_sources_2.set_result_file_path(filepath=result_file_path_2[0], key="d3plot")
+            my_data_sources_2.add_file_path(filepath=result_file_path_2[3], key="actunits")
+            # Create the model
+            my_model_2 = dpf.Model(data_sources=my_data_sources_2)
+            # Get the mesh
+            my_meshed_region_2 = my_model_2.metadata.meshed_region
+
+    .. tab-item:: Fluent
+
+        .. code-block:: python
+
+            # Import the ``ansys.dpf.core`` module, including examples files and the operators subpackage
+            from ansys.dpf import core as dpf
+            from ansys.dpf.core import examples
+            from ansys.dpf.core import operators as ops
+            # Define the result file
+            result_file_path_3 = examples.download_fluent_axial_comp()["flprj"]
+            # Create the model
+            my_model_3 = dpf.Model(data_sources=result_file_path_3)
+            # Get the mesh
+            my_meshed_region_3 = my_model_3.metadata.meshed_region
+
+    .. tab-item:: CFX
+
+        .. code-block:: python
+
+            # Import the ``ansys.dpf.core`` module, including examples files and the operators subpackage
+            from ansys.dpf import core as dpf
+            from ansys.dpf.core import examples
+            from ansys.dpf.core import operators as ops
+            # Define the result file
+            result_file_path_4 = examples.download_cfx_mixing_elbow()
+            # Create the model
+            my_model_4 = dpf.Model(data_sources=result_file_path_4)
+            # Get the mesh
+            my_meshed_region_4 = my_model_4.metadata.meshed_region
 
 1) First approach
 -----------------
@@ -52,51 +106,209 @@ in our ``Examples`` package.
 Use the |split_mesh| operator to split a already existing |MeshedRegion| into a MeshesContainer based on a property.
 Currently you can split a mesh by material or eltype.
 
-.. code-block:: python
+.. tab-set::
 
-    # Split the mesh by material
-    my_meshes_1 = ops..mesh.split_mesh(mesh=my_meshed_region_1,property="mat").eval()
-    # Print the meshes
-    print(my_meshes_1)
+    .. tab-item:: MAPDL
 
-.. rst-class:: sphx-glr-script-out
+        .. code-block:: python
 
- .. jupyter-execute::
-    :hide-code:
+            # Split the mesh by material
+            my_meshes_11 = ops.mesh.split_mesh(mesh=my_meshed_region_1,property="mat").eval()
+            # Print the meshes
+            print(my_meshes_11)
 
-    from ansys.dpf import core as dpf
-    from ansys.dpf.core import examples
-    from ansys.dpf.core import operators as ops
-    result_file_path_1 = examples.find_multishells_rst()
-    my_model_1 = dpf.Model(data_sources=result_file_path_1)
-    my_meshed_region_1 = my_model_1.metadata.meshed_region
-    my_meshes_1 = ops.mesh.split_mesh(mesh=my_meshed_region_1,property="mat").eval()
-    print(my_meshes_1)
+        .. rst-class:: sphx-glr-script-out
+
+         .. jupyter-execute::
+            :hide-code:
+
+            from ansys.dpf import core as dpf
+            from ansys.dpf.core import examples
+            from ansys.dpf.core import operators as ops
+            result_file_path_1 = examples.find_multishells_rst()
+            my_model_1 = dpf.Model(data_sources=result_file_path_1)
+            my_meshed_region_1 = my_model_1.metadata.meshed_region
+            my_meshes_11 = ops.mesh.split_mesh(mesh=my_meshed_region_1,property="mat").eval()
+            print(my_meshes_11)
+
+    .. tab-item:: LSDYNA
+
+        .. code-block:: python
+
+            # Split the mesh by material
+            my_meshes_21 = ops.mesh.split_mesh(mesh=my_meshed_region_2,property="mat").eval()
+            # Print the meshes
+            print(my_meshes_21)
+
+        .. rst-class:: sphx-glr-script-out
+
+         .. jupyter-execute::
+            :hide-code:
+
+            result_file_path_2 = examples.download_d3plot_beam()
+            # Create the DataSources object
+            my_data_sources_2 = dpf.DataSources()
+            my_data_sources_2.set_result_file_path(filepath=result_file_path_2[0], key="d3plot")
+            my_data_sources_2.add_file_path(filepath=result_file_path_2[3], key="actunits")
+            # Create the model
+            my_model_2 = dpf.Model(data_sources=my_data_sources_2)
+            # Get the mesh
+            my_meshed_region_2 = my_model_2.metadata.meshed_region
+            # Split the mesh by material
+            my_meshes_21 = ops.mesh.split_mesh(mesh=my_meshed_region_2,property="mat").eval()
+            # Print the meshes
+            print(my_meshes_21)
+
+    .. tab-item:: Fluent
+
+        .. code-block:: python
+
+            # Split the mesh by material
+            my_meshes_31 = ops.mesh.split_mesh(mesh=my_meshed_region_3,property="mat").eval()
+            # Print the meshes
+            print(my_meshes_31)
+
+        .. rst-class:: sphx-glr-script-out
+
+         .. jupyter-execute::
+            :hide-code:
+
+            # Define the result file
+            result_file_path_3 = examples.download_fluent_axial_comp()["flprj"]
+            # Create the model
+            my_model_3 = dpf.Model(data_sources=result_file_path_3)
+            # Get the mesh
+            my_meshed_region_3 = my_model_3.metadata.meshed_region
+            # Split the mesh by material
+            my_meshes_31 = ops.mesh.split_mesh(mesh=my_meshed_region_3,property="mat").eval()
+            # Print the meshes
+            print(my_meshes_31)
+
+    .. tab-item:: CFX
+
+        .. code-block:: python
+
+            # Split the mesh by material
+            my_meshes_41 = ops.mesh.split_mesh(mesh=my_meshed_region_4,property="mat").eval()
+            # Print the meshes
+            print(my_meshes_41)
+
+        .. rst-class:: sphx-glr-script-out
+
+         .. jupyter-execute::
+            :hide-code:
+
+            # Define the result file
+            result_file_path_4 = examples.download_cfx_mixing_elbow()
+            # Create the model
+            my_model_4 = dpf.Model(data_sources=result_file_path_4)
+            # Get the mesh
+            my_meshed_region_4 = my_model_4.metadata.meshed_region
+            # Split the mesh by material
+            my_meshes_41 = ops.mesh.split_mesh(mesh=my_meshed_region_4,property="mat").eval()
+            # Print the meshes
+            print(my_meshes_41)
 
 2) Second approach
 ------------------
 
-Use the |split_on_property_type| operator to split the scoping and then creating the |MeshedRegion|
+Use the |split_on_property_type| operator to split the scoping and then create the |MeshedRegion|
 objects with the |from_scopings| operator.
 
 The |split_on_property_type| a given |Scoping| on given properties (elshape and/or material, since 2025R1
 it supports any scalar property field name contained in the mesh property fields) and returns a |ScopingsContainer|
 with those split scopings.
 
-.. code-block:: python
+.. tab-set::
 
-    # Define the scoping split by material
-    split_scoping = ops.scoping.split_on_property_type(mesh=my_meshed_region_1, label1="mat").eval()
-    # Get the split meshes
-    my_meshes_2 = ops.mesh.from_scopings(scopings_container=split_scoping,mesh=my_meshed_region_1).eval()
-    # Print the meshes
-    print(my_meshes_2)
+    .. tab-item:: MAPDL
 
-.. rst-class:: sphx-glr-script-out
+        .. code-block:: python
 
- .. jupyter-execute::
-    :hide-code:
+            # Define the scoping split by material
+            split_scoping_1 = ops.scoping.split_on_property_type(mesh=my_meshed_region_1, label1="mat").eval()
+            # Get the split meshes
+            my_meshes_12 = ops.mesh.from_scopings(scopings_container=split_scoping_1,mesh=my_meshed_region_1).eval()
+            # Print the meshes
+            print(my_meshes_12)
 
-    split_scoping = ops.scoping.split_on_property_type(mesh=my_meshed_region_1, label1="mat").eval()
-    my_meshes_2 = ops.mesh.from_scopings(scopings_container=split_scoping,mesh=my_meshed_region_1).eval()
-    print(my_meshes_2)
+        .. rst-class:: sphx-glr-script-out
+
+         .. jupyter-execute::
+            :hide-code:
+
+            # Define the scoping split by material
+            split_scoping_1 = ops.scoping.split_on_property_type(mesh=my_meshed_region_1, label1="mat").eval()
+            # Get the split meshes
+            my_meshes_12 = ops.mesh.from_scopings(scopings_container=split_scoping_1,mesh=my_meshed_region_1).eval()
+            # Print the meshes
+            print(my_meshes_12)
+
+    .. tab-item:: LSDYNA
+
+        .. code-block:: python
+
+            # Define the scoping split by material
+            split_scoping_2 = ops.scoping.split_on_property_type(mesh=my_meshed_region_2, label1="mat").eval()
+            # Get the split meshes
+            my_meshes_22 = ops.mesh.from_scopings(scopings_container=split_scoping_2,mesh=my_meshed_region_2).eval()
+            # Print the meshes
+            print(my_meshes_22)
+
+        .. rst-class:: sphx-glr-script-out
+
+         .. jupyter-execute::
+            :hide-code:
+
+            # Define the scoping split by material
+            split_scoping_2 = ops.scoping.split_on_property_type(mesh=my_meshed_region_2, label1="mat").eval()
+            # Get the split meshes
+            my_meshes_22 = ops.mesh.from_scopings(scopings_container=split_scoping_2,mesh=my_meshed_region_2).eval()
+            # Print the meshes
+            print(my_meshes_22)
+
+    .. tab-item:: Fluent
+
+        .. code-block:: python
+
+            # Define the scoping split by material
+            split_scoping_3 = ops.scoping.split_on_property_type(mesh=my_meshed_region_3, label1="mat").eval()
+            # Get the split meshes
+            my_meshes_32 = ops.mesh.from_scopings(scopings_container=split_scoping_3,mesh=my_meshed_region_3).eval()
+            # Print the meshes
+            print(my_meshes_32)
+
+        .. rst-class:: sphx-glr-script-out
+
+         .. jupyter-execute::
+            :hide-code:
+
+            # Define the scoping split by material
+            split_scoping_3 = ops.scoping.split_on_property_type(mesh=my_meshed_region_3, label1="mat").eval()
+            # Get the split meshes
+            my_meshes_32 = ops.mesh.from_scopings(scopings_container=split_scoping_3,mesh=my_meshed_region_3).eval()
+            # Print the meshes
+            print(my_meshes_32)
+
+    .. tab-item:: CFX
+
+        .. code-block:: python
+
+            # Define the scoping split by material
+            split_scoping_4 = ops.scoping.split_on_property_type(mesh=my_meshed_region_4, label1="mat").eval()
+            # Get the split meshes
+            my_meshes_42 = ops.mesh.from_scopings(scopings_container=split_scoping_4,mesh=my_meshed_region_4).eval()
+            # Print the meshes
+            print(my_meshes_42)
+
+        .. rst-class:: sphx-glr-script-out
+
+         .. jupyter-execute::
+            :hide-code:
+
+            # Define the scoping split by material
+            split_scoping_4 = ops.scoping.split_on_property_type(mesh=my_meshed_region_4, label1="mat").eval()
+            # Get the split meshes
+            my_meshes_42 = ops.mesh.from_scopings(scopings_container=split_scoping_4,mesh=my_meshed_region_4).eval()
+            # Print the meshes
+            print(my_meshes_42)
