@@ -12,11 +12,14 @@ These tutorials demonstrate how to visualise the data in an animation.
     :margin: 2
 
     .. grid-item-card:: Animate data
-       :link: ref_tutorials
+       :link: ref_tutorials_animate_data
        :link-type: ref
        :text-align: center
 
        This tutorial shows how to animate your results data.
+
+       +++
+       :bdg-warning:`MAPDL` :bdg-success:`LSDYNA`
 
 .. toctree::
     :maxdepth: 2
