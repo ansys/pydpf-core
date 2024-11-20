@@ -7,7 +7,7 @@ Plotting data on deformed mesh
 .. |Model| replace:: :class:`Model <ansys.dpf.core.model.Model>`
 .. |MeshedRegion| replace:: :class:`MeshedRegion <ansys.dpf.core.meshed_region.MeshedRegion>`
 .. |Field| replace:: :class:`Field<ansys.dpf.core.field.Field>`
-.. |FieldsContainer| replace:: :class:`FieldsContainer<ansys.dpf.core.field.Field>`
+.. |FieldsContainer| replace:: :class:`FieldsContainer<ansys.dpf.core.fields_container.FieldsContainer>`
 .. |MeshesContainer| replace:: :class:`MeshesContainer <ansys.dpf.core.meshes_container.MeshesContainer>`,
 
 This tutorial shows how to plot data on the deformed mesh. For more detailed information  on plotting data

@@ -14,7 +14,7 @@ Plotting data on the mesh
 .. |add_field| replace:: :func:`add_field()<ansys.dpf.core.plotter.DpfPlotter.add_field>`
 .. |show_figure| replace:: :func:`show_figure()<ansys.dpf.core.plotter.DpfPlotter.show_figure>`
 .. |Field| replace:: :class:`Field<ansys.dpf.core.field.Field>`
-.. |FieldsContainer| replace:: :class:`FieldsContainer<ansys.dpf.core.field.Field>`
+.. |FieldsContainer| replace:: :class:`FieldsContainer<ansys.dpf.core.fields_container.FieldsContainer>`
 
 This tutorial shows how to plot data on its supporting mesh by different approaches.
 
