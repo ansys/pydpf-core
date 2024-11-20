@@ -7,7 +7,7 @@ Get a mesh from a result file
 :bdg-warning:`MAPDL` :bdg-success:`LSDYNA` :bdg-info:`Fluent` :bdg-light:`CFX`
 
 .. |Field| replace:: :class:`Field<ansys.dpf.core.field.Field>`
-.. |FieldsContainer| replace:: :class:`FieldsContainer<ansys.dpf.core.field.Field>`
+.. |FieldsContainer| replace:: :class:`FieldsContainer<ansys.dpf.core.fields_container.FieldsContainer>`
 .. |MeshedRegion| replace:: :class:`MeshedRegion <ansys.dpf.core.meshed_region.MeshedRegion>`
 .. |Model| replace:: :class:`Model <ansys.dpf.core.model.Model>`
 .. |DataSources| replace:: :class:`Model <ansys.dpf.core.data_sources.DataSources>`

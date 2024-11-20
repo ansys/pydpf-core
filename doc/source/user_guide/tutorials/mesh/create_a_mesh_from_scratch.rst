@@ -5,7 +5,7 @@ Create a mesh from scratch
 ==========================
 
 .. |Field| replace:: :class:`Field<ansys.dpf.core.field.Field>`
-.. |FieldsContainer| replace:: :class:`FieldsContainer<ansys.dpf.core.field.Field>`
+.. |FieldsContainer| replace:: :class:`FieldsContainer<ansys.dpf.core.fields_container.FieldsContainer>`
 .. |MeshedRegion| replace:: :class:`MeshedRegion <ansys.dpf.core.meshed_region.MeshedRegion>`
 .. |Model| replace:: :class:`Model <ansys.dpf.core.model.Model>`
 
