@@ -18,6 +18,3 @@ html .sd-btn {
     font-size: var(--pst-font-size-base);
 }
 
-.sd-sphinx-override .code {
-   background-color: var(--pst-color-surface);
-}
