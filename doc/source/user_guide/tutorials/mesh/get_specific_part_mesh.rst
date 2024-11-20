@@ -4,6 +4,8 @@
 Get a mesh split on different parts
 ===================================
 
+:bdg-info:`Fluent` :bdg-light:`CFX`
+
 .. |MeshedRegion| replace:: :class:`MeshedRegion <ansys.dpf.core.meshed_region.MeshedRegion>`
 .. |MeshesContainer| replace:: :class:`MeshesContainer <ansys.dpf.core.meshes_container.MeshesContainer>`
 .. |DataSources| replace:: :class:`Model <ansys.dpf.core.data_sources.DataSources>`

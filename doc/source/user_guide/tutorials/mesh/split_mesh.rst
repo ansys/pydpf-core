@@ -4,6 +4,8 @@
 Split a mesh
 ============
 
+:bdg-warning:`MAPDL` :bdg-success:`LSDYNA` :bdg-info:`Fluent` :bdg-light:`CFX`
+
 This tutorial show how to split a mesh into different meshes.
 
 .. |MeshedRegion| replace:: :class:`MeshedRegion <ansys.dpf.core.meshed_region.MeshedRegion>`
