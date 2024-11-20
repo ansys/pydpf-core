@@ -29,20 +29,22 @@ Basic maths
 .. |norm| replace:: :class:`norm<ansys.dpf.core.operators.math.norm.norm>`
 .. |norm_fc| replace:: :class:`norm_fc<ansys.dpf.core.operators.math.norm_fc.norm_fc>`
 
-This tutorial demonstrate how to do some basic mathematical operations with PyDPF-Core.
+This tutorial demonstrates how to do some basic mathematical operations with PyDPF-Core.
 
-We use |Field| and |FieldsContainer| created from scratch to facilitate the understanding on how the mathematical operators works.
-For more information on creating a field from scratch check :ref:`ref_tutorials_data_structures`.
+Here, we use |Fields| and |FieldsContainers| created from scratch to facilitate the understanding on how the
+mathematical operators works.
+For more information on creating a |Field| from scratch check :ref:`ref_tutorials_data_structures`.
 
 Define the |Field| and |FieldsContainer|
 ----------------------------------------
 
-Define the |Fields| and |FieldsContainers| by choosing the number of entities, defining their ids, location and adding data.
+Define the |Fields| and |FieldsContainers| by choosing the number of entities, defining their ids,
+defining their location and adding data.
 
-If not specified the location is nodal by default.
+If not specified the location is ``nodal`` by default.
 
 We need to provide information about the scoping. DPF needs to know the IDs of the data we provide,
-so that it can apply an operator on the correspondent entities. For more detailed explanation see `Scoping handling`_
+so that it can apply an operator on the corresponding entities. For more detailed explanation see `Scoping handling`_
 
 .. code-block:: python
 
@@ -108,7 +110,7 @@ so that it can apply an operator on the correspondent entities. For more detaile
     fc1 = dpf.fields_container_factory.over_time_freq_fields_container(fields=[field1, field2])
     fc2 = dpf.fields_container_factory.over_time_freq_fields_container(fields=[field3, field4])
 
-    # Check the Fields and FieldsContainer
+    # Check the Fields and FieldsContainers
     print("Field 1","\n", field1 , "\n")
     print("Field 2","\n", field2 , "\n")
     print("Field 3","\n", field3 , "\n")
@@ -139,7 +141,7 @@ so that it can apply an operator on the correspondent entities. For more detaile
     print("FieldsContainer1", "\n",fc1 , "\n")
     print("FieldsContainer2", "\n",fc2 , "\n")
 
-To make the mathematics operations, instantiate the operator and use ``eval()`` to compute and retrieve the result
+To make the mathematics operations, instantiate the operators and use ``eval()`` to compute and retrieve the results.
 
 Addition and Subtraction
 ------------------------
@@ -157,7 +159,7 @@ b) |accumulate| and |accumulate_fc| operators for the total sum of each componen
 a) |add| and |add_fc| operators
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-- |add|: Sum between the data vectors for the correspondent entity id
+- |add|: Sum between the data vectors for the corresponding entity id.
 
 .. code-block:: python
 
@@ -176,7 +178,7 @@ a) |add| and |add_fc| operators
     add_field = maths.add(fieldA=field1, fieldB=field2).eval()
     print("Addition Fields",add_field , "\n")
 
-- |add_fc|: Selects all fields with the same label space in the input |FieldsContainers| and add those together
+- |add_fc|: Selects all fields with the same label space in the input |FieldsContainers| and add those together.
 
 .. code-block:: python
 
@@ -211,9 +213,9 @@ b) |accumulate| and |accumulate_fc| operators
 - |accumulate| : Sums all the elementary data of a field to produce one elementary data for each vector component.
   You can give a scale ("ponderation") argument.
 
-  Mind the |Fields| dimension: Our |Fields| represent 3D vectors so one elementary data is a 3D vector.
-  The optional "ponderation" field is a field which attributes one value to multiply each data component per entity,
-  so we need to change its dimensionality (1D).
+  Mind the |Fields| dimension: Our |Fields| represents 3D vectors, so one elementary data is a 3D vector.
+  The optional "ponderation" |Field| is a |Field| that attributes the values to be multiplied by each data
+  component of the entities. Thus, we need to change its dimensionality (1D).
 
 .. code-block:: python
 
@@ -309,7 +311,7 @@ Subtraction
 
 Here we use:
 
-a) |minus| operator to compute the difference between the data vectors for the correspondent entity id of |Fields|
+a) |minus| operator to compute the difference between the data vectors of the corresponding entities of |Fields|;
 b) |minus_fc| operator that selects all fields with the same label space in the input |FieldsContainers|
   and compute their difference.
 
@@ -370,7 +372,7 @@ This section shows how the basic product and division operators works.
 Component-wise division
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-These operators computes the component-wise division between two |Fields| (with the |component_wise_divide| operator)
+These operators compute the component-wise division between two |Fields| (with the |component_wise_divide| operator)
 or between two |FieldsContainers|(with the |component_wise_divide_fc| operator) with same dimensionality.
 
 .. code-block:: python
@@ -420,7 +422,7 @@ or between two |FieldsContainers|(with the |component_wise_divide_fc| operator) 
 Cross product
 ^^^^^^^^^^^^^
 
-These operators computes the cross product between two vector |Fields| (with the |cross_product| operator)
+These operators compute the cross product between two vector |Fields| (with the |cross_product| operator)
 or between two |FieldsContainers|(with the |cross_product_fc| operator and with |Fields| with same label space).
 The |Fields| can have the same location or Elemental Nodal and Nodal locations.
 
@@ -470,7 +472,7 @@ The |Fields| can have the same location or Elemental Nodal and Nodal locations.
 Dot product
 ^^^^^^^^^^^
 
-These operators computes a general notion of inner product between between two vector |Fields|
+These operators compute a general notion of inner product between between two vector |Fields|
 (with the |generalized_inner_product| operator) or between two |FieldsContainers|
 (with the |generalized_inner_product_fc| operator and with |Fields| with same label space).
 The |Fields| may have different dimensionality.
@@ -522,7 +524,7 @@ Overall dot
 ^^^^^^^^^^^
 
 The |overall_dot| operator computes a dot product between the entities of same ID of two |Fields| and then adds
-all the entities data to return a scalar
+all the entities data to return a scalar.
 
 .. code-block:: python
 
@@ -571,7 +573,7 @@ This section shows how the basic power operators works.
 Squared
 ^^^^^^^
 
-These operators computes the element-wise data squared of a |Field| (with the |sqr| operator) and of |Fields| from a
+These operators compute the element-wise data to the power of two of a |Field| (with the |sqr| operator) and of |Fields| from a
 |FieldsContainer| (with the |sqr_fc| operator).
 
 .. code-block:: python
@@ -620,8 +622,8 @@ These operators computes the element-wise data squared of a |Field| (with the |s
 Power
 ^^^^^
 
-These operators computes the element-wise data power a factor of a |Field| (with the |pow| operator) and of |Fields| from a
-|FieldsContainer| (with the |pow_fc| operator).
+These operators compute the element-wise data to the power of a given factor of a |Field| (with the |pow| operator)
+and of |Fields| from a |FieldsContainer| (with the |pow_fc| operator).
 
 .. code-block:: python
 
@@ -672,7 +674,7 @@ These operators computes the element-wise data power a factor of a |Field| (with
 Norm
 ----
 
-These operators computes the element-wise Lp norm (Default Lp=L2 ) of a |Field| elementary data (with the |norm|
+These operators compute the element-wise Lp norm (Default Lp=L2 ) of a |Field| elementary data (with the |norm|
 operator) and of |Fields| elementary data from a |FieldsContainer| (with the |norm_fc| operator).
 
 .. code-block:: python
@@ -722,9 +724,8 @@ operator) and of |Fields| elementary data from a |FieldsContainer| (with the |no
 Scoping handling
 ----------------
 
-DPF needs to know the IDs of the data on the fields, so that it can apply an operator on on the correspondent entities.
-
-By providing these integers we only select the data with an ID in common.
+DPF needs to know the IDs of the data on the fields. By providing these integers we only select
+the data with an ID in common when using an operator
 
 Here we will use two different fields to understand this functioning:
 
@@ -769,7 +770,7 @@ Here we will use two different fields to understand this functioning:
     print(field6.data,"\n")
 
 
-Here the only entities with matching ids the third one of the first field, and the first one of the
+Here the only entities with matching ids are the third one of the first field, and the first one of the
 second field. Other entities elementary data is not taken into account when using an operator that needs two operands.
 
 For example the |add| operator:
