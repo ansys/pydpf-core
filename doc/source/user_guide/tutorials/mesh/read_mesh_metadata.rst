@@ -1,8 +1,8 @@
 .. _ref_tutorials_read_mesh_metadata:
 
-======================
-Read the mesh metadata
-======================
+====================
+Read a mesh metadata
+====================
 
 :bdg-success:`LSDYNA`:bdg-info:`Fluent` :bdg-light:`CFX`
 
