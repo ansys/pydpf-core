@@ -27,9 +27,24 @@ These tutorials explains how to explore different attributes of a given mesh wit
        :text-align: center
 
        This tutorial explains how to extract the models mesh from a result file
+       +++
+       :bdg-warning:`MAPDL` :bdg-success:`LSDYNA` :bdg-info:`Fluent` :bdg-light:`CFX`
 
-    .. grid-item-card:: Read and get specific information from a mesh
-       :link: tutorials_read_mesh
+    .. grid-item-card:: Read a mesh metadata
+       :link: ref_tutorials_read_mesh_metadata
+       :link-type: ref
+       :text-align: center
+
+       This tutorial explains how to read a mesh metadata
+       (data about the elements, nodes, faces, region, zone ...) before
+       extracting the mesh.
+
+       +++
+       :bdg-success:`LSDYNA`:bdg-info:`Fluent` :bdg-light:`CFX`
+
+
+    .. grid-item-card:: Explore a mesh
+       :link: tutorials_explore_mesh
        :link-type: ref
        :text-align: center
 
@@ -37,13 +52,19 @@ These tutorials explains how to explore different attributes of a given mesh wit
        (data about the elements, nodes, faces, region, zone ...)
        so it can be manipulated.
 
+       +++
+       :bdg-warning:`MAPDL` :bdg-success:`LSDYNA` :bdg-info:`Fluent` :bdg-light:`CFX`
+
     .. grid-item-card:: Extract a mesh in split parts
-       :link: tutorials_split_mesh
+       :link: tutorials_get_specific_part_mesh
        :link-type: ref
        :text-align: center
 
        This tutorial show how to get meshes split on a given space or time for Fluent,
-       CFX or LSDYNA result files.
+       or CFX result files.
+
+       +++
+       :bdg-info:`Fluent` :bdg-light:`CFX`
 
     .. grid-item-card:: Split a mesh
        :link: tutorials_split_mesh
@@ -52,12 +73,16 @@ These tutorials explains how to explore different attributes of a given mesh wit
 
        This tutorial show how to split a mesh into different meshes.
 
+       +++
+       :bdg-warning:`MAPDL` :bdg-success:`LSDYNA` :bdg-info:`Fluent` :bdg-light:`CFX`
+
 .. toctree::
     :maxdepth: 2
     :hidden:
 
     create_a_mesh_from_scratch.rst
     get_mesh_from_result_file.rst
-    read_mesh.rst
+    read_mesh_metadata.rst
+    explore_mesh.rst
     get_specific_part_mesh.rst
     split_mesh.rst
