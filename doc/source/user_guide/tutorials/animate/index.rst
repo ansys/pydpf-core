@@ -16,9 +16,10 @@ These tutorials demonstrate how to visualise the data in an animation.
        :link-type: ref
        :text-align: center
 
-       This tutorial
+       This tutorial shows how to animate your results data.
 
 .. toctree::
     :maxdepth: 2
     :hidden:
 
+    animate_data.rst
