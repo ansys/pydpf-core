@@ -20,7 +20,7 @@ This tutorial explains how to extract the models mesh from a result file.
 Import the result file
 ----------------------
 
-Here we we will download a  result file available in our `Examples` package.
+Here we we will download result files available in our `Examples` package.
 For more information about how to import your result file in DPF check
 the :ref:`ref_tutorials_import_data` tutorial section.
 
