@@ -2,19 +2,3 @@
 .wy-table-responsive table td, .wy-table-responsive table th {
     white-space: normal;
 }
-
-
-.bd-content .sd-card .sd-card-body, .bd-content .sd-card .sd-card-footer {
-    background-color: transparent;
-}
-
-html .sd-btn {
-    padding: 4px;
-    color: var(--ast-color-active-text)!important;
-    border-color: var(--ast-dropdown-border-color)!important;
-}
-.sd-card-text {
-    font-family: var(--pst-font-family-base);
-    font-size: var(--pst-font-size-base);
-}
-
