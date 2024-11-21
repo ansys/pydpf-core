@@ -19,9 +19,6 @@ Explore a mesh
 This tutorial explains how to access the mesh data and metadata (data about the elements, nodes, faces, region, zone ...)
 so it can be manipulated.
 
-The mesh object in DPF is a |MeshedRegion|. You can obtain a |MeshedRegion| by creating your
-own by scratch or by getting it from a result file. For more information check the
-:ref:`tutorials_create_a_mesh_from_scratch` and :ref:`tutorials_get_mesh_from_result_file` tutorials.
 
 There is a general method to read the |MeshedRegion| by manipulating
 the methods of this object.
