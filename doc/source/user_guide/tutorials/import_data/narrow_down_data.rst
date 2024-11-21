@@ -28,8 +28,18 @@ Understanding a scope
 ---------------------
 
 The data in DPF is represented by a |Field|. Thus, narrow down your results means scoping your |Field|.
-To do so in DPF you use the |Scoping| object. For more information on the DPF data storage structures
-see :ref:`ref_tutorials_data_structures`.
+To do so in DPF you use the |Scoping| object.
+
+.. note::
+
+    Scoping is important because when DPF-Core returns the |Field| object, what Python actually has
+    is a client-side representation of the |Field|, not the entirety of the |Field| itself. This means
+    that all the data of the field is stored within the DPF service. This is important
+    because when building your workflows, the most efficient way of interacting with result data
+    is to minimize the exchange of data between Python and DPF, either by using operators
+    or by accessing exclusively the data that is needed.
+
+For more information on the DPF data storage structures see :ref:`ref_tutorials_data_structures`.
 
 The |Field| scoping also defines how the data is ordered, for example: the first
 ID in the scoping identifies to which entity the first data entity belongs.
