@@ -18,8 +18,6 @@ These tutorials demonstrate how to visualise the data in an animation.
 
        This tutorial shows how to animate your results data.
 
-       +++
-       :bdg-warning:`MAPDL` :bdg-success:`LSDYNA`
 
 .. toctree::
     :maxdepth: 2
