@@ -385,6 +385,7 @@ class Operator:
             collection_base,
             any,
         )
+        from ansys.dpf.core.workflow_topology import workflow_topology
 
         out = [
             (any.Any, self._api.operator_getoutput_as_any),
@@ -480,6 +481,11 @@ class Operator:
                 collection.Collection,
                 self._api.operator_getoutput_as_any,
                 lambda obj, type: any.Any(server=self._server, any_dpf=obj).cast(type),
+            ),
+            (
+                workflow_topology.WorkflowTopology,
+                None,
+                "WorkflowTopology",
             ),
         ]
         if hasattr(self._api, "operator_getoutput_generic_data_container"):

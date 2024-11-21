@@ -959,7 +959,7 @@ class Workflow:
         workflow_to_workflow_topology_op.inputs.workflow.connect(self)
         workflow_topology_container = workflow_to_workflow_topology_op.outputs.workflow_topology()
 
-        return WorkflowTopology(workflow_topology_container)
+        return workflow_topology_container
 
     def __del__(self):
         try:
