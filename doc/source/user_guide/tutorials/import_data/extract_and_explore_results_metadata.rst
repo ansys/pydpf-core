@@ -33,7 +33,7 @@ This tutorial shows how to extract and explore results metadata from a result fi
 Get the result file
 -------------------
 
-Here we will download a  result file available in our |Examples| package.
+Here we will download a result file available in our |Examples| package.
 For more information about how to import your result file in DPF check
 the :ref:`ref_tutorials_import_result_file` tutorial.
 
