@@ -201,6 +201,7 @@ html_theme_options = {
         "image_dark": pyansys_logo_dark_mode,
         "image_light": pyansys_logo_light_mode,
     },
+    "logo_link": "https://docs.pyansys.com",
     "github_url": "https://github.com/ansys/pydpf-core",
     "show_prev_next": False,
     "show_breadcrumbs": True,
