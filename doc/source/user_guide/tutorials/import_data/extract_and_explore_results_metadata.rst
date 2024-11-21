@@ -147,7 +147,7 @@ Explore the displacement results metadata:
     print("Scoping: ", '\n',my_scoping, '\n')
 
     my_scoping_ids = my_disp_field.scoping.ids  # Available entities ids
-    print("Scoping ids: ", '\n', my_scoping_ids, '\n')
+    print("Scoping ids: ", my_scoping_ids, '\n')
 
     # Elementary data count
     # Number of entities (how many data vectors we have)
@@ -193,7 +193,7 @@ Explore the displacement results metadata:
     print("Scoping: ", '\n',my_scoping, '\n')
 
     my_scoping_ids = my_disp_field.scoping.ids  # Available entities ids
-    print("Scoping ids: ", '\n', my_scoping_ids, '\n')
+    print("Scoping ids: ", my_scoping_ids, '\n')
 
     # Elementary data count
     # Number of entities (how many data vectors we have)
