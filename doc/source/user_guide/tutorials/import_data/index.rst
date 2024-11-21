@@ -23,11 +23,11 @@ From user input
        Learn how to import data in DPF from csv file
 
     .. grid-item-card:: Represent your data in DPF
-       :link: ref_tutorials
+       :link: ref_tutorials_represent_data_on_dpf
        :link-type: ref
        :text-align: center
 
-       Learn how to represent your manual input data in a DPF data storage structure
+       Learn how to represent your manual input data in a DPF data storage structures
 
 From result files
 *****************
@@ -37,29 +37,44 @@ From result files
     :padding: 2
     :margin: 2
 
+    .. grid-item-card:: Import a result file in DPF
+       :link: ref_tutorials_import_result_file
+       :link-type: ref
+       :text-align: center
+
+       This tutorial shows how to import a result file in DPF
+
     .. grid-item-card:: Extract and explore results metadata
-       :link: ref_tutorials
+       :link: ref_tutorials_extract_and_explore_results_metadata
        :link-type: ref
        :text-align: center
 
-       This tutorial
+       This tutorial shows how to extract and explore results metadata (unit,
+       location, the scoping, the shape of the data stored ... ) extracted
+       from a result file.
 
-    .. grid-item-card:: Extract and explore results
-       :link: ref_tutorials
+    .. grid-item-card:: Extract and explore results data
+       :link: ref_tutorials_extract_and_explore_results_data
        :link-type: ref
        :text-align: center
 
-       This tutorial
+       This tutorial shows how to extract and explore results data from a result file.
 
-    .. grid-item-card:: Narrow down data (scoping tutorial)
-       :link: ref_tutorials
+    .. grid-item-card:: Narrow down data
+       :link: reft_tutorials_narrow_down_data
        :link-type: ref
        :text-align: center
 
-       This tutorial
+       This tutorial explains how to scope (get a spatial and/or temporal subset of
+       the simulation data) your results.
 
 
 .. toctree::
     :maxdepth: 2
     :hidden:
 
+    represent_data_on_dpf.rst
+    import_result_file.rst
+    extract_and_explore_results_metadata.rst
+    extract_and_explore_results_data.rst
+    narrow_down_data.rst
