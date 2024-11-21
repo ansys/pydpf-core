@@ -16,14 +16,14 @@ Animate data
 .. |Result| replace:: :class:`Result <ansys.dpf.core.results.Result>`
 .. |Operator| replace:: :class:`Operator<ansys.dpf.core.dpf_operator.Operator>`
 
-This tutorial shows how to animate your results data.
+This tutorial shows how to create 3D animations of the data.
 
-To animate a result you need to get the data stored in a |FieldsContainer| labeled in time steps.
+To animate data across time you need to get the data stored in a |FieldsContainer| labeled in time.
 
 Get the result files
 --------------------
 
-Here we we will download a  result file available in our `Examples` package.
+First download a result file such as one available with the `ansys.dpf.core.examples` module.
 For more information about how to import your result file in DPF check
 the :ref:`ref_tutorials_import_data` tutorial section.
 
@@ -91,7 +91,7 @@ tutorials section.
 Extract the results
 -------------------
 
-You have to extracted the results of interest.
+Extract the results of interest 
 
 When you animate the data you go through the |Fields| of a |FieldsContainer| and plot contours of
 the data norm or of the selected data component. This means that the geometry needs to be deformed
