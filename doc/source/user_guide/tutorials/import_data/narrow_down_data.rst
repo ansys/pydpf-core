@@ -277,7 +277,7 @@ Here we rescope the displacement results.
     disp_all_mesh = my_model_1.results.displacement.eval()
 
     # 2) Rescope the displacement results
-    disp_rescope = ops.scoping.rescope(fields=disp_rescope, mesh_scoping=my_mesh_scoping_1).eval()
+    disp_rescope = ops.scoping.rescope(fields=disp_all_mesh, mesh_scoping=my_mesh_scoping_1).eval()
 
     print("Displacement on all the mesh", "\n", disp_all_mesh, "\n")
     print("Displacement rescoped ", "\n", disp_rescope, "\n")
@@ -288,6 +288,6 @@ Here we rescope the displacement results.
     :hide-code:
 
     disp_all_mesh = my_model_1.results.displacement.eval()
-    disp_rescope = ops.scoping.rescope(fields=disp_rescope, mesh_scoping=my_mesh_scoping_1).eval()
+    disp_rescope = ops.scoping.rescope(fields=disp_all_mesh, mesh_scoping=my_mesh_scoping_1).eval()
     print("Displacement on all the mesh", "\n", disp_all_mesh, "\n")
     print("Displacement rescoped ", "\n", disp_rescope, "\n")
