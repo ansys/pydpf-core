@@ -19,7 +19,7 @@ the |ResultInfo| object. This metadata includes:
 - Job name;
 
 When you extract a result from a result file DPF stores it in a |Field|.
-This |Field| will then contain the metadata for the result it is associated with.
+This |Field| will then contain the metadata for the result associated with it.
 This metadata includes:
 
 - Location;
