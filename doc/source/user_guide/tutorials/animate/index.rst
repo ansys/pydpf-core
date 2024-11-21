@@ -11,12 +11,12 @@ These tutorials demonstrate how to visualise the data in an animation.
     :padding: 2
     :margin: 2
 
-    .. grid-item-card:: Animate data
+    .. grid-item-card:: Animate data over time
        :link: ref_tutorials_animate_time
        :link-type: ref
        :text-align: center
 
-       This tutorial shows how to animate your results data.
+       This tutorial shows how to animate your results data over time.
 
 
 .. toctree::

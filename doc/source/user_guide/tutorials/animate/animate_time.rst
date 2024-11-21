@@ -9,7 +9,7 @@ Animate data over time
 .. |FieldsContainer| replace:: :class:`FieldsContainer<ansys.dpf.core.fields_container.FieldsContainer>`
 .. |MeshedRegion| replace:: :class:`MeshedRegion <ansys.dpf.core.meshed_region.MeshedRegion>`
 .. |TimeFreqSupport| replace:: :class:`TimeFreqSupport <ansys.dpf.core.time_freq_support.TimeFreqSupport>`
-.. |animate| replace:: :func:`animate() <ansys.dpf.core.fields_container.FieldsContainer.animate>`
+.. |animate| replace:: :func:`FieldsContainer.animate() <ansys.dpf.core.fields_container.FieldsContainer.animate>`
 .. |Result| replace:: :class:`Result <ansys.dpf.core.results.Result>`
 .. |Operator| replace:: :class:`Operator<ansys.dpf.core.dpf_operator.Operator>`
 
@@ -37,145 +37,167 @@ the :ref:`ref_tutorials_import_data` tutorial section.
     # Get the mesh
     my_meshed_region_1 = my_model_1.metadata.meshed_region
 
-Define time and mesh scopings
------------------------------
+Define time scoping
+-------------------
 
-Here we get all the the time steps of the |TimeFreqSupport| and all the |MeshedRegion| with results in a ``Nodal``
-location (only elemental, nodal or faces location are supported for the animation).
-For more information on how to define a scoping check the ``Narrow down data`` tutorial in the :ref:`ref_tutorials_import_data`
-tutorials section.
+Here we get all the the time steps of the |TimeFreqSupport|. For more information on how to define a
+scoping check the ``Narrow down data`` tutorial in the :ref:`ref_tutorials_import_data` tutorials section.
 
 
 .. code-block:: python
 
     # Get all the time steps
     time_scoping_1 = my_model_1.metadata.time_freq_support.time_frequencies
-    # Get all the mesh in a nodal location
-    mesh_scoping_1 = dpf.Scoping(ids=my_meshed_region_1.nodes.scoping.ids, location=dpf.locations.nodal)
-
 
 Extract the results
 -------------------
 
-Extract the results of interest 
+The default behavior of the |animate| consists in:
 
-When you animate the data you go through each |Field| of a |FieldsContainer| and plot contours of
-the data norm or of the selected data component. This means that the geometry needs to be deformed
-based on each |Field| themselves.
+- Using a constant and uniform scale factor of 1.0;
+- Showing the deformed geometry if the method was used directly with the displacement fields;
+- Showing the static geometry if the method was used with other results fields.
 
-The geometry can be deformed by a |Result| object, an |Operator| (It must evaluate to a FieldsContainer
-of same length as the one being animated), a |Field| or a |FieldsContainer|.
+.. note::
 
-To deform the geometry we need a result with a homogeneous unit dimension, thus, a distance unit.
-Thus, to deform the mesh we need the displacement result.
-For more information see: :ref:`ref_plotting_data_on_deformed_mesh`
+    This geometry behavior is due to the fact that when you animate the data you go through each |Field|
+    of a |FieldsContainer| and plot contours of the data norm or of the selected data component. This means
+    that the geometry needs to be deformed based on each |Field| themselves. Thus, we need a result with a
+    homogeneous unit dimension (a distance unit). Therefore, to deform the mesh we need the displacement result.
+    For more information see: :ref:`ref_plotting_data_on_deformed_mesh`.
 
-Here we get:
+Nevertheless you can customize the default behavior and animate the other results fields in a deformed geometry.
 
-- The displacement results and the stress result for the MAPDL result file
-- The displacement results and the beam axial force result for the LSDYNA result file
+The geometry can be deformed by a |Result| object, an |Operator| (It must evaluate to a |FieldsContainer|
+of same length as the one being animated) or a |FieldsContainer| (also of same length as the one being animated).
+
+Extract the results of interest. Here we get the displacement and stress results.
+
+.. note::
+
+    Only elemental, nodal or faces location are supported for the animation.
 
 .. code-block:: python
 
     # Get the displacement results
-    my_disp_1 = my_model_1.results.displacement(time_scoping=time_scoping_1,
-                                                mesh_scoping=mesh_scoping_1).eval()
+    my_disp_1 = my_model_1.results.displacement(time_scoping=time_scoping_1).eval()
+
     # Get the stress results
-    my_stress_1 = my_model_1.results.stress(time_scoping=time_scoping_1,
-                                                mesh_scoping=mesh_scoping_1).eval()
+    # Here we average the results to get a Nodal location
+    my_stress_elemental_nodal = my_model_1.results.stress(time_scoping=time_scoping_1).eval()
+    my_stress_1 = ops.averaging.elemental_nodal_to_nodal_fc(fields_container=my_stress_elemental_nodal).eval()
 
 Animate the results
 -------------------
 
-You animate a |FieldsContainer| by using the |animate| method.
-
-The default behavior consists in:
-
-- Using a constant and uniform scale factor of 1.0
-- Showing the deformed geometry if the method was used directly with the displacement fields.
-- Showing the static geometry if the method was used with other results fields.
+Animate the results with: |animate|. You can animate them in a deformed geometry
+(animate the results color map and the mesh deformations) or in a static geometry (animate the results color map).
 
 Animate the displacement results
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Use the |animate| method with no arguments to get the default animation to the displacement results.
+Use the |animate| with the displacement results.
 
+.. tab-set::
 
-.. code-block:: python
+    .. tab-item:: Deformed geometry
 
-    # Animate the displacement results
-    my_disp_1.animate()
+        .. code-block:: python
 
-.. rst-class:: sphx-glr-script-out
+            # Animate the displacement results in a deformed geometry
+            my_disp_1.animate()
 
- .. jupyter-execute::
-    :hide-code:
-    :hide-output:
+        .. rst-class:: sphx-glr-script-out
 
-    from ansys.dpf import core as dpf
-    from ansys.dpf.core import examples
-    from ansys.dpf.core import operators as ops
-    result_file_path_1 = examples.find_msup_transient()
-    my_model_1 = dpf.Model(data_sources=result_file_path_1)
-    my_meshed_region_1 = my_model_1.metadata.meshed_region
-    time_scoping_1 = my_model_1.metadata.time_freq_support.time_frequencies
-    mesh_scoping_1 = dpf.Scoping(ids=my_meshed_region_1.nodes.scoping.ids, location=dpf.locations.nodal)
-    my_disp_1 = my_model_1.results.displacement(time_scoping=time_scoping_1,
-                                                mesh_scoping=mesh_scoping_1).eval()
-    my_stress_1 = my_model_1.results.stress(time_scoping=time_scoping_1,
-                                                mesh_scoping=mesh_scoping_1).eval()
-    my_disp_1.animate(off_screen=True,save_as="source/user_guide/tutorials/animate/animate_disp_11.gif")
+         .. jupyter-execute::
+            :hide-code:
+            :hide-output:
 
-.. image:: animate_disp_11.gif
-   :scale: 50 %
-   :align: center
+            from ansys.dpf import core as dpf
+            from ansys.dpf.core import examples
+            from ansys.dpf.core import operators as ops
+            result_file_path_1 = examples.find_msup_transient()
+            my_model_1 = dpf.Model(data_sources=result_file_path_1)
+            time_scoping_1 = my_model_1.metadata.time_freq_support.time_frequencies
+            my_disp_1 = my_model_1.results.displacement(time_scoping=time_scoping_1).eval()
+            my_stress_elemental_nodal = my_model_1.results.stress(time_scoping=time_scoping_1).eval()
+            my_stress_1 = ops.averaging.elemental_nodal_to_nodal_fc(fields_container=my_stress_elemental_nodal).eval()
+            my_disp_1.animate(off_screen=True,save_as="source/user_guide/tutorials/animate/animate_disp_1.gif")
+
+        .. image:: animate_disp_1.gif
+           :scale: 50 %
+           :align: center
+
+    .. tab-item:: Static geometry
+
+        .. code-block:: python
+
+            # Animate the displacement results in a static geometry
+            # You can deactivate the geometry deformation of the displacement results by using the argument ``deform_by=False``
+            my_disp_1.animate(deform_by=False)
+
+        .. rst-class:: sphx-glr-script-out
+
+         .. jupyter-execute::
+            :hide-code:
+            :hide-output:
+
+            my_disp_1.animate(off_screen=True,save_as="source/user_guide/tutorials/animate/animate_disp_2.gif",
+                              deform_by=False)
+
+        .. image:: animate_disp_2.gif
+           :scale: 50 %
+           :align: center
 
 Animate the others results
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-To animate the others results with a deformed geometry you need to use the ``deform_by`` argument.
+Use the |animate| with the stress results.
 
-.. code-block:: python
+.. tab-set::
 
-    # Animate the stress results
-    my_stress_1.animate(deform_by=my_disp_1)
+    .. tab-item:: Deformed geometry
 
-.. rst-class:: sphx-glr-script-out
+        .. code-block:: python
 
- .. jupyter-execute::
-    :hide-code:
-    :hide-output:
+            # Animate the stress results in a deformed geometry
+            # Use the ``deform_by`` argument and give the displacement results.
+            my_stress_1.animate(deform_by=my_disp_1)
 
-    my_stress_1.animate(off_screen=True,save_as="source/user_guide/tutorials/animate/animate_disp_16.gif",
-                      deform_by=my_disp_1)
+        .. rst-class:: sphx-glr-script-out
 
-.. image:: animate_disp_16.gif
-   :scale: 50 %
-   :align: center
+         .. jupyter-execute::
+            :hide-code:
+            :hide-output:
 
+            my_stress_1.animate(off_screen=True,save_as="source/user_guide/tutorials/animate/animate_stress_1.gif",
+                                deform_by=my_disp_1)
+
+        .. image:: animate_stress_1.gif
+           :scale: 50 %
+           :align: center
+
+    .. tab-item:: Static geometry
+
+        .. code-block:: python
+
+            # Animate the stress results in a static geometry
+            my_stress_1.animate(my_stress_1.animate()
+
+        .. rst-class:: sphx-glr-script-out
+
+         .. jupyter-execute::
+            :hide-code:
+            :hide-output:
+
+            my_stress_1.animate(off_screen=True,save_as="source/user_guide/tutorials/animate/animate_stress_2.gif")
+
+        .. image:: animate_stress_2.gif
+           :scale: 50 %
+           :align: center
 
 Exploring the |animate| method arguments
 -----------------------------------------
-
-- You can deactivate the geometry deformation by using the argument ``deform_by=False``.
-
-.. code-block:: python
-
-    # Animate the displacement results
-    my_disp_1.animate(deform_by=False)
-
-.. rst-class:: sphx-glr-script-out
-
- .. jupyter-execute::
-    :hide-code:
-    :hide-output:
-
-    my_disp_1.animate(off_screen=True,save_as="source/user_guide/tutorials/animate/animate_disp_12.gif",
-                      deform_by=False)
-
-.. image:: animate_disp_12.gif
-   :scale: 50 %
-   :align: center
 
 - You can change the scale factor using:
 
@@ -202,15 +224,15 @@ Exploring the |animate| method arguments
     uniform_scale_factor=10.
     varying_scale_factor = [i for i in range(len(my_disp_1))]
     # Animate the displacement results
-    my_disp_1.animate(off_screen=True,save_as="source/user_guide/tutorials/animate/animate_disp_13.gif",
+    my_disp_1.animate(off_screen=True,save_as="source/user_guide/tutorials/animate/animate_disp_3.gif",
                       scale_factor=uniform_scale_factor, text="Uniform scale factor")
-    my_disp_1.animate(off_screen=True,save_as="source/user_guide/tutorials/animate/animate_disp_14.gif",
+    my_disp_1.animate(off_screen=True,save_as="source/user_guide/tutorials/animate/animate_disp_4.gif",
                       scale_factor=varying_scale_factor, text="Varying scale factor")
 
-.. image:: animate_disp_13.gif
+.. image:: animate_disp_3.gif
    :scale: 45 %
 
-.. image:: animate_disp_14.gif
+.. image:: animate_disp_4.gif
    :scale: 45 %
 
 
@@ -268,7 +290,7 @@ Exploring the |animate| method arguments
     :hide-output:
 
     my_cpo_a1 = [(2.0, 5.0, 13.0), (0.0, 0.0, 0.0), (-0.7, -0.5, 0.3)]
-    my_stress_1.animate(save_as="source/user_guide/tutorials/animate/animate_disp_17.gif",
+    my_stress_1.animate(save_as="source/user_guide/tutorials/animate/animate_disp_5.gif",
                         deform_by=my_disp_1,
                         show_axes=True,
                         framerate=4,
@@ -276,6 +298,6 @@ Exploring the |animate| method arguments
                         quality=8,
                         off_screen=True)
 
-.. image:: animate_disp_17.gif
+.. image:: animate_disp_5.gif
    :scale: 50 %
    :align: center
