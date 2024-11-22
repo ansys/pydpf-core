@@ -1,8 +1,8 @@
 .. _ref_tutorials_extract_and_explore_results_metadata:
 
-========================
-Explore results metadata
-========================
+====================================
+Extract and explore results metadata
+====================================
 
 .. |Field| replace:: :class:`Field<ansys.dpf.core.field.Field>`
 .. |Examples| replace:: :mod:`Examples<ansys.dpf.core.examples>`
@@ -36,8 +36,6 @@ Get the result file
 Here we will download a result file available in our |Examples| package.
 For more information about how to import your result file in DPF check
 the :ref:`ref_tutorials_import_result_file` tutorial.
-
-Here we get the displacement results.
 
 .. jupyter-execute::
 
