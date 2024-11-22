@@ -58,7 +58,7 @@ The |Scoping| object can be created by:
 - Using a scoping factory (|time_freq_scoping_factory| methods for a temporal scoping
   and |mesh_scoping_factory| for spatial scoping).
 
-.. code-block:: python
+.. jupyter-execute::
 
     # Import the ``ansys.dpf.core`` module
     from ansys.dpf import core as dpf
@@ -66,7 +66,7 @@ The |Scoping| object can be created by:
 Time scoping
 ^^^^^^^^^^^^
 
-.. code-block:: python
+.. jupyter-execute::
 
     # 1) Using the Scoping class
     # a. Define a time list that targets the times ids 14, 15, 16, 17
@@ -83,7 +83,7 @@ Time scoping
 Mesh scoping
 ^^^^^^^^^^^^
 
-.. code-block:: python
+.. jupyter-execute::
 
     # 1) Using the Scoping class in a nodal location
     # a. Define a nodes list that targets the nodes with the ids 103, 204, 334, 1802
@@ -114,7 +114,7 @@ Here we will download a  result file available in our |Examples| package.
 For more information about how to import your result file in DPF check
 the :ref:`ref_tutorials_import_result_file` tutorial.
 
-.. code-block:: python
+.. jupyter-execute::
 
     # Import the ``ansys.dpf.core`` module, including examples files and the operators subpackage
     from ansys.dpf import core as dpf
@@ -135,40 +135,8 @@ the :ref:`ref_tutorials_import_result_file` tutorial.
 Extract the |Scoping|
 ^^^^^^^^^^^^^^^^^^^^^
 
-.. code-block:: python
+.. jupyter-execute::
 
-    # 3) Extract the scoping from a mesh
-    my_mesh_scoping_3 = ops.scoping.from_mesh(mesh=my_meshed_region_1).eval()
-    print("Scoping from mesh", "\n", my_mesh_scoping_3, "\n")
-
-    # 4) Extract the scoping from a FieldsContainer
-    extract_scop_fc_op = ops.utility.extract_scoping(field_or_fields_container=my_fc)
-    my_mesh_scoping_4 = extract_scop_fc_op.outputs.mesh_scoping_as_scopings_container()
-    print("Scoping from FieldsContainer", "\n", my_mesh_scoping_4, "\n")
-
-    # 5) Extract the scoping from a Field
-    my_mesh_scoping_5 = ops.utility.extract_scoping(field_or_fields_container=my_field).eval()
-    print("Scoping from Field", "\n", my_mesh_scoping_5, "\n")
-
-.. rst-class:: sphx-glr-script-out
-
- .. jupyter-execute::
-    :hide-code:
-
-    # Import the ``ansys.dpf.core`` module, including examples files and the operators subpackage
-    from ansys.dpf import core as dpf
-    from ansys.dpf.core import examples
-    from ansys.dpf.core import operators as ops
-    # Define the result file
-    result_file_path_1 = examples.download_transient_result()
-    # Create the model
-    my_model_1 = dpf.Model(data_sources=result_file_path_1)
-    # Get the meshed region
-    my_meshed_region_1 = my_model_1.metadata.meshed_region
-    # Get a FieldsContainer
-    my_fc = my_model_1.results.displacement.on_all_time_freqs.eval()
-    # Get a Field
-    my_field = my_fc[0]
     # 3) Extract the scoping from a mesh
     my_mesh_scoping_3 = ops.scoping.from_mesh(mesh=my_meshed_region_1).eval()
     print("Scoping from mesh", "\n", my_mesh_scoping_3, "\n")
@@ -201,7 +169,7 @@ Here we will download a  result file available in our |Examples| package.
 For more information about how to import your result file in DPF check
 the :ref:`ref_tutorials_import_result_file` tutorial.
 
-.. code-block:: python
+.. jupyter-execute::
 
     # Import the ``ansys.dpf.core`` module, including examples files and the operators subpackage
     from ansys.dpf import core as dpf
@@ -220,45 +188,8 @@ Extract and scope the results
 
 Here we extract and scope the displacement results.
 
-.. code-block:: python
+.. jupyter-execute::
 
-    # 1) Using the result.displacement operator
-    disp_op = ops.result.displacement(data_sources=my_data_sources_1,
-                                      time_scoping=my_time_scoping_1,
-                                      mesh_scoping=my_mesh_scoping_1).eval()
-
-    # 2) Using the Model.results
-    disp_model = my_model_1.results.displacement(time_scoping=my_time_scoping_1, mesh_scoping=my_mesh_scoping_1).eval()
-
-    # 3) Using a Result object method
-    disp_result_method_1 = my_model_1.results.displacement.on_time_scoping(time_scoping=my_time_scoping_1).on_mesh_scoping(mesh_scoping=my_mesh_scoping_1).eval()
-    disp_result_method_2 = my_model_1.results.displacement.on_first_time_freq.eval()
-
-    print("Displacement from result.displacement operator", "\n", disp_op, "\n")
-    print("Displacement from Model.results ", "\n", disp_model, "\n")
-    print("Scoping from Result object method 1", "\n", disp_result_method_1, "\n")
-    print("Scoping from Result object method 1", "\n", disp_result_method_2, "\n")
-
-.. rst-class:: sphx-glr-script-out
-
- .. jupyter-execute::
-    :hide-code:
-
-    # Import the ``ansys.dpf.core`` module, including examples files and the operators subpackage
-    from ansys.dpf import core as dpf
-    from ansys.dpf.core import examples
-    from ansys.dpf.core import operators as ops
-
-    # Define the result file
-    result_file_path_1 = examples.download_transient_result()
-    # Create the DataSources object
-    my_data_sources_1 = dpf.DataSources(result_path=result_file_path_1)
-    # Create the model
-    my_model_1 = dpf.Model(data_sources=my_data_sources_1)
-    my_time_list_1 = [14, 15, 16, 17]
-    my_time_scoping_1 = dpf.Scoping(ids=my_time_list_1, location=dpf.locations.time_freq)
-    my_nodes_ids_1 = [103, 204, 334, 1802]
-    my_mesh_scoping_1 = dpf.Scoping(ids=my_nodes_ids_1, location=dpf.locations.nodal)
     # 1) Using the result.displacement operator
     disp_op = ops.result.displacement(data_sources=my_data_sources_1,
                                       time_scoping=my_time_scoping_1,
@@ -281,7 +212,7 @@ Extract and rescope the results
 
 Here we rescope the displacement results.
 
-.. code-block:: python
+.. jupyter-execute::
 
     # 1) Extract the results for the entire mesh
     disp_all_mesh = my_model_1.results.displacement.eval()
@@ -292,12 +223,4 @@ Here we rescope the displacement results.
     print("Displacement on all the mesh", "\n", disp_all_mesh, "\n")
     print("Displacement rescoped ", "\n", disp_rescope, "\n")
 
-.. rst-class:: sphx-glr-script-out
 
- .. jupyter-execute::
-    :hide-code:
-
-    disp_all_mesh = my_model_1.results.displacement.eval()
-    disp_rescope = ops.scoping.rescope(fields=disp_all_mesh, mesh_scoping=my_mesh_scoping_1).eval()
-    print("Displacement on all the mesh", "\n", disp_all_mesh, "\n")
-    print("Displacement rescoped ", "\n", disp_rescope, "\n")
