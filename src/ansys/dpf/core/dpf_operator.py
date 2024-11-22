@@ -1,3 +1,25 @@
+# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """
 .. _ref_operator:
 
@@ -11,7 +33,11 @@ import traceback
 import warnings
 
 from enum import Enum
-from ansys.dpf.core.check_version import version_requires, server_meet_version, server_meet_version_and_raise
+from ansys.dpf.core.check_version import (
+    version_requires,
+    server_meet_version,
+    server_meet_version_and_raise,
+)
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.errors import DpfVersionNotSupported
 from ansys.dpf.core.inputs import Inputs
@@ -31,7 +57,7 @@ from ansys.dpf.gate import (
     collection_grpcapi,
     dpf_vector,
     object_handler,
-    integral_types
+    integral_types,
 )
 
 LOG = logging.getLogger(__name__)
@@ -294,12 +320,12 @@ class Operator:
     def _getoutput_string(self, pin):
         out = Operator._getoutput_string_as_bytes(self, pin)
         if out is not None and not isinstance(out, str):
-            return out.decode('utf-8')
+            return out.decode("utf-8")
         return out
 
     @staticmethod
     def _connect_string(self, pin, str):
-        return Operator._connect_string_as_bytes(self, pin, str.encode('utf-8'))
+        return Operator._connect_string_as_bytes(self, pin, str.encode("utf-8"))
 
     @staticmethod
     def _getoutput_string_as_bytes(self, pin):
@@ -314,7 +340,7 @@ class Operator:
         server_meet_version_and_raise(
             "8.0",
             self._server,
-            "output of type bytes available with server's version starting at 8.0 (Ansys 2024R2)."
+            "output of type bytes available with server's version starting at 8.0 (Ansys 2024R2).",
         )
         return Operator._getoutput_string_as_bytes(self, pin)
 
@@ -353,6 +379,7 @@ class Operator:
         )
 
         out = [
+            (any.Any, self._api.operator_getoutput_as_any),
             (bool, self._api.operator_getoutput_bool),
             (int, self._api.operator_getoutput_int),
             (str, self._getoutput_string),
@@ -444,10 +471,8 @@ class Operator:
             (
                 collection.Collection,
                 self._api.operator_getoutput_as_any,
-                lambda obj, type: any.Any(
-                    server=self._server, any_dpf=obj
-                ).cast(type),
-            )
+                lambda obj, type: any.Any(server=self._server, any_dpf=obj).cast(type),
+            ),
         ]
         if hasattr(self._api, "operator_getoutput_generic_data_container"):
             out.append(
@@ -476,9 +501,13 @@ class Operator:
             workflow,
             model,
             generic_data_container,
+            any,
+            streams_container,
         )
 
         out = [
+            (streams_container.StreamsContainer, self._api.operator_connect_streams),
+            (any.Any, self._api.operator_connect_any),
             (bool, self._api.operator_connect_bool),
             ((int, Enum), self._api.operator_connect_int),
             (str, self._connect_string),

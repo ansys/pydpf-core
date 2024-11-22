@@ -13,7 +13,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 class coordinate_system(Operator):
     """Extracts the Rotation Matrix and Origin of a specific coordinate
-    system
+    system.
 
     Parameters
     ----------
@@ -21,6 +21,12 @@ class coordinate_system(Operator):
     streams_container : StreamsContainer, optional
     data_sources : DataSources
 
+    Returns
+    -------
+    field : Field
+        The first 9 double are the rotation (3x3
+        matrix) and the last 3 is the
+        translation vector
 
     Examples
     --------
@@ -56,7 +62,7 @@ class coordinate_system(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="mapdl::rst::CS", config=config, server=server)
+        super().__init__(name="CS", config=config, server=server)
         self._inputs = InputsCoordinateSystem(self)
         self._outputs = OutputsCoordinateSystem(self)
         if cs_id is not None:
@@ -69,7 +75,7 @@ class coordinate_system(Operator):
     @staticmethod
     def _spec():
         description = """Extracts the Rotation Matrix and Origin of a specific coordinate
-            system"""
+            system."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -119,7 +125,7 @@ class coordinate_system(Operator):
             Server with channel connected to the remote or local instance. When
             ``None``, attempts to use the global server.
         """
-        return Operator.default_config(name="mapdl::rst::CS", server=server)
+        return Operator.default_config(name="CS", server=server)
 
     @property
     def inputs(self):

@@ -18,6 +18,9 @@ class datasources_provider(Operator):
     ----------
     data_sources : DataSources
 
+    Returns
+    -------
+    data_sources : DataSources
 
     Examples
     --------

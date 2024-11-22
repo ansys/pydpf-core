@@ -37,8 +37,11 @@ class change_shell_layers(Operator):
     merge : bool, optional
         If set to true, merge shells and solids
         regarding the shell layer set in
-        s_shell_layer pin.
+        s_shell_layer pin (false by default).
 
+    Returns
+    -------
+    fields_container : FieldsContainer or Field
 
     Examples
     --------
@@ -133,7 +136,7 @@ class change_shell_layers(Operator):
                     optional=True,
                     document="""If set to true, merge shells and solids
         regarding the shell layer set in
-        s_shell_layer pin.""",
+        s_shell_layer pin (false by default).""",
                 ),
             },
             map_output_pin_spec={
@@ -285,7 +288,7 @@ class InputsChangeShellLayers(_Inputs):
 
         If set to true, merge shells and solids
         regarding the shell layer set in
-        s_shell_layer pin.
+        s_shell_layer pin (false by default).
 
         Parameters
         ----------

@@ -23,6 +23,9 @@ class time_freq_provider(Operator):
         If the stream is null, retrieves the file
         path from the data sources.
 
+    Returns
+    -------
+    time_freq_support : TimeFreqSupport
 
     Examples
     --------

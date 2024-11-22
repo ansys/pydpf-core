@@ -32,6 +32,9 @@ class nodal_difference_fc(Operator):
         correspond to the one of the fields
         containers.
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

@@ -12,8 +12,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class plastic_strain_rotation_by_euler_nodes(Operator):
-    """read Euler angles on elements from the rst file and rotate the fields
-    in the fieldsContainer.
+    """read Euler angles on elements from the result file and rotate the
+    fields in the fieldsContainer.
 
     Parameters
     ----------
@@ -22,6 +22,9 @@ class plastic_strain_rotation_by_euler_nodes(Operator):
         Dataprocessing::Crstfilewrapper, optional
     data_sources : DataSources
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------
@@ -73,8 +76,8 @@ class plastic_strain_rotation_by_euler_nodes(Operator):
 
     @staticmethod
     def _spec():
-        description = """read Euler angles on elements from the rst file and rotate the fields
-            in the fieldsContainer."""
+        description = """read Euler angles on elements from the result file and rotate the
+            fields in the fieldsContainer."""
         spec = Specification(
             description=description,
             map_input_pin_spec={

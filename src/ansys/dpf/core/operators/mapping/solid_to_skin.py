@@ -31,6 +31,9 @@ class solid_to_skin(Operator):
     solid_mesh : MeshedRegion, optional
         Solid mesh support (optional).
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

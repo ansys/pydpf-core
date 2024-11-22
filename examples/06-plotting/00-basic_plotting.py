@@ -1,3 +1,25 @@
+# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """
 .. _basic_plotting:
 
@@ -23,7 +45,7 @@ model.plot(
     screenshot="model_plot.png",
     title="Model",
     text="Model plot off",
-    parallel_projection=True
+    parallel_projection=True,
 )
 
 # Notes:
@@ -81,14 +103,19 @@ split_mesh_op = dpf.Operator("split_mesh")
 split_mesh_op.connect(7, mesh)
 split_mesh_op.connect(13, "mat")
 meshes_cont = split_mesh_op.get_output(0, dpf.types.meshes_container)
-meshes_cont.plot(title='Meshes Container', text='Meshes Container plot')
+meshes_cont.plot(title="Meshes Container", text="Meshes Container plot")
 # A fields_container can be given as input, with results on each part of our split mesh.
 disp_op = dpf.Operator("U")
 disp_op.connect(7, meshes_cont)
 ds = dpf.DataSources(examples.find_multishells_rst())
 disp_op.connect(4, ds)
 disp_fc = disp_op.outputs.fields_container()
-meshes_cont.plot(disp_fc, title='Meshes Container disp_fc', text='Meshes Container disp_fc plot')
+meshes_cont.plot(disp_fc, title="Meshes Container disp_fc", text="Meshes Container disp_fc plot")
 # Additional PyVista kwargs are supported, such as:
-meshes_cont.plot(off_screen=True, notebook=False, screenshot='meshes_cont_plot.png',
-                 title='Meshes Container', text='Meshes Container plot')
+meshes_cont.plot(
+    off_screen=True,
+    notebook=False,
+    screenshot="meshes_cont_plot.png",
+    title="Meshes Container",
+    text="Meshes Container plot",
+)

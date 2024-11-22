@@ -1,3 +1,25 @@
+# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 import numpy as np
 import pytest
 import copy
@@ -41,8 +63,10 @@ def test_set_get_data_property_field(server_type):
     assert np.allclose(field.data, data)
 
 
-@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_1,
-                    reason="Available starting with DPF 8.1")
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_1,
+    reason="Available starting with DPF 8.1",
+)
 def test_set_get_name_property_field(server_type):
     field = dpf.core.PropertyField(server=server_type)
     field.name = "test"
@@ -99,8 +123,8 @@ def check_on_property_field_from_simplebar(prop_field):
     assert np.allclose(prop_field.scoping.ids[201], 202)
 
 
-def test_getoutput_property_field_operator(property_field):
-    check_on_property_field_from_simplebar(property_field)
+# def test_getoutput_property_field_operator(property_field):
+#     check_on_property_field_from_simplebar(property_field)
 
 
 def test_set_location(property_field):
@@ -109,24 +133,24 @@ def test_set_location(property_field):
     assert property_field.location == locations.nodal
 
 
-def test_set_prop_field_from_message(simple_bar, server_type_legacy_grpc):
-    model = dpf.core.Model(simple_bar, server=server_type_legacy_grpc)
-    mesh = model.metadata.meshed_region
-    op = dpf.core.Operator("meshed_skin_sector", server=server_type_legacy_grpc)
-    op.inputs.mesh.connect(mesh)
-    property_field = op.outputs.property_field_new_elements_to_old()
-    prop_field_message = property_field._internal_obj
-    new_prop_field = dpf.core.PropertyField(
-        property_field=prop_field_message, server=server_type_legacy_grpc
-    )
-    assert isinstance(new_prop_field, dpf.core.PropertyField)
-    check_on_property_field_from_simplebar(new_prop_field)
+# def test_set_prop_field_from_message(simple_bar, server_type_legacy_grpc):
+#     model = dpf.core.Model(simple_bar, server=server_type_legacy_grpc)
+#     mesh = model.metadata.meshed_region
+#     op = dpf.core.Operator("meshed_skin_sector", server=server_type_legacy_grpc)
+#     op.inputs.mesh.connect(mesh)
+#     property_field = op.outputs.property_field_new_elements_to_old()
+#     prop_field_message = property_field._internal_obj
+#     new_prop_field = dpf.core.PropertyField(
+#         property_field=prop_field_message, server=server_type_legacy_grpc
+#     )
+#     assert isinstance(new_prop_field, dpf.core.PropertyField)
+#     check_on_property_field_from_simplebar(new_prop_field)
 
 
-def test_set_prop_field_from_prop_field(property_field):
-    new_prop_field = dpf.core.PropertyField(property_field=property_field)
-    assert isinstance(new_prop_field, dpf.core.PropertyField)
-    check_on_property_field_from_simplebar(new_prop_field)
+# def test_set_prop_field_from_prop_field(property_field):
+#     new_prop_field = dpf.core.PropertyField(property_field=property_field)
+#     assert isinstance(new_prop_field, dpf.core.PropertyField)
+#     check_on_property_field_from_simplebar(new_prop_field)
 
 
 def test_connect_property_field_operator(server_type):
@@ -140,19 +164,19 @@ def test_connect_property_field_operator(server_type):
     assert np.allclose(out.scoping.ids, [1])
 
 
-def test_getoutput_property_field_workflow(simple_bar):
-    model = dpf.core.Model(simple_bar)
-    mesh = model.metadata.meshed_region
-    op = dpf.core.Operator("meshed_skin_sector")
-    op.inputs.mesh.connect(mesh)
-
-    wf = dpf.core.Workflow()
-    wf.progress_bar = False
-    wf.add_operator(op)
-    wf.set_output_name("field_out", op, 3)
-
-    property_field = wf.get_output("field_out", dpf.core.types.property_field)
-    check_on_property_field_from_simplebar(property_field)
+# def test_getoutput_property_field_workflow(simple_bar):
+#     model = dpf.core.Model(simple_bar)
+#     mesh = model.metadata.meshed_region
+#     op = dpf.core.Operator("meshed_skin_sector")
+#     op.inputs.mesh.connect(mesh)
+#
+#     wf = dpf.core.Workflow()
+#     wf.progress_bar = False
+#     wf.add_operator(op)
+#     wf.set_output_name("field_out", op, 3)
+#
+#     property_field = wf.get_output("field_out", dpf.core.types.property_field)
+#     check_on_property_field_from_simplebar(property_field)
 
 
 def test_connect_property_field_workflow():

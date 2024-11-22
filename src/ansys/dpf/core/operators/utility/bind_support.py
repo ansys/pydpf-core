@@ -22,6 +22,9 @@ class bind_support(Operator):
     support : MeshedRegion or AbstractFieldSupport
         Meshed region or a support of the field
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

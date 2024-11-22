@@ -20,6 +20,11 @@ class overall_dot(Operator):
     fieldA : Field
     fieldB : Field
 
+    Returns
+    -------
+    field : Field
+        Field defined on over-all location, contains
+        a unique scalar value
 
     Examples
     --------

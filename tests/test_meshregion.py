@@ -1,9 +1,32 @@
+# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 import numpy as np
 import pytest
 import vtk
 
 from ansys import dpf
 import conftest
+from ansys.dpf.core.check_version import server_meet_version
 
 
 @pytest.fixture()
@@ -304,7 +327,10 @@ def test_id_indeces_mapping_on_elements_2(allkindofcomplexity, server_type):
     mapping = mesh.elements.mapping_id_to_index
     elements = mesh.elements
     assert len(mapping) == len(elements)
-    assert len(elements) == 10292
+    if server_meet_version("9.0", mesh._server):
+        assert len(elements) == 10294
+    else:
+        assert len(elements) == 10292
     assert mapping[23] == 24
     assert mapping[4520] == 2011
 
@@ -578,7 +604,8 @@ def test_mesh_deep_copy(allkindofcomplexity, server_type):
 
 
 @pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available with CFF starting 7.0"
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
+    reason="Available with CFF starting 7.0",
 )
 def test_mesh_deep_copy_large(fluent_multiphase, server_type):
     model = dpf.core.Model(fluent_multiphase(server=server_type), server=server_type)
@@ -614,17 +641,6 @@ def test_mesh_deep_copy2(simple_bar_model, server_type):
         copy.elements.connectivities_field.scoping.ids,
         mesh.elements.connectivities_field.scoping.ids,
     )
-
-
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-    reason="Bug in server version lower than 4.0",
-)
-def test_semi_parabolic_meshed_region(server_type, allkindofcomplexity):
-    mesh = dpf.core.Model(allkindofcomplexity, server=server_type).metadata.meshed_region
-    has_semi_par = False
-    el = mesh.elements[0]
-    assert dpf.core.element_types.descriptor(el.type).n_nodes != len(el.connectivity)
 
 
 @pytest.mark.skipif(

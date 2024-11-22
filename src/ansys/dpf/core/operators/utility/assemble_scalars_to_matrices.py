@@ -29,6 +29,9 @@ class assemble_scalars_to_matrices(Operator):
     zx : Field, optional
     symmetrical : bool, optional
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

@@ -30,6 +30,9 @@ class rotate_in_cylindrical_cs(Operator):
     mesh : MeshedRegion, optional
         Mesh support of the input field.
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

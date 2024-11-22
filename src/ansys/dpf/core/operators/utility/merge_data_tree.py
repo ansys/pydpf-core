@@ -24,6 +24,9 @@ class merge_data_tree(Operator):
         Either a vector of data trees or data trees
         from pin 0 to ... to merge.
 
+    Returns
+    -------
+    any : Any
 
     Examples
     --------

@@ -27,6 +27,10 @@ class timefreq_signed_high_pass(Operator):
         container is returned on output pin
         1.
 
+    Returns
+    -------
+    time_freq_support : TimeFreqSupport
+    scoping : Scoping
 
     Examples
     --------

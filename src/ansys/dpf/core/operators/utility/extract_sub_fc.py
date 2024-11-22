@@ -24,7 +24,17 @@ class extract_sub_fc(Operator):
         Label space, or scoping defining the label
         space (scoping location), values to
         keep (scoping ids)
+    collapse_labels : bool, optional
+        If set to true (default) the input label
+        space (scoping location) is
+        suppressed from the output fields
+        container, otherwise, label space is
+        kept.
 
+    Returns
+    -------
+    fields_container : FieldsContainer
+        Fields_container
 
     Examples
     --------
@@ -38,11 +48,14 @@ class extract_sub_fc(Operator):
     >>> op.inputs.fields_container.connect(my_fields_container)
     >>> my_label_space = dict()
     >>> op.inputs.label_space.connect(my_label_space)
+    >>> my_collapse_labels = bool()
+    >>> op.inputs.collapse_labels.connect(my_collapse_labels)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.utility.extract_sub_fc(
     ...     fields_container=my_fields_container,
     ...     label_space=my_label_space,
+    ...     collapse_labels=my_collapse_labels,
     ... )
 
     >>> # Get output data
@@ -50,7 +63,12 @@ class extract_sub_fc(Operator):
     """
 
     def __init__(
-        self, fields_container=None, label_space=None, config=None, server=None
+        self,
+        fields_container=None,
+        label_space=None,
+        collapse_labels=None,
+        config=None,
+        server=None,
     ):
         super().__init__(name="extract_sub_fc", config=config, server=server)
         self._inputs = InputsExtractSubFc(self)
@@ -59,6 +77,8 @@ class extract_sub_fc(Operator):
             self.inputs.fields_container.connect(fields_container)
         if label_space is not None:
             self.inputs.label_space.connect(label_space)
+        if collapse_labels is not None:
+            self.inputs.collapse_labels.connect(collapse_labels)
 
     @staticmethod
     def _spec():
@@ -81,6 +101,16 @@ class extract_sub_fc(Operator):
                     document="""Label space, or scoping defining the label
         space (scoping location), values to
         keep (scoping ids)""",
+                ),
+                2: PinSpecification(
+                    name="collapse_labels",
+                    type_names=["bool"],
+                    optional=True,
+                    document="""If set to true (default) the input label
+        space (scoping location) is
+        suppressed from the output fields
+        container, otherwise, label space is
+        kept.""",
                 ),
             },
             map_output_pin_spec={
@@ -143,6 +173,8 @@ class InputsExtractSubFc(_Inputs):
     >>> op.inputs.fields_container.connect(my_fields_container)
     >>> my_label_space = dict()
     >>> op.inputs.label_space.connect(my_label_space)
+    >>> my_collapse_labels = bool()
+    >>> op.inputs.collapse_labels.connect(my_collapse_labels)
     """
 
     def __init__(self, op: Operator):
@@ -151,6 +183,8 @@ class InputsExtractSubFc(_Inputs):
         self._inputs.append(self._fields_container)
         self._label_space = Input(extract_sub_fc._spec().input_pin(1), 1, op, -1)
         self._inputs.append(self._label_space)
+        self._collapse_labels = Input(extract_sub_fc._spec().input_pin(2), 2, op, -1)
+        self._inputs.append(self._collapse_labels)
 
     @property
     def fields_container(self):
@@ -193,6 +227,30 @@ class InputsExtractSubFc(_Inputs):
         >>> op.inputs.label_space(my_label_space)
         """
         return self._label_space
+
+    @property
+    def collapse_labels(self):
+        """Allows to connect collapse_labels input to the operator.
+
+        If set to true (default) the input label
+        space (scoping location) is
+        suppressed from the output fields
+        container, otherwise, label space is
+        kept.
+
+        Parameters
+        ----------
+        my_collapse_labels : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.utility.extract_sub_fc()
+        >>> op.inputs.collapse_labels.connect(my_collapse_labels)
+        >>> # or
+        >>> op.inputs.collapse_labels(my_collapse_labels)
+        """
+        return self._collapse_labels
 
 
 class OutputsExtractSubFc(_Outputs):

@@ -3,6 +3,7 @@
 Launch or connect to a persistent local DPF service to be shared in
 pytest as a session fixture
 """
+
 import doctest
 from doctest import DocTestRunner
 from unittest import mock

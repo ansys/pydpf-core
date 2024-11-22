@@ -7,7 +7,7 @@ on:
       python_version:
         required: false
         type: string
-        default: "3.9"
+        default: "3.10"
       ANSYS_VERSION:
         required: false
         type: string
@@ -29,7 +29,7 @@ on:
         description: "Python interpreter"
         required: true
         type: string
-        default: "3.9"
+        default: "3.10"
       ANSYS_VERSION:
         description: "ANSYS version"
         required: true
@@ -44,14 +44,14 @@ on:
 env:
   PACKAGE_NAME: ansys-dpf-core
   MODULE: core
-
+  VTK_OSMESA_VERSION: "9.2.20230527.dev0"
 jobs:
   doc-style:
     name: "Check doc style"
     runs-on: ubuntu-latest
     steps:
         - name: "Running documentation style checks"
-          uses: ansys/actions/doc-style@v5.0
+          uses: ansys/actions/doc-style@v8
           with:
             token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -69,7 +69,7 @@ jobs:
           echo "ANSYSLMD_LICENSE_FILE=1055@${{ secrets.LICENSE_SERVER }}" >> $GITHUB_ENV
 
       - name: "Setup Python"
-        uses: actions/setup-python@v4.6.1
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ inputs.python_version }}
 
@@ -117,10 +117,10 @@ jobs:
         run: python -c "from ansys.dpf import core"
 
       - name: "Setup headless display"
-        uses: pyvista/setup-headless-display-action@v1
+        uses: pyvista/setup-headless-display-action@v2
 
       - name: "Setup Graphviz"
-        uses: ts-graphviz/setup-graphviz@v1
+        uses: ts-graphviz/setup-graphviz@v2
 
       - name: "Install OS packages"
         run: |
@@ -132,6 +132,11 @@ jobs:
 
       - name: "Kill all servers"
         uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
+
+      - name: "Ensure VTK compatibility"
+        run: |
+          python -m pip uninstall --yes vtk
+          python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==${{ env.VTK_OSMESA_VERSION }}
 
       - name: "List installed packages"
         shell: bash
@@ -175,7 +180,7 @@ jobs:
         if: always()
 
       - name: "Upload Documentation Build log"
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: doc-${{env.PACKAGE_NAME}}-log
           path: doc/*.txt
@@ -188,7 +193,7 @@ jobs:
         if: always()
 
       - name: "Upload HTML Documentation"
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: HTML-doc-${{env.PACKAGE_NAME}}.zip
           path: HTML-doc-${{env.PACKAGE_NAME}}.zip

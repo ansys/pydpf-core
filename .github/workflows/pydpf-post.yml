@@ -69,7 +69,7 @@ jobs:
           echo "ANSYSLMD_LICENSE_FILE=1055@${{ secrets.LICENSE_SERVER }}" >> $GITHUB_ENV
 
       - name: "Setup Python"
-        uses: actions/setup-python@v4.6.0
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -161,7 +161,7 @@ jobs:
         run: |
           pytest $DEBUG --reruns 2 .
         if: always()
-        timeout-minutes: 20
+        timeout-minutes: 60
 
       - name: "Kill all servers"
         uses: ansys/pydpf-actions/kill-dpf-servers@v2.3

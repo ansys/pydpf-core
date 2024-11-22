@@ -33,11 +33,16 @@ class on_property(Operator):
         If element scoping is requested on a nodal
         named selection, if inclusive == 1
         then all the elements/faces adjacent
-        to the nodes ids in input are added,
-        if inclusive == 0, only the
+        to the nodes/faces ids in input are
+        added, if inclusive == 0, only the
         elements/faces which have all their
-        nodes in the scoping are included
+        nodes/faces in the scoping are
+        included
 
+    Returns
+    -------
+    mesh_scoping : Scoping
+        Scoping
 
     Examples
     --------
@@ -150,10 +155,11 @@ class on_property(Operator):
                     document="""If element scoping is requested on a nodal
         named selection, if inclusive == 1
         then all the elements/faces adjacent
-        to the nodes ids in input are added,
-        if inclusive == 0, only the
+        to the nodes/faces ids in input are
+        added, if inclusive == 0, only the
         elements/faces which have all their
-        nodes in the scoping are included""",
+        nodes/faces in the scoping are
+        included""",
                 ),
             },
             map_output_pin_spec={
@@ -347,10 +353,11 @@ class InputsOnProperty(_Inputs):
         If element scoping is requested on a nodal
         named selection, if inclusive == 1
         then all the elements/faces adjacent
-        to the nodes ids in input are added,
-        if inclusive == 0, only the
+        to the nodes/faces ids in input are
+        added, if inclusive == 0, only the
         elements/faces which have all their
-        nodes in the scoping are included
+        nodes/faces in the scoping are
+        included
 
         Parameters
         ----------

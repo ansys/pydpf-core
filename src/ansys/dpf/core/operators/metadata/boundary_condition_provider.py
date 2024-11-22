@@ -21,6 +21,10 @@ class boundary_condition_provider(Operator):
     streams_container : StreamsContainer, optional
     data_sources : DataSources
 
+    Returns
+    -------
+    results_info : Field or FieldsContainer
+        Results info
 
     Examples
     --------

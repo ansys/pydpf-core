@@ -1,8 +1,31 @@
+# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """
 Server
 ======
 Contains the directives necessary to start the DPF server.
 """
+
 import functools
 import os
 import socket
@@ -50,7 +73,7 @@ def has_local_server():
     return dpf.core.SERVER is not None
 
 
-def _global_server():
+def _global_server() -> BaseServer:
     """Retrieve the global server if it exists.
 
     If the global server has not been specified, check the expected server type in
@@ -128,17 +151,17 @@ def shutdown_all_session_servers():
 
 
 def start_local_server(
-        ip=LOCALHOST,
-        port=DPF_DEFAULT_PORT,
-        ansys_path=None,
-        as_global=True,
-        load_operators=True,
-        use_docker_by_default=True,
-        docker_config=RUNNING_DOCKER,
-        timeout=20.0,
-        config=None,
-        use_pypim_by_default=True,
-        context=None,
+    ip=LOCALHOST,
+    port=DPF_DEFAULT_PORT,
+    ansys_path=None,
+    as_global=True,
+    load_operators=True,
+    use_docker_by_default=True,
+    docker_config=RUNNING_DOCKER,
+    timeout=20.0,
+    config=None,
+    use_pypim_by_default=True,
+    context=None,
 ):
     """Start a new local DPF server at a given port and IP address.
 
@@ -228,8 +251,8 @@ def start_local_server(
             )
             server_init_signature = inspect.signature(server_type.__init__)
             if (
-                    "ip" in server_init_signature.parameters.keys()
-                    and "port" in server_init_signature.parameters.keys()
+                "ip" in server_init_signature.parameters.keys()
+                and "port" in server_init_signature.parameters.keys()
             ):
                 server = server_type(
                     ansys_path,
@@ -278,12 +301,12 @@ def start_local_server(
 
 
 def connect_to_server(
-        ip=LOCALHOST,
-        port=DPF_DEFAULT_PORT,
-        as_global=True,
-        timeout=5,
-        config=None,
-        context=None,
+    ip=LOCALHOST,
+    port=DPF_DEFAULT_PORT,
+    as_global=True,
+    timeout=5,
+    config=None,
+    context=None,
 ):
     """Connect to an existing DPF server.
 
@@ -338,8 +361,8 @@ def connect_to_server(
     def connect():
         server_init_signature = inspect.signature(server_type.__init__)
         if (
-                "ip" in server_init_signature.parameters.keys()
-                and "port" in server_init_signature.parameters.keys()
+            "ip" in server_init_signature.parameters.keys()
+            and "port" in server_init_signature.parameters.keys()
         ):
             server = server_type(
                 ip=ip,
@@ -354,7 +377,7 @@ def connect_to_server(
         return server
 
     # Enforce LegacyGrpc when on macOS
-    if platform.system() == 'Darwin':
+    if platform.system() == "Darwin":
         config = dpf.core.AvailableServerConfigs.LegacyGrpcServer
 
     server_type = ServerFactory.get_remote_server_type_from_config(config)
@@ -417,6 +440,7 @@ def available_servers():
         See :py:func:`ansys.dpf.core.server.start_local_server` for function doc.
     """
     from ansys.dpf.gate import load_api
+
     unified = load_api._paths_to_dpf_in_unified_installs()
     standalone = load_api._paths_to_dpf_server_library_installs()
 

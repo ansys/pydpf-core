@@ -1,3 +1,25 @@
+# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """
 Cyclic Support
 ==============
@@ -10,6 +32,7 @@ from ansys.dpf.gate import cyclic_support_capi, cyclic_support_grpcapi
 
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core import field, property_field
 
 
 class CyclicSupport:
@@ -281,6 +304,74 @@ class CyclicSupport:
             self, element_id, stage_num, sectors
         )
         return Scoping(scoping=expanded_ids, server=self._server)
+
+    def cs(self) -> field.Field:
+        """Coordinate system of the cyclic support.
+
+        Examples
+        --------
+        >>> from ansys.dpf.core import Model
+        >>> from ansys.dpf.core import examples
+        >>> multi_stage = examples.download_multi_stage_cyclic_result()
+        >>> cyc_support = Model(multi_stage).metadata.result_info.cyclic_support
+        >>> cs = cyc_support.cs()
+
+        """
+
+        cs = self._api.cyclic_support_get_cs(self)
+        return field.Field(field=cs, server=self._server)
+
+    def low_high_map(self, stage_num: int = 0) -> property_field.PropertyField:
+        """Retrieve a property field containing node map from low to high
+        base sector of the given stage.
+
+        Parameters
+        ----------
+        stage_num:
+            Number of the stage required (from 0 to num_stages).
+
+        Returns
+        -------
+        low_high_map:
+            Node correspondence between low to high in the base sector of the given stage.
+
+        Examples
+        --------
+        >>> from ansys.dpf.core import Model
+        >>> from ansys.dpf.core import examples
+        >>> multi_stage = examples.download_multi_stage_cyclic_result()
+        >>> cyc_support = Model(multi_stage).metadata.result_info.cyclic_support
+        >>> low_high_map = cyc_support.low_high_map(0)
+
+        """
+        low_high_map = self._api.cyclic_support_get_low_high_map(self, stage_num)
+        return property_field.PropertyField(property_field=low_high_map, server=self._server)
+
+    def high_low_map(self, stage_num: int = 0) -> property_field.PropertyField:
+        """Retrieve a property field containing node map from high to low
+        base sector of the given stage.
+
+        Parameters
+        ----------
+        stage_num:
+            Number of the stage required (from 0 to num_stages).
+
+        Returns
+        -------
+        low_high_map:
+            Node correspondence between high to low in the base sector of the given stage.
+
+        Examples
+        --------
+        >>> from ansys.dpf.core import Model
+        >>> from ansys.dpf.core import examples
+        >>> multi_stage = examples.download_multi_stage_cyclic_result()
+        >>> cyc_support = Model(multi_stage).metadata.result_info.cyclic_support
+        >>> high_low_map = cyc_support.high_low_map(0)
+
+        """
+        high_low_map = self._api.cyclic_support_get_high_low_map(self, stage_num)
+        return property_field.PropertyField(property_field=high_low_map, server=self._server)
 
     def __del__(self):
         try:

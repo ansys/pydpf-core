@@ -27,7 +27,8 @@ class cyclic_equivalent_mass(Operator):
     data_sources : DataSources
         Data sources containing the result file.
     bool_rotate_to_global : bool, optional
-        Default is true
+        If true the field is rotated to global
+        coordinate system (default true)
     all_dofs : bool, optional
         Default is false.
     sector_mesh : MeshedRegion or MeshesContainer, optional
@@ -50,6 +51,11 @@ class cyclic_equivalent_mass(Operator):
     phi : float, optional
         Angle phi in degrees (default value 0.0)
 
+    Returns
+    -------
+    fields_container : FieldsContainer
+        Fieldscontainer filled in
+    expanded_meshes : MeshesContainer
 
     Examples
     --------
@@ -206,7 +212,8 @@ class cyclic_equivalent_mass(Operator):
                     name="bool_rotate_to_global",
                     type_names=["bool"],
                     optional=True,
-                    document="""Default is true""",
+                    document="""If true the field is rotated to global
+        coordinate system (default true)""",
                 ),
                 6: PinSpecification(
                     name="all_dofs",
@@ -513,7 +520,8 @@ class InputsCyclicEquivalentMass(_Inputs):
     def bool_rotate_to_global(self):
         """Allows to connect bool_rotate_to_global input to the operator.
 
-        Default is true
+        If true the field is rotated to global
+        coordinate system (default true)
 
         Parameters
         ----------

@@ -25,6 +25,9 @@ class integrate_over_time_freq(Operator):
         freq support from the input field is
         taken.
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

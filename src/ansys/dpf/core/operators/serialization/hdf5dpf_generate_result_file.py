@@ -16,12 +16,22 @@ class hdf5dpf_generate_result_file(Operator):
 
     Parameters
     ----------
-    h5_native_compression : int, optional
-        Integer value that defines the h5 native
-        compression used 0: no compression
-        (default)1-9: gzip level compression
-        : 9 gives us maximum compression but
-        at the slowest speed.
+    dataset_size_compression_threshold : int, optional
+        Integer value that defines the minimum
+        dataset size (in bytes) to use h5
+        native compression applicable for
+        arrays of floats, doubles and
+        integers.
+    h5_native_compression : int or DataTree, optional
+        Integer value / datatree that defines the h5
+        native compression used for integer
+        input {0: no compression (default);
+        1-9: gzip compression : 9 provides
+        maximum compression but at the
+        slowest speed.}for datatree input
+        {type: none / gzip / zstd; level:
+        gzip (1-9) / zstd (1-20);
+        num_threads: zstd (>0)}
     export_floats : bool, optional
         Converts double to float to reduce file size
         (default is true)
@@ -63,6 +73,11 @@ class hdf5dpf_generate_result_file(Operator):
         be a result) and connected
         sequentially.
 
+    Returns
+    -------
+    data_sources : DataSources
+        Data_sources filed with the h5 generated file
+        path.
 
     Examples
     --------
@@ -72,6 +87,8 @@ class hdf5dpf_generate_result_file(Operator):
     >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
 
     >>> # Make input connections
+    >>> my_dataset_size_compression_threshold = int()
+    >>> op.inputs.dataset_size_compression_threshold.connect(my_dataset_size_compression_threshold)
     >>> my_h5_native_compression = int()
     >>> op.inputs.h5_native_compression.connect(my_h5_native_compression)
     >>> my_export_floats = bool()
@@ -91,6 +108,7 @@ class hdf5dpf_generate_result_file(Operator):
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file(
+    ...     dataset_size_compression_threshold=my_dataset_size_compression_threshold,
     ...     h5_native_compression=my_h5_native_compression,
     ...     export_floats=my_export_floats,
     ...     filename=my_filename,
@@ -107,6 +125,7 @@ class hdf5dpf_generate_result_file(Operator):
 
     def __init__(
         self,
+        dataset_size_compression_threshold=None,
         h5_native_compression=None,
         export_floats=None,
         filename=None,
@@ -123,6 +142,10 @@ class hdf5dpf_generate_result_file(Operator):
         )
         self._inputs = InputsHdf5DpfGenerateResultFile(self)
         self._outputs = OutputsHdf5DpfGenerateResultFile(self)
+        if dataset_size_compression_threshold is not None:
+            self.inputs.dataset_size_compression_threshold.connect(
+                dataset_size_compression_threshold
+            )
         if h5_native_compression is not None:
             self.inputs.h5_native_compression.connect(h5_native_compression)
         if export_floats is not None:
@@ -146,15 +169,29 @@ class hdf5dpf_generate_result_file(Operator):
         spec = Specification(
             description=description,
             map_input_pin_spec={
-                -2: PinSpecification(
-                    name="h5_native_compression",
+                -5: PinSpecification(
+                    name="dataset_size_compression_threshold",
                     type_names=["int32"],
                     optional=True,
-                    document="""Integer value that defines the h5 native
-        compression used 0: no compression
-        (default)1-9: gzip level compression
-        : 9 gives us maximum compression but
-        at the slowest speed.""",
+                    document="""Integer value that defines the minimum
+        dataset size (in bytes) to use h5
+        native compression applicable for
+        arrays of floats, doubles and
+        integers.""",
+                ),
+                -2: PinSpecification(
+                    name="h5_native_compression",
+                    type_names=["int32", "abstract_data_tree"],
+                    optional=True,
+                    document="""Integer value / datatree that defines the h5
+        native compression used for integer
+        input {0: no compression (default);
+        1-9: gzip compression : 9 provides
+        maximum compression but at the
+        slowest speed.}for datatree input
+        {type: none / gzip / zstd; level:
+        gzip (1-9) / zstd (1-20);
+        num_threads: zstd (>0)}""",
                 ),
                 -1: PinSpecification(
                     name="export_floats",
@@ -284,6 +321,8 @@ class InputsHdf5DpfGenerateResultFile(_Inputs):
     --------
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
+    >>> my_dataset_size_compression_threshold = int()
+    >>> op.inputs.dataset_size_compression_threshold.connect(my_dataset_size_compression_threshold)
     >>> my_h5_native_compression = int()
     >>> op.inputs.h5_native_compression.connect(my_h5_native_compression)
     >>> my_export_floats = bool()
@@ -304,6 +343,10 @@ class InputsHdf5DpfGenerateResultFile(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(hdf5dpf_generate_result_file._spec().inputs, op)
+        self._dataset_size_compression_threshold = Input(
+            hdf5dpf_generate_result_file._spec().input_pin(-5), -5, op, -1
+        )
+        self._inputs.append(self._dataset_size_compression_threshold)
         self._h5_native_compression = Input(
             hdf5dpf_generate_result_file._spec().input_pin(-2), -2, op, -1
         )
@@ -338,18 +381,46 @@ class InputsHdf5DpfGenerateResultFile(_Inputs):
         self._inputs.append(self._input_name2)
 
     @property
-    def h5_native_compression(self):
-        """Allows to connect h5_native_compression input to the operator.
+    def dataset_size_compression_threshold(self):
+        """Allows to connect dataset_size_compression_threshold input to the operator.
 
-        Integer value that defines the h5 native
-        compression used 0: no compression
-        (default)1-9: gzip level compression
-        : 9 gives us maximum compression but
-        at the slowest speed.
+        Integer value that defines the minimum
+        dataset size (in bytes) to use h5
+        native compression applicable for
+        arrays of floats, doubles and
+        integers.
 
         Parameters
         ----------
-        my_h5_native_compression : int
+        my_dataset_size_compression_threshold : int
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
+        >>> op.inputs.dataset_size_compression_threshold.connect(my_dataset_size_compression_threshold)
+        >>> # or
+        >>> op.inputs.dataset_size_compression_threshold(my_dataset_size_compression_threshold)
+        """
+        return self._dataset_size_compression_threshold
+
+    @property
+    def h5_native_compression(self):
+        """Allows to connect h5_native_compression input to the operator.
+
+        Integer value / datatree that defines the h5
+        native compression used for integer
+        input {0: no compression (default);
+        1-9: gzip compression : 9 provides
+        maximum compression but at the
+        slowest speed.}for datatree input
+        {type: none / gzip / zstd; level:
+        gzip (1-9) / zstd (1-20);
+        num_threads: zstd (>0)}
+
+        Parameters
+        ----------
+        my_h5_native_compression : int or DataTree
 
         Examples
         --------

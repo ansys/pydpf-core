@@ -1,3 +1,25 @@
+# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """
 .. _ref_custom_operator:
 
@@ -40,7 +62,7 @@ from ansys.dpf.gate import object_handler, capi, dpf_vector, integral_types
 
 
 def update_virtual_environment_for_custom_operators(
-        restore_original: bool = False,
+    restore_original: bool = False,
 ):
     """Updates the dpf-site.zip file used to start a venv for Python custom operators to run in.
 
@@ -79,9 +101,11 @@ def update_virtual_environment_for_custom_operators(
         # Store original dpf-site.zip for this DPF Server if no original is stored
         if not os.path.exists(os.path.dirname(original_dpf_site_zip_path)):
             os.mkdir(os.path.dirname(original_dpf_site_zip_path))
+        if not os.path.exists(original_dpf_site_zip_path):
             shutil.move(src=current_dpf_site_zip_path, dst=original_dpf_site_zip_path)
         # Get the current paths to site_packages
         import site
+
         paths_to_current_site_packages = site.getsitepackages()
         current_site_packages_path = None
         # Get the first one targeting an actual site-packages folder
@@ -93,11 +117,16 @@ def update_virtual_environment_for_custom_operators(
             warnings.warn("Could not find a currently loaded site-packages folder to update from.")
             return
         # If an ansys.dpf.core.path file exists, then the installation is editable
-        path_file = os.path.join(current_site_packages_path, "ansys.dpf.core.pth")
+        search_path = pathlib.Path(current_site_packages_path)
+        potential_editable = list(search_path.rglob("__editable__.ansys_dpf_core-*.pth"))
+        if potential_editable:
+            path_file = potential_editable[0]
+        else:  # Keep for older setuptools versions
+            path_file = os.path.join(current_site_packages_path, "ansys.dpf.core.pth")
         if os.path.exists(path_file):
             # Treat editable installation of ansys-dpf-core
             with open(path_file, "r") as f:
-                current_site_packages_path = f.readline()
+                current_site_packages_path = f.readline().strip()
         with tempfile.TemporaryDirectory() as tmpdir:
             os.mkdir(os.path.join(tmpdir, "ansys_dpf_core"))
             ansys_dir = os.path.join(tmpdir, "ansys_dpf_core")
@@ -120,7 +149,7 @@ def update_virtual_environment_for_custom_operators(
                 ignore=lambda directory, contents: ["__pycache__"],
             )
             # Find the .dist_info folder
-            pattern = re.compile(r'^ansys_dpf_core\S*')
+            pattern = re.compile(r"^ansys_dpf_core\S*")
             for p in pathlib.Path(current_site_packages_path).iterdir():
                 if p.is_dir():
                     # print(p.stem)
@@ -135,14 +164,16 @@ def update_virtual_environment_for_custom_operators(
             base_name = os.path.join(tmpdir, "ansys_dpf_core_zip")
             base_dir = "."
             root_dir = os.path.join(tmpdir, "ansys_dpf_core")  # OK
-            shutil.make_archive(base_name=base_name, root_dir=root_dir, base_dir=base_dir, format='zip')
+            shutil.make_archive(
+                base_name=base_name, root_dir=root_dir, base_dir=base_dir, format="zip"
+            )
             # Include files of interest from the original dpf-site.zip and the ansys_dpf_core.zip
             with zipfile.ZipFile(current_dpf_site_zip_path, "w") as archive:
                 with zipfile.ZipFile(original_dpf_site_zip_path, mode="r") as original:
                     for item in original.infolist():
                         if "ansys" not in item.filename:
                             archive.writestr(item, original.read(item))
-                with zipfile.ZipFile(base_name+'.zip', mode="r") as original:
+                with zipfile.ZipFile(base_name + ".zip", mode="r") as original:
                     for item in original.infolist():
                         archive.writestr(item, original.read(item))
 

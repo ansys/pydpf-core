@@ -19,6 +19,10 @@ class min_max_fc(Operator):
     ----------
     fields_container : FieldsContainer
 
+    Returns
+    -------
+    field_min : Field
+    field_max : Field
 
     Examples
     --------

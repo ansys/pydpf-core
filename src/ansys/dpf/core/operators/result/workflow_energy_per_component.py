@@ -29,7 +29,8 @@ class workflow_energy_per_component(Operator):
     energy_type : int, optional
         Type of energy to be processed: (0: strain +
         kinetic energy (default), 1: strain
-        energy, 2: kinetic energy)
+        energy, 2: kinetic energy, 3: all
+        energy types)
     data_sources : DataSources
     named_selection1 : str, optional
         Named selections. intersection of all  named
@@ -40,6 +41,16 @@ class workflow_energy_per_component(Operator):
         selections with the master scoping
         will be done.
 
+    Returns
+    -------
+    component_energy : FieldsContainer
+    component_energy_percentage : FieldsContainer
+    component_total_energy : FieldsContainer, optional
+    component_total_energy_percentage : FieldsContainer, optional
+    component_strain_energy : FieldsContainer, optional
+    component_strain_energy_percentage : FieldsContainer, optional
+    component_kinetic_energy : FieldsContainer, optional
+    component_kinetic_energy_percentage : FieldsContainer, optional
 
     Examples
     --------
@@ -75,6 +86,12 @@ class workflow_energy_per_component(Operator):
     >>> # Get output data
     >>> result_component_energy = op.outputs.component_energy()
     >>> result_component_energy_percentage = op.outputs.component_energy_percentage()
+    >>> result_component_total_energy = op.outputs.component_total_energy()
+    >>> result_component_total_energy_percentage = op.outputs.component_total_energy_percentage()
+    >>> result_component_strain_energy = op.outputs.component_strain_energy()
+    >>> result_component_strain_energy_percentage = op.outputs.component_strain_energy_percentage()
+    >>> result_component_kinetic_energy = op.outputs.component_kinetic_energy()
+    >>> result_component_kinetic_energy_percentage = op.outputs.component_kinetic_energy_percentage()
     """
 
     def __init__(
@@ -137,7 +154,8 @@ class workflow_energy_per_component(Operator):
                     optional=True,
                     document="""Type of energy to be processed: (0: strain +
         kinetic energy (default), 1: strain
-        energy, 2: kinetic energy)""",
+        energy, 2: kinetic energy, 3: all
+        energy types)""",
                 ),
                 4: PinSpecification(
                     name="data_sources",
@@ -173,6 +191,42 @@ class workflow_energy_per_component(Operator):
                     name="component_energy_percentage",
                     type_names=["fields_container"],
                     optional=False,
+                    document="""""",
+                ),
+                2: PinSpecification(
+                    name="component_total_energy",
+                    type_names=["fields_container"],
+                    optional=True,
+                    document="""""",
+                ),
+                3: PinSpecification(
+                    name="component_total_energy_percentage",
+                    type_names=["fields_container"],
+                    optional=True,
+                    document="""""",
+                ),
+                4: PinSpecification(
+                    name="component_strain_energy",
+                    type_names=["fields_container"],
+                    optional=True,
+                    document="""""",
+                ),
+                5: PinSpecification(
+                    name="component_strain_energy_percentage",
+                    type_names=["fields_container"],
+                    optional=True,
+                    document="""""",
+                ),
+                6: PinSpecification(
+                    name="component_kinetic_energy",
+                    type_names=["fields_container"],
+                    optional=True,
+                    document="""""",
+                ),
+                7: PinSpecification(
+                    name="component_kinetic_energy_percentage",
+                    type_names=["fields_container"],
+                    optional=True,
                     document="""""",
                 ),
             },
@@ -316,7 +370,8 @@ class InputsWorkflowEnergyPerComponent(_Inputs):
 
         Type of energy to be processed: (0: strain +
         kinetic energy (default), 1: strain
-        energy, 2: kinetic energy)
+        energy, 2: kinetic energy, 3: all
+        energy types)
 
         Parameters
         ----------
@@ -406,6 +461,12 @@ class OutputsWorkflowEnergyPerComponent(_Outputs):
     >>> # Connect inputs : op.inputs. ...
     >>> result_component_energy = op.outputs.component_energy()
     >>> result_component_energy_percentage = op.outputs.component_energy_percentage()
+    >>> result_component_total_energy = op.outputs.component_total_energy()
+    >>> result_component_total_energy_percentage = op.outputs.component_total_energy_percentage()
+    >>> result_component_strain_energy = op.outputs.component_strain_energy()
+    >>> result_component_strain_energy_percentage = op.outputs.component_strain_energy_percentage()
+    >>> result_component_kinetic_energy = op.outputs.component_kinetic_energy()
+    >>> result_component_kinetic_energy_percentage = op.outputs.component_kinetic_energy_percentage()
     """
 
     def __init__(self, op: Operator):
@@ -418,6 +479,30 @@ class OutputsWorkflowEnergyPerComponent(_Outputs):
             workflow_energy_per_component._spec().output_pin(1), 1, op
         )
         self._outputs.append(self._component_energy_percentage)
+        self._component_total_energy = Output(
+            workflow_energy_per_component._spec().output_pin(2), 2, op
+        )
+        self._outputs.append(self._component_total_energy)
+        self._component_total_energy_percentage = Output(
+            workflow_energy_per_component._spec().output_pin(3), 3, op
+        )
+        self._outputs.append(self._component_total_energy_percentage)
+        self._component_strain_energy = Output(
+            workflow_energy_per_component._spec().output_pin(4), 4, op
+        )
+        self._outputs.append(self._component_strain_energy)
+        self._component_strain_energy_percentage = Output(
+            workflow_energy_per_component._spec().output_pin(5), 5, op
+        )
+        self._outputs.append(self._component_strain_energy_percentage)
+        self._component_kinetic_energy = Output(
+            workflow_energy_per_component._spec().output_pin(6), 6, op
+        )
+        self._outputs.append(self._component_kinetic_energy)
+        self._component_kinetic_energy_percentage = Output(
+            workflow_energy_per_component._spec().output_pin(7), 7, op
+        )
+        self._outputs.append(self._component_kinetic_energy_percentage)
 
     @property
     def component_energy(self):
@@ -452,3 +537,105 @@ class OutputsWorkflowEnergyPerComponent(_Outputs):
         >>> result_component_energy_percentage = op.outputs.component_energy_percentage()
         """  # noqa: E501
         return self._component_energy_percentage
+
+    @property
+    def component_total_energy(self):
+        """Allows to get component_total_energy output of the operator
+
+        Returns
+        ----------
+        my_component_total_energy : FieldsContainer
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.workflow_energy_per_component()
+        >>> # Connect inputs : op.inputs. ...
+        >>> result_component_total_energy = op.outputs.component_total_energy()
+        """  # noqa: E501
+        return self._component_total_energy
+
+    @property
+    def component_total_energy_percentage(self):
+        """Allows to get component_total_energy_percentage output of the operator
+
+        Returns
+        ----------
+        my_component_total_energy_percentage : FieldsContainer
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.workflow_energy_per_component()
+        >>> # Connect inputs : op.inputs. ...
+        >>> result_component_total_energy_percentage = op.outputs.component_total_energy_percentage()
+        """  # noqa: E501
+        return self._component_total_energy_percentage
+
+    @property
+    def component_strain_energy(self):
+        """Allows to get component_strain_energy output of the operator
+
+        Returns
+        ----------
+        my_component_strain_energy : FieldsContainer
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.workflow_energy_per_component()
+        >>> # Connect inputs : op.inputs. ...
+        >>> result_component_strain_energy = op.outputs.component_strain_energy()
+        """  # noqa: E501
+        return self._component_strain_energy
+
+    @property
+    def component_strain_energy_percentage(self):
+        """Allows to get component_strain_energy_percentage output of the operator
+
+        Returns
+        ----------
+        my_component_strain_energy_percentage : FieldsContainer
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.workflow_energy_per_component()
+        >>> # Connect inputs : op.inputs. ...
+        >>> result_component_strain_energy_percentage = op.outputs.component_strain_energy_percentage()
+        """  # noqa: E501
+        return self._component_strain_energy_percentage
+
+    @property
+    def component_kinetic_energy(self):
+        """Allows to get component_kinetic_energy output of the operator
+
+        Returns
+        ----------
+        my_component_kinetic_energy : FieldsContainer
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.workflow_energy_per_component()
+        >>> # Connect inputs : op.inputs. ...
+        >>> result_component_kinetic_energy = op.outputs.component_kinetic_energy()
+        """  # noqa: E501
+        return self._component_kinetic_energy
+
+    @property
+    def component_kinetic_energy_percentage(self):
+        """Allows to get component_kinetic_energy_percentage output of the operator
+
+        Returns
+        ----------
+        my_component_kinetic_energy_percentage : FieldsContainer
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.workflow_energy_per_component()
+        >>> # Connect inputs : op.inputs. ...
+        >>> result_component_kinetic_energy_percentage = op.outputs.component_kinetic_energy_percentage()
+        """  # noqa: E501
+        return self._component_kinetic_energy_percentage

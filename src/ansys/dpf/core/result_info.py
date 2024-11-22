@@ -1,7 +1,30 @@
+# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """
 ResultInfo
 ==========
 """
+
 import traceback
 import warnings
 
@@ -102,7 +125,13 @@ class ResultInfo:
 
     """
 
-    def __init__(self, result_info=None, server=None, analysis_type: analysis_types = None, physics_type: physics_types = None):
+    def __init__(
+        self,
+        result_info=None,
+        server=None,
+        analysis_type: analysis_types = None,
+        physics_type: physics_types = None,
+    ):
         """Initialize with a ResultInfo message"""
         # ############################
         # step 1: get server
@@ -129,8 +158,12 @@ class ResultInfo:
             if not self._server.has_client():
                 if not (analysis_type or physics_type):
                     self._internal_obj = None
-                    raise ValueError("Creating a new ResultInfo requires an analysis_type and a physics_type.")
-                self._internal_obj = self._api.result_info_new(analysis_type=analysis_type.value, physics_type=physics_type.value)
+                    raise ValueError(
+                        "Creating a new ResultInfo requires an analysis_type and a physics_type."
+                    )
+                self._internal_obj = self._api.result_info_new(
+                    analysis_type=analysis_type.value, physics_type=physics_type.value
+                )
             else:
                 raise NotImplementedError("Cannot create a new ResultInfo via gRPC.")
 
@@ -182,14 +215,14 @@ class ResultInfo:
         return value in self._names
 
     def add_result(
-            self,
-            operator_name: str,
-            scripting_name: str,
-            homogeneity: Homogeneity,
-            location: locations,
-            nature: natures,
-            dimensions: Union[List[int], None] = None,
-            description: str = "",
+        self,
+        operator_name: str,
+        scripting_name: str,
+        homogeneity: Homogeneity,
+        location: locations,
+        nature: natures,
+        dimensions: Union[List[int], None] = None,
+        description: str = "",
     ):
         """Add an available result to the ResultInfo.
 
@@ -227,8 +260,15 @@ class ResultInfo:
                 raise ValueError(f"Argument 'dimensions' is required for a {nature.name} result.")
         size_dim = len(dimensions)
         self._api.result_info_add_result(
-            self, operator_name, scripting_name, dimensions,
-            size_dim, nature.value, location, homogeneity.name, description
+            self,
+            operator_name,
+            scripting_name,
+            dimensions,
+            size_dim,
+            nature.value,
+            location,
+            homogeneity.name,
+            description,
         )
 
     @property

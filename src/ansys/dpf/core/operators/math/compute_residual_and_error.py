@@ -57,6 +57,20 @@ class compute_residual_and_error(Operator):
         Field or fields container of same
         dimensionality as entry 1 - optional
 
+    Returns
+    -------
+    residuals : Field or FieldsContainer
+        0: normalized residuals (aka field 1 - field
+        2) as a field or field container,
+        normalized depending on the
+        normalization type
+    error : Field or FieldsContainer
+        1: error as a field or a field container
+        depending on the entry's type.
+    residuals_normalization_factor : Field or FieldsContainer
+        2: factor used for residual normalization
+    error_normalization_factor : Field or FieldsContainer
+        3: factor used for error norm normalization
 
     Examples
     --------

@@ -18,7 +18,13 @@ class norm_fc(Operator):
     Parameters
     ----------
     fields_container : FieldsContainer
+    scalar_int : int, optional
+        Lp normalisation type, p = 1, 2, ...n -
+        default lp=2
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------
@@ -30,22 +36,29 @@ class norm_fc(Operator):
     >>> # Make input connections
     >>> my_fields_container = dpf.FieldsContainer()
     >>> op.inputs.fields_container.connect(my_fields_container)
+    >>> my_scalar_int = int()
+    >>> op.inputs.scalar_int.connect(my_scalar_int)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.math.norm_fc(
     ...     fields_container=my_fields_container,
+    ...     scalar_int=my_scalar_int,
     ... )
 
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    def __init__(self, fields_container=None, config=None, server=None):
+    def __init__(
+        self, fields_container=None, scalar_int=None, config=None, server=None
+    ):
         super().__init__(name="norm_fc", config=config, server=server)
         self._inputs = InputsNormFc(self)
         self._outputs = OutputsNormFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
+        if scalar_int is not None:
+            self.inputs.scalar_int.connect(scalar_int)
 
     @staticmethod
     def _spec():
@@ -60,6 +73,13 @@ class norm_fc(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                ),
+                1: PinSpecification(
+                    name="scalar_int",
+                    type_names=["int32"],
+                    optional=True,
+                    document="""Lp normalisation type, p = 1, 2, ...n -
+        default lp=2""",
                 ),
             },
             map_output_pin_spec={
@@ -120,12 +140,16 @@ class InputsNormFc(_Inputs):
     >>> op = dpf.operators.math.norm_fc()
     >>> my_fields_container = dpf.FieldsContainer()
     >>> op.inputs.fields_container.connect(my_fields_container)
+    >>> my_scalar_int = int()
+    >>> op.inputs.scalar_int.connect(my_scalar_int)
     """
 
     def __init__(self, op: Operator):
         super().__init__(norm_fc._spec().inputs, op)
         self._fields_container = Input(norm_fc._spec().input_pin(0), 0, op, -1)
         self._inputs.append(self._fields_container)
+        self._scalar_int = Input(norm_fc._spec().input_pin(1), 1, op, -1)
+        self._inputs.append(self._scalar_int)
 
     @property
     def fields_container(self):
@@ -144,6 +168,27 @@ class InputsNormFc(_Inputs):
         >>> op.inputs.fields_container(my_fields_container)
         """
         return self._fields_container
+
+    @property
+    def scalar_int(self):
+        """Allows to connect scalar_int input to the operator.
+
+        Lp normalisation type, p = 1, 2, ...n -
+        default lp=2
+
+        Parameters
+        ----------
+        my_scalar_int : int
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.math.norm_fc()
+        >>> op.inputs.scalar_int.connect(my_scalar_int)
+        >>> # or
+        >>> op.inputs.scalar_int(my_scalar_int)
+        """
+        return self._scalar_int
 
 
 class OutputsNormFc(_Outputs):

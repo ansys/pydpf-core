@@ -11,11 +11,11 @@ on:
       ansys_version:
         description: "Ansys version of the standalone."
         required: false
-        default: '242'
+        default: '251'
       standalone_branch_suffix:
         description: 'Suffix of the branch on standalone'
         required: false
-        default: '.pre1'
+        default: '.pre0'
 
 #┌───────────── minute (0 - 59)
 #│ ┌───────────── hour (0 - 23)
@@ -29,7 +29,6 @@ on:
 
 env:
   DOCUMENTATION_CNAME: 'dpf.docs.pyansys.com'
-  MAIN_PYTHON_VERSION: '3.9'
 
 jobs:
   debug:
@@ -44,18 +43,9 @@ jobs:
     name: "Style Check"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
-      - name: "Setup Python"
-        uses: actions/setup-python@v4.6.0
+      - uses: ansys/actions/code-style@v8
         with:
-          python-version: ${{ env.MAIN_PYTHON_VERSION }}
-
-      - name: "Install pre-commit"
-        run: pip install pre-commit
-
-      - name: "Run pre-commit"
-        run: pre-commit run --all-files --show-diff-on-failure
+          use-python-cache: false
 
   build_linux1:
     name: "Build linux1 wheel"
@@ -78,46 +68,67 @@ jobs:
           cd ..
 
       - name: "Upload wheel any as artifact"
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ steps.wheel.outputs.wheel_name }}
           path: dist/${{ steps.wheel.outputs.wheel_name }}
 
+  tests_3_9:
+    uses: ./.github/workflows/tests.yml
+    with:
+      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '251' }}
+      python_versions: '["3.9"]'
+      wheel: true
+      wheelhouse: true
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
+    secrets: inherit
+
   tests:
     uses: ./.github/workflows/tests.yml
     with:
-      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '242' }}
-      python_versions: '["3.9", "3.10", "3.11"]'
-      wheel: true
+      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '251' }}
+      python_versions: '["3.10", "3.11"]'
+      wheel: false
       wheelhouse: true
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre1' }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
+    secrets: inherit
+
+  tests_any_3_9:
+    uses: ./.github/workflows/tests.yml
+    with:
+      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '251' }}
+      python_versions: '["3.9"]'
+      wheel: true
+      wheelhouse: false
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
+      test_any: true
     secrets: inherit
 
   tests_any:
     uses: ./.github/workflows/tests.yml
     with:
-      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '242' }}
-      python_versions: '["3.9", "3.10", "3.11"]'
-      wheel: true
+      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '251' }}
+      python_versions: '["3.10", "3.11"]'
+      wheel: false
       wheelhouse: false
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre1' }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
       test_any: true
     secrets: inherit
 
   docs:
     uses: ./.github/workflows/docs.yml
     with:
-      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '242' }}
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre1' }}
+      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '251' }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
       event_name: ${{ github.event_name }}
     secrets: inherit
 
   examples:
     uses: ./.github/workflows/examples.yml
     with:
-      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '242' }}
+      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '251' }}
       python_versions: '["3.9", "3.10", "3.11"]'
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre1' }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
     secrets: inherit
 
   retro_241:
@@ -157,13 +168,20 @@ jobs:
       DOCSTRING: false
     secrets: inherit
 
+  pydpf-post_251:
+    name: "PyDPF-Post with 251"
+    uses: ./.github/workflows/pydpf-post.yml
+    with:
+      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '251' }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
+      test_docstrings: "true"
+    secrets: inherit
+
   pydpf-post_242:
     name: "PyDPF-Post with 242"
     uses: ./.github/workflows/pydpf-post.yml
     with:
-      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '242' }}
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre1' }}
-      test_docstrings: "true"
+      ANSYS_VERSION: "242"
     secrets: inherit
 
   pydpf-post_241:
@@ -198,27 +216,27 @@ jobs:
     name: "Build and Test on Docker"
     uses: ./.github/workflows/test_docker.yml
     with:
-      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '242' }}
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre1' }}
+      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '251' }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
     secrets: inherit
 
   docker_examples:
     name: "Run examples on Docker"
     uses: ./.github/workflows/examples_docker.yml
     with:
-      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '242' }}
+      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '251' }}
       python_versions: '["3.9", "3.10", "3.11"]'
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre1' }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
     secrets: inherit
 
   draft_release:
     name: "Draft Release"
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
-    needs: [style, tests, docs, examples, retro_232, retro_231, retro_222, docker_tests]
+    needs: [style, tests, tests_3_9, tests_any, tests_any_3_9, docs, examples, retro_232, retro_231, retro_222, docker_tests]
     runs-on: ubuntu-latest
     steps:
       - name: "Download artifacts"
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
 
       - name: "Display downloaded files"
         run: ls -R

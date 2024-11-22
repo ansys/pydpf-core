@@ -1,9 +1,32 @@
+# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 # -*- coding: utf-8 -*-
 """
 StreamsContainer
 ================
 Contains classes associated with the DPF StreamsContainer.
 """
+
 import warnings
 import traceback
 
@@ -14,7 +37,7 @@ from ansys.dpf.gate import (
     data_processing_capi,
     data_processing_grpcapi,
 )
-from ansys.dpf.core import errors
+from ansys.dpf.core import errors, data_sources
 
 
 class StreamsContainer:
@@ -79,6 +102,10 @@ class StreamsContainer:
             raise NotImplementedError("StreamsContainer unavailable for LegacyGrpc servers")
         # step3: init environment
         self._api.init_streams_environment(self)  # creates stub when gRPC
+
+    @property
+    def datasources(self):
+        return data_sources.DataSources(data_sources=self._api.streams_get_data_sources(self))
 
     def release_handles(self):
         """Release the streams."""

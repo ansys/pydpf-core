@@ -20,6 +20,9 @@ class data_tree_to_json(Operator):
     data_tree : DataTree
     path : str, optional
 
+    Returns
+    -------
+    data_sources : DataSources or str
 
     Examples
     --------

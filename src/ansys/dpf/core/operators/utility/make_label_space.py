@@ -25,6 +25,9 @@ class make_label_space(Operator):
     label_value1 : int
     label_value2 : int
 
+    Returns
+    -------
+    label : dict
 
     Examples
     --------

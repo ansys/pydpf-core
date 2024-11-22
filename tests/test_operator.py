@@ -1,3 +1,25 @@
+# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 import gc
 import os
 import shutil
@@ -19,6 +41,7 @@ from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_2,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0,
 )
 
@@ -325,8 +348,8 @@ def test_inputs_outputs_1_operator(cyclic_lin_rst, cyclic_ds, tmpdir):
     coord = meshed_region.nodes.coordinates_field
     assert coord.shape == (meshed_region.nodes.n_nodes, 3)
     assert (
-            meshed_region.elements.connectivities_field.data.size
-            == meshed_region.elements.connectivities_field.size
+        meshed_region.elements.connectivities_field.data.size
+        == meshed_region.elements.connectivities_field.size
     )
 
 
@@ -784,12 +807,10 @@ def test_connect_get_output_int_list_operator(server_type):
     assert np.allclose(d, d_out)
 
 
-@conftest.raises_for_servers_version_under("3.0")
-def test_connect_get_output_double_list_operator(server_type):
-    d = list(np.ones(100000))
-    op = dpf.core.operators.utility.forward(d, server=server_type)
-    d_out = op.get_output(0, dpf.core.types.vec_double)
-    assert np.allclose(d, d_out)
+@conftest.raises_for_servers_version_under("5.0")
+def test_connect_get_output_string_list_operator(server_clayer):
+    d = ["hello", "bye"]
+    dpf.core.operators.utility.forward(d, server=server_clayer)
 
 
 def test_connect_result(plate_msup, server_type):
@@ -1256,8 +1277,8 @@ def test_operator_config_specification_simple(server_type):
     conf_spec = spec.config_specification
     if server_type.os != "posix":
         assert (
-                "enum dataProcessing::EBinaryOperation"
-                or "binary_operation_enum" in conf_spec["binary_operation"].type_names
+            "enum dataProcessing::EBinaryOperation"
+            or "binary_operation_enum" in conf_spec["binary_operation"].type_names
         )
     elif SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_2:
         assert "binary_operation_enum" in conf_spec["binary_operation"].type_names
@@ -1274,8 +1295,8 @@ def test_generated_operator_config_specification_simple(server_type):
     conf_spec = spec.config_specification
     if server_type.os != "posix":
         assert (
-                "enum dataProcessing::EBinaryOperation"
-                or "binary_operation_enum" in conf_spec["binary_operation"].type_names
+            "enum dataProcessing::EBinaryOperation"
+            or "binary_operation_enum" in conf_spec["binary_operation"].type_names
         )
     elif SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_2:
         assert "binary_operation_enum" in conf_spec["binary_operation"].type_names
@@ -1319,6 +1340,7 @@ def test_delete_auto_operator(server_type):
 
 def deep_copy_using_operator(dpf_entity, server, stream_type=1):
     from ansys.dpf.core.operators.serialization import serializer_to_string, string_deserializer
+
     serializer = serializer_to_string(server=server)
     serializer.connect(-1, stream_type)
     serializer.connect(1, dpf_entity)
@@ -1348,8 +1370,61 @@ def test_connect_get_non_ascii_string(server_type):
     assert str == str_out
 
 
-@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0, reason="Available for servers >=8.0")
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0, reason="Available for servers >=8.0"
+)
 def test_deep_copy_non_ascii_string(server_type):
     str = "\N{GREEK CAPITAL LETTER DELTA}"
     str_out = dpf.core.core._deep_copy(str, server_type)
     assert str == str_out
+
+
+def test_output_any(server_type):
+    inpt = dpf.core.Field(nentities=3, server=server_type)
+    data = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    scop = dpf.core.Scoping(server=server_type)
+    scop.ids = [1, 2, 3]
+    inpt.data = data
+    inpt.scoping = scop
+
+    op = dpf.core.Operator("forward", server=server_type)
+    op.connect(0, inpt)
+
+    output_field = op.get_output(0, dpf.core.types.any).cast(dpf.core.Field)
+    assert isinstance(output_field, dpf.core.Field)
+    assert output_field.data.size == 9
+    assert output_field.scoping.size == 3
+
+
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
+    reason="Input of Any requires DPF 7.0 or above.",
+)
+def test_input_any(server_type):
+    field = dpf.core.Field(nentities=3, server=server_type)
+    data = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    scop = dpf.core.Scoping(server=server_type)
+    scop.ids = [1, 2, 3]
+    field.data = data
+    field.scoping = scop
+    inpt = dpf.core.Any.new_from(field)
+    op = dpf.core.Operator(name="forward", server=server_type)
+    op.connect(pin=0, inpt=inpt)
+    output = op.get_output(pin=0, output_type=dpf.core.types.field)
+    assert isinstance(output, dpf.core.Field)
+    assert len(output.data_as_list) == len(data)
+
+
+@pytest.mark.skipif(
+    condition=not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
+    reason="Input/output of Streams requires DPF 6.0 or above.",
+)
+def test_operator_input_output_streams(server_in_process, simple_bar):
+    data_source = dpf.core.DataSources(simple_bar, server=server_in_process)
+    streams_op = dpf.core.operators.metadata.streams_provider(server=server_in_process)
+    streams_op.inputs.data_sources.connect(data_source)
+    streams = streams_op.outputs.streams_container()
+    time_provider = dpf.core.operators.metadata.time_freq_provider(server=server_in_process)
+    time_provider.connect(pin=3, inpt=streams)
+    times = time_provider.outputs.time_freq_support()
+    assert times

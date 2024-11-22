@@ -20,6 +20,9 @@ class points_from_coordinates(Operator):
     nodes_to_keep : Scoping or ScopingsContainer
     mesh : MeshedRegion or MeshesContainer
 
+    Returns
+    -------
+    abstract_meshed_region : MeshedRegion
 
     Examples
     --------

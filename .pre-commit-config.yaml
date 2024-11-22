@@ -1,41 +1,45 @@
-exclude: |
-    (?x)^(
-        doc/source/|
-        src/ansys/dpf/core/operators/|
-        examples_notebooks/|
-        src/ansys/dpf/core/__init__.py|
-        doc/styles/|
-        src/ansys/dpf/gate/|
-        src/ansys/dpf/gatebin/|
-        src/ansys/grpc/dpf/|
-    )
+exclude: >
+  (?x)^(
+    doc/source/
+    |src/ansys/dpf/core/operators/
+    |examples_notebooks/
+    |src/ansys/dpf/core/__init__.py
+    |doc/styles/
+    |src/ansys/dpf/gate/
+    |src/ansys/dpf/gatebin/
+    |src/ansys/grpc/dpf/
+  )
 repos:
 
-- repo: https://github.com/psf/black
-  rev: 22.10.0
-  hooks:
-  - id: black
+-   repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: v0.7.3
+    hooks:
+    -   id: ruff
+        args: [--fix]
+    -   id: ruff-format
 
-- repo: https://github.com/PyCQA/flake8
-  rev: 6.0.0
-  hooks:
-  - id: flake8
+-   repo: https://github.com/codespell-project/codespell
+    rev: v2.3.0
+    hooks:
+    -   id: codespell
+        args: ["--ignore-words=./doc/styles/config/vocabularies/ANSYS/accept.txt"]
 
-- repo: https://github.com/codespell-project/codespell
-  rev: v2.2.2
-  hooks:
-  - id: codespell
-    args: ["--ignore-words=ignore_words.txt"]
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+    -   id: check-merge-conflict
+    -   id: debug-statements
+    -   id: requirements-txt-fixer
 
-- repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v4.4.0
-  hooks:
-  - id: check-merge-conflict
-  - id: debug-statements
-  - id: requirements-txt-fixer
+-   repo: https://github.com/ansys/pre-commit-hooks
+    rev: v0.4.4
+    hooks:
+    -   id: add-license-headers
+        args:
+        -   --start_year=2020
 
 # this validates our github workflow files
-- repo: https://github.com/python-jsonschema/check-jsonschema
-  rev: 0.19.2
-  hooks:
-    - id: check-github-workflows
+-   repo: https://github.com/python-jsonschema/check-jsonschema
+    rev: 0.29.4
+    hooks:
+    -   id: check-github-workflows

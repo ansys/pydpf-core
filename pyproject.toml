@@ -5,7 +5,7 @@ requires = ["setuptools>=61.0.0", "wheel"]
 [project]
 # Check https://setuptools.pypa.io/en/stable/userguide/quickstart.html for all available sections
 name = "ansys-dpf-core"
-version = "0.12.1.dev0"
+version = "0.13.3.dev0"
 description = "Data Processing Framework - Python Core "
 readme = "README.md"
 requires-python = ">=3.9, <4"
@@ -28,7 +28,7 @@ classifiers = [
 ]
 dependencies = [
     "google-api-python-client",
-    "grpcio",
+    "grpcio >=1.63.0",
     "importlib-metadata >=4.0",
     "numpy",
     "packaging",
@@ -55,8 +55,42 @@ Documentation = "https://dpf.docs.pyansys.com/"
 Source = "https://github.com/ansys/pydpf-core"
 Tracker = "https://github.com/ansys/pydpf-core/issues"
 
-[tool.black]
+[tool.ruff]
 line-length = 100
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.ruff.lint]
+select = [
+#   "E",    # pycodestyle, see https://beta.ruff.rs/docs/rules/#pycodestyle-e-w
+#   "D",    # pydocstyle, see https://beta.ruff.rs/docs/rules/#pydocstyle-d
+#   "F",    # pyflakes, see https://beta.ruff.rs/docs/rules/#pyflakes-f
+#   "I",    # isort, see https://beta.ruff.rs/docs/rules/#isort-i
+#   "N",    # pep8-naming, see https://beta.ruff.rs/docs/rules/#pep8-naming-n
+#   "PTH",  # flake9-use-pathlib, https://beta.ruff.rs/docs/rules/#flake8-use-pathlib-pth
+#   "TD",   # flake8-todos, https://docs.astral.sh/ruff/rules/#flake8-todos-td
+]
+ignore = [
+    # pycodestyle
+    "E501",  # Line too long. Ignoring this so "ruff.formatter" manages line length.
+    # flake8-todos
+    "TD002", # Missing author in TODOs comment
+]
+
+[tool.ruff.lint.per-file-ignores]
+# Ignore `D` rules everywhere except for the `src/` directory.
+"!src/**.py" = ["D"]
+
+[tool.ruff.lint.pydocstyle]
+# Settings: https://docs.astral.sh/ruff/settings/#lintpydocstyle
+convention = "numpy"
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+force-sort-within-sections = true
+known-first-party = ["ansys"]
 
 [tool.coverage.run]
 source = ["ansys.dpf.core"]
