@@ -265,9 +265,11 @@ class Operator:
             self._api.operator_connect_operator_output(self, pin, inpt._operator, inpt._pin)
         elif isinstance(inpt, list):
             from ansys.dpf.core import collection
+            
             # If a list of strings, convert to StringField?
             if all(isinstance(s, str) for s in inpt):
                 from ansys.dpf.core import StringField
+                
                 string_field = StringField(nentities=len(inpt), server=self._server)
                 for i, s in enumerate(inpt):
                     string_field.append([s], i)
