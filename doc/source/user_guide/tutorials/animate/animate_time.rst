@@ -4,7 +4,7 @@
 Animate data over time
 ======================
 
-
+.. |Animator| replace:: :class:`Animator<ansys.dpf.core.animator.Animator>`
 .. |Field| replace:: :class:`Field<ansys.dpf.core.field.Field>`
 .. |FieldsContainer| replace:: :class:`FieldsContainer<ansys.dpf.core.fields_container.FieldsContainer>`
 .. |MeshedRegion| replace:: :class:`MeshedRegion <ansys.dpf.core.meshed_region.MeshedRegion>`
@@ -12,292 +12,336 @@ Animate data over time
 .. |animate| replace:: :func:`FieldsContainer.animate() <ansys.dpf.core.fields_container.FieldsContainer.animate>`
 .. |Result| replace:: :class:`Result <ansys.dpf.core.results.Result>`
 .. |Operator| replace:: :class:`Operator<ansys.dpf.core.dpf_operator.Operator>`
+.. |Workflow| replace:: :class:`Workflow<ansys.dpf.core.workflow.Workflow>`
+.. |Elemental| replace:: :class:`elemental<ansys.dpf.core.common.locations>`
+.. |ElementalNodal| replace:: :class:`elemental_nodal<ansys.dpf.core.common.locations>`
+.. |Nodal| replace:: :class:`nodal<ansys.dpf.core.common.locations>`
+.. |Faces| replace:: :class:`faces<ansys.dpf.core.common.locations>`
+.. |Overall| replace:: :class:`overall<ansys.dpf.core.common.locations>`
+.. |open_movie| replace:: :class:`pyvista.Plotter.open_movie`
 
-This tutorial shows how to create 3D animations of the data.
+This tutorial shows how to create 3D animations of data in time.
+
+:jupyter-download-script:`Download tutorial as Python script<animate_time>`
+
+:jupyter-download-notebook:`Download tutorial as notebook<animate_time>`
 
 To animate data across time you need to get the data stored in a |FieldsContainer| labeled in time.
+
 
 Get the result files
 --------------------
 
-First download a result file such as one available with the `ansys.dpf.core.examples` module.
-For more information about how to import your result file in DPF check
+First download a result file such as one available with the :ref:`ansys.dpf.core.examples.examples` module.
+For more information about how to import your own result file in DPF check
 the :ref:`ref_tutorials_import_data` tutorial section.
 
-.. code-block:: python
+.. jupyter-execute::
 
-    # Import the ``ansys.dpf.core`` module, including examples files and the operators subpackage
+    # Import the ``ansys.dpf.core`` module
     from ansys.dpf import core as dpf
+    # Import the examples module
     from ansys.dpf.core import examples
+    # Import the operators module
     from ansys.dpf.core import operators as ops
     # Define the result file
-    result_file_path_1 = examples.find_msup_transient()
+    result_file_path = examples.find_msup_transient()
     # Create the model
-    my_model_1 = dpf.Model(data_sources=result_file_path_1)
-    # Get the mesh
-    my_meshed_region_1 = my_model_1.metadata.meshed_region
+    model = dpf.Model(data_sources=result_file_path)
 
-Define time scoping
--------------------
+Define a time scoping
+---------------------
 
-Here we get all the the time steps of the |TimeFreqSupport|. For more information on how to define a
-scoping check the ``Narrow down data`` tutorial in the :ref:`ref_tutorials_import_data` tutorials section.
+To animate across time we first need to define the time steps of interest.
+Here we get all the time steps available in the |TimeFreqSupport|, but you can also filter them.
+For more information on how to define a scoping check the ``Narrow down data`` tutorial in the
+:ref:`ref_tutorials_import_data` tutorials section.
 
+.. jupyter-execute::
 
-.. code-block:: python
-
-    # Get all the time steps
-    time_scoping_1 = my_model_1.metadata.time_freq_support.time_frequencies
+    # Get a scoping of all time steps available
+    time_scoping = model.metadata.time_freq_support.time_frequencies
 
 Extract the results
 -------------------
 
-The default behavior of the |animate| consists in:
-
-- Using a constant and uniform scale factor of 1.0;
-- Showing the deformed geometry if the method was used directly with the displacement fields;
-- Showing the static geometry if the method was used with other results fields.
+Extract the results to animate. Here we get the displacement and stress results.
 
 .. note::
 
-    This geometry behavior is due to the fact that when you animate the data you go through each |Field|
-    of a |FieldsContainer| and plot contours of the data norm or of the selected data component. This means
-    that the geometry needs to be deformed based on each |Field| themselves. Thus, we need a result with a
-    homogeneous unit dimension (a distance unit). Therefore, to deform the mesh we need the displacement result.
-    For more information see: :ref:`ref_plotting_data_on_deformed_mesh`.
+    Only locations |Elemental|, |Nodal| or |Faces| are supported for animations.
+    |Overall| and |ElementalNodal| locations are not currently supported.
 
-Nevertheless you can customize the default behavior and animate the other results fields in a deformed geometry.
 
-The geometry can be deformed by a |Result| object, an |Operator| (It must evaluate to a |FieldsContainer|
-of same length as the one being animated) or a |FieldsContainer| (also of same length as the one being animated).
+.. jupyter-execute::
 
-Extract the results of interest. Here we get the displacement and stress results.
+    # Get the displacement fields (already on nodes) at all time steps
+    disp_fc = model.results.displacement(time_scoping=time_scoping).eval()
+    print(disp_fc)
 
-.. note::
+.. jupyter-execute::
 
-    Only elemental, nodal or faces location are supported for the animation.
-
-.. code-block:: python
-
-    # Get the displacement results
-    my_disp_1 = my_model_1.results.displacement(time_scoping=time_scoping_1).eval()
-
-    # Get the stress results
-    # Here we average the results to get a Nodal location
-    my_stress_elemental_nodal = my_model_1.results.stress(time_scoping=time_scoping_1).eval()
-    my_stress_1 = ops.averaging.elemental_nodal_to_nodal_fc(fields_container=my_stress_elemental_nodal).eval()
+    # Get the stress fields on nodes at all time steps
+    stress_fc = model.results.stress.on_location(
+        location=dpf.locations.nodal).on_time_scoping(
+        time_scoping=time_scoping).eval()
+    print(stress_fc)
 
 Animate the results
 -------------------
 
-Animate the results with: |animate|. You can animate them in a deformed geometry
-(animate the results color map and the mesh deformations) or in a static geometry (animate the results color map).
+Animate the results with the |animate| method.
+You can animate them on a deformed mesh (animate the color map and the mesh)
+or on a static mesh (animate the color map only).
+
+The default behavior of the |animate| method consists in:
+
+- Showing the norm of the data if multiple components are available;
+- Showing data at the top layer for shells;
+- Showing the deformed mesh when animating displacements;
+- Showing the static mesh for other types of results;
+- Using a constant and uniform scale factor of 1.0 when deforming the mesh.
+
+You can animate any result on a deformed geometry by also providing displacements in the `deform_by` parameter.
+
+The geometry can be deformed by a |Result| object, an |Operator| (It must evaluate to a |FieldsContainer|
+of same length as the one being animated) or a |FieldsContainer| (also of same length as the one being animated).
+
+.. note::
+
+    The behavior of the |animate| method is defined by a |Workflow| it creates and feeds to an |Animator|.
+    This |Workflow| loops over a |Field| of frame indices and for each frame generates a field of contours
+    to render as well as a displacement field to deform the mesh with if `deform_by` is provided.
+    For more information on plots on deformed meshes see: :ref:`ref_plotting_data_on_deformed_mesh`.
+
 
 Animate the displacement results
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Use the |animate| with the displacement results.
+Use |animate| with the displacement results.
 
 .. tab-set::
 
-    .. tab-item:: Deformed geometry
+    .. tab-item:: Deformed mesh
 
-        .. code-block:: python
+        .. jupyter-execute::
+           :hide-output:
 
-            # Animate the displacement results in a deformed geometry
-            my_disp_1.animate()
+           # Animate the displacement results in a deformed geometry
+           disp_fc.animate()
 
-        .. rst-class:: sphx-glr-script-out
+        .. jupyter-execute::
+           :hide-code:
+           :hide-output:
 
-         .. jupyter-execute::
-            :hide-code:
-            :hide-output:
-
-            from ansys.dpf import core as dpf
-            from ansys.dpf.core import examples
-            from ansys.dpf.core import operators as ops
-            result_file_path_1 = examples.find_msup_transient()
-            my_model_1 = dpf.Model(data_sources=result_file_path_1)
-            time_scoping_1 = my_model_1.metadata.time_freq_support.time_frequencies
-            my_disp_1 = my_model_1.results.displacement(time_scoping=time_scoping_1).eval()
-            my_stress_elemental_nodal = my_model_1.results.stress(time_scoping=time_scoping_1).eval()
-            my_stress_1 = ops.averaging.elemental_nodal_to_nodal_fc(fields_container=my_stress_elemental_nodal).eval()
-            my_disp_1.animate(off_screen=True,save_as="source/user_guide/tutorials/animate/animate_disp_1.gif")
+           disp_fc.animate(off_screen=True,save_as="source/user_guide/tutorials/animate/animate_disp_1.gif")
 
         .. image:: animate_disp_1.gif
            :scale: 50 %
            :align: center
 
-    .. tab-item:: Static geometry
+    .. tab-item:: Static mesh
 
-        .. code-block:: python
+        .. jupyter-execute::
+           :hide-output:
 
-            # Animate the displacement results in a static geometry
-            # You can deactivate the geometry deformation of the displacement results by using the argument ``deform_by=False``
-            my_disp_1.animate(deform_by=False)
+           # Animate the displacement results on a static mesh using ``deform_by=False``
+           disp_fc.animate(deform_by=False)
 
-        .. rst-class:: sphx-glr-script-out
+        .. jupyter-execute::
+           :hide-code:
+           :hide-output:
 
-         .. jupyter-execute::
-            :hide-code:
-            :hide-output:
-
-            my_disp_1.animate(off_screen=True,save_as="source/user_guide/tutorials/animate/animate_disp_2.gif",
-                              deform_by=False)
+           disp_fc.animate(off_screen=True,save_as="source/user_guide/tutorials/animate/animate_disp_2.gif",
+                             deform_by=False)
 
         .. image:: animate_disp_2.gif
            :scale: 50 %
            :align: center
 
-Animate the others results
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+Animate the stress
+^^^^^^^^^^^^^^^^^^
 
-Use the |animate| with the stress results.
+Use |animate| with the stress results.
 
 .. tab-set::
 
-    .. tab-item:: Deformed geometry
+    .. tab-item:: Deformed mesh
 
-        .. code-block:: python
+        .. jupyter-execute::
+           :hide-output:
 
-            # Animate the stress results in a deformed geometry
+            # Animate the stress results on a deformed mesh
             # Use the ``deform_by`` argument and give the displacement results.
-            my_stress_1.animate(deform_by=my_disp_1)
+            stress_fc.animate(deform_by=disp_fc)
 
-        .. rst-class:: sphx-glr-script-out
+        .. jupyter-execute::
+           :hide-code:
+           :hide-output:
 
-         .. jupyter-execute::
-            :hide-code:
-            :hide-output:
-
-            my_stress_1.animate(off_screen=True,save_as="source/user_guide/tutorials/animate/animate_stress_1.gif",
-                                deform_by=my_disp_1)
+           stress_fc.animate(off_screen=True,save_as="source/user_guide/tutorials/animate/animate_stress_1.gif",
+                               deform_by=disp_fc)
 
         .. image:: animate_stress_1.gif
            :scale: 50 %
            :align: center
 
-    .. tab-item:: Static geometry
+    .. tab-item:: Static mesh
 
-        .. code-block:: python
+        .. jupyter-execute::
+           :hide-output:
 
             # Animate the stress results in a static geometry
-            my_stress_1.animate(my_stress_1.animate()
+            stress_fc.animate()
 
-        .. rst-class:: sphx-glr-script-out
+        .. jupyter-execute::
+           :hide-code:
+           :hide-output:
 
-         .. jupyter-execute::
-            :hide-code:
-            :hide-output:
-
-            my_stress_1.animate(off_screen=True,save_as="source/user_guide/tutorials/animate/animate_stress_2.gif")
+           stress_fc.animate(off_screen=True,save_as="source/user_guide/tutorials/animate/animate_stress_2.gif")
 
         .. image:: animate_stress_2.gif
            :scale: 50 %
            :align: center
 
-Exploring the |animate| method arguments
------------------------------------------
+Change the scale factor
+-----------------------
 
-- You can change the scale factor using:
+You can change the scale factor using:
 
-    a) A number for a uniform constant scaling
-    b) A list of numbers for a varying scaling.
+a) A single number for a uniform constant scaling.
 
-.. code-block:: python
+.. jupyter-execute::
+    :hide-output:
 
-    # Define the scale factors
+    # Define a uniform scale factor
     uniform_scale_factor=10.
-    varying_scale_factor = [i for i in range(len(my_disp_1))]
-    # Animate the displacement results
-    my_disp_1.animate(scale_factor=uniform_scale_factor,
-                      show_axes=True)
-    my_disp_1.animate(scale_factor=varying_scale_factor,
-                      show_axes=True)
+    # Animate the displacements
+    disp_fc.animate(scale_factor=uniform_scale_factor)
 
-.. rst-class:: sphx-glr-script-out
-
- .. jupyter-execute::
+.. jupyter-execute::
     :hide-code:
     :hide-output:
 
-    uniform_scale_factor=10.
-    varying_scale_factor = [i for i in range(len(my_disp_1))]
-    # Animate the displacement results
-    my_disp_1.animate(off_screen=True,save_as="source/user_guide/tutorials/animate/animate_disp_3.gif",
+    disp_fc.animate(off_screen=True,save_as="source/user_guide/tutorials/animate/animate_disp_3.gif",
                       scale_factor=uniform_scale_factor, text="Uniform scale factor")
-    my_disp_1.animate(off_screen=True,save_as="source/user_guide/tutorials/animate/animate_disp_4.gif",
-                      scale_factor=varying_scale_factor, text="Varying scale factor")
 
 .. image:: animate_disp_3.gif
    :scale: 45 %
+   :align: center
 
-.. image:: animate_disp_4.gif
-   :scale: 45 %
+b) A list of numbers for a varying scaling (same length as the number of frames).
 
+.. jupyter-execute::
+    :hide-output:
 
-- You can save the animation using the "save_as" argument with a target path with the desired format as extension.
-  (accepted extension: .gif, .avi or .mp4, see pyvista.Plotter.open_movie)
+    # Define a varying scale factor
+    varying_scale_factor = [i for i in range(len(disp_fc))]
+    # Animate the displacements
+    disp_fc.animate(scale_factor=varying_scale_factor)
 
-.. code-block:: python
-
-    # Animate the stress results and save it
-    my_stress_1.animate(deform_by=my_disp_1, save_as="animate_stress.gif")
-
-
-- You can use additional PyVista arguments (available at: :class:`pyvista.Plotter.open_movie`), such as:
-
-    a) Show the coordinate system axis with the "show_axes" argument;
-    b) Make the animation with the "off_screen" argument for batch animation creation;
-    c) Define a camera position to use with the "cpos" argument (it have to be in one of the three
-       formats explained in the following code);
-    d) Frames per second with the "framerate" argument;
-    e) Image quality with the "quality" argument.
-
-.. code-block:: python
-
-    # Camera position
-    # a) Iterable containing position, focal_point, and view up
-    my_cpo_a1 = [(2.0, 5.0, 13.0), (0.0, 0.0, 0.0), (-0.7, -0.5, 0.3)]
-    # b) Iterable containing a view vector
-    my_cpo_b1 = [-1.0, 2.0, -5.0]
-    # c) A string containing the plane orthogonal to the view direction (here the 'xy' direction)
-     import copy
-     my_camera_pos_list_1 = []
-     init_pos = [(1.1710286191854873, 1.1276044794551632, 1.62102216127818),
-                 (0.05000000000000724, 0.006575860269683119, 0.4999935420927001),
-                 (0.0, 0.0, 1.0)]
-     camera_pos_list.append(init_pos)
-     for i in range(1, len(displacement_fields)):
-         new_pos = copy.copy(camera_pos_list[i-1])
-         new_pos[0] = (camera_pos_list[i-1][0][0],
-                       camera_pos_list[i-1][0][1]-0.2,
-                       camera_pos_list[i-1][0][2])
-         camera_pos_list.append(new_pos)
-
-    # Animate the displacement results
-    my_stress_1.animate(deform_by=my_disp_1,
-                        show_axes=True,
-                        framerate=4,
-                        cpos=my_cpo_a1,
-                        quality=8,
-                        off_screen=True)
-
-.. rst-class:: sphx-glr-script-out
-
- .. jupyter-execute::
+.. jupyter-execute::
     :hide-code:
     :hide-output:
 
-    my_cpo_a1 = [(2.0, 5.0, 13.0), (0.0, 0.0, 0.0), (-0.7, -0.5, 0.3)]
-    my_stress_1.animate(save_as="source/user_guide/tutorials/animate/animate_disp_5.gif",
-                        deform_by=my_disp_1,
-                        show_axes=True,
-                        framerate=4,
-                        cpos=my_cpo_a1,
-                        quality=8,
-                        off_screen=True)
+    disp_fc.animate(off_screen=True,save_as="source/user_guide/tutorials/animate/animate_disp_4.gif",
+                      scale_factor=varying_scale_factor, text="Varying scale factor")
+
+.. image:: animate_disp_4.gif
+   :scale: 45 %
+   :align: center
+
+Save the animation
+------------------
+
+You can save the animation using the ``save_as`` argument with a target file path with the desired format as extension.
+Accepted extensions are ``.gif``, ``.avi`` or ``.mp4`` (see |open_movie|).
+
+.. jupyter-execute::
+   :hide-output:
+
+    # Animate the stress results and save it
+    stress_fc.animate(deform_by=disp_fc, save_as="animate_stress.gif")
+
+
+Control the camera
+------------------
+
+Control the camera with the ``cpos`` argument.
+
+A camera position is a combination of position, focal point (the target), and upwards vector,
+resulting in a list of format:
+
+.. code-block:: python
+
+    [[pos_x, pos_y, pos_z], [fp_x, fp_y, fp_z], [up_x, up_y, up_z]]
+
+The |animate| method accepts a single camera position or a list of camera positions for each frame.
+
+.. note::
+    A tip for defining a camera position is to do a first interactive plot of the data
+    with argument ``return_cpos=True``, position the camera as desired in the view, and retrieve
+    the output of the plotting command.
+
+Fixed camera
+^^^^^^^^^^^^
+
+.. jupyter-execute::
+   :hide-output:
+
+   # Define the camera position
+   cpos = [[1.171, 1.126, 1.621], [0.05, 0.005, 0.5], [0.0, 0.0, 1.0]]
+   # Animate the stress with a custom fixed camera position
+   stress_fc.animate(cpos=cpos)
+
+.. jupyter-execute::
+   :hide-code:
+   :hide-output:
+
+   stress_fc.animate(save_as="source/user_guide/tutorials/animate/animate_disp_5.gif",
+                       cpos=cpos,
+                       off_screen=True)
 
 .. image:: animate_disp_5.gif
    :scale: 50 %
    :align: center
+
+Moving camera
+^^^^^^^^^^^^^
+
+.. jupyter-execute::
+   :hide-output:
+
+   # Define the list of camera positions
+   import copy
+   cpos_list = [cpos]
+   # Incrementally decrease the y coordinate of the camera by 0.2 for each frame
+   for i in range(1, len(disp_fc)):
+       new_pos = copy.copy(cpos_list[i-1])
+       new_pos[0][1] += 0.2
+       cpos_list.append(new_pos)
+
+   # Animate the stress with a moving camera
+   stress_fc.animate(cpos=cpos_list)
+
+.. jupyter-execute::
+   :hide-code:
+   :hide-output:
+
+   stress_fc.animate(save_as="source/user_guide/tutorials/animate/animate_disp_6.gif",
+                       cpos=cpos_list,
+                       off_screen=True)
+
+.. image:: animate_disp_6.gif
+   :scale: 50 %
+   :align: center
+
+Additional options
+------------------
+
+You can use additional PyVista arguments of |open_movie|), such as:
+
+- Show or hide the coordinate system axis with ``show_axes=True`` or ``show_axes=False``;
+- Render off-screen for batch animation creation with ``off_screen=True``;
+- Change the frame-rate with ``framerate``;
+- Change the image quality with ``quality``.
