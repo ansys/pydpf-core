@@ -10,6 +10,7 @@ Read a mesh metadata
 .. |Model| replace:: :class:`Model <ansys.dpf.core.model.Model>`
 .. |DataSources| replace:: :class:`Model <ansys.dpf.core.data_sources.DataSources>`
 .. |MeshInfo| replace:: :class:`MeshInfo <ansys.dpf.core.mesh_info.MeshInfo>`
+.. |Examples| replace:: :mod:`Examples<ansys.dpf.core.examples>`
 
 This tutorial explains how to read a mesh metadata (data about the elements, nodes, faces, region, zone ...)
 for LSDYNA, Fluent or CFX result files.
@@ -24,7 +25,7 @@ You can obtain this object by creating a |Model| with a result file.
 Define the |Model|
 ------------------
 
-Here we we will download result files available in our `Examples` package.
+Here we we will download result files available in our |Examples| package.
 For more information about how to import your result file in DPF check
 the :ref:`ref_tutorials_import_data` tutorial section.
 

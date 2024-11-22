@@ -10,6 +10,7 @@ Extract a mesh in split parts
 .. |MeshesContainer| replace:: :class:`MeshesContainer <ansys.dpf.core.meshes_container.MeshesContainer>`
 .. |DataSources| replace:: :class:`Model <ansys.dpf.core.data_sources.DataSources>`
 .. |meshes_provider| replace:: :class:`mesh_provider <ansys.dpf.core.operators.mesh.mesh_provider.mesh_provider>`
+.. |Examples| replace:: :mod:`Examples<ansys.dpf.core.examples>`
 
 This tutorial show how to get meshes split on a given space or time for Fluent or CFX result files.
 
@@ -21,7 +22,7 @@ Define the |DataSources|
 The |meshes_provider| operator needs a |DataSources| object.
 
 In this part we will download simulation result files available
-in our ``Examples`` package.
+in our |Examples| package.
 
 .. tab-set::
 

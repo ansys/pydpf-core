@@ -16,6 +16,7 @@ This tutorial show how to split a mesh into different meshes.
 .. |DataSources| replace:: :class:`Model <ansys.dpf.core.data_sources.DataSources>`
 .. |Scoping| replace:: :class:`Scoping <ansys.dpf.core.scoping.Scoping>`
 .. |ScopingsContainer| replace:: :class:`ScopingsContainer <ansys.dpf.core.scopings_container.ScopingsContainer>`
+.. |Examples| replace:: :mod:`Examples<ansys.dpf.core.examples>`
 
 The mesh object in DPF is a |MeshedRegion|. If you want to split your mesh you can store them in a |MeshedRegion|.
 
@@ -33,7 +34,7 @@ own by scratch or by getting it from a result file. For more information check t
 :ref:`tutorials_create_a_mesh_from_scratch` and :ref:`tutorials_get_mesh_from_result_file` tutorials.
 
 In this part we will download simulation result files available
-in our ``Examples`` package.
+in our |Examples| package.
 
 .. tab-set::
 

@@ -12,6 +12,7 @@ Get a mesh from a result file
 .. |Model| replace:: :class:`Model <ansys.dpf.core.model.Model>`
 .. |DataSources| replace:: :class:`Model <ansys.dpf.core.data_sources.DataSources>`
 .. |mesh_provider| replace:: :class:`mesh_provider <ansys.dpf.core.operators.mesh.mesh_provider.mesh_provider>`
+.. |Examples| replace:: :mod:`Examples<ansys.dpf.core.examples>`
 
 The mesh object in DPF is a |MeshedRegion|. You can obtain a |MeshedRegion| by creating your
 own by scratch or by getting it from a result file.
@@ -22,7 +23,7 @@ This tutorial explains how to extract the models mesh from a result file.
 Import the result file
 ----------------------
 
-Here we we will download result files available in our `Examples` package.
+Here we we will download result files available in our |Examples| package.
 For more information about how to import your result file in DPF check
 the :ref:`ref_tutorials_import_data` tutorial section.
 

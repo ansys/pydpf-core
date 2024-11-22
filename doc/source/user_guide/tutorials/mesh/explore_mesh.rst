@@ -15,6 +15,7 @@ Explore a mesh
 .. |Faces| replace:: :class:`Faces <ansys.dpf.core.faces.Faces>`
 .. |Scoping| replace:: :class:`Scoping <ansys.dpf.core.scoping.Scoping>`
 .. |PropertyField| replace:: :class:`PropertyField <ansys.dpf.core.property_field.PropertyField>`
+.. |Examples| replace:: :mod:`Examples<ansys.dpf.core.examples>`
 
 This tutorial explains how to access the mesh data and metadata (data about the elements, nodes, faces, region, zone ...)
 so it can be manipulated.
@@ -30,7 +31,7 @@ The mesh object in DPF is a |MeshedRegion|. You can obtain a |MeshedRegion| by c
 own by scratch or by getting it from a result file. For more information check the
 :ref:`tutorials_create_a_mesh_from_scratch` and :ref:`tutorials_get_mesh_from_result_file` tutorials.
 
-Here we we will download a  result file available in our `Examples` package.
+Here we we will download a  result file available in our |Examples| package.
 For more information about how to import your result file in DPF check
 the :ref:`ref_tutorials_import_data` tutorial section.
 
