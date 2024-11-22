@@ -24,10 +24,12 @@
 MeshInfo
 ==========
 """
+
 from __future__ import annotations
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core.generic_data_container import GenericDataContainer
 from typing import TYPE_CHECKING
+
 if TYPE_CHECKING:
     from ansys.dpf.core import PropertyField
 
