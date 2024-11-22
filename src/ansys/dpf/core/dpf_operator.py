@@ -136,16 +136,12 @@ class Operator:
         # step 2: get api
         self._api_instance = None  # see _api property
 
-        # step2: if object exists, take the instance, else create it
+        # step 3: init environment
+        self._api.init_operator_environment(self)  # creates stub when gRPC
+
+        # step 4: if object exists, take the instance, else create it
         if operator is not None:
             if isinstance(operator, Operator):
-                self._server = operator._server
-                self._api = self._server.get_api_for_type(
-                    capi=operator_capi.OperatorCAPI,
-                    grpcapi=operator_grpcapi.OperatorGRPCAPI,
-                )
-                # step3: init environment
-                self._api.init_operator_environment(self)  # creates stub when gRPC
                 core_api = self._server.get_api_for_type(
                     capi=data_processing_capi.DataProcessingCAPI,
                     grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI,
@@ -157,9 +153,6 @@ class Operator:
                 self._internal_obj = operator
                 self.name = self._api.operator_name(self)
         else:
-            # step3: init environment
-            self._api.init_operator_environment(self)  # creates stub when gRPC
-
             if self._server.has_client():
                 self._internal_obj = self._api.operator_new_on_client(
                     self.name, self._server.client
