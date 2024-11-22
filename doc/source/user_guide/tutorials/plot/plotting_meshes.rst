@@ -31,7 +31,7 @@ The mesh object in DPF is a |MeshedRegion|. You can plot a |MeshedRegion| or a
 In this tutorial we will download a pontoon simulation result file available in
 our `Examples` package:
 
-.. code-block:: python
+.. jupyter-execute::
 
     # Import the ``ansys.dpf.core`` module, including examples files and operators subpackage
     from ansys.dpf import core as dpf
@@ -60,25 +60,12 @@ This first approach is pretty simple. First, have to define the model
 object using the result file. Then you just have to use the |plot|
 method, it plots the bare mesh by default.
 
-.. code-block:: python
+.. jupyter-execute::
 
     # Create the model
     my_model = dpf.Model(data_sources=pontoon_file)
     # Use the plot() method to plot the associated mesh
     my_model.plot()
-
-.. rst-class:: sphx-glr-script-out
-
- .. jupyter-execute::
-    :hide-code:
-
-    from ansys.dpf import core as dpf
-    from ansys.dpf.core import examples
-    from ansys.dpf.core import operators as ops
-    pontoon_file = examples.download_pontoon()
-    my_model = dpf.Model(data_sources=pontoon_file)
-    my_model.plot()
-
 
 The default plotter settings display the mesh with edges, lighting
 and axis widget enabled. Nevertheless, as we use the
@@ -86,28 +73,16 @@ and axis widget enabled. Nevertheless, as we use the
 the plot you can use additional PyVista arguments (available at:
 :func:`pyvista.plot`), such as:
 
-.. code-block:: python
+.. jupyter-execute::
 
     my_model.plot(title= "Pontoon mesh",
                   text= "Plot mesh method 1",  # Adds the given text at the bottom of the plot
-                  notebook=False,
+                  off_screen=True,
                   screenshot="mesh_plot_1.png"  # Save a screenshot to file with the given name
                   )
     # Notes:
     # - To save a screenshot to file, use "screenshot" ( as well as "notebook=False" if on a Jupyter notebook).
     # - The "off_screen" keyword only works when "notebook=False". If "off_screen=True" the plot is not displayed when running the code.
-
-.. rst-class:: sphx-glr-script-out
-
- .. jupyter-execute::
-    :hide-code:
-
-    my_model.plot(title= "Pontoon mesh",
-                  text= "Plot mesh method 1",
-                  off_screen=True,
-                  notebook=False,
-                  screenshot="mesh_plot_1.png"
-                  )
 
 .. _method_plot_mesh_2:
 
@@ -120,24 +95,16 @@ Plot the |MeshedRegion| or the |MeshesContainer| with the |plotMesh| method
 This second approach demands a |MeshedRegion| object. Thus, we extract
 it from our |Model| object.
 
-.. code-block:: python
+.. jupyter-execute::
 
     # Extract the mesh
     my_meshed_region = my_model.metadata.meshed_region
 
 Just like in the first approach, use the |plotMesh| method.
 
-.. code-block:: python
+.. jupyter-execute::
 
     # Use the plot() method to plot the mesh
-    my_meshed_region.plot()
-
-.. rst-class:: sphx-glr-script-out
-
- .. jupyter-execute::
-    :hide-code:
-
-    my_meshed_region = my_model.metadata.meshed_region
     my_meshed_region.plot()
 
 As, the meshed region is generated from the model’s metadata,
@@ -158,24 +125,16 @@ There are different ways to obtain a |MeshesContainer|.
 Here we get a |MeshesContainer| by using the :class:`meshes_provider <ansys.dpf.core.operators.mesh.meshes_provider.meshes_provider>`
 operator.
 
-.. code-block:: python
+.. jupyter-execute::
 
     # Get the meshes container
     my_meshes = ops.mesh.mesh_provider(data_sources=dpf.DataSources(pontoon_file)).eval()
 
 Just like in the first approach, use the |plotMeshes| method.
 
-.. code-block:: python
+.. jupyter-execute::
 
     # Use the plot() method to plot the mesh
-    my_meshes.plot()
-
-.. rst-class:: sphx-glr-script-out
-
- .. jupyter-execute::
-    :hide-code:
-
-    my_meshes = ops.mesh.mesh_provider(data_sources=dpf.DataSources(pontoon_file)).eval()
     my_meshes.plot()
 
 .. _method_plot_mesh_3:
@@ -194,22 +153,13 @@ to it using the |add_mesh| method.
 To display the figure built by the plotter object you need to use the
 |show_figure|  method.
 
-.. code-block:: python
+.. jupyter-execute::
 
     # Declare the DpfPlotter object
     my_plotter = dpf.plotter.DpfPlotter()
     # Add the MeshedRegion to the DpfPlotter object
     my_plotter.add_mesh(meshed_region=my_meshed_region)
     # Display the plot
-    my_plotter.show_figure()
-
-.. rst-class:: sphx-glr-script-out
-
- .. jupyter-execute::
-    :hide-code:
-
-    my_plotter = dpf.plotter.DpfPlotter()
-    my_plotter.add_mesh(meshed_region=my_meshed_region)
     my_plotter.show_figure()
 
 The default |DpfPlotter| object settings display the mesh with edges,and lighting

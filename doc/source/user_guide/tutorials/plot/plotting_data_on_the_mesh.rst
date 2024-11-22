@@ -24,7 +24,7 @@ Define the data
 In this tutorial we will download a simulation result file available
 in our ``Examples`` package:
 
-.. code-block:: python
+.. jupyter-execute::
 
     # Import the ``ansys.dpf.core`` module, including examples files
     from ansys.dpf import core as dpf
@@ -37,22 +37,11 @@ metadata, by opening a DataSources or a Streams, and to instanciate results prov
 
 Printing the model displays the available results.
 
-.. code-block:: python
+.. jupyter-execute::
 
     # Create the model
     my_model = dpf.Model(data_sources=result_file)
     # Print the model
-    print(my_model)
-
-.. rst-class:: sphx-glr-script-out
-
- .. jupyter-execute::
-    :hide-code:
-
-    from ansys.dpf import core as dpf
-    from ansys.dpf.core import examples
-    result_file = examples.find_multishells_rst()
-    my_model = dpf.Model(data_sources=result_file)
     print(my_model)
 
 We need to extract the data we want to plot. Mind that the results location must be of
@@ -61,19 +50,11 @@ result file check the :ref:`ref_tutorials_import_data` tutorials section.
 
 Here we choose to get the XX stress tensor component result. We start by extracting the stress results:
 
-.. code-block:: python
+.. jupyter-execute::
 
     # Extract the stress result
     my_stress = my_model.results.stress()
     # Print the result
-    print(my_stress.eval())
-
-.. rst-class:: sphx-glr-script-out
-
- .. jupyter-execute::
-    :hide-code:
-
-    my_stress = my_model.results.stress()
     print(my_stress.eval())
 
 As the stress result is in a ``ElementalNodal`` location we have to change it.
@@ -83,7 +64,7 @@ Here we define the new location with a input of the
 Another option would be using an averaging operator like the
 :class:`to_nodal_fc() <ansys.dpf.core.operators.averaging.to_nodal_fc.to_nodal_fc>` operator
 
-.. code-block:: python
+.. jupyter-execute::
 
     # Define the desired location as an input of the results operator
     my_stress.inputs.requested_location(dpf.locations.nodal)
@@ -92,20 +73,11 @@ Another option would be using an averaging operator like the
     # Print the result
     print(fc_stress)
 
-.. rst-class:: sphx-glr-script-out
-
- .. jupyter-execute::
-    :hide-code:
-
-    my_stress.inputs.requested_location(dpf.locations.nodal)
-    fc_stress = my_stress.eval()
-    print(fc_stress)
-
 To get the results only for the XX stress component we have to use
 the :func:`select_component() <ansys.dpf.core.fields_container.FieldsContainer.select_component>`
 method:
 
-.. code-block:: python
+.. jupyter-execute::
 
     # Define the component to get.
     # The stress tensor has 6 components per elementary data (symmetrical tensor XX,YY,ZZ,XY,YZ,XZ).
@@ -126,7 +98,7 @@ To plot the data on the mesh you have two different approaches:
 
 For both approaches we need a |MeshedRegion| to base on. We can define it from the |Model|:
 
-.. code-block:: python
+.. jupyter-execute::
 
     # Define the meshed region
     my_meshed_region = my_model.metadata.meshed_region
@@ -149,21 +121,11 @@ Using the plot() method
 First, extract the Field with the stress results. Then use the |plot| method [1]_.
 You have to give the Fields supporting mesh as a attribute:
 
-.. code-block:: python
+.. jupyter-execute::
 
     # Define the field
     field_stress_XX = fc_stress_XX[0]
     # Use the plot() method
-    field_stress_XX.plot(meshed_region=my_meshed_region)
-
-.. rst-class:: sphx-glr-script-out
-
- .. jupyter-execute::
-    :hide-code:
-
-    fc_stress_XX = fc_stress.select_component(index=0)
-    my_meshed_region = my_model.metadata.meshed_region
-    field_stress_XX = fc_stress_XX[0]
     field_stress_XX.plot(meshed_region=my_meshed_region)
 
 Using the DpfPlotter class
@@ -174,7 +136,7 @@ You have to give the Fields supporting mesh as an attribute to this method.
 
 To display the figure built by the plotter object you need to use the |show_figure|  method.
 
-.. code-block:: python
+.. jupyter-execute::
 
     # Declare the DpfPlotter object
     my_plotter = dpf.plotter.DpfPlotter()
@@ -182,17 +144,6 @@ To display the figure built by the plotter object you need to use the |show_figu
     my_plotter.add_field(field=field_stress_XX, meshed_region=my_meshed_region)
     # Display the plot
     my_plotter.show_figure()
-
-.. rst-class:: sphx-glr-script-out
-
- .. jupyter-execute::
-    :hide-code:
-
-    my_plotter = dpf.plotter.DpfPlotter()
-    my_plotter.add_field(field=field_stress_XX, meshed_region=my_meshed_region)
-    my_plotter.show_figure()
-
-
 
 .. _method_plot_data_mesh_2:
 
@@ -214,28 +165,14 @@ Using the plot() method
 Use the |plotMesh| method [1]_ with the meshed region we extracted from the model.
 You have to give the Field or the FieldsContainer with the stress data as a attribute:
 
-.. code-block:: python
+.. jupyter-execute::
 
     # Use the plot() method with a Field as an attribute
     my_meshed_region.plot(field_or_fields_container=field_stress_XX)
 
-.. rst-class:: sphx-glr-script-out
-
- .. jupyter-execute::
-    :hide-code:
-
-    my_meshed_region.plot(field_or_fields_container=field_stress_XX)
-
-.. code-block:: python
+.. jupyter-execute::
 
     # Use the plot() method with a FieldsContainer as an attribute
-    my_meshed_region.plot(field_or_fields_container=fc_stress_XX)
-
-.. rst-class:: sphx-glr-script-out
-
- .. jupyter-execute::
-    :hide-code:
-
     my_meshed_region.plot(field_or_fields_container=fc_stress_XX)
 
 Using the DpfPlotter class
@@ -246,7 +183,7 @@ to it using the |add_mesh| method and add the field using the |add_field| method
 
 To display the figure built by the plotter object use the |show_figure|  method.
 
-.. code-block:: python
+.. jupyter-execute::
 
     # Declare the DpfPlotter object
     my_plotter = dpf.plotter.DpfPlotter()
@@ -257,23 +194,13 @@ To display the figure built by the plotter object use the |show_figure|  method.
     # Display the plot
     my_plotter.show_figure()
 
-.. rst-class:: sphx-glr-script-out
-
- .. jupyter-execute::
-    :hide-code:
-
-    my_plotter = dpf.plotter.DpfPlotter()
-    my_plotter.add_mesh(meshed_region=my_meshed_region)
-    my_plotter.add_field(field=field_stress_XX)
-    my_plotter.show_figure()
-
 .. rubric:: Footnotes
 
 .. [1] The default plotter settings display the mesh with edges, lighting and axis widget enabled.
 Nevertheless, as we use the `PyVista <https://github.com/pyvista/pyvista>`_ library to create
 the plot you can use additional PyVista arguments (available at: :func:`pyvista.plot`), such as:
 
-.. code-block:: python
+.. jupyter-execute::
 
     field_stress_XX.plot(title= "Field Stress",
                          text= "Fields plot() method"  # Adds the given text at the bottom of the plot

@@ -22,7 +22,7 @@ Define the data
 
 We will download a simple simulation result file available in our `Examples` package:
 
-.. code-block:: python
+.. jupyter-execute::
 
     # Import the ``ansys.dpf.core`` module, including examples files and the operators subpackage
     from ansys.dpf import core as dpf
@@ -34,7 +34,7 @@ We will download a simple simulation result file available in our `Examples` pac
 The results will be mapped over a defined path of coordinates. So, start by creating
 a |Model| with the result file and extract the |MeshedRegion| from it:
 
-.. code-block:: python
+.. jupyter-execute::
 
     # Create the model
     my_model = dpf.Model(data_sources=result_file)
@@ -49,14 +49,14 @@ range of coordinates values by checking the nodes coordinates.
 Get the nodes coordinates with the mesh operator
 :class:`nodes_coordinates<ansys.dpf.core.operators.mesh.node_coordinates.node_coordinates>`:
 
-.. code-block:: python
+.. jupyter-execute::
 
     # Get the mesh nodes coordinates
     nodes_coords = ops.mesh.node_coordinates(mesh=my_meshed_region).eval()
 
 Get the maximum values of the coordinates, so you know the space domain limits.
 
-.. code-block:: python
+.. jupyter-execute::
 
     # Get the maximum and minimum values of the mesh nodes coordinates
     max_coords = ops.min_max.min_max(field=nodes_coords).eval(pin=1)
@@ -65,28 +65,10 @@ Get the maximum values of the coordinates, so you know the space domain limits.
     print("Max coordinates:", max_coords.data, '\n')
     print("Min coordinates:",min_coords.data)
 
-.. rst-class:: sphx-glr-script-out
-
- .. jupyter-execute::
-    :hide-code:
-
-    from ansys.dpf import core as dpf
-    from ansys.dpf.core import examples
-    from ansys.dpf.core import operators as ops
-    result_file = examples.find_static_rst()
-    my_model = dpf.Model(data_sources=result_file)
-    my_meshed_region = my_model.metadata.meshed_region
-    nodes_coords = ops.mesh.node_coordinates(mesh=my_meshed_region).eval()
-    max_coords = ops.min_max.min_max(field=nodes_coords).eval(pin=1)
-    min_coords = ops.min_max.min_max(field=nodes_coords).eval(pin=0)
-    print("Max coordinates:", max_coords.data, '\n')
-    print("Min coordinates:",min_coords.data)
-
-
 Create the path based on a set of coordinates. Here we choose the paths origin coordinates,
 number of points in the path and the distance between each coordinate.
 
-.. code-block:: python
+.. jupyter-execute::
 
     # Initial coordinates
     initial_coords = [0.024, 0.03, 0.003]
@@ -101,7 +83,7 @@ number of points in the path and the distance between each coordinate.
 
 Make a loop to define the paths coordinates field. Here we make a path that only moves along the y-axis.
 
-.. code-block:: python
+.. jupyter-execute::
 
     # For each iteration we add a new set of coordinates based on the predefined distance between each coordinate
     for i in range(0, n_points):
@@ -113,7 +95,7 @@ Extract the result
 
 Extract the result from the model. Here we get the equivalent stress result
 
-.. code-block:: python
+.. jupyter-execute::
 
     # Get the stress result
     my_stress = my_model.results.stress().eqv().eval()
@@ -128,7 +110,7 @@ The |mapping| operator retrieves the results of the entities located in the give
 If the given coordinates don't match with any entity coordinate, the operator interpolates the results inside
 elements with shape functions.
 
-.. code-block:: python
+.. jupyter-execute::
 
     # Map the path coordinates with the stress results
     mapped_stress = ops.mapping.on_coordinates(fields_container=my_stress,
@@ -148,7 +130,7 @@ to it using the |add_mesh| method and add the field using the |add_field| method
 
 To display the figure built by the plotter object use the |show_figure|  method.
 
-.. code-block:: python
+.. jupyter-execute::
 
     # Declare the DpfPlotter object
     my_plotter = dpf.plotter.DpfPlotter()
@@ -158,30 +140,6 @@ To display the figure built by the plotter object use the |show_figure|  method.
     # Add the Field to the DpfPlotter object
     my_plotter.add_field(field=mapped_stress[0])
     # Display the plot
-    my_plotter.show_figure()
-
-.. rst-class:: sphx-glr-script-out
-
- .. jupyter-execute::
-    :hide-code:
-
-    initial_coords = [0.024, 0.03, 0.003]
-    n_points = 51
-    delta = 0.001
-    path_coords =  dpf.fields_factory.create_3d_vector_field(n_points)
-    path_coords.scoping.ids = list(range(0, n_points))
-    for i in range(0, n_points):
-        initial_coords[1] += delta
-        path_coords.append(data=initial_coords, scopingid=0)
-    my_stress = my_model.results.stress().eqv().eval()
-    mapped_stress = ops.mapping.on_coordinates(fields_container=my_stress,
-                                               coordinates=path_coords,
-                                               create_support=True,
-                                               mesh=my_meshed_region
-                                               ).eval()
-    my_plotter = dpf.plotter.DpfPlotter()
-    my_plotter.add_mesh(meshed_region=my_meshed_region,style="surface", show_edges=True, color="w", opacity=0.3)
-    my_plotter.add_field(field=mapped_stress[0])
     my_plotter.show_figure()
 
 .. rubric:: Footnotes
