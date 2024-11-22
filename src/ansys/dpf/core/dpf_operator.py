@@ -127,6 +127,7 @@ class Operator:
         self._internal_obj = None
         self._description = None
         self._inputs = None
+        self._id = None
 
         # step 1: get server
         self._server = server_module.get_or_create_server(
@@ -660,6 +661,16 @@ class Operator:
         value : Config
         """
         self._api.operator_set_config(self, value)
+
+    @property
+    @version_requires("10.0")
+    def id(self):
+        if self._id is None:
+            operator_id_op = Operator("operator_id", server=self._server)
+            operator_id_op.connect_operator_as_input(0, self)
+            self._id = operator_id_op.outputs.id()
+
+        return self._id
 
     @property
     def inputs(self):
