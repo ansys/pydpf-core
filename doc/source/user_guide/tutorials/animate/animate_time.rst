@@ -4,6 +4,7 @@
 Animate data over time
 ======================
 
+.. |Examples| replace:: :mod:`ansys.dpf.core.examples`
 .. |Animator| replace:: :class:`Animator<ansys.dpf.core.animator.Animator>`
 .. |Field| replace:: :class:`Field<ansys.dpf.core.field.Field>`
 .. |FieldsContainer| replace:: :class:`FieldsContainer<ansys.dpf.core.fields_container.FieldsContainer>`
@@ -32,7 +33,7 @@ To animate data across time you need to get the data stored in a |FieldsContaine
 Get the result files
 --------------------
 
-First download a result file such as one available with the :ref:`ansys.dpf.core.examples.examples` module.
+First download a result file such as one available with the |Examples| module.
 For more information about how to import your own result file in DPF check
 the :ref:`ref_tutorials_import_data` tutorial section.
 
@@ -290,7 +291,7 @@ Fixed camera
    :hide-output:
 
    # Define the camera position
-   cpos = [[1.171, 1.126, 1.621], [0.05, 0.005, 0.5], [0.0, 0.0, 1.0]]
+   cpos = [[0., 2.0, 0.6], [0.05, 0.005, 0.5], [0.0, 0.0, 1.0]]
    # Animate the stress with a custom fixed camera position
    stress_fc.animate(cpos=cpos)
 
@@ -317,8 +318,8 @@ Moving camera
    cpos_list = [cpos]
    # Incrementally decrease the y coordinate of the camera by 0.2 for each frame
    for i in range(1, len(disp_fc)):
-       new_pos = copy.copy(cpos_list[i-1])
-       new_pos[0][1] += 0.2
+       new_pos = copy.deepcopy(cpos_list[i-1])
+       new_pos[0][0] += 0.1
        cpos_list.append(new_pos)
 
    # Animate the stress with a moving camera
