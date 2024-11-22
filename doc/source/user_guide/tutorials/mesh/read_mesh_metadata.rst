@@ -32,7 +32,7 @@ the :ref:`ref_tutorials_import_data` tutorial section.
 
     .. tab-item:: LSDYNA
 
-        .. code-block:: python
+        .. jupyter-execute::
 
             # Import the ``ansys.dpf.core`` module, including examples files and the operators subpackage
             from ansys.dpf import core as dpf
@@ -51,7 +51,7 @@ the :ref:`ref_tutorials_import_data` tutorial section.
 
     .. tab-item:: Fluent
 
-        .. code-block:: python
+        .. jupyter-execute::
 
             # Import the ``ansys.dpf.core`` module, including examples files and the operators subpackage
             from ansys.dpf import core as dpf
@@ -66,7 +66,7 @@ the :ref:`ref_tutorials_import_data` tutorial section.
 
     .. tab-item:: CFX
 
-        .. code-block:: python
+        .. jupyter-execute::
 
             # Import the ``ansys.dpf.core`` module, including examples files and the operators subpackage
             from ansys.dpf import core as dpf
@@ -103,32 +103,8 @@ Get the the mesh metadata information and print the available ones:
 
     .. tab-item:: LSDYNA
 
-        .. code-block:: python
+        .. jupyter-execute::
 
-            # Get the mesh metadata information
-            my_mesh_info_2 = my_model_2.metadata.mesh_info
-            # Print the mesh metadata information
-            print(my_mesh_info_2)
-
-        .. rst-class:: sphx-glr-script-out
-
-         .. jupyter-execute::
-            :hide-code:
-
-            # Import the ``ansys.dpf.core`` module, including examples files and the operators subpackage
-            from ansys.dpf import core as dpf
-            from ansys.dpf.core import examples
-            from ansys.dpf.core import operators as ops
-            # Define the result file
-            result_file_path_2 = examples.download_d3plot_beam()
-            # Create the DataSources object
-            my_data_sources_2 = dpf.DataSources()
-            my_data_sources_2.set_result_file_path(filepath=result_file_path_2[0], key="d3plot")
-            my_data_sources_2.add_file_path(filepath=result_file_path_2[3], key="actunits")
-            # Create the model
-            my_model_2 = dpf.Model(data_sources=my_data_sources_2)
-            # Get the mesh
-            my_meshed_region_2 = my_model_2.metadata.meshed_region
             # Get the mesh metadata information
             my_mesh_info_2 = my_model_2.metadata.mesh_info
             # Print the mesh metadata information
@@ -136,24 +112,8 @@ Get the the mesh metadata information and print the available ones:
 
     .. tab-item:: Fluent
 
-        .. code-block:: python
+        .. jupyter-execute::
 
-            # Get the mesh metadata information
-            my_mesh_info_3 = my_model_3.metadata.mesh_info
-            # Print the mesh metadata information
-            print(my_mesh_info_3)
-
-        .. rst-class:: sphx-glr-script-out
-
-         .. jupyter-execute::
-            :hide-code:
-
-            # Define the result file
-            result_file_path_3 = examples.download_fluent_axial_comp()["flprj"]
-            # Create the model
-            my_model_3 = dpf.Model(data_sources=result_file_path_3)
-            # Get the mesh
-            my_meshed_region_3 = my_model_3.metadata.meshed_region
             # Get the mesh metadata information
             my_mesh_info_3 = my_model_3.metadata.mesh_info
             # Print the mesh metadata information
@@ -161,24 +121,8 @@ Get the the mesh metadata information and print the available ones:
 
     .. tab-item:: CFX
 
-        .. code-block:: python
+        .. jupyter-execute::
 
-            # Get the mesh metadata information
-            my_mesh_info_4 = my_model_4.metadata.mesh_info
-            # Print the mesh metadata information
-            print(my_mesh_info_4)
-
-        .. rst-class:: sphx-glr-script-out
-
-         .. jupyter-execute::
-            :hide-code:
-
-            # Define the result file
-            result_file_path_4 = examples.download_cfx_mixing_elbow()
-            # Create the model
-            my_model_4 = dpf.Model(data_sources=result_file_path_4)
-            # Get the mesh
-            my_meshed_region_4 = my_model_4.metadata.meshed_region
             # Get the mesh metadata information
             my_mesh_info_4 = my_model_4.metadata.mesh_info
             # Print the mesh metadata information
@@ -192,16 +136,7 @@ For example we can check the part names (for the LSDYNA result file) or the cell
 
     .. tab-item:: LSDYNA
 
-        .. code-block:: python
-
-            # Get the part names
-            my_cell_zones_2 = my_mesh_info_2.get_property("part_names")
-            print(my_cell_zones_2)
-
-        .. rst-class:: sphx-glr-script-out
-
-         .. jupyter-execute::
-            :hide-code:
+        .. jupyter-execute::
 
             # Get the part names
             my_cell_zones_2 = my_mesh_info_2.get_property("part_names")
@@ -209,16 +144,7 @@ For example we can check the part names (for the LSDYNA result file) or the cell
 
     .. tab-item:: Fluent
 
-        .. code-block:: python
-
-            # Get the cell zone names
-            my_cell_zones_3 = my_mesh_info_3.get_property("cell_zone_names")
-            print(my_cell_zones_3)
-
-        .. rst-class:: sphx-glr-script-out
-
-         .. jupyter-execute::
-            :hide-code:
+        .. jupyter-execute::
 
             # Get the cell zone names
             my_cell_zones_3 = my_mesh_info_3.get_property("cell_zone_names")
@@ -226,16 +152,7 @@ For example we can check the part names (for the LSDYNA result file) or the cell
 
     .. tab-item:: CFX
 
-        .. code-block:: python
-
-            # Get the cell zone names
-            my_cell_zones_4 = my_mesh_info_4.get_property("cell_zone_names")
-            print(my_cell_zones_4)
-
-        .. rst-class:: sphx-glr-script-out
-
-         .. jupyter-execute::
-            :hide-code:
+        .. jupyter-execute::
 
             # Get the cell zone names
             my_cell_zones_4 = my_mesh_info_4.get_property("cell_zone_names")

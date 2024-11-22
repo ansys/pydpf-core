@@ -33,8 +33,7 @@ PyDPF-Core APIs.
 
     .. tab-item:: MAPDL
 
-
-        .. code-block:: python
+        .. jupyter-execute::
 
             # Import the ``ansys.dpf.core`` module, including examples files and the operators subpackage
             from ansys.dpf import core as dpf
@@ -47,7 +46,7 @@ PyDPF-Core APIs.
 
     .. tab-item:: LSDYNA
 
-        .. code-block:: python
+        .. jupyter-execute::
 
             # Import the ``ansys.dpf.core`` module, including examples files and the operators subpackage
             from ansys.dpf import core as dpf
@@ -62,7 +61,7 @@ PyDPF-Core APIs.
 
     .. tab-item:: Fluent
 
-        .. code-block:: python
+        .. jupyter-execute::
 
             # Import the ``ansys.dpf.core`` module, including examples files and the operators subpackage
             from ansys.dpf import core as dpf
@@ -75,7 +74,7 @@ PyDPF-Core APIs.
 
     .. tab-item:: CFX
 
-        .. code-block:: python
+        .. jupyter-execute::
 
             # Import the ``ansys.dpf.core`` module, including examples files and the operators subpackage
             from ansys.dpf import core as dpf
@@ -117,7 +116,7 @@ Get the |MeshedRegion| by instantiating a |Model| object and accessing its metad
 
     .. tab-item:: MAPDL
 
-        .. code-block:: python
+        .. jupyter-execute::
 
             # Create the model
             my_model_1 = dpf.Model(data_sources=my_data_sources_1)
@@ -126,7 +125,7 @@ Get the |MeshedRegion| by instantiating a |Model| object and accessing its metad
 
     .. tab-item:: LSDYNA
 
-        .. code-block:: python
+        .. jupyter-execute::
 
             # Create the model
             my_model_2 = dpf.Model(data_sources=my_data_sources_2)
@@ -135,7 +134,7 @@ Get the |MeshedRegion| by instantiating a |Model| object and accessing its metad
 
     .. tab-item:: Fluent
 
-        .. code-block:: python
+        .. jupyter-execute::
 
             # Create the model
             my_model_3 = dpf.Model(data_sources=my_data_sources_3)
@@ -144,7 +143,7 @@ Get the |MeshedRegion| by instantiating a |Model| object and accessing its metad
 
     .. tab-item:: CFX
 
-        .. code-block:: python
+        .. jupyter-execute::
 
             # Create the model
             my_model_4 = dpf.Model(data_sources=my_data_sources_4)
@@ -158,98 +157,29 @@ unit and elements type):
 
     .. tab-item:: MAPDL
 
-        .. code-block:: python
+        .. jupyter-execute::
 
-            # Print the meshed region
-            print(my_meshed_region_1)
-
-        .. rst-class:: sphx-glr-script-out
-
-         .. jupyter-execute::
-            :hide-code:
-
-            from ansys.dpf import core as dpf
-            from ansys.dpf.core import examples
-            from ansys.dpf.core import operators as ops
-            # Define the result file
-            result_file_path_1 = examples.find_static_rst()
-            # Create the DataSources object
-            my_data_sources_1 = dpf.DataSources(result_path=result_file_path_1)
-            # Create the model
-            my_model_1 = dpf.Model(data_sources=my_data_sources_1)
-            # Get the mesh
-            my_meshed_region_1 = my_model_1.metadata.meshed_region
             # Print the meshed region
             print(my_meshed_region_1)
 
     .. tab-item:: LSDYNA
 
-        .. code-block:: python
+        .. jupyter-execute::
 
-            # Print the meshed region
-            print(my_meshed_region_2)
-
-        .. rst-class:: sphx-glr-script-out
-
-         .. jupyter-execute::
-            :hide-code:
-
-            # Define the result file
-            result_file_path_2 = examples.download_d3plot_beam()
-            # Create the DataSources object
-            my_data_sources_2 = dpf.DataSources()
-            my_data_sources_2.set_result_file_path(filepath=result_file_path_2[0], key="d3plot")
-            my_data_sources_2.add_file_path(filepath=result_file_path_2[3], key="actunits")
-            # Create the model
-            my_model_2 = dpf.Model(data_sources=my_data_sources_2)
-            # Get the mesh
-            my_meshed_region_2 = my_model_2.metadata.meshed_region
             # Print the meshed region
             print(my_meshed_region_2)
 
     .. tab-item:: Fluent
 
-        .. code-block:: python
+        .. jupyter-execute::
 
-            # Print the meshed region
-            print(my_meshed_region_3)
-
-        .. rst-class:: sphx-glr-script-out
-
-         .. jupyter-execute::
-            :hide-code:
-
-            # Define the result file
-            result_file_path_3 = examples.download_fluent_axial_comp()["flprj"]
-            # Create the DataSources object
-            my_data_sources_3 = dpf.DataSources(result_path=result_file_path_3)
-            # Create the model
-            my_model_3 = dpf.Model(data_sources=my_data_sources_3)
-            # Get the mesh
-            my_meshed_region_3 = my_model_3.metadata.meshed_region
             # Print the meshed region
             print(my_meshed_region_3)
 
     .. tab-item:: CFX
 
-        .. code-block:: python
+        .. jupyter-execute::
 
-            # Print the meshed region
-            print(my_meshed_region_4)
-
-        .. rst-class:: sphx-glr-script-out
-
-         .. jupyter-execute::
-            :hide-code:
-
-            # Define the result file
-            result_file_path_4 = examples.download_cfx_mixing_elbow()
-            # Create the DataSources object
-            my_data_sources_4 = dpf.DataSources(result_path=result_file_path_4)
-            # Create the model
-            my_model_4 = dpf.Model(data_sources=my_data_sources_4)
-            # Get the mesh
-            my_meshed_region_4 = my_model_4.metadata.meshed_region
             # Print the meshed region
             print(my_meshed_region_4)
 
@@ -265,28 +195,28 @@ Get the |MeshedRegion| by instantiating the |mesh_provider| operator and instant
 
     .. tab-item:: MAPDL
 
-        .. code-block:: python
+        .. jupyter-execute::
 
             # Get the mesh with the mesh_provider operator
             my_meshed_region_12 = ops.mesh.mesh_provider(data_sources=my_data_sources_1).eval()
 
     .. tab-item:: LSDYNA
 
-        .. code-block:: python
+        .. jupyter-execute::
 
             # Get the mesh with the mesh_provider operator
             my_meshed_region_22 = ops.mesh.mesh_provider(data_sources=my_data_sources_2).eval()
 
     .. tab-item:: Fluent
 
-        .. code-block:: python
+        .. jupyter-execute::
 
             # Get the mesh with the mesh_provider operator
             my_meshed_region_32 = ops.mesh.mesh_provider(data_sources=my_data_sources_3).eval()
 
     .. tab-item:: CFX
 
-        .. code-block:: python
+        .. jupyter-execute::
 
             # Get the mesh with the mesh_provider operator
             my_meshed_region_42 = ops.mesh.mesh_provider(data_sources=my_data_sources_4).eval()
@@ -298,68 +228,28 @@ unit and elements type):
 
     .. tab-item:: MAPDL
 
-        .. code-block:: python
+        .. jupyter-execute::
 
-            # Print the meshed region
-            print(my_meshed_region_12)
-
-        .. rst-class:: sphx-glr-script-out
-
-         .. jupyter-execute::
-            :hide-code:
-
-            # Get the mesh with the mesh_provider operator
-            my_meshed_region_12 = ops.mesh.mesh_provider(data_sources=my_data_sources_1).eval()
             # Print the meshed region
             print(my_meshed_region_12)
 
     .. tab-item:: LSDYNA
 
-        .. code-block:: python
+        .. jupyter-execute::
 
-            # Print the meshed region
-            print(my_meshed_region_22)
-
-        .. rst-class:: sphx-glr-script-out
-
-         .. jupyter-execute::
-            :hide-code:
-
-            # Get the mesh with the mesh_provider operator
-            my_meshed_region_22 = ops.mesh.mesh_provider(data_sources=my_data_sources_2).eval()
             # Print the meshed region
             print(my_meshed_region_22)
 
     .. tab-item:: Fluent
 
-        .. code-block:: python
+        .. jupyter-execute::
 
-            # Print the meshed region
-            print(my_meshed_region_32)
-
-        .. rst-class:: sphx-glr-script-out
-
-         .. jupyter-execute::
-            :hide-code:
-
-            # Get the mesh with the mesh_provider operator
-            my_meshed_region_32 = ops.mesh.mesh_provider(data_sources=my_data_sources_3).eval()
             # Print the meshed region
             print(my_meshed_region_32)
 
     .. tab-item:: CFX
 
-        .. code-block:: python
+        .. jupyter-execute::
 
-            # Print the meshed region
-            print(my_meshed_region_42)
-
-        .. rst-class:: sphx-glr-script-out
-
-         .. jupyter-execute::
-            :hide-code:
-
-            # Get the mesh with the mesh_provider operator
-            my_meshed_region_42 = ops.mesh.mesh_provider(data_sources=my_data_sources_4).eval()
             # Print the meshed region
             print(my_meshed_region_42)

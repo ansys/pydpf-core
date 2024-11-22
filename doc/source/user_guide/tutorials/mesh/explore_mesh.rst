@@ -38,8 +38,7 @@ the :ref:`ref_tutorials_import_data` tutorial section.
 
     .. tab-item:: MAPDL
 
-
-        .. code-block:: python
+        .. jupyter-execute::
 
             # Import the ``ansys.dpf.core`` module, including examples files and the operators subpackage
             from ansys.dpf import core as dpf
@@ -54,7 +53,7 @@ the :ref:`ref_tutorials_import_data` tutorial section.
 
     .. tab-item:: LSDYNA
 
-        .. code-block:: python
+        .. jupyter-execute::
 
             # Import the ``ansys.dpf.core`` module, including examples files and the operators subpackage
             from ansys.dpf import core as dpf
@@ -73,7 +72,7 @@ the :ref:`ref_tutorials_import_data` tutorial section.
 
     .. tab-item:: Fluent
 
-        .. code-block:: python
+        .. jupyter-execute::
 
             # Import the ``ansys.dpf.core`` module, including examples files and the operators subpackage
             from ansys.dpf import core as dpf
@@ -88,7 +87,7 @@ the :ref:`ref_tutorials_import_data` tutorial section.
 
     .. tab-item:: CFX
 
-        .. code-block:: python
+        .. jupyter-execute::
 
             # Import the ``ansys.dpf.core`` module, including examples files and the operators subpackage
             from ansys.dpf import core as dpf
@@ -124,29 +123,8 @@ When instantiating the nodes, element, faces and named selection you get the cor
 
     .. tab-item:: MAPDL
 
-        .. code-block:: python
+        .. jupyter-execute::
 
-            # Get the mesh elements
-            my_nodes_1 = my_meshed_region_1.nodes
-            # Print the nodes
-            print(my_nodes_1)
-            print("Object type: ",type(my_nodes_1))
-
-        .. rst-class:: sphx-glr-script-out
-
-         .. jupyter-execute::
-            :hide-code:
-
-            # Import the ``ansys.dpf.core`` module, including examples files and the operators subpackage
-            from ansys.dpf import core as dpf
-            from ansys.dpf.core import examples
-            from ansys.dpf.core import operators as ops
-            # Define the result file
-            result_file_path_1 = examples.find_static_rst()
-            # Create the model
-            my_model_1 = dpf.Model(data_sources=result_file_path_1)
-            # Get the mesh
-            my_meshed_region_1 = my_model_1.metadata.meshed_region
             # Get the mesh elements
             my_nodes_1 = my_meshed_region_1.nodes
             # Print the nodes
@@ -155,29 +133,8 @@ When instantiating the nodes, element, faces and named selection you get the cor
 
     .. tab-item:: LSDYNA
 
-        .. code-block:: python
+        .. jupyter-execute::
 
-            # Get the mesh elements
-            my_nodes_2 = my_meshed_region_2.nodes
-            # Print the nodes
-            print(my_nodes_2)
-            print("Object type: ",type(my_nodes_2))
-
-        .. rst-class:: sphx-glr-script-out
-
-         .. jupyter-execute::
-            :hide-code:
-
-            # Define the result file
-            result_file_path_2 = examples.download_d3plot_beam()
-            # Create the DataSources object
-            my_data_sources_2 = dpf.DataSources()
-            my_data_sources_2.set_result_file_path(filepath=result_file_path_2[0], key="d3plot")
-            my_data_sources_2.add_file_path(filepath=result_file_path_2[3], key="actunits")
-            # Create the model
-            my_model_2 = dpf.Model(data_sources=my_data_sources_2)
-            # Get the mesh
-            my_meshed_region_2 = my_model_2.metadata.meshed_region
             # Get the mesh elements
             my_nodes_2 = my_meshed_region_2.nodes
             # Print the nodes
@@ -186,25 +143,8 @@ When instantiating the nodes, element, faces and named selection you get the cor
 
     .. tab-item:: Fluent
 
-        .. code-block:: python
+        .. jupyter-execute::
 
-            # Get the mesh elements
-            my_nodes_3 = my_meshed_region_3.nodes
-            # Print the nodes
-            print(my_nodes_3)
-            print("Object type: ",type(my_nodes_3))
-
-        .. rst-class:: sphx-glr-script-out
-
-         .. jupyter-execute::
-            :hide-code:
-
-            # Define the result file
-            result_file_path_3 = examples.download_fluent_axial_comp()["flprj"]
-            # Create the model
-            my_model_3 = dpf.Model(data_sources=result_file_path_3)
-            # Get the mesh
-            my_meshed_region_3 = my_model_3.metadata.meshed_region
             # Get the mesh elements
             my_nodes_3 = my_meshed_region_3.nodes
             # Print the nodes
@@ -213,25 +153,8 @@ When instantiating the nodes, element, faces and named selection you get the cor
 
     .. tab-item:: CFX
 
-        .. code-block:: python
+        .. jupyter-execute::
 
-            # Get the mesh elements
-            my_nodes_4 = my_meshed_region_4.nodes
-            # Print the nodes
-            print(my_nodes_4)
-            print("Object type: ",type(my_nodes_4))
-
-        .. rst-class:: sphx-glr-script-out
-
-         .. jupyter-execute::
-            :hide-code:
-
-            # Define the result file
-            result_file_path_4 = examples.download_cfx_mixing_elbow()
-            # Create the model
-            my_model_4 = dpf.Model(data_sources=result_file_path_4)
-            # Get the mesh
-            my_meshed_region_4 = my_model_4.metadata.meshed_region
             # Get the mesh elements
             my_nodes_4 = my_meshed_region_4.nodes
             # Print the nodes
@@ -248,17 +171,7 @@ chose those you want to extract.
 
     .. tab-item:: MAPDL
 
-        .. code-block:: python
-
-            # Get the available properties
-            my_available_props_1 = my_meshed_region_1.available_property_fields
-            # Print the available properties
-            print(my_available_props_1)
-
-        .. rst-class:: sphx-glr-script-out
-
-         .. jupyter-execute::
-            :hide-code:
+        .. jupyter-execute::
 
             # Get the available properties
             my_available_props_1 = my_meshed_region_1.available_property_fields
@@ -267,17 +180,7 @@ chose those you want to extract.
 
     .. tab-item:: LSDYNA
 
-        .. code-block:: python
-
-            # Get the available properties
-            my_available_props_2 = my_meshed_region_2.available_property_fields
-            # Print the available properties
-            print(my_available_props_2)
-
-        .. rst-class:: sphx-glr-script-out
-
-         .. jupyter-execute::
-            :hide-code:
+        .. jupyter-execute::
 
             # Get the available properties
             my_available_props_2 = my_meshed_region_2.available_property_fields
@@ -286,17 +189,7 @@ chose those you want to extract.
 
     .. tab-item:: Fluent
 
-        .. code-block:: python
-
-            # Get the available properties
-            my_available_props_3 = my_meshed_region_3.available_property_fields
-            # Print the available properties
-            print(my_available_props_3)
-
-        .. rst-class:: sphx-glr-script-out
-
-         .. jupyter-execute::
-            :hide-code:
+        .. jupyter-execute::
 
             # Get the available properties
             my_available_props_3 = my_meshed_region_3.available_property_fields
@@ -305,17 +198,7 @@ chose those you want to extract.
 
     .. tab-item:: CFX
 
-        .. code-block:: python
-
-            # Get the available properties
-            my_available_props_4 = my_meshed_region_4.available_property_fields
-            # Print the available properties
-            print(my_available_props_4)
-
-        .. rst-class:: sphx-glr-script-out
-
-         .. jupyter-execute::
-            :hide-code:
+        .. jupyter-execute::
 
             # Get the available properties
             my_available_props_4 = my_meshed_region_4.available_property_fields
@@ -329,17 +212,7 @@ to the entity they are defined at:
 
     .. tab-item:: MAPDL
 
-        .. code-block:: python
-
-            # Get the element types on the mesh
-            my_el_types_1 = my_meshed_region_1.property_field(property_name="eltype")
-            # Print the element types
-            print(my_el_types_1)
-
-        .. rst-class:: sphx-glr-script-out
-
-         .. jupyter-execute::
-            :hide-code:
+        .. jupyter-execute::
 
             # Get the element types on the mesh
             my_el_types_1 = my_meshed_region_1.property_field(property_name="eltype")
@@ -349,37 +222,16 @@ to the entity they are defined at:
 
     .. tab-item:: LSDYNA
 
-        .. code-block:: python
+        .. jupyter-execute::
 
             # Get the element types on the mesh
             my_el_types_2 = my_meshed_region_2.property_field(property_name="eltype")
             # Print the element types
             print(my_el_types_2)
-
-        .. rst-class:: sphx-glr-script-out
-
-         .. jupyter-execute::
-            :hide-code:
-
-            # Get the element types on the mesh
-            my_el_types_2 = my_meshed_region_2.property_field(property_name="eltype")
-            # Print the element types
-            print(my_el_types_2)
-
 
     .. tab-item:: Fluent
 
-        .. code-block:: python
-
-            # Get the element types on the mesh
-            my_el_types_3 = my_meshed_region_3.property_field(property_name="eltype")
-            # Print the element types
-            print(my_el_types_3)
-
-        .. rst-class:: sphx-glr-script-out
-
-         .. jupyter-execute::
-            :hide-code:
+        .. jupyter-execute::
 
             # Get the element types on the mesh
             my_el_types_3 = my_meshed_region_3.property_field(property_name="eltype")
@@ -388,17 +240,7 @@ to the entity they are defined at:
 
     .. tab-item:: CFX
 
-        .. code-block:: python
-
-            # Get the element types on the mesh
-            my_el_types_4 = my_meshed_region_4.property_field(property_name="eltype")
-            # Print the element types
-            print(my_el_types_4)
-
-        .. rst-class:: sphx-glr-script-out
-
-         .. jupyter-execute::
-            :hide-code:
+        .. jupyter-execute::
 
             # Get the element types on the mesh
             my_el_types_4 = my_meshed_region_4.property_field(property_name="eltype")

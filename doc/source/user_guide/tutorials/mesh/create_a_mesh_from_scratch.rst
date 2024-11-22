@@ -23,7 +23,7 @@ Import the necessary modules
 
 Import the ``ansys.dpf.core`` module, including the operators subpackage and the numpy library
 
-.. code-block:: python
+.. jupyter-execute::
 
     import numpy as np
     from ansys.dpf import core as dpf
@@ -32,7 +32,7 @@ Import the ``ansys.dpf.core`` module, including the operators subpackage and the
 Define the mesh dimensions
 --------------------------
 
-.. code-block:: python
+.. jupyter-execute::
 
     # Define the mesh dimensions
     length = 0.1
@@ -52,7 +52,7 @@ the elements and nodes indices connected to each node.
 
 Here we create a function that will find the connectivity of our entities.
 
-.. code-block:: python
+.. jupyter-execute::
 
     def search_sequence_numpy(arr, seq):
         """Find a sequence in an array and return its index."""
@@ -68,7 +68,7 @@ Add nodes
 
 Add nodes to the |MeshedRegion| object:
 
-.. code-block:: python
+.. jupyter-execute::
 
     node_id = 1
     for i, x in enumerate(
@@ -85,7 +85,7 @@ Add nodes to the |MeshedRegion| object:
 
 Get the nodes coordinates field
 
-.. code-block:: python
+.. jupyter-execute::
 
     my_nodes_coordinates = my_meshed_region.nodes.coordinates_field
 
@@ -94,13 +94,13 @@ Set the mesh node properties
 
 Set the mesh unit:
 
-.. code-block:: python
+.. jupyter-execute::
 
     my_meshed_region.unit = "mm"
 
 Set the nodes coordinates:
 
-.. code-block:: python
+.. jupyter-execute::
 
     # Get the nodes coordinates data
     my_nodes_coordinates_data = my_nodes_coordinates.data
@@ -112,7 +112,7 @@ Set the nodes coordinates:
 Add the elements
 ----------------
 
-.. code-block:: python
+.. jupyter-execute::
 
     element_id = 1
     for i, x in enumerate(
@@ -144,75 +144,6 @@ Add the elements
 Plot the mesh
 -------------
 
-.. code-block:: python
+.. jupyter-execute::
 
-    my_meshed_region.plot()
-
-.. rst-class:: sphx-glr-script-out
-
- .. jupyter-execute::
-    :hide-code:
-
-    import numpy as np
-    from ansys.dpf import core as dpf
-    from ansys.dpf.core import operators as ops
-    length = 0.1
-    width = 0.05
-    depth = 0.1
-    num_nodes_in_length = 10
-    num_nodes_in_width = 5
-    num_nodes_in_depth = 10
-    my_meshed_region = dpf.MeshedRegion()
-    def search_sequence_numpy(arr, seq):
-        """Find a sequence in an array and return its index."""
-        indexes = np.where(np.isclose(arr, seq[0]))
-        for index in np.nditer(indexes[0]):
-            if index % 3 == 0:
-                if np.allclose(arr[index + 1], seq[1]) and np.allclose(arr[index + 2], seq[2]):
-                    return index
-        return -1
-    node_id = 1
-    for i, x in enumerate(
-        [float(i) * length / float(num_nodes_in_length) for i in range(0, num_nodes_in_length)]
-    ):
-        for j, y in enumerate(
-            [float(i) * width / float(num_nodes_in_width) for i in range(0, num_nodes_in_width)]
-        ):
-            for k, z in enumerate(
-                [float(i) * depth / float(num_nodes_in_depth) for i in range(0, num_nodes_in_depth)]
-            ):
-                my_meshed_region.nodes.add_node(node_id, [x, y, z])
-                node_id += 1
-    my_nodes_coordinates = my_meshed_region.nodes.coordinates_field
-    my_meshed_region.unit = "mm"
-    my_nodes_coordinates_data = my_nodes_coordinates.data
-    my_nodes_coordinates_data_list = my_nodes_coordinates.data_as_list
-    my_coordinates_scoping = my_nodes_coordinates.scoping
-    element_id = 1
-    for i, x in enumerate(
-        [float(i) * length / float(num_nodes_in_length) for i in range(num_nodes_in_length - 1)]
-    ):
-        for j, y in enumerate(
-            [float(i) * width / float(num_nodes_in_width) for i in range(num_nodes_in_width - 1)]
-        ):
-            for k, z in enumerate(
-                [float(i) * depth / float(num_nodes_in_depth) for i in range(num_nodes_in_depth - 1)]
-            ):
-                coord1 = np.array([x, y, z])
-                connectivity = []
-                for xx in [x, x + length / float(num_nodes_in_length)]:
-                    for yy in [y, y + width / float(num_nodes_in_width)]:
-                        for zz in [z, z + depth / float(num_nodes_in_depth)]:
-                            data_index = search_sequence_numpy(my_nodes_coordinates_data_list, [xx, yy, zz])
-                            scoping_index = int(data_index / 3)  # 3components
-                            connectivity.append(scoping_index)
-                # rearrange connectivity
-                tmp = connectivity[2]
-                connectivity[2] = connectivity[3]
-                connectivity[3] = tmp
-                tmp = connectivity[6]
-                connectivity[6] = connectivity[7]
-                connectivity[7] = tmp
-                my_meshed_region.elements.add_solid_element(element_id, connectivity)
-                element_id += 1
     my_meshed_region.plot()

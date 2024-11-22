@@ -27,7 +27,7 @@ in our ``Examples`` package.
 
     .. tab-item:: Fluent
 
-        .. code-block:: python
+        .. jupyter-execute::
 
             # Import the ``ansys.dpf.core`` module, including examples files and the operators subpackage
             from ansys.dpf import core as dpf
@@ -40,7 +40,7 @@ in our ``Examples`` package.
 
     .. tab-item:: CFX
 
-        .. code-block:: python
+        .. jupyter-execute::
 
             # Import the ``ansys.dpf.core`` module, including examples files and the operators subpackage
             from ansys.dpf import core as dpf
@@ -60,26 +60,8 @@ Instanciate the |meshes_provider| operator.
 
     .. tab-item:: Fluent
 
-        .. code-block:: python
+        .. jupyter-execute::
 
-            # Instanciate the meshes_provider operator
-            my_meshes_31 =  ops.mesh.meshes_provider(data_sources=my_data_sources_3).eval()
-            # Print the meshes
-            print(my_meshes_31)
-
-        .. rst-class:: sphx-glr-script-out
-
-         .. jupyter-execute::
-            :hide-code:
-
-            # Import the ``ansys.dpf.core`` module, including examples files and the operators subpackage
-            from ansys.dpf import core as dpf
-            from ansys.dpf.core import examples
-            from ansys.dpf.core import operators as ops
-            # Define the result file
-            result_file_path_3 = examples.download_fluent_axial_comp()["flprj"]
-            # Create the DataSources object
-            my_data_sources_3 = dpf.DataSources(result_path=result_file_path_3)
             # Instanciate the meshes_provider operator
             my_meshes_31 =  ops.mesh.meshes_provider(data_sources=my_data_sources_3).eval()
             # Print the meshes
@@ -87,22 +69,8 @@ Instanciate the |meshes_provider| operator.
 
     .. tab-item:: CFX
 
-        .. code-block:: python
+        .. jupyter-execute::
 
-            # Instanciate the meshes_provider operator
-            my_meshes_41 =  ops.mesh.meshes_provider(data_sources=my_data_sources_4).eval()
-            # Print the meshes
-            print(my_meshes_41)
-
-        .. rst-class:: sphx-glr-script-out
-
-         .. jupyter-execute::
-            :hide-code:
-
-            # Define the result file
-            result_file_path_4 = examples.download_cfx_mixing_elbow()
-            # Create the DataSources object
-            my_data_sources_4 = dpf.DataSources(result_path=result_file_path_4)
             # Instanciate the meshes_provider operator
             my_meshes_41 =  ops.mesh.meshes_provider(data_sources=my_data_sources_4).eval()
             # Print the meshes
@@ -120,36 +88,16 @@ The given meshes can be spatially or temporally varying, it depends on your resu
 
     .. tab-item:: Fluent
 
-        .. code-block:: python
+        .. jupyter-execute::
 
             # Instanciate the meshes_provider operator and specify a region
             my_meshes_32 =  ops.mesh.meshes_provider(data_sources=my_data_sources_3, region_scoping=[3,12]).eval()
             # Print the meshes
             print(my_meshes_32)
 
-        .. rst-class:: sphx-glr-script-out
-
-         .. jupyter-execute::
-            :hide-code:
-
-            # Instanciate the meshes_provider operator specifying a region
-            my_meshes_32 =  ops.mesh.meshes_provider(data_sources=my_data_sources_3, region_scoping=[3,12]).eval()
-            # Print the meshes
-            print(my_meshes_32)
-
     .. tab-item:: CFX
 
-        .. code-block:: python
-
-            # Instanciate the meshes_provider operator specifying a region
-            my_meshes_42 =  ops.mesh.meshes_provider(data_sources=my_data_sources_4, region_scoping=[5,8]).eval()
-            # Print the meshes
-            print(my_meshes_42)
-
-        .. rst-class:: sphx-glr-script-out
-
-         .. jupyter-execute::
-            :hide-code:
+        .. jupyter-execute::
 
             # Instanciate the meshes_provider operator specifying a region
             my_meshes_42 =  ops.mesh.meshes_provider(data_sources=my_data_sources_4, region_scoping=[5,8]).eval()
