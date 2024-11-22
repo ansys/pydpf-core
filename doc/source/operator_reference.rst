@@ -26,7 +26,7 @@ Click below to access the operators documentation.
 
             +++
             .. button-link:: OPEN
-               :color: secondary
+               :color: primary
                :expand:
                :outline:
                :click-parent:              
