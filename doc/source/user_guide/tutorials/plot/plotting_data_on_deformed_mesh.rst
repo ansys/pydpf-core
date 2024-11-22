@@ -8,7 +8,8 @@ Plotting data on deformed mesh
 .. |MeshedRegion| replace:: :class:`MeshedRegion <ansys.dpf.core.meshed_region.MeshedRegion>`
 .. |Field| replace:: :class:`Field<ansys.dpf.core.field.Field>`
 .. |FieldsContainer| replace:: :class:`FieldsContainer<ansys.dpf.core.fields_container.FieldsContainer>`
-.. |MeshesContainer| replace:: :class:`MeshesContainer <ansys.dpf.core.meshes_container.MeshesContainer>`,
+.. |MeshesContainer| replace:: :class:`MeshesContainer <ansys.dpf.core.meshes_container.MeshesContainer>`
+.. |Examples| replace:: :mod:`Examples<ansys.dpf.core.examples>`
 
 This tutorial shows how to plot data on the deformed mesh. For more detailed information  on plotting data
 check the :ref:`ref_plotting_data_on_the_mesh` tutorial.
@@ -17,7 +18,7 @@ Define the data
 ---------------
 
 In this tutorial we will download a simulation result file available
-in our ``Examples`` package:
+in our |Examples| package:
 
 .. jupyter-execute::
 

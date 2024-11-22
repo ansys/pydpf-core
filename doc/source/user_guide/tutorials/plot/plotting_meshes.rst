@@ -13,6 +13,7 @@ Plotting meshes
 .. |DpfPlotter| replace:: :class:`DpfPlotter<ansys.dpf.core.plotter.DpfPlotter>`
 .. |add_mesh| replace:: :func:`add_mesh()<ansys.dpf.core.plotter.DpfPlotter.add_mesh>`
 .. |show_figure| replace:: :func:`show_figure()<ansys.dpf.core.plotter.DpfPlotter.show_figure>`
+.. |Examples| replace:: :mod:`Examples<ansys.dpf.core.examples>`
 
 DPF-Core has a variety of plotting methods for generating 3D plots of
 Ansys models directly from Python. These methods use VTK and leverage
@@ -29,7 +30,7 @@ The mesh object in DPF is a |MeshedRegion|. You can plot a |MeshedRegion| or a
 |MeshesContainer|, that is a collection of |MeshedRegion|.
 
 In this tutorial we will download a pontoon simulation result file available in
-our `Examples` package:
+our |Examples| package:
 
 .. jupyter-execute::
 

@@ -9,6 +9,7 @@ Plotting data on a graph
 .. |MeshedRegion| replace:: :class:`MeshedRegion <ansys.dpf.core.meshed_region.MeshedRegion>`
 .. |Model| replace:: :class:`Model <ansys.dpf.core.model.Model>`
 .. |mapping| replace:: :class:`mapping <ansys.dpf.core.operators.mapping.on_coordinates.on_coordinates>`
+.. |Examples| replace:: :mod:`Examples<ansys.dpf.core.examples>`
 
 This part shows how to get a result plotted on a graph.
 
@@ -29,7 +30,7 @@ be defined check the :ref:`ref_plotting_data_on_specific_placements` tutorial.
 Define the data
 ^^^^^^^^^^^^^^^
 
-We will download a simple simulation result file available in our `Examples` package:
+We will download a simple simulation result file available in our |Examples| package:
 
 .. jupyter-execute::
 

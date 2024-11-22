@@ -15,6 +15,7 @@ Plotting data on the mesh
 .. |show_figure| replace:: :func:`show_figure()<ansys.dpf.core.plotter.DpfPlotter.show_figure>`
 .. |Field| replace:: :class:`Field<ansys.dpf.core.field.Field>`
 .. |FieldsContainer| replace:: :class:`FieldsContainer<ansys.dpf.core.fields_container.FieldsContainer>`
+.. |Examples| replace:: :mod:`Examples<ansys.dpf.core.examples>`
 
 This tutorial shows how to plot data on its supporting mesh by different approaches.
 
@@ -22,7 +23,7 @@ Define the data
 ---------------
 
 In this tutorial we will download a simulation result file available
-in our ``Examples`` package:
+in our |Examples| package:
 
 .. jupyter-execute::
 

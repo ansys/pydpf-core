@@ -14,6 +14,7 @@ Plot data on geometry elements
 .. |Points| replace:: :class:`Points <ansys.dpf.core.geometry.Points>`
 .. |Plane| replace:: :class:`Plane <ansys.dpf.core.geometry.Plane>`
 .. |mapping| replace:: :class:`mapping <ansys.dpf.core.operators.mapping.on_coordinates.on_coordinates>`
+.. |Examples| replace:: :mod:`Examples<ansys.dpf.core.examples>`
 
 This tutorials shows how to get a result mapped over different geometric objects:
 
@@ -24,7 +25,7 @@ This tutorials shows how to get a result mapped over different geometric objects
 Define the data
 ---------------
 
-We will download a simple simulation result file available in our `Examples` package:
+We will download a simple simulation result file available in our |Examples| package:
 
 .. jupyter-execute::
 
