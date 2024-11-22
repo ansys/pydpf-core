@@ -157,6 +157,9 @@ class Operator:
                 self._internal_obj = operator
                 self.name = self._api.operator_name(self)
         else:
+            # step3: init environment
+            self._api.init_operator_environment(self)  # creates stub when gRPC
+
             if self._server.has_client():
                 self._internal_obj = self._api.operator_new_on_client(
                     self.name, self._server.client
