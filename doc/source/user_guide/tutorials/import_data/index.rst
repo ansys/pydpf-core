@@ -42,16 +42,15 @@ From result files
        :link-type: ref
        :text-align: center
 
-       This tutorial shows how to import a result file in DPF
+       This tutorial shows how to import a result file in DPF.
 
     .. grid-item-card:: Extract and explore results metadata
        :link: ref_tutorials_extract_and_explore_results_metadata
        :link-type: ref
        :text-align: center
 
-       This tutorial shows how to extract and explore results metadata (unit,
-       location, the scoping, the shape of the data stored ... ) extracted
-       from a result file.
+       This tutorial shows how to extract and explore results metadata (analysis type,
+       physics type, unit system ... ) from a result file.
 
     .. grid-item-card:: Extract and explore results data
        :link: ref_tutorials_extract_and_explore_results_data
