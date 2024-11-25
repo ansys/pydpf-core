@@ -121,7 +121,7 @@ class Operator:
 
     """
 
-    def __init__(self, name, config=None, server=None):
+    def __init__(self, name=None, config=None, server=None, operator=None):
         """Initialize the operator with its name by connecting to a stub."""
         self.name = name
         self._internal_obj = None
@@ -136,14 +136,29 @@ class Operator:
         # step 2: get api
         self._api_instance = None  # see _api property
 
-        # step3: init environment
+        # step 3: init environment
         self._api.init_operator_environment(self)  # creates stub when gRPC
 
-        # step4: if object exists: take instance, else create it (server)
-        if self._server.has_client():
-            self._internal_obj = self._api.operator_new_on_client(self.name, self._server.client)
+        # step 4: if object exists, take the instance, else create it
+        if operator is not None:
+            if isinstance(operator, Operator):
+                core_api = self._server.get_api_for_type(
+                    capi=data_processing_capi.DataProcessingCAPI,
+                    grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI,
+                )
+                core_api.init_data_processing_environment(self)
+                self._internal_obj = core_api.data_processing_duplicate_object_reference(operator)
+                self.name = operator.name
+            else:
+                self._internal_obj = operator
+                self.name = self._api.operator_name(self)
         else:
-            self._internal_obj = self._api.operator_new(self.name)
+            if self._server.has_client():
+                self._internal_obj = self._api.operator_new_on_client(
+                    self.name, self._server.client
+                )
+            else:
+                self._internal_obj = self._api.operator_new(self.name)
 
         if self._internal_obj is None:
             raise KeyError(

@@ -35,6 +35,10 @@ class property_field_provider_by_name(Operator):
         step, substep, keyopt_i (i = 1 ->
         18).
 
+    Returns
+    -------
+    property_field : PropertyField
+        Property field
 
     Examples
     --------

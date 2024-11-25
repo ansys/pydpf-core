@@ -69,6 +69,9 @@ class thermal_conductivity(Operator):
         combination of zone, phases or
         species ids
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

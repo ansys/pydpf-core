@@ -19,6 +19,9 @@ class acmo_mesh_provider(Operator):
     assembly_mesh : AnsDispatchHolder or Struct Iansdispatch
     unit : str, optional
 
+    Returns
+    -------
+    meshes_container : MeshesContainer
 
     Examples
     --------

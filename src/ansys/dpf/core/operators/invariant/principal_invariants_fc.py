@@ -19,6 +19,14 @@ class principal_invariants_fc(Operator):
     ----------
     fields_container : FieldsContainer
 
+    Returns
+    -------
+    fields_eig_1 : FieldsContainer
+        First eigen value fields
+    fields_eig_2 : FieldsContainer
+        Second eigen value fields
+    fields_eig_3 : FieldsContainer
+        Third eigen value fields
 
     Examples
     --------

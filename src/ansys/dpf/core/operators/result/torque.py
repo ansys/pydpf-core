@@ -21,6 +21,9 @@ class torque(Operator):
     field : Field
         Field
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

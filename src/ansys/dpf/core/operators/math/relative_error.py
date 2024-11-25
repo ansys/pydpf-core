@@ -24,6 +24,15 @@ class relative_error(Operator):
         Field or fields container with only one field
         is expected
 
+    Returns
+    -------
+    field : Field
+    zero_ref_scoping : Scoping
+        Ids of entities where reference value is
+        zero.
+    no_ref_scoping : Scoping
+        Ids of entities where there are no reference
+        value.
 
     Examples
     --------

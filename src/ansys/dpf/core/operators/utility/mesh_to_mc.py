@@ -23,6 +23,9 @@ class mesh_to_mc(Operator):
     label : dict
         Sets a label space.
 
+    Returns
+    -------
+    meshes_container : MeshesContainer
 
     Examples
     --------

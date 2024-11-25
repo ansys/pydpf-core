@@ -122,6 +122,8 @@ class Any:
             data_tree,
             custom_type_field,
             collection,
+            workflow,
+            dpf_operator,
         )
 
         if issubclass(obj, int):
@@ -185,10 +187,20 @@ class Any:
                 self._api.any_new_from_any_collection,
                 self._api.any_get_as_any_collection,
             )
+        elif issubclass(obj, workflow.Workflow):
+            return (
+                self._api.any_new_from_workflow,
+                self._api.any_get_as_workflow,
+            )
         elif issubclass(obj, dpf_vector.DPFVectorInt):
             return (
                 self._api.any_new_from_int_collection,
                 self._api.any_get_as_int_collection,
+            )
+        elif issubclass(obj, dpf_operator.Operator):
+            return (
+                self._api.any_new_from_operator,
+                self._api.any_get_as_operator,
             )
 
     @staticmethod

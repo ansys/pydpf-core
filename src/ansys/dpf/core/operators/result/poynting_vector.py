@@ -28,6 +28,9 @@ class poynting_vector(Operator):
         poynting vector is computed only on
         the substeps of this step
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

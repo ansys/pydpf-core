@@ -23,6 +23,9 @@ class extend_to_mid_nodes_fc(Operator):
         perform the averaging. it is used if
         there is no fields support.
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

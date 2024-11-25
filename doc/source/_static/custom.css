@@ -2,21 +2,6 @@
 .wy-table-responsive table td, .wy-table-responsive table th {
     white-space: normal;
 }
-
-
-.bd-content .sd-card .sd-card-body, .bd-content .sd-card .sd-card-footer {
-    background-color: transparent;
-}
-
-.sd-card-text {
-    font-family: var(--pst-font-family-base);
-    font-size: var(--pst-font-size-base);
-}
-
-.sd-sphinx-override .code {
-   background-color: var(--pst-color-surface);
-}
-
 /* Check https://www.w3schools.com/cssref/css_colors.php for colors */
 /* Ansys gold for MAPDL with black text*/
 .sd-bg-mapdl{background-color: #FFB71B}

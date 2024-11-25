@@ -20,7 +20,14 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""Module containing the different geometry objects."""
+"""
+.. _ref_geometry:
+
+Geometry
+========
+Module containing the different geometry objects.
+
+"""
 
 from ansys.dpf import core as dpf
 

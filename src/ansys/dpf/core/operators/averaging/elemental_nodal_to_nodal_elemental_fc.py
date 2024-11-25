@@ -20,6 +20,9 @@ class elemental_nodal_to_nodal_elemental_fc(Operator):
     fields_container : FieldsContainer
     mesh_scoping : Scoping, optional
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

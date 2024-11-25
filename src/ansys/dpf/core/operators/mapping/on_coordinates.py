@@ -44,6 +44,9 @@ class on_coordinates(Operator):
         precise but less performant). default
         is false.
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

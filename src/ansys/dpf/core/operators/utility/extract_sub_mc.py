@@ -31,6 +31,10 @@ class extract_sub_mc(Operator):
         container, otherwise, label space is
         kept.
 
+    Returns
+    -------
+    meshes_container : MeshesContainer
+        Meshes
 
     Examples
     --------

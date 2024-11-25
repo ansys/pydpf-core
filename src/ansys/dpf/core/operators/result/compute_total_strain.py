@@ -78,6 +78,11 @@ class compute_total_strain(Operator):
         specified, read displacements from
         result file using the data_sources.
 
+    Returns
+    -------
+    fields_container : FieldsContainer
+        The computed result fields container
+        (elemental nodal).
 
     Examples
     --------

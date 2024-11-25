@@ -27,6 +27,9 @@ class component_wise_divide(Operator):
         Field or fields container with only one field
         is expected
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

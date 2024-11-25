@@ -25,6 +25,11 @@ class unit_convert(Operator):
         or a field from which expected unit
         will be extracted.
 
+    Returns
+    -------
+    converted_entity : Field or FieldsContainer or MeshedRegion or MeshesContainer
+        The output entity is the same as the input
+        (inplace operator)
 
     Examples
     --------

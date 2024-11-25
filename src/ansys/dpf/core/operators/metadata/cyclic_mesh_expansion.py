@@ -23,6 +23,14 @@ class cyclic_mesh_expansion(Operator):
         multistage: use scopings container
         with 'stage' label.
 
+    Returns
+    -------
+    meshed_region : MeshedRegion
+        Expanded meshed region.
+    cyclic_support : CyclicSupport
+        Input cyclic support modified in place
+        containing the new expanded meshed
+        regions.
 
     Examples
     --------

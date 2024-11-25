@@ -34,6 +34,9 @@ class sweeping_phase(Operator):
         is supposed to be 0 (default is
         false).
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

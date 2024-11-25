@@ -23,6 +23,9 @@ class extract_field(Operator):
     indices : optional
         Default is the first field
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

@@ -28,6 +28,10 @@ class merge_fields_by_label(Operator):
         quantities are summed instead of
         being ignored.
 
+    Returns
+    -------
+    fields_container : FieldsContainer
+    merged_field_support : AbstractFieldSupport
 
     Examples
     --------

@@ -27,6 +27,12 @@ class compute_time_scoping(Operator):
         1:ramped' or 2:stepped', default is ramped
     time_freq_support : TimeFreqSupport
 
+    Returns
+    -------
+    scoping : Scoping
+        Time_scoping
+    field : Field
+        Time_freq_values
 
     Examples
     --------
