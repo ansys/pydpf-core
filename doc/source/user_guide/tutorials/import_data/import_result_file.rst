@@ -21,7 +21,7 @@ You have two approaches to import a result file in DPF:
 
     The |Model| extracts a large amount of information by default (results, mesh and analysis data).
     If using this helper takes a long time for processing the code, mind using a |DataSources| object
-    and instantiating operators directly with it. Check the ":ref:`get_mesh_mesh_provider`" for more
+    and instantiating operators directly with it. Check the :ref:`get_mesh_mesh_provider` for more
     information on how to get a mesh from a result file.
 
 Define the result file path

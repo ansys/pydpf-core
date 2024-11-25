@@ -15,13 +15,6 @@ From user input
     :padding: 2
     :margin: 2
 
-    .. grid-item-card:: Import data from csv file
-       :link: ref_tutorials
-       :link-type: ref
-       :text-align: center
-
-       Learn how to import data in DPF from a csv file
-
     .. grid-item-card:: Manual input data on DPF
        :link: ref_tutorials_represent_data_on_dpf
        :link-type: ref
