@@ -20,9 +20,9 @@ From user input
        :link-type: ref
        :text-align: center
 
-       Learn how to import data in DPF from csv file
+       Learn how to import data in DPF from a csv file
 
-    .. grid-item-card:: Represent your data in DPF
+    .. grid-item-card:: Manual input data on DPF
        :link: ref_tutorials_represent_data_on_dpf
        :link-type: ref
        :text-align: center
