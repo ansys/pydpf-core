@@ -101,7 +101,7 @@ body:
     id: installed-packages
     attributes:
       label: Installed packages
-      description: Run `python -m pip list` to list installed packages
-      placeholder: Paste the output of `python -m pip list` here
+      description: Run `python -m pip freeze` to list installed packages
+      placeholder: Paste the output of `python -m pip freeze` here
     validations:
       required: true
