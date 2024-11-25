@@ -33,13 +33,13 @@ for root, subdirectories, files in os.walk(os.path.join(actual_path, os.path.par
             print(file)
             minimum_version_str = get_example_required_minimum_dpf_version(file)
             if float(server_version) - float(minimum_version_str) < -0.05:
-                print(f"Example skipped as it requires DPF {minimum_version_str}.")
+                print(f"Example skipped as it requires DPF {minimum_version_str}.", flush=True)
                 continue
             try:
                 out = subprocess.check_output([sys.executable, file])
             except subprocess.CalledProcessError as e:
                 sys.stderr.write(str(e.args))
                 if e.returncode != 3221225477:
-                    print(out)
+                    print(out, flush=True)
                     raise e
-            print("PASS")
+            print("PASS", flush=True)
