@@ -29,6 +29,10 @@ class mesh_clip(Operator):
         slicing will ignore shell and skin
         elements. the default is true.
 
+    Returns
+    -------
+    field : Field
+    mesh : MeshedRegion
 
     Examples
     --------

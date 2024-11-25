@@ -30,6 +30,9 @@ class on_named_selection(Operator):
     streams_container : StreamsContainer, optional
     data_sources : DataSources
 
+    Returns
+    -------
+    mesh_scoping : Scoping
 
     Examples
     --------

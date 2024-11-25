@@ -19,6 +19,10 @@ class identical_string_fields(Operator):
     string_fieldA : StringField
     string_fieldB : StringField
 
+    Returns
+    -------
+    are_identical : bool
+    information : str
 
     Examples
     --------

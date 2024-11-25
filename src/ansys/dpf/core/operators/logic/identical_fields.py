@@ -32,6 +32,11 @@ class identical_fields(Operator):
         considered identical(v1 - v2) / v2 <
         relativetol(default is 0.001).
 
+    Returns
+    -------
+    boolean : bool
+        Bool (true if identical...)
+    message : str
 
     Examples
     --------

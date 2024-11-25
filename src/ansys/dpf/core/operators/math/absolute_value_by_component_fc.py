@@ -21,6 +21,9 @@ class absolute_value_by_component_fc(Operator):
         Field or fields container with only one field
         is expected
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

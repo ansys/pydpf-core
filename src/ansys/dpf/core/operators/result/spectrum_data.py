@@ -20,6 +20,11 @@ class spectrum_data(Operator):
         Data_sources (must contain at least one mode
         file).
 
+    Returns
+    -------
+    participation_factors : FieldsContainer
+        Fields container containing participation
+        factors.
 
     Examples
     --------

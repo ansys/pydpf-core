@@ -18,6 +18,9 @@ class cartesian_to_spherical(Operator):
     ----------
     field : Field or FieldsContainer
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

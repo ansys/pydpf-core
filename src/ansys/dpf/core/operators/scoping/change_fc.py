@@ -12,14 +12,17 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class change_fc(Operator):
-    """Rescopes/splits a fields container to correspond to a scopings
-    container.
+    """DEPRECATED, PLEASE USE ADAPT WITH SCOPINGS CONTAINER. Rescopes/splits
+    a fields container to correspond to a scopings container.
 
     Parameters
     ----------
     field_or_fields_container : FieldsContainer or Field
     scopings_container : ScopingsContainer
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------
@@ -51,7 +54,7 @@ class change_fc(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="rescope_fc", config=config, server=server)
+        super().__init__(name="change_fc", config=config, server=server)
         self._inputs = InputsChangeFc(self)
         self._outputs = OutputsChangeFc(self)
         if field_or_fields_container is not None:
@@ -61,8 +64,8 @@ class change_fc(Operator):
 
     @staticmethod
     def _spec():
-        description = """Rescopes/splits a fields container to correspond to a scopings
-            container."""
+        description = """DEPRECATED, PLEASE USE ADAPT WITH SCOPINGS CONTAINER. Rescopes/splits
+            a fields container to correspond to a scopings container."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -104,7 +107,7 @@ class change_fc(Operator):
             Server with channel connected to the remote or local instance. When
             ``None``, attempts to use the global server.
         """
-        return Operator.default_config(name="rescope_fc", server=server)
+        return Operator.default_config(name="change_fc", server=server)
 
     @property
     def inputs(self):

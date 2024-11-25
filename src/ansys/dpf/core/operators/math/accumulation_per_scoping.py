@@ -28,6 +28,10 @@ class accumulation_per_scoping(Operator):
         The intersection between the of the first
         will be used.
 
+    Returns
+    -------
+    accumulation_per_scoping : FieldsContainer
+    accumulation_per_scoping_percentage : FieldsContainer
 
     Examples
     --------

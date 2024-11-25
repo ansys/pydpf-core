@@ -19,6 +19,9 @@ class modulus(Operator):
     ----------
     fields_container : FieldsContainer
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

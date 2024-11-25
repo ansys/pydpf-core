@@ -21,6 +21,9 @@ class qr_solve(Operator):
     rhs : FieldsContainer
         Fields_container
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

@@ -193,4 +193,3 @@ To reach the project support team, email `pyansys.core@ansys.com <pyansys.core@a
    examples/index
    api/index
    operator_reference
-   contributing

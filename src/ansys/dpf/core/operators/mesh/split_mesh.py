@@ -22,6 +22,9 @@ class split_mesh(Operator):
     mesh : MeshedRegion
     property : str
 
+    Returns
+    -------
+    meshes : MeshesContainer
 
     Examples
     --------

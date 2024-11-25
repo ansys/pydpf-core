@@ -50,6 +50,35 @@ class transform_invariant_terms_rbd(Operator):
     dnyn :
     dnzn :
 
+    Returns
+    -------
+    model_data : PropertyField
+        Data describing the finite element model
+    center_of_mass : Field
+        Center of mass of the body
+    inertia_relief : Field
+        Inertia matrix
+    model_size : PropertyField
+    master_node_coordinates :
+    v_trsf :
+        Translational and rotational shape functions
+    k_mat : Field
+    mass_mat : Field
+    c_mat : Field
+    rhs : Field
+    dn :
+    dr_cross_n :
+    drn :
+    dn_cross_n :
+    dnx_y :
+    dny_y :
+    dnz_y :
+    dyx_n :
+    dyy_n :
+    dyz_n :
+    dnxn :
+    dnyn :
+    dnzn :
 
     Examples
     --------

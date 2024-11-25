@@ -23,6 +23,9 @@ class merge_result_infos(Operator):
         A vector of result info containers to merge
         or result infos from pin 0 to ...
 
+    Returns
+    -------
+    merged_result_infos : ResultInfo
 
     Examples
     --------

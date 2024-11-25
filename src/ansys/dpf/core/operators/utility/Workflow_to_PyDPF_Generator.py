@@ -21,6 +21,9 @@ class Workflow_to_PyDPF_Generator(Operator):
     output_path : str, optional
     output_file_name : str, optional
 
+    Returns
+    -------
+    pydpf_code : str
 
     Examples
     --------

@@ -28,6 +28,9 @@ class ascending_sort_fc(Operator):
         If true, uses scoping to sort the field
         (default is false)
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

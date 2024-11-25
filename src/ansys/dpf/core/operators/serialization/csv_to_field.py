@@ -21,6 +21,9 @@ class csv_to_field(Operator):
         Data sources containing a file with csv
         extension
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------
