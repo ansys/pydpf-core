@@ -88,6 +88,7 @@ jobs:
     with:
       ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '251' }}
       python_versions: '["3.10", "3.11"]'
+      DOCSTRING: false
       wheel: false
       wheelhouse: true
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
@@ -109,6 +110,7 @@ jobs:
     with:
       ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '251' }}
       python_versions: '["3.10", "3.11"]'
+      DOCSTRING: false
       wheel: false
       wheelhouse: false
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
