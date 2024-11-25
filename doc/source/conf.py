@@ -332,5 +332,12 @@ def verify_meilisearch_is_active(app):
         # sys.exit(1)
 
 
+# Define custom docutils roles for solver badges
+from sphinx_design.badges_buttons import BadgeRole
+
 def setup(app):
     app.connect("builder-inited", verify_meilisearch_is_active)
+    app.add_role(name="bdg-mapdl", role=BadgeRole(color="mapdl"))
+    app.add_role(name="bdg-cfx", role=BadgeRole(color="cfx"))
+    app.add_role(name="bdg-fluent", role=BadgeRole(color="fluent"))
+    app.add_role(name="bdg-lsdyna", role=BadgeRole(color="lsdyna"))

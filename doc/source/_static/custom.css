@@ -16,3 +16,16 @@
 .sd-sphinx-override .code {
    background-color: var(--pst-color-surface);
 }
+
+/* Check https://www.w3schools.com/cssref/css_colors.php for colors */
+/* Ansys gold for MAPDL with black text*/
+.sd-bg-mapdl{background-color: #FFB71B}
+.sd-bg-text-mapdl{color: Black}
+/* Ansys orange accent color for Fluent with black text*/
+.sd-bg-lsdyna{background-color: #FB471F}
+.sd-bg-text-lsdyna{color: Black}
+/* Ansys blue accent color #00629F for Fluent with black text*/
+.sd-bg-fluent{background-color: #0081D0}
+.sd-bg-text-fluent{color: Black}
+.sd-bg-cfx{background-color: LightSeaGreen}
+.sd-bg-text-cfx{color: Black}
