@@ -19,6 +19,10 @@ class min_max_by_entity(Operator):
     ----------
     fields_container : FieldsContainer
 
+    Returns
+    -------
+    field_min : Field
+    field_max : Field
 
     Examples
     --------

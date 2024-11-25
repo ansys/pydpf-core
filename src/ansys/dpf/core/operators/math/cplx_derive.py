@@ -18,6 +18,9 @@ class cplx_derive(Operator):
     ----------
     fields_container : FieldsContainer
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

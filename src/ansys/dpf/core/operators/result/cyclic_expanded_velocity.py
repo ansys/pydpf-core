@@ -52,6 +52,11 @@ class cyclic_expanded_velocity(Operator):
     phi : float, optional
         Angle phi in degrees (default value 0.0)
 
+    Returns
+    -------
+    fields_container : FieldsContainer
+        Fieldscontainer filled in
+    expanded_meshes : MeshesContainer
 
     Examples
     --------

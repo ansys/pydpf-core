@@ -19,6 +19,9 @@ class img_part(Operator):
     ----------
     fields_container : FieldsContainer
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

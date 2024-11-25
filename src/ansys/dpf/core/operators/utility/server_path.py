@@ -23,6 +23,11 @@ class server_path(Operator):
         "aisol/bin(dll)/platform", 3:
         "dpf/plugins", 4: "dpf/workflows".
 
+    Returns
+    -------
+    path : str
+        Path to the requested folder in the dpf
+        server
 
     Examples
     --------

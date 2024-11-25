@@ -23,6 +23,9 @@ class component_wise_divide_fc(Operator):
     fields_containerA : FieldsContainer
     fields_containerB : FieldsContainer
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

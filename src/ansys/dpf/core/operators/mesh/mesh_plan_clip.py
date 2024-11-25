@@ -24,6 +24,10 @@ class mesh_plan_clip(Operator):
         An overall 3d vector that gives a point of
         the plane.
 
+    Returns
+    -------
+    field : Field
+    mesh : MeshedRegion
 
     Examples
     --------

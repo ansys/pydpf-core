@@ -23,6 +23,9 @@ class import_symbolic_workflow(Operator):
         binary, 2 is json, default is -1
         (auto-detection).
 
+    Returns
+    -------
+    workflow : Workflow
 
     Examples
     --------

@@ -31,6 +31,9 @@ class filtering_max_over_time(Operator):
         Threshold from which the operator will
         filter.
 
+    Returns
+    -------
+    workflow : Workflow
 
     Examples
     --------

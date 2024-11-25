@@ -23,6 +23,14 @@ class split_streams(Operator):
     output_count : int
         Number of desired outputs.
 
+    Returns
+    -------
+    output_count : int
+        Actual number of outputs.
+    outputs1 : StreamsContainer
+        Streams outputs.
+    outputs2 : StreamsContainer
+        Streams outputs.
 
     Examples
     --------

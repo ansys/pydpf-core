@@ -25,6 +25,9 @@ class linear_combination(Operator):
         Double
     fields_containerC : FieldsContainer
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

@@ -31,6 +31,14 @@ class correlation(Operator):
         If true, correlation factor is
         ||amb||/(||ama||.||bmb||)
 
+    Returns
+    -------
+    field : Field
+        Correlation factor for each input field b.
+    index : int
+        If several b are provided, this output
+        contains the index of the highest
+        correlation factor.
 
     Examples
     --------

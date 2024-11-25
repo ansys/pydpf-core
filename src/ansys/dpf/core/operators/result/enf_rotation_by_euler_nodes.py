@@ -22,6 +22,9 @@ class enf_rotation_by_euler_nodes(Operator):
         Dataprocessing::Crstfilewrapper, optional
     data_sources : DataSources
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

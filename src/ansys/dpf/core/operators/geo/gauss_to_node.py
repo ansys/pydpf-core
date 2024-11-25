@@ -26,6 +26,9 @@ class gauss_to_node(Operator):
     mesh : MeshedRegion, optional
         Mesh to integrate on.
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

@@ -73,7 +73,7 @@ def has_local_server():
     return dpf.core.SERVER is not None
 
 
-def _global_server():
+def _global_server() -> BaseServer:
     """Retrieve the global server if it exists.
 
     If the global server has not been specified, check the expected server type in

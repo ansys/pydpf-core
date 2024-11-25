@@ -39,6 +39,10 @@ class on_mesh_property(Operator):
         on this property.
     mesh : MeshedRegion
 
+    Returns
+    -------
+    mesh_scoping : Scoping
+        Scoping
 
     Examples
     --------

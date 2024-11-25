@@ -22,6 +22,9 @@ class time_derivation(Operator):
         Uses spline fitting on the input field to
         compute smooth derivatives
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

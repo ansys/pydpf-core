@@ -30,6 +30,9 @@ class euler_nodes(Operator):
         (default is true).
     mesh : MeshedRegion, optional
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

@@ -30,6 +30,9 @@ class merge_property_fields(Operator):
         of property fields to merge or
         property fields from pin 0 to ...
 
+    Returns
+    -------
+    property_field : PropertyField
 
     Examples
     --------

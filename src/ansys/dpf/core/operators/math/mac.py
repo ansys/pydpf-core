@@ -27,6 +27,13 @@ class mac(Operator):
         Field m, optional weighting for mac matrix
         computation.
 
+    Returns
+    -------
+    field : Field
+        Mac matrix for all the combinations between
+        mode fields of field container a and
+        field container b. results listed row
+        by row.
 
     Examples
     --------

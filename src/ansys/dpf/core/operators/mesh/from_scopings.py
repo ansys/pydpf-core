@@ -33,6 +33,9 @@ class from_scopings(Operator):
         elements). default is false.
     mesh : MeshedRegion
 
+    Returns
+    -------
+    meshes : MeshesContainer
 
     Examples
     --------

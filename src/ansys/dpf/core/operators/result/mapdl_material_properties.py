@@ -35,6 +35,9 @@ class mapdl_material_properties(Operator):
     streams_container : StreamsContainer
     data_sources : DataSources
 
+    Returns
+    -------
+    properties_value : FieldsContainer
 
     Examples
     --------

@@ -20,6 +20,9 @@ class bind_support_fc(Operator):
     support : MeshedRegion or AbstractFieldSupport or TimeFreqSupport
         Meshed region or a support of the field.
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

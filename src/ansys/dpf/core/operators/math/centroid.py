@@ -26,6 +26,9 @@ class centroid(Operator):
     factor : float
         Scalar
 
+    Returns
+    -------
+    field : Field
 
     Examples
     --------

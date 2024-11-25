@@ -46,6 +46,9 @@ class equivalent_radiated_power(Operator):
     factor : float
         Erp reference value. default is 1e-12
 
+    Returns
+    -------
+    fields_container : FieldsContainer
 
     Examples
     --------

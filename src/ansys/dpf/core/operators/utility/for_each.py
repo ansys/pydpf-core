@@ -25,6 +25,11 @@ class for_each(Operator):
     forward1 :
     forward2 :
 
+    Returns
+    -------
+    empty :
+    output1 :
+    output2 :
 
     Examples
     --------

@@ -30,6 +30,10 @@ class decimate_mesh(Operator):
         time. value range is 0 to 150,
         default is 0.
 
+    Returns
+    -------
+    mesh : MeshedRegion
+        Decimated mesh with triangle elements
 
     Examples
     --------
