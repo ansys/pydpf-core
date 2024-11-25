@@ -328,6 +328,9 @@ def cfx_mixing_elbow():
     return return_ds
 
 
+SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0 = meets_version(
+    get_server_version(core._global_server()), "10.0"
+)
 SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_9_1 = meets_version(
     get_server_version(core._global_server()), "9.1"
 )
