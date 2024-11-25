@@ -131,6 +131,15 @@ jobs:
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
     secrets: inherit
 
+  retro_242:
+    name: "retro 242"
+    uses: ./.github/workflows/tests.yml
+    with:
+      ANSYS_VERSION: "242"
+      python_versions: '["3.9"]'
+      DOCSTRING: false
+    secrets: inherit
+
   retro_241:
     name: "retro 241"
     uses: ./.github/workflows/tests.yml
