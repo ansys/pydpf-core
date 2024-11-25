@@ -104,7 +104,7 @@ print(out)
 # license increment is used, and for what maximum duration.
 
 # Use the LicenseContextManager to block a specific increment for a limited duration
-with dpf.LicenseContextManager(increment_name="preppost", license_timeout_in_seconds=1.0) as lic:
+with dpf.LicenseContextManager(increment_name="preppost", license_timeout_in_seconds=5.0) as lic:
     # Instantiate the licensed operator
     out = op_premium.eval()
     print(out)
