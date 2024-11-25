@@ -42,6 +42,7 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
             custom_type_field,
             collection_base,
             workflow,
+            dpf_operator,
         )
 
         return [(int, base_pb2.Type.INT),
@@ -58,6 +59,7 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
                 (workflow.Workflow, base_pb2.Type.WORKFLOW),
                 (collection_base.CollectionBase, base_pb2.Type.COLLECTION, base_pb2.Type.ANY),
                 (dpf_vector.DPFVectorInt, base_pb2.Type.COLLECTION, base_pb2.Type.INT),
+                (dpf_operator.Operator, base_pb2.Type.OPERATOR),
                 ]
 
     @staticmethod
@@ -146,6 +148,10 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
         return AnyGRPCAPI._get_as(any).workflow
 
     @staticmethod
+    def any_get_as_operator(any):
+        return AnyGRPCAPI._get_as(any).operator
+
+    @staticmethod
     def _new_from(any, client=None):
         from ansys.grpc.dpf import dpf_any_pb2
         request = dpf_any_pb2.CreateRequest()
@@ -229,4 +235,8 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
 
     @staticmethod
     def any_new_from_workflow(any):
+        return AnyGRPCAPI._new_from(any, any._server)
+
+    @staticmethod
+    def any_new_from_operator(any):
         return AnyGRPCAPI._new_from(any, any._server)

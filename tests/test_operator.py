@@ -54,6 +54,12 @@ def test_create_operator(server_type):
     assert op._internal_obj
 
 
+def test_create_operator_from_operator(server_type):
+    op = dpf.core.Operator("min_max", server=server_type)
+    op2 = dpf.core.Operator(operator=op, server=server_type)
+    assert op2._internal_obj
+
+
 def test_invalid_operator_name(server_type):
     # with pytest.raises(errors.DPFServerException):
     with pytest.raises(Exception):
