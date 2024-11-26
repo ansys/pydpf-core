@@ -367,3 +367,17 @@ epub_title = project
 
 # A list of files that should not be packed into the epub file.
 epub_exclude_files = ["search.html"]
+
+# Define custom docutils roles for solver badges
+from sphinx_design.badges_buttons import BadgeRole
+
+def setup(app):
+    badge_roles = {
+        "bdg-mapdl": "mapdl",
+        "bdg-cfx": "cfx",
+        "bdg-fluent": "fluent",
+        "bdg-lsdyna": "lsdyna"
+    }
+
+    for role_name, color in badge_roles.items():
+        app.add_role(name=role_name, role=BadgeRole(color=color))
