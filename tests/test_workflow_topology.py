@@ -24,6 +24,7 @@ import pytest
 
 from ansys import dpf
 import ansys.dpf.core.operators as op
+import conftest
 
 
 def test_instantiate_workflow_to_workflow_topology_op(server_type):
@@ -163,12 +164,20 @@ def expected_workflow_topology(workflow):
     return workflow_topologies[workflow.name]
 
 
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
+    reason="any does not support operator below 8.0",
+)
 def test_workflow_get_topology(workflow):
     workflow_topology = workflow.get_topology()
 
     assert workflow_topology
 
 
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
+    reason="any does not support operator below 8.0",
+)
 def test_workflow_topology_sizes(workflow, expected_workflow_topology):
     workflow_topology = workflow.get_topology()
 
