@@ -14,7 +14,7 @@ apps for both data input and data output, including visualization and
 result plots. The following table shows an exhaustive list of supported
 apps by DPF and their related formats:
 
-.. include:: dpf_support_table.rst
+.. include:: dpf_ansys_file_support_table.rst
 
 Visualisation is ensured by VTK and leverages `PyVista tools
 <https://docs.pyvista.org>`_.
