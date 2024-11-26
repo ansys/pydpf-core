@@ -43,7 +43,6 @@ from ansys.dpf.core.check_version import (
     server_meet_version_and_raise,
 )
 from ansys.dpf.core import server as server_module
-from ansys.dpf.core.workflow_topology.workflow_topology import WorkflowTopology
 from ansys.dpf.gate import (
     workflow_abstract_api,
     workflow_grpcapi,

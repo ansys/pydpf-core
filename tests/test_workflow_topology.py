@@ -27,14 +27,6 @@ import ansys.dpf.core.operators as op
 import conftest
 
 
-def test_instantiate_workflow_to_workflow_topology_op(server_type):
-    workflow_to_workflow_topology_op = dpf.core.Operator(
-        "workflow_to_workflow_topology", server=server_type
-    )
-
-    assert workflow_to_workflow_topology_op
-
-
 def workflow_forward(server_type) -> dpf.core.Workflow:
     """
     ┌─────────┐      ┌────────────┐      ┌────────────┐      ┌──────────┐
@@ -162,6 +154,18 @@ def workflow(server_type, request) -> dpf.core.Workflow:
 @pytest.fixture()
 def expected_workflow_topology(workflow):
     return workflow_topologies[workflow.name]
+
+
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
+    reason="any does not support operator below 8.0",
+)
+def test_instantiate_workflow_to_workflow_topology_op(server_type):
+    workflow_to_workflow_topology_op = dpf.core.Operator(
+        "workflow_to_workflow_topology", server=server_type
+    )
+
+    assert workflow_to_workflow_topology_op
 
 
 @pytest.mark.skipif(
