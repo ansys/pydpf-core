@@ -955,7 +955,9 @@ class Workflow:
         return self._api.work_flow_export_graphviz(self, str(path))
 
     def get_topology(self):
-        workflow_to_workflow_topology_op = dpf_operator.Operator("workflow_to_workflow_topology")
+        workflow_to_workflow_topology_op = dpf_operator.Operator(
+            "workflow_to_workflow_topology", server=self._server
+        )
         workflow_to_workflow_topology_op.inputs.workflow.connect(self)
         workflow_topology_container = workflow_to_workflow_topology_op.outputs.workflow_topology()
 
