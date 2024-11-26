@@ -17,7 +17,8 @@ These tutorials demonstrate how to visualise the data in an animation.
        :text-align: center
 
        This tutorial shows how to animate your results data over time.
-
+       +++
+       :bdg-mapdl:`MAPDL` :bdg-lsdyna:`LS-DYNA` :bdg-fluent:`FLUENT` :bdg-cfx:`CFX`
 
 .. toctree::
     :maxdepth: 2
