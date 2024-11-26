@@ -33,7 +33,7 @@ To animate data across time you need to get the data stored in a |FieldsContaine
 Get the result files
 --------------------
 
-First download a result file such as one available with the |Examples| module.
+First, import a result file such as one available with the |Examples| module.
 For more information about how to import your own result file in DPF check
 the :ref:`ref_tutorials_import_data` tutorial section.
 
@@ -97,13 +97,13 @@ or on a static mesh (animate the color map only).
 
 The default behavior of the |animate| method consists in:
 
-- Showing the norm of the data if multiple components are available;
+- Showing the norm of the data components;
 - Showing data at the top layer for shells;
 - Showing the deformed mesh when animating displacements;
 - Showing the static mesh for other types of results;
 - Using a constant and uniform scale factor of 1.0 when deforming the mesh.
 
-You can animate any result on a deformed geometry by also providing displacements in the `deform_by` parameter.
+You can animate any result on a deformed geometry by providing displacement results in the `deform_by` parameter.
 
 The geometry can be deformed by a |Result| object, an |Operator| (It must evaluate to a |FieldsContainer|
 of same length as the one being animated) or a |FieldsContainer| (also of same length as the one being animated).
@@ -210,8 +210,11 @@ Change the scale factor
 
 You can change the scale factor using:
 
-a) A single number for a uniform constant scaling.
+- A single number for a uniform constant scaling;
+- A list of numbers for a varying scaling (same length as the number of frames).
 
+Uniform constant scaling
+^^^^^^^^^^^^^^^^
 .. jupyter-execute::
     :hide-output:
 
@@ -231,7 +234,8 @@ a) A single number for a uniform constant scaling.
    :scale: 45 %
    :align: center
 
-b) A list of numbers for a varying scaling (same length as the number of frames).
+Varying scaling
+^^^^^^^^^^
 
 .. jupyter-execute::
     :hide-output:
@@ -255,8 +259,13 @@ b) A list of numbers for a varying scaling (same length as the number of frames)
 Save the animation
 ------------------
 
-You can save the animation using the ``save_as`` argument with a target file path with the desired format as extension.
-Accepted extensions are ``.gif``, ``.avi`` or ``.mp4`` (see |open_movie|).
+You can save the animation using the ``save_as`` argument with a target file path with the desired format as the extension key.
+Accepted extensions are:
+-  ``.gif``;
+- ``.avi``;
+- ``.mp4`` 
+
+For more information see |open_movie|.
 
 .. jupyter-execute::
    :hide-output:
@@ -270,12 +279,18 @@ Control the camera
 
 Control the camera with the ``cpos`` argument.
 
-A camera position is a combination of position, focal point (the target), and upwards vector,
-resulting in a list of format:
+A camera position is a combination of:
+- A position;
+- A focal point (the target);
+- A upwards vector. 
+
+It results in a list of format:
 
 .. code-block:: python
 
-    [[pos_x, pos_y, pos_z], [fp_x, fp_y, fp_z], [up_x, up_y, up_z]]
+   camera_position= [[pos_x, pos_y, pos_z],  # position
+                                  [fp_x, fp_y, fp_z],  # focal point
+                                  [up_x, up_y, up_z]]  # upwards vector
 
 The |animate| method accepts a single camera position or a list of camera positions for each frame.
 
