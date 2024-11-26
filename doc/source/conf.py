@@ -329,7 +329,12 @@ epub_exclude_files = ["search.html"]
 from sphinx_design.badges_buttons import BadgeRole
 
 def setup(app):
-    app.add_role(name="bdg-mapdl", role=BadgeRole(color="mapdl"))
-    app.add_role(name="bdg-cfx", role=BadgeRole(color="cfx"))
-    app.add_role(name="bdg-fluent", role=BadgeRole(color="fluent"))
-    app.add_role(name="bdg-lsdyna", role=BadgeRole(color="lsdyna"))
+    badge_roles = {
+        "bdg-mapdl": "mapdl",
+        "bdg-cfx": "cfx",
+        "bdg-fluent": "fluent",
+        "bdg-lsdyna": "lsdyna"
+    }
+
+    for role_name, color in badge_roles.items():
+        app.add_role(name=role_name, role=BadgeRole(color=color))
