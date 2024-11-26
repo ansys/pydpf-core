@@ -111,8 +111,8 @@ of same length as the one being animated) or a |FieldsContainer| (also of same l
 .. note::
 
     The behavior of the |animate| method is defined by a |Workflow| it creates and feeds to an |Animator|.
-    This |Workflow| loops over a |Field| of frame indices and for each frame generates a field of contours
-    to render as well as a displacement field to deform the mesh with if `deform_by` is provided.
+    This |Workflow| loops over a |Field| of frame indices and for each frame generates a field of norm contours
+    to render, as well as a displacement field to deform the mesh if `deform_by` is provided.
     For more information on plots on deformed meshes see: :ref:`ref_plotting_data_on_deformed_mesh`.
 
 
