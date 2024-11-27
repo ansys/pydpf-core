@@ -67,9 +67,6 @@ class ExposedPin(CustomContainerBase):
             f"{indent(self.pin_id, indents)}"
         )
 
-    def __repr__(self) -> str:
-        return self.__str__()
-
 
 class ExposedPinsCollection:
     def __init__(self, collection):
