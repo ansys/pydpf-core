@@ -30,12 +30,4 @@ page to submit questions, report bugs, and request new features.
 
 To reach the project support team, email `pyansys.core@ansys.com <pyansys.core@ansys.com>`_.
 
-View documentation
-------------------
-Documentation for the latest stable release of PyDPF-Core is hosted at
-`PyDPF-Core Documentation <https://dpf.docs.pyansys.com/>`_. 
-
-In the upper right corner of the documentation's title bar, there is an option
-for switching from viewing the documentation for the latest stable release
-to viewing the documentation for the development version or previously
-released versions.
+.. include:: write_doc/index.rst
