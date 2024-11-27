@@ -158,7 +158,7 @@ def expected_workflow_topology(workflow):
 
 @pytest.mark.skipif(
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
-    reason="any does not support operator below 8.0",
+    reason="Operator `workflow_to_workflow_topology` does not exist below 10.0",
 )
 def test_instantiate_workflow_to_workflow_topology_op(server_type):
     workflow_to_workflow_topology_op = dpf.core.Operator(
@@ -170,7 +170,7 @@ def test_instantiate_workflow_to_workflow_topology_op(server_type):
 
 @pytest.mark.skipif(
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
-    reason="any does not support operator below 8.0",
+    reason="Operator `workflow_to_workflow_topology` does not exist below 10.0",
 )
 def test_workflow_get_topology(workflow):
     workflow_topology = workflow.get_topology()
@@ -180,7 +180,7 @@ def test_workflow_get_topology(workflow):
 
 @pytest.mark.skipif(
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
-    reason="any does not support operator below 8.0",
+    reason="Operator `workflow_to_workflow_topology` does not exist below 10.0",
 )
 def test_workflow_topology_sizes(workflow, expected_workflow_topology):
     workflow_topology = workflow.get_topology()
@@ -193,3 +193,14 @@ def test_workflow_topology_sizes(workflow, expected_workflow_topology):
     assert len(workflow_topology.data_connections) == expected_workflow_topology["data_connections"]
     assert len(workflow_topology.exposed_inputs) == expected_workflow_topology["exposed_inputs"]
     assert len(workflow_topology.exposed_outputs) == expected_workflow_topology["exposed_outputs"]
+
+
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
+    reason="Operator `workflow_to_workflow_topology` does not exist below 10.0",
+)
+def test_workflow_topology_str(workflow):
+    workflow_topology = workflow.get_topology()
+
+    # We only check that it does not raise
+    assert str(workflow_topology)
