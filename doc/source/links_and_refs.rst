@@ -1,14 +1,11 @@
+.. _ref_links_and_refs:
 
-=====
-Links
-=====
+.. LINKS
 
-Pyansys
-^^^^^^^
+.. Pyansys
 .. _pyansys: https://docs.pyansys.com/version/dev/
 
-PyAnsys Developer Guide
-^^^^^^^^^^^^^^^^^^^^^^^
+.. PyAnsys Developer Guide
 .. _dev_guide_pyansys: https://dev.docs.pyansys.com
 .. _dev_guide_contributing: https://dev.docs.pyansys.com/how-to/contributing.html
 .. _dev_guide_coding_style: https://dev.docs.pyansys.com/coding-style/index.html
@@ -16,28 +13,22 @@ PyAnsys Developer Guide
 .. _dev_guide_branch_names: https://dev.docs.pyansys.com/how-to/contributing.html#branch-naming-conventions
 .. _dev_guide_commit_names: https://dev.docs.pyansys.com/how-to/contributing.html#commit-naming-conventions
 
-Other libraries
-^^^^^^^^^^^^^^^
+.. Other libraries
 .. _pyvista_docs: https://docs.pyvista.org/version/stable/
 .. _jupyter: https://jupyter.org/
 .. _numpy_org: https://numpy.org/
 .. _numpy_docs: https://numpy.org/doc/stable/
 
-External links
-^^^^^^^^^^^^^^
+.. External links
 .. _sphinx: https://www.sphinx-doc.org/en/master/
 .. _sphinx_directives: https://www.sphinx-doc.org/en/master/usage/restructuredtext/directives.html
 .. _numpydoc: https://numpydoc.readthedocs.io/en/latest/
 .. _vale: https://www.vale.sh
 .. _docutils_directives: https://docutils.sourceforge.io/docs/ref/rst/directives.html
 
-==========
-References
-==========
+.. REFERENCES
 
-Main DPF objects
-^^^^^^^^^^^^^^^^
-
+.. Main DPF objects
 .. |Examples| replace:: :mod:`Examples<ansys.dpf.core.examples>`
 .. |Field| replace:: :class:`Field<ansys.dpf.core.field.Field>`
 .. |FieldsContainer| replace:: :class:`FieldsContainer<ansys.dpf.core.fields_container.FieldsContainer>`
