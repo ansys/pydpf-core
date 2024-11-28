@@ -2,6 +2,10 @@
 
 .. LINKS
 
+.. PyDPF-Core
+.. _pydpfcore_issues: https://github.com/ansys/pydpf-core/issues
+.. _pydpfcore_discussions: https://github.com/ansys/pydpf-core/discussions
+
 .. Pyansys
 .. _pyansys: https://docs.pyansys.com/version/dev/
 
