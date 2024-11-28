@@ -44,7 +44,6 @@ plotting = [
     "matplotlib>=3.2",
     # 3D plotting
     "pyvista>=0.32.0",
-    "vtk!=9.4.0",
     # Animations
     "imageio < 2.28.1",
     "imageio-ffmpeg",
