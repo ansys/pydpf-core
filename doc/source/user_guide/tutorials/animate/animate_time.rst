@@ -21,20 +21,20 @@ Animate data over time
 .. |Overall| replace:: :class:`overall<ansys.dpf.core.common.locations>`
 .. |open_movie| replace:: :class:`pyvista.Plotter.open_movie`
 
-This tutorial shows how to create 3D animations of data in time.
+This tutorial demonstrates how to create 3D animations of data in time.
 
 :jupyter-download-script:`Download tutorial as Python script<animate_time>`
 
 :jupyter-download-notebook:`Download tutorial as notebook<animate_time>`
 
-To animate data across time you need to get the data stored in a |FieldsContainer| labeled in time.
+To animate data across time, you must store the data in a |FieldsContainer| labeled in time.
 
 
 Get the result files
 --------------------
 
-First, import a result file such as one available with the |Examples| module.
-For more information about how to import your own result file in DPF check
+First, import a results file. For this tutorial, you can use the one available in the |Examples| module.
+For more information about how to import your own result file in DPF, see
 the :ref:`ref_tutorials_import_data` tutorial section.
 
 .. jupyter-execute::
@@ -53,9 +53,9 @@ the :ref:`ref_tutorials_import_data` tutorial section.
 Define a time scoping
 ---------------------
 
-To animate across time we first need to define the time steps of interest.
-Here we get all the time steps available in the |TimeFreqSupport|, but you can also filter them.
-For more information on how to define a scoping check the ``Narrow down data`` tutorial in the
+To animate across time, you must define the time steps you are interested in.
+This tutorial retrieves all the time steps available in |TimeFreqSupport|, but you can also filter them.
+For more information on how to define a scoping, see the ``Narrow down data`` tutorial in the
 :ref:`ref_tutorials_import_data` tutorials section.
 
 .. jupyter-execute::
@@ -66,11 +66,11 @@ For more information on how to define a scoping check the ``Narrow down data`` t
 Extract the results
 -------------------
 
-Extract the results to animate. Here we get the displacement and stress results.
+Extract the results to animate. In this tutorial, you extract the displacement and stress results.
 
 .. note::
 
-    Only locations |Elemental|, |Nodal| or |Faces| are supported for animations.
+    Only the |Elemental|, |Nodal|, or |Faces| locations are supported for animations.
     |Overall| and |ElementalNodal| locations are not currently supported.
 
 
@@ -95,18 +95,18 @@ Animate the results with the |animate| method.
 You can animate them on a deformed mesh (animate the color map and the mesh)
 or on a static mesh (animate the color map only).
 
-The default behavior of the |animate| method consists in:
+The default behavior of the |animate| method is to:
 
-- Showing the norm of the data components;
-- Showing data at the top layer for shells;
-- Showing the deformed mesh when animating displacements;
-- Showing the static mesh for other types of results;
-- Using a constant and uniform scale factor of 1.0 when deforming the mesh.
+- Display the norm of the data components;
+- Display data at the top layer for shells;
+- Display the deformed mesh when animating displacements;
+- Display the static mesh for other types of results;
+- Use a constant and uniform scale factor of 1.0 when deforming the mesh.
 
 You can animate any result on a deformed geometry by providing displacement results in the `deform_by` parameter.
 
 The geometry can be deformed by a |Result| object, an |Operator| (It must evaluate to a |FieldsContainer|
-of same length as the one being animated) or a |FieldsContainer| (also of same length as the one being animated).
+of same length as the one being animated), or a |FieldsContainer| (also of same length as the one being animated).
 
 .. note::
 
