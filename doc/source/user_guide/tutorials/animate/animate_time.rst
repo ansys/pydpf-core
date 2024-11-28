@@ -45,7 +45,8 @@ the :ref:`ref_tutorials_import_data` tutorial section.
     from ansys.dpf.core import examples
     # Import the operators module
     from ansys.dpf.core import operators as ops
-    # Define the result file
+    
+    # Define the result file path
     result_file_path = examples.find_msup_transient()
     # Create the model
     model = dpf.Model(data_sources=result_file_path)
@@ -61,7 +62,7 @@ For more information on how to define a scoping, see the ``Narrow down data`` tu
 .. jupyter-execute::
 
     # Get a scoping of all time steps available
-    time_scoping = model.metadata.time_freq_support.time_frequencies
+    time_steps = model.metadata.time_freq_support.time_frequencies
 
 Extract the results
 -------------------
@@ -77,15 +78,14 @@ Extract the results to animate. In this tutorial, you extract the displacement a
 .. jupyter-execute::
 
     # Get the displacement fields (already on nodes) at all time steps
-    disp_fc = model.results.displacement(time_scoping=time_scoping).eval()
+    disp_fc = model.results.displacement(time_scoping=time_steps).eval()
     print(disp_fc)
 
 .. jupyter-execute::
 
     # Get the stress fields on nodes at all time steps
-    stress_fc = model.results.stress.on_location(
-        location=dpf.locations.nodal).on_time_scoping(
-        time_scoping=time_scoping).eval()
+    # Request the stress on |Nodal| location as the default |ElementalNodal| location is not supported.
+ stress_fc = model.results.stress.on_location(location=dpf.locations.nodal).on_time_scoping(time_scoping=time_steps).eval()
     print(stress_fc)
 
 Animate the results
@@ -306,9 +306,9 @@ Fixed camera
    :hide-output:
 
    # Define the camera position
-   cpos = [[0., 2.0, 0.6], [0.05, 0.005, 0.5], [0.0, 0.0, 1.0]]
+   cam_pos = [[0., 2.0, 0.6], [0.05, 0.005, 0.5], [0.0, 0.0, 1.0]]
    # Animate the stress with a custom fixed camera position
-   stress_fc.animate(cpos=cpos)
+   stress_fc.animate(cpos=cam_pos)
 
 .. jupyter-execute::
    :hide-code:
@@ -328,10 +328,10 @@ Moving camera
 .. jupyter-execute::
    :hide-output:
 
-   # Define the list of camera positions
    import copy
-   cpos_list = [cpos]
-   # Incrementally decrease the y coordinate of the camera by 0.2 for each frame
+   # Define the list of camera positions
+   cpos_list = [cam_pos]
+   # Incrementally increase the x coordinate of the camera by 0.1 for each frame
    for i in range(1, len(disp_fc)):
        new_pos = copy.deepcopy(cpos_list[i-1])
        new_pos[0][0] += 0.1
