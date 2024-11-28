@@ -195,7 +195,7 @@ jobs:
         run: python -c "from ansys.dpf import core"
 
       - name: "Prepare Testing Environment"
-        uses: ansys/pydpf-actions/prepare_tests@v2.3
+        uses: ansys/pydpf-actions/prepare_tests@b3e834e74924dba7b26bad15001b83aec66b9ce9
         with:
           DEBUG: true
 
