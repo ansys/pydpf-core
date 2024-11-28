@@ -27,7 +27,7 @@ This tutorial demonstrates how to create 3D animations of data in time.
 
 :jupyter-download-notebook:`Download tutorial as notebook<animate_time>`
 
-To animate data across time, you must store the data in a |FieldsContainer| labeled in time.
+To animate data across time, you must store the data in a |FieldsContainer| with a ``time`` label.
 
 
 Get the result files
