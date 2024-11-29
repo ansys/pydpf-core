@@ -60,7 +60,6 @@ file at the given path.
 import os
 
 from ansys.dpf.core import examples
-from ansys.dpf import core as dpf
 
 
 print("\033[1m gltf_plugin")
@@ -73,17 +72,16 @@ file_list = [
     "gltf_plugin/texture.png",
     "gltf_plugin.xml",
 ]
-import os
-
-folder_root = os.path.join(os.getcwd().rsplit("pydpf-core", 1)[0], "pydpf-core")
-source_path_in_repo = r"doc\source\examples\07-python-operators\plugins"
-operator_folder = os.path.join(folder_root, source_path_in_repo)
-print(operator_folder)
 plugin_path = None
+folder_root = os.path.join(os.getcwd().rsplit("pydpf-core", 1)[0], "pydpf-core")
+GITHUB_SOURCE_URL = (
+    "https://github.com/ansys/pydpf-core/raw/"
+    "master/doc/source/examples/07-python-operators/plugins/"
+)
 
 for file in file_list:
-    operator_file_path = os.path.join(operator_folder, file)
-
+    EXAMPLE_FILE = GITHUB_SOURCE_URL + file
+    operator_file_path = examples.downloads._retrieve_file(EXAMPLE_FILE, file, "python_plugins")
     print(f"\033[1m {file}\n \033[0m")
     if (
         os.path.splitext(file)[1] == ".py" or os.path.splitext(file)[1] == ".xml"
