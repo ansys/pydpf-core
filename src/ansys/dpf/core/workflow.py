@@ -53,7 +53,6 @@ from ansys.dpf.gate import (
     object_handler,
     integral_types,
 )
-from ansys.dpf.core.workflow_topology import workflow_topology
 
 LOG = logging.getLogger(__name__)
 LOG.setLevel("DEBUG")
@@ -954,7 +953,7 @@ class Workflow:
         """Saves the workflow to a GraphViz file."""
         return self._api.work_flow_export_graphviz(self, str(path))
 
-    def get_topology(self) -> workflow_topology.WorkflowTopology:
+    def get_topology(self):
         """Get the topology of the workflow.
 
         Returns
