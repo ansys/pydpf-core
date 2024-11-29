@@ -57,7 +57,6 @@ be wrapped in Python plugins.
 # Download and display the Python script.
 
 from ansys.dpf.core import examples
-from ansys.dpf import core as dpf
 
 
 GITHUB_SOURCE_URL = (
