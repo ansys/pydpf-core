@@ -20,6 +20,15 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+"""
+ExposedPin
+==========
+This module contains the `ExposedPin` and `ExposedPinsCollection` classes,
+which represent individual exposed pins and a collection of exposed pins in a workflow,
+respectively. These classes enable easy access to the pins that serve as input/output points
+for the workflow.
+"""
+
 from typing import Iterator, Optional
 from ansys.dpf.core import GenericDataContainersCollection
 from ansys.dpf.core.custom_container_base import CustomContainerBase

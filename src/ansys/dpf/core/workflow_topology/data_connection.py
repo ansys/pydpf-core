@@ -20,6 +20,14 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+"""
+DataConnection
+==============
+This module contains the `DataConnection` and `DataConnectionsCollection`
+classes, which represent individual connections between data and operator,
+and a collection of such connections within a workflow, respectively.
+"""
+
 from typing import Any, Iterator, Optional
 from ansys.dpf.core import GenericDataContainersCollection
 from ansys.dpf.core.custom_container_base import CustomContainerBase

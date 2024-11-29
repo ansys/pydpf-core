@@ -20,6 +20,14 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+"""
+WorkflowTopology
+================
+This module contains the `WorkflowTopology` class, which represents
+the structure and relationships within a workflow, including its operators,
+connections, and exposed input/output pins.
+"""
+
 from typing import Optional
 from ansys.dpf.core import OperatorsCollection
 from ansys.dpf.core.custom_container_base import CustomContainerBase

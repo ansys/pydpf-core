@@ -20,6 +20,17 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+"""
+CustomContainerBase
+===================
+This module contains the `CustomContainerBase` class, which serves as a base
+for creating wrappers around `GenericDataContainer` objects.
+
+These wrappers provide an interface for accessing and managing data in
+generic containers, enabling more intuitive usage and the addition of custom
+behaviors tailored to specific use cases.
+"""
+
 from ansys.dpf.core.generic_data_container import GenericDataContainer
 
 
