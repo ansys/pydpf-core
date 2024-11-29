@@ -20,40 +20,91 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+from typing import Iterator, Optional
+from ansys.dpf.core import GenericDataContainersCollection
 from ansys.dpf.core.custom_container_base import CustomContainerBase
+from ansys.dpf.core.dpf_operator import Operator
+from ansys.dpf.core.generic_data_container import GenericDataContainer
 
 
 class ExposedPin(CustomContainerBase):
-    def __init__(self, container):
+    """
+    Represents an exposed input or output pin in a workflow.
+
+    This class provides access to the name and the associated operator, as well as its pin ID.
+    """
+
+    def __init__(self, container: GenericDataContainer) -> None:
+        """
+        Initialize an ExposedPin object.
+
+        Parameters
+        ----------
+        container : GenericDataContainer
+            The underlying data container that holds the exposed pin's information.
+        """
         super().__init__(container)
-        self._name = None
-        self._operator = None
-        self._pin_id = None
+
+        self._name: Optional[str] = None
+        self._operator: Optional[Operator] = None
+        self._pin_id: Optional[int] = None
 
     @property
-    def name(self):
+    def name(self) -> str:
+        """
+        Retrieve the name of the exposed pin.
+
+        Returns
+        -------
+        str
+            The name of the exposed pin.
+        """
         if self._name is None:
             self._name = self._container.get_property("name", str)
 
         return self._name
 
     @property
-    def operator(self):
-        from ansys.dpf.core.dpf_operator import Operator
+    def operator(self) -> Operator:
+        """
+        Retrieve the operator associated with the exposed pin.
 
+        Returns
+        -------
+        Operator
+            The operator associated with this exposed pin.
+        """
         if self._operator is None:
             self._operator = self._container.get_property("operator", Operator)
 
         return self._operator
 
     @property
-    def pin_id(self):
+    def pin_id(self) -> int:
+        """
+        Retrieve the pin ID of the operator.
+
+        Returns
+        -------
+        int
+            The pin ID of the operator.
+        """
         if self._pin_id is None:
             self._pin_id = self._container.get_property("pin_id", int)
 
         return self._pin_id
 
-    def __str__(self):
+    def __str__(self) -> str:
+        """
+        Return a string representation of the exposed pin.
+
+        This includes the name and associated operator, with its pin ID.
+
+        Returns
+        -------
+        str
+            String representation of the exposed pin.
+        """
         from ansys.dpf.core.helpers.utils import indent
 
         indents = "     "
@@ -69,20 +120,72 @@ class ExposedPin(CustomContainerBase):
 
 
 class ExposedPinsCollection:
-    def __init__(self, collection):
+    """
+    Represents a collection of exposed pins in a workflow.
+
+    This class provides iterable access to all exposed pins, allowing retrieval
+    of individual exposed pins or iteration through the entire collection.
+    """
+
+    def __init__(self, collection: GenericDataContainersCollection) -> None:
+        """
+        Initialize an ExposedPinsCollection object.
+
+        Parameters
+        ----------
+        collection : GenericDataContainersCollection
+            The underlying collection of exposed pins.
+        """
         self._collection = collection
 
-    def __len__(self):
+    def __len__(self) -> int:
+        """
+        Return the number of exposed pins in the collection.
+
+        Returns
+        -------
+        int
+            The number of exposed pins.
+        """
         return len(self._collection)
 
-    def __getitem__(self, index):
+    def __getitem__(self, index: int) -> ExposedPin:
+        """
+        Retrieve an exposed pin by its index.
+
+        Parameters
+        ----------
+        index : int
+            The index of the exposed pin to retrieve.
+
+        Returns
+        -------
+        ExposedPin
+            The exposed pin at the specified index.
+        """
         return ExposedPin(self._collection[index])
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[ExposedPin]:
+        """
+        Iterate over the exposed pins in the collection.
+
+        Yields
+        ------
+        ExposedPin
+            The next exposed pin in the collection.
+        """
         for i in range(len(self)):
             yield self[i]
 
-    def __str__(self):
+    def __str__(self) -> str:
+        """
+        Return a string representation of the exposed pins collection.
+
+        Returns
+        -------
+        str
+            String representation of the collection.
+        """
         from ansys.dpf.core.helpers.utils import indent
 
         indents = ("   ", " - ")

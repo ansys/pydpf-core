@@ -24,5 +24,20 @@ from ansys.dpf.core.generic_data_container import GenericDataContainer
 
 
 class CustomContainerBase:
+    """
+    Base class for custom container wrappers.
+
+    This class provides a common interface for managing an underlying
+    `GenericDataContainer` object.
+    """
+
     def __init__(self, container: GenericDataContainer) -> None:
+        """
+        Initialize the base container with a `GenericDataContainer`.
+
+        Parameters
+        ----------
+        container : GenericDataContainer
+            The underlying data container to be wrapped by this class.
+        """
         self._container = container

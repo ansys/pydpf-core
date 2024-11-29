@@ -20,50 +20,107 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+from typing import Iterator, Optional
+from ansys.dpf.core import GenericDataContainersCollection
 from ansys.dpf.core.custom_container_base import CustomContainerBase
+from ansys.dpf.core.dpf_operator import Operator
+from ansys.dpf.core.generic_data_container import GenericDataContainer
 
 
 class OperatorConnection(CustomContainerBase):
-    def __init__(self, container):
+    """
+    Represents a connection between two operators in a workflow.
+
+    This class provides access to the source and target operators, as well as their respective pin IDs.
+    """
+
+    def __init__(self, container: GenericDataContainer) -> None:
+        """
+        Initialize an OperatorConnection object.
+
+        Parameters
+        ----------
+        container : GenericDataContainer
+            The underlying data container that holds the connection's information.
+        """
         super().__init__(container)
-        self._source_operator = None
-        self._source_pin_id = None
-        self._target_operator = None
-        self._target_pin_id = None
+
+        self._source_operator: Optional[Operator] = None
+        self._source_pin_id: Optional[int] = None
+        self._target_operator: Optional[Operator] = None
+        self._target_pin_id: Optional[int] = None
 
     @property
-    def source_operator(self):
-        from ansys.dpf.core.dpf_operator import Operator
+    def source_operator(self) -> Operator:
+        """
+        Retrieve the source operator of the connection.
 
+        Returns
+        -------
+        Operator
+            The operator serving as the source of this connection.
+        """
         if self._source_operator is None:
             self._source_operator = self._container.get_property("source_operator", Operator)
 
         return self._source_operator
 
     @property
-    def source_pin_id(self):
+    def source_pin_id(self) -> int:
+        """
+        Retrieve the pin ID of the source operator.
+
+        Returns
+        -------
+        int
+            The pin ID of the source operator.
+        """
         if self._source_pin_id is None:
             self._source_pin_id = self._container.get_property("source_pin_id", int)
 
         return self._source_pin_id
 
     @property
-    def target_operator(self):
-        from ansys.dpf.core.dpf_operator import Operator
+    def target_operator(self) -> Operator:
+        """
+        Retrieve the target operator of the connection.
 
+        Returns
+        -------
+        Operator
+            The operator serving as the target of this connection.
+        """
         if self._target_operator is None:
             self._target_operator = self._container.get_property("target_operator", Operator)
 
         return self._target_operator
 
     @property
-    def target_pin_id(self):
+    def target_pin_id(self) -> int:
+        """
+        Retrieve the pin ID of the target operator.
+
+        Returns
+        -------
+        int
+            The pin ID of the target operator.
+        """
         if self._target_pin_id is None:
             self._target_pin_id = self._container.get_property("target_pin_id", int)
 
         return self._target_pin_id
 
-    def __str__(self):
+    def __str__(self) -> str:
+        """
+        Return a string representation of the operator connection.
+
+        This includes the source and target operators and their respective pin IDs.
+
+        Returns
+        -------
+        str
+            String representation of the operator connection.
+        """
         from ansys.dpf.core.helpers.utils import indent
 
         indents = "     "
@@ -81,20 +138,72 @@ class OperatorConnection(CustomContainerBase):
 
 
 class OperatorConnectionsCollection:
-    def __init__(self, collection):
+    """
+    Represents a collection of operator connections in a workflow.
+
+    This class provides iterable access to all operator connections, allowing retrieval
+    of individual connections or iteration through the entire collection.
+    """
+
+    def __init__(self, collection: GenericDataContainersCollection) -> None:
+        """
+        Initialize an OperatorConnectionsCollection object.
+
+        Parameters
+        ----------
+        collection : GenericDataContainersCollection
+            The underlying collection of operator connections.
+        """
         self._collection = collection
 
-    def __len__(self):
+    def __len__(self) -> int:
+        """
+        Return the number of operator connections in the collection.
+
+        Returns
+        -------
+        int
+            The number of operator connections.
+        """
         return len(self._collection)
 
-    def __getitem__(self, index):
+    def __getitem__(self, index: int) -> OperatorConnection:
+        """
+        Retrieve an operator connection by its index.
+
+        Parameters
+        ----------
+        index : int
+            The index of the operator connection to retrieve.
+
+        Returns
+        -------
+        OperatorConnection
+            The operator connection at the specified index.
+        """
         return OperatorConnection(self._collection[index])
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[OperatorConnection]:
+        """
+        Iterate over the operator connections in the collection.
+
+        Yields
+        ------
+        OperatorConnection
+            The next operator connection in the collection.
+        """
         for i in range(len(self)):
             yield self[i]
 
-    def __str__(self):
+    def __str__(self) -> str:
+        """
+        Return a string representation of the operator connections collection.
+
+        Returns
+        -------
+        str
+            String representation of the collection.
+        """
         from ansys.dpf.core.helpers.utils import indent
 
         indents = ("   ", " - ")

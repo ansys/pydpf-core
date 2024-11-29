@@ -22,6 +22,7 @@
 
 import inspect
 import sys
+from typing import Any, Optional
 
 
 def _sort_supported_kwargs(bound_method, **kwargs):
@@ -50,7 +51,31 @@ def _sort_supported_kwargs(bound_method, **kwargs):
     return kwargs_in
 
 
-def indent(text, subsequent_indent="", initial_indent=None):
+def indent(text: Any, subsequent_indent: str = "", initial_indent: Optional[str] = None) -> str:
+    """
+    Indents each line of a given text.
+
+    Parameters:
+    ----------
+    text : Any
+        The input text to be indented. If it is not already a string, it will be converted to one.
+    subsequent_indent : str, optional
+        The string to prefix all lines of the text after the first line. Default is an empty string.
+    initial_indent : Optional[str], optional
+        The string to prefix the first line of the text. If not provided, `subsequent_indent` will be used.
+
+    Returns:
+    -------
+    str
+        The indented text with specified prefixes applied to each line.
+
+    Example:
+    --------
+    >>> text = "Hello\nWorld"
+    >>> print(indent(text, subsequent_indent="    ", initial_indent="--> "))
+    --> Hello
+        World
+    """
     if initial_indent is None:
         initial_indent = subsequent_indent
 

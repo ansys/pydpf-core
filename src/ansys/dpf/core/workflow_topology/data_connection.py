@@ -20,40 +20,91 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+from typing import Any, Iterator, Optional
+from ansys.dpf.core import GenericDataContainersCollection
 from ansys.dpf.core.custom_container_base import CustomContainerBase
+from ansys.dpf.core.dpf_operator import Operator
+from ansys.dpf.core.generic_data_container import GenericDataContainer
 
 
 class DataConnection(CustomContainerBase):
-    def __init__(self, container):
+    """
+    Represents a connection between a data and an operator in a workflow.
+
+    This class provides access to the source data and target operator, as well as its pin ID.
+    """
+
+    def __init__(self, container: GenericDataContainer) -> None:
+        """
+        Initialize an DataConnection object.
+
+        Parameters
+        ----------
+        container : GenericDataContainer
+            The underlying data container that holds the connection's information.
+        """
         super().__init__(container)
-        self._source_data = None
-        self._target_operator = None
-        self._target_pin_id = None
+
+        self._source_data: Optional[Any] = None
+        self._target_operator: Optional[Operator] = None
+        self._target_pin_id: Optional[int] = None
 
     @property
-    def source_data(self):
+    def source_data(self) -> Any:
+        """
+        Retrieve the source data of the connection.
+
+        Returns
+        -------
+        Any
+            The data serving as the source of this connection.
+        """
         if self._source_data is None:
             self._source_data = self._container.get_property("source_data")
 
         return self._source_data
 
     @property
-    def target_operator(self):
-        from ansys.dpf.core.dpf_operator import Operator
+    def target_operator(self) -> Operator:
+        """
+        Retrieve the target operator of the connection.
 
+        Returns
+        -------
+        Operator
+            The operator serving as the target of this connection.
+        """
         if self._target_operator is None:
             self._target_operator = self._container.get_property("target_operator", Operator)
 
         return self._target_operator
 
     @property
-    def target_pin_id(self):
+    def target_pin_id(self) -> int:
+        """
+        Retrieve the pin ID of the target operator.
+
+        Returns
+        -------
+        int
+            The pin ID of the target operator.
+        """
         if self._target_pin_id is None:
             self._target_pin_id = self._container.get_property("target_pin_id", int)
 
         return self._target_pin_id
 
-    def __str__(self):
+    def __str__(self) -> str:
+        """
+        Return a string representation of the data connection.
+
+        This includes the source data and target operator, with its pin ID.
+
+        Returns
+        -------
+        str
+            String representation of the data connection.
+        """
         from ansys.dpf.core.helpers.utils import indent
 
         indents = "     "
@@ -69,20 +120,72 @@ class DataConnection(CustomContainerBase):
 
 
 class DataConnectionsCollection:
-    def __init__(self, collection):
+    """
+    Represents a collection of data connections in a workflow.
+
+    This class provides iterable access to all data connections, allowing retrieval
+    of individual connections or iteration through the entire collection.
+    """
+
+    def __init__(self, collection: GenericDataContainersCollection) -> None:
+        """
+        Initialize an DataConnectionsCollection object.
+
+        Parameters
+        ----------
+        collection : GenericDataContainersCollection
+            The underlying collection of data connections.
+        """
         self._collection = collection
 
-    def __len__(self):
+    def __len__(self) -> int:
+        """
+        Return the number of data connections in the collection.
+
+        Returns
+        -------
+        int
+            The number of data connections.
+        """
         return len(self._collection)
 
-    def __getitem__(self, index):
+    def __getitem__(self, index: int) -> DataConnection:
+        """
+        Retrieve a data connection by its index.
+
+        Parameters
+        ----------
+        index : int
+            The index of the data connection to retrieve.
+
+        Returns
+        -------
+        DataConnection
+            The data connection at the specified index.
+        """
         return DataConnection(self._collection[index])
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[DataConnection]:
+        """
+        Iterate over the data connections in the collection.
+
+        Yields
+        ------
+        DataConnection
+            The next data connection in the collection.
+        """
         for i in range(len(self)):
             yield self[i]
 
-    def __str__(self):
+    def __str__(self) -> str:
+        """
+        Return a string representation of the data connections collection.
+
+        Returns
+        -------
+        str
+            String representation of the collection.
+        """
         from ansys.dpf.core.helpers.utils import indent
 
         indents = ("   ", " - ")

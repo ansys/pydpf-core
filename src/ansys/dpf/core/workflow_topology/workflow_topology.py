@@ -20,21 +20,47 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+from typing import Optional
+from ansys.dpf.core import OperatorsCollection
 from ansys.dpf.core.custom_container_base import CustomContainerBase
+from ansys.dpf.core.generic_data_container import GenericDataContainer
+from ansys.dpf.core.workflow_topology.data_connection import DataConnectionsCollection
+from ansys.dpf.core.workflow_topology.exposed_pin import ExposedPinsCollection
+from ansys.dpf.core.workflow_topology.operator_connection import OperatorConnectionsCollection
 
 
 class WorkflowTopology(CustomContainerBase):
-    def __init__(self, *args) -> None:
-        super().__init__(*args)
+    """
+    Represents the topology of a workflow, including its operators, connections, and exposed input/output pins.
+    """
 
-        self._operators = None
-        self._operator_connections = None
-        self._data_connections = None
-        self._exposed_inputs = None
-        self._exposed_outputs = None
+    def __init__(self, container: GenericDataContainer) -> None:
+        """
+        Initialize a WorkflowTopology object.
+
+        Parameters
+        ----------
+        container : GenericDataContainer
+            The underlying data container that holds the workflow topology information.
+        """
+        super().__init__(container)
+
+        self._operators: Optional[OperatorsCollection] = None
+        self._operator_connections: Optional[OperatorConnectionsCollection] = None
+        self._data_connections: Optional[DataConnectionsCollection] = None
+        self._exposed_inputs: Optional[ExposedPinsCollection] = None
+        self._exposed_outputs: Optional[ExposedPinsCollection] = None
 
     @property
-    def operators(self):
+    def operators(self) -> OperatorsCollection:
+        """
+        Retrieve the operators in the workflow.
+
+        Returns
+        -------
+        OperatorsCollection
+            A collection of all the operators in the workflow.
+        """
         from ansys.dpf.core import OperatorsCollection
 
         if self._operators is None:
@@ -43,11 +69,16 @@ class WorkflowTopology(CustomContainerBase):
         return self._operators
 
     @property
-    def operator_connections(self):
+    def operator_connections(self) -> OperatorConnectionsCollection:
+        """
+        Retrieve the operator connections in the workflow.
+
+        Returns
+        -------
+        OperatorConnectionsCollection
+            A collection of all the operator connections in the workflow.
+        """
         from ansys.dpf.core import GenericDataContainersCollection
-        from ansys.dpf.core.workflow_topology.operator_connection import (
-            OperatorConnectionsCollection,
-        )
 
         if self._operator_connections is None:
             self._operator_connections = OperatorConnectionsCollection(
@@ -59,9 +90,16 @@ class WorkflowTopology(CustomContainerBase):
         return self._operator_connections
 
     @property
-    def data_connections(self):
+    def data_connections(self) -> DataConnectionsCollection:
+        """
+        Retrieve the data connections in the workflow.
+
+        Returns
+        -------
+        OperatorConnectionsCollection
+            A collection of all the data connections in the workflow.
+        """
         from ansys.dpf.core import GenericDataContainersCollection
-        from ansys.dpf.core.workflow_topology.data_connection import DataConnectionsCollection
 
         if self._data_connections is None:
             self._data_connections = DataConnectionsCollection(
@@ -71,9 +109,16 @@ class WorkflowTopology(CustomContainerBase):
         return self._data_connections
 
     @property
-    def exposed_inputs(self):
+    def exposed_inputs(self) -> ExposedPinsCollection:
+        """
+        Retrieve the exposed inputs in the workflow.
+
+        Returns
+        -------
+        ExposedPinsCollection
+            A collection of all the exposed inputs in the workflow.
+        """
         from ansys.dpf.core import GenericDataContainersCollection
-        from ansys.dpf.core.workflow_topology.exposed_pin import ExposedPinsCollection
 
         if self._exposed_inputs is None:
             self._exposed_inputs = ExposedPinsCollection(
@@ -83,9 +128,16 @@ class WorkflowTopology(CustomContainerBase):
         return self._exposed_inputs
 
     @property
-    def exposed_outputs(self):
+    def exposed_outputs(self) -> ExposedPinsCollection:
+        """
+        Retrieve the exposed outputs in the workflow.
+
+        Returns
+        -------
+        ExposedPinsCollection
+            A collection of all the exposed outputs in the workflow.
+        """
         from ansys.dpf.core import GenericDataContainersCollection
-        from ansys.dpf.core.workflow_topology.exposed_pin import ExposedPinsCollection
 
         if self._exposed_outputs is None:
             self._exposed_outputs = ExposedPinsCollection(
@@ -94,7 +146,17 @@ class WorkflowTopology(CustomContainerBase):
 
         return self._exposed_outputs
 
-    def __str__(self):
+    def __str__(self) -> str:
+        """
+        Return a string representation of the workflow topology.
+
+        The string provides details about the workflow's operators, connections, and exposed pins.
+
+        Returns
+        -------
+        str
+            String representation of the workflow topology.
+        """
         from ansys.dpf.core.helpers.utils import indent
 
         def indent_operators(operators):
