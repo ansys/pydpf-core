@@ -34,6 +34,11 @@ from ansys.dpf.core.examples.examples import find_files
 
 EXAMPLE_REPO = "https://github.com/ansys/example-data/raw/master/"
 
+GITHUB_SOURCE_URL = (
+    "https://github.com/ansys/pydpf-core/raw/"
+    "master/doc/source/examples/07-python-operators/plugins/"
+)
+
 
 def delete_downloads(verbose=True):
     """Delete all downloaded examples to free space or update the files"""
@@ -2066,7 +2071,7 @@ def download_gltf_plugin(
     --------
 
     >>> from ansys.dpf.core import examples
-    >>> path = examples.download_average_filter_plugin()
+    >>> path = examples.download_gltf_plugin()
 
     """
     file_list = [
@@ -2086,13 +2091,46 @@ def download_gltf_plugin(
     )
 
 
+def download_easy_statistics(
+    should_upload: bool = True, server=None, return_local_path=False
+) -> Union[str, None]:
+    """Make the plugin available server side, if the server is remote the plugin is uploaded
+    server side. Returns the path of the plugin folder.
+
+    Parameters
+    ----------
+    should_upload:
+        Whether the file should be uploaded server side when the server is remote.
+    server:
+        Server with channel connected to the remote or local instance. When
+        ``None``, attempts to use the global server.
+    return_local_path:
+        If ``True``, the local path is returned as is, without uploading, nor searching
+        for mounted volumes.
+
+    Returns
+    -------
+    str
+        Path to the plugin folder.
+
+    Examples
+    --------
+
+    >>> from ansys.dpf.core import examples
+    >>> path = examples.download_easy_statistics()
+
+    """
+    file_name = "easy_statistics.py"
+    EXAMPLE_FILE = GITHUB_SOURCE_URL + file_name
+    operator_file_path = _retrieve_file(
+        EXAMPLE_FILE, filename=file_name, directory="python_plugins"
+    )
+    return find_files(operator_file_path, should_upload, server, return_local_path)
+
+
 def _retrieve_plugin(
     file_list: list[str], should_upload: bool = True, server=None, return_local_path=False
 ) -> Union[str, None]:
-    GITHUB_SOURCE_URL = (
-        "https://github.com/ansys/pydpf-core/raw/"
-        "master/doc/source/examples/07-python-operators/plugins/"
-    )
     path = None
     for file in file_list:
         EXAMPLE_FILE = GITHUB_SOURCE_URL + file
