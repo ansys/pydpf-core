@@ -554,34 +554,34 @@ class BaseService:
         return RuntimeCoreConfig(data_tree=data_tree_tmp, server=self._server())
 
     @property
-    def server_info(self):
+    def server_info(self) -> dict:
         """Send the request for server information and keep
         the info into a dictionary
 
         Returns
         -------
-        info : dictionary
-            dictionary with "server_ip", "server_port", "server_process_id"
+        info:
+            Dictionary with "server_ip", "server_port", "server_process_id"
             "server_version" keys
         """
         return self._get_server_info()
 
-    def _get_server_info(self):
+    def _get_server_info(self) -> dict:
+        if not self._server():
+            return {}
         serv_ip = ""
-        serv_port = integral_types.MutableInt32(-1)
+        serv_port = None
         proc_id = ""
         serv_ver_maj = integral_types.MutableInt32(-1)
         serv_ver_min = integral_types.MutableInt32(-1)
         serv_os = ""
         # ip/port
         if self._server().has_client():
+            serv_port = integral_types.MutableInt32(-1)
             serv_ip = self._api.data_processing_get_server_ip_and_port(
                 client=self._server().client, port=serv_port
             )
             serv_port = int(serv_port)
-        else:
-            serv_ip = ""
-            serv_port = None
         # process id
         if self._server().has_client():
             proc_id = self._api.data_processing_process_id_on_client(client=self._server().client)
