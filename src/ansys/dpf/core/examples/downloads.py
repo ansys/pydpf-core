@@ -28,6 +28,8 @@ Download example datasets from https://github.com/ansys/example-data"""
 import os
 import urllib.request
 import warnings
+from typing import Union
+
 from ansys.dpf.core.examples.examples import find_files
 
 EXAMPLE_REPO = "https://github.com/ansys/example-data/raw/master/"
@@ -1997,7 +1999,7 @@ def find_distributed_msup_folder(
 
 def download_average_filter_plugin(
     should_upload: bool = True, server=None, return_local_path=False
-) -> str:
+) -> Union[str, None]:
     """Make the plugin available server side, if the server is remote the plugin is uploaded
     server side. Returns the path of the plugin folder.
 
@@ -2024,23 +2026,78 @@ def download_average_filter_plugin(
     >>> path = examples.download_average_filter_plugin()
 
     """
-    path = None
     file_list = [
         "average_filter_plugin/__init__.py",
         "average_filter_plugin/operators.py",
         "average_filter_plugin/operators_loader.py",
         "average_filter_plugin/common.py",
     ]
+    return _retrieve_plugin(
+        file_list=file_list,
+        should_upload=should_upload,
+        server=server,
+        return_local_path=return_local_path,
+    )
+
+
+def download_gltf_plugin(
+    should_upload: bool = True, server=None, return_local_path=False
+) -> Union[str, None]:
+    """Make the plugin available server side, if the server is remote the plugin is uploaded
+    server side. Returns the path of the plugin folder.
+
+    Parameters
+    ----------
+    should_upload:
+        Whether the file should be uploaded server side when the server is remote.
+    server:
+        Server with channel connected to the remote or local instance. When
+        ``None``, attempts to use the global server.
+    return_local_path:
+        If ``True``, the local path is returned as is, without uploading, nor searching
+        for mounted volumes.
+
+    Returns
+    -------
+    str
+        Path to the plugin folder.
+
+    Examples
+    --------
+
+    >>> from ansys.dpf.core import examples
+    >>> path = examples.download_average_filter_plugin()
+
+    """
+    file_list = [
+        "gltf_plugin.xml",
+        "gltf_plugin/__init__.py",
+        "gltf_plugin/operators.py",
+        "gltf_plugin/operators_loader.py",
+        "gltf_plugin/requirements.txt",
+        "gltf_plugin/gltf_export.py",
+        "gltf_plugin/texture.png",
+    ]
+    return _retrieve_plugin(
+        file_list=file_list,
+        should_upload=should_upload,
+        server=server,
+        return_local_path=return_local_path,
+    )
+
+
+def _retrieve_plugin(
+    file_list: list[str], should_upload: bool = True, server=None, return_local_path=False
+) -> Union[str, None]:
     GITHUB_SOURCE_URL = (
         "https://github.com/ansys/pydpf-core/raw/"
         "master/doc/source/examples/07-python-operators/plugins/"
     )
-
+    path = None
     for file in file_list:
         EXAMPLE_FILE = GITHUB_SOURCE_URL + file
         operator_file_path = _retrieve_file(EXAMPLE_FILE, file, directory="python_plugins")
         path = os.path.dirname(
             find_files(operator_file_path, should_upload, server, return_local_path)
         )
-
     return path
