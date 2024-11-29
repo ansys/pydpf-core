@@ -83,7 +83,7 @@ Extract the results to animate. In this tutorial, you extract the displacement a
 
     # Get the stress fields on nodes at all time steps
     # Request the stress on |Nodal| location as the default |ElementalNodal| location is not supported.
- stress_fc = model.results.stress.on_location(location=dpf.locations.nodal).on_time_scoping(time_scoping=time_steps).eval()
+    stress_fc = model.results.stress.on_location(location=dpf.locations.nodal).on_time_scoping(time_scoping=time_steps).eval()
     print(stress_fc)
 
 Animate the results
@@ -212,7 +212,7 @@ You can change the scale factor using:
 - A list of numbers for a varying scaling (same length as the number of frames).
 
 Uniform constant scaling
-^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^
 .. jupyter-execute::
     :hide-output:
 
@@ -233,7 +233,7 @@ Uniform constant scaling
    :align: center
 
 Varying scaling
-^^^^^^^^^^
+^^^^^^^^^^^^^^^
 
 .. jupyter-execute::
     :hide-output:
@@ -287,8 +287,8 @@ It results in a list of format:
 .. code-block:: python
 
    camera_position= [[pos_x, pos_y, pos_z],  # position
-                                  [fp_x, fp_y, fp_z],  # focal point
-                                  [up_x, up_y, up_z]]  # upwards vector
+                     [fp_x, fp_y, fp_z],  # focal point
+                     [up_x, up_y, up_z]]  # upwards vector
 
 The |animate| method accepts a single camera position or a list of camera positions for each frame.
 
@@ -313,7 +313,7 @@ Fixed camera
    :hide-output:
 
    stress_fc.animate(save_as="source/user_guide/tutorials/animate/animate_disp_5.gif",
-                       cpos=cpos,
+                       cpos=cam_pos,
                        off_screen=True)
 
 .. image:: animate_disp_5.gif

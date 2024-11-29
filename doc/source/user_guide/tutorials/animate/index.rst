@@ -4,7 +4,7 @@
 Animate
 =======
 
-These tutorials demonstrate how to visualise the data in an animation.
+These tutorials demonstrate how to visualize the data as an animation.
 
 .. grid:: 1 1 3 3
     :gutter: 2
