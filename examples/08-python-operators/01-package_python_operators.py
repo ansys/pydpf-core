@@ -57,7 +57,6 @@ For this example, the plug-in package contains two different operators:
 from ansys.dpf.core import examples
 
 plugin_folder = examples.download_average_filter_plugin()
-print(plugin_folder)
 
 ###############################################################################
 # Load the plug-in package

@@ -62,7 +62,6 @@ import os
 from ansys.dpf.core import examples
 
 plugin_path = examples.download_gltf_plugin()
-print(f"{plugin_path=}")
 folder_root = os.path.join(os.getcwd().rsplit("pydpf-core", 1)[0], "pydpf-core")
 
 # %%
