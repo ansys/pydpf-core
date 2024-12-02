@@ -5,6 +5,8 @@ from datetime import datetime
 
 import numpy as np
 import pyvista
+import sphinx
+from sphinx.util import logging
 from ansys.dpf.core import __version__, server, server_factory
 from ansys.dpf.core.examples import get_example_required_minimum_dpf_version
 from ansys_sphinx_theme import ansys_favicon, get_version_match, pyansys_logo_light_mode, pyansys_logo_dark_mode
@@ -158,7 +160,7 @@ def reset_servers(gallery_conf, fname, when):
         try:
             # check whether the process name matches
             if proc_name in proc.name():
-                # proc.kill()
+                proc.kill()
                 nb_procs += 1
         except psutil.NoSuchProcess:
             pass
@@ -326,3 +328,89 @@ epub_title = project
 
 # A list of files that should not be packed into the epub file.
 epub_exclude_files = ["search.html"]
+
+
+def check_global_servers_and_close(app: sphinx.application.Sphinx, exception: Exception) -> None:
+    from ansys.dpf.core import server, _server_instances
+    import copy
+    import psutil
+    import gc
+
+    gc.collect
+
+    # Server instances are different from processes.
+    # Ideally just closing the servers => no running processes
+    # Server instances should be closed first
+    if _server_instances:
+        print(f"{len(_server_instances)} dpf server instances found running")
+        print("Closing server instances")
+    
+        copy_instances = copy.deepcopy(_server_instances)
+        for instance in copy_instances:
+            try:
+                if hasattr(instance(), "shutdown"):
+                    instance().shutdown()
+            except Exception as e:
+                print(e.args)
+                pass
+        server.shutdown_global_server()
+        print(f"{len(_server_instances)} dpf server instances found running after closing")
+    else:
+        print("no server instances found running")
+
+    # Subsequently check running processes and close
+    proc_name = "Ans.Dpf.Grpc"
+    nb_procs = 0
+    for proc in psutil.process_iter():
+        try:
+            # check whether the process name matches
+            if proc_name in proc.name():
+                proc.kill()
+                nb_procs += 1
+        except psutil.NoSuchProcess:
+            pass
+
+    # Check if processes were actually killed
+    if nb_procs:
+        print(f"Killed {nb_procs} {proc_name} processes.")
+    else:
+        print(f"No processes were found running")
+
+# def reset_server_after_sphinx_gallery(app: sphinx.application.Sphinx, exception: Exception) -> None:
+#     """
+#     Stop running dpf servers before regardless of documentation build sucess.
+
+#     Parameters
+#     ----------
+#     app : sphinx.application.Sphinx
+#         Sphinx application instance containing the all the doc build configuration.
+
+#     """
+#     from ansys.dpf.core import server
+
+#     logger = logging.getLogger(__name__)
+
+#     try:
+#         server.check_global_servers_and_close()
+#     except exception:
+#         if "Extension error" in str(exception):
+#             server.check_global_servers_and_close()
+#             logger.warning("An error occurred during sphinx gallery execution")
+#             raise exception
+#         else:
+#             logger.warning("An error outside sphinx gallery execution occurred")
+#             raise exception
+
+
+def setup(app: sphinx.application.Sphinx) -> None:
+    """
+    Run hook function(s) during the documentation build.
+
+    Parameters
+    ----------
+    app : sphinx.application.Sphinx
+        Sphinx application instance containing the all the doc build configuration.
+    """
+
+    app.connect("builder-inited", check_global_servers_and_close)
+    app.connect("build-finished", check_global_servers_and_close)
