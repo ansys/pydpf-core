@@ -61,37 +61,8 @@ import os
 
 from ansys.dpf.core import examples
 
-
-print("\033[1m gltf_plugin")
-file_list = [
-    "gltf_plugin/__init__.py",
-    "gltf_plugin/operators.py",
-    "gltf_plugin/operators_loader.py",
-    "gltf_plugin/requirements.txt",
-    "gltf_plugin/gltf_export.py",
-    "gltf_plugin/texture.png",
-    "gltf_plugin.xml",
-]
-plugin_path = None
+plugin_path = examples.download_gltf_plugin()
 folder_root = os.path.join(os.getcwd().rsplit("pydpf-core", 1)[0], "pydpf-core")
-GITHUB_SOURCE_URL = (
-    "https://github.com/ansys/pydpf-core/raw/"
-    "master/doc/source/examples/07-python-operators/plugins/"
-)
-
-for file in file_list:
-    EXAMPLE_FILE = GITHUB_SOURCE_URL + file
-    operator_file_path = examples.downloads._retrieve_file(EXAMPLE_FILE, file, "python_plugins")
-    print(f"\033[1m {file}\n \033[0m")
-    if (
-        os.path.splitext(file)[1] == ".py" or os.path.splitext(file)[1] == ".xml"
-    ) and file != "gltf_plugin/gltf_export.py":
-        with open(operator_file_path, "r") as f:
-            for line in f.readlines():
-                print("\t\t\t" + line)
-        print("\n\n")
-        if plugin_path is None:
-            plugin_path = os.path.dirname(operator_file_path)
 
 # %%
 # To add third-party modules as dependencies to a plug-in package, you must
