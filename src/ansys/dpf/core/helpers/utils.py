@@ -55,7 +55,7 @@ def indent(text: Any, subsequent_indent: str = "", initial_indent: Optional[str]
     """
     Indents each line of a given text.
 
-    Parameters:
+    Parameters
     ----------
     text : Any
         The input text to be indented. If it is not already a string, it will be converted to one.
@@ -64,12 +64,12 @@ def indent(text: Any, subsequent_indent: str = "", initial_indent: Optional[str]
     initial_indent : Optional[str], optional
         The string to prefix the first line of the text. If not provided, `subsequent_indent` will be used.
 
-    Returns:
+    Returns
     -------
     str
         The indented text with specified prefixes applied to each line.
 
-    Example:
+    Examples
     --------
     >>> text = "Hello\nWorld"
     >>> print(indent(text, subsequent_indent="    ", initial_indent="--> "))

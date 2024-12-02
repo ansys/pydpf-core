@@ -967,7 +967,7 @@ class Workflow:
         """Get the topology of the workflow.
 
         Returns
-        ----------
+        -------
         workflow_topology : workflow_topology.WorkflowTopology
         """
         workflow_to_workflow_topology_op = dpf_operator.Operator(
