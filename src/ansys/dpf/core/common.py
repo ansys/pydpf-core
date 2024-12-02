@@ -436,7 +436,7 @@ _derived_class_name_to_type = None
 def derived_class_name_to_type():
     global _derived_class_name_to_type
     if _derived_class_name_to_type is None:
-        from ansys.dpf.core.workflow_topology.workflow_topology import WorkflowTopology
+        from ansys.dpf.core.workflow_topology import WorkflowTopology
 
         _derived_class_name_to_type = {"WorkflowTopology": WorkflowTopology}
     return _derived_class_name_to_type

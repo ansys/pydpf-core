@@ -384,9 +384,8 @@ class Operator:
             mesh_info,
             collection_base,
             any,
+            custom_container_base,
         )
-        from ansys.dpf.core.workflow_topology import workflow_topology
-        from ansys.dpf.core.custom_container_base import CustomContainerBase
 
         out = [
             (any.Any, self._api.operator_getoutput_as_any),
@@ -484,7 +483,7 @@ class Operator:
                 lambda obj, type: any.Any(server=self._server, any_dpf=obj).cast(type),
             ),
             (
-                CustomContainerBase,
+                custom_container_base.CustomContainerBase,
                 self._api.operator_getoutput_generic_data_container,
                 lambda obj, type: type(
                     container=generic_data_container.GenericDataContainer(

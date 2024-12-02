@@ -968,7 +968,7 @@ class Workflow:
 
         Returns
         ----------
-        workflow_topology : workflowTopology.WorkflowTopology
+        workflow_topology : workflow_topology.WorkflowTopology
         """
         workflow_to_workflow_topology_op = dpf_operator.Operator(
             "workflow_to_workflow_topology", server=self._server
