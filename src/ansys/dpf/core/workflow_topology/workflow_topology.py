@@ -69,8 +69,6 @@ class WorkflowTopology(CustomContainerBase):
         OperatorsCollection
             A collection of all the operators in the workflow.
         """
-        from ansys.dpf.core import OperatorsCollection
-
         if self._operators is None:
             self._operators = self._container.get_property("operators", OperatorsCollection)
 
