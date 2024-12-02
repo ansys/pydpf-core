@@ -192,3 +192,6 @@ src/ansys/grpc/
 
 # C extensions
 *.so
+
+# Ignore auto-generated API reference
+doc/source/api
