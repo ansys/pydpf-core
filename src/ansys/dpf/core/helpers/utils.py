@@ -52,8 +52,7 @@ def _sort_supported_kwargs(bound_method, **kwargs):
 
 
 def indent(text: Any, subsequent_indent: str = "", initial_indent: Optional[str] = None) -> str:
-    """
-    Indents each line of a given text.
+    """Indents each line of a given text.
 
     Parameters
     ----------
@@ -71,7 +70,7 @@ def indent(text: Any, subsequent_indent: str = "", initial_indent: Optional[str]
 
     Examples
     --------
-    >>> text = "Hello\nWorld"
+    >>> text = "Hello\\nWorld"
     >>> print(indent(text, subsequent_indent="    ", initial_indent="--> "))
     --> Hello
         World
