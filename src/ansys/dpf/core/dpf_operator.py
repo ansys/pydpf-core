@@ -386,6 +386,7 @@ class Operator:
             any,
         )
         from ansys.dpf.core.workflow_topology import workflow_topology
+        from ansys.dpf.core.custom_container_base import CustomContainerBase
 
         out = [
             (any.Any, self._api.operator_getoutput_as_any),
@@ -483,9 +484,13 @@ class Operator:
                 lambda obj, type: any.Any(server=self._server, any_dpf=obj).cast(type),
             ),
             (
-                workflow_topology.WorkflowTopology,
-                None,
-                "WorkflowTopology",
+                CustomContainerBase,
+                self._api.operator_getoutput_generic_data_container,
+                lambda obj, type: type(
+                    container=generic_data_container.GenericDataContainer(
+                        generic_data_container=obj, server=self._server
+                    )
+                ),
             ),
         ]
         if hasattr(self._api, "operator_getoutput_generic_data_container"):

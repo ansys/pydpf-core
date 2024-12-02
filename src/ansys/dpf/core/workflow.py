@@ -333,6 +333,7 @@ class Workflow:
             collection_base,
             streams_container,
         )
+        from ansys.dpf.core.custom_container_base import CustomContainerBase
 
         out = [
             (streams_container.StreamsContainer, self._api.work_flow_getoutput_streams),
@@ -420,6 +421,15 @@ class Workflow:
                 collection.Collection,
                 self._api.work_flow_getoutput_as_any,
                 lambda obj, type: any.Any(server=self._server, any_dpf=obj).cast(type),
+            ),
+            (
+                CustomContainerBase,
+                self._api.work_flow_getoutput_generic_data_container,
+                lambda obj, type: type(
+                    container=generic_data_container.GenericDataContainer(
+                        generic_data_container=obj, server=self._server
+                    )
+                ),
             ),
         ]
         if hasattr(self._api, "work_flow_connect_generic_data_container"):

@@ -84,12 +84,10 @@ class Output:
         type_output_derive_class = self._spec.name_derived_class
 
         if type_output_derive_class != "":
-            out_type = [
-                type_tuple
-                for type_tuple in self._operator._type_to_output_method
-                if type_output_derive_class in type_tuple
-            ]
-            return out_type[0][0](self._operator.get_output(self._pin, type_output))
+            from ansys.dpf.core.common import derived_class_name_to_type
+
+            out_type = derived_class_name_to_type()[type_output_derive_class]
+            return out_type(self._operator.get_output(self._pin, type_output))
         else:
             return self._operator.get_output(self._pin, type_output)
 

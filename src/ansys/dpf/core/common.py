@@ -430,6 +430,18 @@ def type_to_special_dpf_constructors():
     return _type_to_special_dpf_constructors
 
 
+_derived_class_name_to_type = None
+
+
+def derived_class_name_to_type():
+    global _derived_class_name_to_type
+    if _derived_class_name_to_type is None:
+        from ansys.dpf.core.workflow_topology.workflow_topology import WorkflowTopology
+
+        _derived_class_name_to_type = {"WorkflowTopology": WorkflowTopology}
+    return _derived_class_name_to_type
+
+
 def create_dpf_instance(type, internal_obj, server):
     spe_constructors = type_to_special_dpf_constructors()
     if type in spe_constructors:
