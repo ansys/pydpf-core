@@ -109,7 +109,8 @@ You must also add the ``index.rst`` file in the main user guide page toctree. Yo
 Adding a new tutorial
 =====================
 
-:download:`Download the tutorial card template<tutorial_card_template.rst>` :download:`Download the tutorial template<tutorial_template.rst>`
+:download:`Download the tutorial card template<tutorial_card_template.rst>` :download:`Download the tutorial structure template<tutorial_structure_template.rst>`
+:download:`Download the tutorial content formating template<tutorial_content_template.rst>`
 
 Location and naming
 -------------------
@@ -314,7 +315,7 @@ to have the code blocks in different tabs. You can see an example of this case i
 Code blocks
 ~~~~~~~~~~~
 
-The tutorials must have code blocks where you show how you actually implement the coode.
+The tutorials must have code blocks where you show how you actually implement the code.
 The guidelines for the code snippets are:
 
 - Use the `jupyter sphinx<jupyter_sphinx_ext>`_ extension to show code blocks. Its executes embedded code in
