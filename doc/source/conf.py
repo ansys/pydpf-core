@@ -64,8 +64,8 @@ for example in glob(r"../../examples/**/*.py"):
         ignored_pattern += f"|{example_name}"
 ignored_pattern += "|11-server_types.py"
 ignored_pattern += "|06-distributed_stress_averaging.py"
-ignored_pattern += "|00-wrapping_numpy_capabilities.py"
-ignored_pattern += "|01-package_python_operators.py"
+# ignored_pattern += "|00-wrapping_numpy_capabilities.py"
+# ignored_pattern += "|01-package_python_operators.py"
 ignored_pattern += "|02-python_operators_with_dependencies.py"
 ignored_pattern += r")"
 
@@ -330,7 +330,7 @@ epub_title = project
 epub_exclude_files = ["search.html"]
 
 
-def check_global_servers_and_close(app: sphinx.application.Sphinx, exception: Exception) -> None:
+def close_live_servers_and_processes(app: sphinx.application.Sphinx) -> None:
     from ansys.dpf.core import server, _server_instances
     import copy
     import psutil
@@ -339,24 +339,27 @@ def check_global_servers_and_close(app: sphinx.application.Sphinx, exception: Ex
     gc.collect
 
     # Server instances are different from processes.
-    # Ideally just closing the servers => no running processes
+    # Ideally no running servers => no running processes
     # Server instances should be closed first
-    if _server_instances:
-        print(f"{len(_server_instances)} dpf server instances found running")
-        print("Closing server instances")
+    running_servers = sum([1 if instance().live else 0 for instance in _server_instances])
+    if running_servers:
+        print(f"{running_servers} live dpf servers found")
+        print("Closing servers")
     
         copy_instances = copy.deepcopy(_server_instances)
         for instance in copy_instances:
             try:
-                if hasattr(instance(), "shutdown"):
-                    instance().shutdown()
+                instance_object = instance()
+                if hasattr(instance_object, "shutdown"):
+                    instance_object.shutdown()
             except Exception as e:
                 print(e.args)
                 pass
         server.shutdown_global_server()
-        print(f"{len(_server_instances)} dpf server instances found running after closing")
+        running_servers = sum([1 if instance().live else 0 for instance in _server_instances])
+        print(f"Found {running_servers} live dpf servers after closing")
     else:
-        print("no server instances found running")
+        print("No live dpf servers found")
 
     # Subsequently check running processes and close
     proc_name = "Ans.Dpf.Grpc"
@@ -376,32 +379,6 @@ def check_global_servers_and_close(app: sphinx.application.Sphinx, exception: Ex
     else:
         print(f"No processes were found running")
 
-# def reset_server_after_sphinx_gallery(app: sphinx.application.Sphinx, exception: Exception) -> None:
-#     """
-#     Stop running dpf servers before regardless of documentation build sucess.
-
-#     Parameters
-#     ----------
-#     app : sphinx.application.Sphinx
-#         Sphinx application instance containing the all the doc build configuration.
-
-#     """
-#     from ansys.dpf.core import server
-
-#     logger = logging.getLogger(__name__)
-
-#     try:
-#         server.check_global_servers_and_close()
-#     except exception:
-#         if "Extension error" in str(exception):
-#             server.check_global_servers_and_close()
-#             logger.warning("An error occurred during sphinx gallery execution")
-#             raise exception
-#         else:
-#             logger.warning("An error outside sphinx gallery execution occurred")
-#             raise exception
-
-
 def setup(app: sphinx.application.Sphinx) -> None:
     """
     Run hook function(s) during the documentation build.
@@ -412,5 +389,4 @@ def setup(app: sphinx.application.Sphinx) -> None:
         Sphinx application instance containing the all the doc build configuration.
     """
 
-    app.connect("builder-inited", check_global_servers_and_close)
-    app.connect("build-finished", check_global_servers_and_close)
+    app.connect("builder-inited", close_live_servers_and_processes)
