@@ -4,7 +4,7 @@
 Explore a mesh
 ==============
 
-:bdg-warning:`MAPDL` :bdg-success:`LSDYNA` :bdg-info:`Fluent` :bdg-light:`CFX`
+:bdg-mapdl:`MAPDL` :bdg-lsdyna:`LSDYNA` :bdg-fluent:`Fluent` :bdg-cfx:`CFX`
 
 .. |MeshedRegion| replace:: :class:`MeshedRegion <ansys.dpf.core.meshed_region.MeshedRegion>`
 .. |Model| replace:: :class:`Model <ansys.dpf.core.model.Model>`

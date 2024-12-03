@@ -4,7 +4,7 @@
 Split a mesh
 ============
 
-:bdg-warning:`MAPDL` :bdg-success:`LSDYNA` :bdg-info:`Fluent` :bdg-light:`CFX`
+:bdg-mapdl:`MAPDL` :bdg-lsdyna:`LSDYNA` :bdg-fluent:`Fluent` :bdg-cfx:`CFX`
 
 This tutorial show how to split a mesh into different meshes.
 

@@ -4,7 +4,7 @@
 Extract a mesh in split parts
 =============================
 
-:bdg-info:`Fluent` :bdg-light:`CFX`
+:bdg-fluent:`Fluent` :bdg-cfx:`CFX`
 
 .. |MeshedRegion| replace:: :class:`MeshedRegion <ansys.dpf.core.meshed_region.MeshedRegion>`
 .. |MeshesContainer| replace:: :class:`MeshesContainer <ansys.dpf.core.meshes_container.MeshesContainer>`
