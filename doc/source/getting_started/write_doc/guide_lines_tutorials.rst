@@ -36,6 +36,8 @@ You will be handling only the ``doc/source/user_guide`` directory .
 Adding a new tutorial section
 =============================
 
+:download:`Download the new tutorial section template<tutorial_section_template.rst>`
+
 .. note::
 
     Avoid creating new folders unless it is absolutely necessary. If you are in doubt, its precise location can be
@@ -101,15 +103,13 @@ The new folder must contain at least a ``index.rst`` file. This file has:
 You must also add the ``index.rst`` file in the main user guide page toctree. You can find it at the end of
 ``doc/source/user_guide/index.rst`` file.
 
-.. rubric:: Templates
-
-:download:`Download the new tutorial section template<tutorial_section_template.rst>`
-
 .. _ref_guide_lines_add_new_tutorial:
 
 =====================
 Adding a new tutorial
 =====================
+
+:download:`Download the tutorial card template<tutorial_card_template.rst>` :download:`Download the tutorial template<tutorial_template.rst>`
 
 Location and naming
 -------------------
@@ -133,26 +133,26 @@ You also have to add it to a card and the toctree on the tutorial section ``inde
 - Badges with the applicable solvers;
 - Link to the tutorial file;
 
-.. card:: Tutorial title
-   :text-align: center
-   :width: 25%
+.. topic:: Card example
 
-   Short description of the tutorial
+    .. card:: Tutorial title
+       :text-align: center
+       :width: 25%
 
-   +++
-   :bdg-mapdl:`MAPDL` :bdg-lsdyna:`LS-DYNA` :bdg-fluent:`FLUENT` :bdg-cfx:`CFX`
+       Short description of the tutorial
 
-.. rubric:: Templates
-
-:download:`Download the card template<tutorial_section_template.rst>`
+       +++
+       :bdg-mapdl:`MAPDL` :bdg-lsdyna:`LS-DYNA` :bdg-fluent:`FLUENT` :bdg-cfx:`CFX`
 
 Structure
 ---------
 
 The tutorial structure can be divided in two main parts:
 
-- Preamble;
-- Content.
+- :ref:`Preamble<ref_guide_lines_tutorial_preamble>`;
+- :ref:`Content<ref_guide_lines_tutorial_content>`.
+
+.. _ref_guide_lines_tutorial_preamble:
 
 Preamble
 ^^^^^^^^
@@ -195,7 +195,7 @@ The preamble must have the following components:
     :jupyter-download-script:`Download tutorial as Python script<file_name>` :jupyter-download-notebook:`Download tutorial as notebook<file_name>`
 
 The main PyDPF-Core library references are available already defined in the ``doc/source/links_and_refs.rst`` file.
-To use it you use the include directive and use the substitution text as usual:
+To employ them, you use the ``include`` directive and use the substitution text as usual:
 
 .. code-block::
 
@@ -211,6 +211,8 @@ To use it you use the include directive and use the substitution text as usual:
     Here some text. Here we use the |MeshedRegion| substitution text
 
 For more information on those references check the :download:`links and references file<../../links_and_refs.rst>`.
+
+.. _ref_guide_lines_tutorial_content:
 
 Content
 ^^^^^^^
@@ -315,30 +317,35 @@ Code blocks
 The tutorials must have code blocks where you show how you actually implement the coode.
 The guidelines for the code snippets are:
 
-- Use the `jupyter sphinx<jupyter_sphinx_ext>`_ extension. Its executes embedded code in a Jupyter kernel,
-  and embeds outputs of that code in the document:
+- Use the `jupyter sphinx<jupyter_sphinx_ext>`_ extension to show code blocks. Its executes embedded code in
+  a Jupyter kernel and embeds outputs of that code in the document:
 
-.. code-block::
+.. grid:: 2
+    :gutter: 2
+    :padding: 2
+    :margin: 2
 
-    .. jupyter-execute::
+    .. grid-item-card::
 
-        # This is a executable code block
-        from ansys.dpf import core as dpf
+        :octicon:`check-circle-fill` **Correct**
 
-- You must split your code in several parts so you can make explanations between them:
+        .. code-block::
 
-First explanation
+            .. jupyter-execute::
 
-.. code-block::
+                # This is a executable code block
+                from ansys.dpf import core as dpf
 
-    # Code block 1
+    .. grid-item-card::
 
-Second explanation
+        :octicon:`x-circle-fill` **Incorrect**
 
-.. code-block::
+        .. code-block::
 
-    # Code block 2
+            .. code-block::
 
+                # This is a simple code block
+                from ansys.dpf import core as dpf
 
 - Every code implementation must be commented:
 
@@ -347,9 +354,9 @@ Second explanation
     :padding: 2
     :margin: 2
 
-    .. grid-item::
+    .. grid-item-card::
 
-        **Correct**
+        :octicon:`check-circle-fill` **Correct**
 
         .. code-block::
 
@@ -358,34 +365,73 @@ Second explanation
             # Get the stress results
             stress_fc = model.results.stress.eval()
 
-    .. grid-item::
+    .. grid-item-card::
 
-        **Incorrect**
+        :octicon:`x-circle-fill` **Incorrect**
 
         .. code-block::
 
             model = dpf.Model()
             stress_fc = model.results.stress.eval()
 
-- When using a PyDPF-Core object or method you must use key arguments
+- You must split your code in several parts so you can make explanations between them:
 
 .. grid:: 2
     :gutter: 2
     :padding: 2
     :margin: 2
 
-    .. grid-item::
+    .. grid-item-card::
 
-        **Correct**
+        :octicon:`check-circle-fill` **Correct**
+
+        First explanation
+
+        .. code-block::
+
+            # Code comment 1
+            code1
+
+        Second explanation
+
+        .. code-block::
+
+            # Code comment 2
+            code2
+
+    .. grid-item-card::
+
+        :octicon:`x-circle-fill` **Incorrect**
+
+        .. code-block::
+
+            # First explanation
+            # Code comment 1
+            code1
+
+            # Second explanation
+            # Code comment 2
+            code2
+
+- When using a PyDPF-Core object or method you must use key arguments:
+
+.. grid:: 2
+    :gutter: 2
+    :padding: 2
+    :margin: 2
+
+    .. grid-item-card::
+
+        :octicon:`check-circle-fill` **Correct**
 
         .. code-block::
 
             # Get the stress results
             stress_fc = model.results.stress(time_scoping=time_steps).eval()
 
-    .. grid-item::
+    .. grid-item-card::
 
-        **Incorrect**
+        :octicon:`x-circle-fill` **Incorrect**
 
         .. code-block::
 
@@ -395,9 +441,66 @@ Second explanation
 Text formating
 ~~~~~~~~~~~~~~
 
+- When enumerating something you must use bullet lists:
 
+.. grid:: 2
+    :gutter: 2
+    :padding: 2
+    :margin: 2
 
+    .. grid-item-card::
 
+        :octicon:`check-circle-fill` **Correct**
 
+        .. code-block::
 
+            This operator accepts as arguments:
 
+            - A Result;
+            - An Operator;
+            - A FieldsContainer.
+
+    .. grid-item-card::
+
+        :octicon:`x-circle-fill` **Incorrect**
+
+        .. code-block::
+
+            This operator accepts a Result, an Operator or a
+            FieldsContainer as arguments.
+
+- If the enumeration represent a order of topics the list must be numbered:
+
+.. grid:: 2
+    :gutter: 2
+    :padding: 2
+    :margin: 2
+
+    .. grid-item-card::
+
+        :octicon:`check-circle-fill` **Correct**
+
+        .. code-block::
+
+            To extract the mesh you need to follow those steps:
+
+            #. Get the result file;
+            #. Create a Model;
+            #. Get the MeshedRegion.
+
+        The ``#.`` renders as a numbered list.
+
+    .. grid-item-card::
+
+        :octicon:`x-circle-fill` **Incorrect**
+
+        .. code-block::
+
+            To extract the mesh you need to follow those steps:
+
+            - Get the result file;
+            - Create a Model;
+            - Get the MeshedRegion.
+
+- If you need to put code blocks between the list items first you enumerate and reference them in a list. Then, you
+  explore each of them separately in sub headings.
