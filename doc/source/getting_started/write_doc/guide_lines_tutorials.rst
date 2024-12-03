@@ -100,8 +100,30 @@ The new folder must contain at least a ``index.rst`` file. This file has:
 
         tutorial_file.rst
 
-You must also add the ``index.rst`` file in the main user guide page toctree. You can find it at the end of
-``doc/source/user_guide/index.rst`` file.
+You must also add the new section ``index.rst`` file in the main user guide page toctree. You can find this toctree
+at the end of ``doc/source/user_guide/index.rst`` file.
+
+.. code-block::
+
+    .. toctree::
+        :maxdepth: 2
+        :hidden:
+        :caption: Tutorials
+
+        tutorials/data_structures/index.rst
+        tutorials/language_and_usage/index.rst
+        tutorials/post_processing_basics/index.rst
+        tutorials/import_data/index.rst
+        tutorials/mesh/index.rst
+        tutorials/transform_data/index.rst
+        tutorials/export_data/index.rst
+        tutorials/plot/index.rst
+        tutorials/animate/index.rst
+        tutorials/enriching_dpf_capabilities/index.rst
+        tutorials/distributed_files/index.rst
+        tutorials/dpf_server/index.rst
+        tutorials/licensing/index.rst
+        tutorials/new_section/index.rst
 
 .. _ref_guide_lines_add_new_tutorial:
 
@@ -161,9 +183,6 @@ Preamble
 This first part is essential for clarity, organization and usability of the tutorial. It establishes the tutorials
 purpose, making it easy to understand what is going to be explained and reference it within the other parts of
 the documentation.
-
-Components
-~~~~~~~~~~
 
 The preamble must have the following components:
 
