@@ -28,7 +28,7 @@ These tutorials explains how to explore different attributes of a given mesh wit
 
        This tutorial explains how to extract the models mesh from a result file
        +++
-       :bdg-warning:`MAPDL` :bdg-success:`LSDYNA` :bdg-info:`Fluent` :bdg-light:`CFX`
+       :bdg-mapdl:`MAPDL` :bdg-lsdyna:`LSDYNA` :bdg-fluent:`Fluent` :bdg-cfx:`CFX`
 
     .. grid-item-card:: Read a mesh metadata
        :link: ref_tutorials_read_mesh_metadata
@@ -40,7 +40,7 @@ These tutorials explains how to explore different attributes of a given mesh wit
        extracting the mesh.
 
        +++
-       :bdg-success:`LSDYNA`:bdg-info:`Fluent` :bdg-light:`CFX`
+       :bdg-lsdyna:`LSDYNA` :bdg-fluent:`Fluent` :bdg-cfx:`CFX`
 
 
     .. grid-item-card:: Explore a mesh
@@ -53,7 +53,7 @@ These tutorials explains how to explore different attributes of a given mesh wit
        so it can be manipulated.
 
        +++
-       :bdg-warning:`MAPDL` :bdg-success:`LSDYNA` :bdg-info:`Fluent` :bdg-light:`CFX`
+       :bdg-mapdl:`MAPDL` :bdg-lsdyna:`LSDYNA` :bdg-fluent:`Fluent` :bdg-cfx:`CFX`
 
     .. grid-item-card:: Extract a mesh in split parts
        :link: tutorials_get_specific_part_mesh
@@ -64,7 +64,7 @@ These tutorials explains how to explore different attributes of a given mesh wit
        or CFX result files.
 
        +++
-       :bdg-info:`Fluent` :bdg-light:`CFX`
+       :bdg-fluent:`Fluent` :bdg-cfx:`CFX`
 
     .. grid-item-card:: Split a mesh
        :link: tutorials_split_mesh
@@ -74,7 +74,7 @@ These tutorials explains how to explore different attributes of a given mesh wit
        This tutorial show how to split a mesh into different meshes.
 
        +++
-       :bdg-warning:`MAPDL` :bdg-success:`LSDYNA` :bdg-info:`Fluent` :bdg-light:`CFX`
+       :bdg-mapdl:`MAPDL` :bdg-lsdyna:`LSDYNA` :bdg-fluent:`Fluent` :bdg-cfx:`CFX`
 
 .. toctree::
     :maxdepth: 2
