@@ -194,3 +194,15 @@ from ansys.dpf import core as dpf
     p = tmp_path / "test_example_version_1.py"
     p.write_text(example_header)
     assert examples.get_example_required_minimum_dpf_version(p) == "0.0"
+
+
+def test_download_easy_statistics():
+    assert os.path.exists(examples.download_easy_statistics(return_local_path=True))
+
+
+def test_download_average_filter_plugin():
+    assert os.path.exists(examples.download_average_filter_plugin(return_local_path=True))
+
+
+def test_download_gltf_plugin():
+    assert os.path.exists(examples.download_gltf_plugin(return_local_path=True))

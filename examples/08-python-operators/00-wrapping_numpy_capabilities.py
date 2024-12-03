@@ -56,17 +56,9 @@ be wrapped in Python plugins.
 #
 # Download and display the Python script.
 
-from ansys.dpf.core import examples
-from ansys.dpf import core as dpf
+from ansys.dpf.core.examples import download_easy_statistics
 
-
-GITHUB_SOURCE_URL = (
-    "https://github.com/ansys/pydpf-core/" "raw/examples/first_python_plugins/python_plugins"
-)
-EXAMPLE_FILE = GITHUB_SOURCE_URL + "/easy_statistics.py"
-operator_file_path = examples.downloads._retrieve_file(
-    EXAMPLE_FILE, "easy_statistics.py", "python_plugins"
-)
+operator_file_path = download_easy_statistics()
 
 with open(operator_file_path, "r") as f:
     for line in f.readlines():
