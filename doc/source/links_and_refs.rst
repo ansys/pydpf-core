@@ -33,7 +33,7 @@
 .. |Field| replace:: :class:`Field<ansys.dpf.core.field.Field>`
 .. |FieldsContainer| replace:: :class:`FieldsContainer<ansys.dpf.core.fields_container.FieldsContainer>`
 .. |Model| replace:: :class:`Model <ansys.dpf.core.model.Model>`
-.. |DataSources| replace:: :class:`Model <ansys.dpf.core.data_sources.DataSources>`
+.. |DataSources| replace:: :class:`DataSources <ansys.dpf.core.data_sources.DataSources>`
 .. |Scoping| replace:: :class:`Scoping <ansys.dpf.core.scoping.Scoping>`
 .. |MeshedRegion| replace:: :class:`MeshedRegion <ansys.dpf.core.meshed_region.MeshedRegion>`
 .. |MeshInfo| replace:: :class:`MeshInfo <ansys.dpf.core.mesh_info.MeshInfo>`
