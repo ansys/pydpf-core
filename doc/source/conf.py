@@ -101,12 +101,10 @@ extensions = [
     "enum_tools.autoenum",
     "nbsphinx",
     "sphinx.ext.autosectionlabel",
-    #"sphinx.ext.autodoc",
     "sphinx.ext.graphviz",
     "sphinx.ext.intersphinx",
     "sphinx.ext.napoleon",
     "sphinx.ext.todo",
-    #"sphinx_autodoc_typehints",
     "sphinx_copybutton",
     "sphinx_design",
     "sphinx_gallery.gen_gallery",
@@ -132,7 +130,6 @@ intersphinx_mapping = {
 
 autosummary_generate = True
 
-#autodoc_mock_imports = ["ansys.dpf.core.examples.python_plugins"]
 
 # Add any paths that contain templates here, relative to this directory.
 # templates_path = ['_templates']
@@ -214,8 +211,6 @@ sphinx_gallery_conf = {
     "reset_modules": (reset_servers,),
 }
 
-#autodoc_member_order = "bysource"
-
 
 # -- Options for HTML output -------------------------------------------------
 html_short_title = html_title = "PyDPF-Core"
@@ -260,7 +255,6 @@ html_theme_options = {
         "class_content": "class",
         "ignore": autoapi_ignore_list,
         "add_toctree_entry": True,
-        #"package_depth": 3,
         "member_order": "bysource",
     }
 }
