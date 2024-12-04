@@ -1,4 +1,4 @@
-.. _tutorials_explore_mesh:
+.. _ref_tutorials_explore_mesh:
 
 ==============
 Explore a mesh
@@ -6,34 +6,24 @@ Explore a mesh
 
 :bdg-mapdl:`MAPDL` :bdg-lsdyna:`LSDYNA` :bdg-fluent:`Fluent` :bdg-cfx:`CFX`
 
-.. |MeshedRegion| replace:: :class:`MeshedRegion <ansys.dpf.core.meshed_region.MeshedRegion>`
-.. |Model| replace:: :class:`Model <ansys.dpf.core.model.Model>`
-.. |DataSources| replace:: :class:`Model <ansys.dpf.core.data_sources.DataSources>`
-.. |MeshInfo| replace:: :class:`MeshInfo <ansys.dpf.core.mesh_info.MeshInfo>`
-.. |Nodes| replace:: :class:`Nodes <ansys.dpf.core.nodes.Nodes>`
-.. |Elements| replace:: :class:`Elements <ansys.dpf.core.elements.Elements>`
-.. |Faces| replace:: :class:`Faces <ansys.dpf.core.faces.Faces>`
-.. |Scoping| replace:: :class:`Scoping <ansys.dpf.core.scoping.Scoping>`
+.. include:: ../../../links_and_refs.rst
 .. |PropertyField| replace:: :class:`PropertyField <ansys.dpf.core.property_field.PropertyField>`
-.. |Examples| replace:: :mod:`Examples<ansys.dpf.core.examples>`
+.. |element_types| replace:: :class:`list of available element types in a DPF mesh<ansys.dpf.core.elements.element_types>`
 
-This tutorial explains how to access the mesh data and metadata (data about the elements, nodes, faces, region, zone ...)
-so it can be manipulated.
+This tutorial explains how to access a mesh data and metadata so it can be manipulated.
 
-
-There is a general method to read the |MeshedRegion| by manipulating
-the methods of this object.
+:jupyter-download-script:`Download tutorial as Python script<explore_mesh>`
+:jupyter-download-notebook:`Download tutorial as Jupyter notebook<explore_mesh>`
 
 Define the mesh
 ---------------
 
 The mesh object in DPF is a |MeshedRegion|. You can obtain a |MeshedRegion| by creating your
-own by scratch or by getting it from a result file. For more information check the
-:ref:`tutorials_create_a_mesh_from_scratch` and :ref:`tutorials_get_mesh_from_result_file` tutorials.
+own from scratch or by getting it from a result file. For more information check the
+:ref:`ref_tutorials_create_a_mesh_from_scratch` and :ref:`ref_tutorials_get_mesh_from_result_file` tutorials.
 
-Here we we will download a  result file available in our |Examples| package.
-For more information about how to import your result file in DPF check
-the :ref:`ref_tutorials_import_data` tutorial section.
+For this tutorial, we get a |MeshedRegion| from a result file. You can use one available in the |Examples| module.
+For more information see the :ref:`ref_tutorials_get_mesh_from_result_file` tutorial.
 
 .. tab-set::
 
@@ -41,84 +31,94 @@ the :ref:`ref_tutorials_import_data` tutorial section.
 
         .. jupyter-execute::
 
-            # Import the ``ansys.dpf.core`` module, including examples files and the operators subpackage
+            # Import the ``ansys.dpf.core`` module
             from ansys.dpf import core as dpf
+            # Import the examples module
             from ansys.dpf.core import examples
+            # Import the operators module
             from ansys.dpf.core import operators as ops
-            # Define the result file
+
+            # Define the result file path
             result_file_path_1 = examples.find_static_rst()
             # Create the model
-            my_model_1 = dpf.Model(data_sources=result_file_path_1)
+            model_1 = dpf.Model(data_sources=result_file_path_1)
             # Get the mesh
-            my_meshed_region_1 = my_model_1.metadata.meshed_region
+            meshed_region_1 = model_1.metadata.meshed_region
 
     .. tab-item:: LSDYNA
 
         .. jupyter-execute::
 
-            # Import the ``ansys.dpf.core`` module, including examples files and the operators subpackage
+            # Import the ``ansys.dpf.core`` module
             from ansys.dpf import core as dpf
+            # Import the examples module
             from ansys.dpf.core import examples
+            # Import the operators module
             from ansys.dpf.core import operators as ops
-            # Define the result file
+
+            # Define the result file path
             result_file_path_2 = examples.download_d3plot_beam()
             # Create the DataSources object
-            my_data_sources_2 = dpf.DataSources()
-            my_data_sources_2.set_result_file_path(filepath=result_file_path_2[0], key="d3plot")
-            my_data_sources_2.add_file_path(filepath=result_file_path_2[3], key="actunits")
+            ds_2 = dpf.DataSources()
+            ds_2.set_result_file_path(filepath=result_file_path_2[0], key="d3plot")
+            ds_2.add_file_path(filepath=result_file_path_2[3], key="actunits")
             # Create the model
-            my_model_2 = dpf.Model(data_sources=my_data_sources_2)
+            model_2 = dpf.Model(data_sources=ds_2)
             # Get the mesh
-            my_meshed_region_2 = my_model_2.metadata.meshed_region
+            meshed_region_2 = model_2.metadata.meshed_region
 
     .. tab-item:: Fluent
 
         .. jupyter-execute::
 
-            # Import the ``ansys.dpf.core`` module, including examples files and the operators subpackage
+            # Import the ``ansys.dpf.core`` module
             from ansys.dpf import core as dpf
+            # Import the examples module
             from ansys.dpf.core import examples
+            # Import the operators module
             from ansys.dpf.core import operators as ops
-            # Define the result file
+
+            # Define the result file path
             result_file_path_3 = examples.download_fluent_axial_comp()["flprj"]
             # Create the model
-            my_model_3 = dpf.Model(data_sources=result_file_path_3)
+            model_3 = dpf.Model(data_sources=result_file_path_3)
             # Get the mesh
-            my_meshed_region_3 = my_model_3.metadata.meshed_region
+            meshed_region_3 = model_3.metadata.meshed_region
 
     .. tab-item:: CFX
 
         .. jupyter-execute::
 
-            # Import the ``ansys.dpf.core`` module, including examples files and the operators subpackage
+            # Import the ``ansys.dpf.core`` module
             from ansys.dpf import core as dpf
+            # Import the examples module
             from ansys.dpf.core import examples
+            # Import the operators module
             from ansys.dpf.core import operators as ops
-            # Define the result file
+
+            # Define the result file path
             result_file_path_4 = examples.download_cfx_mixing_elbow()
             # Create the model
-            my_model_4 = dpf.Model(data_sources=result_file_path_4)
+            model_4 = dpf.Model(data_sources=result_file_path_4)
             # Get the mesh
-            my_meshed_region_4 = my_model_4.metadata.meshed_region
+            meshed_region_4 = model_4.metadata.meshed_region
 
-Read the mesh
--------------
+Explore the mesh data
+---------------------
 
-From the |MeshedRegion| you can access its information by manipulating this object properties.
-The mesh information includes :
+You can access the mesh data by manipulating the |MeshedRegion| object methods.
+The mesh data includes :
 
 - Unit;
 - Nodes, elements and faces;
-- Named selections;
-- Properties.
+- Named selections.
 
-Check all the information you can get at: |MeshedRegion|.
+Check all the types of data you can get from a mesh at |MeshedRegion|.
 
-Access the mesh nodes, element, faces and named selection
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+When instantiating nodes, elements, faces and named selections you get the correspondent DPF objects:
+|Nodes|, |Elements|, |Faces| and |Scoping|.
 
-When instantiating the nodes, element, faces and named selection you get the correspondent DPF objects:
-|Nodes|, |Elements|, |Faces| and |Scoping|. For example:
+Here, we get the mesh nodes.
 
 .. tab-set::
 
@@ -126,47 +126,60 @@ When instantiating the nodes, element, faces and named selection you get the cor
 
         .. jupyter-execute::
 
-            # Get the mesh elements
-            my_nodes_1 = my_meshed_region_1.nodes
+            # Get the mesh nodes
+            nodes_1 = meshed_region_1.nodes
+
+            # Print the object type
+            print("Object type: ",type(nodes_1),'\n')
+
             # Print the nodes
-            print(my_nodes_1)
-            print("Object type: ",type(my_nodes_1))
+            print("Nodes: ", nodes_1)
 
     .. tab-item:: LSDYNA
 
         .. jupyter-execute::
 
-            # Get the mesh elements
-            my_nodes_2 = my_meshed_region_2.nodes
+            # Get the mesh nodes
+            nodes_2 = meshed_region_2.nodes
+
+            # Print the object type
+            print("Object type: ",type(nodes_2),'\n')
+
             # Print the nodes
-            print(my_nodes_2)
-            print("Object type: ",type(my_nodes_2))
+            print("Nodes: ", nodes_2)
 
     .. tab-item:: Fluent
 
         .. jupyter-execute::
 
-            # Get the mesh elements
-            my_nodes_3 = my_meshed_region_3.nodes
+            # Get the mesh nodes
+            nodes_3 = meshed_region_3.nodes
+
+            # Print the object type
+            print("Object type: ",type(nodes_3),'\n')
+
             # Print the nodes
-            print(my_nodes_3)
-            print("Object type: ",type(my_nodes_3))
+            print("Nodes: ", nodes_3)
 
     .. tab-item:: CFX
 
         .. jupyter-execute::
 
-            # Get the mesh elements
-            my_nodes_4 = my_meshed_region_4.nodes
+            # Get the mesh nodes
+            nodes_4 = meshed_region_4.nodes
+
+            # Print the object type
+            print("Object type: ",type(nodes_4),'\n')
+
             # Print the nodes
-            print(my_nodes_4)
-            print("Object type: ",type(my_nodes_4))
+            print("Nodes: ", nodes_4)
 
-Access the mesh properties
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+Explore the mesh metadata
+-------------------------
 
-When handling properties you can check which are the available ones and also
-chose those you want to extract.
+You can access the mesh metadata by manipulating the |MeshedRegion| object properties.
+
+You can check which ones are available.
 
 .. tab-set::
 
@@ -175,39 +188,48 @@ chose those you want to extract.
         .. jupyter-execute::
 
             # Get the available properties
-            my_available_props_1 = my_meshed_region_1.available_property_fields
+            available_props_1 = meshed_region_1.available_property_fields
+
             # Print the available properties
-            print(my_available_props_1)
+            print("Available properties: ", available_props_1)
 
     .. tab-item:: LSDYNA
 
         .. jupyter-execute::
 
             # Get the available properties
-            my_available_props_2 = my_meshed_region_2.available_property_fields
+            available_props_2 = meshed_region_2.available_property_fields
+
             # Print the available properties
-            print(my_available_props_2)
+            print("Available properties: ", available_props_2)
 
     .. tab-item:: Fluent
 
         .. jupyter-execute::
 
             # Get the available properties
-            my_available_props_3 = my_meshed_region_3.available_property_fields
+            available_props_3 = meshed_region_3.available_property_fields
+
             # Print the available properties
-            print(my_available_props_3)
+            print("Available properties: ", available_props_3)
 
     .. tab-item:: CFX
 
         .. jupyter-execute::
 
             # Get the available properties
-            my_available_props_4 = my_meshed_region_4.available_property_fields
-            # Print the available properties
-            print(my_available_props_4)
+            available_props_4 = meshed_region_4.available_property_fields
 
-When extracting those properties you get a |PropertyField| with that information. Their data is mapped
-to the entity they are defined at:
+            # Print the available properties
+            print("Available properties: ", available_props_4)
+
+You can also chose which property you want to extract.
+
+When extracting the properties you get a |PropertyField| with that information. Their data is mapped to
+the entity they are defined at.
+
+The element type is given as a number. Check the |element_types| to find the
+corresponding element name.
 
 .. tab-set::
 
@@ -216,9 +238,10 @@ to the entity they are defined at:
         .. jupyter-execute::
 
             # Get the element types on the mesh
-            my_el_types_1 = my_meshed_region_1.property_field(property_name="eltype")
-            # Print the element types
-            print(my_el_types_1)
+            el_types_1 = meshed_region_1.property_field(property_name="eltype")
+
+            # Print the element types by element
+            print(el_types_1)
 
 
     .. tab-item:: LSDYNA
@@ -226,24 +249,27 @@ to the entity they are defined at:
         .. jupyter-execute::
 
             # Get the element types on the mesh
-            my_el_types_2 = my_meshed_region_2.property_field(property_name="eltype")
-            # Print the element types
-            print(my_el_types_2)
+            el_types_2 = meshed_region_2.property_field(property_name="eltype")
+
+            # Print the element types by element
+            print(el_types_2)
 
     .. tab-item:: Fluent
 
         .. jupyter-execute::
 
             # Get the element types on the mesh
-            my_el_types_3 = my_meshed_region_3.property_field(property_name="eltype")
-            # Print the element types
-            print(my_el_types_3)
+            el_types_3 = meshed_region_3.property_field(property_name="eltype")
+
+            # Print the element types by element
+            print(el_types_3)
 
     .. tab-item:: CFX
 
         .. jupyter-execute::
 
             # Get the element types on the mesh
-            my_el_types_4 = my_meshed_region_4.property_field(property_name="eltype")
-            # Print the element types
-            print(my_el_types_4)
+            el_types_4 = meshed_region_4.property_field(property_name="eltype")
+
+            # Print the element types by element
+            print(el_types_4)
