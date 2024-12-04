@@ -67,7 +67,7 @@ indent-style = "space"
 select = [
 #   "E",    # pycodestyle, see https://beta.ruff.rs/docs/rules/#pycodestyle-e-w
 #   "D",    # pydocstyle, see https://beta.ruff.rs/docs/rules/#pydocstyle-d
-#   "F",    # pyflakes, see https://beta.ruff.rs/docs/rules/#pyflakes-f
+    "F",    # pyflakes, see https://beta.ruff.rs/docs/rules/#pyflakes-f
 #   "I",    # isort, see https://beta.ruff.rs/docs/rules/#isort-i
 #   "N",    # pep8-naming, see https://beta.ruff.rs/docs/rules/#pep8-naming-n
 #   "PTH",  # flake9-use-pathlib, https://beta.ruff.rs/docs/rules/#flake8-use-pathlib-pth
