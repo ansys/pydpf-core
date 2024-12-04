@@ -23,6 +23,7 @@
 from .examples import get_example_required_minimum_dpf_version, find_files, fluid_axial_model
 from .downloads import (
     download_all_kinds_of_complexity,
+    download_modal_frame,
     find_simple_bar,
     find_static_rst,
     find_complex_rst,
@@ -86,4 +87,16 @@ __all__ = [
     "get_example_required_minimum_dpf_version",
     "find_files",
     "fluid_axial_model",
+    "download_all_kinds_of_complexity",
+    "download_modal_frame",
+    "find_simple_bar",
+    "find_static_rst",
+    "find_complex_rst",
+    "find_multishells_rst",
+    "find_electric_therm",
+    "find_steady_therm",
+    "find_transient_therm",
+    "find_msup_transient",
+    "find_simple_cyclic",
+    "find_distributed_msup_folder",
 ]
