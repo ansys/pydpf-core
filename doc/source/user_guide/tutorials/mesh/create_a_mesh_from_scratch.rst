@@ -1,32 +1,35 @@
-.. _tutorials_create_a_mesh_from_scratch:
+.. _ref_tutorials_create_a_mesh_from_scratch:
 
 ==========================
 Create a mesh from scratch
 ==========================
 
-.. |Field| replace:: :class:`Field<ansys.dpf.core.field.Field>`
-.. |FieldsContainer| replace:: :class:`FieldsContainer<ansys.dpf.core.fields_container.FieldsContainer>`
-.. |MeshedRegion| replace:: :class:`MeshedRegion <ansys.dpf.core.meshed_region.MeshedRegion>`
-.. |Model| replace:: :class:`Model <ansys.dpf.core.model.Model>`
-
-The mesh object in DPF is a |MeshedRegion|. You can create your own |MeshedRegion| object to use DPF operators
-with your own data. The ability to use scripting to create any DPF entity means
-that you are not dependent on result files and can connect the DPF environment
-with any Python tool.
+.. include:: ../../../links_and_refs.rst
 
 This tutorial demonstrates how to build a |MeshedRegion| from the scratch.
 
-Here we create a parallel piped mesh made of linear hexa elements.
+The mesh object in DPF is a |MeshedRegion|. You can create your own |MeshedRegion| object and use it
+with DPF operators. The ability to use scripting to create any DPF entity means
+that you are not dependent on result files and can connect the DPF environment
+with any Python tool.
+
+Here, we create a parallel piped mesh made of linear hexa elements.
+
+:jupyter-download-script:`Download tutorial as Python script<create_a_mesh_from_scratch>`
+:jupyter-download-notebook:`Download tutorial as Jupyter notebook<create_a_mesh_from_scratch>`
 
 Import the necessary modules
 ----------------------------
 
-Import the ``ansys.dpf.core`` module, including the operators subpackage and the numpy library
+Import the ``ansys.dpf.core`` module, including the operators module and the numpy library.
 
 .. jupyter-execute::
 
+    # Import the numpy library
     import numpy as np
+    # Import the ``ansys.dpf.core`` module
     from ansys.dpf import core as dpf
+    # Import the operators module
     from ansys.dpf.core import operators as ops
 
 Define the mesh dimensions
@@ -47,10 +50,10 @@ Define the mesh dimensions
 Define the connectivity function
 --------------------------------
 
-To create a mesh we need to define the nodes connectivity. This means to define
-the elements and nodes indices connected to each node.
+To create a mesh you must define the nodes connectivity. This means to define
+the nodes ids connected to each node.
 
-Here we create a function that will find the connectivity of our entities.
+Here, we create a function that will find this connectivity.
 
 .. jupyter-execute::
 
@@ -66,7 +69,7 @@ Here we create a function that will find the connectivity of our entities.
 Add nodes
 ---------
 
-Add nodes to the |MeshedRegion| object:
+Add |Nodes| to the |MeshedRegion| object.
 
 .. jupyter-execute::
 
@@ -83,22 +86,22 @@ Add nodes to the |MeshedRegion| object:
                 my_meshed_region.nodes.add_node(node_id, [x, y, z])
                 node_id += 1
 
-Get the nodes coordinates field
+Get the nodes coordinates field.
 
 .. jupyter-execute::
 
     my_nodes_coordinates = my_meshed_region.nodes.coordinates_field
 
-Set the mesh node properties
-----------------------------
+Set the mesh properties
+-----------------------
 
-Set the mesh unit:
+Set the mesh unit.
 
 .. jupyter-execute::
 
     my_meshed_region.unit = "mm"
 
-Set the nodes coordinates:
+Set the nodes coordinates.
 
 .. jupyter-execute::
 
@@ -106,11 +109,12 @@ Set the nodes coordinates:
     my_nodes_coordinates_data = my_nodes_coordinates.data
     # As we use the connectivity function we need to get the data as a list
     my_nodes_coordinates_data_list = my_nodes_coordinates.data_as_list
-    # Get the nodes scoping
+    # Set the nodes scoping
     my_coordinates_scoping = my_nodes_coordinates.scoping
 
-Add the elements
-----------------
+Add elements
+------------
+Add |Elements| to the |MeshedRegion| object.
 
 .. jupyter-execute::
 
@@ -141,9 +145,14 @@ Add the elements
                 connectivity[7] = tmp
                 my_meshed_region.elements.add_solid_element(element_id, connectivity)
                 element_id += 1
+
 Plot the mesh
 -------------
 
+You can check the mesh we just created with a plot. For more information on how to plot a mesh see
+the :ref:`ref_tutorials_plotting_meshes` tutorial.
+
 .. jupyter-execute::
 
+    # Plot the mesh
     my_meshed_region.plot()
