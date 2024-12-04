@@ -22,6 +22,7 @@
 
 from .examples import get_example_required_minimum_dpf_version, find_files, fluid_axial_model
 from .downloads import (
+    download_all_kinds_of_complexity,
     find_simple_bar,
     find_static_rst,
     find_complex_rst,
@@ -80,4 +81,9 @@ def __getattr__(name):
     raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
 
 
-__all__ = ["get_example_required_minimum_dpf_version", "find_files", "fluid_axial_model"]
+__all__ = [
+    "download_all_kinds_of_complexity",
+    "get_example_required_minimum_dpf_version",
+    "find_files",
+    "fluid_axial_model",
+]
