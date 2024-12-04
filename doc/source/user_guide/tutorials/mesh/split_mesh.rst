@@ -1,4 +1,4 @@
-.. _tutorials_split_mesh:
+.. _ref_tutorials_split_mesh:
 
 ============
 Split a mesh
@@ -6,35 +6,34 @@ Split a mesh
 
 :bdg-mapdl:`MAPDL` :bdg-lsdyna:`LSDYNA` :bdg-fluent:`Fluent` :bdg-cfx:`CFX`
 
-This tutorial show how to split a mesh into different meshes.
+.. include:: ../../../links_and_refs.rst
 
-.. |MeshedRegion| replace:: :class:`MeshedRegion <ansys.dpf.core.meshed_region.MeshedRegion>`
 .. |MeshesContainer| replace:: :class:`MeshesContainer <ansys.dpf.core.meshes_container.MeshesContainer>`
 .. |split_mesh| replace:: :class:`split_mesh <ansys.dpf.core.operators.mesh.split_mesh.split_mesh>`
 .. |split_on_property_type| replace:: :class:`split_on_property_type <ansys.dpf.core.operators.scoping.split_on_property_type.split_on_property_type>`
 .. |from_scopings| replace:: :class:`from_scopings <ansys.dpf.core.operators.mesh.from_scopings.from_scopings>`
-.. |DataSources| replace:: :class:`Model <ansys.dpf.core.data_sources.DataSources>`
-.. |Scoping| replace:: :class:`Scoping <ansys.dpf.core.scoping.Scoping>`
 .. |ScopingsContainer| replace:: :class:`ScopingsContainer <ansys.dpf.core.scopings_container.ScopingsContainer>`
-.. |Examples| replace:: :mod:`Examples<ansys.dpf.core.examples>`
+.. |PropertyField| replace:: :class:`PropertyField <ansys.dpf.core.property_field.PropertyField>`
 
-The mesh object in DPF is a |MeshedRegion|. If you want to split your mesh you can store them in a |MeshedRegion|.
+This tutorial shows how to split a mesh on a give property.
 
-You have two approaches to split your mesh:
+There are two approaches to accomplish this goal:
 
-1) Using the |split_mesh|, to split a already existing |MeshedRegion| into a MeshesContainer;
-2) Split the scoping with the |split_on_property_type| operator and than creating the |MeshedRegion|
-   objects with the |from_scopings| operator.
+- :ref:`Use the split_mesh operator to split a already existing MeshedRegion<ref_first_approach_split_mesh>`;
+- :ref:`Split the mesh scoping and create the split MeshedRegion objects <ref_second_approach_split_mesh>`.
+
+:jupyter-download-script:`Download tutorial as Python script<split_mesh>`
+:jupyter-download-notebook:`Download tutorial as Jupyter notebook<split_mesh>`
 
 Define the mesh
 ---------------
 
-The mesh object in DPF is a |MeshedRegion|. You can obtain a |MeshedRegion| by creating your
-own by scratch or by getting it from a result file. For more information check the
-:ref:`tutorials_create_a_mesh_from_scratch` and :ref:`tutorials_get_mesh_from_result_file` tutorials.
+The mesh object in DPF is a |MeshedRegion|. You can obtain a |MeshedRegion| by creating your own from scratch or by getting it from a result file. For more
+information check the :ref:`ref_tutorials_create_a_mesh_from_scratch` and :ref:`ref_tutorials_get_mesh_from_result_file`
+tutorials.
 
-In this part we will download simulation result files available
-in our |Examples| package.
+For this tutorial, we get a |MeshedRegion| from a result file. You can use one available in the |Examples| module.
+For more information see the :ref:`ref_tutorials_get_mesh_from_result_file` tutorial.
 
 .. tab-set::
 
@@ -42,120 +41,89 @@ in our |Examples| package.
 
         .. jupyter-execute::
 
-            # Import the ``ansys.dpf.core`` module, including examples files and the operators subpackage
+            # Import the ``ansys.dpf.core`` module
             from ansys.dpf import core as dpf
+            # Import the examples module
             from ansys.dpf.core import examples
+            # Import the operators module
             from ansys.dpf.core import operators as ops
-            # Define the result file
+
+            # Define the result file path
             result_file_path_1 = examples.find_multishells_rst()
             # Create the model
-            my_model_1 = dpf.Model(data_sources=result_file_path_1)
+            model_1 = dpf.Model(data_sources=result_file_path_1)
             # Get the mesh
-            my_meshed_region_1 = my_model_1.metadata.meshed_region
+            meshed_region_1 = model_1.metadata.meshed_region
 
     .. tab-item:: LSDYNA
 
         .. jupyter-execute::
 
-            # Import the ``ansys.dpf.core`` module, including examples files and the operators subpackage
+            # Import the ``ansys.dpf.core`` module
             from ansys.dpf import core as dpf
+            # Import the examples module
             from ansys.dpf.core import examples
+            # Import the operators module
             from ansys.dpf.core import operators as ops
-            # Define the result file
+
+            # Define the result file path
             result_file_path_2 = examples.download_d3plot_beam()
             # Create the DataSources object
-            my_data_sources_2 = dpf.DataSources()
-            my_data_sources_2.set_result_file_path(filepath=result_file_path_2[0], key="d3plot")
-            my_data_sources_2.add_file_path(filepath=result_file_path_2[3], key="actunits")
+            ds_2 = dpf.DataSources()
+            ds_2.set_result_file_path(filepath=result_file_path_2[0], key="d3plot")
+            ds_2.add_file_path(filepath=result_file_path_2[3], key="actunits")
             # Create the model
-            my_model_2 = dpf.Model(data_sources=my_data_sources_2)
+            model_2 = dpf.Model(data_sources=ds_2)
             # Get the mesh
-            my_meshed_region_2 = my_model_2.metadata.meshed_region
+            meshed_region_2 = model_2.metadata.meshed_region
 
     .. tab-item:: Fluent
 
         .. jupyter-execute::
 
-            # Import the ``ansys.dpf.core`` module, including examples files and the operators subpackage
+            # Import the ``ansys.dpf.core`` module
             from ansys.dpf import core as dpf
+            # Import the examples module
             from ansys.dpf.core import examples
+            # Import the operators module
             from ansys.dpf.core import operators as ops
-            # Define the result file
+
+            # Define the result file path
             result_file_path_3 = examples.download_fluent_axial_comp()["flprj"]
             # Create the model
-            my_model_3 = dpf.Model(data_sources=result_file_path_3)
+            model_3 = dpf.Model(data_sources=result_file_path_3)
             # Get the mesh
-            my_meshed_region_3 = my_model_3.metadata.meshed_region
+            meshed_region_3 = model_3.metadata.meshed_region
 
     .. tab-item:: CFX
 
         .. jupyter-execute::
 
-            # Import the ``ansys.dpf.core`` module, including examples files and the operators subpackage
+            # Import the ``ansys.dpf.core`` module
             from ansys.dpf import core as dpf
+            # Import the examples module
             from ansys.dpf.core import examples
+            # Import the operators module
             from ansys.dpf.core import operators as ops
-            # Define the result file
+
+            # Define the result file path
             result_file_path_4 = examples.download_cfx_mixing_elbow()
             # Create the model
-            my_model_4 = dpf.Model(data_sources=result_file_path_4)
+            model_4 = dpf.Model(data_sources=result_file_path_4)
             # Get the mesh
-            my_meshed_region_4 = my_model_4.metadata.meshed_region
+            meshed_region_4 = model_4.metadata.meshed_region
 
-1) First approach
------------------
+.. _ref_first_approach_split_mesh:
 
-Use the |split_mesh| operator to split a already existing |MeshedRegion| into a MeshesContainer based on a property.
+First approach
+--------------
+
+Use the |split_mesh| operator to split an already existing |MeshedRegion| based on a property.
 Currently you can split a mesh by material or eltype.
 
-.. tab-set::
+When you split a |MeshedRegion| the split parts are stored in the DPF collection called |MeshesContainer|.
 
-    .. tab-item:: MAPDL
-
-        .. jupyter-execute::
-
-            # Split the mesh by material
-            my_meshes_11 = ops.mesh.split_mesh(mesh=my_meshed_region_1,property="mat").eval()
-            # Print the meshes
-            print(my_meshes_11)
-
-    .. tab-item:: LSDYNA
-
-        .. jupyter-execute::
-
-            # Split the mesh by material
-            my_meshes_21 = ops.mesh.split_mesh(mesh=my_meshed_region_2,property="mat").eval()
-            # Print the meshes
-            print(my_meshes_21)
-
-    .. tab-item:: Fluent
-
-        .. jupyter-execute::
-
-            # Split the mesh by material
-            my_meshes_31 = ops.mesh.split_mesh(mesh=my_meshed_region_3,property="mat").eval()
-            # Print the meshes
-            print(my_meshes_31)
-
-    .. tab-item:: CFX
-
-        .. jupyter-execute::
-
-            # Split the mesh by material
-            my_meshes_41 = ops.mesh.split_mesh(mesh=my_meshed_region_4,property="mat").eval()
-            # Print the meshes
-            print(my_meshes_41)
-
-
-2) Second approach
-------------------
-
-Use the |split_on_property_type| operator to split the scoping and then create the |MeshedRegion|
-objects with the |from_scopings| operator.
-
-The |split_on_property_type| a given |Scoping| on given properties (elshape and/or material, since 2025R1
-it supports any scalar property field name contained in the mesh property fields) and returns a |ScopingsContainer|
-with those split scopings.
+Here, we split the |MeshedRegion| by material.
 
 .. tab-set::
 
@@ -163,42 +131,97 @@ with those split scopings.
 
         .. jupyter-execute::
 
-            # Define the scoping split by material
-            split_scoping_1 = ops.scoping.split_on_property_type(mesh=my_meshed_region_1, label1="mat").eval()
-            # Get the split meshes
-            my_meshes_12 = ops.mesh.from_scopings(scopings_container=split_scoping_1,mesh=my_meshed_region_1).eval()
+            # Split the mesh by material
+            meshes_11 = ops.mesh.split_mesh(mesh=meshed_region_1,property="mat").eval()
+
             # Print the meshes
-            print(my_meshes_12)
+            print(meshes_11)
+
+    .. tab-item:: LSDYNA
+
+        .. jupyter-execute::
+
+            # Split the mesh by material
+            meshes_21 = ops.mesh.split_mesh(mesh=meshed_region_2,property="mat").eval()
+
+            # Print the meshes
+            print(meshes_21)
+
+    .. tab-item:: Fluent
+
+        .. jupyter-execute::
+
+            # Split the mesh by material
+            meshes_31 = ops.mesh.split_mesh(mesh=meshed_region_3,property="mat").eval()
+
+            # Print the meshes
+            print(meshes_31)
+
+    .. tab-item:: CFX
+
+        .. jupyter-execute::
+
+            # Split the mesh by material
+            meshes_41 = ops.mesh.split_mesh(mesh=meshed_region_4,property="mat").eval()
+            # Print the meshes
+            print(meshes_41)
+
+.. _ref_second_approach_split_mesh:
+
+Second approach
+---------------
+
+First, use the |split_on_property_type| operator to split the mesh scoping. This operator splits a |Scoping| on given
+properties (elshape and/or material, since 2025R1 it supports any scalar property field name contained in the mesh
+property fields) and returns a |ScopingsContainer| with those split scopings.
+
+Finally, create the split |MeshedRegion| objects with the |from_scopings| operator. The split parts are stored
+in the DPF collection called |MeshesContainer|.
+
+Here, we split the mesh scoping by material.
+
+.. tab-set::
+
+    .. tab-item:: MAPDL
+
+        .. jupyter-execute::
+
+            # Define the scoping split by material
+            split_scoping_1 = ops.scoping.split_on_property_type(mesh=meshed_region_1, label1="mat").eval()
+            # Get the split meshes
+            meshes_12 = ops.mesh.from_scopings(scopings_container=split_scoping_1,mesh=meshed_region_1).eval()
+            # Print the meshes
+            print(meshes_12)
 
     .. tab-item:: LSDYNA
 
         .. jupyter-execute::
 
             # Define the scoping split by material
-            split_scoping_2 = ops.scoping.split_on_property_type(mesh=my_meshed_region_2, label1="mat").eval()
+            split_scoping_2 = ops.scoping.split_on_property_type(mesh=meshed_region_2, label1="mat").eval()
             # Get the split meshes
-            my_meshes_22 = ops.mesh.from_scopings(scopings_container=split_scoping_2,mesh=my_meshed_region_2).eval()
+            meshes_22 = ops.mesh.from_scopings(scopings_container=split_scoping_2,mesh=meshed_region_2).eval()
             # Print the meshes
-            print(my_meshes_22)
+            print(meshes_22)
 
     .. tab-item:: Fluent
 
         .. jupyter-execute::
 
             # Define the scoping split by material
-            split_scoping_3 = ops.scoping.split_on_property_type(mesh=my_meshed_region_3, label1="mat").eval()
+            split_scoping_3 = ops.scoping.split_on_property_type(mesh=meshed_region_3, label1="mat").eval()
             # Get the split meshes
-            my_meshes_32 = ops.mesh.from_scopings(scopings_container=split_scoping_3,mesh=my_meshed_region_3).eval()
+            meshes_32 = ops.mesh.from_scopings(scopings_container=split_scoping_3,mesh=meshed_region_3).eval()
             # Print the meshes
-            print(my_meshes_32)
+            print(meshes_32)
 
     .. tab-item:: CFX
 
         .. jupyter-execute::
 
             # Define the scoping split by material
-            split_scoping_4 = ops.scoping.split_on_property_type(mesh=my_meshed_region_4, label1="mat").eval()
+            split_scoping_4 = ops.scoping.split_on_property_type(mesh=meshed_region_4, label1="mat").eval()
             # Get the split meshes
-            my_meshes_42 = ops.mesh.from_scopings(scopings_container=split_scoping_4,mesh=my_meshed_region_4).eval()
+            meshes_42 = ops.mesh.from_scopings(scopings_container=split_scoping_4,mesh=meshed_region_4).eval()
             # Print the meshes
-            print(my_meshes_42)
+            print(meshes_42)
