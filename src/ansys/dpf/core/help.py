@@ -120,7 +120,7 @@ def _sum_oper(oper):
     if oper.physics_name:
         field._name = f"Sum of {field.physics_name}"
     else:
-        field._name = f"Sum"
+        field._name = "Sum"
     field._unit = field._unit
     return field
 

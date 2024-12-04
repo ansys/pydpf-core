@@ -40,7 +40,7 @@ from typing import Union
 
 from ansys import dpf
 
-from ansys.dpf.core.misc import is_ubuntu, get_ansys_path
+from ansys.dpf.core.misc import get_ansys_path
 from ansys.dpf.core import errors
 
 from ansys.dpf.core.server_factory import (

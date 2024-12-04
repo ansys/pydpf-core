@@ -92,7 +92,7 @@ class Points:
         """Print Points information."""
         txt = "DPF Points object:\n"
         txt += f"Number of points: {self.n_points}\n"
-        txt += f"Coordinates:\n"
+        txt += "Coordinates:\n"
         for point in self._coordinates.data:
             txt += f"  {point}\n"
         return txt

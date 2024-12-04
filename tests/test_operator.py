@@ -23,7 +23,6 @@
 import gc
 import os
 import shutil
-import types
 import weakref
 
 import numpy as np

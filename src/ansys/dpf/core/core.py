@@ -30,11 +30,10 @@ import logging
 import warnings
 import weakref
 
-from ansys.dpf.core import errors, misc
+from ansys.dpf.core import errors
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core.check_version import version_requires, server_meet_version
 from ansys.dpf.core.runtime_config import (
-    RuntimeClientConfig,
     RuntimeCoreConfig,
 )
 from ansys.dpf.gate import (
