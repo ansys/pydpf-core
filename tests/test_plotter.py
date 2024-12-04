@@ -127,7 +127,7 @@ def test_plotter_on_fields_container_elemental(allkindofcomplexity):
     avg_op.inputs.fields_container.connect(stress.outputs.fields_container)
     fc = avg_op.outputs.fields_container()
     pl = Plotter(model.metadata.meshed_region)
-    cpos = pl.plot_contour(fc)
+    pl.plot_contour(fc)
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
@@ -139,7 +139,7 @@ def test_plotter_on_fields_container_nodal(allkindofcomplexity):
     avg_op.inputs.fields_container.connect(stress.outputs.fields_container)
     fc = avg_op.outputs.fields_container()
     pl = Plotter(model.metadata.meshed_region)
-    cpos = pl.plot_contour(fc)
+    pl.plot_contour(fc)
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
@@ -169,7 +169,7 @@ def test_fields_container_plot(allkindofcomplexity):
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_field_elemental_plot(allkindofcomplexity):
     model = Model(allkindofcomplexity)
-    mesh = model.metadata.meshed_region
+    model.metadata.meshed_region
     stress = model.results.stress()
     stress.inputs.requested_location.connect("Elemental")
     avg_op = Operator("to_elemental_fc")
@@ -182,7 +182,7 @@ def test_field_elemental_plot(allkindofcomplexity):
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_field_nodal_plot(allkindofcomplexity):
     model = Model(allkindofcomplexity)
-    mesh = model.metadata.meshed_region
+    model.metadata.meshed_region
     stress = model.results.stress()
     stress.inputs.requested_location.connect("Elemental")
     avg_op = Operator("to_nodal_fc")
@@ -200,7 +200,7 @@ def test_field_nodal_plot(allkindofcomplexity):
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_field_solid_plot(allkindofcomplexity):
     model = Model(allkindofcomplexity)
-    mesh = model.metadata.meshed_region
+    model.metadata.meshed_region
     stress = model.results.stress()
     stress.inputs.requested_location.connect("Nodal")
     fc = stress.outputs.fields_container()
@@ -211,7 +211,7 @@ def test_field_solid_plot(allkindofcomplexity):
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_field_shell_plot(allkindofcomplexity):
     model = Model(allkindofcomplexity)
-    mesh = model.metadata.meshed_region
+    model.metadata.meshed_region
     stress = model.results.stress()
     stress.inputs.requested_location.connect("Nodal")
     fc = stress.outputs.fields_container()
@@ -222,7 +222,7 @@ def test_field_shell_plot(allkindofcomplexity):
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_field_solid_plot_scoping_nodal(multishells):
     model = core.Model(multishells)
-    mesh = model.metadata.meshed_region
+    model.metadata.meshed_region
     stress = model.results.stress()
     stress.inputs.requested_location.connect("Nodal")
     scoping = core.Scoping()
@@ -240,7 +240,7 @@ def test_field_solid_plot_scoping_nodal(multishells):
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_field_shell_plot_scoping_elemental(multishells):
     model = core.Model(multishells)
-    mesh = model.metadata.meshed_region
+    model.metadata.meshed_region
     stress = model.results.stress()
     scoping = core.Scoping()
     scoping.location = "Elemental"

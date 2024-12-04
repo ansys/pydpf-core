@@ -20,8 +20,19 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .examples import *
-from .downloads import *
+from .examples import get_example_required_minimum_dpf_version, find_files, fluid_axial_model
+from .downloads import (
+    find_simple_bar,
+    find_static_rst,
+    find_complex_rst,
+    find_multishells_rst,
+    find_electric_therm,
+    find_steady_therm,
+    find_transient_therm,
+    find_msup_transient,
+    find_simple_cyclic,
+    find_distributed_msup_folder,
+)
 
 
 # called if module.<name> fails
@@ -67,3 +78,6 @@ def __getattr__(name):
         distributed_msup_folder = find_distributed_msup_folder()
         return distributed_msup_folder
     raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+
+
+__all__ = ["get_example_required_minimum_dpf_version", "find_files", "fluid_axial_model"]

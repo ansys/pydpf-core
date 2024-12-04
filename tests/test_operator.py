@@ -573,7 +573,7 @@ def test_inputs_outputs_meshes_container(allkindofcomplexity):
 
     opsc = dpf.core.Operator("scoping::by_property")
     opsc.inputs.mesh.connect(model.metadata.meshed_region)
-    sc = opsc.outputs.mesh_scoping()
+    opsc.outputs.mesh_scoping()
 
     stress = model.results.stress()
     stress.inputs.connect(op.outputs)
@@ -836,17 +836,6 @@ def test_connect_result2(plate_msup, server_type):
     norm.inputs.connect(disp)
     out2 = norm.outputs.fields_container()
     assert len(out) == len(out2)
-
-
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
-    reason="Bug in server version lower than 3.0",
-)
-def test_connect_get_output_int_list_operator(server_type):
-    d = list(range(0, 1000000))
-    op = dpf.core.operators.utility.forward(d, server=server_type)
-    d_out = op.get_output(0, dpf.core.types.vec_int)
-    assert np.allclose(d, d_out)
 
 
 @pytest.mark.skipif(
@@ -1166,7 +1155,7 @@ def test_get_static_spec_operator_in_proc(server_clayer):
         spec = dpf.core.Operator.operator_specification(name, server=server_clayer)
         assert len(spec.operator_name) > 0
         l = len(spec.inputs)
-        d = spec.description
+        spec.description
 
 
 @conftest.raises_for_servers_version_under("3.0")
@@ -1196,40 +1185,6 @@ def test_with_progress_operator_in_proc(allkindofcomplexity, server_clayer):
     add2 = dpf.core.operators.math.add_fc(add, add, server=server_clayer)
     add3 = dpf.core.operators.math.add_fc(add2, server=server_clayer)
     add4 = dpf.core.operators.math.add_fc(add3, add3, server=server_clayer)
-    add4.progress_bar = True
-    fc = add4.outputs.fields_container()
-    assert len(fc) == 2
-
-
-@conftest.raises_for_servers_version_under("3.0")
-def test_list_operators(server_type_legacy_grpc):
-    l = dpf.core.dpf_operator.available_operator_names(server=server_type_legacy_grpc)
-    assert len(l) > 400
-    assert "merge::result_info" in l
-    assert "unit_convert" in l
-    assert "stream_provider" in l
-
-
-@conftest.raises_for_servers_version_under("3.0")
-def test_get_static_spec_operator(server_type_legacy_grpc):
-    l = dpf.core.dpf_operator.available_operator_names(server=server_type_legacy_grpc)
-    for i, name in enumerate(l):
-        spec = dpf.core.Operator.operator_specification(name, server=server_type_legacy_grpc)
-        assert len(spec.operator_name) > 0
-        assert len(spec.inputs) > 0
-        assert len(spec.description) > 0
-
-
-@conftest.raises_for_servers_version_under("3.0")
-def test_with_progress_operator(allkindofcomplexity, server_type):
-    model = dpf.core.Model(allkindofcomplexity, server=server_type)
-    op = model.results.stress()
-    op.inputs.read_cyclic(3)
-    opnorm = dpf.core.operators.averaging.to_nodal_fc(op, server=server_type)
-    add = dpf.core.operators.math.add_fc(opnorm, opnorm, server=server_type)
-    add2 = dpf.core.operators.math.add_fc(add, add, server=server_type)
-    add3 = dpf.core.operators.math.add_fc(add2, server=server_type)
-    add4 = dpf.core.operators.math.add_fc(add3, add3, server=server_type)
     add4.progress_bar = True
     fc = add4.outputs.fields_container()
     assert len(fc) == 2
@@ -1318,7 +1273,7 @@ def test_delete_operator(server_type):
 
 def test_memory_outputs_operator(allkindofcomplexity):
     model = dpf.core.Model(allkindofcomplexity)
-    mesh = model.metadata.meshed_region
+    model.metadata.meshed_region
     stress_fc = model.results.stress().eqv().eval()
     assert len(stress_fc) == 2
 

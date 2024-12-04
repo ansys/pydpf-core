@@ -136,10 +136,10 @@ def test_download_with_subdir(multishells, tmpdir, server_type_remote_process):
     filename = ntpath.basename(file)
     parent_path = os.path.dirname(file)
     to_server_path = parent_path + separator + "subdir" + separator + filename
-    subdir_filepath = dpf.core.upload_file(file, to_server_path, server=server_type_remote_process)
+    dpf.core.upload_file(file, to_server_path, server=server_type_remote_process)
     folder = parent_path
 
-    out = dpf.core.download_files_in_folder(folder, tmpdir, server=server_type_remote_process)
+    dpf.core.download_files_in_folder(folder, tmpdir, server=server_type_remote_process)
     p1 = os.path.join(tmpdir, filename)
     p2 = os.path.join(tmpdir, "subdir", filename)
     # p1 = tmpdir + "/" + filename
@@ -174,9 +174,7 @@ def test_downloadinfolder_uploadinfolder(multishells, tmpdir, server_type_remote
     # download it
     new_tmpdir = os.path.join(tmpdir, "my_tmp_dir")
     os.mkdir(new_tmpdir)
-    out = dpf.core.download_files_in_folder(
-        TARGET_PATH, new_tmpdir, server=server_type_remote_process
-    )
+    dpf.core.download_files_in_folder(TARGET_PATH, new_tmpdir, server=server_type_remote_process)
     # check if the architecture of the download is ok
     path1_check = os.path.join(new_tmpdir, os.path.basename(multishells))
     path2_check = os.path.join(new_tmpdir, "subdirA", os.path.basename(multishells))
@@ -524,7 +522,7 @@ def test_server_without_context(remote_config_server_type):
 )
 @conftest.raises_for_servers_version_under("6.0")
 def test_release_dpf(server_type):
-    op = dpf.core.Operator("expansion::modal_superposition", server=server_type)
+    dpf.core.Operator("expansion::modal_superposition", server=server_type)
     server_type.release()
 
     with pytest.raises((KeyError, dpf.core.errors.DPFServerException)):
@@ -540,7 +538,7 @@ def test_license_context_manager_as_context(server_type):
     op.inputs.field(field)
     op.inputs.threshold(0.0)
     with dpf.core.LicenseContextManager(server=server_type) as lic:
-        out = op.outputs.field()
+        op.outputs.field()
         st = lic.status
 
     assert len(st) != 0
@@ -549,7 +547,7 @@ def test_license_context_manager_as_context(server_type):
     lic = dpf.core.LicenseContextManager(server=server_type)
     op.inputs.field(field)
     op.inputs.threshold(0.0)
-    out = op.outputs.field()
+    op.outputs.field()
     new_st = lic.status
     assert str(new_st) == str(st)
     lic = None
@@ -560,7 +558,7 @@ def test_license_context_manager_as_context(server_type):
     with dpf.core.LicenseContextManager(
         increment_name="ansys", license_timeout_in_seconds=1.0, server=server_type
     ) as lic:
-        out = op.outputs.field()
+        op.outputs.field()
         st = lic.status
         assert "ansys" in st
     st = lic.status

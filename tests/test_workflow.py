@@ -359,7 +359,7 @@ def test_output_mesh_workflow(cyclic_lin_rst, cyclic_ds, server_type):
         == meshed_region.elements.connectivities_field.size
     )
 
-    fields = wf.get_output("fields", dpf.core.types.fields_container)
+    wf.get_output("fields", dpf.core.types.fields_container)
 
 
 def test_outputs_bool_workflow(server_type):
@@ -583,14 +583,14 @@ def test_transfer_owner_workflow(allkindofcomplexity, server_type):
     wf.connect("prop", "elshape")
     wf.set_output_name("scopings", op, 0)
     id = wf.record(transfer_ownership=True)
-    wf_copy = dpf.core.Workflow.get_recorded_workflow(id, server=server_type)
+    dpf.core.Workflow.get_recorded_workflow(id, server=server_type)
 
     with pytest.raises(Exception):
-        wf_copy = dpf.core.Workflow.get_recorded_workflow(id, server=server_type)
+        dpf.core.Workflow.get_recorded_workflow(id, server=server_type)
 
     id = wf.record(transfer_ownership=False)
-    wf_copy = dpf.core.Workflow.get_recorded_workflow(id, server=server_type)
-    wf_copy = dpf.core.Workflow.get_recorded_workflow(id, server=server_type)
+    dpf.core.Workflow.get_recorded_workflow(id, server=server_type)
+    dpf.core.Workflow.get_recorded_workflow(id, server=server_type)
 
 
 @conftest.raises_for_servers_version_under("3.0")
@@ -618,8 +618,8 @@ def test_connect_with_workflow(cyclic_lin_rst, cyclic_ds, server_type):
     wf2.set_output_name("u", op, 0)
 
     wf2.connect_with(wf)
-    meshed_region = wf2.get_output("mesh_expand", dpf.core.types.meshed_region)
-    fc = wf2.get_output("u", dpf.core.types.fields_container)
+    wf2.get_output("mesh_expand", dpf.core.types.meshed_region)
+    wf2.get_output("u", dpf.core.types.fields_container)
 
 
 @conftest.raises_for_servers_version_under("3.0")
@@ -647,8 +647,8 @@ def test_connect_with_2_workflow(cyclic_lin_rst, cyclic_ds, server_type):
     wf2.set_output_name("u", op, 0)
 
     wf2.connect_with(wf, ("support1", "support2"))
-    meshed_region = wf2.get_output("mesh_expand", dpf.core.types.meshed_region)
-    fc = wf2.get_output("u", dpf.core.types.fields_container)
+    wf2.get_output("mesh_expand", dpf.core.types.meshed_region)
+    wf2.get_output("u", dpf.core.types.fields_container)
 
 
 @conftest.raises_for_servers_version_under("3.0")
@@ -676,8 +676,8 @@ def test_connect_with_dict_workflow(cyclic_lin_rst, cyclic_ds, server_type):
     wf2.set_output_name("u", op, 0)
 
     wf2.connect_with(wf, {"support1": "support2"})
-    meshed_region = wf2.get_output("mesh_expand", dpf.core.types.meshed_region)
-    fc = wf2.get_output("u", dpf.core.types.fields_container)
+    wf2.get_output("mesh_expand", dpf.core.types.meshed_region)
+    wf2.get_output("u", dpf.core.types.fields_container)
 
 
 @pytest.mark.xfail(raises=dpf.core.errors.ServerTypeError)
@@ -931,18 +931,6 @@ def test_connect_get_output_big_strings(server_type, server_in_process):
     assert np.allclose(field_a.data, data)
 
     out = deep_copy_using_workflow(field_a, server_in_process)
-    assert np.allclose(out.data, data)
-
-
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0, reason="Available for servers >=8.0"
-)
-def test_connect_get_output_big_strings(server_type, server_type_remote_process):
-    data = np.random.random(100000)
-    field_a = dpf.core.field_from_array(data, server=server_type)
-    assert np.allclose(field_a.data, data)
-
-    out = deep_copy_using_workflow(field_a, server_type_remote_process)
     assert np.allclose(out.data, data)
 
 

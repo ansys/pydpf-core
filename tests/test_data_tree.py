@@ -93,7 +93,7 @@ def test_add_dict_data_tree(server_type):
 @conftest.raises_for_servers_version_under("4.0")
 def test_add_data_to_fill_data_tree():
     data_tree = dpf.DataTree()
-    with data_tree.to_fill() as to_fill:
+    with data_tree.to_fill() as _:
         data_tree.int = 1
         data_tree.double = 1.0
         data_tree.string = "hello"
@@ -412,7 +412,7 @@ def test_attribute_errors_data_tree(server_type):
 @conftest.raises_for_servers_version_under("4.0")
 def test_add_data_bool_data_tree():
     data_tree = dpf.DataTree()
-    with data_tree.to_fill() as to_fill:
+    with data_tree.to_fill() as _:
         data_tree.int = 1
         data_tree.bool = True
     assert data_tree.get_as("int", dpf.types.int) == 1

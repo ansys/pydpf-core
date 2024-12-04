@@ -537,9 +537,9 @@ class BaseService:
         Available with server's version starting at 6.0 (Ansys 2023R2).
         """
         if self._server().has_client():
-            error = self._api.data_processing_release_on_client(self._server().client, 1)
+            self._api.data_processing_release_on_client(self._server().client, 1)
         else:
-            error = self._api.data_processing_release(1)
+            self._api.data_processing_release(1)
 
     @version_requires("4.0")
     def get_runtime_core_config(self):
@@ -667,7 +667,7 @@ class BaseService:
             download service only available for server with gRPC communication protocol
             """
             raise errors.ServerTypeError(txt)
-        client_path = self._api.data_processing_download_file(
+        self._api.data_processing_download_file(
             client=self._server().client,
             server_file_path=str(server_file_path),
             to_client_file_path=str(to_client_file_path),

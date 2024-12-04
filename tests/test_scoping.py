@@ -163,7 +163,7 @@ def test_delete_scoping(server_type):
     scop = Scoping(server=server_type)
     del scop
     with pytest.raises(Exception):
-        scop.ids
+        scop.ids  # noqa: F821
 
 
 @pytest.mark.skipif(

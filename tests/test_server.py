@@ -160,13 +160,13 @@ class TestServer:
         set_server_configuration(server_config)
         server = get_or_create_server(None)
         assert has_local_server()
-        types = server.available_api_types
+        server.available_api_types
 
     def test_client(self, server_config):
         set_server_configuration(server_config)
         server = get_or_create_server(None)
         assert has_local_server()
-        client = server.client
+        server.client
 
 
 @pytest.mark.skipif(

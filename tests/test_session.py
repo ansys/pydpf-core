@@ -53,7 +53,7 @@ def test_logging(tmpdir, server_type):
         result_file = examples.find_static_rst(server=server_type)
 
     # download it
-    new_tmpdir = os.path.join(tmpdir, "my_tmp_dir")
+    os.path.join(tmpdir, "my_tmp_dir")
     server_type.session.handle_events_with_file_logger(log_path, 2)
 
     wf = core.Workflow(server=server_type)

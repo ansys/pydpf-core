@@ -241,7 +241,6 @@ class _Inputs:
         elif isinstance(inpt, Path):
             inpt = str(inpt)
 
-        input_type_name = type(inpt).__name__
         for input_pin in self._inputs:
             self._operator()._find_outputs_corresponding_pins(
                 input_pin._python_expected_types,
