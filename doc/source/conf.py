@@ -62,7 +62,31 @@ for example in glob(r"../../examples/**/*.py"):
         ignored_pattern += f"|{example_name}"
 ignored_pattern += "|11-server_types.py"
 ignored_pattern += "|06-distributed_stress_averaging.py"
+ignored_pattern += "|02-python_operators_with_dependencies.py"
+ignored_pattern += "|00-fluids_model.py"
 ignored_pattern += r")"
+
+# Autoapi ignore pattern
+autoapi_ignore_list = [
+    "*/log.py",
+    "*/help.py",
+    "*/mapping_types.py",
+    "*/ipconfig.py",
+    "*/field_base.py",
+    "*/cache.py",
+    "*/misc.py",
+    "*/check_version.py",
+    "*/operators/build.py",
+    "*/operators/specification.py",
+    "*/vtk_helper.py",
+    "*/label_space.py",
+    "*/examples/python_plugins/*",
+    "*/examples/examples.py",
+    "*/gate/*",
+    "*/gatebin/*",
+    "*/grpc/*",
+    "*/property_fields_container.py"
+]
 
 # -- General configuration ---------------------------------------------------
 
@@ -77,16 +101,17 @@ extensions = [
     "enum_tools.autoenum",
     "nbsphinx",
     "sphinx.ext.autosectionlabel",
-    "sphinx.ext.autodoc",
+    #"sphinx.ext.autodoc",
     "sphinx.ext.graphviz",
     "sphinx.ext.intersphinx",
     "sphinx.ext.napoleon",
     "sphinx.ext.todo",
-    "sphinx_autodoc_typehints",
+    #"sphinx_autodoc_typehints",
     "sphinx_copybutton",
     "sphinx_design",
     "sphinx_gallery.gen_gallery",
     'sphinx_reredirects',
+    "ansys_sphinx_theme.extension.autoapi"
 ]
 
 redirects = {
@@ -107,7 +132,7 @@ intersphinx_mapping = {
 
 autosummary_generate = True
 
-autodoc_mock_imports = ["ansys.dpf.core.examples.python_plugins"]
+#autodoc_mock_imports = ["ansys.dpf.core.examples.python_plugins"]
 
 # Add any paths that contain templates here, relative to this directory.
 # templates_path = ['_templates']
@@ -189,7 +214,7 @@ sphinx_gallery_conf = {
     "reset_modules": (reset_servers,),
 }
 
-autodoc_member_order = "bysource"
+#autodoc_member_order = "bysource"
 
 
 # -- Options for HTML output -------------------------------------------------
@@ -217,9 +242,36 @@ html_theme_options = {
         "min_chars_for_search": 2,
         "ignoreLocation": True,
     },
+    "ansys_sphinx_theme_autoapi": {
+        "project": project,
+        "output": "api",
+        "directory": "src/ansys",
+        "use_implicit_namespaces": True,
+        "keep_files": True,
+        "own_page_level": "class",
+        "type": "python",
+        "options": [
+            "members",
+            "undoc-members",
+            "show-inheritance",
+            "show-module-summary",
+            "special-members",
+        ],
+        "class_content": "class",
+        "ignore": autoapi_ignore_list,
+        "add_toctree_entry": True,
+        #"package_depth": 3,
+        "member_order": "bysource",
+    }
 }
 
-
+# Configuration for Sphinx autoapi
+suppress_warnings = [
+    "autoapi.python_import_resolution",
+    "design.grid",
+    "config.cache",
+    "design.fa-build",
+]
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
