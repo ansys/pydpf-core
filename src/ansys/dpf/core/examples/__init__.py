@@ -24,6 +24,7 @@ from .examples import get_example_required_minimum_dpf_version, find_files, flui
 from .downloads import (
     download_all_kinds_of_complexity,
     download_modal_frame,
+    download_transient_result,
     find_simple_bar,
     find_static_rst,
     find_complex_rst,
@@ -89,6 +90,7 @@ __all__ = [
     "fluid_axial_model",
     "download_all_kinds_of_complexity",
     "download_modal_frame",
+    "download_transient_result",
     "find_simple_bar",
     "find_static_rst",
     "find_complex_rst",
