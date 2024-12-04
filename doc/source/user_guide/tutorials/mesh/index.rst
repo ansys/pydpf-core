@@ -15,18 +15,19 @@ These tutorials explains how to explore different attributes of a given mesh wit
     :margin: 2
 
     .. grid-item-card:: Create a mesh from scratch
-       :link: tutorials_create_a_mesh_from_scratch
+       :link: ref_tutorials_create_a_mesh_from_scratch
        :link-type: ref
        :text-align: center
 
-       This tutorial demonstrates how to build a mesh from the scratch
+       This tutorial demonstrates how to build a mesh from the scratch.
 
     .. grid-item-card:: Get a mesh from a result file
-       :link: tutorials_get_mesh_from_result_file
+       :link: ref_tutorials_get_mesh_from_result_file
        :link-type: ref
        :text-align: center
 
-       This tutorial explains how to extract the models mesh from a result file
+       This tutorial explains how to extract a mesh from a result file.
+
        +++
        :bdg-mapdl:`MAPDL` :bdg-lsdyna:`LSDYNA` :bdg-fluent:`Fluent` :bdg-cfx:`CFX`
 
@@ -37,41 +38,39 @@ These tutorials explains how to explore different attributes of a given mesh wit
 
        This tutorial explains how to read a mesh metadata
        (data about the elements, nodes, faces, region, zone ...) before
-       extracting the mesh.
+       extracting the mesh from a result file.
 
        +++
        :bdg-lsdyna:`LSDYNA` :bdg-fluent:`Fluent` :bdg-cfx:`CFX`
 
 
     .. grid-item-card:: Explore a mesh
-       :link: tutorials_explore_mesh
+       :link: ref_tutorials_explore_mesh
        :link-type: ref
        :text-align: center
 
-       This tutorial explains how to access the mesh data and metadata
-       (data about the elements, nodes, faces, region, zone ...)
+       This tutorial explains how to access a mesh data and metadata
        so it can be manipulated.
 
        +++
        :bdg-mapdl:`MAPDL` :bdg-lsdyna:`LSDYNA` :bdg-fluent:`Fluent` :bdg-cfx:`CFX`
 
     .. grid-item-card:: Extract a mesh in split parts
-       :link: tutorials_get_specific_part_mesh
+       :link: ref_tutorials_extract_mesh_in_split_parts
        :link-type: ref
        :text-align: center
 
-       This tutorial show how to get meshes split on a given space or time for Fluent,
-       or CFX result files.
+       This tutorial shows how to extract meshes split on a given space or time from a result file.
 
        +++
        :bdg-fluent:`Fluent` :bdg-cfx:`CFX`
 
     .. grid-item-card:: Split a mesh
-       :link: tutorials_split_mesh
+       :link: ref_tutorials_split_mesh
        :link-type: ref
        :text-align: center
 
-       This tutorial show how to split a mesh into different meshes.
+       This tutorial shows how to split a mesh on a given property.
 
        +++
        :bdg-mapdl:`MAPDL` :bdg-lsdyna:`LSDYNA` :bdg-fluent:`Fluent` :bdg-cfx:`CFX`
@@ -84,5 +83,5 @@ These tutorials explains how to explore different attributes of a given mesh wit
     get_mesh_from_result_file.rst
     read_mesh_metadata.rst
     explore_mesh.rst
-    get_specific_part_mesh.rst
+    extract_mesh_in_split_parts.rst
     split_mesh.rst
