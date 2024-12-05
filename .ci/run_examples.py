@@ -12,7 +12,8 @@ os.environ["PYVISTA_OFF_SCREEN"] = "true"
 os.environ["MPLBACKEND"] = "Agg"
 
 actual_path = pathlib.Path(__file__).parent.absolute()
-print(os.path.join(actual_path, os.path.pardir, "examples"))
+examples_path = actual_path.parent / "examples"
+print(examples_path)
 
 # Get the DPF server version
 server = dpf.server.get_or_create_server(None)
@@ -20,10 +21,10 @@ server_version = server.version
 server.shutdown()
 print(f"Server version: {server_version}")
 
-for root, subdirectories, files in os.walk(os.path.join(actual_path, os.path.pardir, "examples")):
+for root, subdirectories, files in examples_path.walk():
     for subdirectory in subdirectories:
-        subdir = os.path.join(root, subdirectory)
-        for file in glob.iglob(os.path.join(subdir, "*.py")):
+        subdir = root / subdirectory
+        for file in glob.iglob(str(subdir / "*.py")):
             if sys.platform == "linux" and "08-python-operators" in file:
                 continue
             elif "win" in sys.platform and "06-distributed_stress_averaging" in file:
