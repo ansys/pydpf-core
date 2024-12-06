@@ -24,6 +24,7 @@ import pytest
 
 from ansys import dpf
 import ansys.dpf.core.operators as op
+import conftest
 from conftest import raises_for_servers_version_under
 
 
@@ -156,7 +157,10 @@ def expected_workflow_topology(workflow):
     return workflow_topologies[workflow.name]
 
 
-@raises_for_servers_version_under("10.0")
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
+    reason="Operator `workflow_to_workflow_topology` does not exist below 10.0",
+)
 def test_instantiate_workflow_to_workflow_topology_op(server_type):
     workflow_to_workflow_topology_op = dpf.core.Operator(
         "workflow_to_workflow_topology", server=server_type

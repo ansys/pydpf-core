@@ -45,7 +45,6 @@ from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0,
 )
-from conftest import raises_for_servers_version_under
 
 # Check for ANSYS installation env var
 HAS_AWP_ROOT212 = os.environ.get("AWP_ROOT212", False) is not False
@@ -1428,7 +1427,10 @@ def test_operator_input_output_streams(server_in_process, simple_bar):
     assert times
 
 
-@raises_for_servers_version_under("10.0")
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
+    reason="Operator `workflow_to_workflow_topology` does not exist below 10.0",
+)
 def test_operator_outputs_derived_class(server_type):
     workflow = dpf.core.Workflow(server=server_type)
 
@@ -1441,7 +1443,10 @@ def test_operator_outputs_derived_class(server_type):
     assert workflow_topology
 
 
-@raises_for_servers_version_under("10.0")
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
+    reason="Operator `workflow_to_workflow_topology` does not exist below 10.0",
+)
 def test_operator_get_output_derived_class(server_type):
     workflow = dpf.core.Workflow(server=server_type)
 
