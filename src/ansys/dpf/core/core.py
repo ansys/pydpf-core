@@ -770,7 +770,7 @@ class BaseService:
                     server_paths = self._upload_and_get_server_path(
                         specific_extension,
                         str(f),
-                        filename,
+                        str(filename),
                         server_paths,
                         str(to_server_folder_path),
                         subdirectory,
