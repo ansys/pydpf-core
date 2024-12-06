@@ -433,7 +433,16 @@ def type_to_special_dpf_constructors():
 _derived_class_name_to_type = None
 
 
-def derived_class_name_to_type():
+def derived_class_name_to_type() -> dict[str, type]:
+    """
+    Returns a mapping of derived class names to their corresponding Python classes.
+
+    Returns
+    -------
+    dict[str, type]
+        A dictionary mapping derived class names (str) to their corresponding
+        Python class objects.
+    """
     global _derived_class_name_to_type
     if _derived_class_name_to_type is None:
         from ansys.dpf.core.workflow_topology import WorkflowTopology

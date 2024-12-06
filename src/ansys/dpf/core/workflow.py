@@ -36,7 +36,7 @@ from enum import Enum
 from typing import Union
 
 from ansys import dpf
-from ansys.dpf.core import dpf_operator, inputs, outputs
+from ansys.dpf.core import dpf_operator, errors, inputs, outputs
 from ansys.dpf.core.check_version import (
     server_meet_version,
     version_requires,
@@ -969,7 +969,13 @@ class Workflow:
         Returns
         -------
         workflow_topology : workflow_topology.WorkflowTopology
+
+        Notes
+        -----
+        Available from 10.0 server version.
         """
+        if not self._server.meet_version("10.0"):
+            raise errors.DpfVersionNotSupported("10.0")
         workflow_to_workflow_topology_op = dpf_operator.Operator(
             "workflow_to_workflow_topology", server=self._server
         )

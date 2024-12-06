@@ -391,6 +391,8 @@ def raises_for_servers_version_under(version):
             if version == "5.0"
             else not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0
             if version == "6.0"
+            else not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0
+            if version == "10.0"
             else True,
             reason=f"Requires server version greater than or equal to {version}",
             raises=core.errors.DpfVersionNotSupported,
