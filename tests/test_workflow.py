@@ -31,7 +31,6 @@ from ansys.dpf.core.workflow_topology import WorkflowTopology
 import conftest
 from ansys import dpf
 from ansys.dpf.core import misc
-from conftest import raises_for_servers_version_under
 
 if misc.module_exists("graphviz"):
     HAS_GRAPHVIZ = True
@@ -1032,7 +1031,10 @@ def test_workflow_input_output_streams(server_in_process, simple_bar):
     assert times
 
 
-@raises_for_servers_version_under("10.0")
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
+    reason="Operator `workflow_to_workflow_topology` does not exist below 10.0",
+)
 def test_workflow_get_output_derived_class(server_type):
     workflow = dpf.core.Workflow(server=server_type)
 
