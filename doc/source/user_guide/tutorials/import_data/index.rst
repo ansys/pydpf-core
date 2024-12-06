@@ -15,12 +15,12 @@ From user input
     :padding: 2
     :margin: 2
 
-    .. grid-item-card:: Manual input data on DPF
-       :link: ref_tutorials_represent_data_on_dpf
+    .. grid-item-card:: Use custom data
+       :link: ref_tutorials_field_with_custom_data
        :link-type: ref
        :text-align: center
 
-       Learn how to represent your manual input data in a DPF data storage structures
+       Learn how to build DPF data storage structures from custom data.
 
 From result files
 *****************
@@ -65,7 +65,7 @@ From result files
     :maxdepth: 2
     :hidden:
 
-    represent_data_on_dpf.rst
+    field_with_custom_data.rst
     import_result_file.rst
     extract_and_explore_results_metadata.rst
     extract_and_explore_results_data.rst
