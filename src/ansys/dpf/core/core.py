@@ -29,6 +29,7 @@ import os
 import logging
 import warnings
 import weakref
+from pathlib import Path
 
 from ansys.dpf.core import errors, misc
 from ansys.dpf.core import server as server_module
@@ -429,7 +430,6 @@ class BaseService:
             )
         if generate_operators:
             # TODO: fix code generation upload posix
-            import os
 
             def __generate_code(TARGET_PATH, filename, name, symbol):
                 from ansys.dpf.core.dpf_operator import Operator
@@ -444,8 +444,8 @@ class BaseService:
                 except Exception as e:
                     warnings.warn("Unable to generate the python code with error: " + str(e.args))
 
-            local_dir = os.path.dirname(os.path.abspath(__file__))
-            LOCAL_PATH = os.path.join(local_dir, "operators")
+            local_dir = Path(__file__).parent
+            LOCAL_PATH = local_dir / "operators"
             if not self._server().local_server:
                 if self._server().os != "posix" or (not self._server().os and os.name != "posix"):
                     # send local generated code
@@ -762,23 +762,24 @@ class BaseService:
         """
         server_paths = []
         for root, subdirectories, files in os.walk(client_folder_path):
+            root = Path(root)
             for subdirectory in subdirectories:
-                subdir = os.path.join(root, subdirectory)
-                for filename in os.listdir(subdir):
-                    f = os.path.join(subdir, filename)
+                subdir = root / subdirectory
+                for filename in subdir.iterdir():
+                    f = subdir / filename
                     server_paths = self._upload_and_get_server_path(
                         specific_extension,
-                        f,
+                        str(f),
                         filename,
                         server_paths,
                         str(to_server_folder_path),
                         subdirectory,
                     )
             for file in files:
-                f = os.path.join(root, file)
+                f = root / file
                 server_paths = self._upload_and_get_server_path(
                     specific_extension,
-                    f,
+                    str(f),
                     file,
                     server_paths,
                     str(to_server_folder_path),
@@ -836,7 +837,8 @@ class BaseService:
            server_file_path : str
                path generated server side
         """
-        if os.stat(file_path).st_size == 0:
+        file_path = Path(file_path)
+        if file_path.stat().st_size == 0:
             raise ValueError(file_path + " is empty")
         if not self._server().has_client():
             txt = """
@@ -868,11 +870,12 @@ class BaseService:
            server_file_path : str
                path generated server side
         """
+        file_path = Path(file_path)
         if new_file_name:
             file_name = new_file_name
         else:
-            file_name = os.path.basename(file_path)
-        if os.stat(file_path).st_size == 0:
+            file_name = Path(file_path).name
+        if file_path.stat().st_size == 0:
             raise ValueError(file_path + " is empty")
         if not self._server().has_client():
             txt = """
