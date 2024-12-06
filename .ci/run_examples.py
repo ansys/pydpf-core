@@ -1,6 +1,6 @@
 import os
 import glob
-import pathlib
+from pathlib import Path
 import subprocess
 import sys
 
@@ -11,7 +11,7 @@ from ansys.dpf.core.examples import get_example_required_minimum_dpf_version
 os.environ["PYVISTA_OFF_SCREEN"] = "true"
 os.environ["MPLBACKEND"] = "Agg"
 
-actual_path = pathlib.Path(__file__).parent.absolute()
+actual_path = Path(__file__).parent.absolute()
 examples_path = actual_path.parent / "examples"
 print(examples_path)
 
@@ -21,9 +21,9 @@ server_version = server.version
 server.shutdown()
 print(f"Server version: {server_version}")
 
-for root, subdirectories, files in examples_path.walk():
+for root, subdirectories, files in os.walk(examples_path):
     for subdirectory in subdirectories:
-        subdir = root / subdirectory
+        subdir = Path(root) / subdirectory
         for file in glob.iglob(str(subdir / "*.py")):
             if sys.platform == "linux" and "08-python-operators" in file:
                 continue
