@@ -24,7 +24,6 @@ import pytest
 
 import conftest
 from ansys.dpf import core as dpf
-from conftest import raises_for_servers_version_under
 
 
 @conftest.raises_for_servers_version_under("7.0")
@@ -135,7 +134,10 @@ def test_cast_workflow_any(server_type):
     assert new_entity.input_names == []
 
 
-@raises_for_servers_version_under("10.0")
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
+    reason="any does not support operator below 10.0",
+)
 def test_cast_operator_any(server_type):
     entity = dpf.Operator(server=server_type, name="U")
     any_dpf = dpf.Any.new_from(entity)
