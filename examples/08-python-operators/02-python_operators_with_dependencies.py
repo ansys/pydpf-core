@@ -58,11 +58,12 @@ file at the given path.
 # created for you.
 
 import os
+from pathlib import Path
 
 from ansys.dpf.core import examples
 
-plugin_path = examples.download_gltf_plugin()
-folder_root = os.path.join(os.getcwd().rsplit("pydpf-core", 1)[0], "pydpf-core")
+plugin_path = Path(examples.download_gltf_plugin())
+folder_root = Path(__file__).parent.parent.parent
 
 # %%
 # To add third-party modules as dependencies to a plug-in package, you must
@@ -83,8 +84,9 @@ folder_root = os.path.join(os.getcwd().rsplit("pydpf-core", 1)[0], "pydpf-core")
 # To simplify this step, you can add a requirements file in the plug-in package:
 #
 print("\033[1m gltf_plugin/requirements.txt: \n \033[0m")
-with open(os.path.join(plugin_path, "requirements.txt"), "r") as f:
-    for line in f.readlines():
+requirements_path = plugin_path / "requirements.txt"
+with requirements_path.open("r") as file:
+    for line in file.readlines():
         print("\t\t\t" + line)
 
 
@@ -117,26 +119,21 @@ with open(os.path.join(plugin_path, "requirements.txt"), "r") as f:
 #
 #    create_sites_for_python_operators.sh -pluginpath /path/to/plugin -zippath /path/to/plugin/assets/linx64.zip # noqa: E501
 
-
-if os.name == "nt" and not os.path.exists(
-    os.path.join(plugin_path, "assets", "gltf_sites_winx64.zip")
-):
-    cmd_file = os.path.join(
-        folder_root,
-        "doc",
-        "source",
-        "user_guide",
-        "create_sites_for_python_operators.ps1",
+site_path = plugin_path / "assets" / "gltf_sites_winx64.zip"
+if os.name == "nt" and not site_path.exists():
+    cmd_file = (
+        folder_root / "doc" / "source" / "user_guide" / "create_sites_for_python_operators.ps1"
     )
     args = [
         "powershell",
-        cmd_file,
+        str(cmd_file),
         "-pluginpath",
-        plugin_path,
+        str(plugin_path),
         "-zippath",
-        os.path.join(plugin_path, "assets", "gltf_sites_winx64.zip"),
+        str(plugin_path / "assets" / "gltf_sites_winx64.zip"),
     ]
     print(args)
+
     import subprocess
 
     process = subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -150,20 +147,15 @@ if os.name == "nt" and not os.path.exists(
         )
     else:
         print("Installing pygltf in a virtual environment succeeded")
-elif os.name == "posix" and not os.path.exists(
-    os.path.join(plugin_path, "assets", "gltf_sites_linx64.zip")
-):
-    cmd_file = os.path.join(
-        folder_root,
-        "doc",
-        "source",
-        "user_guide",
-        "create_sites_for_python_operators.sh",
+
+elif os.name == "posix" and not site_path.exists():
+    cmd_file = (
+        folder_root / "doc" / "source" / "user_guide" / "create_sites_for_python_operators.sh"
     )
     run_cmd = f"{cmd_file}"
     args = (
         f' -pluginpath "{plugin_path}" '
-        f"-zippath \"{os.path.join(plugin_path, 'assets', 'gltf_sites_linx64.zip')}\""
+        f'-zippath \"{plugin_path / "assets" / "gltf_sites_winx64.zip"}\"'
     )
     print(run_cmd + args)
     os.system(f"chmod u=rwx,o=x {cmd_file}")
@@ -189,9 +181,9 @@ from ansys.dpf.core import examples
 # Python plugins are not supported in process.
 dpf.start_local_server(config=dpf.AvailableServerConfigs.GrpcServer)
 
-tmp = dpf.make_tmp_dir_server()
-dpf.upload_files_in_folder(dpf.path_utilities.join(tmp, "plugins", "gltf_plugin"), plugin_path)
-dpf.upload_file(plugin_path + ".xml", dpf.path_utilities.join(tmp, "plugins", "gltf_plugin.xml"))
+tmp = Path(dpf.make_tmp_dir_server())
+dpf.upload_files_in_folder(dpf.path_utilities.join(str(tmp), "plugins", "gltf_plugin"), plugin_path)
+dpf.upload_file(str(plugin_path) + ".xml", dpf.path_utilities.join(str(tmp), "plugins", "gltf_plugin.xml"))
 
 dpf.load_library(
     dpf.path_utilities.join(tmp, "plugins", "gltf_plugin"),
@@ -235,8 +227,6 @@ new_operator = dpf.Operator("gltf_export")
 # Use the custom operator
 # -----------------------
 
-import os
-
 model = dpf.Model(dpf.upload_file_in_tmp_folder(examples.find_static_rst()))
 
 mesh = model.metadata.meshed_region
@@ -245,14 +235,14 @@ skin_mesh = dpf.operators.mesh.tri_mesh_skin(mesh=mesh)
 displacement = model.results.displacement()
 displacement.inputs.mesh_scoping(skin_mesh)
 displacement.inputs.mesh(skin_mesh)
-new_operator.inputs.path(os.path.join(tmp, "out"))
+new_operator.inputs.path(str(tmp / "out"))
 new_operator.inputs.mesh(skin_mesh)
 new_operator.inputs.field(displacement.outputs.fields_container()[0])
 new_operator.run()
 
 print("operator ran successfully")
 
-dpf.download_file(os.path.join(tmp, "out.glb"), os.path.join(os.getcwd(), "out.glb"))
+dpf.download_file(tmp / "out.glb", Path.cwd / "out.glb")
 
 # %%
 # You can download :download:`output <images/thumb/out.glb>` from the ``gltf`` operator.
