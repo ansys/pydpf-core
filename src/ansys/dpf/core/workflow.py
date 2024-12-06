@@ -36,7 +36,7 @@ from enum import Enum
 from typing import Union
 
 from ansys import dpf
-from ansys.dpf.core import dpf_operator, errors, inputs, outputs
+from ansys.dpf.core import dpf_operator, inputs, outputs
 from ansys.dpf.core.check_version import (
     server_meet_version,
     version_requires,
@@ -963,6 +963,7 @@ class Workflow:
         """Saves the workflow to a GraphViz file."""
         return self._api.work_flow_export_graphviz(self, str(path))
 
+    @version_requires("10.0")
     def get_topology(self):
         """Get the topology of the workflow.
 
@@ -974,8 +975,6 @@ class Workflow:
         -----
         Available from 10.0 server version.
         """
-        if not self._server.meet_version("10.0"):
-            raise errors.DpfVersionNotSupported("10.0")
         workflow_to_workflow_topology_op = dpf_operator.Operator(
             "workflow_to_workflow_topology", server=self._server
         )
