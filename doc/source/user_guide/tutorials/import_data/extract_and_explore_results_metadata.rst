@@ -4,12 +4,40 @@
 Extract and explore results metadata
 ====================================
 
-.. |Field| replace:: :class:`Field<ansys.dpf.core.field.Field>`
-.. |Examples| replace:: :mod:`Examples<ansys.dpf.core.examples>`
+.. include:: ../../../links_and_refs.rst
 .. |ResultInfo| replace:: :class:`ResultInfo<ansys.dpf.core.result_info.ResultInfo>`
 
-You can explore the general results metadata before extracting them by using
-the |ResultInfo| object. This metadata includes:
+This tutorial shows how to extract and explore results metadata from a result file.
+
+:jupyter-download-script:`Download tutorial as Python script<extract_and_explore_results_metadata>`
+:jupyter-download-notebook:`Download tutorial as Jupyter notebook<extract_and_explore_results_metadata>`
+
+Get the result file
+-------------------
+
+First, import a result file. For this tutorial, you can use one available in the |Examples| module.
+For more information about how to import your own result file in DPF, see the :ref:`ref_tutorials_import_result_file`
+tutorial.
+
+.. jupyter-execute::
+
+    # Import the ``ansys.dpf.core`` module
+    from ansys.dpf import core as dpf
+    # Import the examples module
+    from ansys.dpf.core import examples
+    # Import the operators module
+    from ansys.dpf.core import operators as ops
+
+    # Define the result file path
+    result_file_path_1 = examples.download_transient_result()
+    # Create the model
+    model_1 = dpf.Model(data_sources=result_file_path_1)
+
+Explore the results general metadata
+------------------------------------
+
+You can explore the general results metadata, before extracting the results, by using
+the |ResultInfo| object and its methods. This metadata includes:
 
 - Analysis type;
 - Physics type;
@@ -18,127 +46,112 @@ the |ResultInfo| object. This metadata includes:
 - Solver version, date and time;
 - Job name;
 
-When you extract a result from a result file DPF stores it in a |Field|.
-This |Field| will then contain the metadata for the result associated with it.
-This metadata includes:
-
-- Location;
-- Scoping;
-- Shape of the data stored;
-- Number of components;
-- Units of the data.
-
-This tutorial shows how to extract and explore results metadata from a result file.
-
-Get the result file
--------------------
-
-Here we will download a result file available in our |Examples| package.
-For more information about how to import your result file in DPF check
-the :ref:`ref_tutorials_import_result_file` tutorial.
-
-.. jupyter-execute::
-
-    # Import the ``ansys.dpf.core`` module, including examples files and the operators subpackage
-    from ansys.dpf import core as dpf
-    from ansys.dpf.core import examples
-    from ansys.dpf.core import operators as ops
-
-    # Define the result file
-    result_file_path_1 = examples.download_transient_result()
-    # Create the model
-    my_model_1 = dpf.Model(data_sources=result_file_path_1)
-
-Explore the general results metadata
-------------------------------------
-
-Get the |ResultInfo| object from the model and then explore it using this class methods.
-
 .. jupyter-execute::
 
     # Define the ResultInfo object
-    my_result_info_1 = my_model_1.metadata.result_info
+    result_info_1 = model_1.metadata.result_info
 
     # Get the analysis type
-    my_analysis_type = my_result_info_1.analysis_type
-    print("Analysis type: ",my_analysis_type, "\n")
+    analysis_type = result_info_1.analysis_type
+    # Print the analysis type
+    print("Analysis type: ",analysis_type, "\n")
 
     # Get the physics type
-    my_physics_type = my_result_info_1.physics_type
-    print("Physics type: ",my_physics_type, "\n")
+    physics_type = result_info_1.physics_type
+    # Print the physics type
+    print("Physics type: ",physics_type, "\n")
 
     # Get the number of available results
-    number_of_results = my_result_info_1.n_results
+    number_of_results = result_info_1.n_results
+    # Print the number of available results
     print("Number of available results: ",number_of_results, "\n")
 
     # Get the unit system
-    my_unit_system = my_result_info_1.unit_system
-    print("Unit system: ",my_unit_system, "\n")
+    unit_system = result_info_1.unit_system
+    # Print the unit system
+    print("Unit system: ",unit_system, "\n")
 
     # Get the solver version, data and time
-    my_solver_version = my_result_info_1.solver_version
-    print("Solver version: ",my_solver_version, "\n")
+    solver_version = result_info_1.solver_version
+    solver_date = result_info_1.solver_date
+    solver_time = result_info_1.solver_time
 
-    my_solver_date = my_result_info_1.solver_date
-    print("Solver date: ", my_solver_date, "\n")
-
-    my_solver_time = my_result_info_1.solver_time
-    print("Solver time: ",my_solver_time, "\n")
+    # Print the solver version, data and time
+    print("Solver version: ",solver_version, "\n")
+    print("Solver date: ", solver_date, "\n")
+    print("Solver time: ",solver_time, "\n")
 
     # Get the job name
-    my_job_name = my_result_info_1.job_name
-    print("Job name: ",my_job_name, "\n")
+    job_name = result_info_1.job_name
+    # Print the job name
+    print("Job name: ",job_name, "\n")
 
-Explore a given result metadata
--------------------------------
+Explore a result metadata
+-------------------------
+When you extract a result from a result file DPF stores it in a |Field|.
+Thus, this |Field| contains the metadata for the result associated with it.
+This metadata includes:
+
+- Location;
+- Scoping (type and quantity of entities);
+- Elementary data count (number of entities, how many data vectors we have);
+- Components count (vectors dimension, here we have a displacement so we expect to have 3 components (X, Y and Z));
+- Shape of the data stored (tuple with the elementary data count and the components count);
+- Fields size (length of the data entire vector (equal to the number of elementary data times the number of components));
+- Units of the data.
 
 Here we will explore the metadata of the displacement results.
 
-Start by extracting the displacement results:
+Start by extracting the displacement results.
 
 .. jupyter-execute::
 
     # Extract the displacement results
-    disp_results = my_model_1.results.displacement.eval()
+    disp_results = model_1.results.displacement.eval()
 
     # Get the displacement field
-    my_disp_field = disp_results[0]
+    disp_field = disp_results[0]
 
 Explore the displacement results metadata:
 
 .. jupyter-execute::
 
-    # Location of the displacement data
-    my_location = my_disp_field.location
-    print("Location: ", my_location,'\n')
+    # Get the location of the displacement data
+    location = disp_field.location
+    # Print the location
+    print("Location: ", location,'\n')
 
-    # Displacement field scoping
-    my_scoping = my_disp_field.scoping  # type and quantity of entities
-    print("Scoping: ", '\n',my_scoping, '\n')
+    # Get the displacement Field scoping
+    scoping = disp_field.scoping
+    # Print the Field scoping
+    print("Scoping: ", '\n',scoping, '\n')
 
-    my_scoping_ids = my_disp_field.scoping.ids  # Available entities ids
-    print("Scoping ids: ", my_scoping_ids, '\n')
+    # Get the displacement Field scoping ids
+    scoping_ids = disp_field.scoping.ids  # Available entities ids
+    # Print the Field scoping ids
+    print("Scoping ids: ", scoping_ids, '\n')
 
-    # Elementary data count
-    # Number of entities (how many data vectors we have)
-    my_elementary_data_count = my_disp_field.elementary_data_count
-    print("Elementary data count: ", my_elementary_data_count, '\n')
+    # Get the displacement Field elementary data count
+    elementary_data_count = disp_field.elementary_data_count
+    # Print the elementary data count
+    print("Elementary data count: ", elementary_data_count, '\n')
 
-    # Components count
-    # Vectors dimension, here we have a displacement so we expect to have 3 components (X, Y and Z)
-    my_components_count = my_disp_field.component_count
-    print("Components count: ", my_components_count, '\n')
+    # Get the displacement Field components count
+    components_count = disp_field.component_count
+    # Print the components count
+    print("Components count: ", components_count, '\n')
 
-    # Size
-    # Length of the data entire vector (equal to the number of elementary data times the number of components)
-    my_field_size = my_disp_field.size
-    print("Size: ", my_field_size, '\n')
+    # Get the displacement Field size
+    field_size = disp_field.size
+    # Print the Field size
+    print("Size: ", field_size, '\n')
 
-    # Fields shape
-    # Gives a tuple with the elementary data count and the components count
-    my_shape = my_disp_field.shape
-    print("Shape: ", my_shape, '\n')
+    # Get the displacement Field shape
+    shape = disp_field.shape
+    # Print the Field shape
+    print("Shape: ", shape, '\n')
 
-    # Units
-    my_unit = my_disp_field.unit
-    print("Unit: ", my_unit, '\n')
+    # Get the displacement Field unit
+    unit = disp_field.unit
+    # Print the displacement Field unit
+    print("Unit: ", unit, '\n')
