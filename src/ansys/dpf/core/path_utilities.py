@@ -73,7 +73,7 @@ def join(*args, **kwargs):
         if ansys.dpf.core.server_types.RUNNING_DOCKER.use_docker:
             current_os = "posix"
         else:
-            return os.path.join(*args)
+            return str(Path(args[0]).joinpath(*args[1:]))
     else:
         current_os = server.os
 
