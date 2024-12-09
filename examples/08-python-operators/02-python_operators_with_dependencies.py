@@ -155,7 +155,7 @@ elif os.name == "posix" and not site_path.exists():
     run_cmd = f"{cmd_file}"
     args = (
         f' -pluginpath "{plugin_path}" '
-        f'-zippath \"{plugin_path / "assets" / "gltf_sites_winx64.zip"}\"'
+        f'-zippath "{plugin_path / "assets" / "gltf_sites_winx64.zip"}"'
     )
     print(run_cmd + args)
     os.system(f"chmod u=rwx,o=x {cmd_file}")
@@ -183,7 +183,9 @@ dpf.start_local_server(config=dpf.AvailableServerConfigs.GrpcServer)
 
 tmp = Path(dpf.make_tmp_dir_server())
 dpf.upload_files_in_folder(dpf.path_utilities.join(str(tmp), "plugins", "gltf_plugin"), plugin_path)
-dpf.upload_file(str(plugin_path) + ".xml", dpf.path_utilities.join(str(tmp), "plugins", "gltf_plugin.xml"))
+dpf.upload_file(
+    str(plugin_path) + ".xml", dpf.path_utilities.join(str(tmp), "plugins", "gltf_plugin.xml")
+)
 
 dpf.load_library(
     dpf.path_utilities.join(tmp, "plugins", "gltf_plugin"),
