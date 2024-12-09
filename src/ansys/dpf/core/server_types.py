@@ -41,6 +41,7 @@ from threading import Thread, Lock
 from abc import ABC
 import ctypes
 from typing import TYPE_CHECKING, Union
+from pathlib import Path
 
 import psutil
 
@@ -68,14 +69,14 @@ MAX_PORT = 65535
 def _get_dll_path(name, ansys_path=None):
     """Helper function to get the right dll path for Linux or Windows"""
     ISPOSIX = os.name == "posix"
-    ANSYS_INSTALL = core.misc.get_ansys_path(ansys_path)
+    ANSYS_INSTALL = Path(core.misc.get_ansys_path(ansys_path))
     api_path = load_api._get_path_in_install()
     if api_path is None:
         raise ImportError(f"Could not find API path in install.")
-    SUB_FOLDERS = os.path.join(ANSYS_INSTALL, api_path)
+    SUB_FOLDERS = ANSYS_INSTALL / api_path
     if ISPOSIX:
         name = "lib" + name
-    return os.path.join(SUB_FOLDERS, name)
+    return SUB_FOLDERS / name
 
 
 def check_valid_ip(ip):
@@ -92,18 +93,19 @@ def check_valid_ip(ip):
 def _verify_ansys_path_is_valid(ansys_path, executable, path_in_install=None):
     if path_in_install is None:
         path_in_install = load_api._get_path_in_install()
-    if os.path.isdir(f"{ansys_path}/{path_in_install}"):
-        dpf_run_dir = f"{ansys_path}/{path_in_install}"
+    ansys_path = Path(ansys_path)
+    if ansys_path.joinpath(path_in_install).is_dir():
+        dpf_run_dir = ansys_path / path_in_install
     else:
-        dpf_run_dir = f"{ansys_path}"
-    if not os.path.isdir(dpf_run_dir):
+        dpf_run_dir = ansys_path
+    if not dpf_run_dir.is_dir():
         raise NotADirectoryError(
             f'Invalid ansys path at "{ansys_path}".  '
             "Unable to locate the directory containing DPF at "
             f'"{dpf_run_dir}"'
         )
     else:
-        if not os.path.exists(os.path.join(dpf_run_dir, executable)):
+        if not dpf_run_dir.joinpath(executable).exists():
             raise FileNotFoundError(
                 f'DPF executable not found at "{dpf_run_dir}".  '
                 f'Unable to locate the executable "{executable}"'
@@ -117,7 +119,7 @@ def _run_launch_server_process(
     bShell = False
     if docker_config.use_docker:
         docker_server_port = int(os.environ.get("DOCKER_SERVER_PORT", port))
-        dpf_run_dir = os.getcwd()
+        dpf_run_dir = Path.cwd()
         if os.name == "posix":
             bShell = True
         run_cmd = docker_config.docker_run_cmd_command(docker_server_port, port)
@@ -135,7 +137,7 @@ def _run_launch_server_process(
         path_in_install = load_api._get_path_in_install(internal_folder="bin")
         dpf_run_dir = _verify_ansys_path_is_valid(ansys_path, executable, path_in_install)
 
-    old_dir = os.getcwd()
+    old_dir = Path.cwd()
     os.chdir(dpf_run_dir)
     if not bShell:
         process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -940,11 +942,11 @@ class InProcessServer(CServer):
         name = "DataProcessingCore"
         path = _get_dll_path(name, ansys_path)
         try:
-            data_processing_core_load_api(path, "common")
+            data_processing_core_load_api(str(path), "common")
         except Exception as e:
-            if not os.path.isdir(os.path.dirname(path)):
+            if not path.parent.is_dir():
                 raise NotADirectoryError(
-                    f"DPF directory not found at {os.path.dirname(path)}"
+                    f"DPF directory not found at {path.parent}"
                     f"Unable to locate the following file: {path}"
                 )
             raise e
