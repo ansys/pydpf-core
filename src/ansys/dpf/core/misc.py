@@ -26,6 +26,7 @@ import platform
 import glob
 import os
 import re
+from pathlib import Path
 
 from pkgutil import iter_modules
 from ansys.dpf.core import errors
@@ -120,7 +121,7 @@ def get_ansys_path(ansys_path=None):
             '- or by setting it by default with the environment variable "ANSYS_DPF_PATH"'
         )
     # parse the version to an int and check for supported
-    ansys_folder_name = str(ansys_path).split(os.sep)[-1]
+    ansys_folder_name = Path(ansys_path).parts[-1]
     reobj_vXYZ = re.compile("^v[0123456789]{3}$")
     if reobj_vXYZ.match(ansys_folder_name):
         # vXYZ Unified Install folder
@@ -171,10 +172,10 @@ def find_ansys():
 
     base_path = None
     if os.name == "nt":
-        base_path = os.path.join(os.environ["PROGRAMFILES"], "ANSYS INC")
+        base_path = Path(os.environ["PROGRAMFILES"]) / "ANSYS INC"
     elif os.name == "posix":
-        for path in ["/usr/ansys_inc", "/ansys_inc"]:
-            if os.path.isdir(path):
+        for path in [Path("/usr/ansys_inc"), Path("/ansys_inc")]:
+            if path.is_dir():
                 base_path = path
     else:
         raise OSError(f"Unsupported OS {os.name}")
@@ -182,7 +183,7 @@ def find_ansys():
     if base_path is None:
         return base_path
 
-    paths = glob.glob(os.path.join(base_path, "v*"))
+    paths = glob.glob(str(base_path / "v*"))
 
     if not paths:
         return None
