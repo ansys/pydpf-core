@@ -33,6 +33,8 @@ import copy
 from ansys import dpf
 from ansys.dpf.core import errors
 from ansys.dpf.core import operators as ops
+from ansys.dpf.core.common import derived_class_name_to_type, record_derived_class
+from ansys.dpf.core.custom_container_base import CustomContainerBase
 from ansys.dpf.core.misc import get_ansys_path
 from ansys.dpf.core.operator_specification import Specification
 from ansys.dpf.core.workflow_topology import WorkflowTopology
@@ -1457,3 +1459,26 @@ def test_operator_get_output_derived_class(server_type):
 
     workflow_topology = workflow_to_workflow_topology_op.get_output(0, WorkflowTopology)
     assert workflow_topology
+
+
+def test_record_derived_type():
+    class TestContainer(CustomContainerBase):
+        pass
+
+    class TestContainer2(CustomContainerBase):
+        pass
+
+    class_name = "TestContainer"
+
+    derived_classes = derived_class_name_to_type()
+    assert class_name not in derived_classes
+
+    record_derived_class(class_name, TestContainer)
+    assert class_name in derived_classes
+    assert derived_classes[class_name] is TestContainer
+
+    record_derived_class(class_name, TestContainer2)
+    assert derived_classes[class_name] is TestContainer
+
+    record_derived_class(class_name, TestContainer2, overwrite=True)
+    assert derived_classes[class_name] is TestContainer2

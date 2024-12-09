@@ -32,6 +32,7 @@ Common
 import re
 import sys
 from enum import Enum
+from typing import Dict
 
 from ansys.dpf.core.misc import module_exists
 from ansys.dpf.gate.common import locations, ProgressBarBase  # noqa: F401
@@ -433,7 +434,7 @@ def type_to_special_dpf_constructors():
 _derived_class_name_to_type = None
 
 
-def derived_class_name_to_type() -> dict[str, type]:
+def derived_class_name_to_type() -> Dict[str, type]:
     """
     Returns a mapping of derived class names to their corresponding Python classes.
 
@@ -449,6 +450,30 @@ def derived_class_name_to_type() -> dict[str, type]:
 
         _derived_class_name_to_type = {"WorkflowTopology": WorkflowTopology}
     return _derived_class_name_to_type
+
+
+def record_derived_class(class_name: str, py_class: type, overwrite: bool = False):
+    """
+    Records a new derived class in the mapping of class names to their corresponding Python classes.
+
+    This function updates the global dictionary that maps derived class names (str) to their corresponding
+    Python class objects (type). If the provided class name already exists in the dictionary, it will either
+    overwrite the existing mapping or leave it unchanged based on the `overwrite` flag.
+
+    Parameters
+    ----------
+    class_name : str
+        The name of the derived class to be recorded.
+    py_class : type
+        The Python class type corresponding to the derived class.
+    overwrite : bool, optional
+        A flag indicating whether to overwrite an existing entry for the `class_name`.
+        If `True`, the entry will be overwritten. If `False` (default), the entry will
+        not be overwritten if it already exists.
+    """
+    recorded_classes = derived_class_name_to_type()
+    if overwrite or class_name not in recorded_classes:
+        recorded_classes[class_name] = py_class
 
 
 def create_dpf_instance(type, internal_obj, server):
