@@ -35,6 +35,7 @@ import os
 import sys
 import numpy as np
 import warnings
+from pathlib import Path
 from typing import TYPE_CHECKING, List, Union
 
 from ansys import dpf
@@ -1019,7 +1020,7 @@ class Plotter:
         # mesh_provider.inputs.data_sources.connect(self._evaluator._model.metadata.data_sources)
 
         # create a temporary file at the default temp directory
-        path = os.path.join(tempfile.gettempdir(), "dpf_temp_hokflb2j9s.vtk")
+        path = Path(tempfile.gettempdir()) / "dpf_temp_hokflb2j9s.vtk"
 
         vtk_export = dpf.core.Operator("vtk_export")
         vtk_export.inputs.mesh.connect(self._mesh)
@@ -1028,8 +1029,8 @@ class Plotter:
         vtk_export.run()
         grid = pv.read(path)
 
-        if os.path.exists(path):
-            os.remove(path)
+        if path.exists():
+            path.unlink()
 
         names = grid.array_names
         field_name = fields_container[0].name
