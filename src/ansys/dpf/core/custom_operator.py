@@ -125,7 +125,7 @@ def update_virtual_environment_for_custom_operators(
         if path_file.exists():
             # Treat editable installation of ansys-dpf-core
             with path_file.open("r") as f:
-                current_site_packages_path = f.readline().strip()
+                current_site_packages_path = Path(f.readline().strip())
         with tempfile.TemporaryDirectory() as tmpdir:
             tmpdir = Path(tmpdir)
             ansys_dir = tmpdir / "ansys_dpf_core"
