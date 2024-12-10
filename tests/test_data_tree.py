@@ -209,9 +209,7 @@ def test_write_to_file_remote_data_tree(tmpdir, server_clayer_remote_process):
         to_fill.list_double = [1.5, 2.5]
         to_fill.list_string = ["hello", "bye"]
     data_tree.write_to_txt(str(Path(tmpdir) / "file.txt"))
-    data_tree = dpf.DataTree.read_from_txt(
-        str(Path(tmpdir) / "file.txt"), server=server_connected
-    )
+    data_tree = dpf.DataTree.read_from_txt(str(Path(tmpdir) / "file.txt"), server=server_connected)
     assert data_tree.has("int")
     assert data_tree.has("double")
     assert data_tree.has("string")
