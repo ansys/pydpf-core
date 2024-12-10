@@ -33,11 +33,11 @@ gate_path = os.getenv(gate_path_key, None)
 if grpc_path:
     # Update ansys-grpc-dpf with latest in proto/dist
     print("Updating ansys.grpc.dpf")
-    dist_path = Path(grpc_path) / "proto" / "dist" / "*"
+    dist_path = Path(grpc_path) / "proto" / "dist"
     print(f"from {dist_path}")
     destination = Path(core_path) / "src"
     print(f"into {destination}")
-    latest_wheel = max(glob.glob(str(dist_path)), key=os.path.getctime)
+    latest_wheel = max(dist_path.glob("*"), key=os.path.getctime)
     with zipfile.ZipFile(latest_wheel, "r") as wheel:
         for file in wheel.namelist():
             # print(file)

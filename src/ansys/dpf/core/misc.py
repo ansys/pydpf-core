@@ -183,16 +183,16 @@ def find_ansys():
     if base_path is None:
         return base_path
 
-    paths = glob.glob(str(base_path / "v*"))
+    paths = base_path.glob("v*")
 
-    if not paths:
+    if not list(paths):
         return None
 
     versions = {}
     for path in paths:
-        ver_str = path[-3:]
+        ver_str = str(path)[-3:]
         if is_float(ver_str):
-            versions[int(ver_str)] = path
+            versions[int(ver_str)] = str(path)
 
     return versions[max(versions.keys())]
 

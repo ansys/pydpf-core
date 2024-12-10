@@ -10,9 +10,8 @@ import shutil
 
 local_dir = Path(__file__).parent
 TARGET_PATH = local_dir.parent / "src" / "ansys" / "dpf" / "core" / "operators"
-files = glob.glob(str(TARGET_PATH / "*"))
-for f in files:
-    file_path = Path(f)
+files = TARGET_PATH.glob("*")
+for file_path in files:
     if file_path.stem == "specification":
         continue
     if file_path.name == "build.py":

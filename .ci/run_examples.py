@@ -24,10 +24,10 @@ print(f"Server version: {server_version}")
 for root, subdirectories, files in os.walk(examples_path):
     for subdirectory in subdirectories:
         subdir = Path(root) / subdirectory
-        for file in glob.iglob(str(subdir / "*.py")):
-            if sys.platform == "linux" and "08-python-operators" in file:
+        for file in subdir.glob("*.py"):
+            if sys.platform == "linux" and "08-python-operators" in str(file):
                 continue
-            elif "win" in sys.platform and "06-distributed_stress_averaging" in file:
+            elif "win" in sys.platform and "06-distributed_stress_averaging" in str(file):
                 # Currently very unstable in the GH CI
                 continue
             print("\n--------------------------------------------------")
@@ -37,7 +37,7 @@ for root, subdirectories, files in os.walk(examples_path):
                 print(f"Example skipped as it requires DPF {minimum_version_str}.", flush=True)
                 continue
             try:
-                out = subprocess.check_output([sys.executable, file])
+                out = subprocess.check_output([sys.executable, str(file)])
             except subprocess.CalledProcessError as e:
                 sys.stderr.write(str(e.args))
                 if e.returncode != 3221225477:
