@@ -52,7 +52,7 @@ def test_doctest_allexamples():
     directory = r"../examples"
     actual_path = Path(__file__).parent.absolute()
     handled_files = []
-    for root, subdirectories, files in os.walk(actual_path / directory):
+    for root, subdirectories, _ in os.walk(actual_path / directory):
         for subdirectory in subdirectories:
             subdir = Path(root) / subdirectory
             print(subdir)
