@@ -31,6 +31,7 @@ import logging
 import os
 import traceback
 import warnings
+from pathlib import Path
 
 from enum import Enum
 from typing import Union
@@ -932,11 +933,15 @@ class Workflow:
             name = title
 
         if save_as:
-            dot_path = os.path.splitext(str(save_as))[0] + ".dot"
-            image_path = save_as
+            # dot_path = os.path.splitext(str(save_as))[0] + ".dot"
+            image_path = Path(save_as)
+            dot_path = image_path.parent / image_path.stem / ".dot"
+            # image_path = save_as
         else:
-            dot_path = os.path.join(os.getcwd(), f"{name}.dot")
-            image_path = os.path.join(os.getcwd(), f"{name}.png")
+            # dot_path = os.path.join(os.getcwd(), f"{name}.dot")
+            image_path = Path.cwd() / f"{name}.png"
+            dot_path = image_path.parent / image_path.stem / ".dot"
+            # image_path = os.path.join(os.getcwd(), f"{name}.png")
 
         # Create graphviz file of workflow
         self.to_graphviz(dot_path)
@@ -946,7 +951,8 @@ class Workflow:
             # View workflow
             graphviz.view(filepath=image_path)
         if not keep_dot_file:
-            os.remove(dot_path)
+            # os.remove(dot_path)
+            dot_path.unlink()
         return image_path
 
     def to_graphviz(self, path: Union[os.PathLike, str]):
