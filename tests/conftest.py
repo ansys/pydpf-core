@@ -56,7 +56,7 @@ local_test_repo = False
 def _get_test_files_directory():
     if local_test_repo is False:
         test_path = Path(__file__).parent
-        return str(test_path.joinpath("testfiles"))
+        return str(test_path.parent / "tests" / "testfiles")
     else:
         return str(Path(os.environ["AWP_UNIT_TEST_FILES"]).joinpath("python"))
 
