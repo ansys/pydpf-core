@@ -4,6 +4,8 @@
 Extract and explore results data
 ================================
 
+:bdg-mapdl:`MAPDL` :bdg-lsdyna:`LS-DYNA` :bdg-fluent:`FLUENT` :bdg-cfx:`CFX`
+
 .. include:: ../../../links_and_refs.rst
 .. |get_entity_data| replace:: :func:`get_entity_data()<ansys.dpf.core.field.Field.get_entity_data>`
 .. |get_entity_data_by_id| replace:: :func:`get_entity_data_by_id()<ansys.dpf.core.field.Field.get_entity_data_by_id>`

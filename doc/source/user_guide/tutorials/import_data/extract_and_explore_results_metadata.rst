@@ -4,6 +4,8 @@
 Extract and explore results metadata
 ====================================
 
+:bdg-mapdl:`MAPDL` :bdg-lsdyna:`LS-DYNA` :bdg-fluent:`FLUENT` :bdg-cfx:`CFX`
+
 .. include:: ../../../links_and_refs.rst
 .. |ResultInfo| replace:: :class:`ResultInfo<ansys.dpf.core.result_info.ResultInfo>`
 

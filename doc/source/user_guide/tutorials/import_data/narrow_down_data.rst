@@ -4,6 +4,8 @@
 Narrow down data
 ================
 
+:bdg-mapdl:`MAPDL` :bdg-lsdyna:`LS-DYNA` :bdg-fluent:`FLUENT` :bdg-cfx:`CFX`
+
 .. include:: ../../../links_and_refs.rst
 .. |location| replace:: :class:`location<ansys.dpf.core.common.locations>`
 .. |time_freq_scoping_factory| replace:: :mod:`time_freq_scoping_factory<ansys.dpf.core.time_freq_scoping_factory>`

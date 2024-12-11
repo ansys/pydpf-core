@@ -4,6 +4,8 @@
 Import result file in DPF
 =========================
 
+:bdg-mapdl:`MAPDL` :bdg-lsdyna:`LS-DYNA` :bdg-fluent:`FLUENT` :bdg-cfx:`CFX`
+
 .. include:: ../../../links_and_refs.rst
 .. |set_result_file_path| replace:: :func:`set_result_file_path() <ansys.dpf.core.data_sources.DataSources.set_result_file_path>`
 .. |add_file_path| replace:: :func:`add_file_path() <ansys.dpf.core.data_sources.DataSources.add_file_path>`
