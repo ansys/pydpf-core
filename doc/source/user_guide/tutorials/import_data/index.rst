@@ -15,8 +15,8 @@ From user input
     :padding: 2
     :margin: 2
 
-    .. grid-item-card:: Use custom data
-       :link: ref_tutorials_field_with_custom_data
+    .. grid-item-card:: Load custom data
+       :link: ref_tutorials_load_custom_data
        :link-type: ref
        :text-align: center
 
@@ -65,7 +65,7 @@ From result files
     :maxdepth: 2
     :hidden:
 
-    field_with_custom_data.rst
+    load_custom_data.rst
     import_result_file.rst
     extract_and_explore_results_metadata.rst
     extract_and_explore_results_data.rst
