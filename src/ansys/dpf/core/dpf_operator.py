@@ -664,7 +664,21 @@ class Operator:
 
     @property
     @version_requires("10.0")
-    def id(self):
+    def id(self) -> int:
+        """Retrieve the unique identifier of the operator.
+
+        This property returns the unique ID associated with the operator.
+        This property is lazily initialized.
+
+        Returns
+        -------
+        int
+            The unique identifier of the operator.
+
+        Notes
+        -----
+        Property available with server's version starting at 10.0.
+        """
         if self._id is None:
             operator_id_op = Operator("operator_id", server=self._server)
             operator_id_op.connect_operator_as_input(0, self)
