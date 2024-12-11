@@ -63,7 +63,7 @@ from pathlib import Path
 from ansys.dpf.core import examples
 
 plugin_path = Path(examples.download_gltf_plugin())
-folder_root = Path(__file__).parent.parent.parent
+folder_root = Path(str(Path.cwd()).rsplit("pydpf-core", 1)[0]) / "pydpf-core"
 
 # %%
 # To add third-party modules as dependencies to a plug-in package, you must
