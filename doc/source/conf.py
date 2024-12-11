@@ -1,12 +1,10 @@
 import os
-import sys
 from glob import glob
 from datetime import datetime
 
 import numpy as np
 import pyvista
 import sphinx
-from sphinx.util import logging
 from ansys.dpf.core import __version__, server, server_factory
 from ansys.dpf.core.examples import get_example_required_minimum_dpf_version
 from ansys_sphinx_theme import ansys_favicon, get_version_match, pyansys_logo_light_mode, pyansys_logo_dark_mode
@@ -331,37 +329,15 @@ epub_exclude_files = ["search.html"]
 
 
 def close_live_servers_and_processes(app: sphinx.application.Sphinx) -> None:
-    from ansys.dpf.core import server, _server_instances
-    import copy
+    # Adapted from reset_servers() function, so this can be called after
+    # sphinx gallery finishes execution
     import psutil
+    from ansys.dpf.core import server
     import gc
 
-    gc.collect
+    gc.collect()
+    server.shutdown_all_session_servers()
 
-    # Server instances are different from processes.
-    # Ideally no running servers => no running processes
-    # Server instances should be closed first
-    running_servers = sum([1 if instance().live else 0 for instance in _server_instances])
-    if running_servers:
-        print(f"{running_servers} live dpf servers found")
-        print("Closing servers")
-    
-        copy_instances = copy.deepcopy(_server_instances)
-        for instance in copy_instances:
-            try:
-                instance_object = instance()
-                if hasattr(instance_object, "shutdown"):
-                    instance_object.shutdown()
-            except Exception as e:
-                print(e.args)
-                pass
-        server.shutdown_global_server()
-        running_servers = sum([1 if instance().live else 0 for instance in _server_instances])
-        print(f"Found {running_servers} live dpf servers after closing")
-    else:
-        print("No live dpf servers found")
-
-    # Subsequently check running processes and close
     proc_name = "Ans.Dpf.Grpc"
     nb_procs = 0
     for proc in psutil.process_iter():
@@ -372,12 +348,6 @@ def close_live_servers_and_processes(app: sphinx.application.Sphinx) -> None:
                 nb_procs += 1
         except psutil.NoSuchProcess:
             pass
-
-    # Check if processes were actually killed
-    if nb_procs:
-        print(f"Killed {nb_procs} {proc_name} processes.")
-    else:
-        print(f"No processes were found running")
 
 def setup(app: sphinx.application.Sphinx) -> None:
     """
