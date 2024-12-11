@@ -188,7 +188,7 @@ dpf.upload_file(
 )
 
 dpf.load_library(
-    dpf.path_utilities.join(tmp, "plugins", "gltf_plugin"),
+    dpf.path_utilities.join(str(tmp), "plugins", "gltf_plugin"),
     "py_dpf_gltf",
     "load_operators",
 )
@@ -244,7 +244,7 @@ new_operator.run()
 
 print("operator ran successfully")
 
-dpf.download_file(tmp / "out.glb", Path.cwd / "out.glb")
+dpf.download_file(tmp / "out.glb", Path.cwd() / "out.glb")
 
 # %%
 # You can download :download:`output <images/thumb/out.glb>` from the ``gltf`` operator.

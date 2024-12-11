@@ -61,7 +61,7 @@ def join(*args, **kwargs):
     server = None
     parts = []
     for a in args:
-        if isinstance(a, (str, Path)) and len(a) > 0:
+        if isinstance(a, (str, Path)) and len(str(a)) > 0:
             parts.append(str(a))
         elif isinstance(a, ansys.dpf.core.server_types.LegacyGrpcServer):
             server = a
