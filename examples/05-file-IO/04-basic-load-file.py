@@ -58,16 +58,16 @@ mesh.plot(fc_out)
 # ~~~~~~~~~~~~~
 # Export the fields container in the CSV format:
 
-import os
+from pathlib import Path
 
 csv_file_name = "simple_bar_fc.csv"
 # Define an output path for the resulting .csv file
 if not dpf.SERVER.local_server:
     # Define it server-side if using a remote server
     tmp_dir_path = dpf.core.make_tmp_dir_server(dpf.SERVER)
-    server_file_path = dpf.path_utilities.join(tmp_dir_path, csv_file_name)
+    server_file_path = Path(dpf.path_utilities.join(tmp_dir_path, csv_file_name))
 else:
-    server_file_path = os.path.join(os.getcwd(), csv_file_name)
+    server_file_path = Path.cwd() / csv_file_name
 
 # Perform the export to csv on the server side
 export_csv_operator = dpf.operators.serialization.field_to_csv()
@@ -81,7 +81,7 @@ export_csv_operator.run()
 # Download the file ``simple_bar_fc.csv``:
 
 if not dpf.SERVER.local_server:
-    downloaded_client_file_path = os.path.join(os.getcwd(), "simple_bar_fc_downloaded.csv")
+    downloaded_client_file_path = Path.cwd() / "simple_bar_fc_downloaded.csv"
     dpf.download_file(server_file_path, downloaded_client_file_path)
 else:
     downloaded_client_file_path = server_file_path
@@ -98,7 +98,7 @@ server_fc_out = import_csv_operator.outputs.fields_container()
 mesh.plot(server_fc_out)
 
 # Remove file to avoid polluting.
-os.remove(downloaded_client_file_path)
+downloaded_client_file_path.unlink()
 
 ###############################################################################
 # Make operations over the fields container

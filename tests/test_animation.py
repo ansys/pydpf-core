@@ -21,6 +21,7 @@
 # SOFTWARE.
 
 import os
+from pathlib import Path
 
 import pytest
 
@@ -43,8 +44,8 @@ def remove_gifs(request):
     """Remove GIF once finished."""
 
     def remove_gif():
-        if os.path.exists(os.path.join(os.getcwd(), gif_name)):
-            os.remove(os.path.join(os.getcwd(), gif_name))
+        if Path.cwd().joinpath(gif_name).exists():
+            Path.cwd().joinpath(gif_name).unlink()
 
     request.addfinalizer(remove_gif)
 

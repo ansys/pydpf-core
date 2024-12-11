@@ -61,7 +61,7 @@ def join(*args, **kwargs):
     server = None
     parts = []
     for a in args:
-        if isinstance(a, (str, Path)) and len(a) > 0:
+        if isinstance(a, (str, Path)) and len(str(a)) > 0:
             parts.append(str(a))
         elif isinstance(a, ansys.dpf.core.server_types.LegacyGrpcServer):
             server = a
@@ -73,7 +73,7 @@ def join(*args, **kwargs):
         if ansys.dpf.core.server_types.RUNNING_DOCKER.use_docker:
             current_os = "posix"
         else:
-            return os.path.join(*args)
+            return str(Path(args[0]).joinpath(*args[1:]))
     else:
         current_os = server.os
 
