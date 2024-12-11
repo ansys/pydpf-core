@@ -22,6 +22,7 @@
 
 import inspect
 import sys
+from typing import Any, Optional
 
 
 def _sort_supported_kwargs(bound_method, **kwargs):
@@ -48,3 +49,42 @@ def _sort_supported_kwargs(bound_method, **kwargs):
         warnings.warn(txt)
     # Return the accepted arguments
     return kwargs_in
+
+
+def indent(text: Any, subsequent_indent: str = "", initial_indent: Optional[str] = None) -> str:
+    """Indents each line of a given text.
+
+    Parameters
+    ----------
+    text : Any
+        The input text to be indented. If it is not already a string, it will be converted to one.
+    subsequent_indent : str, optional
+        The string to prefix all lines of the text after the first line. Default is an empty string.
+    initial_indent : Optional[str], optional
+        The string to prefix the first line of the text. If not provided, `subsequent_indent` will be used.
+
+    Returns
+    -------
+    str
+        The indented text with specified prefixes applied to each line.
+
+    Examples
+    --------
+    >>> text = "Hello\\nWorld"
+    >>> print(indent(text, subsequent_indent="    ", initial_indent="--> "))
+    --> Hello
+        World
+    """
+    if initial_indent is None:
+        initial_indent = subsequent_indent
+
+    if not isinstance(text, str):
+        text = str(text)
+
+    lines = text.rstrip().splitlines()
+    indented_lines = [
+        f"{initial_indent if index == 0 else subsequent_indent}{line}"
+        for (index, line) in enumerate(lines)
+    ]
+
+    return "\n".join(indented_lines)

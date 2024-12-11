@@ -384,6 +384,7 @@ class Operator:
             mesh_info,
             collection_base,
             any,
+            custom_container_base,
         )
 
         out = [
@@ -480,6 +481,15 @@ class Operator:
                 collection.Collection,
                 self._api.operator_getoutput_as_any,
                 lambda obj, type: any.Any(server=self._server, any_dpf=obj).cast(type),
+            ),
+            (
+                custom_container_base.CustomContainerBase,
+                self._api.operator_getoutput_generic_data_container,
+                lambda obj, type: type(
+                    container=generic_data_container.GenericDataContainer(
+                        generic_data_container=obj, server=self._server
+                    )
+                ),
             ),
         ]
         if hasattr(self._api, "operator_getoutput_generic_data_container"):
@@ -726,8 +736,10 @@ class Operator:
 
     def __del__(self):
         try:
-            if self._internal_obj is not None:
-                self._deleter_func[0](self._deleter_func[1](self))
+            if hasattr(self, "_deleter_func"):
+                obj = self._deleter_func[1](self)
+                if obj is not None:
+                    self._deleter_func[0](obj)
         except:
             warnings.warn(traceback.format_exc())
 
