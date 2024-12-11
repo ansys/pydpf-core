@@ -118,6 +118,7 @@ from ansys.dpf.core.label_space import LabelSpace
 CustomTypeFieldsCollection:type = _CollectionFactory(CustomTypeField)
 GenericDataContainersCollection:type = _CollectionFactory(GenericDataContainer)
 StringFieldsCollection:type = _CollectionFactory(StringField)
+OperatorsCollection: type = _CollectionFactory(Operator)
 AnyCollection:type = _Collection
 
 # for matplotlib

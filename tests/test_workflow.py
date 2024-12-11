@@ -27,6 +27,7 @@ import pytest
 import platform
 
 import ansys.dpf.core.operators as op
+from ansys.dpf.core.workflow_topology import WorkflowTopology
 import conftest
 from ansys import dpf
 from ansys.dpf.core import misc
@@ -1028,6 +1029,26 @@ def test_workflow_input_output_streams(server_in_process, simple_bar):
     wf_2.connect("input_streams", streams)
     times = wf_2.get_output("output_tfs", dpf.core.types.time_freq_support)
     assert times
+
+
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
+    reason="Operator `workflow_to_workflow_topology` does not exist below 10.0",
+)
+def test_workflow_get_output_derived_class(server_type):
+    workflow = dpf.core.Workflow(server=server_type)
+
+    workflow_to_workflow_topology_op = dpf.core.Operator(
+        "workflow_to_workflow_topology", server=server_type
+    )
+    dpf_workflow_wrapper = dpf.core.Workflow(server=server_type)
+    dpf_workflow_wrapper.add_operator(workflow_to_workflow_topology_op)
+    dpf_workflow_wrapper.set_input_name("input", workflow_to_workflow_topology_op, 0)
+    dpf_workflow_wrapper.set_output_name("output", workflow_to_workflow_topology_op, 0)
+    dpf_workflow_wrapper.connect("input", workflow)
+
+    workflow_topology = dpf_workflow_wrapper.get_output("output", WorkflowTopology)
+    assert workflow_topology
 
 
 def main():
