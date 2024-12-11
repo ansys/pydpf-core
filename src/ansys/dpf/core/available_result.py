@@ -313,6 +313,16 @@ _result_properties = {
     "TF": {"location": "ElementalNodal", "scripting_name": "heat_flux"},
     "UTOT": {"location": "Nodal", "scripting_name": "raw_displacement"},
     "RFTOT": {"location": "Nodal", "scripting_name": "raw_reaction_force"},
+    "ECT_STAT": {"location": "ElementalNodal", "scripting_name": "contact_status"},
+    "ECT_PRES": {"location": "ElementalNodal", "scripting_name": "contact_pressure"},
+    "ECT_PENE": {"location": "ElementalNodal", "scripting_name": "contact_penetration"},
+    "ECT_SLIDE": {"location": "ElementalNodal", "scripting_name": "contact_sliding_distance"},
+    "ECT_GAP": {"location": "ElementalNodal", "scripting_name": "contact_gap_distance"},
+    "ECT_SFRIC": {"location": "ElementalNodal", "scripting_name": "contact_friction_stress"},
+    "ECT_STOT": {"location": "ElementalNodal", "scripting_name": "contact_total_stress"},
+    "ECT_FRES": {"location": "ElementalNodal",
+                 "scripting_name": "contact_fluid_penetration_pressure"},
+    "ECT_FLUX": {"location": "ElementalNodal", "scripting_name": "contact_surface_heat_flux"},
 }
 
 
