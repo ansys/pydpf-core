@@ -137,7 +137,7 @@ def test_download_with_subdir(multishells, tmpdir, server_type_remote_process):
     subdir_filepath = dpf.core.upload_file(file, to_server_path, server=server_type_remote_process)
     folder = parent_path
 
-    out = dpf.core.download_files_in_folder(folder, str(tmpdir), server=server_type_remote_process)
+    _ = dpf.core.download_files_in_folder(folder, str(tmpdir), server=server_type_remote_process)
     p1 = tmpdir / filename
     p2 = tmpdir / "subdir" / filename
     # p1 = tmpdir + "/" + filename
