@@ -30,12 +30,10 @@ class property_field_provider_by_name(Operator):
         Property to read, that can be the following:
         elements_connectivity,
         nodes_connectivity, material,
-        element_type, apdl_section_id,
-        apdl_real_id, apdl_esys_id,
-        mapdl_element_type,
-        mapdl_element_type_id,
-        harmonic_index, step, substep,
-        keyopt_i (i = 1 -> 18).
+        element_type, mapdl_element_type,
+        mapdl_element_type_id harmonic_index,
+        step, substep, keyopt_i (i = 1 ->
+        18).
 
     Returns
     -------
@@ -129,12 +127,10 @@ class property_field_provider_by_name(Operator):
                     document="""Property to read, that can be the following:
         elements_connectivity,
         nodes_connectivity, material,
-        element_type, apdl_section_id,
-        apdl_real_id, apdl_esys_id,
-        mapdl_element_type,
-        mapdl_element_type_id,
-        harmonic_index, step, substep,
-        keyopt_i (i = 1 -> 18).""",
+        element_type, mapdl_element_type,
+        mapdl_element_type_id harmonic_index,
+        step, substep, keyopt_i (i = 1 ->
+        18).""",
                 ),
             },
             map_output_pin_spec={
@@ -294,12 +290,10 @@ class InputsPropertyFieldProviderByName(_Inputs):
         Property to read, that can be the following:
         elements_connectivity,
         nodes_connectivity, material,
-        element_type, apdl_section_id,
-        apdl_real_id, apdl_esys_id,
-        mapdl_element_type,
-        mapdl_element_type_id,
-        harmonic_index, step, substep,
-        keyopt_i (i = 1 -> 18).
+        element_type, mapdl_element_type,
+        mapdl_element_type_id harmonic_index,
+        step, substep, keyopt_i (i = 1 ->
+        18).
 
         Parameters
         ----------

@@ -18,4 +18,3 @@ from .txt_to_data_tree import txt_to_data_tree
 from .vtk_export import vtk_export
 from .vtk_to_fields import vtk_to_fields
 from .vtu_export import vtu_export
-from .workflow_to_workflow_topology import workflow_to_workflow_topology

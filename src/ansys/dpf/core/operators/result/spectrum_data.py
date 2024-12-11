@@ -12,45 +12,19 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class spectrum_data(Operator):
-    """Read spectral data from the result files contained in the streams or
-    data sources.
+    """Read participation factors from mode file.
 
     Parameters
     ----------
-    streams : StreamsContainer, optional
-        Result file container allowed to be kept open
-        to cache data.
     data_sources : DataSources
-        Result file path container, used if no
-        streams are set.
+        Data_sources (must contain at least one mode
+        file).
 
     Returns
     -------
     participation_factors : FieldsContainer
-        Fields container holding participation
+        Fields container containing participation
         factors.
-    mode_coefficients : FieldsContainer
-        Fields container holding mode coefficients
-        (prs file).
-    damping_ratios : FieldsContainer
-        Fields container holding damping ratios (prs
-        file).
-    global_damping : FieldsContainer
-        Fields container holding for each spectrum:
-        global damping ratio, damping
-        stiffness coefficient & damping mass
-        coefficient (prs file).
-    missing_mass : FieldsContainer
-        Fields container holding for each spectrum:
-        missing mass mode (0: none, 1:
-        active), missing mass effect zpa (prs
-        file).
-    rigid_response : FieldsContainer
-        Fields container holding for each spectrum:
-        rigid response mode (0: none, 1:
-        gupta, 2: lindley), freq begin
-        (gupta) / zpa (lindley), freq end
-        (gupta) (prs file).
 
     Examples
     --------
@@ -60,55 +34,37 @@ class spectrum_data(Operator):
     >>> op = dpf.operators.result.spectrum_data()
 
     >>> # Make input connections
-    >>> my_streams = dpf.StreamsContainer()
-    >>> op.inputs.streams.connect(my_streams)
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.spectrum_data(
-    ...     streams=my_streams,
     ...     data_sources=my_data_sources,
     ... )
 
     >>> # Get output data
     >>> result_participation_factors = op.outputs.participation_factors()
-    >>> result_mode_coefficients = op.outputs.mode_coefficients()
-    >>> result_damping_ratios = op.outputs.damping_ratios()
-    >>> result_global_damping = op.outputs.global_damping()
-    >>> result_missing_mass = op.outputs.missing_mass()
-    >>> result_rigid_response = op.outputs.rigid_response()
     """
 
-    def __init__(self, streams=None, data_sources=None, config=None, server=None):
+    def __init__(self, data_sources=None, config=None, server=None):
         super().__init__(name="spectrum_data", config=config, server=server)
         self._inputs = InputsSpectrumData(self)
         self._outputs = OutputsSpectrumData(self)
-        if streams is not None:
-            self.inputs.streams.connect(streams)
         if data_sources is not None:
             self.inputs.data_sources.connect(data_sources)
 
     @staticmethod
     def _spec():
-        description = """Read spectral data from the result files contained in the streams or
-            data sources."""
+        description = """Read participation factors from mode file."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
-                3: PinSpecification(
-                    name="streams",
-                    type_names=["streams_container"],
-                    optional=True,
-                    document="""Result file container allowed to be kept open
-        to cache data.""",
-                ),
                 4: PinSpecification(
                     name="data_sources",
                     type_names=["data_sources"],
                     optional=False,
-                    document="""Result file path container, used if no
-        streams are set.""",
+                    document="""Data_sources (must contain at least one mode
+        file).""",
                 ),
             },
             map_output_pin_spec={
@@ -116,50 +72,8 @@ class spectrum_data(Operator):
                     name="participation_factors",
                     type_names=["fields_container"],
                     optional=False,
-                    document="""Fields container holding participation
+                    document="""Fields container containing participation
         factors.""",
-                ),
-                1: PinSpecification(
-                    name="mode_coefficients",
-                    type_names=["fields_container"],
-                    optional=False,
-                    document="""Fields container holding mode coefficients
-        (prs file).""",
-                ),
-                2: PinSpecification(
-                    name="damping_ratios",
-                    type_names=["fields_container"],
-                    optional=False,
-                    document="""Fields container holding damping ratios (prs
-        file).""",
-                ),
-                3: PinSpecification(
-                    name="global_damping",
-                    type_names=["fields_container"],
-                    optional=False,
-                    document="""Fields container holding for each spectrum:
-        global damping ratio, damping
-        stiffness coefficient & damping mass
-        coefficient (prs file).""",
-                ),
-                4: PinSpecification(
-                    name="missing_mass",
-                    type_names=["fields_container"],
-                    optional=False,
-                    document="""Fields container holding for each spectrum:
-        missing mass mode (0: none, 1:
-        active), missing mass effect zpa (prs
-        file).""",
-                ),
-                5: PinSpecification(
-                    name="rigid_response",
-                    type_names=["fields_container"],
-                    optional=False,
-                    document="""Fields container holding for each spectrum:
-        rigid response mode (0: none, 1:
-        gupta, 2: lindley), freq begin
-        (gupta) / zpa (lindley), freq end
-        (gupta) (prs file).""",
                 ),
             },
         )
@@ -210,46 +124,21 @@ class InputsSpectrumData(_Inputs):
     --------
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.result.spectrum_data()
-    >>> my_streams = dpf.StreamsContainer()
-    >>> op.inputs.streams.connect(my_streams)
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
     """
 
     def __init__(self, op: Operator):
         super().__init__(spectrum_data._spec().inputs, op)
-        self._streams = Input(spectrum_data._spec().input_pin(3), 3, op, -1)
-        self._inputs.append(self._streams)
         self._data_sources = Input(spectrum_data._spec().input_pin(4), 4, op, -1)
         self._inputs.append(self._data_sources)
-
-    @property
-    def streams(self):
-        """Allows to connect streams input to the operator.
-
-        Result file container allowed to be kept open
-        to cache data.
-
-        Parameters
-        ----------
-        my_streams : StreamsContainer
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.result.spectrum_data()
-        >>> op.inputs.streams.connect(my_streams)
-        >>> # or
-        >>> op.inputs.streams(my_streams)
-        """
-        return self._streams
 
     @property
     def data_sources(self):
         """Allows to connect data_sources input to the operator.
 
-        Result file path container, used if no
-        streams are set.
+        Data_sources (must contain at least one mode
+        file).
 
         Parameters
         ----------
@@ -276,27 +165,12 @@ class OutputsSpectrumData(_Outputs):
     >>> op = dpf.operators.result.spectrum_data()
     >>> # Connect inputs : op.inputs. ...
     >>> result_participation_factors = op.outputs.participation_factors()
-    >>> result_mode_coefficients = op.outputs.mode_coefficients()
-    >>> result_damping_ratios = op.outputs.damping_ratios()
-    >>> result_global_damping = op.outputs.global_damping()
-    >>> result_missing_mass = op.outputs.missing_mass()
-    >>> result_rigid_response = op.outputs.rigid_response()
     """
 
     def __init__(self, op: Operator):
         super().__init__(spectrum_data._spec().outputs, op)
         self._participation_factors = Output(spectrum_data._spec().output_pin(0), 0, op)
         self._outputs.append(self._participation_factors)
-        self._mode_coefficients = Output(spectrum_data._spec().output_pin(1), 1, op)
-        self._outputs.append(self._mode_coefficients)
-        self._damping_ratios = Output(spectrum_data._spec().output_pin(2), 2, op)
-        self._outputs.append(self._damping_ratios)
-        self._global_damping = Output(spectrum_data._spec().output_pin(3), 3, op)
-        self._outputs.append(self._global_damping)
-        self._missing_mass = Output(spectrum_data._spec().output_pin(4), 4, op)
-        self._outputs.append(self._missing_mass)
-        self._rigid_response = Output(spectrum_data._spec().output_pin(5), 5, op)
-        self._outputs.append(self._rigid_response)
 
     @property
     def participation_factors(self):
@@ -314,88 +188,3 @@ class OutputsSpectrumData(_Outputs):
         >>> result_participation_factors = op.outputs.participation_factors()
         """  # noqa: E501
         return self._participation_factors
-
-    @property
-    def mode_coefficients(self):
-        """Allows to get mode_coefficients output of the operator
-
-        Returns
-        ----------
-        my_mode_coefficients : FieldsContainer
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.result.spectrum_data()
-        >>> # Connect inputs : op.inputs. ...
-        >>> result_mode_coefficients = op.outputs.mode_coefficients()
-        """  # noqa: E501
-        return self._mode_coefficients
-
-    @property
-    def damping_ratios(self):
-        """Allows to get damping_ratios output of the operator
-
-        Returns
-        ----------
-        my_damping_ratios : FieldsContainer
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.result.spectrum_data()
-        >>> # Connect inputs : op.inputs. ...
-        >>> result_damping_ratios = op.outputs.damping_ratios()
-        """  # noqa: E501
-        return self._damping_ratios
-
-    @property
-    def global_damping(self):
-        """Allows to get global_damping output of the operator
-
-        Returns
-        ----------
-        my_global_damping : FieldsContainer
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.result.spectrum_data()
-        >>> # Connect inputs : op.inputs. ...
-        >>> result_global_damping = op.outputs.global_damping()
-        """  # noqa: E501
-        return self._global_damping
-
-    @property
-    def missing_mass(self):
-        """Allows to get missing_mass output of the operator
-
-        Returns
-        ----------
-        my_missing_mass : FieldsContainer
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.result.spectrum_data()
-        >>> # Connect inputs : op.inputs. ...
-        >>> result_missing_mass = op.outputs.missing_mass()
-        """  # noqa: E501
-        return self._missing_mass
-
-    @property
-    def rigid_response(self):
-        """Allows to get rigid_response output of the operator
-
-        Returns
-        ----------
-        my_rigid_response : FieldsContainer
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.result.spectrum_data()
-        >>> # Connect inputs : op.inputs. ...
-        >>> result_rigid_response = op.outputs.rigid_response()
-        """  # noqa: E501
-        return self._rigid_response
