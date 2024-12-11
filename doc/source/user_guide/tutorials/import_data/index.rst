@@ -37,6 +37,9 @@ From result files
 
        This tutorial shows how to import a result file in DPF.
 
+       +++
+       :bdg-mapdl:`MAPDL` :bdg-lsdyna:`LS-DYNA` :bdg-fluent:`FLUENT` :bdg-cfx:`CFX`
+
     .. grid-item-card:: Extract and explore results metadata
        :link: ref_tutorials_extract_and_explore_results_metadata
        :link-type: ref
@@ -45,12 +48,18 @@ From result files
        This tutorial shows how to extract and explore results metadata (analysis type,
        physics type, unit system ... ) from a result file.
 
+       +++
+       :bdg-mapdl:`MAPDL` :bdg-lsdyna:`LS-DYNA` :bdg-fluent:`FLUENT` :bdg-cfx:`CFX`
+
     .. grid-item-card:: Extract and explore results data
        :link: ref_tutorials_extract_and_explore_results_data
        :link-type: ref
        :text-align: center
 
        This tutorial shows how to extract and explore results data from a result file.
+
+       +++
+       :bdg-mapdl:`MAPDL` :bdg-lsdyna:`LS-DYNA` :bdg-fluent:`FLUENT` :bdg-cfx:`CFX`
 
     .. grid-item-card:: Narrow down data
        :link: reft_tutorials_narrow_down_data
@@ -60,6 +69,8 @@ From result files
        This tutorial explains how to scope (get a spatial and/or temporal subset of
        the simulation data) your results.
 
+       +++
+       :bdg-mapdl:`MAPDL` :bdg-lsdyna:`LS-DYNA` :bdg-fluent:`FLUENT` :bdg-cfx:`CFX`
 
 .. toctree::
     :maxdepth: 2
