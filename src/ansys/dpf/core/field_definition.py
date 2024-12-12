@@ -153,6 +153,61 @@ class FieldDefinition:
         self._api.csfield_definition_fill_dimensionality(self, dim, nature, dim.internal_size)
         return Dimensionality(dim.tolist(), natures(int(nature)))
 
+    def get_quantity_type(self, index=0):
+        """Getter for Quantity Type
+
+        Parameters
+        ----------
+        index: Index of the quantity type to return
+
+        Returns
+        -------
+        quantity_type : Quantity Type
+            Quantity type of the elementary data at a given index.
+        """
+        if index < 0:
+            raise ValueError("Index must be greater than or equal to 0")
+
+        quantity_type = self._api.csfield_definition_get_quantity_type(self, index)
+        return str(quantity_type)
+
+    def set_quantity_type(self, quantity_type):
+        """Setter for Quantity Type
+
+        Parameters
+        ----------
+        quantity_type: Quantity Type
+            Quantity type to set
+        """
+        self._api.csfield_definition_set_quantity_type(self, quantity_type)
+
+    def get_num_available_quantity_types(self):
+        """Getter for the number of available quantity types
+
+        Returns
+        -------
+        num_quantity_types : int
+            Number of quantity types
+        """
+        num_quantity_types = self._api.csfield_definition_get_num_available_quantity_types(self)
+        return num_quantity_types
+
+    def is_of_quantity_type(self, quantity_type):
+        """Check if the field definition is of a given quantity type
+
+        Parameters
+        ----------
+        quantity_type: Quantity Type
+            Quantity type to check
+
+        Returns
+        -------
+        is_of_quantity_type : bool
+            True if the field definition is of the given quantity type
+        """
+        is_of_quantity_type = self._api.csfield_definition_is_of_quantity_type(self, quantity_type)
+        return is_of_quantity_type
+
     @unit.setter
     def unit(self, value):
         self._api.csfield_definition_set_unit(self, value, None, 0, 0, 0)

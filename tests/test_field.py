@@ -517,6 +517,37 @@ def test_create_and_update_field_definition(server_type):
     assert fieldDef.location == locations.nodal
 
 
+def test_field_definition_quantity_type(server_type):
+    fieldDef = FieldDefinition(server=server_type)
+
+    # Testing the setter
+    qt = "my_quantity_type"
+    fieldDef.set_quantity_type(qt)
+
+    # Testing the getter
+    assert fieldDef.get_quantity_type(0) == qt
+
+    # Adding a second quantity type
+    qt2 = "another_quantity_type"
+    fieldDef.set_quantity_type(qt2)
+
+    # Testing the getter again
+    assert fieldDef.get_quantity_type(1) == qt2
+
+    # Testing the getter with an index out of range
+    assert fieldDef.get_quantity_type(2) == None
+
+    # Testing the getter with a negative index
+    with pytest.raises(Exception):
+        fieldDef.get_quantity_type(-1)
+
+    # Getting the number of available quantity types
+    assert fieldDef.get_num_available_quantity_types() == 2
+
+    # Checking if the field definition is of a given quantity type
+    assert fieldDef.is_of_quantity_type(qt)
+
+
 @conftest.raises_for_servers_version_under("4.0")
 def test_create_and_set_get_name_field_definition(server_type):
     fieldDef = FieldDefinition(server=server_type)
