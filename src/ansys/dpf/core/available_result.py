@@ -320,8 +320,10 @@ _result_properties = {
     "ECT_GAP": {"location": "ElementalNodal", "scripting_name": "contact_gap_distance"},
     "ECT_SFRIC": {"location": "ElementalNodal", "scripting_name": "contact_friction_stress"},
     "ECT_STOT": {"location": "ElementalNodal", "scripting_name": "contact_total_stress"},
-    "ECT_FRES": {"location": "ElementalNodal",
-                 "scripting_name": "contact_fluid_penetration_pressure"},
+    "ECT_FRES": {
+        "location": "ElementalNodal",
+        "scripting_name": "contact_fluid_penetration_pressure",
+    },
     "ECT_FLUX": {"location": "ElementalNodal", "scripting_name": "contact_surface_heat_flux"},
 }
 
