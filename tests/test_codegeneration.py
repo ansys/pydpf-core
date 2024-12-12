@@ -24,6 +24,7 @@
 import os
 import copy
 import tempfile
+from pathlib import Path
 
 import ansys.grpc.dpf
 import numpy as np
@@ -153,7 +154,7 @@ def test_operator_any_input(allkindofcomplexity):
     serialization.inputs.any_input3.connect(u.outputs)
 
     # create a temporary file at the default temp directory
-    path = os.path.join(tempfile.gettempdir(), "dpf_temp_ser.txt")
+    path = str(Path(tempfile.gettempdir()) / "dpf_temp_ser.txt")
     if not core.SERVER.local_server:
         core.upload_file_in_tmp_folder(examples.find_static_rst(return_local_path=True))
         path = core.path_utilities.join(core.make_tmp_dir_server(), "dpf_temp_ser.txt")
@@ -171,8 +172,9 @@ def test_operator_any_input(allkindofcomplexity):
 
     assert hasattr(fc, "outputs") == False
 
-    if os.path.exists(path):
-        os.remove(path)
+    path = Path(path)
+    if path.exists():
+        path.unlink()
 
 
 def test_create_op_with_inputs(plate_msup):

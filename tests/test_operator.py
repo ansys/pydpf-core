@@ -25,6 +25,7 @@ import os
 import shutil
 import types
 import weakref
+from pathlib import Path
 
 import numpy as np
 import pytest
@@ -449,8 +450,8 @@ def find_mapdl():
     try:
         path = get_ansys_path()
         if dpf.core.SERVER.os == "nt":
-            exe = os.path.join(path, "ansys", "bin", "winx64", "ANSYS.exe")
-            return os.path.isfile(exe)
+            exe = Path(path).joinpath("ansys", "bin", "winx64", "ANSYS.exe")
+            return exe.is_file()
         else:
             return False
 
@@ -468,8 +469,8 @@ def test_inputs_outputs_datasources_operator(cyclic_ds, server_type):
     dsout = op.outputs.data_sources()
     assert dsout is not None
     assert dsout.result_key == "rst"
-    path = os.path.join(dsout.result_files[0])
-    shutil.rmtree(os.path.dirname(path))
+    path = Path(dsout.result_files[0])
+    shutil.rmtree(path.parent)
 
 
 def test_subresults_operator(cyclic_lin_rst, cyclic_ds):
@@ -1482,3 +1483,16 @@ def test_record_derived_type():
 
     record_derived_class(class_name, TestContainer2, overwrite=True)
     assert derived_classes[class_name] is TestContainer2
+
+
+@conftest.raises_for_servers_version_under("10.0")
+def test_operator_id(server_type):
+    ids = set()
+
+    for _ in range(10):
+        op = ops.utility.forward(server=server_type)
+
+        assert op.id >= 0
+        assert op.id not in ids
+
+        ids.add(op.id)

@@ -29,6 +29,7 @@ Examples result files.
 """
 
 import os
+from pathlib import Path
 
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core.core import upload_file_in_tmp_folder
@@ -55,7 +56,8 @@ def get_example_required_minimum_dpf_version(file: os.PathLike) -> str:
     in_header = False
     previous_line_is_note = False
     minimum_version_str = "0.0"
-    with open(file, "r") as f:
+    file = Path(file)
+    with file.open("r") as f:
         for line in f:
             if line[:3] == header_flag:
                 if not in_header:

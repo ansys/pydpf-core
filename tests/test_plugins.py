@@ -20,7 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import os.path
+from pathlib import Path
 
 import pytest
 
@@ -124,7 +124,7 @@ def test_vtk(server_type, tmpdir):
     u = model.operator("U")
     op.inputs.fields1.connect(u)
     op.inputs.mesh.connect(model.metadata.mesh_provider)
-    op.inputs.directory.connect(os.path.dirname(rst_file))
+    op.inputs.directory.connect(str(Path(rst_file).parent))
     out_path = op.eval()
     # assert out_path.result_files is not []
     # try:

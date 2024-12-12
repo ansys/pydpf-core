@@ -72,8 +72,6 @@ plugin_folder = examples.download_average_filter_plugin()
 #   for the plug-in package that is used to record operators.
 #
 
-import os
-
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
@@ -83,7 +81,7 @@ dpf.start_local_server(config=dpf.AvailableServerConfigs.GrpcServer)
 tmp = dpf.make_tmp_dir_server()
 dpf.upload_files_in_folder(dpf.path_utilities.join(tmp, "average_filter_plugin"), plugin_folder)
 dpf.load_library(
-    os.path.join(dpf.path_utilities.join(tmp, "average_filter_plugin")),
+    dpf.path_utilities.join(tmp, "average_filter_plugin"),
     "py_average_filter",
     "load_operators",
 )
