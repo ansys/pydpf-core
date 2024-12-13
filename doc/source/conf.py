@@ -63,7 +63,6 @@ for example in glob(r"../../examples/**/*.py"):
 ignored_pattern += "|11-server_types.py"
 ignored_pattern += "|06-distributed_stress_averaging.py"
 ignored_pattern += "|02-python_operators_with_dependencies.py"
-ignored_pattern += "|00-fluids_model.py"
 ignored_pattern += r")"
 
 # Autoapi ignore pattern
@@ -109,7 +108,7 @@ extensions = [
     "sphinx_design",
     "sphinx_gallery.gen_gallery",
     'sphinx_reredirects',
-    "ansys_sphinx_theme.extension.autoapi"
+    "ansys_sphinx_theme.extension.autoapi",
 ]
 
 redirects = {
@@ -128,7 +127,7 @@ intersphinx_mapping = {
     "pyvista": ("https://docs.pyvista.org/", None),
 }
 
-autosummary_generate = True
+autosummary_generate = False
 
 
 # Add any paths that contain templates here, relative to this directory.
