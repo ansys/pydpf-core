@@ -153,36 +153,35 @@ class FieldDefinition:
         self._api.csfield_definition_fill_dimensionality(self, dim, nature, dim.internal_size)
         return Dimensionality(dim.tolist(), natures(int(nature)))
 
-    def get_quantity_type(self, index=0):
-        """Getter for Quantity Type
-
-        Parameters
-        ----------
-        index: Index of the quantity type to return
+    @property
+    def quantity_type(self):
+        """Getter for Quantity Types
 
         Returns
         -------
-        quantity_type : Quantity Type
-            Quantity type of the elementary data at a given index.
+        str
+            All quantity types of the elementary data for this FieldDefinition.
         """
-        if index < 0:
-            raise ValueError("Index must be greater than or equal to 0")
+        quantity_types = []
+        for i in range(self.num_quantity_types()):
+            qt = self._api.csfield_definition_get_quantity_type(self, i)
+            print(qt)
+            quantity_types.append(str(qt))
 
-        quantity_type = self._api.csfield_definition_get_quantity_type(self, index)
-        return str(quantity_type)
+        return quantity_types
 
-    def set_quantity_type(self, quantity_type):
-        """Setter for Quantity Type
+    def add_quantity_type(self, quantity_type_to_add):
+        """Add a new Quantity Type
 
         Parameters
         ----------
-        quantity_type: Quantity Type
-            Quantity type to set
+        quantity_type_to_add: str
+            Quantity type to add
         """
-        self._api.csfield_definition_set_quantity_type(self, quantity_type)
+        self._api.csfield_definition_set_quantity_type(self, quantity_type_to_add)
 
-    def get_num_available_quantity_types(self):
-        """Getter for the number of available quantity types
+    def num_quantity_types(self):
+        """Number of available quantity types
 
         Returns
         -------
@@ -197,7 +196,7 @@ class FieldDefinition:
 
         Parameters
         ----------
-        quantity_type: Quantity Type
+        quantity_type: str
             Quantity type to check
 
         Returns

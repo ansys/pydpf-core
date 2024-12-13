@@ -184,35 +184,6 @@ class FieldDefinitionCAPI(field_definition_abstract_api.FieldDefinitionAbstractA
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res
-	
-	@staticmethod
-	def csfield_definition_get_quantity_type(res, index):
-		errorSize = ctypes.c_int(0)
-		sError = ctypes.c_wchar_p()
-		res = capi.dll.CSFieldDefinition_GetQuantityType(res._internal_obj if res is not None else None, index, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
-		if errorSize.value != 0:
-			raise errors.DPFServerException(sError.value)
-		newres = ctypes.cast(res, ctypes.c_char_p).value.decode("utf-8") if res else None
-		capi.dll.DataProcessing_String_post_event(res, ctypes.byref(errorSize), ctypes.byref(sError))
-		return newres
-	
-	@staticmethod
-	def csfield_definition_get_num_available_quantity_types(fieldDef):
-		errorSize = ctypes.c_int(0)
-		sError = ctypes.c_wchar_p()
-		res = capi.dll.CSFieldDefinition_GetNumAvailableQuantityTypes(fieldDef._internal_obj if fieldDef is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
-		if errorSize.value != 0:
-			raise errors.DPFServerException(sError.value)
-		return res
-	
-	@staticmethod
-	def csfield_definition_is_of_quantity_type(fieldDef, quantityType):
-		errorSize = ctypes.c_int(0)
-		sError = ctypes.c_wchar_p()
-		res = capi.dll.CSFieldDefinition_GetNumAvailableQuantityTypes(fieldDef._internal_obj if fieldDef is not None else None, utils.to_char_ptr(quantityType), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
-		if errorSize.value != 0:
-			raise errors.DPFServerException(sError.value)
-		return res
 
 	@staticmethod
 	def csfield_definition_get_location(res):
@@ -266,15 +237,6 @@ class FieldDefinitionCAPI(field_definition_abstract_api.FieldDefinitionAbstractA
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.CSFieldDefinition_SetShellLayers(fieldDef._internal_obj if fieldDef is not None else None, utils.to_int32(shellLayers), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
-		if errorSize.value != 0:
-			raise errors.DPFServerException(sError.value)
-		return res
-
-	@staticmethod
-	def csfield_definition_set_quantity_type(fieldDef, quantityType):
-		errorSize = ctypes.c_int(0)
-		sError = ctypes.c_wchar_p()
-		res = capi.dll.CSFieldDefinition_SetQuantityType(fieldDef._internal_obj if fieldDef is not None else None, utils.to_char_ptr(quantityType), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res
@@ -390,4 +352,3 @@ class FieldDefinitionCAPI(field_definition_abstract_api.FieldDefinitionAbstractA
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res
-
