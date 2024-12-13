@@ -26,6 +26,7 @@ Downloads
 Download example datasets from https://github.com/ansys/example-data"""
 
 import os
+from pathlib import Path
 import urllib.request
 import warnings
 from typing import Union
@@ -45,7 +46,7 @@ def delete_downloads(verbose=True):
     from ansys.dpf.core import LOCAL_DOWNLOADED_EXAMPLES_PATH, examples
 
     not_to_remove = [
-        getattr(examples.examples, item)
+        Path(getattr(examples.examples, item))
         for item in dir(examples.examples)
         if not item.startswith("_")
         and not item.endswith("_")
@@ -53,27 +54,28 @@ def delete_downloads(verbose=True):
     ]
     not_to_remove.extend(
         [
-            os.path.join(os.path.dirname(examples.__file__), "__init__.py"),
-            os.path.join(os.path.dirname(examples.__file__), "downloads.py"),
-            os.path.join(os.path.dirname(examples.__file__), "examples.py"),
+            Path(examples.__file__).parent / "__init__.py",
+            Path(examples.__file__).parent / "downloads.py",
+            Path(examples.__file__).parent / "examples.py",
         ]
     )
     for root, dirs, files in os.walk(LOCAL_DOWNLOADED_EXAMPLES_PATH, topdown=False):
+        root = Path(root)
         if root not in not_to_remove:
             for name in files:
-                if not os.path.join(root, name) in not_to_remove:
+                file_path = root / name
+                if not file_path in not_to_remove:
                     try:
-                        os.remove(os.path.join(root, name))
+                        file_path.unlink()
                         if verbose:
-                            print(f"deleting {os.path.join(root, name)}")
+                            print(f"deleting {file_path}")
                     except Exception as e:
-                        warnings.warn(
-                            f"couldn't delete {os.path.join(root, name)} with error:\n {e.args}"
-                        )
+                        warnings.warn(f"couldn't delete {file_path} with error:\n {e.args}")
     for root, dirs, files in os.walk(LOCAL_DOWNLOADED_EXAMPLES_PATH, topdown=False):
         if len(dirs) == 0 and len(files) == 0:
             try:
-                os.rmdir(root)
+                root = Path(root)
+                root.rmdir()
                 if verbose:
                     print(f"deleting {root}")
             except Exception as e:
@@ -89,21 +91,22 @@ def _retrieve_file(url, filename, directory):
     from ansys.dpf.core import LOCAL_DOWNLOADED_EXAMPLES_PATH
 
     # First check if file has already been downloaded
-    local_path = os.path.join(LOCAL_DOWNLOADED_EXAMPLES_PATH, directory, filename)
-    local_path_no_zip = local_path.replace(".zip", "")
-    if os.path.isfile(local_path_no_zip) or os.path.isdir(local_path_no_zip):
-        return local_path_no_zip
+    local_examples_download_path = Path(LOCAL_DOWNLOADED_EXAMPLES_PATH)
+    local_path = local_examples_download_path / directory / filename
+    local_path_no_zip = Path(str(local_path).replace(".zip", ""))
+    if local_path_no_zip.is_file() or local_path_no_zip.is_dir():
+        return str(local_path_no_zip)
 
     # grab the correct url retriever
     urlretrieve = urllib.request.urlretrieve
 
-    dirpath = os.path.dirname(local_path)
-    if not os.path.isdir(dirpath):
-        os.makedirs(dirpath, exist_ok=True)
+    dirpath = local_path.parent
+    if not dirpath.is_dir():
+        dirpath.mkdir(parents=True, exist_ok=True)
 
     # Perform download
     _, resp = urlretrieve(url, local_path)
-    return local_path
+    return str(local_path)
 
 
 def _download_file(directory, filename, should_upload: bool, server, return_local_path):
@@ -1999,7 +2002,7 @@ def find_distributed_msup_folder(
         server,
         return_local_path,
     )
-    return os.path.dirname(path)
+    return str(Path(path).parent)
 
 
 def download_average_filter_plugin(
@@ -2135,7 +2138,7 @@ def _retrieve_plugin(
     for file in file_list:
         EXAMPLE_FILE = GITHUB_SOURCE_URL + file
         operator_file_path = _retrieve_file(EXAMPLE_FILE, file, directory="python_plugins")
-        path = os.path.dirname(
-            find_files(operator_file_path, should_upload, server, return_local_path)
+        path = str(
+            Path(find_files(operator_file_path, should_upload, server, return_local_path)).parent
         )
     return path

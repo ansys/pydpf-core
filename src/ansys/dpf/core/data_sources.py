@@ -28,6 +28,7 @@ Data Sources
 """
 
 import os
+from pathlib import Path
 import warnings
 import traceback
 from typing import Union
@@ -142,7 +143,7 @@ class DataSources:
         ['/tmp/file.rst']
 
         """
-        extension = os.path.splitext(filepath)[1]
+        extension = Path(filepath).suffix
         # Handle .res files from CFX
         if key == "" and extension == ".res":
             key = "cas"
@@ -162,7 +163,7 @@ class DataSources:
     def guess_result_key(filepath: str) -> str:
         """Guess result key for files without a file extension."""
         result_keys = ["d3plot", "binout"]
-        base_name = os.path.basename(filepath)
+        base_name = Path(filepath).name
         # Handle files without extension
         for result_key in result_keys:
             if result_key in base_name:
@@ -172,14 +173,13 @@ class DataSources:
     @staticmethod
     def guess_second_key(filepath: str) -> str:
         """For files with an h5 or cff extension, look for another extension."""
+
+        # These files usually end with .cas.h5 or .dat.h5
         accepted = ["cas", "dat"]
-        without_ext = os.path.splitext(filepath)[0]
-        new_split = os.path.splitext(without_ext)
+        new_split = Path(filepath).suffixes
         new_key = ""
-        if len(new_split) > 1:
-            key = new_split[1][1:]
-            if key in accepted:
-                new_key = key
+        if new_split[0].strip(".") in accepted:
+            new_key = new_split[0].strip(".")
         return new_key
 
     def set_domain_result_file_path(
@@ -241,9 +241,12 @@ class DataSources:
 
         """
         # The filename needs to be a fully qualified file name
-        if not os.path.dirname(filepath):
+        # if not os.path.dirname(filepath)
+
+        filepath = Path(filepath)
+        if not filepath.parent.name:
             # append local path
-            filepath = os.path.join(os.getcwd(), os.path.basename(filepath))
+            filepath = Path.cwd() / filepath.name
         if is_domain:
             if key == "":
                 raise NotImplementedError("A key must be given when using is_domain=True.")
@@ -280,9 +283,10 @@ class DataSources:
 
         """
         # The filename needs to be a fully qualified file name
-        if not os.path.dirname(filepath):
+        filepath = Path(filepath)
+        if not filepath.parent.name:
             # append local path
-            filepath = os.path.join(os.getcwd(), os.path.basename(filepath))
+            filepath = Path.cwd() / filepath.name
         self._api.data_sources_add_domain_file_path_with_key_utf8(
             self, str(filepath), key, domain_id
         )
@@ -307,9 +311,10 @@ class DataSources:
             The default is ``""``, in which case the key is found directly.
         """
         # The filename needs to be a fully qualified file name
-        if not os.path.dirname(filepath):
+        filepath = Path(filepath)
+        if not filepath.parent.name:
             # append local path
-            filepath = os.path.join(os.getcwd(), os.path.basename(filepath))
+            filepath = Path.cwd() / filepath.name
 
         self._api.data_sources_add_file_path_for_specified_result_utf8(
             self, str(filepath), key, result_key

@@ -8,21 +8,21 @@ from pathlib import Path
 import shutil
 
 
-local_dir = os.path.dirname(os.path.abspath(__file__))
-TARGET_PATH = os.path.join(local_dir, os.pardir, "src", "ansys", "dpf", "core", "operators")
-files = glob.glob(os.path.join(TARGET_PATH, "*"))
-for f in files:
-    if Path(f).stem == "specification":
+local_dir = Path(__file__).parent
+TARGET_PATH = local_dir.parent / "src" / "ansys" / "dpf" / "core" / "operators"
+files = TARGET_PATH.glob("*")
+for file_path in files:
+    if file_path.stem == "specification":
         continue
-    if Path(f).name == "build.py":
+    if file_path.name == "build.py":
         continue
-    if Path(f).name == "operator.mustache":
+    if file_path.name == "operator.mustache":
         continue
     try:
-        if os.path.isdir(f):
-            shutil.rmtree(f)
+        if file_path.is_dir():
+            shutil.rmtree(file_path)
         else:
-            os.remove(f)
+            file_path.unlink()
     except:
         pass
 

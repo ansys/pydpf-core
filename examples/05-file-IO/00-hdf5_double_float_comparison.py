@@ -36,7 +36,7 @@ compare simple precision versus double precision.
 # Import the ``dpf-core`` module and its examples files, and then create a
 # temporary directory.
 
-import os
+from pathlib import Path
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
@@ -78,8 +78,8 @@ h5op.inputs.data3.connect(mesh)
 # Define a temporary folder for outputs
 tmpdir = dpf.core.make_tmp_dir_server(dpf.SERVER)
 files = [
-    dpf.path_utilities.join(tmpdir, "dpf_float.h5"),
-    dpf.path_utilities.join(tmpdir, "dpf_double.h5"),
+    Path(dpf.path_utilities.join(tmpdir, "dpf_float.h5")),
+    Path(dpf.path_utilities.join(tmpdir, "dpf_double.h5")),
 ]
 ###############################################################################
 # Export with simple precision.
@@ -98,8 +98,8 @@ h5op.run()
 # Download the resulting .h5 files if necessary
 
 if not dpf.SERVER.local_server:
-    float_file_path = os.path.join(os.getcwd(), "dpf_float.h5")
-    double_file_path = os.path.join(os.getcwd(), "dpf_double.h5")
+    float_file_path = Path.cwd() / "dpf_float.h5"
+    double_file_path = Path.cwd() / "dpf_double.h5"
     dpf.download_file(files[0], float_file_path)
     dpf.download_file(files[1], double_file_path)
 else:
@@ -109,8 +109,8 @@ else:
 
 ###############################################################################
 # Compare simple precision versus double precision.
-float_precision = os.stat(float_file_path).st_size
-double_precision = os.stat(double_file_path).st_size
+float_precision = float_file_path.stat().st_size
+double_precision = double_file_path.stat().st_size
 print(
     f"size with float precision: {float_precision}\n"
     f"size with double precision: {double_precision}"

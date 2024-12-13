@@ -127,6 +127,7 @@ class Operator:
         self._internal_obj = None
         self._description = None
         self._inputs = None
+        self._id = None
 
         # step 1: get server
         self._server = server_module.get_or_create_server(
@@ -384,6 +385,7 @@ class Operator:
             mesh_info,
             collection_base,
             any,
+            custom_container_base,
         )
 
         out = [
@@ -480,6 +482,15 @@ class Operator:
                 collection.Collection,
                 self._api.operator_getoutput_as_any,
                 lambda obj, type: any.Any(server=self._server, any_dpf=obj).cast(type),
+            ),
+            (
+                custom_container_base.CustomContainerBase,
+                self._api.operator_getoutput_generic_data_container,
+                lambda obj, type: type(
+                    container=generic_data_container.GenericDataContainer(
+                        generic_data_container=obj, server=self._server
+                    )
+                ),
             ),
         ]
         if hasattr(self._api, "operator_getoutput_generic_data_container"):
@@ -652,6 +663,30 @@ class Operator:
         self._api.operator_set_config(self, value)
 
     @property
+    @version_requires("10.0")
+    def id(self) -> int:
+        """Retrieve the unique identifier of the operator.
+
+        This property returns the unique ID associated with the operator.
+        This property is lazily initialized.
+
+        Returns
+        -------
+        int
+            The unique identifier of the operator.
+
+        Notes
+        -----
+        Property available with server's version starting at 10.0.
+        """
+        if self._id is None:
+            operator_id_op = Operator("operator_id", server=self._server)
+            operator_id_op.connect_operator_as_input(0, self)
+            self._id = operator_id_op.outputs.id()
+
+        return self._id
+
+    @property
     def inputs(self):
         """Inputs connected to the operator.
 
@@ -726,8 +761,10 @@ class Operator:
 
     def __del__(self):
         try:
-            if self._internal_obj is not None:
-                self._deleter_func[0](self._deleter_func[1](self))
+            if hasattr(self, "_deleter_func"):
+                obj = self._deleter_func[1](self)
+                if obj is not None:
+                    self._deleter_func[0](obj)
         except:
             warnings.warn(traceback.format_exc())
 

@@ -20,13 +20,14 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import os
+from pathlib import Path
 
 import numpy as np
 import pytest
 import platform
 
 import ansys.dpf.core.operators as op
+from ansys.dpf.core.workflow_topology import WorkflowTopology
 import conftest
 from ansys import dpf
 from ansys.dpf.core import misc
@@ -46,17 +47,17 @@ def test_create_workflow(server_type):
 def remove_dot_file(request):
     """Cleanup a testing directory once we are finished."""
 
-    dot_path = os.path.join(os.getcwd(), "test.dot")
-    png_path = os.path.join(os.getcwd(), "test.png")
-    png_path1 = os.path.join(os.getcwd(), "test1.png")
+    dot_path = Path.cwd() / "test.dot"
+    png_path = Path.cwd() / "test.png"
+    png_path1 = Path.cwd() / "test1.png"
 
     def remove_files():
-        if os.path.exists(dot_path):
-            os.remove(os.path.join(os.getcwd(), dot_path))
-        if os.path.exists(png_path):
-            os.remove(os.path.join(os.getcwd(), png_path))
-        if os.path.exists(png_path1):
-            os.remove(os.path.join(os.getcwd(), png_path1))
+        if dot_path.exists():
+            dot_path.unlink()
+        if png_path.exists():
+            png_path.unlink()
+        if png_path1.exists():
+            png_path1.unlink()
 
     request.addfinalizer(remove_files)
 
@@ -77,11 +78,11 @@ def test_workflow_view(server_in_process, remove_dot_file):
 
     wf.connect_with(pre_wf, {"prewf_output": "wf_input"})
     wf.view(off_screen=True, title="test1")
-    assert not os.path.exists("test1.dot")
-    assert os.path.exists("test1.png")
+    assert not Path("test1.dot").exists()
+    assert Path("test1.png").exists()
     wf.view(off_screen=True, save_as="test.png", keep_dot_file=True)
-    assert os.path.exists("test.dot")
-    assert os.path.exists("test.png")
+    assert Path("test.dot").exists()
+    assert Path("test.png").exists()
 
 
 def test_connect_field_workflow(server_type):
@@ -1028,6 +1029,26 @@ def test_workflow_input_output_streams(server_in_process, simple_bar):
     wf_2.connect("input_streams", streams)
     times = wf_2.get_output("output_tfs", dpf.core.types.time_freq_support)
     assert times
+
+
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
+    reason="Operator `workflow_to_workflow_topology` does not exist below 10.0",
+)
+def test_workflow_get_output_derived_class(server_type):
+    workflow = dpf.core.Workflow(server=server_type)
+
+    workflow_to_workflow_topology_op = dpf.core.Operator(
+        "workflow_to_workflow_topology", server=server_type
+    )
+    dpf_workflow_wrapper = dpf.core.Workflow(server=server_type)
+    dpf_workflow_wrapper.add_operator(workflow_to_workflow_topology_op)
+    dpf_workflow_wrapper.set_input_name("input", workflow_to_workflow_topology_op, 0)
+    dpf_workflow_wrapper.set_output_name("output", workflow_to_workflow_topology_op, 0)
+    dpf_workflow_wrapper.connect("input", workflow)
+
+    workflow_topology = dpf_workflow_wrapper.get_output("output", WorkflowTopology)
+    assert workflow_topology
 
 
 def main():
