@@ -352,3 +352,4 @@ class FieldDefinitionCAPI(field_definition_abstract_api.FieldDefinitionAbstractA
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res
+	
