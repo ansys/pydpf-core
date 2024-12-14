@@ -84,13 +84,11 @@ jobs:
       - name: "Update pip to the latest version"
         shell: pwsh
         run: |
-#          .venv\Scripts\Activate.ps1
           python -m pip install -U pip
 
       - name: "Install requirements"
         shell: pwsh
         run: |
-#          .venv\Scripts\Activate.ps1
           python -m pip install -r requirements/requirements_build.txt
 
       - name: "Build the wheel"
@@ -102,7 +100,6 @@ jobs:
           } else {
               $platform = "win"
           }
-#          .venv\Scripts\Activate.ps1
           python .ci/build_wheel.py -p $platform -w
 
       - name: "Expose the wheel"
@@ -117,7 +114,6 @@ jobs:
       - name: "Install package wheel"
         shell: pwsh
         run: |
-#          .venv\Scripts\Activate.ps1
           python -m pip install dist/${{ steps.wheel.outputs.wheel_name }}[plotting]
 
       - name: "Install DPF"
@@ -135,7 +131,6 @@ jobs:
         shell: pwsh
         working-directory: tests
         run: |
-#          ..\.venv\Scripts\Activate.ps1
           python -c "from ansys.dpf import core"
 
       - name: "Setup headless display"
@@ -151,7 +146,6 @@ jobs:
       - name: "Install documentation packages for Python"
         shell: pwsh
         run: |
-#          .venv\Scripts\Activate.ps1
           python -m pip install -r requirements/requirements_docs.txt
 
       - name: "Kill all servers"
@@ -160,21 +154,18 @@ jobs:
       - name: "Ensure VTK compatibility"
         shell: pwsh
         run: |
-#          .venv\Scripts\Activate.ps1
           python -m pip uninstall --yes vtk
           python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==${{ env.VTK_OSMESA_VERSION }}
 
       - name: "List installed packages"
         shell: pwsh
         run: |
-#          .venv\Scripts\Activate.ps1
           python -m pip list
 
       - name: "Build HTML Documentation"
         shell: cmd /D /E:ON /V:OFF /C "CALL "{0}""
         working-directory: .ci
         run: |
-#          ..\.venv\Scripts\activate.bat
           build_doc.bat > ..\doc\log.txt && type ..\doc\log.txt 2>&1
         timeout-minutes: 60
         env:
