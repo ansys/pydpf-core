@@ -1,3 +1,5 @@
+@echo off
+
 REM Move to the documentation directory
 pushd .
 cd ../doc/

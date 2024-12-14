@@ -73,17 +73,36 @@ jobs:
         with:
           python-version: ${{ inputs.python_version }}
 
+      - name: "Create virtual environment in the current workspace"
+        shell: pwsh
+        run: python -m venv .venv --system-site-packages
+      
+      - name: "Update PATH for virtual environment"
+        run: |
+          echo "${{ github.workspace }}\.venv\Scripts" >> $env:GITHUB_PATH
+
+      - name: "Update pip to the latest version"
+        shell: pwsh
+        run: |
+#          .venv\Scripts\Activate.ps1
+          python -m pip install -U pip
+
       - name: "Install requirements"
-        run: pip install -r requirements/requirements_build.txt
+        shell: pwsh
+        run: |
+#          .venv\Scripts\Activate.ps1
+          python -m pip install -r requirements/requirements_build.txt
 
       - name: "Build the wheel"
-        shell: bash
+        shell: pwsh
         run: |
-          if [ ${{ matrix.os }} == "ubuntu-latest" ]; then
-              export platform="manylinux_2_17"
-          else
-              export platform="win"
-          fi
+          $os = "${{ matrix.os }}"
+          if ($os -eq "ubuntu-latest") {
+              $platform = "manylinux_2_17"
+          } else {
+              $platform = "win"
+          }
+#          .venv\Scripts\Activate.ps1
           python .ci/build_wheel.py -p $platform -w
 
       - name: "Expose the wheel"
@@ -96,9 +115,10 @@ jobs:
           echo "wheel_name=${name[0]}" >> $GITHUB_OUTPUT
 
       - name: "Install package wheel"
-        shell: bash
+        shell: pwsh
         run: |
-          pip install dist/${{ steps.wheel.outputs.wheel_name }}[plotting]
+#          .venv\Scripts\Activate.ps1
+          python -m pip install dist/${{ steps.wheel.outputs.wheel_name }}[plotting]
 
       - name: "Install DPF"
         id: set-server-path
@@ -112,9 +132,11 @@ jobs:
         uses: ansys/pydpf-actions/check-licenses@v2.3
 
       - name: "Test import"
-        shell: bash
+        shell: pwsh
         working-directory: tests
-        run: python -c "from ansys.dpf import core"
+        run: |
+#          ..\.venv\Scripts\Activate.ps1
+          python -c "from ansys.dpf import core"
 
       - name: "Setup headless display"
         uses: pyvista/setup-headless-display-action@v2
@@ -127,73 +149,33 @@ jobs:
           choco install pandoc
 
       - name: "Install documentation packages for Python"
+        shell: pwsh
         run: |
-          pip install -r requirements/requirements_docs.txt
+#          .venv\Scripts\Activate.ps1
+          python -m pip install -r requirements/requirements_docs.txt
 
       - name: "Kill all servers"
         uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
 
       - name: "Ensure VTK compatibility"
+        shell: pwsh
         run: |
+#          .venv\Scripts\Activate.ps1
           python -m pip uninstall --yes vtk
           python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==${{ env.VTK_OSMESA_VERSION }}
 
       - name: "List installed packages"
-        shell: bash
-        run: pip list
+        shell: pwsh
+        run: |
+#          .venv\Scripts\Activate.ps1
+          python -m pip list
 
       - name: "Build HTML Documentation"
-        shell: bash
+        shell: cmd /D /E:ON /V:OFF /C "CALL "{0}""
+        working-directory: .ci
         run: |
-          # Navigate to the documentation directory
-          cd doc
-
-          # Create a log file for output redirection
-          LOG_FILE="../doc/log.txt"
-          exec > >(tee -a "$LOG_FILE") 2>&1
-
-          echo "Starting documentation build process..."
-
-          # Backup files from source/examples and source/_temp/plugins before cleaning
-          echo "Backing up files before cleaning..."
-          mkdir -p source/_backup
-          [ -d "source/examples/07-python-operators/plugins" ] && cp -r source/examples/07-python-operators/plugins source/_backup/plugins || true
-          [ -d "source/examples/04-advanced/02-volume_averaged_stress" ] && cp -r source/examples/04-advanced/02-volume_averaged_stress source/_backup/04_advanced || true
-          [ -d "source/examples/12-fluids/02-fluids_results" ] && cp -r source/examples/12-fluids/02-fluids_results source/_backup/12_fluids || true
-
-          # Clean previous builds
-          echo "Cleaning previous build artifacts..."
-          rm -rf build source/images/auto-generated source/examples
-          rm -rf source/_temp || true
-
-          # Restore backed-up files
-          echo "Restoring backed-up files..."
-          mkdir -p source/examples/07-python-operators
-          [ -d "source/_backup/plugins" ] && cp -r source/_backup/plugins source/examples/07-python-operators/plugins || true
-          mkdir -p source/examples/04-advanced
-          [ -d "source/_backup/04_advanced" ] && cp -r source/_backup/04_advanced source/examples/04-advanced/02-volume_averaged_stress || true
-          mkdir -p source/examples/12-fluids
-          [ -d "source/_backup/12_fluids" ] && cp -r source/_backup/12_fluids source/examples/12-fluids/02-fluids_results || true
-          rm -rf source/_backup || true
-
-          # Build the HTML documentation
-          echo "Building HTML documentation..."
-          sphinx-build -b html source build/html -v
-
-          # Copy necessary images to the build directory
-          echo "Copying images for patching pyVista issues..."
-          mkdir -p build/html/_images
-          cp -v source/examples/04-advanced/02-volume_averaged_stress/sphx_glr_02-volume_averaged_stress_001.png build/html/_images/ || true
-          cp -v source/examples/12-fluids/02-fluids_results/sphx_glr_02-fluids_results_00*.png build/html/_images/ || true
-          cp -v source/examples/12-fluids/02-fluids_results/sphx_glr_02-fluids_results_thumb.png build/html/_images/ || true
-
-          # Verify the output
-          echo "Documentation build completed. Verifying contents..."
-          ls -R build/html
-
-          # Display the log file content
-          echo "Displaying the log file content..."
-          cat "$LOG_FILE"
+#          ..\.venv\Scripts\activate.bat
+          build_doc.bat > ..\doc\log.txt && type ..\doc\log.txt 2>&1
         timeout-minutes: 60
         env:
           MEILISEARCH_PUBLIC_API_KEY: ${{ secrets.MEILISEARCH_PUBLIC_API_KEY }}
