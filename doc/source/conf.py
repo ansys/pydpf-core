@@ -97,7 +97,6 @@ autoapi_ignore_list = [
 # ones.
 extensions = [
     "enum_tools.autoenum",
-    "nbsphinx",
     "sphinx.ext.autosectionlabel",
     "sphinx.ext.graphviz",
     "sphinx.ext.intersphinx",
