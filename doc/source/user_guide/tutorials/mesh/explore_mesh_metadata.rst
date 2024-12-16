@@ -13,8 +13,8 @@ Explore a mesh metadata
 This tutorial explains how to read a mesh metadata (data about the elements, nodes, faces, region, zone ...)
 before extracting the mesh from a result file.
 
-:jupyter-download-script:`Download tutorial as Python script<read_mesh_metadata>`
-:jupyter-download-notebook:`Download tutorial as Jupyter notebook<read_mesh_metadata>`
+:jupyter-download-script:`Download tutorial as Python script<explore_mesh_metadata>`
+:jupyter-download-notebook:`Download tutorial as Jupyter notebook<explore_mesh_metadata>`
 
 Get the result file
 -------------------
