@@ -118,14 +118,14 @@ For more information see the :ref:`ref_tutorials_get_mesh_from_result_file` tuto
 First approach
 --------------
 
-Use the |split_mesh| operator to split an already existing |MeshedRegion| based on a property.
-Currently you can split a mesh by material or eltype.
+This approach consist of splitting an already existing |MeshedRegion| based on a given property. To accomplish
+that goal, you must use the |split_mesh| operator. Currently you can split a mesh by material or eltype.
 
-When you split a |MeshedRegion| the split parts are stored in the DPF collection called |MeshesContainer|.
-Th |MeshesContainer| have a two different labels for each |MeshedRegion|:
+The split mesh parts are stored in the DPF collection called |MeshesContainer|, where they are ordered by *labels*.
+When you use the |split_mesh| operator, each split mesh part has two different *labels*:
 
-- A "body" label;
-- A label with the property used to split the mesh. Here, the "mat" label.
+- A "body" *label*;
+- A *label* with the property used to split the mesh.
 
 Here, we split the |MeshedRegion| by material.
 
@@ -175,14 +175,23 @@ Here, we split the |MeshedRegion| by material.
 Second approach
 ---------------
 
-First, use the |split_on_property_type| operator to split the mesh scoping. This operator splits a |Scoping| on given
-properties (elshape and/or material, since 2025R1 it supports any scalar property field name contained in the mesh
-property fields) and returns a |ScopingsContainer| with those split scopings.
+This approach consists of splitting the |Scoping| of a given |MeshedRegion| based on a given property and then creating
+a new |MeshedRegion| for each split |Scoping|.
 
-Finally, create the split |MeshedRegion| objects with the |from_scopings| operator. The split parts are stored
-in the DPF collection called |MeshesContainer|.
+To accomplish this goal you must follow these steps:
 
-Here, we split the mesh scoping by material.
+#. Use the |split_on_property_type| operator to split the mesh |Scoping|.
+    This operator splits a |Scoping| on a given property (elshape and/or material, since 2025R1 it supports any
+    scalar property field name contained in the mesh property fields). The split |Scoping| is stored in the DPF
+    collection called |ScopingsContainer|, where they are ordered by *labels*. In this case, you get *labels* with
+    the property used to split the |Scoping|.
+
+#. Create the split |MeshedRegion| objects using the |from_scopings| operator for the |Scoping| of interest.
+    The split parts are stored in the DPF collection called |MeshesContainer| where they are also ordered by *labels*.
+    These *labels* are corresponding to the "mat" labels gotten with the |split_on_property_type| operator.
+
+Here, we split the mesh scoping by material and create a |MeshedRegion| for all the split |Scoping| in the
+|ScopingsContainer|.
 
 .. tab-set::
 
