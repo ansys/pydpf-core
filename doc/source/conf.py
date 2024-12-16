@@ -258,7 +258,7 @@ html_theme_options = {
 
 # Configuration for Sphinx autoapi
 suppress_warnings = [
-    "autoapi.python_import_resolution",
+    "autoapi.python_import_resolution", # Todo: remove suppression of this warning in the future
     "design.grid",
     "config.cache",
     "design.fa-build",
