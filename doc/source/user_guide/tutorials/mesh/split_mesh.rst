@@ -122,6 +122,10 @@ Use the |split_mesh| operator to split an already existing |MeshedRegion| based 
 Currently you can split a mesh by material or eltype.
 
 When you split a |MeshedRegion| the split parts are stored in the DPF collection called |MeshesContainer|.
+Th |MeshesContainer| have a two different labels for each |MeshedRegion|:
+
+- A "body" label;
+- A label with the property used to split the mesh. Here, the "mat" label.
 
 Here, we split the |MeshedRegion| by material.
 
