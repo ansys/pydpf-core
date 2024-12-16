@@ -7,6 +7,8 @@ Explore a mesh metadata
 :bdg-lsdyna:`LSDYNA` :bdg-fluent:`Fluent` :bdg-cfx:`CFX`
 
 .. include:: ../../../links_and_refs.rst
+.. |PropertyField| replace:: :class:`PropertyField <ansys.dpf.core.property_field.PropertyField>`
+.. |StringField| replace:: :class:`StringField <ansys.dpf.core.string_field.StringField>`
 
 This tutorial explains how to read a mesh metadata (data about the elements, nodes, faces, region, zone ...)
 before extracting the mesh from a result file.
@@ -92,13 +94,15 @@ access the analysis results metadata and to instanciate results providers by ope
             # Create the Model
             model_4 = dpf.Model(data_sources=result_file_path_4)
 
-Read the mesh metadata
-----------------------
+Explore the mesh metadata
+-------------------------
 
 You can access the mesh metadata with the |MeshInfo| object. It reads the metadata information before extracting
-the MeshedRegion from the result file.
+the |MeshedRegion| from the result file.
 
-The mesh metadata information includes :
+The mesh metadata information is stored in a |PropertyField| or in a |StringField|. They contain information
+that describes the mesh composition and their data is mapped to the entity they are defined at.
+The mesh metadata information information can be:
 
 - Properties;
 - Parts;
@@ -108,7 +112,7 @@ The mesh metadata information includes :
 - Number of nodes and elements;
 - Elements types.
 
-Get the the mesh metadata information and print the available ones.
+You can access which metadata information is available for a given result file.
 
 .. tab-set::
 
@@ -142,7 +146,7 @@ Get the the mesh metadata information and print the available ones.
             # Print the mesh metadata information
             print(mesh_info_4)
 
-You can extract each of those mesh information by manipulating the |MeshInfo| object properties.
+You can also extract each of those mesh metadata information by manipulating the |MeshInfo| object properties.
 
 For example, we can check the part names (for the LSDYNA result file) or the cell zone names
 (for the Fluent or CFX result files):
