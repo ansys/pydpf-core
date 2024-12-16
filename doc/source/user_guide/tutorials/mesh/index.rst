@@ -31,13 +31,12 @@ These tutorials explains how to explore different attributes of a given mesh wit
        +++
        :bdg-mapdl:`MAPDL` :bdg-lsdyna:`LSDYNA` :bdg-fluent:`Fluent` :bdg-cfx:`CFX`
 
-    .. grid-item-card:: Read a mesh metadata
-       :link: ref_tutorials_read_mesh_metadata
+    .. grid-item-card:: Explore a mesh metadata
+       :link: ref_tutorials_explore_mesh_metadata
        :link-type: ref
        :text-align: center
 
-       This tutorial explains how to read a mesh metadata
-       (data about the elements, nodes, faces, region, zone ...) before
+       This tutorial explains how to explore a mesh metadata before
        extracting the mesh from a result file.
 
        +++
@@ -81,7 +80,7 @@ These tutorials explains how to explore different attributes of a given mesh wit
 
     create_a_mesh_from_scratch.rst
     get_mesh_from_result_file.rst
-    read_mesh_metadata.rst
+    explore_mesh_metadata.rst
     explore_mesh.rst
     extract_mesh_in_split_parts.rst
     split_mesh.rst

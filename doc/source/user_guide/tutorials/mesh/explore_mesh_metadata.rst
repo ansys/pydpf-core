@@ -1,8 +1,8 @@
-.. _ref_tutorials_read_mesh_metadata:
+.. _ref_tutorials_explore_mesh_metadata:
 
-====================
-Read a mesh metadata
-====================
+=======================
+Explore a mesh metadata
+=======================
 
 :bdg-lsdyna:`LSDYNA` :bdg-fluent:`Fluent` :bdg-cfx:`CFX`
 
