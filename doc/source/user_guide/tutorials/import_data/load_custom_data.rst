@@ -36,8 +36,8 @@ such as the |Field| and their use check the :ref:`ref_tutorials_data_structures`
 Define the data
 ---------------
 
-In this tutorial, we create different Fields from data stored in Python lists. These data arrays are
-reshaped to respect the |Field| definition.
+In this tutorial, we create different Fields from data stored in Python lists. When attributed to a |Field|, these
+data arrays are reshaped to respect the |Field| definition.
 
 Create the python lists with the data to be *set* to the Fields.
 
@@ -78,7 +78,7 @@ A |Field| must always be given:
 
 - A |location| and a |Scoping|.
 
-  Here, we create Fields in the default *'Nodal'* |location|. Thus each entity (here, the nodes) must
+  Here, we create Fields in the default *'Nodal'* |location|. Thus, each entity (here, the nodes) must
   have a |Scoping| id, that can be defined in a random or in a numerical order:
 
   - If you want to *set* a data array to the |Field|, you must previously set the |Scoping| ids using the |Field.scoping| method.
@@ -94,7 +94,7 @@ First, import the PyDPF-Core library.
     # Import the ``ansys.dpf.core`` module
     from ansys.dpf import core as dpf
 
-Then, create the different Fields. In this tutorial we explain how to create the following Fields:
+Then, create the different Fields. In this tutorial, we explain how to create the following Fields:
 
 - :ref:`Scalar Field<ref_scalar_field_creation>`;
 - :ref:`Vector Field<ref_vector_field_creation>`;
@@ -125,14 +125,14 @@ You must ensure that this |Field| has a *'scalar'* |nature| and an *'1D'* |dimen
 Create the |Field| by an instance of this object
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-For this approach, the default |nature| of the |Field| object is *'vector'*. You can modify it directly with
+For this approach, the default |nature| of the |Field| object is *'vector'*. You can modify it directly with the
 *'nature'* argument or with the |Field.dimensionality| method.
 
 Create the scalar |Field| and use the *'nature'* argument.
 
 .. jupyter-execute::
 
-    # Instanciate the Fields
+    # Instanciate the Field
     field_11 = dpf.Field(nentities=num_entities_1, nature=dpf.common.natures.scalar)
 
     # Set the scoping ids
@@ -145,7 +145,7 @@ Create the scalar |Field| and use the |Field.dimensionality| method.
 
 .. jupyter-execute::
 
-    # Instanciate the Fields
+    # Instanciate the Field
     field_12 = dpf.Field(nentities=num_entities_1)
 
     # Use the Field.dimensionality method
