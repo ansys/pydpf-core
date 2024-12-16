@@ -13,7 +13,7 @@ with DPF operators. The ability to use scripting to create any DPF entity means
 that you are not dependent on result files and can connect the DPF environment
 with any Python tool.
 
-Here, we create a parallel piped mesh made of linear hexa elements.
+In this tutorial, we create a parallel piped mesh made of linear hexa elements.
 
 :jupyter-download-script:`Download tutorial as Python script<create_a_mesh_from_scratch>`
 :jupyter-download-notebook:`Download tutorial as Jupyter notebook<create_a_mesh_from_scratch>`
@@ -51,7 +51,7 @@ Define the connectivity function
 --------------------------------
 
 To create a mesh you must define the nodes connectivity. This means to define
-the nodes ids connected to each node.
+the nodes ids connected to each element.
 
 Here, we create a function that will find this connectivity.
 
