@@ -9,6 +9,7 @@ Explore a mesh
 .. include:: ../../../links_and_refs.rst
 .. |PropertyField| replace:: :class:`PropertyField <ansys.dpf.core.property_field.PropertyField>`
 .. |element_types| replace:: :class:`list of available element types in a DPF mesh<ansys.dpf.core.elements.element_types>`
+.. |StringField| replace:: :class:`StringField <ansys.dpf.core.string_field.StringField>`
 
 This tutorial explains how to access a mesh data and metadata so it can be manipulated.
 
@@ -111,14 +112,14 @@ The mesh data includes :
 
 - Unit;
 - Nodes, elements and faces;
-- Named selections.
+- Named selections: .
 
-Check all the types of data you can get from a mesh at |MeshedRegion|.
-
-When instantiating nodes, elements, faces and named selections you get the correspondent DPF objects:
+When instantiating nodes, elements, faces and named selections you get the corresponding DPF objects:
 |Nodes|, |Elements|, |Faces| and |Scoping|.
 
-Here, we get the mesh nodes.
+For more information of other types of data you can get from a mesh, see the API reference of the |MeshedRegion| class.
+
+In this tutorial, we explore the data about the mesh nodes.
 
 .. tab-set::
 
@@ -179,7 +180,9 @@ Explore the mesh metadata
 
 You can access the mesh metadata by manipulating the |MeshedRegion| object properties.
 
-You can check which ones are available.
+The mesh metadata information describes the mesh composition.
+
+You can access which metadata information is available for a given result file.
 
 .. tab-set::
 
@@ -228,7 +231,9 @@ You can also chose which property you want to extract.
 When extracting the properties you get a |PropertyField| with that information. Their data is mapped to
 the entity they are defined at.
 
-The element type is given as a number. Check the |element_types| to find the
+Here, we extract the element types for the mesh elements.
+
+The element type is given as a number. See the |element_types| to find the
 corresponding element name.
 
 .. tab-set::
@@ -273,3 +278,6 @@ corresponding element name.
 
             # Print the element types by element
             print(el_types_4)
+
+For more information about how to explore a mesh metadata before extracting it from a result file, see the
+:ref:`<ref_tutorials_explore_mesh_metadata>`tutorial.
