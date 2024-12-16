@@ -1,8 +1,8 @@
 .. _ref_tutorials_import_result_file:
 
-=========================
-Import result file in DPF
-=========================
+===========================
+Import a result file in DPF
+===========================
 
 :bdg-mapdl:`MAPDL` :bdg-lsdyna:`LS-DYNA` :bdg-fluent:`FLUENT` :bdg-cfx:`CFX`
 
@@ -51,6 +51,8 @@ the |Examples| module.
             # Define the modal superposition harmonic analysis (.mode, .rfrq and .rst) result files paths
             result_file_path_12 = examples.download_msup_files_to_dict()
 
+
+            # Print the result files paths
             print("Result file path 11:", "\n",result_file_path_11, "\n")
             print("Result files paths 12:", "\n",result_file_path_12, "\n")
 
@@ -71,6 +73,7 @@ the |Examples| module.
             # Define the .binout result file path
             result_file_path_22 = examples.download_binout_matsum()
 
+            # Print the result files paths
             print("Result files paths 21:", "\n",result_file_path_21, "\n")
             print("Result file path 22:", "\n",result_file_path_22, "\n")
 
@@ -91,6 +94,7 @@ the |Examples| module.
             # Define the CFF .cas.h5/.dat.h5 result files paths
             result_file_path_32 = examples.download_fluent_axial_comp()
 
+            # Print the result files paths
             print("Result file path 31:", "\n",result_file_path_31, "\n")
             print("Result files paths 32:", "\n",result_file_path_32, "\n")
 
@@ -111,6 +115,7 @@ the |Examples| module.
             # Define the CFF .cas.cff/.dat.cff result files paths
             result_file_path_42 = examples.download_cfx_heating_coil()
 
+            # Print the result files paths
             print("Result file path 41:", "\n",result_file_path_41, "\n")
             print("Result files paths 42:", "\n",result_file_path_42, "\n")
 
