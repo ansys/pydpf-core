@@ -20,7 +20,7 @@ PyDPF-Core API and data structures.
        :link-type: ref
        :text-align: center
 
-       This tutorial demonstrate how to do some basic
+       This tutorial explains how to do some basic
        mathematical operations with PyDPF-Core.
 
 .. toctree::
