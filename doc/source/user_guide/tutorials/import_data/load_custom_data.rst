@@ -36,8 +36,7 @@ such as the |Field| and their use check the :ref:`ref_tutorials_data_structures`
 Define the data
 ---------------
 
-In this tutorial, we create different Fields from data stored in Python lists. When attributed to a |Field|, these
-data arrays are reshaped to respect the |Field| definition.
+In this tutorial, we create different Fields from data stored in Python lists.
 
 Create the python lists with the data to be *set* to the Fields.
 
@@ -74,18 +73,29 @@ Create the python lists with the data to be *appended* to the Fields.
 Create the Fields
 -----------------
 
-A |Field| must always be given:
+In this tutorial, we explain how to create the following Fields:
 
-- A |location| and a |Scoping|.
+- Scalar Field;
+- Vector Field;
+- Matrix Field.
 
-  Here, we create Fields in the default *'Nodal'* |location|. Thus, each entity (here, the nodes) must
-  have a |Scoping| id, that can be defined in a random or in a numerical order:
+.. note::
 
-  - If you want to *set* a data array to the |Field|, you must previously set the |Scoping| ids using the |Field.scoping| method.
-  - If you want to *append* an entity with a data array to the |Field|, you don't need to previously set the |Scoping| ids.
+    A |Field| must always be given:
 
-- A |nature| and a |dimensionality| (number of data components for each entity). They must respect the type and size of the
-  data to be stored in the |Field|.
+    - A |location| and a |Scoping|.
+
+      Here, we create Fields in the default *'Nodal'* |location|. Thus, each entity (here, the nodes) must
+      have a |Scoping| id, that can be defined in a random or in a numerical order:
+
+      - If you want to *set* a data array to the |Field|, you must previously set the |Scoping| ids using the |Field.scoping| method.
+      - If you want to *append* an entity with a data array to the |Field|, you don't need to previously set the |Scoping| ids.
+
+    - A |nature| and a |dimensionality| (number of data components for each entity). They must respect the type and size of the
+      data to be stored in the |Field|.
+
+Import the PyDPF-Core library
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 First, import the PyDPF-Core library.
 
@@ -94,345 +104,364 @@ First, import the PyDPF-Core library.
     # Import the ``ansys.dpf.core`` module
     from ansys.dpf import core as dpf
 
-Then, create the different Fields. In this tutorial, we explain how to create the following Fields:
+Define the Fields sizing
+^^^^^^^^^^^^^^^^^^^^^^^^
 
-- :ref:`Scalar Field<ref_scalar_field_creation>`;
-- :ref:`Vector Field<ref_vector_field_creation>`;
-- :ref:`Matrix Field<ref_matrix_field_creation>`.
+The second step consists in defining the Fields dimensions.
 
-.. _ref_scalar_field_creation:
+.. tab-set::
 
-Scalar fields
-^^^^^^^^^^^^^
+    .. tab-item:: Scalar fields
 
-Here, we create one |Field| with 6 scalar. Thus, 6 entities with one |Scoping| id each.
+        Here, we create one |Field| with 6 scalar. Thus, 6 entities with one |Scoping| id each.
 
-.. jupyter-execute::
+        .. jupyter-execute::
 
-    # Define the number of entities
-    num_entities_1 = 6
+            # Define the number of entities
+            num_entities_1 = 6
 
-You can create a scalar |Field| using three approaches:
+        You must ensure that this |Field| has a *'scalar'* |nature| and an *'1D'* |dimensionality|.
 
-- :ref:`Instantiating the Field object<ref_scalar_field_instance>`;
-- :ref:`Using the create_scalar_field() function from the fields_factory module<ref_scalar_field_factory_create_scalar_field>`.
-- :ref:`Using the field_from_array() function from the fields_factory module<ref_scalar_field_factory_field_from_array>`.
+    .. tab-item:: Vector fields
 
-You must ensure that this |Field| has a *'scalar'* |nature| and an *'1D'* |dimensionality|.
+        Here, we create:
 
-.. _ref_scalar_field_instance:
+        - One |Field| with 2 vectors (thus, 2 entities) of 3 components each (3D vector |Field|);
+        - One |Field| with 2 vectors (thus, 2 entities) of 5 components each (5D vector |Field|);
 
-Create the |Field| by an instance of this object
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        .. jupyter-execute::
 
-For this approach, the default |nature| of the |Field| object is *'vector'*. You can modify it directly with the
-*'nature'* argument or with the |Field.dimensionality| method.
+            # Define the number of entities
+            num_entities_2 = 2
 
-Create the scalar |Field| and use the *'nature'* argument.
+        You must ensure that these Fields have a *'vector'* |nature| and the corresponding |dimensionality|
+        (*'3D'* and *'5D'*).
 
-.. jupyter-execute::
+    .. tab-item:: Matrix fields
 
-    # Instanciate the Field
-    field_11 = dpf.Field(nentities=num_entities_1, nature=dpf.common.natures.scalar)
+        Here, we create:
 
-    # Set the scoping ids
-    field_11.scoping.ids = range(num_entities_1)
+        - One Field with 1 matrix (thus, 1 entity) of 2 lines and 2 columns;
+        - Two Fields with 1 matrix (thus, 1 entity) of 3 lines and 3 columns (tensor).
 
-    # Print the Field
-    print("Scalar Field: ", '\n',field_11, '\n')
+        .. jupyter-execute::
 
-Create the scalar |Field| and use the |Field.dimensionality| method.
+            # Define the number of entities
+            num_entities_3 = 1
 
-.. jupyter-execute::
+        You must ensure that these Fields have a *'matrix'* |nature| and the corresponding |dimensionality|.
 
-    # Instanciate the Field
-    field_12 = dpf.Field(nentities=num_entities_1)
+Create the Fields objects
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    # Use the Field.dimensionality method
-    field_12.dimensionality = dpf.Dimensionality([1])
+You can create the Fields using two approaches:
 
-    # Set the scoping ids
-    field_12.scoping.ids = range(num_entities_1)
+- :ref:`Instantianting the Field object<ref_create_field_instance>`;
+- :ref:`Using the fields_factory module<ref_create_field_fields_factory>`.
 
-    # Print the Field
-    print("Scalar Field : ", '\n',field_12, '\n')
+.. _ref_create_field_instance:
 
-.. _ref_scalar_field_factory_create_scalar_field:
+Create a |Field| by an instance of this object
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Create the |Field| using the |create_scalar_field| function
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. tab-set::
 
-For this approach, the default |nature| of the |Field| object is *'scalar'* and the default |dimensionality| is *'1D'*.
-Thus, you just have to use the |create_scalar_field| function to create a scalar |Field|.
+    .. tab-item:: Scalar fields
 
-.. jupyter-execute::
+        .. jupyter-execute::
 
-    # Create the scalar Field
-    field_13 = dpf.fields_factory.create_scalar_field(num_entities=num_entities_1)
+            # Define the number of entities
+            num_entities_1 = 6
 
-    # Set the scoping ids
-    field_13.scoping.ids = range(num_entities_1)
+        You must ensure that this |Field| has a *'scalar'* |nature| and an *'1D'* |dimensionality|.
 
-    # Print the Field
-    print("Scalar Field: ", '\n',field_13, '\n')
+        For this approach, the default |nature| of the |Field| object is *'vector'*. You can modify it directly with the
+        *'nature'* argument or with the |Field.dimensionality| method.
 
-.. _ref_scalar_field_factory_field_from_array:
+        Create the scalar |Field| and use the *'nature'* argument.
 
-Create the |Field| using the |field_from_array| function
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        .. jupyter-execute::
 
-Different from the other approaches, where you set or append the data after creating the |Field|, here, the data is
-used as an input of the |field_from_array| function.
+            # Instanciate the Field
+            field_11 = dpf.Field(nentities=num_entities_1, nature=dpf.common.natures.scalar)
 
-This function gets an Numpy array or Python list of either:
+            # Set the scoping ids
+            field_11.scoping.ids = range(num_entities_1)
 
-- 1 dimension (one array). In this case, you get directly a scalar |Field|;
-- 2 dimensions (one array containing multiple arrays with 3 components each). In the is case, you get a 3D vector |Field|.
-  Thus, you have to change the |Field| |dimensionality| using the |Field.dimensionality| method.
+            # Print the Field
+            print("Scalar Field: ", '\n',field_11, '\n')
 
-Create the scalar Field with an 1 dimensional list.
+        Create the scalar |Field| and use the |Field.dimensionality| method.
 
-.. jupyter-execute::
+        .. jupyter-execute::
 
-    # Use the field_from_array function
-    field_14 = dpf.fields_factory.field_from_array(arr=data_1)
+            # Instanciate the Field
+            field_12 = dpf.Field(nentities=num_entities_1)
 
-    # Set the scoping ids
-    field_14.scoping.ids = range(num_entities_1)
+            # Use the Field.dimensionality method
+            field_12.dimensionality = dpf.Dimensionality([1])
 
-    # Print the Field
-    print("Scalar Field: ", '\n',field_14, '\n')
+            # Set the scoping ids
+            field_12.scoping.ids = range(num_entities_1)
 
-Create the scalar Field with a 2 dimensional list.
+            # Print the Field
+            print("Scalar Field : ", '\n',field_12, '\n')
 
-.. jupyter-execute::
+    .. tab-item:: Vector fields
 
-    # Use the field_from_array function
-    field_15 = dpf.fields_factory.field_from_array(arr=data_2)
+        Here, we create:
 
-    # Use the |Field.dimensionality| method
-    field_15.dimensionality = dpf.Dimensionality([1])
+        - One |Field| with 2 vectors (thus, 2 entities) of 3 components each (3D vector |Field|);
+        - One |Field| with 2 vectors (thus, 2 entities) of 5 components each (5D vector |Field|);
 
-    # Set the scoping ids
-    field_15.scoping.ids = range(num_entities_1)
+        .. jupyter-execute::
 
-    # Print the Field
-    print("Scalar Field (b): ", '\n',field_15, '\n')
+            # Define the number of entities
+            num_entities_2 = 2
 
-.. _ref_vector_field_creation:
+        You must ensure that these Fields have a *'vector'* |nature| and the corresponding |dimensionality| (*'3D'* and *'5D'*).
 
-Vector fields
-^^^^^^^^^^^^^
+        For this approach, the default |nature| is *'vector'* and the default |dimensionality| is *'3D'*. So for the second vector
+        |Field| you must set a *'5D'* |dimensionality| using the |Field.dimensionality| method.
 
-Here, we create:
+        Create the *'3D'* vector Field.
 
-- One |Field| with 2 vectors (thus, 2 entities) of 3 components each (3D vector |Field|);
-- One |Field| with 2 vectors (thus, 2 entities) of 5 components each (5D vector |Field|);
+        .. jupyter-execute::
 
-.. jupyter-execute::
+            # Instantiate the Field
+            field_21 = dpf.Field(nentities=num_entities_2)
 
-    # Define the number of entities
-    num_entities_2 = 2
+            # Set the scoping ids
+            field_21.scoping.ids = range(num_entities_2)
 
-You can create a vector |Field| using three approaches:
+            # Print the Field
+            print("3D vector Field : ", '\n',field_21, '\n')
 
-- :ref:`Instantiating the Field object<ref_vector_field_instance>`;
-- :ref:`Using the create_vector_field() function from the fields_factory module<ref_vector_field_factory_create_vector_field>`.
-- :ref:`Using the field_from_array() function from the fields_factory module<ref_vector_field_factory_field_from_array>`.
+        Create the *'5D'* vector Field.
 
-Nevertheless, we also have the :ref:`create_3d_vector_field() function from the fields_factory module<ref_vector_field_factory_create_3d_vector_field>`
-that can be used specifically to create a 3D vector |Field| (a vector |Field| with 3 components for each entity).
+        .. jupyter-execute::
 
-You must ensure that these Fields have a *'vector'* |nature| and the corresponding |dimensionality| (*'3D'* and *'5D'*).
+            # Instantiate the Field
+            field_31 = dpf.Field(nentities=num_entities_2)
 
-.. _ref_vector_field_instance:
+            # Use the Field.dimensionality method
+            field_31.dimensionality = dpf.Dimensionality([5])
 
-Create the |Field| by an instance of this object
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            # Set the scoping ids
+            field_31.scoping.ids = range(num_entities_2)
 
-For this approach, the default |nature| is *'vector'* and the default |dimensionality| is *'3D'*. So for the second vector
-|Field| you must set a *'5D'* |dimensionality| using the |Field.dimensionality| method.
+            # Print the Field
+            print("5D vector Field (5D): ", '\n',field_31, '\n')
 
-Create the *'3D'* vector Field.
+.. _ref_create_field_fields_factory:
 
-.. jupyter-execute::
+Create a |Field| using the |fields_factory| module
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    # Instantiate the Field
-    field_21 = dpf.Field(nentities=num_entities_2)
+.. tab-set::
 
-    # Set the scoping ids
-    field_21.scoping.ids = range(num_entities_2)
+    .. tab-item:: Scalar fields
 
-    # Print the Field
-    print("3D vector Field : ", '\n',field_21, '\n')
+        You can use two functions from the |fields_factory| module to create a scalar |Field|:
 
-Create the *'5D'* vector Field.
+        - The |create_scalar_field| function;
+        - The |field_from_array| function.
 
-.. jupyter-execute::
+        **Create the Field using the create_scalar_field function**
 
-    # Instantiate the Field
-    field_31 = dpf.Field(nentities=num_entities_2)
+        For this approach, the default |nature| of the |Field| object is *'scalar'* and the default |dimensionality| is *'1D'*.
+        Thus, you just have to use the |create_scalar_field| function to create a scalar |Field|.
 
-    # Use the Field.dimensionality method
-    field_31.dimensionality = dpf.Dimensionality([5])
+        .. jupyter-execute::
 
-    # Set the scoping ids
-    field_31.scoping.ids = range(num_entities_2)
+            # Create the scalar Field
+            field_13 = dpf.fields_factory.create_scalar_field(num_entities=num_entities_1)
 
-    # Print the Field
-    print("5D vector Field (5D): ", '\n',field_31, '\n')
+            # Set the scoping ids
+            field_13.scoping.ids = range(num_entities_1)
 
-.. _ref_vector_field_factory_create_vector_field:
+            # Print the Field
+            print("Scalar Field: ", '\n',field_13, '\n')
 
-Create the |Field| using the |create_vector_field| function
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        **Create the Field using the field_from_array function**
 
-For this approach, the default |nature| is *'vector'*. To define the |dimensionality| you must use the *'num_comp'* argument.
+        Different from the other approaches, where you set or append the data after creating the |Field|, here, the data is
+        used as an input of the |field_from_array| function.
 
-Create the *'3D'* vector Field.
+        This function gets an Numpy array or Python list of either:
 
-.. jupyter-execute::
+        - 1 dimension (one array). In this case, you get directly a scalar |Field|;
+        - 2 dimensions (one array containing multiple arrays with 3 components each). In the is case, you get a 3D vector |Field|.
+          Thus, you have to change the |Field| |dimensionality| using the |Field.dimensionality| method.
 
-    # Use the create_vector_field function
-    field_22 = dpf.fields_factory.create_vector_field(num_entities=num_entities_2, num_comp=3)
+        Create the scalar Field with an 1 dimensional list.
 
-    # Set the scoping ids
-    field_22.scoping.ids = range(num_entities_2)
+        .. jupyter-execute::
 
-    # Print the Field
-    print("3D vector Field : ", '\n',field_22, '\n')
+            # Use the field_from_array function
+            field_14 = dpf.fields_factory.field_from_array(arr=data_1)
 
-Create the *'5D'* vector Field.
+            # Set the scoping ids
+            field_14.scoping.ids = range(num_entities_1)
 
-.. jupyter-execute::
+            # Print the Field
+            print("Scalar Field: ", '\n',field_14, '\n')
 
-    # Use the create_vector_field function
-    field_32 = dpf.fields_factory.create_vector_field(num_entities=num_entities_2, num_comp=5)
+        Create the scalar Field with a 2 dimensional list.
 
-    # Set the scoping ids
-    field_32.scoping.ids = range(num_entities_2)
+        .. jupyter-execute::
 
-    # Print the Field
-    print("5D vector Field : ", '\n',field_32, '\n')
+            # Use the field_from_array function
+            field_15 = dpf.fields_factory.field_from_array(arr=data_2)
 
-.. _ref_vector_field_factory_field_from_array:
+            # Use the |Field.dimensionality| method
+            field_15.dimensionality = dpf.Dimensionality([1])
 
-Create the |Field| using the |field_from_array| function
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            # Set the scoping ids
+            field_15.scoping.ids = range(num_entities_1)
 
-Different from the other approaches, where you set or append the data after creating the |Field|, here, the data is
-used as an input of the |field_from_array| function.
+            # Print the Field
+            print("Scalar Field (b): ", '\n',field_15, '\n')
 
-This function gets an Numpy array or Python list of either:
 
-- 1 dimension (one array). In this case, you have to change the |Field| |dimensionality| using the
-  |Field.dimensionality| method.
-- 2 dimensions (one array containing multiple arrays with 3 components). In the is case, you get a 3D vector |Field|.
+    .. tab-item:: Vector fields
 
-.. note::
+        You can use three functions from the |fields_factory| module to create a vector |Field|:
 
-    The |Field| must always assure a homogeneous shape. The shape is a tuple with the number of elementary data and the
-    number of components.
+        - The |create_vector_field| function;
+        - The |create_3d_vector_field| function (Specifically to create a 3D vector |Field|
+          (a vector |Field| with 3 components for each entity));
+        - The |field_from_array| function.
 
-    So, for the *'5D* vector |field| we would want a shape of (10,5). Nevertheless, the 2 dimensions data vector we
-    defined ("data_5") has a elementary data count of 6 (2*3). Thus, we cannot define the *'5D'* vector |Field| because it would
-    have a (6,5) shape.
+        **Create the Field using the create_vector_field() function**
 
-Create the *'3D'* vector Field with an 1 dimensional list.
+        For this approach, the default |nature| is *'vector'*. To define the |dimensionality| you must use the *'num_comp'* argument.
 
-.. jupyter-execute::
+        Create the *'3D'* vector Field.
 
-    # Use the field_from_array function
-    field_23 = dpf.fields_factory.field_from_array(arr=data_3)
+        .. jupyter-execute::
 
-    # Use the Field.dimensionality method
-    field_23.dimensionality = dpf.Dimensionality([3])
+            # Use the create_vector_field function
+            field_22 = dpf.fields_factory.create_vector_field(num_entities=num_entities_2, num_comp=3)
 
-    # Set the scoping ids
-    field_23.scoping.ids = range(num_entities_2)
+            # Set the scoping ids
+            field_22.scoping.ids = range(num_entities_2)
 
-    # Print the Field
-    print("3D vector Field: ", '\n',field_23, '\n')
+            # Print the Field
+            print("3D vector Field : ", '\n',field_22, '\n')
 
-Create the *'3D'* vector Field and give a 2 dimensional list.
+        Create the *'5D'* vector Field.
 
-.. jupyter-execute::
+        .. jupyter-execute::
 
-    # Use the field_from_array function
-    field_24 = dpf.fields_factory.field_from_array(arr=data_5)
+            # Use the create_vector_field function
+            field_32 = dpf.fields_factory.create_vector_field(num_entities=num_entities_2, num_comp=5)
 
-    # Set the scoping ids
-    field_24.scoping.ids = range(num_entities_2)
+            # Set the scoping ids
+            field_32.scoping.ids = range(num_entities_2)
 
-    # Print the Field
-    print("3D vector Field: ", '\n',field_24, '\n')
+            # Print the Field
+            print("5D vector Field : ", '\n',field_32, '\n')
 
-.. _ref_vector_field_factory_create_3d_vector_field:
+        **Create a 3d vector Field using the create_3d_vector_field() function**
 
-Create a 3d vector |Field| using the |create_3d_vector_field| function
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        For this approach, the default |nature| is *'vector'* and the |dimensionality| is *'3D'*. Thus, you just
+        have to use the |create_3d_vector_field| function to create a 3D vector |Field|.
 
-For this approach, the default |nature| is *'vector'* and the |dimensionality| is *'3D'*. Thus, you just
-have to use the |create_3d_vector_field| function to create a 3D vector |Field|.
+        .. jupyter-execute::
 
-.. jupyter-execute::
+            # Create the 3d vector Field
+            field_25 = dpf.fields_factory.create_3d_vector_field(num_entities=num_entities_2)
+            # Set the scoping ids
+            field_25.scoping.ids = range(num_entities_2)
 
-    # Create the 3d vector Field
-    field_25 = dpf.fields_factory.create_3d_vector_field(num_entities=num_entities_2)
-    # Set the scoping ids
-    field_25.scoping.ids = range(num_entities_2)
+            # Print the Field
+            print("Vector Field (3D): ", '\n',field_25, '\n')
 
-    # Print the Field
-    print("Vector Field (3D): ", '\n',field_25, '\n')
+        **Create the Field using the field_from_array() function**
 
-.. _ref_matrix_field_creation:
+        Different from the other approaches, where you set or append the data after creating the |Field|, here, the data is
+        used as an input of the |field_from_array| function.
 
-Matrix fields
-^^^^^^^^^^^^^
+        This function gets an Numpy array or Python list of either:
 
-Here, we create:
+        - 1 dimension (one array). In this case, you have to change the |Field| |dimensionality| using the
+          |Field.dimensionality| method.
+        - 2 dimensions (one array containing multiple arrays with 3 components). In the is case, you get a 3D vector |Field|.
 
-- One Field with 1 matrix (thus, 1 entity) of 2 lines and 2 columns;
-- Two Fields with 1 matrix (thus, 1 entity) of 3 lines and 3 columns (tensor).
+        .. note::
 
-.. jupyter-execute::
+            The |Field| must always assure a homogeneous shape. The shape is a tuple with the number of elementary data and the
+            number of components.
 
-    # Define the number of entities
-    num_entities_3 = 1
+            So, for the *'5D* vector |field| we would want a shape of (10,5). Nevertheless, the 2 dimensions data vector we
+            defined ("data_5") has a elementary data count of 6 (2*3). Thus, we cannot define the *'5D'* vector |Field| because it would
+            have a (6,5) shape.
 
-You can create a matrix |Field| using the |create_matrix_field| function from the |fields_factory| module.
+        Create the *'3D'* vector Field with an 1 dimensional list.
 
-The default |nature| here is *'matrix'*. Thus, you only have to define the matrix |dimensionality| using the
-*'num_lines'* and *'num_col'* arguments.
+        .. jupyter-execute::
 
-Create the (2,2) matrix Field.
+            # Use the field_from_array function
+            field_23 = dpf.fields_factory.field_from_array(arr=data_3)
 
-.. jupyter-execute::
+            # Use the Field.dimensionality method
+            field_23.dimensionality = dpf.Dimensionality([3])
 
-    # Use the create_matrix_field function
-    field_41 = dpf.fields_factory.create_matrix_field(num_entities=num_entities_3, num_lines=2, num_col=2)
+            # Set the scoping ids
+            field_23.scoping.ids = range(num_entities_2)
 
-    # Set the scoping ids
-    field_41.scoping.ids = range(num_entities_3)
+            # Print the Field
+            print("3D vector Field: ", '\n',field_23, '\n')
 
-    # Print the Field
-    print("Matrix Field (2,2) : ", '\n',field_41, '\n')
+        Create the *'3D'* vector Field and give a 2 dimensional list.
 
-Create the (3,3) matrix Fields.
+        .. jupyter-execute::
 
-.. jupyter-execute::
+            # Use the field_from_array function
+            field_24 = dpf.fields_factory.field_from_array(arr=data_5)
 
-    # Use the create_matrix_field function
-    field_51 = dpf.fields_factory.create_matrix_field(num_entities=num_entities_3, num_lines=3, num_col=3)
-    field_52 = dpf.fields_factory.create_matrix_field(num_entities=num_entities_3, num_lines=3, num_col=3)
+            # Set the scoping ids
+            field_24.scoping.ids = range(num_entities_2)
 
-    # Set the scoping ids
-    field_51.scoping.ids = range(num_entities_3)
-    field_52.scoping.ids = range(num_entities_3)
+            # Print the Field
+            print("3D vector Field: ", '\n',field_24, '\n')
 
-    # Print the Field
-    print("Matrix Field 1 (3,3) : ", '\n',field_51, '\n')
-    print("Matrix Field 2 (3,3) : ", '\n',field_52, '\n')
+    .. tab-item:: Matrix fields
+
+        You can create a matrix |Field| using the |create_matrix_field| function from the |fields_factory| module.
+
+        The default |nature| here is *'matrix'*. Thus, you only have to define the matrix |dimensionality| using the
+        *'num_lines'* and *'num_col'* arguments.
+
+        Create the (2,2) matrix Field.
+
+        .. jupyter-execute::
+
+            # Use the create_matrix_field function
+            field_41 = dpf.fields_factory.create_matrix_field(num_entities=num_entities_3, num_lines=2, num_col=2)
+
+            # Set the scoping ids
+            field_41.scoping.ids = range(num_entities_3)
+
+            # Print the Field
+            print("Matrix Field (2,2) : ", '\n',field_41, '\n')
+
+        Create the (3,3) matrix Fields.
+
+        .. jupyter-execute::
+
+            # Use the create_matrix_field function
+            field_51 = dpf.fields_factory.create_matrix_field(num_entities=num_entities_3, num_lines=3, num_col=3)
+            field_52 = dpf.fields_factory.create_matrix_field(num_entities=num_entities_3, num_lines=3, num_col=3)
+
+            # Set the scoping ids
+            field_51.scoping.ids = range(num_entities_3)
+            field_52.scoping.ids = range(num_entities_3)
+
+            # Print the Field
+            print("Matrix Field 1 (3,3) : ", '\n',field_51, '\n')
+            print("Matrix Field 2 (3,3) : ", '\n',field_52, '\n')
 
 Set data to the Fields
 ----------------------
@@ -441,121 +470,120 @@ To set a data array to a |Field| use the |Field.data| method. The |Field| |Scopi
 For example: the first id in the scoping identifies to which entity the first data entity belongs to.
 
 The data can be in a 1 dimension (one array) or 2 dimensions (one array containing multiple arrays)
-Numpy array or Python list.
+Numpy array or Python list. When attributed to a |Field|, these data arrays are reshaped to respect
+the |Field| definition.
 
-Scalar fields
-^^^^^^^^^^^^^
+.. tab-set::
 
-Set the data from a 1 dimensional array to the scalar Field.
+    .. tab-item:: Scalar fields
 
-.. jupyter-execute::
+        Set the data from a 1 dimensional array to the scalar Field.
 
-    # Set the data
-    field_11.data = data_1
+        .. jupyter-execute::
 
-    # Print the Field
-    print("Scalar Field : ", '\n',field_11, '\n')
+            # Set the data
+            field_11.data = data_1
 
-    # Print the Fields data
-    print("Data scalar Field : ", '\n',field_11.data, '\n')
+            # Print the Field
+            print("Scalar Field : ", '\n',field_11, '\n')
 
-Set the data from a 2 dimensional array to the scalar Field.
+            # Print the Fields data
+            print("Data scalar Field : ", '\n',field_11.data, '\n')
 
-.. jupyter-execute::
+        Set the data from a 2 dimensional array to the scalar Field.
 
-    # Set the data
-    field_12.data = data_2
+        .. jupyter-execute::
 
-    # Print the Field
-    print("Scalar Field : ", '\n',field_12, '\n')
+            # Set the data
+            field_12.data = data_2
 
-    # Print the Fields data
-    print("Data scalar Field : ", '\n',field_12.data, '\n')
+            # Print the Field
+            print("Scalar Field : ", '\n',field_12, '\n')
 
-Vector fields
-^^^^^^^^^^^^^
+            # Print the Fields data
+            print("Data scalar Field : ", '\n',field_12.data, '\n')
 
-Set the data from a 1 dimensional array to the *'3D'* vector Field.
+    .. tab-item:: Vector fields
 
-.. jupyter-execute::
+        Set the data from a 1 dimensional array to the *'3D'* vector Field.
 
-    # Set the data
-    field_21.data = data_3
+        .. jupyter-execute::
 
-    # Print the Field
-    print("Vector Field : ", '\n',field_21, '\n')
+            # Set the data
+            field_21.data = data_3
 
-    # Print the Fields data
-    print("Data vector Field: ", '\n',field_21.data, '\n')
+            # Print the Field
+            print("Vector Field : ", '\n',field_21, '\n')
 
-Set the data from a 1 dimensional array to the *'5D'* vector Field.
+            # Print the Fields data
+            print("Data vector Field: ", '\n',field_21.data, '\n')
 
-.. jupyter-execute::
+        Set the data from a 1 dimensional array to the *'5D'* vector Field.
 
-    # Set the data
-    field_31.data = data_4
+        .. jupyter-execute::
 
-    # Print the Field
-    print("Vector Field: ", '\n',field_31, '\n')
+            # Set the data
+            field_31.data = data_4
 
-    # Print the Fields data
-    print("Data vector Field : ", '\n',field_31.data, '\n')
+            # Print the Field
+            print("Vector Field: ", '\n',field_31, '\n')
 
-Set the data from a 2 dimensional array to the *'3D'* vector Field.
+            # Print the Fields data
+            print("Data vector Field : ", '\n',field_31.data, '\n')
 
-.. jupyter-execute::
+        Set the data from a 2 dimensional array to the *'3D'* vector Field.
 
-    # Set the data
-    field_22.data = data_5
+        .. jupyter-execute::
 
-    # Print the Field
-    print("Vector Field: ", '\n',field_22, '\n')
+            # Set the data
+            field_22.data = data_5
 
-    # Print the Fields data
-    print("Data vector Field: ", '\n',field_22.data, '\n')
+            # Print the Field
+            print("Vector Field: ", '\n',field_22, '\n')
 
+            # Print the Fields data
+            print("Data vector Field: ", '\n',field_22.data, '\n')
 
-Matrix fields
-^^^^^^^^^^^^^
+    .. tab-item:: Matrix fields
 
-Set the data from a 1 dimensional array to the (2,2) matrix Field.
+        Set the data from a 1 dimensional array to the (2,2) matrix Field.
 
-.. jupyter-execute::
+        .. jupyter-execute::
 
-    # Set the data
-    field_41.data = data_6
+            # Set the data
+            field_41.data = data_6
 
-    # Print the Field
-    print("Matrix Field: ", '\n',field_41, '\n')
+            # Print the Field
+            print("Matrix Field: ", '\n',field_41, '\n')
 
-    # Print the Fields data
-    print("Data matrix Field: ", '\n',field_41.data, '\n')
+            # Print the Fields data
+            print("Data matrix Field: ", '\n',field_41.data, '\n')
 
-Set the data from a 1 dimensional array to the (3,3) matrix Field.
+        Set the data from a 1 dimensional array to the (3,3) matrix Field.
 
-.. jupyter-execute::
+        .. jupyter-execute::
 
-    # Set the data
-    field_51.data = data_7
+            # Set the data
+            field_51.data = data_7
 
-    # Print the Field
-    print("Matrix Field: ", '\n',field_51, '\n')
+            # Print the Field
+            print("Matrix Field: ", '\n',field_51, '\n')
 
-    # Print the Fields data
-    print("Data matrix Field: ", '\n',field_51.data, '\n')
+            # Print the Fields data
+            print("Data matrix Field: ", '\n',field_51.data, '\n')
 
-Set the data from a 2 dimensional array to the (3,3) matrix Field.
+        Set the data from a 2 dimensional array to the (3,3) matrix Field.
 
-.. jupyter-execute::
+        .. jupyter-execute::
 
-    # Set the data
-    field_52.data = data_8
+            # Set the data
+            field_52.data = data_8
 
-    # Print the Field
-    print("Matrix Field: ", '\n',field_51, '\n')
+            # Print the Field
+            print("Matrix Field: ", '\n',field_51, '\n')
 
-    # Print the Fields data
-    print("Data matrix Field: ", '\n',field_51.data, '\n')
+            # Print the Fields data
+            print("Data matrix Field: ", '\n',field_51.data, '\n')
 
 Append data to the Fields
 -------------------------
@@ -563,53 +591,53 @@ Append data to the Fields
 You can append a data array to a |Field|, this means adding a new entity with the new data in the |Field|. You have to
 give the |Scoping| id that this entities will have.
 
-Scalar fields
-^^^^^^^^^^^^^
+.. tab-set::
 
-Append data to a scalar |Field|.
+    .. tab-item:: Scalar fields
 
-.. jupyter-execute::
+        Append data to a scalar |Field|.
 
-    # Append the data
-    field_11.append(scopingid=6, data=data_9)
+        .. jupyter-execute::
 
-    # Print the Field
-    print("Scalar Field : ", '\n',field_11, '\n')
+            # Append the data
+            field_11.append(scopingid=6, data=data_9)
 
-    # Print the Fields data
-    print("Data scalar Field: ", '\n',field_11.data, '\n')
+            # Print the Field
+            print("Scalar Field : ", '\n',field_11, '\n')
 
-Vector fields
-^^^^^^^^^^^^^
+            # Print the Fields data
+            print("Data scalar Field: ", '\n',field_11.data, '\n')
 
-Append data to a vector |Field|.
+    .. tab-item:: Vector fields
 
-.. jupyter-execute::
+        Append data to a vector |Field|.
 
-    # Append the data
-    field_21.append(scopingid=2, data=data_10)
+        .. jupyter-execute::
 
-    # Print the Field
-    print("Vector Field : ", '\n',field_21, '\n')
+            # Append the data
+            field_21.append(scopingid=2, data=data_10)
 
-    # Print the Fields data
-    print("Data vector Field: ", '\n',field_21.data, '\n')
+            # Print the Field
+            print("Vector Field : ", '\n',field_21, '\n')
 
-Matrix fields
-^^^^^^^^^^^^^
+            # Print the Fields data
+            print("Data vector Field: ", '\n',field_21.data, '\n')
 
-Append data to a matrix |Field|.
 
-.. jupyter-execute::
+    .. tab-item:: Matrix fields
 
-    # Append the data
-    field_51.append(scopingid=1, data=data_11)
+        Append data to a matrix |Field|.
 
-    # Print the Field
-    print("VMatrix Field : ", '\n',field_51, '\n')
+        .. jupyter-execute::
 
-    # Print the Fields data
-    print("Data Matrix Field: ", '\n',field_51.data, '\n')
+            # Append the data
+            field_51.append(scopingid=1, data=data_11)
+
+            # Print the Field
+            print("VMatrix Field : ", '\n',field_51, '\n')
+
+            # Print the Fields data
+            print("Data Matrix Field: ", '\n',field_51.data, '\n')
 
 Create a |FieldsContainer|
 --------------------------
