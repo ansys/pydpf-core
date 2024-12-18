@@ -22,7 +22,7 @@
 
 """
 ServerContext
-=============
+
 
 Gives the ability to choose the context with which the server should be started.
 The context allows you to choose the licensing logic for operators.

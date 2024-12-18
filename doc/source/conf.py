@@ -231,7 +231,8 @@ html_theme_options = {
     },
     "static_search": {
         "threshold": 0.5,
-        "min_chars_for_search": 2,
+        "limit": 10,
+        "minMatchCharLength": 2,
         "ignoreLocation": True,
     },
     "ansys_sphinx_theme_autoapi": {

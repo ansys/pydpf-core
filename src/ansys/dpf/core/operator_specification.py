@@ -24,7 +24,7 @@
 .. _ref_operator_specification:
 
 Operator Specification
-======================
+
 The OperatorSpecification Provides a documentation for each Operator
 """
 

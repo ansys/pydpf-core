@@ -22,7 +22,7 @@
 
 """
 WorkflowTopology
-================
+
 This module contains the `WorkflowTopology` class, which represents
 the structure and relationships within a workflow, including its operators,
 connections, and exposed input/output pins.

@@ -24,7 +24,7 @@
 .. _ref_elements_apis:
 
 Elements
-========
+
 """
 
 from __future__ import annotations

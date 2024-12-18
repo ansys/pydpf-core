@@ -24,7 +24,7 @@
 .. _ref_inputs:
 
 Inputs
-======
+
 """
 
 import weakref

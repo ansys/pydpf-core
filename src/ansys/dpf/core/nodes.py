@@ -24,7 +24,7 @@
 .. _ref_nodes_apis:
 
 Nodes
-=====
+
 """
 
 import numpy as np

@@ -22,7 +22,7 @@
 
 """
 fields_factory
-==============
+
 
 Contains functions to simplify creating fields.
 """

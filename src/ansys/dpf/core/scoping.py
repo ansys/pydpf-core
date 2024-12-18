@@ -24,7 +24,7 @@
 .. _ref_scoping:
 
 Scoping
-=======
+
 """
 
 import traceback

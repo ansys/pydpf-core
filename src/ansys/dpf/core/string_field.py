@@ -22,7 +22,7 @@
 
 """
 StringField
-===========
+
 """
 
 import numpy as np

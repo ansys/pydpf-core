@@ -24,7 +24,7 @@
 .. _ref_generic_data_container:
 
 GenericDataContainer
-====================
+
 """
 
 from __future__ import annotations

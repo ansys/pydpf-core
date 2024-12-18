@@ -22,7 +22,7 @@
 
 """
 Server types
-============
+
 Contains the different kinds of
 servers available for the factory.
 """

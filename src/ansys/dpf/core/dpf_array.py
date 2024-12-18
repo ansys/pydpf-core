@@ -23,7 +23,7 @@
 """
 
 DPFArray
-========
+
 
 .. autoclass:: DPFArray
    :members:
