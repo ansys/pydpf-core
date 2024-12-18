@@ -1483,3 +1483,16 @@ def test_record_derived_type():
 
     record_derived_class(class_name, TestContainer2, overwrite=True)
     assert derived_classes[class_name] is TestContainer2
+
+
+@conftest.raises_for_servers_version_under("10.0")
+def test_operator_id(server_type):
+    ids = set()
+
+    for _ in range(10):
+        op = ops.utility.forward(server=server_type)
+
+        assert op.id >= 0
+        assert op.id not in ids
+
+        ids.add(op.id)
