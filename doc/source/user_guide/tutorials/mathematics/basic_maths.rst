@@ -31,6 +31,9 @@ Basic maths
 
 This tutorial explains how to do some basic mathematical operations with PyDPF-Core.
 
+DPF uses |Field| and |FieldsContainer| objects to handle data. The |Field| is a homogeneous array and
+a |FieldsContainer| is a labeled collection of |Field|. Thus, when making mathematical operations with the data, you
+manipulate |Field| and |FieldsContainer|.
 
 :jupyter-download-script:`Download tutorial as Python script<basic_maths>`
 :jupyter-download-notebook:`Download tutorial as Jupyter notebook<basic_maths>`
@@ -74,38 +77,20 @@ mathematical operators works. For more information on creating a |Field| from sc
 
             # Instantiate the Fields
             num_entities = 2
-            field1 = dpf.Field(nentities=num_entities)
-            field2 = dpf.Field(nentities=num_entities)
-            field3 = dpf.Field(nentities=num_entities)
-            field4 = dpf.Field(nentities=num_entities)
+            field1 = field2 = field3 = field4 = dpf.Field(nentities=num_entities)
 
             # Define the scoping ids
-            field1.scoping.ids = range(num_entities)
-            field2.scoping.ids = range(num_entities)
-            field3.scoping.ids = range(num_entities)
-            field4.scoping.ids = range(num_entities)
+            field1.scoping.ids = field2.scoping.ids = field3.scoping.ids = field4.scoping.ids = range(num_entities)
 
-            # Check the entities ids
-            print("Field 1 ids: ",field1.scoping.ids , "\n")
-            print("Field 2 ids: ",field2.scoping.ids , "\n")
-            print("Field 3 ids: ",field3.scoping.ids , "\n")
-            print("Field 4 ids: ",field4.scoping.ids , "\n")
-
-        Set the data to each |Field| by defining the Python lists containing the data.
-
-        .. jupyter-execute::
-
-            # Define the Fields data
+            # Set the data to each Field
             field1.data = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
             field2.data = [7.0, 3.0, 5.0, 8.0, 1.0, 2.0]
             field3.data = [6.0, 5.0, 4.0, 3.0, 2.0, 1.0]
             field4.data = [4.0, 1.0, 8.0, 5.0, 7.0, 9.0]
 
             # Print the Fields
-            print("Field 1","\n", field1 , "\n")
-            print("Field 2","\n", field2 , "\n")
-            print("Field 3","\n", field3 , "\n")
-            print("Field 4","\n", field4 , "\n")
+            print("Field 1","\n", field1, "\n"); print("Field 2","\n", field2, "\n");
+            print("Field 3","\n", field3, "\n"); print("Field 4","\n", field4, "\n")
 
     .. tab-item:: FieldsContainers
 
@@ -119,35 +104,27 @@ mathematical operators works. For more information on creating a |Field| from sc
             fc2 = dpf.fields_container_factory.over_time_freq_fields_container(fields=[field3, field4])
 
             # Print the FieldsContainers
-            print("FieldsContainer1","\n", fc1 , "\n")
-            print("FieldsContainer2","\n", fc2 , "\n")
+            print("FieldsContainer1","\n", fc1, "\n")
+            print("FieldsContainer2","\n", fc2, "\n")
 
 
 To make the mathematics operations, we use the operators available in the |math operators| module.
 Their usage is similar, for each operation you must instantiate the operator and use ``.eval()`` method to compute
 and retrieve the results.
 
-Addition and Subtraction
-------------------------
-
-This section shows how the basic addition and subtraction operators works.
-
-Addition
-^^^^^^^^
-
-Here, we use:
-
-- :ref:`The 'add' and 'add_fc' operators for component wise addition<ref_basic_math_addition_operators_a>`;
-- :ref:`The 'accumulate' and 'accumulate_fc' operators to find the total sum of each component for all the entities<ref_basic_math_addition_operators_b>`.
-
-.. _ref_basic_math_addition_operators_a:
-
-|add| and |add_fc| operators
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Mathematical operations with Fields
+-----------------------------------
 
 .. tab-set::
 
-    .. tab-item:: 'add' operator
+    .. tab-item:: Addition
+
+        Here, we use:
+
+        - The 'add' operator for component wise addition
+        - The 'accumulate' operator to find the total sum of each component for all the entities
+
+        **'add' operator**
 
         This operator computes the sum between the data vectors for the corresponding entity id.
 
@@ -161,35 +138,7 @@ Here, we use:
             # Print the results
             print("Addition fields",add_field , "\n")
 
-    .. tab-item:: 'add_fc' operator
-
-       This operator selects all fields with the same label space in the input |FieldsContainer| and add those together.
-
-       .. jupyter-execute::
-
-           # Add the FieldsContainers
-           add_fc = maths.add_fc(fields_container1=fc1, fields_container2=fc2).eval()
-           # {time: 1}: field1 + field3
-           #           -->      id 0: [1.+6. 2.+5. 3.+4.]
-           #                    id 1: [4.+3. 5.+2. 6.+1.]
-           #
-           # {time: 2}: field2 + field4
-           #           -->      id 0: [7.+4. 3.+1. 5.+8.]
-           #                    id 1: [8.+5. 1.+7. 2.+9.]
-
-           # Print the results
-           print("Addition FieldsContainers","\n", add_fc , "\n")
-           print(add_fc[0], "\n")
-           print(add_fc[1], "\n")
-
-.. _ref_basic_math_addition_operators_b:
-
-|accumulate| and |accumulate_fc| operators
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. tab-set::
-
-    .. tab-item:: 'accumulate' operator
+        **'accumulate' operator**
 
         This operator sums all the elementary data of a field to produce one elementary data for each vector component.
         You can give a scale ("ponderation") argument.
@@ -233,7 +182,176 @@ Here, we use:
             # Print the results
             print("Total sum fields scale","\n", tot_sum_field_scale, "\n")
 
-    .. tab-item:: 'accumulate_fc' operator
+    .. tab-item:: Subtraction
+
+        Here, we use the |minus| operator. It computes the difference between the components of
+        the data vectors of the corresponding entities of the given Fields.
+
+        .. jupyter-execute::
+
+            # Subtraction with the Fields
+            minus_field = maths.minus(fieldA=field1, fieldB=field2).eval()
+            # id 0: [1.-7. 2.-3. 3.-5.]
+            # id 1: [4.-8. 5.-1. 6.-2.]
+
+            # Print the results
+            print("Subtraction fields","\n", minus_field , "\n")
+
+    .. tab-item:: Cross product
+
+        Here, we use the |cross_product| operator. It computes the cross product between two vector Fields.
+
+        .. jupyter-execute::
+
+            # Define the cross product
+            cross_prod_fields = maths.cross_product(fieldA=field1,fieldB=field2).eval()
+            # id 0: [(2.*5. - 3.*3.)  (3.*7. - 1.*5.)  (1.*3. - 2.*7.)]
+            # id 1: [(5.*2. - 6.*1.)  (6.*8. - 4.*2.)  (4.*1. - 5.*8.)]
+
+            # Print the results
+            print("Cross product Fields","\n", cross_prod_fields , "\n")
+
+    .. tab-item:: Dot product
+
+        Here, we use:
+
+        - The |generalized_inner_product| operator to compute the inner product between two vector Fields;
+        - The |overall_dot| operator to compute the total sum of the result of the dot product between two vector Fields.
+
+        **'generalized_inner_product' operator**
+
+        This operator computes a general notion of inner product between between two vector Fields. These Fields
+        may be of different dimensionality.
+
+        .. jupyter-execute::
+
+            # Define the dot product
+            dot_prod_fields = maths.generalized_inner_product(fieldA=field1, fieldB=field2).eval()
+            # id 0: (1. * 7.) + (2. * 3.) + (3. * 5.)
+            # id 1: (4. * 8.) + (5. * 1.) + (6. * 2.)
+
+            # Print the results
+            print("Dot product Fields","\n", dot_prod_fields , "\n")
+
+        **'overall_dot' operator**
+
+        This operator makes two manipulations to give the result:
+
+        - First, it computes a dot product between the entities of same id of two Fields;
+        - Finally, it adds all the entities data to return a scalar.
+
+        .. jupyter-execute::
+
+            # Define the overall dot
+            overall_dot = maths.overall_dot(fieldA=field1, fieldB=field2).eval()
+            # id 1: (1. * 7.) + (2. * 3.) + (3. * 5.) + (4. * 8.) + (5. * 1.) + (6. * 2.)
+
+            # Print the results
+            print("Overall dot","\n", overall_dot , "\n")
+
+    .. tab-item:: Division
+
+        Here, we use the |component_wise_divide| operator. It computes the component-wise division between
+        the corresponding entities of two Fields.
+
+        .. jupyter-execute::
+
+            # Divide the components of the Fields
+            comp_wise_div = maths.component_wise_divide(fieldA=field1, fieldB=field2).eval()
+            # id 0: [1./7. 2./3. 3./5.]
+            # id 1: [4./8. 5./1. 6./2.]
+
+            # Print the results
+            print("Component-wise division Fields","\n", comp_wise_div , "\n")
+
+    .. tab-item:: Power
+
+        Here we use:
+
+        - The |sqr| operator to compute the component-wise |Field| data to the power of two;
+        - The |pow| operator to compute the component-wise |Field| data to the power of a given factor;
+
+        **'sqr' operator**
+
+        This operator computes the data of each component of a |Field| to the power of two.
+
+        .. jupyter-execute::
+
+            # Define the power of two
+            sqr_field = maths.sqr(field=field1).eval()
+            # id 0: [(1.^2.) (2.^2.) (3.^2.)]
+            # id 1: [(4.^2.) (5.^2.) (6.^2.)]
+
+            print("^2 Fields","\n", sqr_field , "\n")
+
+        **'pow' operator**
+
+        This operator computes the data of each component of a |Field| to the power of a given factor.
+
+        Here, we use the power of three.
+
+        .. jupyter-execute::
+
+            # Define the power factor
+            pow_factor = 3.0
+            # Define the power of three
+            pow_field = maths.pow(field=field1, factor=pow_factor).eval()
+            # id 0: [(1.^3.) (2.^3.) (3.^3.)]
+            # id 1: [(4.^3.) (5.^3.) (6.^3.)]
+
+            # Print the results
+            print("Power Fields","\n", pow_field , "\n")
+
+    .. tab-item:: Norm
+
+        Here, we use the |norm| operator. It computes the component-wise Lp norm of a |Field| elementary data.
+        The default Lp norm is Lp=L2.
+
+        .. jupyter-execute::
+
+            # Define the norm
+            norm_field = maths.norm(field=field1).eval()
+            # id 0: [(1.^2.) + (2.^2.) + (3.^2.)] ^1/2
+            # id 1: [(4.^2.) + (5.^2.) + (6.^2.)] ^1/2
+
+            # Print the results
+            print("Norm Fields","\n", norm_field , "\n")
+
+Mathematical operations with FieldsContainer
+--------------------------------------------
+
+.. tab-set::
+
+    .. tab-item:: Addition
+
+        Here, we use:
+
+        - The 'add_fc' operator for component wise addition of each |Field| from a |FieldsContainer|;
+        - The 'accumulate_fc' operator to find the total sum of each component for all the entities of each |Field|
+          from a |FieldsContainer|
+
+        **'add_fc' operator**
+
+        This operator selects all fields with the same label space in the input |FieldsContainer| and add those together.
+
+        .. jupyter-execute::
+
+            # Add the FieldsContainers
+            add_fc = maths.add_fc(fields_container1=fc1, fields_container2=fc2).eval()
+            # {time: 1}: field1 + field3
+            #           -->      id 0: [1.+6. 2.+5. 3.+4.]
+            #                    id 1: [4.+3. 5.+2. 6.+1.]
+            #
+            # {time: 2}: field2 + field4
+            #           -->      id 0: [7.+4. 3.+1. 5.+8.]
+            #                    id 1: [8.+5. 1.+7. 2.+9.]
+
+            # Print the results
+            print("Addition FieldsContainers","\n", add_fc , "\n")
+            print(add_fc[0], "\n")
+            print(add_fc[1], "\n")
+
+        **'accumulate_fc' operator**
 
         This operator sums all the elementary data of a |Field| with the same label space to produce
         one elementary data for each vector component.
@@ -281,20 +399,10 @@ Here, we use:
             print(tot_sum_fc_scale[0], "\n")
             print(tot_sum_fc_scale[1], "\n")
 
-Subtraction
-^^^^^^^^^^^
+    .. tab-item:: Subtraction
 
-Here we use:
-
-- The |minus| operator to compute the difference between the components of two Fields;
-- The |minus_fc| operator to compute the difference between the components of Fields in a given FieldsContainer.
-
-.. tab-set::
-
-    .. tab-item:: 'minus' operator
-
-        This operator computes the difference between the components of the data vectors of the corresponding entities of the
-        given Fields.
+        Here, we use the |minus_fc| operator. It computes the difference between the components of the
+        data of all Fields with the same label space in the given FieldsContainer.
 
         .. jupyter-execute::
 
@@ -306,107 +414,10 @@ Here we use:
             # Print the results
             print("Subtraction fields","\n", minus_field , "\n")
 
-    .. tab-item:: 'minus_fc' operator
+    .. tab-item:: Cross product
 
-        This operator computes the difference between the components of the data of all Fields with the same label space in the
-        given FieldsContainer.
-
-        .. jupyter-execute::
-
-            # Subtraction FieldsContainers
-            minus_fc = maths.minus_fc(field_or_fields_container_A=fc1, field_or_fields_container_B=fc2).eval()
-            # {time: 1}: field1 - field3
-            #           -->      id 0: [1.-6. 2.-5. 3.-4.]
-            #                    id 1: [4.-3. 5.-2. 6.-1.]
-            #
-            # {time: 2}: field2 - field4
-            #           -->      id 0: [7.-4. 3.-1. 5.-8.]
-            #                    id 1: [8.-5. 1.-7. 2.-9.]
-
-            # Print the results
-            print("Subtraction FieldsContainers","\n", minus_fc , "\n")
-            print(minus_fc[0], "\n")
-            print(minus_fc[1], "\n")
-
-Product and Division
---------------------
-
-This section shows how the basic product and division operators works.
-
-Component-wise division
-^^^^^^^^^^^^^^^^^^^^^^^
-
-Here, we use:
-
-- The |component_wise_divide| operator to computes the component-wise division between two Fields;
-- The |component_wise_divide_fc| operator to computes the component-wise division between two Fields with
-  same dimensionality of the given FieldsContainers.
-
-.. tab-set::
-
-    .. tab-item:: 'component_wise_divide' operator
-
-        This operator computes the component-wise division between the corresponding entities of two Fields.
-
-        .. jupyter-execute::
-
-            # Divide the components of the Fields
-            comp_wise_div = maths.component_wise_divide(fieldA=field1, fieldB=field2).eval()
-            # id 0: [1./7. 2./3. 3./5.]
-            # id 1: [4./8. 5./1. 6./2.]
-
-            # Print the results
-            print("Component-wise division Fields","\n", comp_wise_div , "\n")
-
-    .. tab-item:: 'component_wise_divide_fc' operator
-
-        This operator computes the component-wise division between the corresponding entities of two Fields with
-        same dimensionality of the given FieldsContainers. The FieldsContainers must contain only one |Field| each.
-
-        .. jupyter-execute::
-
-            # Define the component-wise division between the Fields in the FieldsContainers
-            comp_wise_div_fc = maths.component_wise_divide_fc(fields_containerA=fc1, fields_containerB=fc2).eval()
-            # {time: 1}: field1 - field3
-            #           -->      id 0: [1./6. 2./5. 3./4.]
-            #                    id 1: [4./3. 5./2. 6./1.]
-            #
-            # {time: 2}: field2 - field4
-            #           -->      id 0: [7./4. 3./1. 5./8.]
-            #                    id 1: [8./5. 1./7. 2./9.]
-
-            # Print the results
-            print("Component-wise division FieldsContainer","\n", comp_wise_div_fc , "\n")
-            print(comp_wise_div_fc[0], "\n")
-            print(comp_wise_div_fc[1], "\n")
-
-Cross product
-^^^^^^^^^^^^^
-
-Here, we use:
-
-- The |cross_product| operator to compute the cross product between two vector Fields;
-- The |cross_product_fc| operator to compute the cross product between two vector Fields of the given FieldsContainer.
-
-.. tab-set::
-
-    .. tab-item:: 'cross_product' operator
-
-        This operator computes the cross product between two vector Fields.
-
-        .. jupyter-execute::
-
-            # Define the cross product
-            cross_prod_fields = maths.cross_product(fieldA=field1,fieldB=field2).eval()
-            # id 0: [(2.*5. - 3.*3.)  (3.*7. - 1.*5.)  (1.*3. - 2.*7.)]
-            # id 1: [(5.*2. - 6.*1.)  (6.*8. - 4.*2.)  (4.*1. - 5.*8.)]
-
-            # Print the results
-            print("Cross product Fields","\n", cross_prod_fields , "\n")
-
-    .. tab-item:: 'cross_product_fc' operator
-
-        This operator computes the cross product between two vector Fields with same label space in the given FieldsContainers.
+        Here, we use the |cross_product_fc| operator. It computes the cross product between two vector Fields
+        with same label space in the given FieldsContainers.
         These Field can have the same location or Elemental Nodal and Nodal locations.
 
         .. jupyter-execute::
@@ -426,35 +437,11 @@ Here, we use:
             print(cross_prod_fc[0], "\n")
             print(cross_prod_fc[1], "\n")
 
-Dot product
-^^^^^^^^^^^
+    .. tab-item:: Dot product
 
-Here, we use:
-
-- The |generalized_inner_product| operator to compute the inner product between two vector Fields;
-- The |generalized_inner_product_fc| operator to compute the inner product between two vector Fields of the given FieldsContainers.
-
-.. tab-set::
-
-    .. tab-item:: 'generalized_inner_product' operator
-
-        This operator computes a general notion of inner product between between two vector Fields. These Fields
-        may be of different dimensionality.
-
-        .. jupyter-execute::
-
-            # Define the dot product
-            dot_prod_fields = maths.generalized_inner_product(fieldA=field1, fieldB=field2).eval()
-            # id 0: (1. * 7.) + (2. * 3.) + (3. * 5.)
-            # id 1: (4. * 8.) + (5. * 1.) + (6. * 2.)
-
-            # Print the results
-            print("Dot product Fields","\n", dot_prod_fields , "\n")
-
-    .. tab-item:: 'generalized_inner_product_fc' operator
-
-        This operator computes a general notion of inner product between between two vector Fields with same label space in
-        the given FieldsContainers. These Fields may be of different dimensionality.
+        Here, we use the |generalized_inner_product_fc| operator. It computes a general notion of inner product
+        between between two vector Fields with same label space in the given FieldsContainers. These Fields may
+        be of different dimensionality.
 
         .. jupyter-execute::
 
@@ -473,68 +460,37 @@ Here, we use:
             print(dot_prod_fields_fc[0], "\n")
             print(dot_prod_fields_fc[1], "\n")
 
-Overall dot
-^^^^^^^^^^^
+    .. tab-item:: Division
 
-The |overall_dot| operator makes two manipulations to give the result:
-
-- First, it computes a dot product between the entities of same id of two Fields;
-- Finally, it adds all the entities data to return a scalar.
-
-.. jupyter-execute::
-
-    # Define the overall dot
-    overall_dot = maths.overall_dot(fieldA=field1, fieldB=field2).eval()
-    # id 1: (1. * 7.) + (2. * 3.) + (3. * 5.) + (4. * 8.) + (5. * 1.) + (6. * 2.)
-
-    # Print the results
-    print("Overall dot","\n", overall_dot , "\n")
-
-Outer product
-^^^^^^^^^^^^^
-
-The |outer_product| operator computes the outer product of two vector fields. It makes the product of all the
-components by all the components data.
-
-.. jupyter-execute::
-
-    # Outer product Fields
-    outer_prod = maths.outer_product(fieldA=field1, fieldB=field2).eval()
-    # id 0: [1.*7. 2.*7. 3.*7. 1.*3. 2.*3. 3.*3. 1.*5. 2.*5. 3.*5.]
-    # id 1: [4.*8. 5.*8. 6.*8. 4.*1. 5.*1. 6.*1. 4.*2. 5.*2. 6.*2.]
-
-    # Print the results
-    print("Outer product Fields","\n", outer_prod , "\n")
-
-Power
------
-
-This section shows how the basic power operators works.
-
-Squared
-^^^^^^^
-
-Here, we use:
-
-- The |sqr| operator to compute the component-wise |Field| data to the power of two;
-- The |sqr_fc| operator to compute the component-wise |Field| data (from a |FieldsContainer|) to the power of two.
-
-.. tab-set::
-
-    .. tab-item:: 'sqr' operator
-
-        This operator computes the data of each component of a |Field| to the power of two.
+        Here, we use the |component_wise_divide_fc| operator. It computes the component-wise division between
+        the corresponding entities of two Fields with same dimensionality of the given FieldsContainers. The
+        FieldsContainers must contain only one |Field| each.
 
         .. jupyter-execute::
 
-            # Define the power of two
-            sqr_field = maths.sqr(field=field1).eval()
-            # id 0: [(1.^2.) (2.^2.) (3.^2.)]
-            # id 1: [(4.^2.) (5.^2.) (6.^2.)]
+            # Define the component-wise division between the Fields in the FieldsContainers
+            comp_wise_div_fc = maths.component_wise_divide_fc(fields_containerA=fc1, fields_containerB=fc2).eval()
+            # {time: 1}: field1 - field3
+            #           -->      id 0: [1./6. 2./5. 3./4.]
+            #                    id 1: [4./3. 5./2. 6./1.]
+            #
+            # {time: 2}: field2 - field4
+            #           -->      id 0: [7./4. 3./1. 5./8.]
+            #                    id 1: [8./5. 1./7. 2./9.]
 
-            print("^2 Fields","\n", sqr_field , "\n")
+            # Print the results
+            print("Component-wise division FieldsContainer","\n", comp_wise_div_fc , "\n")
+            print(comp_wise_div_fc[0], "\n")
+            print(comp_wise_div_fc[1], "\n")
 
-    .. tab-item:: 'sqr_fc' operator
+    .. tab-item:: Power
+
+        Here we use:
+
+        - The |sqr_fc| operator to compute the component-wise |Field| data (from a |FieldsContainer|) to the power of two;
+        - The |pow_fc| operator to compute the component-wise |Field| data (from a |FieldsContainer|) to the power of a given factor;
+
+        **'sqr_fc' operator**
 
         This operator computes the data of each component of each |Field| of a |FieldsContainer| to the power of two.
 
@@ -555,35 +511,7 @@ Here, we use:
             print(sqr_fc[0], "\n")
             print(sqr_fc[1], "\n")
 
-Power
-^^^^^
-
-Here, we use:
-
-- The |pow| operator to compute the component-wise |Field| data to the power of a given factor;
-- The |pow_fc| operator to compute the component-wise |Field| data (from a |FieldsContainer|) to the power of a given factor.
-
-.. tab-set::
-
-    .. tab-item:: 'pow' operator
-
-        This operator computes the data of each component of a |Field| to the power of a given factor.
-
-        Here, we use the power of three.
-
-        .. jupyter-execute::
-
-            # Define the power factor
-            pow_factor = 3.0
-            # Define the power of three
-            pow_field = maths.pow(field=field1, factor=pow_factor).eval()
-            # id 0: [(1.^3.) (2.^3.) (3.^3.)]
-            # id 1: [(4.^3.) (5.^3.) (6.^3.)]
-
-            # Print the results
-            print("Power Fields","\n", pow_field , "\n")
-
-    .. tab-item:: 'pow_fc' operator
+        **'pow_fc' operator**
 
         This operator computes the data of each component of each |Field| of a |FieldsContainer| to the power of a given factor.
 
@@ -606,34 +534,10 @@ Here, we use:
             print(pow_fc[0], "\n")
             print(pow_fc[1], "\n")
 
-Norm
-----
+    .. tab-item:: Norm
 
-Here, we use:
-
-- The |norm| operator to compute the component-wise Lp norm of a |Field| elementary data;
-- The |norm_fc| operator to compute the component-wise Lp norm of |Field| (from a |FieldsContainer|) elementary data.
-
-.. tab-set::
-
-    .. tab-item:: 'norm' operator
-
-        This operator computes the component-wise Lp norm of a |Field| elementary data. The default Lp norm is Lp=L2.
-
-        .. jupyter-execute::
-
-            # Define the norm
-            norm_field = maths.norm(field=field1).eval()
-            # id 0: [(1.^2.) + (2.^2.) + (3.^2.)] ^1/2
-            # id 1: [(4.^2.) + (5.^2.) + (6.^2.)] ^1/2
-
-            # Print the results
-            print("Norm Fields","\n", norm_field , "\n")
-
-    .. tab-item:: 'norm_fc' operator
-
-        This operator computes the component-wise Lp norm of |Field| (from a |FieldsContainer|) elementary data.
-        The default Lp norm is Lp=L2.
+        Here, we use the |norm_fc| operator. It computes the component-wise Lp norm of |Field|
+        (from a |FieldsContainer|) elementary data. The default Lp norm is Lp=L2.
 
         .. jupyter-execute::
 
