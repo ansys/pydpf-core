@@ -24,7 +24,7 @@
 .. _ref_any:
 
 Any
-====================
+
 """
 
 import traceback

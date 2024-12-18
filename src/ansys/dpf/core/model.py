@@ -24,7 +24,7 @@
 .. _ref_model:
 
 Model
-=====
+
 Module contains the Model class to manage file result models.
 
 

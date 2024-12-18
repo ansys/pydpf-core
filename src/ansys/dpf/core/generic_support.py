@@ -24,7 +24,7 @@
 .. _ref_genericsupport:
 
 GenericSupport
-==============
+
 """
 
 from ansys.dpf.gate import generic_support_capi, generic_support_grpcapi

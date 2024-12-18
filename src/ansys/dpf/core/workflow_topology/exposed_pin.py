@@ -22,7 +22,7 @@
 
 """
 ExposedPin
-==========
+
 This module contains the `ExposedPin` and `ExposedPinsCollection` classes,
 which represent individual exposed pins and a collection of exposed pins in a workflow,
 respectively. These classes enable easy access to the pins that serve as input/output points

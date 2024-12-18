@@ -24,7 +24,7 @@
 .. _ref_errors:
 
 Errors
-======
+
 
 .. autoexception:: DpfVersionNotSupported
    :members:

@@ -24,7 +24,7 @@
 .. _ref_geometry:
 
 Geometry
-========
+
 Module containing the different geometry objects.
 
 """

@@ -22,7 +22,7 @@
 
 """
 time_freq_scoping_factory
-=========================
+
 
 Contains functions to simplify creating time frequency scopings.
 """

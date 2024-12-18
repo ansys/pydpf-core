@@ -24,7 +24,7 @@
 .. _ref_timefreqsupport:
 
 TimeFreqSupport
-===============
+
 """
 
 from ansys.dpf.gate import time_freq_support_capi, time_freq_support_grpcapi

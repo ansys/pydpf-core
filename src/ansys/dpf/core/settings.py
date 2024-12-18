@@ -22,7 +22,7 @@
 
 """
 settings
-========
+
 Customize the behavior of the module.
 """
 

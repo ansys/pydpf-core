@@ -24,7 +24,7 @@
 .. _ref_custom_type_field:
 
 CustomTypeField
-===============
+
 """
 
 import warnings

@@ -24,7 +24,7 @@
 .. _ref_data_tree:
 
 DataTree
-========
+
 """
 
 import enum
