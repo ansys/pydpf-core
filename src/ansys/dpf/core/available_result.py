@@ -22,7 +22,7 @@
 
 """
 AvailableResult
-===============
+
 """
 
 from typing import List

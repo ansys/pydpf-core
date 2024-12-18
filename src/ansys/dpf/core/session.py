@@ -22,7 +22,7 @@
 
 """
 Session
-========
+
 """
 
 import abc

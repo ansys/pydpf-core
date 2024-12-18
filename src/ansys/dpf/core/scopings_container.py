@@ -24,7 +24,7 @@
 
 """
 ScopingsContainer
-=================
+
 Contains classes associated to the DPF ScopingsContainer
 """
 

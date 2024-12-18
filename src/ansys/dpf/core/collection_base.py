@@ -22,7 +22,7 @@
 
 """
 CollectionBase
-==============
+
 Contains classes associated with the DPF collection.
 
 """

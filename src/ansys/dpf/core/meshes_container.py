@@ -23,7 +23,7 @@
 # -*- coding: utf-8 -*-
 """
 MeshesContainer
-===============
+
 Contains classes associated with the DPF MeshesContainer.
 """
 

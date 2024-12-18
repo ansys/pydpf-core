@@ -22,7 +22,7 @@
 
 """
 MeshInfo
-==========
+
 """
 
 from ansys.dpf.core import server as server_module

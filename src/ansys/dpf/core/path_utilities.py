@@ -22,7 +22,7 @@
 
 """
 path_utilities
-==============
+
 Offer tools similar to os.path but taking the os of the
 server into account to create path.
 """
