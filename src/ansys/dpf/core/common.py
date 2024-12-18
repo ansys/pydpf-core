@@ -22,7 +22,7 @@
 
 """
 Common
-======
+
 
 .. autoclass:: locations
    :members:

@@ -24,7 +24,7 @@
 .. _ref_custom_operator:
 
 Custom Operator Base
-====================
+
 Contains utilities allowing you to implement and record custom Python operators.
 """
 

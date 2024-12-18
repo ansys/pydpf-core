@@ -22,7 +22,7 @@
 
 """
 Server factory, server configuration and communication protocols
-================================================================
+
 
 Contains the server factory as well as the communication
 protocols and server configurations available.

@@ -24,7 +24,7 @@
 .. _ref_support:
 
 Support
-=======
+
 """
 
 import traceback

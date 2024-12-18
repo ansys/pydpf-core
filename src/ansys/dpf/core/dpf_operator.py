@@ -24,7 +24,7 @@
 .. _ref_operator:
 
 Operator
-========
+
 """
 
 import logging

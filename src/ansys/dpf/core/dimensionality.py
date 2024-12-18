@@ -22,7 +22,7 @@
 
 """
 Dimensionality
-==============
+
 """
 
 from ansys.dpf.core.common import natures

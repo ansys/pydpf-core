@@ -22,7 +22,7 @@
 
 """
 OperatorConnection
-==================
+
 This module contains the `OperatorConnection` and `OperatorConnectionsCollection`
 classes, which represent individual connections between operators and a
 collection of such connections within a workflow, respectively.

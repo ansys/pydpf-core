@@ -24,7 +24,7 @@
 .. _ref_unit_system:
 
 UnitSystem
-===============
+
 """
 
 from ansys.dpf import core as dpf

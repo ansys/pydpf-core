@@ -24,7 +24,7 @@
 .. _ref_data_sources:
 
 Data Sources
-============
+
 """
 
 import os

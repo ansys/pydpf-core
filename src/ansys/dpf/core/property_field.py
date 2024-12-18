@@ -22,7 +22,7 @@
 
 """
 PropertyField
-=============
+
 """
 
 import numpy as np

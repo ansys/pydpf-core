@@ -22,7 +22,7 @@
 
 """
 Cyclic Support
-==============
+
 """
 
 import traceback

@@ -1,4 +1,4 @@
-ansys-sphinx-theme==1.2.2
+ansys-sphinx-theme[autoapi]==1.2.2
 enum-tools[sphinx]==0.12.0
 graphviz==0.20.1
 imageio==2.36.0
@@ -7,7 +7,7 @@ nbsphinx==0.9.5
 pypandoc==1.14
 pytest-sphinx==0.6.3
 pyvista==0.44.2
-sphinx==7.1.0
+sphinx==7.4.7
 sphinx-copybutton==0.5.2
 sphinx-gallery==0.18.0
 sphinx-notfound-page==1.0.4

@@ -22,7 +22,7 @@
 
 """
 Operator Configuration
-======================
+
 """
 
 import functools

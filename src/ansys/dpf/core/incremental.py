@@ -24,7 +24,7 @@
 .. _ref_incremental:
 
 Incremental
-===========
+
 """
 
 from ansys.dpf import core
