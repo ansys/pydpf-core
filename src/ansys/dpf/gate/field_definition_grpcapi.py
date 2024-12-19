@@ -107,6 +107,6 @@ class FieldDefinitionGRPCAPI(field_definition_abstract_api.FieldDefinitionAbstra
         if name != None:
             request.name.string = name
         if quantity_type != None:
-            request.quantity_type = quantity_type
+            request.quantity_types.quantity_types = quantity_type
 
         _get_stub(fieldDef._server).Update(request)
