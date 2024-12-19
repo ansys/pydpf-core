@@ -107,6 +107,7 @@ extensions = [
     "sphinx_gallery.gen_gallery",
     'sphinx_reredirects',
     "ansys_sphinx_theme.extension.autoapi",
+    "jupyter_sphinx",
 ]
 
 redirects = {
