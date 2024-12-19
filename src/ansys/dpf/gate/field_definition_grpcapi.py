@@ -25,7 +25,7 @@ class FieldDefinitionGRPCAPI(field_definition_abstract_api.FieldDefinitionAbstra
     
     @staticmethod
     def csfield_definition_get_quantity_type(fieldDef, index):
-        return _get_stub(fieldDef._server).List(fieldDef._internal_obj).quantity_type[index]
+        return _get_stub(fieldDef._server).List(fieldDef._internal_obj).quantity_types.quantity_types[index]
     
     @staticmethod
     def csfield_definition_set_quantity_type(fieldDef, quantityType):
@@ -33,11 +33,11 @@ class FieldDefinitionGRPCAPI(field_definition_abstract_api.FieldDefinitionAbstra
 
     @staticmethod
     def csfield_definition_get_num_available_quantity_types(fieldDef):
-        return len(_get_stub(fieldDef._server).List(fieldDef._internal_obj).quantity_type)
+        return len(_get_stub(fieldDef._server).List(fieldDef._internal_obj).quantity_types.quantity_types)
 
     @staticmethod
     def csfield_definition_is_of_quantity_type(fieldDef, quantityType):
-        return quantityType in _get_stub(fieldDef._server).List(fieldDef._internal_obj).quantity_type
+        return quantityType in _get_stub(fieldDef._server).List(fieldDef._internal_obj).quantity_types.quantity_types
         
     @staticmethod
     def csfield_definition_get_shell_layers(fieldDef):
@@ -107,6 +107,6 @@ class FieldDefinitionGRPCAPI(field_definition_abstract_api.FieldDefinitionAbstra
         if name != None:
             request.name.string = name
         if quantity_type != None:
-            request.quantity_types.quantity_types = quantity_type
+            request.quantity_types.quantity_types.append(quantity_type)
 
         _get_stub(fieldDef._server).Update(request)

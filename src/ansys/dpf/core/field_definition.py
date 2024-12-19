@@ -155,7 +155,7 @@ class FieldDefinition:
 
     # @version_requires("4.0") #TODO
     @property
-    def quantity_type(self):
+    def quantity_types(self):
         """Getter for Quantity Types
 
         Returns
@@ -166,7 +166,6 @@ class FieldDefinition:
         quantity_types = []
         for i in range(self.num_quantity_types()):
             qt = self._api.csfield_definition_get_quantity_type(self, i)
-            print(qt)
             quantity_types.append(str(qt))
 
         return quantity_types

@@ -526,18 +526,18 @@ def test_field_definition_quantity_type(server_type):
     fieldDef.add_quantity_type(qt)
 
     # Testing the getter
-    assert fieldDef.quantity_type[0] == qt
+    assert fieldDef.quantity_types[0] == qt
 
     # Adding a second quantity type
     qt2 = "another_quantity_type"
     fieldDef.add_quantity_type(qt2)
 
     # Testing the getter again
-    assert fieldDef.quantity_type[1] == qt2
+    assert fieldDef.quantity_types[1] == qt2
 
     # Testing the getter with an index out of range
     with pytest.raises(Exception):
-        fieldDef.quantity_type[2]
+        fieldDef.quantity_types[2]
 
     # Getting the number of available quantity types
     assert fieldDef.num_quantity_types() == 2
