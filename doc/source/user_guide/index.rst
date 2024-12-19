@@ -70,6 +70,8 @@ Troubleshooting
     tutorials/distributed_files/index.rst
     tutorials/dpf_server/index.rst
     tutorials/licensing/index.rst
+    tutorials/mathematics/index.rst
+    tutorials/manipulate_physics_data/index.rst
 
 .. toctree::
    :maxdepth: 2
