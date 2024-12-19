@@ -6,20 +6,13 @@ Animate data over time
 
 :bdg-mapdl:`MAPDL` :bdg-lsdyna:`LS-DYNA` :bdg-fluent:`FLUENT` :bdg-cfx:`CFX`
 
-.. |Examples| replace:: :mod:`ansys.dpf.core.examples`
+.. include:: ../../../links_and_refs.rst
 .. |Animator| replace:: :class:`Animator<ansys.dpf.core.animator.Animator>`
-.. |Field| replace:: :class:`Field<ansys.dpf.core.field.Field>`
-.. |FieldsContainer| replace:: :class:`FieldsContainer<ansys.dpf.core.fields_container.FieldsContainer>`
-.. |MeshedRegion| replace:: :class:`MeshedRegion <ansys.dpf.core.meshed_region.MeshedRegion>`
-.. |TimeFreqSupport| replace:: :class:`TimeFreqSupport <ansys.dpf.core.time_freq_support.TimeFreqSupport>`
 .. |animate| replace:: :func:`FieldsContainer.animate() <ansys.dpf.core.fields_container.FieldsContainer.animate>`
-.. |Result| replace:: :class:`Result <ansys.dpf.core.results.Result>`
-.. |Operator| replace:: :class:`Operator<ansys.dpf.core.dpf_operator.Operator>`
 .. |Workflow| replace:: :class:`Workflow<ansys.dpf.core.workflow.Workflow>`
 .. |Elemental| replace:: :class:`elemental<ansys.dpf.core.common.locations>`
 .. |ElementalNodal| replace:: :class:`elemental_nodal<ansys.dpf.core.common.locations>`
 .. |Nodal| replace:: :class:`nodal<ansys.dpf.core.common.locations>`
-.. |Faces| replace:: :class:`faces<ansys.dpf.core.common.locations>`
 .. |Overall| replace:: :class:`overall<ansys.dpf.core.common.locations>`
 .. |open_movie| replace:: :class:`pyvista.Plotter.open_movie`
 
