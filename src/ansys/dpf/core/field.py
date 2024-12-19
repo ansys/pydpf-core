@@ -24,7 +24,7 @@
 .. _ref_field:
 
 Field
-=====
+
 """
 
 import numpy as np

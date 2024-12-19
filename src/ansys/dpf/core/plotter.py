@@ -22,7 +22,7 @@
 
 """
 Plotter
-=======
+
 This module contains the DPF plotter class.
 
 Contains classes used to plot a mesh and a fields container using PyVista.

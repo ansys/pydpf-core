@@ -24,7 +24,7 @@
 .. _ref_outputs:
 
 Outputs
-=======
+
 """
 
 from ansys.dpf.core.mapping_types import map_types_to_python

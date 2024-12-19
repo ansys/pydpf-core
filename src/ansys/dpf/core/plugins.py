@@ -22,7 +22,7 @@
 
 """
 Python DPF plugins utilities
-============================
+
 Contains the utilities specific to installing and using Python DPF plugins.
 
 """

@@ -24,7 +24,7 @@
 .. _ref_fields_container:
 
 FieldsContainer
-===============
+
 Contains classes associated with the DPF FieldsContainer.
 """
 

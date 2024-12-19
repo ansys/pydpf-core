@@ -22,7 +22,7 @@
 
 """
 ResultInfo
-==========
+
 """
 
 import traceback

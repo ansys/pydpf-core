@@ -22,7 +22,7 @@
 
 """
 RuntimeConfig
-=============
+
 """
 
 from ansys.dpf.core.data_tree import DataTree

@@ -183,9 +183,9 @@ def find_ansys():
     if base_path is None:
         return base_path
 
-    paths = base_path.glob("v*")
+    paths = list(base_path.glob("v*"))
 
-    if not list(paths):
+    if not paths:
         return None
 
     versions = {}

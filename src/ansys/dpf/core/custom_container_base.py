@@ -22,7 +22,7 @@
 
 """
 CustomContainerBase
-===================
+
 This module contains the `CustomContainerBase` class, which serves as a base
 for creating wrappers around `GenericDataContainer` objects.
 

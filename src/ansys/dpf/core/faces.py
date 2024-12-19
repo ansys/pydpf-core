@@ -24,7 +24,7 @@
 .. _ref_faces_apis:
 
 Faces
-=====
+
 """
 
 import numpy as np

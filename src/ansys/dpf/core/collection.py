@@ -23,7 +23,7 @@
 # -*- coding: utf-8 -*-
 """
 Collection
-===============
+
 """
 
 from __future__ import annotations
