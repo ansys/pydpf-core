@@ -261,6 +261,7 @@ Save the animation
 
 You can save the animation using the ``save_as`` argument with a target file path with the desired format as the extension key.
 Accepted extensions are:
+
 -  ``.gif``;
 - ``.avi``;
 - ``.mp4`` 
@@ -280,6 +281,7 @@ Control the camera
 Control the camera with the ``cpos`` argument.
 
 A camera position is a combination of:
+
 - A position;
 - A focal point (the target);
 - A upwards vector. 
