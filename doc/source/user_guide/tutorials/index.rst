@@ -136,7 +136,7 @@ of our package background so you can understand how to work with it.
        Learn how to do mathematical operations using PyDPF-Core API and data structures
 
     .. grid-item-card:: Manipulating physics data
-       :link: ref_tutorials_mathematics
+       :link: ref_tutorials_manipulate_physics_data
        :link-type: ref
        :text-align: center
 
