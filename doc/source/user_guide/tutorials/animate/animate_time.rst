@@ -4,6 +4,8 @@
 Animate data over time
 ======================
 
+:bdg-mapdl:`MAPDL` :bdg-lsdyna:`LS-DYNA` :bdg-fluent:`FLUENT` :bdg-cfx:`CFX`
+
 .. |Examples| replace:: :mod:`ansys.dpf.core.examples`
 .. |Animator| replace:: :class:`Animator<ansys.dpf.core.animator.Animator>`
 .. |Field| replace:: :class:`Field<ansys.dpf.core.field.Field>`
