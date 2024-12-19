@@ -4,171 +4,172 @@
 Plotting meshes
 ===============
 
-.. |MeshedRegion| replace:: :class:`MeshedRegion <ansys.dpf.core.meshed_region.MeshedRegion>`
-.. |MeshesContainer| replace:: :class:`MeshesContainer <ansys.dpf.core.meshes_container.MeshesContainer>`,
-.. |Model| replace:: :class:`Model <ansys.dpf.core.model.Model>`
-.. |plot| replace:: :func:`plot()<ansys.dpf.core.model.Model.plot>`
-.. |plotMesh| replace:: :func:`plot()<ansys.dpf.core.meshed_region.MeshedRegion.plot>`
-.. |plotMeshes| replace:: :func:`plot()<ansys.dpf.core.meshes_container.MeshesContainer.plot>`
+.. include:: ../../../links_and_refs.rst
+.. |MeshesContainer| replace:: :class:`MeshesContainer<ansys.dpf.core.meshes_container.MeshesContainer>`,
+.. |Model.plot| replace:: :func:`Model.plot()<ansys.dpf.core.model.Model.plot>`
+.. |MeshedRegion.plot| replace:: :func:`MeshedRegion.plot()<ansys.dpf.core.meshed_region.MeshedRegion.plot>`
+.. |MeshesContainer.plot| replace:: :func:`MeshesContainer.plot()<ansys.dpf.core.meshes_container.MeshesContainer.plot>`
 .. |DpfPlotter| replace:: :class:`DpfPlotter<ansys.dpf.core.plotter.DpfPlotter>`
 .. |add_mesh| replace:: :func:`add_mesh()<ansys.dpf.core.plotter.DpfPlotter.add_mesh>`
 .. |show_figure| replace:: :func:`show_figure()<ansys.dpf.core.plotter.DpfPlotter.show_figure>`
-.. |Examples| replace:: :mod:`Examples<ansys.dpf.core.examples>`
-
-DPF-Core has a variety of plotting methods for generating 3D plots of
-Ansys models directly from Python. These methods use VTK and leverage
-the `PyVista <https://github.com/pyvista/pyvista>`_ library to
-simplify plotting.
+.. |meshes_provider| replace:: :class:`meshes_provider<ansys.dpf.core.operators.mesh.meshes_provider.meshes_provider>`
 
 This tutorial shows different plotting commands to plot the bare mesh
 of a model.
 
+DPF-Core has a variety of plotting methods for generating 3D plots of
+Ansys models directly from Python. These methods use VTK and leverage
+the `PyVista <pyVista>`_ library to simplify plotting.
+
+:jupyter-download-script:`Download tutorial as Python script<plotting_meshes>`
+:jupyter-download-notebook:`Download tutorial as Jupyter notebook<plotting_meshes>`
+
 Define the mesh
 ---------------
 
-The mesh object in DPF is a |MeshedRegion|. You can plot a |MeshedRegion| or a
-|MeshesContainer|, that is a collection of |MeshedRegion|.
+The mesh object in DPF is a |MeshedRegion|. You can store multiple |MeshedRegion| in a DPF collection
+called |MeshesContainer|.
 
-In this tutorial we will download a pontoon simulation result file available in
-our |Examples| package:
+To display a mesh you can plot a |MeshedRegion| or a |MeshesContainer|.
+
+You can obtain a |MeshedRegion| by creating your own from scratch or by getting it from a result file.
+For more information check the :ref:`ref_tutorials_create_a_mesh_from_scratch` and
+:ref:`ref_tutorials_get_mesh_from_result_file` tutorials.
+
+For this tutorial, we get a |MeshedRegion| from a result file. You can use one available in the |Examples| module.
+For more information see the :ref:`ref_tutorials_get_mesh_from_result_file` tutorial.
 
 .. jupyter-execute::
 
-    # Import the ``ansys.dpf.core`` module, including examples files and operators subpackage
+    # Import the ``ansys.dpf.core`` module
     from ansys.dpf import core as dpf
+    # Import the examples module
     from ansys.dpf.core import examples
+    # Import the operators module
     from ansys.dpf.core import operators as ops
-    # Define the result file
-    pontoon_file = examples.download_pontoon()
 
-Here, we use the |MeshedRegion| associated with the DPF |Model| object.
-However, you can obtain your |MeshedRegion| by other methods. For more
-information see the tutorials section : :ref:`ref_tutorials_mesh`.
+    # Define the result file path
+    result_file_path_1 = examples.download_pontoon()
 
+    # Define the DataSources
+    ds_1 = dpf.DataSources(result_path=result_file_path_1)
 
-To plot the mesh you have three different methods:
+    # Create a model
+    model_1 = dpf.Model(data_sources=ds_1)
 
-    1)  :ref:`method_plot_mesh_1`
-    2)  :ref:`method_plot_mesh_2`
-    3)  :ref:`method_plot_mesh_3`
+    # Extract the mesh
+    meshed_region_1 = model_1.metadata.meshed_region
+
+There are different ways to obtain a |MeshesContainer|. You can, for example, extract a |MeshedRegion| in split parts
+from the result file.
+
+Here, we get a |MeshesContainer| by extracting the |MeshedRegion| split by material
+using the |meshes_provider| operator. This operator gives a |MeshesContainer| with the |MeshedRegion| split parts
+with a *'mat'* label.
+
+.. jupyter-execute::
+
+    # Extract the mesh in split parts
+    meshes = ops.mesh.mesh_provider(data_sources=ds_1).eval()
+
+To plot the mesh you have four different methods:
+
+- :ref:`Plot the Model using the Model.plot() method<method_plot_mesh_1>`
+- :ref:`Plot the MeshedRegion using the MeshedRegion.plot() method<method_plot_mesh_2>`
+- :ref:`Plot the MeshesContainer using the MeshesContainer.plot() method<method_plot_mesh_3>`
+- :ref:`Plot the MeshedRegion using the DpfPlotter object<method_plot_mesh_4>`
 
 .. _method_plot_mesh_1:
 
-Plot the |Model| with the |plot| method
----------------------------------------
+Plot the |Model| using the |Model.plot| method
+----------------------------------------------
 
-This first approach is pretty simple. First, have to define the model
-object using the result file. Then you just have to use the |plot|
-method, it plots the bare mesh by default.
-
-.. jupyter-execute::
-
-    # Create the model
-    my_model = dpf.Model(data_sources=pontoon_file)
-    # Use the plot() method to plot the associated mesh
-    my_model.plot()
-
-The default plotter settings display the mesh with edges, lighting
-and axis widget enabled. Nevertheless, as we use the
-`PyVista <https://github.com/pyvista/pyvista>`_ library to create
-the plot you can use additional PyVista arguments (available at:
-:func:`pyvista.plot`), such as:
+To plot the mesh with this approach, you just have to use the |Model.plot|
+method [1]_. This method plots the bare mesh associated to the result file by default.
 
 .. jupyter-execute::
 
-    my_model.plot(title= "Pontoon mesh",
-                  text= "Plot mesh method 1",  # Adds the given text at the bottom of the plot
-                  off_screen=True,
-                  screenshot="mesh_plot_1.png"  # Save a screenshot to file with the given name
-                  )
-    # Notes:
-    # - To save a screenshot to file, use "screenshot" ( as well as "notebook=False" if on a Jupyter notebook).
-    # - The "off_screen" keyword only works when "notebook=False". If "off_screen=True" the plot is not displayed when running the code.
+    # Plot the mesh
+    model_1.plot()
 
 .. _method_plot_mesh_2:
 
-Plot the |MeshedRegion| or the |MeshesContainer| with the |plotMesh| method
----------------------------------------------------------------------------
+Plot the |MeshedRegion| using the |MeshedRegion.plot| method
+------------------------------------------------------------
 
-|MeshedRegion|
-^^^^^^^^^^^^^^
-
-This second approach demands a |MeshedRegion| object. Thus, we extract
-it from our |Model| object.
+To plot the mesh with this approach, you just have to use the |MeshedRegion.plot|
+method [1]_ with the |MeshedRegion| object we defined.
 
 .. jupyter-execute::
 
-    # Extract the mesh
-    my_meshed_region = my_model.metadata.meshed_region
+    # Plot the mesh
+    meshed_region_1.plot()
 
-Just like in the first approach, use the |plotMesh| method.
-
-.. jupyter-execute::
-
-    # Use the plot() method to plot the mesh
-    my_meshed_region.plot()
-
-As, the meshed region is generated from the model’s metadata,
-the plot generated here is identical to the plot generated by
-the ":ref:`method_plot_mesh_1`" approach.
-
-The default plotter settings display the mesh with edges, lighting
-and axis widget enabled. Nevertheless, as we use the
-`PyVista <https://github.com/pyvista/pyvista>`_ library to create
-the plot you can use additional PyVista arguments (available at:
-:func:`pyvista.plot`), just like in ":ref:`method_plot_mesh_1`"
-
-|MeshesContainer|
-^^^^^^^^^^^^^^^^^
-
-There are different ways to obtain a |MeshesContainer|.
-
-Here we get a |MeshesContainer| by using the :class:`meshes_provider <ansys.dpf.core.operators.mesh.meshes_provider.meshes_provider>`
-operator.
-
-.. jupyter-execute::
-
-    # Get the meshes container
-    my_meshes = ops.mesh.mesh_provider(data_sources=dpf.DataSources(pontoon_file)).eval()
-
-Just like in the first approach, use the |plotMeshes| method.
-
-.. jupyter-execute::
-
-    # Use the plot() method to plot the mesh
-    my_meshes.plot()
+As the meshed region is generated from the |Model|, the plot displayed here is identical to the plot generated by
+the :ref:`method_plot_mesh_1` approach.
 
 .. _method_plot_mesh_3:
 
-Plot the |MeshedRegion| with the |DpfPlotter| class
----------------------------------------------------
+Plot the |MeshesContainer| using the |MeshesContainer.plot| method
+------------------------------------------------------------------
 
-Here we use the |DpfPlotter| object, that is currently a PyVista based object.
-That means that PyVista must be installed, and that it supports kwargs as
-parameter (the argument must be supported by the installed PyVista version).
-More information about the available arguments are available at :class:`pyvista.Plotter`.
-
-First you have to define the |DpfPlotter| object and then add the |MeshedRegion|
-to it using the |add_mesh| method.
-
-To display the figure built by the plotter object you need to use the
-|show_figure|  method.
+To plot the mesh with this approach you just have to use the |MeshesContainer.plot|
+method [1]_ with the |MeshesContainer| object we defined.
 
 .. jupyter-execute::
 
-    # Declare the DpfPlotter object
-    my_plotter = dpf.plotter.DpfPlotter()
-    # Add the MeshedRegion to the DpfPlotter object
-    my_plotter.add_mesh(meshed_region=my_meshed_region)
-    # Display the plot
-    my_plotter.show_figure()
+    # Plot the meshes
+    meshes.plot()
 
-The default |DpfPlotter| object settings display the mesh with edges,and lighting
-enabled. Nevertheless, as we use the `PyVista <https://github.com/pyvista/pyvista>`_
-library to create the plot you can use additional PyVista arguments for the |DpfPlotter|
-object and |add_mesh| method
-(available at: :func:`pyvista.plot`).
+.. _method_plot_mesh_4:
+
+Plot the |MeshedRegion| with the |DpfPlotter| object
+----------------------------------------------------
+
+To plot the mesh, start by defining the |DpfPlotter| object [2]_. Then, add the |MeshedRegion|
+to it using the |add_mesh| method.
+
+To display the figure built by the plotter object, you must use the
+|show_figure| method.
+
+.. jupyter-execute::
+
+    # Define the DpfPlotter object
+    mesh_plotter = dpf.plotter.DpfPlotter()
+
+    # Add the MeshedRegion to the DpfPlotter object
+    mesh_plotter.add_mesh(meshed_region=meshed_region_1)
+
+    # Display the plot
+    mesh_plotter.show_figure()
 
 You can also plot results data on its supporting mesh. For a detailed demonstration
 check: :ref:`ref_plotting_data_on_the_mesh`
 
+.. rubric:: Footnotes
+
+.. [1] The default plotter settings display the mesh with edges, lighting and axis widget enabled.
+Nevertheless, as we use the `PyVista <pyVista>`_ library to create the plot you can use additional
+PyVista arguments (available at :func:`pyvista.plot`), such as:
+
+.. jupyter-execute::
+
+    model_1.plot(title= "Pontoon mesh",
+                  text= "Plot mesh method 1",  # Adds the given text at the bottom of the plot
+                  off_screen=True,
+                  screenshot="mesh_plot_1.png",  # Save a screenshot to file with the given name
+                  window_size=[1050,350]
+                  )
+    # Notes:
+    # - To save a screenshot to file, use the "screenshot" argument (as well as "notebook=False" if on a Jupyter notebook).
+    # - The "off_screen" keyword only works when "notebook=False". If "off_screen=True" the plot is not displayed when running the code.
+
+.. [2] The |DpfPlotter| object, that is currently a PyVista based object.
+That means that PyVista must be installed, and that it supports kwargs as
+parameter (the argument must be supported by the installed PyVista version).
+More information about the available arguments are available at :class:`pyvista.Plotter`.
+
+The default |DpfPlotter| object settings display the mesh with edges and lighting
+enabled. Nevertheless, as we use the `PyVista <https://github.com/pyvista/pyvista>`_
+library to create the plot, you can use additional PyVista arguments for the |DpfPlotter|
+object and |add_mesh| method (available at :func:`pyvista.plot`).
