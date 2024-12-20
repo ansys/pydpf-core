@@ -231,7 +231,7 @@ To display the figure built by the plotter object use the |show_figure| method.
 
 .. [1] The default plotter settings display the mesh with edges, lighting and axis widget enabled.
 Nevertheless, as we use the `PyVista <pyVista_github_>`_ library to create the plot, you can use additional
-PyVista arguments (available at :func:`pyvista.plot`), such as:
+PyVista arguments (available at `pyvista.plot() <pyvista_doc_plot_method_>`_), such as:
 
 .. jupyter-execute::
 
