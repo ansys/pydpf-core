@@ -5,11 +5,9 @@ Plotting meshes
 ===============
 
 .. include:: ../../../links_and_refs.rst
-.. |MeshesContainer| replace:: :class:`MeshesContainer<ansys.dpf.core.meshes_container.MeshesContainer>`,
 .. |Model.plot| replace:: :func:`Model.plot()<ansys.dpf.core.model.Model.plot>`
-.. |MeshedRegion.plot| replace:: :func:`MeshedRegion.plot()<ansys.dpf.core.meshed_region.MeshedRegion.plot>`
+.. |MeshedRegion.plot| replace:: :func:`MeshedRegion.plot() <ansys.dpf.core.meshed_region.MeshedRegion.plot>`
 .. |MeshesContainer.plot| replace:: :func:`MeshesContainer.plot()<ansys.dpf.core.meshes_container.MeshesContainer.plot>`
-.. |DpfPlotter| replace:: :class:`DpfPlotter<ansys.dpf.core.plotter.DpfPlotter>`
 .. |add_mesh| replace:: :func:`add_mesh()<ansys.dpf.core.plotter.DpfPlotter.add_mesh>`
 .. |show_figure| replace:: :func:`show_figure()<ansys.dpf.core.plotter.DpfPlotter.show_figure>`
 .. |meshes_provider| replace:: :class:`meshes_provider<ansys.dpf.core.operators.mesh.meshes_provider.meshes_provider>`
@@ -19,7 +17,7 @@ of a model.
 
 DPF-Core has a variety of plotting methods for generating 3D plots of
 Ansys models directly from Python. These methods use VTK and leverage
-the `PyVista <pyVista>`_ library to simplify plotting.
+the `PyVista <pyVista_github_>`_ library to simplify plotting.
 
 :jupyter-download-script:`Download tutorial as Python script<plotting_meshes>`
 :jupyter-download-notebook:`Download tutorial as Jupyter notebook<plotting_meshes>`
@@ -143,13 +141,12 @@ To display the figure built by the plotter object, you must use the
     # Display the plot
     mesh_plotter.show_figure()
 
-You can also plot results data on its supporting mesh. For a detailed demonstration
-check: :ref:`ref_plotting_data_on_the_mesh`
+You can also plot results data on its supporting mesh. For more information, see :ref:`ref_plotting_data_on_the_mesh`
 
 .. rubric:: Footnotes
 
 .. [1] The default plotter settings display the mesh with edges, lighting and axis widget enabled.
-Nevertheless, as we use the `PyVista <pyVista>`_ library to create the plot you can use additional
+Nevertheless, as we use the `PyVista <pyVista_github_>`_ library to create the plot you can use additional
 PyVista arguments (available at :func:`pyvista.plot`), such as:
 
 .. jupyter-execute::
@@ -170,6 +167,6 @@ parameter (the argument must be supported by the installed PyVista version).
 More information about the available arguments are available at :class:`pyvista.Plotter`.
 
 The default |DpfPlotter| object settings display the mesh with edges and lighting
-enabled. Nevertheless, as we use the `PyVista <https://github.com/pyvista/pyvista>`_
+enabled. Nevertheless, as we use the `PyVista <pyVista_github_>`_
 library to create the plot, you can use additional PyVista arguments for the |DpfPlotter|
 object and |add_mesh| method (available at :func:`pyvista.plot`).
