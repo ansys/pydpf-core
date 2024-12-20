@@ -4,7 +4,6 @@
 Plotting meshes
 ===============
 
-.. include:: ../../../links_and_refs.rst
 .. |Model.plot| replace:: :func:`Model.plot()<ansys.dpf.core.model.Model.plot>`
 .. |MeshedRegion.plot| replace:: :func:`MeshedRegion.plot() <ansys.dpf.core.meshed_region.MeshedRegion.plot>`
 .. |MeshesContainer.plot| replace:: :func:`MeshesContainer.plot()<ansys.dpf.core.meshes_container.MeshesContainer.plot>`
@@ -31,7 +30,7 @@ called |MeshesContainer|.
 To display a mesh you can plot a |MeshedRegion| or a |MeshesContainer|.
 
 You can obtain a |MeshedRegion| by creating your own from scratch or by getting it from a result file.
-For more information check the :ref:`ref_tutorials_create_a_mesh_from_scratch` and
+For more information, see the :ref:`ref_tutorials_create_a_mesh_from_scratch` and
 :ref:`ref_tutorials_get_mesh_from_result_file` tutorials.
 
 For this tutorial, we get a |MeshedRegion| from a result file. You can use one available in the |Examples| module.
@@ -146,7 +145,7 @@ You can also plot results data on its supporting mesh. For more information, see
 .. rubric:: Footnotes
 
 .. [1] The default plotter settings display the mesh with edges, lighting and axis widget enabled.
-Nevertheless, as we use the `PyVista <pyVista_github_>`_ library to create the plot you can use additional
+Nevertheless, as we use the `PyVista <pyVista_github_>`_ library to create the plot, you can use additional
 PyVista arguments (available at :func:`pyvista.plot`), such as:
 
 .. jupyter-execute::
@@ -161,12 +160,12 @@ PyVista arguments (available at :func:`pyvista.plot`), such as:
     # - To save a screenshot to file, use the "screenshot" argument (as well as "notebook=False" if on a Jupyter notebook).
     # - The "off_screen" keyword only works when "notebook=False". If "off_screen=True" the plot is not displayed when running the code.
 
-.. [2] The |DpfPlotter| object, that is currently a PyVista based object.
+.. [2] The |DpfPlotter| object is currently a PyVista based object.
 That means that PyVista must be installed, and that it supports kwargs as
 parameter (the argument must be supported by the installed PyVista version).
 More information about the available arguments are available at :class:`pyvista.Plotter`.
 
-The default |DpfPlotter| object settings display the mesh with edges and lighting
+The default |DpfPlotter| object settings displays the mesh with edges and lighting
 enabled. Nevertheless, as we use the `PyVista <pyVista_github_>`_
 library to create the plot, you can use additional PyVista arguments for the |DpfPlotter|
 object and |add_mesh| method (available at :func:`pyvista.plot`).
