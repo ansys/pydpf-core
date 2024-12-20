@@ -14,6 +14,9 @@ Plotting data on the mesh
 
 This tutorial shows how to plot data on its supporting mesh by different approaches.
 
+:jupyter-download-script:`Download tutorial as Python script<plotting_data_on_the_mesh>`
+:jupyter-download-notebook:`Download tutorial as Jupyter notebook<plotting_data_on_the_mesh>`
+
 Define the data
 ---------------
 
@@ -40,6 +43,7 @@ Printing the model displays the available results.
 
     # Create the model
     model_1 = dpf.Model(data_sources=result_file_path_1)
+
     # Print the model
     print(model_1)
 
