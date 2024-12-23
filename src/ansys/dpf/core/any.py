@@ -21,10 +21,10 @@
 # SOFTWARE.
 
 """
+Any.
+
+Module containing the wrapper class representing all supported DPF datatypes.
 .. _ref_any:
-
-Any
-
 """
 
 import traceback
@@ -314,6 +314,7 @@ class Any:
         raise TypeError(f"{output_type} is not currently supported by the Any class.")
 
     def __del__(self):
+        """Delete the entry."""
         try:
             if hasattr(self, "_deleter_func"):
                 obj = self._deleter_func[1](self)
