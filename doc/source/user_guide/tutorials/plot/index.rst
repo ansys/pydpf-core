@@ -18,6 +18,13 @@ These tutorials demonstrate some different approaches to visualise the data in p
 
        This tutorial shows different plotting commands to plot a bare mesh
 
+    .. grid-item-card:: Plotting deformed meshes
+       :link: ref_tutorials_plotting_deformed_meshes
+       :link-type: ref
+       :text-align: center
+
+       This tutorial shows different plotting commands to plot a bare deformed mesh
+
     .. grid-item-card:: Plotting data on the mesh
        :link: ref_plotting_data_on_the_mesh
        :link-type: ref
@@ -60,6 +67,7 @@ These tutorials demonstrate some different approaches to visualise the data in p
     :hidden:
 
     plotting_meshes.rst
+    plotting_deformed_meshes.rst
     plotting_data_on_the_mesh.rst
     plotting_data_on_deformed_mesh.rst
     plotting_data_on_specific_path.rst
