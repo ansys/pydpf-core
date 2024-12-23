@@ -117,7 +117,6 @@ def fluid_axial_model() -> DataSources:
 
     Examples
     --------
-
     >>> from ansys.dpf.core import examples
     >>> ds = examples.fluid_axial_model()
     """

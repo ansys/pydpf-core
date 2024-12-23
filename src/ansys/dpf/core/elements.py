@@ -85,7 +85,7 @@ class Element:
         IDs of all nodes in the element.
 
         Returns
-        --------
+        -------
         list
            List of IDs for all nodes in the element.
 
@@ -132,8 +132,9 @@ class Element:
     def nodes(self):
         """
         All nodes in the element.
+
         Returns
-        --------
+        -------
         list
             List of all nodes in the element.
 
@@ -238,7 +239,7 @@ class Element:
         Ordered list of node indices of the element.
 
         Returns
-        --------
+        -------
         list
             Ordered list of node indices.
 
@@ -789,7 +790,6 @@ class ElementAdder:
         -------
         bool
         """
-
         return self._shape_info["solid"]
 
     @is_solid.setter
@@ -807,7 +807,6 @@ class ElementAdder:
         -------
         bool
         """
-
         return self._shape_info["shell"]
 
     @is_shell.setter
@@ -825,7 +824,6 @@ class ElementAdder:
         -------
         bool
         """
-
         return self._shape_info["beam"]
 
     @is_beam.setter
@@ -843,7 +841,6 @@ class ElementAdder:
         -------
         bool
         """
-
         return self._shape_info["point"]
 
     @is_point.setter
@@ -858,7 +855,7 @@ class ElementAdder:
         Shape of the element.
 
         Returns
-        --------
+        -------
         str
            Shape of the element. Options are ``"solid"``, ``"shell"``, ``"beam"``
            and ``"unknown_shape"``.
@@ -879,7 +876,7 @@ class ElementAdder:
         Set the shape of the element.
 
         Parameters
-        --------
+        ----------
         value : str
            Shape of the element. Options are ``"solid"``, ``"shell"``, ``"beam"``
            and ``"unknown_shape"``.

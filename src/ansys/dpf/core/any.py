@@ -216,7 +216,6 @@ class Any:
         any : Any
             Wrapped any type.
         """
-
         inner_server = server if server is not None else obj._server
 
         if not inner_server.meet_version("7.0"):
@@ -295,7 +294,6 @@ class Any:
         type
             Original object instance
         """
-
         self._internal_type = output_type if output_type is not None else self._internal_type
 
         type_tuple = self._type_to_new_from_get_as_method(self._internal_type)

@@ -23,7 +23,6 @@
 """
 fields_container_factory
 
-
 Contains functions to simplify creating a fields container.
 """
 

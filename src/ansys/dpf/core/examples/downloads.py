@@ -23,7 +23,8 @@
 """
 Downloads
 
-Download example datasets from https://github.com/ansys/example-data"""
+Download example datasets from https://github.com/ansys/example-data
+"""
 
 import os
 from pathlib import Path
@@ -1664,7 +1665,6 @@ def find_simple_bar(should_upload: bool = True, server=None, return_local_path=F
 
     Examples
     --------
-
     >>> from ansys.dpf.core import examples
     >>> path = examples.find_simple_bar()
     >>> path
@@ -1698,7 +1698,6 @@ def find_static_rst(should_upload: bool = True, server=None, return_local_path=F
 
     Examples
     --------
-
     >>> from ansys.dpf.core import examples
     >>> path = examples.find_static_rst()
     >>> path
@@ -1730,7 +1729,6 @@ def find_complex_rst(should_upload: bool = True, server=None, return_local_path=
 
     Examples
     --------
-
     >>> from ansys.dpf.core import examples
     >>> path = examples.find_complex_rst()
     >>> path
@@ -1762,7 +1760,6 @@ def find_multishells_rst(should_upload: bool = True, server=None, return_local_p
 
     Examples
     --------
-
     >>> from ansys.dpf.core import examples
     >>> path = examples.find_multishells_rst()
     >>> path
@@ -1796,7 +1793,6 @@ def find_electric_therm(should_upload: bool = True, server=None, return_local_pa
 
     Examples
     --------
-
     >>> from ansys.dpf.core import examples
     >>> path = examples.find_electric_therm()
     >>> path
@@ -1830,7 +1826,6 @@ def find_steady_therm(should_upload: bool = True, server=None, return_local_path
 
     Examples
     --------
-
     >>> from ansys.dpf.core import examples
     >>> path = examples.find_steady_therm()
     >>> path
@@ -1864,7 +1859,6 @@ def find_transient_therm(should_upload: bool = True, server=None, return_local_p
 
     Examples
     --------
-
     >>> from ansys.dpf.core import examples
     >>> path = examples.find_transient_therm()
     >>> path
@@ -1898,7 +1892,6 @@ def find_msup_transient(should_upload: bool = True, server=None, return_local_pa
 
     Examples
     --------
-
     >>> from ansys.dpf.core import examples
     >>> path = examples.find_msup_transient()
     >>> path
@@ -1932,7 +1925,6 @@ def find_simple_cyclic(should_upload: bool = True, server=None, return_local_pat
 
     Examples
     --------
-
     >>> from ansys.dpf.core import examples
     >>> path = examples.find_simple_cyclic()
     >>> path
@@ -1968,7 +1960,6 @@ def find_distributed_msup_folder(
 
     Examples
     --------
-
     >>> from ansys.dpf.core import examples
     >>> path = examples.find_distributed_msup_folder()
     >>> path
@@ -2029,7 +2020,6 @@ def download_average_filter_plugin(
 
     Examples
     --------
-
     >>> from ansys.dpf.core import examples
     >>> path = examples.download_average_filter_plugin()
 
@@ -2072,7 +2062,6 @@ def download_gltf_plugin(
 
     Examples
     --------
-
     >>> from ansys.dpf.core import examples
     >>> path = examples.download_gltf_plugin()
 
@@ -2118,7 +2107,6 @@ def download_easy_statistics(
 
     Examples
     --------
-
     >>> from ansys.dpf.core import examples
     >>> path = examples.download_easy_statistics()
 

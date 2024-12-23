@@ -26,7 +26,8 @@
 Results
 
 This module contains the Results and Result classes that are created by the model
-to easily access results in result files."""
+to easily access results in result files.
+"""
 
 import functools
 
@@ -51,8 +52,8 @@ class Results:
         With this wrapper, time and mesh scopings can easily
         be customized.
 
-        Examples
-        --------
+    Examples
+    --------
         Create a displacement result from the model and choose its time and mesh scopings.
 
         >>> from ansys.dpf import core as dpf
@@ -66,8 +67,8 @@ class Results:
         With this wrapper, time and mesh scopings, location, and more
         can easily be customized.
 
-        Examples
-        --------
+    Examples
+    --------
         Create a stress result from the model and choose its time and mesh scopings.
 
         >>> from ansys.dpf import core as dpf
@@ -80,8 +81,8 @@ class Results:
         Result provider helper wrapping all types of providers available for a
         given result file.
 
-        Examples
-        --------
+    Examples
+    --------
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
         >>> model = dpf.Model(examples.find_electric_therm())
@@ -428,7 +429,6 @@ class Result:
         40
 
         """
-
         self._mesh_scoping = self._connector.named_selection(named_selection)
         return self
 

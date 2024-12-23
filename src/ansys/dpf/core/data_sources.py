@@ -173,7 +173,6 @@ class DataSources:
     @staticmethod
     def guess_second_key(filepath: str) -> str:
         """For files with an h5 or cff extension, look for another extension."""
-
         # These files usually end with .cas.h5 or .dat.h5
         accepted = ["cas", "dat"]
         new_split = Path(filepath).suffixes
@@ -233,6 +232,7 @@ class DataSources:
         domain_id: int, optional
             Domain ID for the distributed files. The default is ``0``. For this
             parameter to be taken into account, ``domain_path=True`` must be set.
+
         Examples
         --------
         >>> from ansys.dpf import core as dpf
@@ -275,6 +275,7 @@ class DataSources:
             plugin when a result is requested by an operator.
         domain_id:
             Domain ID for the distributed files.
+
         Examples
         --------
         >>> from ansys.dpf import core as dpf
@@ -378,7 +379,7 @@ class DataSources:
         """List of result files contained in the data sources.
 
         Returns
-        ----------
+        -------
         list
             List of result files.
         """

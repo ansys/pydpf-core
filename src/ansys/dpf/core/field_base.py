@@ -297,7 +297,6 @@ class _FieldBase:
         >>> #The fourth elementary data of the field corresponds to
         >>> #the element id number 586 in the mesh
         """
-
         return self._get_scoping()
 
     @scoping.setter
@@ -309,7 +308,7 @@ class _FieldBase:
         """Retrieves the elementary data of the scoping's index in an array.
 
         Returns
-        --------
+        -------
         numpy.ndarray
 
         Examples
@@ -763,7 +762,6 @@ class _LocalFieldBase(_FieldBase):
          [ 1.03542516e-02 -3.53018374e-03 -3.98914380e-05]]
 
         """
-
         if self._ncomp > 1:
             return np.array(self._data_copy).reshape(
                 len(self._data_copy) // self._ncomp, self._ncomp
@@ -815,7 +813,6 @@ class _LocalFieldBase(_FieldBase):
         int
             Number of components in each elementary data of the field.
         """
-
         return self._ncomp
 
     @property

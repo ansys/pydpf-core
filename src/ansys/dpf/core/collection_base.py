@@ -447,7 +447,7 @@ class CollectionBase(Generic[TYPE]):
     def _add_entry(self, label_space, entry):
         """Update or add an entry at a requested label space.
 
-        parameters
+        Parameters
         ----------
         label_space : list[str,int]
             Label space of the requested fields. For example, ``{"time":1, "complex":0}``.

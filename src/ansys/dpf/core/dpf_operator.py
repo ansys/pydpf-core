@@ -209,7 +209,6 @@ class Operator:
         >>> disp_z = model.results.displacement().Z()
 
         """
-
         for result_type in sub_results:
             try:
                 setattr(
@@ -235,7 +234,8 @@ class Operator:
     @version_requires("3.0")
     def progress_bar(self) -> bool:
         """With this property, the user can choose to print a progress bar when
-        the operator's output is requested, default is False"""
+        the operator's output is requested, default is False
+        """
         return self._progress_bar
 
     @progress_bar.setter
@@ -316,6 +316,7 @@ class Operator:
     @version_requires("6.2")
     def connect_operator_as_input(self, pin, op):
         """Connects an operator as an input on a pin.
+
         Parameters
         ----------
         pin : int
@@ -630,7 +631,7 @@ class Operator:
         For information on an operator's options, see the documentation for that operator.
 
         Returns
-        ----------
+        -------
         :class:`ansys.dpf.core.config.Config`
             Copy of the operator's current configuration.
 
@@ -691,7 +692,7 @@ class Operator:
         """Inputs connected to the operator.
 
         Returns
-        --------
+        -------
         :class:`ansys.dpf.core.inputs`
             Inputs connected to the operator.
 
@@ -706,7 +707,6 @@ class Operator:
         >>> disp_op.inputs.data_sources(data_src)
 
         """
-
         return self._inputs
 
     @property
@@ -714,7 +714,7 @@ class Operator:
         """Outputs from the operator's evaluation.
 
         Returns
-        --------
+        -------
         :class:`ansys.dpf.core.outputs`
             Outputs from the operator's evaluation.
 
@@ -811,7 +811,6 @@ class Operator:
         >>> normfc = math.norm_fc(disp_op).eval()
 
         """
-
         if not pin:
             if self.outputs != None and len(self.outputs._outputs) > 0:
                 return self.outputs._outputs[0]()
@@ -919,7 +918,8 @@ class Operator:
     @staticmethod
     def operator_specification(op_name, server=None):
         """Documents an Operator with its description (what the Operator does),
-        its inputs and outputs and some properties"""
+        its inputs and outputs and some properties
+        """
         return Specification(operator_name=op_name, server=server)
 
     @property

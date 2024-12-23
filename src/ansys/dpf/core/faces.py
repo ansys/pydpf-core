@@ -86,7 +86,7 @@ class Face:
         IDs of all nodes in the face.
 
         Returns
-        --------
+        -------
         list
            List of IDs for all nodes in the face.
 
@@ -133,8 +133,9 @@ class Face:
     def nodes(self):
         """
         All nodes in the face.
+
         Returns
-        --------
+        -------
         list
             List of all nodes in the face.
 
@@ -206,7 +207,7 @@ class Face:
         Ordered list of node indices of the face.
 
         Returns
-        --------
+        -------
         list
             Ordered list of node indices.
 

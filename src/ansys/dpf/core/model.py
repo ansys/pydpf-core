@@ -66,7 +66,6 @@ class Model:
 
     def __init__(self, data_sources=None, server=None):
         """Initialize connection with DPF server."""
-
         if server is None:
             server = dpf.core._global_server()
 
@@ -147,8 +146,8 @@ class Model:
             Result provider helper wrapping all types of provider available for a
             given result file.
 
-            Examples
-            --------
+        Examples
+        --------
             >>> from ansys.dpf import core as dpf
             >>> from ansys.dpf.core import examples
             >>> model = dpf.Model(examples.find_electric_therm())

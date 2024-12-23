@@ -126,7 +126,7 @@ class unit_systems:
     Class available with server's version starting at 6.1 (Ansys 2023R2).
 
     Attributes
-    -----------
+    ----------
     solver_mks : Metric (m, kg, N, s, J, Pa, degC, C, rad)
 
     solver_cgs : Metric (cm, g, dyne, s, erg, dyne*cm^-2, degC, C, rad)

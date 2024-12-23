@@ -481,6 +481,7 @@ class MeshedRegion:
         scale_factor : float, Field, FieldsContainer, optional
             Used to scale the mesh deformation. Defaults to 1.0. Can be a scalar Field
             (or a FieldsContainer with only one Field) to get a spatially non-homogeneous scaling.
+
         Returns
         -------
 

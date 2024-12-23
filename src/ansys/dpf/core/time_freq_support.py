@@ -337,7 +337,8 @@ class TimeFreqSupport(Support):
 
     def _get_cumulative_index(self, step, substep, freq, cplx):
         """Retrieve the cumulative index corresponding to the requested step/substep
-        or frequency."""
+        or frequency.
+        """
         if freq is None:
             if cplx is False:
                 return self._api.time_freq_support_get_time_freq_cummulative_index_by_step(
@@ -381,7 +382,6 @@ class TimeFreqSupport(Support):
         field : dpf.core.Field
             Field of all the frequencies in the model (complex or real).
         """
-
         # attributes_list = self._get_attributes_list()
         if cplx:  # and "freq_complex" in attributes_list:
             # return attributes_list["freq_complex"]
@@ -471,7 +471,6 @@ class TimeFreqSupport(Support):
         >>> tfq3.append_step(1, [0.1, 0.21, 1.0], rpm_value = 2.0, step_harmonic_indices = {1: [1.0, 2.0, 3.0], 2: [1.0, 2.0, 2.5]})
 
         """  # noqa: E501
-
         time_frequencies = self.time_frequencies
         if time_frequencies is None:
             time_frequencies = core.Field(

@@ -222,7 +222,6 @@ class FieldsContainer(CollectionBase[field.Field]):
         2
 
         """
-
         return super()._get_entries(label_space)
 
     def get_field(self, label_space_or_index):

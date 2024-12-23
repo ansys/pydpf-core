@@ -211,7 +211,7 @@ class Config:
             Name of the configuration option.
 
         Returns
-        ----------
+        -------
         str
             Value for the configuration option.
         """
@@ -236,7 +236,7 @@ class Config:
             Name of the configuration option.
 
         Returns
-        ----------
+        -------
         str
            Documentation for the configuration option.
         """
@@ -254,7 +254,7 @@ class Config:
             Name of the configuration option.
 
         Returns
-        ----------
+        -------
         list, str
             One or more accepted types for the configuration option.
         """
@@ -271,7 +271,7 @@ class Config:
             Name of the configuration option.
 
         Returns
-        ----------
+        -------
         str
             Default value for the configuration option.
         """
@@ -285,7 +285,7 @@ class Config:
         """Available configuration options for the operator.
 
         Returns
-        ----------
+        -------
         list, str
            One or more available configuration options for the operator.
         """

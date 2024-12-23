@@ -24,7 +24,6 @@
 
 DPFArray
 
-
 .. autoclass:: DPFArray
    :members:
 

@@ -137,7 +137,6 @@ class GenericDataContainer:
         prop:
             Property object.
         """
-
         self._prop_description_instance = None
         if not isinstance(prop, (int, float, str, bytes, list, np.ndarray)) and server_meet_version(
             "8.1", self._server

@@ -31,7 +31,6 @@ def setup_logger(loglevel="INFO"):
     loglevel : str, optional
         The level of the logger to set up. The default is ``"INFO"``.
     """
-
     # return existing log if this function has already been called
     if hasattr(setup_logger, "log"):
         setup_logger.log.setLevel(loglevel)

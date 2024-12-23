@@ -85,7 +85,8 @@ class ComplexPlottingError(ValueError):
 
 class FieldContainerPlottingError(ValueError):
     """Error raised when attempting to plot a fields_container containing
-    multiple fields."""
+    multiple fields.
+    """
 
     def __init__(self, msg=_FIELD_CONTAINER_PLOTTING_MSG):
         ValueError.__init__(self, msg)

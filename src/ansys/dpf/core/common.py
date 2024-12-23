@@ -23,7 +23,6 @@
 """
 Common
 
-
 .. autoclass:: locations
    :members:
 
@@ -348,7 +347,8 @@ def _common_percentage_progress_bar(text):
 class SubClassSmartDict(dict):
     def __getitem__(self, item):
         """If found returns the item of key == ìtem`, else returns item with key matching `issubclass(item,
-        key)`."""
+        key)`.
+        """
         if item in self:
             return super().__getitem__(item)
         else:

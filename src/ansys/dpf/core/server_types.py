@@ -1036,7 +1036,7 @@ class LegacyGrpcServer(BaseServer):
     Kept for backward-compatibility with dpf servers <0.5.0.
 
     Parameters
-    -----------
+    ----------
     ansys_path : str
         Path for the DPF executable.
     ip : str

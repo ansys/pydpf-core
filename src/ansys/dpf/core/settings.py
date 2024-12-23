@@ -105,7 +105,6 @@ def set_dynamic_available_results_capability(value) -> None:
 
     Examples
     --------
-
     >>> from ansys.dpf import core as dpf
     >>> dpf.settings.set_dynamic_available_results_capability(False)
     >>> dpf.settings.set_dynamic_available_results_capability(True)

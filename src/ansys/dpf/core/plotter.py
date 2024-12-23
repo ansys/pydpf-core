@@ -437,7 +437,7 @@ class DpfPlotter:
         """Return a list of labels.
 
         Returns
-        --------
+        -------
         list
             List of Label(s). Each list member or member group
             will share same properties.

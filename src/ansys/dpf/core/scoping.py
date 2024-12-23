@@ -62,6 +62,7 @@ class Scoping:
         Server with channel connected to the remote or local instance.
         The default is ``None``, in which case an attempt is made to use the
         global server.
+
     Examples
     --------
     Create a mesh scoping.

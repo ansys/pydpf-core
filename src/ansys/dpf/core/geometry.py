@@ -387,7 +387,6 @@ class Plane:
 
     def _discretize(self):
         """Discretize plane with a certain size and number of cells per direction."""
-
         # Get plane axis (local) from reference axis (global) and plane's normal
         self._axes_plane = get_plane_local_axis(self._normal_dir)
 

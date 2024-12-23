@@ -133,7 +133,8 @@ class Workflow:
     @version_requires("3.0")
     def progress_bar(self) -> bool:
         """With this property, the user can choose to print a progress bar when
-        the workflow's output is requested, default is True"""
+        the workflow's output is requested, default is True
+        """
         return self._progress_bar
 
     @progress_bar.setter
@@ -642,7 +643,7 @@ class Workflow:
             ID given by the method "record".
 
         Returns
-        ----------
+        -------
         workflow : core.Workflow()
             workflow registered in dpf's registry (server side)
 
@@ -672,7 +673,7 @@ class Workflow:
         """Dictionary with the operator names and the exposed input and output names.
 
         Returns
-        ----------
+        -------
         info : dictionarry str->list str
             Dictionary with ``"operator_names"``, ``"input_names"``, and ``"output_names"`` key.
         """
@@ -687,7 +688,7 @@ class Workflow:
         """List of the names of operators added in the workflow.
 
         Returns
-        ----------
+        -------
         names : list str
         """
         num = self._api.work_flow_number_of_operators(self)
@@ -701,7 +702,7 @@ class Workflow:
         """List of the input names exposed in the workflow with set_input_name.
 
         Returns
-        ----------
+        -------
         names : list str
         """
         num = self._api.work_flow_number_of_input(self)
@@ -715,7 +716,7 @@ class Workflow:
         """List of the output names exposed in the workflow with set_output_name.
 
         Returns
-        ----------
+        -------
         names : list str
         """
         num = self._api.work_flow_number_of_output(self)

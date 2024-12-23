@@ -81,6 +81,7 @@ class Field(_FieldBase):
         Server with the channel connected to the remote or local instance. The
         default is ``None``, in which case an attempt is made to use the global
         server.
+
     Examples
     --------
     Create a field from scratch.
@@ -298,7 +299,7 @@ class Field(_FieldBase):
         """Change the field location.
 
         Parameters
-        -------
+        ----------
         location : str or locations
             Location string, Options are in :class:`locations <ansys.dpf.core.common.locations>`.
 
@@ -539,7 +540,7 @@ class Field(_FieldBase):
         """Units for the field.
 
         Returns
-        ----------
+        -------
         str
            Units for the field.
 
@@ -839,7 +840,6 @@ class Field(_FieldBase):
         >>> deep_copy = field.deep_copy(server=other_server)
 
         """
-
         f = Field(
             nentities=len(self.scoping),
             location=self.location,

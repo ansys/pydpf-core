@@ -310,7 +310,7 @@ class Specification(SpecificationBase):
 
     @property
     def properties(self) -> dict:
-        """some additional properties of the Operator, like the category, the exposure,
+        """Some additional properties of the Operator, like the category, the exposure,
         the scripting and user names, and the plugin
 
         Examples
@@ -768,7 +768,8 @@ class CustomSpecification(Specification):
     @version_requires("4.0")
     def properties(self) -> SpecificationProperties:
         """Returns some additional properties of the Operator, like the category, the exposure,
-        the scripting and user names and the plugin"""
+        the scripting and user names and the plugin
+        """
         return SpecificationProperties(**super().properties, spec=self)
 
     @properties.setter

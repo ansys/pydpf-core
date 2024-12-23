@@ -317,7 +317,6 @@ class CyclicSupport:
         >>> cs = cyc_support.cs()
 
         """
-
         cs = self._api.cyclic_support_get_cs(self)
         return field.Field(field=cs, server=self._server)
 

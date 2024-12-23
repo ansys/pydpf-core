@@ -338,7 +338,6 @@ def connect_to_server(
 
     Examples
     --------
-
     >>> from ansys.dpf import core as dpf
 
     Create a server.
@@ -422,7 +421,6 @@ def available_servers():
 
     Examples
     --------
-
     >>> from ansys.dpf import core as dpf
     >>> #out = dpf.server.available_servers()
 

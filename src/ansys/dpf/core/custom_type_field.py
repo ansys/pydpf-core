@@ -211,7 +211,7 @@ class CustomTypeField(_FieldBase):
         """Change the field location.
 
         Parameters
-        -------
+        ----------
         location : str or locations
              Location string, which can be ``"Nodal"``, ``"Elemental"``,
             ``"ElementalNodal"``... See :class:`ansys.dpf.core.common.locations`.
@@ -449,7 +449,7 @@ class CustomTypeField(_FieldBase):
         """Units for the field.
 
         Returns
-        ----------
+        -------
         str
            Units for the field.
 

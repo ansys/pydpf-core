@@ -23,7 +23,6 @@
 """
 time_freq_scoping_factory
 
-
 Contains functions to simplify creating time frequency scopings.
 """
 
@@ -188,7 +187,8 @@ def scoping_by_step_and_substep_from_model(load_step_id, subset_id, model, serve
     Returns
     -------
     scoping : Scoping
-        Scoping based on a given step/substep of a model's time_freq_support."""
+        Scoping based on a given step/substep of a model's time_freq_support.
+    """
     return scoping_by_step_and_substep(load_step_id, subset_id, model.metadata.time_freq_support)
 
 

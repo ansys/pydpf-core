@@ -201,6 +201,7 @@ def is_pypim_configured():
     """Check if the environment is configured for PyPIM, without using pypim.
     This method is equivalent to ansys.platform.instancemanagement.is_configured(). It's
     reproduced here to avoid having hard dependencies.
+
     Returns
     -------
     bool
