@@ -21,8 +21,7 @@
 # SOFTWARE.
 
 """
-
-DPFArray
+DPFArray.
 
 .. autoclass:: DPFArray
    :members:

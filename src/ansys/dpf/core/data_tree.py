@@ -20,10 +20,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""
-.. _ref_data_tree:
+"""DataTree.
 
-DataTree
+.. _ref_data_tree:
 
 """
 
@@ -226,7 +225,8 @@ class DataTree:
         return core_api
 
     def to_fill(self):
-        """
+        """Use with a with statement to modify local data_tree and sync with the server in one action.
+
         This method allows to access and modify the local copy of the data_tree
         without sending a request to the server. It should be used in a ``with``
         statement so that the local data tree is released and the data is sent to
@@ -276,7 +276,7 @@ class DataTree:
 
     def write_to_txt(self, path=None):
         """
-        Writes the data tree either as a file or as returned string in a text format.
+        Write the data tree either as a file or as returned string in a text format.
 
         Parameters
         ----------
@@ -307,7 +307,7 @@ class DataTree:
 
     def write_to_json(self, path=None):
         """
-        Writes the data tree either as a file or as returned string in a json format.
+        Write the data tree either as a file or as returned string in a json format.
 
         Parameters
         ----------
@@ -354,7 +354,7 @@ class DataTree:
     @staticmethod
     def read_from_json(path=None, txt=None, server=None):
         """
-        Convert a json string or file to DataTree
+        Convert a json string or file to DataTree.
 
         Parameters
         ----------
@@ -389,7 +389,7 @@ class DataTree:
     @staticmethod
     def read_from_txt(path=None, txt=None, server=None):
         """
-        Convert a text string or file to DataTree
+        Convert a text string or file to DataTree.
 
         Parameters
         ----------
@@ -423,7 +423,7 @@ class DataTree:
 
     def has(self, entry):
         """
-        Return True if the entry exists
+        Return True if the entry exists.
 
         Parameters
         ----------
@@ -448,7 +448,7 @@ class DataTree:
 
     def get_as(self, name, type_to_return=types.string):
         """
-        Returns an attribute value by its name in the required type.
+        Return an attribute value by its name in the required type.
 
         Parameters
         ----------
@@ -587,7 +587,7 @@ class DataTree:
 
     def to_dict(self):
         """
-        Returns a read-only dictionary representation of the DataTree.
+        Return a read-only dictionary representation of the DataTree.
 
         Returns
         -------
@@ -609,6 +609,19 @@ class DataTree:
         return dic
 
     def __setattr__(self, key, value):
+        """Set an attribute for the DataTree object.
+
+        Parameters
+        ----------
+        key : str
+            The name of the attribute to set. If the attribute is a reserved key
+            (e.g., internal attributes starting with "_common_keys" or attributes
+            defined in the class), it is set using the parent class's `__setattr__` method.
+            Otherwise, it adds the attribute and its value to the data tree.
+
+        value : object
+            The value of the attribute to set.
+        """
         if key == "_common_keys" or key in self._common_keys or key in dir(self):
             return super.__setattr__(self, key, value)
         self.add({key: value})
@@ -626,6 +639,7 @@ class DataTree:
         return _description(self._internal_obj, self._server)
 
     def __del__(self):
+        """Delete this instance."""
         try:
             # needs a proper deleter only when real datatree and not dict
             if hasattr(self, "_deleter_func"):

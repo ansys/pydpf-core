@@ -20,10 +20,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""
-.. _ref_data_sources:
+"""Data Sources.
 
-Data Sources
+.. _ref_data_sources:
 
 """
 
@@ -400,7 +399,8 @@ class DataSources:
 
     @version_requires("7.0")
     def register_namespace(self, result_key: str, namespace: str):
-        """Adds a link from this ``result_key`` to this ``namespace`` in the DataSources.
+        """Add a link from this ``result_key`` to this ``namespace`` in the DataSources.
+
         This ``result_key`` to ``namespace`` mapping is used by source operators
         to find internal operators to call.
 
@@ -423,6 +423,7 @@ class DataSources:
         return _description(self._internal_obj, self._server)
 
     def __del__(self):
+        """Delete this instance."""
         try:
             self._deleter_func[0](self._deleter_func[1](self))
         except:

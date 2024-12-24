@@ -20,10 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""
-Dimensionality
-
-"""
+"""Dimensionality."""
 
 from ansys.dpf.core.common import natures
 
@@ -72,16 +69,26 @@ class Dimensionality:
                 self.dim = [1]
 
     def is_1d_dim(self):
+        """Check if dimensionality is 1."""
         return len(self.dim) == 1
 
     def is_2d_dim(self):
+        """Check if dimensionality is 2."""
         return len(self.dim) == 2
 
     def __str__(self):
+        """Customize the string representation of the dimensionality."""
         return str(self.dim) + " " + self.nature.name
 
     @property
     def component_count(self):
+        """Retrieve the number of components based on the dimensionality.
+
+        Returns
+        -------
+        float
+            Number of components.
+        """
         count = 1
         for comp in self.dim:
             count *= comp
@@ -137,7 +144,37 @@ class Dimensionality:
         return Dimensionality([3, 3], natures.symmatrix)
 
     def __eq__(self, other):
+        """Check if this Dimensionality object is equal to another.
+
+        Two Dimensionality objects are considered equal if their dimensionality
+        vectors (`dim`) and natures (`nature`) are the same.
+
+        Parameters
+        ----------
+        other : Dimensionality
+            The other Dimensionality object to compare with.
+
+        Returns
+        -------
+        bool
+            `True` if the two objects are equal, `False` otherwise.
+        """
         return self.dim == other.dim and self.nature == other.nature
 
     def __ne__(self, other):
+        """Check if this Dimensionality object is not equal to another.
+
+        Two Dimensionality objects are considered not equal if their dimensionality
+        vectors (`dim`) or natures (`nature`) differ.
+
+        Parameters
+        ----------
+        other : Dimensionality
+            The other Dimensionality object to compare with.
+
+        Returns
+        -------
+        bool
+            `True` if the two objects are not equal, `False` otherwise.
+        """
         return not self.__eq__(other)
