@@ -22,6 +22,7 @@
 
 .. Other libraries repos
 .. _pyvista_github : https://github.com/pyvista/pyvista
+.. _matplotlib_github : https://github.com/matplotlib/matplotlib
 
 .. External links
 .. _sphinx: https://www.sphinx-doc.org/en/master/
