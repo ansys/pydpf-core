@@ -54,7 +54,7 @@ mathematical operators works. For more information on creating a |Field| from sc
 
         Create the Fields by defining:
 
-        - The number of entities;
+        - The number of entities
         - The entities ids and location. Thus, the |Field| scoping
 
             - If not specified, the location is *'nodal'* by default.
@@ -121,8 +121,8 @@ Mathematical operations with Fields
 
         Here, we use:
 
-        - The 'add' operator for component wise addition
-        - The 'accumulate' operator to find the total sum of each component for all the entities
+        - The |add| operator for component wise addition
+        - The |accumulate| operator to find the total sum of each component for all the entities
 
         **'add' operator**
 
