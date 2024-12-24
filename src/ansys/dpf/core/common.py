@@ -21,7 +21,7 @@
 # SOFTWARE.
 
 """
-Common
+Common.
 
 .. autoclass:: locations
    :members:
@@ -82,13 +82,7 @@ class _smart_dict_unit_system(dict):
 
 
 class types(Enum):
-    """
-    The ``'types'`` enum contains the available types passed through operators
-    and workflows to DPF.
-
-
-
-    """
+    """The ``'types'`` enum contains the available types passed through operators and workflows to DPF."""
 
     # Types from grpc proto, do not modify
     string = 0
@@ -126,6 +120,13 @@ class types(Enum):
 
 
 def types_enum_to_types():
+    """Return a mapping of enums and corresponding python or dpf types.
+
+    Returns
+    -------
+    dict
+        Mapping of enum to the corresponding type.
+    """
     from ansys.dpf.core import (
         cyclic_support,
         data_sources,
@@ -185,6 +186,7 @@ def types_enum_to_types():
 
 class natures(Enum):
     """The ``'natures'`` enum contains the dimensionality types.
+
     It can be used to create a field of a given dimensionality.
     """
 
@@ -195,7 +197,9 @@ class natures(Enum):
 
 
 class shell_layers(Enum):
-    """The ``'shell_layers'`` enum contains the available order of
+    """Contains data identifying shell layers.
+
+    The ``'shell_layers'`` enum contains the available order of
     shell layers (or lack of shell layers) that defines how the
     field's data is ordered.
     """
@@ -303,6 +307,8 @@ class DefinitionLabels:
 
 
 class TqdmProgressBar(ProgressBarBase):
+    """Custom progress bar implementation based on tqdm."""
+
     def __init__(self, text, unit, tot_size=None):
         import tqdm
 
@@ -322,6 +328,7 @@ class TqdmProgressBar(ProgressBarBase):
         )
 
     def update(self, current_value):
+        """Modify how the current value of the progress bar is updated."""
         if self.tot_size is None:
             self.bar.total = current_value * 2
         self.bar.update(current_value - self.current)
@@ -329,6 +336,13 @@ class TqdmProgressBar(ProgressBarBase):
 
     @staticmethod
     def progress_available():
+        """Check if the tdqm module exists.
+
+        Returns
+        -------
+        bool
+            True if module exists, else False.
+        """
         return module_exists("tqdm")
 
 
@@ -345,10 +359,10 @@ def _common_percentage_progress_bar(text):
 
 
 class SubClassSmartDict(dict):
+    """Return the superclass name for a key if not found initially."""
+
     def __getitem__(self, item):
-        """If found returns the item of key == ìtem`, else returns item with key matching `issubclass(item,
-        key)`.
-        """
+        """If found returns the item of key == ìtem`, else returns item with key matching `issubclass(item, key)`."""
         if item in self:
             return super().__getitem__(item)
         else:
@@ -362,6 +376,13 @@ _type_to_internal_object_keyword = None
 
 
 def type_to_internal_object_keyword():
+    """Return dpf types mapped to internal object keywords.
+
+    Returns
+    -------
+    SubClassSmartDict
+        Custom dictionary that returns superclass name for a key if not found initially.
+    """
     global _type_to_internal_object_keyword
     if _type_to_internal_object_keyword is None:
         from ansys.dpf.core import (
@@ -418,6 +439,7 @@ _type_to_special_dpf_constructors = None
 
 
 def type_to_special_dpf_constructors():
+    """Return dpf type mapped to special dpf constructors."""
     global _type_to_special_dpf_constructors
     if _type_to_special_dpf_constructors is None:
         from ansys.dpf.gate.dpf_vector import DPFVectorInt
@@ -436,7 +458,7 @@ _derived_class_name_to_type = None
 
 def derived_class_name_to_type() -> Dict[str, type]:
     """
-    Returns a mapping of derived class names to their corresponding Python classes.
+    Return a mapping of derived class names to their corresponding Python classes.
 
     Returns
     -------
@@ -454,7 +476,7 @@ def derived_class_name_to_type() -> Dict[str, type]:
 
 def record_derived_class(class_name: str, py_class: type, overwrite: bool = False):
     """
-    Records a new derived class in the mapping of class names to their corresponding Python classes.
+    Record a new derived class in the mapping of class names to their corresponding Python classes.
 
     This function updates the global dictionary that maps derived class names (str) to their corresponding
     Python class objects (type). If the provided class name already exists in the dictionary, it will either
@@ -477,6 +499,7 @@ def record_derived_class(class_name: str, py_class: type, overwrite: bool = Fals
 
 
 def create_dpf_instance(type, internal_obj, server):
+    """Create a server instance of a given type."""
     spe_constructors = type_to_special_dpf_constructors()
     if type in spe_constructors:
         return spe_constructors[type](internal_obj, server)

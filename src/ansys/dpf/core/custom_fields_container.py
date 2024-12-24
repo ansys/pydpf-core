@@ -21,7 +21,7 @@
 # SOFTWARE.
 
 """
-Custom Fields Containers
+Custom Fields Containers.
 
 Contains the inherited classes from the
 :class:`FieldsContainer <ansys.dpf.core.fields_container.FieldsContainer>` class.
@@ -307,6 +307,7 @@ class BodyFieldsContainer(FieldsContainer):
 
     def get_fields_by_mat_id(self, matid, timeid=None, complexid=None):
         """Retrieve a list of all fields for a material ID.
+
         You can filter the list of fields for a material ID based on
         a given time, complex type, or both.
 
@@ -344,6 +345,7 @@ class BodyFieldsContainer(FieldsContainer):
 
     def get_field_by_mat_id(self, matid, timeid=None, complexid=None):
         """Retrieve a field with a given material ID.
+
         You can filter the field based on a given time, complex type, or both.
 
         Parameters
@@ -376,7 +378,7 @@ class BodyFieldsContainer(FieldsContainer):
         return self.get_field(label_space)
 
     def get_mat_scoping(self):
-        """Retrieves the material or body scoping containing material IDs.
+        """Retrieve the material or body scoping containing material IDs.
 
         Returns
         -------

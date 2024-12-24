@@ -20,10 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""
-Operator Configuration
-
-"""
+"""Operator Configuration."""
 
 import functools
 import warnings
@@ -222,6 +219,18 @@ class Config:
             raise KeyError(f"{config_name} option doesn't exist.")
 
     def __try_get_option__(self, config_name):
+        """Return option associated with a given config name.
+
+        Parameters
+        ----------
+        config_name : _type_
+            Name of the configuration.
+
+        Returns
+        -------
+        ConfigSpecification
+            Available configuration options supported by the Operator
+        """
         if self._config_help:
             if config_name in self._config_help:
                 return self._config_help[config_name]
@@ -265,11 +274,6 @@ class Config:
     def config_option_default_value(self, config_name):
         """Retrieve the default value for a configuration option.
 
-        Parameters
-        ----------
-        config_name : str
-            Name of the configuration option.
-
         Returns
         -------
         str
@@ -307,6 +311,7 @@ class Config:
         return _description(self._internal_obj, self._server)
 
     def __del__(self):
+        """Delete this instance of config."""
         try:
             self._deleter_func[0](self._deleter_func[1](self))
         except:
