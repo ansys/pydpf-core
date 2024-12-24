@@ -60,7 +60,7 @@ These tutorials demonstrate some different approaches to visualise the data in p
        :link-type: ref
        :text-align: center
 
-       This tutorial explains how to plot a graph with the data in DPF
+       This tutorial explains how to plot a graph with data in DPF
 
 .. toctree::
     :maxdepth: 2
