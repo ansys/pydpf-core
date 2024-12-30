@@ -20,11 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""Elements.
-
-.. _ref_elements_apis:
-
-"""
+"""Elements."""
 
 from __future__ import annotations
 from enum import Enum

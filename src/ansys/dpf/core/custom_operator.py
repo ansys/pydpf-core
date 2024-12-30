@@ -24,9 +24,6 @@
 Custom Operator Base.
 
 Contains utilities allowing you to implement and record custom Python operators.
-
-.. _ref_custom_operator:
-
 """
 
 import abc

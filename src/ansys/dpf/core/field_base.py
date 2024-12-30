@@ -19,6 +19,7 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
+"""Provide base APIs for DPF's field concept and means of caching field data."""
 
 import traceback
 import warnings
@@ -107,7 +108,8 @@ class _FieldBase:
         ncomp_m=0,
         with_type=None,
     ):
-        """Returns a gRPC field message or C object instance of a new field.
+        """Return a gRPC field message or C object instance of a new field.
+
         This new field is created with this functions parameter attributes
 
         Parameters
@@ -227,7 +229,7 @@ class _FieldBase:
         return self.component_count
 
     def __str__(self):
-        """Describes the entity.
+        """Describe the entity.
 
         Returns
         -------
@@ -305,7 +307,7 @@ class _FieldBase:
 
     @abstractmethod
     def get_entity_data(self, index):
-        """Retrieves the elementary data of the scoping's index in an array.
+        """Retrieve the elementary data of the scoping's index in an array.
 
         Returns
         -------

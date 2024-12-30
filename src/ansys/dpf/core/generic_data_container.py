@@ -20,12 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""
-.. _ref_generic_data_container:
-
-GenericDataContainer
-
-"""
+"""GenericDataContainer."""
 
 from __future__ import annotations
 import traceback
@@ -184,7 +179,7 @@ class GenericDataContainer:
         return any_dpf.cast(class_)
 
     def get_property_description(self):
-        """Get a dictionary description of properties by name and data type
+        """Get a dictionary description of properties by name and data type.
 
         Returns
         -------
@@ -216,6 +211,7 @@ class GenericDataContainer:
         return self._prop_description_instance
 
     def __del__(self):
+        """Delete the current instance."""
         if self._internal_obj is not None:
             try:
                 self._deleter_func[0](self._deleter_func[1](self))

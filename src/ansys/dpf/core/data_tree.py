@@ -20,11 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""DataTree.
-
-.. _ref_data_tree:
-
-"""
+"""DataTree."""
 
 import enum
 import traceback

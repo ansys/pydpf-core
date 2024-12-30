@@ -20,13 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""
-Result Files Examples.
-
-.. _ref_examples:
-
-Examples result files.
-"""
+"""Examples result files."""
 
 import os
 from pathlib import Path

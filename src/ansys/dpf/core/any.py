@@ -24,7 +24,6 @@
 Any.
 
 Module containing the wrapper class representing all supported DPF datatypes.
-.. _ref_any:
 """
 
 import traceback

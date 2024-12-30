@@ -20,12 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""
-.. _ref_faces_apis:
-
-Faces
-
-"""
+"""Faces."""
 
 import numpy as np
 from ansys.dpf.core import scoping
@@ -165,6 +160,7 @@ class Face:
         return len(self._nodes)
 
     def __str__(self):
+        """Provide more information in string representation."""
         txt = "DPF Face %d\n" % self.id
         txt += "\tIndex:      %7d\n" % self.index
         txt += "\tNodes:      %7d\n" % self.n_nodes
@@ -248,16 +244,19 @@ class Faces:
         self._mapping_id_to_index = None
 
     def __str__(self):
+        """Provide custom string representation."""
         return "DPF Faces object with %d faces" % len(self)
 
     def __getitem__(self, index):
-        """Retrieves face based on an index."""
+        """Retrieve face based on an index."""
         return self.face_by_index(index)
 
     def __len__(self):
+        """Retrieve the number of faces."""
         return self.n_faces
 
     def __iter__(self):
+        """Provide for iterating in loops."""
         for i in range(len(self)):
             yield self[i]
 
@@ -400,7 +399,7 @@ class Faces:
 
     @property
     def n_faces(self) -> int:
-        """Number of faces"""
+        """Number of faces."""
         return self._mesh._api.meshed_region_get_num_faces(self._mesh)
 
     def _build_mapping_id_to_index(self):
@@ -429,8 +428,7 @@ class Faces:
 
     def map_scoping(self, external_scope):
         """
-        Retrieve the indices to map the scoping of these faces to
-        the scoping of a field.
+        Retrieve the indices to map the scoping of these faces to the scoping of a field.
 
         Parameters
         ----------

@@ -21,12 +21,9 @@
 # SOFTWARE.
 
 """
-.. _ref_geometry_factory:
-
-Geometry Factory
+Geometry Factory.
 
 Geometry factory module containing functions to create the different geometries.
-
 """
 
 import numpy as np

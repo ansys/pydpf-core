@@ -20,11 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""Data Sources.
-
-.. _ref_data_sources:
-
-"""
+"""Data Sources."""
 
 import os
 from pathlib import Path

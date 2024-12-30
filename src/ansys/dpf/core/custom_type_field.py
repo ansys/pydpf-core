@@ -20,12 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""
-CustomTypeField.
-
-.. _ref_custom_type_field:
-
-"""
+"""CustomTypeField."""
 
 import warnings
 

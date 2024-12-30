@@ -20,17 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""
-Errors.
-
-.. _ref_errors:
-
-.. autoexception:: DpfVersionNotSupported
-   :members:
-
-.. autoexception:: DPFServerNullObject
-   :members:
-"""
+"""Errors."""
 
 from functools import wraps
 from ansys.dpf.gate.errors import (  # noqa: F401
