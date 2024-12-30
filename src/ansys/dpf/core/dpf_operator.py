@@ -234,7 +234,7 @@ class Operator:
     @version_requires("3.0")
     def progress_bar(self) -> bool:
         """Enable or disable progress bar display when requesting the operator's output.
-        
+
         With this property, the user can choose to print a progress bar when
         the operator's output is requested, default is False
         """
@@ -940,7 +940,7 @@ class Operator:
     def __truediv__(self, inpt):
         """
         Perform division with another operator or a scalar.
-        
+
         This method allows the use of the division operator (`/`) between an
         `Operator` instance and either another `Operator` or a scalar value (float).
         """

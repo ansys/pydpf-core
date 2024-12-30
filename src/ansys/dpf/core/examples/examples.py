@@ -21,10 +21,10 @@
 # SOFTWARE.
 
 """
+Result Files Examples.
+
 .. _ref_examples:
 
-Result Files Examples
-=====================
 Examples result files.
 """
 
@@ -38,7 +38,7 @@ from ansys.dpf.core import DataSources
 
 
 def get_example_required_minimum_dpf_version(file: os.PathLike) -> str:
-    """Returns the minimal DPF server version required to run the example, as declared in a note.
+    """Return the minimal DPF server version required to run the example, as declared in a note.
 
     Parameters
     ----------
@@ -76,8 +76,7 @@ def get_example_required_minimum_dpf_version(file: os.PathLike) -> str:
 
 
 def find_files(local_path, should_upload=True, server=None, return_local_path=False):
-    """Make the result file available server side, if the server is remote the file is uploaded
-    server side. Returns the path on the file.
+    """Make the result file available server-side. If the server is remote, upload the file and return its path.
 
     Parameters
     ----------
