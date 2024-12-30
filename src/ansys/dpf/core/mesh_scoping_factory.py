@@ -21,7 +21,7 @@
 # SOFTWARE.
 
 """
-mesh_scoping_factory
+mesh_scoping_factory.
 
 Contains functions to simplify creating mesh scopings.
 """
