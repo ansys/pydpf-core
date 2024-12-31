@@ -21,7 +21,7 @@
 # SOFTWARE.
 
 """
-Plotter
+Plotter.
 
 This module contains the DPF plotter class.
 
@@ -51,8 +51,7 @@ if TYPE_CHECKING:  # pragma: no cover
 
 
 class _InternalPlotterFactory:
-    """
-    Factory for _InternalPlotter based on the backend."""
+    """Factory for _InternalPlotter based on the backend."""
 
     @staticmethod
     def get_plotter_class():
@@ -393,8 +392,7 @@ class _PyVistaPlotter:
 
 
 class DpfPlotter:
-    """DpfPlotter class. Can be used in order to plot
-    results over a mesh.
+    """DpfPlotter class. Can be used in order to plot results over a mesh.
 
     The current DpfPlotter is a PyVista based object.
 
@@ -474,12 +472,15 @@ class DpfPlotter:
         )
 
     def add_points(self, points, field=None, **kwargs):
+        """Add points to the plot."""
         self._internal_plotter.add_points(points, field, **kwargs)
 
     def add_line(self, points, field=None, **kwargs):
+        """Add lines to the plot."""
         self._internal_plotter.add_line(points, field, **kwargs)
 
     def add_plane(self, plane, field=None, **kwargs):
+        """Add a plane to the plot."""
         self._internal_plotter.add_plane(plane, field, **kwargs)
 
     def add_mesh(self, meshed_region, deform_by=None, scale_factor=1.0, **kwargs):
