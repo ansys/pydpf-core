@@ -21,7 +21,7 @@
 # SOFTWARE.
 
 """
-time_freq_scoping_factory
+time_freq_scoping_factory.
 
 Contains functions to simplify creating time frequency scopings.
 """
@@ -193,7 +193,9 @@ def scoping_by_step_and_substep_from_model(load_step_id, subset_id, model, serve
 
 
 def scoping_on_all_time_freqs(obj: Union[TimeFreqSupport, Model, DataSources]):
-    """Create a specific :class:`ansys.dpf.core.Scoping` with all time or
+    """Create a Scoping with all time or frequency sets.
+
+    Create a specific :class:`ansys.dpf.core.Scoping` with all time or
     frequency sets of a :class:`ansys.dpf.core.TimeFreqSupport` or a class:`ansys.dpf.core.Model`
 
     Parameters

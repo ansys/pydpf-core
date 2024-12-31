@@ -589,7 +589,7 @@ class ResultInfo:
         """
         Return the number of results available.
 
-        If an exception occurs while attempting to retrieve the number of results, 
+        If an exception occurs while attempting to retrieve the number of results,
         the method returns 0.
 
         Returns
@@ -633,7 +633,7 @@ class ResultInfo:
         """
         Clean up resources associated with the instance.
 
-        This method calls the deleter function to release resources. If an exception 
+        This method calls the deleter function to release resources. If an exception
         occurs during deletion, a warning is issued.
 
         Raises

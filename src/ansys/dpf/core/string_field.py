@@ -20,10 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""
-StringField
-
-"""
+"""StringField."""
 
 import numpy as np
 from ansys.dpf.core.common import natures, locations, _get_size_of_list
@@ -180,14 +177,17 @@ class StringField(_FieldBase):
 
     @property
     def component_count(self):
+        """Return the number of component, always 1."""
         return 1
 
     @property
     def elementary_data_count(self):
+        """Return elementary data count."""
         return self._api.csstring_field_get_data_size(self)
 
     @property
     def size(self):
+        """Return elementary data size."""
         return self._api.csstring_field_get_data_size(self)
 
     def _set_scoping(self, scoping):
@@ -199,6 +199,7 @@ class StringField(_FieldBase):
         )
 
     def get_entity_data(self, index):
+        """Return entity data."""
         try:
             vec = dpf_vector.DPFVectorString(client=self._server.client)
             self._api.csstring_field_get_entity_data_for_dpf_vector(
@@ -210,6 +211,7 @@ class StringField(_FieldBase):
             return data
 
     def get_entity_data_by_id(self, id):
+        """Return entity data corresponding to the provided id."""
         try:
             vec = dpf_vector.DPFVectorString(client=self._server.client)
             self._api.csstring_field_get_entity_data_by_id_for_dpf_vector(
@@ -224,6 +226,11 @@ class StringField(_FieldBase):
             return data
 
     def append(self, data: List[str], scopingid: int):
+        """
+        Append data to the string field.
+
+        This method appends data to the string field for a specific scoping ID.
+        """
         string_list = integral_types.MutableListString(data)
         self._api.csstring_field_push_back(self, scopingid, _get_size_of_list(data), string_list)
 

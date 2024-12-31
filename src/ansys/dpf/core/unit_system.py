@@ -20,12 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""
-.. _ref_unit_system:
-
-UnitSystem
-
-"""
+"""UnitSystem."""
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import errors as dpf_errors
@@ -42,7 +37,7 @@ class UnitSystem:
 
     def __init__(self, name, ID=None, unit_names=None):
         """
-        Creates a new UnitSystem from its name and its Ansys ID
+        Create a new UnitSystem from its name and its Ansys ID.
 
         Parameters
         ----------
@@ -102,14 +97,17 @@ class UnitSystem:
 
     @property
     def ID(self) -> int:
+        """Return ID of the unit system."""
         return self._ID
 
     @property
     def name(self) -> str:
+        """Return the name of the unit system."""
         return self._name
 
     @property
     def unit_names(self) -> str:
+        """Return unit names making up the unit system."""
         if self._unit_names == "":  # Ansys UnitSystem
             unit_system_strings = dpf.Operator("unit_system_strings")
             unit_system_strings.connect(0, self._ID)

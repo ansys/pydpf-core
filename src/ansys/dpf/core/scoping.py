@@ -335,14 +335,14 @@ class Scoping:
         """
         Clean up resources associated with the instance.
 
-        This method calls the deleter function to release resources. If an exception 
+        This method calls the deleter function to release resources. If an exception
         occurs during deletion, a warning is issued.
 
         Raises
         ------
         Warning
             If an exception occurs while attempting to delete resources.
-        """       
+        """
         try:
             self._deleter_func[0](self._deleter_func[1](self))
         except Exception as e:
@@ -350,7 +350,7 @@ class Scoping:
             warnings.warn(traceback.format_exc())
 
     def __iter__(self):
-        """Return an iterator over the scoping ids."""       
+        """Return an iterator over the scoping ids."""
         return self.ids.__iter__()
 
     def __getitem__(self, key):

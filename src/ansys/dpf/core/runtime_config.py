@@ -39,7 +39,7 @@ class _RuntimeConfig:
 
 class RuntimeClientConfig(_RuntimeConfig):
     """Enable accessing and setting runtime configuration options to gRPC client.
-    
+
     Mostly used to configure gRPC streaming and calls options.
 
     Parameters
@@ -123,7 +123,7 @@ class RuntimeClientConfig(_RuntimeConfig):
     @property
     def return_arrays(self):
         """All methods will return :class:`ansys.dpf.core.DPFArray` (instead of lists) when possible.
-        
+
         Default is ``True``.
         See for example, :func:`ansys.dpf.core.Scoping.ids`.
 

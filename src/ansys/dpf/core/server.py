@@ -21,7 +21,7 @@
 # SOFTWARE.
 
 """
-Server
+Server.
 
 Contains the directives necessary to start the DPF server.
 """
@@ -53,6 +53,7 @@ from ansys.dpf.core import server_context
 
 
 def shutdown_global_server():
+    """Shut down the global DPF server."""
     try:
         if dpf.core.SERVER is not None:
             dpf.core.SERVER = None
@@ -103,7 +104,7 @@ def _global_server() -> BaseServer:
 
 
 def set_server_configuration(server_config: ServerConfig) -> None:
-    """Sets, for the current python session, the default type of DPF server to use.
+    """Set the default type of DPF server to use for the current python session, .
 
     Parameters
     ----------
@@ -399,7 +400,7 @@ def connect_to_server(
 
 
 def get_or_create_server(server: BaseServer) -> Union[BaseServer, None]:
-    """Returns the given server or if None, creates a new one.
+    """Return the given server or if None, creates a new one.
 
     Parameters
     ----------
@@ -415,7 +416,7 @@ def get_or_create_server(server: BaseServer) -> Union[BaseServer, None]:
 
 
 def available_servers():
-    """Searches all available installed DPF servers on the current machine.
+    """Search all available installed DPF servers on the current machine.
 
     This method binds new functions to the server module, which helps to choose the appropriate version.
 

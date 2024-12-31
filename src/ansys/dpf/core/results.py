@@ -137,7 +137,7 @@ class Results:
         -------
         Result
             An instance of the `Result` class, providing access to the specified result.
-        """        
+        """
         return Result(self._connector, self._mesh_by_default, result_type, self._server)
 
     def _connect_operators(self, result_info):

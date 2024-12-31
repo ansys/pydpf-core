@@ -21,7 +21,7 @@
 # SOFTWARE.
 
 """
-settings
+settings.
 
 Customize the behavior of the module.
 """
@@ -39,7 +39,7 @@ from ansys.dpf.gate import (
 
 
 def disable_off_screen_rendering() -> None:
-    """No pop up windows appears to plot data with ``matplotlib`` or ``pyvista``"""
+    """No pop up windows appears to plot data with ``matplotlib`` or ``pyvista``."""
     # enable matplotlib off_screen plotting to avoid test interruption
     if module_exists("matplotlib"):
         import matplotlib as mpl
@@ -54,6 +54,7 @@ def disable_off_screen_rendering() -> None:
 
 
 def set_default_pyvista_config():
+    """Set default pyvista configuration."""
     # Configure PyVista's ``rcParams`` for dpf
     if module_exists("pyvista"):
         import pyvista as pv
@@ -65,6 +66,7 @@ def set_default_pyvista_config():
 
 
 def bypass_pv_opengl_osmesa_crash():
+    """Bypass pyvista opengl osmesa crash."""
     if module_exists("pyvista"):
         import pyvista as pv
 
@@ -72,7 +74,9 @@ def bypass_pv_opengl_osmesa_crash():
 
 
 def disable_interpreter_properties_evaluation() -> bool:
-    """If ``jedi`` module is installed (autocompletion module for most of IDEs), disables the
+    """Disable property evaluation on tab key press if the jedi module is installed.
+
+    If ``jedi`` module is installed (autocompletion module for most of IDEs), disables the
     property evaluation when tab key is pressed.
 
     To use in Jupyter Notebook if autocompletion becomes slow.
@@ -91,11 +95,14 @@ def disable_interpreter_properties_evaluation() -> bool:
 
 
 def set_upload_chunk_size(num_bytes=misc.DEFAULT_FILE_CHUNK_SIZE) -> None:
+    """Set upload chunk size."""
     misc.DEFAULT_FILE_CHUNK_SIZE = num_bytes
 
 
 def set_dynamic_available_results_capability(value) -> None:
-    """Disables the evaluation of the available results and
+    """Disable evaluation and dynamic creation of result properties when creating a "Model.
+
+    Disables the evaluation of the available results and
     the dynamic creation of the results properties when a ''Model'' is created.
 
     Parameters
@@ -125,8 +132,7 @@ def _forward_to_gate():
 
 
 def get_runtime_client_config(server=None):
-    """Get the runtime configuration information of Ans.Dpf.GrpcClient
-    binary.
+    """Get the runtime configuration information of Ans.Dpf.GrpcClient binary.
 
     Parameters
     ----------
@@ -169,8 +175,7 @@ def get_runtime_client_config(server=None):
 
 
 def get_runtime_core_config(server=None):
-    """Get the runtime configuration information of Ans.Dpf.GrpcClient
-    binary.
+    """Get the runtime configuration information of Ans.Dpf.GrpcClient binary.
 
     Parameters
     ----------

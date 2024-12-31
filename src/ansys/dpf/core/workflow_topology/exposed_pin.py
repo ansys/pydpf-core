@@ -21,7 +21,7 @@
 # SOFTWARE.
 
 """
-ExposedPin
+ExposedPin.
 
 This module contains the `ExposedPin` and `ExposedPinsCollection` classes,
 which represent individual exposed pins and a collection of exposed pins in a workflow,

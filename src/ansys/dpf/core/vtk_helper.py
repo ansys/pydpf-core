@@ -20,6 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+"""Provides for vtk helper functions."""
+
 import numpy as np
 import pyvista as pv
 from typing import Union
@@ -150,8 +152,7 @@ class PyVistaImportError(ModuleNotFoundError):
 
 
 def dpf_mesh_to_vtk_op(mesh, nodes=None, as_linear=True):
-    """Return a pyvista unstructured grid given DPF node and element
-    definitions from operators (server > 6.2)
+    """Return a pyvista unstructured grid given DPF node and element definitions from operators (server > 6.2).
 
     Parameters
     ----------
@@ -191,8 +192,7 @@ def dpf_mesh_to_vtk_op(mesh, nodes=None, as_linear=True):
 
 
 def dpf_mesh_to_vtk_py(mesh, nodes, as_linear):
-    """Return a pyvista unstructured grid given DPF node and element
-    definitions in pure Python (server <= 6.2)
+    """Return a pyvista unstructured grid given DPF node and element definitions in pure Python (server <= 6.2).
 
     Parameters
     ----------
@@ -266,7 +266,7 @@ def dpf_mesh_to_vtk_py(mesh, nodes, as_linear):
                 cells = np.insert(cells, ind, polyhedron)
 
     def compute_offset():
-        """Return the starting point of a cell in the cells array"""
+        """Return the starting point of a cell in the cells array."""
         return insert_ind + np.arange(insert_ind.size)
 
     cells_insert_ind = compute_offset()
@@ -391,6 +391,7 @@ def dpf_mesh_to_vtk(
 
 
 def vtk_update_coordinates(vtk_grid, coordinates_array):
+    """Update coordinates in vtk."""
     from copy import copy
 
     vtk_grid.points = copy(coordinates_array)

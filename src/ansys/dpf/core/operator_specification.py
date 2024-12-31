@@ -320,7 +320,7 @@ class Specification(SpecificationBase):
     @property
     def properties(self) -> dict:
         """Additional properties of the Operator.
-        
+
         Some additional properties of the Operator, like the category, the exposure,
         the scripting and user names, and the plugin
 
@@ -592,7 +592,7 @@ class SpecificationProperties:
         """
         Set the value of a specified attribute.
 
-        If a specification is defined, the value is also updated in the 
+        If a specification is defined, the value is also updated in the
         operator specification.
 
         Parameters
@@ -621,7 +621,7 @@ class SpecificationProperties:
         -------
         any
             The value of the specified attribute.
-        """       
+        """
         return getattr(self, item)
 
     def __eq__(self, other):
@@ -836,7 +836,7 @@ class CustomSpecification(Specification):
     @version_requires("4.0")
     def properties(self) -> SpecificationProperties:
         """Return additional properties of the Operator.
-        
+
         Returns some additional properties of the Operator, like the category, the exposure,
         the scripting and user names and the plugin
         """
