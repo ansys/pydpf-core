@@ -22,7 +22,7 @@
 
 # -*- coding: utf-8 -*-
 """
-StreamsContainer
+StreamsContainer.
 
 Contains classes associated with the DPF StreamsContainer.
 """
@@ -105,6 +105,7 @@ class StreamsContainer:
 
     @property
     def datasources(self):
+        """Return the data sources."""
         return data_sources.DataSources(data_sources=self._api.streams_get_data_sources(self))
 
     def release_handles(self):

@@ -20,14 +20,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""
-
-DPFArray
-
-
-.. autoclass:: DPFArray
-   :members:
-
-"""
+"""DPFArray."""
 
 from ansys.dpf.gate.dpf_array import DPFArray  # noqa: F401

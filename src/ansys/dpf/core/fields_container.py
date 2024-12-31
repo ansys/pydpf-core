@@ -21,9 +21,7 @@
 # SOFTWARE.
 
 """
-.. _ref_fields_container:
-
-FieldsContainer
+FieldsContainer.
 
 Contains classes associated with the DPF FieldsContainer.
 """
@@ -35,7 +33,6 @@ from ansys.dpf.core import field
 
 
 class FieldsContainer(CollectionBase[field.Field]):
-    entries_type = field.Field
     """Represents a fields container, which contains fields belonging to a common result.
 
     A fields container is a set of fields ordered by labels and IDs. Each field
@@ -91,6 +88,8 @@ class FieldsContainer(CollectionBase[field.Field]):
 
     """
 
+    entries_type = field.Field
+
     def __init__(self, fields_container=None, server=None):
         super().__init__(collection=fields_container, server=server)
         if self._internal_obj is None:
@@ -105,6 +104,7 @@ class FieldsContainer(CollectionBase[field.Field]):
         self._component_info = None  # for norm/max/min
 
     def create_subtype(self, obj_by_copy):
+        """Create a field subtype."""
         return field.Field(field=obj_by_copy, server=self._server)
 
     def get_fields_by_time_complex_ids(self, timeid=None, complexid=None):
@@ -181,6 +181,20 @@ class FieldsContainer(CollectionBase[field.Field]):
         return super()._get_entry(label_space)
 
     def __time_complex_label_space__(self, timeid=None, complexid=None):
+        """Return a label space dictionary mapping scoping to given id.
+
+        Parameters
+        ----------
+        timeid : int, optional
+            time based id, by default None
+        complexid : int, optional
+            complex id, by default None
+
+        Returns
+        -------
+        dict[str,int]
+            mapping of space type to given id.
+        """
         label_space = {}
         if timeid is not None:
             label_space["time"] = timeid
@@ -222,11 +236,10 @@ class FieldsContainer(CollectionBase[field.Field]):
         2
 
         """
-
         return super()._get_entries(label_space)
 
     def get_field(self, label_space_or_index):
-        """Retrieves the field at a requested index or label space.
+        """Retrieve the field at a requested index or label space.
 
         An exception is raised if the number of fields matching the request is
         greater than one.
@@ -254,7 +267,7 @@ class FieldsContainer(CollectionBase[field.Field]):
         return super()._get_entry(label_space_or_index)
 
     def get_field_by_time_id(self, timeid=None):
-        """Retrieves the complex field at a requested time.
+        """Retrieve the complex field at a requested time.
 
         Parameters
         ----------
@@ -494,7 +507,7 @@ class FieldsContainer(CollectionBase[field.Field]):
         return fc
 
     def get_time_scoping(self):
-        """Retrieves the time scoping containing the time sets.
+        """Retrieve the time scoping containing the time sets.
 
         Returns
         -------
@@ -504,7 +517,8 @@ class FieldsContainer(CollectionBase[field.Field]):
         return self.get_label_scoping("time")
 
     def plot(self, label_space: dict = None, **kwargs):
-        """Plots the fields in the FieldsContainer for the given LabelSpace.
+        """Plot the fields in the FieldsContainer for the given LabelSpace.
+
         Check the labels available for the FieldsContainer with
         :func:`~fields_container.FieldsContainer.labels`.
 
@@ -533,7 +547,7 @@ class FieldsContainer(CollectionBase[field.Field]):
         plt.show_figure(**kwargs)
 
     def animate(self, save_as=None, deform_by=None, scale_factor=1.0, **kwargs):
-        """Creates an animation based on the Fields contained in the FieldsContainer.
+        """Create an animation based on the Fields contained in the FieldsContainer.
 
         This method creates a movie or a gif based on the time ids of a FieldsContainer.
         For kwargs see pyvista.Plotter.open_movie/add_text/show.
@@ -675,6 +689,7 @@ class FieldsContainer(CollectionBase[field.Field]):
         return op
 
     def __pow__(self, value):
+        """Compute element-wise field[i]^2."""
         if value != 2:
             raise ValueError('DPF only the value is "2" supported')
         from ansys.dpf.core import dpf_operator

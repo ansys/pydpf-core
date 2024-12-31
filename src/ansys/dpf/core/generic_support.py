@@ -20,12 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""
-.. _ref_genericsupport:
-
-GenericSupport
-
-"""
+"""GenericSupport."""
 
 from ansys.dpf.gate import generic_support_capi, generic_support_grpcapi
 from ansys.dpf.core.support import Support

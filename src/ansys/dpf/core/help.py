@@ -195,6 +195,7 @@ def _norm_fc(fields):
 
 def _norm_op(oper):
     """Retrieve a chained norm operator.
+
     Returns
     -------
     oper : ansys.dpf.core.Operator
@@ -288,7 +289,6 @@ def _min_max(field):
     oper : ansys.dpf.core.Operator
         Component-wise minimum/maximum operator over the input.
     """
-
     oper = dpf.core.Operator("min_max")
     oper.inputs.connect(field)
     return oper
@@ -316,7 +316,6 @@ def _min_max_oper(oper):
     oper : ansys.dpf.core.Operator
         Component-wise minimum/maximum operator.
     """
-
     min_max_oper = dpf.core.Operator("min_max_fc")
     min_max_oper.connect(0, oper, 0)
     return min_max_oper
@@ -424,7 +423,6 @@ def sqr(field):
     [ 1. 64.]
 
     """
-
     _check_type(field, (dpf.core.Field, dpf.core.FieldsContainer))
     op = dpf.core.Operator("sqr")
     op.connect(0, field)

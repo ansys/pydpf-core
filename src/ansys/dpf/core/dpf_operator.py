@@ -20,12 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""
-.. _ref_operator:
-
-Operator
-
-"""
+"""Operator."""
 
 import logging
 import os
@@ -209,7 +204,6 @@ class Operator:
         >>> disp_z = model.results.displacement().Z()
 
         """
-
         for result_type in sub_results:
             try:
                 setattr(
@@ -234,8 +228,11 @@ class Operator:
     @property
     @version_requires("3.0")
     def progress_bar(self) -> bool:
-        """With this property, the user can choose to print a progress bar when
-        the operator's output is requested, default is False"""
+        """Enable or disable progress bar display when requesting the operator's output.
+
+        With this property, the user can choose to print a progress bar when
+        the operator's output is requested, default is False
+        """
         return self._progress_bar
 
     @progress_bar.setter
@@ -315,7 +312,8 @@ class Operator:
 
     @version_requires("6.2")
     def connect_operator_as_input(self, pin, op):
-        """Connects an operator as an input on a pin.
+        """Connect an operator as an input on a pin.
+
         Parameters
         ----------
         pin : int
@@ -630,7 +628,7 @@ class Operator:
         For information on an operator's options, see the documentation for that operator.
 
         Returns
-        ----------
+        -------
         :class:`ansys.dpf.core.config.Config`
             Copy of the operator's current configuration.
 
@@ -691,7 +689,7 @@ class Operator:
         """Inputs connected to the operator.
 
         Returns
-        --------
+        -------
         :class:`ansys.dpf.core.inputs`
             Inputs connected to the operator.
 
@@ -706,7 +704,6 @@ class Operator:
         >>> disp_op.inputs.data_sources(data_src)
 
         """
-
         return self._inputs
 
     @property
@@ -714,7 +711,7 @@ class Operator:
         """Outputs from the operator's evaluation.
 
         Returns
-        --------
+        -------
         :class:`ansys.dpf.core.outputs`
             Outputs from the operator's evaluation.
 
@@ -760,6 +757,7 @@ class Operator:
         return Config(operator_name=name, server=server)
 
     def __del__(self):
+        """Delete this instance."""
         try:
             if hasattr(self, "_deleter_func"):
                 obj = self._deleter_func[1](self)
@@ -811,7 +809,6 @@ class Operator:
         >>> normfc = math.norm_fc(disp_op).eval()
 
         """
-
         if not pin:
             if self.outputs != None and len(self.outputs._outputs) > 0:
                 return self.outputs._outputs[0]()
@@ -887,6 +884,7 @@ class Operator:
         return op
 
     def __pow__(self, value):
+        """Raise each element of a field or a fields container to power 2."""
         if value != 2:
             raise ValueError('Only the value "2" is supported.')
         from ansys.dpf.core import dpf_operator, operators
@@ -918,13 +916,12 @@ class Operator:
 
     @staticmethod
     def operator_specification(op_name, server=None):
-        """Documents an Operator with its description (what the Operator does),
-        its inputs and outputs and some properties"""
+        """Documents an Operator with its description (what the Operator does),its inputs and outputs and some properties."""
         return Specification(operator_name=op_name, server=server)
 
     @property
     def specification(self):
-        """Returns the Specification (or documentation) of this Operator
+        """Returns the Specification (or documentation) of this Operator.
 
         Returns
         -------
@@ -936,6 +933,12 @@ class Operator:
             return Specification(operator_name=self.name, server=self._server)
 
     def __truediv__(self, inpt):
+        """
+        Perform division with another operator or a scalar.
+
+        This method allows the use of the division operator (`/`) between an
+        `Operator` instance and either another `Operator` or a scalar value (float).
+        """
         if isinstance(inpt, Operator):
             op = Operator("div")
             op.connect(0, self, 0)
@@ -948,7 +951,7 @@ class Operator:
 
 
 def available_operator_names(server=None):
-    """Returns the list of operator names available in the server.
+    """Return the list of operator names available in the server.
 
     Parameters
     ----------

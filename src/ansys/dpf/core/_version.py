@@ -20,7 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""Version for ansys-dpf-core"""
+"""Version for ansys-dpf-core."""
 
 # Minimal DPF server version supported
 min_server_version = "4.0"

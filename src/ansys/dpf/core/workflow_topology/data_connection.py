@@ -21,7 +21,7 @@
 # SOFTWARE.
 
 """
-DataConnection
+DataConnection.
 
 This module contains the `DataConnection` and `DataConnectionsCollection`
 classes, which represent individual connections between data and operator,
