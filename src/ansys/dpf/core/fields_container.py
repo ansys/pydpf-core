@@ -584,7 +584,8 @@ class FieldsContainer(CollectionBase[field.Field]):
         if frequencies is None:
             raise ValueError("The fields_container has no time_frequencies.")
 
-        # TODO /!\ We should be using a mechanical::time_selector, however it is not wrapped.
+        # TODO: /!\ We should be using a mechanical::time_selector, however it is not wrapped.
+        # https://github.com/ansys/pydpf-core/pull/432, todo was added in this PR
 
         wf.set_input_name("indices", extract_field_op.inputs.indices)  # Have to do it this way
         wf.connect("indices", forward_index)  # Otherwise not accepted

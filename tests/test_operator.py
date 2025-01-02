@@ -509,7 +509,7 @@ def test_subresults_operator(cyclic_lin_rst, cyclic_ds):
 #     model = dpf.core.Model(cyclic_lin_rst)
 #     model.add_file_path(cyclic_ds)
 
-#     # TODO: this should be available from model's available_results
+#     # TODO: this should be available from model's available_results  # noqa: TD003
 #     op = model.operator("mapdl::rst::U")
 #     op.inputs.connect(model._data_sources)
 #     op.inputs.bool_ignore_cyclic.connect(True)
