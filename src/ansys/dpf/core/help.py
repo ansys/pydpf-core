@@ -40,7 +40,7 @@ def _check_type(instance, allowable_type):
 
 
 # TODO: deprecate this file
-# https://github.com/ansys/pydpf-core/pull/35, todo was added in this PR
+# https://github.com/ansys/pydpf-core/issues/1984, todo was added in this PR
 
 
 def sum(var_inp):
@@ -231,7 +231,7 @@ def eqv(var_inp):
 
 
 # TODO: Consider combining eqv and eqv_fc
-# https://github.com/ansys/pydpf-core/pull/35, todo was added in this PR
+# https://github.com/ansys/pydpf-core/issues/1984, todo was added in this PR
 
 
 def _eqv(field):
