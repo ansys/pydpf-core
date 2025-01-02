@@ -427,6 +427,7 @@ class BaseService:
             )
         if generate_operators:
             # TODO: fix code generation upload posix
+            # https://github.com/ansys/pydpf-core/issues/1984, todo was added in this PR
 
             def __generate_code(TARGET_PATH, filename, name, symbol):
                 from ansys.dpf.core.dpf_operator import Operator

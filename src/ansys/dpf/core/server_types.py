@@ -416,6 +416,7 @@ class BaseServer(abc.ABC):
     def __init__(self):
         """Define the base class for all server types, including grpc, in-process, and others."""
         # TODO: Use _server_id to compare servers for equality?
+        # https://github.com/ansys/pydpf-core/issues/1984, todo was added in this PR
         self._server_id = None
         self._session_instance = None
         self._base_service_instance = None
