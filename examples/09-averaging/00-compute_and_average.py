@@ -120,7 +120,6 @@ def compute_von_mises_then_average(analysis):
     max_val = min_max.outputs.field_max()
 
     avg_von_mises.plot()
-  
     return max_val.data[0]
 
 
