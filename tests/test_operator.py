@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -24,6 +24,7 @@ import gc
 import os
 import shutil
 import weakref
+from pathlib import Path
 
 import numpy as np
 import pytest
@@ -32,8 +33,11 @@ import copy
 from ansys import dpf
 from ansys.dpf.core import errors
 from ansys.dpf.core import operators as ops
+from ansys.dpf.core.common import derived_class_name_to_type, record_derived_class
+from ansys.dpf.core.custom_container_base import CustomContainerBase
 from ansys.dpf.core.misc import get_ansys_path
 from ansys.dpf.core.operator_specification import Specification
+from ansys.dpf.core.workflow_topology import WorkflowTopology
 import conftest
 from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
@@ -445,8 +449,8 @@ def find_mapdl():
     try:
         path = get_ansys_path()
         if dpf.core.SERVER.os == "nt":
-            exe = os.path.join(path, "ansys", "bin", "winx64", "ANSYS.exe")
-            return os.path.isfile(exe)
+            exe = Path(path).joinpath("ansys", "bin", "winx64", "ANSYS.exe")
+            return exe.is_file()
         else:
             return False
 
@@ -464,8 +468,8 @@ def test_inputs_outputs_datasources_operator(cyclic_ds, server_type):
     dsout = op.outputs.data_sources()
     assert dsout is not None
     assert dsout.result_key == "rst"
-    path = os.path.join(dsout.result_files[0])
-    shutil.rmtree(os.path.dirname(path))
+    path = Path(dsout.result_files[0])
+    shutil.rmtree(path.parent)
 
 
 def test_subresults_operator(cyclic_lin_rst, cyclic_ds):
@@ -504,7 +508,7 @@ def test_subresults_operator(cyclic_lin_rst, cyclic_ds):
 #     model = dpf.core.Model(cyclic_lin_rst)
 #     model.add_file_path(cyclic_ds)
 
-#     # TODO: this should be available from model's available_results
+#     # TODO: this should be available from model's available_results  # noqa: TD003
 #     op = model.operator("mapdl::rst::U")
 #     op.inputs.connect(model._data_sources)
 #     op.inputs.bool_ignore_cyclic.connect(True)
@@ -1378,3 +1382,71 @@ def test_operator_input_output_streams(server_in_process, simple_bar):
     time_provider.connect(pin=3, inpt=streams)
     times = time_provider.outputs.time_freq_support()
     assert times
+
+
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
+    reason="Operator `workflow_to_workflow_topology` does not exist below 10.0",
+)
+def test_operator_outputs_derived_class(server_type):
+    workflow = dpf.core.Workflow(server=server_type)
+
+    workflow_to_workflow_topology_op = dpf.core.Operator(
+        "workflow_to_workflow_topology", server=server_type
+    )
+    workflow_to_workflow_topology_op.inputs.workflow.connect(workflow)
+
+    workflow_topology = workflow_to_workflow_topology_op.outputs.workflow_topology()
+    assert workflow_topology
+
+
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
+    reason="Operator `workflow_to_workflow_topology` does not exist below 10.0",
+)
+def test_operator_get_output_derived_class(server_type):
+    workflow = dpf.core.Workflow(server=server_type)
+
+    workflow_to_workflow_topology_op = dpf.core.Operator(
+        "workflow_to_workflow_topology", server=server_type
+    )
+    workflow_to_workflow_topology_op.inputs.workflow.connect(workflow)
+
+    workflow_topology = workflow_to_workflow_topology_op.get_output(0, WorkflowTopology)
+    assert workflow_topology
+
+
+def test_record_derived_type():
+    class TestContainer(CustomContainerBase):
+        pass
+
+    class TestContainer2(CustomContainerBase):
+        pass
+
+    class_name = "TestContainer"
+
+    derived_classes = derived_class_name_to_type()
+    assert class_name not in derived_classes
+
+    record_derived_class(class_name, TestContainer)
+    assert class_name in derived_classes
+    assert derived_classes[class_name] is TestContainer
+
+    record_derived_class(class_name, TestContainer2)
+    assert derived_classes[class_name] is TestContainer
+
+    record_derived_class(class_name, TestContainer2, overwrite=True)
+    assert derived_classes[class_name] is TestContainer2
+
+
+@conftest.raises_for_servers_version_under("10.0")
+def test_operator_id(server_type):
+    ids = set()
+
+    for _ in range(10):
+        op = ops.utility.forward(server=server_type)
+
+        assert op.id >= 0
+        assert op.id not in ids
+
+        ids.add(op.id)

@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -20,18 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""
-.. _ref_errors:
-
-Errors
-======
-
-.. autoexception:: DpfVersionNotSupported
-   :members:
-
-.. autoexception:: DPFServerNullObject
-   :members:
-"""
+"""Errors."""
 
 from functools import wraps
 from ansys.dpf.gate.errors import (  # noqa: F401
@@ -84,8 +73,7 @@ class ComplexPlottingError(ValueError):
 
 
 class FieldContainerPlottingError(ValueError):
-    """Error raised when attempting to plot a fields_container containing
-    multiple fields."""
+    """Error raised when attempting to plot a fields_container containing multiple fields."""
 
     def __init__(self, msg=_FIELD_CONTAINER_PLOTTING_MSG):
         ValueError.__init__(self, msg)
@@ -106,15 +94,13 @@ class InvalidPortError(OSError):
 
 
 class ServerTypeError(NotImplementedError):
-    """Error raised when using a functionality unavailable for this server type"""
+    """Error raised when using a functionality unavailable for this server type."""
 
     pass
 
 
 def protect_source_op_not_found(func):
-    """Capture DPF's Server exceptions when a source operator is not found
-    and return a more succinct error message.
-    """
+    """Capture DPF's Server exceptions when a source operator is not found and return a more succinct error message."""
 
     @wraps(func)
     def wrapper(*args, **kwargs):

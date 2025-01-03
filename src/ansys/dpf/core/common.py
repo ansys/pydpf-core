@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -20,18 +20,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""
-Common
-======
-
-.. autoclass:: locations
-   :members:
-
-"""
+"""Common."""
 
 import re
 import sys
 from enum import Enum
+from typing import Dict
 
 from ansys.dpf.core.misc import module_exists
 from ansys.dpf.gate.common import locations, ProgressBarBase  # noqa: F401
@@ -82,13 +76,7 @@ class _smart_dict_unit_system(dict):
 
 
 class types(Enum):
-    """
-    The ``'types'`` enum contains the available types passed through operators
-    and workflows to DPF.
-
-
-
-    """
+    """The ``'types'`` enum contains the available types passed through operators and workflows to DPF."""
 
     # Types from grpc proto, do not modify
     string = 0
@@ -126,6 +114,13 @@ class types(Enum):
 
 
 def types_enum_to_types():
+    """Return a mapping of enums and corresponding python or dpf types.
+
+    Returns
+    -------
+    dict
+        Mapping of enum to the corresponding type.
+    """
     from ansys.dpf.core import (
         cyclic_support,
         data_sources,
@@ -185,6 +180,7 @@ def types_enum_to_types():
 
 class natures(Enum):
     """The ``'natures'`` enum contains the dimensionality types.
+
     It can be used to create a field of a given dimensionality.
     """
 
@@ -195,7 +191,9 @@ class natures(Enum):
 
 
 class shell_layers(Enum):
-    """The ``'shell_layers'`` enum contains the available order of
+    """Contains data identifying shell layers.
+
+    The ``'shell_layers'`` enum contains the available order of
     shell layers (or lack of shell layers) that defines how the
     field's data is ordered.
     """
@@ -303,6 +301,8 @@ class DefinitionLabels:
 
 
 class TqdmProgressBar(ProgressBarBase):
+    """Custom progress bar implementation based on tqdm."""
+
     def __init__(self, text, unit, tot_size=None):
         import tqdm
 
@@ -322,6 +322,7 @@ class TqdmProgressBar(ProgressBarBase):
         )
 
     def update(self, current_value):
+        """Modify how the current value of the progress bar is updated."""
         if self.tot_size is None:
             self.bar.total = current_value * 2
         self.bar.update(current_value - self.current)
@@ -329,6 +330,13 @@ class TqdmProgressBar(ProgressBarBase):
 
     @staticmethod
     def progress_available():
+        """Check if the tdqm module exists.
+
+        Returns
+        -------
+        bool
+            True if module exists, else False.
+        """
         return module_exists("tqdm")
 
 
@@ -345,9 +353,10 @@ def _common_percentage_progress_bar(text):
 
 
 class SubClassSmartDict(dict):
+    """Return the superclass name for a key if not found initially."""
+
     def __getitem__(self, item):
-        """If found returns the item of key == ìtem`, else returns item with key matching `issubclass(item,
-        key)`."""
+        """If found returns the item of key == ìtem`, else returns item with key matching `issubclass(item, key)`."""
         if item in self:
             return super().__getitem__(item)
         else:
@@ -361,6 +370,13 @@ _type_to_internal_object_keyword = None
 
 
 def type_to_internal_object_keyword():
+    """Return dpf types mapped to internal object keywords.
+
+    Returns
+    -------
+    SubClassSmartDict
+        Custom dictionary that returns superclass name for a key if not found initially.
+    """
     global _type_to_internal_object_keyword
     if _type_to_internal_object_keyword is None:
         from ansys.dpf.core import (
@@ -417,6 +433,7 @@ _type_to_special_dpf_constructors = None
 
 
 def type_to_special_dpf_constructors():
+    """Return dpf type mapped to special dpf constructors."""
     global _type_to_special_dpf_constructors
     if _type_to_special_dpf_constructors is None:
         from ansys.dpf.gate.dpf_vector import DPFVectorInt
@@ -430,7 +447,53 @@ def type_to_special_dpf_constructors():
     return _type_to_special_dpf_constructors
 
 
+_derived_class_name_to_type = None
+
+
+def derived_class_name_to_type() -> Dict[str, type]:
+    """
+    Return a mapping of derived class names to their corresponding Python classes.
+
+    Returns
+    -------
+    dict[str, type]
+        A dictionary mapping derived class names (str) to their corresponding
+        Python class objects.
+    """
+    global _derived_class_name_to_type
+    if _derived_class_name_to_type is None:
+        from ansys.dpf.core.workflow_topology import WorkflowTopology
+
+        _derived_class_name_to_type = {"WorkflowTopology": WorkflowTopology}
+    return _derived_class_name_to_type
+
+
+def record_derived_class(class_name: str, py_class: type, overwrite: bool = False):
+    """
+    Record a new derived class in the mapping of class names to their corresponding Python classes.
+
+    This function updates the global dictionary that maps derived class names (str) to their corresponding
+    Python class objects (type). If the provided class name already exists in the dictionary, it will either
+    overwrite the existing mapping or leave it unchanged based on the `overwrite` flag.
+
+    Parameters
+    ----------
+    class_name : str
+        The name of the derived class to be recorded.
+    py_class : type
+        The Python class type corresponding to the derived class.
+    overwrite : bool, optional
+        A flag indicating whether to overwrite an existing entry for the `class_name`.
+        If `True`, the entry will be overwritten. If `False` (default), the entry will
+        not be overwritten if it already exists.
+    """
+    recorded_classes = derived_class_name_to_type()
+    if overwrite or class_name not in recorded_classes:
+        recorded_classes[class_name] = py_class
+
+
 def create_dpf_instance(type, internal_obj, server):
+    """Create a server instance of a given type."""
     spe_constructors = type_to_special_dpf_constructors()
     if type in spe_constructors:
         return spe_constructors[type](internal_obj, server)

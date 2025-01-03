@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -21,8 +21,7 @@
 # SOFTWARE.
 
 """
-fields_container_factory
-========================
+fields_container_factory.
 
 Contains functions to simplify creating a fields container.
 """

@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -29,6 +29,7 @@ pytest as a session fixture
 """
 
 import os
+from pathlib import Path
 import functools
 import pytest
 
@@ -54,10 +55,10 @@ local_test_repo = False
 
 def _get_test_files_directory():
     if local_test_repo is False:
-        test_path = os.path.join(os.path.dirname(os.path.abspath(__file__)))
-        return os.path.join(test_path, os.pardir, "tests", "testfiles")
+        test_path = Path(__file__).parent
+        return str(test_path.parent / "testfiles")
     else:
-        return os.path.join(os.environ["AWP_UNIT_TEST_FILES"], "python")
+        return str(Path(os.environ["AWP_UNIT_TEST_FILES"]).joinpath("python"))
 
 
 if os.name == "posix":

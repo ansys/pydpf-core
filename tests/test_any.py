@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -136,7 +136,7 @@ def test_cast_workflow_any(server_type):
 
 @pytest.mark.skipif(
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
-    reason="any does not support operator below 8.0",
+    reason="any does not support operator below 10.0",
 )
 def test_cast_operator_any(server_type):
     entity = dpf.Operator(server=server_type, name="U")

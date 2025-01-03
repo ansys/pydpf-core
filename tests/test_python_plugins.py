@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -22,6 +22,7 @@
 
 import pytest
 import os
+from pathlib import Path
 import platform
 import numpy as np
 from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0
@@ -56,7 +57,7 @@ update_virtual_environment_for_custom_operators()
 @pytest.fixture(scope="module")
 def load_all_types_plugin(testfiles_dir):
     return dpf.load_library(
-        dpf.path_utilities.to_server_os(os.path.join(testfiles_dir, "pythonPlugins", "all_types")),
+        dpf.path_utilities.to_server_os(Path(testfiles_dir) / "pythonPlugins" / "all_types"),
         "py_test_types",
         "load_operators",
     )
@@ -65,7 +66,7 @@ def load_all_types_plugin(testfiles_dir):
 def load_all_types_plugin_with_serv(my_server, testfiles_dir):
     return dpf.load_library(
         dpf.path_utilities.to_server_os(
-            os.path.join(testfiles_dir, "pythonPlugins", "all_types"), my_server
+            Path(testfiles_dir) / "pythonPlugins" / "all_types", my_server
         ),
         "py_test_types",
         "load_operators",
@@ -242,7 +243,7 @@ def test_generic_data_container(server_clayer_remote_process, testfiles_dir):
 def test_syntax_error(server_type_remote_process, testfiles_dir):
     dpf.load_library(
         dpf.path_utilities.to_server_os(
-            os.path.join(testfiles_dir, "pythonPlugins", "syntax_error_plugin"),
+            Path(testfiles_dir) / "pythonPlugins" / "syntax_error_plugin",
             server_type_remote_process,
         ),
         "py_raising",
@@ -381,7 +382,7 @@ def test_create_properties_specification(server_in_process):
 def test_custom_op_with_spec(server_type_remote_process, testfiles_dir):
     dpf.load_library(
         dpf.path_utilities.to_server_os(
-            os.path.join(testfiles_dir, "pythonPlugins"), server_type_remote_process
+            Path(testfiles_dir) / "pythonPlugins", server_type_remote_process
         ),
         "py_operator_with_spec",
         "load_operators",

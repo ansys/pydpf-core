@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -21,12 +21,9 @@
 # SOFTWARE.
 
 """
-.. _ref_geometry_factory:
+Geometry Factory.
 
-Geometry Factory
-================
 Geometry factory module containing functions to create the different geometries.
-
 """
 
 import numpy as np
