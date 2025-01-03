@@ -14,7 +14,6 @@ or the repo defined by the environment variable "ANSYSDPFCORE_ROOT" if it exists
 """
 
 import os
-import glob
 from pathlib import Path
 import platform
 import shutil

@@ -25,3 +25,5 @@ from .workflow_topology import WorkflowTopology
 from .operator_connection import OperatorConnection
 from .data_connection import DataConnection
 from .exposed_pin import ExposedPin
+
+__all__ = [WorkflowTopology, OperatorConnection, DataConnection, ExposedPin]

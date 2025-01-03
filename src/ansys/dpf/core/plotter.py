@@ -31,7 +31,6 @@ Contains classes used to plot a mesh and a fields container using PyVista.
 from __future__ import annotations
 
 import tempfile
-import os
 import sys
 import numpy as np
 import warnings

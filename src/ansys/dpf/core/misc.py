@@ -23,7 +23,6 @@
 """Miscellaneous functions for the DPF module."""
 
 import platform
-import glob
 import os
 import re
 from pathlib import Path

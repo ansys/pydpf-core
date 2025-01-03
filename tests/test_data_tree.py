@@ -21,7 +21,6 @@
 # SOFTWARE.
 
 from ansys.dpf import core as dpf
-import os
 import pytest
 import conftest
 from pathlib import Path

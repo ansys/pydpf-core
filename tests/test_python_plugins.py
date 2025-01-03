@@ -21,7 +21,6 @@
 # SOFTWARE.
 
 import pytest
-import os
 from pathlib import Path
 import platform
 import numpy as np

@@ -172,7 +172,7 @@ def test_downloadinfolder_uploadinfolder(multishells, tmpdir, server_type_remote
     # download it
     new_tmpdir = tmpdir / "my_tmp_dir"
     new_tmpdir.mkdir()
-    out = dpf.core.download_files_in_folder(
+    _ = dpf.core.download_files_in_folder(
         TARGET_PATH, str(new_tmpdir), server=server_type_remote_process
     )
     # check if the architecture of the download is ok
