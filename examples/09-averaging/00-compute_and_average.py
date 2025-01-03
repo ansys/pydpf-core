@@ -135,7 +135,6 @@ def compute_von_mises_then_average(analysis):
 def average_then_compute_von_mises(analysis):
     # Creating the model from the results of the simulation
     model = dpf.Model(analysis)
-    mesh = model.metadata.meshed_region
 
     # Retrieving the stresses
     stress_op = dpf.operators.result.stress()
