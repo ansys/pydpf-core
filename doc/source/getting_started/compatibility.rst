@@ -8,7 +8,7 @@ Operating system
 ----------------
 
 DPF supports Windows 10 and Rocky Linux 8 and later.
-To run DPF on CentOS 7, use DPF for 2024R2 (8.2) or older.
+To run DPF on CentOS 7, use DPF for 2024 R2 (8.2) or older.
 For more information, see `Ansys Platform Support <https://www.ansys.com/solutions/solutions-by-role/it-professionals/platform-support>`_.
 
 Client-server
@@ -23,7 +23,7 @@ version.
 
 As new features are developed, every attempt is made to ensure backward
 compatibility from the client to the server. Backward compatibility is generally ensured for
-the 4 latest Ansys versions. For example, ``ansys-dpf-core`` module with 0.8.0 version has been
+the four latest Ansys versions. For example, the ``ansys-dpf-core`` module 0.8.0 version has been
 developed for Ansys 2023 R2 pre1 release, for 2023 R2 Ansys version. It is compatible with
 2023 R2, 2023 R1, 2022 R2 and 2022 R1 Ansys versions.
 
@@ -34,7 +34,7 @@ and prevent synchronization issues between the PyDPF libraries, requiring to dro
 previous to 2022 R2.
 
 **Ansys strongly encourages you to use the latest packages available**, as far they are compatible
-with the Server version you want to run. Considering Ansys 2023 R1 for example, if ``ansys-dpf-core``
+with the server version you want to run. Considering Ansys 2023 R1 for example, if ``ansys-dpf-core``
 module with 0.10.0 version is the latest available compatible package, it should be used.
 
 For ``ansys-dpf-core<0.10``, the `ansys.grpc.dpf <https://pypi.org/project/ansys-grpc-dpf/>`_

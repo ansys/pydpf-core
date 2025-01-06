@@ -3,7 +3,7 @@
 ==================
 Terms and concepts
 ==================
-DPF sees **fields of data**, not physical results. This makes DPF a
+DPF uses **fields of data**, not physical results. This makes DPF a
 very versatile tool that can be used across teams, projects, and
 simulations.
 
@@ -11,25 +11,25 @@ Key terms
 ---------
 Here are descriptions for key DPF terms:
 
-- **Data source:** One or more files containing analysis results.
-- **Field:** Main simulation data container.
-- **Field container:** For a transient, harmonic, modal, or multi-step
+- **Data source**: One or more files containing analysis results.
+- **Field**: Main simulation data container.
+- **Field container**: For a transient, harmonic, modal, or multi-step
   static analysis, a set of fields, with one field for each time step
   or frequency.
-- **Location:** Type of topology associated with the data container. DPF
+- **Location**: Type of topology associated with the data container. DPF
   uses three different spatial locations for finite element data: ``Nodal``,
   ``Elemental``, and ``ElementalNodal``.
-- **Operators:** Objects that are used to create, transform, and stream the data.
+- **Operators**: Objects that are used to create, transform, and stream the data.
   An operator is composed of a **core** and **pins**. The core handles the
   calculation, and the pins provide input data to and output data from
   the operator.
-- **Scoping:** Spatial and/or temporal subset of a model's support.
-- **Support:** Physical entity that the field is associated with. For example,
+- **Scoping**: Spatial and/or temporal subset of a model's support.
+- **Support**: Physical entity that the field is associated with. For example,
   the support can be a mesh, geometrical entity, or time or frequency values.
-- **Workflow:** Global entity that is used to evaluate the data produced
+- **Workflow**: Global entity that is used to evaluate the data produced
   by chained operators.
-- **Meshed region:** Entity describing a mesh. Node and element scopings, 
-  element types, connectivity (list of node indices composing each element) and 
+- **Meshed region**: Entity describing a mesh. Node and element scopings, 
+  element types, connectivity (list of node indices composing each element), and 
   node coordinates are the fundamental entities composing the meshed region.
 
 Scoping

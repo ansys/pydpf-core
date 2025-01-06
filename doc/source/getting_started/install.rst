@@ -16,7 +16,7 @@ with this command:
 
    pip install ansys-dpf-core
 
-PyDPF-Core plotting capabilities require to have `PyVista <https://pyvista.org/>`_ installed.
+PyDPF-Core plotting capabilities require you to have `PyVista <https://pyvista.org/>`_ installed.
 To install PyDPF-Core with its optional plotting functionalities, use:
 
 .. code::
@@ -62,8 +62,8 @@ then use the following command from within this local directory:
 
    pip install --no-index --find-links=. ansys-dpf-core
 
-Beware that PyDPF-Core wheelhouses do not include the optional plotting dependencies.
-To allow for plotting capabilities, also download the wheels corresponding to your platform and Python interpreter version
+Note that PyDPF-Core wheelhouses do not include the optional plotting dependencies.
+To use the plotting capabilities, also download the wheels corresponding to your platform and Python interpreter version
 for `PyVista <https://pypi.org/project/pyvista/#files>`_ and 
 `matplotlib <https://pypi.org/project/matplotlib/#files>`_, then place them in the same previous local directory and run the command above.
 
