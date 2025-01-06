@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -19,6 +19,7 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
+"""Provides for setting up logging."""
 
 import logging
 
@@ -31,7 +32,6 @@ def setup_logger(loglevel="INFO"):
     loglevel : str, optional
         The level of the logger to set up. The default is ``"INFO"``.
     """
-
     # return existing log if this function has already been called
     if hasattr(setup_logger, "log"):
         setup_logger.log.setLevel(loglevel)

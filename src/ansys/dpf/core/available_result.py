@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -21,8 +21,9 @@
 # SOFTWARE.
 
 """
-AvailableResult
+AvailableResult.
 
+Module contains the class representing the results that an operator can request.
 """
 
 from typing import List
@@ -33,6 +34,8 @@ from enum import Enum, unique
 
 @unique
 class Homogeneity(Enum):
+    """Enum class listing all possible homogeneity names of results."""
+
     acceleration = 0
     angle = 1
     angular_velocity = 2
@@ -147,6 +150,13 @@ class AvailableResult:
         self._qualifier_labels = availableresult.qualifier_labels
 
     def __str__(self):
+        """Construct an informal string representation of available result.
+
+        Returns
+        -------
+        str
+            Informal string representation of available result.
+        """
         txt = (
             "DPF Result\n----------\n"
             + self.name
@@ -170,6 +180,13 @@ class AvailableResult:
         return txt
 
     def __repr__(self):
+        """Construct a formal string representation of available result.
+
+        Returns
+        -------
+        str
+            Formal string representation of available result.
+        """
         return f"AvailableResult<name={self.name}>"
 
     @property
@@ -257,13 +274,15 @@ class AvailableResult:
 
     @property
     def physical_name(self) -> str:
-        """Name of the result with spaces"""
+        """Name of the result with spaces."""
         return self._physics_name
 
     @property
     def qualifiers(self) -> list:
-        """Returns the list of qualifiers (equivalent to label spaces)
-        available for a given Result. These qualifiers can then be used to request the result
+        """
+        Returns the list of qualifiers (equivalent to label spaces) available for a given Result.
+
+        These qualifiers can then be used to request the result
         on specified locations/properties.
         """
         return self._qualifiers
@@ -329,6 +348,18 @@ _result_properties = {
 
 
 def available_result_from_name(name) -> AvailableResult:
+    """Create an instance of AvailableResult from a specified results name.
+
+    Parameters
+    ----------
+    name : str
+        Valid property name.
+
+    Returns
+    -------
+    AvailableResult
+        Instance created from specified result name.
+    """
     for key, item in _result_properties.items():
         if item["scripting_name"] == name:
             from types import SimpleNamespace

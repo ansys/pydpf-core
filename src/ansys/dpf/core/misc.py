@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -86,7 +86,9 @@ def is_ubuntu():
 
 
 def get_ansys_path(ansys_path=None):
-    """Give input path back if given, else look for ANSYS_DPF_PATH,
+    """Return the input path if provided; otherwise, check ANSYS_DPF_PATH, AWP_ROOT, and the latest ansys-dpf-server modules.
+
+    Give input path back if given, else look for ANSYS_DPF_PATH,
     then among AWP_ROOT and installed ansys-dpf-server modules to take the latest available.
 
     Parameters
@@ -146,7 +148,9 @@ def _find_latest_ansys_versions():
 
 
 def find_ansys():
-    """Search for a standard ANSYS environment variable (AWP_ROOTXXX) or a standard installation
+    """Check ANSYS environment variables or default paths for the latest installation.
+
+    Search for a standard ANSYS environment variable (AWP_ROOTXXX) or a standard installation
     location to find the path to the latest Ansys installation.
 
     Returns
@@ -199,8 +203,10 @@ def find_ansys():
 
 def is_pypim_configured():
     """Check if the environment is configured for PyPIM, without using pypim.
+
     This method is equivalent to ansys.platform.instancemanagement.is_configured(). It's
     reproduced here to avoid having hard dependencies.
+
     Returns
     -------
     bool

@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -21,7 +21,7 @@
 # SOFTWARE.
 
 """
-Animator
+Animator.
 
 This module contains the DPF animator class.
 
@@ -37,8 +37,7 @@ from ansys.dpf.core.plotter import _PyVistaPlotter
 
 
 class _InternalAnimatorFactory:
-    """
-    Factory for _InternalAnimator based on the backend."""
+    """Factory for _InternalAnimator based on the backend."""
 
     @staticmethod
     def get_animator_class():
@@ -46,7 +45,7 @@ class _InternalAnimatorFactory:
 
 
 class _PyVistaAnimator(_PyVistaPlotter):
-    """This _InternalAnimator class is based on PyVista"""
+    """An InternalAnimator class based on PyVista."""
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -190,6 +189,8 @@ class _PyVistaAnimator(_PyVistaPlotter):
 
 
 class Animator:
+    """The DPF animator class."""
+
     def __init__(self, workflow=None, **kwargs):
         """
         Create an Animator object.
@@ -228,6 +229,7 @@ class Animator:
     def workflow(self) -> core.Workflow:
         """
         Workflow used to generate a Field at each frame of the animation.
+
         By default, the "to_render" Field output will be plotted,
         and the "loop_over" input defines what the animation iterates on.
         Optionally, the workflow can also have a "deform_by" Field output,
@@ -267,7 +269,7 @@ class Animator:
         **kwargs,
     ):
         """
-        Animate the workflow of the Animator, using inputs
+        Animate the workflow of the Animator, using inputs.
 
         Parameters
         ----------
@@ -316,6 +318,16 @@ class Animator:
 
 
 def scale_factor_to_fc(scale_factor, fc):
+    """Scale the fields being animated by a factor.
+
+    Parameters
+    ----------
+    scale_factor : int, float, list
+        Scale factor to apply to the animated field.
+    fc : FieldsContainer
+        FieldsContainer containing the fields being animated.
+    """
+
     def int_to_field(value, shape, scoping):
         field = core.fields_factory.field_from_array(np.full(shape=shape, fill_value=value))
         field.scoping = scoping

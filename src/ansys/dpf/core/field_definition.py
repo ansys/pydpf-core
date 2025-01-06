@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -20,10 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""
-FieldDefinition
-
-"""
+"""FieldDefinition."""
 
 import traceback
 import warnings
@@ -141,7 +138,7 @@ class FieldDefinition:
 
     @property
     def dimensionality(self):
-        """Dimensionality
+        """Dimensionality.
 
         Returns
         -------
@@ -238,7 +235,8 @@ class FieldDefinition:
         )
 
     def deep_copy(self, server=None):
-        """Creates a deep copy of the field_definition's data on a given server.
+        """Create a deep copy of the field_definition's data on a given server.
+
         This can be useful to pass data from one server instance to another.
 
         Parameters
@@ -257,6 +255,7 @@ class FieldDefinition:
         return out
 
     def __del__(self):
+        """Delete the current instance."""
         try:
             self._deleter_func[0](self._deleter_func[1](self))
         except:

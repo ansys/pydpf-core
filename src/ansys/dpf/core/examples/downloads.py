@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -21,9 +21,10 @@
 # SOFTWARE.
 
 """
-Downloads
+Downloads.
 
-Download example datasets from https://github.com/ansys/example-data"""
+Download example datasets from https://github.com/ansys/example-data
+"""
 
 import os
 from pathlib import Path
@@ -42,7 +43,7 @@ GITHUB_SOURCE_URL = (
 
 
 def delete_downloads(verbose=True):
-    """Delete all downloaded examples to free space or update the files"""
+    """Delete all downloaded examples to free space or update the files."""
     from ansys.dpf.core import LOCAL_DOWNLOADED_EXAMPLES_PATH, examples
 
     not_to_remove = [
@@ -87,7 +88,7 @@ def _get_file_url(directory, filename):
 
 
 def _retrieve_file(url, filename, directory):
-    """Download a file from a url"""
+    """Download a file from a url."""
     from ansys.dpf.core import LOCAL_DOWNLOADED_EXAMPLES_PATH
 
     # First check if file has already been downloaded
@@ -122,8 +123,8 @@ def _download_file(directory, filename, should_upload: bool, server, return_loca
 def download_transient_result(
     should_upload: bool = True, server=None, return_local_path=False
 ) -> str:
-    """Download an example transient result file and return the download path
-    available server side.
+    """Download an example transient result file and return the download path available server side.
+
     If the server is remote (or doesn't share memory), the file is uploaded or made available
     on the server side.
 
@@ -164,8 +165,8 @@ def download_transient_result(
 def download_all_kinds_of_complexity(
     should_upload: bool = True, server=None, return_local_path=False
 ) -> str:
-    """Download an example static result and return the download path
-    available server side.
+    """Download an example static result and return the download path available server side.
+
     If the server is remote (or doesn't share memory), the file is uploaded or made available
     on the server side.
 
@@ -206,8 +207,8 @@ def download_all_kinds_of_complexity(
 def download_all_kinds_of_complexity_modal(
     should_upload: bool = True, server=None, return_local_path=False
 ) -> str:
-    """Download an example result file from a static modal analysis and
-    return the download path available server side.
+    """Download an example result file from a static modal analysis and return the download path available server side.
+
     If the server is remote (or doesn't share memory), the file is uploaded or made available
     on the server side.
 
@@ -250,8 +251,8 @@ def download_all_kinds_of_complexity_modal(
 
 
 def download_pontoon(should_upload: bool = True, server=None, return_local_path=False) -> str:
-    """Download an example result file from a static modal analsys and
-    return the download path available server side.
+    """Download an example result file from a static modal analsys and return the download path available server side.
+
     If the server is remote (or doesn't share memory), the file is uploaded or made available
     on the server side.
 
@@ -292,8 +293,8 @@ def download_pontoon(should_upload: bool = True, server=None, return_local_path=
 def download_multi_harmonic_result(
     should_upload: bool = True, server=None, return_local_path=False
 ) -> str:
-    """Download an example multi-harmonic result file and return the
-    download path available server side.
+    """Download an example multi-harmonic result file and return the download path available server side.
+
     If the server is remote (or doesn't share memory), the file is uploaded or made available
     on the server side.
 
@@ -333,8 +334,8 @@ def download_multi_harmonic_result(
 def download_multi_stage_cyclic_result(
     should_upload: bool = True, server=None, return_local_path=False
 ) -> str:
-    """Download an example multi-stage result file and return the
-    download path available server side.
+    """Download an example multi-stage result file and return the download path available server side.
+
     If the server is remote (or doesn't share memory), the file is uploaded or made available
     on the server side.
 
@@ -373,8 +374,8 @@ def download_multi_stage_cyclic_result(
 
 
 def download_sub_file(should_upload: bool = True, server=None, return_local_path=False) -> str:
-    """Download an example .sub result file containing matrices and return the
-    download path available server side.
+    r"""Download an example .sub result file containing matrices and return the download path available server side.
+
     If the server is remote (or doesn't share memory), the file is uploaded or made available
     on the server side.
 
@@ -413,8 +414,8 @@ def download_sub_file(should_upload: bool = True, server=None, return_local_path
 def download_msup_files_to_dict(
     should_upload: bool = True, server=None, return_local_path=False
 ) -> dict:
-    """Download all the files necessary for a msup expansion and return the
-    download paths available server side into a dictionary extension->path.
+    r"""Download necessary files for an msup expansion and return a dictionary mapping each file extension to its server-side download path.
+
     If the server is remote (or doesn't share memory), the file is uploaded or made available
     on the server side.
 
@@ -465,8 +466,8 @@ def download_msup_files_to_dict(
 def download_distributed_files(
     should_upload: bool = True, server=None, return_local_path=False
 ) -> dict:
-    """Download distributed rst files and return the
-    download paths into a dictionary domain id->path.
+    r"""Download distributed rst files and return the download paths into a dictionary domain id->path.
+
     If the server is remote (or doesn't share memory), the file is uploaded or made available
     on the server side.
 
@@ -513,8 +514,9 @@ def download_distributed_files(
 def download_fluent_multi_species(
     should_upload: bool = True, server=None, return_local_path=False
 ) -> dict:
-    """Download the cas and dat file of a fluent analysis with multiple species
-    and return the download paths into a dictionary extension->path.
+    r"""
+    Download the cas and dat files from a multiple species Fluent analysis and return a dictionary of file extensions to download paths.
+
     If the server is remote (or doesn't share memory), the file is uploaded or made available
     on the server side.
 
@@ -569,8 +571,9 @@ def download_fluent_multi_species(
 def download_fluent_multi_phase(
     should_upload: bool = True, server=None, return_local_path=False
 ) -> dict:
-    """Download the cas and dat file of a fluent analysis with multiple phases
-    and return the download paths into a dictionary extension->path.
+    r"""
+    Download the cas and dat files from a multiple phases Fluent analysis and return a dictionary of file extensions to download paths.
+
     If the server is remote (or doesn't share memory), the file is uploaded or made available
     on the server side.
 
@@ -625,7 +628,9 @@ def download_fluent_multi_phase(
 def download_extrapolation_3d_result(
     should_upload: bool = True, server=None, return_local_path=False
 ) -> dict:
-    """Download example static results of reference and integrated points
+    """Download example static results for extrapolation and return a dictionary of two download paths.
+
+    Download example static results of reference and integrated points
     for extrapolation of 3d-element and return the dictionary of 2 download paths.
     If the server is remote (or doesn't share memory), the file is uploaded or made available
     on the server side.
@@ -678,7 +683,9 @@ def download_extrapolation_3d_result(
 def download_extrapolation_2d_result(
     should_upload: bool = True, server=None, return_local_path=False
 ) -> dict:
-    """Download example static results of reference and integrated points
+    """Download 2D extrapolation results and return two server-side paths.
+
+    Download example static results of reference and integrated points
     for extrapolation of 2d-element and return the dictionary of 2 download paths.
     If the server is remote (or doesn't share memory), the file is uploaded or made available
     on the server side.
@@ -737,8 +744,8 @@ def download_extrapolation_2d_result(
 
 
 def download_hemisphere(should_upload: bool = True, server=None, return_local_path=False) -> str:
-    """Download an example result file from a static analysis and
-    return the download path available server side.
+    """Download an example result file from a static analysis and return the download path available server side.
+
     If the server is remote (or doesn't share memory), the file is uploaded or made available
     on the server side.
 
@@ -779,8 +786,8 @@ def download_hemisphere(should_upload: bool = True, server=None, return_local_pa
 def download_example_asme_result(
     should_upload: bool = True, server=None, return_local_path=False
 ) -> str:
-    """Download an example result file from a static analysis and
-    return the download path available server side.
+    """Download an example result file from a static analysis and return the download path available server side.
+
     If the server is remote (or doesn't share memory), the file is uploaded or made available
     on the server side.
 
@@ -817,8 +824,8 @@ def download_example_asme_result(
 
 
 def download_crankshaft(should_upload: bool = True, server=None, return_local_path=False) -> str:
-    """Download the result file of an example of a crankshaft
-    under load and return the download path available server side.
+    """Download the result file of an example of a crankshaft under load and return the download path available server side.
+
     If the server is remote (or doesn't share memory), the file is uploaded or made available
     on the server side.
 
@@ -857,8 +864,8 @@ def download_crankshaft(should_upload: bool = True, server=None, return_local_pa
 
 
 def download_piston_rod(should_upload: bool = True, server=None, return_local_path=False) -> str:
-    """Download the result file of an example of a piston rod
-    under load and return the download path available server side.
+    """Download the result file of an example of a piston rod under load and return the download path available server side.
+
     If the server is remote (or doesn't share memory), the file is uploaded or made available
     on the server side.
 
@@ -897,8 +904,8 @@ def download_piston_rod(should_upload: bool = True, server=None, return_local_pa
 
 
 def download_d3plot_beam(should_upload: bool = True, server=None, return_local_path=False) -> list:
-    """Download the result file of an example of a d3plot file with beam elements and return the
-    download paths available on the server side.
+    """Download the result file of an example of a d3plot file with beam elements and return the download paths available on the server side.
+
     If the server is remote (or doesn't share the memory), the file is uploaded or made available
     on the server side.
 
@@ -951,8 +958,8 @@ def download_d3plot_beam(should_upload: bool = True, server=None, return_local_p
 
 
 def download_binout_matsum(should_upload: bool = True, server=None, return_local_path=False) -> str:
-    """Download the result file of an example of a binout file with matsum branch and return the
-    download path available on the server side.
+    """Download the result file of an example of a binout file with matsum branch and return the download path available on the server side.
+
     If the server is remote (or doesn't share the memory), the file is uploaded or made available
     on the server side.
 
@@ -991,8 +998,8 @@ def download_binout_matsum(should_upload: bool = True, server=None, return_local
 
 
 def download_binout_glstat(should_upload: bool = True, server=None, return_local_path=False) -> str:
-    """Download the result file of an example of a binout file with glstat branch and return the
-    download path available on the server side.
+    """Download the result file of an example of a binout file with glstat branch and return the download path available on the server side.
+
     If the server is remote (or doesn't share the memory), the file is uploaded or made available
     on the server side.
 
@@ -1033,8 +1040,8 @@ def download_binout_glstat(should_upload: bool = True, server=None, return_local
 def download_cycles_to_failure(
     should_upload: bool = True, server=None, return_local_path=False
 ) -> str:
-    """Download an example result file from a cyclic analysis and
-    return the download path.
+    """Download an example result file from a cyclic analysis and return the download path.
+
     If the server is remote (or doesn't share memory), the file is uploaded or made available
     on the server side.
 
@@ -1073,8 +1080,8 @@ def download_cycles_to_failure(
 
 
 def download_modal_frame(should_upload: bool = True, server=None, return_local_path=False) -> str:
-    """Download an example result file from a modal analysis on a frame and
-    return the download path.
+    """Download an example result file from a modal analysis on a frame and return the download path.
+
     If the server is remote (or doesn't share memory), the file is uploaded or made available
     on the server side.
 
@@ -1113,8 +1120,8 @@ def download_modal_frame(should_upload: bool = True, server=None, return_local_p
 def download_harmonic_clamped_pipe(
     should_upload: bool = True, server=None, return_local_path=False
 ) -> str:
-    """Download an example result file from a harmonic analysis on a clamped pipe and
-    return the download path.
+    """Download an example result file from a harmonic analysis on a clamped pipe and return the download path.
+
     If the server is remote (or doesn't share memory), the file is uploaded or made available
     on the server side.
 
@@ -1151,8 +1158,8 @@ def download_harmonic_clamped_pipe(
 
 
 def download_modal_cyclic(should_upload: bool = True, server=None, return_local_path=False) -> str:
-    """Download an example result file from a cyclic modal analysis and
-    return the download path.
+    """Download an example result file from a cyclic modal analysis and return the download path.
+
     If the server is remote (or doesn't share memory), the file is uploaded or made available
     on the server side.
 
@@ -1191,8 +1198,8 @@ def download_modal_cyclic(should_upload: bool = True, server=None, return_local_
 def download_fluent_axial_comp(
     should_upload: bool = True, server=None, return_local_path=False
 ) -> dict:
-    """Download the flprj, cas and dat files of a fluent analysis of an axial compressor sector
-    and return the download paths into a dictionary extension->path.
+    r"""Download flprj, cas, and dat files of an axial compressor sector analysis and return a dictionary of file extensions to paths.
+
     If the server is remote (or doesn't share memory), the file is uploaded or made available
     on the server side.
 
@@ -1232,7 +1239,7 @@ def download_fluent_axial_comp(
        'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\fluent-axial_comp\\axial_comp-1-01438.dat.h5',
        'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\fluent-axial_comp\\axial_comp-1-01439.dat.h5',
        'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\fluent-axial_comp\\axial_comp-1-01440.dat.h5',
-     ]} # noqa: E501
+     ]}
 
     """
     return {
@@ -1295,8 +1302,8 @@ def download_fluent_axial_comp(
 def download_fluent_mixing_elbow_steady_state(
     should_upload: bool = True, server=None, return_local_path=False
 ) -> dict:
-    """Download the flprj, cas and dat files of a steady-state fluent analysis of a mixing elbow
-    and return the download paths into a dictionary extension->path.
+    r"""Download the flprj, cas, and dat files of a steady-state mixing elbow analysis and return a dictionary mapping extensions to paths.
+
     If the server is remote (or doesn't share memory), the file is uploaded or made available
     on the server side.
 
@@ -1439,8 +1446,8 @@ def download_fluent_mixing_elbow_steady_state(
 def download_fluent_mixing_elbow_transient(
     should_upload: bool = True, server=None, return_local_path=False
 ) -> dict:
-    """Download the flprj, cas and dat files of a transient fluent analysis of a mixing elbow
-    and return the download paths into a dictionary extension->path.
+    r"""Download the flprj, cas, and dat files of a transient mixing elbow analysis and return a dictionary mapping extensions to paths.
+
     If the server is remote (or doesn't share memory), the file is uploaded or made available
     on the server side.
 
@@ -1480,7 +1487,7 @@ def download_fluent_mixing_elbow_transient(
        'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\fluent-mixing_elbow_transient\\elbow-2-00003.dat.h5',
        'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\fluent-mixing_elbow_transient\\elbow-2-00004.dat.h5',
        'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\fluent-mixing_elbow_transient\\elbow-2-00005.dat.h5',
-     ]} # noqa: E501
+     ]}
 
     """
     return {
@@ -1543,8 +1550,8 @@ def download_fluent_mixing_elbow_transient(
 def download_cfx_heating_coil(
     should_upload: bool = True, server=None, return_local_path=False
 ) -> dict:
-    """Download the flprj, cas and dat files of a CFX analysis of a heating coil
-    and return the download paths into a dictionary extension->path.
+    r"""Download the flprj, cas, and dat files of a CFX heating coil analysis and return a dictionary mapping extensions to paths.
+
     If the server is remote (or doesn't share memory), the file is uploaded or made available
     on the server side.
 
@@ -1575,7 +1582,7 @@ def download_cfx_heating_coil(
     >>> paths = examples.download_cfx_heating_coil()
     >>> paths
     {'cas': 'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\cfx-heating_coil\\def.cas.cff',
-     'dat': 'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\cfx-heating_coil\\def.dat.cff'} # noqa: E501
+     'dat': 'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\cfx-heating_coil\\def.dat.cff'}
 
     """
     return {
@@ -1599,8 +1606,8 @@ def download_cfx_heating_coil(
 def download_cfx_mixing_elbow(
     should_upload: bool = True, server=None, return_local_path=False
 ) -> str:
-    """Download the res file of a CFX analysis of a mixing elbow
-    and return the download path.
+    r"""Download the res file of a CFX analysis of a mixing elbow and return the download path.
+
     If the server is remote (or doesn't share memory), the file is uploaded or made available
     on the server side.
 
@@ -1643,8 +1650,7 @@ def download_cfx_mixing_elbow(
 
 
 def find_simple_bar(should_upload: bool = True, server=None, return_local_path=False) -> str:
-    """Make the result file available server side, if the server is remote the file is uploaded
-    server side. Returns the path on the file.
+    """Make the result file available server-side; if the server is remote, upload the file and return the file path.
 
     Parameters
     ----------
@@ -1664,7 +1670,6 @@ def find_simple_bar(should_upload: bool = True, server=None, return_local_path=F
 
     Examples
     --------
-
     >>> from ansys.dpf.core import examples
     >>> path = examples.find_simple_bar()
     >>> path
@@ -1677,8 +1682,7 @@ def find_simple_bar(should_upload: bool = True, server=None, return_local_path=F
 
 
 def find_static_rst(should_upload: bool = True, server=None, return_local_path=False) -> str:
-    """Make the result file available server side, if the server is remote the file is uploaded
-    server side. Returns the path on the file.
+    """Make the result file available server-side; if the server is remote, upload the file and return the file path.
 
     Parameters
     ----------
@@ -1698,7 +1702,6 @@ def find_static_rst(should_upload: bool = True, server=None, return_local_path=F
 
     Examples
     --------
-
     >>> from ansys.dpf.core import examples
     >>> path = examples.find_static_rst()
     >>> path
@@ -1709,8 +1712,7 @@ def find_static_rst(should_upload: bool = True, server=None, return_local_path=F
 
 
 def find_complex_rst(should_upload: bool = True, server=None, return_local_path=False) -> str:
-    """Make the result file available server side, if the server is remote the file is uploaded
-    server side. Returns the path on the file.
+    """Make the result file available server-side. If the server is remote, upload the file and return the file path.
 
     Parameters
     ----------
@@ -1730,7 +1732,6 @@ def find_complex_rst(should_upload: bool = True, server=None, return_local_path=
 
     Examples
     --------
-
     >>> from ansys.dpf.core import examples
     >>> path = examples.find_complex_rst()
     >>> path
@@ -1741,8 +1742,7 @@ def find_complex_rst(should_upload: bool = True, server=None, return_local_path=
 
 
 def find_multishells_rst(should_upload: bool = True, server=None, return_local_path=False) -> str:
-    """Make the result file available server side, if the server is remote the file is uploaded
-    server side. Returns the path on the file.
+    """Make the result file available server-side. If the server is remote, upload the file and return its path.
 
     Parameters
     ----------
@@ -1762,7 +1762,6 @@ def find_multishells_rst(should_upload: bool = True, server=None, return_local_p
 
     Examples
     --------
-
     >>> from ansys.dpf.core import examples
     >>> path = examples.find_multishells_rst()
     >>> path
@@ -1775,8 +1774,7 @@ def find_multishells_rst(should_upload: bool = True, server=None, return_local_p
 
 
 def find_electric_therm(should_upload: bool = True, server=None, return_local_path=False) -> str:
-    """Make the result file available server side, if the server is remote the file is uploaded
-    server side. Returns the path on the file.
+    """Make the result file available server-side. If the server is remote, upload the file and return its path.
 
     Parameters
     ----------
@@ -1796,7 +1794,6 @@ def find_electric_therm(should_upload: bool = True, server=None, return_local_pa
 
     Examples
     --------
-
     >>> from ansys.dpf.core import examples
     >>> path = examples.find_electric_therm()
     >>> path
@@ -1809,8 +1806,7 @@ def find_electric_therm(should_upload: bool = True, server=None, return_local_pa
 
 
 def find_steady_therm(should_upload: bool = True, server=None, return_local_path=False) -> str:
-    """Make the result file available server side, if the server is remote the file is uploaded
-    server side. Returns the path on the file.
+    """Make the result file available server-side. If the server is remote, upload the file and return its path.
 
     Parameters
     ----------
@@ -1830,7 +1826,6 @@ def find_steady_therm(should_upload: bool = True, server=None, return_local_path
 
     Examples
     --------
-
     >>> from ansys.dpf.core import examples
     >>> path = examples.find_steady_therm()
     >>> path
@@ -1843,8 +1838,7 @@ def find_steady_therm(should_upload: bool = True, server=None, return_local_path
 
 
 def find_transient_therm(should_upload: bool = True, server=None, return_local_path=False) -> str:
-    """Make the result file available server side, if the server is remote the file is uploaded
-    server side. Returns the path on the file.
+    """Make the result file available server-side. If the server is remote, upload the file and return its path.
 
     Parameters
     ----------
@@ -1864,7 +1858,6 @@ def find_transient_therm(should_upload: bool = True, server=None, return_local_p
 
     Examples
     --------
-
     >>> from ansys.dpf.core import examples
     >>> path = examples.find_transient_therm()
     >>> path
@@ -1877,8 +1870,7 @@ def find_transient_therm(should_upload: bool = True, server=None, return_local_p
 
 
 def find_msup_transient(should_upload: bool = True, server=None, return_local_path=False) -> str:
-    """Make the result file available server side, if the server is remote the file is uploaded
-    server side. Returns the path on the file.
+    """Make the result file available server-side. If the server is remote, upload the file and return its path.
 
     Parameters
     ----------
@@ -1898,7 +1890,6 @@ def find_msup_transient(should_upload: bool = True, server=None, return_local_pa
 
     Examples
     --------
-
     >>> from ansys.dpf.core import examples
     >>> path = examples.find_msup_transient()
     >>> path
@@ -1911,8 +1902,7 @@ def find_msup_transient(should_upload: bool = True, server=None, return_local_pa
 
 
 def find_simple_cyclic(should_upload: bool = True, server=None, return_local_path=False) -> str:
-    """Make the result file available server side, if the server is remote the file is uploaded
-    server side. Returns the path on the file.
+    """Make the result file available server-side. If the server is remote, upload the file and return its path.
 
     Parameters
     ----------
@@ -1932,7 +1922,6 @@ def find_simple_cyclic(should_upload: bool = True, server=None, return_local_pat
 
     Examples
     --------
-
     >>> from ansys.dpf.core import examples
     >>> path = examples.find_simple_cyclic()
     >>> path
@@ -1947,8 +1936,7 @@ def find_simple_cyclic(should_upload: bool = True, server=None, return_local_pat
 def find_distributed_msup_folder(
     should_upload: bool = True, server=None, return_local_path=False
 ) -> str:
-    """Make the result file available server side, if the server is remote the file is uploaded
-    server side. Returns the path on the file.
+    """Make the result file available server-side. If the server is remote, upload the file and return its path.
 
     Parameters
     ----------
@@ -1968,7 +1956,6 @@ def find_distributed_msup_folder(
 
     Examples
     --------
-
     >>> from ansys.dpf.core import examples
     >>> path = examples.find_distributed_msup_folder()
     >>> path
@@ -2008,8 +1995,7 @@ def find_distributed_msup_folder(
 def download_average_filter_plugin(
     should_upload: bool = True, server=None, return_local_path=False
 ) -> Union[str, None]:
-    """Make the plugin available server side, if the server is remote the plugin is uploaded
-    server side. Returns the path of the plugin folder.
+    """Make the result file available server-side. If the server is remote, upload the file and return its path.
 
     Parameters
     ----------
@@ -2029,7 +2015,6 @@ def download_average_filter_plugin(
 
     Examples
     --------
-
     >>> from ansys.dpf.core import examples
     >>> path = examples.download_average_filter_plugin()
 
@@ -2051,8 +2036,7 @@ def download_average_filter_plugin(
 def download_gltf_plugin(
     should_upload: bool = True, server=None, return_local_path=False
 ) -> Union[str, None]:
-    """Make the plugin available server side, if the server is remote the plugin is uploaded
-    server side. Returns the path of the plugin folder.
+    """Make the result file available server-side. If the server is remote, upload the file and return its path.
 
     Parameters
     ----------
@@ -2072,7 +2056,6 @@ def download_gltf_plugin(
 
     Examples
     --------
-
     >>> from ansys.dpf.core import examples
     >>> path = examples.download_gltf_plugin()
 
@@ -2097,8 +2080,7 @@ def download_gltf_plugin(
 def download_easy_statistics(
     should_upload: bool = True, server=None, return_local_path=False
 ) -> Union[str, None]:
-    """Make the plugin available server side, if the server is remote the plugin is uploaded
-    server side. Returns the path of the plugin folder.
+    """Make the result file available server-side. If the server is remote, upload the file and return its path.
 
     Parameters
     ----------
@@ -2118,7 +2100,6 @@ def download_easy_statistics(
 
     Examples
     --------
-
     >>> from ansys.dpf.core import examples
     >>> path = examples.download_easy_statistics()
 

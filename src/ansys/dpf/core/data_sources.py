@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -20,12 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""
-.. _ref_data_sources:
-
-Data Sources
-
-"""
+"""Data Sources."""
 
 import os
 from pathlib import Path
@@ -173,7 +168,6 @@ class DataSources:
     @staticmethod
     def guess_second_key(filepath: str) -> str:
         """For files with an h5 or cff extension, look for another extension."""
-
         # These files usually end with .cas.h5 or .dat.h5
         accepted = ["cas", "dat"]
         new_split = Path(filepath).suffixes
@@ -233,6 +227,7 @@ class DataSources:
         domain_id: int, optional
             Domain ID for the distributed files. The default is ``0``. For this
             parameter to be taken into account, ``domain_path=True`` must be set.
+
         Examples
         --------
         >>> from ansys.dpf import core as dpf
@@ -275,6 +270,7 @@ class DataSources:
             plugin when a result is requested by an operator.
         domain_id:
             Domain ID for the distributed files.
+
         Examples
         --------
         >>> from ansys.dpf import core as dpf
@@ -378,7 +374,7 @@ class DataSources:
         """List of result files contained in the data sources.
 
         Returns
-        ----------
+        -------
         list
             List of result files.
         """
@@ -399,7 +395,8 @@ class DataSources:
 
     @version_requires("7.0")
     def register_namespace(self, result_key: str, namespace: str):
-        """Adds a link from this ``result_key`` to this ``namespace`` in the DataSources.
+        """Add a link from this ``result_key`` to this ``namespace`` in the DataSources.
+
         This ``result_key`` to ``namespace`` mapping is used by source operators
         to find internal operators to call.
 
@@ -422,6 +419,7 @@ class DataSources:
         return _description(self._internal_obj, self._server)
 
     def __del__(self):
+        """Delete this instance."""
         try:
             self._deleter_func[0](self._deleter_func[1](self))
         except:

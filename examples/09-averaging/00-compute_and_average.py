@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -98,7 +98,6 @@ analysis = examples.download_crankshaft()
 def compute_von_mises_then_average(analysis):
     # Create a model from the results of the simulation and retrieve its mesh
     model = dpf.Model(analysis)
-    mesh = model.metadata.meshed_region
 
     # Apply the stress operator to obtain the stresses in the body
     stress_op = dpf.operators.result.stress()
@@ -120,6 +119,7 @@ def compute_von_mises_then_average(analysis):
     min_max.inputs.field.connect(avg_von_mises)
     max_val = min_max.outputs.field_max()
 
+    avg_von_mises.plot()
     return max_val.data[0]
 
 
@@ -135,7 +135,6 @@ def compute_von_mises_then_average(analysis):
 def average_then_compute_von_mises(analysis):
     # Creating the model from the results of the simulation
     model = dpf.Model(analysis)
-    mesh = model.metadata.meshed_region
 
     # Retrieving the stresses
     stress_op = dpf.operators.result.stress()
@@ -157,6 +156,7 @@ def average_then_compute_von_mises(analysis):
     min_max.inputs.field.connect(avg_von_mises)
     max_val = min_max.outputs.field_max()
 
+    avg_von_mises.plot()
     return max_val.data[0]
 
 
