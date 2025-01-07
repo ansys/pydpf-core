@@ -212,7 +212,7 @@ The preamble must have the following components:
     Introduction to the tutorial
 
 
-    :jupyter-download-script:`Download tutorial as Python script<file_name>` :jupyter-download-notebook:`Download tutorial as notebook<file_name>`
+    :jupyter-download-script:`Download tutorial as Python script<file_name>` :jupyter-download-notebook:`Download tutorial as Jupyter notebook<file_name>`
 
 The main PyDPF-Core library references are available already defined in the ``doc/source/links_and_refs.rst`` file.
 To employ them, you use the ``include`` directive and use the substitution text as usual:
