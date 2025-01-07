@@ -4,7 +4,7 @@
 Documentation
 =============
 
-Overall guidance on contributing to the documentation a PyAnsys repository appears in
+Overall guidance on contributing to the documentation of a PyAnsys repository appears in
 `Documenting <dev_guide_documenting_>`_ in the *PyAnsys Developer's Guide*.
 
 You must also follow the `Documentation style <dev_guide_doc_style_>`_ guide to
