@@ -5,6 +5,7 @@
 .. PyDPF-Core
 .. _pydpfcore_issues: https://github.com/ansys/pydpf-core/issues
 .. _pydpfcore_discussions: https://github.com/ansys/pydpf-core/discussions
+.. _pydpfcore_latest_release: https://github.com/ansys/pydpf-core/releases/latest
 
 .. Pyansys
 .. _pyansys: https://docs.pyansys.com/version/dev/
@@ -16,10 +17,13 @@
 .. _dev_guide_setup_your_environment: https://dev.docs.pyansys.com/how-to/setting-up.html
 .. _dev_guide_branch_names: https://dev.docs.pyansys.com/how-to/contributing.html#branch-naming-conventions
 .. _dev_guide_commit_names: https://dev.docs.pyansys.com/how-to/contributing.html#commit-naming-conventions
+.. _dev_guide_doc_style: https://dev.docs.pyansys.com/doc-style/index.html
+.. _dev_guide_documenting: https://dev.docs.pyansys.com/how-to/documenting.html#
 
 .. Other libraries documentations
 .. _pyvista_docs: https://docs.pyvista.org/version/stable/
 .. _pyvista_doc_plot_method: https://docs.pyvista.org/api/plotting/_autosummary/pyvista.plot.html#pyvista.plot
+.. _pyvista_org: https://pyvista.org/
 .. _jupyter: https://jupyter.org/
 .. _numpy_org: https://numpy.org/
 .. _numpy_docs: https://numpy.org/doc/stable/
@@ -30,9 +34,13 @@
 .. External links
 .. _sphinx: https://www.sphinx-doc.org/en/master/
 .. _sphinx_directives: https://www.sphinx-doc.org/en/master/usage/restructuredtext/directives.html
+.. _sphinx_basics: https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html
 .. _vale: https://www.vale.sh
 .. _docutils_directives: https://docutils.sourceforge.io/docs/ref/rst/directives.html
 .. _numpy_sphinx_ext_doc: https://numpydoc.readthedocs.io/en/latest/
+.. _pip_pypi_page: https://pypi.org/project/pip/
+.. _pyvista_download_files: https://pypi.org/project/pyvista/#files
+.. _matplotlib_download_files: https://pypi.org/project/matplotlib/#files
 
 .. REFERENCES
 
