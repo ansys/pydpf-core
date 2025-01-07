@@ -25,7 +25,7 @@ Here's a short summary of how to write good documentation:
 
 #. **Document the API and code**: Thoroughly document each function, class, and method. Include
    parameter descriptions, return values, and usage examples. Follow the
-   `numpydoc <numpydoc_>`_ convention for documenting code.
+   `numpydoc <numpy_sphinx_ext_doc_>`_ convention for documenting code.
 
 #. **Tutorials and guides**: Create tutorials or guides to help users achieve
    specific tasks or workflows with PyDPF-Core.

@@ -12,7 +12,7 @@ There are several ways to contribute to PyDPF-Core:
 - :ref:`ref_contributing_improve_doc`
 
 Overall guidance on contributing to a PyAnsys repository appears in
-`Contributing <dev_guide_contributing>`_ in the *PyAnsys Developer's Guide*.
+`Contributing <dev_guide_contributing_>`_ in the *PyAnsys Developer's Guide*.
 Ensure that you are thoroughly familiar with this guide before attempting
 to contribute to PyDPF-Core.
 
@@ -30,7 +30,7 @@ facing similar issues, making the repository more welcoming and inclusive. By pr
 you can directly contribute to the project’s success, maintain its health, and encourage a positive,
 open source ecosystem.
 
-To discover how you can help see the `PyDPF-Core Discussions page <pydpfcore_discussions>`_.
+To discover how you can help see the `PyDPF-Core Discussions page <pydpfcore_discussions_>`_.
 
 .. _ref_contributing_post_issues:
 
@@ -44,7 +44,7 @@ project’s community, learn from others, and gain experience in issue tracking 
 For the repository, issues serve as a structured way to track and prioritize work, helping maintainers understand
 the needs of users and guide the project’s development.
 
-Use the `PyDPF-Core Issues page <pydpfcore_issues>`_  to submit questions, report bugs, and request new features. When possible, use
+Use the `PyDPF-Core Issues page <pydpfcore_issues_>`_  to submit questions, report bugs, and request new features. When possible, use
 these issue templates:
 
 - 🐞 Bug, problem, or error: Fill a bug report here;

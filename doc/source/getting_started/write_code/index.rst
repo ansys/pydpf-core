@@ -78,7 +78,7 @@ Here are the main guidelines for developing code in a repository:
    documentation in rST or Markdown files.
    If you implement a new feature or change the behaviour of the library in any way,
    remember to mention it somewhere in the documentation (rST files in :file:`doc\source` directory)
-   Follow the `numpydoc <numpydoc_>`_ convention for documenting code.
+   Follow the `numpydoc <numpy_sphinx_ext_doc_>`_ convention for documenting code.
 
 #. **Test your changes**: Thoroughly test your changes to ensure that they work
    as expected. If applicable, create or update the unit tests that run on the
