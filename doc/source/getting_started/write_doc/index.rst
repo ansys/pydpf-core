@@ -73,7 +73,7 @@ Each section has their own guidelines that must be followed when creating new co
     :margin: 2
 
     .. grid-item-card:: **TUTORIALS**
-       :link: ref_guide_lines_tutorials
+       :link: ref_guidelines_tutorials
        :link-type: ref
        :class-title: sd-text-center sd-bg-light
        :class-header: sd-text-center

@@ -1,15 +1,15 @@
-.. _ref_guide_lines_tutorials:
+.. _ref_guidelines_tutorials:
 
-============================
-Writing tutorials guidelines
-============================
+=================
+Writing tutorials
+=================
 
-You can improve the Py-DPF-Core documentation by adding a:
+You can improve the PyDPF-Core documentation by adding a:
 
-- :ref:`New tutorials section<ref_guide_lines_add_new_tutorial_section>`;
-- :ref:`New tutorial<ref_guide_lines_add_new_tutorial>`.
+- :ref:`New tutorials section<ref_guidelines_add_new_tutorial_section>`;
+- :ref:`New tutorial<ref_guidelines_add_new_tutorial>`.
 
-To do so, you must follow the guide lines presented here.
+To do so, you must follow the guidelines presented here.
 You also need to understand the structure of the ``doc`` directory on the PyDPF-Core library:
 
 .. code-block::
@@ -28,9 +28,9 @@ You also need to understand the structure of the ``doc`` directory on the PyDPF-
     │   ├── make.bat
 
 
-You will be handling only the ``doc/source/user_guide`` directory .
+Tutorials are located in the ``doc/source/user_guide`` directory.
 
-.. _ref_guide_lines_add_new_tutorial_section:
+.. _ref_guidelines_add_new_tutorial_section:
 
 =============================
 Adding a new tutorial section
@@ -40,14 +40,15 @@ Adding a new tutorial section
 
 .. note::
 
-    Avoid creating new folders unless it is absolutely necessary. If you are in doubt, its precise location can be
-    advised on the pull request. If you must create a new folder, make sure to add a ``index.rst`` file containing
-    a reference, a title and a description of the section. Otherwise the new folder will be ignored by Sphinx.
+    Avoid creating new folders unless absolutely necessary. 
+    When in doubt, mention the location of the new section in the pull request for approval. 
+    If you must create a new folder, make sure to add an ``index.rst`` file with a reference, a title, and a description of the section. 
+    The documentation ignores folders lacking this file.
 
 Location and naming
 -------------------
 
-The new tutorial section must be organized in a new folder in ``doc/source/user_guide/tutorials/new_section_name``.
+The new tutorial section must reside in a new folder such as ``doc/source/user_guide/tutorials/new_section_name``.
 
 .. code-block::
 
@@ -61,13 +62,13 @@ The new tutorial section must be organized in a new folder in ``doc/source/user_
 Structure
 ---------
 
-The new folder must contain at least a ``index.rst`` file. This file has:
+The section folder must contain an ``index.rst`` file with:
 
-- Reference name;
-- Section title;
-- General description of the content of the tutorials in this section;
-- Cards with the tutorial title, description and applicable solvers (the card must have a link to the tutorial file);
-- Toctree with the tutorials in the section.
+- a reference tag for referencing this section in other parts of the documentation,
+- a title for the tutorial section,
+- a general description of the topics covered in the tutorials in this section,
+- cards with links to the tutorials, titles, descriptions and applicable solvers,
+- a ``Toctree`` for the tutorials in the section to appear in the navigation pane.
 
 .. code-block::
 
@@ -100,8 +101,9 @@ The new folder must contain at least a ``index.rst`` file. This file has:
 
         tutorial_file.rst
 
-You must also add the new section ``index.rst`` file in the main user guide page toctree. You can find this toctree
-at the end of ``doc/source/user_guide/index.rst`` file.
+You must reference the new section ``index.rst`` file in the main user guide page toctree for it to appear in the sidebar of the user guide main page. You can find this toctree
+at the end of the ``doc/source/user_guide/index.rst`` file.
+For example:
 
 .. code-block::
 
@@ -125,7 +127,7 @@ at the end of ``doc/source/user_guide/index.rst`` file.
         tutorials/licensing/index.rst
         tutorials/new_section/index.rst
 
-.. _ref_guide_lines_add_new_tutorial:
+.. _ref_guidelines_add_new_tutorial:
 
 =====================
 Adding a new tutorial
@@ -137,7 +139,7 @@ Adding a new tutorial
 Location and naming
 -------------------
 
-New tutorials must be added as ``.rst`` files to: ``doc/source/user_guide/tutorials/section_name/tutorial_file.rst``
+New tutorials correspond to new ``.rst`` files in tutorial section folders, for example: ``doc/source/user_guide/tutorials/section/new_tutorial.rst``
 
 .. code-block::
 
@@ -149,12 +151,12 @@ New tutorials must be added as ``.rst`` files to: ``doc/source/user_guide/tutori
     │   │    │        ├── section
     │   │    │             ├── new_tutorial.rst
 
-You also have to add it to a card and the toctree on the tutorial section ``index.rst`` file. The card must have:
+You must also add a new card in the ``index.rst`` file for the tutorial section as well as modify its toctree. The card must include:
 
-- Tutorial title;
-- Short description;
-- Badges with the applicable solvers;
-- Link to the tutorial file;
+- a tutorial title,
+- a short description,
+- badges for the applicable solvers,
+- a link (in this case, the reference tag) to the tutorial file.
 
 .. topic:: Card example
 
@@ -170,28 +172,28 @@ You also have to add it to a card and the toctree on the tutorial section ``inde
 Structure
 ---------
 
-The tutorial structure can be divided in two main parts:
+The tutorial is divided in two main parts:
 
-- :ref:`Preamble<ref_guide_lines_tutorial_preamble>`;
-- :ref:`Content<ref_guide_lines_tutorial_content>`.
+- :ref:`Preamble<ref_guidelines_tutorial_header>`;
+- :ref:`Content<ref_guidelines_tutorial_content>`.
 
-.. _ref_guide_lines_tutorial_preamble:
+.. _ref_guidelines_tutorial_header:
 
-Preamble
+Header
 ^^^^^^^^
 
 This first part is essential for clarity, organization and usability of the tutorial. It establishes the tutorials
 purpose, making it easy to understand what is going to be explained and reference it within the other parts of
 the documentation.
 
-The preamble must have the following components:
+The header must have :
 
-- File reference name;
-- Tutorial title;
-- Substitution text for the PyDPF-Core library references that will be used across the tutorial;
-- Short description (same phrase used in the tutorial card in the tutorial section ``index.rst`` file);
-- Introduction that explains the context of the tutorial;
-- Download script buttons;
+- a reference tag,
+- a tutorial title,
+- any substitution text for references to the PyDPF-Core library used in the tutorial,
+- a short description (same as for the tutorial card in the tutorial section),
+- an introduction,
+- download buttons for Python script and Jupyter notebook versions of the tutorial.
 
 .. code-block::
 
@@ -232,7 +234,7 @@ To employ them, you use the ``include`` directive and use the substitution text 
 
 For more information on those references check the :download:`links and references file<../../links_and_refs.rst>`.
 
-.. _ref_guide_lines_tutorial_content:
+.. _ref_guidelines_tutorial_content:
 
 Content
 ^^^^^^^

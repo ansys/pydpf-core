@@ -16,7 +16,7 @@ on your local machine as per the following steps:
 Clone the repository
 --------------------
 
-Before cloning the PyMAPDL repository, you must install a version control system such as Git.
+Before cloning the PyDPF-Core repository, you must install a version control system such as Git.
 
 Then, clone and install the latest version of PyDPF-Core in development mode (using ``pip`` with the ``-e``
 development flag) by running this code:
