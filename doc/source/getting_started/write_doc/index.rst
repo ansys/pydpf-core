@@ -4,41 +4,11 @@
 Documentation
 =============
 
-Writing good documentation for a GitHub repository is crucial to ensure that
-users and contributors can understand, use, and contribute to PyDPF-Core
-effectively.
+Overall guidance on contributing to the documentation a PyAnsys repository appears in
+`Documenting <dev_guide_documenting_>`_ in the *PyAnsys Developer's Guide*.
 
-Here's a short summary of how to write good documentation:
-
-#. **Use a consistent structure**: Organize your documentation with a clear and
-   consistent structure. Use headings, subheadings, and a table of contents if
-   necessary to help users navigate your documentation easily.
-
-#. **Use Sphinx properly**: Sphinx has multiple features and directives. Before
-   starting to write documentation, you should get familiar with it. For guidance,
-   see these Sphinx and DocUtils topics: `Directives <sphinx_directives_>`_,
-   `reStructuredText Primer <sphinx_basics_>`_ and
-   `reStructuredText Directives <docutils_directives_>`_.
-
-#. **Usage Examples**: Include real-world usage examples, code snippets, and
-   explanations to demonstrate how users can make the most of PyDPF-Core.
-
-#. **Document the API and code**: Thoroughly document each function, class, and method. Include
-   parameter descriptions, return values, and usage examples. Follow the
-   `numpydoc <numpy_sphinx_ext_doc_>`_ convention for documenting code.
-
-#. **Tutorials and guides**: Create tutorials or guides to help users achieve
-   specific tasks or workflows with PyDPF-Core.
-
-#. **Troubleshooting**: Anticipate common issues and provide solutions
-   in a troubleshooting section.
-
-#. **Maintain and update**: Keep your documentation up to date as the project
-   evolves. New features, changes, and bug fixes should be reflected in the
-   documentation.
-
-#. **Solicit Feedback**: Invite users and contributors to provide feedback on
-   the documentation and be responsive to their suggestions and questions.
+You must also follow the `Documentation style <dev_guide_doc_style_>`_ guide to
+ensure that all the documentation looks the same across the project.
 
 To improve the documentation you need to:
 
@@ -48,6 +18,7 @@ To improve the documentation you need to:
 
 Clone the repository
 --------------------
+
 Clone and install the latest version of PyDPF-Core in
 development mode by running this code:
 
