@@ -11,7 +11,7 @@ This sentence resumes the goal of the tutorial
 
 Introduction to the tutorial
 
-:jupyter-download-script:`Download tutorial as Python script<file_name>` :jupyter-download-notebook:`Download tutorial as notebook<file_name>`
+:jupyter-download-script:`Download tutorial as Python script<file_name>` :jupyter-download-notebook:`Download tutorial as Jupyter notebook<file_name>`
 
 First Step
 ----------
