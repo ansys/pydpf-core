@@ -829,8 +829,18 @@ class Operator:
             if python_name == "B":
                 python_name = "bool"
 
+            # Type match
             if type(inpt).__name__ == python_name:
                 corresponding_pins.append(pin)
+            # Input accepts Any
+            elif python_name == "Any":
+                corresponding_pins.append(pin)
+            # If any output type matches python_name
+            elif isinstance(inpt, Output):
+                for inpttype in inpt._python_expected_types:
+                    if inpttype == python_name:
+                        corresponding_pins.append(pin)
+            # if the inpt has multiple potential outputs, find which ones can match
             elif isinstance(inpt, (_Outputs, Operator, Result)):
                 if isinstance(inpt, Operator):
                     output_pin_available = inpt.outputs._get_given_output([python_name])
@@ -840,14 +850,6 @@ class Operator:
                     output_pin_available = inpt._get_given_output([python_name])
                 for outputpin in output_pin_available:
                     corresponding_pins.append((pin, outputpin))
-            elif isinstance(inpt, Output):
-                for inpttype in inpt._python_expected_types:
-                    if inpttype == python_name:
-                        corresponding_pins.append(pin)
-                if python_name == "Any":
-                    corresponding_pins.append(pin)
-            elif python_name == "Any":
-                corresponding_pins.append(pin)
 
     def __add__(self, fields_b):
         """Add two fields or two fields containers.
