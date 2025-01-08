@@ -1,8 +1,32 @@
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """Miscellaneous functions for the DPF module."""
+
 import platform
 import glob
 import os
 import re
+from pathlib import Path
 
 from pkgutil import iter_modules
 from ansys.dpf.core import errors
@@ -62,7 +86,9 @@ def is_ubuntu():
 
 
 def get_ansys_path(ansys_path=None):
-    """Give input path back if given, else look for ANSYS_DPF_PATH,
+    """Return the input path if provided; otherwise, check ANSYS_DPF_PATH, AWP_ROOT, and the latest ansys-dpf-server modules.
+
+    Give input path back if given, else look for ANSYS_DPF_PATH,
     then among AWP_ROOT and installed ansys-dpf-server modules to take the latest available.
 
     Parameters
@@ -97,10 +123,8 @@ def get_ansys_path(ansys_path=None):
             '- or by setting it by default with the environment variable "ANSYS_DPF_PATH"'
         )
     # parse the version to an int and check for supported
-    ansys_folder_name = str(ansys_path).split(os.sep)[-1]
-    reobj_vXYZ = re.compile(
-        "^v[0123456789]{3}$"
-    )
+    ansys_folder_name = Path(ansys_path).parts[-1]
+    reobj_vXYZ = re.compile("^v[0123456789]{3}$")
     if reobj_vXYZ.match(ansys_folder_name):
         # vXYZ Unified Install folder
         ver = int(str(ansys_path)[-3:])
@@ -124,7 +148,9 @@ def _find_latest_ansys_versions():
 
 
 def find_ansys():
-    """Search for a standard ANSYS environment variable (AWP_ROOTXXX) or a standard installation
+    """Check ANSYS environment variables or default paths for the latest installation.
+
+    Search for a standard ANSYS environment variable (AWP_ROOTXXX) or a standard installation
     location to find the path to the latest Ansys installation.
 
     Returns
@@ -150,10 +176,10 @@ def find_ansys():
 
     base_path = None
     if os.name == "nt":
-        base_path = os.path.join(os.environ["PROGRAMFILES"], "ANSYS INC")
+        base_path = Path(os.environ["PROGRAMFILES"]) / "ANSYS INC"
     elif os.name == "posix":
-        for path in ["/usr/ansys_inc", "/ansys_inc"]:
-            if os.path.isdir(path):
+        for path in [Path("/usr/ansys_inc"), Path("/ansys_inc")]:
+            if path.is_dir():
                 base_path = path
     else:
         raise OSError(f"Unsupported OS {os.name}")
@@ -161,24 +187,26 @@ def find_ansys():
     if base_path is None:
         return base_path
 
-    paths = glob.glob(os.path.join(base_path, "v*"))
+    paths = list(base_path.glob("v*"))
 
     if not paths:
         return None
 
     versions = {}
     for path in paths:
-        ver_str = path[-3:]
+        ver_str = str(path)[-3:]
         if is_float(ver_str):
-            versions[int(ver_str)] = path
+            versions[int(ver_str)] = str(path)
 
     return versions[max(versions.keys())]
 
 
 def is_pypim_configured():
     """Check if the environment is configured for PyPIM, without using pypim.
+
     This method is equivalent to ansys.platform.instancemanagement.is_configured(). It's
     reproduced here to avoid having hard dependencies.
+
     Returns
     -------
     bool

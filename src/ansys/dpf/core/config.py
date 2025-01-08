@@ -1,7 +1,26 @@
-"""
-Operator Configuration
-======================
-"""
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+"""Operator Configuration."""
 
 import functools
 import warnings
@@ -132,9 +151,9 @@ class Config:
         options = {}
         num_options = self._api.operator_config_get_num_config(self)
         for i in range(num_options):
-            options[
-                self._api.operator_config_get_config_option_name(self, i)
-            ] = self._api.operator_config_get_config_option_printable_value(self, i)
+            options[self._api.operator_config_get_config_option_name(self, i)] = (
+                self._api.operator_config_get_config_option_printable_value(self, i)
+            )
         return options
 
     def __set_config_option__(self, config_value, config_name):
@@ -189,7 +208,7 @@ class Config:
             Name of the configuration option.
 
         Returns
-        ----------
+        -------
         str
             Value for the configuration option.
         """
@@ -200,6 +219,18 @@ class Config:
             raise KeyError(f"{config_name} option doesn't exist.")
 
     def __try_get_option__(self, config_name):
+        """Return option associated with a given config name.
+
+        Parameters
+        ----------
+        config_name : _type_
+            Name of the configuration.
+
+        Returns
+        -------
+        ConfigSpecification
+            Available configuration options supported by the Operator
+        """
         if self._config_help:
             if config_name in self._config_help:
                 return self._config_help[config_name]
@@ -214,7 +245,7 @@ class Config:
             Name of the configuration option.
 
         Returns
-        ----------
+        -------
         str
            Documentation for the configuration option.
         """
@@ -232,7 +263,7 @@ class Config:
             Name of the configuration option.
 
         Returns
-        ----------
+        -------
         list, str
             One or more accepted types for the configuration option.
         """
@@ -243,13 +274,8 @@ class Config:
     def config_option_default_value(self, config_name):
         """Retrieve the default value for a configuration option.
 
-        Parameters
-        ----------
-        config_name : str
-            Name of the configuration option.
-
         Returns
-        ----------
+        -------
         str
             Default value for the configuration option.
         """
@@ -263,7 +289,7 @@ class Config:
         """Available configuration options for the operator.
 
         Returns
-        ----------
+        -------
         list, str
            One or more available configuration options for the operator.
         """
@@ -285,6 +311,7 @@ class Config:
         return _description(self._internal_obj, self._server)
 
     def __del__(self):
+        """Delete this instance of config."""
         try:
             self._deleter_func[0](self._deleter_func[1](self))
         except:

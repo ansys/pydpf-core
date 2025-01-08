@@ -1,8 +1,28 @@
-"""
-.. _ref_operator_specification:
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
 
-Operator Specification
-======================
+"""
+Operator Specification.
+
 The OperatorSpecification Provides a documentation for each Operator
 """
 
@@ -21,7 +41,7 @@ from ansys.dpf.core.check_version import server_meet_version
 
 
 class PinSpecification:
-    """Documents an input or output pin of an Operator
+    """Documents an input or output pin of an Operator.
 
     Parameters
     ----------
@@ -60,7 +80,13 @@ class PinSpecification:
     name_derived_class = str
 
     def __init__(
-        self, name: str, type_names: list, document="", optional=False, ellipsis=False, name_derived_class=""
+        self,
+        name: str,
+        type_names: list,
+        document="",
+        optional=False,
+        ellipsis=False,
+        name_derived_class="",
     ):
         self.name = name
         self.type_names = type_names
@@ -71,7 +97,8 @@ class PinSpecification:
 
     @property
     def type_names(self) -> list[str]:
-        """
+        """Return the list of accepted types.
+
         Returns
         -------
         list[str], list[type]
@@ -116,6 +143,7 @@ class PinSpecification:
         )
 
     def __repr__(self):
+        """Provide more detail in the representation of the instance."""
         return "{class_name}({params})".format(
             class_name=self.__class__.__name__,
             params=", ".join(
@@ -126,11 +154,13 @@ class PinSpecification:
         )
 
     def __eq__(self, other):
+        """One instance is equal to the other if their string representation is the same."""
         return str(self) == str(other)
 
 
 class ConfigSpecification(dict):
-    """Dictionary of the available configuration options and their specification
+    """Dictionary of the available configuration options and their specification.
+
     (:class:`ansys.dpf.core.operator_specification.ConfigOptionSpec`)
     """
 
@@ -139,8 +169,9 @@ class ConfigSpecification(dict):
 
 
 class ConfigOptionSpec:
-    """Documentation of a configuration option available for a given
-     Operator (:class:`ansys.dpf.core.Operator`)
+    """Documentation of a configuration option available for a given Operator.
+    
+     (:class:`ansys.dpf.core.Operator`)
 
     Attributes
     ----------
@@ -179,6 +210,7 @@ class ConfigOptionSpec:
         self.document = document
 
     def __repr__(self):
+        """Provide more detail in the representation of the instance."""
         return "{class_name}({params})".format(
             class_name=self.__class__.__name__,
             params=", ".join(
@@ -189,25 +221,29 @@ class ConfigOptionSpec:
 
 
 class SpecificationBase:
+    """Interface description for the specification base class."""
+
     @property
     @abc.abstractmethod
     def description(self) -> Union[str, None]:
+        """To be implemented in the subclasses."""
         pass
 
     @property
     @abc.abstractmethod
     def inputs(self) -> dict:
+        """To be implemented in the subclasses."""
         pass
 
     @property
     @abc.abstractmethod
     def outputs(self) -> dict:
+        """To be implemented in the subclasses."""
         pass
 
 
 class Specification(SpecificationBase):
-    """Documents an Operator with its description (what the Operator does),
-    its inputs and outputs and some properties.
+    """Documents an Operator with its description (what the Operator does), its inputs and outputs and some properties.
 
     Examples
     --------
@@ -233,7 +269,12 @@ class Specification(SpecificationBase):
     'result file path container, used if no streams are set'
     """
 
-    def __init__(self, operator_name: Union[str, None]=None, specification: Union[Specification, None]=None, server: Union[server_module.BaseServer, None]=None):
+    def __init__(
+        self,
+        operator_name: Union[str, None] = None,
+        specification: Union[Specification, None] = None,
+        server: Union[server_module.BaseServer, None] = None,
+    ):
         # step 1: get server
         self._server = server_module.get_or_create_server(
             specification._server if isinstance(specification, Specification) else server
@@ -273,11 +314,14 @@ class Specification(SpecificationBase):
         self._config_specification = None
 
     def __str__(self):
+        """Provide more details in the string representation of the instance."""
         return "Description:\n" + str(self.description) + "\nProperties:\n" + str(self.properties)
 
     @property
     def properties(self) -> dict:
-        """some additional properties of the Operator, like the category, the exposure,
+        """Additional properties of the Operator.
+
+        Some additional properties of the Operator, like the category, the exposure,
         the scripting and user names, and the plugin
 
         Examples
@@ -305,7 +349,7 @@ class Specification(SpecificationBase):
 
     @property
     def description(self) -> str:
-        """Returns a description of the operation applied by the Operator
+        """Returns a description of the operation applied by the Operator.
 
         Returns
         -------
@@ -314,9 +358,9 @@ class Specification(SpecificationBase):
         Examples
         --------
         >>> from ansys.dpf import core as dpf
-        >>> operator = dpf.operators.math.scale_by_field()
+        >>> operator = dpf.operators.math.scale()
         >>> operator.specification.description
-        "Scales a field (in 0) by a scalar field (in 1). If one field's ..."
+        'Scales a field by a constant factor...'
         """
         if self._internal_obj is not None:
             return self._api.operator_specification_get_description(self)
@@ -324,7 +368,7 @@ class Specification(SpecificationBase):
 
     @property
     def inputs(self) -> dict:
-        """Returns a dictionary mapping the input pin numbers to their ``PinSpecification``
+        """Returns a dictionary mapping the input pin numbers to their ``PinSpecification``.
 
         Returns
         -------
@@ -347,7 +391,7 @@ class Specification(SpecificationBase):
 
     @property
     def outputs(self) -> dict:
-        """Returns a dictionary mapping the output pin numbers to their ``PinSpecification``
+        """Returns a dictionary mapping the output pin numbers to their ``PinSpecification``.
 
         Returns
         -------
@@ -408,7 +452,7 @@ class Specification(SpecificationBase):
 
     @property
     def config_specification(self) -> ConfigSpecification:
-        """Documents the available configuration options supported by the Operator
+        """Documents the available configuration options supported by the Operator.
 
         Returns
         -------
@@ -438,6 +482,8 @@ class Specification(SpecificationBase):
 
 
 class CustomConfigOptionSpec(ConfigOptionSpec):
+    """Custom documentation of a configuration option available for a given operator."""
+
     def __init__(self, option_name: str, default_value, document: str):
         type_names = [mapping_types.map_types_to_cpp[type(default_value).__name__]]
         super().__init__(
@@ -449,12 +495,16 @@ class CustomConfigOptionSpec(ConfigOptionSpec):
 
 
 class Exposures:
+    """Exposures class."""
+
     private = "private"
     public = "public"
     hidden = "hidden"
 
 
 class Categories:
+    """Categories class."""
+
     result = "result"
     math = "math"
     mesh = "mesh"
@@ -525,11 +575,33 @@ class SpecificationProperties:
         )
 
     def __repr__(self):
+        """
+        Return a string representation of the SpecificationProperties instance.
+
+        Returns
+        -------
+        str
+            A string representation of the instance, including all attributes
+            and their values.
+        """
         keys = sorted(self.__dict__)
         items = ("{}={!r}".format(k, self.__dict__[k]) for k in keys)
         return "{}({})".format(type(self).__name__, ", ".join(items))
 
     def __setitem__(self, key, value):
+        """
+        Set the value of a specified attribute.
+
+        If a specification is defined, the value is also updated in the
+        operator specification.
+
+        Parameters
+        ----------
+        key : str
+            The name of the attribute to set.
+        value : any
+            The value to assign to the attribute.
+        """
         if self._spec is not None:
             if value is not None:
                 self._spec._api.operator_specification_set_property(self._spec, key, value)
@@ -537,14 +609,43 @@ class SpecificationProperties:
         setattr(self, key, value)
 
     def __getitem__(self, item: str):
+        """
+        Get the value of a specified attribute.
+
+        Parameters
+        ----------
+        item : str
+            The name of the attribute to retrieve.
+
+        Returns
+        -------
+        any
+            The value of the specified attribute.
+        """
         return getattr(self, item)
 
     def __eq__(self, other):
+        """
+        Check if two SpecificationProperties instances are equal.
+
+        Parameters
+        ----------
+        other : SpecificationProperties
+            The other instance to compare against.
+
+        Returns
+        -------
+        bool
+            True if the two instances have the same attributes and values,
+            False otherwise.
+        """
         return self.__dict__ == other.__dict__
 
 
 class CustomSpecification(Specification):
-    """Allows to create an Operator Specification with its description (what the Operator does),
+    """Create an operator specification with its description.
+    
+    Allows to create an Operator Specification with its description (what the Operator does),
     its inputs and outputs and some properties.
     Inherits from Specification (which has only getters) to implement setters.
 
@@ -598,7 +699,7 @@ class CustomSpecification(Specification):
     @property
     @version_requires("4.0")
     def description(self) -> str:
-        """Description of the operation applied by the Operator"""
+        """Description of the operation applied by the Operator."""
         return super().description
 
     @description.setter
@@ -608,7 +709,7 @@ class CustomSpecification(Specification):
     @property
     @version_requires("4.0")
     def inputs(self) -> dict:
-        """Dictionary mapping the input pin numbers to their ``PinSpecification``
+        """Dictionary mapping the input pin numbers to their ``PinSpecification``.
 
         Returns
         -------
@@ -651,7 +752,7 @@ class CustomSpecification(Specification):
     @property
     @version_requires("4.0")
     def outputs(self) -> dict:
-        """Returns a dictionary mapping the output pin numbers to their ``PinSpecification``
+        """Returns a dictionary mapping the output pin numbers to their ``PinSpecification``.
 
         Returns
         -------
@@ -694,7 +795,7 @@ class CustomSpecification(Specification):
     @property
     @version_requires("4.0")
     def config_specification(self) -> ConfigSpecification:
-        """Documents the available configuration options supported by the Operator
+        """Documents the available configuration options supported by the Operator.
 
         Returns
         -------
@@ -734,8 +835,11 @@ class CustomSpecification(Specification):
     @property
     @version_requires("4.0")
     def properties(self) -> SpecificationProperties:
-        """Returns some additional properties of the Operator, like the category, the exposure,
-        the scripting and user names and the plugin"""
+        """Return additional properties of the Operator.
+
+        Returns some additional properties of the Operator, like the category, the exposure,
+        the scripting and user names and the plugin
+        """
         return SpecificationProperties(**super().properties, spec=self)
 
     @properties.setter

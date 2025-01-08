@@ -1,20 +1,43 @@
-"""
-.. _ref_workflow_apis:
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
 
-Workflow
-========
-"""
+"""Workflow."""
+
 import logging
 import os
 import traceback
 import warnings
+from pathlib import Path
 
 from enum import Enum
 from typing import Union
 
 from ansys import dpf
 from ansys.dpf.core import dpf_operator, inputs, outputs
-from ansys.dpf.core.check_version import server_meet_version, version_requires, server_meet_version_and_raise
+from ansys.dpf.core.check_version import (
+    server_meet_version,
+    version_requires,
+    server_meet_version_and_raise,
+)
 from ansys.dpf.core import server as server_module
 from ansys.dpf.gate import (
     workflow_abstract_api,
@@ -23,7 +46,8 @@ from ansys.dpf.gate import (
     data_processing_capi,
     data_processing_grpcapi,
     dpf_vector,
-    object_handler, integral_types,
+    object_handler,
+    integral_types,
 )
 
 LOG = logging.getLogger(__name__)
@@ -103,8 +127,7 @@ class Workflow:
     @property
     @version_requires("3.0")
     def progress_bar(self) -> bool:
-        """With this property, the user can choose to print a progress bar when
-        the workflow's output is requested, default is True"""
+        """Enable or disable progress bar display when requesting workflow output (default: True)."""
         return self._progress_bar
 
     @progress_bar.setter
@@ -115,12 +138,12 @@ class Workflow:
     def _getoutput_string(self, pin):
         out = Workflow._getoutput_string_as_bytes(self, pin)
         if out is not None and not isinstance(out, str):
-            return out.decode('utf-8')
+            return out.decode("utf-8")
         return out
 
     @staticmethod
     def _connect_string(self, pin, str):
-        return Workflow._connect_string_as_bytes(self, pin, str.encode('utf-8'))
+        return Workflow._connect_string_as_bytes(self, pin, str.encode("utf-8"))
 
     @staticmethod
     def _getoutput_string_as_bytes(self, pin):
@@ -135,7 +158,7 @@ class Workflow:
         server_meet_version_and_raise(
             "8.0",
             self._server,
-            "output of type bytes available with server's version starting at 8.0 (Ansys 2024R2)."
+            "output of type bytes available with server's version starting at 8.0 (Ansys 2024R2).",
         )
         return Workflow._getoutput_string_as_bytes(self, pin)
 
@@ -235,9 +258,13 @@ class Workflow:
             workflow,
             model,
             generic_data_container,
+            any,
+            streams_container,
         )
 
         out = [
+            (streams_container.StreamsContainer, self._api.work_flow_connect_streams),
+            (any.Any, self._api.work_flow_connect_any),
             (bool, self._api.work_flow_connect_bool),
             ((int, Enum), self._api.work_flow_connect_int),
             (str, self._connect_string),
@@ -299,9 +326,13 @@ class Workflow:
             generic_data_container,
             any,
             collection_base,
+            streams_container,
         )
+        from ansys.dpf.core.custom_container_base import CustomContainerBase
 
         out = [
+            (streams_container.StreamsContainer, self._api.work_flow_getoutput_streams),
+            (any.Any, self._api.work_flow_getoutput_as_any),
             (bool, self._api.work_flow_getoutput_bool),
             (int, self._api.work_flow_getoutput_int),
             (str, self._getoutput_string),
@@ -384,9 +415,16 @@ class Workflow:
             (
                 collection.Collection,
                 self._api.work_flow_getoutput_as_any,
-                lambda obj, type: any.Any(
-                    server=self._server, any_dpf=obj
-                ).cast(type),
+                lambda obj, type: any.Any(server=self._server, any_dpf=obj).cast(type),
+            ),
+            (
+                CustomContainerBase,
+                self._api.work_flow_getoutput_generic_data_container,
+                lambda obj, type: type(
+                    container=generic_data_container.GenericDataContainer(
+                        generic_data_container=obj, server=self._server
+                    )
+                ),
             ),
         ]
         if hasattr(self._api, "work_flow_connect_generic_data_container"):
@@ -401,6 +439,7 @@ class Workflow:
 
     def get_output(self, pin_name, output_type):
         """Retrieve the output of the operator on the pin number.
+
         A progress bar following the workflow state is printed.
 
         Parameters
@@ -590,7 +629,7 @@ class Workflow:
 
     @staticmethod
     def get_recorded_workflow(id, server=None):
-        """Retrieve a workflow registered (with workflow.record())
+        """Retrieve a workflow registered (with workflow.record()).
 
         Parameters
         ----------
@@ -598,7 +637,7 @@ class Workflow:
             ID given by the method "record".
 
         Returns
-        ----------
+        -------
         workflow : core.Workflow()
             workflow registered in dpf's registry (server side)
 
@@ -628,7 +667,7 @@ class Workflow:
         """Dictionary with the operator names and the exposed input and output names.
 
         Returns
-        ----------
+        -------
         info : dictionarry str->list str
             Dictionary with ``"operator_names"``, ``"input_names"``, and ``"output_names"`` key.
         """
@@ -643,7 +682,7 @@ class Workflow:
         """List of the names of operators added in the workflow.
 
         Returns
-        ----------
+        -------
         names : list str
         """
         num = self._api.work_flow_number_of_operators(self)
@@ -657,7 +696,7 @@ class Workflow:
         """List of the input names exposed in the workflow with set_input_name.
 
         Returns
-        ----------
+        -------
         names : list str
         """
         num = self._api.work_flow_number_of_input(self)
@@ -671,7 +710,7 @@ class Workflow:
         """List of the output names exposed in the workflow with set_output_name.
 
         Returns
-        ----------
+        -------
         names : list str
         """
         num = self._api.work_flow_number_of_output(self)
@@ -783,8 +822,9 @@ class Workflow:
 
     @version_requires("3.0")
     def create_on_other_server(self, *args, **kwargs):
-        """Create a new instance of a workflow on another server. The new
-        Workflow has the same operators, exposed inputs and output pins as
+        """Create a new instance of a workflow on another server.
+
+        The new Workflow has the same operators, exposed inputs and output pins as
         this workflow. Connections between operators and between data and
         operators are kept (except for exposed pins).
 
@@ -859,11 +899,11 @@ class Workflow:
             )
 
     def view(
-            self,
-            title: Union[None, str] = None,
-            save_as: Union[None, str, os.PathLike] = None,
-            off_screen: bool = False,
-            keep_dot_file: bool = False,
+        self,
+        title: Union[None, str] = None,
+        save_as: Union[None, str, os.PathLike] = None,
+        off_screen: bool = False,
+        keep_dot_file: bool = False,
     ) -> Union[str, None]:
         """Run a viewer to show a rendering of the workflow.
 
@@ -899,28 +939,59 @@ class Workflow:
             name = title
 
         if save_as:
-            dot_path = os.path.splitext(str(save_as))[0]+".dot"
-            image_path = save_as
+            image_path = Path(save_as)
+            dot_path = image_path.parent / image_path.stem / ".dot"
         else:
-            dot_path = os.path.join(os.getcwd(), f"{name}.dot")
-            image_path = os.path.join(os.getcwd(), f"{name}.png")
+            image_path = Path.cwd() / f"{name}.png"
+            dot_path = image_path.parent / image_path.stem / ".dot"
 
         # Create graphviz file of workflow
         self.to_graphviz(dot_path)
         # Render workflow
-        graphviz.render(engine='dot', filepath=dot_path, outfile=image_path)
+        graphviz.render(engine="dot", filepath=dot_path, outfile=image_path)
         if not off_screen:
             # View workflow
             graphviz.view(filepath=image_path)
         if not keep_dot_file:
-            os.remove(dot_path)
+            dot_path.unlink()
         return image_path
 
     def to_graphviz(self, path: Union[os.PathLike, str]):
-        """Saves the workflow to a GraphViz file."""
+        """Save the workflow to a GraphViz file."""
         return self._api.work_flow_export_graphviz(self, str(path))
 
+    @version_requires("10.0")
+    def get_topology(self):
+        """Get the topology of the workflow.
+
+        Returns
+        -------
+        workflow_topology : workflow_topology.WorkflowTopology
+
+        Notes
+        -----
+        Available from 10.0 server version.
+        """
+        workflow_to_workflow_topology_op = dpf_operator.Operator(
+            "workflow_to_workflow_topology", server=self._server
+        )
+        workflow_to_workflow_topology_op.inputs.workflow.connect(self)
+        workflow_topology = workflow_to_workflow_topology_op.outputs.workflow_topology()
+
+        return workflow_topology
+
     def __del__(self):
+        """
+        Clean up resources associated with the instance.
+
+        This method calls the deleter function to release resources. If an exception
+        occurs during deletion, a warning is issued.
+
+        Raises
+        ------
+        Warning
+            If an exception occurs while attempting to delete resources.
+        """
         try:
             if hasattr(self, "_internal_obj"):
                 if self._internal_obj is not None and self._internal_obj != "None":

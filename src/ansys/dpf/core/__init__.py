@@ -111,12 +111,14 @@ from ansys.dpf.core.dpf_operator import available_operator_names
 
 from ansys.dpf.core.collection import CollectionFactory as _CollectionFactory
 from ansys.dpf.core.collection import Collection as _Collection
+from ansys.dpf.core.label_space import LabelSpace
 
 
 # register classes for collection types:
 CustomTypeFieldsCollection:type = _CollectionFactory(CustomTypeField)
 GenericDataContainersCollection:type = _CollectionFactory(GenericDataContainer)
 StringFieldsCollection:type = _CollectionFactory(StringField)
+OperatorsCollection: type = _CollectionFactory(Operator)
 AnyCollection:type = _Collection
 
 # for matplotlib

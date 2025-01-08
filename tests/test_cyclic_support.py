@@ -1,7 +1,30 @@
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 import gc
 import weakref
 import numpy as np
 
+import conftest
 import pytest
 
 from ansys import dpf
@@ -149,6 +172,18 @@ def test_cyc_support_from_to_workflow(cyclic_lin_rst, server_type):
     assert len(exp.base_nodes_scoping().ids) == 32
 
 
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_2, reason="Requires DPF 8.2 or above."
+)
+def test_cyc_support_coordinate_system(cyclic_lin_rst):
+    data_sources = dpf.DataSources(cyclic_lin_rst)
+    model = dpf.Model(data_sources)
+    result_info = model.metadata.result_info
+    cyc_support = result_info.cyclic_support
+    exp = cyc_support.cs().scoping
+    assert np.allclose(exp.ids, [12])
+
+
 def test_cyc_support_multistage(cyclic_multistage):
     model = dpf.Model(cyclic_multistage)
     cyc_support = model.metadata.result_info.cyclic_support
@@ -161,6 +196,24 @@ def test_cyc_support_multistage(cyclic_multistage):
         [1, 3596, 5816, 8036, 10256, 12476],
     )
     assert np.allclose(cyc_support.sectors_set_for_expansion(stage_num=1).ids, list(range(0, 12)))
+
+
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_2, reason="Requires DPF 8.2 or above."
+)
+def test_cyc_support_multistage_low_high_map(cyclic_multistage):
+    model = dpf.Model(cyclic_multistage)
+    cyc_support = model.metadata.result_info.cyclic_support
+
+    high_low_map = cyc_support.high_low_map(0)
+    assert np.allclose(high_low_map.get_entity_data_by_id(1446), 1447)
+    assert np.allclose(high_low_map.get_entity_data_by_id(2946), 2948)
+    assert np.allclose(high_low_map.get_entity_data_by_id(1452), 1466)
+
+    low_high_map = cyc_support.low_high_map(1)
+    assert np.allclose(low_high_map.get_entity_data_by_id(995), 939)
+    assert np.allclose(low_high_map.get_entity_data_by_id(53), 54)
+    assert np.allclose(low_high_map.get_entity_data_by_id(70), 56)
 
 
 def test_delete_cyc_support(cyclic_lin_rst, server_type_legacy_grpc):

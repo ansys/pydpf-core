@@ -1,3 +1,25 @@
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """
 Check the matching for a client/server pair.
 
@@ -30,8 +52,7 @@ def server_meet_version(required_version, server):
 
 
 def server_meet_version_and_raise(required_version, server, msg=None):
-    """Check if a given server version matches with a required version and raise
-    an exception if it does not match.
+    """Check if a given server version matches with a required version and raise an exception if it does not match.
 
     Parameters
     ----------
@@ -54,7 +75,6 @@ def server_meet_version_and_raise(required_version, server, msg=None):
     bool
         ``True`` when successful, ``False`` when failed.
     """
-
     if not server_meet_version(required_version, server):
         if msg is not None:
             raise dpf_errors.DpfVersionNotSupported(required_version, msg=msg)
@@ -120,8 +140,7 @@ def version_requires(min_version):
 
         @wraps(func)
         def wrapper(self, *args, **kwargs):
-            """Call the original function"""
-
+            """Call the original function."""
             if isinstance(self._server, weakref.ref):
                 server = self._server()
             else:

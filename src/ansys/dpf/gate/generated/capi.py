@@ -651,9 +651,17 @@ def load_api(path):
 		dll.dataProcessing_initializeWithContext.argtypes = (ctypes.c_int32, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.dataProcessing_initializeWithContext.restype = ctypes.c_int32
 
+	if hasattr(dll, "dataProcessing_initializeWithContext_v2"):
+		dll.dataProcessing_initializeWithContext_v2.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.dataProcessing_initializeWithContext_v2.restype = ctypes.c_int32
+
 	if hasattr(dll, "dataProcessing_applyContext"):
 		dll.dataProcessing_applyContext.argtypes = (ctypes.c_int32, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.dataProcessing_applyContext.restype = ctypes.c_int32
+
+	if hasattr(dll, "dataProcessing_applyContext_v2"):
+		dll.dataProcessing_applyContext_v2.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.dataProcessing_applyContext_v2.restype = ctypes.c_int32
 
 	if hasattr(dll, "DataProcessing_set_debug_trace"):
 		dll.DataProcessing_set_debug_trace.argtypes = (ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
@@ -751,6 +759,30 @@ def load_api(path):
 		dll.DataProcessing_ProcessId.argtypes = (ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.DataProcessing_ProcessId.restype = ctypes.c_uint64
 
+	if hasattr(dll, "DataProcessing_create_param_tree"):
+		dll.DataProcessing_create_param_tree.argtypes = (ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.DataProcessing_create_param_tree.restype = ctypes.c_void_p
+
+	if hasattr(dll, "DataProcessing_logging_register_logger"):
+		dll.DataProcessing_logging_register_logger.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.DataProcessing_logging_register_logger.restype = ctypes.c_void_p
+
+	if hasattr(dll, "DataProcessing_logging_get_logger"):
+		dll.DataProcessing_logging_get_logger.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.DataProcessing_logging_get_logger.restype = ctypes.c_void_p
+
+	if hasattr(dll, "DataProcessing_logging_log_message"):
+		dll.DataProcessing_logging_log_message.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.DataProcessing_logging_log_message.restype = None
+
+	if hasattr(dll, "DataProcessing_logging_flush"):
+		dll.DataProcessing_logging_flush.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.DataProcessing_logging_flush.restype = None
+
+	if hasattr(dll, "DataProcessing_logging_flush_all"):
+		dll.DataProcessing_logging_flush_all.argtypes = (ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.DataProcessing_logging_flush_all.restype = None
+
 	if hasattr(dll, "DataProcessing_initialization_on_client"):
 		dll.DataProcessing_initialization_on_client.argtypes = (ctypes.c_void_p, )
 		dll.DataProcessing_initialization_on_client.restype = None
@@ -766,6 +798,10 @@ def load_api(path):
 	if hasattr(dll, "dataProcessing_applyContext_on_client"):
 		dll.dataProcessing_applyContext_on_client.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.dataProcessing_applyContext_on_client.restype = ctypes.c_int32
+
+	if hasattr(dll, "dataProcessing_applyContext_v2_on_client"):
+		dll.dataProcessing_applyContext_v2_on_client.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.dataProcessing_applyContext_v2_on_client.restype = ctypes.c_int32
 
 	if hasattr(dll, "DataProcessing_load_library_on_client"):
 		dll.DataProcessing_load_library_on_client.argtypes = (ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_char), ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
@@ -850,6 +886,10 @@ def load_api(path):
 	if hasattr(dll, "DataProcessing_ProcessId_on_client"):
 		dll.DataProcessing_ProcessId_on_client.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.DataProcessing_ProcessId_on_client.restype = ctypes.c_uint64
+
+	if hasattr(dll, "DataProcessing_create_param_tree_on_client"):
+		dll.DataProcessing_create_param_tree_on_client.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.DataProcessing_create_param_tree_on_client.restype = ctypes.c_void_p
 
 	#-------------------------------------------------------------------------------
 	# DataProcessingError
@@ -1242,6 +1282,18 @@ def load_api(path):
 	if hasattr(dll, "DpfVector_duplicate_dpf_vector"):
 		dll.DpfVector_duplicate_dpf_vector.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.DpfVector_duplicate_dpf_vector.restype = ctypes.c_void_p
+
+	if hasattr(dll, "DpfVector_double_extract_sub"):
+		dll.DpfVector_double_extract_sub.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_double), ctypes.c_int32, ctypes.c_void_p, ctypes.c_int32, ctypes.c_int32, ctypes.POINTER(ctypes.POINTER(ctypes.c_double)), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.DpfVector_double_extract_sub.restype = None
+
+	if hasattr(dll, "DpfVector_int_extract_sub"):
+		dll.DpfVector_int_extract_sub.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.c_int32, ctypes.c_void_p, ctypes.c_int32, ctypes.c_int32, ctypes.POINTER(ctypes.POINTER(ctypes.c_int32)), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.DpfVector_int_extract_sub.restype = None
+
+	if hasattr(dll, "DpfVector_char_extract_sub"):
+		dll.DpfVector_char_extract_sub.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.c_int32, ctypes.c_void_p, ctypes.c_int32, ctypes.c_int32, ctypes.POINTER(ctypes.POINTER(ctypes.c_char)), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.DpfVector_char_extract_sub.restype = None
 
 	if hasattr(dll, "DpfVector_new_for_object"):
 		dll.DpfVector_new_for_object.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )

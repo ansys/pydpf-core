@@ -10,15 +10,9 @@ on:
         description: 'Release tag'
         default: 'latest'
         type: string
-      checkout_ref:
-        description: 'Ref to checkout for doc index (default to current branch)'
-        default: ''
-        type: string
 
 env:
   DOCUMENTATION_CNAME: 'dpf.docs.pyansys.com'
-  MEILISEARCH_API_KEY: ${{ secrets.MEILISEARCH_API_KEY }}
-  MEILISEARCH_PUBLIC_API_KEY: ${{ secrets.MEILISEARCH_PUBLIC_API_KEY }}
 
 jobs:
 
@@ -89,46 +83,14 @@ jobs:
           path: HTML-doc-ansys-dpf-core.zip
 
       - name: "Deploy the stable documentation"
-        uses: ansys/actions/doc-deploy-stable@v5
+        uses: ansys/actions/doc-deploy-stable@v8
         with:
           cname: ${{ env.DOCUMENTATION_CNAME }}
           token: ${{ secrets.GITHUB_TOKEN }}
           doc-artifact-name: HTML-doc-ansys-dpf-core.zip
           decompress-artifact: true
-
-  doc-index-stable:
-    name: "Deploy stable docs index"
-    runs-on: ubuntu-latest
-    needs: upload_docs_release
-    steps:
-      - name: "Install Git and clone project"
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.inputs.checkout_ref || '' }}
-
-      - name: "Install the package requirements"
-        run: |
-          python3 -m venv .venv
-          .venv/bin/python -m pip install -e .
-
-      - name: "Get the version to PyMeilisearch"
-        run: |
-          VERSION=$(.venv/bin/python -c "from ansys.dpf.core import __version__; print('.'.join(__version__.split('.')[:2]))")
-          VERSION_MEILI=$(.venv/bin/python -c "from ansys.dpf.core import __version__; print('-'.join(__version__.split('.')[:2]))")
-          echo "Calculated VERSION: $VERSION"
-          echo "Calculated VERSION_MEILI: $VERSION_MEILI"
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-          echo "VERSION_MEILI=$VERSION_MEILI" >> $GITHUB_ENV
-
-      - name: "Deploy the latest documentation index"
-        uses: ansys/actions/doc-deploy-index@v5
-        with:
-          cname: ${{ env.DOCUMENTATION_CNAME }}/version/${{ env.VERSION }}
-          index-name: pydpf-core-v${{ env.VERSION_MEILI }}
-          host-url: ${{ vars.MEILISEARCH_HOST_URL }}
-          api-key: ${{ env.MEILISEARCH_API_KEY }}
-          doc-artifact-name: HTML-doc-ansys-dpf-core.zip
-          decompress-artifact: true
+          bot-user: ${{ secrets.PYANSYS_CI_BOT_USERNAME }}
+          bot-email: ${{ secrets.PYANSYS_CI_BOT_EMAIL }}
 
   update_ansys_lab_examples:
     uses: ./.github/workflows/ansys_lab.yml

@@ -1,6 +1,29 @@
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """
-AvailableResult
-===============
+AvailableResult.
+
+Module contains the class representing the results that an operator can request.
 """
 
 from typing import List
@@ -11,6 +34,8 @@ from enum import Enum, unique
 
 @unique
 class Homogeneity(Enum):
+    """Enum class listing all possible homogeneity names of results."""
+
     acceleration = 0
     angle = 1
     angular_velocity = 2
@@ -125,6 +150,13 @@ class AvailableResult:
         self._qualifier_labels = availableresult.qualifier_labels
 
     def __str__(self):
+        """Construct an informal string representation of available result.
+
+        Returns
+        -------
+        str
+            Informal string representation of available result.
+        """
         txt = (
             "DPF Result\n----------\n"
             + self.name
@@ -148,6 +180,13 @@ class AvailableResult:
         return txt
 
     def __repr__(self):
+        """Construct a formal string representation of available result.
+
+        Returns
+        -------
+        str
+            Formal string representation of available result.
+        """
         return f"AvailableResult<name={self.name}>"
 
     @property
@@ -235,13 +274,15 @@ class AvailableResult:
 
     @property
     def physical_name(self) -> str:
-        """Name of the result with spaces"""
+        """Name of the result with spaces."""
         return self._physics_name
 
     @property
     def qualifiers(self) -> list:
-        """Returns the list of qualifiers (equivalent to label spaces)
-        available for a given Result. These qualifiers can then be used to request the result
+        """
+        Returns the list of qualifiers (equivalent to label spaces) available for a given Result.
+
+        These qualifiers can then be used to request the result
         on specified locations/properties.
         """
         return self._qualifiers
@@ -291,10 +332,34 @@ _result_properties = {
     "TF": {"location": "ElementalNodal", "scripting_name": "heat_flux"},
     "UTOT": {"location": "Nodal", "scripting_name": "raw_displacement"},
     "RFTOT": {"location": "Nodal", "scripting_name": "raw_reaction_force"},
+    "ECT_STAT": {"location": "ElementalNodal", "scripting_name": "contact_status"},
+    "ECT_PRES": {"location": "ElementalNodal", "scripting_name": "contact_pressure"},
+    "ECT_PENE": {"location": "ElementalNodal", "scripting_name": "contact_penetration"},
+    "ECT_SLIDE": {"location": "ElementalNodal", "scripting_name": "contact_sliding_distance"},
+    "ECT_GAP": {"location": "ElementalNodal", "scripting_name": "contact_gap_distance"},
+    "ECT_SFRIC": {"location": "ElementalNodal", "scripting_name": "contact_friction_stress"},
+    "ECT_STOT": {"location": "ElementalNodal", "scripting_name": "contact_total_stress"},
+    "ECT_FRES": {
+        "location": "ElementalNodal",
+        "scripting_name": "contact_fluid_penetration_pressure",
+    },
+    "ECT_FLUX": {"location": "ElementalNodal", "scripting_name": "contact_surface_heat_flux"},
 }
 
 
 def available_result_from_name(name) -> AvailableResult:
+    """Create an instance of AvailableResult from a specified results name.
+
+    Parameters
+    ----------
+    name : str
+        Valid property name.
+
+    Returns
+    -------
+    AvailableResult
+        Instance created from specified result name.
+    """
     for key, item in _result_properties.items():
         if item["scripting_name"] == name:
             from types import SimpleNamespace

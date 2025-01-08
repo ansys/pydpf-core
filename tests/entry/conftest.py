@@ -1,3 +1,25 @@
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """This runs at the init of the pytest session for Entry tests.
 
 Must be run separately from the other tests.
@@ -5,7 +27,9 @@ Must be run separately from the other tests.
 Launch or connect to a persistent local Entry DPF server to be shared in
 pytest as a session fixture
 """
+
 import os
+from pathlib import Path
 import functools
 import pytest
 
@@ -31,10 +55,10 @@ local_test_repo = False
 
 def _get_test_files_directory():
     if local_test_repo is False:
-        test_path = os.path.join(os.path.dirname(os.path.abspath(__file__)))
-        return os.path.join(test_path, os.pardir, "tests", "testfiles")
+        test_path = Path(__file__).parent
+        return str(test_path.parent / "testfiles")
     else:
-        return os.path.join(os.environ["AWP_UNIT_TEST_FILES"], "python")
+        return str(Path(os.environ["AWP_UNIT_TEST_FILES"]).joinpath("python"))
 
 
 if os.name == "posix":
@@ -43,9 +67,9 @@ if os.name == "posix":
     ssl._create_default_https_context = ssl._create_unverified_context
 
 if running_docker:
-    ansys.dpf.core.server_types.RUNNING_DOCKER.mounted_volumes[
-        _get_test_files_directory()
-    ] = "/tmp/test_files"
+    ansys.dpf.core.server_types.RUNNING_DOCKER.mounted_volumes[_get_test_files_directory()] = (
+        "/tmp/test_files"
+    )
 
 SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_1 = meets_version(
     get_server_version(core._global_server()), "8.1"

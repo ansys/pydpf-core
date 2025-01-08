@@ -1,9 +1,26 @@
-"""
-.. _ref_scoping:
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
 
-Scoping
-=======
-"""
+"""Scoping."""
 
 import traceback
 import warnings
@@ -40,6 +57,7 @@ class Scoping:
         Server with channel connected to the remote or local instance.
         The default is ``None``, in which case an attempt is made to use the
         global server.
+
     Examples
     --------
     Create a mesh scoping.
@@ -59,9 +77,7 @@ class Scoping:
     """
 
     def __init__(self, scoping=None, server=None, ids=None, location=None):
-        """Initializes the scoping with an optional scoping message or
-        by connecting to a stub.
-        """
+        """Initialize the scoping with an optional scoping message or by connecting to a stub."""
         # step 1: get server
         self._server = server_module.get_or_create_server(
             scoping._server if isinstance(scoping, Scoping) else server
@@ -105,7 +121,8 @@ class Scoping:
             self.location = location
 
     def _count(self):
-        """
+        """Return the number of scoping ids.
+
         Returns
         -------
         count : int
@@ -124,7 +141,8 @@ class Scoping:
         return self._api.scoping_get_location(self)
 
     def _set_location(self, loc=locations.nodal):
-        """
+        """Set the location.
+
         Parameters
         ----------
         loc : str or core.locations enum
@@ -135,7 +153,8 @@ class Scoping:
 
     @version_requires("2.1")
     def _set_ids(self, ids):
-        """
+        """Set the ids.
+
         Parameters
         ----------
         ids : list of int
@@ -157,7 +176,8 @@ class Scoping:
             self._api.scoping_set_ids(self, ids, len(ids))
 
     def _get_ids(self, np_array=None):
-        """
+        """Return an array of scoping ids.
+
         Returns
         -------
         ids : list[int], numpy.array (if np_array==True)
@@ -287,8 +307,7 @@ class Scoping:
 
     @property
     def location(self):
-        """Location of the IDs as a string, such as ``"nodal"``, ``"elemental"``,
-        and ``"time_freq"``.
+        """Location of the IDs as a string, such as ``"nodal"``, ``"elemental"``, and ``"time_freq"``.
 
         Returns
         -------
@@ -302,9 +321,28 @@ class Scoping:
         self._set_location(value)
 
     def __len__(self):
+        """
+        Return the number of scoping ids.
+
+        Returns
+        -------
+        int
+            The number of scoping ids.
+        """
         return self._count()
 
     def __del__(self):
+        """
+        Clean up resources associated with the instance.
+
+        This method calls the deleter function to release resources. If an exception
+        occurs during deletion, a warning is issued.
+
+        Raises
+        ------
+        Warning
+            If an exception occurs while attempting to delete resources.
+        """
         try:
             self._deleter_func[0](self._deleter_func[1](self))
         except Exception as e:
@@ -312,6 +350,7 @@ class Scoping:
             warnings.warn(traceback.format_exc())
 
     def __iter__(self):
+        """Return an iterator over the scoping ids."""
         return self.ids.__iter__()
 
     def __getitem__(self, key):
@@ -319,7 +358,7 @@ class Scoping:
         return self.id(key)
 
     def __setitem__(self, index, id):
-        """Retrieve the ID at a requested index."""
+        """Set the ID at a given index."""
         return self.set_id(index, id)
 
     @property
@@ -422,7 +461,8 @@ class _LocalScoping(Scoping):
         self._mapper = dict(zip(self._scoping_ids_copy, np.arange(self._count())))
 
     def _count(self):
-        """
+        """Return the number of scoping ids.
+
         Returns
         -------
         count : int
@@ -442,7 +482,8 @@ class _LocalScoping(Scoping):
 
     @_setter
     def _set_location(self, loc=locations.nodal):
-        """
+        """Set the location.
+
         Parameters
         ----------
         loc : str or core.locations enum
@@ -454,7 +495,8 @@ class _LocalScoping(Scoping):
     @_setter
     @version_requires("2.1")
     def _set_ids(self, ids):
-        """
+        """Set scoping ids.
+
         Parameters
         ----------
         ids : list of int
@@ -474,7 +516,8 @@ class _LocalScoping(Scoping):
         self.__init_map__()
 
     def _get_ids(self, np_array=False):
-        """
+        """Return the scoping ids.
+
         Returns
         -------
         ids : list[int], numpy.array (if np_array==True)

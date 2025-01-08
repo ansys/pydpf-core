@@ -1,4 +1,27 @@
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 import os
+from pathlib import Path
 
 import pytest
 import conftest
@@ -50,12 +73,12 @@ def test_loadplugin(server_type):
 @pytest.mark.skipif(
     platform.system() == "Windows"
     and (
-            platform.python_version().startswith("3.8") or platform.python_version().startswith("3.7")
+        platform.python_version().startswith("3.8") or platform.python_version().startswith("3.7")
     ),
     reason="Random SEGFAULT in the GitHub pipeline for 3.7-8 on Windows",
 )
 def test_upload_download(tmpdir, server_type_remote_process):
-    tmpdir = str(tmpdir)
+    tmpdir = Path(tmpdir)
     file = dpf.core.upload_file_in_tmp_folder(
         examples.download_all_kinds_of_complexity(return_local_path=True),
         server=server_type_remote_process,
@@ -69,22 +92,19 @@ def test_upload_download(tmpdir, server_type_remote_process):
     fielddef = f.field_definition
     assert fielddef.unit == "Pa"
 
-    dir = os.path.dirname(file)
-    vtk_path = os.path.join(dir, "file.vtk")
+    vtk_path = Path(file).parent / "file.vtk"
     vtk = dpf.core.operators.serialization.vtk_export(
-        file_path=vtk_path, fields1=fcOut, server=server_type_remote_process
+        file_path=str(vtk_path), fields1=fcOut, server=server_type_remote_process
     )
     vtk.run()
 
-    dpf.core.download_file(
-        vtk_path, os.path.join(tmpdir, "file.vtk"), server=server_type_remote_process
-    )
-    assert os.path.exists(os.path.join(tmpdir, "file.vtk"))
+    dpf.core.download_file(vtk_path, str(tmpdir / "file.vtk"), server=server_type_remote_process)
+    assert tmpdir.joinpath("file.vtk").exists()
 
 
 @pytest.mark.skipif(running_docker, reason="Path hidden within docker container")
 def test_download_folder(
-        allkindofcomplexity, plate_msup, multishells, tmpdir, server_type_remote_process
+    allkindofcomplexity, plate_msup, multishells, tmpdir, server_type_remote_process
 ):
     tmpdir = str(tmpdir)
     file = dpf.core.upload_file_in_tmp_folder(
@@ -92,18 +112,18 @@ def test_download_folder(
     )
     file = dpf.core.upload_file_in_tmp_folder(plate_msup, server=server_type_remote_process)
     file = dpf.core.upload_file_in_tmp_folder(multishells, server=server_type_remote_process)
-    parent_path = os.path.dirname(file)
+    parent_path = str(Path(file).parent)
     dpf.core.download_files_in_folder(parent_path, tmpdir, server=server_type_remote_process)
     import ntpath
 
-    assert os.path.exists(os.path.join(tmpdir, ntpath.basename(allkindofcomplexity)))
-    assert os.path.exists(os.path.join(tmpdir, ntpath.basename(plate_msup)))
-    assert os.path.exists(os.path.join(tmpdir, ntpath.basename(multishells)))
+    assert Path(tmpdir).joinpath(ntpath.basename(allkindofcomplexity)).exists()
+    assert Path(tmpdir).joinpath(ntpath.basename(plate_msup)).exists()
+    assert Path(tmpdir).joinpath(ntpath.basename(multishells)).exists()
 
 
 @pytest.mark.skipif(running_docker, reason="Path hidden within docker container")
 def test_download_with_subdir(multishells, tmpdir, server_type_remote_process):
-    tmpdir = str(tmpdir)
+    tmpdir = Path(tmpdir)
     file = dpf.core.upload_file_in_tmp_folder(multishells, server=server_type_remote_process)
 
     base = dpf.core.BaseService(server=server_type_remote_process)
@@ -112,56 +132,56 @@ def test_download_with_subdir(multishells, tmpdir, server_type_remote_process):
     import ntpath
 
     filename = ntpath.basename(file)
-    parent_path = os.path.dirname(file)
+    parent_path = str(Path(file).parent)
     to_server_path = parent_path + separator + "subdir" + separator + filename
     subdir_filepath = dpf.core.upload_file(file, to_server_path, server=server_type_remote_process)
     folder = parent_path
 
-    out = dpf.core.download_files_in_folder(folder, tmpdir, server=server_type_remote_process)
-    p1 = os.path.join(tmpdir, filename)
-    p2 = os.path.join(tmpdir, "subdir", filename)
+    _ = dpf.core.download_files_in_folder(folder, str(tmpdir), server=server_type_remote_process)
+    p1 = tmpdir / filename
+    p2 = tmpdir / "subdir" / filename
     # p1 = tmpdir + "/" + filename
     # p2 = tmpdir + "/subdir/" + filename
-    assert os.path.exists(p1)
-    assert os.path.exists(p2)
+    assert p1.exists()
+    assert p2.exists()
 
 
 @pytest.mark.skipif(running_docker, reason="Path hidden within docker container")
 def test_downloadinfolder_uploadinfolder(multishells, tmpdir, server_type_remote_process):
-    tmpdir = str(tmpdir)
+    tmpdir = Path(tmpdir)
     base = dpf.core.BaseService(server=server_type_remote_process)
     # create in tmpdir some architecture with subfolder in subfolder
-    path1 = os.path.join(tmpdir, os.path.basename(multishells))
-    path2 = os.path.join(tmpdir, "subdirA", os.path.basename(multishells))
-    path4 = os.path.join(tmpdir, "subdirB", os.path.basename(multishells))
+    path1 = tmpdir / Path(multishells).name
+    path2 = tmpdir / "subdirA" / Path(multishells).name
+    path4 = tmpdir / "subdirB" / Path(multishells).name
     from shutil import copyfile
 
     copyfile(multishells, path1)
-    os.mkdir(os.path.join(tmpdir, "subdirA"))
+    tmpdir.joinpath("subdirA").mkdir()
     copyfile(multishells, path2)
-    os.mkdir(os.path.join(tmpdir, "subdirB"))
+    tmpdir.joinpath("subdirB").mkdir()
     copyfile(multishells, path4)
     # upload it
     TARGET_PATH = base.make_tmp_dir_server()
     dpf.core.upload_files_in_folder(
         to_server_folder_path=TARGET_PATH,
-        client_folder_path=tmpdir,
+        client_folder_path=str(tmpdir),
         specific_extension="rst",
         server=server_type_remote_process,
     )
     # download it
-    new_tmpdir = os.path.join(tmpdir, "my_tmp_dir")
-    os.mkdir(new_tmpdir)
+    new_tmpdir = tmpdir / "my_tmp_dir"
+    new_tmpdir.mkdir()
     out = dpf.core.download_files_in_folder(
-        TARGET_PATH, new_tmpdir, server=server_type_remote_process
+        TARGET_PATH, str(new_tmpdir), server=server_type_remote_process
     )
     # check if the architecture of the download is ok
-    path1_check = os.path.join(new_tmpdir, os.path.basename(multishells))
-    path2_check = os.path.join(new_tmpdir, "subdirA", os.path.basename(multishells))
-    path4_check = os.path.join(new_tmpdir, "subdirB", os.path.basename(multishells))
-    assert os.path.exists(path1_check)
-    assert os.path.exists(path2_check)
-    assert os.path.exists(path4_check)
+    path1_check = new_tmpdir / Path(multishells).name
+    path2_check = new_tmpdir / "subdirA" / Path(multishells).name
+    path4_check = new_tmpdir / "subdirB" / Path(multishells).name
+    assert path1_check.exists()
+    assert path2_check.exists()
+    assert path4_check.exists()
     # clean
     # os.remove(os.path.join(tmpdir, "tmpdir"))
     # os.remove(os.path.join(tmpdir, "subdirA"))
@@ -221,18 +241,18 @@ def test_uploadinfolder_emptyfolder(tmpdir, server_type_remote_process):
 def test_load_plugin_correctly(server_type):
     from ansys.dpf import core as dpf
 
-    actual_path = os.path.dirname(pkgutil.get_loader("ansys.dpf.core").path)
+    actual_path = Path(pkgutil.get_loader("ansys.dpf.core").path).parent
 
     base = dpf.BaseService(server=server_type)
     if server_type.os == "nt":
         base.load_library("Ans.Dpf.Math.dll", "math_operators", generate_operators=True)
-        t = os.path.getmtime(os.path.join(actual_path, r"operators/math/fft_eval.py"))
+        t = actual_path.joinpath("operators/math/fft_eval.py").stat().st_mtime
         assert datetime.datetime.fromtimestamp(t).date() == datetime.datetime.today().date()
     else:
         base.load_library("libAns.Dpf.Math.so", "math_operators")
-    exists = os.path.exists(os.path.join(actual_path, r"operators/fft_eval.py"))
+    exists = actual_path.joinpath("operators/fft_eval.py").exists()
     assert not exists
-    num_lines = sum(1 for line in open(os.path.join(actual_path, r"operators/math/__init__.py")))
+    num_lines = sum(1 for line in actual_path.joinpath("operators/math/__init__.py").open())
     assert num_lines >= 11
 
 
@@ -245,18 +265,16 @@ def test_load_plugin_correctly_remote():
         server.external_ip, server.external_port, as_global=False
     )
 
-    actual_path = os.path.dirname(pkgutil.get_loader("ansys.dpf.core").path)
+    actual_path = Path(pkgutil.get_loader("ansys.dpf.core").path).parent
 
     if server.os == "posix":
         dpf.load_library("libAns.Dpf.Math.so", "math_operators", server=server_connected)
     else:
         dpf.load_library("Ans.Dpf.Math.dll", "math_operators", server=server_connected)
-        t = os.path.getmtime(os.path.join(actual_path, r"operators/math/fft_eval.py"))
+        t = actual_path.joinpath("operators/math/fft_eval.py").stat().st_mtime
         assert datetime.datetime.fromtimestamp(t).date() == datetime.datetime.today().date()
 
-    actual_path = os.path.dirname(pkgutil.get_loader("ansys.dpf.core").path)
-
-    assert os.path.exists(os.path.join(actual_path, r"operators/math/fft_eval.py"))
+    assert actual_path.joinpath("operators/math/fft_eval.py").exists()
 
 
 def test_dpf_join(server_type):
@@ -298,7 +316,7 @@ def test_load_api_without_awp_root(restore_awp_root):
 
     assert serv._client_api_path is not None
     assert serv._grpc_client_path is not None
-    dpf_inner_path = os.path.join("ansys", "dpf", "gatebin")
+    dpf_inner_path = str(Path("ansys") / "dpf" / "gatebin")
     assert dpf_inner_path in serv._client_api_path
     assert dpf_inner_path in serv._grpc_client_path
 
@@ -317,7 +335,7 @@ def test_load_api_with_awp_root():
 
     assert serv_2._client_api_path is not None
     assert serv_2._grpc_client_path is not None
-    dpf_inner_path = os.path.join("ansys", "dpf", "gatebin")
+    dpf_inner_path = str(Path("ansys") / "dpf" / "gatebin")
     assert dpf_inner_path in serv_2._client_api_path
     assert dpf_inner_path in serv_2._grpc_client_path
 
@@ -344,7 +362,7 @@ def test_load_api_with_awp_root_2():
 
     assert serv._client_api_path is not None
     assert serv._grpc_client_path is not None
-    dpf_inner_path = os.path.join("ansys", "dpf", "gatebin")
+    dpf_inner_path = str(Path("ansys") / "dpf" / "gatebin")
     assert dpf_inner_path in serv._client_api_path
     assert dpf_inner_path in serv._grpc_client_path
 
@@ -399,9 +417,9 @@ def test_load_api_with_awp_root_no_gatebin():
     assert serv_2._grpc_client_path is not None
     ISPOSIX = os.name == "posix"
     if not ISPOSIX:
-        dpf_inner_path = os.path.join("aisol", "bin", "winx64")
+        dpf_inner_path = str(Path("aisol") / "bin" / "winx64")
     else:
-        dpf_inner_path = os.path.join("aisol", "dll", "linx64")
+        dpf_inner_path = str(Path("aisol") / "dll" / "linx64")
     assert dpf_inner_path in serv_2._client_api_path
     assert dpf_inner_path in serv_2._grpc_client_path
 
@@ -427,9 +445,9 @@ def test_load_api_with_awp_root_2_no_gatebin():
     assert serv._grpc_client_path is not None
     ISPOSIX = os.name == "posix"
     if not ISPOSIX:
-        dpf_inner_path = os.path.join("aisol", "bin", "winx64")
+        dpf_inner_path = str(Path("aisol") / "bin" / "winx64")
     else:
-        dpf_inner_path = os.path.join("aisol", "dll", "linx64")
+        dpf_inner_path = str(Path("aisol") / "dll" / "linx64")
     assert dpf_inner_path in serv._client_api_path
     assert dpf_inner_path in serv._grpc_client_path
 
@@ -465,8 +483,8 @@ def test_context_environment_variable(reset_context_environment_variable):
     # Test raise on wrong value
     os.environ[key] = "PREM"
     with pytest.warns(
-            UserWarning,
-            match="which is not recognized as an available " "DPF ServerContext type.",
+        UserWarning,
+        match="which is not recognized as an available " "DPF ServerContext type.",
     ):
         reload(s_c)
     assert s_c.SERVER_CONTEXT == s_c.AvailableServerContexts.premium
@@ -482,15 +500,14 @@ def test_context_environment_variable(reset_context_environment_variable):
 
 
 @pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
-    reason="Failures on Windows 231"
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0, reason="Failures on Windows 231"
 )
 def test_server_without_context(remote_config_server_type):
     """Tests starting a server without a no_context given."""
     server = dpf.core.start_local_server(
         as_global=False,
         config=remote_config_server_type,
-        context=dpf.core.AvailableServerContexts.no_context
+        context=dpf.core.AvailableServerContexts.no_context,
     )
     none_type = dpf.core.AvailableServerContexts.no_context.licensing_context_type
     assert server.context.licensing_context_type == none_type
@@ -537,7 +554,7 @@ def test_license_context_manager_as_context(server_type):
     op.inputs.field(field)
     op.inputs.threshold(0.0)
     with dpf.core.LicenseContextManager(
-            increment_name="ansys", license_timeout_in_seconds=1.0, server=server_type
+        increment_name="ansys", license_timeout_in_seconds=1.0, server=server_type
     ) as lic:
         out = op.outputs.field()
         st = lic.status
@@ -546,10 +563,7 @@ def test_license_context_manager_as_context(server_type):
     assert "ansys" not in st
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_9_1,
-    reason="Bug"
-)
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_9_1, reason="Bug")
 def test_print_non_utf8_string():
     op = dpf.core.Operator("generate_uuid")
     out_str = op.get_output(0, dpf.core.types.string)

@@ -1,9 +1,26 @@
-"""
-.. _ref_field:
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
 
-Field
-=====
-"""
+"""Field."""
 
 import numpy as np
 from ansys import dpf
@@ -59,6 +76,7 @@ class Field(_FieldBase):
         Server with the channel connected to the remote or local instance. The
         default is ``None``, in which case an attempt is made to use the global
         server.
+
     Examples
     --------
     Create a field from scratch.
@@ -141,9 +159,7 @@ class Field(_FieldBase):
         field=None,
         server=None,
     ):
-        """Initialize the field either with an optional field message or
-        by connecting to a stub.
-        """
+        """Initialize the field either with an optional field message or by connecting to a stub."""
         super().__init__(
             nentities=nentities,
             nature=nature,
@@ -276,7 +292,7 @@ class Field(_FieldBase):
         """Change the field location.
 
         Parameters
-        -------
+        ----------
         location : str or locations
             Location string, Options are in :class:`locations <ansys.dpf.core.common.locations>`.
 
@@ -302,14 +318,17 @@ class Field(_FieldBase):
 
     @property
     def component_count(self):
+        """Number of components."""
         return self._api.csfield_get_number_of_components(self)
 
     @property
     def elementary_data_count(self):
+        """Number of elementary data."""
         return self._api.csfield_get_number_elementary_data(self)
 
     @property
     def size(self):
+        """Size of data."""
         return self._api.csfield_get_data_size(self)
 
     def _set_scoping(self, scoping):
@@ -339,6 +358,7 @@ class Field(_FieldBase):
         self.field_definition = fielddef
 
     def get_entity_data(self, index: int) -> dpf_array.DPFArray:
+        """Retrieve entity data by index."""
         try:
             vec = dpf_vector.DPFVectorDouble(client=self._server.client)
             self._api.csfield_get_entity_data_for_dpf_vector(
@@ -354,6 +374,7 @@ class Field(_FieldBase):
         return data
 
     def get_entity_data_by_id(self, id: int) -> dpf_array.DPFArray:
+        """Retrieve entity data by id."""
         try:
             vec = dpf_vector.DPFVectorDouble(client=self._server.client)
             self._api.csfield_get_entity_data_by_id_for_dpf_vector(
@@ -372,6 +393,7 @@ class Field(_FieldBase):
         return data
 
     def append(self, data, scopingid):
+        """Append data to the Field."""
         if isinstance(data, list):
             if isinstance(data[0], list):
                 data = np.array(data)
@@ -480,6 +502,7 @@ class Field(_FieldBase):
             arguments, see ``help(pyvista.plot)``.
         """
         from ansys.dpf.core.plotter import Plotter
+
         pl = Plotter(self.meshed_region, **kwargs)
         return pl.plot_contour(
             self,
@@ -516,7 +539,7 @@ class Field(_FieldBase):
         """Units for the field.
 
         Returns
-        ----------
+        -------
         str
            Units for the field.
 
@@ -536,7 +559,7 @@ class Field(_FieldBase):
 
     @unit.setter
     def unit(self, value):
-        """Change the unit for the field
+        """Change the unit for the field.
 
         Parameters
         ----------
@@ -590,7 +613,7 @@ class Field(_FieldBase):
 
     @name.setter
     def name(self, value):
-        """Change the name of the field
+        """Change the name of the field.
 
         Parameters
         ----------
@@ -713,6 +736,7 @@ class Field(_FieldBase):
         return op
 
     def __pow__(self, value):
+        """Compute element-wise field[i]^2."""
         if value != 2:
             raise ValueError('Only the value "2" is supported.')
         from ansys.dpf.core import dpf_operator, operators
@@ -816,7 +840,6 @@ class Field(_FieldBase):
         >>> deep_copy = field.deep_copy(server=other_server)
 
         """
-
         f = Field(
             nentities=len(self.scoping),
             location=self.location,

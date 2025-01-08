@@ -1,6 +1,0 @@
-containter
-mane
-systyem
-parm
-pres
-ans

@@ -1,6 +1,27 @@
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """
-time_freq_scoping_factory
-=========================
+time_freq_scoping_factory.
 
 Contains functions to simplify creating time frequency scopings.
 """
@@ -166,12 +187,15 @@ def scoping_by_step_and_substep_from_model(load_step_id, subset_id, model, serve
     Returns
     -------
     scoping : Scoping
-        Scoping based on a given step/substep of a model's time_freq_support."""
+        Scoping based on a given step/substep of a model's time_freq_support.
+    """
     return scoping_by_step_and_substep(load_step_id, subset_id, model.metadata.time_freq_support)
 
 
 def scoping_on_all_time_freqs(obj: Union[TimeFreqSupport, Model, DataSources]):
-    """Create a specific :class:`ansys.dpf.core.Scoping` with all time or
+    """Create a Scoping with all time or frequency sets.
+
+    Create a specific :class:`ansys.dpf.core.Scoping` with all time or
     frequency sets of a :class:`ansys.dpf.core.TimeFreqSupport` or a class:`ansys.dpf.core.Model`
 
     Parameters

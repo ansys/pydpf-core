@@ -1,7 +1,26 @@
-"""
-PropertyField
-=============
-"""
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+"""PropertyField."""
 
 import numpy as np
 from ansys.dpf.core.check_version import version_requires
@@ -111,7 +130,6 @@ class PropertyField(_FieldBase):
         else:
             return api.csproperty_field_new(nentities, nentities * dim.component_count)
 
-
     @version_requires("8.1")
     def _load_field_definition(self):
         """Attempt to load the field definition for this field."""
@@ -181,14 +199,17 @@ class PropertyField(_FieldBase):
 
     @property
     def component_count(self):
+        """Return the number of components."""
         return self._api.csproperty_field_elementary_data_size(self)
 
     @property
     def elementary_data_count(self):
+        """Return the number of elementary data."""
         return self._api.csproperty_field_get_number_elementary_data(self)
 
     @property
     def size(self):
+        """Return the data size."""
         return self._api.csproperty_field_get_data_size(self)
 
     def _set_scoping(self, scoping):
@@ -200,6 +221,7 @@ class PropertyField(_FieldBase):
         )
 
     def get_entity_data(self, index):
+        """Return the data associated with the entity by index."""
         try:
             vec = dpf_vector.DPFVectorInt(client=self._server.client)
             self._api.csproperty_field_get_entity_data_for_dpf_vector(
@@ -215,6 +237,7 @@ class PropertyField(_FieldBase):
         return data
 
     def get_entity_data_by_id(self, id):
+        """Return the data associated with entity by id."""
         try:
             vec = dpf_vector.DPFVectorInt(client=self._server.client)
             self._api.csproperty_field_get_entity_data_by_id_for_dpf_vector(
@@ -232,6 +255,11 @@ class PropertyField(_FieldBase):
         return data
 
     def append(self, data, scopingid):
+        """
+        Append data to the property field.
+
+        This method appends data to the property field for a specific scoping ID.
+        """
         self._api.csproperty_field_push_back(self, scopingid, _get_size_of_list(data), data)
 
     def _get_data_pointer(self):
@@ -331,7 +359,7 @@ class PropertyField(_FieldBase):
     @name.setter
     @version_requires("8.1")
     def name(self, value):
-        """Change the name of the property field
+        """Change the name of the property field.
 
         Parameters
         ----------

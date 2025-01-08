@@ -1,8 +1,30 @@
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 # -*- coding: utf-8 -*-
 
 """
-ScopingsContainer
-=================
+ScopingsContainer.
+
 Contains classes associated to the DPF ScopingsContainer
 """
 
@@ -11,9 +33,7 @@ from ansys.dpf.core.collection_base import CollectionBase
 
 
 class ScopingsContainer(CollectionBase[scoping.Scoping]):
-    entries_type = scoping.Scoping
-    """A class used to represent a ScopingsContainer which contains
-    scopings split on a given space
+    """A class used to represent a ScopingsContainer which contains scopings split on a given space.
 
     Parameters
     ----------
@@ -27,6 +47,8 @@ class ScopingsContainer(CollectionBase[scoping.Scoping]):
         ``None``, attempts to use the global server.
     """
 
+    entries_type = scoping.Scoping
+
     def __init__(self, scopings_container=None, server=None):
         super().__init__(collection=scopings_container, server=server)
         if self._internal_obj is None:
@@ -38,10 +60,11 @@ class ScopingsContainer(CollectionBase[scoping.Scoping]):
                 self._internal_obj = self._api.collection_of_scoping_new()
 
     def create_subtype(self, obj_by_copy):
+        """Create a Scoping subtype."""
         return scoping.Scoping(scoping=obj_by_copy, server=self._server)
 
     def get_scopings(self, label_space):
-        """Returns the scopings at a requested label space
+        """Return the scopings at a requested label space.
 
         Parameters
         ----------
@@ -57,7 +80,8 @@ class ScopingsContainer(CollectionBase[scoping.Scoping]):
         return super()._get_entries(label_space)
 
     def get_scoping(self, label_space_or_index):
-        """Returns the scoping at a requested index or label space.
+        """Return the scoping at a requested index or label space.
+
         Throws if the request returns several scoping
 
         Parameters
@@ -75,7 +99,7 @@ class ScopingsContainer(CollectionBase[scoping.Scoping]):
         return super()._get_entry(label_space_or_index)
 
     def __getitem__(self, key):
-        """Returns the scoping at a requested index
+        """Return the scoping at a requested index.
 
         Parameters
         ----------

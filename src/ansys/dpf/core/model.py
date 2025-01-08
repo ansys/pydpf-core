@@ -1,10 +1,29 @@
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """
-.. _ref_model:
+Model.
 
-Model
-=====
 Module contains the Model class to manage file result models.
-
 
 """
 
@@ -44,7 +63,6 @@ class Model:
 
     def __init__(self, data_sources=None, server=None):
         """Initialize connection with DPF server."""
-
         if server is None:
             server = dpf.core._global_server()
 
@@ -83,7 +101,7 @@ class Model:
 
         >>> meshed_region = model.metadata.meshed_region
         >>> meshed_region.elements.scoping.ids[2]
-        759
+        np.int32(759)
 
         Get the data sources of the model.
 
@@ -125,8 +143,8 @@ class Model:
             Result provider helper wrapping all types of provider available for a
             given result file.
 
-            Examples
-            --------
+        Examples
+        --------
             >>> from ansys.dpf import core as dpf
             >>> from ansys.dpf.core import examples
             >>> model = dpf.Model(examples.find_electric_therm())
@@ -198,6 +216,7 @@ class Model:
         return op
 
     def __str__(self):
+        """Return string representation of the model."""
         txt = "DPF Model\n"
         txt += "-" * 30 + "\n"
         txt += str(self.results)
@@ -242,9 +261,7 @@ class Model:
 
     @property
     def mesh_by_default(self):
-        """If true, the mesh is connected by default to operators
-        supporting the mesh input
-        """
+        """If true, the mesh is connected by default to operators supporting the mesh input."""
         return self._mesh_by_default
 
     @mesh_by_default.setter
@@ -417,7 +434,7 @@ class Metadata:
         self._cache_streams_provider()
 
     def _load_result_info(self):
-        """Returns a result info object"""
+        """Return a result info object."""
         op = Operator("ResultInfoProvider", server=self._server)
         op.inputs.connect(self._stream_provider.outputs)
         try:
@@ -433,7 +450,7 @@ class Metadata:
         return result_info
 
     def _load_mesh_info(self):
-        """Returns a mesh info object"""
+        """Return a mesh info object."""
         op = Operator("mesh_info_provider", server=self._server)
         op.inputs.connect(self._stream_provider.outputs)
         try:
@@ -538,7 +555,7 @@ class Metadata:
     @property
     @version_requires("4.0")
     def meshes_provider(self):
-        """Meshes provider operator
+        """Meshes provider operator.
 
         This operator reads a meshes container (with potentially time or space varying meshes)
         from the result files.

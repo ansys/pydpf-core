@@ -1,10 +1,33 @@
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """
-Animator
-========
+Animator.
+
 This module contains the DPF animator class.
 
 Contains classes used to animate results based on workflows using PyVista.
 """
+
 import numpy as np
 from typing import Union, Sequence
 
@@ -14,8 +37,7 @@ from ansys.dpf.core.plotter import _PyVistaPlotter
 
 
 class _InternalAnimatorFactory:
-    """
-    Factory for _InternalAnimator based on the backend."""
+    """Factory for _InternalAnimator based on the backend."""
 
     @staticmethod
     def get_animator_class():
@@ -23,7 +45,7 @@ class _InternalAnimatorFactory:
 
 
 class _PyVistaAnimator(_PyVistaPlotter):
-    """This _InternalAnimator class is based on PyVista"""
+    """An InternalAnimator class based on PyVista."""
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -40,7 +62,6 @@ class _PyVistaAnimator(_PyVistaPlotter):
         scale_factor=1.0,
         **kwargs,
     ):
-
         unit = loop_over.unit
         indices = loop_over.scoping.ids
 
@@ -170,6 +191,8 @@ class _PyVistaAnimator(_PyVistaPlotter):
 
 
 class Animator:
+    """The DPF animator class."""
+
     def __init__(self, workflow=None, **kwargs):
         """
         Create an Animator object.
@@ -208,6 +231,7 @@ class Animator:
     def workflow(self) -> core.Workflow:
         """
         Workflow used to generate a Field at each frame of the animation.
+
         By default, the "to_render" Field output will be plotted,
         and the "loop_over" input defines what the animation iterates on.
         Optionally, the workflow can also have a "deform_by" Field output,
@@ -247,7 +271,7 @@ class Animator:
         **kwargs,
     ):
         """
-        Animate the workflow of the Animator, using inputs
+        Animate the workflow of the Animator, using inputs.
 
         Parameters
         ----------
@@ -296,6 +320,16 @@ class Animator:
 
 
 def scale_factor_to_fc(scale_factor, fc):
+    """Scale the fields being animated by a factor.
+
+    Parameters
+    ----------
+    scale_factor : int, float, list
+        Scale factor to apply to the animated field.
+    fc : FieldsContainer
+        FieldsContainer containing the fields being animated.
+    """
+
     def int_to_field(value, shape, scoping):
         field = core.fields_factory.field_from_array(np.full(shape=shape, fill_value=value))
         field.scoping = scoping

@@ -1,10 +1,29 @@
-"""
-.. _ref_data_sources:
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
 
-Data Sources
-============
-"""
+"""Data Sources."""
+
 import os
+from pathlib import Path
 import warnings
 import traceback
 from typing import Union
@@ -119,7 +138,7 @@ class DataSources:
         ['/tmp/file.rst']
 
         """
-        extension = os.path.splitext(filepath)[1]
+        extension = Path(filepath).suffix
         # Handle .res files from CFX
         if key == "" and extension == ".res":
             key = "cas"
@@ -139,7 +158,7 @@ class DataSources:
     def guess_result_key(filepath: str) -> str:
         """Guess result key for files without a file extension."""
         result_keys = ["d3plot", "binout"]
-        base_name = os.path.basename(filepath)
+        base_name = Path(filepath).name
         # Handle files without extension
         for result_key in result_keys:
             if result_key in base_name:
@@ -149,18 +168,16 @@ class DataSources:
     @staticmethod
     def guess_second_key(filepath: str) -> str:
         """For files with an h5 or cff extension, look for another extension."""
+        # These files usually end with .cas.h5 or .dat.h5
         accepted = ["cas", "dat"]
-        without_ext = os.path.splitext(filepath)[0]
-        new_split = os.path.splitext(without_ext)
+        new_split = Path(filepath).suffixes
         new_key = ""
-        if len(new_split) > 1:
-            key = new_split[1][1:]
-            if key in accepted:
-                new_key = key
+        if new_split[0].strip(".") in accepted:
+            new_key = new_split[0].strip(".")
         return new_key
 
     def set_domain_result_file_path(
-            self, path: Union[str, os.PathLike], domain_id: int, key: Union[str, None] = None
+        self, path: Union[str, os.PathLike], domain_id: int, key: Union[str, None] = None
     ):
         """Add a result file path by domain.
 
@@ -210,6 +227,7 @@ class DataSources:
         domain_id: int, optional
             Domain ID for the distributed files. The default is ``0``. For this
             parameter to be taken into account, ``domain_path=True`` must be set.
+
         Examples
         --------
         >>> from ansys.dpf import core as dpf
@@ -218,9 +236,12 @@ class DataSources:
 
         """
         # The filename needs to be a fully qualified file name
-        if not os.path.dirname(filepath):
+        # if not os.path.dirname(filepath)
+
+        filepath = Path(filepath)
+        if not filepath.parent.name:
             # append local path
-            filepath = os.path.join(os.getcwd(), os.path.basename(filepath))
+            filepath = Path.cwd() / filepath.name
         if is_domain:
             if key == "":
                 raise NotImplementedError("A key must be given when using is_domain=True.")
@@ -249,6 +270,7 @@ class DataSources:
             plugin when a result is requested by an operator.
         domain_id:
             Domain ID for the distributed files.
+
         Examples
         --------
         >>> from ansys.dpf import core as dpf
@@ -257,9 +279,10 @@ class DataSources:
 
         """
         # The filename needs to be a fully qualified file name
-        if not os.path.dirname(filepath):
+        filepath = Path(filepath)
+        if not filepath.parent.name:
             # append local path
-            filepath = os.path.join(os.getcwd(), os.path.basename(filepath))
+            filepath = Path.cwd() / filepath.name
         self._api.data_sources_add_domain_file_path_with_key_utf8(
             self, str(filepath), key, domain_id
         )
@@ -284,9 +307,10 @@ class DataSources:
             The default is ``""``, in which case the key is found directly.
         """
         # The filename needs to be a fully qualified file name
-        if not os.path.dirname(filepath):
+        filepath = Path(filepath)
+        if not filepath.parent.name:
             # append local path
-            filepath = os.path.join(os.getcwd(), os.path.basename(filepath))
+            filepath = Path.cwd() / filepath.name
 
         self._api.data_sources_add_file_path_for_specified_result_utf8(
             self, str(filepath), key, result_key
@@ -350,7 +374,7 @@ class DataSources:
         """List of result files contained in the data sources.
 
         Returns
-        ----------
+        -------
         list
             List of result files.
         """
@@ -371,7 +395,8 @@ class DataSources:
 
     @version_requires("7.0")
     def register_namespace(self, result_key: str, namespace: str):
-        """Adds a link from this ``result_key`` to this ``namespace`` in the DataSources.
+        """Add a link from this ``result_key`` to this ``namespace`` in the DataSources.
+
         This ``result_key`` to ``namespace`` mapping is used by source operators
         to find internal operators to call.
 
@@ -394,6 +419,7 @@ class DataSources:
         return _description(self._internal_obj, self._server)
 
     def __del__(self):
+        """Delete this instance."""
         try:
             self._deleter_func[0](self._deleter_func[1](self))
         except:

@@ -1,9 +1,27 @@
-"""
-.. _ref_custom_type_field:
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
 
-CustomTypeField
-===============
-"""
+"""CustomTypeField."""
+
 import warnings
 
 import numpy as np
@@ -23,7 +41,10 @@ from ansys.dpf.gate import (
 
 
 class dict_with_missing_numpy_type(dict):
+    """Custom dictionary that returns the name attribute of a missing key."""
+
     def __missing__(self, key):
+        """Return the name attribute of a missing key."""
         return key.name
 
 
@@ -40,6 +61,7 @@ numpy_type_to_dpf = dict_with_missing_numpy_type(
 
 class CustomTypeField(_FieldBase):
     """Represents a simulation data container with each unitary data being of a custom type.
+
     When initializing the ``CustomTypeField`` class, provide a unitary data type.
     The ``CustomTypeField`` class gives you the ability to choose the most optimized unitary
     data type for a given usage, and hence, allows you to optimize memory usage.
@@ -90,9 +112,7 @@ class CustomTypeField(_FieldBase):
         field=None,
         server=None,
     ):
-        """Initialize the field either with an optional field message or
-        by connecting to a stub.
-        """
+        """Initialize the field either with an optional field message or by connecting to a stub."""
         self._server = server_module.get_or_create_server(
             field._server if isinstance(field, CustomTypeField) else server
         )
@@ -188,7 +208,7 @@ class CustomTypeField(_FieldBase):
         """Change the field location.
 
         Parameters
-        -------
+        ----------
         location : str or locations
              Location string, which can be ``"Nodal"``, ``"Elemental"``,
             ``"ElementalNodal"``... See :class:`ansys.dpf.core.common.locations`.
@@ -209,7 +229,7 @@ class CustomTypeField(_FieldBase):
         self.field_definition = fielddef
 
     def is_of_type(self, type_to_compare: np.dtype) -> bool:
-        """Checks whether the Field's unitary type is the same as the input type.
+        """Check whether the Field's unitary type is the same as the input type.
 
         Parameters
         ----------
@@ -239,6 +259,7 @@ class CustomTypeField(_FieldBase):
     @property
     def type(self):
         """Type of unitary data in the Field's data vector.
+
         Should be properly set at the Field construction to have properly allocated data.
 
         Returns
@@ -259,14 +280,17 @@ class CustomTypeField(_FieldBase):
 
     @property
     def component_count(self):
+        """Number of components."""
         return self._api.cscustom_type_field_get_number_of_components(self)
 
     @property
     def elementary_data_count(self):
+        """Number of elementary data."""
         return self._api.cscustom_type_field_get_number_elementary_data(self)
 
     @property
     def size(self):
+        """Size of data."""
         return self._api.cscustom_type_field_get_data_size(self)
 
     def _set_scoping(self, scoping):
@@ -278,7 +302,7 @@ class CustomTypeField(_FieldBase):
             return scoping.Scoping(scoping=obj, server=self._server)
 
     def get_entity_data(self, index):
-        """Returns the array corresponding to the data of a given entity index.
+        """Return the array corresponding to the data of a given entity index.
 
         Parameters
         ----------
@@ -318,7 +342,7 @@ class CustomTypeField(_FieldBase):
         return data
 
     def get_entity_data_by_id(self, id):
-        """Returns the array corresponding to the data of a given entity id.
+        """Return the array corresponding to the data of a given entity id.
 
         Parameters
         ----------
@@ -361,6 +385,7 @@ class CustomTypeField(_FieldBase):
         return data
 
     def append(self, data, scopingid):
+        """Append data to the api instance."""
         if isinstance(data, list):
             data = np.array(data, dtype=self._type)
         self._api.cscustom_type_field_push_back(self, scopingid, _get_size_of_list(data), data)
@@ -426,7 +451,7 @@ class CustomTypeField(_FieldBase):
         """Units for the field.
 
         Returns
-        ----------
+        -------
         str
            Units for the field.
 
@@ -446,7 +471,7 @@ class CustomTypeField(_FieldBase):
 
     @unit.setter
     def unit(self, value):
-        """Change the unit for the field
+        """Change the unit for the field.
 
         Parameters
         ----------
@@ -504,8 +529,7 @@ class CustomTypeField(_FieldBase):
 
     @property
     def field_definition(self):
-        """CustomTypeField information, including its location, unit, dimensionality
-        and shell layers.
+        """CustomTypeField information, including its location, unit, dimensionality and shell layers.
 
         Returns
         -------
@@ -523,6 +547,7 @@ class CustomTypeField(_FieldBase):
 
     @property
     def support(self):
+        """Return the support associated with the custom field."""
         obj = self._api.cscustom_type_field_get_support(self)
         if obj is not None:
             return Support(support=obj, server=self._server)

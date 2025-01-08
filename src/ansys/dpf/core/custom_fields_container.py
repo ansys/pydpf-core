@@ -1,11 +1,34 @@
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """
-Custom Fields Containers
-========================
+Custom Fields Containers.
+
 Contains the inherited classes from the
 :class:`FieldsContainer <ansys.dpf.core.fields_container.FieldsContainer>` class.
 These new classes offer helpers to access data for specific usage, such as
 results split by body or split by material.
 """
+
 from ansys.dpf.core.fields_container import FieldsContainer
 from ansys.dpf.core import elements
 
@@ -65,7 +88,6 @@ class ElShapeFieldsContainer(FieldsContainer):
 
         Examples
         --------
-
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
         >>> model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
@@ -271,7 +293,7 @@ class BodyFieldsContainer(FieldsContainer):
     >>> model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
     >>> fc = model.results.displacement.on_all_time_freqs.split_by_body.eval()
     >>> fc.get_mat_scoping().ids[3]
-    45
+    np.int32(45)
     >>> len(fc.get_fields_by_mat_id(45))
     45
     >>> f_time_2 = fc.get_field_by_mat_id(45, timeid=2)
@@ -285,6 +307,7 @@ class BodyFieldsContainer(FieldsContainer):
 
     def get_fields_by_mat_id(self, matid, timeid=None, complexid=None):
         """Retrieve a list of all fields for a material ID.
+
         You can filter the list of fields for a material ID based on
         a given time, complex type, or both.
 
@@ -322,6 +345,7 @@ class BodyFieldsContainer(FieldsContainer):
 
     def get_field_by_mat_id(self, matid, timeid=None, complexid=None):
         """Retrieve a field with a given material ID.
+
         You can filter the field based on a given time, complex type, or both.
 
         Parameters
@@ -354,7 +378,7 @@ class BodyFieldsContainer(FieldsContainer):
         return self.get_field(label_space)
 
     def get_mat_scoping(self):
-        """Retrieves the material or body scoping containing material IDs.
+        """Retrieve the material or body scoping containing material IDs.
 
         Returns
         -------

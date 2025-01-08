@@ -1,3 +1,25 @@
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 import pytest
 
 from ansys import dpf
@@ -13,7 +35,7 @@ from conftest import (
 if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0:
     mechanical = "mechanical"
 else:
-    mechanical = "mecanic"
+    mechanical = "mecanic"  # codespell:ignore mecanic
 
 
 @pytest.fixture()
@@ -120,6 +142,7 @@ Available qualifier labels:"""  # noqa: E501
     else:
         assert len(ar.qualifier_combinations) == 20
 
+
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available with CFF starting 7.0"
 )
@@ -170,11 +193,12 @@ def test_result_info_memory_leaks(model):
 
 def test_create_result_info(server_type):
     from ansys.dpf.core.available_result import Homogeneity
+
     if not server_type.has_client():
         result_info = dpf.core.ResultInfo(
             analysis_type=dpf.core.result_info.analysis_types.static,
             physics_type=dpf.core.result_info.physics_types.mechanical,
-            server=server_type
+            server=server_type,
         )
         result_info.add_result(
             operator_name="operator_name",
@@ -214,15 +238,29 @@ Available results:
             _ = dpf.core.ResultInfo(
                 analysis_type=dpf.core.result_info.analysis_types.static,
                 physics_type=dpf.core.result_info.physics_types.mechanical,
-                server=server_type
+                server=server_type,
             )
 
 
 def test_result_info_add_result(model):
     from ansys.dpf.core.available_result import Homogeneity
+
     res = model.metadata.result_info
     if not model._server.has_client():
         res.add_result(
+            operator_name="operator_name",
+            scripting_name="scripting_name",
+            homogeneity=Homogeneity.temperature,
+            location=dpf.core.locations.nodal,
+            nature=dpf.core.natures.scalar,
+            dimensions=None,
+            description="description",
+        )
+    else:
+        with pytest.raises(
+            NotImplementedError, match="Cannot add a result to a ResultInfo via gRPC."
+        ):
+            res.add_result(
                 operator_name="operator_name",
                 scripting_name="scripting_name",
                 homogeneity=Homogeneity.temperature,
@@ -231,18 +269,3 @@ def test_result_info_add_result(model):
                 dimensions=None,
                 description="description",
             )
-    else:
-        with pytest.raises(
-                NotImplementedError,
-                match="Cannot add a result to a ResultInfo via gRPC."
-        ):
-            res.add_result(
-                    operator_name="operator_name",
-                    scripting_name="scripting_name",
-                    homogeneity=Homogeneity.temperature,
-                    location=dpf.core.locations.nodal,
-                    nature=dpf.core.natures.scalar,
-                    dimensions=None,
-                    description="description",
-                )
-

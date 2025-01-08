@@ -1,7 +1,30 @@
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 # -*- coding: utf-8 -*-
 import os
 import copy
 import tempfile
+from pathlib import Path
 
 import ansys.grpc.dpf
 import numpy as np
@@ -131,7 +154,7 @@ def test_operator_any_input(allkindofcomplexity):
     serialization.inputs.any_input3.connect(u.outputs)
 
     # create a temporary file at the default temp directory
-    path = os.path.join(tempfile.gettempdir(), "dpf_temp_ser.txt")
+    path = str(Path(tempfile.gettempdir()) / "dpf_temp_ser.txt")
     if not core.SERVER.local_server:
         core.upload_file_in_tmp_folder(examples.find_static_rst(return_local_path=True))
         path = core.path_utilities.join(core.make_tmp_dir_server(), "dpf_temp_ser.txt")
@@ -149,8 +172,9 @@ def test_operator_any_input(allkindofcomplexity):
 
     assert hasattr(fc, "outputs") == False
 
-    if os.path.exists(path):
-        os.remove(path)
+    path = Path(path)
+    if path.exists():
+        path.unlink()
 
 
 def test_create_op_with_inputs(plate_msup):

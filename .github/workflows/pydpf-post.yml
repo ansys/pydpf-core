@@ -161,7 +161,7 @@ jobs:
         run: |
           pytest $DEBUG --reruns 2 .
         if: always()
-        timeout-minutes: 20
+        timeout-minutes: 60
 
       - name: "Kill all servers"
         uses: ansys/pydpf-actions/kill-dpf-servers@v2.3

@@ -1,15 +1,34 @@
-"""
-.. _ref_custom_operator:
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
 
-Custom Operator Base
-====================
+"""
+Custom Operator Base.
+
 Contains utilities allowing you to implement and record custom Python operators.
 """
 
 import abc
 import ctypes
-import os
-import pathlib
+from pathlib import Path
 import re
 import shutil
 import tempfile
@@ -40,9 +59,9 @@ from ansys.dpf.gate import object_handler, capi, dpf_vector, integral_types
 
 
 def update_virtual_environment_for_custom_operators(
-        restore_original: bool = False,
+    restore_original: bool = False,
 ):
-    """Updates the dpf-site.zip file used to start a venv for Python custom operators to run in.
+    """Update the dpf-site.zip file used to start a venv for Python custom operators to run in.
 
     It updates the site-packages in dpf-site.zip with the site-packages of the current venv.
     It stores the original dpf-site.zip for future restoration.
@@ -63,71 +82,73 @@ def update_virtual_environment_for_custom_operators(
         raise NotImplementedError(
             "Updating the dpf-site.zip of a DPF Server is only available when InProcess."
         )
-    current_dpf_site_zip_path = os.path.join(server.ansys_path, "dpf", "python", "dpf-site.zip")
+    current_dpf_site_zip_path = Path(server.ansys_path) / "dpf" / "python" / "dpf-site.zip"
     # Get the path to where we store the original dpf-site.zip
-    original_dpf_site_zip_path = os.path.join(
-        server.ansys_path, "dpf", "python", "original", "dpf-site.zip"
+    original_dpf_site_zip_path = (
+        Path(server.ansys_path) / "dpf" / "python" / "original" / "dpf-site.zip"
     )
     # Restore the original dpf-site.zip
     if restore_original:
-        if os.path.exists(original_dpf_site_zip_path):
+        if original_dpf_site_zip_path.exists():
             shutil.move(src=original_dpf_site_zip_path, dst=current_dpf_site_zip_path)
-            os.rmdir(os.path.dirname(original_dpf_site_zip_path))
+            original_dpf_site_zip_path.parent.rmdir()
         else:
             warnings.warn("No original dpf-site.zip found. Current is most likely the original.")
     else:
         # Store original dpf-site.zip for this DPF Server if no original is stored
-        if not os.path.exists(os.path.dirname(original_dpf_site_zip_path)):
-            os.mkdir(os.path.dirname(original_dpf_site_zip_path))
-        if not os.path.exists(original_dpf_site_zip_path):
+        if not original_dpf_site_zip_path.parent.exists():
+            original_dpf_site_zip_path.parent.mkdir()
+        if not original_dpf_site_zip_path.exists():
             shutil.move(src=current_dpf_site_zip_path, dst=original_dpf_site_zip_path)
         # Get the current paths to site_packages
         import site
+
         paths_to_current_site_packages = site.getsitepackages()
         current_site_packages_path = None
         # Get the first one targeting an actual site-packages folder
         for path_to_site_packages in paths_to_current_site_packages:
             if path_to_site_packages[-13:] == "site-packages":
-                current_site_packages_path = pathlib.Path(path_to_site_packages)
+                current_site_packages_path = Path(path_to_site_packages)
                 break
         if current_site_packages_path is None:
             warnings.warn("Could not find a currently loaded site-packages folder to update from.")
             return
         # If an ansys.dpf.core.path file exists, then the installation is editable
-        search_path = pathlib.Path(current_site_packages_path)
+        search_path = current_site_packages_path
         potential_editable = list(search_path.rglob("__editable__.ansys_dpf_core-*.pth"))
         if potential_editable:
             path_file = potential_editable[0]
         else:  # Keep for older setuptools versions
-            path_file = os.path.join(current_site_packages_path, "ansys.dpf.core.pth")
-        if os.path.exists(path_file):
+            path_file = current_site_packages_path / "ansys.dpf.core.pth"
+        if path_file.exists():
             # Treat editable installation of ansys-dpf-core
-            with open(path_file, "r") as f:
-                current_site_packages_path = f.readline().strip()
+            with path_file.open("r") as f:
+                current_site_packages_path = Path(f.readline().strip())
         with tempfile.TemporaryDirectory() as tmpdir:
-            os.mkdir(os.path.join(tmpdir, "ansys_dpf_core"))
-            ansys_dir = os.path.join(tmpdir, "ansys_dpf_core")
-            os.mkdir(os.path.join(ansys_dir, "ansys"))
-            os.mkdir(os.path.join(ansys_dir, "ansys", "dpf"))
-            os.mkdir(os.path.join(ansys_dir, "ansys", "grpc"))
+            tmpdir = Path(tmpdir)
+            ansys_dir = tmpdir / "ansys_dpf_core"
+            ansys_dir.mkdir()
+            ansys_dir.joinpath("ansys").mkdir()
+            ansys_dir.joinpath("ansys", "dpf").mkdir()
+            ansys_dir.joinpath("ansys", "grpc").mkdir()
             shutil.copytree(
-                src=os.path.join(current_site_packages_path, "ansys", "dpf", "core"),
-                dst=os.path.join(ansys_dir, "ansys", "dpf", "core"),
+                src=current_site_packages_path / "ansys" / "dpf" / "core",
+                dst=ansys_dir / "ansys" / "dpf" / "core",
                 ignore=lambda directory, contents: ["__pycache__", "result_files"],
             )
             shutil.copytree(
-                src=os.path.join(current_site_packages_path, "ansys", "dpf", "gate"),
-                dst=os.path.join(ansys_dir, "ansys", "dpf", "gate"),
+                src=current_site_packages_path / "ansys" / "dpf" / "gate",
+                dst=ansys_dir / "ansys" / "dpf" / "gate",
                 ignore=lambda directory, contents: ["__pycache__"],
             )
             shutil.copytree(
-                src=os.path.join(current_site_packages_path, "ansys", "grpc", "dpf"),
-                dst=os.path.join(ansys_dir, "ansys", "grpc", "dpf"),
+                src=current_site_packages_path / "ansys" / "grpc" / "dpf",
+                dst=ansys_dir / "ansys" / "grpc" / "dpf",
                 ignore=lambda directory, contents: ["__pycache__"],
             )
             # Find the .dist_info folder
-            pattern = re.compile(r'^ansys_dpf_core\S*')
-            for p in pathlib.Path(current_site_packages_path).iterdir():
+            pattern = re.compile(r"^ansys_dpf_core\S*")
+            for p in current_site_packages_path.iterdir():
                 if p.is_dir():
                     # print(p.stem)
                     if re.search(pattern, p.stem):
@@ -135,20 +156,22 @@ def update_virtual_environment_for_custom_operators(
                         break
             shutil.copytree(
                 src=dist_info_path,
-                dst=os.path.join(ansys_dir, dist_info_path.name),
+                dst=ansys_dir / dist_info_path.name,
             )
             # Zip the files as dpf-site.zip
-            base_name = os.path.join(tmpdir, "ansys_dpf_core_zip")
+            base_name = tmpdir / "ansys_dpf_core_zip"
             base_dir = "."
-            root_dir = os.path.join(tmpdir, "ansys_dpf_core")  # OK
-            shutil.make_archive(base_name=base_name, root_dir=root_dir, base_dir=base_dir, format='zip')
+            root_dir = tmpdir / "ansys_dpf_core"  # OK
+            shutil.make_archive(
+                base_name=base_name, root_dir=root_dir, base_dir=base_dir, format="zip"
+            )
             # Include files of interest from the original dpf-site.zip and the ansys_dpf_core.zip
             with zipfile.ZipFile(current_dpf_site_zip_path, "w") as archive:
                 with zipfile.ZipFile(original_dpf_site_zip_path, mode="r") as original:
                     for item in original.infolist():
                         if "ansys" not in item.filename:
                             archive.writestr(item, original.read(item))
-                with zipfile.ZipFile(base_name+'.zip', mode="r") as original:
+                with zipfile.ZipFile(str(base_name) + ".zip", mode="r") as original:
                     for item in original.infolist():
                         archive.writestr(item, original.read(item))
 
@@ -196,8 +219,8 @@ def record_operator(operator_type, *args) -> None:
 
 class CustomOperatorBase:
     """
-    Base class interfacing CPython Custom Operators which can be used as regular
-    DPF Operators in any API.
+    Base class interfacing CPython Custom Operators which can be used as regular DPF Operators in any API.
+
     A CustomOperator is defined by its name, its specification and its run method.
     These three abstract methods should be implemented to create a CustomOperator.
 
@@ -245,6 +268,7 @@ class CustomOperatorBase:
     def set_output(self, index: int, data) -> None:
         """
         Add an output to this Operator at the given index.
+
         To use in the ``run`` method.
 
         Parameters
@@ -268,7 +292,8 @@ class CustomOperatorBase:
 
     def get_input(self, index, type: type):
         """
-        Method used to get an input of a requested type at a given index in the ``run`` method.
+        Get an input of a requested type at a given index in the ``run`` method.
+
         The correct input type must be connected to this Operator beforehand.
 
         Parameters
@@ -301,6 +326,7 @@ class CustomOperatorBase:
     def set_failed(self) -> None:
         """
         Set the Operator's status to "failed".
+
         To use in the ``run`` method if an error occurred.
         This "failed" status is automatically set when an exception is raised in the ``run`` method.
         """
@@ -309,6 +335,7 @@ class CustomOperatorBase:
     def set_succeeded(self) -> None:
         """
         Set the Operator's status to "succeeded".
+
         To use at the end of the ``run`` method.
         """
         external_operator_api.external_operator_put_status(self._operator_data, 0)
@@ -336,7 +363,8 @@ class CustomOperatorBase:
     @abc.abstractmethod
     def run(self) -> None:
         """
-        Callback of the Operator to implement.
+        "Implement the Operator's callback in inheriting subclasses.
+
         The implementation should first request the inputs with the method ``get_input``,
         compute the output data, then add the outputs with the method ``set_output`` and finally
         call ``set_succeeded``.
@@ -347,8 +375,10 @@ class CustomOperatorBase:
     @abc.abstractmethod
     def specification(self):
         """
-        Documents the operator. The following are mandatory  to have a full support
-        (documentation, code generation and usage) of the new operator:
+        Documents the operator.
+
+        The following are mandatory  to have a full support (documentation, code generation and usage)
+        of the new operator:
         * Description
         * Supported inputs (a name, a document, a list of accepted types (optional) and/or ellipses)
         * Supported outputs (a name, a document, a type, and can be ellipsis)
@@ -366,6 +396,7 @@ class CustomOperatorBase:
     def name(self) -> str:
         """
         Returns the identifier or name of the operator.
+
         This name can then be used to instantiate the Operator.
         """
         pass

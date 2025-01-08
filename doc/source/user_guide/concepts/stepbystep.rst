@@ -53,11 +53,11 @@ Define fields
 A **field** is a container of simulation data. In numerical simulations,
 result data is defined by values associated with entities:
 
-.. image:: ../images/drawings/values-entities.png
+.. image:: ../../images/drawings/values-entities.png
 
 Therefore, a field of data might look something like this:
 
-.. image:: ../images/drawings/field.png
+.. image:: ../../images/drawings/field.png
 
 This code shows how to define a field from scratch:
 
@@ -83,7 +83,7 @@ be a set of mesh IDs, geometric entity IDs, time domain, or frequency domain.
 
 You specify the set of entities by defining a range of IDs:
 
-.. image:: ../images/drawings/scoping-eg.png
+.. image:: ../../images/drawings/scoping-eg.png
 
 You must define a scoping prior to its use in the transformation data workflow.
 
@@ -109,13 +109,13 @@ A **field container** holds a set of fields. It is used mainly for
 transient, harmonic, modal, or multi-step analyses. This image
 explains its structure:
 
-.. image:: ../images/drawings/field-con-overview.png
+.. image:: ../../images/drawings/field-con-overview.png
 
 A field container is a vector of fields. Fields are ordered with labels
 and IDs. Most commonly, a field container is scoped on the time label,
 and the IDs are the time or frequency sets:
 
-.. image:: ../images/drawings/field-con.png
+.. image:: ../../images/drawings/field-con.png
 
 You can define a field container in multiple ways:
 
@@ -162,14 +162,14 @@ An operator takes input from a field, field container, or scoping using
 an input pin. Based on what it is designed to do, the operator computes
 an output that it passes to a field or field container using an output pin.
 
-.. image:: ../images/drawings/circuit.png
+.. image:: ../../images/drawings/circuit.png
 
 Comprehensive information on operators is available in :ref:`ref_dpf_operators_reference`.
 In the **Available Operators** area for either the **Entry** or **Premium** operators,
 you can either type a keyword in the **Search** option
 or browse by operator categories:
    
-.. image:: ../images/drawings/help-operators.png
+.. image:: ../../images/drawings/help-operators.png
 
 The page for each operator describes how the operator transforms data,
 indicates input and output data, and provides usage examples.
@@ -185,7 +185,7 @@ Defining an operator consists of three steps:
 This image shows how the page for an operator provides a usage example for each available
 language (IronPython, CPython, and C++).
 
-.. image:: ../images/drawings/operator-def.png
+.. image:: ../../images/drawings/operator-def.png
 
 This code shows how to define an operator from a model:
 
@@ -210,7 +210,7 @@ the input to another operator.
 This image shows how you would get the norm of a resulting vector from the
 dot product of two vectors:
 
-.. image:: ../images/drawings/connect-operators.png
+.. image:: ../../images/drawings/connect-operators.png
 
 This code shows how to define a generic workflow that computes the minimum
 of displacement by chaining the ``U`` and ``min_max_fc`` operators:

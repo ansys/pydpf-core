@@ -7,7 +7,7 @@ import numpy as np
 import pyvista
 from ansys.dpf.core import __version__, server, server_factory
 from ansys.dpf.core.examples import get_example_required_minimum_dpf_version
-from ansys_sphinx_theme import pyansys_logo_black, ansys_favicon, get_version_match
+from ansys_sphinx_theme import ansys_favicon, get_version_match, pyansys_logo_light_mode, pyansys_logo_dark_mode
 
 # Manage errors
 pyvista.set_error_output_file("errors.txt")
@@ -64,6 +64,28 @@ ignored_pattern += "|11-server_types.py"
 ignored_pattern += "|06-distributed_stress_averaging.py"
 ignored_pattern += r")"
 
+# Autoapi ignore pattern
+autoapi_ignore_list = [
+    "*/log.py",
+    "*/help.py",
+    "*/mapping_types.py",
+    "*/ipconfig.py",
+    "*/field_base.py",
+    "*/cache.py",
+    "*/misc.py",
+    "*/check_version.py",
+    "*/operators/build.py",
+    "*/operators/specification.py",
+    "*/vtk_helper.py",
+    "*/label_space.py",
+    "*/examples/python_plugins/*",
+    "*/examples/examples.py",
+    "*/gate/*",
+    "*/gatebin/*",
+    "*/grpc/*",
+    "*/property_fields_container.py"
+]
+
 # -- General configuration ---------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
@@ -75,22 +97,22 @@ ignored_pattern += r")"
 # ones.
 extensions = [
     "enum_tools.autoenum",
-    "nbsphinx",
     "sphinx.ext.autosectionlabel",
-    "sphinx.ext.autodoc",
     "sphinx.ext.graphviz",
     "sphinx.ext.intersphinx",
     "sphinx.ext.napoleon",
     "sphinx.ext.todo",
-    "sphinx_autodoc_typehints",
     "sphinx_copybutton",
     "sphinx_design",
     "sphinx_gallery.gen_gallery",
     'sphinx_reredirects',
+    "ansys_sphinx_theme.extension.autoapi",
 ]
 
 redirects = {
-     "user_guide/getting_started_with_dpf_server": "../getting_started/dpf_server.html"
+     "user_guide/getting_started_with_dpf_server": "../getting_started/dpf_server.html",
+     "concepts/index": "../user_guide/index.html#concepts",
+     "contributing": "getting_started/contributing.html"
 }
 
 typehints_defaults = "comma"
@@ -103,9 +125,8 @@ intersphinx_mapping = {
     "pyvista": ("https://docs.pyvista.org/", None),
 }
 
-autosummary_generate = True
+autosummary_generate = False
 
-autodoc_mock_imports = ["ansys.dpf.core.examples.python_plugins"]
 
 # Add any paths that contain templates here, relative to this directory.
 # templates_path = ['_templates']
@@ -187,15 +208,17 @@ sphinx_gallery_conf = {
     "reset_modules": (reset_servers,),
 }
 
-autodoc_member_order = "bysource"
-
 
 # -- Options for HTML output -------------------------------------------------
 html_short_title = html_title = "PyDPF-Core"
 html_theme = "ansys_sphinx_theme"
-html_logo = pyansys_logo_black
 html_favicon = ansys_favicon
 html_theme_options = {
+    "logo": {
+        "image_dark": pyansys_logo_dark_mode,
+        "image_light": pyansys_logo_light_mode,
+    },
+    "logo_link": "https://docs.pyansys.com",
     "github_url": "https://github.com/ansys/pydpf-core",
     "show_prev_next": False,
     "show_breadcrumbs": True,
@@ -206,15 +229,41 @@ html_theme_options = {
         "json_url": f"https://{cname}/versions.json",
         "version_match": get_version_match(__version__),
     },
-    "use_meilisearch": {
-        "api_key": os.getenv("MEILISEARCH_PUBLIC_API_KEY", ""),
-        "index_uids": {
-            f"pydpf-core-v{get_version_match(__version__).replace('.', '-')}": "PyDPF-Core",
-        },
+    "static_search": {
+        "threshold": 0.5,
+        "limit": 10,
+        "minMatchCharLength": 2,
+        "ignoreLocation": True,
     },
+    "ansys_sphinx_theme_autoapi": {
+        "project": project,
+        "output": "api",
+        "directory": "src/ansys",
+        "use_implicit_namespaces": True,
+        "keep_files": True,
+        "own_page_level": "class",
+        "type": "python",
+        "options": [
+            "members",
+            "undoc-members",
+            "show-inheritance",
+            "show-module-summary",
+            "special-members",
+        ],
+        "class_content": "class",
+        "ignore": autoapi_ignore_list,
+        "add_toctree_entry": True,
+        "member_order": "bysource",
+    }
 }
 
-
+# Configuration for Sphinx autoapi
+suppress_warnings = [
+    "autoapi.python_import_resolution", # Todo: remove suppression of this warning in the future
+    "design.grid",
+    "config.cache",
+    "design.fa-build",
+]
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -318,14 +367,3 @@ epub_title = project
 
 # A list of files that should not be packed into the epub file.
 epub_exclude_files = ["search.html"]
-
-
-def verify_meilisearch_is_active(app):
-    MEILISEARCH_PUBLIC_API_KEY = os.getenv("MEILISEARCH_PUBLIC_API_KEY", None)
-    if not MEILISEARCH_PUBLIC_API_KEY:
-        sys.stderr.write("Could not find MEILISEARCH_PUBLIC_API_KEY")
-        # sys.exit(1)
-
-
-def setup(app):
-    app.connect("builder-inited", verify_meilisearch_is_active)

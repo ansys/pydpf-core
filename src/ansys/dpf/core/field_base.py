@@ -1,3 +1,26 @@
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+"""Provide base APIs for DPF's field concept and means of caching field data."""
+
 import traceback
 import warnings
 
@@ -85,7 +108,8 @@ class _FieldBase:
         ncomp_m=0,
         with_type=None,
     ):
-        """Returns a gRPC field message or C object instance of a new field.
+        """Return a gRPC field message or C object instance of a new field.
+
         This new field is created with this functions parameter attributes
 
         Parameters
@@ -205,7 +229,7 @@ class _FieldBase:
         return self.component_count
 
     def __str__(self):
-        """Describes the entity.
+        """Describe the entity.
 
         Returns
         -------
@@ -275,7 +299,6 @@ class _FieldBase:
         >>> #The fourth elementary data of the field corresponds to
         >>> #the element id number 586 in the mesh
         """
-
         return self._get_scoping()
 
     @scoping.setter
@@ -284,10 +307,10 @@ class _FieldBase:
 
     @abstractmethod
     def get_entity_data(self, index):
-        """Retrieves the elementary data of the scoping's index in an array.
+        """Retrieve the elementary data of the scoping's index in an array.
 
         Returns
-        --------
+        -------
         numpy.ndarray
 
         Examples
@@ -741,7 +764,6 @@ class _LocalFieldBase(_FieldBase):
          [ 1.03542516e-02 -3.53018374e-03 -3.98914380e-05]]
 
         """
-
         if self._ncomp > 1:
             return np.array(self._data_copy).reshape(
                 len(self._data_copy) // self._ncomp, self._ncomp
@@ -793,7 +815,6 @@ class _LocalFieldBase(_FieldBase):
         int
             Number of components in each elementary data of the field.
         """
-
         return self._ncomp
 
     @property

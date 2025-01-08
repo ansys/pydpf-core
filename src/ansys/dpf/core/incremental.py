@@ -1,9 +1,26 @@
-"""
-.. _ref_incremental:
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
 
-Incremental
-===========
-"""
+"""Incremental."""
 
 from ansys.dpf import core
 
@@ -38,7 +55,7 @@ class IncrementalHelper:
         scoping: core.Scoping,
         scoping_pin: int = None,
     ):
-        """Constructs an IncrementalHelper object.
+        """Construct an IncrementalHelper object.
 
         Given the first and the last operator of a workflow, as well as the scoping.
 
@@ -118,8 +135,6 @@ class IncrementalHelper:
         raise NotImplementedError()
 
     def _prerun(self, _dict_inputs: Dict[int, Any]):
-        """"""
-
         for pin_idx, val in _dict_inputs.items():
             self._start_op.connect(pin_idx, val)
         self._start_op.run()
@@ -276,7 +291,7 @@ def split_workflow_in_chunks(
     scoping_pin: int = None,
     end_input_pin: int = 0,
 ):
-    """Transforms a workflow into an incrementally evaluating one.
+    """Transform a workflow into an incrementally evaluating one.
 
     It wraps in one method the functionality of the IncrementalHelper class as well
     as the estimation of the chunk size.

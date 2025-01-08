@@ -1,9 +1,27 @@
-"""
-.. _ref_unit_system:
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
 
-UnitSystem
-===============
-"""
+"""UnitSystem."""
+
 from ansys.dpf import core as dpf
 from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core import server as server_module
@@ -19,7 +37,7 @@ class UnitSystem:
 
     def __init__(self, name, ID=None, unit_names=None):
         """
-        Creates a new UnitSystem from its name and its Ansys ID
+        Create a new UnitSystem from its name and its Ansys ID.
 
         Parameters
         ----------
@@ -79,14 +97,17 @@ class UnitSystem:
 
     @property
     def ID(self) -> int:
+        """Return ID of the unit system."""
         return self._ID
 
     @property
     def name(self) -> str:
+        """Return the name of the unit system."""
         return self._name
 
     @property
     def unit_names(self) -> str:
+        """Return unit names making up the unit system."""
         if self._unit_names == "":  # Ansys UnitSystem
             unit_system_strings = dpf.Operator("unit_system_strings")
             unit_system_strings.connect(0, self._ID)
@@ -103,7 +124,7 @@ class unit_systems:
     Class available with server's version starting at 6.1 (Ansys 2023R2).
 
     Attributes
-    -----------
+    ----------
     solver_mks : Metric (m, kg, N, s, J, Pa, degC, C, rad)
 
     solver_cgs : Metric (cm, g, dyne, s, erg, dyne*cm^-2, degC, C, rad)

@@ -1,6 +1,27 @@
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """
-ServerContext
-=============
+ServerContext.
 
 Gives the ability to choose the context with which the server should be started.
 The context allows you to choose the licensing logic for operators.
@@ -13,6 +34,7 @@ The default context can be overwritten using the ANSYS_DPF_SERVER_CONTEXT enviro
 variable.
 ANSYS_DPF_SERVER_CONTEXT=ENTRY and ANSYS_DPF_SERVER_CONTEXT=PREMIUM can be used.
 """
+
 import os
 import warnings
 from enum import Enum
@@ -21,6 +43,8 @@ from ansys.dpf.core import errors
 
 
 class LicensingContextType(Enum):
+    """Enum representing different types of licensing contexts."""
+
     none = 5
     premium = 1
     """Checks if at least one license increment exists
@@ -30,12 +54,36 @@ class LicensingContextType(Enum):
     and does not allow operators to block an increment."""
 
     def __int__(self):
+        """
+        Return the integer values of the licensing context.
+
+        Returns
+        -------
+        int
+            Integer values corresponding to the licensing context.
+        """
         return self.value
 
     @staticmethod
     def same_licensing_context(first, second):
-        if ((first == LicensingContextType.none and second != LicensingContextType.none)
-           or (first != LicensingContextType.none and second == LicensingContextType.none)):
+        """
+        Determine if two licensing contexts are compatible.
+
+        Parameters
+        ----------
+        first : LicensingContextType
+            The first licensing context to compare.
+        second : LicensingContextType
+            The second licensing context to compare.
+
+        Returns
+        -------
+        bool
+            True if the licensing contexts are compatible, False otherwise.
+        """
+        if (first == LicensingContextType.none and second != LicensingContextType.none) or (
+            first != LicensingContextType.none and second == LicensingContextType.none
+        ):
             return False
         if int(first) == int(LicensingContextType.entry) and int(second) != int(
             LicensingContextType.entry
@@ -50,6 +98,7 @@ class LicensingContextType(Enum):
 
 class LicenseContextManager:
     """Can optionally be used to check out a license before using licensed DPF Operators.
+
     Improves performance if you are using multiple Operators that require licensing.
     It can also be used to force checkout before running a script when few
     Ansys license increments are available.
@@ -129,13 +178,45 @@ class LicenseContextManager:
         self._license_checkout_operator = None
 
     def __enter__(self):
+        """
+        Enter the runtime context for the license context manager.
+
+        This method is called when the object is used within a `with` statement.
+        It ensures that the license is checked out before the operations within the context block are executed.
+
+        Returns
+        -------
+        LicenseContextManager
+            The current instance of the license context manager.
+        """
         return self
 
     def __exit__(self, type, value, tb):
+        """
+        Exit the runtime context for the license context manager.
+
+        This method is called at the end of a `with` statement. It ensures
+        that the license is checked in and any resources allocated are released.
+
+        Parameters
+        ----------
+        type : type or None
+            The exception type, if an exception occurred within the context block, or None otherwise.
+        value : Exception or None
+            The exception instance, if an exception occurred within the context block, or None otherwise.
+        tb : traceback or None
+            The traceback object, if an exception occurred within the context block, or None otherwise.
+
+        Returns
+        -------
+        bool
+            If True, suppresses the exception. Otherwise, the exception is propagated.
+        """
         if tb is None:
             self.release_data()
 
     def __del__(self):
+        """Release the license when the instance is deleted."""
         self.release_data()
         pass
 
@@ -153,6 +234,7 @@ class LicenseContextManager:
 
 class ServerContext:
     """The context defines whether DPF capabilities requiring a license checkout are allowed.
+
     xml_path argument won't be taken into account if using LicensingContextType.entry.
 
     Parameters
@@ -188,6 +270,7 @@ class ServerContext:
         return self._xml_path
 
     def __str__(self):
+        """Return string representation of the ServerContext instance."""
         return (
             f"Server Context of type {self.licensing_context_type}"
             f" with {'no' if len(self.xml_path) == 0 else ''} xml path"
@@ -195,6 +278,7 @@ class ServerContext:
         )
 
     def __eq__(self, other):
+        """Compare two ServerContext instances for equality."""
         if not isinstance(other, ServerContext):
             return False
         return os.path.normpath(self.xml_path) == os.path.normpath(
@@ -204,6 +288,7 @@ class ServerContext:
         )
 
     def __ne__(self, other):
+        """Check that two server contexts are not equal."""
         return not self == other
 
 
@@ -243,8 +328,9 @@ if DPF_SERVER_CONTEXT_ENV in os.environ.keys():
 
 
 def set_default_server_context(context=AvailableServerContexts.premium) -> None:
-    """Sets this context as default for any new server. Also applies it to
-    the global server if it is running as Entry and requested context is Premium.
+    """Set this context as default for any new server.
+
+    Also applies it to the global server if it is running as Entry and requested context is Premium.
 
     The context enables to choose whether DPF capabilities requiring a license checkout are allowed.
 

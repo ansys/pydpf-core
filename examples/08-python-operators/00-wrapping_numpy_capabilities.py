@@ -1,3 +1,25 @@
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """
 .. _ref_wrapping_numpy_capabilities:
 
@@ -34,20 +56,13 @@ be wrapped in Python plugins.
 #
 # Download and display the Python script.
 
-from ansys.dpf.core import examples
-from ansys.dpf import core as dpf
+from ansys.dpf.core.examples import download_easy_statistics
+from pathlib import Path
 
+operator_file_path = Path(download_easy_statistics())
 
-GITHUB_SOURCE_URL = (
-    "https://github.com/ansys/pydpf-core/" "raw/examples/first_python_plugins/python_plugins"
-)
-EXAMPLE_FILE = GITHUB_SOURCE_URL + "/easy_statistics.py"
-operator_file_path = examples.downloads._retrieve_file(
-    EXAMPLE_FILE, "easy_statistics.py", "python_plugins"
-)
-
-with open(operator_file_path, "r") as f:
-    for line in f.readlines():
+with operator_file_path.open() as file:
+    for line in file.readlines():
         print("\t\t\t" + line)
 
 ###############################################################################
@@ -62,15 +77,14 @@ with open(operator_file_path, "r") as f:
 # - The third argument is the name of the function used to record operators.
 #
 
-import os
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
 # Python plugins are not supported in process.
 dpf.start_local_server(config=dpf.AvailableServerConfigs.GrpcServer)
 
-operator_server_file_path = dpf.upload_file_in_tmp_folder(operator_file_path)
-dpf.load_library(os.path.dirname(operator_server_file_path), "py_easy_statistics", "load_operators")
+operator_server_file_path = Path(dpf.upload_file_in_tmp_folder(operator_file_path))
+dpf.load_library(operator_server_file_path.parent, "py_easy_statistics", "load_operators")
 
 ###############################################################################
 # Instantiate the operator.

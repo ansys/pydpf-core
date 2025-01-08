@@ -1,9 +1,27 @@
-"""
-.. _ref_nodes_apis:
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
 
-Nodes
-=====
-"""
+"""Nodes."""
+
 import numpy as np
 from ansys.dpf.core.common import nodal_properties, locations
 from ansys.dpf.core.check_version import version_requires
@@ -90,6 +108,7 @@ class Node:
         return self._mesh.nodes.nodal_connectivity_field.get_entity_data(self.index)
 
     def __str__(self):
+        """Return string representation of the node."""
         txt = "DPF Node     %7d\n" % self.id
         txt += "Index:      %7d\n" % self.index
         txt += f"Location: {self.coordinates}\n"
@@ -123,16 +142,19 @@ class Nodes:
         self._mapping_id_to_index = None
 
     def __str__(self):
+        """Return custom str representation with information about number of nodes."""
         return f"DPF Node collection with {len(self)} nodes\n"
 
     def __getitem__(self, index):
-        """Returns node based on index"""
+        """Return node based on index."""
         return self.node_by_index(index)
 
     def __len__(self):
+        """Return the number of nodes."""
         return self.n_nodes
 
     def __iter__(self):
+        """Provide for iterating through the nodes."""
         for i in range(len(self)):
             yield self[i]
 
@@ -141,12 +163,12 @@ class Nodes:
         return self.__get_node(nodeid=id)
 
     def node_by_index(self, index):
-        """Array of node coordinates ordered by index"""
+        """Array of node coordinates ordered by index."""
         return self.__get_node(nodeindex=index)
 
     def __get_node(self, nodeindex=None, nodeid=None):
         """
-        Retrieves the node by its ID or index.
+        Retrieve the node by its ID or index.
 
         Parameters
         ----------
@@ -191,7 +213,7 @@ class Nodes:
         >>> meshed_region = model.metadata.meshed_region
         >>> nodes = model.metadata.meshed_region.nodes
         >>> nodes.scoping.ids[2]
-        3
+        np.int32(3)
 
         """
         return self._mesh._get_scoping(loc=locations.nodal)
@@ -245,7 +267,7 @@ class Nodes:
     @property
     def nodal_connectivity_field(self):
         """
-        Nodal connectivity field
+        Nodal connectivity field.
 
         Field containing each node ID for the elements indices
         connected to the given node.
@@ -279,6 +301,7 @@ class Nodes:
 
     @property
     def mapping_id_to_index(self):
+        """Property storing mapping between IDs and indices of the entity."""
         if self._mapping_id_to_index is None:
             self._mapping_id_to_index = self._build_mapping_id_to_index()
         return self._mapping_id_to_index
