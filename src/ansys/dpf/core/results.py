@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -21,12 +21,11 @@
 # SOFTWARE.
 
 """
-.. _ref_results:
-
-Results
+Results.
 
 This module contains the Results and Result classes that are created by the model
-to easily access results in result files."""
+to easily access results in result files.
+"""
 
 import functools
 
@@ -51,8 +50,8 @@ class Results:
         With this wrapper, time and mesh scopings can easily
         be customized.
 
-        Examples
-        --------
+    Examples
+    --------
         Create a displacement result from the model and choose its time and mesh scopings.
 
         >>> from ansys.dpf import core as dpf
@@ -66,8 +65,8 @@ class Results:
         With this wrapper, time and mesh scopings, location, and more
         can easily be customized.
 
-        Examples
-        --------
+    Examples
+    --------
         Create a stress result from the model and choose its time and mesh scopings.
 
         >>> from ansys.dpf import core as dpf
@@ -80,8 +79,8 @@ class Results:
         Result provider helper wrapping all types of providers available for a
         given result file.
 
-        Examples
-        --------
+    Examples
+    --------
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
         >>> model = dpf.Model(examples.find_electric_therm())
@@ -124,6 +123,21 @@ class Results:
         self._str = str(result_info)
 
     def __result__(self, result_type, *args):
+        """
+        Create and return a result of the specified type.
+
+        Parameters
+        ----------
+        result_type : any
+            The type of the result to generate.
+        *args : tuple
+            Additional arguments required for creating the result.
+
+        Returns
+        -------
+        Result
+            An instance of the `Result` class, providing access to the specified result.
+        """
         return Result(self._connector, self._mesh_by_default, result_type, self._server)
 
     def _connect_operators(self, result_info):
@@ -164,13 +178,42 @@ class Results:
                 raise e
 
     def __str__(self):
+        """
+        Return a string representation of the `Results` object.
+
+        Returns
+        -------
+        str
+            String description of the `Results` object.
+        """
         return self._str
 
     def __iter__(self):
+        """
+        Iterate over the available results.
+
+        Yields
+        ------
+        Result
+            Each result dynamically added to the `Results` object.
+        """
         for key in self._op_map_rev:
             yield self.__class__.__dict__[key].fget()
 
     def __getitem__(self, val):
+        """
+        Access a result by index.
+
+        Parameters
+        ----------
+        val : int
+            The index of the result to retrieve.
+
+        Returns
+        -------
+        Result
+            The result at the specified index.
+        """
         n = 0
         for key in self._op_map_rev:
             if n == val:
@@ -178,6 +221,14 @@ class Results:
             n += 1
 
     def __len__(self):
+        """
+        Return the number of results available.
+
+        Returns
+        -------
+        int
+            The number of results.
+        """
         return len(self._op_map_rev)
 
 
@@ -251,6 +302,7 @@ class Result:
             raise e
 
     def __call__(self, time_scoping=None, mesh_scoping=None):
+        """Provide for Result instances to be callable for operator retrieval."""
         op = self._operator
         if time_scoping:
             op.inputs.time_scoping(time_scoping)
@@ -268,8 +320,7 @@ class Result:
         return op
 
     def eval(self):
-        """Evaluate the result provider with the previously specified
-        inputs and return the result fields container.
+        """Evaluate the result provider with the previously specified inputs and return the result fields container.
 
         Returns
         -------
@@ -367,7 +418,7 @@ class Result:
         return self
 
     def on_time_scoping(self, time_scoping):
-        """Sets the time scoping to a given one.
+        """Set the time scoping to a given one.
 
         Parameters
         ----------
@@ -428,7 +479,6 @@ class Result:
         40
 
         """
-
         self._mesh_scoping = self._connector.named_selection(named_selection)
         return self
 
@@ -461,6 +511,7 @@ class Result:
     @property
     def split_by_shape(self):
         """Set the mesh scoping to a scopings container where each scoping is an element shape.
+
         The evaluated fields container will have one field on 'solid',
         one on 'shell', one on 'beam' and one on 'unknown_shape'.
 
@@ -584,6 +635,7 @@ class Result:
 
 class CommonResults(Results):
     """Default implementation of the class:'Results'.
+
     Is created by default by the 'Model' with the method:'results'.
     Create default result instances for common result types.
 
@@ -606,8 +658,8 @@ class CommonResults(Results):
 
     @property
     def displacement(self):
-        """Result provider helper wrapping the regular
-        displacement operator.
+        """Result provider helper wrapping the regular displacement operator.
+
         With this wrapper, time and mesh scopings can easily
         be customized.
 
@@ -633,6 +685,7 @@ class CommonResults(Results):
     def elastic_strain(self):
         """
         Result provider helper wrapping the regular elastic strain operator.
+
         With this wrapper, time and mesh scopings can easily
         be customized.
 
@@ -658,6 +711,7 @@ class CommonResults(Results):
     def stress(self):
         """
         Result provider helper wrapping the regular stress operator.
+
         With this wrapper, time and mesh scopings can easily
         be customized.
 
@@ -682,8 +736,8 @@ class CommonResults(Results):
     @property
     def structural_temperature(self):
         """
-        Result provider helper wrapping the regular structural_temperature
-        operator.
+        Result provider helper wrapping the regular structural_temperature operator.
+
         With this wrapper, time and mesh scopings can easily
         be customized.
 
@@ -708,8 +762,8 @@ class CommonResults(Results):
     @property
     def temperature(self):
         """
-        Result provider helper wrapping the regular temperature
-        operator.
+        Result provider helper wrapping the regular temperature operator.
+
         With this wrapper, time and mesh scopings can easily
         be customized.
 
@@ -733,8 +787,8 @@ class CommonResults(Results):
     @property
     def electric_potential(self):
         """
-        Result provider helper wrapping the regular electric_potential
-        operator.
+        Result provider helper wrapping the regular electric_potential operator.
+
         With this wrapper, time and mesh scopings can easily
         be customized.
 

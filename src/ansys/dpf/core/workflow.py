@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -20,12 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""
-.. _ref_workflow_apis:
-
-Workflow
-
-"""
+"""Workflow."""
 
 import logging
 import os
@@ -132,8 +127,7 @@ class Workflow:
     @property
     @version_requires("3.0")
     def progress_bar(self) -> bool:
-        """With this property, the user can choose to print a progress bar when
-        the workflow's output is requested, default is True"""
+        """Enable or disable progress bar display when requesting workflow output (default: True)."""
         return self._progress_bar
 
     @progress_bar.setter
@@ -445,6 +439,7 @@ class Workflow:
 
     def get_output(self, pin_name, output_type):
         """Retrieve the output of the operator on the pin number.
+
         A progress bar following the workflow state is printed.
 
         Parameters
@@ -634,7 +629,7 @@ class Workflow:
 
     @staticmethod
     def get_recorded_workflow(id, server=None):
-        """Retrieve a workflow registered (with workflow.record())
+        """Retrieve a workflow registered (with workflow.record()).
 
         Parameters
         ----------
@@ -642,7 +637,7 @@ class Workflow:
             ID given by the method "record".
 
         Returns
-        ----------
+        -------
         workflow : core.Workflow()
             workflow registered in dpf's registry (server side)
 
@@ -672,7 +667,7 @@ class Workflow:
         """Dictionary with the operator names and the exposed input and output names.
 
         Returns
-        ----------
+        -------
         info : dictionarry str->list str
             Dictionary with ``"operator_names"``, ``"input_names"``, and ``"output_names"`` key.
         """
@@ -687,7 +682,7 @@ class Workflow:
         """List of the names of operators added in the workflow.
 
         Returns
-        ----------
+        -------
         names : list str
         """
         num = self._api.work_flow_number_of_operators(self)
@@ -701,7 +696,7 @@ class Workflow:
         """List of the input names exposed in the workflow with set_input_name.
 
         Returns
-        ----------
+        -------
         names : list str
         """
         num = self._api.work_flow_number_of_input(self)
@@ -715,7 +710,7 @@ class Workflow:
         """List of the output names exposed in the workflow with set_output_name.
 
         Returns
-        ----------
+        -------
         names : list str
         """
         num = self._api.work_flow_number_of_output(self)
@@ -827,8 +822,9 @@ class Workflow:
 
     @version_requires("3.0")
     def create_on_other_server(self, *args, **kwargs):
-        """Create a new instance of a workflow on another server. The new
-        Workflow has the same operators, exposed inputs and output pins as
+        """Create a new instance of a workflow on another server.
+
+        The new Workflow has the same operators, exposed inputs and output pins as
         this workflow. Connections between operators and between data and
         operators are kept (except for exposed pins).
 
@@ -961,7 +957,7 @@ class Workflow:
         return image_path
 
     def to_graphviz(self, path: Union[os.PathLike, str]):
-        """Saves the workflow to a GraphViz file."""
+        """Save the workflow to a GraphViz file."""
         return self._api.work_flow_export_graphviz(self, str(path))
 
     @version_requires("10.0")
@@ -985,6 +981,17 @@ class Workflow:
         return workflow_topology
 
     def __del__(self):
+        """
+        Clean up resources associated with the instance.
+
+        This method calls the deleter function to release resources. If an exception
+        occurs during deletion, a warning is issued.
+
+        Raises
+        ------
+        Warning
+            If an exception occurs while attempting to delete resources.
+        """
         try:
             if hasattr(self, "_internal_obj"):
                 if self._internal_obj is not None and self._internal_obj != "None":

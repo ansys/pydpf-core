@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -21,7 +21,7 @@
 # SOFTWARE.
 
 """
-ExposedPin
+ExposedPin.
 
 This module contains the `ExposedPin` and `ExposedPinsCollection` classes,
 which represent individual exposed pins and a collection of exposed pins in a workflow,

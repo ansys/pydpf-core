@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -21,10 +21,9 @@
 # SOFTWARE.
 
 """
-.. _ref_any:
+Any.
 
-Any
-
+Module containing the wrapper class representing all supported DPF datatypes.
 """
 
 import traceback
@@ -216,7 +215,6 @@ class Any:
         any : Any
             Wrapped any type.
         """
-
         inner_server = server if server is not None else obj._server
 
         if not inner_server.meet_version("7.0"):
@@ -295,7 +293,6 @@ class Any:
         type
             Original object instance
         """
-
         self._internal_type = output_type if output_type is not None else self._internal_type
 
         type_tuple = self._type_to_new_from_get_as_method(self._internal_type)
@@ -316,6 +313,7 @@ class Any:
         raise TypeError(f"{output_type} is not currently supported by the Any class.")
 
     def __del__(self):
+        """Delete the entry."""
         try:
             if hasattr(self, "_deleter_func"):
                 obj = self._deleter_func[1](self)

@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -20,10 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""
-Cyclic Support
-
-"""
+"""Cyclic Support."""
 
 import traceback
 import warnings
@@ -98,7 +95,7 @@ class CyclicSupport:
 
     @property
     def num_stages(self) -> int:
-        """Number of cyclic stages in the model
+        """Number of cyclic stages in the model.
 
         Examples
         --------
@@ -117,7 +114,7 @@ class CyclicSupport:
         return self._api.cyclic_support_get_num_stages(self)
 
     def num_sectors(self, stage_num=0) -> int:
-        """Number of sectors to expand on 360 degrees.
+        """Determine number of sectors to expand on 360 degrees.
 
         Parameters
         ----------
@@ -144,8 +141,7 @@ class CyclicSupport:
         return self._api.cyclic_support_get_num_sectors(self, stage_num)
 
     def base_nodes_scoping(self, stage_num=0) -> Scoping:
-        """Retrieve a nodal scoping containing node IDs in the
-        base sector of the given stage.
+        """Retrieve a nodal scoping containing node IDs in the base sector of the given stage.
 
         Parameters
         ----------
@@ -170,8 +166,7 @@ class CyclicSupport:
         return Scoping(scoping=base_node_scoping, server=self._server)
 
     def base_elements_scoping(self, stage_num=0) -> Scoping:
-        """Retrieve an elemental scoping containing elements IDs in the
-        base sector of the given stage.
+        """Retrieve an elemental scoping containing elements IDs in the base sector of the given stage.
 
         Parameters
         ----------
@@ -196,8 +191,7 @@ class CyclicSupport:
         return Scoping(scoping=base_element_scoping, server=self._server)
 
     def sectors_set_for_expansion(self, stage_num=0) -> Scoping:
-        """Retrieve a sector's scoping of the already expanded results
-        and mesh or the list of sectors that will be expanded by default.
+        """Retrieve a sector's scoping from expanded results and mesh, or list of sectors for default expansion.
 
         A sector's scoping starts from 0, with the maximum equal to num_sectors-1.
 
@@ -226,8 +220,7 @@ class CyclicSupport:
         return Scoping(scoping=sectors_for_expansion, server=self._server)
 
     def expand_node_id(self, node_id, sectors=None, stage_num=0):
-        """Retrieve the node IDs corresponding to the base sector node ID given in the input
-        after expansion.
+        """Retrieve the node IDs corresponding to the base sector node ID given in the input after expansion.
 
         Parameters
         ----------
@@ -266,8 +259,7 @@ class CyclicSupport:
         return Scoping(scoping=expanded_ids, server=self._server)
 
     def expand_element_id(self, element_id, sectors=None, stage_num=0):
-        """Retrieves the element IDs corresponding to the base sector element ID given in the input
-        after expansion.
+        """Retrieve the element IDs corresponding to the base sector element ID given in the input after expansion.
 
         Parameters
         ----------
@@ -317,13 +309,11 @@ class CyclicSupport:
         >>> cs = cyc_support.cs()
 
         """
-
         cs = self._api.cyclic_support_get_cs(self)
         return field.Field(field=cs, server=self._server)
 
     def low_high_map(self, stage_num: int = 0) -> property_field.PropertyField:
-        """Retrieve a property field containing node map from low to high
-        base sector of the given stage.
+        """Retrieve a property field containing node map from low to high base sector of the given stage.
 
         Parameters
         ----------
@@ -348,8 +338,7 @@ class CyclicSupport:
         return property_field.PropertyField(property_field=low_high_map, server=self._server)
 
     def high_low_map(self, stage_num: int = 0) -> property_field.PropertyField:
-        """Retrieve a property field containing node map from high to low
-        base sector of the given stage.
+        """Retrieve a property field containing node map from high to low base sector of the given stage.
 
         Parameters
         ----------
@@ -374,6 +363,7 @@ class CyclicSupport:
         return property_field.PropertyField(property_field=high_low_map, server=self._server)
 
     def __del__(self):
+        """Delete this instance."""
         try:
             self._deleter_func[0](self._deleter_func[1](self))
         except:

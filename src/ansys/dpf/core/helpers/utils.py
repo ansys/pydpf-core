@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -19,6 +19,7 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
+"""Provides functions for argument filtering and text indenting."""
 
 import inspect
 import sys
@@ -26,7 +27,7 @@ from typing import Any, Optional
 
 
 def _sort_supported_kwargs(bound_method, **kwargs):
-    """Filters the kwargs for a given method."""
+    """Filter the kwargs for a given method."""
     # Ignore warnings unless specified
     if not sys.warnoptions:
         import warnings
@@ -52,7 +53,7 @@ def _sort_supported_kwargs(bound_method, **kwargs):
 
 
 def indent(text: Any, subsequent_indent: str = "", initial_indent: Optional[str] = None) -> str:
-    """Indents each line of a given text.
+    r"""Indent each line of a given text.
 
     Parameters
     ----------
