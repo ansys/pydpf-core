@@ -40,20 +40,19 @@ These tutorials demonstrate some different approaches to visualise the data in p
 
        This tutorial explains how to plot data on its supporting deformed mesh.
 
-    .. grid-item-card:: Plotting data on a path
-       :link: ref_plotting_data_on_specific_path
+    .. grid-item-card:: Plot data on custom path
+       :link: ref_plotting_data_on_custom_path
        :link-type: ref
        :text-align: center
 
-       This tutorial shows how to plot data on a specific path of a
-       mesh
+       This tutorial shows how to plot data on custom path
 
-    .. grid-item-card:: Plotting data on geometry elements
-       :link: ref_plotting_data_on_geometry_elements
+    .. grid-item-card:: Plot data on custom geometry
+       :link: ref_plot_data_on_custom_geometry
        :link-type: ref
        :text-align: center
 
-       This tutorial shows how to plot data on geometry elements
+       This tutorial shows how to plot data on custom geometric shapes
 
     .. grid-item-card:: Plotting a graph
        :link: ref_plotting_a_graph

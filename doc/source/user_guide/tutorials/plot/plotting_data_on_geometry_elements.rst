@@ -1,7 +1,7 @@
-.. _ref_plotting_data_on_geometry_elements:
+.. _ref_plot_data_on_custom_geometry:
 
 ==============================
-Plot data on geometry elements
+Plot data on custom geometry
 ==============================
 
 .. |add_mesh| replace:: :func:`add_mesh()<ansys.dpf.core.plotter.DpfPlotter.add_mesh>`

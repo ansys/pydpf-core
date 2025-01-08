@@ -1,7 +1,7 @@
-.. _ref_plotting_data_on_specific_path:
+.. _ref_plotting_data_on_custom_path:
 
 ================================
-Plotting data on a specific path
+Plot data on custom path
 ================================
 
 .. |add_mesh| replace:: :func:`add_mesh()<ansys.dpf.core.plotter.DpfPlotter.add_mesh>`
