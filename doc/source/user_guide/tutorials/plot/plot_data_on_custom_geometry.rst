@@ -241,8 +241,9 @@ Map the results to the geometry elements
 ----------------------------------------
 
 Map the displacement results to the geometry elements using the |mapping| operator. This operator
-retrieves the results of the entities located in the given coordinates. If the given coordinates don't
-match with any entity coordinate, the operator interpolates the results inside elements with shape functions.
+retrieves the results of the entities located in the given coordinates (The path coordinates have to be in
+the space domain of the mesh). If the given coordinates don't match with any entity coordinate, the operator
+interpolates the results inside elements with shape functions.
 
 The displacement results are defined in a *`nodal`* location. Thus, each node has a coordinate in the
 mesh and a corresponding displacement data.
