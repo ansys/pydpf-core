@@ -285,7 +285,10 @@ class _PyVistaPlotter:
             ind, mask = mesh_location.map_scoping(field.scoping)
             overall_data[ind] = field.data[mask]
         else:
-            overall_data[:] = field.data[0]
+            if len(field.data) > 0:
+                overall_data[:] = field.data[0]
+            else:
+                overall_data[:] = np.nan
         # Filter kwargs for add_mesh
         kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.add_mesh, **kwargs)
         # Have to remove any active scalar field from the pre-existing grid object,
