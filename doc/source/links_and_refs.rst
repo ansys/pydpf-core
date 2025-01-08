@@ -27,6 +27,7 @@
 .. _jupyter: https://jupyter.org/
 .. _numpy_org: https://numpy.org/
 .. _numpy_docs: https://numpy.org/doc/stable/
+.. _jupyter_sphinx_ext: https://jupyter-sphinx.readthedocs.io/en/latest/
 
 .. Other libraries repos
 .. _pyvista_github : https://github.com/pyvista/pyvista
