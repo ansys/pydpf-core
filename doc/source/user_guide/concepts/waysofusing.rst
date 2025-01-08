@@ -5,7 +5,7 @@ DPF capabilities and scripting languages
 ========================================
 DPF is a framework that provides data computation capabilities. 
 
-DPF as a Framework
+DPF as a framework
 ------------------
 
 DPF application: kernel and operator libraries
@@ -40,7 +40,7 @@ These capabilities can be accessed through client APIs, as shown here:
 
 Note that **IronPython and CPython APIs are different**, each has specific syntax.
 
-The **list of available operators when using DPF is independent from the language or API which is used**, it only depends
+The **list of available operators when using DPF is independent from the language or API which is used**. It depends only
 on how the DPF application has been initialized.
 
 Most of the DPF capabilities can be accessed using the operators. For more information about the existing operators, see :ref:`ref_dpf_operators_reference`.
