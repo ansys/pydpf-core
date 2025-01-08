@@ -9,7 +9,7 @@ Terminology
 
 DPF is based on a **client-server** architecture. 
 
-A DPF Server is a set of files that enables DPF capabilities.
+A DPF Server is a set of files that enable DPF capabilities.
 
 PyDPF-Core is a Python client API communicating with a DPF Server, either
 directly **in the same process** or through the network using **gRPC**.

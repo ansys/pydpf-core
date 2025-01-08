@@ -1,23 +1,22 @@
 .. _ref_user_guide_fields_container:
 
 ===========================
-Fields container and fields
+Field containers and fields
 ===========================
 While DPF uses operators to load and operate on data, it uses field containers
-and fields to store and return data. In other words, operators are like verbs,
-acting on the data, while field containers and fields are like nouns, objects
-that hold data.  
+and fields to store and return data. Operators are like verbs, acting on the data, 
+while field containers and fields are like nouns, objects that hold data.  
 
-Access a fields container or field
+Access a field container or field
 -----------------------------------
 The outputs from operators can be either a 
 :class:`ansys.dpf.core.fields_container.FieldsContainer` or 
 :class:`ansys.dpf.core.field.Field` class.
 
-A fields container is the DPF equivalent of a list of fields. It holds a
+A field container is the DPF equivalent of a list of fields. It holds a
 vector of fields.
 
-This example uses the ``elastic_strain`` operator to access a fields container:
+This example uses the ``elastic_strain`` operator to access a field container:
 
 .. code-block::
 
@@ -59,11 +58,11 @@ This example uses the ``elastic_strain`` operator to access a fields container:
       - field 19 {time:  20} with ElementalNodal location, 6 components and 40 entities.
 
 
-Access fields within a fields container
----------------------------------------
-Many methods are available for accessing a field in a fields
+Access fields within a field container
+--------------------------------------
+Many methods are available for accessing a field in a field
 container. The preceding results contain a transient
-result, which means that the fields container has one field
+result, which means that the field container has one field
 by time set. 
 
 Access the field:
@@ -127,7 +126,7 @@ To access fields for more complex requests, you can use the
      ...
 
       
-Here is a more real-word example:
+Here is a more real-world example:
 
 .. code-block::
 
@@ -190,7 +189,7 @@ Here is a more real-word example:
  
 
 The following example references the available time frequency support to determine which
-time complex IDs are available in the fields container:
+time complex IDs are available in the field container:
 
 .. code-block::
 
@@ -409,7 +408,7 @@ Note that this array is a genuine, local, numpy array (overloaded by the DPFArra
 
     <class 'ansys.dpf.gate.dpf_array.DPFArray'>
 
-If you need to access an individual node or element, request it
+To access an individual node or element, request it
 using either the ``get_entity_data()`` or ``get_entity_data_by_id()`` method:
 
 Get the data from the first element in the field.
@@ -480,7 +479,7 @@ get the index of element 29 in the field with:
 
     29
     
-Here the data for the element with ID 10 is made of 8 symmetrical tensors.
+Here the data for the element with ID 10 is made of eight symmetrical tensors.
 The elastic strain has one tensor value by node by element (ElementalNodal location)
     
 To get the displacement on node 3, you would use:

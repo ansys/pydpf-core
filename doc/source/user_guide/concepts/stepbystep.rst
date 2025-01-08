@@ -155,8 +155,7 @@ Use operators
 You use operators to import, export, transform, and analyze data.
 
 An operator is analogous to an integrated circuit in electronics. It
-has a set of input and output pins. Pins provide for passing data to
-and from operators.
+has a set of input and output pins. Pins pass data to and from operators.
 
 An operator takes input from a field, field container, or scoping using
 an input pin. Based on what it is designed to do, the operator computes
@@ -165,8 +164,7 @@ an output that it passes to a field or field container using an output pin.
 .. image:: ../../images/drawings/circuit.png
 
 Comprehensive information on operators is available in :ref:`ref_dpf_operators_reference`.
-In the **Available Operators** area for either the **Entry** or **Premium** operators,
-you can either type a keyword in the **Search** option
+In the **Available Operators** area, you can either type a keyword in the **Search** option
 or browse by operator categories:
    
 .. image:: ../../images/drawings/help-operators.png

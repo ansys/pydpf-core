@@ -147,7 +147,7 @@ Because several other examples use the ``Model`` class, this example uses the
      result key: rst and path: path\...\ansys\dpf\core\examples\model_with_ns.rst
   Secondary files:
 
-This code shows how to connect the data source to the displacement operator:
+This code demonstrates how to connect the data source to the displacement operator:
 
 .. code-block:: python
 
@@ -306,11 +306,11 @@ DPF provides three main types of operators:
 Operators for importing or reading data
 ***************************************
 
-These operators provide for reading data from solver files or from standard file types
+These operators read data from solver files or from standard file types
 such as .RST (MAPDL), .D3Plot (LS DYNA), .CAS.H5/.DAT.H5 (Fluent) or .CAS.CFF/.DAT.CFF (CFX).
 
-To read these files, different readers are implemented as plugins.
-Plugins can be loaded on demand in any DPF scripting language with "load library" methods. 
+To read these files, different readers are implemented as plug-ins.
+Plug-ins can be loaded on demand in any DPF scripting language with "load library" methods. 
 File readers can be used generically thanks to the DPF result providers, which means that the same operators can be used for any file types.
 
 This example shows how to read a displacement and a stress for any file:
@@ -334,8 +334,8 @@ Operators for transforming data
 *******************************
 
 A field is the main data container in DPF. Most of the operators that transform
-data take a field or a fields container as input and return a transformed 
-field or fields container as output. You can perform analytic, averaging, 
+data take a field or a field container as input and return a transformed 
+field or field container as output. You can perform analytic, averaging, 
 or filtering operations on simulation data.
 
 For example, after creation of a field, you can use scaling and filtering 
