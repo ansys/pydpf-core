@@ -135,4 +135,4 @@ released versions.
     :maxdepth: 2
     :hidden:
 
-    guide_lines_tutorials.rst
+    guidelines_tutorials.rst
