@@ -10,6 +10,7 @@ You can improve the PyDPF-Core documentation by adding a:
 - :ref:`New tutorial<ref_guidelines_add_new_tutorial>`.
 
 To do so, you must follow the guidelines presented here.
+
 You also need to understand the structure of the ``doc`` directory on the PyDPF-Core library:
 
 .. code-block::
@@ -70,38 +71,10 @@ The section folder must contain an ``index.rst`` file with:
 - cards with links to the tutorials, titles, descriptions and applicable solvers,
 - a ``Toctree`` for the tutorials in the section to appear in the navigation pane.
 
-.. code-block::
+.. literalinclude:: tutorial_section_template.rst
 
-    .. _ref_tutorial_new_section_template:
-
-    =============
-    Section title
-    =============
-
-    These tutorials demonstrate how to ...
-
-    .. grid:: 1 1 3 3
-        :gutter: 2
-        :padding: 2
-        :margin: 2
-
-        .. grid-item-card:: Tutorial title
-           :link: ref
-           :link-type: ref
-           :text-align: center
-
-           This tutorial ...
-
-           +++
-           :bdg-mapdl:`MAPDL` :bdg-lsdyna:`LS-DYNA` :bdg-fluent:`FLUENT` :bdg-cfx:`CFX`
-
-    .. toctree::
-        :maxdepth: 2
-        :hidden:
-
-        tutorial_file.rst
-
-You must reference the new section ``index.rst`` file in the main user guide page toctree for it to appear in the sidebar of the user guide main page. You can find this toctree
+You must reference the new section ``index.rst`` file in the main user guide page toctree
+for it to appear in the sidebar of the user guide main page. You can find this toctree
 at the end of the ``doc/source/user_guide/index.rst`` file.
 For example:
 
@@ -112,19 +85,9 @@ For example:
         :hidden:
         :caption: Tutorials
 
-        tutorials/data_structures/index.rst
-        tutorials/language_and_usage/index.rst
-        tutorials/post_processing_basics/index.rst
-        tutorials/import_data/index.rst
-        tutorials/mesh/index.rst
-        tutorials/transform_data/index.rst
-        tutorials/export_data/index.rst
-        tutorials/plot/index.rst
-        tutorials/animate/index.rst
-        tutorials/enriching_dpf_capabilities/index.rst
-        tutorials/distributed_files/index.rst
-        tutorials/dpf_server/index.rst
-        tutorials/licensing/index.rst
+        tutorials/section_x/index.rst
+        tutorials/section_y/index.rst
+        tutorials/section_z/index.rst
         tutorials/new_section/index.rst
 
 .. _ref_guidelines_add_new_tutorial:
@@ -133,13 +96,15 @@ For example:
 Adding a new tutorial
 =====================
 
-:download:`Download the tutorial card template<tutorial_card_template.rst>` :download:`Download the tutorial structure template<tutorial_structure_template.rst>`
+:download:`Download the tutorial card template<tutorial_card_template.rst>`
+:download:`Download the tutorial structure template<tutorial_structure_template.rst>`
 :download:`Download the tutorial content formating template<tutorial_content_template.rst>`
 
 Location and naming
 -------------------
 
-New tutorials correspond to new ``.rst`` files in tutorial section folders, for example: ``doc/source/user_guide/tutorials/section/new_tutorial.rst``
+New tutorials correspond to new ``.rst`` files in tutorial section folders,
+for example: ``doc/source/user_guide/tutorials/section/new_tutorial.rst``
 
 .. code-block::
 
@@ -151,7 +116,8 @@ New tutorials correspond to new ``.rst`` files in tutorial section folders, for 
     │   │    │        ├── section
     │   │    │             ├── new_tutorial.rst
 
-You must also add a new card in the ``index.rst`` file for the tutorial section as well as modify its toctree. The card must include:
+You must also add a new card in the ``index.rst`` file for the tutorial section as well as modify
+its toctree. The card must include:
 
 - a tutorial title,
 - a short description,
@@ -174,13 +140,13 @@ Structure
 
 The tutorial is divided in two main parts:
 
-- :ref:`Preamble<ref_guidelines_tutorial_header>`;
-- :ref:`Content<ref_guidelines_tutorial_content>`.
+- :ref:`Preamble<ref_guidelines_tutorial_header>`
+- :ref:`Content<ref_guidelines_tutorial_content>`
 
 .. _ref_guidelines_tutorial_header:
 
 Header
-^^^^^^^^
+^^^^^^
 
 This first part is essential for clarity, organization and usability of the tutorial. It establishes the tutorials
 purpose, making it easy to understand what is going to be explained and reference it within the other parts of
@@ -195,29 +161,11 @@ The header must have :
 - an introduction,
 - download buttons for Python script and Jupyter notebook versions of the tutorial.
 
-.. code-block::
-
-    .. _ref_tutorial_template:
-
-
-    ==============
-    Tutorial title
-    ==============
-
-
-    .. |Examples| replace:: :class:`ansys.dpf.core.examples`
-
-
-    This sentence resumes the goal of the tutorial
-
-
-    Introduction to the tutorial
-
-
-    :jupyter-download-script:`Download tutorial as Python script<file_name>` :jupyter-download-notebook:`Download tutorial as Jupyter notebook<file_name>`
+.. literalinclude:: tutorial_structure_template.rst
+    :end-before: First Step
 
 The main PyDPF-Core library references are available already defined in the ``doc/source/links_and_refs.rst`` file.
-To employ them, you use the ``include`` directive and use the substitution text as usual:
+To employ them, you just need to use the substitution text as usual:
 
 .. code-block::
 
@@ -227,12 +175,11 @@ To employ them, you use the ``include`` directive and use the substitution text 
     ==============
     Tutorial title
     ==============
-
-    .. include:: ../../../links_and_refs.rst
 
     Here some text. Here we use the |MeshedRegion| substitution text
 
-For more information on those references check the :download:`links and references file<../../links_and_refs.rst>`.
+For more information about the predefined references, see the
+:download:`links and references file <../../links_and_refs.rst>`.
 
 .. _ref_guidelines_tutorial_content:
 
@@ -337,9 +284,10 @@ Code blocks
 ~~~~~~~~~~~
 
 The tutorials must have code blocks where you show how you actually implement the code.
-The guidelines for the code snippets are:
+In addition to the guidelines presented here, you must also follow the `Coding style <dev_guide_coding_style_>`_
+guide to ensure that all code looks the same across the project.
 
-- Use the `jupyter sphinx<jupyter_sphinx_ext>`_ extension to show code blocks. Its executes embedded code in
+- Use the `jupyter sphinx <jupyter_sphinx_ext_>`_ extension to show code blocks. It executes embedded code in
   a Jupyter kernel and embeds outputs of that code in the document:
 
 .. grid:: 2
@@ -384,6 +332,7 @@ The guidelines for the code snippets are:
 
             # Define the model
             model = dpf.Model()
+
             # Get the stress results
             stress_fc = model.results.stress.eval()
 
@@ -460,8 +409,151 @@ The guidelines for the code snippets are:
             # Get the stress results
             stress_fc = model.results.stress(time_steps).eval()
 
+- When quoting APIs in the code comments you must always use their scripting name. Mind the use of
+  a capital letter to name the DPF objects
+
+.. grid:: 2
+    :gutter: 2
+    :padding: 2
+    :margin: 2
+
+    .. grid-item-card::
+
+        :octicon:`check-circle-fill` **Correct**
+
+        .. code-block::
+
+            # Define the DataSources object
+            ds = dpf.DataSources()
+
+    .. grid-item-card::
+
+        :octicon:`x-circle-fill` **Incorrect**
+
+        .. code-block::
+
+            # Define the data sources object
+            ds = dpf.DataSources()
+
+        .. code-block::
+
+            # Define the Data Sources object
+            ds = dpf.DataSources()
+
+- Use blank lines between code lines for better clarity.
+
+.. grid:: 2
+    :gutter: 2
+    :padding: 2
+    :margin: 2
+
+    .. grid-item-card::
+
+        :octicon:`check-circle-fill` **Correct**
+
+        .. code-block::
+
+            # Define the result file path
+            result_file_path_1 = '/tmp/file.rst'
+
+            # Define the DataSources object
+            ds_1 = dpf.DataSources(result_path=result_file_path_1)
+
+            # Create a Model
+            model_1 = dpf.Model(data_sources=ds_1)
+
+            # Get the stress results
+            stress_fc = model_1.results.stress.eval()
+
+    .. grid-item-card::
+
+        :octicon:`x-circle-fill` **Incorrect**
+
+        .. code-block::
+
+            # Define the result file path
+            result_file_path_1 = '/tmp/file.rst'
+            # Define the DataSources object
+            ds_1 = dpf.DataSources(result_path=result_file_path_1)
+            # Create a Model
+            model_1 = dpf.Model(data_sources=ds_1)
+            # Get the stress results
+            stress_fc = model_1.results.stress.eval()
+
+- Avoid naming the variables with the same name as an argument or an API. You can get inspirations from the
+  tutorials available at :ref:`ref_tutorials`.
+
+.. grid:: 2
+    :gutter: 2
+    :padding: 2
+    :margin: 2
+
+    .. grid-item-card::
+
+        :octicon:`check-circle-fill` **Correct**
+
+        .. code-block::
+
+            # Define the result file path
+            result_file_path = '/tmp/file.rst'
+
+            # Define the DataSources object
+            ds = dpf.DataSources(result_path=result_file_path)
+
+            # Create a Model
+            my_model = dpf.Model(data_sources=ds)
+
+    .. grid-item-card::
+
+        :octicon:`x-circle-fill` **Incorrect**
+
+        .. code-block::
+
+            # Define the result file path
+            result_path = '/tmp/file.rst'
+
+            # Define the DataSources object
+            data_sources = dpf.DataSources(result_path=result_path)
+
+            # Create a Model
+            model = dpf.Model(data_sources=data_sources)
+
 Text formating
 ~~~~~~~~~~~~~~
+
+In addition to the guidelines presented here, you must also follow the `Documentation style <dev_guide_doc_style_>`_
+guide to ensure that all the tutorials looks the same across the project.
+
+- When quoting APIs in the text you must always use a reference to redirect it to the API reference
+
+.. grid:: 2
+    :gutter: 2
+    :padding: 2
+    :margin: 2
+
+    .. grid-item-card::
+
+        :octicon:`check-circle-fill` **Correct**
+
+        .. code-block::
+
+           Here we use the |MeshedRegion| substitution text
+
+        **Rendered text:**
+
+        Here some text. Here we use the |MeshedRegion| substitution text
+
+    .. grid-item-card::
+
+        :octicon:`x-circle-fill` **Incorrect**
+
+        .. code-block::
+
+            Here we don't use the MeshedRegion substitution text
+
+        **Rendered text:**
+
+        Here some text. Here we don't use the MeshedRegion substitution text
 
 - When enumerating something you must use bullet lists:
 
@@ -478,9 +570,9 @@ Text formating
 
             This operator accepts as arguments:
 
-            - A Result;
-            - An Operator;
-            - A FieldsContainer.
+            - A Result
+            - An Operator
+            - A FieldsContainer
 
     .. grid-item-card::
 
@@ -524,5 +616,77 @@ Text formating
             - Create a Model;
             - Get the MeshedRegion.
 
-- If you need to put code blocks between the list items first you enumerate and reference them in a list. Then, you
+- If you need to develop explanations for each item of the list, first, you enumerate and reference them. Then, you
   explore each of them separately in sub headings.
+
+.. grid:: 2
+    :gutter: 2
+    :padding: 2
+    :margin: 2
+
+    .. grid-item-card::
+
+        :octicon:`check-circle-fill` **Correct**
+
+        .. code-block::
+
+            Section title
+            -------------
+
+            Here, we explain the two following items:
+
+            - :ref:`Item 1 <ref_tutorial_name_item_1>`
+            - :ref:`Content<ref_tutorial_name_item_2>`
+
+
+            .. _ref_tutorial_name_item_1:
+
+            Item 1
+            ^^^^^^
+
+            Development text and code blocks 1 ...
+
+
+            .. _ref_tutorial_name_item_2:
+
+            Item 2
+            ^^^^^^
+
+            Development text and code blocks 2 ...
+
+    .. grid-item-card::
+
+        :octicon:`x-circle-fill` **Incorrect**
+
+        .. code-block::
+
+            Section title
+            -------------
+
+            Here, we explain the two following items:
+
+            - Item 1
+            - Item 2
+
+            Item 1
+            ^^^^^^
+            Development text and code blocks 1 ...
+
+            Item 2
+            ^^^^^^
+            Development text and code blocks 2 ...
+
+
+        .. code-block::
+
+            Section title
+            -------------
+
+            Here, we explain the two following items:
+
+            - Item 1
+            Development text and code blocks 1 ...
+
+
+            - Item 2
+            Development text and code blocks 2 ...
