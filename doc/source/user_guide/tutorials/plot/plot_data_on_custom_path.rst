@@ -105,7 +105,8 @@ Create the path based on a set of coordinates. Here, define the path by choosing
     # Distance between each opint coordinate
     delta = 0.001
 
-The coordinates must be stored in a |Field|.
+The coordinates must be stored in a |Field|. For more information about how to create a Field, see
+the :ref:`ref_tutorials_data_structures` and :ref:`ref_tutorials_load_custom_data` tutorials.
 
 .. jupyter-execute::
 
@@ -127,9 +128,9 @@ Map the results to the path
 ---------------------------
 
 Map the stress data to the path using the |mapping| operator. The |mapping| operator retrieves the results
-of the entities located in the given coordinates. If the given coordinates don't match with any entity coordinate,
-operator interpolates the results inside elements with shape functions.
-
+of the entities located in the given coordinates (those coordinates have to be in the space domain of the mesh).
+If the given coordinates don't match with any entity coordinate, operator interpolates the results inside elements
+with shape functions.
 
 .. jupyter-execute::
 
