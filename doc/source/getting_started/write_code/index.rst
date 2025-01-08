@@ -14,26 +14,10 @@ on your local machine as per the following steps:
 
 .. _ref_write_code_install:
 
-Install the repository
-----------------------
+Install the repository and the DPF server
+-----------------------------------------
 
-Install the PyDPF-Core repository. The standard package installer for Python is `pip <pip_pypi_page_>`_.
-
-To use PyDPF-Core with Ansys 2022 R2 or later, install the latest version
-with this command:
-
-.. code::
-
-   pip install ansys-dpf-core
-
-PyDPF-Core plotting capabilities require to have `PyVista <pyvista_org_>`_ installed.
-To install PyDPF-Core with its optional plotting functionalities, use:
-
-.. code::
-
-   pip install ansys-dpf-core[plotting]
-
-For more information about installing PyDPF-Core, see :ref:`installation`.
+Install the PyDPF-Core repository by following the steps in :ref:`installation` and :ref:`ref_dpf_server`.
 
 .. _ref_write_code_clone:
 
