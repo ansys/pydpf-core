@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -509,7 +509,7 @@ def test_subresults_operator(cyclic_lin_rst, cyclic_ds):
 #     model = dpf.core.Model(cyclic_lin_rst)
 #     model.add_file_path(cyclic_ds)
 
-#     # TODO: this should be available from model's available_results
+#     # TODO: this should be available from model's available_results  # noqa: TD003
 #     op = model.operator("mapdl::rst::U")
 #     op.inputs.connect(model._data_sources)
 #     op.inputs.bool_ignore_cyclic.connect(True)
@@ -1496,3 +1496,9 @@ def test_operator_id(server_type):
         assert op.id not in ids
 
         ids.add(op.id)
+
+
+def test_operator_find_outputs_corresponding_pins_any(server_type):
+    f1 = ops.utility.forward()
+    f2 = ops.utility.forward()
+    f2.inputs.any.connect(f1.outputs.any)
