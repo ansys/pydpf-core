@@ -14,6 +14,9 @@ This tutorial explains how to plot a graph with data in DPF.
 The current |DpfPlotter| module don't have method to plotting graphs. Thus, you need to import the
 `matplotlib <matplotlib_github_>`_ library to plot a graph with PyDPF-Core.
 
+:jupyter-download-script:`Download tutorial as Python script<plot_a_graph>`
+:jupyter-download-notebook:`Download tutorial as Jupyter notebook<plot_a_graph>`
+
 There is a large range of graphs you can plot. Here, we plot:
 
 - :ref:`Results data vs. space position graph <ref_graph_result_space>`

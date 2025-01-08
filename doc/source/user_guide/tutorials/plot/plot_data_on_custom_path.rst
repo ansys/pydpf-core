@@ -15,8 +15,8 @@ Plot data on custom path
 
 This tutorial shows how to get a result mapped over a specific path and how to plot it.
 
-:jupyter-download-script:`Download tutorial as Python script<plotting_data_on_specific_path>`
-:jupyter-download-notebook:`Download tutorial as Jupyter notebook<plotting_data_on_specific_path>`
+:jupyter-download-script:`Download tutorial as Python script<plot_data_on_custom_path>`
+:jupyter-download-notebook:`Download tutorial as Jupyter notebook<plot_data_on_custom_path>`
 
 Define the data
 ---------------

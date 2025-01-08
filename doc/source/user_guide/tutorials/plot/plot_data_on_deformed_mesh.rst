@@ -13,8 +13,8 @@ Plot data on deformed mesh
 
 This tutorial shows how to plot data on the deformed mesh.
 
-:jupyter-download-script:`Download tutorial as Python script<plotting_data_on_deformed_mesh>`
-:jupyter-download-notebook:`Download tutorial as Jupyter notebook<plotting_data_on_deformed_mesh>`
+:jupyter-download-script:`Download tutorial as Python script<plot_data_on_deformed_mesh>`
+:jupyter-download-notebook:`Download tutorial as Jupyter notebook<plot_data_on_deformed_mesh>`
 
 Define the data
 ---------------

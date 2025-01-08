@@ -15,8 +15,8 @@ Plot data on a mesh
 
 This tutorial shows how to plot data on its supporting mesh by different approaches.
 
-:jupyter-download-script:`Download tutorial as Python script<plotting_data_on_the_mesh>`
-:jupyter-download-notebook:`Download tutorial as Jupyter notebook<plotting_data_on_the_mesh>`
+:jupyter-download-script:`Download tutorial as Python script<plot_data_on_a_mesh>`
+:jupyter-download-notebook:`Download tutorial as Jupyter notebook<plot_data_on_a_mesh>`
 
 Define the data
 ---------------

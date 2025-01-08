@@ -23,6 +23,9 @@ This tutorials shows how to get a result mapped over different geometric objects
 - Line
 - Plane
 
+:jupyter-download-script:`Download tutorial as Python script<plot_data_on_custom_geometry>`
+:jupyter-download-notebook:`Download tutorial as Jupyter notebook<plot_data_on_custom_geometry>`
+
 Define the data
 ---------------
 
