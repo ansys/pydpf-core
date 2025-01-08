@@ -9,7 +9,7 @@ Plot a mesh
 .. |MeshesContainer.plot| replace:: :func:`MeshesContainer.plot()<ansys.dpf.core.meshes_container.MeshesContainer.plot>`
 .. |add_mesh| replace:: :func:`add_mesh()<ansys.dpf.core.plotter.DpfPlotter.add_mesh>`
 .. |show_figure| replace:: :func:`show_figure()<ansys.dpf.core.plotter.DpfPlotter.show_figure>`
-.. |meshes_provider| replace:: :class:`meshes_provider<ansys.dpf.core.operators.mesh.meshes_provider.meshes_provider>`
+.. |split_mesh| replace:: :class:`split_mesh <ansys.dpf.core.operators.mesh.split_mesh.split_mesh>`
 
 This tutorial shows different plotting commands to plot the bare mesh
 of a model.
@@ -44,7 +44,7 @@ For more information see the :ref:`ref_tutorials_get_mesh_from_result_file` tuto
     from ansys.dpf.core import operators as ops
 
     # Define the result file path
-    result_file_path_1 = examples.download_pontoon()
+    result_file_path_1 = examples.find_multishells_rst()
 
     # Define the DataSources
     ds_1 = dpf.DataSources(result_path=result_file_path_1)
@@ -55,17 +55,21 @@ For more information see the :ref:`ref_tutorials_get_mesh_from_result_file` tuto
     # Extract the mesh
     meshed_region_1 = model_1.metadata.meshed_region
 
-There are different ways to obtain a |MeshesContainer|. You can, for example, extract a |MeshedRegion| in split parts
+There are different ways to obtain a |MeshesContainer|. You can, for example, split a |MeshedRegion| extracted
 from the result file.
 
-Here, we get a |MeshesContainer| by extracting the |MeshedRegion| split by material
-using the |meshes_provider| operator. This operator gives a |MeshesContainer| with the |MeshedRegion| split parts
-with a *'mat'* label.
+Here, we get a |MeshesContainer| by splitting the |MeshedRegion| by material
+using the |split_mesh| operator. This operator gives a |MeshesContainer| with the |MeshedRegion| split parts
+with a *'mat'* label. For more information about how to get a split mesh, see the :ref:`ref_tutorials_split_mesh`
+and :ref:`ref_tutorials_extract_mesh_in_split_parts` tutorials.
 
 .. jupyter-execute::
 
     # Extract the mesh in split parts
-    meshes = ops.mesh.mesh_provider(data_sources=ds_1).eval()
+    meshes = ops.mesh.split_mesh(mesh=meshed_region_1, property="mat").eval()
+
+Plot the mesh
+-------------
 
 To plot the mesh you can:
 
@@ -76,7 +80,7 @@ To plot the mesh you can:
 .. _method_plot_mesh_1:
 
 Plot the |Model|
-----------------
+^^^^^^^^^^^^^^^^
 
 To plot the mesh with this approach, you have to use the |Model.plot| method [1]_.
 This method plots the bare mesh associated to the result file by default.
@@ -89,7 +93,7 @@ This method plots the bare mesh associated to the result file by default.
 .. _method_plot_mesh_2:
 
 Plot the |MeshedRegion|
------------------------
+^^^^^^^^^^^^^^^^^^^^^^^
 
 To plot the |MeshedRegion| you can use:
 
@@ -132,42 +136,18 @@ the :ref:`method_plot_mesh_1` approach.
 .. _method_plot_mesh_3:
 
 Plot the |MeshesContainer|
---------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-To plot the deformed |MeshesContainer| you can use:
+To plot the |MeshesContainer| you must use the |MeshesContainer.plot| method [1]_ with
+the |MeshesContainer| object we defined.
 
-- The |MeshesContainer.plot| method;
-- The |DpfPlotter| object.
+This method plots all the |MeshedRegion| stored in the |MeshesContainer| and their color code respects the
+property used to split the mesh.
 
-.. tab-set::
+.. jupyter-execute::
 
-    .. tab-item:: MeshesContainer.plot() method
-
-        To plot the mesh with this approach, use the |MeshesContainer.plot| method [1]_ with
-        the |MeshesContainer| object we defined.
-
-        .. jupyter-execute::
-
-            # Plot the deformed mesh
-            meshes.plot()
-
-    .. tab-item:: DpfPlotter object
-
-        To plot the mesh with this approach, start by defining the |DpfPlotter| object [2]_.
-        Then, add the |MeshesContainer| to it, using the |add_mesh| method.
-
-        To display the figure built by the plotter object use the |show_figure| method.
-
-        .. jupyter-execute::
-
-            # Declare the DpfPlotter object
-            plotter_2 = dpf.plotter.DpfPlotter()
-
-            # Add the MeshedRegion to the DpfPlotter object
-            plotter_2.add_mesh(meshed_region=meshes, )
-
-            # Display the plot
-            plotter_2.show_figure()
+    # Plot the mesh
+    meshes.plot()
 
 You can also plot results data on its supporting mesh. For more information, see :ref:`ref_plot_data_on_a_mesh`
 
@@ -175,11 +155,11 @@ You can also plot results data on its supporting mesh. For more information, see
 
 .. [1] The default plotter settings display the mesh with edges, lighting and axis widget enabled.
 Nevertheless, as we use the `PyVista <pyVista_github_>`_ library to create the plot, you can use additional
-PyVista arguments (available at :func:`pyvista.plot`), such as:
+PyVista arguments (available at `pyvista.plot() <pyvista_doc_plot_method_>`_), such as:
 
 .. jupyter-execute::
 
-    model_1.plot(title= "Pontoon mesh",
+    model_1.plot(title= "Mesh",
                   text= "Plot mesh method 1",  # Adds the given text at the bottom of the plot
                   off_screen=True,
                   screenshot="mesh_plot_1.png",  # Save a screenshot to file with the given name
@@ -192,9 +172,9 @@ PyVista arguments (available at :func:`pyvista.plot`), such as:
 .. [2] The |DpfPlotter| object is currently a PyVista based object.
 That means that PyVista must be installed, and that it supports kwargs as
 parameter (the argument must be supported by the installed PyVista version).
-More information about the available arguments are available at :class:`pyvista.Plotter`.
+More information about the available arguments are available at `pyvista.plot() <pyvista_doc_plot_method_>`_.
 
 The default |DpfPlotter| object settings displays the mesh with edges and lighting
 enabled. Nevertheless, as we use the `PyVista <pyVista_github_>`_
 library to create the plot, you can use additional PyVista arguments for the |DpfPlotter|
-object and |add_mesh| method (available at :func:`pyvista.plot`).
+object and |add_mesh| method (available at `pyvista.plot() <pyvista_doc_plot_method_>`_).
