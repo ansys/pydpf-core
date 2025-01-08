@@ -1,22 +1,20 @@
-.. _ref_plotting_data_on_the_mesh:
+.. _ref_plot_data_on_deformed_mesh:
 
-=======================
-Plotting data on a mesh
-=======================
+==========================
+Plot data on deformed mesh
+==========================
 
+.. |to_nodal_fc| replace:: :class:`to_nodal_fc() <ansys.dpf.core.operators.averaging.to_nodal_fc.to_nodal_fc>`
+.. |select_component| replace:: :func:`select_component() <ansys.dpf.core.fields_container.FieldsContainer.select_component>`
+.. |split_mesh| replace:: :class:`split_mesh <ansys.dpf.core.operators.mesh.split_mesh.split_mesh>`
+.. |stress_op| replace:: :class:`stress <ansys.dpf.core.operators.result.stress.stress>`
 .. |Field.plot| replace:: :func:`Field.plot()<ansys.dpf.core.field.Field.plot>`
 .. |MeshedRegion.plot| replace:: :func:`MeshedRegion.plot()<ansys.dpf.core.meshed_region.MeshedRegion.plot>`
-.. |add_mesh| replace:: :func:`add_mesh()<ansys.dpf.core.plotter.DpfPlotter.add_mesh>`
-.. |add_field| replace:: :func:`add_field()<ansys.dpf.core.plotter.DpfPlotter.add_field>`
-.. |show_figure| replace:: :func:`show_figure()<ansys.dpf.core.plotter.DpfPlotter.show_figure>`
-.. |to_nodal_fc| replace:: :class:`to_nodal_fc <ansys.dpf.core.operators.averaging.to_nodal_fc.to_nodal_fc>`
-.. |select_component| replace:: :func:`select_component() <ansys.dpf.core.fields_container.FieldsContainer.select_component>`
-.. |stress_op| replace:: :class:`stress <ansys.dpf.core.operators.result.stress.stress>`
 
-This tutorial shows how to plot data on its supporting mesh by different approaches.
+This tutorial shows how to plot data on the deformed mesh.
 
-:jupyter-download-script:`Download tutorial as Python script<plotting_data_on_the_mesh>`
-:jupyter-download-notebook:`Download tutorial as Jupyter notebook<plotting_data_on_the_mesh>`
+:jupyter-download-script:`Download tutorial as Python script<plotting_data_on_deformed_mesh>`
+:jupyter-download-notebook:`Download tutorial as Jupyter notebook<plotting_data_on_deformed_mesh>`
 
 Define the data
 ---------------
@@ -31,6 +29,8 @@ the :ref:`ref_tutorials_import_data` tutorials section.
     from ansys.dpf import core as dpf
     # Import the examples module
     from ansys.dpf.core import examples
+    # Import the operators module
+    from ansys.dpf.core import operators as ops
 
     # Define the result file path
     result_file_path_1 = examples.find_multishells_rst()
@@ -48,16 +48,13 @@ Printing the model displays the available results.
     # Print the model
     print(model_1)
 
-Extract the data to be plotted. For more information about extracting results from a result file,
-see the :ref:`ref_tutorials_import_data` tutorials section.
+Extract the data to be plotted on the deformed mesh.
 
 .. note::
 
      Only the *'elemental'* or *'nodal'* locations are supported for  plotting.
 
-Here, we chose to plot the XX stress tensor component data.
-
-First, get the stress results using the |stress_op| operator.
+Here, we chose to plot the XX stress tensor component data. Thud, get the stress results using the |stress_op| operator.
 
 .. jupyter-execute::
 
@@ -93,62 +90,106 @@ the index the component as an input. The stress tensor has 6 components per elem
 Define the mesh
 ---------------
 
-The mesh object in DPF is a |MeshedRegion|. Thus, to plot the data on a mesh you need a |MeshedRegion| to be based on.
-Here, we get a |MeshedRegion| from a result file. For more information about how to extract a |MeshedRegion|
-from a result file, see the :ref:`ref_tutorials_get_mesh_from_result_file` tutorial.
+The mesh object in DPF is a |MeshedRegion|. You can store multiple |MeshedRegion| in a DPF collection
+called |MeshesContainer|. Thus, the geometry can be defined by a |MeshedRegion| or by a |MeshesContainer|.
+
+First, extract the |MeshedRegion| from the |Model|.
 
 .. jupyter-execute::
 
-    # Define the meshed region
+    # Define the MeshedRegion
     meshed_region_1 = model_1.metadata.meshed_region
 
-Plot the data on the mesh
--------------------------
+There are different ways to obtain a |MeshesContainer|. You can, for example, split a given |MeshedRegion| in different
+parts.
 
-There are two different approaches to plot the data on the mesh:
+Here, we get a |MeshesContainer| by splitting the |MeshedRegion| by material using the |split_mesh| operator.
+This operator gives a |MeshesContainer| with the |MeshedRegion| split parts with a *'mat'* label.
 
-- :ref:`Plot the data on its mesh support <ref_method_plot_data_mesh_1>`
-- :ref:`Plot the mesh and add the data on top of that <ref_method_plot_data_mesh_2>`
+.. jupyter-execute::
 
-.. hint::
+    # Define the MeshesContainer
+    meshes_1 = ops.mesh.split_mesh(mesh=meshed_region_1).eval()
 
-    :ref:`ref_method_plot_data_mesh_2` is faster than :ref:`ref_method_plot_data_mesh_1`
+Define the deforming actor
+--------------------------
 
+The geometry can be deformed by:
 
-.. _ref_method_plot_data_mesh_1:
+- A |Result| object;
+- An |Operator|;
+- A |Field|;
+- A |FieldsContainer|.
+
+Here, we deform the mesh using an |Operator|.
+
+To deform the mesh we need values with a homogeneous unit dimension, a distance unit.
+Thus, to deform the mesh we need the displacement results.
+
+First, extract the displacements results |Operator| from the |Model|. For more information about extracting results
+from a result file, see the :ref:`ref_tutorials_import_data` tutorials section.
+
+.. jupyter-execute::
+
+    # Get the displacement results Operator
+    disp_op = model_1.results.displacement()
+
+Plot data on the deformed geometry
+----------------------------------
+
+Plotting the data in DPF means plotting the |Field| that contains the data.
+Get a |Field| from the |FieldsContainer| containing the stress results .
+
+.. jupyter-execute::
+
+    # Define the field
+    field_stress_XX = fc_stress_XX[0]
+
+There are two different approaches to plot the data on the deformed mesh:
+
+- :ref:`Plot the data on its mesh support <ref_method_plot_data_deformed_mesh_1>`;
+- :ref:`Plot the mesh and add the stress data on top of that <ref_method_plot_data_deformed_mesh_2>`.
+
+For all approaches, we use a scale factor so the deformed mesh fits properly on the plot.
+
+.. jupyter-execute::
+
+    # Define the scale factor
+    scl_fct = 0.001
+
+.. _ref_method_plot_data_deformed_mesh_1:
 
 Plot the data on its mesh support
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Plotting the data in DPF means plotting the |Field| that contains the data.
-To plot a |Field|, you can use:
+To plot a |Field| on the deformed mesh, you can use:
 
 - The |Field.plot| method;
 - The |DpfPlotter| object.
 
-.. hint::
-
-    Using the |DpfPlotter| class is faster than using the |Field.plot| method
+Plot the stress results |Field| on the deformed geometry using the |Field.plot| method. Use the
+*'deform_by'* argument and give the displacement results.
 
 .. tab-set::
 
     .. tab-item:: Field.plot() method
 
-        First, get a |Field| from the stress results |FieldsContainer|. Then, use the |Field.plot| method [1]_.
-        You have to use the *'meshed_region'* argument and give the Field supporting mesh.
+        To plot the stress results in the deformed mesh, use the |Field.plot| method [1]_.
+        Additionally, you must use the *'meshed_region'* and *'deform_by'* arguments and
+        give the mesh and displacement results.
 
         .. jupyter-execute::
 
-            # Define the field
-            field_stress_XX = fc_stress_XX[0]
-
-            # Plot the data on the mesh
-            field_stress_XX.plot(meshed_region=meshed_region_1)
+            # Plot the stress results on the deformed mesh
+            field_stress_XX.plot(meshed_region=meshed_region_1,
+                                 deform_by=disp_op,
+                                 scale_factor=scl_fct)
 
     .. tab-item:: DpfPlotter object
 
         First define the |DpfPlotter| object [2]_. Then, add the |Field| to it using the |add_field| method.
-        You must use the *'meshed_region'* argument and give the Field supporting mesh.
+        You must use the *'meshed_region'* and *'deform_by'* arguments and give the mesh and displacement results.
 
         To display the figure built by the plotter object, use the |show_figure| method.
 
@@ -158,17 +199,20 @@ To plot a |Field|, you can use:
             plotter_1 = dpf.plotter.DpfPlotter()
 
             # Add the Field and MeshedRegion to the DpfPlotter object
-            plotter_1.add_field(field=field_stress_XX, meshed_region=meshed_region_1)
+            plotter_1.add_field(field=field_stress_XX,
+                                meshed_region=meshed_region_1,
+                                deform_by=disp_op,
+                                scale_factor=scl_fct)
 
             # Display the plot
             plotter_1.show_figure()
 
-.. _ref_method_plot_data_mesh_2:
+.. _ref_method_plot_data_deformed_mesh_2:
 
-Plot the mesh and add the data on top of that
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Plot the mesh and add the stress data on top of that
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-To plot the |MeshedRegion| and add the data on top of that you can use:
+To plot the deformed |MeshedRegion| and add the data on top of that you can use:
 
 - The |MeshedRegion.plot| method;
 - The |DpfPlotter| object.
@@ -184,13 +228,16 @@ To plot the |MeshedRegion| and add the data on top of that you can use:
         For this approach, you can use data stored in a |Field| or in a |FieldsContainer|.
         In this tutorial, we use data stored in a |Field|.
 
-        Use the |MeshedRegion.plot| method [1]_. You must use the *'field_or_fields_container'* argument and
-        give the |Field| or the |FieldsContainer| containing the stress results data.
+        To plot the stress results in the deformed mesh, use the |MeshedRegion.plot| method [1]_.
+        You must use the *'field_or_fields_container'* and *'deform_by'* arguments and give the
+        stress and the displacement results.
 
         .. jupyter-execute::
 
-            # Plot the mesh and add the stress results
-            meshed_region_1.plot(field_or_fields_container=field_stress_XX)
+            # Plot the deformed mesh and add the stress results
+            meshed_region_1.plot(field_or_fields_container=field_stress_XX,
+                                 deform_by=disp_op,
+                                 scale_factor=scl_fct)
 
     .. tab-item:: DpfPlotter object
 
@@ -213,6 +260,7 @@ To plot the |MeshedRegion| and add the data on top of that you can use:
             # Display the plot
             plotter_2.show_figure()
 
+
 .. rubric:: Footnotes
 
 .. [1] The default plotter settings display the mesh with edges, lighting and axis widget enabled.
@@ -228,3 +276,6 @@ The default |DpfPlotter| object settings displays the mesh with edges and lighti
 enabled. Nevertheless, as we use the `PyVista <pyVista_github_>`_
 library to create the plot, you can use additional PyVista arguments for the |DpfPlotter|
 object and |add_field| method (available at `pyvista.plot() <pyvista_doc_plot_method_>`_`).
+
+
+

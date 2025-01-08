@@ -11,37 +11,37 @@ These tutorials demonstrate some different approaches to visualise the data in p
     :padding: 2
     :margin: 2
 
-    .. grid-item-card:: Plotting meshes
-       :link: ref_tutorials_plotting_meshes
+    .. grid-item-card:: Plot a mesh
+       :link: ref_tutorials_plot_mesh
        :link-type: ref
        :text-align: center
 
        This tutorial shows different plotting commands to plot a bare mesh
 
-    .. grid-item-card:: Plotting deformed meshes
-       :link: ref_tutorials_plotting_deformed_meshes
+    .. grid-item-card:: Plot a deformed mesh
+       :link: ref_tutorials_plot_deformed_mesh
        :link-type: ref
        :text-align: center
 
        This tutorial shows different plotting commands to plot a bare deformed mesh
 
-    .. grid-item-card:: Plotting data on the mesh
-       :link: ref_plotting_data_on_the_mesh
+    .. grid-item-card:: Plot data on a mesh
+       :link: ref_plot_data_on_a_mesh
        :link-type: ref
        :text-align: center
 
        This tutorial explains how to plot data on its supporting mesh by
        different approaches.
 
-    .. grid-item-card:: Plotting data on the deformed mesh
-       :link: ref_plotting_data_on_deformed_mesh
+    .. grid-item-card:: Plot data on a deformed mesh
+       :link: ref_plot_data_on_deformed_mesh
        :link-type: ref
        :text-align: center
 
        This tutorial explains how to plot data on its supporting deformed mesh.
 
     .. grid-item-card:: Plot data on custom path
-       :link: ref_plotting_data_on_custom_path
+       :link: ref_plot_data_on_custom_path
        :link-type: ref
        :text-align: center
 
@@ -54,8 +54,8 @@ These tutorials demonstrate some different approaches to visualise the data in p
 
        This tutorial shows how to plot data on custom geometric shapes
 
-    .. grid-item-card:: Plotting a graph
-       :link: ref_plotting_a_graph
+    .. grid-item-card:: Plot a graph
+       :link: ref_plot_a_graph
        :link-type: ref
        :text-align: center
 
@@ -65,10 +65,10 @@ These tutorials demonstrate some different approaches to visualise the data in p
     :maxdepth: 2
     :hidden:
 
-    plotting_meshes.rst
-    plotting_deformed_meshes.rst
-    plotting_data_on_the_mesh.rst
-    plotting_data_on_deformed_mesh.rst
-    plotting_data_on_specific_path.rst
-    plotting_data_on_geometry_elements.rst
-    plotting_a_graph.rst
+    plot_mesh.rst
+    plot_deformed_mesh.rst
+    plot_data_on_a_mesh.rst
+    plot_data_on_deformed_mesh.rst
+    plot_data_on_custom_path.rst
+    plot_data_on_custom_geometry.rst
+    plot_a_graph.rst

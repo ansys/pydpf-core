@@ -1,8 +1,8 @@
-.. _ref_tutorials_plotting_meshes:
+.. _ref_tutorials_plot_mesh:
 
-===============
-Plotting meshes
-===============
+===========
+Plot a mesh
+===========
 
 .. |Model.plot| replace:: :func:`Model.plot()<ansys.dpf.core.model.Model.plot>`
 .. |MeshedRegion.plot| replace:: :func:`MeshedRegion.plot() <ansys.dpf.core.meshed_region.MeshedRegion.plot>`
@@ -169,7 +169,7 @@ To plot the deformed |MeshesContainer| you can use:
             # Display the plot
             plotter_2.show_figure()
 
-You can also plot results data on its supporting mesh. For more information, see :ref:`ref_plotting_data_on_the_mesh`
+You can also plot results data on its supporting mesh. For more information, see :ref:`ref_plot_data_on_a_mesh`
 
 .. rubric:: Footnotes
 

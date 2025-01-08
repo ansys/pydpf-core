@@ -1,8 +1,8 @@
 .. _ref_plot_data_on_custom_geometry:
 
-==============================
+============================
 Plot data on custom geometry
-==============================
+============================
 
 .. |add_mesh| replace:: :func:`add_mesh()<ansys.dpf.core.plotter.DpfPlotter.add_mesh>`
 .. |add_field| replace:: :func:`add_field()<ansys.dpf.core.plotter.DpfPlotter.add_field>`
@@ -301,7 +301,7 @@ Plot the results on the geometry elements
 -----------------------------------------
 
 To plot the results on the path, we use the |DpfPlotter| object. For more information about
-plotting data on a mesh, see the :ref:`ref_plotting_data_on_the_mesh` tutorial.
+plotting data on a mesh, see the :ref:`ref_plot_data_on_a_mesh` tutorial.
 
 First, define the |DpfPlotter| object [2]_. Next, add the |MeshedRegion|
 and the |Field| containing the results using the |add_mesh| and |add_field| methods respectively.

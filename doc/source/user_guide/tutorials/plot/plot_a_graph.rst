@@ -1,8 +1,8 @@
-.. _ref_plotting_a_graph:
+.. _ref_plot_a_graph:
 
-========================
-Plotting data on a graph
-========================
+====================
+Plot data on a graph
+====================
 
 .. |Line| replace:: :class:`Line <ansys.dpf.core.geometry.Line>`
 .. |mapping| replace:: :class:`mapping <ansys.dpf.core.operators.mapping.on_coordinates.on_coordinates>`
@@ -25,7 +25,7 @@ Results data vs. space position
 -------------------------------
 
 In this tutorial, we plot the norm of the displacement results on a |Line|. For more information about how
-this object can be defined, see the :ref:`ref_plotting_data_on_specific_placements` tutorial.
+this object can be defined, see the :ref:`ref_plot_data_on_custom_geometry` tutorial.
 
 Define the results data
 ^^^^^^^^^^^^^^^^^^^^^^^
