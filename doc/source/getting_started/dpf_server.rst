@@ -98,10 +98,10 @@ to use thanks to its ``ansys_path`` argument.
 PyDPF otherwise follows the logic below to automatically detect and choose which locally installed
 version of DPF Server to run:
 
-- it uses the ``ANSYS_DPF_PATH`` environment variable in priority if set and targeting a valid path to a DPF Server installation.
-- it then checks the currently active Python environment for any installed standalone DPF Server, and uses the latest version available.
-- it then checks for ``AWP_ROOTXXX`` environment variables, which are set by the **Ansys installer**, and uses the latest version available.
-- it then raises an error if all of the steps above failed to return a valid path to a DPF Server installation.
+- It uses the ``ANSYS_DPF_PATH`` environment variable in priority if set and targeting a valid path to a DPF Server installation.
+- It then checks the currently active Python environment for any installed standalone DPF Server, and uses the latest version available.
+- It then checks for ``AWP_ROOTXXX`` environment variables, which are set by the **Ansys installer**, and uses the latest version available.
+- It then raises an error if all of the preceding steps failed to return a valid path to a DPF Server installation.
 
 Run DPF Server in a Docker container
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

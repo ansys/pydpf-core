@@ -65,7 +65,7 @@ then use the following command from within this local directory:
 Note that PyDPF-Core wheelhouses do not include the optional plotting dependencies.
 To use the plotting capabilities, also download the wheels corresponding to your platform and Python interpreter version
 for `PyVista <https://pypi.org/project/pyvista/#files>`_ and 
-`matplotlib <https://pypi.org/project/matplotlib/#files>`_, then place them in the same previous local directory and run the command above.
+`matplotlib <https://pypi.org/project/matplotlib/#files>`_. Then, place them in the same local directory and run the preceding command.
 
 
 Install in development mode
