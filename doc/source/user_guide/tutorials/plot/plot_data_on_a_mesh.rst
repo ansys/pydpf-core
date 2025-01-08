@@ -135,7 +135,8 @@ To plot a |Field|, you can use:
     .. tab-item:: Field.plot() method
 
         First, get a |Field| from the stress results |FieldsContainer|. Then, use the |Field.plot| method [1]_.
-        You have to use the *'meshed_region'* argument and give the Field supporting mesh.
+        If the |Field| does not have a predefined mesh support, you must use the *'meshed_region'* argument and
+        give the |Field| supporting mesh.
 
         .. jupyter-execute::
 
@@ -148,7 +149,8 @@ To plot a |Field|, you can use:
     .. tab-item:: DpfPlotter object
 
         First define the |DpfPlotter| object [2]_. Then, add the |Field| to it using the |add_field| method.
-        You must use the *'meshed_region'* argument and give the Field supporting mesh.
+        If the |Field| does not have a predefined mesh support, you must use the *'meshed_region'* argument
+        and give the |Field| supporting mesh.
 
         To display the figure built by the plotter object, use the |show_figure| method.
 
