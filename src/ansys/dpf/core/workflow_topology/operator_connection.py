@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -21,7 +21,7 @@
 # SOFTWARE.
 
 """
-OperatorConnection
+OperatorConnection.
 
 This module contains the `OperatorConnection` and `OperatorConnectionsCollection`
 classes, which represent individual connections between operators and a

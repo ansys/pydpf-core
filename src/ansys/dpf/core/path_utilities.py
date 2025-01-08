@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -21,7 +21,7 @@
 # SOFTWARE.
 
 """
-path_utilities
+path_utilities.
 
 Offer tools similar to os.path but taking the os of the
 server into account to create path.
@@ -35,8 +35,8 @@ from pathlib import Path
 
 
 def join(*args, **kwargs):
-    """Join two strings to form a path, following the server
-    architecture.
+    """Join two strings to form a path, following the server architecture.
+
     Using a server version below 3.0, please ensure that the
     python client and the server's os are similar before
     using this method.
@@ -89,6 +89,7 @@ def join(*args, **kwargs):
 
 
 def to_server_os(path, server=None):
+    """Return path to the server depending on the os."""
     path = str(path)
     server = server_module.get_or_create_server(server)
     path = server.docker_config.replace_with_mounted_volumes(path)

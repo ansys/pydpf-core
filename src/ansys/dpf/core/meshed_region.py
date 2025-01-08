@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -20,10 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""
-MeshedRegion
-
-"""
+"""MeshedRegion."""
 
 import traceback
 import warnings
@@ -47,7 +44,8 @@ from ansys.dpf.gate import meshed_region_capi, meshed_region_grpcapi
 
 
 def update_grid(func):
-    # Decorate mesh setters to centralize the update logic of pyvista objects.
+    """Decorate mesh setters to centralize the update logic of pyvista objects."""
+
     def wrapper(*args, **kwargs):
         mesh = args[0]
         if mesh._full_grid is not None:
@@ -141,7 +139,8 @@ class MeshedRegion:
         self.as_linear = None
 
     def _get_scoping(self, loc=locations.nodal):
-        """
+        """Return ids of the elements or nodes of the mesh.
+
         Parameters
         ----------
         loc : str or ansys.dpf.core.common.locations, optional
@@ -258,7 +257,7 @@ class MeshedRegion:
     @unit.setter
     def unit(self, value):
         """
-        Unit type.
+        Set unit type.
 
         Parameters
         ----------
@@ -287,12 +286,14 @@ class MeshedRegion:
         return self._api.meshed_region_set_unit(self, unit)
 
     def __del__(self):
+        """Delete this instance of the meshed region."""
         try:
             self._deleter_func[0](self._deleter_func[1](self))
         except:
             warnings.warn(traceback.format_exc())
 
     def __str__(self):
+        """Return string representation of the meshed region."""
         from ansys.dpf.core.core import _description
 
         return _description(self._internal_obj, self._server)
@@ -300,7 +301,7 @@ class MeshedRegion:
     @property
     def available_property_fields(self):
         """
-        Returns a list of available property fields
+        Returns a list of available property fields.
 
         Returns
         -------
@@ -316,8 +317,7 @@ class MeshedRegion:
 
     def property_field(self, property_name):
         """
-        Property field getter. It can be coordinates (field),
-        element types (property field)...
+        Property field getter. It can be coordinates (field), element types (property field)...
 
         Returns
         -------
@@ -328,8 +328,7 @@ class MeshedRegion:
     @version_requires("3.0")
     def set_property_field(self, property_name, value):
         """
-        Property field setter. It can be coordinates (field),
-        element types (property field)...
+        Property field setter. It can be coordinates (field), element types (property field)...
 
         Parameters
         ----------
@@ -481,9 +480,6 @@ class MeshedRegion:
         scale_factor : float, Field, FieldsContainer, optional
             Used to scale the mesh deformation. Defaults to 1.0. Can be a scalar Field
             (or a FieldsContainer with only one Field) to get a spatially non-homogeneous scaling.
-        Returns
-        -------
-
         """
         from ansys.dpf.core.operators.math import add, scale, unit_convert
 
@@ -665,8 +661,7 @@ class MeshedRegion:
 
     def field_of_properties(self, property_name):
         """
-        Returns the ``Field`` or ``PropertyField`` associated
-        to a given property of the mesh
+        Return the ``Field`` or ``PropertyField`` associated to a given property of the mesh.
 
         Parameters
         ----------

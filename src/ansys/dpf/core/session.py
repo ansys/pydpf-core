@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -20,10 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""
-Session
-
-"""
+"""Session."""
 
 import abc
 import ctypes
@@ -51,6 +48,22 @@ LOG.setLevel("DEBUG")
 
 @capi.GenericCallBackType
 def progress_call_back(obj, nature, arg):
+    """
+    Tracking callback function for the progress of operators in a workflow.
+
+    This function updates a progress bar based on the operator's status.
+
+    Returns
+    -------
+    None
+
+    Notes
+    -----
+    If `nature` is 0, the number of started operators is incremented.
+    If `nature` is 1, the number of finished operators is incremented and the progress bar is updated.
+    If `nature` is 9, the counters for started and finished operators are reset.
+    If the progress bar exists, its progress is updated accordingly.
+    """
     try:
         obj = ctypes.cast(obj, ctypes.POINTER(ctypes.py_object))
         handler = obj.contents.value
@@ -72,16 +85,30 @@ def progress_call_back(obj, nature, arg):
 
 
 class EventHandlerBase:
+    """
+    Abstract base class for handling server events related to workflows.
+
+    Subclasses must implement methods for starting event listening and adding
+    operators to workflows.
+    """
+
     @abc.abstractmethod
     def add_operator(self, operator, pin, identifier):
+        """Must be implemented by subclasses."""
         pass
 
     @abc.abstractmethod
     def start_listening(self):
+        """Must be implemented by subclasses."""
         pass
 
 
 class EventHandler(EventHandlerBase):
+    """Handle events for a server session, including operator tracking and workflow progress updates.
+
+    Manages the listening of events and operator addition to workflows during execution.
+    """
+
     def __init__(self, session):
         self._session = weakref.ref(session)
         self.bar = None
@@ -95,6 +122,17 @@ class EventHandler(EventHandlerBase):
         )
 
     def start_listening(self):
+        """Start listening for events from the server session.
+
+        Displays a progress bar if available and initializes operator tracking.
+
+        This method prepares the progress bar and resets counters for started and
+        finished operators.
+
+        Returns
+        -------
+        None
+        """
         if not _progress_bar_is_available():
             print("Progress bar is not available, please install progressbar2")
             return
@@ -103,6 +141,7 @@ class EventHandler(EventHandlerBase):
         self.finished_operators = 0
 
     def add_operator(self, operator, pin, identifier):
+        """Add an operator to a workflow in the server session."""
         from ansys.dpf.core import workflow
 
         wf = workflow.Workflow(server=self._session()._server)
@@ -113,12 +152,27 @@ class EventHandler(EventHandlerBase):
 
 
 class GrpcEventHandler(EventHandlerBase):
+    """Handle events for a server session using gRPC.
+
+    Manages event listening and operator addition to track workflow progress and logging.
+    """
+
     def __init__(self, session):
         self._session = weakref.ref(session)
         self.bar = None
         self._session()._api.add_external_event_handler(self._session(), self, None)
 
     def start_listening(self):
+        """
+        Start listening for events from the server session.
+
+        Displays a progress bar if available, and logs workflow status.
+
+        Returns
+        -------
+        threading.Thread
+            A thread that listens for events in the background.
+        """
         if not _progress_bar_is_available():
             print("Progress bar is not available, please install progressbar2")
             return
@@ -130,11 +184,25 @@ class GrpcEventHandler(EventHandlerBase):
         return thread
 
     def add_operator(self, operator, pin, identifier):
+        """
+        Add an operator to the server session.
+
+        Parameters
+        ----------
+        operator : object
+            The operator to add.
+        pin : object
+            The pin to associate with the operator.
+        identifier : str
+            A unique identifier for the operator.
+        """
         self._session()._api.add_operator(self._session(), identifier, operator, pin)
 
 
 class Session:
-    """A class used to create a user session on the server, it allows to plan events
+    """Create a class to manage server sessions and handle events like progress and logging.
+
+    A class used to create a user session on the server, it allows to plan events
     call backs from the server: progress bar when workflows are running, logging...
     A session is started every time a ``'DpfServer'`` is created.
 
@@ -174,8 +242,8 @@ class Session:
 
     @version_requires("3.0")
     def add_workflow(self, workflow, identifier):
-        """Add a workflow to the session. It allows to follow the workflow's
-        events while it's running.
+        """Add a workflow to the session. It allows to follow the workflow's events while it's running.
+
         This method is automatically called when a workflow's output
         is requested.
 
@@ -191,9 +259,9 @@ class Session:
 
     @version_requires("3.0")
     def add_operator(self, operator, pin, identifier):
-        """Creates a workflow made of the input operator and all its ancestors
-        to the session. It allows to follow the workflow's
-        events while it's running.
+        """Create a workflow made of the input operator and all its ancestors to the session.
+
+        It allows to follow the workflow's events while it's running.
         This method is automatically called when an operator's output
         is requested and the property :func:`ansys.dpf.core.dpf_operator.Operator.progress_bar`
         is set to ``'True'``.
@@ -213,7 +281,8 @@ class Session:
 
     @version_requires("6.1")
     def handle_events_with_file_logger(self, file_path, verbosity_level=1):
-        """Adds an event handler of type ``file_logger`` server side.
+        """Add an event handler of type ``file_logger`` server side.
+
         Events will then be caught and forwarded to the file stream.
 
         Parameters
@@ -229,7 +298,8 @@ class Session:
 
     @version_requires("6.1")
     def start_emitting_rpc_log(self):
-        """Adds a signal emitter to the session. This emitter will catch all incoming rpc calls.
+        """Add a signal emitter to the session. This emitter will catch all incoming rpc calls.
+
         Adding a handler will enable the logging (
         use :func:`Session.handle_events_with_file_logger()`).
 
@@ -240,9 +310,7 @@ class Session:
 
     @version_requires("3.0")
     def listen_to_progress(self):
-        """Starts a progress bar and updates it every time an operator is
-        finished.
-        """
+        """Start a progress bar and updates it every time an operator is finished."""
         if self._handler is not None:
             return self._handler.start_listening()
 
@@ -254,17 +322,29 @@ class Session:
 
     @version_requires("3.0")
     def add_progress_system(self):
-        """Asks the session to start recording progress events.
+        """Ask the session to start recording progress events.
+
         Called when the session is started.
         """
         self._init_handler()
 
     @version_requires("3.0")
     def flush_workflows(self):
-        """This removes the handle on the workflow by the ``session``"""
+        """Remove the handle on the workflow by the ``session``."""
         self._api.flush_workflows(self)
 
     def delete(self):
+        """
+        Clean up resources associated with the instance.
+
+        This method calls the deleter function to release resources. If an exception
+        occurs during deletion, a warning is issued.
+
+        Raises
+        ------
+        Warning
+            If an exception occurs while attempting to delete resources.
+        """
         try:
             if not self._released:
                 self._deleter_func[0](self._deleter_func[1](self))
@@ -273,4 +353,5 @@ class Session:
         self._released = True
 
     def __del__(self):
+        """Clean up resources associated with the instance."""
         self.delete()

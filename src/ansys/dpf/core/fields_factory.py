@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -21,8 +21,7 @@
 # SOFTWARE.
 
 """
-fields_factory
-
+fields_factory.
 
 Contains functions to simplify creating fields.
 """
@@ -279,8 +278,7 @@ def create_vector_field(num_entities, num_comp, location=locations.nodal, server
 def create_overall_field(
     value, nature, num_entities, num_comp, location=locations.overall, server=None
 ):
-    """Create a specific `:class:`ansys.dpf.core.Field` with entities that have an
-    overall location.
+    """Create a specific `:class:`ansys.dpf.core.Field` with entities that have an overall location.
 
     Regarding the nature of the entity contained in the field, we set the same value
     for all elements.

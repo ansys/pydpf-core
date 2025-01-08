@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -23,7 +23,7 @@
 # -*- coding: utf-8 -*-
 
 """
-ScopingsContainer
+ScopingsContainer.
 
 Contains classes associated to the DPF ScopingsContainer
 """
@@ -33,9 +33,7 @@ from ansys.dpf.core.collection_base import CollectionBase
 
 
 class ScopingsContainer(CollectionBase[scoping.Scoping]):
-    entries_type = scoping.Scoping
-    """A class used to represent a ScopingsContainer which contains
-    scopings split on a given space
+    """A class used to represent a ScopingsContainer which contains scopings split on a given space.
 
     Parameters
     ----------
@@ -49,6 +47,8 @@ class ScopingsContainer(CollectionBase[scoping.Scoping]):
         ``None``, attempts to use the global server.
     """
 
+    entries_type = scoping.Scoping
+
     def __init__(self, scopings_container=None, server=None):
         super().__init__(collection=scopings_container, server=server)
         if self._internal_obj is None:
@@ -60,10 +60,11 @@ class ScopingsContainer(CollectionBase[scoping.Scoping]):
                 self._internal_obj = self._api.collection_of_scoping_new()
 
     def create_subtype(self, obj_by_copy):
+        """Create a Scoping subtype."""
         return scoping.Scoping(scoping=obj_by_copy, server=self._server)
 
     def get_scopings(self, label_space):
-        """Returns the scopings at a requested label space
+        """Return the scopings at a requested label space.
 
         Parameters
         ----------
@@ -79,7 +80,8 @@ class ScopingsContainer(CollectionBase[scoping.Scoping]):
         return super()._get_entries(label_space)
 
     def get_scoping(self, label_space_or_index):
-        """Returns the scoping at a requested index or label space.
+        """Return the scoping at a requested index or label space.
+
         Throws if the request returns several scoping
 
         Parameters
@@ -97,7 +99,7 @@ class ScopingsContainer(CollectionBase[scoping.Scoping]):
         return super()._get_entry(label_space_or_index)
 
     def __getitem__(self, key):
-        """Returns the scoping at a requested index
+        """Return the scoping at a requested index.
 
         Parameters
         ----------

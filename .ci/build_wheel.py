@@ -15,6 +15,9 @@ supported_platforms = {
     "win": "win_amd64",
     "manylinux1": "manylinux1_x86_64",
     "manylinux_2_17": "manylinux_2_17_x86_64",
+    "linux": "manylinux_2_17_x86_64",  # Accommodate tox.ini platform substitutions
+    "win32": "win_amd64",
+    "darwin": "any",
 }
 
 argParser = argparse.ArgumentParser()
