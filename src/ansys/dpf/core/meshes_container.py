@@ -27,13 +27,23 @@ MeshesContainer.
 Contains classes associated with the DPF MeshesContainer.
 """
 
-from ansys.dpf.core import meshed_region
+from __future__ import annotations
+
+import os
+from typing import List, Union, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from ansys.dpf.core import FieldsContainer, Operator, TimeFreqSupport
+    from ansys.dpf.core.results import Result
+
+import ansys.dpf.core as dpf
+from ansys.dpf.core.meshed_region import MeshedRegion
 from ansys.dpf.core.collection_base import CollectionBase
 from ansys.dpf.core.plotter import DpfPlotter
 from ansys.dpf.core import errors as dpf_errors
 
 
-class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
+class MeshesContainer(CollectionBase[MeshedRegion]):
     """Represents a meshes container, which contains meshes split on a given space.
 
     Parameters
@@ -48,7 +58,7 @@ class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
         global server.
     """
 
-    entries_type = meshed_region.MeshedRegion
+    entries_type = MeshedRegion
 
     def __init__(self, meshes_container=None, server=None):
         super().__init__(collection=meshes_container, server=server)
@@ -60,7 +70,7 @@ class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
 
     def create_subtype(self, obj_by_copy):
         """Create a meshed region sub type."""
-        return meshed_region.MeshedRegion(mesh=obj_by_copy, server=self._server)
+        return MeshedRegion(mesh=obj_by_copy, server=self._server)
 
     def plot(self, fields_container=None, deform_by=None, scale_factor=1.0, **kwargs):
         """Plot the meshes container with a specific result if fields_container is specified.
@@ -143,6 +153,56 @@ class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
         # Plot the figure
         kwargs.pop("notebook", None)
         return pl.show_figure(**kwargs)
+
+    def animate(
+        self,
+        frequencies: TimeFreqSupport,
+        save_as: Union[str, os.PathLike] = None,
+        deform_by: Union[FieldsContainer, Result, Operator, bool] = None,
+        scale_factor: Union[float, List[float]] = 1.0,
+        **kwargs,
+    ):
+        """Create an animation based on the meshes contained in the MeshesContainer.
+
+        This method creates a movie or a gif based on the time ids of a MeshesContainer.
+        For kwargs see pyvista.Plotter.open_movie/add_text/show.
+
+        Parameters
+        ----------
+        save_as:
+            Path of file to save the animation to. Defaults to None. Can be of any format
+            supported by pyvista.Plotter.write_frame (.gif, .mp4, ...).
+        deform_by:
+            Used to deform the plotted mesh. Must return a FieldsContainer of the same length as
+            self, containing 3D vector Fields of distances.
+            Defaults to None, which takes self if possible. Set as False to force static animation.
+        scale_factor:
+            Scale factor to apply when warping the mesh. Defaults to 1.0. Can be a list to make
+            scaling vary in time.
+        """
+        # Build the list of time values to animate
+        time_scoping = self.get_label_scoping(label="time")
+
+        # For now create empty fields for each frame with the corresponding mesh as support
+        # We can add options later to populate those fields with values or to accept a
+        # FieldsContainer as input (similar to the plot method).
+        fields = {}
+        for time_id in time_scoping.ids:
+            field_i = dpf.Field(location=dpf.locations.overall)
+            field_i.meshed_region = self.get_mesh({"time": time_id})
+            fields[time_id] = field_i
+        fc = dpf.fields_container_factory.over_time_freq_fields_container(
+            fields=fields,
+            time_freq_unit=frequencies.time_frequencies.unit,
+        )
+        fc.time_freq_support = frequencies
+        fc.animate(
+            save_as=save_as,
+            deform_by=deform_by,
+            scale_factor=scale_factor,
+            show_scalar_bar=False,
+            **kwargs,
+        )
 
     def get_meshes(self, label_space):
         """Retrieve the meshes at a label space.
