@@ -110,7 +110,8 @@ class _PyVistaAnimator(_PyVistaPlotter):
                 workflow.connect(input_name, [frame])
 
             else:
-                workflow.connect(input_name, loop_over.data[frame])
+                workflow.connect(input_name, loop_over.scoping.ids[frame])
+                workflow.connect("loop_over_values", loop_over.data)
 
             field = workflow.get_output(output_name, core.types.field)
             deform = None
@@ -126,7 +127,7 @@ class _PyVistaAnimator(_PyVistaPlotter):
             if mode_number is None:
                 str_template = "t={0:{2}} {1}"
                 self._plotter.add_text(
-                    str_template.format(indices[frame], unit, freq_fmt), **kwargs_in
+                    str_template.format(loop_over.data_as_list[frame], unit, freq_fmt), **kwargs_in
                 )
             else:
                 str_template = "frq={0:{2}} {1}"
