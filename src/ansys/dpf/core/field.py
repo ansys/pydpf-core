@@ -97,6 +97,7 @@ class Field(_FieldBase):
 
     Create a field from scratch for the most common dimensionalities
     >>> from ansys.dpf import core as dpf
+    >>> num_entities = 2
     >>> my_field = dpf.Field(num_entities, dpf.natures.scalar, "Nodal")
     >>> my_field = dpf.Field(num_entities, dpf.natures.vector, "ElementalNodal")
     >>> my_field = dpf.Field(num_entities, dpf.natures.symmatrix, "Elemental")
