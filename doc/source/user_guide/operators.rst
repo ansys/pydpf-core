@@ -147,7 +147,7 @@ Because several other examples use the ``Model`` class, this example uses the
      result key: rst and path: path\...\ansys\dpf\core\examples\model_with_ns.rst
   Secondary files:
 
-This code shows how to connect the data source to the displacement operator:
+This code demonstrates how to connect the data source to the displacement operator:
 
 .. code-block:: python
 
@@ -306,7 +306,7 @@ DPF provides three main types of operators:
 Operators for importing or reading data
 ***************************************
 
-These operators provide for reading data from solver files or from standard file types
+These operators read data from solver files or from standard file types
 such as .RST (MAPDL), .D3Plot (LS DYNA), .CAS.H5/.DAT.H5 (Fluent) or .CAS.CFF/.DAT.CFF (CFX).
 
 To read these files, different readers are implemented as plugins.
