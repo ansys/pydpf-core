@@ -334,8 +334,8 @@ Operators for transforming data
 *******************************
 
 A field is the main data container in DPF. Most of the operators that transform
-data take a field or a field container as input and return a transformed 
-field or field container as output. You can perform analytic, averaging, 
+data take a field or a fields container as input and return a transformed 
+field or fields container as output. You can perform analytic, averaging, 
 or filtering operations on simulation data.
 
 For example, after creation of a field, you can use scaling and filtering 

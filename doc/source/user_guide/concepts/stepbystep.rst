@@ -23,7 +23,7 @@ Data can come from two sources:
 - **Manual input in DPF:** You can create fields of data in DPF.
 
 Once you specify data sources or manually create fields in DPF,
-you can create field containers (if applicable) and define scopings to
+you can create fields containers (if applicable) and define scopings to
 identify the subset of data that you want to evaluate.
 
 Specify the data source
@@ -103,27 +103,27 @@ This code shows how to define a mesh scoping:
    my_scoping.location = "Nodal" #optional
    my_scoping.ids = list(range(1,11))
 
-Define field containers
-~~~~~~~~~~~~~~~~~~~~~~~
-A **field container** holds a set of fields. It is used mainly for
+Define fields containers
+~~~~~~~~~~~~~~~~~~~~~~~~
+A **fields container** holds a set of fields. It is used mainly for
 transient, harmonic, modal, or multi-step analyses. This image
 explains its structure:
 
 .. image:: ../../images/drawings/field-con-overview.png
 
-A field container is a vector of fields. Fields are ordered with labels
-and IDs. Most commonly, a field container is scoped on the time label,
+A fields container is a vector of fields. Fields are ordered with labels
+and IDs. Most commonly, a fields container is scoped on the time label,
 and the IDs are the time or frequency sets:
 
 .. image:: ../../images/drawings/field-con.png
 
-You can define a field container in multiple ways:
+You can define a fields container in multiple ways:
 
 - Extract labeled data from a result file.
-- Create a field container from a CSV file.
-- Convert existing fields to a field container.
+- Create a fields container from a CSV file.
+- Convert existing fields to a fields container.
 
-This code shows how to define a field container from scratch:
+This code shows how to define a fields container from scratch:
 
 .. code-block:: python
 
@@ -137,9 +137,9 @@ This code shows how to define a field container from scratch:
        mscop = {"time":i+1,"complex":1}
        fc.add_field(mscop,dpf.Field(nentities=i+10))
 
-Some operators can operate directly on field containers instead of fields.
-Field containers are identified by ``fc`` suffixes in their names.
-Operators and field containers are explained in more detail
+Some operators can operate directly on fields containers instead of fields.
+Fields containers are identified by ``fc`` suffixes in their names.
+Operators and fields containers are explained in more detail
 in :ref:`transform_the_data`.
 
 .. _transform_the_data:
@@ -157,9 +157,9 @@ You use operators to import, export, transform, and analyze data.
 An operator is analogous to an integrated circuit in electronics. It
 has a set of input and output pins. Pins pass data to and from operators.
 
-An operator takes input from a field, field container, or scoping using
+An operator takes input from a field, fields container, or scoping using
 an input pin. Based on what it is designed to do, the operator computes
-an output that it passes to a field or field container using an output pin.
+an output that it passes to a field or fields container using an output pin.
 
 .. image:: ../../images/drawings/circuit.png
 

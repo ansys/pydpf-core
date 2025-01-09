@@ -1,22 +1,22 @@
 .. _ref_user_guide_fields_container:
 
-===========================
-Field containers and fields
-===========================
-While DPF uses operators to load and operate on data, it uses field containers
+============================
+Fields containers and fields
+============================
+While DPF uses operators to load and operate on data, it uses fields containers
 and fields to store and return data. Operators are like verbs, acting on the data, 
-while field containers and fields are like nouns, objects that hold data.  
+while fields containers and fields are like nouns, objects that hold data.  
 
-Access a field container or field
+Access a fields container or field
 -----------------------------------
 The outputs from operators can be either a 
 :class:`ansys.dpf.core.fields_container.FieldsContainer` or 
 :class:`ansys.dpf.core.field.Field` class.
 
-A field container is the DPF equivalent of a list of fields. It holds a
+A fields container is the DPF equivalent of a list of fields. It holds a
 vector of fields.
 
-This example uses the ``elastic_strain`` operator to access a field container:
+This example uses the ``elastic_strain`` operator to access a fields container:
 
 .. code-block::
 
@@ -58,11 +58,11 @@ This example uses the ``elastic_strain`` operator to access a field container:
       - field 19 {time:  20} with ElementalNodal location, 6 components and 40 entities.
 
 
-Access fields within a field container
---------------------------------------
+Access fields within a fields container
+---------------------------------------
 Many methods are available for accessing a field in a field
 container. The preceding results contain a transient
-result, which means that the field container has one field
+result, which means that the fields container has one field
 by time set. 
 
 Access the field:
@@ -189,7 +189,7 @@ Here is a more real-world example:
  
 
 The following example references the available time frequency support to determine which
-time complex IDs are available in the field container:
+time complex IDs are available in the fields container:
 
 .. code-block::
 

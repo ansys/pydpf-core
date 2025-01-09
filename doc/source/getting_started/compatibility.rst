@@ -24,7 +24,7 @@ version.
 As new features are developed, every attempt is made to ensure backward
 compatibility from the client to the server. Backward compatibility is generally ensured for
 the four latest Ansys versions. For example, the ``ansys-dpf-core`` module 0.8.0 has been
-developed for Ansys 2023 R2 pre1 release, for 2023 R2 Ansys version. It is compatible with
+developed for the Ansys 2023 R2 version. It is compatible with
 2023 R2, 2023 R1, 2022 R2 and 2022 R1 Ansys versions.
 
 Starting with version ``0.10`` of ``ansys-dpf-core``, the packages ``ansys-dpf-gate``,

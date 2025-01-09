@@ -13,7 +13,7 @@ Here are descriptions for key DPF terms:
 
 - **Data source**: One or more files containing analysis results.
 - **Field**: Main simulation data container.
-- **Field container**: For a transient, harmonic, modal, or multi-step
+- **Fields container**: For a transient, harmonic, modal, or multi-step
   static analysis, a set of fields, with one field for each time step
   or frequency.
 - **Location**: Type of topology associated with the data container. DPF
