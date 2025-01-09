@@ -1,7 +1,7 @@
-To add third-party modules as dependencies to a plug-in package, create
+To add third-party modules as dependencies to a plugin package, create
 and reference a folder or ZIP file with the sites of the dependencies in an XML file
-located next to the folder for the plug-in package. The XML file must have the same
-name as the plug-in package plus an ``.xml`` extension.
+located next to the folder for the plugin package. The XML file must have the same
+name as the plugin package plus an ``.xml`` extension.
 
 When the :py:func:`ansys.dpf.core.core.load_library` method is called, PyDPF-Core uses the
 ``site`` Python module to add custom sites to the path for the Python interpreter.
@@ -9,12 +9,12 @@ When the :py:func:`ansys.dpf.core.core.load_library` method is called, PyDPF-Cor
 
 To create these custom sites:
 
-#. Install the requirements of the plug-in package in a Python virtual environment.
+#. Install the requirements of the plugin package in a Python virtual environment.
 #. Remove unnecessary folders from the site packages and compress them into a ZIP file.
-#. Place the ZIP file in the plug-in package.
+#. Place the ZIP file in the plugin package.
 #. Reference the path to the ZIP file in the XML file as indicated above.
 
-To simplify this step, you can add a requirements file in the plug-in package:
+To simplify this step, you can add a requirements file in the plugin package:
 
 .. literalinclude:: /examples/07-python-operators/plugins/gltf_plugin/requirements.txt
 
@@ -28,7 +28,7 @@ For this approach, do the following:
   
 3. Run the downloaded script with the mandatory arguments:
 
-   - ``-pluginpath``: Path to the folder with the plug-in package.
+   - ``-pluginpath``: Path to the folder with the plugin package.
    - ``-zippath``: Path and name for the ZIP file.
    
    Optional arguments are:

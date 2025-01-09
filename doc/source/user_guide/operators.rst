@@ -309,8 +309,8 @@ Operators for importing or reading data
 These operators read data from solver files or from standard file types
 such as .RST (MAPDL), .D3Plot (LS DYNA), .CAS.H5/.DAT.H5 (Fluent) or .CAS.CFF/.DAT.CFF (CFX).
 
-To read these files, different readers are implemented as plug-ins.
-Plug-ins can be loaded on demand in any DPF scripting language with "load library" methods. 
+To read these files, different readers are implemented as plugins.
+Plugins can be loaded on demand in any DPF scripting language with "load library" methods. 
 File readers can be used generically thanks to the DPF result providers, which means that the same operators can be used for any file types.
 
 This example shows how to read a displacement and a stress for any file:

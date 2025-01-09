@@ -11,9 +11,9 @@ PyDPF-Core or in any supported client API.
 
 With support for custom operators, PyDPF-Core becomes a development tool offering:
 
-- **Accessibility:** A simple script can define a basic operator plug-in.
+- **Accessibility:** A simple script can define a basic operator plugin.
 
-- **Componentization:** Operators with similar applications can be grouped in Python plug-in packages.
+- **Componentization:** Operators with similar applications can be grouped in Python plugin packages.
 
 - **Easy distribution:** Standard Python tools can be used to package, upload, and download custom operators.
 
@@ -61,13 +61,13 @@ Create operators
 ----------------
 You can create a basic operator plugin or a plugin package with multiple operators. 
 
-Basic operator plug-in
-~~~~~~~~~~~~~~~~~~~~~~
-To create a basic operator plug-in, write a simple Python script. An operator implementation
+Basic operator plugin
+~~~~~~~~~~~~~~~~~~~~~
+To create a basic operator plugin, write a simple Python script. An operator implementation
 derives from the :class:`ansys.dpf.core.custom_operator.CustomOperatorBase` class and a call to
 the :func:`ansys.dpf.core.custom_operator.record_operator` method.
 
-This example script shows how you create a basic operator plug-in:
+This example script shows how you create a basic operator plugin:
 
 .. literalinclude:: custom_operator_example.py
 
@@ -90,12 +90,12 @@ In the various properties for the class, specify the following:
   when running the operator. Set it equal to ``any_dpf_supported_increments`` to allow any license
   currently accepted by DPF (see :ref:`here<target_to_ansys_license_increments_list>`)
 
-For comprehensive examples on writing operator plug-ins, see :ref:`python_operators`.
+For comprehensive examples on writing operator plugins, see :ref:`python_operators`.
 
 
-Plug-in package with multiple operators
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-To create a plug-in package with multiple operators or with complex routines, write a
+Plugin package with multiple operators
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+To create a plugin package with multiple operators or with complex routines, write a
 Python package. The benefits of writing packages rather than simple scripts are:
 
 - **Componentization:** You can split the code into several Python modules or files.
@@ -149,7 +149,7 @@ Third-party dependencies
 .. include:: custom_operators_deps.rst
 
 
-Assume once again that the name of your plug-in package is ``custom_plugin``.
+Assume once again that the name of your plugin package is ``custom_plugin``.
 A folder with this name would contain these files:
 
 - ``__init__.py``
@@ -223,7 +223,7 @@ Once a custom operator is created, you can use the :func:`ansys.dpf.core.core.lo
 The first argument is the path to the directory with the plugin. The second argument is ``py_`` plus any name
 identifying the plugin. The last argument is the function name for recording operators.
 
-For a plug-in that is a single script, the second argument should be ``py_`` plus the name of the Python file:
+For a plugin that is a single script, the second argument should be ``py_`` plus the name of the Python file:
 
 .. code::
 
@@ -232,7 +232,7 @@ For a plug-in that is a single script, the second argument should be ``py_`` plu
     "py_custom_plugin", #if the load_operators function is defined in path/to/plugins/custom_plugin.py
     "load_operators")
 
-For a plug-in package, the second argument should be ``py_`` plus any name:
+For a plugin package, the second argument should be ``py_`` plus any name:
 
 .. code::
 
@@ -241,7 +241,7 @@ For a plug-in package, the second argument should be ``py_`` plus any name:
     "py_my_custom_plugin", #if the load_operators function is defined in path/to/plugins/custom_plugin/__init__.py
     "load_operators")
 
-Once the plug-in is loaded, you can instantiate the custom operator:
+Once the plugin is loaded, you can instantiate the custom operator:
 
 .. code::
 

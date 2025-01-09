@@ -32,18 +32,16 @@ These capabilities can be accessed through client APIs, as shown here:
 .. image:: ../../images/drawings/apis_2.png
 
 
-1. The DPF server application can be accessed using an Ansys product, or DPF Server package (see :ref:`ref_dpf_server`) available on the Customer portal.
-
-2. Several client APIs are available (CPython, IronPython, C++, and so on).
-
-3. Communication in the same process, or through gRPC, allows you to have the client and the servers on different machines.
+- The DPF server application can be accessed using an Ansys product, or DPF Server package (see :ref:`ref_dpf_server`) available on the Customer portal.
+- Several client APIs are available (CPython, IronPython, C++, and so on).
+- Communication in the same process, or through gRPC, allows you to have the client and the servers on different machines.
 
 Note that **IronPython and CPython APIs are different**, each has specific syntax.
 
 The **list of available operators when using DPF is independent from the language or API which is used**, it only depends
 on how the DPF application has been initialized.
 
-Most of the DPF capabilities can be accessed using the operators. For more information about the existing operators, see :ref:`ref_dpf_operators_reference`.
+Most of the DPF capabilities can be accessed using the operators. For more information on the existing operators, see :ref:`ref_dpf_operators_reference`.
 
 Enhance DPF capabilities
 ~~~~~~~~~~~~~~~~~~~~~~~~
