@@ -51,12 +51,12 @@ class Field(_FieldBase):
     The field's scoping defines the order of the data, for example: the first ID in the
     ``scoping`` identifies to which entity the first ``entity data`` belongs.
 
-    The minimum requirement for a well defined field is for it to have a dimensionality 
-    (scalar, three components vector, six components symmetrical matrix, and so on), a location 
-    ("Nodal", "Elemental", "ElementalNodal", "Timefrq"), a data vector and a scoping with IDs. 
-    You can also set the number of shell layers. If the field has one elementary data by entity 
-    (elementary data size equals the number of components for "Nodal" or "Elemental" field for example), 
-    then the data vector can be set directly. If a more complex field is required 
+    The minimum requirement for a well defined field is for it to have a dimensionality
+    (scalar, three components vector, six components symmetrical matrix, and so on), a location
+    ("Nodal", "Elemental", "ElementalNodal", "Timefrq"), a data vector and a scoping with IDs.
+    You can also set the number of shell layers. If the field has one elementary data by entity
+    (elementary data size equals the number of components for "Nodal" or "Elemental" field for example),
+    then the data vector can be set directly. If a more complex field is required
     ("ElementalNodal" field for example), the data can be set entity by entity.
 
     For more information, see the `Fields container and fields
@@ -116,7 +116,7 @@ class Field(_FieldBase):
     >>> my_elem_data = [1.0,1.0,1.0,0.0,0.0,0.0]
     >>> my_field.append(my_elem_data, scopingid=1)
     >>> my_field.append(my_elem_data, scopingid=2)
-    
+
     Create a field using the fields factory
 
     >>> from ansys.dpf.core import fields_factory
