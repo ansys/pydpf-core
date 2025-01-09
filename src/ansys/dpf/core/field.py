@@ -123,7 +123,7 @@ class Field(_FieldBase):
     >>> from ansys.dpf.core import fields_factory
     >>> from ansys.dpf.core import locations
     >>> from ansys.dpf import core as dpf
-    >>> field_with_factory = fields_factory.create_scalar_field(2)
+    >>> my_scalar_field = fields_factory.create_scalar_field(2)
     >>> my_scalar_field.data = [1.0, 3.0]
 
     Extract a displacement field from a transient result file.
