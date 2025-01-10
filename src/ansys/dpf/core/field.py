@@ -94,7 +94,7 @@ class Field(_FieldBase):
     >>> field_with_classic_api.location = locations.nodal
 
     Create a symmetrical matrix elemental field from scratch.
-    
+
     >>> from ansys.dpf import core as dpf
     >>> num_entities = 2
     >>> my_field = dpf.Field(num_entities, dpf.natures.symmatrix, locations.elemental)
@@ -102,13 +102,13 @@ class Field(_FieldBase):
     >>> my_field.scoping = my_scoping
 
     Add all the data at once.
-    
+
     >>> from ansys.dpf import core as dpf
     >>> my_data = [1.0,1.0,1.0,0.0,0.0,0.0,1.0,1.0,1.0,0.0,0.0,0.0]
     >>> my_field.data = my_data
 
     Add data entity by entity.
-    
+
     >>> from ansys.dpf import core as dpf
     >>> my_elem_data = [1.0,1.0,1.0,0.0,0.0,0.0]
     >>> my_field.append(my_elem_data, scopingid=1)
