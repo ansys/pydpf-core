@@ -43,7 +43,6 @@ from ansys.dpf.gate import (
     dpf_vector_capi,
     dpf_vector_abstract_api,
     dpf_vector,
-    dpf_array,
     utils,
 )
 from ansys.dpf.gate.dpf_array import DPFArray
@@ -232,10 +231,26 @@ class Scoping:
             self._api.scoping_get_ids_for_dpf_vector(
                 self, vec, vec.internal_data, vec.internal_size
             )
-            return dpf_array.DPFArray(vec) if np_array else vec.np_array.tolist()
+            return DPFArray(vec) if np_array else vec.np_array.tolist()
 
         except NotImplementedError:
             return self._api.scoping_get_ids(self, np_array)
+
+    def get_ids(self, np_array: bool = False) -> Union[list[int], DPFArray]:
+        """Return the list of entity IDs in the scoping as a list or as a numpy.ndarray.
+
+        Parameters
+        ----------
+        np_array:
+            Whether to return the list of IDs as a numpy array.
+
+        Returns
+        -------
+        ids:
+            List of entity IDs in the scoping.
+
+        """
+        return self._get_ids(np_array=np_array)
 
     def set_id(self, index: int, scopingid: int):
         """Set the ID of the entity at index in the scoping.
@@ -313,17 +328,18 @@ class Scoping:
 
     @property
     def ids(self) -> Union[DPFArray, list[int]]:
-        """Retrieve a list of IDs in the scoping.
+        """Retrieve the entity IDs in the scoping.
 
         Returns
         -------
-        ids : DPFArray, list of int
-            List of IDs to retrieve. By default, a mutable DPFArray is returned.
+        ids:
+            List of IDs in the scoping.
+            By default, a mutable DPFArray is returned.
             To change the return type to a list for the complete python session, see
             :func:`ansys.dpf.core.settings.get_runtime_client_config` and
             :func:`ansys.dpf.core.runtime_config.RuntimeClientConfig.return_arrays`.
-            To change the return type to a list once, use
-            :func:`ansys.dpf.core.scoping.Scoping._get_ids` with the parameter ``np_array=False``.
+            To get the list of IDs from a scoping as a Python list without changing a default
+            configuration, use :func:`ansys.dpf.core.scoping.Scoping.get_ids` instead.
 
         """
         return self._get_ids()
