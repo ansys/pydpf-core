@@ -64,6 +64,18 @@ def test_set_get_ids_scoping(server_type):
     assert np.allclose(scop.ids, ids)
 
 
+def test_set_get_ids_scoping_range(server_type):
+    range_ids = range(1, 10)
+    scop = Scoping(
+        ids=range_ids,
+        server=server_type,
+    )
+    assert np.allclose(scop.ids, range_ids)
+    scop = Scoping(server=server_type)
+    scop.ids = range_ids
+    assert np.allclose(scop.ids, range_ids)
+
+
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2_0,
     reason="Requires server version higher than 2.0",
