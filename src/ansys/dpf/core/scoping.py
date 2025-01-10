@@ -90,6 +90,12 @@ class Scoping:
     >>> my_elemental_scoping = dpf.Scoping(location=dpf.locations.elemental, ids=[2, 7, 11])
     >>> # b. scoping with nodal  location that targets the elements with id 4 to 6
     >>> my_nodal_scoping = dpf.Scoping(ids=range(4, 7))
+    >>> # 3. create a time_freq scoping that targets the second load step
+    >>> from ansys.dpf.core import time_freq_scoping_factory
+    >>> # a. using the time_freq_scoping_factory
+    >>> my_load_step_scoping = time_freq_scoping_factory.scoping_by_load_step(2)
+    >>> # b. using the Scoping class directly
+    >>> my_load_step_scoping = dpf.Scoping(location=dpf.locations.time_freq_step, ids=[2])
 
     """
 
