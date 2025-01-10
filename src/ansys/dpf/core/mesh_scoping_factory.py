@@ -106,4 +106,4 @@ def named_selection_scoping(named_selection_name, model, server=None):
     -------
     scoping : Scoping
     """
-    return model.metadata.named_selection(named_selection_name)
+    return model.metadata.named_selection(named_selection=named_selection_name, server=server)
