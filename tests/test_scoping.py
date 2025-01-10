@@ -102,10 +102,10 @@ def test_get_ids_return_type_scoping(server_type):
     client_config.return_arrays = return_arrays_init
     assert np.allclose(scop.ids, ids)
     assert isinstance(scop.ids, np.ndarray)
-    assert np.allclose(scop._get_ids(True), ids)
-    assert isinstance(scop._get_ids(True), np.ndarray)
-    assert np.allclose(scop._get_ids(False), ids)
-    assert isinstance(scop._get_ids(False), list)
+    assert np.allclose(scop.get_ids(True), ids)
+    assert isinstance(scop.get_ids(True), np.ndarray)
+    assert np.allclose(scop.get_ids(False), ids)
+    assert isinstance(scop.get_ids(False), list)
 
 
 def test_get_location_scoping():
