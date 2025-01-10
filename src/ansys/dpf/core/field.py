@@ -59,9 +59,8 @@ class Field(_FieldBase):
     then the data vector can be set directly. If a more complex field is required
     ("ElementalNodal" field for example), the data can be set entity by entity.
 
-    For more information, see the `Fields container and fields
-    <https://dpf.docs.pyansys.com/version/stable/user_guide/fields_container.html>`_
-    documentation section.
+    For more information, see `Fields container and fields
+    <https://dpf.docs.pyansys.com/version/stable/user_guide/fields_container.html>`_.
 
 
     Parameters
