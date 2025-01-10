@@ -189,9 +189,6 @@ class Scoping:
         ids:
             Entity IDs to set.
 
-        Notes
-        -----
-        Prints a progress bar.  # TODO: still true?
         """
         if isinstance(ids, range):
             ids = list(ids)
@@ -328,9 +325,6 @@ class Scoping:
             To change the return type to a list once, use
             :func:`ansys.dpf.core.scoping.Scoping._get_ids` with the parameter ``np_array=False``.
 
-        Notes
-        -----
-        Prints a progress bar.  # TODO is that true?
         """
         return self._get_ids()
 
