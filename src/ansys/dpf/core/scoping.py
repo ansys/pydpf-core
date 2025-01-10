@@ -336,7 +336,7 @@ class Scoping:
     def location(self) -> str:
         """Location of the scoping as a string.
 
-        This defines the type of entity the IDs stored correspond to.
+        This defines the type of entity the IDs correspond to (such as node ID, element ID, face ID, and so on).
 
         Returns
         -------
