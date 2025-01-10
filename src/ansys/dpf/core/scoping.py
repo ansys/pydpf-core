@@ -22,7 +22,9 @@
 
 """Scoping."""
 
+from __future__ import annotations
 import traceback
+from typing import Union, TYPE_CHECKING
 import warnings
 import ctypes
 
@@ -44,6 +46,14 @@ from ansys.dpf.gate import (
     dpf_array,
     utils,
 )
+from ansys.dpf.gate.dpf_array import DPFArray
+
+if TYPE_CHECKING:  # pragma: nocover
+    from ansys.dpf.core.server_types import AnyServerType
+    import ansys.grpc.dpf.scoping_pb2.Scoping as ScopingMessage
+    from ctypes import c_void_p as ScopingPointer
+
+    IdVectorType = Union[list[int], range]
 
 
 class Scoping:
@@ -51,32 +61,45 @@ class Scoping:
 
     Parameters
     ----------
-    scoping : ctypes.c_void_p, ansys.grpc.dpf.scoping_pb2.Scoping message, optional
-
-    server : DPFServer, optional
+    scoping:
+        Grpc message or pointer for an existing Scoping on the server.
+    server:
         Server with channel connected to the remote or local instance.
         The default is ``None``, in which case an attempt is made to use the
         global server.
+    ids:
+        List of entity IDs.
+    location:
+        Location for this scoping. Defines the type of entities the IDs correspond to.
+        For example, if location is :py:attr:`locations.nodal`,
+        then the scoping is a list of node IDs.
 
     Examples
     --------
-    Create a mesh scoping.
+    Create a scoping for mesh entities.
 
     >>> from ansys.dpf import core as dpf
     >>> # 1. using the mesh_scoping_factory
     >>> from ansys.dpf.core import mesh_scoping_factory
     >>> # a. scoping with elemental location that targets the elements with id 2, 7 and 11
     >>> my_elemental_scoping = mesh_scoping_factory.elemental_scoping([2, 7, 11])
-    >>> # b. scoping with nodal location that targets the elements with id 4 and 6
-    >>> my_nodal_scoping = mesh_scoping_factory.nodal_scoping([4, 6])
-    >>> #2. using the classic API
-    >>> my_scoping = dpf.Scoping()
-    >>> my_scoping.location = dpf.locations.nodal #optional
-    >>> my_scoping.ids = list(range(1,11))
+    >>> # b. scoping with nodal location that targets the elements with id 4 to 6
+    >>> my_nodal_scoping = mesh_scoping_factory.nodal_scoping(range(4, 7))
+    >>> #2. using the Scoping class directly
+    >>> # a. scoping with elemental location that targets the elements with id 2, 7 and 11
+    >>> my_elemental_scoping = dpf.Scoping(location=dpf.locations.elemental, ids=[2, 7, 11])
+    >>> # b. scoping with nodal  location that targets the elements with id 4 to 6
+    >>> my_nodal_scoping = dpf.Scoping(ids=range(4, 7))
 
     """
 
-    def __init__(self, scoping=None, server=None, ids=None, location=None):
+    def __init__(
+        self,
+        scoping: Union[ScopingMessage, ScopingPointer] = None,
+        server: AnyServerType = None,
+        ids: IdVectorType = None,
+        location: locations = None,
+    ):
         """Initialize the scoping with an optional scoping message or by connecting to a stub."""
         # step 1: get server
         self._server = server_module.get_or_create_server(
@@ -116,6 +139,8 @@ class Scoping:
 
         # step5: handle specific calls to set attributes
         if ids is not None:
+            if isinstance(ids, range):
+                ids = list(ids)
             self.ids = ids
         if location is not None:
             self.location = location
@@ -152,18 +177,20 @@ class Scoping:
         self._api.scoping_set_location(self, loc)
 
     @version_requires("2.1")
-    def _set_ids(self, ids):
+    def _set_ids(self, ids: IdVectorType):
         """Set the ids.
 
         Parameters
         ----------
-        ids : list of int
-            IDs to set.
+        ids:
+            Entity IDs to set.
 
         Notes
         -----
-        Print a progress bar.
+        Prints a progress bar.  # TODO: still true?
         """
+        if isinstance(ids, range):
+            ids = list(ids)
         if isinstance(self._server, server_types.InProcessServer):
             self._api.scoping_resize(self, len(ids))
             ids_ptr = self._api.scoping_get_ids(self, len(ids))
@@ -209,15 +236,15 @@ class Scoping:
         except NotImplementedError:
             return self._api.scoping_get_ids(self, np_array)
 
-    def set_id(self, index, scopingid):
-        """Set the ID of a scoping's index.
+    def set_id(self, index: int, scopingid: int):
+        """Set the ID of the entity at index in the scoping.
 
         Parameters
         ----------
-        index : int
-            Index of the scoping.
-        scopingid : int
-            ID of the scoping.
+        index:
+            Index in the scoping.
+        scopingid:
+            ID of the entity.
         """
         self._api.scoping_set_entity(self, scopingid, index)
 
@@ -251,45 +278,47 @@ class Scoping:
         """
         return self._api.scoping_index_by_id(self, scopingid)
 
-    def id(self, index: int):
-        """Retrieve the ID at a given index.
+    def id(self, index: int) -> int:
+        """Retrieve the entity ID at a given index.
 
         Parameters
         ----------
-        index : int
-            Index for the ID.
+        index:
+            Index of the entity in the scoping.
 
         Returns
         -------
-        size : int
+        entity_id:
+            ID of the entity at index in the scoping.
 
         """
         return self._get_id(index)
 
-    def index(self, id: int):
-        """Retrieve the index of a given ID.
+    def index(self, id: int) -> int:
+        """Retrieve the index for a given entity ID.
 
         Parameters
         ----------
-        id : int
-            ID for the index to retrieve.
+        id:
+            Entity ID at the index in the scoping.
 
         Returns
         -------
-        size : int
+        index:
+            Index in the scoping for the entity ID.
 
         """
         return self._get_index(id)
 
     @property
-    def ids(self):
+    def ids(self) -> Union[DPFArray, list[int]]:
         """Retrieve a list of IDs in the scoping.
 
         Returns
         -------
         ids : DPFArray, list of int
-            List of IDs to retrieve. By default a mutable DPFArray is returned, to change
-            the return type to a list for the complete python session, see
+            List of IDs to retrieve. By default, a mutable DPFArray is returned.
+            To change the return type to a list for the complete python session, see
             :func:`ansys.dpf.core.settings.get_runtime_client_config` and
             :func:`ansys.dpf.core.runtime_config.RuntimeClientConfig.return_arrays`.
             To change the return type to a list once, use
@@ -297,27 +326,31 @@ class Scoping:
 
         Notes
         -----
-        Print a progress bar.
+        Prints a progress bar.  # TODO is that true?
         """
         return self._get_ids()
 
     @ids.setter
-    def ids(self, value):
+    def ids(self, value: IdVectorType):
         self._set_ids(value)
 
     @property
-    def location(self):
-        """Location of the IDs as a string, such as ``"nodal"``, ``"elemental"``, and ``"time_freq"``.
+    def location(self) -> str:
+        """Location of the scoping as a string.
+
+        This defines the type of entity the IDs stored correspond to.
 
         Returns
         -------
-        location : str
+        location:
+            The location of the scoping.
+            One of the values of :class:`~ansys.dpf.core.common.locations`.
 
         """
         return self._get_location()
 
     @location.setter
-    def location(self, value):
+    def location(self, value: locations):
         self._set_location(value)
 
     def __len__(self):
@@ -362,12 +395,13 @@ class Scoping:
         return self.set_id(index, id)
 
     @property
-    def size(self):
+    def size(self) -> int:
         """Length of the list of IDs.
 
         Returns
         -------
-        size : int
+        size:
+            Size if the scoping.
 
         """
         return self._count()
