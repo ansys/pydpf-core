@@ -59,9 +59,9 @@ which is progressively enhanced, see :ref:`ref_dpf_operators_reference`.
 
 Create operators
 ~~~~~~~~~~~~~~~~
-Each operator is of type :ref:`ref_operator`. You can create an instance 
+Each operator is of type :py:mod:`Operator <ansys.dpf.core.dpf_operator>`. You can create an instance 
 in Python with any of the derived classes available in the
-:ref:`ansys.dpf.core.operators package` or directly with the :ref:`ref_operator`
+:py:mod:`ansys.dpf.core.operators` package or directly with the :py:mod:`Operator <ansys.dpf.core.dpf_operator>`
 class using the internal name string that indicates the operator type. 
 For more information, see :ref:`ref_dpf_operators_reference`.
 
@@ -123,8 +123,8 @@ results, you must provide paths for the result files.
 
 You can create data sources in two ways:
 
-- Use the :ref:`ref_model` class.
-- Use the :ref:`ref_data_sources` class. 
+- Use the :py:mod:`Model <ansys.dpf.core.model>` class.
+- Use the :py:mod:`Data Sources <ansys.dpf.core.data_sources>` class. 
 
 
 Because several other examples use the ``Model`` class, this example uses the
@@ -154,7 +154,7 @@ This code demonstrates how to connect the data source to the displacement operat
     op.inputs.data_sources(data_src)
     
 You can connect other optional inputs to the displacement operator. 
-The output from printing the operator shows that a ``mesh_scoping`` of type :ref:`ref_scoping`
+The output from printing the operator shows that a ``mesh_scoping`` of type :py:mod:`Scoping <ansys.dpf.core.scoping>`
 can be connected to work on a spatial subset. A ``time_scoping`` of a list of integers 
 can also be connected to work on a temporal subset:
 
@@ -441,5 +441,5 @@ Python client is not on the same machine as the server:
 API reference
 ~~~~~~~~~~~~~
 For a list of all operators in DPF, see :ref:`ref_dpf_operators_reference` 
-or the package :ref:`ansys.dpf.core.operators package`.  For more information about the
-class itself, see :ref:`ref_operator`.
+or the package :py:mod:`ansys.dpf.core.operators`.  For more information about the
+class itself, see :py:mod:`Operator <ansys.dpf.core.dpf_operator>`.
