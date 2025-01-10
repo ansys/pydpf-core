@@ -102,7 +102,9 @@ def face_scoping(face_ids: IdVectorType, server: AnyServerType = None) -> Scopin
     return scoping
 
 
-def named_selection_scoping(named_selection_name: str, model: Model) -> Scoping:
+def named_selection_scoping(
+    named_selection_name: str, model: Model, server: AnyServerType = None
+) -> Scoping:
     """Create a :class:`ansys.dpf.core.Scoping` based on a named selection in a model.
 
     Parameters
