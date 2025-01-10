@@ -93,7 +93,7 @@ class Field(_FieldBase):
     >>> field_with_classic_api = dpf.Field()
     >>> field_with_classic_api.location = locations.nodal
 
-    Create a symmetrical matrix elemental field from scratch
+    Create a symmetrical matrix elemental field from scratch.
     
     >>> from ansys.dpf import core as dpf
     >>> num_entities = 2
@@ -101,20 +101,20 @@ class Field(_FieldBase):
     >>> my_scoping = dpf.Scoping(location=locations.elemental, ids=[1, 2])
     >>> my_field.scoping = my_scoping
 
-    Add all the data at once
+    Add all the data at once.
     
     >>> from ansys.dpf import core as dpf
     >>> my_data = [1.0,1.0,1.0,0.0,0.0,0.0,1.0,1.0,1.0,0.0,0.0,0.0]
     >>> my_field.data = my_data
 
-    Add data entity by entity
+    Add data entity by entity.
     
     >>> from ansys.dpf import core as dpf
     >>> my_elem_data = [1.0,1.0,1.0,0.0,0.0,0.0]
     >>> my_field.append(my_elem_data, scopingid=1)
     >>> my_field.append(my_elem_data, scopingid=2)
 
-    Create a nodal scalar field using the fields factory
+    Create a nodal scalar field using the fields factory.
 
     >>> from ansys.dpf.core import fields_factory
     >>> from ansys.dpf import core as dpf
