@@ -408,7 +408,7 @@ class MeshedRegion:
         """
         if server_meet_version("2.1", self._server):
             out = self._api.meshed_region_get_named_selection_scoping(self, named_selection)
-            out_scoping = scoping.Scoping(scoping=out, server=server)
+            out_scoping = scoping.Scoping(scoping=out, server=self._server)
         else:
             if hasattr(self, "_stream_provider"):
                 from ansys.dpf.core.dpf_operator import Operator
