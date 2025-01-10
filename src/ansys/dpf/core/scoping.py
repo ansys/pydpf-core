@@ -62,7 +62,7 @@ class Scoping:
     Parameters
     ----------
     scoping:
-        Grpc message or pointer for an existing Scoping on the server.
+        gRPC message or pointer for an existing scoping on the server.
     server:
         Server with channel connected to the remote or local instance.
         The default is ``None``, in which case an attempt is made to use the
@@ -399,7 +399,7 @@ class Scoping:
         Returns
         -------
         size:
-            Size if the scoping.
+            Size of the scoping.
 
         """
         return self._count()
