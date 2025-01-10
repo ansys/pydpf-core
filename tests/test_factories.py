@@ -28,8 +28,11 @@ from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core import fields_container_factory
 from ansys.dpf.core import fields_factory
 from ansys.dpf.core import mesh_scoping_factory
+from ansys.dpf.core import server
+from ansys.dpf.core import server_factory
 from ansys.dpf.core import time_freq_scoping_factory
 from ansys.dpf.core.common import locations
+from conftest import server_type
 
 
 def test_create_matrix_field():
@@ -297,3 +300,12 @@ def test_named_selection_scoping(model_with_ns):
     scop = mesh_scoping_factory.named_selection_scoping("SELECTION", model)
     assert scop is not None
     assert len(scop.ids) != 0
+
+
+def test_named_selection_scoping_with_deepcopy(model_with_ns):
+    model = Model(model_with_ns)
+    server_2 = server.start_local_server(config=server_factory.AvailableServerConfigs.GrpcServer)
+    scop = mesh_scoping_factory.named_selection_scoping("SELECTION", model, server_2)
+    assert scop is not None
+    assert len(scop.ids) != 0
+    assert scop._server == server_2

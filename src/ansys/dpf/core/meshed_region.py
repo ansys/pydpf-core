@@ -406,7 +406,6 @@ class MeshedRegion:
             A scoping containing the IDs of the entities in the named selection.
             The location depends on the type of entities targeted by the named selection.
         """
-        out_scoping = None
         if server_meet_version("2.1", self._server):
             out = self._api.meshed_region_get_named_selection_scoping(self, named_selection)
             out_scoping = scoping.Scoping(scoping=out, server=server)
@@ -427,6 +426,7 @@ class MeshedRegion:
         if server:
             # Copy the scoping to another server
             out_scoping.deep_copy(server=server)
+        return out_scoping
 
     @version_requires("3.0")
     def set_named_selection_scoping(self, named_selection_name, scoping):
