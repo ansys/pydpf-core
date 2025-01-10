@@ -53,7 +53,7 @@ class Field(_FieldBase):
 
     The minimum requirement for a well defined field is for it to have a dimensionality
     (scalar, three components vector, six components symmetrical matrix, and so on), a location
-    ("Nodal", "Elemental", "ElementalNodal", "Timefrq"), a data vector and a scoping with IDs.
+    ("Nodal", "Elemental", "ElementalNodal", "TimeFreq"), a data vector and a scoping with IDs.
     You can also set the number of shell layers. If the field has one elementary data by entity
     (elementary data size equals the number of components for "Nodal" or "Elemental" field for example),
     then the data vector can be set directly. If a more complex field is required
@@ -95,15 +95,11 @@ class Field(_FieldBase):
     >>> field_with_classic_api.location = locations.nodal
 
 
-    Create a field from scratch for the most common dimensionalities
+    Create a symmetrical matrix elemental field from scratch
     >>> from ansys.dpf import core as dpf
     >>> num_entities = 2
-    >>> my_field = dpf.Field(num_entities, dpf.natures.scalar, "Nodal")
-    >>> my_field = dpf.Field(num_entities, dpf.natures.vector, "ElementalNodal")
-    >>> my_field = dpf.Field(num_entities, dpf.natures.symmatrix, "Elemental")
-    >>> my_scoping = dpf.Scoping()
-    >>> my_scoping.location = "Elemental"
-    >>> my_scoping.ids = list(range(1,3))
+    >>> my_field = dpf.Field(num_entities, dpf.natures.symmatrix, locations.elemental)
+    >>> my_scoping = dpf.Scoping(location=locations.elemental, ids=[1, 2])
     >>> my_field.scoping = my_scoping
 
     Add all the data at once
@@ -118,12 +114,11 @@ class Field(_FieldBase):
     >>> my_field.append(my_elem_data, scopingid=1)
     >>> my_field.append(my_elem_data, scopingid=2)
 
-    Create a field using the fields factory
+    Create a nodal scalar field using the fields factory
 
     >>> from ansys.dpf.core import fields_factory
-    >>> from ansys.dpf.core import locations
     >>> from ansys.dpf import core as dpf
-    >>> my_scalar_field = fields_factory.create_scalar_field(2)
+    >>> my_scalar_field = fields_factory.create_scalar_field(num_entities=2, location=locations.nodal)
     >>> my_scalar_field.data = [1.0, 3.0]
 
     Extract a displacement field from a transient result file.
