@@ -139,8 +139,6 @@ class Scoping:
 
         # step5: handle specific calls to set attributes
         if ids is not None:
-            if isinstance(ids, range):
-                ids = list(ids)
             self.ids = ids
         if location is not None:
             self.location = location
