@@ -1,15 +1,12 @@
 import os
 import subprocess
 import sys
-from pathlib import Path
 
 import packaging.version
-import importlib
 try:
     import importlib.metadata as importlib_metadata
 except ImportError:  # Python < 3.10 (backport)
     import importlib_metadata as importlib_metadata
-import importlib
 from ansys.dpf.gate.generated import capi
 from ansys.dpf.gate import utils, errors
 from ansys.dpf.gate._version import __ansys_version__
@@ -91,7 +88,7 @@ def _paths_to_dpf_server_library_installs() -> dict:
             # The most robust way of resolving the location is to let the import machinery do its
             # job, using importlib.import_module. We do not want however to actually import the
             # server libraries found, which is why we do it in a subprocess.
-            package_path = subprocess.check_output(
+            package_path = subprocess.check_output(  # nosec B603
                 args=[
                     sys.executable,
                     "-c",
