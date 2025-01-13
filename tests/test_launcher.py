@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -21,6 +21,7 @@
 # SOFTWARE.
 
 import os
+from pathlib import Path
 
 import pytest
 import psutil
@@ -192,10 +193,10 @@ class TestServerConfigs:
     def test_launch_server_full_path(self, server_config):
         ansys_path = core.misc.get_ansys_path()
         if os.name == "nt":
-            path = os.path.join(ansys_path, "aisol", "bin", "winx64")
+            path = Path(ansys_path) / "aisol" / "bin" / "winx64"
         else:
             if server_config.protocol == core.server_factory.CommunicationProtocols.InProcess:
-                path = os.path.join(ansys_path, "aisol", "dll", "linx64")
+                path = Path(ansys_path) / "aisol" / "dll" / "linx64"
             elif (
                 server_config.protocol == core.server_factory.CommunicationProtocols.gRPC
                 and server_config.legacy is False
@@ -204,11 +205,13 @@ class TestServerConfigs:
                 # Ans.Dpf.Grpc.sh reside in two different folders
                 return
             else:
-                path = os.path.join(ansys_path, "aisol", "bin", "linx64")
+                path = Path(ansys_path) / "aisol" / "bin" / "linx64"
 
         # print("trying to launch on ", path)
         # print(os.listdir(path))
-        server = core.start_local_server(as_global=False, ansys_path=path, config=server_config)
+        server = core.start_local_server(
+            as_global=False, ansys_path=str(path), config=server_config
+        )
         assert "server_port" in server.info
 
 
@@ -219,7 +222,7 @@ def test_start_local_failed_executable(remote_config_server_type):
 
     with pytest.raises(FileNotFoundError):
         path = Path(get_ansys_path()).parent.absolute()
-        core.start_local_server(ansys_path=path, config=remote_config_server_type)
+        core.start_local_server(ansys_path=str(path), config=remote_config_server_type)
 
 
 @pytest.mark.skipif(not running_docker, reason="Checks docker start server")

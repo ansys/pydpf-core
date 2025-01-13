@@ -5,7 +5,7 @@ requires = ["setuptools>=61.0.0", "wheel"]
 [project]
 # Check https://setuptools.pypa.io/en/stable/userguide/quickstart.html for all available sections
 name = "ansys-dpf-core"
-version = "0.13.3.dev0"
+version = "0.13.4.dev0"
 description = "Data Processing Framework - Python Core "
 readme = "README.md"
 requires-python = ">=3.9, <4"
@@ -44,6 +44,7 @@ plotting = [
     "matplotlib>=3.2",
     # 3D plotting
     "pyvista>=0.32.0",
+    "vtk!=9.4.0",
     # Animations
     "imageio < 2.28.1",
     "imageio-ffmpeg",
@@ -65,12 +66,12 @@ indent-style = "space"
 [tool.ruff.lint]
 select = [
 #   "E",    # pycodestyle, see https://beta.ruff.rs/docs/rules/#pycodestyle-e-w
-#   "D",    # pydocstyle, see https://beta.ruff.rs/docs/rules/#pydocstyle-d
+    "D",    # pydocstyle, see https://beta.ruff.rs/docs/rules/#pydocstyle-d
 #   "F",    # pyflakes, see https://beta.ruff.rs/docs/rules/#pyflakes-f
 #   "I",    # isort, see https://beta.ruff.rs/docs/rules/#isort-i
 #   "N",    # pep8-naming, see https://beta.ruff.rs/docs/rules/#pep8-naming-n
-#   "PTH",  # flake9-use-pathlib, https://beta.ruff.rs/docs/rules/#flake8-use-pathlib-pth
-#   "TD",   # flake8-todos, https://docs.astral.sh/ruff/rules/#flake8-todos-td
+   "PTH",  # flake9-use-pathlib, https://beta.ruff.rs/docs/rules/#flake8-use-pathlib-pth
+   "TD",   # flake8-todos, https://docs.astral.sh/ruff/rules/#flake8-todos-td
 ]
 ignore = [
     # pycodestyle

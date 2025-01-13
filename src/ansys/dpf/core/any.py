@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -21,10 +21,9 @@
 # SOFTWARE.
 
 """
-.. _ref_any:
+Any.
 
-Any
-====================
+Module containing the wrapper class representing all supported DPF datatypes.
 """
 
 import traceback
@@ -122,6 +121,8 @@ class Any:
             data_tree,
             custom_type_field,
             collection,
+            workflow,
+            dpf_operator,
         )
 
         if issubclass(obj, int):
@@ -185,10 +186,20 @@ class Any:
                 self._api.any_new_from_any_collection,
                 self._api.any_get_as_any_collection,
             )
+        elif issubclass(obj, workflow.Workflow):
+            return (
+                self._api.any_new_from_workflow,
+                self._api.any_get_as_workflow,
+            )
         elif issubclass(obj, dpf_vector.DPFVectorInt):
             return (
                 self._api.any_new_from_int_collection,
                 self._api.any_get_as_int_collection,
+            )
+        elif issubclass(obj, dpf_operator.Operator):
+            return (
+                self._api.any_new_from_operator,
+                self._api.any_get_as_operator,
             )
 
     @staticmethod
@@ -204,7 +215,6 @@ class Any:
         any : Any
             Wrapped any type.
         """
-
         inner_server = server if server is not None else obj._server
 
         if not inner_server.meet_version("7.0"):
@@ -283,7 +293,6 @@ class Any:
         type
             Original object instance
         """
-
         self._internal_type = output_type if output_type is not None else self._internal_type
 
         type_tuple = self._type_to_new_from_get_as_method(self._internal_type)
@@ -304,6 +313,7 @@ class Any:
         raise TypeError(f"{output_type} is not currently supported by the Any class.")
 
     def __del__(self):
+        """Delete the entry."""
         try:
             if hasattr(self, "_deleter_func"):
                 obj = self._deleter_func[1](self)

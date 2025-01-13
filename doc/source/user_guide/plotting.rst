@@ -1,8 +1,9 @@
 .. _user_guide_plotting:
 
-====
-Plot
-====
+========
+Plotting
+========
+
 DPF-Core has a variety of plotting methods for generating 3D plots of
 Ansys models directly from Python. These methods use VTK and leverage
 the `PyVista <https://github.com/pyvista/pyvista>`_ library to
@@ -74,7 +75,7 @@ First, extract the X component strain
       Data:1 components and 69120 elementary data
 
 
-This ElementalNodal strain must be converted to nodal strain for it to be plotted.
+This ElementalNodal strain must be converted to a nodal strain for it to be plotted.
 
 .. code-block::
 

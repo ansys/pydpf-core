@@ -3,6 +3,7 @@
 
 import argparse
 import subprocess
+from pathlib import Path
 import os
 import sys
 import shutil
@@ -14,6 +15,9 @@ supported_platforms = {
     "win": "win_amd64",
     "manylinux1": "manylinux1_x86_64",
     "manylinux_2_17": "manylinux_2_17_x86_64",
+    "linux": "manylinux_2_17_x86_64",  # Accommodate tox.ini platform substitutions
+    "win32": "win_amd64",
+    "darwin": "any",
 }
 
 argParser = argparse.ArgumentParser()
@@ -39,15 +43,13 @@ with tempfile.TemporaryDirectory() as tmpdirname:
     print("Created temporary directory: ", tmpdirname)
 
     # Create the temporary build-opts.cfg
-    build_opts_path = os.path.join(tmpdirname, "build-opts.cfg")
-    with open(build_opts_path, "w") as build_opts_file:
-        build_opts_file.write(f"[bdist_wheel]\nplat-name={requested_platform}")
-    os.environ["DIST_EXTRA_CONFIG"] = build_opts_path
+    build_opts_path = Path(tmpdirname) / "build-opts.cfg"
+
+    build_opts_path.write_text(f"[bdist_wheel]\nplat-name={requested_platform}", encoding="utf-8")
+    os.environ["DIST_EXTRA_CONFIG"] = str(build_opts_path)
 
     # Move the binaries
-    gatebin_folder_path = os.path.join(
-        os.path.curdir, os.path.join("src", "ansys", "dpf", "gatebin")
-    )
+    gatebin_folder_path = Path.cwd() / "src" / "ansys" / "dpf" / "gatebin"
     binaries_to_move = []
     moved = []
     if "win" in requested_platform or "any" == requested_platform:
@@ -60,15 +62,15 @@ with tempfile.TemporaryDirectory() as tmpdirname:
         binaries_to_move.extend(["_version.py"])
 
     for binary_name in binaries_to_move:
-        src = os.path.join(gatebin_folder_path, binary_name)
-        dst = os.path.join(tmpdirname, binary_name)
+        src = gatebin_folder_path / binary_name
+        dst = Path(tmpdirname) / binary_name
         print(f"Moving {src} to {dst}")
         shutil.move(src=src, dst=dst)
         moved.append([dst, src])
 
     if "any" == requested_platform:
         # Also remove the gatebin folder
-        os.rmdir(gatebin_folder_path)
+        gatebin_folder_path.rmdir()
 
     # Call the build
     if not args.wheelhouse:
@@ -83,7 +85,7 @@ with tempfile.TemporaryDirectory() as tmpdirname:
 
     if "any" == requested_platform:
         # Recreate the gatebin folder
-        os.mkdir(gatebin_folder_path)
+        gatebin_folder_path.mkdir()
 
     # Move binaries back
     for move_back in moved:

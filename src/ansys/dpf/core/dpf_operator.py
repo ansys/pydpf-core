@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -20,12 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""
-.. _ref_operator:
-
-Operator
-========
-"""
+"""Operator."""
 
 import logging
 import os
@@ -121,12 +116,13 @@ class Operator:
 
     """
 
-    def __init__(self, name, config=None, server=None):
+    def __init__(self, name=None, config=None, server=None, operator=None):
         """Initialize the operator with its name by connecting to a stub."""
         self.name = name
         self._internal_obj = None
         self._description = None
         self._inputs = None
+        self._id = None
 
         # step 1: get server
         self._server = server_module.get_or_create_server(
@@ -136,14 +132,29 @@ class Operator:
         # step 2: get api
         self._api_instance = None  # see _api property
 
-        # step3: init environment
+        # step 3: init environment
         self._api.init_operator_environment(self)  # creates stub when gRPC
 
-        # step4: if object exists: take instance, else create it (server)
-        if self._server.has_client():
-            self._internal_obj = self._api.operator_new_on_client(self.name, self._server.client)
+        # step 4: if object exists, take the instance, else create it
+        if operator is not None:
+            if isinstance(operator, Operator):
+                core_api = self._server.get_api_for_type(
+                    capi=data_processing_capi.DataProcessingCAPI,
+                    grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI,
+                )
+                core_api.init_data_processing_environment(self)
+                self._internal_obj = core_api.data_processing_duplicate_object_reference(operator)
+                self.name = operator.name
+            else:
+                self._internal_obj = operator
+                self.name = self._api.operator_name(self)
         else:
-            self._internal_obj = self._api.operator_new(self.name)
+            if self._server.has_client():
+                self._internal_obj = self._api.operator_new_on_client(
+                    self.name, self._server.client
+                )
+            else:
+                self._internal_obj = self._api.operator_new(self.name)
 
         if self._internal_obj is None:
             raise KeyError(
@@ -193,7 +204,6 @@ class Operator:
         >>> disp_z = model.results.displacement().Z()
 
         """
-
         for result_type in sub_results:
             try:
                 setattr(
@@ -218,8 +228,11 @@ class Operator:
     @property
     @version_requires("3.0")
     def progress_bar(self) -> bool:
-        """With this property, the user can choose to print a progress bar when
-        the operator's output is requested, default is False"""
+        """Enable or disable progress bar display when requesting the operator's output.
+
+        With this property, the user can choose to print a progress bar when
+        the operator's output is requested, default is False
+        """
         return self._progress_bar
 
     @progress_bar.setter
@@ -299,7 +312,8 @@ class Operator:
 
     @version_requires("6.2")
     def connect_operator_as_input(self, pin, op):
-        """Connects an operator as an input on a pin.
+        """Connect an operator as an input on a pin.
+
         Parameters
         ----------
         pin : int
@@ -369,6 +383,7 @@ class Operator:
             mesh_info,
             collection_base,
             any,
+            custom_container_base,
         )
 
         out = [
@@ -465,6 +480,15 @@ class Operator:
                 collection.Collection,
                 self._api.operator_getoutput_as_any,
                 lambda obj, type: any.Any(server=self._server, any_dpf=obj).cast(type),
+            ),
+            (
+                custom_container_base.CustomContainerBase,
+                self._api.operator_getoutput_generic_data_container,
+                lambda obj, type: type(
+                    container=generic_data_container.GenericDataContainer(
+                        generic_data_container=obj, server=self._server
+                    )
+                ),
             ),
         ]
         if hasattr(self._api, "operator_getoutput_generic_data_container"):
@@ -604,7 +628,7 @@ class Operator:
         For information on an operator's options, see the documentation for that operator.
 
         Returns
-        ----------
+        -------
         :class:`ansys.dpf.core.config.Config`
             Copy of the operator's current configuration.
 
@@ -637,11 +661,35 @@ class Operator:
         self._api.operator_set_config(self, value)
 
     @property
+    @version_requires("10.0")
+    def id(self) -> int:
+        """Retrieve the unique identifier of the operator.
+
+        This property returns the unique ID associated with the operator.
+        This property is lazily initialized.
+
+        Returns
+        -------
+        int
+            The unique identifier of the operator.
+
+        Notes
+        -----
+        Property available with server's version starting at 10.0.
+        """
+        if self._id is None:
+            operator_id_op = Operator("operator_id", server=self._server)
+            operator_id_op.connect_operator_as_input(0, self)
+            self._id = operator_id_op.outputs.id()
+
+        return self._id
+
+    @property
     def inputs(self):
         """Inputs connected to the operator.
 
         Returns
-        --------
+        -------
         :class:`ansys.dpf.core.inputs`
             Inputs connected to the operator.
 
@@ -656,7 +704,6 @@ class Operator:
         >>> disp_op.inputs.data_sources(data_src)
 
         """
-
         return self._inputs
 
     @property
@@ -664,7 +711,7 @@ class Operator:
         """Outputs from the operator's evaluation.
 
         Returns
-        --------
+        -------
         :class:`ansys.dpf.core.outputs`
             Outputs from the operator's evaluation.
 
@@ -710,9 +757,12 @@ class Operator:
         return Config(operator_name=name, server=server)
 
     def __del__(self):
+        """Delete this instance."""
         try:
-            if self._internal_obj is not None:
-                self._deleter_func[0](self._deleter_func[1](self))
+            if hasattr(self, "_deleter_func"):
+                obj = self._deleter_func[1](self)
+                if obj is not None:
+                    self._deleter_func[0](obj)
         except:
             warnings.warn(traceback.format_exc())
 
@@ -759,7 +809,6 @@ class Operator:
         >>> normfc = math.norm_fc(disp_op).eval()
 
         """
-
         if not pin:
             if self.outputs != None and len(self.outputs._outputs) > 0:
                 return self.outputs._outputs[0]()
@@ -780,8 +829,10 @@ class Operator:
             if python_name == "B":
                 python_name = "bool"
 
+            # Type match
             if type(inpt).__name__ == python_name:
                 corresponding_pins.append(pin)
+            # if the inpt has multiple potential outputs, find which ones can match
             elif isinstance(inpt, (_Outputs, Operator, Result)):
                 if isinstance(inpt, Operator):
                     output_pin_available = inpt.outputs._get_given_output([python_name])
@@ -791,12 +842,14 @@ class Operator:
                     output_pin_available = inpt._get_given_output([python_name])
                 for outputpin in output_pin_available:
                     corresponding_pins.append((pin, outputpin))
+            # If any output type matches python_name
             elif isinstance(inpt, Output):
-                for inpttype in inpt._python_expected_types:
-                    if inpttype == python_name:
-                        corresponding_pins.append(pin)
                 if python_name == "Any":
                     corresponding_pins.append(pin)
+                else:
+                    for inpttype in inpt._python_expected_types:
+                        if inpttype == python_name:
+                            corresponding_pins.append(pin)
             elif python_name == "Any":
                 corresponding_pins.append(pin)
 
@@ -835,6 +888,7 @@ class Operator:
         return op
 
     def __pow__(self, value):
+        """Raise each element of a field or a fields container to power 2."""
         if value != 2:
             raise ValueError('Only the value "2" is supported.')
         from ansys.dpf.core import dpf_operator, operators
@@ -866,13 +920,12 @@ class Operator:
 
     @staticmethod
     def operator_specification(op_name, server=None):
-        """Documents an Operator with its description (what the Operator does),
-        its inputs and outputs and some properties"""
+        """Documents an Operator with its description (what the Operator does),its inputs and outputs and some properties."""
         return Specification(operator_name=op_name, server=server)
 
     @property
     def specification(self):
-        """Returns the Specification (or documentation) of this Operator
+        """Returns the Specification (or documentation) of this Operator.
 
         Returns
         -------
@@ -884,6 +937,12 @@ class Operator:
             return Specification(operator_name=self.name, server=self._server)
 
     def __truediv__(self, inpt):
+        """
+        Perform division with another operator or a scalar.
+
+        This method allows the use of the division operator (`/`) between an
+        `Operator` instance and either another `Operator` or a scalar value (float).
+        """
         if isinstance(inpt, Operator):
             op = Operator("div")
             op.connect(0, self, 0)
@@ -896,7 +955,7 @@ class Operator:
 
 
 def available_operator_names(server=None):
-    """Returns the list of operator names available in the server.
+    """Return the list of operator names available in the server.
 
     Parameters
     ----------

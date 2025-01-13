@@ -121,6 +121,8 @@ class GenericDataContainersCollection(_Collection[GenericDataContainer]):
     entries_type = GenericDataContainer
 class StringFieldsCollection(_Collection[StringField]):
     entries_type = StringField
+class OperatorsCollection(_Collection[Operator]):
+    entries_type = Operator
 class AnyCollection(_Collection[Any]):
     entries_type = Any
 

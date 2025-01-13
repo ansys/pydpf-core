@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -21,90 +21,103 @@
 # SOFTWARE.
 
 """
-mesh_scoping_factory
-====================
+mesh_scoping_factory.
 
-Contains functions to simplify creating mesh scopings.
+Contains functions to simplify creating a mesh scoping.
 """
+
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:  # pragma: nocover
+    from ansys.dpf.core.server_types import AnyServerType
+    from ansys.dpf.core.scoping import IdVectorType
+    from ansys.dpf.core.model import Model
 
 from ansys.dpf.core import Scoping
 from ansys.dpf.core.common import locations
 
 
-def nodal_scoping(node_ids, server=None):
-    """Create a specific nodal :class:`ansys.dpf.core.Scoping` associated with a mesh.
+def nodal_scoping(node_ids: IdVectorType, server: AnyServerType = None) -> Scoping:
+    """Create a nodal :class:`ansys.dpf.core.Scoping` defining a list of node IDs.
 
     Parameters
     ----------
-    node_ids : list[int]
-        List of IDs for the nodes.
-    server : DpfServer, optional
+    node_ids:
+        List of node IDs.
+    server:
         Server with the channel connected to the remote or local instance.
         The default is ``None``, in which case an attempt is made to use the
         global server.
 
     Returns
     -------
-    scoping : Scoping
+    scoping:
+        A nodal scoping containing the node IDs provided.
     """
     scoping = Scoping(server=server, ids=node_ids, location=locations.nodal)
     return scoping
 
 
-def elemental_scoping(element_ids, server=None):
-    """Create a specific elemental :class:`ansys.dpf.core.Scoping` associated with a mesh.
+def elemental_scoping(element_ids: IdVectorType, server: AnyServerType = None) -> Scoping:
+    """Create an elemental :class:`ansys.dpf.core.Scoping` defining a list of element IDs.
 
     Parameters
     ----------
-    element_ids : list[int]
-        List of IDs for the elements.
-    server : DpfServer, optional
+    element_ids:
+        List of element IDs.
+    server:
         Server with the channel connected to the remote or local instance.
         The default is ``None``, in which case an attempt is made to use the
         global server.
 
     Returns
     -------
-    scoping : Scoping
+    scoping:
+        An elemental scoping containing the element IDs provided.
     """
     scoping = Scoping(server=server, ids=element_ids, location=locations.elemental)
     return scoping
 
 
-def face_scoping(face_ids, server=None):
-    """Create a specific face :class:`ansys.dpf.core.Scoping` associated with a mesh.
+def face_scoping(face_ids: IdVectorType, server: AnyServerType = None) -> Scoping:
+    """Create a face :class:`ansys.dpf.core.Scoping`defining a list of face IDs.
 
     Parameters
     ----------
-    face_ids : list[int]
-        List of IDs for the faces.
-    server : DpfServer, optional
+    face_ids:
+        List of face IDs.
+    server:
         Server with the channel connected to the remote or local instance.
         The default is ``None``, in which case an attempt is made to use the
         global server.
 
     Returns
     -------
-    scoping : Scoping
+    scoping:
+        A face scoping containing the face IDs provided.
     """
     scoping = Scoping(server=server, ids=face_ids, location=locations.faces)
     return scoping
 
 
-def named_selection_scoping(named_selection_name, model, server=None):
-    """Create a specific :class:`ansys.dpf.core.Scoping` associated with a specified model's mesh.
+def named_selection_scoping(
+    named_selection_name: str, model: Model, server: AnyServerType = None
+) -> Scoping:
+    """Create a :class:`ansys.dpf.core.Scoping` based on a named selection in a model.
 
     Parameters
     ----------
-    named_selection_name : str
+    named_selection_name:
         Name of the named selection.
-    server : DpfServer, optional
-        Server with the channel connected to the remote or local instance.
-        The default is ``None``, in which case an attempt is made to use the
-        global server.
+    model:
+        Model where the named selection exists.
 
     Returns
     -------
-    scoping : Scoping
+    scoping:
+        A scoping containing the IDs of the entities in the named selection.
+        The location depends on the type of entities targeted by the named selection.
     """
     return model.metadata.named_selection(named_selection_name)

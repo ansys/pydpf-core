@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -20,12 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""
-.. _ref_timefreqsupport:
-
-TimeFreqSupport
-===============
-"""
+"""TimeFreqSupport."""
 
 from ansys.dpf.gate import time_freq_support_capi, time_freq_support_grpcapi
 
@@ -102,6 +97,7 @@ class TimeFreqSupport(Support):
     @property
     def time_frequencies(self):
         """Field of time frequencies or time values for the active result.
+
         Frequencies field can have one value by set.
 
         Examples
@@ -127,6 +123,7 @@ class TimeFreqSupport(Support):
 
     def _set_time_frequencies(self, frequencies):
         """Set the time frequencies of the time_freq_support.
+
         Frequencies field can have one value by set.
 
         Parameters
@@ -139,6 +136,7 @@ class TimeFreqSupport(Support):
     @time_frequencies.setter
     def time_frequencies(self, value):
         """Time frequencies that define the time_freq_support of the analysis.
+
         Frequencies field can have one value by set.
 
         Parameters
@@ -151,6 +149,7 @@ class TimeFreqSupport(Support):
     @property
     def complex_frequencies(self):
         """Field of complex frequencies for the active result.
+
         Complex frequencies field can have one value by set.
 
         Examples
@@ -167,6 +166,7 @@ class TimeFreqSupport(Support):
 
     def _set_complex_frequencies(self, complex_frequencies):
         """Set the frequencies of the time_freq_support.
+
         Complex frequencies field can have one value by set.
 
         Parameters
@@ -179,6 +179,7 @@ class TimeFreqSupport(Support):
     @complex_frequencies.setter
     def complex_frequencies(self, value):
         """Complex frequencies that define the time_freq_support of the analysis.
+
         Complex frequencies field can have one value by set.
 
         Parameters
@@ -191,6 +192,7 @@ class TimeFreqSupport(Support):
     @property
     def rpms(self):
         """Field of RPMs for the active result.
+
         The RPM field has one value by load step.
 
         Returns ``None`` if the result has no RPMs.
@@ -199,6 +201,7 @@ class TimeFreqSupport(Support):
 
     def _set_rpms(self, rpms):
         """Set the RPMs values of the time_freq_support.
+
         RPMs field has one value by load step.
 
         Parameters
@@ -211,6 +214,7 @@ class TimeFreqSupport(Support):
     @rpms.setter
     def rpms(self, value):
         """RPMs that define the time_freq_support of the analysis.
+
         RPMs field has one value by load step.
 
         Parameters
@@ -266,8 +270,7 @@ class TimeFreqSupport(Support):
         return self._sets_count()
 
     def get_frequency(self, step=0, substep=0, cumulative_index=None, cplx=False):
-        """Retrieve the frequency corresponding to a requested step/substep or
-        cumulative index.
+        """Retrieve the frequency corresponding to a requested step/substep or cumulative index.
 
         Parameters
         ----------
@@ -288,9 +291,7 @@ class TimeFreqSupport(Support):
         return self._get_frequency(step, substep, cumulative_index, cplx)
 
     def _get_frequency(self, step, substep, cumulative_index, cplx):
-        """Retrieves the frequency corresponding to the requested step/substep or
-        cumulative index.
-        """
+        """Retrieve the frequency corresponding to the requested step/substep or cumulative index."""
         if cumulative_index is None:
             # Use by_step methods
             if cplx:
@@ -313,8 +314,7 @@ class TimeFreqSupport(Support):
                 )
 
     def get_cumulative_index(self, step=0, substep=0, freq=None, cplx=False):
-        """Retrieves the cumulative index corresponding to the requested step/substep
-        or frequency.
+        """Retrieve the cumulative index corresponding to the requested step/substep or frequency.
 
         Parameters
         ----------
@@ -336,8 +336,7 @@ class TimeFreqSupport(Support):
         return self._get_cumulative_index(step, substep, freq, cplx)
 
     def _get_cumulative_index(self, step, substep, freq, cplx):
-        """Retrieve the cumulative index corresponding to the requested step/substep
-        or frequency."""
+        """Retrieve the cumulative index corresponding to the requested step/substep or frequency."""
         if freq is None:
             if cplx is False:
                 return self._api.time_freq_support_get_time_freq_cummulative_index_by_step(
@@ -360,7 +359,8 @@ class TimeFreqSupport(Support):
                 )
 
     def _sets_count(self):
-        """
+        """Return the number of time frequency support sets.
+
         Returns
         -------
         count : int
@@ -368,8 +368,7 @@ class TimeFreqSupport(Support):
         return self._api.time_freq_support_get_number_sets(self)
 
     def _get_frequencies(self, cplx=False):
-        """Retrieves a field of all the frequencies in the model
-        (complex or real).
+        """Retrieve a field of all the frequencies in the model (complex or real).
 
         Parameters
         ----------
@@ -381,7 +380,6 @@ class TimeFreqSupport(Support):
         field : dpf.core.Field
             Field of all the frequencies in the model (complex or real).
         """
-
         # attributes_list = self._get_attributes_list()
         if cplx:  # and "freq_complex" in attributes_list:
             # return attributes_list["freq_complex"]
@@ -394,7 +392,7 @@ class TimeFreqSupport(Support):
             return dpf.core.Field(server=self._server, field=freq)
 
     def _get_rpms(self):
-        """Retrieves a field of all the RPMs in the model.
+        """Retrieve a field of all the RPMs in the model.
 
         Returns
         -------
@@ -406,7 +404,7 @@ class TimeFreqSupport(Support):
             return dpf.core.Field(server=self._server, field=rpm)
 
     def _get_harmonic_indices(self, stage_num=0):
-        """Retrieves a field of all the harmonic indices in the model.
+        """Retrieve a field of all the harmonic indices in the model.
 
         Returns
         -------
@@ -429,6 +427,7 @@ class TimeFreqSupport(Support):
         step_harmonic_indices=None,
     ):
         """Append a step with all its field values in the time frequencies support.
+
         The RPM value is a step (or load step)-based value.
         The values for time frequencies, complex frequencies, and harmonic indices are set-based.
         There is one set value for each step/substep combination.
@@ -471,7 +470,6 @@ class TimeFreqSupport(Support):
         >>> tfq3.append_step(1, [0.1, 0.21, 1.0], rpm_value = 2.0, step_harmonic_indices = {1: [1.0, 2.0, 3.0], 2: [1.0, 2.0, 2.5]})
 
         """  # noqa: E501
-
         time_frequencies = self.time_frequencies
         if time_frequencies is None:
             time_frequencies = core.Field(

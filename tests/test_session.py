@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -20,7 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import os
+from pathlib import Path
 import conftest
 import tempfile
 from ansys.dpf import core
@@ -31,10 +31,10 @@ def get_log_file(log_path, server):
     if not isinstance(server, core.server_types.InProcessServer):
         core.core.download_file(
             log_path,
-            os.path.join(tempfile.gettempdir(), "log2.txt"),
+            str(Path(tempfile.gettempdir()) / "log2.txt"),
             server=server,
         )
-        return os.path.join(tempfile.gettempdir(), "log2.txt")
+        return str(Path(tempfile.gettempdir()) / "log2.txt")
     else:
         return log_path
 
@@ -47,14 +47,14 @@ def test_logging(tmpdir, server_type):
             examples.find_static_rst(return_local_path=True, server=server_type),
             server=server_type,
         )
-        log_path = os.path.join(server_tmp, "log.txt")
+        log_path = Path(server_tmp) / "log.txt"
     else:
-        log_path = os.path.join(tmpdir, "log.txt")
+        log_path = Path(tmpdir) / "log.txt"
         result_file = examples.find_static_rst(server=server_type)
 
     # download it
-    new_tmpdir = os.path.join(tmpdir, "my_tmp_dir")
-    server_type.session.handle_events_with_file_logger(log_path, 2)
+    _ = Path(tmpdir) / "my_tmp_dir"
+    server_type.session.handle_events_with_file_logger(str(log_path), 2)
 
     wf = core.Workflow(server=server_type)
     wf.progress_bar = False
@@ -65,13 +65,13 @@ def test_logging(tmpdir, server_type):
     wf.set_output_name("out", to_nodal.outputs.fields_container)
 
     wf.get_output("out", core.types.fields_container)
-    download_log_path = get_log_file(log_path, server_type)
-    assert os.path.exists(download_log_path)
-    file_size = os.path.getsize(download_log_path)
+    download_log_path = Path(get_log_file(str(log_path), server_type))
+    assert download_log_path.exists()
+    file_size = download_log_path.stat().st_size
     assert file_size > 20
     server_type._del_session()
-    download_log_path = get_log_file(log_path, server_type)
-    file_size = os.path.getsize(download_log_path)
+    download_log_path = Path(get_log_file(str(log_path), server_type))
+    file_size = download_log_path.stat().st_size
 
     wf = core.Workflow(server=server_type)
     wf.progress_bar = False
@@ -82,8 +82,8 @@ def test_logging(tmpdir, server_type):
     wf.set_output_name("out", to_nodal.outputs.fields_container)
 
     wf.get_output("out", core.types.fields_container)
-    download_log_path = get_log_file(log_path, server_type)
-    assert file_size == os.path.getsize(download_log_path)
+    download_log_path = Path(get_log_file(str(log_path), server_type))
+    assert file_size == download_log_path.stat().st_size
 
 
 @conftest.raises_for_servers_version_under("6.1")
@@ -93,8 +93,8 @@ def test_logging_remote(tmpdir, server_type_remote_process):
         examples.find_multishells_rst(return_local_path=True),
         server=server_type_remote_process,
     )
-    log_path = os.path.join(server_tmp, "log.txt")
-    server_type_remote_process.session.handle_events_with_file_logger(log_path, 2)
+    log_path = Path(server_tmp) / "log.txt"
+    server_type_remote_process.session.handle_events_with_file_logger(str(log_path), 2)
     server_type_remote_process.session.start_emitting_rpc_log()
 
     wf = core.Workflow(server=server_type_remote_process)
@@ -107,13 +107,13 @@ def test_logging_remote(tmpdir, server_type_remote_process):
     wf.set_output_name("out", to_nodal.outputs.fields_container)
 
     wf.get_output("out", core.types.fields_container)
-    download_log_path = get_log_file(log_path, server_type_remote_process)
-    assert os.path.exists(download_log_path)
-    file_size = os.path.getsize(download_log_path)
+    download_log_path = Path(get_log_file(str(log_path), server_type_remote_process))
+    assert download_log_path.exists()
+    file_size = download_log_path.stat().st_size
     assert file_size > 3000
     server_type_remote_process._del_session()
-    download_log_path = get_log_file(log_path, server_type_remote_process)
-    file_size = os.path.getsize(download_log_path)
+    download_log_path = Path(get_log_file(str(log_path), server_type_remote_process))
+    file_size = download_log_path.stat().st_size
 
     wf = core.Workflow(server=server_type_remote_process)
     wf.progress_bar = False
@@ -125,5 +125,5 @@ def test_logging_remote(tmpdir, server_type_remote_process):
     wf.set_output_name("out", to_nodal.outputs.fields_container)
 
     wf.get_output("out", core.types.fields_container)
-    download_log_path = get_log_file(log_path, server_type_remote_process)
-    assert file_size == os.path.getsize(download_log_path)
+    download_log_path = Path(get_log_file(str(log_path), server_type_remote_process))
+    assert file_size == download_log_path.stat().st_size

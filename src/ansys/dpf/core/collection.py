@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -21,10 +21,7 @@
 # SOFTWARE.
 
 # -*- coding: utf-8 -*-
-"""
-Collection
-===============
-"""
+"""Module containing the class representing dpf objects organized by label spaces."""
 
 from __future__ import annotations
 from ansys.dpf.core.any import Any
@@ -72,6 +69,7 @@ class Collection(CollectionBase[TYPE]):
                 self._internal_obj = self._api.collection_of_any_new()
 
     def create_subtype(self, obj_by_copy):
+        """Create dpf instance of any type, which has been cast to its original type."""
         return create_dpf_instance(Any, obj_by_copy, self._server).cast(self.entries_type)
 
     def get_entries(self, label_space):
@@ -123,7 +121,7 @@ class Collection(CollectionBase[TYPE]):
 
 
 def CollectionFactory(subtype, BaseClass=Collection):
-    """Creates classes deriving from Collection at runtime for a given subtype."""
+    """Create classes deriving from Collection at runtime for a given subtype."""
 
     def __init__(self, **kwargs):
         BaseClass.__init__(self, **kwargs)

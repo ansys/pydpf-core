@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -20,7 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import os
+from pathlib import Path
 
 import pytest
 
@@ -42,8 +42,8 @@ else:
 
 
 def remove_picture(picture):
-    if os.path.exists(os.path.join(os.getcwd(), picture)):
-        os.remove(os.path.join(os.getcwd(), picture))
+    if Path.cwd().joinpath(picture).exists():
+        Path.cwd().joinpath(picture).unlink()
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
@@ -53,7 +53,7 @@ def test_plotter_on_model(plate_msup):
     picture = "model_plot.png"
     remove_picture(picture)
     model.plot(off_screen=True, screenshot=picture)
-    assert os.path.exists(os.path.join(os.getcwd(), picture))
+    assert Path.cwd().joinpath(picture).exists()
     remove_picture(picture)
 
 
@@ -155,7 +155,7 @@ def test_plot_fieldscontainer_on_mesh(allkindofcomplexity):
     picture = "mesh_plot.png"
     remove_picture(picture)
     mesh.plot(fc, off_screen=True, screenshot=picture)
-    assert os.path.exists(os.path.join(os.getcwd(), picture))
+    assert Path.cwd().joinpath(picture).exists()
     remove_picture(picture)
 
 
@@ -193,7 +193,7 @@ def test_field_nodal_plot(allkindofcomplexity):
     picture = "field_plot.png"
     remove_picture(picture)
     f.plot(off_screen=True, screenshot=picture)
-    assert os.path.exists(os.path.join(os.getcwd(), picture))
+    assert Path.cwd().joinpath(picture).exists()
     remove_picture(picture)
 
 
@@ -372,7 +372,7 @@ def test_plot_meshes_container_1(multishells):
     picture = "meshes_cont_plot.png"
     remove_picture(picture)
     meshes_cont.plot(disp_fc, off_screen=True, screenshot=picture)
-    assert os.path.exists(os.path.join(os.getcwd(), picture))
+    assert Path.cwd().joinpath(picture).exists()
     remove_picture(picture)
 
 
@@ -656,7 +656,7 @@ def test_plot_chart(allkindofcomplexity):
     picture = "plot_chart.png"
     remove_picture(picture)
     plot_chart(new_fields_container, off_screen=True, screenshot=picture)
-    assert os.path.exists(os.path.join(os.getcwd(), picture))
+    assert Path.cwd().joinpath(picture).exists()
     remove_picture(picture)
 
 

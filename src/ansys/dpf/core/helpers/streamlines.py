@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -32,10 +32,9 @@ from ansys.dpf.core.helpers.utils import _sort_supported_kwargs
 
 class _PvFieldsContainerBase:
     def __init__(self, data):
-        """Instantiate Streamline
-        from pyvista.PolyData object.
-        This construction is only
-        intended to be used internally.
+        """Instantiate Streamline from pyvista.PolyData object.
+
+        This construction is only intended to be used internally.
 
         Parameters
         ----------
@@ -73,8 +72,7 @@ class _PvFieldsContainerBase:
         return self._pv_data_set
 
     def _as_fields_container(self):
-        """Returns a FieldsContainer representing the streamlines
-        related objects.
+        """Return a FieldsContainer representing the streamlines related objects.
 
         Returns
         -------
@@ -90,28 +88,21 @@ class _PvFieldsContainerBase:
 
 
 class Streamlines(_PvFieldsContainerBase):
-    """Class to define the Streamlines object
-    scripting with `ansys-dpf-core`.
-
-    """
+    """Class to define the Streamlines object scripting with `ansys-dpf-core`."""
 
     def __init__(self, data):
         super().__init__(data=data)
 
 
 class StreamlinesSource(_PvFieldsContainerBase):
-    """Class to define the StreamlinesSource
-    object scripting with `ansys-dpf-core`.
-
-    """
+    """Class to define the StreamlinesSource object scripting with `ansys-dpf-core`."""
 
     def __init__(self, data):
         super().__init__(data=data)
 
 
 def compute_streamlines(meshed_region, field, **kwargs):
-    """Compute the streamlines for a given mesh and velocity
-    field.
+    """Compute the streamlines for a given mesh and velocity field.
 
     Parameters
     ----------
@@ -159,7 +150,7 @@ def compute_streamlines(meshed_region, field, **kwargs):
 
     """
     # Check velocity field location
-    if field.location is not locations.nodal:
+    if field.location != locations.nodal:
         warnings.warn(
             "Velocity field must have a nodal location. Result must be carefully checked."
         )

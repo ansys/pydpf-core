@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -54,33 +54,9 @@ For this example, the plug-in package contains two different operators:
 #
 # Download the ``average_filter_plugin`` plug-in package that has already been
 # created for you.
-
-import os
-
 from ansys.dpf.core import examples
-from ansys.dpf import core as dpf
 
-
-print("\033[1m average_filter_plugin")
-file_list = ["__init__.py", "operators.py", "operators_loader.py", "common.py"]
-plugin_folder = None
-GITHUB_SOURCE_URL = (
-    "https://github.com/ansys/pydpf-core/raw/"
-    "examples/first_python_plugins/python_plugins/average_filter_plugin"
-)
-
-for file in file_list:
-    EXAMPLE_FILE = GITHUB_SOURCE_URL + "/average_filter_plugin/" + file
-    operator_file_path = examples.downloads._retrieve_file(
-        EXAMPLE_FILE, file, "python_plugins/average_filter_plugin"
-    )
-    plugin_folder = os.path.dirname(operator_file_path)
-    print(f"\033[1m {file}:\n \033[0m")
-    with open(operator_file_path, "r") as f:
-        for line in f.readlines():
-            print("\t\t\t" + line)
-    print("\n\n")
-
+plugin_folder = examples.download_average_filter_plugin()
 
 ###############################################################################
 # Load the plug-in package
@@ -96,8 +72,6 @@ for file in file_list:
 #   for the plug-in package that is used to record operators.
 #
 
-import os
-
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
@@ -107,7 +81,7 @@ dpf.start_local_server(config=dpf.AvailableServerConfigs.GrpcServer)
 tmp = dpf.make_tmp_dir_server()
 dpf.upload_files_in_folder(dpf.path_utilities.join(tmp, "average_filter_plugin"), plugin_folder)
 dpf.load_library(
-    os.path.join(dpf.path_utilities.join(tmp, "average_filter_plugin")),
+    dpf.path_utilities.join(tmp, "average_filter_plugin"),
     "py_average_filter",
     "load_operators",
 )
