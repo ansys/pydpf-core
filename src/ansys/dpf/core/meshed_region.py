@@ -425,7 +425,7 @@ class MeshedRegion:
                 )
         if server:
             # Copy the scoping to another server
-            out_scoping.deep_copy(server=server)
+            out_scoping = out_scoping.deep_copy(server=server)
         return out_scoping
 
     @version_requires("3.0")
