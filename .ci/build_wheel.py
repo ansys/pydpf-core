@@ -15,7 +15,8 @@ supported_platforms = {
     "win": "win_amd64",
     "manylinux1": "manylinux1_x86_64",
     "manylinux_2_17": "manylinux_2_17_x86_64",
-    "linux": "manylinux_2_17_x86_64",  # Accommodate tox.ini platform substitutions
+    # Accommodate tox.ini automatic platform substitutions
+    "linux": "manylinux_2_17_x86_64",
     "win32": "win_amd64",
     "darwin": "any",
 }
