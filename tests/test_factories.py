@@ -32,7 +32,6 @@ from ansys.dpf.core import server
 from ansys.dpf.core import server_factory
 from ansys.dpf.core import time_freq_scoping_factory
 from ansys.dpf.core.common import locations
-from conftest import server_type
 
 
 def test_create_matrix_field():
