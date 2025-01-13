@@ -1,6 +1,14 @@
 import os
+import subprocess
+import sys
+from pathlib import Path
+
 import packaging.version
-import pkg_resources
+import importlib
+try:
+    import importlib.metadata as importlib_metadata
+except ImportError:  # Python < 3.10 (backport)
+    import importlib_metadata as importlib_metadata
 import importlib
 from ansys.dpf.gate.generated import capi
 from ansys.dpf.gate import utils, errors
@@ -74,19 +82,27 @@ def _find_latest_ansys_versions():
 
 def _paths_to_dpf_server_library_installs() -> dict:
     path_per_version = {}
-    installed_packages = pkg_resources.working_set
-    for i in installed_packages:
-        if "ansys-dpf-server" in i.key:
-            file_name = pkg_resources.to_filename(i.project_name.replace("ansys-dpf-", ""))
-            try:
-                module = importlib.import_module("ansys.dpf." + file_name)
-                path_per_version[
-                    packaging.version.parse(module.__version__)
-                ] = module.__path__[0]
-            except ModuleNotFoundError:
-                pass
-            except AttributeError:
-                pass
+    for d in importlib_metadata.distributions():
+        distribution_name = d.metadata["Name"]
+        if "ansys-dpf-server" in distribution_name:
+            # Cannot use the distribution.files() as those only list the files in the site-packages,
+            # which for editable installations does not necessarily give the actual location of the
+            # source files. It may rely on a Finder, which has to run.
+            # The most robust way of resolving the location is to let the import machinery do its
+            # job, using importlib.import_module. We do not want however to actually import the
+            # server libraries found, which is why we do it in a subprocess.
+            package_path = subprocess.check_output(
+                args=[
+                    sys.executable,
+                    "-c",
+                    f"""import importlib 
+print(importlib.import_module('{distribution_name}'.replace('-', '.')).__path__[0])""",
+                ],
+                text=True,
+            ).rstrip()
+            path_per_version[
+                packaging.version.parse(d.version)
+            ] = package_path
     return path_per_version
 
 
