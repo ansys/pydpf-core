@@ -1496,3 +1496,5 @@ class LegacyGrpcServer(BaseServer):
 # DpfServer: TypeAlias = LegacyGrpcServer
 # Python <3.10
 DpfServer = LegacyGrpcServer
+
+AnyServerType = Union[LegacyGrpcServer, InProcessServer, GrpcServer]
