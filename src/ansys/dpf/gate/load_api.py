@@ -85,6 +85,7 @@ def _paths_to_dpf_server_library_installs() -> dict:
     for d in importlib_metadata.distributions():
         distribution_name = d.metadata["Name"]
         if "ansys-dpf-server" in distribution_name:
+            print(distribution_name)
             # Cannot use the distribution.files() as those only list the files in the site-packages,
             # which for editable installations does not necessarily give the actual location of the
             # source files. It may rely on a Finder, which has to run.
@@ -96,7 +97,7 @@ def _paths_to_dpf_server_library_installs() -> dict:
                     sys.executable,
                     "-c",
                     f"""import importlib 
-print(importlib.import_module('{distribution_name}'.replace('-', '.')).__path__[0])""",
+print(importlib.import_module('ansys.dpf.server{distribution_name[16:]}'.replace('-', '_')).__path__[0])""",
                 ],
                 text=True,
             ).rstrip()
