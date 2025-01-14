@@ -280,4 +280,4 @@ corresponding element name.
             print(el_types_4)
 
 For more information about how to explore a mesh metadata before extracting it from a result file, see the
-:ref:`<ref_tutorials_explore_mesh_metadata>`tutorial.
+:ref:`ref_tutorials_explore_mesh_metadata` tutorial.
