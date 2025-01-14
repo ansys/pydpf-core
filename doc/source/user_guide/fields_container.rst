@@ -574,5 +574,5 @@ For comprehensive information on chaining operators, see :ref:`ref_user_guide_op
 
 API reference
 -------------
-For more information, see :ref:`ref_fields_container` and
-:ref:`ref_field` in the **API reference**.
+For more information, see :py:mod:`FieldsContainer <ansys.dpf.core.fields_container>` and
+:py:mod:`Field <ansys.dpf.core.field>` in the **API reference**.
