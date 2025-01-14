@@ -20,25 +20,22 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""Version for ansys-dpf-core."""
+import pytest
 
-from packaging.version import parse as parse_version
-
-# Minimal DPF server version supported
-min_server_version = "4.0"
+from ansys.dpf.core._version import server_to_ansys_version
 
 
-class ServerToAnsysVersion:
-    def __getitem__(self, item):
-        version = parse_version(item)
-        # The current DPF versioning scheme is MAJOR.MINOR.PATCH
-        # Compute release version equivalent (YEAR+'R'+REVISION)
-        # The revision is 'R1' for any odd major DPF version, 'R2' for even major versions.
-        ansys_revision = 2 - version.major % 2
-        # The year is 2021 for DPF 1.0, and bumped every two releases.
-        ansys_year = 2020 + version.major // 2 + version.major % 2
-        # Return the corresponding Ansys release
-        return f"{ansys_year}R{ansys_revision}"
-
-
-server_to_ansys_version = ServerToAnsysVersion()
+@pytest.mark.parametrize(
+    "server_version,ansys_version",
+    [
+        # Current DPF versioning
+        ("1.0", "2021R1"),
+        ("2.0", "2021R2"),
+        ("2.1", "2021R2"),
+        ("3.0", "2022R1"),
+        ("2023.0", "3032R1"),
+        ("2023.1.12", "3032R1"),
+    ],
+)
+def test_server_to_ansys_version(server_version, ansys_version):
+    assert server_to_ansys_version[server_version] == ansys_version
