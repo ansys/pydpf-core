@@ -28,14 +28,16 @@ from ansys.dpf.core._version import server_to_ansys_version
 @pytest.mark.parametrize(
     "server_version,ansys_version",
     [
+        # Current DPF versioning
         ("1.0", "2021R1"),
         ("2.0", "2021R2"),
         ("2.1", "2021R2"),
         ("3.0", "2022R1"),
         ("2023.0", "3032R1"),
         ("2023.1.12", "3032R1"),
+        # Proposed calendar-like versioning
         ("2024.0", "2024R0"),
-        ("2024.1", "2024R1"),
+        ("2024.1.12", "2024R1"),
         ("2024.1.pre0", "2024R1"),
     ],
 )
