@@ -112,4 +112,4 @@ def test_version():
     from ansys.dpf.core._version import server_to_ansys_version
 
     assert server_to_ansys_version["1.0"] == "2021R1"
-    assert server_to_ansys_version["2099.9"] == "2099R9"
+    assert server_to_ansys_version["10.0.12"] == "2025R2"
