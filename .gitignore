@@ -69,6 +69,10 @@ instance/
 # Sphinx documentation
 doc/_build/
 
+# Operators documentation
+doc/source/operators_doc/*.md
+!doc/source/operators_doc/operator_doc_template.md
+
 # PyBuilder
 .pybuilder/
 target/
