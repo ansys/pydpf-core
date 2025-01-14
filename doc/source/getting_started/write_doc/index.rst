@@ -13,7 +13,7 @@ ensure that all the documentation looks the same across the project.
 To improve the documentation you need to:
 
 - Start by `cloning the repository <Clone the repository>`_;
-- Follow the `guidelines <Guide Lines>`_ to the corresponding documentation part you want to develop;
+- Follow the `guidelines <Guidelines>`_ to the corresponding documentation part you want to develop;
 - Check the new documentation by `viewing the documentaion <View the documentation>`_
 
 Clone the repository
@@ -32,8 +32,8 @@ development mode by running this code:
 Guidelines
 ----------
 
-Our documentation tries to follow a structure principle that respects four different functions of the documentation
-that fulfils the possible needs of people working with our tool at different times, in different circumstances.
+Our documentation tries to follow a structure principle that respects four different functions of the documentation.
+Each of them fulfills a different need for people working with our tool at different times, in different circumstances.
 
 Here is an overview of how our documentation is organized to help you know where you should include your contributions.
 Each section has their own guidelines that must be followed when creating new content.

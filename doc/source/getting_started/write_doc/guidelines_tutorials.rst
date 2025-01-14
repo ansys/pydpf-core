@@ -164,8 +164,8 @@ The header must have :
 .. literalinclude:: tutorial_structure_template.rst
     :end-before: First Step
 
-The main PyDPF-Core library references are available already defined in the ``doc/source/links_and_refs.rst`` file.
-To employ them, you just need to use the substitution text as usual:
+The main PyDPF-Core library references are available in the ``doc/source/links_and_refs.rst`` file.
+To add a reference, use the substitution text as usual:
 
 .. code-block::
 
@@ -186,7 +186,7 @@ For more information about the predefined references, see the
 Content
 ^^^^^^^
 
-A tutorial goal is to explain how to perform a task step by step and understand the underlying concepts.
+The goal of a tutorial is to present a feature or explain how to perform a common task step by step while explaining a behavior or underlying concepts.
 Thus, its structure must prioritize clarity, simplicity, and logical flow.
 
 Sections
@@ -196,15 +196,15 @@ A well-organized tutorial breaks down complex tasks into manageable steps, prese
 to avoid overwhelming the user. It combines concise explanations with actionable instructions, ensuring users
 can follow along easily while building their understanding.
 
-Thus, the sections of the content are the steps themselves. Globally those steps looks like:
+Thus, the sections of the content are the steps themselves. These steps are generally similar to:
 
-#. Get data, define DPF objects that contains the data;
-#. One or more steps where you manipulate, handles the data/ DPF objects;
-#. Conclusion, here is the final step where the tutorial goal is accomplished.
+#. A first step where you get some data and create DPF objects based on the data;
+#. One or more steps where you manipulate the data or the DPF objects;
+#. A final step where you reach the objective of the tutorial and obtain the expected result.
 
 For example:
 
-A tutorial goal is to explains how to plot a mesh using PyDPF-Core.
+A tutorial explains how to plot a mesh using PyDPF-Core.
 The steps to achieve this task are:
 
 #. Import a result file;
@@ -235,8 +235,7 @@ To create those section, underline it with the appropriate characters (here: ``-
 Tabs
 ~~~~
 
-You must use tabs in the case the tutorial is applicable fore more then one solver and the implementations are
-different for each of them.
+You must use tabs when a step requires a solver-specific implementation.
 
 These tabs looks like:
 
@@ -317,7 +316,7 @@ guide to ensure that all code looks the same across the project.
                 # This is a simple code block
                 from ansys.dpf import core as dpf
 
-- Every code implementation must be commented:
+- Use comments within a code block to clarify the purpose of a line:
 
 .. grid:: 2
     :gutter: 2
@@ -345,7 +344,7 @@ guide to ensure that all code looks the same across the project.
             model = dpf.Model()
             stress_fc = model.results.stress.eval()
 
-- You must split your code in several parts so you can make explanations between them:
+- Split your code in several parts to include longer explanations in text format or force showing an intermediate code output:
 
 .. grid:: 2
     :gutter: 2
@@ -384,7 +383,7 @@ guide to ensure that all code looks the same across the project.
             # Code comment 2
             code2
 
-- When using a PyDPF-Core object or method you must use key arguments:
+- When using a PyDPF-Core object or method you must name arguments:
 
 .. grid:: 2
     :gutter: 2
@@ -522,7 +521,7 @@ Text formating
 ~~~~~~~~~~~~~~
 
 In addition to the guidelines presented here, you must also follow the `Documentation style <dev_guide_doc_style_>`_
-guide to ensure that all the tutorials looks the same across the project.
+guide to ensure that the tutorials follow a coherent writing style across the project.
 
 - When quoting APIs in the text you must always use a reference to redirect it to the API reference
 
@@ -541,7 +540,7 @@ guide to ensure that all the tutorials looks the same across the project.
 
         **Rendered text:**
 
-        Here some text. Here we use the |MeshedRegion| substitution text
+        Here is some text. Here we use the |MeshedRegion| substitution text
 
     .. grid-item-card::
 
@@ -549,13 +548,13 @@ guide to ensure that all the tutorials looks the same across the project.
 
         .. code-block::
 
-            Here we don't use the MeshedRegion substitution text
+            Here we do not use the MeshedRegion substitution text
 
         **Rendered text:**
 
-        Here some text. Here we don't use the MeshedRegion substitution text
+        Here is some text. Here we do not use the MeshedRegion substitution text
 
-- When enumerating something you must use bullet lists:
+- Use bullet lists when enumerating items:
 
 .. grid:: 2
     :gutter: 2
@@ -583,7 +582,7 @@ guide to ensure that all the tutorials looks the same across the project.
             This operator accepts a Result, an Operator or a
             FieldsContainer as arguments.
 
-- If the enumeration represent a order of topics the list must be numbered:
+- Use a numbered list for ordered items:
 
 .. grid:: 2
     :gutter: 2
@@ -616,7 +615,7 @@ guide to ensure that all the tutorials looks the same across the project.
             - Create a Model;
             - Get the MeshedRegion.
 
-- If you need to develop explanations for each item of the list, first, you enumerate and reference them. Then, you
+- If you need to develop explanations for each item of the list, first, enumerate and reference them. Then,
   explore each of them separately in sub headings.
 
 .. grid:: 2
@@ -633,7 +632,7 @@ guide to ensure that all the tutorials looks the same across the project.
             Section title
             -------------
 
-            Here, we explain the two following items:
+            This section presents two items:
 
             - :ref:`Item 1 <ref_tutorial_name_item_1>`
             - :ref:`Content<ref_tutorial_name_item_2>`
@@ -644,7 +643,7 @@ guide to ensure that all the tutorials looks the same across the project.
             Item 1
             ^^^^^^
 
-            Development text and code blocks 1 ...
+            Presentation of the first item...
 
 
             .. _ref_tutorial_name_item_2:
@@ -652,7 +651,7 @@ guide to ensure that all the tutorials looks the same across the project.
             Item 2
             ^^^^^^
 
-            Development text and code blocks 2 ...
+            Presentation of the second item...
 
     .. grid-item-card::
 
@@ -663,18 +662,18 @@ guide to ensure that all the tutorials looks the same across the project.
             Section title
             -------------
 
-            Here, we explain the two following items:
+            This section presents two items:
 
             - Item 1
             - Item 2
 
             Item 1
             ^^^^^^
-            Development text and code blocks 1 ...
+            Presentation of the first item...
 
             Item 2
             ^^^^^^
-            Development text and code blocks 2 ...
+            Presentation of the second item...
 
 
         .. code-block::
@@ -682,11 +681,11 @@ guide to ensure that all the tutorials looks the same across the project.
             Section title
             -------------
 
-            Here, we explain the two following items:
+            This section presents two items:
 
             - Item 1
-            Development text and code blocks 1 ...
+            Presentation of the first item...
 
 
             - Item 2
-            Development text and code blocks 2 ...
+            Presentation of the second item...
