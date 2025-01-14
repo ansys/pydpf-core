@@ -35,10 +35,6 @@ from ansys.dpf.core._version import server_to_ansys_version
         ("3.0", "2022R1"),
         ("2023.0", "3032R1"),
         ("2023.1.12", "3032R1"),
-        # Proposed calendar-like versioning
-        ("2024.0", "2024R0"),
-        ("2024.1.12", "2024R1"),
-        ("2024.1.pre0", "2024R1"),
     ],
 )
 def test_server_to_ansys_version(server_version, ansys_version):

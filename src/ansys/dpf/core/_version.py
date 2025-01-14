@@ -31,18 +31,14 @@ min_server_version = "4.0"
 class ServerToAnsysVersion:
     def __getitem__(self, item):
         version = parse_version(item)
-        if version.major < 2024:
-            # Support the current DPF versioning scheme (XX.Y where necessarily XX<2024)
-            # Compute release version equivalent (YEAR+'R'+REVISION)
-            # The revision is 'R1' for any odd major DPF version, 'R2' for even major versions.
-            ansys_revision = 2 - version.major % 2
-            # The year is 2021 for DPF 1.0, and bumped every two releases.
-            ansys_year = 2020 + version.major // 2 + version.major % 2
-            # Return the corresponding Ansys release
-            return f"{ansys_year}R{ansys_revision}"
-        else:
-            # Support the YEAR.REVISION versioning scheme for DPF
-            return f"{version.major}R{version.minor}"
+        # The current DPF versioning scheme is MAJOR.MINOR.PATCH
+        # Compute release version equivalent (YEAR+'R'+REVISION)
+        # The revision is 'R1' for any odd major DPF version, 'R2' for even major versions.
+        ansys_revision = 2 - version.major % 2
+        # The year is 2021 for DPF 1.0, and bumped every two releases.
+        ansys_year = 2020 + version.major // 2 + version.major % 2
+        # Return the corresponding Ansys release
+        return f"{ansys_year}R{ansys_revision}"
 
 
 server_to_ansys_version = ServerToAnsysVersion()
