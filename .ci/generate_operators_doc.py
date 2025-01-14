@@ -1,0 +1,115 @@
+from ansys.dpf import core as dpf
+from ansys.dpf.core.dpf_operator import available_operator_names
+from ansys.dpf.core.core import load_library
+import argparse
+import json
+import os
+from jinja2 import Template
+
+def initialize_server(ansys_path=None):
+    server = dpf.start_local_server(ansys_path=ansys_path)
+    print(f"Ansys Path: {server.ansys_path}")
+    print(f"Server Info: {server.info}")
+    print(f"Server Context: {server.context}")
+    print(f"Server Config: {server.config}")
+    print(f"Server version: {dpf.global_server().version}")
+    print("Loading Composites Plugin")
+    load_library(os.path.join(server.ansys_path, "dpf", "plugins", "dpf_composites", "composite_operators.dll"))
+    print("Loading Acoustics Plugin")
+    load_library(os.path.join(server.ansys_path, "Acoustics", "SAS", "ads", "dpf_sound.dll"))
+    return server
+
+def fetch_doc_info(server, operator_name):
+    spec = dpf.Operator.operator_specification(op_name=operator_name, server=server)
+    input_info = []
+    output_info = []
+    configurations_info = []
+    for input_pin in spec.inputs:
+        input = spec.inputs[input_pin]
+        input_info.append({
+            "pin_number": input_pin,
+            "name": input.name,
+            "types": [str(t) for t in input._type_names],
+            "document": input.document,
+            "optional": input.optional,
+        })
+    for output_pin in spec.outputs:
+        output = spec.outputs[output_pin]
+        output_info.append({
+            "pin_number": output_pin,
+            "name": output.name,
+            "types": [str(t) for t in output._type_names],
+            "document": output.document,
+            "optional": output.optional,
+        })
+    for configuration_key in spec.config_specification:
+        configuration = spec.config_specification[configuration_key]
+        configurations_info.append({
+            "name": configuration.name,
+            "types": [str(t) for t in configuration.type_names],
+            "document": configuration.document,
+            "default_value": configuration.default_value_str,
+        })
+    properties = spec.properties
+    if "plugin" in properties:
+        plugin = properties["plugin"]
+    else:
+        plugin = "N/A"
+    scripting_info = {
+        "category": properties['category'],
+        "plugin": plugin,
+        "scripting_name": properties['scripting_name'],
+        "full_name": properties['category'] + "." + properties['scripting_name'],
+        "internal_name": properties['scripting_name'],
+    }
+    return {
+        "operator_name": scripting_info['category'] + ": " + properties['user_name'],
+        "operator_description": spec.description,
+        "inputs": input_info,
+        "outputs": output_info,
+        "configurations": configurations_info,
+        "scripting_info": scripting_info,
+    }
+
+def get_plugin_operators(server, plugin_name):
+    operators = available_operator_names(server)
+    plugin_operators = []
+    for operator_name in operators:
+        spec = dpf.Operator.operator_specification(op_name=operator_name, server=server)
+        if "plugin" in spec.properties and spec.properties["plugin"] == plugin_name:
+            plugin_operators.append(operator_name)
+    return plugin_operators
+
+def generate_operator_doc(server, operator_name):
+    operator_info = fetch_doc_info(server, operator_name)
+    script_dir = os.path.dirname(__file__)
+    root_dir = os.path.dirname(script_dir)
+    template_dir = os.path.join(root_dir, 'doc', 'source', 'operators_doc')
+    with open(os.path.join(template_dir, 'operator_doc_template.md'), 'r') as file:
+        template = Template(file.read())
+    
+    output = template.render(operator_info)
+    if "::" in operator_name:
+        operator_name = operator_name.replace("::", "_")
+    with open(os.path.join(template_dir, f"{operator_name}.md"), 'w') as file:
+        file.write(output)
+
+def main():
+    parser = argparse.ArgumentParser(description="Fetch available operators")
+    parser.add_argument("--plugin", help="Filter operators by plugin")
+    parser.add_argument("--ansys_path", default=None, help="Path to Ansys DPF Server installation directory")
+    args = parser.parse_args()
+    desired_plugin = args.plugin
+
+    server = initialize_server(args.ansys_path)
+    if desired_plugin is None:
+        operators = available_operator_names(server)
+        for operator_name in operators:
+            generate_operator_doc(server, operator_name)
+    else:
+        plugin_operators = get_plugin_operators(server, desired_plugin)
+        for operator_name in plugin_operators:
+            generate_operator_doc(server, operator_name)
+
+if __name__ == "__main__":
+    main()
