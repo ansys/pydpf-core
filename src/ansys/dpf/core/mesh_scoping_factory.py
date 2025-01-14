@@ -120,4 +120,4 @@ def named_selection_scoping(
         A scoping containing the IDs of the entities in the named selection.
         The location depends on the type of entities targeted by the named selection.
     """
-    return model.metadata.named_selection(named_selection_name)
+    return model.metadata.named_selection(named_selection=named_selection_name, server=server)
