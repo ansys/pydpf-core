@@ -22,36 +22,23 @@
 
 """Version for ansys-dpf-core."""
 
+from packaging.version import parse as parse_version
+
 # Minimal DPF server version supported
 min_server_version = "4.0"
 
 
 class ServerToAnsysVersion:
-    legacy_version_map = {
-        "1.0": "2021R1",
-        "2.0": "2021R2",
-        "3.0": "2022R1",
-        "4.0": "2022R2",
-        "5.0": "2023R1",
-        "6.0": "2023R2",
-        "6.1": "2023R2",
-        "6.2": "2023R2",
-        "7.0": "2024R1",
-        "7.1": "2024R1",
-        "8.0": "2024R2",
-        "8.1": "2024R2",
-        "8.2": "2024R2",
-        "9.0": "2025R1",
-        "9.1": "2025R1",
-        "10.0": "2025R2",
-    }
-
     def __getitem__(self, item):
-        if len(item) == 3:
-            return self.legacy_version_map[item]
-        else:
-            split = item.split(".")
-            return split[0] + "R" + split[1]
+        version = parse_version(item)
+        # The current DPF versioning scheme is MAJOR.MINOR.PATCH
+        # Compute release version equivalent (YEAR+'R'+REVISION)
+        # The revision is 'R1' for any odd major DPF version, 'R2' for even major versions.
+        ansys_revision = 2 - version.major % 2
+        # The year is 2021 for DPF 1.0, and bumped every two releases.
+        ansys_year = 2020 + version.major // 2 + version.major % 2
+        # Return the corresponding Ansys release
+        return f"{ansys_year}R{ansys_revision}"
 
 
 server_to_ansys_version = ServerToAnsysVersion()
