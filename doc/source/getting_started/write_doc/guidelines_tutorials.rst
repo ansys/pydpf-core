@@ -148,8 +148,8 @@ The tutorial is divided in two main parts:
 Header
 ^^^^^^
 
-This first part is essential for clarity, organization and usability of the tutorial. It establishes the tutorials
-purpose, making it easy to understand what is going to be explained and reference it within the other parts of
+This first part is essential for clarity, organization and usability of the tutorial. It establishes the purpose 
+of the tutorial, making it easier to understand what is going to be explained and reference it within the other parts of
 the documentation.
 
 The header must have :
@@ -274,8 +274,8 @@ These tabs looks like:
             # Code block 4
 
 
-You can also use tabs if you want to show different approaches to one step and it would be more clear
-to have the code blocks in different tabs. You can see an example of this case in the
+You can also use tabs if you want to show different approaches to one step and it having the code blocks
+in different tabs is clearer. You can see an example of this in the
 :ref:`ref_tutorials_animate_time` tutorial.
 
 
