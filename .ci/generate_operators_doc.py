@@ -70,12 +70,17 @@ def fetch_doc_info(server, operator_name):
     except KeyError:
         category = ""
         op_friendly_name = user_name
+    try:
+        license = properties['license']
+    except KeyError:
+        license = "None"
     scripting_info = {
         "category": category,
         "plugin": plugin,
         "scripting_name": scripting_name,
         "full_name": full_name,
-        "internal_name": scripting_name,
+        "internal_name": operator_name,
+        "license": license,
     }
     return {
         "operator_name": op_friendly_name,
@@ -84,6 +89,7 @@ def fetch_doc_info(server, operator_name):
         "outputs": output_info,
         "configurations": configurations_info,
         "scripting_info": scripting_info,
+        "exposure": properties['exposure'],
     }
 
 def get_plugin_operators(server, plugin_name):
@@ -95,8 +101,10 @@ def get_plugin_operators(server, plugin_name):
             plugin_operators.append(operator_name)
     return plugin_operators
 
-def generate_operator_doc(server, operator_name):
+def generate_operator_doc(server, operator_name, include_private):
     operator_info = fetch_doc_info(server, operator_name)
+    if not include_private and operator_info["exposure"] == "private":
+        return
     script_dir = os.path.dirname(__file__)
     root_dir = os.path.dirname(script_dir)
     template_dir = os.path.join(root_dir, 'doc', 'source', 'operators_doc')
@@ -113,6 +121,7 @@ def main():
     parser = argparse.ArgumentParser(description="Fetch available operators")
     parser.add_argument("--plugin", help="Filter operators by plugin")
     parser.add_argument("--ansys_path", default=None, help="Path to Ansys DPF Server installation directory")
+    parser.add_argument("--include_private", action="store_true", help="Include private operators")
     args = parser.parse_args()
     desired_plugin = args.plugin
 
@@ -120,11 +129,11 @@ def main():
     if desired_plugin is None:
         operators = available_operator_names(server)
         for operator_name in operators:
-            generate_operator_doc(server, operator_name)
+            generate_operator_doc(server, operator_name, args.include_private)
     else:
         plugin_operators = get_plugin_operators(server, desired_plugin)
         for operator_name in plugin_operators:
-            generate_operator_doc(server, operator_name)
+            generate_operator_doc(server, operator_name, args.include_private)
 
 if __name__ == "__main__":
     main()

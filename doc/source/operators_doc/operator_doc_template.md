@@ -29,3 +29,4 @@
 - **scripting name**: {{ scripting_info.scripting_name }}
 - **full name**: {{ scripting_info.full_name }}
 - **internal name**: {{ scripting_info.internal_name }}
+- **license**: {{ scripting_info.license }}
