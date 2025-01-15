@@ -2,7 +2,6 @@ from ansys.dpf import core as dpf
 from ansys.dpf.core.dpf_operator import available_operator_names
 from ansys.dpf.core.core import load_library
 import argparse
-import json
 import os
 from jinja2 import Template
 
@@ -55,15 +54,31 @@ def fetch_doc_info(server, operator_name):
         plugin = properties["plugin"]
     else:
         plugin = "N/A"
+    try:
+        scripting_name = properties['scripting_name']
+        full_name = properties['category'] + "." + properties['scripting_name']
+    except KeyError:
+        scripting_name = None
+        full_name = None
+    try:
+        user_name = properties['user_name']
+    except KeyError:
+        user_name = operator_name
+    try:
+        category = properties['category']
+        op_friendly_name = category + ": " + user_name
+    except KeyError:
+        category = ""
+        op_friendly_name = user_name
     scripting_info = {
-        "category": properties['category'],
+        "category": category,
         "plugin": plugin,
-        "scripting_name": properties['scripting_name'],
-        "full_name": properties['category'] + "." + properties['scripting_name'],
-        "internal_name": properties['scripting_name'],
+        "scripting_name": scripting_name,
+        "full_name": full_name,
+        "internal_name": scripting_name,
     }
     return {
-        "operator_name": scripting_info['category'] + ": " + properties['user_name'],
+        "operator_name": op_friendly_name,
         "operator_description": spec.description,
         "inputs": input_info,
         "outputs": output_info,
