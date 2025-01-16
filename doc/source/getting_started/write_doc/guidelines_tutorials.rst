@@ -372,6 +372,8 @@ guide to ensure that all code looks the same across the project.
     .. grid-item-card::
 
         :octicon:`x-circle-fill` **Incorrect**
+        
+        A single broad explanation for two steps with outputs mixed together
 
         .. code-block::
 
