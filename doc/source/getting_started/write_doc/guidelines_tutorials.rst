@@ -355,14 +355,14 @@ guide to ensure that all code looks the same across the project.
 
         :octicon:`check-circle-fill` **Correct**
 
-        First explanation
+        Explanation for a first code block and its output
 
         .. code-block::
 
             # Code comment 1
             code1
 
-        Second explanation
+        Explanation for a second code block and its output
 
         .. code-block::
 

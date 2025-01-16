@@ -2,7 +2,7 @@
 Tabs for different solvers
 --------------------------
 
-Here you have to make an implementation but it is different for the different solvers
+Showcase a different script for each supported solvers
 
 .. tab-set::
 
@@ -41,13 +41,13 @@ Here you have to make an implementation but it is different for the different so
 Bullet lists
 ------------
 
-Here you enumerate something:
+Enumerate something:
 
 - something 1;
 - something 2;
 - something 3.
 
-Here you enumerate something with a numbered list:
+Enumerate something with a numbered list:
 
 #. something 1;
 #. something 2;
@@ -56,7 +56,7 @@ Here you enumerate something with a numbered list:
 Bullet lists with explanations between items
 --------------------------------------------
 
-Here you enumerate something and reference them to use each item as a subheading:
+Enumerate something and reference them to use each item as a subheading:
 
 - :ref:`Something 1<ref_something_1>`;
 - :ref:`Something 2<ref_something_2>`;
