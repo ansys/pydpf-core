@@ -6,6 +6,7 @@
 .. _pydpfcore_issues: https://github.com/ansys/pydpf-core/issues
 .. _pydpfcore_discussions: https://github.com/ansys/pydpf-core/discussions
 .. _pydpfcore_latest_release: https://github.com/ansys/pydpf-core/releases/latest
+.. _pydpfcore_documentation: https://dpf.docs.pyansys.com/
 
 .. Pyansys
 .. _pyansys: https://docs.pyansys.com/version/dev/
