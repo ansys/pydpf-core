@@ -239,6 +239,15 @@ class DataProcessingCAPI(data_processing_abstract_api.DataProcessingAbstractAPI)
 		return res
 
 	@staticmethod
+	def data_processing_deserialize_many(str, strSize, size):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.DataProcessing_deserializeMany(utils.to_char_ptr(str), strSize, size, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def data_processing_get_global_config_as_data_tree():
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
@@ -565,6 +574,15 @@ class DataProcessingCAPI(data_processing_abstract_api.DataProcessingAbstractAPI)
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.DataProcessing_create_param_tree_on_client(client._internal_obj if client is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def data_processing_create_from_on_client(client, base):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.DataProcessing_create_from_on_client(client._internal_obj if client is not None else None, base._internal_obj if base is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res

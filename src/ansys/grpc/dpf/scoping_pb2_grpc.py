@@ -20,6 +20,11 @@ class ScopingServiceStub(object):
                 request_serializer=base__pb2.Empty.SerializeToString,
                 response_deserializer=scoping__pb2.Scoping.FromString,
                 )
+        self.CreateWithData = channel.stream_stream(
+                '/ansys.api.dpf.scoping.v0.ScopingService/CreateWithData',
+                request_serializer=scoping__pb2.AllData.SerializeToString,
+                response_deserializer=scoping__pb2.CreateWithDataResponse.FromString,
+                )
         self.Update = channel.unary_unary(
                 '/ansys.api.dpf.scoping.v0.ScopingService/Update',
                 request_serializer=scoping__pb2.UpdateRequest.SerializeToString,
@@ -61,6 +66,12 @@ class ScopingServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def Create(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def CreateWithData(self, request_iterator, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -119,6 +130,11 @@ def add_ScopingServiceServicer_to_server(servicer, server):
                     servicer.Create,
                     request_deserializer=base__pb2.Empty.FromString,
                     response_serializer=scoping__pb2.Scoping.SerializeToString,
+            ),
+            'CreateWithData': grpc.stream_stream_rpc_method_handler(
+                    servicer.CreateWithData,
+                    request_deserializer=scoping__pb2.AllData.FromString,
+                    response_serializer=scoping__pb2.CreateWithDataResponse.SerializeToString,
             ),
             'Update': grpc.unary_unary_rpc_method_handler(
                     servicer.Update,
@@ -179,6 +195,23 @@ class ScopingService(object):
         return grpc.experimental.unary_unary(request, target, '/ansys.api.dpf.scoping.v0.ScopingService/Create',
             base__pb2.Empty.SerializeToString,
             scoping__pb2.Scoping.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def CreateWithData(request_iterator,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.stream_stream(request_iterator, target, '/ansys.api.dpf.scoping.v0.ScopingService/CreateWithData',
+            scoping__pb2.AllData.SerializeToString,
+            scoping__pb2.CreateWithDataResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 

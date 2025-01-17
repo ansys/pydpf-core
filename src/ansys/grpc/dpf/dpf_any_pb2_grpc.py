@@ -20,6 +20,11 @@ class DpfAnyServiceStub(object):
                 request_serializer=dpf__any__pb2.CreateRequest.SerializeToString,
                 response_deserializer=dpf__any__message__pb2.DpfAny.FromString,
                 )
+        self.CreateWithData = channel.stream_stream(
+                '/ansys.api.dpf.dpf_any.v0.DpfAnyService/CreateWithData',
+                request_serializer=dpf__any__pb2.AllData.SerializeToString,
+                response_deserializer=dpf__any__pb2.CreateWithDataResponse.FromString,
+                )
         self.List = channel.unary_unary(
                 '/ansys.api.dpf.dpf_any.v0.DpfAnyService/List',
                 request_serializer=dpf__any__message__pb2.DpfAny.SerializeToString,
@@ -51,6 +56,12 @@ class DpfAnyServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def Create(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def CreateWithData(self, request_iterator, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -93,6 +104,11 @@ def add_DpfAnyServiceServicer_to_server(servicer, server):
                     servicer.Create,
                     request_deserializer=dpf__any__pb2.CreateRequest.FromString,
                     response_serializer=dpf__any__message__pb2.DpfAny.SerializeToString,
+            ),
+            'CreateWithData': grpc.stream_stream_rpc_method_handler(
+                    servicer.CreateWithData,
+                    request_deserializer=dpf__any__pb2.AllData.FromString,
+                    response_serializer=dpf__any__pb2.CreateWithDataResponse.SerializeToString,
             ),
             'List': grpc.unary_unary_rpc_method_handler(
                     servicer.List,
@@ -143,6 +159,23 @@ class DpfAnyService(object):
         return grpc.experimental.unary_unary(request, target, '/ansys.api.dpf.dpf_any.v0.DpfAnyService/Create',
             dpf__any__pb2.CreateRequest.SerializeToString,
             dpf__any__message__pb2.DpfAny.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def CreateWithData(request_iterator,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.stream_stream(request_iterator, target, '/ansys.api.dpf.dpf_any.v0.DpfAnyService/CreateWithData',
+            dpf__any__pb2.AllData.SerializeToString,
+            dpf__any__pb2.CreateWithDataResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
