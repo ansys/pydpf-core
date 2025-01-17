@@ -111,7 +111,9 @@ Each section has their own guidelines that must be followed when creating new co
 
        **Function:** Describe PyDPF-Core APIs
 
-       They contain technical reference on how PyDPF-Core works and how to use it but assume basic understanding of key DPF concepts. It is generated automatically along the documentation and is based on the source code.
+       They contain technical reference on how PyDPF-Core works and how to use it but assume basic
+       understanding of key DPF concepts. It is generated automatically along the documentation and
+       is based on the source code.
 
        +++
        .. rubric:: Guidelines
@@ -122,12 +124,10 @@ View the documentation
 ----------------------
 
 Documentation for the latest stable release of PyDPF-Core is hosted at
-`PyDPF-Core Documentation <https://dpf.docs.pyansys.com/>`_.
+`PyDPF-Core Documentation <pydpfcore_documentation_>`_.
 
-In the upper right corner of the documentation's title bar, there is an option
-for switching from viewing the documentation for the latest stable release
-to viewing the documentation for the development version or previously
-released versions.
+You can locally build the documentation by following the steps in
+`Contributing <dev_guide_contributing_>`_ in the *PyAnsys Developer's Guide*.
 
 .. toctree::
     :maxdepth: 2
