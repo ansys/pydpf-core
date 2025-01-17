@@ -571,6 +571,10 @@ class FieldsContainer(CollectionBase[field.Field]):
         # First define the workflow index input
         forward_index = dpf.core.operators.utility.forward()
         wf.set_input_name("loop_over", forward_index.inputs.any)
+        # Add a time values input
+        forward_time = dpf.core.operators.utility.forward()
+        wf.set_input_name("loop_over_values", forward_time.inputs.any)
+        wf.set_output_name("time_values", forward_time.outputs.any)
         # Define the field extraction using the fields_container and indices
         extract_field_op = dpf.core.operators.utility.extract_field(self)
         to_render = extract_field_op.outputs.field
