@@ -24,7 +24,6 @@
 Model.
 
 Module contains the Model class to manage file result models.
-
 """
 
 from __future__ import annotations
