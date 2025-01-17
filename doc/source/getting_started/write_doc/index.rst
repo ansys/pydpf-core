@@ -55,7 +55,7 @@ Each section has their own guidelines that must be followed when creating new co
        **Function:**  Teach how to get started and use PYDPF-core step by step
 
        They are designed to teach how to perform a task and understand the underlying concepts,
-       providing detailed explanations at each stage.
+       providing detailed explanations at each stage. The task is built around the application of specific features.
 
        +++
        .. rubric:: Guidelines
@@ -74,7 +74,7 @@ Each section has their own guidelines that must be followed when creating new co
        **Function:**  Show how to solve specifics key problems
 
        They showcase specific key problems and use-cases. They are more advanced than
-       tutorials and assume some knowledge on PyDPF-Core.
+       tutorials as they present end-to-end engineering workflows and assume basic knowledge of PyDPF-Core.
 
        +++
        .. rubric:: Guidelines
@@ -90,10 +90,9 @@ Each section has their own guidelines that must be followed when creating new co
        Understanding oriented
        ^^^^^^^^^^^^^^^^^^^^^^
 
-       **Function:**  Provide useful background explanation on PyDPF-Core
+       **Function:**  Provide useful theoretical explanations for PyDPF-Core
 
-       They discuss and explain key topics and concepts providing enabling the reader to understand our
-       tool.
+       They discuss and explain key DPF principles and concepts, enabling the reader to understand the spirit of the underlying tool.
 
        +++
        .. rubric:: Guidelines
@@ -112,8 +111,7 @@ Each section has their own guidelines that must be followed when creating new co
 
        **Function:** Describe PyDPF-Core APIs
 
-       They contain technical reference on how PyDPF-Core works and how to use it but assume that you have
-       a basic understanding of key concepts.
+       They contain technical reference on how PyDPF-Core works and how to use it but assume basic understanding of key DPF concepts. It is generated automatically along the documentation and is based on the source code.
 
        +++
        .. rubric:: Guidelines
