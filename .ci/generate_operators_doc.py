@@ -128,12 +128,10 @@ def main():
     server = initialize_server(args.ansys_path)
     if desired_plugin is None:
         operators = available_operator_names(server)
-        for operator_name in operators:
-            generate_operator_doc(server, operator_name, args.include_private)
     else:
-        plugin_operators = get_plugin_operators(server, desired_plugin)
-        for operator_name in plugin_operators:
-            generate_operator_doc(server, operator_name, args.include_private)
+        operators = get_plugin_operators(server, desired_plugin)
+    for operator_name in operators:
+        generate_operator_doc(server, operator_name, args.include_private)
 
 if __name__ == "__main__":
     main()
