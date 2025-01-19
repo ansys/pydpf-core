@@ -25,6 +25,8 @@ import traceback
 import warnings
 
 from abc import abstractmethod
+from typing import Union, List
+
 from ansys.dpf.gate.generated import field_abstract_api
 
 from ansys.dpf.core import scoping
@@ -381,15 +383,19 @@ class _FieldBase:
         pass
 
     @abstractmethod
-    def append(self, data, scopingid):
-        """Add an entity data to the existing data.
+    def append(
+        self,
+        data: Union[List[int], List[float], List[List[float]], List, np.ndarray],
+        scopingid: Union[int, List[int]]
+    ):
+        """Add data to the field for an entity or a list of entities.
 
         Parameters
         ----------
-        data : list of int, double, or array
-          Data in the entity.
-        scopingid : int
-            ID of the scoping.
+        data:
+          Data for the entity or list of entities.
+        scopingid:
+          ID or list of IDs of the entities to add data for.
 
         Examples
         --------
