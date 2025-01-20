@@ -22,6 +22,14 @@
 
 """MeshedRegion."""
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:  # pragma: nocover
+    from ansys.dpf.core.server_types import AnyServerType
+    from ansys.dpf.core.scoping import Scoping
+
 import traceback
 import warnings
 
@@ -378,22 +386,29 @@ class MeshedRegion:
             named_selections.append(self._api.meshed_region_get_named_selection_name(self, index))
         return named_selections
 
-    def named_selection(self, named_selection):
-        """
-        Scoping containing the list of nodes or elements in the named selection.
+    def named_selection(
+        self,
+        named_selection: str,
+        server: AnyServerType = None,
+    ) -> Scoping:
+        """Scoping containing the list of nodes or elements in the named selection.
 
         Parameters
         ----------
-        named_selection : str
+        named_selection:
             Name of the named selection.
+        server:
+            Server on which to create the scoping if different from the server of the model.
 
         Returns
         -------
-        named_selection : Scoping
+        named_selection:
+            A scoping containing the IDs of the entities in the named selection.
+            The location depends on the type of entities targeted by the named selection.
         """
         if server_meet_version("2.1", self._server):
             out = self._api.meshed_region_get_named_selection_scoping(self, named_selection)
-            return scoping.Scoping(scoping=out, server=self._server)
+            out_scoping = scoping.Scoping(scoping=out, server=self._server)
         else:
             if hasattr(self, "_stream_provider"):
                 from ansys.dpf.core.dpf_operator import Operator
@@ -401,13 +416,17 @@ class MeshedRegion:
                 op = Operator("scoping_provider_by_ns", server=self._server)
                 op.connect(1, named_selection)
                 op.connect(3, self._stream_provider, 0)
-                return op.get_output(0, types.scoping)
+                out_scoping = op.get_output(0, types.scoping)
             else:
                 raise Exception(
                     "Getting a named selection from a meshed region is "
                     "only implemented for meshed region created from a "
                     "model for server version 2.0. Please update your server."
                 )
+        if server:
+            # Copy the scoping to another server
+            out_scoping = out_scoping.deep_copy(server=server)
+        return out_scoping
 
     @version_requires("3.0")
     def set_named_selection_scoping(self, named_selection_name, scoping):

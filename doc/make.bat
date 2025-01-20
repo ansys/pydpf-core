@@ -9,6 +9,7 @@ if "%SPHINXBUILD%" == "" (
 )
 set SOURCEDIR=source
 set BUILDDIR=build
+set SPHINXOPTS=-n
 
 if "%1" == "" goto help
 if "%1" == "clean" goto clean

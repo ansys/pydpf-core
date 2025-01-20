@@ -159,7 +159,7 @@ jobs:
         shell: bash
         working-directory: pydpf-post/tests
         run: |
-          pytest $DEBUG --reruns 2 .
+          pytest $DEBUG --maxfail=5 --reruns 2 .
         if: always()
         timeout-minutes: 60
 
