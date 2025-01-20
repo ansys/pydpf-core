@@ -31,6 +31,8 @@ from pathlib import Path
 from enum import Enum
 from typing import Union
 
+import numpy
+
 from ansys import dpf
 from ansys.dpf.core import dpf_operator, inputs, outputs
 from ansys.dpf.core.check_version import (
@@ -39,6 +41,7 @@ from ansys.dpf.core.check_version import (
     server_meet_version_and_raise,
 )
 from ansys.dpf.core import server as server_module
+from ansys.dpf.core.misc import get_array_length
 from ansys.dpf.gate import (
     workflow_abstract_api,
     workflow_grpcapi,
@@ -214,7 +217,7 @@ class Workflow:
             self._api.work_flow_connect_operator_output(self, pin_name, inpt, pin_out)
         elif isinstance(inpt, dpf_operator.Output):
             self._api.work_flow_connect_operator_output(self, pin_name, inpt._operator, inpt._pin)
-        elif isinstance(inpt, list):
+        elif isinstance(inpt, (list, numpy.ndarray)):
             from ansys.dpf.core import collection
 
             if server_meet_version("3.0", self._server):
@@ -222,9 +225,9 @@ class Workflow:
                 self._api.work_flow_connect_collection_as_vector(self, pin_name, inpt)
             else:
                 if all(isinstance(x, int) for x in inpt):
-                    self._api.work_flow_connect_vector_int(self, pin_name, inpt, len(inpt))
+                    self._api.work_flow_connect_vector_int(self, pin_name, inpt, get_array_length(inpt))
                 else:
-                    self._api.work_flow_connect_vector_double(self, pin_name, inpt, len(inpt))
+                    self._api.work_flow_connect_vector_double(self, pin_name, inpt, get_array_length(inpt))
         elif isinstance(inpt, dict):
             from ansys.dpf.core import label_space
 

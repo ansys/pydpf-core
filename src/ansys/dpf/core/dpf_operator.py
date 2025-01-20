@@ -26,6 +26,7 @@ import logging
 import os
 import traceback
 import warnings
+import numpy
 
 from enum import Enum
 from ansys.dpf.core.check_version import (
@@ -38,6 +39,7 @@ from ansys.dpf.core.errors import DpfVersionNotSupported
 from ansys.dpf.core.inputs import Inputs
 from ansys.dpf.core.mapping_types import types
 from ansys.dpf.core.common import types_enum_to_types
+from ansys.dpf.core.misc import get_array_length
 from ansys.dpf.core.outputs import Output, Outputs, _Outputs
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core.operator_specification import Specification
@@ -276,7 +278,7 @@ class Operator:
             self._api.operator_connect_operator_output(self, pin, inpt, pin_out)
         elif isinstance(inpt, Output):
             self._api.operator_connect_operator_output(self, pin, inpt._operator, inpt._pin)
-        elif isinstance(inpt, list):
+        elif isinstance(inpt, (list, numpy.ndarray)):
             from ansys.dpf.core import collection
 
             if server_meet_version("3.0", self._server):
@@ -284,9 +286,9 @@ class Operator:
                 self._api.operator_connect_collection_as_vector(self, pin, inpt)
             else:
                 if all(isinstance(x, int) for x in inpt):
-                    self._api.operator_connect_vector_int(self, pin, inpt, len(inpt))
+                    self._api.operator_connect_vector_int(self, pin, inpt, get_array_length(inpt))
                 else:
-                    self._api.operator_connect_vector_double(self, pin, inpt, len(inpt))
+                    self._api.operator_connect_vector_double(self, pin, inpt, get_array_length(inpt))
         elif isinstance(inpt, dict):
             from ansys.dpf.core import label_space
 

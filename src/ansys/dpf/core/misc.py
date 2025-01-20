@@ -29,6 +29,10 @@ import re
 from pathlib import Path
 
 from pkgutil import iter_modules
+from typing import Union
+
+import numpy
+
 from ansys.dpf.core import errors
 from ansys.dpf.gate._version import __ansys_version__
 from ansys.dpf.gate import load_api
@@ -213,3 +217,9 @@ def is_pypim_configured():
         ``True`` if the environment is setup to use the PIM API, ``False`` otherwise.
     """
     return "ANSYS_PLATFORM_INSTANCEMANAGEMENT_CONFIG" in os.environ
+
+
+def get_array_length(array:Union[list, numpy.ndarray]):
+    if isinstance(array, numpy.ndarray):
+        return array.size
+    return len(array)

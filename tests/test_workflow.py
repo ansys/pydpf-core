@@ -22,6 +22,7 @@
 
 from pathlib import Path
 
+import numpy
 import numpy as np
 import pytest
 import platform
@@ -133,6 +134,19 @@ def test_connect_list_workflow(velocity_acceleration, server_type):
     wf.set_input_name("time_scoping", op.inputs.time_scoping)
     wf.set_output_name("field", op.outputs.fields_container)
     wf.connect("time_scoping", [1, 2])
+    f_out = wf.get_output("field", dpf.core.types.fields_container)
+    assert f_out.get_available_ids_for_label() == [1, 2]
+
+
+def test_connect_array_workflow(velocity_acceleration, server_type):
+    wf = dpf.core.Workflow(server=server_type)
+    wf.progress_bar = False
+    model = dpf.core.Model(velocity_acceleration, server=server_type)
+    op = model.operator("U")
+    wf.add_operator(op)
+    wf.set_input_name("time_scoping", op, 0)
+    wf.set_output_name("field", op, 0)
+    wf.connect("time_scoping", numpy.array([1, 2], numpy.int32))
     f_out = wf.get_output("field", dpf.core.types.fields_container)
     assert f_out.get_available_ids_for_label() == [1, 2]
 
