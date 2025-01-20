@@ -1450,3 +1450,9 @@ def test_operator_id(server_type):
         assert op.id not in ids
 
         ids.add(op.id)
+
+
+def test_operator_find_outputs_corresponding_pins_any(server_type):
+    f1 = ops.utility.forward()
+    f2 = ops.utility.forward()
+    f2.inputs.any.connect(f1.outputs.any)

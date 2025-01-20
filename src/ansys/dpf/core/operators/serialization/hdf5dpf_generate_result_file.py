@@ -76,8 +76,8 @@ class hdf5dpf_generate_result_file(Operator):
     Returns
     -------
     data_sources : DataSources
-        Data_sources filed with the h5 generated file
-        path.
+        Data_sources filled with the h5 generated
+        file path.
 
     Examples
     --------
@@ -267,8 +267,8 @@ class hdf5dpf_generate_result_file(Operator):
                     name="data_sources",
                     type_names=["data_sources"],
                     optional=False,
-                    document="""Data_sources filed with the h5 generated file
-        path.""",
+                    document="""Data_sources filled with the h5 generated
+        file path.""",
                 ),
             },
         )

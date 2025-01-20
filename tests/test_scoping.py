@@ -64,6 +64,18 @@ def test_set_get_ids_scoping(server_type):
     assert np.allclose(scop.ids, ids)
 
 
+def test_set_get_ids_scoping_range(server_type):
+    range_ids = range(1, 10)
+    scop = Scoping(
+        ids=range_ids,
+        server=server_type,
+    )
+    assert np.allclose(scop.ids, range_ids)
+    scop = Scoping(server=server_type)
+    scop.ids = range_ids
+    assert np.allclose(scop.ids, range_ids)
+
+
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2_0,
     reason="Requires server version higher than 2.0",
@@ -90,10 +102,10 @@ def test_get_ids_return_type_scoping(server_type):
     client_config.return_arrays = return_arrays_init
     assert np.allclose(scop.ids, ids)
     assert isinstance(scop.ids, np.ndarray)
-    assert np.allclose(scop._get_ids(True), ids)
-    assert isinstance(scop._get_ids(True), np.ndarray)
-    assert np.allclose(scop._get_ids(False), ids)
-    assert isinstance(scop._get_ids(False), list)
+    assert np.allclose(scop.get_ids(True), ids)
+    assert isinstance(scop.get_ids(True), np.ndarray)
+    assert np.allclose(scop.get_ids(False), ids)
+    assert isinstance(scop.get_ids(False), list)
 
 
 def test_get_location_scoping():

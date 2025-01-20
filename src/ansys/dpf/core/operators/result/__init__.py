@@ -180,6 +180,10 @@ from .joint_relative_rotation import joint_relative_rotation
 from .joint_relative_velocity import joint_relative_velocity
 from .kinetic_energy import kinetic_energy
 from .mach_number import mach_number
+from .magnetic_field import magnetic_field
+from .magnetic_flux_density import magnetic_flux_density
+from .magnetic_scalar_potential import magnetic_scalar_potential
+from .magnetic_vector_potential import magnetic_vector_potential
 from .mapdl_material_properties import mapdl_material_properties
 from .mapdl_section import mapdl_section
 from .mapdl_split_on_facet_indices import mapdl_split_on_facet_indices

@@ -58,6 +58,7 @@ from .merge_weighted_fields_containers import merge_weighted_fields_containers
 from .mesh import mesh
 from .meshes_container import meshes_container
 from .mesh_to_mc import mesh_to_mc
+from .operator_id import operator_id
 from .overlap_fields import overlap_fields
 from .producer_consumer_for_each import producer_consumer_for_each
 from .property_field import property_field

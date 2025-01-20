@@ -51,9 +51,16 @@ class Field(_FieldBase):
     The field's scoping defines the order of the data, for example: the first ID in the
     ``scoping`` identifies to which entity the first ``entity data`` belongs.
 
-    For more information, see the `Fields container and fields
-    <https://dpf.docs.pyansys.com/version/stable/user_guide/fields_container.html>`_
-    documentation section.
+    The minimum requirement for a well defined field is for it to have a dimensionality
+    (scalar, three components vector, six components symmetrical matrix, and so on), a location
+    ("Nodal", "Elemental", "ElementalNodal", "TimeFreq"), a data vector, and a scoping with IDs.
+    You can also set the number of shell layers. If the field has one elementary data by entity
+    (elementary data size equals the number of components for "Nodal" or "Elemental" field for example),
+    then the data vector can be set directly. If a more complex field is required
+    ("ElementalNodal" field for example), the data can be set entity by entity.
+
+    For more information, see `Fields container and fields
+    <https://dpf.docs.pyansys.com/version/stable/user_guide/fields_container.html>`_.
 
 
     Parameters
@@ -81,12 +88,38 @@ class Field(_FieldBase):
     --------
     Create a field from scratch.
 
-    >>> from ansys.dpf.core import fields_factory
     >>> from ansys.dpf.core import locations
     >>> from ansys.dpf import core as dpf
     >>> field_with_classic_api = dpf.Field()
     >>> field_with_classic_api.location = locations.nodal
-    >>> field_with_factory = fields_factory.create_scalar_field(10)
+
+    Create a symmetrical matrix elemental field from scratch.
+
+    >>> from ansys.dpf import core as dpf
+    >>> num_entities = 2
+    >>> my_field = dpf.Field(num_entities, dpf.natures.symmatrix, locations.elemental)
+    >>> my_scoping = dpf.Scoping(location=locations.elemental, ids=[1, 2])
+    >>> my_field.scoping = my_scoping
+
+    Add all the data at once.
+
+    >>> from ansys.dpf import core as dpf
+    >>> my_data = [1.0,1.0,1.0,0.0,0.0,0.0,1.0,1.0,1.0,0.0,0.0,0.0]
+    >>> my_field.data = my_data
+
+    Add data entity by entity.
+
+    >>> from ansys.dpf import core as dpf
+    >>> my_elem_data = [1.0,1.0,1.0,0.0,0.0,0.0]
+    >>> my_field.append(my_elem_data, scopingid=1)
+    >>> my_field.append(my_elem_data, scopingid=2)
+
+    Create a nodal scalar field using the fields factory.
+
+    >>> from ansys.dpf.core import fields_factory
+    >>> from ansys.dpf import core as dpf
+    >>> my_scalar_field = fields_factory.create_scalar_field(num_entities=2, location=locations.nodal)
+    >>> my_scalar_field.data = [1.0, 3.0]
 
     Extract a displacement field from a transient result file.
 
