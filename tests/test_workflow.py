@@ -21,16 +21,16 @@
 # SOFTWARE.
 
 from pathlib import Path
+import platform
 
 import numpy as np
 import pytest
-import platform
 
+from ansys import dpf
+from ansys.dpf.core import misc
 import ansys.dpf.core.operators as op
 from ansys.dpf.core.workflow_topology import WorkflowTopology
 import conftest
-from ansys import dpf
-from ansys.dpf.core import misc
 
 if misc.module_exists("graphviz"):
     HAS_GRAPHVIZ = True
@@ -900,8 +900,8 @@ def test_create_on_other_server_and_connect_workflow(allkindofcomplexity, local_
 
 
 def deep_copy_using_workflow(dpf_entity, server, stream_type=1):
+    from ansys.dpf.core.common import types, types_enum_to_types
     from ansys.dpf.core.operators.serialization import serializer_to_string, string_deserializer
-    from ansys.dpf.core.common import types_enum_to_types, types
 
     entity_server = dpf_entity._server if hasattr(dpf_entity, "_server") else None
     serializer_wf = dpf.core.Workflow(server=entity_server)

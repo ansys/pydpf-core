@@ -28,9 +28,9 @@ Download example datasets from https://github.com/ansys/example-data
 
 import os
 from pathlib import Path
+from typing import Union
 import urllib.request
 import warnings
-from typing import Union
 
 from ansys.dpf.core.examples.examples import find_files
 

@@ -20,18 +20,19 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import numpy as np
-import pytest
 import copy
 import gc
+
+import numpy as np
+import pytest
+
 from ansys import dpf
-import conftest
 from ansys.dpf import core
-from ansys.dpf.core import FieldDefinition
-from ansys.dpf.core import operators as ops
-from ansys.dpf.core.common import locations, shell_layers
-from conftest import running_docker, SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0
+from ansys.dpf.core import FieldDefinition, operators as ops
 from ansys.dpf.core.check_version import server_meet_version
+from ansys.dpf.core.common import locations, shell_layers
+import conftest
+from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0, running_docker
 
 
 @pytest.fixture()

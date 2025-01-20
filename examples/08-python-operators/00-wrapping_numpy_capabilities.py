@@ -56,8 +56,9 @@ be wrapped in Python plugins.
 #
 # Download and display the Python script.
 
-from ansys.dpf.core.examples import download_easy_statistics
 from pathlib import Path
+
+from ansys.dpf.core.examples import download_easy_statistics
 
 operator_file_path = Path(download_easy_statistics())
 

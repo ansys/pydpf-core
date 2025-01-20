@@ -24,10 +24,11 @@
 """Module containing the class representing dpf objects organized by label spaces."""
 
 from __future__ import annotations
+
+from ansys.dpf.core import errors, server as server_module
 from ansys.dpf.core.any import Any
-from ansys.dpf.core.collection_base import CollectionBase, TYPE
+from ansys.dpf.core.collection_base import TYPE, CollectionBase
 from ansys.dpf.core.common import create_dpf_instance
-from ansys.dpf.core import server as server_module, errors
 
 
 class Collection(CollectionBase[TYPE]):

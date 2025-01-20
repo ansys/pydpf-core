@@ -25,8 +25,8 @@ import pytest
 import vtk
 
 from ansys import dpf
-import conftest
 from ansys.dpf.core.check_version import server_meet_version
+import conftest
 
 
 @pytest.fixture()

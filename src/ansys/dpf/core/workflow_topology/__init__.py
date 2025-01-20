@@ -21,7 +21,7 @@
 # SOFTWARE.
 """Workflow topology module."""
 
-from .workflow_topology import WorkflowTopology
-from .operator_connection import OperatorConnection
 from .data_connection import DataConnection
 from .exposed_pin import ExposedPin
+from .operator_connection import OperatorConnection
+from .workflow_topology import WorkflowTopology
