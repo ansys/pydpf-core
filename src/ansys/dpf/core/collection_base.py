@@ -57,7 +57,7 @@ class CollectionBase(Generic[TYPE]):
 
     Parameters
     ----------
-    collection : ansys.grpc.dpf.collection_pb2.Collection, optional
+    collection : ansys.grpc.dpf.collection_message_pb2.Collection, optional
         Collection to create from the collection message. The default is ``None``.
     server : server.DPFServer, optional
         Server with the channel connected to the remote or local instance. The
