@@ -279,14 +279,8 @@ class Operator:
         elif isinstance(inpt, list):
             from ansys.dpf.core import collection
 
-            if server_meet_version("3.0", self._server):
-                inpt = collection.CollectionBase.integral_collection(inpt, self._server)
-                self._api.operator_connect_collection_as_vector(self, pin, inpt)
-            else:
-                if all(isinstance(x, int) for x in inpt):
-                    self._api.operator_connect_vector_int(self, pin, inpt, len(inpt))
-                else:
-                    self._api.operator_connect_vector_double(self, pin, inpt, len(inpt))
+            inpt = collection.CollectionBase.integral_collection(inpt, self._server)
+            self._api.operator_connect_collection_as_vector(self, pin, inpt)
         elif isinstance(inpt, dict):
             from ansys.dpf.core import label_space
 
