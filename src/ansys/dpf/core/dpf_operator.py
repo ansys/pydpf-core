@@ -288,7 +288,9 @@ class Operator:
                 if all(isinstance(x, int) for x in inpt):
                     self._api.operator_connect_vector_int(self, pin, inpt, get_array_length(inpt))
                 else:
-                    self._api.operator_connect_vector_double(self, pin, inpt, get_array_length(inpt))
+                    self._api.operator_connect_vector_double(
+                        self, pin, inpt, get_array_length(inpt)
+                    )
         elif isinstance(inpt, dict):
             from ansys.dpf.core import label_space
 

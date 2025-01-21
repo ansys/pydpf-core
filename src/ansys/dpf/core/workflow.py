@@ -225,9 +225,13 @@ class Workflow:
                 self._api.work_flow_connect_collection_as_vector(self, pin_name, inpt)
             else:
                 if all(isinstance(x, int) for x in inpt):
-                    self._api.work_flow_connect_vector_int(self, pin_name, inpt, get_array_length(inpt))
+                    self._api.work_flow_connect_vector_int(
+                        self, pin_name, inpt, get_array_length(inpt)
+                    )
                 else:
-                    self._api.work_flow_connect_vector_double(self, pin_name, inpt, get_array_length(inpt))
+                    self._api.work_flow_connect_vector_double(
+                        self, pin_name, inpt, get_array_length(inpt)
+                    )
         elif isinstance(inpt, dict):
             from ansys.dpf.core import label_space
 

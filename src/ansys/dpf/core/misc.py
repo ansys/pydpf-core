@@ -219,7 +219,8 @@ def is_pypim_configured():
     return "ANSYS_PLATFORM_INSTANCEMANAGEMENT_CONFIG" in os.environ
 
 
-def get_array_length(array:Union[list, numpy.ndarray]):
+def get_array_length(array: Union[list, numpy.ndarray]):
+    """Return the length of a flat array (size of numpy array or length of a list."""
     if isinstance(array, numpy.ndarray):
         return array.size
     return len(array)
