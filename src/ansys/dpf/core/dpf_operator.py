@@ -26,6 +26,7 @@ import logging
 import os
 import traceback
 import warnings
+import numpy
 
 from enum import Enum
 from ansys.dpf.core.check_version import (
@@ -276,7 +277,7 @@ class Operator:
             self._api.operator_connect_operator_output(self, pin, inpt, pin_out)
         elif isinstance(inpt, Output):
             self._api.operator_connect_operator_output(self, pin, inpt._operator, inpt._pin)
-        elif isinstance(inpt, list):
+        elif isinstance(inpt, (list, numpy.ndarray)):
             from ansys.dpf.core import collection
 
             inpt = collection.CollectionBase.integral_collection(inpt, self._server)

@@ -31,6 +31,8 @@ from pathlib import Path
 from enum import Enum
 from typing import Union
 
+import numpy
+
 from ansys import dpf
 from ansys.dpf.core import dpf_operator, inputs, outputs
 from ansys.dpf.core.check_version import (
@@ -214,7 +216,7 @@ class Workflow:
             self._api.work_flow_connect_operator_output(self, pin_name, inpt, pin_out)
         elif isinstance(inpt, dpf_operator.Output):
             self._api.work_flow_connect_operator_output(self, pin_name, inpt._operator, inpt._pin)
-        elif isinstance(inpt, list):
+        elif isinstance(inpt, (list, numpy.ndarray)):
             from ansys.dpf.core import collection
 
             inpt = collection.CollectionBase.integral_collection(inpt, self._server)
