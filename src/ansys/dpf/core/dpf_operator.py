@@ -39,7 +39,6 @@ from ansys.dpf.core.errors import DpfVersionNotSupported
 from ansys.dpf.core.inputs import Inputs
 from ansys.dpf.core.mapping_types import types
 from ansys.dpf.core.common import types_enum_to_types
-from ansys.dpf.core.misc import get_array_length
 from ansys.dpf.core.outputs import Output, Outputs, _Outputs
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core.operator_specification import Specification
