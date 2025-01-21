@@ -284,7 +284,8 @@ class Operator:
             if server_meet_version("3.0", self._server):
                 inpt = collection.CollectionBase.integral_collection(inpt, self._server)
                 self._api.operator_connect_collection_as_vector(self, pin, inpt)
-            else:
+            else:  # pragma: nocover
+                # Exclude DPF below 2022R1 from coverage
                 if all(isinstance(x, int) for x in inpt):
                     self._api.operator_connect_vector_int(self, pin, inpt, get_array_length(inpt))
                 else:
