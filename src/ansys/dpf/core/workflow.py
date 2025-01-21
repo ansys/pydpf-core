@@ -220,18 +220,8 @@ class Workflow:
         elif isinstance(inpt, (list, numpy.ndarray)):
             from ansys.dpf.core import collection
 
-            if server_meet_version("3.0", self._server):
-                inpt = collection.CollectionBase.integral_collection(inpt, self._server)
-                self._api.work_flow_connect_collection_as_vector(self, pin_name, inpt)
-            else:
-                if all(isinstance(x, int) for x in inpt):
-                    self._api.work_flow_connect_vector_int(
-                        self, pin_name, inpt, get_array_length(inpt)
-                    )
-                else:
-                    self._api.work_flow_connect_vector_double(
-                        self, pin_name, inpt, get_array_length(inpt)
-                    )
+            inpt = collection.CollectionBase.integral_collection(inpt, self._server)
+            self._api.work_flow_connect_collection_as_vector(self, pin_name, inpt)
         elif isinstance(inpt, dict):
             from ansys.dpf.core import label_space
 
