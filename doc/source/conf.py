@@ -9,6 +9,11 @@ from ansys.dpf.core import __version__, server, server_factory
 from ansys.dpf.core.examples import get_example_required_minimum_dpf_version
 from ansys_sphinx_theme import ansys_favicon, get_version_match, pyansys_logo_light_mode, pyansys_logo_dark_mode
 
+# Save figures in specified directory
+pyvista.FIGURE_PATH = os.path.join(os.path.abspath("./images/"), "auto-generated/")
+if not os.path.exists(pyvista.FIGURE_PATH):
+    os.makedirs(pyvista.FIGURE_PATH)
+
 # -- Project information -----------------------------------------------------
 
 project = "PyDPF-Core"
@@ -175,8 +180,6 @@ def reset_pyvista(gallery_conf, fname):
     pyvista.global_theme.window_size = np.array([1024, 768]) * 2
     # Save figures in specified directory
     pyvista.FIGURE_PATH = os.path.join(os.path.abspath("./images/"), "auto-generated/")
-    if not os.path.exists(pyvista.FIGURE_PATH):
-        os.makedirs(pyvista.FIGURE_PATH)
 
 
 pyvista.global_theme.lighting = False
