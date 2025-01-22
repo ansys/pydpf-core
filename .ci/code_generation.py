@@ -2,8 +2,6 @@
 
 from ansys.dpf import core
 from ansys.dpf.core.operators import build
-import os
-import glob
 from pathlib import Path
 import shutil
 

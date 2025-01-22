@@ -234,7 +234,7 @@ def test_result_not_dynamic(plate_msup):
     assert len(fc) == 2
     assert np.allclose(fc.time_freq_support.time_frequencies.data, np.array([0.115, 0.125]))
     assert fc[0].unit == "Pa"
-    dis = model.results.displacement().eval()
+    model.results.displacement().eval()
     dpf.core.settings.set_dynamic_available_results_capability(True)
 
 

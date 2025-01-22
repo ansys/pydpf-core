@@ -21,7 +21,6 @@
 # SOFTWARE.
 
 # -*- coding: utf-8 -*-
-import os
 import copy
 import tempfile
 from pathlib import Path

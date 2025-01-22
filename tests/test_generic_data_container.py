@@ -24,7 +24,6 @@ import numpy as np
 
 from ansys.dpf import core as dpf
 from conftest import (
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0,
     raises_for_servers_version_under,
 )

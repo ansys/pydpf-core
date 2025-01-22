@@ -27,7 +27,6 @@ import numpy as np
 import conftest
 import pytest
 
-from ansys import dpf
 from ansys.dpf import core as dpf
 
 
@@ -105,7 +104,7 @@ def test_cyc_support_from_to_operator(cyclic_lin_rst, server_type):
         cyclic_support=cyc_support, server=server_type
     )
     exp = op.outputs.cyclic_support()
-    mesh = op.outputs.meshed_region()
+    op.outputs.meshed_region()
     assert exp.num_sectors() == 15
     assert exp.num_stages == 1
     assert np.allclose(
@@ -145,7 +144,7 @@ def test_cyc_support_from_to_workflow(cyclic_lin_rst, server_type):
     wf.set_output_name("sup", op.outputs.cyclic_support)
     wf.connect("sup", cyc_support)
     exp = wf.get_output("sup", dpf.types.cyclic_support)
-    mesh = op.outputs.meshed_region()
+    op.outputs.meshed_region()
     assert exp.num_sectors() == 15
     assert exp.num_stages == 1
     assert np.allclose(
@@ -248,14 +247,14 @@ def test_delete_auto_cyc_support(cyclic_lin_rst):
 def test_cyc_support_memory_leaks(cyclic_lin_rst):
     import gc
 
-    for i in range(2000):
+    for _ in range(2000):
         gc.collect()
         data_sources = dpf.DataSources(cyclic_lin_rst)
         model = dpf.Model(data_sources)
         result_info = model.metadata.result_info
         cyc_support = result_info.cyclic_support
-        a = cyc_support.num_stages
-        b = cyc_support.num_sectors()
-        c = cyc_support.sectors_set_for_expansion()
-        d = cyc_support.base_elements_scoping()
-        e = cyc_support.base_nodes_scoping()
+        cyc_support.num_stages
+        cyc_support.num_sectors()
+        cyc_support.sectors_set_for_expansion()
+        cyc_support.base_elements_scoping()
+        cyc_support.base_nodes_scoping()

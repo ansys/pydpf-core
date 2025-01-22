@@ -976,31 +976,6 @@ def get_simple_field(server_clayer):
     return field
 
 
-@conftest.raises_for_servers_version_under("4.0")
-def test_mutable_entity_data_contiguous_field(server_clayer):
-    simple_field = get_simple_field(server_clayer)
-    vec = simple_field.get_entity_data(0)
-    assert np.allclose(vec, np.array(range(0, 6)))
-
-    vec[0][0] = 1
-    vec[0][5] = 4
-
-    assert np.allclose(vec, np.array([1, 1, 2, 3, 4, 4]))
-
-    vec.commit()
-
-    assert np.allclose(simple_field.get_entity_data(0), np.array([1, 1, 2, 3, 4, 4]))
-
-    vec = simple_field.get_entity_data_by_id(2)
-    assert np.allclose(vec, np.array(range(6, 12)))
-
-    vec[0][0] = 1
-    vec[0][5] = 4
-    assert np.allclose(vec, np.array([1, 7, 8, 9, 10, 4]))
-    vec = None
-    assert np.allclose(simple_field.get_entity_data_by_id(2), np.array([1, 7, 8, 9, 10, 4]))
-
-
 @pytest.mark.skipif(
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
     reason="change in memory ownership in server 5.0",

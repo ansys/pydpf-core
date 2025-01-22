@@ -333,13 +333,13 @@ def test_timefreqsupport_memory_leaks():
         frequencies = fields_factory.create_scalar_field(3, server=server)
         frequencies.data = [0.1, 0.32, 0.4]
         tfq.time_frequencies = frequencies
-        frequencies_check = tfq.time_frequencies  # Call to get
+        tfq.time_frequencies  # Call to get
         tfq.complex_frequencies = frequencies
-        frequencies_cplx_check = tfq.complex_frequencies  # Call to get
+        tfq.complex_frequencies  # Call to get
         tfq.rpms = frequencies
-        rpm_check = tfq.rpms  # Call to get
+        tfq.rpms  # Call to get
         tfq.set_harmonic_indices(frequencies)
-        harm_check = tfq.get_harmonic_indices()  # Call to get
+        tfq.get_harmonic_indices()  # Call to get
 
 
 @conftest.raises_for_servers_version_under("5.0")

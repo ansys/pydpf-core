@@ -98,6 +98,7 @@ analysis = examples.download_crankshaft()
 def compute_von_mises_then_average(analysis):
     # Create a model from the results of the simulation and retrieve its mesh
     model = dpf.Model(analysis)
+    model.metadata.meshed_region
 
     # Apply the stress operator to obtain the stresses in the body
     stress_op = dpf.operators.result.stress()
@@ -135,6 +136,7 @@ def compute_von_mises_then_average(analysis):
 def average_then_compute_von_mises(analysis):
     # Creating the model from the results of the simulation
     model = dpf.Model(analysis)
+    model.metadata.meshed_region
 
     # Retrieving the stresses
     stress_op = dpf.operators.result.stress()

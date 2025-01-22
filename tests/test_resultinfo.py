@@ -180,8 +180,8 @@ def test_result_info_memory_leaks(model):
         res = metadata.result_info
         # Still leaking, but maybe from the Operator.connect
         # in Metadata._load_result_info()
-        u = res.unit_system_name
-        c = res.cyclic_support
+        res.unit_system_name
+        res.cyclic_support
         # v = res.solver_version
         # date = res.solver_date
         # time = res.solver_time

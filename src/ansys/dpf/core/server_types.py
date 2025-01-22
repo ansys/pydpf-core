@@ -72,7 +72,7 @@ def _get_dll_path(name, ansys_path=None):
     ANSYS_INSTALL = Path(core.misc.get_ansys_path(ansys_path))
     api_path = load_api._get_path_in_install()
     if api_path is None:
-        raise ImportError(f"Could not find API path in install.")
+        raise ImportError("Could not find API path in install.")
     SUB_FOLDERS = ANSYS_INSTALL / api_path
     if ISPOSIX:
         name = "lib" + name
