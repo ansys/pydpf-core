@@ -73,34 +73,29 @@ jobs:
         with:
           python-version: ${{ inputs.python_version }}
 
-      - name: "Create virtual environment in the current workspace"
-        shell: pwsh
-        run: python -m venv .venv --system-site-packages
+      # - name: "Create virtual environment in the current workspace"
+      #   shell: pwsh
+      #   run: python -m venv .venv --system-site-packages
       
-      - name: "Update PATH for virtual environment"
-        run: |
-          echo "${{ github.workspace }}\.venv\Scripts" >> $env:GITHUB_PATH
+      # - name: "Update PATH for virtual environment"
+      #   run: |
+      #     echo "${{ github.workspace }}\.venv\Scripts" >> $env:GITHUB_PATH
 
-      - name: "Update pip to the latest version"
+      - name: "Update pip to the latest version and install tox"
         shell: pwsh
         run: |
           python -m pip install -U pip
+          python -m pip install tox
 
-      - name: "Install requirements"
-        shell: pwsh
-        run: |
-          python -m pip install -r requirements/requirements_build.txt
+      # - name: "Install requirements"
+      #   shell: pwsh
+      #   run: |
+      #     python -m pip install -r requirements/requirements_build.txt
 
       - name: "Build the wheel"
         shell: pwsh
         run: |
-          $os = "${{ matrix.os }}"
-          if ($os -eq "ubuntu-latest") {
-              $platform = "manylinux_2_17"
-          } else {
-              $platform = "win"
-          }
-          python .ci/build_wheel.py -p $platform -w
+          tox -e build-wheel -- win
 
       - name: "Expose the wheel"
         shell: bash
@@ -111,10 +106,10 @@ jobs:
           echo ${name}
           echo "wheel_name=${name[0]}" >> $GITHUB_OUTPUT
 
-      - name: "Install package wheel"
-        shell: pwsh
-        run: |
-          python -m pip install dist/${{ steps.wheel.outputs.wheel_name }}[plotting]
+      # - name: "Install package wheel"
+      #   shell: bash
+      #   run: |
+      #     python -m pip install dist/${{ steps.wheel.outputs.wheel_name }}[plotting]
 
       - name: "Install DPF"
         id: set-server-path
@@ -131,6 +126,7 @@ jobs:
         shell: pwsh
         working-directory: tests
         run: |
+          python -m pip install dist/${{ steps.wheel.outputs.wheel_name }}[plotting]
           python -c "from ansys.dpf import core"
 
       - name: "Setup headless display"
@@ -143,53 +139,54 @@ jobs:
         run: |
           choco install pandoc
 
-      - name: "Install documentation packages for Python"
-        shell: pwsh
-        run: |
-          python -m pip install -r requirements/requirements_docs.txt
+      # - name: "Install documentation packages for Python"
+      #   shell: pwsh
+      #   run: |
+      #     python -m pip install -r requirements/requirements_docs.txt
 
-      - name: "Kill all servers"
-        uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
+      # - name: "Kill all servers"
+      #   uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
 
-      - name: "Ensure VTK compatibility"
-        shell: pwsh
-        run: |
-          python -m pip uninstall --yes vtk
-          python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==${{ env.VTK_OSMESA_VERSION }}
+      # - name: "Ensure VTK compatibility"
+      #   shell: pwsh
+      #   run: |
+      #     python -m pip uninstall --yes vtk
+      #     python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==${{ env.VTK_OSMESA_VERSION }}
 
-      - name: "List installed packages"
-        shell: pwsh
-        run: |
-          python -m pip list
+      # - name: "List installed packages"
+      #   shell: pwsh
+      #   run: |
+      #     python -m pip list
 
       - name: "Build HTML Documentation"
-        shell: cmd /D /E:ON /V:OFF /C "CALL "{0}""
-        working-directory: .ci
-        run: |
-          build_doc.bat > ..\doc\log.txt && type ..\doc\log.txt 2>&1
-        timeout-minutes: 60
-        env:
-          MEILISEARCH_PUBLIC_API_KEY: ${{ secrets.MEILISEARCH_PUBLIC_API_KEY }}
-
-      - name: "Check for success"
+        # shell: cmd /D /E:ON /V:OFF /C "CALL "{0}""
+        # working-directory: .ci
         shell: bash
-        working-directory: doc
         run: |
-          case `grep -F "build succeeded" log.txt >/dev/null; echo $?` in
-          0)
-            echo "Build succeeded!"
-            exit 0;;
-          1)
-            echo "Documentation generation failed, please check previous step!"
-            exit 1;;
-          *)
-            echo "An error occurred while checking success of the previous step!"
-            exit 1;;
-          esac
+          tox -e doc-html --installpkg dist/ansys_dpf_core*
+        # timeout-minutes: 60
+        # env:
+        #   MEILISEARCH_PUBLIC_API_KEY: ${{ secrets.MEILISEARCH_PUBLIC_API_KEY }}
 
-      - name: "Kill all servers"
-        uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
-        if: always()
+      # - name: "Check for success"
+      #   shell: bash
+      #   working-directory: doc
+      #   run: |
+      #     case `grep -F "build succeeded" log.txt >/dev/null; echo $?` in
+      #     0)
+      #       echo "Build succeeded!"
+      #       exit 0;;
+      #     1)
+      #       echo "Documentation generation failed, please check previous step!"
+      #       exit 1;;
+      #     *)
+      #       echo "An error occurred while checking success of the previous step!"
+      #       exit 1;;
+      #     esac
+
+      # - name: "Kill all servers"
+      #   uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
+      #   if: always()
 
       - name: "Retrieve package version"
         shell: bash
