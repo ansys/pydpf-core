@@ -9,23 +9,6 @@ from ansys.dpf.core import __version__, server, server_factory
 from ansys.dpf.core.examples import get_example_required_minimum_dpf_version
 from ansys_sphinx_theme import ansys_favicon, get_version_match, pyansys_logo_light_mode, pyansys_logo_dark_mode
 
-# Manage errors
-pyvista.set_error_output_file("errors.txt")
-# Ensure that offscreen rendering is used for docs generation
-pyvista.OFF_SCREEN = True
-# Preferred plotting style for documentation
-# pyvista.set_plot_theme('document')
-pyvista.global_theme.window_size = np.array([1024, 768]) * 2
-# Save figures in specified directory
-pyvista.FIGURE_PATH = os.path.join(os.path.abspath("./images/"), "auto-generated/")
-if not os.path.exists(pyvista.FIGURE_PATH):
-    os.makedirs(pyvista.FIGURE_PATH)
-
-pyvista.BUILDING_GALLERY = True
-
-pyvista.global_theme.lighting = False
-
-
 # -- Project information -----------------------------------------------------
 
 project = "PyDPF-Core"
@@ -181,6 +164,28 @@ def reset_servers(gallery_conf, fname, when):
     print(f"Counted {nb_procs} {proc_name} processes {when} example {fname}.")
 
 
+def reset_pyvista(gallery_conf, fname):
+    """Reset PyVista for each example."""
+    # pyvista.close_all()
+    # Manage errors
+    pyvista.set_error_output_file("errors.txt")
+    # Ensure that offscreen rendering is used for docs generation
+    pyvista.OFF_SCREEN = True
+    pyvista.BUILDING_GALLERY = True
+    pyvista.global_theme.window_size = np.array([1024, 768]) * 2
+    # Save figures in specified directory
+    pyvista.FIGURE_PATH = os.path.join(os.path.abspath("./images/"), "auto-generated/")
+    if not os.path.exists(pyvista.FIGURE_PATH):
+        os.makedirs(pyvista.FIGURE_PATH)
+
+
+pyvista.global_theme.lighting = False
+
+def reset_example(gallery_conf, fname, when):
+    reset_servers(gallery_conf=gallery_conf, fname=fname, when=when)
+    reset_pyvista(gallery_conf=gallery_conf, fname=fname)
+
+
 sphinx_gallery_conf = {
     # convert rst to md for ipynb
     "pypandoc": True,
@@ -205,7 +210,7 @@ sphinx_gallery_conf = {
     #                         "from pyvista import set_plot_theme\n"
     #                         "set_plot_theme('document')"),
     "reset_modules_order": 'both',
-    "reset_modules": (reset_servers,),
+    "reset_modules": (reset_example,),
     "parallel": 2,
 }
 
