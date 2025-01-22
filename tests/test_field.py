@@ -517,7 +517,6 @@ def test_create_and_update_field_definition(server_type):
     assert fieldDef.location == locations.nodal
 
 
-# @conftest.raises_for_servers_version_under("7.0") # TODO
 def test_field_definition_quantity_type(server_type):
     fieldDef = FieldDefinition(server=server_type)
 
