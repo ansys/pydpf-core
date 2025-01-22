@@ -150,10 +150,9 @@ class FieldDefinition:
         self._api.csfield_definition_fill_dimensionality(self, dim, nature, dim.internal_size)
         return Dimensionality(dim.tolist(), natures(int(nature)))
 
-    # @version_requires("4.0") #TODO
     @property
     def quantity_types(self):
-        """Getter for Quantity Types
+        """Getter for Quantity Types.
 
         Returns
         -------
@@ -167,9 +166,8 @@ class FieldDefinition:
 
         return quantity_types
 
-    # @version_requires("4.0") #TODO
     def add_quantity_type(self, quantity_type_to_add):
-        """Add a new Quantity Type
+        """Add a new Quantity Type.
 
         Parameters
         ----------
@@ -178,9 +176,8 @@ class FieldDefinition:
         """
         self._api.csfield_definition_set_quantity_type(self, quantity_type_to_add)
 
-    # @version_requires("4.0") #TODO
     def num_quantity_types(self):
-        """Number of available quantity types
+        """Return number of available quantity types.
 
         Returns
         -------
@@ -190,9 +187,8 @@ class FieldDefinition:
         num_quantity_types = self._api.csfield_definition_get_num_available_quantity_types(self)
         return num_quantity_types
 
-    # @version_requires("4.0") #TODO
     def is_of_quantity_type(self, quantity_type):
-        """Check if the field definition is of a given quantity type
+        """Check if the field definition is of a given quantity type.
 
         Parameters
         ----------
