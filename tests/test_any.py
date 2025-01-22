@@ -123,8 +123,8 @@ def test_cast_scoping_any(server_type):
 
 
 @pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_9_1,
-    reason="for_each not implemented below 8.0. Failing for gRPC CLayer below 9.1 for any.whl",
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
+    reason="for_each not implemented below 8.0. Failing for gRPC CLayer below 10.0 for any.whl",
 )
 def test_cast_workflow_any(server_type):
     entity = dpf.Workflow(server=server_type)
