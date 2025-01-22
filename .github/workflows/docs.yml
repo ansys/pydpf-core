@@ -123,8 +123,8 @@ jobs:
         uses: ansys/pydpf-actions/check-licenses@v2.3
 
       - name: "Test import"
-        shell: pwsh
-        working-directory: tests
+        shell: bash
+        # working-directory: tests
         run: |
           python -m pip install dist/${{ steps.wheel.outputs.wheel_name }}[plotting]
           python -c "from ansys.dpf import core"
