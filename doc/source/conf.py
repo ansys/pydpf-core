@@ -206,6 +206,7 @@ sphinx_gallery_conf = {
     #                         "set_plot_theme('document')"),
     "reset_modules_order": 'both',
     "reset_modules": (reset_servers,),
+    "parallel": 2,
 }
 
 
