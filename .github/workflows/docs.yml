@@ -45,6 +45,7 @@ env:
   PACKAGE_NAME: ansys-dpf-core
   MODULE: core
   VTK_OSMESA_VERSION: "9.2.20230527.dev0"
+  MODE: LEGACY
 jobs:
   doc-style:
     name: "Check doc style"
