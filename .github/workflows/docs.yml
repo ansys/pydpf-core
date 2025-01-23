@@ -45,7 +45,6 @@ env:
   PACKAGE_NAME: ansys-dpf-core
   MODULE: core
   VTK_OSMESA_VERSION: "9.2.20230527.dev0"
-  MODE: LEGACY
 jobs:
   doc-style:
     name: "Check doc style"
@@ -164,7 +163,7 @@ jobs:
         # working-directory: .ci
         shell: bash
         run: |
-          tox -e doc-html --installpkg dist/ansys_dpf_core*
+          tox -e doc-html --installpkg dist/ansys_dpf_core* -x testenv:doc-html.setenv+='VIRTUALENV_SYSTEM_SITE_PACKAGES=true'
         # timeout-minutes: 60
         # env:
         #   MEILISEARCH_PUBLIC_API_KEY: ${{ secrets.MEILISEARCH_PUBLIC_API_KEY }}
