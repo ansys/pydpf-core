@@ -190,6 +190,25 @@ sphinx_gallery_conf = {
     'abort_on_example_error': True,
     # path where to save gallery generated examples
     "gallery_dirs": ["examples"],
+    # Explicit gallery subsection ordering
+    "subsection_order": ['../examples/basic',
+                         '../examples/mathematical_operations',
+                         '../examples/transient_analyses',
+                         '../examples/modal_analyses',
+                         '../examples/harmonic_analysis',
+                         '../examples/advanced',
+                         '../examples/file_IO',
+                         '../examples/plotting',
+                         '../examples/distributed_post',
+                         '../examples/python_operators',
+                         '../examples/averaging',
+                         '../examples/mesh_operations',
+                         '../examples/cyclic_symmetry',
+                         '../examples/fluids',
+                         '../examples/streamlines',
+                         '../examples/lsdyna',
+                         '../examples/cfx',
+                         ],
     # Pattern to search for example files
     "filename_pattern": r"\.py",
     # Pattern to search for example files to be ignored
