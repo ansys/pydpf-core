@@ -72,9 +72,9 @@ def _find_latest_ansys_versions():
     if len(path_per_version) > 0:
         return path_per_version[sorted(path_per_version)[-1]]
     # If none was found, find the path to the latest local ANSYS install
-    path_per_version = _paths_to_dpf_in_unified_installs()
-    if len(path_per_version) > 0:
-        return path_per_version[sorted(path_per_version)[-1]]
+    # path_per_version = _paths_to_dpf_in_unified_installs()
+    # if len(path_per_version) > 0:
+    #     return path_per_version[sorted(path_per_version)[-1]]
 
 
 def _paths_to_dpf_server_library_installs() -> dict:
