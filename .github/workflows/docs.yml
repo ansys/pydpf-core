@@ -121,6 +121,7 @@ jobs:
           choco install pandoc
 
       - name: "Build HTML Documentation"
+        shell: bash
         run: |
           tox -e doc-html --installpkg dist/ansys_dpf_core* -x testenv:doc-html.setenv+='VIRTUALENV_SYSTEM_SITE_PACKAGES=true'
 
