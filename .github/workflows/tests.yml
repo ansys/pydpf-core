@@ -217,162 +217,164 @@ jobs:
           MODULE: ${{env.MODULE}}
           PACKAGE_NAME: ${{env.PACKAGE_NAME}}
           working-directory: src
-
-      - name: "Set environment variable to pass to tox targets"
-        shell: bash
-        run: |
-          echo "VIRTUALENV_SYSTEM_SITE_PACKAGES=true" >> $GITHUB_ENV
-
-      - name: "Run pytest targets sequentially"
-        shell: bash
-        run: |
-          tox -x testenv.pass_env+=VIRTUALENV_SYSTEM_SITE_PACKAGES
-
+      
       # - name: "Separate long Core tests"
       #   shell: pwsh
       #   run: |
       #     .github\workflows\scripts\separate_long_core_tests.ps1
-
+      
       # - name: "Set pytest arguments"
       #   shell: bash
       #   run: |
       #     echo "COVERAGE=--cov=ansys.dpf.${{env.MODULE}} --cov-report=xml --cov-report=html --log-level=ERROR --cov-append" >> $GITHUB_ENV
       #     echo "RERUNS=--reruns 2 --reruns-delay 1" >> $GITHUB_ENV
-
-      # - name: "Test API"
+          
+      - name: "Set environment variable to allow test targets access DPF server installation"
+        shell: bash
+        run: |
+          echo "VIRTUALENV_SYSTEM_SITE_PACKAGES=true" >> $GITHUB_ENV
+      
+      - name: "Organize test files"
+        shell: bash
+        run: |
+          tox -e pretest,kill-servers
+          
+      # - name: "Run pytest targets sequentially at once"
       #   shell: bash
-      #   working-directory: tests
       #   run: |
-      #     pytest $DEBUG $COVERAGE $RERUNS --junitxml=junit/test-results.xml  .
+      #     tox --installpkg dist/ansys_dpf_core* -x testenv.pass_env+=VIRTUALENV_SYSTEM_SITE_PACKAGES
+
+      - name: "Test API"
+        shell: bash
+        run: |
+          tox -e test-api,kill-server --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
 
       # - name: "Kill all servers"
       #   uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
 
-      # - name: "Test API test_launcher"
-      #   uses: nick-fields/retry@v3
-      #   with:
-      #     timeout_minutes: 2
-      #     max_attempts: 2
-      #     shell: bash
-      #     command: |
-      #       pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results2.xml test_launcher/.
+      - name: "Test API test_launcher"
+        uses: nick-fields/retry@v3
+        with:
+          timeout_minutes: 2
+          max_attempts: 2
+          shell: bash
+          command: |
+            tox -e test-launcher,kill-server --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
 
       # - name: "Kill all servers"
       #   uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
 
-      # - name: "Test API test_server"
-      #   uses: nick-fields/retry@v3
-      #   with:
-      #     timeout_minutes: 5
-      #     max_attempts: 2
-      #     shell: bash
-      #     command: |
-      #       pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results3.xml test_server/.
+      - name: "Test API test_server"
+        uses: nick-fields/retry@v3
+        with:
+          timeout_minutes: 5
+          max_attempts: 2
+          shell: bash
+          command: |
+            tox -e test-server,kill-server --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
 
       # - name: "Kill all servers"
       #   uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
 
-      # - name: "Test API test_local_server"
-      #   uses: nick-fields/retry@v3
-      #   with:
-      #     timeout_minutes: 2
-      #     max_attempts: 2
-      #     shell: bash
-      #     command: |
-      #       pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results4.xml test_local_server/.
+      - name: "Test API test_local_server"
+        uses: nick-fields/retry@v3
+        with:
+          timeout_minutes: 2
+          max_attempts: 2
+          shell: bash
+          command: |
+            tox -e test-local_server,kill-server --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
 
       # - name: "Kill all servers"
       #   uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
 
-      # - name: "Test API test_multi_server"
-      #   uses: nick-fields/retry@v3
-      #   with:
-      #     timeout_minutes: 5
-      #     max_attempts: 2
-      #     shell: bash
-      #     command: |
-      #       pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results5.xml test_multi_server/.
+      - name: "Test API test_multi_server"
+        uses: nick-fields/retry@v3
+        with:
+          timeout_minutes: 5
+          max_attempts: 2
+          shell: bash
+          command: |
+            tox -e test-multi_server,kill-server --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
 
       # - name: "Kill all servers"
       #   uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
 
-      # - name: "Test API test_remote_workflow"
-      #   uses: nick-fields/retry@v3
-      #   with:
-      #     timeout_minutes: 4
-      #     max_attempts: 3
-      #     shell: bash
-      #     command: |
-      #       pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results6.xml test_remote_workflow/.
+      - name: "Test API test_remote_workflow"
+        uses: nick-fields/retry@v3
+        with:
+          timeout_minutes: 4
+          max_attempts: 3
+          shell: bash
+          command: |
+            tox -e test-remote_workflow,kill-server --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
 
       # - name: "Kill all servers"
       #   uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
 
-      # - name: "Test API test_remote_operator"
-      #   shell: bash
-      #   working-directory: test_remote_operator
-      #   run: |
-      #     pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results7.xml .
+      - name: "Test API test_remote_operator"
+        shell: bash
+        working-directory: test_remote_operator
+        run: |
+          tox -e test-remote_operator,kill-server --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
 
       # - name: "Kill all servers"
       #   uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
 
-      # - name: "Test API test_workflow"
-      #   uses: nick-fields/retry@v3
-      #   with:
-      #     timeout_minutes: 3
-      #     max_attempts: 4
-      #     retry_wait_seconds: 15
-      #     shell: bash
-      #     command: |
-      #       pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results8.xml test_workflow/.
+      - name: "Test API test_workflow"
+        uses: nick-fields/retry@v3
+        with:
+          timeout_minutes: 3
+          max_attempts: 4
+          retry_wait_seconds: 15
+          shell: bash
+          command: |
+            tox -e test-workflow,kill-server --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
 
       # - name: "Kill all servers"
       #   uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
 
-      # - name: "Test API test_service"
-      #   uses: nick-fields/retry@v3
-      #   with:
-      #     timeout_minutes: 3
-      #     max_attempts: 2
-      #     shell: bash
-      #     command: |
-      #       pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results9.xml test_service/.
+      - name: "Test API test_service"
+        uses: nick-fields/retry@v3
+        with:
+          timeout_minutes: 3
+          max_attempts: 2
+          shell: bash
+          command: |
+            tox -e test-service,kill-server --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
 
       # - name: "Kill all servers"
       #   uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
 
-      # - name: "Test API Entry"
-      #   shell: bash
-      #   working-directory: tests
-      #   run: |
-      #     cd entry
-      #     pytest $DEBUG $COVERAGE $RERUNS --junitxml=../junit/test-results10.xml  .
-      #   timeout-minutes: 30
+      - name: "Test API Entry"
+        shell: bash
+        run: |
+          tox -e test-api_entry,kill-server --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+        timeout-minutes: 30
 
       # - name: "Kill all servers"
       #   uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
 
-      # - name: "Test API test_custom_type_field"
-      #   uses: nick-fields/retry@v3
-      #   with:
-      #     timeout_minutes: 2
-      #     max_attempts: 2
-      #     shell: bash
-      #     command: |
-      #       pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results11.xml test_custom_type_field/.
+      - name: "Test API test_custom_type_field"
+        uses: nick-fields/retry@v3
+        with:
+          timeout_minutes: 2
+          max_attempts: 2
+          shell: bash
+          command: |
+            tox -e test-custom_type_field,kill-server --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
 
       # - name: "Kill all servers"
       #   uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
 
-      # - name: "Test Operators"
-      #   uses: nick-fields/retry@v3
-      #   with:
-      #     timeout_minutes: 2
-      #     max_attempts: 2
-      #     shell: bash
-      #     command: |
-      #       pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results12.xml tests/operators/.
+      - name: "Test Operators"
+        uses: nick-fields/retry@v3
+        with:
+          timeout_minutes: 2
+          max_attempts: 2
+          shell: bash
+          command: |
+            tox -e test-operators,kill-server --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
 
       # - name: "Kill all servers"
       #   uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
