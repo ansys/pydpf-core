@@ -201,17 +201,14 @@ jobs:
           python -m pip install dist/${{ steps.wheel.outputs.wheel_name }}
           python -c "from ansys.dpf import core"
 
-      # - name: "Prepare Testing Environment"
-      #   uses: ansys/pydpf-actions/prepare_tests@v2.3
-      #   with:
-      #     DEBUG: true  
+      - name: "Prepare Testing Environment"
+        uses: ansys/pydpf-actions/prepare_tests@v2.3
+        with:
+          DEBUG: true  
 
       # - name: "List installed packages"
       #   shell: bash
       #   run: pip list
-
-      - name: "Setup headless display"
-        uses: pyvista/setup-headless-display-action@v3
 
       - name: "Test Docstrings"
         if: (inputs.DOCSTRING == 'true') && !((inputs.test_any == 'true') && (matrix.os == 'ubuntu-latest'))
@@ -221,10 +218,14 @@ jobs:
           PACKAGE_NAME: ${{env.PACKAGE_NAME}}
           working-directory: src
 
-      - name: "Run pytest targets sequentially"
+      - name: "Set environment variable to pass to tox targets"
         shell: bash
         run: |
           echo "VIRTUALENV_SYSTEM_SITE_PACKAGES=true" >> $GITHUB_ENV
+
+      - name: "Run pytest targets sequentially"
+        shell: bash
+        run: |
           tox -x testenv.pass_env+=VIRTUALENV_SYSTEM_SITE_PACKAGES
 
       # - name: "Separate long Core tests"
