@@ -208,6 +208,7 @@ sphinx_gallery_conf = {
                          '../examples/streamlines',
                          '../examples/lsdyna',
                          '../examples/cfx',
+                         '*',
                          ],
     # Pattern to search for example files
     "filename_pattern": r"\.py",
