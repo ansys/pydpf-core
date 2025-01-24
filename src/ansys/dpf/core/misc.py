@@ -174,15 +174,15 @@ def find_ansys():
     if latest_install:
         return latest_install
 
-    # base_path = None
-    # if os.name == "nt":
-    #     base_path = Path(os.environ["PROGRAMFILES"]) / "ANSYS INC"
-    # elif os.name == "posix":
-    #     for path in [Path("/usr/ansys_inc"), Path("/ansys_inc")]:
-    #         if path.is_dir():
-    #             base_path = path
-    # else:
-    #     raise OSError(f"Unsupported OS {os.name}")
+    base_path = None
+    if os.name == "nt":
+        base_path = Path(os.environ["PROGRAMFILES"]) / "ANSYS INC"
+    elif os.name == "posix":
+        for path in [Path("/usr/ansys_inc"), Path("/ansys_inc")]:
+            if path.is_dir():
+                base_path = path
+    else:
+        raise OSError(f"Unsupported OS {os.name}")
 
     if base_path is None:
         return base_path
