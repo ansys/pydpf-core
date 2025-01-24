@@ -114,6 +114,7 @@ class Any:
     def _type_to_new_from_get_as_method(self, obj):
         from ansys.dpf.core import (
             field,
+            fields_container,
             property_field,
             generic_data_container,
             string_field,
@@ -155,6 +156,11 @@ class Any:
             return (
                 self._api.any_new_from_property_field,
                 self._api.any_get_as_property_field,
+            )
+        elif issubclass(obj, fields_container.FieldsContainer):
+            return (
+                self._api.any_new_from_fields_container,
+                self._api.any_get_as_fields_container,
             )
         elif issubclass(obj, string_field.StringField):
             return (
