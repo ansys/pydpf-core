@@ -180,7 +180,7 @@ def reset_servers(gallery_conf, fname, when):
             pass
     print(f"Counted {nb_procs} {proc_name} processes {when} example {fname}.")
 
-
+from sphinx_gallery.sorting import ExplicitOrder
 sphinx_gallery_conf = {
     # convert rst to md for ipynb
     "pypandoc": True,
@@ -191,7 +191,7 @@ sphinx_gallery_conf = {
     # path where to save gallery generated examples
     "gallery_dirs": ["examples"],
     # Explicit gallery subsection ordering
-    "subsection_order": ['../examples/basic',
+    "subsection_order": ExplicitOrder(['../examples/basic',
                          '../examples/mathematical_operations',
                          '../examples/transient_analyses',
                          '../examples/modal_analyses',
@@ -209,7 +209,7 @@ sphinx_gallery_conf = {
                          '../examples/lsdyna',
                          '../examples/cfx',
                          '*',
-                         ],
+                         ]),
     # Pattern to search for example files
     "filename_pattern": r"\.py",
     # Pattern to search for example files to be ignored
