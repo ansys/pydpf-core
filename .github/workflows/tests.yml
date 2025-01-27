@@ -195,8 +195,9 @@ jobs:
       - name: "Set ANSYS_DPF_PATH environment variable"
         shell: bash
         run: |
-          export ANSYS_DPF_PATH=dpf-standalone/v${{inputs.ANSYS_VERSION}}/ansys/dpf/*
-          echo $ANSYS_DPF_PATH >> $GITHUB_ENV
+          ANSYS_DPF_PATH=$(echo dpf-standalone/v${{inputs.ANSYS_VERSION}}/ansys/dpf/*)
+          echo "ANSYS_DPF_PATH=$ANSYS_DPF_PATH" >> $GITHUB_ENV
+#          tree $ANSYS_DPF_PATH
 
       - name: "Check licences of packages"
         uses: ansys/pydpf-actions/check-licenses@v2.3
@@ -235,10 +236,10 @@ jobs:
       #     echo "COVERAGE=--cov=ansys.dpf.${{env.MODULE}} --cov-report=xml --cov-report=html --log-level=ERROR --cov-append" >> $GITHUB_ENV
       #     echo "RERUNS=--reruns 2 --reruns-delay 1" >> $GITHUB_ENV
           
-      - name: "Set environment variable to allow test targets access DPF server installation"
-        shell: bash
-        run: |
-          echo "ANSYS_DPF_PATH=dpf-standalone/v${{inputs.ANSYS_VERSION}}" >> $GITHUB_ENV
+      # - name: "Set environment variable to allow test targets access DPF server installation"
+      #   shell: bash
+      #   run: |
+      #     echo "ANSYS_DPF_PATH=dpf-standalone/v${{inputs.ANSYS_VERSION}}" >> $GITHUB_ENV
 #          echo "VIRTUALENV_SYSTEM_SITE_PACKAGES=true" >> $GITHUB_ENV
       
       - name: "Organize test files"
@@ -254,7 +255,7 @@ jobs:
       - name: "Test API"
         shell: bash
         run: |
-          tox -e test-api --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+          tox -e kill-servers,test-api --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
 #          tox -e test-api --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv:test-api.deps+='dpf-standalone/v${{inputs.ANSYS_VERSION}}'
 
       # - name: "Kill all servers"
@@ -267,7 +268,7 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
-            tox -e test-launcher --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+            tox -e kill-servers,test-launcher --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
 #            tox -e test-launcher --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv:test-launcher.deps+='dpf-standalone/v${{inputs.ANSYS_VERSION}}'
 
       # - name: "Kill all servers"
@@ -280,7 +281,7 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
-            tox -e test-server --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+            tox -e kill-servers,test-server --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
 #            tox -e test-server --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv:test-server.deps+='dpf-standalone/v${{inputs.ANSYS_VERSION}}'
 
       # - name: "Kill all servers"
@@ -293,7 +294,7 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
-            tox -e test-local_server --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+            tox -e kill-servers,test-local_server --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
 #            tox -e test-local_server --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv:test-local_server.deps+='dpf-standalone/v${{inputs.ANSYS_VERSION}}'
 
       # - name: "Kill all servers"
@@ -306,7 +307,7 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
-            tox -e test-multi_server --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+            tox -e kill-servers,test-multi_server --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
 #            tox -e test-multi_server --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv:test-multi_server.deps+='dpf-standalone/v${{inputs.ANSYS_VERSION}}'
 
       # - name: "Kill all servers"
@@ -319,7 +320,7 @@ jobs:
           max_attempts: 3
           shell: bash
           command: |
-            tox -e test-remote_workflow --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+            tox -e kill-servers,test-remote_workflow --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
 #            tox -e test-remote_workflow --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv:test-remote_workflow.deps+='dpf-standalone/v${{inputs.ANSYS_VERSION}}'
 
       # - name: "Kill all servers"
@@ -329,7 +330,7 @@ jobs:
         shell: bash
         working-directory: test_remote_operator
         run: |
-          tox -e test-remote_operator --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+          tox -e kill-servers,test-remote_operator --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
 #          tox -e test-remote_operator --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv:test-remote_operator.deps+='dpf-standalone/v${{inputs.ANSYS_VERSION}}'
 
       # - name: "Kill all servers"
@@ -343,7 +344,7 @@ jobs:
           retry_wait_seconds: 15
           shell: bash
           command: |
-            tox -e test-workflow --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+            tox -e kill-servers,test-workflow --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
 #            tox -e test-workflow --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv:test-workflow.deps+='dpf-standalone/v${{inputs.ANSYS_VERSION}}'
 
       # - name: "Kill all servers"
@@ -356,7 +357,7 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
-            tox -e test-service --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+            tox -e kill-servers,test-service --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
 #            tox -e test-service --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv:test-service.deps+='dpf-standalone/v${{inputs.ANSYS_VERSION}}'
 
       # - name: "Kill all servers"
@@ -365,7 +366,7 @@ jobs:
       - name: "Test API Entry"
         shell: bash
         run: |
-          tox -e test-api_entry --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+          tox -e kill-servers,test-api_entry --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
 #          tox -e test-api_entry --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv:test-api_entry.deps+='dpf-standalone/v${{inputs.ANSYS_VERSION}}'
         timeout-minutes: 30
 
@@ -379,7 +380,7 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
-            tox -e test-custom_type_field --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+            tox -e kill-servers,test-custom_type_field --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
 #            tox -e test-custom_type_field --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv:test-custom_type_field.deps+='dpf-standalone/v${{inputs.ANSYS_VERSION}}'
 
       # - name: "Kill all servers"
@@ -392,7 +393,7 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
-            tox -e test-operators --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+            tox -e kill-servers,test-operators --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
 #            tox -e test-operators --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv:test-operators.deps+='dpf-standalone/v${{inputs.ANSYS_VERSION}}'
 
       # - name: "Kill all servers"
