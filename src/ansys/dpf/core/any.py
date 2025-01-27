@@ -117,7 +117,6 @@ class Any:
             dpf_operator,
             field,
             fields_container,
-            property_field,
             generic_data_container,
             property_field,
             scoping,

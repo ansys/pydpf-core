@@ -31,7 +31,7 @@ from ansys.dpf.core import errors as dpf_errors, field
 from ansys.dpf.core.collection_base import CollectionBase
 
 
-class FieldsContainer(CollectionBase[field.Field]):
+class FieldsContainer(CollectionBase["field.Field"]):
     """Represents a fields container, which contains fields belonging to a common result.
 
     A fields container is a set of fields ordered by labels and IDs. Each field
@@ -86,8 +86,6 @@ class FieldsContainer(CollectionBase[field.Field]):
     ...     fc.add_field(mscop,dpf.Field(nentities=i+10))
 
     """
-
-    entries_type = field.Field
 
     def __init__(self, fields_container=None, server=None):
         super().__init__(collection=fields_container, server=server)
@@ -332,7 +330,7 @@ class FieldsContainer(CollectionBase[field.Field]):
 
         return super()._get_entry(label_space)
 
-    def __getitem__(self, key) -> field.Field:
+    def __getitem__(self, key) -> "field.Field":
         """Retrieve the field at a requested index.
 
         Parameters
