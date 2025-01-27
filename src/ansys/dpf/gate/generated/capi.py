@@ -1835,9 +1835,17 @@ def load_api(path):
 		dll.CSField_SetData.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.c_double), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.CSField_SetData.restype = None
 
+	if hasattr(dll, "CSField_SetDataWithCollection"):
+		dll.CSField_SetDataWithCollection.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.CSField_SetDataWithCollection.restype = None
+
 	if hasattr(dll, "CSField_SetDataPointer"):
 		dll.CSField_SetDataPointer.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.CSField_SetDataPointer.restype = None
+
+	if hasattr(dll, "CSField_SetDataPointerWithCollection"):
+		dll.CSField_SetDataPointerWithCollection.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.CSField_SetDataPointerWithCollection.restype = None
 
 	if hasattr(dll, "CSField_SetEntityData"):
 		dll.CSField_SetEntityData.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.c_int32, ctypes.c_int32, ctypes.POINTER(ctypes.c_double), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
@@ -3225,6 +3233,14 @@ def load_api(path):
 		dll.CSPropertyField_SetData.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.CSPropertyField_SetData.restype = None
 
+	if hasattr(dll, "CSPropertyField_SetDataWithCollection"):
+		dll.CSPropertyField_SetDataWithCollection.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.CSPropertyField_SetDataWithCollection.restype = None
+
+	if hasattr(dll, "CSPropertyField_SetDataPointerWithCollection"):
+		dll.CSPropertyField_SetDataPointerWithCollection.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.CSPropertyField_SetDataPointerWithCollection.restype = None
+
 	if hasattr(dll, "CSPropertyField_SetDataPointer"):
 		dll.CSPropertyField_SetDataPointer.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.CSPropertyField_SetDataPointer.restype = None
@@ -3668,6 +3684,10 @@ def load_api(path):
 		dll.Scoping_SetIds.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Scoping_SetIds.restype = None
 
+	if hasattr(dll, "Scoping_SetIdsWithCollection"):
+		dll.Scoping_SetIdsWithCollection.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.Scoping_SetIdsWithCollection.restype = None
+
 	if hasattr(dll, "Scoping_GetIds"):
 		dll.Scoping_GetIds.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Scoping_GetIds.restype = ctypes.POINTER(ctypes.c_int32)
@@ -4077,6 +4097,14 @@ def load_api(path):
 	if hasattr(dll, "CSCustomTypeField_PushBack"):
 		dll.CSCustomTypeField_PushBack.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.c_int32, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.CSCustomTypeField_PushBack.restype = None
+
+	if hasattr(dll, "CSCustomTypeField_SetDataWithCollection"):
+		dll.CSCustomTypeField_SetDataWithCollection.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.CSCustomTypeField_SetDataWithCollection.restype = None
+
+	if hasattr(dll, "CSCustomTypeField_SetDataPointerWithCollection"):
+		dll.CSCustomTypeField_SetDataPointerWithCollection.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.CSCustomTypeField_SetDataPointerWithCollection.restype = None
 
 	if hasattr(dll, "CSCustomTypeField_Resize"):
 		dll.CSCustomTypeField_Resize.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
