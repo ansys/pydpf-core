@@ -33,7 +33,6 @@ This example shows you how to use the incremental evaluation helper.
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
-
 #######################################################################################
 # Retrieve an example to instantiate a DataSources object
 path = examples.download_transient_result()

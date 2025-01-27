@@ -31,13 +31,11 @@ import warnings
 
 import numpy as np
 
-import ansys.dpf.core.server_types
-from ansys.dpf.core import server as server_module
-from ansys.dpf.core import errors
+from ansys.dpf.core import errors, server as server_module
 from ansys.dpf.core.check_version import server_meet_version, server_meet_version_and_raise
 from ansys.dpf.core.common import create_dpf_instance
-from ansys.dpf.gate import any_abstract_api, integral_types
-from ansys.dpf.gate import dpf_vector
+import ansys.dpf.core.server_types
+from ansys.dpf.gate import any_abstract_api, dpf_vector, integral_types
 
 
 class Any:
@@ -113,17 +111,17 @@ class Any:
 
     def _type_to_new_from_get_as_method(self, obj):
         from ansys.dpf.core import (
+            collection,
+            custom_type_field,
+            data_tree,
+            dpf_operator,
             field,
             fields_container,
-            property_field,
             generic_data_container,
-            string_field,
+            property_field,
             scoping,
-            data_tree,
-            custom_type_field,
-            collection,
+            string_field,
             workflow,
-            dpf_operator,
         )
 
         if issubclass(obj, int):

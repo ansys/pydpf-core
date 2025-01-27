@@ -24,21 +24,19 @@
 
 import os
 from pathlib import Path
-import warnings
 import traceback
 from typing import Union
+import warnings
 
-from ansys.dpf.core import server as server_module
+from ansys.dpf.core import errors, server as server_module
+from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.gate import (
+    data_processing_capi,
+    data_processing_grpcapi,
     data_sources_capi,
     data_sources_grpcapi,
     integral_types,
-    data_processing_capi,
-    data_processing_grpcapi,
 )
-
-from ansys.dpf.core.check_version import version_requires
-from ansys.dpf.core import errors
 
 
 class DataSources:

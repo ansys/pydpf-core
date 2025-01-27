@@ -25,10 +25,10 @@
 import traceback
 import warnings
 
-from ansys.dpf.core.common import natures, shell_layers
-from ansys.dpf.core.check_version import version_requires
-from ansys.dpf.core.dimensionality import Dimensionality
 from ansys.dpf.core import server as server_module
+from ansys.dpf.core.check_version import version_requires
+from ansys.dpf.core.common import natures, shell_layers
+from ansys.dpf.core.dimensionality import Dimensionality
 from ansys.dpf.gate import (
     field_definition_capi,
     field_definition_grpcapi,
