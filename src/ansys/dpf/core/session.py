@@ -31,7 +31,7 @@ import warnings
 import weakref
 
 from ansys.dpf.core import data_tree, errors, server as server_module, server_types
-from ansys.dpf.core.check_version import server_meet_version, version_requires
+from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.core.common import (
     _common_percentage_progress_bar,
     _progress_bar_is_available,
