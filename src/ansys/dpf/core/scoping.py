@@ -195,7 +195,7 @@ class Scoping:
         if isinstance(ids, range):
             ids = list(ids)
         if isinstance(ids, np.ndarray):
-            if ids.dtype == np.int64:
+            if ids.dtype != np.int32:
                 ids = ids.astype(np.int32)
         if isinstance(self._server, server_types.InProcessServer):
             self._api.scoping_resize(self, len(ids))
