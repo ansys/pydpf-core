@@ -20,9 +20,10 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import pytest
+
 import ansys.dpf.core as dpf
 import conftest
-import pytest
 
 
 @pytest.mark.skipif(

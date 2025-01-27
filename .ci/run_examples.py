@@ -1,12 +1,11 @@
-import os
 import glob
+import os
 from pathlib import Path
 import subprocess
 import sys
 
 import ansys.dpf.core as dpf
 from ansys.dpf.core.examples import get_example_required_minimum_dpf_version
-
 
 os.environ["PYVISTA_OFF_SCREEN"] = "true"
 os.environ["MPLBACKEND"] = "Agg"

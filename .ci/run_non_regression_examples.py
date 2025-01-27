@@ -1,9 +1,10 @@
-import os
 import glob
-from ansys.dpf import core
+import os
 import pathlib
 import subprocess
 import sys
+
+from ansys.dpf import core
 
 os.environ["PYVISTA_OFF_SCREEN"] = "true"
 os.environ["MPLBACKEND"] = "Agg"

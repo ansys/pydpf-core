@@ -27,12 +27,11 @@ Contains classes associated with the DPF FieldsContainer.
 """
 
 from ansys import dpf
+from ansys.dpf.core import errors as dpf_errors, field
 from ansys.dpf.core.collection_base import CollectionBase
-from ansys.dpf.core import errors as dpf_errors
-from ansys.dpf.core import field
 
 
-class FieldsContainer(CollectionBase[field.Field]):
+class FieldsContainer(CollectionBase["field.Field"]):
     """Represents a fields container, which contains fields belonging to a common result.
 
     A fields container is a set of fields ordered by labels and IDs. Each field
@@ -87,8 +86,6 @@ class FieldsContainer(CollectionBase[field.Field]):
     ...     fc.add_field(mscop,dpf.Field(nentities=i+10))
 
     """
-
-    entries_type = field.Field
 
     def __init__(self, fields_container=None, server=None):
         super().__init__(collection=fields_container, server=server)
@@ -333,7 +330,7 @@ class FieldsContainer(CollectionBase[field.Field]):
 
         return super()._get_entry(label_space)
 
-    def __getitem__(self, key) -> field.Field:
+    def __getitem__(self, key) -> "field.Field":
         """Retrieve the field at a requested index.
 
         Parameters
@@ -660,8 +657,7 @@ class FieldsContainer(CollectionBase[field.Field]):
         -------
         add : operators.math.add_fc
         """
-        from ansys.dpf.core import dpf_operator
-        from ansys.dpf.core import operators
+        from ansys.dpf.core import dpf_operator, operators
 
         if hasattr(operators, "math") and hasattr(operators.math, "add_fc"):
             op = operators.math.add_fc(self, fields_b, server=self._server)
@@ -678,8 +674,7 @@ class FieldsContainer(CollectionBase[field.Field]):
         -------
         minus : operators.math.minus_fc
         """
-        from ansys.dpf.core import dpf_operator
-        from ansys.dpf.core import operators
+        from ansys.dpf.core import dpf_operator, operators
 
         if hasattr(operators, "math") and hasattr(operators.math, "minus_fc"):
             op = operators.math.minus_fc(server=self._server)
@@ -693,8 +688,7 @@ class FieldsContainer(CollectionBase[field.Field]):
         """Compute element-wise field[i]^2."""
         if value != 2:
             raise ValueError('DPF only the value is "2" supported')
-        from ansys.dpf.core import dpf_operator
-        from ansys.dpf.core import operators
+        from ansys.dpf.core import dpf_operator, operators
 
         if hasattr(operators, "math") and hasattr(operators.math, "sqr_fc"):
             op = operators.math.sqr_fc(server=self._server)
@@ -711,8 +705,7 @@ class FieldsContainer(CollectionBase[field.Field]):
         -------
         mul : operators.math.generalized_inner_product_fc
         """
-        from ansys.dpf.core import dpf_operator
-        from ansys.dpf.core import operators
+        from ansys.dpf.core import dpf_operator, operators
 
         if hasattr(operators, "math") and hasattr(operators.math, "generalized_inner_product_fc"):
             op = operators.math.generalized_inner_product_fc(server=self._server)

@@ -36,6 +36,7 @@ This example provides an overview of the LS-DYNA results providers.
 """
 
 import matplotlib.pyplot as plt
+
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
