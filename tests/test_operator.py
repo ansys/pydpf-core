@@ -28,6 +28,7 @@ import shutil
 import types
 import weakref
 
+import numpy
 import numpy as np
 import pytest
 
@@ -88,6 +89,14 @@ def test_connect_list_operator(velocity_acceleration):
     model = dpf.core.Model(velocity_acceleration)
     op = model.operator("U")
     op.connect(0, [1, 2])
+    fcOut = op.get_output(0, dpf.core.types.fields_container)
+    assert fcOut.get_available_ids_for_label() == [1, 2]
+
+
+def test_connect_array_operator(velocity_acceleration):
+    model = dpf.core.Model(velocity_acceleration)
+    op = model.operator("U")
+    op.connect(0, numpy.array([1, 2], numpy.int32))
     fcOut = op.get_output(0, dpf.core.types.fields_container)
     assert fcOut.get_available_ids_for_label() == [1, 2]
 

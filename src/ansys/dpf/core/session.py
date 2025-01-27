@@ -227,8 +227,7 @@ class Session:
             self._internal_obj = self._api.session_new()
 
         self._handler = None
-        if server_meet_version("3.0", server):
-            self.add_progress_system()
+        self.add_progress_system()
 
         self._released = False
 

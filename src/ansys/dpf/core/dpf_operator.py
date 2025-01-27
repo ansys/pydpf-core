@@ -27,6 +27,7 @@ import logging
 import os
 import traceback
 import warnings
+import numpy
 
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core.check_version import (
@@ -276,17 +277,11 @@ class Operator:
             self._api.operator_connect_operator_output(self, pin, inpt, pin_out)
         elif isinstance(inpt, Output):
             self._api.operator_connect_operator_output(self, pin, inpt._operator, inpt._pin)
-        elif isinstance(inpt, list):
+        elif isinstance(inpt, (list, numpy.ndarray)):
             from ansys.dpf.core import collection
 
-            if server_meet_version("3.0", self._server):
-                inpt = collection.CollectionBase.integral_collection(inpt, self._server)
-                self._api.operator_connect_collection_as_vector(self, pin, inpt)
-            else:
-                if all(isinstance(x, int) for x in inpt):
-                    self._api.operator_connect_vector_int(self, pin, inpt, len(inpt))
-                else:
-                    self._api.operator_connect_vector_double(self, pin, inpt, len(inpt))
+            inpt = collection.CollectionBase.integral_collection(inpt, self._server)
+            self._api.operator_connect_collection_as_vector(self, pin, inpt)
         elif isinstance(inpt, dict):
             from ansys.dpf.core import label_space
 

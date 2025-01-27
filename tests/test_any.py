@@ -123,8 +123,8 @@ def test_cast_scoping_any(server_type):
 
 
 @pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_9_1,
-    reason="for_each not implemented below 8.0. Failing for gRPC CLayer below 9.1 for any.whl",
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
+    reason="for_each not implemented below 8.0. Failing for gRPC CLayer below 10.0 for any.whl",
 )
 def test_cast_workflow_any(server_type):
     entity = dpf.Workflow(server=server_type)
@@ -140,6 +140,18 @@ def test_cast_workflow_any(server_type):
 )
 def test_cast_operator_any(server_type):
     entity = dpf.Operator(server=server_type, name="U")
+    any_dpf = dpf.Any.new_from(entity)
+    new_entity = any_dpf.cast()
+
+    assert entity.name == new_entity.name
+
+
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
+    reason="any does not support operator below 10.0",
+)
+def test_cast_fields_container_any(server_type):
+    entity = dpf.FieldsContainer(server=server_type)
     any_dpf = dpf.Any.new_from(entity)
     new_entity = any_dpf.cast()
 

@@ -404,23 +404,8 @@ class MeshedRegion:
             A scoping containing the IDs of the entities in the named selection.
             The location depends on the type of entities targeted by the named selection.
         """
-        if server_meet_version("2.1", self._server):
-            out = self._api.meshed_region_get_named_selection_scoping(self, named_selection)
-            out_scoping = scoping.Scoping(scoping=out, server=self._server)
-        else:
-            if hasattr(self, "_stream_provider"):
-                from ansys.dpf.core.dpf_operator import Operator
-
-                op = Operator("scoping_provider_by_ns", server=self._server)
-                op.connect(1, named_selection)
-                op.connect(3, self._stream_provider, 0)
-                out_scoping = op.get_output(0, types.scoping)
-            else:
-                raise Exception(
-                    "Getting a named selection from a meshed region is "
-                    "only implemented for meshed region created from a "
-                    "model for server version 2.0. Please update your server."
-                )
+        out = self._api.meshed_region_get_named_selection_scoping(self, named_selection)
+        out_scoping = scoping.Scoping(scoping=out, server=self._server)
         if server:
             # Copy the scoping to another server
             out_scoping = out_scoping.deep_copy(server=server)

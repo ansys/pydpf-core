@@ -30,6 +30,8 @@ import traceback
 from typing import Union
 import warnings
 
+import numpy
+
 from ansys import dpf
 from ansys.dpf.core import dpf_operator, inputs, outputs, server as server_module
 from ansys.dpf.core.check_version import (
@@ -212,17 +214,11 @@ class Workflow:
             self._api.work_flow_connect_operator_output(self, pin_name, inpt, pin_out)
         elif isinstance(inpt, dpf_operator.Output):
             self._api.work_flow_connect_operator_output(self, pin_name, inpt._operator, inpt._pin)
-        elif isinstance(inpt, list):
+        elif isinstance(inpt, (list, numpy.ndarray)):
             from ansys.dpf.core import collection
 
-            if server_meet_version("3.0", self._server):
-                inpt = collection.CollectionBase.integral_collection(inpt, self._server)
-                self._api.work_flow_connect_collection_as_vector(self, pin_name, inpt)
-            else:
-                if all(isinstance(x, int) for x in inpt):
-                    self._api.work_flow_connect_vector_int(self, pin_name, inpt, len(inpt))
-                else:
-                    self._api.work_flow_connect_vector_double(self, pin_name, inpt, len(inpt))
+            inpt = collection.CollectionBase.integral_collection(inpt, self._server)
+            self._api.work_flow_connect_collection_as_vector(self, pin_name, inpt)
         elif isinstance(inpt, dict):
             from ansys.dpf.core import label_space
 
@@ -448,7 +444,7 @@ class Workflow:
         output_type : core.type enum
             Type of the requested output.
         """
-        if server_meet_version("3.0", self._server) and self.progress_bar:
+        if self.progress_bar:
             # handle progress bar
             self._server.session.add_workflow(self, "workflow")
             self._progress_thread = self._server.session.listen_to_progress()
