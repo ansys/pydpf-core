@@ -36,7 +36,7 @@ class Collection(CollectionBase[TYPE]):
 
     Parameters
     ----------
-    collection : ansys.grpc.dpf.collection_pb2.Collection or
+    collection : ansys.grpc.dpf.collection_message_pb2.Collection or
                 ansys.dpf.core.Collection, optional
         Create a collection from a collection message or create a copy from an
         existing collection. The default is ``None``.

@@ -37,7 +37,7 @@ class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
 
     Parameters
     ----------
-    meshes_container : ansys.grpc.dpf.collection_pb2.Collection or
+    meshes_container : ansys.grpc.dpf.collection_message_pb2.Collection or
                        ansys.dpf.core.MeshesContainer, optional
         Create a meshes container from a collection message or create a copy from an
         existing meshes container. The default is ``None``.
