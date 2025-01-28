@@ -21,10 +21,11 @@
 # SOFTWARE.
 
 import pytest
-import conftest
+
 from ansys.dpf import core as dpf
-from ansys.dpf.core.elements import element_types
 from ansys.dpf.core import mesh_scoping_factory
+from ansys.dpf.core.elements import element_types
+import conftest
 
 
 @pytest.fixture()

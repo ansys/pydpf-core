@@ -27,9 +27,7 @@ from pathlib import Path
 import pytest
 
 from ansys.dpf import core as dpf
-from ansys.dpf.core import Model
-from ansys.dpf.core import DataSources
-from ansys.dpf.core import examples
+from ansys.dpf.core import DataSources, Model, examples
 
 
 def test_download_all_kinds_of_complexity_modal():

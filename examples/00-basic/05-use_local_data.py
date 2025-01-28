@@ -36,9 +36,7 @@ in one transaction.
 
 # Import necessary modules
 from ansys.dpf import core as dpf
-from ansys.dpf.core import examples
-from ansys.dpf.core import operators as ops
-
+from ansys.dpf.core import examples, operators as ops
 
 ###############################################################################
 # Create a model object to establish a connection with an
