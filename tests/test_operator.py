@@ -20,21 +20,20 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import copy
 import gc
 import os
+from pathlib import Path
 import shutil
 import types
 import weakref
-from pathlib import Path
 
 import numpy
 import numpy as np
 import pytest
-import copy
 
 from ansys import dpf
-from ansys.dpf.core import errors
-from ansys.dpf.core import operators as ops
+from ansys.dpf.core import errors, operators as ops
 from ansys.dpf.core.common import derived_class_name_to_type, record_derived_class
 from ansys.dpf.core.custom_container_base import CustomContainerBase
 from ansys.dpf.core.misc import get_ansys_path

@@ -23,6 +23,7 @@
 """Errors."""
 
 from functools import wraps
+
 from ansys.dpf.gate.errors import (  # noqa: F401
     DPFServerException,
     DPFServerNullObject,

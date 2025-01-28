@@ -22,13 +22,13 @@
 
 import gc
 import weakref
-import numpy as np
 
-import conftest
+import numpy as np
 import pytest
 
 from ansys import dpf
 from ansys.dpf import core as dpf
+import conftest
 
 
 def test_cyc_support_from_model(cyclic_lin_rst):

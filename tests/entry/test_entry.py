@@ -23,11 +23,11 @@
 import os
 
 import pytest
-import conftest
 
 import ansys.dpf.core as dpf
 from ansys.dpf.core import examples
 from ansys.dpf.core.core import errors
+import conftest
 from conftest import running_docker
 
 
