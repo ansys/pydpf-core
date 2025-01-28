@@ -209,24 +209,6 @@ class PropertyFieldCAPI(property_field_abstract_api.PropertyFieldAbstractAPI):
 		return res
 
 	@staticmethod
-	def csproperty_field_set_data_with_collection(field, data):
-		errorSize = ctypes.c_int(0)
-		sError = ctypes.c_wchar_p()
-		res = capi.dll.CSPropertyField_SetDataWithCollection(field._internal_obj if field is not None else None, data._internal_obj if data is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
-		if errorSize.value != 0:
-			raise errors.DPFServerException(sError.value)
-		return res
-
-	@staticmethod
-	def csproperty_field_set_data_pointer_with_collection(field, data):
-		errorSize = ctypes.c_int(0)
-		sError = ctypes.c_wchar_p()
-		res = capi.dll.CSPropertyField_SetDataPointerWithCollection(field._internal_obj if field is not None else None, data._internal_obj if data is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
-		if errorSize.value != 0:
-			raise errors.DPFServerException(sError.value)
-		return res
-
-	@staticmethod
 	def csproperty_field_set_data_pointer(field, size, data):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()

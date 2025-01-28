@@ -36,10 +36,6 @@ class ScopingAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
-	def scoping_set_ids_with_collection(scoping, ids):
-		raise NotImplementedError
-
-	@staticmethod
 	def scoping_get_ids(scoping, size):
 		raise NotImplementedError
 

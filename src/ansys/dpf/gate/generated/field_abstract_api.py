@@ -96,15 +96,7 @@ class FieldAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
-	def csfield_set_data_with_collection(field, data):
-		raise NotImplementedError
-
-	@staticmethod
 	def csfield_set_data_pointer(field, size, data):
-		raise NotImplementedError
-
-	@staticmethod
-	def csfield_set_data_pointer_with_collection(field, data):
 		raise NotImplementedError
 
 	@staticmethod

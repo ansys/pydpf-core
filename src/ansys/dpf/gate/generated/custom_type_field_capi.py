@@ -153,24 +153,6 @@ class CustomTypeFieldCAPI(custom_type_field_abstract_api.CustomTypeFieldAbstract
 		return res
 
 	@staticmethod
-	def cscustom_type_field_set_data_with_collection(field, data):
-		errorSize = ctypes.c_int(0)
-		sError = ctypes.c_wchar_p()
-		res = capi.dll.CSCustomTypeField_SetDataWithCollection(field._internal_obj if field is not None else None, data._internal_obj if data is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
-		if errorSize.value != 0:
-			raise errors.DPFServerException(sError.value)
-		return res
-
-	@staticmethod
-	def cscustom_type_field_set_data_pointer_with_collection(field, data):
-		errorSize = ctypes.c_int(0)
-		sError = ctypes.c_wchar_p()
-		res = capi.dll.CSCustomTypeField_SetDataPointerWithCollection(field._internal_obj if field is not None else None, data._internal_obj if data is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
-		if errorSize.value != 0:
-			raise errors.DPFServerException(sError.value)
-		return res
-
-	@staticmethod
 	def cscustom_type_field_resize(field, dataSize, scopingSize):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
