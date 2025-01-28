@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -122,3 +122,4 @@ re_assemble = dpf.operators.utility.assemble_scalars_to_matrices_fc(
 
 print(re_assemble)
 print(re_assemble[0])
+
