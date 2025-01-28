@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -20,10 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""
-Element Descriptor
-==================
-"""
+"""Element Descriptor."""
 
 
 class ElementDescriptor:
@@ -77,7 +74,7 @@ class ElementDescriptor:
         is_beam=None,
         is_quadratic=None,
     ):
-        """Constructor of ElementDescriptor."""
+        """ElementDescriptor's Constructor."""
         self.enum_id = enum_id
         self.description = description
         self.name = name
@@ -93,6 +90,7 @@ class ElementDescriptor:
         self.is_quadratic = is_quadratic
 
     def __str__(self):
+        """Provide more details in the string representation."""
         lines = []
         lines.append("Element descriptor")
         lines.append("-" * 18)

@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -20,21 +20,19 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""
-.. _ref_elements_apis:
-
-Elements
-========
-"""
+"""Elements."""
 
 from __future__ import annotations
+
 from enum import Enum
+
 import numpy as np
+
 from ansys.dpf.core import nodes
-from ansys.dpf.core.common import locations, elemental_properties
+from ansys.dpf.core.check_version import version_requires
+from ansys.dpf.core.common import elemental_properties, locations
 from ansys.dpf.core.element_descriptor import ElementDescriptor
 from ansys.dpf.gate import integral_types
-from ansys.dpf.core.check_version import version_requires
 
 
 class Element:
@@ -85,7 +83,7 @@ class Element:
         IDs of all nodes in the element.
 
         Returns
-        --------
+        -------
         list
            List of IDs for all nodes in the element.
 
@@ -132,8 +130,9 @@ class Element:
     def nodes(self):
         """
         All nodes in the element.
+
         Returns
-        --------
+        -------
         list
             List of all nodes in the element.
 
@@ -163,6 +162,7 @@ class Element:
         return len(self._nodes)
 
     def __str__(self):
+        """Provide more details in the string representation."""
         txt = f"DPF Element {self.id:d}\n"
         txt += f"\tIndex:{self.index:>13}\n"
         txt += f"\tNodes:{self.n_nodes:>13}\n"
@@ -238,7 +238,7 @@ class Element:
         Ordered list of node indices of the element.
 
         Returns
-        --------
+        -------
         list
             Ordered list of node indices.
 
@@ -275,16 +275,19 @@ class Elements:
         self._mapping_id_to_index = None
 
     def __str__(self):
+        """Provide a custom string representation."""
         return "DPF Elements object with %d elements" % len(self)
 
     def __getitem__(self, index):
-        """Retrieves element based on an index."""
+        """Retrieve element based on an index."""
         return self.element_by_index(index)
 
     def __len__(self):
+        """Retrieve the number of elements."""
         return self.n_elements
 
     def __iter__(self):
+        """Provide for looping through the elements in loops."""
         for i in range(len(self)):
             yield self[i]
 
@@ -609,7 +612,7 @@ class Elements:
     @version_requires("3.0")
     def connectivities_field(self, property_field):
         """
-        Connectivity field setter.
+        Set connectivity field.
 
         Parameters
         ----------
@@ -624,7 +627,7 @@ class Elements:
 
     @property
     def n_elements(self) -> int:
-        """Number of elements"""
+        """Number of elements."""
         return self._mesh._api.meshed_region_get_num_elements(self._mesh)
 
     def _build_mapping_id_to_index(self):
@@ -653,8 +656,7 @@ class Elements:
 
     def map_scoping(self, external_scope):
         """
-        Retrieve the indices to map the scoping of these elements to
-        the scoping of a field.
+        Retrieve the indices to map the scoping of these elements to the scoping of a field.
 
         Parameters
         ----------
@@ -789,7 +791,6 @@ class ElementAdder:
         -------
         bool
         """
-
         return self._shape_info["solid"]
 
     @is_solid.setter
@@ -807,7 +808,6 @@ class ElementAdder:
         -------
         bool
         """
-
         return self._shape_info["shell"]
 
     @is_shell.setter
@@ -825,7 +825,6 @@ class ElementAdder:
         -------
         bool
         """
-
         return self._shape_info["beam"]
 
     @is_beam.setter
@@ -843,7 +842,6 @@ class ElementAdder:
         -------
         bool
         """
-
         return self._shape_info["point"]
 
     @is_point.setter
@@ -858,7 +856,7 @@ class ElementAdder:
         Shape of the element.
 
         Returns
-        --------
+        -------
         str
            Shape of the element. Options are ``"solid"``, ``"shell"``, ``"beam"``
            and ``"unknown_shape"``.
@@ -879,7 +877,7 @@ class ElementAdder:
         Set the shape of the element.
 
         Parameters
-        --------
+        ----------
         value : str
            Shape of the element. Options are ``"solid"``, ``"shell"``, ``"beam"``
            and ``"unknown_shape"``.

@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -20,44 +20,36 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""
-ResultInfo
-==========
-"""
+"""ResultInfo."""
 
+from enum import Enum, unique
 import traceback
+from types import SimpleNamespace
+from typing import List, Union
 import warnings
 
-from typing import List, Union
-from enum import Enum, unique
-from types import SimpleNamespace
+from ansys.dpf.core import available_result, collection_base, server as server_module, support
+from ansys.dpf.core.available_result import Homogeneity
+from ansys.dpf.core.check_version import version_requires
+from ansys.dpf.core.common import locations
+from ansys.dpf.core.cyclic_support import CyclicSupport
+from ansys.dpf.core.dimensionality import natures
+from ansys.dpf.core.label_space import LabelSpace
 from ansys.dpf.gate import (
-    result_info_capi,
-    result_info_grpcapi,
+    data_processing_capi,
+    data_processing_grpcapi,
     integral_types,
     label_space_capi,
     label_space_grpcapi,
     object_handler,
-    data_processing_grpcapi,
-    data_processing_capi,
+    result_info_capi,
+    result_info_grpcapi,
 )
-
-from ansys.dpf.core import collection_base
-from ansys.dpf.core import server as server_module
-from ansys.dpf.core import available_result, support
-from ansys.dpf.core.cyclic_support import CyclicSupport
-from ansys.dpf.core.label_space import LabelSpace
-from ansys.dpf.core.check_version import version_requires
-from ansys.dpf.core.dimensionality import natures
-from ansys.dpf.core.common import locations
-from ansys.dpf.core.available_result import Homogeneity
 
 
 @unique
 class physics_types(Enum):
-    """
-    ``'Physics_types'`` enumerates the different types of physics that an analysis can have.
-    """
+    """``'Physics_types'`` enumerates the different types of physics that an analysis can have."""
 
     mechanical = 0
     thermal = 1
@@ -132,7 +124,7 @@ class ResultInfo:
         analysis_type: analysis_types = None,
         physics_type: physics_types = None,
     ):
-        """Initialize with a ResultInfo message"""
+        """Initialize with a ResultInfo message."""
         # ############################
         # step 1: get server
         self._server = server_module.get_or_create_server(
@@ -168,6 +160,7 @@ class ResultInfo:
                 raise NotImplementedError("Cannot create a new ResultInfo via gRPC.")
 
     def __str__(self):
+        """Return a string representation of the instance providing detailed information."""
         try:
             txt = (
                 "%s analysis\n" % self.analysis_type.capitalize()
@@ -212,6 +205,7 @@ class ResultInfo:
         return [item.name for item in self.available_results]
 
     def __contains__(self, value):
+        """Check if a given name is present in available results."""
         return value in self._names
 
     def add_result(
@@ -313,7 +307,8 @@ class ResultInfo:
         return self._get_physics_type()
 
     def _get_physics_type(self):
-        """
+        """Return the physics type associated with the result.
+
         Returns
         -------
         physics_type : str
@@ -429,8 +424,7 @@ class ResultInfo:
 
     @property
     def available_results(self):
-        """Available results, containing all information about results
-        present in the result files.
+        """Available results, containing all information about results present in the result files.
 
         Returns
         -------
@@ -451,7 +445,8 @@ class ResultInfo:
         return core_api
 
     def _get_result(self, numres):
-        """
+        """Return requested result.
+
         Parameters
         ----------
         numres : int
@@ -459,7 +454,7 @@ class ResultInfo:
 
         Returns
         -------
-        result : Result
+        result : available_result.AvailableResult
         """
         if numres >= len(self):
             raise IndexError("There are only %d results" % len(self))
@@ -550,7 +545,7 @@ class ResultInfo:
     @property
     @version_requires("5.0")
     def available_qualifier_labels(self):
-        """Returns a list of labels defining result qualifiers
+        """Returns a list of labels defining result qualifiers.
 
         Returns
         -------
@@ -568,7 +563,7 @@ class ResultInfo:
 
     @version_requires("5.0")
     def qualifier_label_support(self, label):
-        """Returns what supports an available qualifier label.
+        """Return what supports an available qualifier label.
 
         Parameters
         ----------
@@ -588,16 +583,38 @@ class ResultInfo:
         )
 
     def __len__(self):
+        """
+        Return the number of results available.
+
+        If an exception occurs while attempting to retrieve the number of results,
+        the method returns 0.
+
+        Returns
+        -------
+        int
+            The number of results, or 0 if an error occurs.
+        """
         try:
             return self.n_results
         except Exception as e:
             return 0
 
     def __iter__(self):
+        """Return an iterator over the results."""
         for i in range(len(self)):
             yield self[i]
 
     def __getitem__(self, key):
+        """
+        Retrieve a result by index or name.
+
+        Raises
+        ------
+        ValueError
+            If the key is a string and not found in the result names.
+        TypeError
+            If the key is not an integer or string.
+        """
         if isinstance(key, int):
             index = key
         elif isinstance(key, str):
@@ -610,6 +627,17 @@ class ResultInfo:
         return self._get_result(index)
 
     def __del__(self):
+        """
+        Clean up resources associated with the instance.
+
+        This method calls the deleter function to release resources. If an exception
+        occurs during deletion, a warning is issued.
+
+        Raises
+        ------
+        Warning
+            If an exception occurs while attempting to delete resources.
+        """
         try:
             self._deleter_func[0](self._deleter_func[1](self))
         except:

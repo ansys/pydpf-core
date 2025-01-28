@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -78,7 +78,4 @@
 #     res_info.unit_system
 #     assert len(res_info._cache.cached) == 1
 #     res_info.physics_type
-#     if server_meet_version("3.0", ds._server):
-#         assert len(res_info._cache.cached) == 2
-#     else:
-#         assert len(res_info._cache.cached) == 1
+#     assert len(res_info._cache.cached) == 2

@@ -33,6 +33,7 @@ from .cross_product_fc import cross_product_fc
 from .dot import dot
 from .dot_tensor import dot_tensor
 from .entity_extractor import entity_extractor
+from .expansion_psd import expansion_psd
 from .exponential import exponential
 from .exponential_fc import exponential_fc
 from .fft_approx import fft_approx

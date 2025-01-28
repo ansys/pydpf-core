@@ -4,11 +4,10 @@
 Licensing
 =========
 
-This section details how to properly set up licensing, as well as what the user should expect in
-terms of limitations or license usage when running PyDPF scripts.
+This section describes how to properly set up licensing, as well as limitations and license usage when running PyDPF scripts.
 
-DPF follows a client-server architecture, which means that the PyDPF client library must interact with a running DPF Server.
-It either starts a DPF Server via a local installation of DPF Server, or it connects to an already running local or remote DPF Server.
+DPF follows a client-server architecture, so the PyDPF client library must interact with a running DPF Server.
+It either starts a DPF Server via a local DPF Server installation, or it connects to an already running local or remote DPF Server.
 
 DPF Server is packaged within the **Ansys installer** in Ansys 2021 R1 and later.
 It is also available as a standalone application.
@@ -20,12 +19,12 @@ For more information on installing DPF Server, see :ref:`ref_dpf_server`.
 License terms
 -------------
 
-When using the DPF Server from an Ansys installation, the user has already agreed to the licensing
+When using the DPF Server from an Ansys installation, you have already agreed to the licensing
 terms when installing Ansys.
 
-When using a standalone DPF Server, the user must accept the ``DPF Preview License Agreement``
+When using a standalone DPF Server, you must accept the ``DPF Preview License Agreement``
 by following the indications below.
-Starting a DPF Server without agreeing to the ``DPF Preview License Agreement`` throws an exception.
+Starting a DPF Server without agreeing to the ``DPF Preview License Agreement`` creates an exception.
 
 DPF Preview License Agreement
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -51,7 +50,7 @@ existing license for the edition and version of DPF Server that you intend to us
 Configure licensing
 -------------------
 
-If your machine does not have a local Ansys installation, you need to define where DPF should look for a valid license.
+If your machine does not have a local Ansys installation, you must define where DPF should look for a valid license.
 
 To use a local license file, set the ``ANSYSLMD_LICENSE_FILE`` environment
 variable to point to an Ansys license file ``<license_file_to_use>``:
@@ -85,12 +84,12 @@ License checks and usage
 ------------------------
 
 Some DPF operators require DPF to check for an existing license
-and some require DPF to check-out a compatible license increment.
+and some require DPF to checkout a compatible license increment.
 
-DPF is by default allowed to check-out license increments as needed.
+DPF is by default allowed to checkout license increments as needed.
 To change this behavior, see :ref:`here <licensing_server_context>`.
 
-To know if operators require a license increment check-out to run, check their ``license``
+To know if operators require a license increment checkout to run, check their ``license``
 attribute in :ref:`ref_dpf_operators_reference` or directly in Python by checking the operator's
 properties for a ``license`` key:
 
@@ -109,13 +108,13 @@ properties for a ``license`` key:
 
 
 To check which Ansys licensing increments correspond to ``any_dpf_supported_increments``,
-see :ref:`here<target_to_ansys_license_increments_list>`.
+see :ref:`Compatible Ansys license increments<target_to_ansys_license_increments_list>`.
 
-Even if an operator does not require a license check-out to run, most DPF operators still require
+Even if an operator does not require a license checkout to run, most DPF operators still require
 DPF to check for a reachable license server or license file.
 
-Operators which do not perform any kind of license check are source operators (data extraction
-operators) which do not perform any data transformation.
+Operators that do not perform any kind of license check are source operators (data extraction
+operators). These operators do not perform any data transformation.
 
 For example, when considering result operators, they perform data transformation if the requested
 location is not the native result location. In that case, averaging occurs which is considered

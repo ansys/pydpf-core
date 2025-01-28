@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -22,8 +22,8 @@
 
 import numpy as np
 
-from ansys.dpf.core import operators as ops
 from ansys import dpf
+from ansys.dpf.core import operators as ops
 
 
 def test_add_operator_server_field(local_server):

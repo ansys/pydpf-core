@@ -15,7 +15,7 @@ on:
       standalone_branch_suffix:
         description: 'Suffix of the branch on standalone'
         required: false
-        default: '.pre0'
+        default: ''
 
 #┌───────────── minute (0 - 59)
 #│ ┌───────────── hour (0 - 23)
@@ -73,24 +73,47 @@ jobs:
           name: ${{ steps.wheel.outputs.wheel_name }}
           path: dist/${{ steps.wheel.outputs.wheel_name }}
 
+  tests_3_9:
+    uses: ./.github/workflows/tests.yml
+    with:
+      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '251' }}
+      python_versions: '["3.9"]'
+      wheel: true
+      wheelhouse: true
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+    secrets: inherit
+
   tests:
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '251' }}
-      python_versions: '["3.9", "3.10", "3.11"]'
-      wheel: ${{ matrix.python-version == '3.9' }}
+      python_versions: '["3.10", "3.11"]'
+      DOCSTRING: false
+      wheel: false
       wheelhouse: true
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+    secrets: inherit
+
+  tests_any_3_9:
+    uses: ./.github/workflows/tests.yml
+    with:
+      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '251' }}
+      python_versions: '["3.9"]'
+      wheel: true
+      wheelhouse: false
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+      test_any: true
     secrets: inherit
 
   tests_any:
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '251' }}
-      python_versions: '["3.9", "3.10", "3.11"]'
-      wheel: ${{ matrix.python-version == '3.9' }}
+      python_versions: '["3.10", "3.11"]'
+      DOCSTRING: false
+      wheel: false
       wheelhouse: false
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
       test_any: true
     secrets: inherit
 
@@ -98,7 +121,7 @@ jobs:
     uses: ./.github/workflows/docs.yml
     with:
       ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '251' }}
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
       event_name: ${{ github.event_name }}
     secrets: inherit
 
@@ -107,7 +130,16 @@ jobs:
     with:
       ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '251' }}
       python_versions: '["3.9", "3.10", "3.11"]'
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+    secrets: inherit
+
+  retro_242:
+    name: "retro 242"
+    uses: ./.github/workflows/tests.yml
+    with:
+      ANSYS_VERSION: "242"
+      python_versions: '["3.9"]'
+      DOCSTRING: false
     secrets: inherit
 
   retro_241:
@@ -152,7 +184,7 @@ jobs:
     uses: ./.github/workflows/pydpf-post.yml
     with:
       ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '251' }}
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
       test_docstrings: "true"
     secrets: inherit
 
@@ -196,7 +228,7 @@ jobs:
     uses: ./.github/workflows/test_docker.yml
     with:
       ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '251' }}
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
     secrets: inherit
 
   docker_examples:
@@ -205,17 +237,17 @@ jobs:
     with:
       ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '251' }}
       python_versions: '["3.9", "3.10", "3.11"]'
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
     secrets: inherit
 
   draft_release:
     name: "Draft Release"
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
-    needs: [style, tests, docs, examples, retro_232, retro_231, retro_222, docker_tests]
+    needs: [style, tests, tests_3_9, tests_any, tests_any_3_9, docs, examples, retro_232, retro_231, retro_222, docker_tests]
     runs-on: ubuntu-latest
     steps:
       - name: "Download artifacts"
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
 
       - name: "Display downloaded files"
         run: ls -R

@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -33,7 +33,6 @@ This example shows how to load a plugin that is not loaded automatically.
 ###############################################################################
 # Import DPF-Core:
 from ansys.dpf import core as dpf
-
 
 server = dpf.global_server()
 

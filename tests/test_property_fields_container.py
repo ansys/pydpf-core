@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -22,8 +22,8 @@
 
 import pytest
 
-from ansys.dpf.core.property_fields_container import _MockPropertyFieldsContainer, _LabelSpaceKV
 from ansys.dpf import core as dpf
+from ansys.dpf.core.property_fields_container import _LabelSpaceKV, _MockPropertyFieldsContainer
 
 
 def test_property_fields_container(allkindofcomplexity, server_type):
