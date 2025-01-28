@@ -49,7 +49,6 @@ from ansys.dpf.gate.dpf_array import DPFArray
 
 if TYPE_CHECKING:  # pragma: nocover
     from ctypes import c_void_p as ScopingPointer
-    
     from numpy import typing as np_typing
 
     from ansys.dpf.core.server_types import AnyServerType
