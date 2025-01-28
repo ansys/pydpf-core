@@ -122,4 +122,3 @@ re_assemble = dpf.operators.utility.assemble_scalars_to_matrices_fc(
 
 print(re_assemble)
 print(re_assemble[0])
-
