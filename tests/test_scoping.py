@@ -64,6 +64,24 @@ def test_set_get_ids_scoping(server_type):
     assert np.allclose(scop.ids, ids)
 
 
+def test_set_get_ids_scoping_int64_array(server_type):
+    # Numpy 2 switches default int precision from 32 to 64 on Windows
+    # This tests verifies we convert any array of int64 to int32.
+    scop = Scoping(server=server_type)
+    ids_list = [1, 2, 3, 4]
+    ids = np.array(ids_list, dtype=np.int64)
+    scop.ids = ids
+    assert np.allclose(scop.ids, ids_list)
+
+
+def test_set_get_ids_scoping_raise_dtype_array(server_type):
+    scop = Scoping(server=server_type)
+    ids_list = [1.0, 2.0, 3.0, 4.0]
+    ids = np.array(ids_list)
+    with pytest.raises(ValueError, match="Accepted dtypes"):
+        scop.ids = ids
+
+
 def test_set_get_ids_scoping_range(server_type):
     range_ids = range(1, 10)
     scop = Scoping(
