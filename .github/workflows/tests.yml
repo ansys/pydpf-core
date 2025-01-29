@@ -299,7 +299,7 @@ jobs:
         with:
           timeout_minutes: 3
           max_attempts: 4
-          retry_wait_seconds: 15
+          # retry_wait_seconds: 15
           shell: bash
           command: |
             if [ $MODE == 'PIP' ]; then
