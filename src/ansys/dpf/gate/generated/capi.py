@@ -295,6 +295,18 @@ def load_api(path):
 		dll.Client_get_protocol_name.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Client_get_protocol_name.restype = ctypes.POINTER(ctypes.c_char)
 
+	if hasattr(dll, "Client_has_local_server"):
+		dll.Client_has_local_server.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.Client_has_local_server.restype = ctypes.c_bool
+
+	if hasattr(dll, "Client_set_local_server"):
+		dll.Client_set_local_server.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.Client_set_local_server.restype = None
+
+	if hasattr(dll, "Client_get_local_server"):
+		dll.Client_get_local_server.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.Client_get_local_server.restype = ctypes.c_void_p
+
 	#-------------------------------------------------------------------------------
 	# Collection
 	#-------------------------------------------------------------------------------
