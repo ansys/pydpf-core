@@ -567,7 +567,7 @@ class InputsCustom(_Inputs):
         >>> # or
         >>> op.inputs.result_name(my_result_name)
         """
-        return self._read_cyclic
+        return self._result_name
 
 class OutputsCustom(_Outputs):
     """Intermediate class used to get outputs from
