@@ -215,9 +215,9 @@ jobs:
         shell: bash
         run: |
           if [ $MODE == 'PIP' ]; then
-              tox -e test-api,kill-servers -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+              tox -e test-api,kill-servers --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" -x testenv.commands_pre+="python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"
           else
-              tox -e test-api,kill-servers -x --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+              tox -e test-api,kill-servers --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.commands_pre+="python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"
           fi
 
       - name: "Test API test_launcher"
@@ -228,9 +228,9 @@ jobs:
           shell: bash
           command: |
             if [ $MODE == 'PIP' ]; then
-                tox -e test-launcher,kill-servers -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+                tox -e test-launcher,kill-servers --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" -x testenv.commands_pre+="python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"
             else
-                tox -e test-launcher,kill-servers -x --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+                tox -e test-launcher,kill-servers --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.commands_pre+="python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"
             fi
 
       - name: "Test API test_server"
@@ -241,9 +241,9 @@ jobs:
           shell: bash
           command: |
             if [ $MODE == 'PIP' ]; then
-                tox -e test-server,kill-servers -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+                tox -e test-server,kill-servers --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" -x testenv.commands_pre+="python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"
             else
-                tox -e test-server,kill-servers -x --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+                tox -e test-server,kill-servers --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.commands_pre+="python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"
             fi
 
       - name: "Test API test_local_server"
@@ -254,9 +254,9 @@ jobs:
           shell: bash
           command: |
             if [ $MODE == 'PIP' ]; then
-                tox -e test-local_server,kill-servers -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+                tox -e test-local_server,kill-servers --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" -x testenv.commands_pre+="python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"
             else
-                tox -e test-local_server,kill-servers -x --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+                tox -e test-local_server,kill-servers --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.commands_pre+="python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"
             fi
 
       - name: "Test API test_multi_server"
@@ -267,9 +267,9 @@ jobs:
           shell: bash
           command: |
             if [ $MODE == 'PIP' ]; then
-                tox -e test-multi_server,kill-servers -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+                tox -e test-multi_server,kill-servers --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" -x testenv.commands_pre+="python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"
             else
-                tox -e test-multi_server,kill-servers -x --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+                tox -e test-multi_server,kill-servers --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.commands_pre+="python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"
             fi
 
       - name: "Test API test_remote_workflow"
@@ -280,9 +280,9 @@ jobs:
           shell: bash
           command: |
             if [ $MODE == 'PIP' ]; then
-                tox -e test-remote_workflow,kill-servers -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+                tox -e test-remote_workflow,kill-servers --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" -x testenv.commands_pre+="python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"
             else
-                tox -e test-remote_workflow,kill-servers -x --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+                tox -e test-remote_workflow,kill-servers --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.commands_pre+="python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"
             fi
 
       - name: "Test API test_remote_operator"
@@ -290,9 +290,9 @@ jobs:
         working-directory: test_remote_operator
         run: |
           if [ $MODE == 'PIP' ]; then
-              tox -e test-remote_operator,kill-servers -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+              tox -e test-remote_operator,kill-servers --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" -x testenv.commands_pre+="python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"
           else
-              tox -e test-remote_operator,kill-servers -x --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+              tox -e test-remote_operator,kill-servers --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.commands_pre+="python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"
           fi
 
       - name: "Test API test_workflow"
@@ -304,9 +304,9 @@ jobs:
           shell: bash
           command: |
             if [ $MODE == 'PIP' ]; then
-                tox -e test-workflow,kill-servers -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+                tox -e test-workflow,kill-servers --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" -x testenv.commands_pre+="python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"
             else
-                tox -e test-workflow,kill-servers -x --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+                tox -e test-workflow,kill-servers --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.commands_pre+="python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"
             fi
 
       - name: "Test API test_service"
@@ -317,18 +317,18 @@ jobs:
           shell: bash
           command: |
             if [ $MODE == 'PIP' ]; then
-                tox -e test-service,kill-servers -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+                tox -e test-service,kill-servers --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" -x testenv.commands_pre+="python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"
             else
-                tox -e test-service,kill-servers -x --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+                tox -e test-service,kill-servers --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.commands_pre+="python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"
             fi
 
       - name: "Test API Entry"
         shell: bash
         run: |
           if [ $MODE == 'PIP' ]; then
-              tox -e test-api_entry,kill-servers -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+              tox -e test-api_entry,kill-servers --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" -x testenv.commands_pre+="python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"
           else
-              tox -e test-api_entry,kill-servers -x --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+              tox -e test-api_entry,kill-servers --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.commands_pre+="python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"
           fi
         timeout-minutes: 30
 
@@ -340,9 +340,9 @@ jobs:
           shell: bash
           command: |
             if [ $MODE == 'PIP' ]; then
-                tox -e test-custom_type_field,kill-servers -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+                tox -e test-custom_type_field,kill-servers --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" -x testenv.commands_pre+="python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"
             else
-                tox -e test-custom_type_field,kill-servers -x --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+                tox -e test-custom_type_field,kill-servers --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.commands_pre+="python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"
             fi
 
       - name: "Test Operators"
@@ -353,9 +353,9 @@ jobs:
           shell: bash
           command: |
             if [ $MODE == 'PIP' ]; then
-                tox -e test-operators,kill-servers -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+                tox -e test-operators,kill-servers --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" -x testenv.commands_pre+="python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"
             else
-                tox -e test-operators,kill-servers -x --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+                tox -e test-operators,kill-servers --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.commands_pre+="python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"
             fi
 
       - name: "Upload Test Results"
