@@ -115,12 +115,12 @@ h5_set_per_set_ds = h5_serialization_op_set_per_set.outputs.data_sources()
 h5_stream_prov_op = dpf.operators.metadata.streams_provider()
 h5_stream_prov_op.inputs.data_sources.connect(h5_all_times_ds)
 res_deser_all_times_list = []
-h5_read_op = dpf.operators.serialization.hdf5dpf_custom_read()
-h5_read_op.inputs.streams.connect(h5_stream_prov_op.outputs)
+h5_read_op = dpf.operators.result.custom()
+h5_read_op.inputs.streams_container.connect(h5_stream_prov_op.outputs)
 h5_read_op.inputs.time_scoping.connect(dpf.Scoping(ids=list(range(1, 54)), location="time"))
 for i, res_name in enumerate(result_names_on_all_time_steps):
     h5_read_op.inputs.result_name.connect(res_name)
-    res_deser = h5_read_op.outputs.field_or_fields_container_as_fields_container()
+    res_deser = h5_read_op.outputs.fields_container()
     res_deser_all_times_list.append(res_deser)
 
 ###############################################################################
@@ -134,11 +134,11 @@ mesh_deser_all_times = mesh_prov_op.outputs.mesh()
 h5_stream_prov_op_2 = dpf.operators.metadata.streams_provider()
 h5_stream_prov_op_2.inputs.data_sources.connect(h5_set_per_set_ds)
 res_deser_set_per_set_list = []
-h5_read_op_2 = dpf.operators.serialization.hdf5dpf_custom_read()
-h5_read_op_2.inputs.streams.connect(h5_stream_prov_op_2.outputs)
+h5_read_op_2 = dpf.operators.result.custom()
+h5_read_op_2.inputs.streams_container.connect(h5_stream_prov_op.outputs)
 for i, res_name in enumerate(result_names_time_per_time):
     h5_read_op_2.inputs.result_name.connect(res_name)
-    res_deser = h5_read_op_2.outputs.field_or_fields_container_as_fields_container()
+    res_deser = h5_read_op_2.outputs.fields_container()
     res_deser_set_per_set_list.append(res_deser)
 
 ###############################################################################
