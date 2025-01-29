@@ -120,9 +120,6 @@ jobs:
           python -m pip install -U pip
           python -m pip install tox
 
-      # - name: "Install requirements"
-      #   run: pip install -r requirements/requirements_build.txt
-
       - name: "Build the wheel"
         shell: bash
         run: |
@@ -179,11 +176,6 @@ jobs:
           path: ${{ steps.wheelhouse.outputs.name }}
           retention-days: 7
 
-      # - name: "Install package wheel"
-      #   shell: bash
-      #   run: |
-      #     pip install dist/${{ steps.wheel.outputs.wheel_name }}[plotting]
-
       - name: "Install DPF"
         id: set-server-path
         uses: ansys/pydpf-actions/install-dpf-server@v2.3
@@ -191,13 +183,6 @@ jobs:
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           standalone_suffix: ${{ inputs.standalone_suffix }}
           ANSYS_VERSION : ${{inputs.ANSYS_VERSION}}
-
-      - name: "Set ANSYS_DPF_PATH environment variable"
-        shell: bash
-        run: |
-          ANSYS_DPF_PATH=$(echo dpf-standalone/v${{inputs.ANSYS_VERSION}}/ansys/dpf/*)
-          echo "ANSYS_DPF_PATH=$ANSYS_DPF_PATH" >> $GITHUB_ENV
-#          tree $ANSYS_DPF_PATH
 
       - name: "Check licences of packages"
         uses: ansys/pydpf-actions/check-licenses@v2.3
@@ -211,11 +196,7 @@ jobs:
       - name: "Prepare Testing Environment"
         uses: ansys/pydpf-actions/prepare_tests@v2.3
         with:
-          DEBUG: true  
-
-      # - name: "List installed packages"
-      #   shell: bash
-      #   run: pip list
+          DEBUG: true
 
       - name: "Test Docstrings"
         if: (inputs.DOCSTRING == 'true') && !((inputs.test_any == 'true') && (matrix.os == 'ubuntu-latest'))
@@ -225,41 +206,19 @@ jobs:
           PACKAGE_NAME: ${{env.PACKAGE_NAME}}
           working-directory: src
       
-      # - name: "Separate long Core tests"
-      #   shell: pwsh
-      #   run: |
-      #     .github\workflows\scripts\separate_long_core_tests.ps1
-      
-      # - name: "Set pytest arguments"
-      #   shell: bash
-      #   run: |
-      #     echo "COVERAGE=--cov=ansys.dpf.${{env.MODULE}} --cov-report=xml --cov-report=html --log-level=ERROR --cov-append" >> $GITHUB_ENV
-      #     echo "RERUNS=--reruns 2 --reruns-delay 1" >> $GITHUB_ENV
-          
-      # - name: "Set environment variable to allow test targets access DPF server installation"
-      #   shell: bash
-      #   run: |
-      #     echo "ANSYS_DPF_PATH=dpf-standalone/v${{inputs.ANSYS_VERSION}}" >> $GITHUB_ENV
-#          echo "VIRTUALENV_SYSTEM_SITE_PACKAGES=true" >> $GITHUB_ENV
-      
       - name: "Organize test files"
         shell: bash
         run: |
           tox -e pretest,kill-servers
-          
-      # - name: "Run pytest targets sequentially at once"
-      #   shell: bash
-      #   run: |
-      #     tox --installpkg dist/ansys_dpf_core* -x testenv.pass_env+=VIRTUALENV_SYSTEM_SITE_PACKAGES
 
       - name: "Test API"
         shell: bash
         run: |
-          tox -e kill-servers,test-api --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
-#          tox -e test-api --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv:test-api.deps+='dpf-standalone/v${{inputs.ANSYS_VERSION}}'
-
-      # - name: "Kill all servers"
-      #   uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
+          if [ $MODE == 'PIP' ]; then
+              tox -e test-api,kill-servers -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+          else
+              tox -e test-api,kill-servers -x --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+          fi
 
       - name: "Test API test_launcher"
         uses: nick-fields/retry@v3
@@ -268,11 +227,11 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
-            tox -e kill-servers,test-launcher --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
-#            tox -e test-launcher --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv:test-launcher.deps+='dpf-standalone/v${{inputs.ANSYS_VERSION}}'
-
-      # - name: "Kill all servers"
-      #   uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
+            if [ $MODE == 'PIP' ]; then
+                tox -e test-launcher,kill-servers -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+            else
+                tox -e test-launcher,kill-servers -x --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+            fi
 
       - name: "Test API test_server"
         uses: nick-fields/retry@v3
@@ -281,11 +240,11 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
-            tox -e kill-servers,test-server --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
-#            tox -e test-server --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv:test-server.deps+='dpf-standalone/v${{inputs.ANSYS_VERSION}}'
-
-      # - name: "Kill all servers"
-      #   uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
+            if [ $MODE == 'PIP' ]; then
+                tox -e test-server,kill-servers -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+            else
+                tox -e test-server,kill-servers -x --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+            fi
 
       - name: "Test API test_local_server"
         uses: nick-fields/retry@v3
@@ -294,11 +253,11 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
-            tox -e kill-servers,test-local_server --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
-#            tox -e test-local_server --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv:test-local_server.deps+='dpf-standalone/v${{inputs.ANSYS_VERSION}}'
-
-      # - name: "Kill all servers"
-      #   uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
+            if [ $MODE == 'PIP' ]; then
+                tox -e test-local_server,kill-servers -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+            else
+                tox -e test-local_server,kill-servers -x --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+            fi
 
       - name: "Test API test_multi_server"
         uses: nick-fields/retry@v3
@@ -307,11 +266,11 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
-            tox -e kill-servers,test-multi_server --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
-#            tox -e test-multi_server --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv:test-multi_server.deps+='dpf-standalone/v${{inputs.ANSYS_VERSION}}'
-
-      # - name: "Kill all servers"
-      #   uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
+            if [ $MODE == 'PIP' ]; then
+                tox -e test-multi_server,kill-servers -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+            else
+                tox -e test-multi_server,kill-servers -x --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+            fi
 
       - name: "Test API test_remote_workflow"
         uses: nick-fields/retry@v3
@@ -320,21 +279,21 @@ jobs:
           max_attempts: 3
           shell: bash
           command: |
-            tox -e kill-servers,test-remote_workflow --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
-#            tox -e test-remote_workflow --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv:test-remote_workflow.deps+='dpf-standalone/v${{inputs.ANSYS_VERSION}}'
-
-      # - name: "Kill all servers"
-      #   uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
+            if [ $MODE == 'PIP' ]; then
+                tox -e test-remote_workflow,kill-servers -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+            else
+                tox -e test-remote_workflow,kill-servers -x --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+            fi
 
       - name: "Test API test_remote_operator"
         shell: bash
         working-directory: test_remote_operator
         run: |
-          tox -e kill-servers,test-remote_operator --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
-#          tox -e test-remote_operator --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv:test-remote_operator.deps+='dpf-standalone/v${{inputs.ANSYS_VERSION}}'
-
-      # - name: "Kill all servers"
-      #   uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
+          if [ $MODE == 'PIP' ]; then
+              tox -e test-remote_operator,kill-servers -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+          else
+              tox -e test-remote_operator,kill-servers -x --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+          fi
 
       - name: "Test API test_workflow"
         uses: nick-fields/retry@v3
@@ -344,11 +303,11 @@ jobs:
           retry_wait_seconds: 15
           shell: bash
           command: |
-            tox -e kill-servers,test-workflow --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
-#            tox -e test-workflow --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv:test-workflow.deps+='dpf-standalone/v${{inputs.ANSYS_VERSION}}'
-
-      # - name: "Kill all servers"
-      #   uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
+            if [ $MODE == 'PIP' ]; then
+                tox -e test-workflow,kill-servers -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+            else
+                tox -e test-workflow,kill-servers -x --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+            fi
 
       - name: "Test API test_service"
         uses: nick-fields/retry@v3
@@ -357,21 +316,21 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
-            tox -e kill-servers,test-service --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
-#            tox -e test-service --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv:test-service.deps+='dpf-standalone/v${{inputs.ANSYS_VERSION}}'
-
-      # - name: "Kill all servers"
-      #   uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
+            if [ $MODE == 'PIP' ]; then
+                tox -e test-service,kill-servers -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+            else
+                tox -e test-service,kill-servers -x --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+            fi
 
       - name: "Test API Entry"
         shell: bash
         run: |
-          tox -e kill-servers,test-api_entry --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
-#          tox -e test-api_entry --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv:test-api_entry.deps+='dpf-standalone/v${{inputs.ANSYS_VERSION}}'
+          if [ $MODE == 'PIP' ]; then
+              tox -e test-api_entry,kill-servers -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+          else
+              tox -e test-api_entry,kill-servers -x --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+          fi
         timeout-minutes: 30
-
-      # - name: "Kill all servers"
-      #   uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
 
       - name: "Test API test_custom_type_field"
         uses: nick-fields/retry@v3
@@ -380,11 +339,11 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
-            tox -e kill-servers,test-custom_type_field --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
-#            tox -e test-custom_type_field --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv:test-custom_type_field.deps+='dpf-standalone/v${{inputs.ANSYS_VERSION}}'
-
-      # - name: "Kill all servers"
-      #   uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
+            if [ $MODE == 'PIP' ]; then
+                tox -e test-custom_type_field,kill-servers -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+            else
+                tox -e test-custom_type_field,kill-servers -x --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+            fi
 
       - name: "Test Operators"
         uses: nick-fields/retry@v3
@@ -393,11 +352,11 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
-            tox -e kill-servers,test-operators --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
-#            tox -e test-operators --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv:test-operators.deps+='dpf-standalone/v${{inputs.ANSYS_VERSION}}'
-
-      # - name: "Kill all servers"
-      #   uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
+            if [ $MODE == 'PIP' ]; then
+                tox -e test-operators,kill-servers -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+            else
+                tox -e test-operators,kill-servers -x --installpkg dist/${{ steps.wheel.outputs.wheel_name }}
+            fi
 
       - name: "Upload Test Results"
         uses: actions/upload-artifact@v4
