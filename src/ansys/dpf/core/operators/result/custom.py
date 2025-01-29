@@ -66,6 +66,9 @@ class custom(Operator):
         is done, if 3 cyclic expansion is
         done and stages are merged (default
         is 1)
+    result_name :
+        Name of the result that must be extracted
+        from the file
 
     Returns
     -------
@@ -95,6 +98,8 @@ class custom(Operator):
     >>> op.inputs.mesh.connect(my_mesh)
     >>> my_read_cyclic = int()
     >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+    >>> my_result_name = dpf.()
+    >>> op.inputs.result_name.connect(my_result_name)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.custom(
@@ -106,6 +111,7 @@ class custom(Operator):
     ...     bool_rotate_to_global=my_bool_rotate_to_global,
     ...     mesh=my_mesh,
     ...     read_cyclic=my_read_cyclic,
+    ...     result_name=my_result_name,
     ... )
 
     >>> # Get output data
@@ -122,6 +128,7 @@ class custom(Operator):
         bool_rotate_to_global=None,
         mesh=None,
         read_cyclic=None,
+        result_name=None,
         config=None,
         server=None,
     ):
@@ -144,6 +151,8 @@ class custom(Operator):
             self.inputs.mesh.connect(mesh)
         if read_cyclic is not None:
             self.inputs.read_cyclic.connect(read_cyclic)
+        if result_name is not None:
+            self.inputs.result_name.connect(result_name)
 
     @staticmethod
     def _spec():
@@ -240,6 +249,13 @@ class custom(Operator):
         done and stages are merged (default
         is 1)""",
                 ),
+                60: PinSpecification(
+                    name="result_name",
+                    type_names=["any"],
+                    optional=False,
+                    document="""Name of the result that must be extracted
+        from the file""",
+                ),
             },
             map_output_pin_spec={
                 0: PinSpecification(
@@ -313,6 +329,8 @@ class InputsCustom(_Inputs):
     >>> op.inputs.mesh.connect(my_mesh)
     >>> my_read_cyclic = int()
     >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+    >>> my_result_name = dpf.()
+    >>> op.inputs.result_name.connect(my_result_name)
     """
 
     def __init__(self, op: Operator):
@@ -333,6 +351,8 @@ class InputsCustom(_Inputs):
         self._inputs.append(self._mesh)
         self._read_cyclic = Input(custom._spec().input_pin(14), 14, op, -1)
         self._inputs.append(self._read_cyclic)
+        self._result_name = Input(custom._spec().input_pin(60), 60, op, -1)
+        self._inputs.append(self._result_name)
 
     @property
     def time_scoping(self):
@@ -526,6 +546,27 @@ class InputsCustom(_Inputs):
         >>> op.inputs.read_cyclic(my_read_cyclic)
         """
         return self._read_cyclic
+
+    @property
+    def result_name(self):
+        """Allows to connect result_name input to the operator.
+
+        Name of the result that must be extracted
+        from the file
+
+        Parameters
+        ----------
+        my_result_name :
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.custom()
+        >>> op.inputs.result_name.connect(my_result_name)
+        >>> # or
+        >>> op.inputs.result_name(my_result_name)
+        """
+        return self._result_name
 
 
 class OutputsCustom(_Outputs):
