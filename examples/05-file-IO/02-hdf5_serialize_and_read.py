@@ -135,7 +135,7 @@ h5_stream_prov_op_2 = dpf.operators.metadata.streams_provider()
 h5_stream_prov_op_2.inputs.data_sources.connect(h5_set_per_set_ds)
 res_deser_set_per_set_list = []
 h5_read_op_2 = dpf.operators.result.custom()
-h5_read_op_2.inputs.streams_container.connect(h5_stream_prov_op.outputs)
+h5_read_op_2.inputs.streams_container.connect(h5_stream_prov_op_2.outputs)
 for i, res_name in enumerate(result_names_time_per_time):
     h5_read_op_2.inputs.result_name.connect(res_name)
     res_deser = h5_read_op_2.outputs.fields_container()
