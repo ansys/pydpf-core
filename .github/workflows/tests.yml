@@ -272,9 +272,21 @@ jobs:
                 tox -e test-multi_server,kill-servers --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.commands_pre+="python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"
             fi
 
+      - name: "Test API test_remote_workflow"
+        uses: nick-fields/retry@v3
+        with:
+          timeout_minutes: 4
+          max_attempts: 3
+          shell: bash
+          command: |
+            if [ $MODE == 'PIP' ]; then
+                tox -e test-remote_workflow,kill-servers --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" -x testenv.commands_pre+="python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"
+            else
+                tox -e test-remote_workflow,kill-servers --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.commands_pre+="python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"
+            fi
+
       - name: "Test API test_remote_operator"
         shell: bash
-        working-directory: test_remote_operator
         run: |
           if [ $MODE == 'PIP' ]; then
               tox -e test-remote_operator,kill-servers --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" -x testenv.commands_pre+="python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"
@@ -343,19 +355,6 @@ jobs:
                 tox -e test-operators,kill-servers --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" -x testenv.commands_pre+="python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"
             else
                 tox -e test-operators,kill-servers --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.commands_pre+="python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"
-            fi
-
-      - name: "Test API test_remote_workflow"
-        uses: nick-fields/retry@v3
-        with:
-          timeout_minutes: 4
-          max_attempts: 3
-          shell: bash
-          command: |
-            if [ $MODE == 'PIP' ]; then
-                tox -e test-remote_workflow,kill-servers --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" -x testenv.commands_pre+="python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"
-            else
-                tox -e test-remote_workflow,kill-servers --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.commands_pre+="python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"
             fi
 
       - name: "Upload Test Results"
