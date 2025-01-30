@@ -91,7 +91,7 @@ jobs:
   tests:
     name: "Tests"
     needs: setup
-    timeout-minutes: 60
+    timeout-minutes: 120
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
