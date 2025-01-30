@@ -91,7 +91,7 @@ jobs:
   tests:
     name: "Tests"
     needs: setup
-    timeout-minutes: 35
+    timeout-minutes: 45
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -211,9 +211,17 @@ jobs:
         shell: bash
         run: |
           if [ $MODE == 'PIP' ]; then
-            echo 'TOX_EXTRA_ARG=--installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" -x testenv.commands_pre+="python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"' >> "$GITHUB_OUTPUT"
+            if [ ${{ matrix.os }} == 'ubuntu-latest' ]; then
+              echo 'TOX_EXTRA_ARG=--installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" -x testenv.commands_pre+="python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"' >> "$GITHUB_OUTPUT"
+            else
+              echo 'TOX_EXTRA_ARG=--installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}"' >> "$GITHUB_OUTPUT"
+            fi
           else
-            echo 'TOX_EXTRA_ARG=--installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.commands_pre+="python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"' >> "$GITHUB_OUTPUT"
+            if [ ${{ matrix.os }} == 'ubuntu-latest' ]; then
+              echo 'TOX_EXTRA_ARG=--installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.commands_pre+="python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"' >> "$GITHUB_OUTPUT"
+            else
+              echo 'TOX_EXTRA_ARG=--installpkg dist/${{ steps.wheel.outputs.wheel_name }}' >> "$GITHUB_OUTPUT"
+            fi
           fi
 
       - name: "Organize test files"
