@@ -13,9 +13,10 @@ _sym_db = _symbol_database.Default()
 
 
 import ansys.grpc.dpf.base_pb2 as base__pb2
+import ansys.grpc.dpf.collection_message_pb2 as collection__message__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rscoping.proto\x12\x18\x61nsys.api.dpf.scoping.v0\x1a\nbase.proto\">\n\x07Scoping\x12\x33\n\x02id\x18\x01 \x01(\x0b\x32\'.ansys.api.dpf.base.v0.EntityIdentifier\"\xc1\x01\n\rUpdateRequest\x12\x32\n\x07scoping\x18\x01 \x01(\x0b\x32!.ansys.api.dpf.scoping.v0.Scoping\x12\x33\n\x08location\x18\x03 \x01(\x0b\x32\x1f.ansys.api.dpf.base.v0.LocationH\x00\x12\x35\n\x08index_id\x18\x04 \x01(\x0b\x32!.ansys.api.dpf.scoping.v0.IndexIdH\x00\x42\x10\n\x0eupdate_request\"U\n\x10UpdateIdsRequest\x12\x32\n\x07scoping\x18\x01 \x01(\x0b\x32!.ansys.api.dpf.scoping.v0.Scoping\x12\r\n\x05\x61rray\x18\x02 \x01(\x0c\"$\n\x07IndexId\x12\n\n\x02id\x18\x01 \x01(\x05\x12\r\n\x05index\x18\x02 \x01(\x05\"v\n\x0c\x43ountRequest\x12\x32\n\x07scoping\x18\x01 \x01(\x0b\x32!.ansys.api.dpf.scoping.v0.Scoping\x12\x32\n\x06\x65ntity\x18\x02 \x01(\x0e\x32\".ansys.api.dpf.base.v0.CountEntity\"C\n\x13GetLocationResponse\x12,\n\x03loc\x18\x01 \x01(\x0b\x32\x1f.ansys.api.dpf.base.v0.Location\"o\n\nGetRequest\x12\x32\n\x07scoping\x18\x01 \x01(\x0b\x32!.ansys.api.dpf.scoping.v0.Scoping\x12\x0c\n\x02id\x18\x02 \x01(\x05H\x00\x12\x0f\n\x05index\x18\x03 \x01(\x05H\x00\x42\x0e\n\x0ctype_request\"<\n\x0bGetResponse\x12\x0c\n\x02id\x18\x01 \x01(\x05H\x00\x12\x0f\n\x05index\x18\x02 \x01(\x05H\x00\x42\x0e\n\x0ctype_request\"\x1d\n\x0cListResponse\x12\r\n\x05\x61rray\x18\x01 \x01(\x0c\x32\xb1\x05\n\x0eScopingService\x12I\n\x06\x43reate\x12\x1c.ansys.api.dpf.base.v0.Empty\x1a!.ansys.api.dpf.scoping.v0.Scoping\x12O\n\x06Update\x12\'.ansys.api.dpf.scoping.v0.UpdateRequest\x1a\x1c.ansys.api.dpf.base.v0.Empty\x12W\n\tUpdateIds\x12*.ansys.api.dpf.scoping.v0.UpdateIdsRequest\x1a\x1c.ansys.api.dpf.base.v0.Empty(\x01\x12S\n\x04List\x12!.ansys.api.dpf.scoping.v0.Scoping\x1a&.ansys.api.dpf.scoping.v0.ListResponse0\x01\x12U\n\x05\x43ount\x12&.ansys.api.dpf.scoping.v0.CountRequest\x1a$.ansys.api.dpf.base.v0.CountResponse\x12_\n\x0bGetLocation\x12!.ansys.api.dpf.scoping.v0.Scoping\x1a-.ansys.api.dpf.scoping.v0.GetLocationResponse\x12R\n\x03Get\x12$.ansys.api.dpf.scoping.v0.GetRequest\x1a%.ansys.api.dpf.scoping.v0.GetResponse\x12I\n\x06\x44\x65lete\x12!.ansys.api.dpf.scoping.v0.Scoping\x1a\x1c.ansys.api.dpf.base.v0.EmptyB\x1b\xaa\x02\x18\x41nsys.Api.Dpf.Scoping.V0b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rscoping.proto\x12\x18\x61nsys.api.dpf.scoping.v0\x1a\nbase.proto\x1a\x18\x63ollection_message.proto\">\n\x07Scoping\x12\x33\n\x02id\x18\x01 \x01(\x0b\x32\'.ansys.api.dpf.base.v0.EntityIdentifier\"\xc1\x01\n\rUpdateRequest\x12\x32\n\x07scoping\x18\x01 \x01(\x0b\x32!.ansys.api.dpf.scoping.v0.Scoping\x12\x33\n\x08location\x18\x03 \x01(\x0b\x32\x1f.ansys.api.dpf.base.v0.LocationH\x00\x12\x35\n\x08index_id\x18\x04 \x01(\x0b\x32!.ansys.api.dpf.scoping.v0.IndexIdH\x00\x42\x10\n\x0eupdate_request\"U\n\x10UpdateIdsRequest\x12\x32\n\x07scoping\x18\x01 \x01(\x0b\x32!.ansys.api.dpf.scoping.v0.Scoping\x12\r\n\x05\x61rray\x18\x02 \x01(\x0c\"$\n\x07IndexId\x12\n\n\x02id\x18\x01 \x01(\x05\x12\r\n\x05index\x18\x02 \x01(\x05\"v\n\x0c\x43ountRequest\x12\x32\n\x07scoping\x18\x01 \x01(\x0b\x32!.ansys.api.dpf.scoping.v0.Scoping\x12\x32\n\x06\x65ntity\x18\x02 \x01(\x0e\x32\".ansys.api.dpf.base.v0.CountEntity\"C\n\x13GetLocationResponse\x12,\n\x03loc\x18\x01 \x01(\x0b\x32\x1f.ansys.api.dpf.base.v0.Location\"o\n\nGetRequest\x12\x32\n\x07scoping\x18\x01 \x01(\x0b\x32!.ansys.api.dpf.scoping.v0.Scoping\x12\x0c\n\x02id\x18\x02 \x01(\x05H\x00\x12\x0f\n\x05index\x18\x03 \x01(\x05H\x00\x42\x0e\n\x0ctype_request\"<\n\x0bGetResponse\x12\x0c\n\x02id\x18\x01 \x01(\x05H\x00\x12\x0f\n\x05index\x18\x02 \x01(\x05H\x00\x42\x0e\n\x0ctype_request\"\x1d\n\x0cListResponse\x12\r\n\x05\x61rray\x18\x01 \x01(\x0c\"\x7f\n\x14SingleScopingAllData\x12\x34\n\x03ids\x18\x01 \x01(\x0b\x32\'.ansys.api.dpf.collection.v0.Collection\x12\x31\n\x08location\x18\x02 \x01(\x0b\x32\x1f.ansys.api.dpf.base.v0.Location\"K\n\x07\x41llData\x12@\n\x08scopings\x18\x01 \x03(\x0b\x32..ansys.api.dpf.scoping.v0.SingleScopingAllData\"M\n\x16\x43reateWithDataResponse\x12\x33\n\x08scopings\x18\x01 \x03(\x0b\x32!.ansys.api.dpf.scoping.v0.Scoping2\x9c\x06\n\x0eScopingService\x12I\n\x06\x43reate\x12\x1c.ansys.api.dpf.base.v0.Empty\x1a!.ansys.api.dpf.scoping.v0.Scoping\x12i\n\x0e\x43reateWithData\x12!.ansys.api.dpf.scoping.v0.AllData\x1a\x30.ansys.api.dpf.scoping.v0.CreateWithDataResponse(\x01\x30\x01\x12O\n\x06Update\x12\'.ansys.api.dpf.scoping.v0.UpdateRequest\x1a\x1c.ansys.api.dpf.base.v0.Empty\x12W\n\tUpdateIds\x12*.ansys.api.dpf.scoping.v0.UpdateIdsRequest\x1a\x1c.ansys.api.dpf.base.v0.Empty(\x01\x12S\n\x04List\x12!.ansys.api.dpf.scoping.v0.Scoping\x1a&.ansys.api.dpf.scoping.v0.ListResponse0\x01\x12U\n\x05\x43ount\x12&.ansys.api.dpf.scoping.v0.CountRequest\x1a$.ansys.api.dpf.base.v0.CountResponse\x12_\n\x0bGetLocation\x12!.ansys.api.dpf.scoping.v0.Scoping\x1a-.ansys.api.dpf.scoping.v0.GetLocationResponse\x12R\n\x03Get\x12$.ansys.api.dpf.scoping.v0.GetRequest\x1a%.ansys.api.dpf.scoping.v0.GetResponse\x12I\n\x06\x44\x65lete\x12!.ansys.api.dpf.scoping.v0.Scoping\x1a\x1c.ansys.api.dpf.base.v0.EmptyB\x1b\xaa\x02\x18\x41nsys.Api.Dpf.Scoping.V0b\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -23,24 +24,30 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'scoping_pb2', _globals)
 if _descriptor._USE_C_DESCRIPTORS == False:
   _globals['DESCRIPTOR']._options = None
   _globals['DESCRIPTOR']._serialized_options = b'\252\002\030Ansys.Api.Dpf.Scoping.V0'
-  _globals['_SCOPING']._serialized_start=55
-  _globals['_SCOPING']._serialized_end=117
-  _globals['_UPDATEREQUEST']._serialized_start=120
-  _globals['_UPDATEREQUEST']._serialized_end=313
-  _globals['_UPDATEIDSREQUEST']._serialized_start=315
-  _globals['_UPDATEIDSREQUEST']._serialized_end=400
-  _globals['_INDEXID']._serialized_start=402
-  _globals['_INDEXID']._serialized_end=438
-  _globals['_COUNTREQUEST']._serialized_start=440
-  _globals['_COUNTREQUEST']._serialized_end=558
-  _globals['_GETLOCATIONRESPONSE']._serialized_start=560
-  _globals['_GETLOCATIONRESPONSE']._serialized_end=627
-  _globals['_GETREQUEST']._serialized_start=629
-  _globals['_GETREQUEST']._serialized_end=740
-  _globals['_GETRESPONSE']._serialized_start=742
-  _globals['_GETRESPONSE']._serialized_end=802
-  _globals['_LISTRESPONSE']._serialized_start=804
-  _globals['_LISTRESPONSE']._serialized_end=833
-  _globals['_SCOPINGSERVICE']._serialized_start=836
-  _globals['_SCOPINGSERVICE']._serialized_end=1525
+  _globals['_SCOPING']._serialized_start=81
+  _globals['_SCOPING']._serialized_end=143
+  _globals['_UPDATEREQUEST']._serialized_start=146
+  _globals['_UPDATEREQUEST']._serialized_end=339
+  _globals['_UPDATEIDSREQUEST']._serialized_start=341
+  _globals['_UPDATEIDSREQUEST']._serialized_end=426
+  _globals['_INDEXID']._serialized_start=428
+  _globals['_INDEXID']._serialized_end=464
+  _globals['_COUNTREQUEST']._serialized_start=466
+  _globals['_COUNTREQUEST']._serialized_end=584
+  _globals['_GETLOCATIONRESPONSE']._serialized_start=586
+  _globals['_GETLOCATIONRESPONSE']._serialized_end=653
+  _globals['_GETREQUEST']._serialized_start=655
+  _globals['_GETREQUEST']._serialized_end=766
+  _globals['_GETRESPONSE']._serialized_start=768
+  _globals['_GETRESPONSE']._serialized_end=828
+  _globals['_LISTRESPONSE']._serialized_start=830
+  _globals['_LISTRESPONSE']._serialized_end=859
+  _globals['_SINGLESCOPINGALLDATA']._serialized_start=861
+  _globals['_SINGLESCOPINGALLDATA']._serialized_end=988
+  _globals['_ALLDATA']._serialized_start=990
+  _globals['_ALLDATA']._serialized_end=1065
+  _globals['_CREATEWITHDATARESPONSE']._serialized_start=1067
+  _globals['_CREATEWITHDATARESPONSE']._serialized_end=1144
+  _globals['_SCOPINGSERVICE']._serialized_start=1147
+  _globals['_SCOPINGSERVICE']._serialized_end=1943
 # @@protoc_insertion_point(module_scope)

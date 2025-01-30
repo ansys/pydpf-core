@@ -22,9 +22,10 @@
 
 """Provides for vtk helper functions."""
 
+from typing import Union
+
 import numpy as np
 import pyvista as pv
-from typing import Union
 from vtk import (
     VTK_HEXAHEDRON,
     VTK_LINE,
