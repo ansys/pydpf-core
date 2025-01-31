@@ -120,6 +120,15 @@ jobs:
           python -m pip install -U pip
           python -m pip install -U tox tox-uv
 
+      - name: Cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            .tox
+          key: ${{ matrix.os }}-${{ matrix.python-version }}-${{ inputs.ANSYS_VERSION }}-${{ hashFiles('requirements/*', 'pyproject.toml') }}
+          restore-keys: |
+            ${{ matrix.os }}-${{ matrix.python-version }}-${{ inputs.ANSYS_VERSION }}-
+
       - name: "Build the wheel"
         shell: bash
         run: |
@@ -212,13 +221,13 @@ jobs:
         run: |
           if [ $MODE == 'PIP' ]; then
             if [ ${{ matrix.os }} == 'ubuntu-latest' ]; then
-              echo 'TOX_EXTRA_ARG=--installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" -x testenv.commands_pre+="python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0" -- -n auto' >> "$GITHUB_OUTPUT"
+              echo 'TOX_EXTRA_ARG=--installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" -x testenv.commands_pre+="python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"' >> "$GITHUB_OUTPUT"
             else
               echo 'TOX_EXTRA_ARG=--installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" -- -n auto' >> "$GITHUB_OUTPUT"
             fi
           else
             if [ ${{ matrix.os }} == 'ubuntu-latest' ]; then
-              echo 'TOX_EXTRA_ARG=--installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.commands_pre+="python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0" -- -n auto' >> "$GITHUB_OUTPUT"
+              echo 'TOX_EXTRA_ARG=--installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.commands_pre+="python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"' >> "$GITHUB_OUTPUT"
             else
               echo 'TOX_EXTRA_ARG=--installpkg dist/${{ steps.wheel.outputs.wheel_name }} -- -n auto' >> "$GITHUB_OUTPUT"
             fi
