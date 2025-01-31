@@ -233,106 +233,111 @@ jobs:
             fi
           fi
 
-      - name: "Organize test files"
+      - name: "Run all tests sequentially"
         shell: bash
         run: |
-          tox -e pretest,kill-servers
+          tox -m alltestsci  ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
 
-      - name: "Test API"
-        shell: bash
-        run: |
-          tox -e test-api,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
+      # - name: "Organize test files"
+      #   shell: bash
+      #   run: |
+      #     tox -e pretest,kill-servers
 
-      - name: "Test API test_launcher"
-        uses: nick-fields/retry@v3
-        with:
-          timeout_minutes: 10
-          max_attempts: 2
-          shell: bash
-          command: |
-            tox -e test-launcher,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
+      # - name: "Test API"
+      #   shell: bash
+      #   run: |
+      #     tox -e test-api,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
 
-      - name: "Test API test_server"
-        uses: nick-fields/retry@v3
-        with:
-          timeout_minutes: 10
-          max_attempts: 2
-          shell: bash
-          command: |
-            tox -e test-server,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
+      # - name: "Test API test_launcher"
+      #   uses: nick-fields/retry@v3
+      #   with:
+      #     timeout_minutes: 10
+      #     max_attempts: 2
+      #     shell: bash
+      #     command: |
+      #       tox -e test-launcher,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
 
-      - name: "Test API test_local_server"
-        uses: nick-fields/retry@v3
-        with:
-          timeout_minutes: 10
-          max_attempts: 2
-          shell: bash
-          command: |
-            tox -e test-local_server,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
+      # - name: "Test API test_server"
+      #   uses: nick-fields/retry@v3
+      #   with:
+      #     timeout_minutes: 10
+      #     max_attempts: 2
+      #     shell: bash
+      #     command: |
+      #       tox -e test-server,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
 
-      - name: "Test API test_multi_server"
-        uses: nick-fields/retry@v3
-        with:
-          timeout_minutes: 10
-          max_attempts: 2
-          shell: bash
-          command: |
-            tox -e test-multi_server,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
+      # - name: "Test API test_local_server"
+      #   uses: nick-fields/retry@v3
+      #   with:
+      #     timeout_minutes: 10
+      #     max_attempts: 2
+      #     shell: bash
+      #     command: |
+      #       tox -e test-local_server,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
 
-      - name: "Test API test_remote_workflow"
-        uses: nick-fields/retry@v3
-        with:
-          timeout_minutes: 10
-          max_attempts: 3
-          shell: bash
-          command: |
-            tox -e test-remote_workflow,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
+      # - name: "Test API test_multi_server"
+      #   uses: nick-fields/retry@v3
+      #   with:
+      #     timeout_minutes: 10
+      #     max_attempts: 2
+      #     shell: bash
+      #     command: |
+      #       tox -e test-multi_server,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
 
-      - name: "Test API test_remote_operator"
-        shell: bash
-        run: |
-          tox -e test-remote_operator,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
+      # - name: "Test API test_remote_workflow"
+      #   uses: nick-fields/retry@v3
+      #   with:
+      #     timeout_minutes: 10
+      #     max_attempts: 3
+      #     shell: bash
+      #     command: |
+      #       tox -e test-remote_workflow,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
 
-      - name: "Test API test_workflow"
-        uses: nick-fields/retry@v3
-        with:
-          timeout_minutes: 10
-          max_attempts: 4
-          shell: bash
-          command: |
-            tox -e test-workflow,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
+      # - name: "Test API test_remote_operator"
+      #   shell: bash
+      #   run: |
+      #     tox -e test-remote_operator,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
 
-      - name: "Test API test_service"
-        uses: nick-fields/retry@v3
-        with:
-          timeout_minutes: 10
-          max_attempts: 2
-          shell: bash
-          command: |
-            tox -e test-service,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
+      # - name: "Test API test_workflow"
+      #   uses: nick-fields/retry@v3
+      #   with:
+      #     timeout_minutes: 10
+      #     max_attempts: 4
+      #     shell: bash
+      #     command: |
+      #       tox -e test-workflow,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
 
-      - name: "Test API Entry"
-        shell: bash
-        run: |
-          tox -e test-api_entry,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
+      # - name: "Test API test_service"
+      #   uses: nick-fields/retry@v3
+      #   with:
+      #     timeout_minutes: 10
+      #     max_attempts: 2
+      #     shell: bash
+      #     command: |
+      #       tox -e test-service,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
 
-      - name: "Test API test_custom_type_field"
-        uses: nick-fields/retry@v3
-        with:
-          timeout_minutes: 10
-          max_attempts: 2
-          shell: bash
-          command: |
-            tox -e test-custom_type_field,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
+      # - name: "Test API Entry"
+      #   shell: bash
+      #   run: |
+      #     tox -e test-api_entry,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
 
-      - name: "Test Operators"
-        uses: nick-fields/retry@v3
-        with:
-          timeout_minutes: 10
-          max_attempts: 2
-          shell: bash
-          command: |
-            tox -e test-operators,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
+      # - name: "Test API test_custom_type_field"
+      #   uses: nick-fields/retry@v3
+      #   with:
+      #     timeout_minutes: 10
+      #     max_attempts: 2
+      #     shell: bash
+      #     command: |
+      #       tox -e test-custom_type_field,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
+
+      # - name: "Test Operators"
+      #   uses: nick-fields/retry@v3
+      #   with:
+      #     timeout_minutes: 10
+      #     max_attempts: 2
+      #     shell: bash
+      #     command: |
+      #       tox -e test-operators,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
 
       - name: "Upload Test Results"
         uses: actions/upload-artifact@v4
