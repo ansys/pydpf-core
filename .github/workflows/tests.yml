@@ -223,31 +223,81 @@ jobs:
             if [ ${{ matrix.os }} == 'ubuntu-latest' ]; then
               echo 'TOX_EXTRA_ARG=--installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" -x testenv.commands_pre+="uv pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"' >> "$GITHUB_OUTPUT"
             else
-              echo 'TOX_EXTRA_ARG=--installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" -- -n logical' >> "$GITHUB_OUTPUT"
+              echo 'TOX_EXTRA_ARG=--installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}"' >> "$GITHUB_OUTPUT"
             fi
           else
             if [ ${{ matrix.os }} == 'ubuntu-latest' ]; then
               echo 'TOX_EXTRA_ARG=--installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.commands_pre+="uv pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"' >> "$GITHUB_OUTPUT"
             else
-              echo 'TOX_EXTRA_ARG=--installpkg dist/${{ steps.wheel.outputs.wheel_name }} -- -n logical' >> "$GITHUB_OUTPUT"
+              echo 'TOX_EXTRA_ARG=--installpkg dist/${{ steps.wheel.outputs.wheel_name }}' >> "$GITHUB_OUTPUT"
             fi
           fi
 
-      - name: "Run all tests sequentially"
+      - name: "Organize test files"
         shell: bash
         run: |
-          tox -m alltestsci  ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
+          tox -e pretest,kill-servers
 
-      # - name: "Organize test files"
-      #   shell: bash
-      #   run: |
-      #     tox -e pretest,kill-servers
+      - name: "Test API"
+        shell: bash
+        run: |
+          tox -e test-api,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
 
-      # - name: "Test API"
-      #   shell: bash
-      #   run: |
-      #     tox -e test-api,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
+      - name: "Test API test_launcher"
+        shell: bash
+        run: |
+          tox -e test-launcher,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
 
+      - name: "Test API test_server"
+        shell: bash
+        run: |
+          tox -e test-server,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
+
+      - name: "Test API test_local_server"
+        shell: bash
+        run: |
+          tox -e test-local_server,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
+
+      - name: "Test API test_multi_server"
+        shell: bash
+        run: |
+          tox -e test-multi_server,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
+
+      - name: "Test API test_remote_workflow"
+        shell: bash
+        run: |
+          tox -e test-remote_workflow,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
+
+      - name: "Test API test_remote_operator"
+        shell: bash
+        run: |
+          tox -e test-remote_operator,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
+
+      - name: "Test API test_workflow"
+        shell: bash
+        run: |
+          tox -e test-workflow,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
+
+      - name: "Test API test_service"
+        shell: bash
+        run: |
+          tox -e test-service,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
+
+      - name: "Test API Entry"
+        shell: bash
+        run: |
+          tox -e test-api_entry,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
+
+      - name: "Test API test_custom_type_field"
+        shell: bash
+        run: |
+          tox -e test-custom_type_field,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
+
+      - name: "Test Operators"
+        shell: bash
+        run: |
+          tox -e test-operators,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
+            
       # - name: "Test API test_launcher"
       #   uses: nick-fields/retry@v3
       #   with:
