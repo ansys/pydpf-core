@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -20,20 +20,20 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import copy
 import gc
 import os
+from pathlib import Path
 import shutil
 import types
 import weakref
-from pathlib import Path
 
+import numpy
 import numpy as np
 import pytest
-import copy
 
 from ansys import dpf
-from ansys.dpf.core import errors
-from ansys.dpf.core import operators as ops
+from ansys.dpf.core import errors, operators as ops
 from ansys.dpf.core.common import derived_class_name_to_type, record_derived_class
 from ansys.dpf.core.custom_container_base import CustomContainerBase
 from ansys.dpf.core.misc import get_ansys_path
@@ -89,6 +89,14 @@ def test_connect_list_operator(velocity_acceleration):
     model = dpf.core.Model(velocity_acceleration)
     op = model.operator("U")
     op.connect(0, [1, 2])
+    fcOut = op.get_output(0, dpf.core.types.fields_container)
+    assert fcOut.get_available_ids_for_label() == [1, 2]
+
+
+def test_connect_array_operator(velocity_acceleration):
+    model = dpf.core.Model(velocity_acceleration)
+    op = model.operator("U")
+    op.connect(0, numpy.array([1, 2], numpy.int32))
     fcOut = op.get_output(0, dpf.core.types.fields_container)
     assert fcOut.get_available_ids_for_label() == [1, 2]
 
@@ -509,7 +517,7 @@ def test_subresults_operator(cyclic_lin_rst, cyclic_ds):
 #     model = dpf.core.Model(cyclic_lin_rst)
 #     model.add_file_path(cyclic_ds)
 
-#     # TODO: this should be available from model's available_results
+#     # TODO: this should be available from model's available_results  # noqa: TD003
 #     op = model.operator("mapdl::rst::U")
 #     op.inputs.connect(model._data_sources)
 #     op.inputs.bool_ignore_cyclic.connect(True)
@@ -1496,3 +1504,9 @@ def test_operator_id(server_type):
         assert op.id not in ids
 
         ids.add(op.id)
+
+
+def test_operator_find_outputs_corresponding_pins_any(server_type):
+    f1 = ops.utility.forward()
+    f2 = ops.utility.forward()
+    f2.inputs.any.connect(f1.outputs.any)

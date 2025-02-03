@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -20,23 +20,20 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""
-.. _ref_inputs:
+"""Inputs."""
 
-Inputs
-
-"""
-
-import weakref
 from textwrap import wrap
-from ansys.dpf.core.mapping_types import map_types_to_python
-from ansys.dpf.core.outputs import _Outputs, Output
+import weakref
+
 from ansys.dpf import core
+from ansys.dpf.core.mapping_types import map_types_to_python
+from ansys.dpf.core.outputs import Output, _Outputs
 
 
 class Input:
     """
     Intermediate class internally instantiated by the :class:`ansys.dpf.core.dpf_operator.Operator`.
+
     Used to connect inputs to the Operator.
 
     Examples
@@ -158,6 +155,7 @@ class Input:
         self.__inc_if_ellipsis()
 
     def __call__(self, inpt):
+        """Allow instances to be called like a function."""
         self.connect(inpt)
 
     def _update_doc_str(self, docstr, class_name):
@@ -173,6 +171,7 @@ class Input:
         self.__class__ = child_class
 
     def __str__(self):
+        """Provide detailed string representation of the class."""
         docstr = self._spec.name + " : "
         type_info = self._python_expected_types.copy()
         if self._spec.optional:
@@ -216,6 +215,7 @@ class _Inputs:
 
     def connect(self, inpt):
         """Connect any input (an entity or an operator output) to any input pin of this operator.
+
         Searches for the input type corresponding to the output.
 
         Parameters
@@ -305,6 +305,7 @@ class _Inputs:
 class Inputs(_Inputs):
     """
     Intermediate class internally instantiated by the :class:`ansys.dpf.core.dpf_operator.Operator`.
+
     Used to connect inputs to the Operator by automatically
     checking types to connect correct inputs.
 

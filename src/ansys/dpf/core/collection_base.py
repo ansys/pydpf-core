@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -20,34 +20,30 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""
-CollectionBase
-
-Contains classes associated with the DPF collection.
-
-"""
+"""Contains classes associated with the DPF collection."""
 
 from __future__ import annotations
+
 import abc
-import warnings
 import traceback
+from typing import TYPE_CHECKING, Generic, List, Optional, TypeVar
+import warnings
 
 import numpy as np
 
-from ansys.dpf.core.check_version import version_requires
-from ansys.dpf.core.server_types import BaseServer
-from ansys.dpf.core.scoping import Scoping
-from ansys.dpf.core.label_space import LabelSpace
 from ansys.dpf.core import server as server_module
+from ansys.dpf.core.check_version import version_requires
+from ansys.dpf.core.label_space import LabelSpace
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.server_types import BaseServer
 from ansys.dpf.gate import (
     collection_capi,
     collection_grpcapi,
     data_processing_capi,
     data_processing_grpcapi,
-    dpf_vector,
     dpf_array,
+    dpf_vector,
 )
-from typing import List, Optional, Generic, TypeVar, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from ansys.dpf.core.support import Support
@@ -58,12 +54,11 @@ TYPE = TypeVar("TYPE")
 
 
 class CollectionBase(Generic[TYPE]):
-    entries_type: Optional[type[TYPE]]  # type of the entries in the collection.
     """Represents a collection of entries ordered by labels and IDs.
 
     Parameters
     ----------
-    collection : ansys.grpc.dpf.collection_pb2.Collection, optional
+    collection : ansys.grpc.dpf.collection_message_pb2.Collection, optional
         Collection to create from the collection message. The default is ``None``.
     server : server.DPFServer, optional
         Server with the channel connected to the remote or local instance. The
@@ -71,6 +66,8 @@ class CollectionBase(Generic[TYPE]):
         server.
 
     """
+
+    entries_type: Optional[type[TYPE]]  # type of the entries in the collection.
 
     def __init__(self, collection=None, server: BaseServer = None):
         # step 1: get server
@@ -137,11 +134,12 @@ class CollectionBase(Generic[TYPE]):
 
     @abc.abstractmethod
     def create_subtype(self, obj_by_copy):
+        """Must be implemented by subclasses."""
         pass
 
     @staticmethod
     def integral_collection(inpt, server: BaseServer = None):
-        """Creates a collection of integral type with a list.
+        """Create a collection of integral type with a list.
 
         The collection of integral is the equivalent of an array of
         data sent server side. It can be used to efficiently stream
@@ -237,6 +235,13 @@ class CollectionBase(Generic[TYPE]):
 
     @property
     def labels(self) -> List[str]:
+        """Provides for getting scoping labels as a property.
+
+        Returns
+        -------
+        List[str]
+            List of labels scoping the collection.
+        """
         return self._get_labels()
 
     @labels.setter
@@ -410,7 +415,7 @@ class CollectionBase(Generic[TYPE]):
         return scoping
 
     def __getitem__(self, index):
-        """Retrieves the entry at a requested index value.
+        """Retrieve the entry at a requested index value.
 
         Parameters
         ----------
@@ -447,7 +452,7 @@ class CollectionBase(Generic[TYPE]):
     def _add_entry(self, label_space, entry):
         """Update or add an entry at a requested label space.
 
-        parameters
+        Parameters
         ----------
         label_space : list[str,int]
             Label space of the requested fields. For example, ``{"time":1, "complex":0}``.
@@ -466,9 +471,9 @@ class CollectionBase(Generic[TYPE]):
         """
         from ansys.dpf.core.time_freq_support import TimeFreqSupport
         from ansys.dpf.gate import (
+            object_handler,
             support_capi,
             support_grpcapi,
-            object_handler,
         )
 
         data_api = self._server.get_api_for_type(
@@ -562,6 +567,7 @@ class CollectionBase(Generic[TYPE]):
         return self._internal_obj
 
     def __iter__(self):
+        """Provide for looping through entry items."""
         for i in range(len(self)):
             yield self[i]
 
@@ -589,6 +595,7 @@ class IntegralCollection(CollectionBase):
 
     @abc.abstractmethod
     def create_subtype(self, obj_by_copy):
+        """Must be implemented by subclasses."""
         pass
 
     @abc.abstractmethod
@@ -596,11 +603,11 @@ class IntegralCollection(CollectionBase):
         pass
 
     def get_integral_entries(self):
+        """Must be implemented by subclasses."""
         pass
 
 
 class IntCollection(CollectionBase[int]):
-    entries_type = int
     """Creates a collection of integers with a list.
 
     The collection of integral is the equivalent of an array of
@@ -618,6 +625,8 @@ class IntCollection(CollectionBase[int]):
     list is connected or returned.
     """
 
+    entries_type = int
+
     def __init__(self, list=None, server=None, collection=None):
         super().__init__(server=server, collection=collection)
         if self._internal_obj is None:
@@ -629,6 +638,7 @@ class IntCollection(CollectionBase[int]):
             self._set_integral_entries(list)
 
     def create_subtype(self, obj_by_copy):
+        """Create a sub type."""
         return int(obj_by_copy)
 
     def _set_integral_entries(self, input):
@@ -643,6 +653,7 @@ class IntCollection(CollectionBase[int]):
         self._api.collection_set_data_as_int(self, input, input.size)
 
     def get_integral_entries(self):
+        """Get integral entries."""
         try:
             vec = dpf_vector.DPFVectorInt(client=self._server.client)
             self._api.collection_get_data_as_int_for_dpf_vector(
@@ -654,7 +665,6 @@ class IntCollection(CollectionBase[int]):
 
 
 class FloatCollection(CollectionBase[float]):
-    entries_type = float
     """Creates a collection of floats (double64) with a list.
 
     The collection of integral is the equivalent of an array of
@@ -672,6 +682,8 @@ class FloatCollection(CollectionBase[float]):
     list is connected or returned.
     """
 
+    entries_type = float
+
     def __init__(self, list=None, server=None, collection=None):
         super().__init__(server=server, collection=collection)
         self._sub_type = float
@@ -686,6 +698,7 @@ class FloatCollection(CollectionBase[float]):
             self._set_integral_entries(list)
 
     def create_subtype(self, obj_by_copy):
+        """Create a sub type."""
         return float(obj_by_copy)
 
     def _set_integral_entries(self, input):
@@ -700,6 +713,7 @@ class FloatCollection(CollectionBase[float]):
         self._api.collection_set_data_as_double(self, input, input.size)
 
     def get_integral_entries(self):
+        """Get integral entries."""
         try:
             vec = dpf_vector.DPFVectorDouble(client=self._server.client)
             self._api.collection_get_data_as_double_for_dpf_vector(
@@ -711,7 +725,6 @@ class FloatCollection(CollectionBase[float]):
 
 
 class StringCollection(CollectionBase[str]):
-    entries_type = str
     """Creates a collection of strings with a list.
 
     The collection of integral is the equivalent of an array of
@@ -728,6 +741,8 @@ class StringCollection(CollectionBase[str]):
     Used by default by the ``'Operator'`` and the``'Workflow'`` when a
     list is connected or returned.
     """
+
+    entries_type = str
 
     def __init__(self, list=None, server=None, collection=None, local: bool = False):
         super().__init__(server=server, collection=collection)
@@ -748,6 +763,7 @@ class StringCollection(CollectionBase[str]):
             self._set_integral_entries(list)
 
     def create_subtype(self, obj_by_copy):
+        """Create a sub type."""
         return str(obj_by_copy)
 
     def _set_integral_entries(self, input):
@@ -755,6 +771,7 @@ class StringCollection(CollectionBase[str]):
             self._api.collection_add_string_entry(self, s)
 
     def get_integral_entries(self):
+        """Get integral entries."""
         num = self._api.collection_get_size(self)
         out = []
         for i in range(num):

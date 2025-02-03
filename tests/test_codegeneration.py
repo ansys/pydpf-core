@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -21,17 +21,17 @@
 # SOFTWARE.
 
 # -*- coding: utf-8 -*-
-import os
 import copy
-import tempfile
+import os
 from pathlib import Path
+import tempfile
 
-import ansys.grpc.dpf
 import numpy as np
 
-import ansys.dpf.core.operators as op
 from ansys.dpf import core
 from ansys.dpf.core import examples
+import ansys.dpf.core.operators as op
+import ansys.grpc.dpf
 
 
 def test_workflowwithgeneratedcode(allkindofcomplexity):

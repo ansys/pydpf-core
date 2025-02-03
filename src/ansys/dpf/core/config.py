@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -20,22 +20,19 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""
-Operator Configuration
-
-"""
+"""Operator Configuration."""
 
 import functools
-import warnings
 import traceback
+import warnings
 
 from ansys.dpf.core import server as server_module
+from ansys.dpf.core.operator_specification import Specification
 from ansys.dpf.gate import (
+    operator_config_abstract_api,
     operator_config_capi,
     operator_config_grpcapi,
-    operator_config_abstract_api,
 )
-from ansys.dpf.core.operator_specification import Specification
 
 
 class Config:
@@ -211,7 +208,7 @@ class Config:
             Name of the configuration option.
 
         Returns
-        ----------
+        -------
         str
             Value for the configuration option.
         """
@@ -222,6 +219,18 @@ class Config:
             raise KeyError(f"{config_name} option doesn't exist.")
 
     def __try_get_option__(self, config_name):
+        """Return option associated with a given config name.
+
+        Parameters
+        ----------
+        config_name : _type_
+            Name of the configuration.
+
+        Returns
+        -------
+        ConfigSpecification
+            Available configuration options supported by the Operator
+        """
         if self._config_help:
             if config_name in self._config_help:
                 return self._config_help[config_name]
@@ -236,7 +245,7 @@ class Config:
             Name of the configuration option.
 
         Returns
-        ----------
+        -------
         str
            Documentation for the configuration option.
         """
@@ -254,7 +263,7 @@ class Config:
             Name of the configuration option.
 
         Returns
-        ----------
+        -------
         list, str
             One or more accepted types for the configuration option.
         """
@@ -265,13 +274,8 @@ class Config:
     def config_option_default_value(self, config_name):
         """Retrieve the default value for a configuration option.
 
-        Parameters
-        ----------
-        config_name : str
-            Name of the configuration option.
-
         Returns
-        ----------
+        -------
         str
             Default value for the configuration option.
         """
@@ -285,7 +289,7 @@ class Config:
         """Available configuration options for the operator.
 
         Returns
-        ----------
+        -------
         list, str
            One or more available configuration options for the operator.
         """
@@ -307,6 +311,7 @@ class Config:
         return _description(self._internal_obj, self._server)
 
     def __del__(self):
+        """Delete this instance of config."""
         try:
             self._deleter_func[0](self._deleter_func[1](self))
         except:

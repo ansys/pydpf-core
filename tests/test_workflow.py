@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -21,16 +21,17 @@
 # SOFTWARE.
 
 from pathlib import Path
-
-import numpy as np
-import pytest
 import platform
 
+import numpy
+import numpy as np
+import pytest
+
+from ansys import dpf
+from ansys.dpf.core import misc
 import ansys.dpf.core.operators as op
 from ansys.dpf.core.workflow_topology import WorkflowTopology
 import conftest
-from ansys import dpf
-from ansys.dpf.core import misc
 
 if misc.module_exists("graphviz"):
     HAS_GRAPHVIZ = True
@@ -133,6 +134,19 @@ def test_connect_list_workflow(velocity_acceleration, server_type):
     wf.set_input_name("time_scoping", op.inputs.time_scoping)
     wf.set_output_name("field", op.outputs.fields_container)
     wf.connect("time_scoping", [1, 2])
+    f_out = wf.get_output("field", dpf.core.types.fields_container)
+    assert f_out.get_available_ids_for_label() == [1, 2]
+
+
+def test_connect_array_workflow(velocity_acceleration, server_type):
+    wf = dpf.core.Workflow(server=server_type)
+    wf.progress_bar = False
+    model = dpf.core.Model(velocity_acceleration, server=server_type)
+    op = model.operator("U")
+    wf.add_operator(op)
+    wf.set_input_name("time_scoping", op, 0)
+    wf.set_output_name("field", op, 0)
+    wf.connect("time_scoping", numpy.array([1, 2], numpy.int32))
     f_out = wf.get_output("field", dpf.core.types.fields_container)
     assert f_out.get_available_ids_for_label() == [1, 2]
 
@@ -900,8 +914,8 @@ def test_create_on_other_server_and_connect_workflow(allkindofcomplexity, local_
 
 
 def deep_copy_using_workflow(dpf_entity, server, stream_type=1):
+    from ansys.dpf.core.common import types, types_enum_to_types
     from ansys.dpf.core.operators.serialization import serializer_to_string, string_deserializer
-    from ansys.dpf.core.common import types_enum_to_types, types
 
     entity_server = dpf_entity._server if hasattr(dpf_entity, "_server") else None
     serializer_wf = dpf.core.Workflow(server=entity_server)

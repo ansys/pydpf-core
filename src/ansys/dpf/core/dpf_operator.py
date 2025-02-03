@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -20,44 +20,41 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""
-.. _ref_operator:
+"""Operator."""
 
-Operator
-
-"""
-
+from enum import Enum
 import logging
 import os
 import traceback
 import warnings
 
-from enum import Enum
+import numpy
+
+from ansys.dpf.core import server as server_module
 from ansys.dpf.core.check_version import (
-    version_requires,
     server_meet_version,
     server_meet_version_and_raise,
+    version_requires,
 )
+from ansys.dpf.core.common import types_enum_to_types
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.errors import DpfVersionNotSupported
 from ansys.dpf.core.inputs import Inputs
 from ansys.dpf.core.mapping_types import types
-from ansys.dpf.core.common import types_enum_to_types
-from ansys.dpf.core.outputs import Output, Outputs, _Outputs
-from ansys.dpf.core import server as server_module
 from ansys.dpf.core.operator_specification import Specification
+from ansys.dpf.core.outputs import Output, Outputs, _Outputs
 from ansys.dpf.core.unit_system import UnitSystem
 from ansys.dpf.gate import (
-    operator_capi,
-    operator_abstract_api,
-    operator_grpcapi,
-    data_processing_capi,
-    data_processing_grpcapi,
     collection_capi,
     collection_grpcapi,
+    data_processing_capi,
+    data_processing_grpcapi,
     dpf_vector,
-    object_handler,
     integral_types,
+    object_handler,
+    operator_abstract_api,
+    operator_capi,
+    operator_grpcapi,
 )
 
 LOG = logging.getLogger(__name__)
@@ -209,7 +206,6 @@ class Operator:
         >>> disp_z = model.results.displacement().Z()
 
         """
-
         for result_type in sub_results:
             try:
                 setattr(
@@ -234,8 +230,11 @@ class Operator:
     @property
     @version_requires("3.0")
     def progress_bar(self) -> bool:
-        """With this property, the user can choose to print a progress bar when
-        the operator's output is requested, default is False"""
+        """Enable or disable progress bar display when requesting the operator's output.
+
+        With this property, the user can choose to print a progress bar when
+        the operator's output is requested, default is False
+        """
         return self._progress_bar
 
     @progress_bar.setter
@@ -279,17 +278,11 @@ class Operator:
             self._api.operator_connect_operator_output(self, pin, inpt, pin_out)
         elif isinstance(inpt, Output):
             self._api.operator_connect_operator_output(self, pin, inpt._operator, inpt._pin)
-        elif isinstance(inpt, list):
+        elif isinstance(inpt, (list, numpy.ndarray)):
             from ansys.dpf.core import collection
 
-            if server_meet_version("3.0", self._server):
-                inpt = collection.CollectionBase.integral_collection(inpt, self._server)
-                self._api.operator_connect_collection_as_vector(self, pin, inpt)
-            else:
-                if all(isinstance(x, int) for x in inpt):
-                    self._api.operator_connect_vector_int(self, pin, inpt, len(inpt))
-                else:
-                    self._api.operator_connect_vector_double(self, pin, inpt, len(inpt))
+            inpt = collection.CollectionBase.integral_collection(inpt, self._server)
+            self._api.operator_connect_collection_as_vector(self, pin, inpt)
         elif isinstance(inpt, dict):
             from ansys.dpf.core import label_space
 
@@ -315,7 +308,8 @@ class Operator:
 
     @version_requires("6.2")
     def connect_operator_as_input(self, pin, op):
-        """Connects an operator as an input on a pin.
+        """Connect an operator as an input on a pin.
+
         Parameters
         ----------
         pin : int
@@ -364,28 +358,28 @@ class Operator:
     @property
     def _type_to_output_method(self):
         from ansys.dpf.core import (
+            any,
+            collection,
+            collection_base,
+            custom_container_base,
+            custom_type_field,
             cyclic_support,
             data_sources,
+            data_tree,
             field,
             fields_container,
+            generic_data_container,
+            mesh_info,
             meshed_region,
             meshes_container,
             property_field,
-            string_field,
-            custom_type_field,
             result_info,
             scoping,
             scopings_container,
-            time_freq_support,
-            data_tree,
-            workflow,
-            collection,
             streams_container,
-            generic_data_container,
-            mesh_info,
-            collection_base,
-            any,
-            custom_container_base,
+            string_field,
+            time_freq_support,
+            workflow,
         )
 
         out = [
@@ -506,22 +500,22 @@ class Operator:
     @property
     def _type_to_input_method(self):
         from ansys.dpf.core import (
+            any,
+            collection_base,
+            custom_type_field,
             cyclic_support,
             data_sources,
-            field,
-            collection_base,
-            meshed_region,
-            property_field,
-            string_field,
-            custom_type_field,
-            scoping,
-            time_freq_support,
             data_tree,
-            workflow,
-            model,
+            field,
             generic_data_container,
-            any,
+            meshed_region,
+            model,
+            property_field,
+            scoping,
             streams_container,
+            string_field,
+            time_freq_support,
+            workflow,
         )
 
         out = [
@@ -630,7 +624,7 @@ class Operator:
         For information on an operator's options, see the documentation for that operator.
 
         Returns
-        ----------
+        -------
         :class:`ansys.dpf.core.config.Config`
             Copy of the operator's current configuration.
 
@@ -691,7 +685,7 @@ class Operator:
         """Inputs connected to the operator.
 
         Returns
-        --------
+        -------
         :class:`ansys.dpf.core.inputs`
             Inputs connected to the operator.
 
@@ -706,7 +700,6 @@ class Operator:
         >>> disp_op.inputs.data_sources(data_src)
 
         """
-
         return self._inputs
 
     @property
@@ -714,7 +707,7 @@ class Operator:
         """Outputs from the operator's evaluation.
 
         Returns
-        --------
+        -------
         :class:`ansys.dpf.core.outputs`
             Outputs from the operator's evaluation.
 
@@ -760,6 +753,7 @@ class Operator:
         return Config(operator_name=name, server=server)
 
     def __del__(self):
+        """Delete this instance."""
         try:
             if hasattr(self, "_deleter_func"):
                 obj = self._deleter_func[1](self)
@@ -811,7 +805,6 @@ class Operator:
         >>> normfc = math.norm_fc(disp_op).eval()
 
         """
-
         if not pin:
             if self.outputs != None and len(self.outputs._outputs) > 0:
                 return self.outputs._outputs[0]()
@@ -832,8 +825,10 @@ class Operator:
             if python_name == "B":
                 python_name = "bool"
 
+            # Type match
             if type(inpt).__name__ == python_name:
                 corresponding_pins.append(pin)
+            # if the inpt has multiple potential outputs, find which ones can match
             elif isinstance(inpt, (_Outputs, Operator, Result)):
                 if isinstance(inpt, Operator):
                     output_pin_available = inpt.outputs._get_given_output([python_name])
@@ -843,12 +838,14 @@ class Operator:
                     output_pin_available = inpt._get_given_output([python_name])
                 for outputpin in output_pin_available:
                     corresponding_pins.append((pin, outputpin))
+            # If any output type matches python_name
             elif isinstance(inpt, Output):
-                for inpttype in inpt._python_expected_types:
-                    if inpttype == python_name:
-                        corresponding_pins.append(pin)
                 if python_name == "Any":
                     corresponding_pins.append(pin)
+                else:
+                    for inpttype in inpt._python_expected_types:
+                        if inpttype == python_name:
+                            corresponding_pins.append(pin)
             elif python_name == "Any":
                 corresponding_pins.append(pin)
 
@@ -887,6 +884,7 @@ class Operator:
         return op
 
     def __pow__(self, value):
+        """Raise each element of a field or a fields container to power 2."""
         if value != 2:
             raise ValueError('Only the value "2" is supported.')
         from ansys.dpf.core import dpf_operator, operators
@@ -918,13 +916,12 @@ class Operator:
 
     @staticmethod
     def operator_specification(op_name, server=None):
-        """Documents an Operator with its description (what the Operator does),
-        its inputs and outputs and some properties"""
+        """Documents an Operator with its description (what the Operator does),its inputs and outputs and some properties."""
         return Specification(operator_name=op_name, server=server)
 
     @property
     def specification(self):
-        """Returns the Specification (or documentation) of this Operator
+        """Returns the Specification (or documentation) of this Operator.
 
         Returns
         -------
@@ -936,6 +933,12 @@ class Operator:
             return Specification(operator_name=self.name, server=self._server)
 
     def __truediv__(self, inpt):
+        """
+        Perform division with another operator or a scalar.
+
+        This method allows the use of the division operator (`/`) between an
+        `Operator` instance and either another `Operator` or a scalar value (float).
+        """
         if isinstance(inpt, Operator):
             op = Operator("div")
             op.connect(0, self, 0)
@@ -948,7 +951,7 @@ class Operator:
 
 
 def available_operator_names(server=None):
-    """Returns the list of operator names available in the server.
+    """Return the list of operator names available in the server.
 
     Parameters
     ----------

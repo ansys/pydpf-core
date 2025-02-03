@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -20,15 +20,15 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import copy
+
 import numpy as np
 import pytest
 
 from ansys import dpf
+from ansys.dpf.core import Scoping, errors as dpf_errors
 import conftest
 from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2_0
-import copy
-from ansys.dpf.core import Scoping
-from ansys.dpf.core import errors as dpf_errors
 
 
 def test_create_scoping():
@@ -64,6 +64,36 @@ def test_set_get_ids_scoping(server_type):
     assert np.allclose(scop.ids, ids)
 
 
+def test_set_get_ids_scoping_int64_array(server_type):
+    # Numpy 2 switches default int precision from 32 to 64 on Windows
+    # This tests verifies we convert any array of int64 to int32.
+    scop = Scoping(server=server_type)
+    ids_list = [1, 2, 3, 4]
+    ids = np.array(ids_list, dtype=np.int64)
+    scop.ids = ids
+    assert np.allclose(scop.ids, ids_list)
+
+
+def test_set_get_ids_scoping_raise_dtype_array(server_type):
+    scop = Scoping(server=server_type)
+    ids_list = [1.0, 2.0, 3.0, 4.0]
+    ids = np.array(ids_list)
+    with pytest.raises(ValueError, match="Accepted dtypes"):
+        scop.ids = ids
+
+
+def test_set_get_ids_scoping_range(server_type):
+    range_ids = range(1, 10)
+    scop = Scoping(
+        ids=range_ids,
+        server=server_type,
+    )
+    assert np.allclose(scop.ids, range_ids)
+    scop = Scoping(server=server_type)
+    scop.ids = range_ids
+    assert np.allclose(scop.ids, range_ids)
+
+
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2_0,
     reason="Requires server version higher than 2.0",
@@ -90,10 +120,10 @@ def test_get_ids_return_type_scoping(server_type):
     client_config.return_arrays = return_arrays_init
     assert np.allclose(scop.ids, ids)
     assert isinstance(scop.ids, np.ndarray)
-    assert np.allclose(scop._get_ids(True), ids)
-    assert isinstance(scop._get_ids(True), np.ndarray)
-    assert np.allclose(scop._get_ids(False), ids)
-    assert isinstance(scop._get_ids(False), list)
+    assert np.allclose(scop.get_ids(True), ids)
+    assert isinstance(scop.get_ids(True), np.ndarray)
+    assert np.allclose(scop.get_ids(False), ids)
+    assert isinstance(scop.get_ids(False), list)
 
 
 def test_get_location_scoping():
