@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -22,22 +22,21 @@
 
 # -*- coding: utf-8 -*-
 """
-StreamsContainer
+StreamsContainer.
 
 Contains classes associated with the DPF StreamsContainer.
 """
 
-import warnings
 import traceback
+import warnings
 
+from ansys.dpf.core import data_sources, errors, server as server_module
 from ansys.dpf.core.server_types import BaseServer
-from ansys.dpf.core import server as server_module
 from ansys.dpf.gate import (
-    streams_capi,
     data_processing_capi,
     data_processing_grpcapi,
+    streams_capi,
 )
-from ansys.dpf.core import errors, data_sources
 
 
 class StreamsContainer:
@@ -105,6 +104,7 @@ class StreamsContainer:
 
     @property
     def datasources(self):
+        """Return the data sources."""
         return data_sources.DataSources(data_sources=self._api.streams_get_data_sources(self))
 
     def release_handles(self):

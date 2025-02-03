@@ -20,6 +20,11 @@ class GenericDataContainerServiceStub(object):
                 request_serializer=generic__data__container__pb2.CreateRequest.SerializeToString,
                 response_deserializer=generic__data__container__pb2.GenericDataContainer.FromString,
                 )
+        self.CreateWithData = channel.stream_stream(
+                '/ansys.api.dpf.generic_data_container.v0.GenericDataContainerService/CreateWithData',
+                request_serializer=generic__data__container__pb2.AllData.SerializeToString,
+                response_deserializer=generic__data__container__pb2.CreateWithDataResponse.FromString,
+                )
         self.SetProperty = channel.unary_unary(
                 '/ansys.api.dpf.generic_data_container.v0.GenericDataContainerService/SetProperty',
                 request_serializer=generic__data__container__pb2.SetPropertyRequest.SerializeToString,
@@ -51,6 +56,12 @@ class GenericDataContainerServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def Create(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def CreateWithData(self, request_iterator, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -93,6 +104,11 @@ def add_GenericDataContainerServiceServicer_to_server(servicer, server):
                     servicer.Create,
                     request_deserializer=generic__data__container__pb2.CreateRequest.FromString,
                     response_serializer=generic__data__container__pb2.GenericDataContainer.SerializeToString,
+            ),
+            'CreateWithData': grpc.stream_stream_rpc_method_handler(
+                    servicer.CreateWithData,
+                    request_deserializer=generic__data__container__pb2.AllData.FromString,
+                    response_serializer=generic__data__container__pb2.CreateWithDataResponse.SerializeToString,
             ),
             'SetProperty': grpc.unary_unary_rpc_method_handler(
                     servicer.SetProperty,
@@ -143,6 +159,23 @@ class GenericDataContainerService(object):
         return grpc.experimental.unary_unary(request, target, '/ansys.api.dpf.generic_data_container.v0.GenericDataContainerService/Create',
             generic__data__container__pb2.CreateRequest.SerializeToString,
             generic__data__container__pb2.GenericDataContainer.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def CreateWithData(request_iterator,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.stream_stream(request_iterator, target, '/ansys.api.dpf.generic_data_container.v0.GenericDataContainerService/CreateWithData',
+            generic__data__container__pb2.AllData.SerializeToString,
+            generic__data__container__pb2.CreateWithDataResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 

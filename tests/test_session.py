@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -21,10 +21,11 @@
 # SOFTWARE.
 
 from pathlib import Path
-import conftest
 import tempfile
+
 from ansys.dpf import core
 from ansys.dpf.core import examples
+import conftest
 
 
 def get_log_file(log_path, server):

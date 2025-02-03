@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -43,7 +43,6 @@ The script below demonstrates the methodology using PyDPF.
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 from ansys.dpf.gate.errors import DPFServerException
-
 
 ###############################################################################
 # Create a model object to establish a connection with an example result file:

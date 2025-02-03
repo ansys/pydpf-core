@@ -1,12 +1,12 @@
 # import subprocess
 
-from ansys.dpf import core
-from ansys.dpf.core.operators import build
-import os
 import glob
+import os
 from pathlib import Path
 import shutil
 
+from ansys.dpf import core
+from ansys.dpf.core.operators import build
 
 local_dir = Path(__file__).parent
 TARGET_PATH = local_dir.parent / "src" / "ansys" / "dpf" / "core" / "operators"

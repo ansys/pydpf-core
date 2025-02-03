@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -40,6 +40,9 @@ def _check_type(instance, allowable_type):
 
 
 # TODO: deprecate this file
+# https://github.com/ansys/pydpf-core/issues/1984, todo was added in this PR
+
+
 def sum(var_inp):
     """Sum all elementary data of a field to get one elementary data.
 
@@ -195,6 +198,7 @@ def _norm_fc(fields):
 
 def _norm_op(oper):
     """Retrieve a chained norm operator.
+
     Returns
     -------
     oper : ansys.dpf.core.Operator
@@ -227,6 +231,9 @@ def eqv(var_inp):
 
 
 # TODO: Consider combining eqv and eqv_fc
+# https://github.com/ansys/pydpf-core/issues/1984, todo was added in this PR
+
+
 def _eqv(field):
     """Retrieve the von Mises stress field.
 
@@ -288,7 +295,6 @@ def _min_max(field):
     oper : ansys.dpf.core.Operator
         Component-wise minimum/maximum operator over the input.
     """
-
     oper = dpf.core.Operator("min_max")
     oper.inputs.connect(field)
     return oper
@@ -316,7 +322,6 @@ def _min_max_oper(oper):
     oper : ansys.dpf.core.Operator
         Component-wise minimum/maximum operator.
     """
-
     min_max_oper = dpf.core.Operator("min_max_fc")
     min_max_oper.connect(0, oper, 0)
     return min_max_oper
@@ -424,7 +429,6 @@ def sqr(field):
     [ 1. 64.]
 
     """
-
     _check_type(field, (dpf.core.Field, dpf.core.FieldsContainer))
     op = dpf.core.Operator("sqr")
     op.connect(0, field)

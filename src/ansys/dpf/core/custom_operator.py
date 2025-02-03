@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -21,9 +21,7 @@
 # SOFTWARE.
 
 """
-.. _ref_custom_operator:
-
-Custom Operator Base
+Custom Operator Base.
 
 Contains utilities allowing you to implement and record custom Python operators.
 """
@@ -34,36 +32,36 @@ from pathlib import Path
 import re
 import shutil
 import tempfile
+import traceback
 import warnings
 import zipfile
 
 import numpy
-import traceback
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import (
-    settings,
+    AvailableServerContexts,
+    collection,
+    dpf_operator,
+    operator_specification,
     server,
     server_factory,
-    operator_specification,
-    dpf_operator,
-    collection,
-    AvailableServerContexts,
+    settings,
 )
 from ansys.dpf.core._custom_operators_helpers import (
     __operator_main__,
-    functions_registry,
-    external_operator_api,
-    _type_to_output_method,
     _type_to_input_method,
+    _type_to_output_method,
+    external_operator_api,
+    functions_registry,
 )
-from ansys.dpf.gate import object_handler, capi, dpf_vector, integral_types
+from ansys.dpf.gate import capi, dpf_vector, integral_types, object_handler
 
 
 def update_virtual_environment_for_custom_operators(
     restore_original: bool = False,
 ):
-    """Updates the dpf-site.zip file used to start a venv for Python custom operators to run in.
+    """Update the dpf-site.zip file used to start a venv for Python custom operators to run in.
 
     It updates the site-packages in dpf-site.zip with the site-packages of the current venv.
     It stores the original dpf-site.zip for future restoration.
@@ -221,8 +219,8 @@ def record_operator(operator_type, *args) -> None:
 
 class CustomOperatorBase:
     """
-    Base class interfacing CPython Custom Operators which can be used as regular
-    DPF Operators in any API.
+    Base class interfacing CPython Custom Operators which can be used as regular DPF Operators in any API.
+
     A CustomOperator is defined by its name, its specification and its run method.
     These three abstract methods should be implemented to create a CustomOperator.
 
@@ -270,6 +268,7 @@ class CustomOperatorBase:
     def set_output(self, index: int, data) -> None:
         """
         Add an output to this Operator at the given index.
+
         To use in the ``run`` method.
 
         Parameters
@@ -293,7 +292,8 @@ class CustomOperatorBase:
 
     def get_input(self, index, type: type):
         """
-        Method used to get an input of a requested type at a given index in the ``run`` method.
+        Get an input of a requested type at a given index in the ``run`` method.
+
         The correct input type must be connected to this Operator beforehand.
 
         Parameters
@@ -326,6 +326,7 @@ class CustomOperatorBase:
     def set_failed(self) -> None:
         """
         Set the Operator's status to "failed".
+
         To use in the ``run`` method if an error occurred.
         This "failed" status is automatically set when an exception is raised in the ``run`` method.
         """
@@ -334,6 +335,7 @@ class CustomOperatorBase:
     def set_succeeded(self) -> None:
         """
         Set the Operator's status to "succeeded".
+
         To use at the end of the ``run`` method.
         """
         external_operator_api.external_operator_put_status(self._operator_data, 0)
@@ -361,7 +363,8 @@ class CustomOperatorBase:
     @abc.abstractmethod
     def run(self) -> None:
         """
-        Callback of the Operator to implement.
+        "Implement the Operator's callback in inheriting subclasses.
+
         The implementation should first request the inputs with the method ``get_input``,
         compute the output data, then add the outputs with the method ``set_output`` and finally
         call ``set_succeeded``.
@@ -372,8 +375,10 @@ class CustomOperatorBase:
     @abc.abstractmethod
     def specification(self):
         """
-        Documents the operator. The following are mandatory  to have a full support
-        (documentation, code generation and usage) of the new operator:
+        Documents the operator.
+
+        The following are mandatory  to have a full support (documentation, code generation and usage)
+        of the new operator:
         * Description
         * Supported inputs (a name, a document, a list of accepted types (optional) and/or ellipses)
         * Supported outputs (a name, a document, a type, and can be ellipsis)
@@ -391,6 +396,7 @@ class CustomOperatorBase:
     def name(self) -> str:
         """
         Returns the identifier or name of the operator.
+
         This name can then be used to instantiate the Operator.
         """
         pass

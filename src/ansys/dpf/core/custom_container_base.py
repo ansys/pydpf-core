@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -21,7 +21,7 @@
 # SOFTWARE.
 
 """
-CustomContainerBase
+CustomContainerBase.
 
 This module contains the `CustomContainerBase` class, which serves as a base
 for creating wrappers around `GenericDataContainer` objects.

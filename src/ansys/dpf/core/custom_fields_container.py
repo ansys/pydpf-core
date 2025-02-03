@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -21,7 +21,7 @@
 # SOFTWARE.
 
 """
-Custom Fields Containers
+Custom Fields Containers.
 
 Contains the inherited classes from the
 :class:`FieldsContainer <ansys.dpf.core.fields_container.FieldsContainer>` class.
@@ -29,8 +29,8 @@ These new classes offer helpers to access data for specific usage, such as
 results split by body or split by material.
 """
 
-from ansys.dpf.core.fields_container import FieldsContainer
 from ansys.dpf.core import elements
+from ansys.dpf.core.fields_container import FieldsContainer
 
 
 class ElShapeFieldsContainer(FieldsContainer):
@@ -42,7 +42,7 @@ class ElShapeFieldsContainer(FieldsContainer):
 
     Parameters
     ----------
-    fields_container : ansys.grpc.dpf.collection_pb2.Collection or FieldsContainer, optional
+    fields_container : ansys.grpc.dpf.collection_message_pb2.Collection or FieldsContainer, optional
         Fields container created from either a collection message or by copying an existing
         fields container. The default is ``None``.
     server : server.DPFServer, optional
@@ -88,7 +88,6 @@ class ElShapeFieldsContainer(FieldsContainer):
 
         Examples
         --------
-
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
         >>> model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
@@ -279,7 +278,7 @@ class BodyFieldsContainer(FieldsContainer):
 
     Parameters
     ----------
-    fields_container : ansys.grpc.dpf.collection_pb2.Collection or FieldsContainer, optional
+    fields_container : ansys.grpc.dpf.collection_message_pb2.Collection or FieldsContainer, optional
         Fields container created from either a collection message or by copying an existing
         fields container. The default is ``None``.
     server : server.DPFServer, optional
@@ -308,6 +307,7 @@ class BodyFieldsContainer(FieldsContainer):
 
     def get_fields_by_mat_id(self, matid, timeid=None, complexid=None):
         """Retrieve a list of all fields for a material ID.
+
         You can filter the list of fields for a material ID based on
         a given time, complex type, or both.
 
@@ -345,6 +345,7 @@ class BodyFieldsContainer(FieldsContainer):
 
     def get_field_by_mat_id(self, matid, timeid=None, complexid=None):
         """Retrieve a field with a given material ID.
+
         You can filter the field based on a given time, complex type, or both.
 
         Parameters
@@ -377,7 +378,7 @@ class BodyFieldsContainer(FieldsContainer):
         return self.get_field(label_space)
 
     def get_mat_scoping(self):
-        """Retrieves the material or body scoping containing material IDs.
+        """Retrieve the material or body scoping containing material IDs.
 
         Returns
         -------

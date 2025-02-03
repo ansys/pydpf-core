@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -21,7 +21,7 @@
 # SOFTWARE.
 
 """
-OperatorConnection
+OperatorConnection.
 
 This module contains the `OperatorConnection` and `OperatorConnectionsCollection`
 classes, which represent individual connections between operators and a
@@ -29,6 +29,7 @@ collection of such connections within a workflow, respectively.
 """
 
 from typing import Iterator, Optional
+
 from ansys.dpf.core import GenericDataContainersCollection
 from ansys.dpf.core.custom_container_base import CustomContainerBase
 from ansys.dpf.core.dpf_operator import Operator

@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -23,11 +23,11 @@
 # -*- coding: utf-8 -*-
 import weakref
 
-import pytest
 import numpy as np
+import pytest
 
-import conftest
 from ansys.dpf.core import Scoping, ScopingsContainer
+import conftest
 
 
 @pytest.fixture()

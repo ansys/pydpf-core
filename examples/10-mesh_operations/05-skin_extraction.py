@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -33,9 +33,7 @@ can be useful for specific results and for performance.
 
 # Import necessary modules
 from ansys.dpf import core as dpf
-from ansys.dpf.core import examples
-from ansys.dpf.core import operators as ops
-
+from ansys.dpf.core import examples, operators as ops
 
 ###############################################################################
 # Create a model object to establish a connection with an

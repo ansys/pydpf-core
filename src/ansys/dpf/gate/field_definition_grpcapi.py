@@ -22,10 +22,27 @@ class FieldDefinitionGRPCAPI(field_definition_abstract_api.FieldDefinitionAbstra
     def csfield_definition_fill_unit(fieldDef, symbol, size, homogeneity, factor, shift):
         symbol.set_str(_get_stub(fieldDef._server).List(fieldDef._internal_obj).unit.symbol)
 
+    
+    @staticmethod
+    def csfield_definition_get_quantity_type(fieldDef, index):
+        return _get_stub(fieldDef._server).List(fieldDef._internal_obj).quantity_types.quantity_types[index]
+    
+    @staticmethod
+    def csfield_definition_set_quantity_type(fieldDef, quantityType):
+        FieldDefinitionGRPCAPI._modify_field_def(fieldDef, quantity_type=quantityType)
+
+    @staticmethod
+    def csfield_definition_get_num_available_quantity_types(fieldDef):
+        return len(_get_stub(fieldDef._server).List(fieldDef._internal_obj).quantity_types.quantity_types)
+
+    @staticmethod
+    def csfield_definition_is_of_quantity_type(fieldDef, quantityType):
+        return quantityType in _get_stub(fieldDef._server).List(fieldDef._internal_obj).quantity_types.quantity_types
+        
     @staticmethod
     def csfield_definition_get_shell_layers(fieldDef):
         return _get_stub(fieldDef._server).List(fieldDef._internal_obj).shell_layers - 1
-
+    
     @staticmethod
     def csfield_definition_fill_location(fieldDef, location, size):
         out = _get_stub(fieldDef._server).List(fieldDef._internal_obj)
@@ -73,7 +90,7 @@ class FieldDefinitionGRPCAPI(field_definition_abstract_api.FieldDefinitionAbstra
 
     @staticmethod
     def _modify_field_def(
-            fieldDef, unit=None, location=None, dimensionality=None, shell_layer=None, name=None
+            fieldDef, unit=None, location=None, dimensionality=None, shell_layer=None, name=None, quantity_type=None
     ):
         from ansys.grpc.dpf import field_definition_pb2
         request = field_definition_pb2.FieldDefinitionUpdateRequest()
@@ -89,5 +106,7 @@ class FieldDefinitionGRPCAPI(field_definition_abstract_api.FieldDefinitionAbstra
             request.shell_layers = shell_layer
         if name != None:
             request.name.string = name
+        if quantity_type != None:
+            request.quantity_types.quantity_types.append(quantity_type)
 
         _get_stub(fieldDef._server).Update(request)

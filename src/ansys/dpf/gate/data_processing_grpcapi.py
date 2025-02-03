@@ -210,7 +210,7 @@ class DataProcessingGRPCAPI(data_processing_abstract_api.DataProcessingAbstractA
     @staticmethod
     def data_processing_description_string(data):
         data_obj = data._internal_obj
-        from ansys.grpc.dpf import base_pb2, collection_pb2
+        from ansys.grpc.dpf import base_pb2, collection_message_pb2
         request = base_pb2.DescribeRequest()
         if isinstance(data_obj.id, int):
             request.dpf_type_id = data_obj.id
@@ -224,7 +224,7 @@ class DataProcessingGRPCAPI(data_processing_abstract_api.DataProcessingAbstractA
             client = serv_to_test.client
         else:
             return ""
-        if isinstance(data_obj, collection_pb2.Collection):
+        if isinstance(data_obj, collection_message_pb2.Collection):
             from ansys.dpf.gate import collection_grpcapi
             collection_grpcapi.CollectionGRPCAPI.init_collection_environment(data)
             response = collection_grpcapi._get_stub(data._server.client).Describe(request)

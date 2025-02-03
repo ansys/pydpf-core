@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -20,34 +20,38 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""
-MeshedRegion
+"""MeshedRegion."""
 
-"""
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:  # pragma: nocover
+    from ansys.dpf.core.scoping import Scoping
+    from ansys.dpf.core.server_types import AnyServerType
 
 import traceback
 import warnings
 
-import ansys.dpf.core.errors
-
-from ansys.dpf.core import scoping, field, property_field
+from ansys.dpf.core import field, property_field, scoping, server as server_module
+from ansys.dpf.core.cache import class_handling_cache
 from ansys.dpf.core.check_version import server_meet_version, version_requires
 from ansys.dpf.core.common import (
     locations,
-    types,
     nodal_properties,
+    types,
 )
 from ansys.dpf.core.elements import Elements, element_types
-from ansys.dpf.core.nodes import Nodes
+import ansys.dpf.core.errors
 from ansys.dpf.core.faces import Faces
+from ansys.dpf.core.nodes import Nodes
 from ansys.dpf.core.plotter import DpfPlotter, Plotter
-from ansys.dpf.core.cache import class_handling_cache
-from ansys.dpf.core import server as server_module
 from ansys.dpf.gate import meshed_region_capi, meshed_region_grpcapi
 
 
 def update_grid(func):
-    # Decorate mesh setters to centralize the update logic of pyvista objects.
+    """Decorate mesh setters to centralize the update logic of pyvista objects."""
+
     def wrapper(*args, **kwargs):
         mesh = args[0]
         if mesh._full_grid is not None:
@@ -141,7 +145,8 @@ class MeshedRegion:
         self.as_linear = None
 
     def _get_scoping(self, loc=locations.nodal):
-        """
+        """Return ids of the elements or nodes of the mesh.
+
         Parameters
         ----------
         loc : str or ansys.dpf.core.common.locations, optional
@@ -258,7 +263,7 @@ class MeshedRegion:
     @unit.setter
     def unit(self, value):
         """
-        Unit type.
+        Set unit type.
 
         Parameters
         ----------
@@ -287,12 +292,14 @@ class MeshedRegion:
         return self._api.meshed_region_set_unit(self, unit)
 
     def __del__(self):
+        """Delete this instance of the meshed region."""
         try:
             self._deleter_func[0](self._deleter_func[1](self))
         except:
             warnings.warn(traceback.format_exc())
 
     def __str__(self):
+        """Return string representation of the meshed region."""
         from ansys.dpf.core.core import _description
 
         return _description(self._internal_obj, self._server)
@@ -300,7 +307,7 @@ class MeshedRegion:
     @property
     def available_property_fields(self):
         """
-        Returns a list of available property fields
+        Returns a list of available property fields.
 
         Returns
         -------
@@ -316,8 +323,7 @@ class MeshedRegion:
 
     def property_field(self, property_name):
         """
-        Property field getter. It can be coordinates (field),
-        element types (property field)...
+        Property field getter. It can be coordinates (field), element types (property field)...
 
         Returns
         -------
@@ -328,8 +334,7 @@ class MeshedRegion:
     @version_requires("3.0")
     def set_property_field(self, property_name, value):
         """
-        Property field setter. It can be coordinates (field),
-        element types (property field)...
+        Property field setter. It can be coordinates (field), element types (property field)...
 
         Parameters
         ----------
@@ -379,36 +384,32 @@ class MeshedRegion:
             named_selections.append(self._api.meshed_region_get_named_selection_name(self, index))
         return named_selections
 
-    def named_selection(self, named_selection):
-        """
-        Scoping containing the list of nodes or elements in the named selection.
+    def named_selection(
+        self,
+        named_selection: str,
+        server: AnyServerType = None,
+    ) -> Scoping:
+        """Scoping containing the list of nodes or elements in the named selection.
 
         Parameters
         ----------
-        named_selection : str
+        named_selection:
             Name of the named selection.
+        server:
+            Server on which to create the scoping if different from the server of the model.
 
         Returns
         -------
-        named_selection : Scoping
+        named_selection:
+            A scoping containing the IDs of the entities in the named selection.
+            The location depends on the type of entities targeted by the named selection.
         """
-        if server_meet_version("2.1", self._server):
-            out = self._api.meshed_region_get_named_selection_scoping(self, named_selection)
-            return scoping.Scoping(scoping=out, server=self._server)
-        else:
-            if hasattr(self, "_stream_provider"):
-                from ansys.dpf.core.dpf_operator import Operator
-
-                op = Operator("scoping_provider_by_ns", server=self._server)
-                op.connect(1, named_selection)
-                op.connect(3, self._stream_provider, 0)
-                return op.get_output(0, types.scoping)
-            else:
-                raise Exception(
-                    "Getting a named selection from a meshed region is "
-                    "only implemented for meshed region created from a "
-                    "model for server version 2.0. Please update your server."
-                )
+        out = self._api.meshed_region_get_named_selection_scoping(self, named_selection)
+        out_scoping = scoping.Scoping(scoping=out, server=self._server)
+        if server:
+            # Copy the scoping to another server
+            out_scoping = out_scoping.deep_copy(server=server)
+        return out_scoping
 
     @version_requires("3.0")
     def set_named_selection_scoping(self, named_selection_name, scoping):
@@ -481,9 +482,6 @@ class MeshedRegion:
         scale_factor : float, Field, FieldsContainer, optional
             Used to scale the mesh deformation. Defaults to 1.0. Can be a scalar Field
             (or a FieldsContainer with only one Field) to get a spatially non-homogeneous scaling.
-        Returns
-        -------
-
         """
         from ansys.dpf.core.operators.math import add, scale, unit_convert
 
@@ -665,8 +663,7 @@ class MeshedRegion:
 
     def field_of_properties(self, property_name):
         """
-        Returns the ``Field`` or ``PropertyField`` associated
-        to a given property of the mesh
+        Return the ``Field`` or ``PropertyField`` associated to a given property of the mesh.
 
         Parameters
         ----------

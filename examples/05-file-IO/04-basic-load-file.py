@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -39,7 +39,6 @@ exported to a CSV file.
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
-
 
 model = dpf.Model(examples.find_simple_bar())
 mesh = model.metadata.meshed_region
