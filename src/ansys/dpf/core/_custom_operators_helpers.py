@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -20,28 +20,28 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from ansys.dpf.gate import capi, external_operator_capi
 from enum import Enum
 
 from ansys.dpf.core import (
-    field,
-    property_field,
-    scoping,
     collection,
+    custom_type_field,
     data_sources,
-    meshed_region,
-    time_freq_support,
-    workflow,
     data_tree,
     dpf_operator,
+    field,
     fields_container,
-    scopings_container,
-    meshes_container,
-    result_info,
-    string_field,
-    custom_type_field,
     generic_data_container,
+    meshed_region,
+    meshes_container,
+    property_field,
+    result_info,
+    scoping,
+    scopings_container,
+    string_field,
+    time_freq_support,
+    workflow,
 )
+from ansys.dpf.gate import capi, external_operator_capi
 
 external_operator_api = external_operator_capi.ExternalOperatorCAPI
 

@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -21,16 +21,17 @@
 # SOFTWARE.
 
 # -*- coding: utf-8 -*-
-import os
 import copy
+import os
+from pathlib import Path
 import tempfile
 
-import ansys.grpc.dpf
 import numpy as np
 
-import ansys.dpf.core.operators as op
 from ansys.dpf import core
 from ansys.dpf.core import examples
+import ansys.dpf.core.operators as op
+import ansys.grpc.dpf
 
 
 def test_workflowwithgeneratedcode(allkindofcomplexity):
@@ -153,7 +154,7 @@ def test_operator_any_input(allkindofcomplexity):
     serialization.inputs.any_input3.connect(u.outputs)
 
     # create a temporary file at the default temp directory
-    path = os.path.join(tempfile.gettempdir(), "dpf_temp_ser.txt")
+    path = str(Path(tempfile.gettempdir()) / "dpf_temp_ser.txt")
     if not core.SERVER.local_server:
         core.upload_file_in_tmp_folder(examples.find_static_rst(return_local_path=True))
         path = core.path_utilities.join(core.make_tmp_dir_server(), "dpf_temp_ser.txt")
@@ -171,8 +172,9 @@ def test_operator_any_input(allkindofcomplexity):
 
     assert hasattr(fc, "outputs") == False
 
-    if os.path.exists(path):
-        os.remove(path)
+    path = Path(path)
+    if path.exists():
+        path.unlink()
 
 
 def test_create_op_with_inputs(plate_msup):

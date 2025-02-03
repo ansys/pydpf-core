@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -22,26 +22,27 @@
 
 # -*- coding: utf-8 -*-
 
-import conftest
+from dataclasses import dataclass, field
+import random
 
-import pytest
 import numpy as np
+import pytest
+
 from ansys.dpf.core import (
     CustomTypeField,
     CustomTypeFieldsCollection,
-    GenericDataContainersCollection,
-    StringFieldsCollection,
-    StringField,
     GenericDataContainer,
-    operators,
+    GenericDataContainersCollection,
+    StringField,
+    StringFieldsCollection,
     Workflow,
     fields_factory,
+    operators,
 )
 from ansys.dpf.core.collection import Collection
-from ansys.dpf.core.time_freq_support import TimeFreqSupport
 from ansys.dpf.core.generic_support import GenericSupport
-import random
-from dataclasses import dataclass, field
+from ansys.dpf.core.time_freq_support import TimeFreqSupport
+import conftest
 
 
 @conftest.raises_for_servers_version_under("8.1")

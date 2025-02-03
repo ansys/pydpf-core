@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -20,8 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from ansys.dpf.core.custom_operator import record_operator
-from ansys.dpf.core.custom_operator import CustomOperatorBase
+from ansys.dpf.core.custom_operator import CustomOperatorBase, record_operator
 
 
 class SyntaxeError(CustomOperatorBase):

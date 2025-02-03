@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -20,22 +20,19 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""
-.. _ref_outputs:
+"""Outputs."""
 
-Outputs
-=======
-"""
-
-from ansys.dpf.core.mapping_types import map_types_to_python
-from ansys.dpf.core.common import types
-from ansys.dpf.core.operator_specification import PinSpecification
 import re
+
+from ansys.dpf.core.common import types
+from ansys.dpf.core.mapping_types import map_types_to_python
+from ansys.dpf.core.operator_specification import PinSpecification
 
 
 class Output:
     """
     Intermediate class internally instantiated by the :class:`ansys.dpf.core.dpf_operator.Operator`.
+
     Used to evaluate and get outputs of the Operator.
 
     Examples
@@ -59,7 +56,7 @@ class Output:
             self._python_expected_types.append(map_types_to_python[cpp_type])
 
     def get_data(self):
-        """Retrieves the output of the operator."""
+        """Retrieve the output of the operator."""
         type_output = self._spec.type_names[0]
 
         if type_output == "abstract_meshed_region":
@@ -81,22 +78,38 @@ class Output:
         elif type_output == "int32":
             type_output = types.int
 
-        type_output_derive_class = self._spec.name_derived_class
+        output = self._operator.get_output(self._pin, type_output)
 
-        if type_output_derive_class != "":
-            out_type = [
-                type_tuple
-                for type_tuple in self._operator._type_to_output_method
-                if type_output_derive_class in type_tuple
-            ]
-            return out_type[0][0](self._operator.get_output(self._pin, type_output))
-        else:
-            return self._operator.get_output(self._pin, type_output)
+        type_output_derive_class = self._spec.name_derived_class
+        if type_output_derive_class == "":
+            return output
+
+        from ansys.dpf.core.common import derived_class_name_to_type
+
+        derived_type = derived_class_name_to_type().get(type_output_derive_class)
+        if derived_type is not None:
+            return derived_type(output)
+
+        derived_types = [
+            type_tuple
+            for type_tuple in self._operator._type_to_output_method
+            if type_output_derive_class in type_tuple
+        ]
+        return derived_types[0][0](output)
 
     def __call__(self):
+        """Allow instances of the class to be callable for data retrieval purposes."""
         return self.get_data()
 
     def __str__(self):
+        """
+        Return a string representation of the Output instance.
+
+        Returns
+        -------
+        str
+            A string representation of the instance.
+        """
         docstr = self._spec.name
         if self._spec.optional:
             docstr += " (optional)"
@@ -109,7 +122,8 @@ class Output:
 
 
 class _Outputs:
-    """
+    """Base class subclassed by the :class:`ansys.dpf.core.outputs.Output` class.
+
     Parameters
     ----------
     dict_outputs : dict
@@ -178,6 +192,7 @@ def _modify_output_spec_with_one_type(output_spec, type):
 class Outputs(_Outputs):
     """
     Intermediate class internally instantiated by the :class:`ansys.dpf.core.dpf_operator.Operator`.
+
     Used to list the available :class:`ansys.dpf.core.outputs.Output` s of the Operator.
 
     Examples

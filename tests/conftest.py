@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -26,19 +26,20 @@ Launch or connect to a persistent local DPF service to be shared in
 pytest as a session fixture
 """
 
-import os
 import functools
+import os
+from pathlib import Path
+import warnings
 
 import psutil
 import pytest
 
-import ansys.dpf.core.server_types
 from ansys.dpf import core
 from ansys.dpf.core import examples
-from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
-from ansys.dpf.core.check_version import meets_version, get_server_version
+from ansys.dpf.core.check_version import get_server_version, meets_version
+from ansys.dpf.core.server_factory import CommunicationProtocols, ServerConfig
+import ansys.dpf.core.server_types
 from ansys.dpf.gate.load_api import _try_use_gatebin
-import warnings
 
 ACCEPTABLE_FAILURE_RATE = 0
 
@@ -54,10 +55,10 @@ local_test_repo = False
 
 def _get_test_files_directory():
     if local_test_repo is False:
-        test_path = os.path.join(os.path.dirname(os.path.abspath(__file__)))
-        return os.path.join(test_path, os.pardir, "tests", "testfiles")
+        test_path = Path(__file__).parent
+        return str(test_path.parent / "tests" / "testfiles")
     else:
-        return os.path.join(os.environ["AWP_UNIT_TEST_FILES"], "python")
+        return str(Path(os.environ["AWP_UNIT_TEST_FILES"]).joinpath("python"))
 
 
 if os.name == "posix":
@@ -94,11 +95,11 @@ def resolve_test_file(basename, additional_path="", is_in_examples=None):
     if is_in_examples:
         return examples.find_files(getattr(examples, is_in_examples))
     else:
-        test_files_path = _get_test_files_directory()
-        filename = os.path.join(test_files_path, additional_path, basename)
-        if not os.path.isfile(filename):
+        test_files_path = Path(_get_test_files_directory())
+        filename = test_files_path.joinpath(additional_path, basename)
+        if not filename.is_file():
             raise FileNotFoundError(f"Unable to locate {basename} at {test_files_path}")
-    return examples.find_files(filename)
+    return examples.find_files(str(filename))
 
 
 @pytest.fixture()
@@ -391,6 +392,8 @@ def raises_for_servers_version_under(version):
             if version == "5.0"
             else not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0
             if version == "6.0"
+            else not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0
+            if version == "10.0"
             else True,
             reason=f"Requires server version greater than or equal to {version}",
             raises=core.errors.DpfVersionNotSupported,

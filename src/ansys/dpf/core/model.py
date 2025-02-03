@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -21,25 +21,28 @@
 # SOFTWARE.
 
 """
-.. _ref_model:
+Model.
 
-Model
-=====
 Module contains the Model class to manage file result models.
-
-
 """
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:  # pragma: nocover
+    from ansys.dpf.core.scoping import Scoping
+    from ansys.dpf.core.server_types import AnyServerType
+
 from ansys import dpf
-from ansys.dpf.core import Operator
-from ansys.dpf.core.common import types
-from ansys.dpf.core.data_sources import DataSources
-from ansys.dpf.core.results import Results, CommonResults
-from ansys.dpf.core.server_types import LOG
-from ansys.dpf.core import misc
-from ansys.dpf.core.errors import protect_source_op_not_found
+from ansys.dpf.core import Operator, misc
 from ansys.dpf.core._model_helpers import DataSourcesOrStreamsConnector
 from ansys.dpf.core.check_version import version_requires
+from ansys.dpf.core.common import types
+from ansys.dpf.core.data_sources import DataSources
+from ansys.dpf.core.errors import protect_source_op_not_found
+from ansys.dpf.core.results import CommonResults, Results
+from ansys.dpf.core.server_types import LOG
 
 
 class Model:
@@ -66,7 +69,6 @@ class Model:
 
     def __init__(self, data_sources=None, server=None):
         """Initialize connection with DPF server."""
-
         if server is None:
             server = dpf.core._global_server()
 
@@ -147,8 +149,8 @@ class Model:
             Result provider helper wrapping all types of provider available for a
             given result file.
 
-            Examples
-            --------
+        Examples
+        --------
             >>> from ansys.dpf import core as dpf
             >>> from ansys.dpf.core import examples
             >>> model = dpf.Model(examples.find_electric_therm())
@@ -220,6 +222,7 @@ class Model:
         return op
 
     def __str__(self):
+        """Return string representation of the model."""
         txt = "DPF Model\n"
         txt += "-" * 30 + "\n"
         txt += str(self.results)
@@ -264,9 +267,7 @@ class Model:
 
     @property
     def mesh_by_default(self):
-        """If true, the mesh is connected by default to operators
-        supporting the mesh input
-        """
+        """If true, the mesh is connected by default to operators supporting the mesh input."""
         return self._mesh_by_default
 
     @mesh_by_default.setter
@@ -439,7 +440,7 @@ class Metadata:
         self._cache_streams_provider()
 
     def _load_result_info(self):
-        """Returns a result info object"""
+        """Return a result info object."""
         op = Operator("ResultInfoProvider", server=self._server)
         op.inputs.connect(self._stream_provider.outputs)
         try:
@@ -455,7 +456,7 @@ class Metadata:
         return result_info
 
     def _load_mesh_info(self):
-        """Returns a mesh info object"""
+        """Return a mesh info object."""
         op = Operator("mesh_info_provider", server=self._server)
         op.inputs.connect(self._stream_provider.outputs)
         try:
@@ -560,7 +561,7 @@ class Metadata:
     @property
     @version_requires("4.0")
     def meshes_provider(self):
-        """Meshes provider operator
+        """Meshes provider operator.
 
         This operator reads a meshes container (with potentially time or space varying meshes)
         from the result files.
@@ -592,19 +593,23 @@ class Metadata:
         """
         return self.meshed_region.available_named_selections
 
-    def named_selection(self, named_selection):
+    def named_selection(self, named_selection: str, server: AnyServerType = None) -> Scoping:
         """Scoping containing the list of nodes or elements in the named selection.
 
         Parameters
         ----------
-        named_selection : str
-            name of the named selection
+        named_selection:
+            Name of the named selection.
+        server:
+            Server on which to create the scoping if different from the server of the model.
 
         Returns
         -------
-        named_selection : :class:`ansys.dpf.core.scoping.Scoping`
+        named_selection:
+            A scoping containing the IDs of the entities in the named selection.
+            The location depends on the type of entities targeted by the named selection.
         """
-        return self.meshed_region.named_selection(named_selection)
+        return self.meshed_region.named_selection(named_selection=named_selection, server=server)
 
     def _build_connector(self):
         return DataSourcesOrStreamsConnector(self)

@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -36,6 +36,7 @@ This example provides an overview of the LS-DYNA results providers.
 """
 
 import matplotlib.pyplot as plt
+
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 

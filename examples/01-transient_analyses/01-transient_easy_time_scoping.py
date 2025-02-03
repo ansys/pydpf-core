@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -34,8 +34,7 @@ This example shows how to use a model's result to choose a time scoping.
 import matplotlib.pyplot as plt
 
 from ansys.dpf import core as dpf
-from ansys.dpf.core import examples
-from ansys.dpf.core import operators as ops
+from ansys.dpf.core import examples, operators as ops
 
 ###############################################################################
 # Create the model and display the state of the result. This transient result

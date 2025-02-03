@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -25,8 +25,8 @@ import pytest
 import vtk
 
 from ansys import dpf
-import conftest
 from ansys.dpf.core.check_version import server_meet_version
+import conftest
 
 
 @pytest.fixture()
