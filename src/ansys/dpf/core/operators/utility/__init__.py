@@ -76,4 +76,3 @@ from .strain_from_voigt_fc import strain_from_voigt_fc
 from .txt_file_to_dpf import txt_file_to_dpf
 from .unitary_field import unitary_field
 from .weighted_merge_fields_by_label import weighted_merge_fields_by_label
-from .Workflow_to_PyDPF_Generator import Workflow_to_PyDPF_Generator
