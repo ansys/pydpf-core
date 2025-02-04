@@ -26,8 +26,6 @@ from textwrap import wrap
 import warnings
 import weakref
 
-from typing_extensions import deprecated
-
 from ansys.dpf import core
 from ansys.dpf.core.mapping_types import map_types_to_python
 from ansys.dpf.core.outputs import Output, _Outputs
@@ -218,7 +216,6 @@ class _Inputs:
                     docstr += "{:<5}{:<4}{:<20}\n".format(*line)
         return docstr
 
-    @deprecated("Use explicit output-to-input connections.")
     def connect(self, inpt):
         """Connect any input (an entity or an operator output) to any input pin of this operator.
 
@@ -234,6 +231,10 @@ class _Inputs:
             Input of the operator.
 
         """
+        warnings.warn(
+            message="Use explicit output-to-input connections.", category=DeprecationWarning
+        )
+
         from pathlib import Path
 
         corresponding_pins = []
