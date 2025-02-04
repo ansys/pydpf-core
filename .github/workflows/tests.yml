@@ -202,21 +202,18 @@ jobs:
           python -m pip install dist/${{ steps.wheel.outputs.wheel_name }}
           python -c "from ansys.dpf import core"
 
-      # - name: "Prepare Testing Environment"
-      #   uses: ansys/pydpf-actions/prepare_tests@v2.3
-      #   with:
-      #     DEBUG: true
+      - name: "Prepare Testing Environment"
+        uses: ansys/pydpf-actions/prepare_tests@v2.3
+        with:
+          DEBUG: true
 
-      # - name: "Test Docstrings"
-      #   if: (inputs.DOCSTRING == 'true') && !((inputs.test_any == 'true') && (matrix.os == 'ubuntu-latest'))
-      #   uses: ansys/pydpf-actions/test_docstrings@v2.3
-      #   with:
-      #     MODULE: ${{env.MODULE}}
-      #     PACKAGE_NAME: ${{env.PACKAGE_NAME}}
-      #     working-directory: src
-
-      - name: "Setup headless display"
-        uses: pyvista/setup-headless-display-action@v3
+      - name: "Test Docstrings"
+        if: (inputs.DOCSTRING == 'true') && !((inputs.test_any == 'true') && (matrix.os == 'ubuntu-latest'))
+        uses: ansys/pydpf-actions/test_docstrings@v2.3
+        with:
+          MODULE: ${{env.MODULE}}
+          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
+          working-directory: src
 
       - name: "Set tox extra CLI arguments"
         id: tox-cli-arguments
@@ -337,15 +334,15 @@ jobs:
           command: |
             tox -e test-operators,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
 
-      - name: "Upload Test Results"
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ inputs.ANSYS_VERSION }}${{ inputs.test_any == 'true' && '_any' || '' }}
-          path: tests/junit/test-results.xml
+      # - name: "Upload Test Results"
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ inputs.ANSYS_VERSION }}${{ inputs.test_any == 'true' && '_any' || '' }}
+      #     path: tests/junit/test-results.xml
 
-      - name: "Upload coverage to Codecov"
-        uses: codecov/codecov-action@v4
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }} # required
-          name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ inputs.ANSYS_VERSION }}${{ inputs.test_any == 'true' && '_any' || '' }}.xml
-          flags: ${{ inputs.ANSYS_VERSION }},${{ matrix.os }},${{ matrix.python-version }}${{ inputs.test_any == 'true' && ',any' || '' }}
+      # - name: "Upload coverage to Codecov"
+      #   uses: codecov/codecov-action@v4
+      #   with:
+      #     token: ${{ secrets.CODECOV_TOKEN }} # required
+      #     name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ inputs.ANSYS_VERSION }}${{ inputs.test_any == 'true' && '_any' || '' }}.xml
+      #     flags: ${{ inputs.ANSYS_VERSION }},${{ matrix.os }},${{ matrix.python-version }}${{ inputs.test_any == 'true' && ',any' || '' }}
