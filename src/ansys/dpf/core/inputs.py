@@ -23,7 +23,10 @@
 """Inputs."""
 
 from textwrap import wrap
+import warnings
 import weakref
+
+from typing_extensions import deprecated
 
 from ansys.dpf import core
 from ansys.dpf.core.mapping_types import map_types_to_python
@@ -112,7 +115,7 @@ class Input:
             self._python_expected_types, inpt, self._pin, corresponding_pins
         )
         if len(corresponding_pins) > 1:
-            err_str = "Pin connection is ambiguous, specify the pin with:\n"
+            err_str = "Pin connection is ambiguous, specify the input to connect to with:\n"
             for pin in corresponding_pins:
                 err_str += (
                     "   - operator.inputs."
@@ -121,7 +124,9 @@ class Input:
                     + inpt._dict_outputs[pin[1]].name
                     + ")"
                 )
-            raise ValueError(err_str)
+            err_str += "Connecting to first input in the list.\n"
+            warnings.warn(message=err_str)
+            corresponding_pins = [corresponding_pins[0]]
 
         if len(corresponding_pins) == 0:
             err_str = (
@@ -213,10 +218,14 @@ class _Inputs:
                     docstr += "{:<5}{:<4}{:<20}\n".format(*line)
         return docstr
 
+    @deprecated("Use explicit output-to-input connections.")
     def connect(self, inpt):
         """Connect any input (an entity or an operator output) to any input pin of this operator.
 
         Searches for the input type corresponding to the output.
+
+        .. deprecated::
+            Deprecated in favor of explicit output-to-input connections.
 
         Parameters
         ----------
@@ -250,12 +259,14 @@ class _Inputs:
                 corresponding_pins,
             )
         if len(corresponding_pins) > 1:
-            err_str = "Pin connection is ambiguous, specify the pin with:\n"
+            err_str = "Pin connection is ambiguous, specify the input to connect to with:\n"
             for pin in corresponding_pins:
                 if isinstance(pin, tuple):
                     pin = pin[0]
                 err_str += "   - operator.inputs." + self._dict_inputs[pin].name + "(input)\n"
-            raise ValueError(err_str)
+            err_str += "Connecting to first input in the list.\n"
+            warnings.warn(message=err_str)
+            corresponding_pins = [corresponding_pins[0]]
 
         if len(corresponding_pins) == 0:
             err_str = "The input should have one of the expected types:\n"
