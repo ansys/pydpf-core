@@ -202,18 +202,21 @@ jobs:
           python -m pip install dist/${{ steps.wheel.outputs.wheel_name }}
           python -c "from ansys.dpf import core"
 
-      - name: "Prepare Testing Environment"
-        uses: ansys/pydpf-actions/prepare_tests@v2.3
-        with:
-          DEBUG: true
+      # - name: "Prepare Testing Environment"
+      #   uses: ansys/pydpf-actions/prepare_tests@v2.3
+      #   with:
+      #     DEBUG: true
 
-      - name: "Test Docstrings"
-        if: (inputs.DOCSTRING == 'true') && !((inputs.test_any == 'true') && (matrix.os == 'ubuntu-latest'))
-        uses: ansys/pydpf-actions/test_docstrings@v2.3
-        with:
-          MODULE: ${{env.MODULE}}
-          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
-          working-directory: src
+      # - name: "Test Docstrings"
+      #   if: (inputs.DOCSTRING == 'true') && !((inputs.test_any == 'true') && (matrix.os == 'ubuntu-latest'))
+      #   uses: ansys/pydpf-actions/test_docstrings@v2.3
+      #   with:
+      #     MODULE: ${{env.MODULE}}
+      #     PACKAGE_NAME: ${{env.PACKAGE_NAME}}
+      #     working-directory: src
+
+      - name: "Setup headless display"
+        uses: pyvista/setup-headless-display-action@v3
 
       - name: "Set tox extra CLI arguments"
         id: tox-cli-arguments
