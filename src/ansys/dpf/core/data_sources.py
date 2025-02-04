@@ -136,7 +136,8 @@ class DataSources:
         ['/tmp/file.rst']
 
         """
-        extension = Path(filepath).suffix
+        filepath = Path(filepath)
+        extension = filepath.suffix
         # Handle .res files from CFX
         if key == "" and extension == ".res":
             key = "cas"
@@ -199,6 +200,7 @@ class DataSources:
         >>> data_sources.set_domain_result_file_path('/tmp/file1.sub', 1)
 
         """
+        path = Path(path)
         if key:
             self._api.data_sources_set_domain_result_file_path_with_key_utf8(
                 self, str(path), key, domain_id
