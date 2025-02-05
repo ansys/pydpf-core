@@ -105,6 +105,8 @@ def build_pin_data(pins, output=False):
                 )
             ),
             "ellipsis": 0 if specification.ellipsis else -1,
+            "has_aliases": len(specification.aliases) > 0,
+            "aliases": str(specification.aliases),
         }
 
         if specification.ellipsis:
