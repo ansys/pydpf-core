@@ -54,6 +54,7 @@ class Output:
         self._python_expected_types = []
         for cpp_type in self._spec.type_names:
             self._python_expected_types.append(map_types_to_python[cpp_type])
+        self.aliases = self._spec.aliases
 
     def get_data(self):
         """Retrieve the output of the operator."""
@@ -118,6 +119,8 @@ class Output:
             docstr += "   -" + exp_types + "\n"
         if self._spec.document:
             docstr += "help: " + self._spec.document + "\n"
+        if self.aliases:
+            docstr += f"aliases: {self.aliases}\n"
         return docstr
 
 
@@ -148,7 +151,7 @@ class _Outputs:
                         corresponding_pins.append(pin)
         return corresponding_pins
 
-    def __getitem__(self, index):
+    def __getitem__(self, index) -> Output:
         return self._outputs[index]
 
     def __str__(self):
@@ -157,8 +160,9 @@ class _Outputs:
             tot_string = str(output._spec.name)
             input_string = tot_string.split("\n")
             input_string1 = input_string[0]
-            line = ["   ", "- ", input_string1]
-            docstr += "{:<5}{:<4}{:<20}\n".format(*line)
+            aliases = tuple(output._spec.aliases) if output._spec.aliases else ""
+            line = ["   ", "- ", input_string1, aliases]
+            docstr += "{:<5}{:<4}{:<20}{}\n".format(*line)
             for inputstr in input_string:
                 if inputstr != input_string1:
                     line = ["   ", "  ", inputstr]
