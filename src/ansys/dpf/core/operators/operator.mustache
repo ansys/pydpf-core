@@ -111,6 +111,7 @@ class {{class_name}}(Operator):
                     {{#has_derived_class}}
                     name_derived_class=["{{{derived_type_name}}}"],
                     {{/has_derived_class}}
+                    aliases={{{aliases}}},
                 ),
                 {{/input_pins}}
             },
@@ -126,6 +127,7 @@ class {{class_name}}(Operator):
                     {{#has_derived_class}}
                     name_derived_class=["{{{derived_type_name}}}"],
                     {{/has_derived_class}}
+                    aliases={{{aliases}}},
                 ),
                 {{/output_pins}}
             },
