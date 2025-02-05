@@ -83,6 +83,20 @@ class OperatorSpecificationGRPCAPI(
             return specification._internal_obj.map_output_pin_spec[numPin].type_names[numType]
 
     @staticmethod
+    def operator_specification_get_pin_num_aliases(specification, binput, numPin):
+        if binput:
+            return len(specification._internal_obj.map_input_pin_spec[numPin].aliases)
+        else:
+            return len(specification._internal_obj.map_output_pin_spec[numPin].aliases)
+
+    @staticmethod
+    def operator_specification_get_pin_alias(specification, binput, numPin, numAlias):
+        if binput:
+            return specification._internal_obj.map_input_pin_spec[numPin].aliases[numAlias]
+        else:
+            return specification._internal_obj.map_output_pin_spec[numPin].aliases[numAlias]
+
+    @staticmethod
     def operator_specification_get_pin_derived_class_type_name(specification, binput, numPin):
         if binput:
             return specification._internal_obj.map_input_pin_spec[numPin].name_derived_class
