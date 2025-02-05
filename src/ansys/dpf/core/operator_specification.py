@@ -434,12 +434,15 @@ class Specification(SpecificationBase):
                     for i_type in range(n_types)
                 ]
                 pin_aliases = []
-                for i_alias in range(
-                    self._api.operator_specification_get_pin_num_aliases(self, binput, i_pin)
-                ):
-                    pin_aliases.append(
-                        self._api.operator_specification_get_pin_alias(self, binput, i_pin, i_alias)
-                    )
+                if server_meet_version("10.0", self._server):
+                    for i_alias in range(
+                        self._api.operator_specification_get_pin_num_aliases(self, binput, i_pin)
+                    ):
+                        pin_aliases.append(
+                            self._api.operator_specification_get_pin_alias(
+                                self, binput, i_pin, i_alias
+                            )
+                        )
                 pin_derived_class_type_name = ""
                 if server_meet_version("7.0", self._server) and hasattr(
                     self._api, "operator_specification_get_pin_derived_class_type_name"
