@@ -101,6 +101,8 @@ def build_pin_data(pins, output=False):
             "document": document,
             "document_pin_docstring": document_pin_docstring,
             "ellipsis": 0 if specification.ellipsis else -1,
+            "has_aliases": len(specification.aliases) > 0,
+            "aliases": str(specification.aliases),
         }
 
         if specification.ellipsis:
