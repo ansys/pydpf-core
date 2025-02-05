@@ -139,6 +139,7 @@ class TestServerConfigs:
         shutdown_all_session_servers()
         assert not has_local_server()
 
+    @pytest.mark.skip(reason="affecting parallel runs in CI")
     def test_start_shutdown_start(self, server_config):
         set_server_configuration(server_config)
         # print(dpf.core.SERVER_CONFIGURATION)
@@ -320,6 +321,7 @@ def test_go_away_server():
     reason="Not existing in version lower than 4.0",
 )
 @pytest.mark.skipif(running_docker, reason="Unstable on Docker")
+@pytest.mark.skip(reason="affecting parallel runs in CI")
 def test_start_after_shutting_down_server():
     remote_server = start_local_server(
         config=dpf.core.AvailableServerConfigs.GrpcServer, as_global=False
