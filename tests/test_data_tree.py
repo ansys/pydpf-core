@@ -168,7 +168,6 @@ def test_write_data_tree():
 
 
 @conftest.raises_for_servers_version_under("4.0")
-@pytest.mark.skip(reason="affecting parallel runs in CI")
 def test_write_to_file_data_tree(tmpdir, server_type):
     data_tree = dpf.DataTree(server=server_type)
     with data_tree.to_fill() as to_fill:
@@ -232,7 +231,6 @@ def test_write_to_file_remote_data_tree(tmpdir, server_clayer_remote_process):
 
 
 @conftest.raises_for_servers_version_under("4.0")
-@pytest.mark.skip(reason="affecting parallel runs in CI")
 def test_read_from_txt_data_tree(server_type):
     data_tree = dpf.DataTree(server=server_type)
     with data_tree.to_fill() as to_fill:

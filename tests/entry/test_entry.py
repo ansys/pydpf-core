@@ -139,7 +139,6 @@ def test_apply_context_remote(remote_config_server_type):
 
 @pytest.mark.order(5)
 @conftest.raises_for_servers_version_under("4.0")
-@pytest.mark.skip(reason="affecting parallel runs in CI")
 def test_runtime_client_no_server(remote_config_server_type):
     dpf.server.shutdown_all_session_servers()
     dpf.SERVER_CONFIGURATION = remote_config_server_type
