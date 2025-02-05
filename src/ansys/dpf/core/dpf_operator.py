@@ -681,7 +681,7 @@ class Operator:
         return self._id
 
     @property
-    def inputs(self):
+    def inputs(self) -> Inputs:
         """Inputs connected to the operator.
 
         Returns
@@ -703,7 +703,7 @@ class Operator:
         return self._inputs
 
     @property
-    def outputs(self):
+    def outputs(self) -> Outputs:
         """Outputs from the operator's evaluation.
 
         Returns
