@@ -63,6 +63,7 @@ class Input:
                 self._python_expected_types.append(map_types_to_python[cpp_type])
         if len(self._spec.type_names) == 0:
             self._python_expected_types.append("Any")
+        self.aliases = self._spec.aliases
         docstr = self.__str__()
         self.name = self._spec.name
         if self._count_ellipsis != -1:
@@ -187,6 +188,8 @@ class Input:
             docstr += "\n".join(wrap(self._spec.document.capitalize())) + "\n"
         if self._count_ellipsis >= 0:
             docstr += "is ellipsis\n"
+        if self.aliases:
+            docstr += f"aliases: {self.aliases}\n"
         return docstr
 
     def __inc_if_ellipsis(self):
@@ -316,6 +319,9 @@ class _Inputs:
 
     def __call__(self, inpt):
         self.connect(inpt)
+
+    def __getitem__(self, item) -> Input:
+        return self._inputs[item]
 
 
 # Dynamic class Inputs
