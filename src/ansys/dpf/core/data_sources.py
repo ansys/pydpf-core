@@ -133,6 +133,7 @@ class DataSources:
         >>> data_sources = dpf.DataSources()
         >>> data_sources.set_result_file_path('/tmp/file.rst')
         >>> data_sources.result_files
+        ['...tmp...file.rst']
 
         """
         filepath = Path(filepath)
