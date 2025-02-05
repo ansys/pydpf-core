@@ -211,6 +211,14 @@ class Inputs{{capital_class_name}}(_Inputs):
 
     {{/input_pins}}
 
+    def __getattr__(self, name):
+        {{#input_pins}}
+        {{#has_aliases}}
+        if name in {{{aliases}}}:
+            return self.{{name}}
+        {{/has_aliases}}
+        {{/input_pins}}
+
 
 class Outputs{{capital_class_name}}(_Outputs):
     """Intermediate class used to get outputs from
