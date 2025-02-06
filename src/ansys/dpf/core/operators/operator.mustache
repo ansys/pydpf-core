@@ -218,6 +218,7 @@ class Inputs{{capital_class_name}}(_Inputs):
             return self.{{name}}
         {{/has_aliases}}
         {{/input_pins}}
+        raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{name}'")
 
 
 class Outputs{{capital_class_name}}(_Outputs):
@@ -272,3 +273,12 @@ class Outputs{{capital_class_name}}(_Outputs):
         """ # noqa: E501
         return self._{{name}}
     {{/multiple_types}}{{/output_pins}}
+
+    def __getattr__(self, name):
+        {{#output_pins}}
+        {{#has_aliases}}
+        if name in {{{aliases}}}:
+            return self.{{name}}
+        {{/has_aliases}}
+        {{/output_pins}}
+        raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{name}'")
