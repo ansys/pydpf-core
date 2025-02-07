@@ -215,10 +215,11 @@ class Inputs{{capital_class_name}}(_Inputs):
         {{#input_pins}}
         {{#has_aliases}}
         if name in {{{aliases}}}:
+            warn(DeprecationWarning(f"Operator {{class_name}}: Input name \"{name}\" is deprecated in favor of \"{{name}}\"."))
             return self.{{name}}
         {{/has_aliases}}
         {{/input_pins}}
-        raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{name}'")
+        raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{name}'.")
 
 
 class Outputs{{capital_class_name}}(_Outputs):
@@ -278,7 +279,8 @@ class Outputs{{capital_class_name}}(_Outputs):
         {{#output_pins}}
         {{#has_aliases}}
         if name in {{{aliases}}}:
+            warn(DeprecationWarning(f"Operator {{class_name}}: Output name \"{name}\" is deprecated in favor of \"{{name}}\"."))
             return self.{{name}}
         {{/has_aliases}}
         {{/output_pins}}
-        raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{name}'")
+        raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{name}'.")
