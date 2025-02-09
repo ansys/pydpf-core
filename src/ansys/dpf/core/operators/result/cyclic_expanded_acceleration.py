@@ -12,7 +12,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class cyclic_expanded_acceleration(Operator):
-    """Read acceleration from an rst file and expand it with cyclic symmetry.
+    """This operator is deprecated: use the operator acceleration with the
+    read_cyclic pin instead. Read acceleration from an rst file and
+    expand it with cyclic symmetry.
 
     Parameters
     ----------
@@ -171,9 +173,9 @@ class cyclic_expanded_acceleration(Operator):
 
     @staticmethod
     def _spec():
-        description = (
-            """Read acceleration from an rst file and expand it with cyclic symmetry."""
-        )
+        description = """This operator is deprecated: use the operator acceleration with the
+            read_cyclic pin instead. Read acceleration from an rst
+            file and expand it with cyclic symmetry."""
         spec = Specification(
             description=description,
             map_input_pin_spec={

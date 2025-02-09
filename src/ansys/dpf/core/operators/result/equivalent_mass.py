@@ -59,12 +59,6 @@ class equivalent_mass(Operator):
     mesh : MeshedRegion or MeshesContainer, optional
         Prevents from reading the mesh in the result
         files
-    read_cyclic : int, optional
-        If 0 cyclic symmetry is ignored, if 1 cyclic
-        sector is read, if 2 cyclic expansion
-        is done, if 3 cyclic expansion is
-        done and stages are merged (default
-        is 1)
 
     Returns
     -------
@@ -92,8 +86,6 @@ class equivalent_mass(Operator):
     >>> op.inputs.all_dofs.connect(my_all_dofs)
     >>> my_mesh = dpf.MeshedRegion()
     >>> op.inputs.mesh.connect(my_mesh)
-    >>> my_read_cyclic = int()
-    >>> op.inputs.read_cyclic.connect(my_read_cyclic)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.equivalent_mass(
@@ -104,7 +96,6 @@ class equivalent_mass(Operator):
     ...     data_sources=my_data_sources,
     ...     all_dofs=my_all_dofs,
     ...     mesh=my_mesh,
-    ...     read_cyclic=my_read_cyclic,
     ... )
 
     >>> # Get output data
@@ -120,7 +111,6 @@ class equivalent_mass(Operator):
         data_sources=None,
         all_dofs=None,
         mesh=None,
-        read_cyclic=None,
         config=None,
         server=None,
     ):
@@ -141,8 +131,6 @@ class equivalent_mass(Operator):
             self.inputs.all_dofs.connect(all_dofs)
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
-        if read_cyclic is not None:
-            self.inputs.read_cyclic.connect(read_cyclic)
 
     @staticmethod
     def _spec():
@@ -228,16 +216,6 @@ class equivalent_mass(Operator):
                     document="""Prevents from reading the mesh in the result
         files""",
                 ),
-                14: PinSpecification(
-                    name="read_cyclic",
-                    type_names=["enum dataProcessing::ECyclicReading", "int32"],
-                    optional=True,
-                    document="""If 0 cyclic symmetry is ignored, if 1 cyclic
-        sector is read, if 2 cyclic expansion
-        is done, if 3 cyclic expansion is
-        done and stages are merged (default
-        is 1)""",
-                ),
             },
             map_output_pin_spec={
                 0: PinSpecification(
@@ -309,8 +287,6 @@ class InputsEquivalentMass(_Inputs):
     >>> op.inputs.all_dofs.connect(my_all_dofs)
     >>> my_mesh = dpf.MeshedRegion()
     >>> op.inputs.mesh.connect(my_mesh)
-    >>> my_read_cyclic = int()
-    >>> op.inputs.read_cyclic.connect(my_read_cyclic)
     """
 
     def __init__(self, op: Operator):
@@ -329,8 +305,6 @@ class InputsEquivalentMass(_Inputs):
         self._inputs.append(self._all_dofs)
         self._mesh = Input(equivalent_mass._spec().input_pin(7), 7, op, -1)
         self._inputs.append(self._mesh)
-        self._read_cyclic = Input(equivalent_mass._spec().input_pin(14), 14, op, -1)
-        self._inputs.append(self._read_cyclic)
 
     @property
     def time_scoping(self):
@@ -499,30 +473,6 @@ class InputsEquivalentMass(_Inputs):
         >>> op.inputs.mesh(my_mesh)
         """
         return self._mesh
-
-    @property
-    def read_cyclic(self):
-        """Allows to connect read_cyclic input to the operator.
-
-        If 0 cyclic symmetry is ignored, if 1 cyclic
-        sector is read, if 2 cyclic expansion
-        is done, if 3 cyclic expansion is
-        done and stages are merged (default
-        is 1)
-
-        Parameters
-        ----------
-        my_read_cyclic : int
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.result.equivalent_mass()
-        >>> op.inputs.read_cyclic.connect(my_read_cyclic)
-        >>> # or
-        >>> op.inputs.read_cyclic(my_read_cyclic)
-        """
-        return self._read_cyclic
 
 
 class OutputsEquivalentMass(_Outputs):

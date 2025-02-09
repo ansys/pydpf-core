@@ -20,17 +20,18 @@ class identical_fields(Operator):
     fieldB : Field
     double_value : float, optional
         Double positive small value. smallest value
-        which will be considered during the
-        comparison step. all the abs(values)
-        in the field less than this value are
-        considered as null, (default
-        value:1.0e-14).
+        considered during the comparison
+        step. all the absolute values in the
+        field less than this value are
+        considered null, (default value:
+        1.0e-14).
     double_tolerance : float, optional
         Double relative tolerance. maximum tolerance
         gap between two compared values.
         values within relative tolerance are
-        considered identical(v1 - v2) / v2 <
-        relativetol(default is 0.001).
+        considered identical. formula is (v1
+        - v2) / v2 < relativetol. default is
+        0.001.
 
     Returns
     -------
@@ -77,7 +78,7 @@ class identical_fields(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="AreFieldsIdentical", config=config, server=server)
+        super().__init__(name="compare::field", config=config, server=server)
         self._inputs = InputsIdenticalFields(self)
         self._outputs = OutputsIdenticalFields(self)
         if fieldA is not None:
@@ -112,11 +113,11 @@ class identical_fields(Operator):
                     type_names=["double"],
                     optional=True,
                     document="""Double positive small value. smallest value
-        which will be considered during the
-        comparison step. all the abs(values)
-        in the field less than this value are
-        considered as null, (default
-        value:1.0e-14).""",
+        considered during the comparison
+        step. all the absolute values in the
+        field less than this value are
+        considered null, (default value:
+        1.0e-14).""",
                 ),
                 3: PinSpecification(
                     name="double_tolerance",
@@ -125,8 +126,9 @@ class identical_fields(Operator):
                     document="""Double relative tolerance. maximum tolerance
         gap between two compared values.
         values within relative tolerance are
-        considered identical(v1 - v2) / v2 <
-        relativetol(default is 0.001).""",
+        considered identical. formula is (v1
+        - v2) / v2 < relativetol. default is
+        0.001.""",
                 ),
             },
             map_output_pin_spec={
@@ -160,7 +162,7 @@ class identical_fields(Operator):
             Server with channel connected to the remote or local instance. When
             ``None``, attempts to use the global server.
         """
-        return Operator.default_config(name="AreFieldsIdentical", server=server)
+        return Operator.default_config(name="compare::field", server=server)
 
     @property
     def inputs(self):
@@ -253,11 +255,11 @@ class InputsIdenticalFields(_Inputs):
         """Allows to connect double_value input to the operator.
 
         Double positive small value. smallest value
-        which will be considered during the
-        comparison step. all the abs(values)
-        in the field less than this value are
-        considered as null, (default
-        value:1.0e-14).
+        considered during the comparison
+        step. all the absolute values in the
+        field less than this value are
+        considered null, (default value:
+        1.0e-14).
 
         Parameters
         ----------
@@ -280,8 +282,9 @@ class InputsIdenticalFields(_Inputs):
         Double relative tolerance. maximum tolerance
         gap between two compared values.
         values within relative tolerance are
-        considered identical(v1 - v2) / v2 <
-        relativetol(default is 0.001).
+        considered identical. formula is (v1
+        - v2) / v2 < relativetol. default is
+        0.001.
 
         Parameters
         ----------

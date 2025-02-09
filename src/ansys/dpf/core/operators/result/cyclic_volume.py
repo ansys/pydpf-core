@@ -12,7 +12,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class cyclic_volume(Operator):
-    """Read mapdl::rst::ENG_VOL from an rst file.
+    """This operator is deprecated: use the operator mapdl::rst::ENG_VOL with
+    the read_cyclic pin instead. Read mapdl::rst::ENG_VOL from an rst
+    file and expand it with cyclic symmetry.
 
     Parameters
     ----------
@@ -148,7 +150,9 @@ class cyclic_volume(Operator):
 
     @staticmethod
     def _spec():
-        description = """Read mapdl::rst::ENG_VOL from an rst file."""
+        description = """This operator is deprecated: use the operator mapdl::rst::ENG_VOL with
+            the read_cyclic pin instead. Read mapdl::rst::ENG_VOL from
+            an rst file and expand it with cyclic symmetry."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
