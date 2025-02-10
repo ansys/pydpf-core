@@ -64,7 +64,7 @@ ignored_pattern += "|11-server_types.py"
 ignored_pattern += "|06-distributed_stress_averaging.py"
 # ignored_pattern += "|00-wrapping_numpy_capabilities.py"
 # ignored_pattern += "|01-package_python_operators.py"
-ignored_pattern += "|02-python_operators_with_dependencies.py"
+# ignored_pattern += "|02-python_operators_with_dependencies.py"
 ignored_pattern += r")"
 
 # Autoapi ignore pattern
