@@ -60,8 +60,8 @@ class contact_penetration(Operator):
         If true the field is rotated to global
         coordinate system (default true)
     mesh : MeshedRegion or MeshesContainer, optional
-        Prevents from reading the mesh in the result
-        files
+        Mesh. if cylic expansion is to be done, mesh
+        of the base sector
     requested_location : str, optional
         Requested location nodal, elemental or
         elementalnodal
@@ -71,6 +71,17 @@ class contact_penetration(Operator):
         is done, if 3 cyclic expansion is
         done and stages are merged (default
         is 1)
+    expanded_meshed_region : MeshedRegion or MeshesContainer, optional
+        Mesh expanded, use if cyclic expansion is to
+        be done.
+    sectors_to_expand : Scoping or ScopingsContainer, optional
+        Sectors to expand (start at 0), for
+        multistage: use scopings container
+        with 'stage' label, use if cyclic
+        expansion is to be done.
+    phi : float, optional
+        Angle phi in degrees (default value 0.0), use
+        if cyclic expansion is to be done.
     read_beams : bool, optional
         Elemental nodal beam results are read if this
         pin is set to true (default is false)
@@ -122,6 +133,12 @@ class contact_penetration(Operator):
     >>> op.inputs.requested_location.connect(my_requested_location)
     >>> my_read_cyclic = int()
     >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+    >>> my_expanded_meshed_region = dpf.MeshedRegion()
+    >>> op.inputs.expanded_meshed_region.connect(my_expanded_meshed_region)
+    >>> my_sectors_to_expand = dpf.Scoping()
+    >>> op.inputs.sectors_to_expand.connect(my_sectors_to_expand)
+    >>> my_phi = float()
+    >>> op.inputs.phi.connect(my_phi)
     >>> my_read_beams = bool()
     >>> op.inputs.read_beams.connect(my_read_beams)
     >>> my_split_shells = bool()
@@ -140,6 +157,9 @@ class contact_penetration(Operator):
     ...     mesh=my_mesh,
     ...     requested_location=my_requested_location,
     ...     read_cyclic=my_read_cyclic,
+    ...     expanded_meshed_region=my_expanded_meshed_region,
+    ...     sectors_to_expand=my_sectors_to_expand,
+    ...     phi=my_phi,
     ...     read_beams=my_read_beams,
     ...     split_shells=my_split_shells,
     ...     shell_layer=my_shell_layer,
@@ -160,6 +180,9 @@ class contact_penetration(Operator):
         mesh=None,
         requested_location=None,
         read_cyclic=None,
+        expanded_meshed_region=None,
+        sectors_to_expand=None,
+        phi=None,
         read_beams=None,
         split_shells=None,
         shell_layer=None,
@@ -187,6 +210,12 @@ class contact_penetration(Operator):
             self.inputs.requested_location.connect(requested_location)
         if read_cyclic is not None:
             self.inputs.read_cyclic.connect(read_cyclic)
+        if expanded_meshed_region is not None:
+            self.inputs.expanded_meshed_region.connect(expanded_meshed_region)
+        if sectors_to_expand is not None:
+            self.inputs.sectors_to_expand.connect(sectors_to_expand)
+        if phi is not None:
+            self.inputs.phi.connect(phi)
         if read_beams is not None:
             self.inputs.read_beams.connect(read_beams)
         if split_shells is not None:
@@ -278,8 +307,8 @@ class contact_penetration(Operator):
                     name="mesh",
                     type_names=["abstract_meshed_region", "meshes_container"],
                     optional=True,
-                    document="""Prevents from reading the mesh in the result
-        files""",
+                    document="""Mesh. if cylic expansion is to be done, mesh
+        of the base sector""",
                 ),
                 9: PinSpecification(
                     name="requested_location",
@@ -297,6 +326,29 @@ class contact_penetration(Operator):
         is done, if 3 cyclic expansion is
         done and stages are merged (default
         is 1)""",
+                ),
+                15: PinSpecification(
+                    name="expanded_meshed_region",
+                    type_names=["abstract_meshed_region", "meshes_container"],
+                    optional=True,
+                    document="""Mesh expanded, use if cyclic expansion is to
+        be done.""",
+                ),
+                18: PinSpecification(
+                    name="sectors_to_expand",
+                    type_names=["vector<int32>", "scoping", "scopings_container"],
+                    optional=True,
+                    document="""Sectors to expand (start at 0), for
+        multistage: use scopings container
+        with 'stage' label, use if cyclic
+        expansion is to be done.""",
+                ),
+                19: PinSpecification(
+                    name="phi",
+                    type_names=["double"],
+                    optional=True,
+                    document="""Angle phi in degrees (default value 0.0), use
+        if cyclic expansion is to be done.""",
                 ),
                 22: PinSpecification(
                     name="read_beams",
@@ -405,6 +457,12 @@ class InputsContactPenetration(_Inputs):
     >>> op.inputs.requested_location.connect(my_requested_location)
     >>> my_read_cyclic = int()
     >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+    >>> my_expanded_meshed_region = dpf.MeshedRegion()
+    >>> op.inputs.expanded_meshed_region.connect(my_expanded_meshed_region)
+    >>> my_sectors_to_expand = dpf.Scoping()
+    >>> op.inputs.sectors_to_expand.connect(my_sectors_to_expand)
+    >>> my_phi = float()
+    >>> op.inputs.phi.connect(my_phi)
     >>> my_read_beams = bool()
     >>> op.inputs.read_beams.connect(my_read_beams)
     >>> my_split_shells = bool()
@@ -441,6 +499,16 @@ class InputsContactPenetration(_Inputs):
         self._inputs.append(self._requested_location)
         self._read_cyclic = Input(contact_penetration._spec().input_pin(14), 14, op, -1)
         self._inputs.append(self._read_cyclic)
+        self._expanded_meshed_region = Input(
+            contact_penetration._spec().input_pin(15), 15, op, -1
+        )
+        self._inputs.append(self._expanded_meshed_region)
+        self._sectors_to_expand = Input(
+            contact_penetration._spec().input_pin(18), 18, op, -1
+        )
+        self._inputs.append(self._sectors_to_expand)
+        self._phi = Input(contact_penetration._spec().input_pin(19), 19, op, -1)
+        self._inputs.append(self._phi)
         self._read_beams = Input(contact_penetration._spec().input_pin(22), 22, op, -1)
         self._inputs.append(self._read_beams)
         self._split_shells = Input(
@@ -602,8 +670,8 @@ class InputsContactPenetration(_Inputs):
     def mesh(self):
         """Allows to connect mesh input to the operator.
 
-        Prevents from reading the mesh in the result
-        files
+        Mesh. if cylic expansion is to be done, mesh
+        of the base sector
 
         Parameters
         ----------
@@ -663,6 +731,71 @@ class InputsContactPenetration(_Inputs):
         >>> op.inputs.read_cyclic(my_read_cyclic)
         """
         return self._read_cyclic
+
+    @property
+    def expanded_meshed_region(self):
+        """Allows to connect expanded_meshed_region input to the operator.
+
+        Mesh expanded, use if cyclic expansion is to
+        be done.
+
+        Parameters
+        ----------
+        my_expanded_meshed_region : MeshedRegion or MeshesContainer
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.contact_penetration()
+        >>> op.inputs.expanded_meshed_region.connect(my_expanded_meshed_region)
+        >>> # or
+        >>> op.inputs.expanded_meshed_region(my_expanded_meshed_region)
+        """
+        return self._expanded_meshed_region
+
+    @property
+    def sectors_to_expand(self):
+        """Allows to connect sectors_to_expand input to the operator.
+
+        Sectors to expand (start at 0), for
+        multistage: use scopings container
+        with 'stage' label, use if cyclic
+        expansion is to be done.
+
+        Parameters
+        ----------
+        my_sectors_to_expand : Scoping or ScopingsContainer
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.contact_penetration()
+        >>> op.inputs.sectors_to_expand.connect(my_sectors_to_expand)
+        >>> # or
+        >>> op.inputs.sectors_to_expand(my_sectors_to_expand)
+        """
+        return self._sectors_to_expand
+
+    @property
+    def phi(self):
+        """Allows to connect phi input to the operator.
+
+        Angle phi in degrees (default value 0.0), use
+        if cyclic expansion is to be done.
+
+        Parameters
+        ----------
+        my_phi : float
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.contact_penetration()
+        >>> op.inputs.phi.connect(my_phi)
+        >>> # or
+        >>> op.inputs.phi(my_phi)
+        """
+        return self._phi
 
     @property
     def read_beams(self):
