@@ -20,17 +20,18 @@ class included_fields(Operator):
     fieldB : Field
     double_value : float
         Double positive small value. smallest value
-        which will be considered during the
-        comparison step. all the abs(values)
-        in the field less than this value are
-        considered as null, (default
-        value:1.0e-14).
+        considered during the comparison
+        step. all the absolute values in the
+        field less than this value are
+        considered null, (default value:
+        1.0e-14).
     double_tolerance : float, optional
         Double relative tolerance. maximum tolerance
         gap between two compared values.
         values within relative tolerance are
-        considered identical (v1-v2)/v2 <
-        relativetol (default is 0.001).
+        considered identical. formula is
+        (v1-v2)/v2 < relativetol. default is
+        0.001.
 
     Returns
     -------
@@ -112,11 +113,11 @@ class included_fields(Operator):
                     type_names=["double"],
                     optional=False,
                     document="""Double positive small value. smallest value
-        which will be considered during the
-        comparison step. all the abs(values)
-        in the field less than this value are
-        considered as null, (default
-        value:1.0e-14).""",
+        considered during the comparison
+        step. all the absolute values in the
+        field less than this value are
+        considered null, (default value:
+        1.0e-14).""",
                 ),
                 3: PinSpecification(
                     name="double_tolerance",
@@ -125,8 +126,9 @@ class included_fields(Operator):
                     document="""Double relative tolerance. maximum tolerance
         gap between two compared values.
         values within relative tolerance are
-        considered identical (v1-v2)/v2 <
-        relativetol (default is 0.001).""",
+        considered identical. formula is
+        (v1-v2)/v2 < relativetol. default is
+        0.001.""",
                 ),
             },
             map_output_pin_spec={
@@ -253,11 +255,11 @@ class InputsIncludedFields(_Inputs):
         """Allows to connect double_value input to the operator.
 
         Double positive small value. smallest value
-        which will be considered during the
-        comparison step. all the abs(values)
-        in the field less than this value are
-        considered as null, (default
-        value:1.0e-14).
+        considered during the comparison
+        step. all the absolute values in the
+        field less than this value are
+        considered null, (default value:
+        1.0e-14).
 
         Parameters
         ----------
@@ -280,8 +282,9 @@ class InputsIncludedFields(_Inputs):
         Double relative tolerance. maximum tolerance
         gap between two compared values.
         values within relative tolerance are
-        considered identical (v1-v2)/v2 <
-        relativetol (default is 0.001).
+        considered identical. formula is
+        (v1-v2)/v2 < relativetol. default is
+        0.001.
 
         Parameters
         ----------
