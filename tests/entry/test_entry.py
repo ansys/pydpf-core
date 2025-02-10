@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -23,11 +23,11 @@
 import os
 
 import pytest
-import conftest
 
 import ansys.dpf.core as dpf
 from ansys.dpf.core import examples
 from ansys.dpf.core.core import errors
+import conftest
 from conftest import running_docker
 
 

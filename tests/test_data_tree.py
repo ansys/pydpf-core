@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -20,9 +20,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from ansys.dpf import core as dpf
 import os
+from pathlib import Path
+
 import pytest
+
+from ansys.dpf import core as dpf
 import conftest
 
 
@@ -174,16 +177,16 @@ def test_write_to_file_data_tree(tmpdir, server_type):
         to_fill.list_int = [1, 2]
         to_fill.list_double = [1.5, 2.5]
         to_fill.list_string = ["hello", "bye"]
-    data_tree.write_to_txt(os.path.join(tmpdir, "file.txt"))
-    data_tree = dpf.DataTree.read_from_txt(os.path.join(tmpdir, "file.txt"), server=server_type)
+    data_tree.write_to_txt(str(Path(tmpdir) / "file.txt"))
+    data_tree = dpf.DataTree.read_from_txt(str(Path(tmpdir) / "file.txt"), server=server_type)
     assert data_tree.has("int")
     assert data_tree.has("double")
     assert data_tree.has("string")
     assert data_tree.has("list_int")
     assert data_tree.has("list_double")
     assert data_tree.has("list_string")
-    data_tree.write_to_json(os.path.join(tmpdir, "file.json"))
-    data_tree = dpf.DataTree.read_from_json(os.path.join(tmpdir, "file.json"), server=server_type)
+    data_tree.write_to_json(str(Path(tmpdir) / "file.json"))
+    data_tree = dpf.DataTree.read_from_json(str(Path(tmpdir) / "file.json"), server=server_type)
     assert data_tree.has("int")
     assert data_tree.has("double")
     assert data_tree.has("string")
@@ -207,19 +210,17 @@ def test_write_to_file_remote_data_tree(tmpdir, server_clayer_remote_process):
         to_fill.list_int = [1, 2]
         to_fill.list_double = [1.5, 2.5]
         to_fill.list_string = ["hello", "bye"]
-    data_tree.write_to_txt(os.path.join(tmpdir, "file.txt"))
-    data_tree = dpf.DataTree.read_from_txt(
-        os.path.join(tmpdir, "file.txt"), server=server_connected
-    )
+    data_tree.write_to_txt(str(Path(tmpdir) / "file.txt"))
+    data_tree = dpf.DataTree.read_from_txt(str(Path(tmpdir) / "file.txt"), server=server_connected)
     assert data_tree.has("int")
     assert data_tree.has("double")
     assert data_tree.has("string")
     assert data_tree.has("list_int")
     assert data_tree.has("list_double")
     assert data_tree.has("list_string")
-    data_tree.write_to_json(os.path.join(tmpdir, "file.json"))
+    data_tree.write_to_json(str(Path(tmpdir) / "file.json"))
     data_tree = dpf.DataTree.read_from_json(
-        os.path.join(tmpdir, "file.json"), server=server_connected
+        str(Path(tmpdir) / "file.json"), server=server_connected
     )
     assert data_tree.has("int")
     assert data_tree.has("double")

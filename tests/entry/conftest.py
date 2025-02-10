@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -28,17 +28,18 @@ Launch or connect to a persistent local Entry DPF server to be shared in
 pytest as a session fixture
 """
 
-import os
 import functools
+import os
+from pathlib import Path
+
 import pytest
 
 os.environ["ANSYS_DPF_SERVER_CONTEXT"] = "ENTRY"  # MANDATORY
 
-import ansys.dpf.core.server_types
 from ansys.dpf import core
-from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
-from ansys.dpf.core.check_version import meets_version, get_server_version
-
+from ansys.dpf.core.check_version import get_server_version, meets_version
+from ansys.dpf.core.server_factory import CommunicationProtocols, ServerConfig
+import ansys.dpf.core.server_types
 
 core.set_default_server_context(core.AvailableServerContexts.entry)  # MANDATORY
 
@@ -54,10 +55,10 @@ local_test_repo = False
 
 def _get_test_files_directory():
     if local_test_repo is False:
-        test_path = os.path.join(os.path.dirname(os.path.abspath(__file__)))
-        return os.path.join(test_path, os.pardir, "tests", "testfiles")
+        test_path = Path(__file__).parent
+        return str(test_path.parent / "testfiles")
     else:
-        return os.path.join(os.environ["AWP_UNIT_TEST_FILES"], "python")
+        return str(Path(os.environ["AWP_UNIT_TEST_FILES"]).joinpath("python"))
 
 
 if os.name == "posix":

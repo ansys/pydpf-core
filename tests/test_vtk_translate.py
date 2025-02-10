@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -21,18 +21,19 @@
 # SOFTWARE.
 
 import pytest
-import conftest
+
 import ansys.dpf.core as dpf
 from ansys.dpf.core import errors, misc
 from ansys.dpf.core.vtk_helper import (
-    dpf_mesh_to_vtk,
-    dpf_field_to_vtk,
-    dpf_meshes_to_vtk,
-    dpf_fieldscontainer_to_vtk,
-    dpf_property_field_to_vtk,
     append_field_to_grid,
     append_fieldscontainer_to_grid,
+    dpf_field_to_vtk,
+    dpf_fieldscontainer_to_vtk,
+    dpf_mesh_to_vtk,
+    dpf_meshes_to_vtk,
+    dpf_property_field_to_vtk,
 )
+import conftest
 
 if misc.module_exists("pyvista"):
     HAS_PYVISTA = True

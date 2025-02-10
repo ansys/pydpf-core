@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -20,23 +20,21 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""
-.. _ref_inputs:
+"""Inputs."""
 
-Inputs
-======
-"""
-
-import weakref
 from textwrap import wrap
-from ansys.dpf.core.mapping_types import map_types_to_python
-from ansys.dpf.core.outputs import _Outputs, Output
+import warnings
+import weakref
+
 from ansys.dpf import core
+from ansys.dpf.core.mapping_types import map_types_to_python
+from ansys.dpf.core.outputs import Output, _Outputs
 
 
 class Input:
     """
     Intermediate class internally instantiated by the :class:`ansys.dpf.core.dpf_operator.Operator`.
+
     Used to connect inputs to the Operator.
 
     Examples
@@ -115,7 +113,7 @@ class Input:
             self._python_expected_types, inpt, self._pin, corresponding_pins
         )
         if len(corresponding_pins) > 1:
-            err_str = "Pin connection is ambiguous, specify the pin with:\n"
+            err_str = "Pin connection is ambiguous, specify the input to connect to with:\n"
             for pin in corresponding_pins:
                 err_str += (
                     "   - operator.inputs."
@@ -124,7 +122,9 @@ class Input:
                     + inpt._dict_outputs[pin[1]].name
                     + ")"
                 )
-            raise ValueError(err_str)
+            err_str += "Connecting to first input in the list.\n"
+            warnings.warn(message=err_str)
+            corresponding_pins = [corresponding_pins[0]]
 
         if len(corresponding_pins) == 0:
             err_str = (
@@ -158,6 +158,7 @@ class Input:
         self.__inc_if_ellipsis()
 
     def __call__(self, inpt):
+        """Allow instances to be called like a function."""
         self.connect(inpt)
 
     def _update_doc_str(self, docstr, class_name):
@@ -173,6 +174,7 @@ class Input:
         self.__class__ = child_class
 
     def __str__(self):
+        """Provide detailed string representation of the class."""
         docstr = self._spec.name + " : "
         type_info = self._python_expected_types.copy()
         if self._spec.optional:
@@ -216,7 +218,11 @@ class _Inputs:
 
     def connect(self, inpt):
         """Connect any input (an entity or an operator output) to any input pin of this operator.
+
         Searches for the input type corresponding to the output.
+
+        .. deprecated::
+            Deprecated in favor of explicit output-to-input connections.
 
         Parameters
         ----------
@@ -225,6 +231,10 @@ class _Inputs:
             Input of the operator.
 
         """
+        warnings.warn(
+            message="Use explicit output-to-input connections.", category=DeprecationWarning
+        )
+
         from pathlib import Path
 
         corresponding_pins = []
@@ -250,12 +260,14 @@ class _Inputs:
                 corresponding_pins,
             )
         if len(corresponding_pins) > 1:
-            err_str = "Pin connection is ambiguous, specify the pin with:\n"
+            err_str = "Pin connection is ambiguous, specify the input to connect to with:\n"
             for pin in corresponding_pins:
                 if isinstance(pin, tuple):
                     pin = pin[0]
                 err_str += "   - operator.inputs." + self._dict_inputs[pin].name + "(input)\n"
-            raise ValueError(err_str)
+            err_str += "Connecting to first input in the list.\n"
+            warnings.warn(message=err_str)
+            corresponding_pins = [corresponding_pins[0]]
 
         if len(corresponding_pins) == 0:
             err_str = "The input should have one of the expected types:\n"
@@ -305,6 +317,7 @@ class _Inputs:
 class Inputs(_Inputs):
     """
     Intermediate class internally instantiated by the :class:`ansys.dpf.core.dpf_operator.Operator`.
+
     Used to connect inputs to the Operator by automatically
     checking types to connect correct inputs.
 

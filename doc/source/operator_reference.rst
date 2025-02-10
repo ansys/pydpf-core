@@ -4,16 +4,7 @@
 Operators
 =========
 
-DPF operators provide for manipulating and transforming simulation data.
-
-From DPF Server for Ansys 2023 R2 and later, the licensing logic for operators in DPF depend on the active
-`ServerContext <https://dpf.docs.pyansys.com/api/ansys.dpf.core.server_context.html#servercontext>`_.
-
-The available contexts are **Premium** and **Entry**.
-Licensed operators are marked as in the documentation using the ``license`` property.
-Operators with the ``license`` property as **None** do not require a license check-out.
-For more information about using these two contexts, see :ref:`user_guide_server_context`.
-Click below to access the operators documentation.
+DPF operators allow you to manipulate and transform simulation data.
 
 .. grid:: 1
 
@@ -32,9 +23,17 @@ Click below to access the operators documentation.
                :click-parent:              
 
 
+For Ansys 2023 R2 and later, the DPF Server licensing logic for operators in DPF depends on the active
+`server context <https://dpf.docs.pyansys.com/version/stable/api/ansys.dpf.core.server_context.html#ansys.dpf.core.server_context.ServerContext>`_.
+
+The available contexts are **Premium** and **Entry**.
+Licensed operators are marked as such in the documentation using the ``license`` property.
+Operators with the ``license`` property set to **None** do not require a license checkout.
+For more information on using these two contexts, see :ref:`user_guide_server_context`.
+
 .. note::
 
-    For Ansys 2023 R1 and earlier, the context is equivalent to Premium, with all operators loaded.
+    For Ansys 2023 R1 and earlier, the context is equivalent to **Premium**, with all operators loaded.
     For DPF Server 2023.2.pre0 specifically, the server context defines which operators are loaded and
     accessible. Use the `PyDPF-Core 0.7 operator documentation <https://dpf.docs.pyansys.com/version/0.7/operator_reference.html>`_ to learn more.
     Some operators in the documentation might not be available for a particular server version.

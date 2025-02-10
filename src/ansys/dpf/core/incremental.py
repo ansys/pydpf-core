@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -20,16 +20,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""
-.. _ref_incremental:
+"""Incremental."""
 
-Incremental
-===========
-"""
+from typing import Any, Dict
 
 from ansys.dpf import core
-
-from typing import Dict, Any
 
 
 class IncrementalHelper:
@@ -60,7 +55,7 @@ class IncrementalHelper:
         scoping: core.Scoping,
         scoping_pin: int = None,
     ):
-        """Constructs an IncrementalHelper object.
+        """Construct an IncrementalHelper object.
 
         Given the first and the last operator of a workflow, as well as the scoping.
 
@@ -140,8 +135,6 @@ class IncrementalHelper:
         raise NotImplementedError()
 
     def _prerun(self, _dict_inputs: Dict[int, Any]):
-        """"""
-
         for pin_idx, val in _dict_inputs.items():
             self._start_op.connect(pin_idx, val)
         self._start_op.run()
@@ -298,7 +291,7 @@ def split_workflow_in_chunks(
     scoping_pin: int = None,
     end_input_pin: int = 0,
 ):
-    """Transforms a workflow into an incrementally evaluating one.
+    """Transform a workflow into an incrementally evaluating one.
 
     It wraps in one method the functionality of the IncrementalHelper class as well
     as the estimation of the chunk size.

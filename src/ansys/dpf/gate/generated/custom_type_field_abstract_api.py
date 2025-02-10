@@ -72,6 +72,14 @@ class CustomTypeFieldAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def cscustom_type_field_set_data_with_collection(field, data):
+		raise NotImplementedError
+
+	@staticmethod
+	def cscustom_type_field_set_data_pointer_with_collection(field, data):
+		raise NotImplementedError
+
+	@staticmethod
 	def cscustom_type_field_resize(field, dataSize, scopingSize):
 		raise NotImplementedError
 

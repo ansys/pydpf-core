@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -20,13 +20,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import os.path
+from pathlib import Path
 
 import pytest
 
-from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
+from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0
 
 
 @pytest.fixture()
@@ -124,7 +124,7 @@ def test_vtk(server_type, tmpdir):
     u = model.operator("U")
     op.inputs.fields1.connect(u)
     op.inputs.mesh.connect(model.metadata.mesh_provider)
-    op.inputs.directory.connect(os.path.dirname(rst_file))
+    op.inputs.directory.connect(str(Path(rst_file).parent))
     out_path = op.eval()
     # assert out_path.result_files is not []
     # try:
