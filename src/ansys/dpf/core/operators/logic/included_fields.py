@@ -300,6 +300,11 @@ class InputsIncludedFields(_Inputs):
         """
         return self._double_tolerance
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsIncludedFields(_Outputs):
     """Intermediate class used to get outputs from
@@ -354,3 +359,8 @@ class OutputsIncludedFields(_Outputs):
         >>> result_message = op.outputs.message()
         """  # noqa: E501
         return self._message
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

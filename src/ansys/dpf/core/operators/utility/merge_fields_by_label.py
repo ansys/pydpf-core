@@ -291,6 +291,11 @@ class InputsMergeFieldsByLabel(_Inputs):
         """
         return self._sum_merge
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMergeFieldsByLabel(_Outputs):
     """Intermediate class used to get outputs from
@@ -349,3 +354,8 @@ class OutputsMergeFieldsByLabel(_Outputs):
         >>> result_merged_field_support = op.outputs.merged_field_support()
         """  # noqa: E501
         return self._merged_field_support
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

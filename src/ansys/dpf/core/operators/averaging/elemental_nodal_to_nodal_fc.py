@@ -506,6 +506,11 @@ class InputsElementalNodalToNodalFc(_Inputs):
         """
         return self._shell_layer
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsElementalNodalToNodalFc(_Outputs):
     """Intermediate class used to get outputs from
@@ -563,3 +568,8 @@ class OutputsElementalNodalToNodalFc(_Outputs):
         >>> result_weights = op.outputs.weights()
         """  # noqa: E501
         return self._weights
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -193,6 +193,11 @@ class InputsHtmlDoc(_Inputs):
         """
         return self._exposure_level
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsHtmlDoc(_Outputs):
     """Intermediate class used to get outputs from

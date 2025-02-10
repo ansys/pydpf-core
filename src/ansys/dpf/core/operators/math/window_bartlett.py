@@ -151,6 +151,11 @@ class InputsWindowBartlett(_Inputs):
         """
         return self._field
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsWindowBartlett(_Outputs):
     """Intermediate class used to get outputs from
@@ -182,3 +187,8 @@ class OutputsWindowBartlett(_Outputs):
             op,
         )
         self._outputs.append(self.field_as_fields_container)
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

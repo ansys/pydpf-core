@@ -145,6 +145,11 @@ class InputsJsonToDataTree(_Inputs):
         """
         return self._string_or_path
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsJsonToDataTree(_Outputs):
     """Intermediate class used to get outputs from
@@ -179,3 +184,8 @@ class OutputsJsonToDataTree(_Outputs):
         >>> result_data_tree = op.outputs.data_tree()
         """  # noqa: E501
         return self._data_tree
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

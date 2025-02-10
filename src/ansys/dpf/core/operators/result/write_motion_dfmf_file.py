@@ -825,6 +825,11 @@ class InputsWriteMotionDfmfFile(_Inputs):
         """
         return self._rstfile_path
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsWriteMotionDfmfFile(_Outputs):
     """Intermediate class used to get outputs from
@@ -861,3 +866,8 @@ class OutputsWriteMotionDfmfFile(_Outputs):
         >>> result_dfmf_data_source = op.outputs.dfmf_data_source()
         """  # noqa: E501
         return self._dfmf_data_source
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

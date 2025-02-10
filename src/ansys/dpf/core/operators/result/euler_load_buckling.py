@@ -318,6 +318,11 @@ class InputsEulerLoadBuckling(_Inputs):
         """
         return self._field_beam_length
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsEulerLoadBuckling(_Outputs):
     """Intermediate class used to get outputs from
@@ -398,3 +403,8 @@ class OutputsEulerLoadBuckling(_Outputs):
         >>> result_field_euler_critical_load_zz = op.outputs.field_euler_critical_load_zz()
         """  # noqa: E501
         return self._field_euler_critical_load_zz
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

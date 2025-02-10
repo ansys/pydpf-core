@@ -605,6 +605,11 @@ class InputsComputeTotalStrainY(_Inputs):
         """
         return self._displacement
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsComputeTotalStrainY(_Outputs):
     """Intermediate class used to get outputs from
@@ -641,3 +646,8 @@ class OutputsComputeTotalStrainY(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

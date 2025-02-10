@@ -256,6 +256,11 @@ class InputsMergePropertyFields(_Inputs):
         """
         return self._property_fields2
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMergePropertyFields(_Outputs):
     """Intermediate class used to get outputs from
@@ -292,3 +297,8 @@ class OutputsMergePropertyFields(_Outputs):
         >>> result_property_field = op.outputs.property_field()
         """  # noqa: E501
         return self._property_field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

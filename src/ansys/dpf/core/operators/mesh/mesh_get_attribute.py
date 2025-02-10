@@ -305,6 +305,11 @@ class InputsMeshGetAttribute(_Inputs):
         """
         return self._property_identifier
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMeshGetAttribute(_Outputs):
     """Intermediate class used to get outputs from
@@ -360,3 +365,8 @@ class OutputsMeshGetAttribute(_Outputs):
             op,
         )
         self._outputs.append(self.property_as_string_field)
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

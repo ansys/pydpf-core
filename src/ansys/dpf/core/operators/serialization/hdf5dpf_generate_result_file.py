@@ -644,6 +644,11 @@ class InputsHdf5DpfGenerateResultFile(_Inputs):
         """
         return self._input_name2
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsHdf5DpfGenerateResultFile(_Outputs):
     """Intermediate class used to get outputs from
@@ -680,3 +685,8 @@ class OutputsHdf5DpfGenerateResultFile(_Outputs):
         >>> result_data_sources = op.outputs.data_sources()
         """  # noqa: E501
         return self._data_sources
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

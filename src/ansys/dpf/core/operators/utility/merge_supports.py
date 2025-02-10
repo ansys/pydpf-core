@@ -257,6 +257,11 @@ class InputsMergeSupports(_Inputs):
         """
         return self._supports2
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMergeSupports(_Outputs):
     """Intermediate class used to get outputs from
@@ -291,3 +296,8 @@ class OutputsMergeSupports(_Outputs):
         >>> result_merged_support = op.outputs.merged_support()
         """  # noqa: E501
         return self._merged_support
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

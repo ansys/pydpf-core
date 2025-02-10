@@ -778,6 +778,11 @@ class InputsMembersInLinearCompressionBendingNotCertified(_Inputs):
         """
         return self._fabrication_type
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMembersInLinearCompressionBendingNotCertified(_Outputs):
     """Intermediate class used to get outputs from
@@ -820,3 +825,8 @@ class OutputsMembersInLinearCompressionBendingNotCertified(_Outputs):
         >>> result_buckling_resistance_linear_summation_utilization_ratios = op.outputs.buckling_resistance_linear_summation_utilization_ratios()
         """  # noqa: E501
         return self._buckling_resistance_linear_summation_utilization_ratios
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

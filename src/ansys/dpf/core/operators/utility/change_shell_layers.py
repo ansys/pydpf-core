@@ -304,6 +304,11 @@ class InputsChangeShellLayers(_Inputs):
         """
         return self._merge
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsChangeShellLayers(_Outputs):
     """Intermediate class used to get outputs from
@@ -335,3 +340,8 @@ class OutputsChangeShellLayers(_Outputs):
             op,
         )
         self._outputs.append(self.fields_container_as_field)
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

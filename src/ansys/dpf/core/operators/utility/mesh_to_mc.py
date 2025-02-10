@@ -193,6 +193,11 @@ class InputsMeshToMc(_Inputs):
         """
         return self._label
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMeshToMc(_Outputs):
     """Intermediate class used to get outputs from
@@ -227,3 +232,8 @@ class OutputsMeshToMc(_Outputs):
         >>> result_meshes_container = op.outputs.meshes_container()
         """  # noqa: E501
         return self._meshes_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

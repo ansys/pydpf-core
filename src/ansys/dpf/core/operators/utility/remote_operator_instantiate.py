@@ -326,6 +326,11 @@ class InputsRemoteOperatorInstantiate(_Inputs):
         """
         return self._output_name
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsRemoteOperatorInstantiate(_Outputs):
     """Intermediate class used to get outputs from
@@ -362,3 +367,8 @@ class OutputsRemoteOperatorInstantiate(_Outputs):
         >>> result_remote_workflow = op.outputs.remote_workflow()
         """  # noqa: E501
         return self._remote_workflow
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

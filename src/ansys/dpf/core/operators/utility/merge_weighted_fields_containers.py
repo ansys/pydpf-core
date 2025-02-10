@@ -432,6 +432,11 @@ class InputsMergeWeightedFieldsContainers(_Inputs):
         """
         return self._weights2
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMergeWeightedFieldsContainers(_Outputs):
     """Intermediate class used to get outputs from
@@ -468,3 +473,8 @@ class OutputsMergeWeightedFieldsContainers(_Outputs):
         >>> result_merged_fields_container = op.outputs.merged_fields_container()
         """  # noqa: E501
         return self._merged_fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

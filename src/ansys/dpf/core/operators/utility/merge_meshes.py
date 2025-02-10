@@ -428,6 +428,11 @@ class InputsMergeMeshes(_Inputs):
         """
         return self._remove_duplicate_elements
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMergeMeshes(_Outputs):
     """Intermediate class used to get outputs from
@@ -462,3 +467,8 @@ class OutputsMergeMeshes(_Outputs):
         >>> result_merges_mesh = op.outputs.merges_mesh()
         """  # noqa: E501
         return self._merges_mesh
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

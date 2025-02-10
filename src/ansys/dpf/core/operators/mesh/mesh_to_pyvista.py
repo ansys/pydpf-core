@@ -351,6 +351,11 @@ class InputsMeshToPyvista(_Inputs):
         """
         return self._as_poly
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMeshToPyvista(_Outputs):
     """Intermediate class used to get outputs from
@@ -445,3 +450,8 @@ class OutputsMeshToPyvista(_Outputs):
         >>> result_offsets = op.outputs.offsets()
         """  # noqa: E501
         return self._offsets
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

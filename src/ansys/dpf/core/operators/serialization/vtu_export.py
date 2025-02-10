@@ -497,6 +497,11 @@ class InputsVtuExport(_Inputs):
         """
         return self._mesh_properties
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsVtuExport(_Outputs):
     """Intermediate class used to get outputs from
@@ -531,3 +536,8 @@ class OutputsVtuExport(_Outputs):
         >>> result_path = op.outputs.path()
         """  # noqa: E501
         return self._path
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

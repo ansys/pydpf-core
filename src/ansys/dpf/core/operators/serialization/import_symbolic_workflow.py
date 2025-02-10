@@ -192,6 +192,11 @@ class InputsImportSymbolicWorkflow(_Inputs):
         """
         return self._format
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsImportSymbolicWorkflow(_Outputs):
     """Intermediate class used to get outputs from
@@ -226,3 +231,8 @@ class OutputsImportSymbolicWorkflow(_Outputs):
         >>> result_workflow = op.outputs.workflow()
         """  # noqa: E501
         return self._workflow
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

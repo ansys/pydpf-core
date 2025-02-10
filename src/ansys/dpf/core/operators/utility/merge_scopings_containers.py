@@ -201,6 +201,11 @@ class InputsMergeScopingsContainers(_Inputs):
         """
         return self._scopings_containers2
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMergeScopingsContainers(_Outputs):
     """Intermediate class used to get outputs from
@@ -237,3 +242,8 @@ class OutputsMergeScopingsContainers(_Outputs):
         >>> result_merged_scopings_container = op.outputs.merged_scopings_container()
         """  # noqa: E501
         return self._merged_scopings_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

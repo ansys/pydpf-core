@@ -373,6 +373,11 @@ class InputsOnProperty(_Inputs):
         """
         return self._inclusive
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsOnProperty(_Outputs):
     """Intermediate class used to get outputs from
@@ -407,3 +412,8 @@ class OutputsOnProperty(_Outputs):
         >>> result_mesh_scoping = op.outputs.mesh_scoping()
         """  # noqa: E501
         return self._mesh_scoping
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

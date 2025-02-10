@@ -193,6 +193,11 @@ class InputsNorm(_Inputs):
         """
         return self._scalar_int
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsNorm(_Outputs):
     """Intermediate class used to get outputs from
@@ -227,3 +232,8 @@ class OutputsNorm(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

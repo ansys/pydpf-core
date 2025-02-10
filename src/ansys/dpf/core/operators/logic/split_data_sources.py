@@ -208,6 +208,11 @@ class InputsSplitDataSources(_Inputs):
         """
         return self._output_count
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsSplitDataSources(_Outputs):
     """Intermediate class used to get outputs from
@@ -282,3 +287,8 @@ class OutputsSplitDataSources(_Outputs):
         >>> result_outputs2 = op.outputs.outputs2()
         """  # noqa: E501
         return self._outputs2
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

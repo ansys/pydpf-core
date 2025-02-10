@@ -536,6 +536,11 @@ class InputsRomDataProvider(_Inputs):
         """
         return self._mode_shapes
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsRomDataProvider(_Outputs):
     """Intermediate class used to get outputs from
@@ -752,3 +757,8 @@ class OutputsRomDataProvider(_Outputs):
         >>> result_meshed_region = op.outputs.meshed_region()
         """  # noqa: E501
         return self._meshed_region
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

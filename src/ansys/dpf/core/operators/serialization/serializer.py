@@ -264,6 +264,11 @@ class InputsSerializer(_Inputs):
         """
         return self._any_input2
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsSerializer(_Outputs):
     """Intermediate class used to get outputs from
@@ -298,3 +303,8 @@ class OutputsSerializer(_Outputs):
         >>> result_file_path = op.outputs.file_path()
         """  # noqa: E501
         return self._file_path
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

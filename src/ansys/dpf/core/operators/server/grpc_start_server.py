@@ -406,6 +406,11 @@ class InputsGrpcStartServer(_Inputs):
         """
         return self._dpf_context
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsGrpcStartServer(_Outputs):
     """Intermediate class used to get outputs from
@@ -440,3 +445,8 @@ class OutputsGrpcStartServer(_Outputs):
         >>> result_grpc_streams = op.outputs.grpc_streams()
         """  # noqa: E501
         return self._grpc_streams
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -187,6 +187,11 @@ class InputsPointsFromCoordinates(_Inputs):
         """
         return self._mesh
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsPointsFromCoordinates(_Outputs):
     """Intermediate class used to get outputs from
@@ -223,3 +228,8 @@ class OutputsPointsFromCoordinates(_Outputs):
         >>> result_abstract_meshed_region = op.outputs.abstract_meshed_region()
         """  # noqa: E501
         return self._abstract_meshed_region
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

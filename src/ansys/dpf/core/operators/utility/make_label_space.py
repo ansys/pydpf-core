@@ -271,6 +271,11 @@ class InputsMakeLabelSpace(_Inputs):
         """
         return self._label_value2
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMakeLabelSpace(_Outputs):
     """Intermediate class used to get outputs from
@@ -305,3 +310,8 @@ class OutputsMakeLabelSpace(_Outputs):
         >>> result_label = op.outputs.label()
         """  # noqa: E501
         return self._label
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

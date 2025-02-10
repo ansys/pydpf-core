@@ -315,6 +315,11 @@ class InputsPropertyFieldProviderByName(_Inputs):
         """
         return self._property_name
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsPropertyFieldProviderByName(_Outputs):
     """Intermediate class used to get outputs from
@@ -351,3 +356,8 @@ class OutputsPropertyFieldProviderByName(_Outputs):
         >>> result_property_field = op.outputs.property_field()
         """  # noqa: E501
         return self._property_field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -378,6 +378,11 @@ class InputsDsGetAttribute(_Inputs):
         """
         return self._property_result_key
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsDsGetAttribute(_Outputs):
     """Intermediate class used to get outputs from
@@ -409,3 +414,8 @@ class OutputsDsGetAttribute(_Outputs):
             op,
         )
         self._outputs.append(self.property_as_int32)
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

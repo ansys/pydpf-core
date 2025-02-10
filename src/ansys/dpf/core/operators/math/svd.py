@@ -171,6 +171,11 @@ class InputsSvd(_Inputs):
         """
         return self._fields_container
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsSvd(_Outputs):
     """Intermediate class used to get outputs from
@@ -245,3 +250,8 @@ class OutputsSvd(_Outputs):
         >>> result_vt_svd = op.outputs.vt_svd()
         """  # noqa: E501
         return self._vt_svd
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -224,6 +224,11 @@ class InputsEnrichMaterials(_Inputs):
         """
         return self._streams_mapping
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsEnrichMaterials(_Outputs):
     """Intermediate class used to get outputs from
@@ -258,3 +263,8 @@ class OutputsEnrichMaterials(_Outputs):
         >>> result_MaterialContainer = op.outputs.MaterialContainer()
         """  # noqa: E501
         return self._MaterialContainer
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

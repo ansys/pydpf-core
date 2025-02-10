@@ -202,6 +202,11 @@ class InputsStringDeserializer(_Inputs):
         """
         return self._serialized_string
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsStringDeserializer(_Outputs):
     """Intermediate class used to get outputs from
@@ -256,3 +261,8 @@ class OutputsStringDeserializer(_Outputs):
         >>> result_any_output2 = op.outputs.any_output2()
         """  # noqa: E501
         return self._any_output2
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -267,6 +267,11 @@ class InputsRemoveRigidBodyMotionFc(_Inputs):
         """
         return self._mesh
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsRemoveRigidBodyMotionFc(_Outputs):
     """Intermediate class used to get outputs from
@@ -369,3 +374,8 @@ class OutputsRemoveRigidBodyMotionFc(_Outputs):
         >>> result_center_field = op.outputs.center_field()
         """  # noqa: E501
         return self._center_field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

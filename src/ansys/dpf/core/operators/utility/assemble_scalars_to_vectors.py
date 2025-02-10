@@ -219,6 +219,11 @@ class InputsAssembleScalarsToVectors(_Inputs):
         """
         return self._z
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsAssembleScalarsToVectors(_Outputs):
     """Intermediate class used to get outputs from
@@ -253,3 +258,8 @@ class OutputsAssembleScalarsToVectors(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

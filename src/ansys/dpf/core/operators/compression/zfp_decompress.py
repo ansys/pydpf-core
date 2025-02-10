@@ -173,6 +173,11 @@ class InputsZfpDecompress(_Inputs):
         """
         return self._dataIn
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsZfpDecompress(_Outputs):
     """Intermediate class used to get outputs from
@@ -224,3 +229,8 @@ class OutputsZfpDecompress(_Outputs):
         >>> result_decompress_speed = op.outputs.decompress_speed()
         """  # noqa: E501
         return self._decompress_speed
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

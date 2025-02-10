@@ -279,6 +279,11 @@ class InputsExportSymbolicWorkflow(_Inputs):
         """
         return self._options
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsExportSymbolicWorkflow(_Outputs):
     """Intermediate class used to get outputs from
@@ -310,3 +315,8 @@ class OutputsExportSymbolicWorkflow(_Outputs):
             op,
         )
         self._outputs.append(self.data_sources_as_string)
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

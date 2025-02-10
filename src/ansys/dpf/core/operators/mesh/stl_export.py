@@ -179,6 +179,11 @@ class InputsStlExport(_Inputs):
         """
         return self._file_path
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsStlExport(_Outputs):
     """Intermediate class used to get outputs from
@@ -213,3 +218,8 @@ class OutputsStlExport(_Outputs):
         >>> result_data_sources = op.outputs.data_sources()
         """  # noqa: E501
         return self._data_sources
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

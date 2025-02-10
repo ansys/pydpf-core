@@ -188,6 +188,11 @@ class InputsChangeCs(_Inputs):
         """
         return self._coordinate_system
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsChangeCs(_Outputs):
     """Intermediate class used to get outputs from
@@ -219,3 +224,8 @@ class OutputsChangeCs(_Outputs):
             op,
         )
         self._outputs.append(self.meshed_region_as_meshes_container)
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

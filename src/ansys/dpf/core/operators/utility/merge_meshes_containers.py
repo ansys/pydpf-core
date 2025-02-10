@@ -197,6 +197,11 @@ class InputsMergeMeshesContainers(_Inputs):
         """
         return self._meshes_containers2
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMergeMeshesContainers(_Outputs):
     """Intermediate class used to get outputs from
@@ -233,3 +238,8 @@ class OutputsMergeMeshesContainers(_Outputs):
         >>> result_merged_meshes_container = op.outputs.merged_meshes_container()
         """  # noqa: E501
         return self._merged_meshes_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -476,6 +476,11 @@ class InputsSketchMatrix(_Inputs):
         """
         return self._power_iterations
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsSketchMatrix(_Outputs):
     """Intermediate class used to get outputs from
@@ -550,3 +555,8 @@ class OutputsSketchMatrix(_Outputs):
         >>> result_shell_field = op.outputs.shell_field()
         """  # noqa: E501
         return self._shell_field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

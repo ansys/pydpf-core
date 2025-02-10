@@ -292,6 +292,11 @@ class InputsWorkflowEnergyPerHarmonic(_Inputs):
         """
         return self._data_sources
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsWorkflowEnergyPerHarmonic(_Outputs):
     """Intermediate class used to get outputs from
@@ -350,3 +355,8 @@ class OutputsWorkflowEnergyPerHarmonic(_Outputs):
         >>> result_harmonic_energy_percentage = op.outputs.harmonic_energy_percentage()
         """  # noqa: E501
         return self._harmonic_energy_percentage
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

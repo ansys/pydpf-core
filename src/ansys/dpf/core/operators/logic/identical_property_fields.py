@@ -193,6 +193,11 @@ class InputsIdenticalPropertyFields(_Inputs):
         """
         return self._property_fieldB
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsIdenticalPropertyFields(_Outputs):
     """Intermediate class used to get outputs from
@@ -251,3 +256,8 @@ class OutputsIdenticalPropertyFields(_Outputs):
         >>> result_information = op.outputs.information()
         """  # noqa: E501
         return self._information
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

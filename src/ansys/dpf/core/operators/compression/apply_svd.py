@@ -329,6 +329,11 @@ class InputsApplySvd(_Inputs):
         """
         return self._boolean
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsApplySvd(_Outputs):
     """Intermediate class used to get outputs from
@@ -398,3 +403,8 @@ class OutputsApplySvd(_Outputs):
         >>> result_vt_svd = op.outputs.vt_svd()
         """  # noqa: E501
         return self._vt_svd
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

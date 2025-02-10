@@ -189,6 +189,11 @@ class InputsBoundaryConditionProvider(_Inputs):
         """
         return self._data_sources
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsBoundaryConditionProvider(_Outputs):
     """Intermediate class used to get outputs from
@@ -220,3 +225,8 @@ class OutputsBoundaryConditionProvider(_Outputs):
             op,
         )
         self._outputs.append(self.results_info_as_fields_container)
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

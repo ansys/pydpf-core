@@ -236,6 +236,11 @@ class InputsNodalToElemental(_Inputs):
         """
         return self._collapse_shell_layers
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsNodalToElemental(_Outputs):
     """Intermediate class used to get outputs from
@@ -270,3 +275,8 @@ class OutputsNodalToElemental(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

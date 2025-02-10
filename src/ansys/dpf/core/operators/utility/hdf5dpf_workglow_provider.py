@@ -359,6 +359,11 @@ class InputsHdf5DpfWorkglowProvider(_Inputs):
         """
         return self._result_name
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsHdf5DpfWorkglowProvider(_Outputs):
     """Intermediate class used to get outputs from
@@ -395,3 +400,8 @@ class OutputsHdf5DpfWorkglowProvider(_Outputs):
         >>> result_field_or_fields_container = op.outputs.field_or_fields_container()
         """  # noqa: E501
         return self._field_or_fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

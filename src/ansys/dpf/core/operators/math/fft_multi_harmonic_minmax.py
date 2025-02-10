@@ -526,6 +526,11 @@ class InputsFftMultiHarmonicMinmax(_Inputs):
         """
         return self._substeps_selector
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsFftMultiHarmonicMinmax(_Outputs):
     """Intermediate class used to get outputs from
@@ -602,3 +607,8 @@ class OutputsFftMultiHarmonicMinmax(_Outputs):
         >>> result_all_fields = op.outputs.all_fields()
         """  # noqa: E501
         return self._all_fields
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

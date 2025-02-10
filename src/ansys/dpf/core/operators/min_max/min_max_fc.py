@@ -155,6 +155,11 @@ class InputsMinMaxFc(_Inputs):
         """
         return self._fields_container
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMinMaxFc(_Outputs):
     """Intermediate class used to get outputs from
@@ -209,3 +214,8 @@ class OutputsMinMaxFc(_Outputs):
         >>> result_field_max = op.outputs.field_max()
         """  # noqa: E501
         return self._field_max
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

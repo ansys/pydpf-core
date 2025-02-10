@@ -193,6 +193,11 @@ class InputsMergeStringFields(_Inputs):
         """
         return self._string_fields2
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMergeStringFields(_Outputs):
     """Intermediate class used to get outputs from
@@ -227,3 +232,8 @@ class OutputsMergeStringFields(_Outputs):
         >>> result_string_field = op.outputs.string_field()
         """  # noqa: E501
         return self._string_field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

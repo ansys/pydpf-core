@@ -175,6 +175,11 @@ class InputsMeshToTetra(_Inputs):
         """
         return self._mesh
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMeshToTetra(_Outputs):
     """Intermediate class used to get outputs from
@@ -249,3 +254,8 @@ class OutputsMeshToTetra(_Outputs):
         >>> result_element_mapping = op.outputs.element_mapping()
         """  # noqa: E501
         return self._element_mapping
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -225,6 +225,11 @@ class InputsRelativeError(_Inputs):
         """
         return self._reference
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsRelativeError(_Outputs):
     """Intermediate class used to get outputs from
@@ -299,3 +304,8 @@ class OutputsRelativeError(_Outputs):
         >>> result_no_ref_scoping = op.outputs.no_ref_scoping()
         """  # noqa: E501
         return self._no_ref_scoping
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

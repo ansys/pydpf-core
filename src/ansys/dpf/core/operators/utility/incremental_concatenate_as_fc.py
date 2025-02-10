@@ -193,6 +193,11 @@ class InputsIncrementalConcatenateAsFc(_Inputs):
         """
         return self._label
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsIncrementalConcatenateAsFc(_Outputs):
     """Intermediate class used to get outputs from
@@ -229,3 +234,8 @@ class OutputsIncrementalConcatenateAsFc(_Outputs):
         >>> result_output = op.outputs.output()
         """  # noqa: E501
         return self._output
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

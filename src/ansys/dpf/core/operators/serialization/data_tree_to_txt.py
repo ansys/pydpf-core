@@ -180,6 +180,11 @@ class InputsDataTreeToTxt(_Inputs):
         """
         return self._path
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsDataTreeToTxt(_Outputs):
     """Intermediate class used to get outputs from
@@ -211,3 +216,8 @@ class OutputsDataTreeToTxt(_Outputs):
             op,
         )
         self._outputs.append(self.data_sources_as_string)
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

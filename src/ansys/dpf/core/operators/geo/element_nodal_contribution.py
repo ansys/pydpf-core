@@ -250,6 +250,11 @@ class InputsElementNodalContribution(_Inputs):
         """
         return self._volume_fraction
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsElementNodalContribution(_Outputs):
     """Intermediate class used to get outputs from
@@ -284,3 +289,8 @@ class OutputsElementNodalContribution(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

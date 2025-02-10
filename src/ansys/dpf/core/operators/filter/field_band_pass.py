@@ -242,6 +242,11 @@ class InputsFieldBandPass(_Inputs):
         """
         return self._max_threshold
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsFieldBandPass(_Outputs):
     """Intermediate class used to get outputs from
@@ -276,3 +281,8 @@ class OutputsFieldBandPass(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

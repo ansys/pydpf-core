@@ -1247,6 +1247,11 @@ class InputsTransformInvariantTermsRbd(_Inputs):
         """
         return self._dnzn
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsTransformInvariantTermsRbd(_Outputs):
     """Intermediate class used to get outputs from
@@ -1757,3 +1762,8 @@ class OutputsTransformInvariantTermsRbd(_Outputs):
         >>> result_dnzn = op.outputs.dnzn()
         """  # noqa: E501
         return self._dnzn
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

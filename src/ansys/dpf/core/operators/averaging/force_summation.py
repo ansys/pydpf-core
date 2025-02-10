@@ -411,6 +411,11 @@ class InputsForceSummation(_Inputs):
         """
         return self._spoint
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsForceSummation(_Outputs):
     """Intermediate class used to get outputs from
@@ -545,3 +550,8 @@ class OutputsForceSummation(_Outputs):
         >>> result_heats_on_nodes = op.outputs.heats_on_nodes()
         """  # noqa: E501
         return self._heats_on_nodes
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

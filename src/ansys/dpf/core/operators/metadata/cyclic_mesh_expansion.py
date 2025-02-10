@@ -249,6 +249,11 @@ class InputsCyclicMeshExpansion(_Inputs):
         """
         return self._sectors_to_expand
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsCyclicMeshExpansion(_Outputs):
     """Intermediate class used to get outputs from
@@ -305,3 +310,8 @@ class OutputsCyclicMeshExpansion(_Outputs):
         >>> result_cyclic_support = op.outputs.cyclic_support()
         """  # noqa: E501
         return self._cyclic_support
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

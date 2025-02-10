@@ -235,6 +235,11 @@ class InputsMergeGenericDataContainer(_Inputs):
         """
         return self._generic_data_container2
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMergeGenericDataContainer(_Outputs):
     """Intermediate class used to get outputs from
@@ -271,3 +276,8 @@ class OutputsMergeGenericDataContainer(_Outputs):
         >>> result_generic_data_container = op.outputs.generic_data_container()
         """  # noqa: E501
         return self._generic_data_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

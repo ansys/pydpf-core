@@ -263,6 +263,11 @@ class InputsCoordinateSystemDataProvider(_Inputs):
         """
         return self._data_sources
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsCoordinateSystemDataProvider(_Outputs):
     """Intermediate class used to get outputs from
@@ -321,3 +326,8 @@ class OutputsCoordinateSystemDataProvider(_Outputs):
         >>> result_coordinate_system_data2 = op.outputs.coordinate_system_data2()
         """  # noqa: E501
         return self._coordinate_system_data2
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

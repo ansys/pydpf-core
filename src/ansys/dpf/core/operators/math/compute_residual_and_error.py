@@ -431,6 +431,11 @@ class InputsComputeResidualAndError(_Inputs):
         """
         return self._field_or_fields_container2
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsComputeResidualAndError(_Outputs):
     """Intermediate class used to get outputs from
@@ -513,3 +518,8 @@ class OutputsComputeResidualAndError(_Outputs):
             op,
         )
         self._outputs.append(self.error_normalization_factor_as_fields_container)
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

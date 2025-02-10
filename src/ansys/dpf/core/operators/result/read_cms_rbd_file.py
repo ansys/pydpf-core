@@ -335,6 +335,11 @@ class InputsReadCmsRbdFile(_Inputs):
         """
         return self._in_cms_rbd_file_path
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsReadCmsRbdFile(_Outputs):
     """Intermediate class used to get outputs from
@@ -811,3 +816,8 @@ class OutputsReadCmsRbdFile(_Outputs):
         >>> result_dnzn = op.outputs.dnzn()
         """  # noqa: E501
         return self._dnzn
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

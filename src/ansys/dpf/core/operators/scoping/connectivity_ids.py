@@ -248,6 +248,11 @@ class InputsConnectivityIds(_Inputs):
         """
         return self._take_mid_nodes
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsConnectivityIds(_Outputs):
     """Intermediate class used to get outputs from
@@ -302,3 +307,8 @@ class OutputsConnectivityIds(_Outputs):
         >>> result_elemental_scoping = op.outputs.elemental_scoping()
         """  # noqa: E501
         return self._elemental_scoping
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -241,6 +241,11 @@ class InputsMeshInfoProvider(_Inputs):
         """
         return self._data_sources
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMeshInfoProvider(_Outputs):
     """Intermediate class used to get outputs from
@@ -275,3 +280,8 @@ class OutputsMeshInfoProvider(_Outputs):
         >>> result_mesh_info = op.outputs.mesh_info()
         """  # noqa: E501
         return self._mesh_info
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

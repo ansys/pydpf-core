@@ -194,6 +194,11 @@ class InputsMaterialSupportProvider(_Inputs):
         """
         return self._data_sources
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMaterialSupportProvider(_Outputs):
     """Intermediate class used to get outputs from
@@ -230,3 +235,8 @@ class OutputsMaterialSupportProvider(_Outputs):
         >>> result_abstract_field_support = op.outputs.abstract_field_support()
         """  # noqa: E501
         return self._abstract_field_support
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

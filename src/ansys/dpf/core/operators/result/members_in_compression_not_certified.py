@@ -597,6 +597,11 @@ class InputsMembersInCompressionNotCertified(_Inputs):
         """
         return self._fabrication_type
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMembersInCompressionNotCertified(_Outputs):
     """Intermediate class used to get outputs from
@@ -655,3 +660,8 @@ class OutputsMembersInCompressionNotCertified(_Outputs):
         >>> result_buckling_resistance_compression_zz = op.outputs.buckling_resistance_compression_zz()
         """  # noqa: E501
         return self._buckling_resistance_compression_zz
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

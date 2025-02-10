@@ -503,6 +503,11 @@ class InputsComputeInvariantTermsMotion(_Inputs):
         """
         return self._nod
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsComputeInvariantTermsMotion(_Outputs):
     """Intermediate class used to get outputs from
@@ -889,3 +894,8 @@ class OutputsComputeInvariantTermsMotion(_Outputs):
         >>> result_invrt_8 = op.outputs.invrt_8()
         """  # noqa: E501
         return self._invrt_8
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

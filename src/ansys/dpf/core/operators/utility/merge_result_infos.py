@@ -193,6 +193,11 @@ class InputsMergeResultInfos(_Inputs):
         """
         return self._result_infos2
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMergeResultInfos(_Outputs):
     """Intermediate class used to get outputs from
@@ -229,3 +234,8 @@ class OutputsMergeResultInfos(_Outputs):
         >>> result_merged_result_infos = op.outputs.merged_result_infos()
         """  # noqa: E501
         return self._merged_result_infos
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

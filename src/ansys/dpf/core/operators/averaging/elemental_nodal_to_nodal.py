@@ -383,6 +383,11 @@ class InputsElementalNodalToNodal(_Inputs):
         """
         return self._mesh
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsElementalNodalToNodal(_Outputs):
     """Intermediate class used to get outputs from
@@ -437,3 +442,8 @@ class OutputsElementalNodalToNodal(_Outputs):
         >>> result_weight = op.outputs.weight()
         """  # noqa: E501
         return self._weight
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

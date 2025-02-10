@@ -312,6 +312,11 @@ class InputsForEach(_Inputs):
         """
         return self._forward2
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsForEach(_Outputs):
     """Intermediate class used to get outputs from
@@ -386,3 +391,8 @@ class OutputsForEach(_Outputs):
         >>> result_output2 = op.outputs.output2()
         """  # noqa: E501
         return self._output2
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

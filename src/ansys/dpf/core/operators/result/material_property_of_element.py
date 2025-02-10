@@ -188,6 +188,11 @@ class InputsMaterialPropertyOfElement(_Inputs):
         """
         return self._data_sources
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMaterialPropertyOfElement(_Outputs):
     """Intermediate class used to get outputs from
@@ -224,3 +229,8 @@ class OutputsMaterialPropertyOfElement(_Outputs):
         >>> result_material_properties = op.outputs.material_properties()
         """  # noqa: E501
         return self._material_properties
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

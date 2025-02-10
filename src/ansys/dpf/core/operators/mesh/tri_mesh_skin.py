@@ -261,6 +261,11 @@ class InputsTriMeshSkin(_Inputs):
         """
         return self._mesh_scoping
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsTriMeshSkin(_Outputs):
     """Intermediate class used to get outputs from
@@ -315,3 +320,8 @@ class OutputsTriMeshSkin(_Outputs):
         >>> result_nodes_mesh_scoping = op.outputs.nodes_mesh_scoping()
         """  # noqa: E501
         return self._nodes_mesh_scoping
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

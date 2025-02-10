@@ -315,6 +315,11 @@ class InputsVtkExport(_Inputs):
         """
         return self._fields2
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsVtkExport(_Outputs):
     """Intermediate class used to get outputs from

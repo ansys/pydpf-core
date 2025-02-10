@@ -777,6 +777,11 @@ class InputsMakeProducerConsumerForEachIterator(_Inputs):
         """
         return self._consumer_op12
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMakeProducerConsumerForEachIterator(_Outputs):
     """Intermediate class used to get outputs from
@@ -813,3 +818,8 @@ class OutputsMakeProducerConsumerForEachIterator(_Outputs):
         >>> result_iterator = op.outputs.iterator()
         """  # noqa: E501
         return self._iterator
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

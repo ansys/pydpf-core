@@ -160,6 +160,11 @@ class InputsDelegateToOperator(_Inputs):
         """
         return self._operator_name
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsDelegateToOperator(_Outputs):
     """Intermediate class used to get outputs from
@@ -214,3 +219,8 @@ class OutputsDelegateToOperator(_Outputs):
         >>> result_any2 = op.outputs.any2()
         """  # noqa: E501
         return self._any2
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -338,6 +338,11 @@ class InputsRun(_Inputs):
         """
         return self._server_mode
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsRun(_Outputs):
     """Intermediate class used to get outputs from
@@ -412,3 +417,8 @@ class OutputsRun(_Outputs):
         >>> result_port = op.outputs.port()
         """  # noqa: E501
         return self._port
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

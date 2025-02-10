@@ -193,6 +193,11 @@ class InputsPhase(_Inputs):
         """
         return self._fieldB
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsPhase(_Outputs):
     """Intermediate class used to get outputs from
@@ -227,3 +232,8 @@ class OutputsPhase(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

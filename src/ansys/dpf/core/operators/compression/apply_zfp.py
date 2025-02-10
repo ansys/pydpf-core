@@ -478,6 +478,11 @@ class InputsApplyZfp(_Inputs):
         """
         return self._double_relthreshold
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsApplyZfp(_Outputs):
     """Intermediate class used to get outputs from
@@ -552,3 +557,8 @@ class OutputsApplyZfp(_Outputs):
         >>> result_dataOut = op.outputs.dataOut()
         """  # noqa: E501
         return self._dataOut
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

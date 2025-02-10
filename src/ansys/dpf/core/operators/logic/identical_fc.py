@@ -77,7 +77,7 @@ class identical_fc(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="AreFieldsIdentical_fc", config=config, server=server)
+        super().__init__(name="compare::fields_container", config=config, server=server)
         self._inputs = InputsIdenticalFc(self)
         self._outputs = OutputsIdenticalFc(self)
         if fields_containerA is not None:
@@ -160,7 +160,7 @@ class identical_fc(Operator):
             Server with channel connected to the remote or local instance. When
             ``None``, attempts to use the global server.
         """
-        return Operator.default_config(name="AreFieldsIdentical_fc", server=server)
+        return Operator.default_config(name="compare::fields_container", server=server)
 
     @property
     def inputs(self):
@@ -297,6 +297,11 @@ class InputsIdenticalFc(_Inputs):
         """
         return self._tolerance
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsIdenticalFc(_Outputs):
     """Intermediate class used to get outputs from
@@ -351,3 +356,8 @@ class OutputsIdenticalFc(_Outputs):
         >>> result_message = op.outputs.message()
         """  # noqa: E501
         return self._message
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

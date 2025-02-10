@@ -264,6 +264,11 @@ class InputsProducerConsumerForEach(_Inputs):
         """
         return self._forward2
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsProducerConsumerForEach(_Outputs):
     """Intermediate class used to get outputs from
@@ -338,3 +343,8 @@ class OutputsProducerConsumerForEach(_Outputs):
         >>> result_output2 = op.outputs.output2()
         """  # noqa: E501
         return self._output2
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -478,6 +478,11 @@ class InputsStressEqvAsMechanicalWorkflow(_Inputs):
         """
         return self._average_across_bodies
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsStressEqvAsMechanicalWorkflow(_Outputs):
     """Intermediate class used to get outputs from
@@ -514,3 +519,8 @@ class OutputsStressEqvAsMechanicalWorkflow(_Outputs):
         >>> result_workflow = op.outputs.workflow()
         """  # noqa: E501
         return self._workflow
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

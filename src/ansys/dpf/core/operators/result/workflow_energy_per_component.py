@@ -449,6 +449,11 @@ class InputsWorkflowEnergyPerComponent(_Inputs):
         """
         return self._named_selection2
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsWorkflowEnergyPerComponent(_Outputs):
     """Intermediate class used to get outputs from
@@ -639,3 +644,8 @@ class OutputsWorkflowEnergyPerComponent(_Outputs):
         >>> result_component_kinetic_energy_percentage = op.outputs.component_kinetic_energy_percentage()
         """  # noqa: E501
         return self._component_kinetic_energy_percentage
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

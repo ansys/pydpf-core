@@ -233,6 +233,11 @@ class InputsMeshToGraphicsEdges(_Inputs):
         """
         return self._mesh
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMeshToGraphicsEdges(_Outputs):
     """Intermediate class used to get outputs from
@@ -287,3 +292,8 @@ class OutputsMeshToGraphicsEdges(_Outputs):
         >>> result_connectivity = op.outputs.connectivity()
         """  # noqa: E501
         return self._connectivity
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

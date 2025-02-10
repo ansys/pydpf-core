@@ -363,6 +363,11 @@ class InputsExpansionPsd(_Inputs):
         """
         return self._rel_stat_covar_matrix
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsExpansionPsd(_Outputs):
     """Intermediate class used to get outputs from
@@ -397,3 +402,8 @@ class OutputsExpansionPsd(_Outputs):
         >>> result_psd = op.outputs.psd()
         """  # noqa: E501
         return self._psd
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

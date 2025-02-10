@@ -596,6 +596,11 @@ class InputsMigrateToH5Dpf(_Inputs):
         """
         return self._filtering_workflow
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMigrateToH5Dpf(_Outputs):
     """Intermediate class used to get outputs from
@@ -630,3 +635,8 @@ class OutputsMigrateToH5Dpf(_Outputs):
         >>> result_migrated_file = op.outputs.migrated_file()
         """  # noqa: E501
         return self._migrated_file
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

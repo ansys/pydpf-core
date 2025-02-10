@@ -290,6 +290,11 @@ class InputsAccumulationPerScoping(_Inputs):
         """
         return self._scopings_container
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsAccumulationPerScoping(_Outputs):
     """Intermediate class used to get outputs from
@@ -348,3 +353,8 @@ class OutputsAccumulationPerScoping(_Outputs):
         >>> result_accumulation_per_scoping_percentage = op.outputs.accumulation_per_scoping_percentage()
         """  # noqa: E501
         return self._accumulation_per_scoping_percentage
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

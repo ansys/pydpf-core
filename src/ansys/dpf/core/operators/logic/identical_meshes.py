@@ -321,6 +321,11 @@ class InputsIdenticalMeshes(_Inputs):
         """
         return self._compare_auxiliary
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsIdenticalMeshes(_Outputs):
     """Intermediate class used to get outputs from
@@ -355,3 +360,8 @@ class OutputsIdenticalMeshes(_Outputs):
         >>> result_are_identical = op.outputs.are_identical()
         """  # noqa: E501
         return self._are_identical
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -138,6 +138,11 @@ class InputsGrpcShutdownServer(_Inputs):
         """
         return self._grpc_stream
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsGrpcShutdownServer(_Outputs):
     """Intermediate class used to get outputs from

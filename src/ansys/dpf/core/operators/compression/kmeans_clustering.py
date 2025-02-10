@@ -290,6 +290,11 @@ class InputsKmeansClustering(_Inputs):
         """
         return self._component_number
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsKmeansClustering(_Outputs):
     """Intermediate class used to get outputs from
@@ -324,3 +329,8 @@ class OutputsKmeansClustering(_Outputs):
         >>> result_scoping_clusters = op.outputs.scoping_clusters()
         """  # noqa: E501
         return self._scoping_clusters
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

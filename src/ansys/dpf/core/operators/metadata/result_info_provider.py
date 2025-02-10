@@ -196,6 +196,11 @@ class InputsResultInfoProvider(_Inputs):
         """
         return self._data_sources
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsResultInfoProvider(_Outputs):
     """Intermediate class used to get outputs from
@@ -230,3 +235,8 @@ class OutputsResultInfoProvider(_Outputs):
         >>> result_result_info = op.outputs.result_info()
         """  # noqa: E501
         return self._result_info
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

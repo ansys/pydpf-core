@@ -268,6 +268,11 @@ class InputsMinMaxOverTimeByEntity(_Inputs):
         """
         return self._compute_amplitude
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMinMaxOverTimeByEntity(_Outputs):
     """Intermediate class used to get outputs from
@@ -366,3 +371,8 @@ class OutputsMinMaxOverTimeByEntity(_Outputs):
         >>> result_time_freq_of_max = op.outputs.time_freq_of_max()
         """  # noqa: E501
         return self._time_freq_of_max
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

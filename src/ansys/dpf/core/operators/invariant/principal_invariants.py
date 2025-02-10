@@ -164,6 +164,11 @@ class InputsPrincipalInvariants(_Inputs):
         """
         return self._field
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsPrincipalInvariants(_Outputs):
     """Intermediate class used to get outputs from
@@ -238,3 +243,8 @@ class OutputsPrincipalInvariants(_Outputs):
         >>> result_field_eig_3 = op.outputs.field_eig_3()
         """  # noqa: E501
         return self._field_eig_3
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

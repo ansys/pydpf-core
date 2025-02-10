@@ -202,6 +202,11 @@ class InputsAccumulateMinOverLabelFc(_Inputs):
         """
         return self._label
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsAccumulateMinOverLabelFc(_Outputs):
     """Intermediate class used to get outputs from
@@ -236,3 +241,8 @@ class OutputsAccumulateMinOverLabelFc(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -363,6 +363,11 @@ class InputsMapdlSection(_Inputs):
         """
         return self._layers_requested
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMapdlSection(_Outputs):
     """Intermediate class used to get outputs from
@@ -417,3 +422,8 @@ class OutputsMapdlSection(_Outputs):
         >>> result_layers_per_section = op.outputs.layers_per_section()
         """  # noqa: E501
         return self._layers_per_section
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

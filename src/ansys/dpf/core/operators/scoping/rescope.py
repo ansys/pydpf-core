@@ -233,6 +233,11 @@ class InputsRescope(_Inputs):
         """
         return self._default_value
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsRescope(_Outputs):
     """Intermediate class used to get outputs from
@@ -262,3 +267,8 @@ class OutputsRescope(_Outputs):
             op,
         )
         self._outputs.append(self.fields_as_field)
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

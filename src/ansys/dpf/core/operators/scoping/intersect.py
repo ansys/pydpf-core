@@ -189,6 +189,11 @@ class InputsIntersect(_Inputs):
         """
         return self._scopingB
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsIntersect(_Outputs):
     """Intermediate class used to get outputs from
@@ -243,3 +248,8 @@ class OutputsIntersect(_Outputs):
         >>> result_scopingA_min_intersection = op.outputs.scopingA_min_intersection()
         """  # noqa: E501
         return self._scopingA_min_intersection
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

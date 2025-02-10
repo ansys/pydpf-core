@@ -195,6 +195,11 @@ class InputsScopingGetAttribute(_Inputs):
         """
         return self._property_name
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsScopingGetAttribute(_Outputs):
     """Intermediate class used to get outputs from
@@ -226,3 +231,8 @@ class OutputsScopingGetAttribute(_Outputs):
             op,
         )
         self._outputs.append(self.property_as_string)
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -244,6 +244,11 @@ class InputsMinMaxOverLabelFc(_Inputs):
         """
         return self._label
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMinMaxOverLabelFc(_Outputs):
     """Intermediate class used to get outputs from
@@ -386,3 +391,8 @@ class OutputsMinMaxOverLabelFc(_Outputs):
         >>> result_scoping_ids_max = op.outputs.scoping_ids_max()
         """  # noqa: E501
         return self._scoping_ids_max
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

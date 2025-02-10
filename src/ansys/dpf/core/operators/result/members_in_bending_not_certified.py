@@ -558,6 +558,11 @@ class InputsMembersInBendingNotCertified(_Inputs):
         """
         return self._bending_moment_z
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMembersInBendingNotCertified(_Outputs):
     """Intermediate class used to get outputs from
@@ -616,3 +621,8 @@ class OutputsMembersInBendingNotCertified(_Outputs):
         >>> result_buckling_resistance_bending_zz = op.outputs.buckling_resistance_bending_zz()
         """  # noqa: E501
         return self._buckling_resistance_bending_zz
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

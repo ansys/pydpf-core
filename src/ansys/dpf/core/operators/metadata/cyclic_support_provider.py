@@ -338,6 +338,11 @@ class InputsCyclicSupportProvider(_Inputs):
         """
         return self._sectors_to_expand
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsCyclicSupportProvider(_Outputs):
     """Intermediate class used to get outputs from
@@ -396,3 +401,8 @@ class OutputsCyclicSupportProvider(_Outputs):
         >>> result_sector_meshes = op.outputs.sector_meshes()
         """  # noqa: E501
         return self._sector_meshes
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

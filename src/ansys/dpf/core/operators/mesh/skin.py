@@ -352,6 +352,11 @@ class InputsSkin(_Inputs):
         """
         return self._add_beam
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsSkin(_Outputs):
     """Intermediate class used to get outputs from
@@ -468,3 +473,8 @@ class OutputsSkin(_Outputs):
         >>> result_facet_indices = op.outputs.facet_indices()
         """  # noqa: E501
         return self._facet_indices
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

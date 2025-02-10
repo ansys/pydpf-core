@@ -576,6 +576,11 @@ class InputsCyclicStrainEnergy(_Inputs):
         """
         return self._cyclic_support
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsCyclicStrainEnergy(_Outputs):
     """Intermediate class used to get outputs from
@@ -634,3 +639,8 @@ class OutputsCyclicStrainEnergy(_Outputs):
         >>> result_expanded_meshes = op.outputs.expanded_meshes()
         """  # noqa: E501
         return self._expanded_meshes
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

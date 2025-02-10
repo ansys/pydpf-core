@@ -189,6 +189,11 @@ class InputsFieldGetAttribute(_Inputs):
         """
         return self._property_name
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsFieldGetAttribute(_Outputs):
     """Intermediate class used to get outputs from
@@ -220,3 +225,8 @@ class OutputsFieldGetAttribute(_Outputs):
             op,
         )
         self._outputs.append(self.property_as_scoping)
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -424,6 +424,11 @@ class InputsMeshProvider(_Inputs):
         """
         return self._laziness
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMeshProvider(_Outputs):
     """Intermediate class used to get outputs from
@@ -458,3 +463,8 @@ class OutputsMeshProvider(_Outputs):
         >>> result_mesh = op.outputs.mesh()
         """  # noqa: E501
         return self._mesh
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

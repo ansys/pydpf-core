@@ -198,6 +198,11 @@ class InputsFftEval(_Inputs):
         """
         return self._time_scoping
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsFftEval(_Outputs):
     """Intermediate class used to get outputs from
@@ -252,3 +257,8 @@ class OutputsFftEval(_Outputs):
         >>> result_offset = op.outputs.offset()
         """  # noqa: E501
         return self._offset
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

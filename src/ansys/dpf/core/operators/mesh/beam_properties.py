@@ -343,6 +343,11 @@ class InputsBeamProperties(_Inputs):
         """
         return self._data_sources
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsBeamProperties(_Outputs):
     """Intermediate class used to get outputs from
@@ -645,3 +650,8 @@ class OutputsBeamProperties(_Outputs):
         >>> result_field_offset_z = op.outputs.field_offset_z()
         """  # noqa: E501
         return self._field_offset_z
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

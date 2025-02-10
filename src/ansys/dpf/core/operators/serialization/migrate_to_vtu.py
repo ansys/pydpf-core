@@ -454,6 +454,11 @@ class InputsMigrateToVtu(_Inputs):
         """
         return self._write_mode
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMigrateToVtu(_Outputs):
     """Intermediate class used to get outputs from
@@ -488,3 +493,8 @@ class OutputsMigrateToVtu(_Outputs):
         >>> result_path = op.outputs.path()
         """  # noqa: E501
         return self._path
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

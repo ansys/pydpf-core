@@ -231,6 +231,11 @@ class InputsSerializerToString(_Inputs):
         """
         return self._any_input2
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsSerializerToString(_Outputs):
     """Intermediate class used to get outputs from
@@ -267,3 +272,8 @@ class OutputsSerializerToString(_Outputs):
         >>> result_serialized_string = op.outputs.serialized_string()
         """  # noqa: E501
         return self._serialized_string
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

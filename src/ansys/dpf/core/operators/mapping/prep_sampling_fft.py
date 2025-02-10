@@ -264,6 +264,11 @@ class InputsPrepSamplingFft(_Inputs):
         """
         return self._number_sampling_point
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsPrepSamplingFft(_Outputs):
     """Intermediate class used to get outputs from
@@ -318,3 +323,8 @@ class OutputsPrepSamplingFft(_Outputs):
         >>> result_freq_tfs_fft = op.outputs.freq_tfs_fft()
         """  # noqa: E501
         return self._freq_tfs_fft
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

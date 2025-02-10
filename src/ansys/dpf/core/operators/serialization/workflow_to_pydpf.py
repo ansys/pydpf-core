@@ -183,6 +183,11 @@ class InputsWorkflowToPydpf(_Inputs):
         """
         return self._output_path
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsWorkflowToPydpf(_Outputs):
     """Intermediate class used to get outputs from
@@ -217,3 +222,8 @@ class OutputsWorkflowToPydpf(_Outputs):
         >>> result_pydpf_code = op.outputs.pydpf_code()
         """  # noqa: E501
         return self._pydpf_code
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

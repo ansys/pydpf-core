@@ -474,6 +474,11 @@ class InputsFftApprox(_Inputs):
         """
         return self._cutoff_fr
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsFftApprox(_Outputs):
     """Intermediate class used to get outputs from
@@ -548,3 +553,8 @@ class OutputsFftApprox(_Outputs):
         >>> result_second_der_d2y = op.outputs.second_der_d2y()
         """  # noqa: E501
         return self._second_der_d2y
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

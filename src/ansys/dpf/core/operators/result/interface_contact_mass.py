@@ -299,6 +299,11 @@ class InputsInterfaceContactMass(_Inputs):
         """
         return self._unit_system
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsInterfaceContactMass(_Outputs):
     """Intermediate class used to get outputs from
@@ -335,3 +340,8 @@ class OutputsInterfaceContactMass(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -250,6 +250,11 @@ class InputsFieldsContainerMatricesLabel(_Inputs):
         """
         return self._time_scoping
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsFieldsContainerMatricesLabel(_Outputs):
     """Intermediate class used to get outputs from
@@ -286,3 +291,8 @@ class OutputsFieldsContainerMatricesLabel(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

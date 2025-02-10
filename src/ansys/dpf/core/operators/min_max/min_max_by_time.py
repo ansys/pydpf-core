@@ -206,6 +206,11 @@ class InputsMinMaxByTime(_Inputs):
         """
         return self._compute_absolute_value
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMinMaxByTime(_Outputs):
     """Intermediate class used to get outputs from
@@ -260,3 +265,8 @@ class OutputsMinMaxByTime(_Outputs):
         >>> result_max = op.outputs.max()
         """  # noqa: E501
         return self._max
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

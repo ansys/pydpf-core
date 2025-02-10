@@ -144,6 +144,11 @@ class InputsMesh(_Inputs):
         """
         return self._input
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMesh(_Outputs):
     """Intermediate class used to get outputs from
@@ -178,3 +183,8 @@ class OutputsMesh(_Outputs):
         >>> result_incremented_result = op.outputs.incremented_result()
         """  # noqa: E501
         return self._incremented_result
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

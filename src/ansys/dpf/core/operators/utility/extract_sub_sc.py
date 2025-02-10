@@ -252,6 +252,11 @@ class InputsExtractSubSc(_Inputs):
         """
         return self._collapse_labels
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsExtractSubSc(_Outputs):
     """Intermediate class used to get outputs from
@@ -286,3 +291,8 @@ class OutputsExtractSubSc(_Outputs):
         >>> result_scopings_container = op.outputs.scopings_container()
         """  # noqa: E501
         return self._scopings_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

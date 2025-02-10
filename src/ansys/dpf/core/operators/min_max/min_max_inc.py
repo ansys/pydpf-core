@@ -205,6 +205,11 @@ class InputsMinMaxInc(_Inputs):
         """
         return self._domain_id
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMinMaxInc(_Outputs):
     """Intermediate class used to get outputs from
@@ -299,3 +304,8 @@ class OutputsMinMaxInc(_Outputs):
         >>> result_domain_ids_max = op.outputs.domain_ids_max()
         """  # noqa: E501
         return self._domain_ids_max
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

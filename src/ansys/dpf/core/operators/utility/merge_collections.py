@@ -191,6 +191,11 @@ class InputsMergeCollections(_Inputs):
         """
         return self._collections2
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMergeCollections(_Outputs):
     """Intermediate class used to get outputs from
@@ -227,3 +232,8 @@ class OutputsMergeCollections(_Outputs):
         >>> result_merged_collections = op.outputs.merged_collections()
         """  # noqa: E501
         return self._merged_collections
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -268,6 +268,11 @@ class InputsPrepareMappingWorkflow(_Inputs):
         """
         return self._influence_box
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsPrepareMappingWorkflow(_Outputs):
     """Intermediate class used to get outputs from
@@ -304,3 +309,8 @@ class OutputsPrepareMappingWorkflow(_Outputs):
         >>> result_mapping_workflow = op.outputs.mapping_workflow()
         """  # noqa: E501
         return self._mapping_workflow
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

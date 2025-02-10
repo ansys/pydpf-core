@@ -181,6 +181,11 @@ class InputsMakeOneOnComp(_Inputs):
         """
         return self._scalar_int
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMakeOneOnComp(_Outputs):
     """Intermediate class used to get outputs from
@@ -215,3 +220,8 @@ class OutputsMakeOneOnComp(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

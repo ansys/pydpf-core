@@ -239,6 +239,11 @@ class InputsScopingHighPass(_Inputs):
         """
         return self._both
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsScopingHighPass(_Outputs):
     """Intermediate class used to get outputs from
@@ -273,3 +278,8 @@ class OutputsScopingHighPass(_Outputs):
         >>> result_scoping = op.outputs.scoping()
         """  # noqa: E501
         return self._scoping
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

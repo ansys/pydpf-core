@@ -202,6 +202,11 @@ class InputsMeshSelectionManagerProvider(_Inputs):
         """
         return self._data_sources
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMeshSelectionManagerProvider(_Outputs):
     """Intermediate class used to get outputs from
@@ -238,3 +243,8 @@ class OutputsMeshSelectionManagerProvider(_Outputs):
         >>> result_mesh_selection_manager = op.outputs.mesh_selection_manager()
         """  # noqa: E501
         return self._mesh_selection_manager
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

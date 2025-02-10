@@ -331,6 +331,11 @@ class InputsMeshesProvider(_Inputs):
         """
         return self._region_scoping
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMeshesProvider(_Outputs):
     """Intermediate class used to get outputs from
@@ -365,3 +370,8 @@ class OutputsMeshesProvider(_Outputs):
         >>> result_meshes = op.outputs.meshes()
         """  # noqa: E501
         return self._meshes
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

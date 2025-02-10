@@ -209,6 +209,11 @@ class InputsUnitConvert(_Inputs):
         """
         return self._unit_name
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsUnitConvert(_Outputs):
     """Intermediate class used to get outputs from
@@ -256,3 +261,8 @@ class OutputsUnitConvert(_Outputs):
             op,
         )
         self._outputs.append(self.converted_entity_as_meshes_container)
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

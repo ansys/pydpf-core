@@ -310,6 +310,11 @@ class InputsModalDampingRatio(_Inputs):
         """
         return self._k_coefficient
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsModalDampingRatio(_Outputs):
     """Intermediate class used to get outputs from
@@ -344,3 +349,8 @@ class OutputsModalDampingRatio(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

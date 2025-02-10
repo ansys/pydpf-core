@@ -274,6 +274,11 @@ class InputsElementTypesProvider(_Inputs):
         """
         return self._data_sources
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsElementTypesProvider(_Outputs):
     """Intermediate class used to get outputs from
@@ -310,3 +315,8 @@ class OutputsElementTypesProvider(_Outputs):
         >>> result_element_types_data = op.outputs.element_types_data()
         """  # noqa: E501
         return self._element_types_data
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

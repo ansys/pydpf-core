@@ -152,6 +152,11 @@ class InputsTotalMass(_Inputs):
         """
         return self._data_sources
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsTotalMass(_Outputs):
     """Intermediate class used to get outputs from
@@ -186,3 +191,8 @@ class OutputsTotalMass(_Outputs):
         >>> result_mass = op.outputs.mass()
         """  # noqa: E501
         return self._mass
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

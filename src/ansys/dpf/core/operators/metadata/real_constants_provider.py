@@ -255,6 +255,11 @@ class InputsRealConstantsProvider(_Inputs):
         """
         return self._data_sources
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsRealConstantsProvider(_Outputs):
     """Intermediate class used to get outputs from
@@ -313,3 +318,8 @@ class OutputsRealConstantsProvider(_Outputs):
         >>> result_real_constants2 = op.outputs.real_constants2()
         """  # noqa: E501
         return self._real_constants2
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

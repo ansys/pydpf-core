@@ -206,6 +206,11 @@ class InputsComputeElementCentroids(_Inputs):
         """
         return self._mesh
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsComputeElementCentroids(_Outputs):
     """Intermediate class used to get outputs from
@@ -260,3 +265,8 @@ class OutputsComputeElementCentroids(_Outputs):
         >>> result_measure = op.outputs.measure()
         """  # noqa: E501
         return self._measure
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

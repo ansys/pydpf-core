@@ -252,6 +252,11 @@ class InputsAbcWeightings(_Inputs):
         """
         return self._shape_by_tf_scoping
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsAbcWeightings(_Outputs):
     """Intermediate class used to get outputs from
@@ -286,3 +291,8 @@ class OutputsAbcWeightings(_Outputs):
         >>> result_weightings = op.outputs.weightings()
         """  # noqa: E501
         return self._weightings
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
