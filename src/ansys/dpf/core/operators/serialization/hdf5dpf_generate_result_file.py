@@ -16,6 +16,10 @@ class hdf5dpf_generate_result_file(Operator):
 
     Parameters
     ----------
+    append_mode : bool, optional
+        Experimental: allow appending chunked data to
+        the file. this disables fields
+        container content deduplication.
     dataset_size_compression_threshold : int, optional
         Integer value that defines the minimum
         dataset size (in bytes) to use h5
@@ -87,6 +91,8 @@ class hdf5dpf_generate_result_file(Operator):
     >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
 
     >>> # Make input connections
+    >>> my_append_mode = bool()
+    >>> op.inputs.append_mode.connect(my_append_mode)
     >>> my_dataset_size_compression_threshold = int()
     >>> op.inputs.dataset_size_compression_threshold.connect(my_dataset_size_compression_threshold)
     >>> my_h5_native_compression = int()
@@ -108,6 +114,7 @@ class hdf5dpf_generate_result_file(Operator):
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file(
+    ...     append_mode=my_append_mode,
     ...     dataset_size_compression_threshold=my_dataset_size_compression_threshold,
     ...     h5_native_compression=my_h5_native_compression,
     ...     export_floats=my_export_floats,
@@ -125,6 +132,7 @@ class hdf5dpf_generate_result_file(Operator):
 
     def __init__(
         self,
+        append_mode=None,
         dataset_size_compression_threshold=None,
         h5_native_compression=None,
         export_floats=None,
@@ -142,6 +150,8 @@ class hdf5dpf_generate_result_file(Operator):
         )
         self._inputs = InputsHdf5DpfGenerateResultFile(self)
         self._outputs = OutputsHdf5DpfGenerateResultFile(self)
+        if append_mode is not None:
+            self.inputs.append_mode.connect(append_mode)
         if dataset_size_compression_threshold is not None:
             self.inputs.dataset_size_compression_threshold.connect(
                 dataset_size_compression_threshold
@@ -169,6 +179,14 @@ class hdf5dpf_generate_result_file(Operator):
         spec = Specification(
             description=description,
             map_input_pin_spec={
+                -6: PinSpecification(
+                    name="append_mode",
+                    type_names=["bool"],
+                    optional=True,
+                    document="""Experimental: allow appending chunked data to
+        the file. this disables fields
+        container content deduplication.""",
+                ),
                 -5: PinSpecification(
                     name="dataset_size_compression_threshold",
                     type_names=["int32"],
@@ -321,6 +339,8 @@ class InputsHdf5DpfGenerateResultFile(_Inputs):
     --------
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
+    >>> my_append_mode = bool()
+    >>> op.inputs.append_mode.connect(my_append_mode)
     >>> my_dataset_size_compression_threshold = int()
     >>> op.inputs.dataset_size_compression_threshold.connect(my_dataset_size_compression_threshold)
     >>> my_h5_native_compression = int()
@@ -343,6 +363,10 @@ class InputsHdf5DpfGenerateResultFile(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(hdf5dpf_generate_result_file._spec().inputs, op)
+        self._append_mode = Input(
+            hdf5dpf_generate_result_file._spec().input_pin(-6), -6, op, -1
+        )
+        self._inputs.append(self._append_mode)
         self._dataset_size_compression_threshold = Input(
             hdf5dpf_generate_result_file._spec().input_pin(-5), -5, op, -1
         )
@@ -379,6 +403,28 @@ class InputsHdf5DpfGenerateResultFile(_Inputs):
             hdf5dpf_generate_result_file._spec().input_pin(5), 5, op, 1
         )
         self._inputs.append(self._input_name2)
+
+    @property
+    def append_mode(self):
+        """Allows to connect append_mode input to the operator.
+
+        Experimental: allow appending chunked data to
+        the file. this disables fields
+        container content deduplication.
+
+        Parameters
+        ----------
+        my_append_mode : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
+        >>> op.inputs.append_mode.connect(my_append_mode)
+        >>> # or
+        >>> op.inputs.append_mode(my_append_mode)
+        """
+        return self._append_mode
 
     @property
     def dataset_size_compression_threshold(self):

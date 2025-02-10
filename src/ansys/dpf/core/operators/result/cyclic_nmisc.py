@@ -12,7 +12,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class cyclic_nmisc(Operator):
-    """Computes mapdl::rst::NMISC from an rst file.
+    """This operator is deprecated: use the operator mapdl::rst::NMISC with
+    the read_cyclic pin instead. Compute mapdl::rst::NMISC from an rst
+    file and expand it with cyclic symmetry.
 
     Parameters
     ----------
@@ -146,7 +148,9 @@ class cyclic_nmisc(Operator):
 
     @staticmethod
     def _spec():
-        description = """Computes mapdl::rst::NMISC from an rst file."""
+        description = """This operator is deprecated: use the operator mapdl::rst::NMISC with
+            the read_cyclic pin instead. Compute mapdl::rst::NMISC
+            from an rst file and expand it with cyclic symmetry."""
         spec = Specification(
             description=description,
             map_input_pin_spec={

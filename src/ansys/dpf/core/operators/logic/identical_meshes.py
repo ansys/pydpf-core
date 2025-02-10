@@ -20,12 +20,13 @@ class identical_meshes(Operator):
     ----------
     meshA : MeshedRegion
     meshB : MeshedRegion
-    small_value : float
+    small_value : float, optional
         Define what is a small value for numeric
-        comparison.
-    tolerance : float
+        comparison (default value:1.0e-14).
+    tolerance : float, optional
         Define the relative tolerance ceil for
-        numeric comparison.
+        numeric comparison (default is
+        0.001).
     compare_auxiliary : bool
         Compare auxiliary data (i.e property fields,
         scopings...). default value is
@@ -115,16 +116,17 @@ class identical_meshes(Operator):
                 2: PinSpecification(
                     name="small_value",
                     type_names=["double"],
-                    optional=False,
+                    optional=True,
                     document="""Define what is a small value for numeric
-        comparison.""",
+        comparison (default value:1.0e-14).""",
                 ),
                 3: PinSpecification(
                     name="tolerance",
                     type_names=["double"],
-                    optional=False,
+                    optional=True,
                     document="""Define the relative tolerance ceil for
-        numeric comparison.""",
+        numeric comparison (default is
+        0.001).""",
                 ),
                 4: PinSpecification(
                     name="compare_auxiliary",
@@ -259,7 +261,7 @@ class InputsIdenticalMeshes(_Inputs):
         """Allows to connect small_value input to the operator.
 
         Define what is a small value for numeric
-        comparison.
+        comparison (default value:1.0e-14).
 
         Parameters
         ----------
@@ -280,7 +282,8 @@ class InputsIdenticalMeshes(_Inputs):
         """Allows to connect tolerance input to the operator.
 
         Define the relative tolerance ceil for
-        numeric comparison.
+        numeric comparison (default is
+        0.001).
 
         Parameters
         ----------
