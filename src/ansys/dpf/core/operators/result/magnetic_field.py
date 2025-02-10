@@ -65,12 +65,6 @@ class magnetic_field(Operator):
     requested_location : str, optional
         Requested location nodal, elemental or
         elementalnodal
-    read_cyclic : int, optional
-        If 0 cyclic symmetry is ignored, if 1 cyclic
-        sector is read, if 2 cyclic expansion
-        is done, if 3 cyclic expansion is
-        done and stages are merged (default
-        is 1)
     read_beams : bool, optional
         Elemental nodal beam results are read if this
         pin is set to true (default is false)
@@ -120,8 +114,6 @@ class magnetic_field(Operator):
     >>> op.inputs.mesh.connect(my_mesh)
     >>> my_requested_location = str()
     >>> op.inputs.requested_location.connect(my_requested_location)
-    >>> my_read_cyclic = int()
-    >>> op.inputs.read_cyclic.connect(my_read_cyclic)
     >>> my_read_beams = bool()
     >>> op.inputs.read_beams.connect(my_read_beams)
     >>> my_split_shells = bool()
@@ -139,7 +131,6 @@ class magnetic_field(Operator):
     ...     bool_rotate_to_global=my_bool_rotate_to_global,
     ...     mesh=my_mesh,
     ...     requested_location=my_requested_location,
-    ...     read_cyclic=my_read_cyclic,
     ...     read_beams=my_read_beams,
     ...     split_shells=my_split_shells,
     ...     shell_layer=my_shell_layer,
@@ -159,7 +150,6 @@ class magnetic_field(Operator):
         bool_rotate_to_global=None,
         mesh=None,
         requested_location=None,
-        read_cyclic=None,
         read_beams=None,
         split_shells=None,
         shell_layer=None,
@@ -185,8 +175,6 @@ class magnetic_field(Operator):
             self.inputs.mesh.connect(mesh)
         if requested_location is not None:
             self.inputs.requested_location.connect(requested_location)
-        if read_cyclic is not None:
-            self.inputs.read_cyclic.connect(read_cyclic)
         if read_beams is not None:
             self.inputs.read_beams.connect(read_beams)
         if split_shells is not None:
@@ -287,16 +275,6 @@ class magnetic_field(Operator):
                     optional=True,
                     document="""Requested location nodal, elemental or
         elementalnodal""",
-                ),
-                14: PinSpecification(
-                    name="read_cyclic",
-                    type_names=["enum dataProcessing::ECyclicReading", "int32"],
-                    optional=True,
-                    document="""If 0 cyclic symmetry is ignored, if 1 cyclic
-        sector is read, if 2 cyclic expansion
-        is done, if 3 cyclic expansion is
-        done and stages are merged (default
-        is 1)""",
                 ),
                 22: PinSpecification(
                     name="read_beams",
@@ -403,8 +381,6 @@ class InputsMagneticField(_Inputs):
     >>> op.inputs.mesh.connect(my_mesh)
     >>> my_requested_location = str()
     >>> op.inputs.requested_location.connect(my_requested_location)
-    >>> my_read_cyclic = int()
-    >>> op.inputs.read_cyclic.connect(my_read_cyclic)
     >>> my_read_beams = bool()
     >>> op.inputs.read_beams.connect(my_read_beams)
     >>> my_split_shells = bool()
@@ -433,8 +409,6 @@ class InputsMagneticField(_Inputs):
         self._inputs.append(self._mesh)
         self._requested_location = Input(magnetic_field._spec().input_pin(9), 9, op, -1)
         self._inputs.append(self._requested_location)
-        self._read_cyclic = Input(magnetic_field._spec().input_pin(14), 14, op, -1)
-        self._inputs.append(self._read_cyclic)
         self._read_beams = Input(magnetic_field._spec().input_pin(22), 22, op, -1)
         self._inputs.append(self._read_beams)
         self._split_shells = Input(magnetic_field._spec().input_pin(26), 26, op, -1)
@@ -631,30 +605,6 @@ class InputsMagneticField(_Inputs):
         >>> op.inputs.requested_location(my_requested_location)
         """
         return self._requested_location
-
-    @property
-    def read_cyclic(self):
-        """Allows to connect read_cyclic input to the operator.
-
-        If 0 cyclic symmetry is ignored, if 1 cyclic
-        sector is read, if 2 cyclic expansion
-        is done, if 3 cyclic expansion is
-        done and stages are merged (default
-        is 1)
-
-        Parameters
-        ----------
-        my_read_cyclic : int
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.result.magnetic_field()
-        >>> op.inputs.read_cyclic.connect(my_read_cyclic)
-        >>> # or
-        >>> op.inputs.read_cyclic(my_read_cyclic)
-        """
-        return self._read_cyclic
 
     @property
     def read_beams(self):
