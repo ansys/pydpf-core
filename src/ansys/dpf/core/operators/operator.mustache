@@ -111,7 +111,9 @@ class {{class_name}}(Operator):
                     {{#has_derived_class}}
                     name_derived_class=["{{{derived_type_name}}}"],
                     {{/has_derived_class}}
+                    {{#has_aliases}}
                     aliases={{{aliases}}},
+                    {{/has_aliases}}
                 ),
                 {{/input_pins}}
             },
@@ -127,7 +129,9 @@ class {{class_name}}(Operator):
                     {{#has_derived_class}}
                     name_derived_class=["{{{derived_type_name}}}"],
                     {{/has_derived_class}}
+                    {{#has_aliases}}
                     aliases={{{aliases}}},
+                    {{/has_aliases}}
                 ),
                 {{/output_pins}}
             },
@@ -223,6 +227,7 @@ class Inputs{{capital_class_name}}(_Inputs):
         """
         return self._{{name}}
     {{/input_pins}}
+    {{#has_input_aliases}}
 
     def __getattr__(self, name):
         {{#input_pins}}
@@ -233,6 +238,7 @@ class Inputs{{capital_class_name}}(_Inputs):
         {{/has_aliases}}
         {{/input_pins}}
         raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{name}'.")
+    {{/has_input_aliases}}
 
 
 class Outputs{{capital_class_name}}(_Outputs):
@@ -287,8 +293,8 @@ class Outputs{{capital_class_name}}(_Outputs):
         >>> result_{{name}} = op.outputs.{{name}}()
         """
         return self._{{name}}
-{{/multiple_types}}
-{{/output_pins}}
+    {{/multiple_types}}{{/output_pins}}
+    {{#has_output_aliases}}
 
     def __getattr__(self, name):
         {{#output_pins}}
@@ -299,3 +305,4 @@ class Outputs{{capital_class_name}}(_Outputs):
         {{/has_aliases}}
         {{/output_pins}}
         raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{name}'.")
+    {{/has_output_aliases}}
