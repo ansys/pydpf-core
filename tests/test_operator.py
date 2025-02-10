@@ -556,7 +556,11 @@ def test_inputs_outputs_scopings_container(allkindofcomplexity):
     assert scop.location == dpf.core.locations.elemental
 
     stress = model.results.stress()
-    stress.inputs.connect(op.outputs)
+    with (
+        # pytest.warns(match="Pin connection is ambiguous"),
+        pytest.warns(DeprecationWarning, match="Use explicit"),
+    ):
+        stress.inputs.connect(op.outputs)
     fc = stress.outputs.fields_container()
     assert fc.labels == ["elshape", "time"]
     assert len(fc) == 4
@@ -589,8 +593,17 @@ def test_inputs_outputs_meshes_container(allkindofcomplexity):
     sc = opsc.outputs.mesh_scoping()
 
     stress = model.results.stress()
-    stress.inputs.connect(op.outputs)
-    stress.inputs.connect(opsc.outputs)
+    with (
+        # pytest.warns(match="Pin connection is ambiguous"),
+        pytest.warns(DeprecationWarning, match="Use explicit"),
+    ):
+        stress.inputs.connect(op.outputs)
+
+    with (
+        # pytest.warns(match="Pin connection is ambiguous"),
+        pytest.warns(DeprecationWarning, match="Use explicit"),
+    ):
+        stress.inputs.connect(opsc.outputs)
     fc = stress.outputs.fields_container()
     assert fc.labels == ["body", "elshape", "time"]
     assert len(fc) == 4
