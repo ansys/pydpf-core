@@ -77,7 +77,7 @@ class identical_fc(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="AreFieldsIdentical_fc", config=config, server=server)
+        super().__init__(name="compare::fields_container", config=config, server=server)
         self._inputs = InputsIdenticalFc(self)
         self._outputs = OutputsIdenticalFc(self)
         if fields_containerA is not None:
@@ -160,7 +160,7 @@ class identical_fc(Operator):
             Server with channel connected to the remote or local instance. When
             ``None``, attempts to use the global server.
         """
-        return Operator.default_config(name="AreFieldsIdentical_fc", server=server)
+        return Operator.default_config(name="compare::fields_container", server=server)
 
     @property
     def inputs(self):

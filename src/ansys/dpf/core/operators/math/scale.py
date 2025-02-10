@@ -22,7 +22,7 @@ class scale(Operator):
     field : Field or FieldsContainer
         Field or fields container with only one field
         is expected
-    ponderation : float or Field
+    weights : float or Field
         Double/field/vector of doubles. when scoped
         on overall, same value(s) applied on
         all the data, when scoped elsewhere,
@@ -48,8 +48,8 @@ class scale(Operator):
     >>> # Make input connections
     >>> my_field = dpf.Field()
     >>> op.inputs.field.connect(my_field)
-    >>> my_ponderation = float()
-    >>> op.inputs.ponderation.connect(my_ponderation)
+    >>> my_weights = float()
+    >>> op.inputs.weights.connect(my_weights)
     >>> my_boolean = bool()
     >>> op.inputs.boolean.connect(my_boolean)
     >>> my_algorithm = int()
@@ -58,7 +58,7 @@ class scale(Operator):
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.math.scale(
     ...     field=my_field,
-    ...     ponderation=my_ponderation,
+    ...     weights=my_weights,
     ...     boolean=my_boolean,
     ...     algorithm=my_algorithm,
     ... )
@@ -70,7 +70,7 @@ class scale(Operator):
     def __init__(
         self,
         field=None,
-        ponderation=None,
+        weights=None,
         boolean=None,
         algorithm=None,
         config=None,
@@ -81,8 +81,8 @@ class scale(Operator):
         self._outputs = OutputsScale(self)
         if field is not None:
             self.inputs.field.connect(field)
-        if ponderation is not None:
-            self.inputs.ponderation.connect(ponderation)
+        if weights is not None:
+            self.inputs.weights.connect(weights)
         if boolean is not None:
             self.inputs.boolean.connect(boolean)
         if algorithm is not None:
@@ -105,7 +105,7 @@ class scale(Operator):
         is expected""",
                 ),
                 1: PinSpecification(
-                    name="ponderation",
+                    name="weights",
                     type_names=["double", "field", "vector<double>"],
                     optional=False,
                     document="""Double/field/vector of doubles. when scoped
@@ -113,6 +113,7 @@ class scale(Operator):
         all the data, when scoped elsewhere,
         corresponding values will be
         multiplied due to the scoping""",
+                    aliases=["ponderation"],
                 ),
                 2: PinSpecification(
                     name="boolean",
@@ -186,8 +187,8 @@ class InputsScale(_Inputs):
     >>> op = dpf.operators.math.scale()
     >>> my_field = dpf.Field()
     >>> op.inputs.field.connect(my_field)
-    >>> my_ponderation = float()
-    >>> op.inputs.ponderation.connect(my_ponderation)
+    >>> my_weights = float()
+    >>> op.inputs.weights.connect(my_weights)
     >>> my_boolean = bool()
     >>> op.inputs.boolean.connect(my_boolean)
     >>> my_algorithm = int()
@@ -198,8 +199,8 @@ class InputsScale(_Inputs):
         super().__init__(scale._spec().inputs, op)
         self._field = Input(scale._spec().input_pin(0), 0, op, -1)
         self._inputs.append(self._field)
-        self._ponderation = Input(scale._spec().input_pin(1), 1, op, -1)
-        self._inputs.append(self._ponderation)
+        self._weights = Input(scale._spec().input_pin(1), 1, op, -1)
+        self._inputs.append(self._weights)
         self._boolean = Input(scale._spec().input_pin(2), 2, op, -1)
         self._inputs.append(self._boolean)
         self._algorithm = Input(scale._spec().input_pin(3), 3, op, -1)
@@ -227,8 +228,8 @@ class InputsScale(_Inputs):
         return self._field
 
     @property
-    def ponderation(self):
-        """Allows to connect ponderation input to the operator.
+    def weights(self):
+        """Allows to connect weights input to the operator.
 
         Double/field/vector of doubles. when scoped
         on overall, same value(s) applied on
@@ -238,17 +239,17 @@ class InputsScale(_Inputs):
 
         Parameters
         ----------
-        my_ponderation : float or Field
+        my_weights : float or Field
 
         Examples
         --------
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.math.scale()
-        >>> op.inputs.ponderation.connect(my_ponderation)
+        >>> op.inputs.weights.connect(my_weights)
         >>> # or
-        >>> op.inputs.ponderation(my_ponderation)
+        >>> op.inputs.weights(my_weights)
         """
-        return self._ponderation
+        return self._weights
 
     @property
     def boolean(self):
@@ -290,6 +291,18 @@ class InputsScale(_Inputs):
         >>> op.inputs.algorithm(my_algorithm)
         """
         return self._algorithm
+
+    def __getattr__(self, name):
+        if name in ["ponderation"]:
+            warn(
+                DeprecationWarning(
+                    f'Operator scale: Input name "{name}" is deprecated in favor of "weights".'
+                )
+            )
+            return self.weights
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
 
 
 class OutputsScale(_Outputs):

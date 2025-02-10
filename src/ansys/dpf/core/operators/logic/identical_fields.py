@@ -78,7 +78,7 @@ class identical_fields(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="AreFieldsIdentical", config=config, server=server)
+        super().__init__(name="compare::field", config=config, server=server)
         self._inputs = InputsIdenticalFields(self)
         self._outputs = OutputsIdenticalFields(self)
         if fieldA is not None:
@@ -162,7 +162,7 @@ class identical_fields(Operator):
             Server with channel connected to the remote or local instance. When
             ``None``, attempts to use the global server.
         """
-        return Operator.default_config(name="AreFieldsIdentical", server=server)
+        return Operator.default_config(name="compare::field", server=server)
 
     @property
     def inputs(self):
