@@ -84,12 +84,14 @@ class field_to_csv(Operator):
                     type_names=["fields_container", "field"],
                     optional=False,
                     document="""Field_or_fields_container""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="file_path",
                     type_names=["string"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="storage_type",
@@ -102,6 +104,7 @@ class field_to_csv(Operator):
         1 : ranked format. if 1 is chosen,
         the csv can not be read by "csv to
         field" operator anymore. default : 0.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={},
@@ -236,6 +239,11 @@ class InputsFieldToCsv(_Inputs):
         """
         return self._storage_type
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsFieldToCsv(_Outputs):
     """Intermediate class used to get outputs from
@@ -250,3 +258,8 @@ class OutputsFieldToCsv(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(field_to_csv._spec().outputs, op)
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

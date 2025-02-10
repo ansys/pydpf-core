@@ -99,6 +99,7 @@ class filtering_max_over_time(Operator):
                     document="""Name of the invariant operator to be used to
         calculate filter (available: eqv_fc,
         invariants_deriv_fc, invariants_fc).""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="output_pin",
@@ -106,6 +107,7 @@ class filtering_max_over_time(Operator):
                     optional=True,
                     document="""Output pin of the invariant operator. default
         = 0.""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="list_of_results",
@@ -113,6 +115,7 @@ class filtering_max_over_time(Operator):
                     optional=True,
                     document="""If no result is given, filter will be applied
         on stresses and strains""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="threshold",
@@ -120,6 +123,7 @@ class filtering_max_over_time(Operator):
                     optional=True,
                     document="""Threshold from which the operator will
         filter.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -128,6 +132,7 @@ class filtering_max_over_time(Operator):
                     type_names=["workflow"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -290,6 +295,11 @@ class InputsFilteringMaxOverTime(_Inputs):
         """
         return self._threshold
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsFilteringMaxOverTime(_Outputs):
     """Intermediate class used to get outputs from
@@ -324,3 +334,8 @@ class OutputsFilteringMaxOverTime(_Outputs):
         >>> result_workflow = op.outputs.workflow()
         """  # noqa: E501
         return self._workflow
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

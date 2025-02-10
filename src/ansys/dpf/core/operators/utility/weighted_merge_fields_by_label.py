@@ -114,12 +114,14 @@ class weighted_merge_fields_by_label(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="label",
                     type_names=["string"],
                     optional=False,
                     document="""Label identifier that should be merged.""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="merged_field_support",
@@ -127,6 +129,7 @@ class weighted_merge_fields_by_label(Operator):
                     optional=True,
                     document="""The fieldscontainer's support that has
         already been merged.""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="sum_merge",
@@ -135,6 +138,7 @@ class weighted_merge_fields_by_label(Operator):
                     document="""Default is false. if true, redundant
         quantities are summed instead of
         being ignored.""",
+                    aliases=[],
                 ),
                 1000: PinSpecification(
                     name="weights",
@@ -142,6 +146,7 @@ class weighted_merge_fields_by_label(Operator):
                     optional=False,
                     document="""Weights to apply to each field from pin 1000
         to ...""",
+                    aliases=[],
                 ),
                 1001: PinSpecification(
                     name="weights",
@@ -149,6 +154,7 @@ class weighted_merge_fields_by_label(Operator):
                     optional=False,
                     document="""Weights to apply to each field from pin 1000
         to ...""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -157,6 +163,7 @@ class weighted_merge_fields_by_label(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -373,6 +380,11 @@ class InputsWeightedMergeFieldsByLabel(_Inputs):
         """
         return self._weights2
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsWeightedMergeFieldsByLabel(_Outputs):
     """Intermediate class used to get outputs from
@@ -409,3 +421,8 @@ class OutputsWeightedMergeFieldsByLabel(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -71,6 +71,7 @@ class import_symbolic_workflow(Operator):
                     type_names=["string", "data_sources"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="format",
@@ -79,6 +80,7 @@ class import_symbolic_workflow(Operator):
                     document="""-1 is auto-detection, 0 is ascii format, 1 is
         binary, 2 is json, default is -1
         (auto-detection).""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -87,6 +89,7 @@ class import_symbolic_workflow(Operator):
                     type_names=["workflow"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -192,6 +195,11 @@ class InputsImportSymbolicWorkflow(_Inputs):
         """
         return self._format
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsImportSymbolicWorkflow(_Outputs):
     """Intermediate class used to get outputs from
@@ -226,3 +234,8 @@ class OutputsImportSymbolicWorkflow(_Outputs):
         >>> result_workflow = op.outputs.workflow()
         """  # noqa: E501
         return self._workflow
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

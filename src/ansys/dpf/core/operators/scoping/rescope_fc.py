@@ -85,12 +85,14 @@ class rescope_fc(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="mesh_scoping",
                     type_names=["scoping", "vector<int32>"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="default_value",
@@ -99,6 +101,7 @@ class rescope_fc(Operator):
                     document="""If pin 2 is used, the ids not found in the
         field are added with this default
         value.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -107,6 +110,7 @@ class rescope_fc(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -232,6 +236,11 @@ class InputsRescopeFc(_Inputs):
         """
         return self._default_value
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsRescopeFc(_Outputs):
     """Intermediate class used to get outputs from
@@ -266,3 +275,8 @@ class OutputsRescopeFc(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

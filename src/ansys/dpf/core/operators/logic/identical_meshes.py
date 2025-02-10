@@ -20,12 +20,13 @@ class identical_meshes(Operator):
     ----------
     meshA : MeshedRegion
     meshB : MeshedRegion
-    small_value : float
+    small_value : float, optional
         Define what is a small value for numeric
-        comparison.
-    tolerance : float
+        comparison (default value:1.0e-14).
+    tolerance : float, optional
         Define the relative tolerance ceil for
-        numeric comparison.
+        numeric comparison (default is
+        0.001).
     compare_auxiliary : bool
         Compare auxiliary data (i.e property fields,
         scopings...). default value is
@@ -105,26 +106,31 @@ class identical_meshes(Operator):
                     type_names=["abstract_meshed_region"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="meshB",
                     type_names=["abstract_meshed_region"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="small_value",
                     type_names=["double"],
-                    optional=False,
+                    optional=True,
                     document="""Define what is a small value for numeric
-        comparison.""",
+        comparison (default value:1.0e-14).""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="tolerance",
                     type_names=["double"],
-                    optional=False,
+                    optional=True,
                     document="""Define the relative tolerance ceil for
-        numeric comparison.""",
+        numeric comparison (default is
+        0.001).""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="compare_auxiliary",
@@ -133,6 +139,7 @@ class identical_meshes(Operator):
                     document="""Compare auxiliary data (i.e property fields,
         scopings...). default value is
         'false'.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -141,6 +148,7 @@ class identical_meshes(Operator):
                     type_names=["bool"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -259,7 +267,7 @@ class InputsIdenticalMeshes(_Inputs):
         """Allows to connect small_value input to the operator.
 
         Define what is a small value for numeric
-        comparison.
+        comparison (default value:1.0e-14).
 
         Parameters
         ----------
@@ -280,7 +288,8 @@ class InputsIdenticalMeshes(_Inputs):
         """Allows to connect tolerance input to the operator.
 
         Define the relative tolerance ceil for
-        numeric comparison.
+        numeric comparison (default is
+        0.001).
 
         Parameters
         ----------
@@ -318,6 +327,11 @@ class InputsIdenticalMeshes(_Inputs):
         """
         return self._compare_auxiliary
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsIdenticalMeshes(_Outputs):
     """Intermediate class used to get outputs from
@@ -352,3 +366,8 @@ class OutputsIdenticalMeshes(_Outputs):
         >>> result_are_identical = op.outputs.are_identical()
         """  # noqa: E501
         return self._are_identical
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

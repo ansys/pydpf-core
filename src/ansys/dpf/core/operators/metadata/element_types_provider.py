@@ -104,6 +104,7 @@ class element_types_provider(Operator):
                     document="""Element type ids to recover used by the
         solver. if not set, all available
         element types to be recovered.""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="streams",
@@ -111,6 +112,7 @@ class element_types_provider(Operator):
                     optional=True,
                     document="""Result file container allowed to be kept open
         to cache data.""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
@@ -118,6 +120,7 @@ class element_types_provider(Operator):
                     optional=False,
                     document="""Result file path container, used if no
         streams are set.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -139,6 +142,7 @@ class element_types_provider(Operator):
         number of nodes per element having
         nodal stresses, new_gen_element:
         element of new generation.""",
+                    aliases=[],
                 ),
             },
         )
@@ -274,6 +278,11 @@ class InputsElementTypesProvider(_Inputs):
         """
         return self._data_sources
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsElementTypesProvider(_Outputs):
     """Intermediate class used to get outputs from
@@ -310,3 +319,8 @@ class OutputsElementTypesProvider(_Outputs):
         >>> result_element_types_data = op.outputs.element_types_data()
         """  # noqa: E501
         return self._element_types_data
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

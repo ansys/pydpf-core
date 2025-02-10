@@ -79,6 +79,7 @@ class min_max_by_time(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="compute_absolute_value",
@@ -87,6 +88,7 @@ class min_max_by_time(Operator):
                     document="""Calculate the absolute value of field
         entities before computing the
         min/max.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -95,12 +97,14 @@ class min_max_by_time(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="max",
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -206,6 +210,11 @@ class InputsMinMaxByTime(_Inputs):
         """
         return self._compute_absolute_value
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMinMaxByTime(_Outputs):
     """Intermediate class used to get outputs from
@@ -260,3 +269,8 @@ class OutputsMinMaxByTime(_Outputs):
         >>> result_max = op.outputs.max()
         """  # noqa: E501
         return self._max
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

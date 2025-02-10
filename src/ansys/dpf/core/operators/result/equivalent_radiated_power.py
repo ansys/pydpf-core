@@ -136,6 +136,7 @@ class equivalent_radiated_power(Operator):
                     optional=False,
                     document="""The input field container expects
         displacements fields""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="mesh",
@@ -143,6 +144,7 @@ class equivalent_radiated_power(Operator):
                     optional=False,
                     document="""The mesh region in this pin has to be
         boundary or skin mesh""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="time_scoping",
@@ -151,6 +153,7 @@ class equivalent_radiated_power(Operator):
                     document="""Load step number (if it's specified, the erp
         is computed only on the substeps of
         this step) or time scoping""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="mass_density",
@@ -158,6 +161,7 @@ class equivalent_radiated_power(Operator):
                     optional=False,
                     document="""Mass density (if it's not specified, default
         value of the air is applied).""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="speed_of_sound",
@@ -166,6 +170,7 @@ class equivalent_radiated_power(Operator):
                     document="""Speed of sound (if it's not specified,
         default value of the speed of sound
         in the air is applied).""",
+                    aliases=[],
                 ),
                 5: PinSpecification(
                     name="erp_type",
@@ -177,6 +182,7 @@ class equivalent_radiated_power(Operator):
         be given in the pin 1) and 2 the
         enhanced erp is computed. default is
         0.""",
+                    aliases=[],
                 ),
                 6: PinSpecification(
                     name="boolean",
@@ -184,12 +190,14 @@ class equivalent_radiated_power(Operator):
                     optional=False,
                     document="""If this pin is set to true, the erp level in
         db is computed""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="factor",
                     type_names=["double"],
                     optional=False,
                     document="""Erp reference value. default is 1e-12""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -198,6 +206,7 @@ class equivalent_radiated_power(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -468,6 +477,11 @@ class InputsEquivalentRadiatedPower(_Inputs):
         """
         return self._factor
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsEquivalentRadiatedPower(_Outputs):
     """Intermediate class used to get outputs from
@@ -504,3 +518,8 @@ class OutputsEquivalentRadiatedPower(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

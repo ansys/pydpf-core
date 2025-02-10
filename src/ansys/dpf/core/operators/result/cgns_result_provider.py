@@ -125,6 +125,7 @@ class cgns_result_provider(Operator):
         time/freq step ids (use scoping with
         timefreq_steps location) required in
         output""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="mesh_scoping",
@@ -136,6 +137,7 @@ class cgns_result_provider(Operator):
         using scopings container enables to
         split the result fields container in
         domains""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="streams_container",
@@ -143,6 +145,7 @@ class cgns_result_provider(Operator):
                     optional=True,
                     document="""Result file container allowed to be kept open
         to cache data""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
@@ -150,6 +153,7 @@ class cgns_result_provider(Operator):
                     optional=False,
                     document="""Result file path container, used if no
         streams are set""",
+                    aliases=[],
                 ),
                 17: PinSpecification(
                     name="result_name",
@@ -157,12 +161,14 @@ class cgns_result_provider(Operator):
                     optional=True,
                     document="""Name of the result to read. by default the
         name of the operator is taken.""",
+                    aliases=[],
                 ),
                 25: PinSpecification(
                     name="region_scoping",
                     type_names=["scoping", "vector<int32>", "int32"],
                     optional=True,
                     document="""Optional zone name/id of the mesh.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -171,6 +177,7 @@ class cgns_result_provider(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""Results""",
+                    aliases=[],
                 ),
             },
         )
@@ -390,6 +397,11 @@ class InputsCgnsResultProvider(_Inputs):
         """
         return self._region_scoping
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsCgnsResultProvider(_Outputs):
     """Intermediate class used to get outputs from
@@ -424,3 +436,8 @@ class OutputsCgnsResultProvider(_Outputs):
         >>> result_fields = op.outputs.fields()
         """  # noqa: E501
         return self._fields
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

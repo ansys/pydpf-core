@@ -86,6 +86,7 @@ class max_by_component(Operator):
                     type_names=["bool"],
                     optional=False,
                     document="""Use_absolute_value""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="field",
@@ -93,6 +94,7 @@ class max_by_component(Operator):
                     optional=False,
                     document="""Field or fields container with only one field
         is expected""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="field",
@@ -100,6 +102,7 @@ class max_by_component(Operator):
                     optional=False,
                     document="""Field or fields container with only one field
         is expected""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -108,6 +111,7 @@ class max_by_component(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -239,6 +243,11 @@ class InputsMaxByComponent(_Inputs):
         """
         return self._field2
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMaxByComponent(_Outputs):
     """Intermediate class used to get outputs from
@@ -273,3 +282,8 @@ class OutputsMaxByComponent(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

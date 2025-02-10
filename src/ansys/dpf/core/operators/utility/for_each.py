@@ -102,30 +102,35 @@ class for_each(Operator):
                     document="""Either the result of the make_iterable_info
         operator, or the operator that must
         be incremented.""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="iterable_values",
                     type_names=["any"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="pin_index",
                     type_names=["int32"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="forward",
                     type_names=["any"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="forward",
                     type_names=["any"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -133,16 +138,19 @@ class for_each(Operator):
                     name="empty",
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="output1",
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="output2",
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -312,6 +320,11 @@ class InputsForEach(_Inputs):
         """
         return self._forward2
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsForEach(_Outputs):
     """Intermediate class used to get outputs from
@@ -386,3 +399,8 @@ class OutputsForEach(_Outputs):
         >>> result_output2 = op.outputs.output2()
         """  # noqa: E501
         return self._output2
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

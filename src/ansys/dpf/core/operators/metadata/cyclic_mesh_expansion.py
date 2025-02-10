@@ -88,12 +88,14 @@ class cyclic_mesh_expansion(Operator):
                     type_names=["abstract_meshed_region", "meshes_container"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 16: PinSpecification(
                     name="cyclic_support",
                     type_names=["cyclic_support"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 18: PinSpecification(
                     name="sectors_to_expand",
@@ -102,6 +104,7 @@ class cyclic_mesh_expansion(Operator):
                     document="""Sectors to expand (start at 0), for
         multistage: use scopings container
         with 'stage' label.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -110,6 +113,7 @@ class cyclic_mesh_expansion(Operator):
                     type_names=["abstract_meshed_region"],
                     optional=False,
                     document="""Expanded meshed region.""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="cyclic_support",
@@ -118,6 +122,7 @@ class cyclic_mesh_expansion(Operator):
                     document="""Input cyclic support modified in place
         containing the new expanded meshed
         regions.""",
+                    aliases=[],
                 ),
             },
         )
@@ -249,6 +254,11 @@ class InputsCyclicMeshExpansion(_Inputs):
         """
         return self._sectors_to_expand
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsCyclicMeshExpansion(_Outputs):
     """Intermediate class used to get outputs from
@@ -305,3 +315,8 @@ class OutputsCyclicMeshExpansion(_Outputs):
         >>> result_cyclic_support = op.outputs.cyclic_support()
         """  # noqa: E501
         return self._cyclic_support
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

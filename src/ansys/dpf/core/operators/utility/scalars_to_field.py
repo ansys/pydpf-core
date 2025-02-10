@@ -116,12 +116,14 @@ class scalars_to_field(Operator):
         specify a double to have a field of
         same value or specify directly the
         data vector.""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="unit",
                     type_names=["string"],
                     optional=True,
                     document="""Unit symbol (m, hz, kg, ...)""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="location",
@@ -130,6 +132,7 @@ class scalars_to_field(Operator):
                     document="""Location of the field ex 'nodal',
         'elementalnodal', 'elemental'...
         default is 'numeric'.""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="num_entity",
@@ -138,18 +141,21 @@ class scalars_to_field(Operator):
                     document="""Number of field entities. default is 1 or the
         size of the scoping in input if
         specified.""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="num_comp",
                     type_names=["int32"],
                     optional=True,
                     document="""Number of field components. default is 1.""",
+                    aliases=[],
                 ),
                 5: PinSpecification(
                     name="scoping",
                     type_names=["scoping"],
                     optional=True,
                     document="""Scoping.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -158,6 +164,7 @@ class scalars_to_field(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -366,6 +373,11 @@ class InputsScalarsToField(_Inputs):
         """
         return self._scoping
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsScalarsToField(_Outputs):
     """Intermediate class used to get outputs from
@@ -400,3 +412,8 @@ class OutputsScalarsToField(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

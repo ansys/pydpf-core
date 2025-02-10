@@ -77,12 +77,14 @@ class string_deserializer(Operator):
                     type_names=["int32"],
                     optional=False,
                     document="""0 for string (default), and 1 for binary""",
+                    aliases=[],
                 ),
                 0: PinSpecification(
                     name="serialized_string",
                     type_names=["string"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -92,6 +94,7 @@ class string_deserializer(Operator):
                     optional=False,
                     document="""Number and types of outputs corresponding of
         the inputs used in the serialization""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="any_output2",
@@ -99,6 +102,7 @@ class string_deserializer(Operator):
                     optional=False,
                     document="""Number and types of outputs corresponding of
         the inputs used in the serialization""",
+                    aliases=[],
                 ),
             },
         )
@@ -202,6 +206,11 @@ class InputsStringDeserializer(_Inputs):
         """
         return self._serialized_string
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsStringDeserializer(_Outputs):
     """Intermediate class used to get outputs from
@@ -256,3 +265,8 @@ class OutputsStringDeserializer(_Outputs):
         >>> result_any_output2 = op.outputs.any_output2()
         """  # noqa: E501
         return self._any_output2
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

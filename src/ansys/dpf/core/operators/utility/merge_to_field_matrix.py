@@ -71,6 +71,7 @@ class merge_to_field_matrix(Operator):
                     optional=False,
                     document="""Either a fields container, a vector of fields
         to merge, or fields from pin 0 to ...""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="fields",
@@ -78,6 +79,7 @@ class merge_to_field_matrix(Operator):
                     optional=False,
                     document="""Either a fields container, a vector of fields
         to merge, or fields from pin 0 to ...""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -86,6 +88,7 @@ class merge_to_field_matrix(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -191,6 +194,11 @@ class InputsMergeToFieldMatrix(_Inputs):
         """
         return self._fields2
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMergeToFieldMatrix(_Outputs):
     """Intermediate class used to get outputs from
@@ -227,3 +235,8 @@ class OutputsMergeToFieldMatrix(_Outputs):
         >>> result_merged_field_matrix = op.outputs.merged_field_matrix()
         """  # noqa: E501
         return self._merged_field_matrix
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

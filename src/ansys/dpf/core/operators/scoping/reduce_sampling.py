@@ -69,6 +69,7 @@ class reduce_sampling(Operator):
                     type_names=["scoping"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="denominator",
@@ -77,6 +78,7 @@ class reduce_sampling(Operator):
                     document="""Set the number of time the scoping is reduced
         (default is 2). must be integer value
         above 1.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -85,6 +87,7 @@ class reduce_sampling(Operator):
                     type_names=["scoping"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -188,6 +191,11 @@ class InputsReduceSampling(_Inputs):
         """
         return self._denominator
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsReduceSampling(_Outputs):
     """Intermediate class used to get outputs from
@@ -222,3 +230,8 @@ class OutputsReduceSampling(_Outputs):
         >>> result_mesh_scoping = op.outputs.mesh_scoping()
         """  # noqa: E501
         return self._mesh_scoping
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

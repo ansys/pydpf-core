@@ -79,12 +79,14 @@ class split_data_sources(Operator):
                     type_names=["data_sources"],
                     optional=False,
                     document="""Data sources to split.""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="output_count",
                     type_names=["int32"],
                     optional=False,
                     document="""Number of desired outputs.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -93,18 +95,21 @@ class split_data_sources(Operator):
                     type_names=["int32"],
                     optional=False,
                     document="""Actual number of outputs.""",
+                    aliases=[],
                 ),
                 0: PinSpecification(
                     name="outputs1",
                     type_names=["data_sources"],
                     optional=False,
                     document="""Data sources outputs.""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="outputs2",
                     type_names=["data_sources"],
                     optional=False,
                     document="""Data sources outputs.""",
+                    aliases=[],
                 ),
             },
         )
@@ -208,6 +213,11 @@ class InputsSplitDataSources(_Inputs):
         """
         return self._output_count
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsSplitDataSources(_Outputs):
     """Intermediate class used to get outputs from
@@ -282,3 +292,8 @@ class OutputsSplitDataSources(_Outputs):
         >>> result_outputs2 = op.outputs.outputs2()
         """  # noqa: E501
         return self._outputs2
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

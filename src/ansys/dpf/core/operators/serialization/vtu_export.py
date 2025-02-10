@@ -144,18 +144,21 @@ class vtu_export(Operator):
                     type_names=["string"],
                     optional=False,
                     document="""Directory path""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="base_name",
                     type_names=["string"],
                     optional=True,
                     document="""Vtu base file name, (default is file)""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="mesh",
                     type_names=["abstract_meshed_region"],
                     optional=False,
                     document="""Mesh""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="fields",
@@ -166,6 +169,7 @@ class vtu_export(Operator):
         field to export. when there is no
         support available in the exported
         mesh, that data is ignored.""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="fields",
@@ -176,6 +180,7 @@ class vtu_export(Operator):
         field to export. when there is no
         support available in the exported
         mesh, that data is ignored.""",
+                    aliases=[],
                 ),
                 100: PinSpecification(
                     name="write_mode",
@@ -184,6 +189,7 @@ class vtu_export(Operator):
                     document="""Available are rawbinarycompressed, rawbinary,
         base64appended, base64inline, ascii,
         default is (rawbinarycompressed)""",
+                    aliases=[],
                 ),
                 101: PinSpecification(
                     name="as_point_cloud",
@@ -191,6 +197,7 @@ class vtu_export(Operator):
                     optional=True,
                     document="""Whether to export the mesh as a point cloud.
         default is false.""",
+                    aliases=[],
                 ),
                 102: PinSpecification(
                     name="export_faces",
@@ -199,12 +206,14 @@ class vtu_export(Operator):
                     document="""Whether to also export faces as shell
         elements when the mesh contains
         cells. default is false.""",
+                    aliases=[],
                 ),
                 103: PinSpecification(
                     name="mesh_properties",
                     type_names=["vector<string>", "string_field"],
                     optional=True,
                     document="""List of names of mesh properties to export.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -213,6 +222,7 @@ class vtu_export(Operator):
                     type_names=["data_sources"],
                     optional=False,
                     document="""List of output vtu file path""",
+                    aliases=[],
                 ),
             },
         )
@@ -497,6 +507,11 @@ class InputsVtuExport(_Inputs):
         """
         return self._mesh_properties
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsVtuExport(_Outputs):
     """Intermediate class used to get outputs from
@@ -531,3 +546,8 @@ class OutputsVtuExport(_Outputs):
         >>> result_path = op.outputs.path()
         """  # noqa: E501
         return self._path
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

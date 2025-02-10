@@ -72,6 +72,7 @@ class von_mises_eqv_fc(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 13: PinSpecification(
                     name="poisson_ratio",
@@ -79,6 +80,7 @@ class von_mises_eqv_fc(Operator):
                     optional=False,
                     document="""Poisson ratio to be used in equivalent strain
         calculation.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -87,6 +89,7 @@ class von_mises_eqv_fc(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -189,6 +192,11 @@ class InputsVonMisesEqvFc(_Inputs):
         """
         return self._poisson_ratio
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsVonMisesEqvFc(_Outputs):
     """Intermediate class used to get outputs from
@@ -223,3 +231,8 @@ class OutputsVonMisesEqvFc(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

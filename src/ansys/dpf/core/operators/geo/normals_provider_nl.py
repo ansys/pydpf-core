@@ -89,6 +89,7 @@ class normals_provider_nl(Operator):
                     type_names=["abstract_meshed_region"],
                     optional=False,
                     document="""Skin, face, or shell mesh region.""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="mesh_scoping",
@@ -96,6 +97,7 @@ class normals_provider_nl(Operator):
                     optional=True,
                     document="""Elemental, elementalnodal, or nodal scoping.
         location derived from this.""",
+                    aliases=[],
                 ),
                 9: PinSpecification(
                     name="requested_location",
@@ -105,6 +107,7 @@ class normals_provider_nl(Operator):
         is elemental or elementalnodal this
         overrides scoping. default is
         elemental.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -113,6 +116,7 @@ class normals_provider_nl(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -246,6 +250,11 @@ class InputsNormalsProviderNl(_Inputs):
         """
         return self._requested_location
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsNormalsProviderNl(_Outputs):
     """Intermediate class used to get outputs from
@@ -280,3 +289,8 @@ class OutputsNormalsProviderNl(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

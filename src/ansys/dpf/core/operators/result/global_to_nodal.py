@@ -77,6 +77,7 @@ class global_to_nodal(Operator):
                     document="""Vector or tensor field that must be rotated,
         expressed in global coordinate
         system.""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="fieldB",
@@ -85,6 +86,7 @@ class global_to_nodal(Operator):
                     document="""Nodal euler angles defined from a result
         file. those  must be the rotations
         from nodal to global.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -93,6 +95,7 @@ class global_to_nodal(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""Rotated field""",
+                    aliases=[],
                 ),
             },
         )
@@ -200,6 +203,11 @@ class InputsGlobalToNodal(_Inputs):
         """
         return self._fieldB
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsGlobalToNodal(_Outputs):
     """Intermediate class used to get outputs from
@@ -234,3 +242,8 @@ class OutputsGlobalToNodal(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -67,6 +67,7 @@ class bind_support_fc(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="support",
@@ -77,6 +78,7 @@ class bind_support_fc(Operator):
                     ],
                     optional=False,
                     document="""Meshed region or a support of the field.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -85,6 +87,7 @@ class bind_support_fc(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -186,6 +189,11 @@ class InputsBindSupportFc(_Inputs):
         """
         return self._support
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsBindSupportFc(_Outputs):
     """Intermediate class used to get outputs from
@@ -220,3 +228,8 @@ class OutputsBindSupportFc(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

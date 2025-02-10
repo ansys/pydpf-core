@@ -73,6 +73,7 @@ class merge_string_fields(Operator):
                     optional=False,
                     document="""Either a a vector of string fields to merge
         or string fields from pin 0 to ...""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="string_fields",
@@ -80,6 +81,7 @@ class merge_string_fields(Operator):
                     optional=False,
                     document="""Either a a vector of string fields to merge
         or string fields from pin 0 to ...""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -88,6 +90,7 @@ class merge_string_fields(Operator):
                     type_names=["string_field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -193,6 +196,11 @@ class InputsMergeStringFields(_Inputs):
         """
         return self._string_fields2
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMergeStringFields(_Outputs):
     """Intermediate class used to get outputs from
@@ -227,3 +235,8 @@ class OutputsMergeStringFields(_Outputs):
         >>> result_string_field = op.outputs.string_field()
         """  # noqa: E501
         return self._string_field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

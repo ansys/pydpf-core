@@ -58,6 +58,7 @@ class grpc_shutdown_server(Operator):
                     type_names=["streams_container"],
                     optional=False,
                     document="""Dpf streams handling the server""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={},
@@ -138,6 +139,11 @@ class InputsGrpcShutdownServer(_Inputs):
         """
         return self._grpc_stream
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsGrpcShutdownServer(_Outputs):
     """Intermediate class used to get outputs from
@@ -152,3 +158,8 @@ class OutputsGrpcShutdownServer(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(grpc_shutdown_server._spec().outputs, op)
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

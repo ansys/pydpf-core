@@ -79,6 +79,7 @@ class integrate_over_time_freq(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="scoping",
@@ -86,6 +87,7 @@ class integrate_over_time_freq(Operator):
                     optional=True,
                     document="""Integrate the input field over a specific
         scoping.""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="time_freq_support",
@@ -94,6 +96,7 @@ class integrate_over_time_freq(Operator):
                     document="""Time freq to integrate on, otherwise time
         freq support from the input field is
         taken.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -102,6 +105,7 @@ class integrate_over_time_freq(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -232,6 +236,11 @@ class InputsIntegrateOverTimeFreq(_Inputs):
         """
         return self._time_freq_support
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsIntegrateOverTimeFreq(_Outputs):
     """Intermediate class used to get outputs from
@@ -266,3 +275,8 @@ class OutputsIntegrateOverTimeFreq(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

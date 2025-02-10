@@ -98,30 +98,35 @@ class time_integration(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""Field""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="resample_output",
                     type_names=["bool"],
                     optional=True,
                     document="""Resample the output""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="absolute_error",
                     type_names=["double"],
                     optional=True,
                     document="""Absolute error for the resampling""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="minimum_step_size",
                     type_names=["double"],
                     optional=True,
                     document="""Minimum time step size for the resamplig""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="integration_constant",
                     type_names=["double"],
                     optional=True,
                     document="""Constant to be added to the integrated field""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -130,6 +135,7 @@ class time_integration(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -309,6 +315,11 @@ class InputsTimeIntegration(_Inputs):
         """
         return self._integration_constant
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsTimeIntegration(_Outputs):
     """Intermediate class used to get outputs from
@@ -343,3 +354,8 @@ class OutputsTimeIntegration(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

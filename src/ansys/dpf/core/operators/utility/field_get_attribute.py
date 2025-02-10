@@ -72,6 +72,7 @@ class field_get_attribute(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="property_name",
@@ -79,6 +80,7 @@ class field_get_attribute(Operator):
                     optional=False,
                     document="""Accepted inputs are: 'time_freq_support' and
         'scoping'.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -87,6 +89,7 @@ class field_get_attribute(Operator):
                     type_names=["time_freq_support", "scoping"],
                     optional=False,
                     document="""Property value.""",
+                    aliases=[],
                 ),
             },
         )
@@ -189,6 +192,11 @@ class InputsFieldGetAttribute(_Inputs):
         """
         return self._property_name
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsFieldGetAttribute(_Outputs):
     """Intermediate class used to get outputs from
@@ -220,3 +228,8 @@ class OutputsFieldGetAttribute(_Outputs):
             op,
         )
         self._outputs.append(self.property_as_scoping)
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -60,12 +60,6 @@ class elemental_heat_generation(Operator):
     mesh : MeshedRegion or MeshesContainer, optional
         Prevents from reading the mesh in the result
         files
-    read_cyclic : int, optional
-        If 0 cyclic symmetry is ignored, if 1 cyclic
-        sector is read, if 2 cyclic expansion
-        is done, if 3 cyclic expansion is
-        done and stages are merged (default
-        is 1)
 
     Returns
     -------
@@ -93,8 +87,6 @@ class elemental_heat_generation(Operator):
     >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
     >>> my_mesh = dpf.MeshedRegion()
     >>> op.inputs.mesh.connect(my_mesh)
-    >>> my_read_cyclic = int()
-    >>> op.inputs.read_cyclic.connect(my_read_cyclic)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.elemental_heat_generation(
@@ -105,7 +97,6 @@ class elemental_heat_generation(Operator):
     ...     data_sources=my_data_sources,
     ...     bool_rotate_to_global=my_bool_rotate_to_global,
     ...     mesh=my_mesh,
-    ...     read_cyclic=my_read_cyclic,
     ... )
 
     >>> # Get output data
@@ -121,7 +112,6 @@ class elemental_heat_generation(Operator):
         data_sources=None,
         bool_rotate_to_global=None,
         mesh=None,
-        read_cyclic=None,
         config=None,
         server=None,
     ):
@@ -142,8 +132,6 @@ class elemental_heat_generation(Operator):
             self.inputs.bool_rotate_to_global.connect(bool_rotate_to_global)
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
-        if read_cyclic is not None:
-            self.inputs.read_cyclic.connect(read_cyclic)
 
     @staticmethod
     def _spec():
@@ -178,6 +166,7 @@ class elemental_heat_generation(Operator):
         is taken when time/freqs are higher
         than available time/freqs in result
         files.""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="mesh_scoping",
@@ -194,6 +183,7 @@ class elemental_heat_generation(Operator):
         are asked for. using scopings
         container allows you to split the
         result fields container into domains""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="fields_container",
@@ -201,6 +191,7 @@ class elemental_heat_generation(Operator):
                     optional=True,
                     document="""Fields container already allocated modified
         inplace""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="streams_container",
@@ -208,6 +199,7 @@ class elemental_heat_generation(Operator):
                     optional=True,
                     document="""Result file container allowed to be kept open
         to cache data""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
@@ -215,6 +207,7 @@ class elemental_heat_generation(Operator):
                     optional=False,
                     document="""Result file path container, used if no
         streams are set""",
+                    aliases=[],
                 ),
                 5: PinSpecification(
                     name="bool_rotate_to_global",
@@ -222,6 +215,7 @@ class elemental_heat_generation(Operator):
                     optional=True,
                     document="""If true the field is rotated to global
         coordinate system (default true)""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="mesh",
@@ -229,16 +223,7 @@ class elemental_heat_generation(Operator):
                     optional=True,
                     document="""Prevents from reading the mesh in the result
         files""",
-                ),
-                14: PinSpecification(
-                    name="read_cyclic",
-                    type_names=["enum dataProcessing::ECyclicReading", "int32"],
-                    optional=True,
-                    document="""If 0 cyclic symmetry is ignored, if 1 cyclic
-        sector is read, if 2 cyclic expansion
-        is done, if 3 cyclic expansion is
-        done and stages are merged (default
-        is 1)""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -247,6 +232,7 @@ class elemental_heat_generation(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -311,8 +297,6 @@ class InputsElementalHeatGeneration(_Inputs):
     >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
     >>> my_mesh = dpf.MeshedRegion()
     >>> op.inputs.mesh.connect(my_mesh)
-    >>> my_read_cyclic = int()
-    >>> op.inputs.read_cyclic.connect(my_read_cyclic)
     """
 
     def __init__(self, op: Operator):
@@ -343,10 +327,6 @@ class InputsElementalHeatGeneration(_Inputs):
         self._inputs.append(self._bool_rotate_to_global)
         self._mesh = Input(elemental_heat_generation._spec().input_pin(7), 7, op, -1)
         self._inputs.append(self._mesh)
-        self._read_cyclic = Input(
-            elemental_heat_generation._spec().input_pin(14), 14, op, -1
-        )
-        self._inputs.append(self._read_cyclic)
 
     @property
     def time_scoping(self):
@@ -517,29 +497,10 @@ class InputsElementalHeatGeneration(_Inputs):
         """
         return self._mesh
 
-    @property
-    def read_cyclic(self):
-        """Allows to connect read_cyclic input to the operator.
-
-        If 0 cyclic symmetry is ignored, if 1 cyclic
-        sector is read, if 2 cyclic expansion
-        is done, if 3 cyclic expansion is
-        done and stages are merged (default
-        is 1)
-
-        Parameters
-        ----------
-        my_read_cyclic : int
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.result.elemental_heat_generation()
-        >>> op.inputs.read_cyclic.connect(my_read_cyclic)
-        >>> # or
-        >>> op.inputs.read_cyclic(my_read_cyclic)
-        """
-        return self._read_cyclic
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
 
 
 class OutputsElementalHeatGeneration(_Outputs):
@@ -577,3 +538,8 @@ class OutputsElementalHeatGeneration(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

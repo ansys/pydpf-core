@@ -101,30 +101,35 @@ class modal_damping_ratio(Operator):
                     type_names=["vector<double>"],
                     optional=False,
                     document="""Input vector expects natural frequencies.""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="const_ratio",
                     type_names=["double"],
                     optional=True,
                     document="""Constant modal damping ratio""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="ratio_by_modes",
                     type_names=["vector<double>"],
                     optional=True,
                     document="""Modal damping ratio for each mode shape""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="m_coefficient",
                     type_names=["double"],
                     optional=False,
                     document="""Global mass matrix multiplier""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="k_coefficient",
                     type_names=["double"],
                     optional=False,
                     document="""Global stiffness matrix multiplier""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -133,6 +138,7 @@ class modal_damping_ratio(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""Field of modal damping ratio.""",
+                    aliases=[],
                 ),
             },
         )
@@ -310,6 +316,11 @@ class InputsModalDampingRatio(_Inputs):
         """
         return self._k_coefficient
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsModalDampingRatio(_Outputs):
     """Intermediate class used to get outputs from
@@ -344,3 +355,8 @@ class OutputsModalDampingRatio(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

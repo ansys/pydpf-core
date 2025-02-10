@@ -93,6 +93,7 @@ class extract_sub_mc(Operator):
                     type_names=["meshes_container"],
                     optional=False,
                     document="""Meshes""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="label_space",
@@ -101,6 +102,7 @@ class extract_sub_mc(Operator):
                     document="""Label space, or scoping defining the label
         space (scoping location), values to
         keep (scoping ids)""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="collapse_labels",
@@ -111,6 +113,7 @@ class extract_sub_mc(Operator):
         suppressed from the output meshes
         container, otherwise, label space is
         kept.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -119,6 +122,7 @@ class extract_sub_mc(Operator):
                     type_names=["meshes_container"],
                     optional=False,
                     document="""Meshes""",
+                    aliases=[],
                 ),
             },
         )
@@ -252,6 +256,11 @@ class InputsExtractSubMc(_Inputs):
         """
         return self._collapse_labels
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsExtractSubMc(_Outputs):
     """Intermediate class used to get outputs from
@@ -286,3 +295,8 @@ class OutputsExtractSubMc(_Outputs):
         >>> result_meshes_container = op.outputs.meshes_container()
         """  # noqa: E501
         return self._meshes_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -137,6 +137,7 @@ class migrate_to_vtu(Operator):
                     type_names=["scoping", "vector<int32>"],
                     optional=True,
                     document="""Time sets to export, default is all""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="streams_container",
@@ -144,6 +145,7 @@ class migrate_to_vtu(Operator):
                     optional=True,
                     document="""Result file container allowed to be kept open
         to cache data""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
@@ -151,18 +153,21 @@ class migrate_to_vtu(Operator):
                     optional=False,
                     document="""Result file path container, used if no
         streams are set""",
+                    aliases=[],
                 ),
                 20: PinSpecification(
                     name="directory",
                     type_names=["string"],
                     optional=False,
                     document="""Directory path""",
+                    aliases=[],
                 ),
                 21: PinSpecification(
                     name="base_name",
                     type_names=["string"],
                     optional=True,
                     document="""Vtu base file name, (default is file)""",
+                    aliases=[],
                 ),
                 30: PinSpecification(
                     name="result",
@@ -172,6 +177,7 @@ class migrate_to_vtu(Operator):
         pin, only these results are exported
         (else all available results are
         exported)""",
+                    aliases=[],
                 ),
                 31: PinSpecification(
                     name="result",
@@ -181,6 +187,7 @@ class migrate_to_vtu(Operator):
         pin, only these results are exported
         (else all available results are
         exported)""",
+                    aliases=[],
                 ),
                 100: PinSpecification(
                     name="write_mode",
@@ -189,6 +196,7 @@ class migrate_to_vtu(Operator):
                     document="""Available are rawbinarycompressed, rawbinary,
         base64appended, base64inline, ascii,
         default is (rawbinarycompressed)""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -197,6 +205,7 @@ class migrate_to_vtu(Operator):
                     type_names=["data_sources"],
                     optional=False,
                     document="""List of output vtu file path""",
+                    aliases=[],
                 ),
             },
         )
@@ -454,6 +463,11 @@ class InputsMigrateToVtu(_Inputs):
         """
         return self._write_mode
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMigrateToVtu(_Outputs):
     """Intermediate class used to get outputs from
@@ -488,3 +502,8 @@ class OutputsMigrateToVtu(_Outputs):
         >>> result_path = op.outputs.path()
         """  # noqa: E501
         return self._path
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

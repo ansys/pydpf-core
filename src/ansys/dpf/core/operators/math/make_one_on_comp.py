@@ -68,12 +68,14 @@ class make_one_on_comp(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="scalar_int",
                     type_names=["int32"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -82,6 +84,7 @@ class make_one_on_comp(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -181,6 +184,11 @@ class InputsMakeOneOnComp(_Inputs):
         """
         return self._scalar_int
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMakeOneOnComp(_Outputs):
     """Intermediate class used to get outputs from
@@ -215,3 +223,8 @@ class OutputsMakeOneOnComp(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

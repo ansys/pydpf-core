@@ -86,12 +86,14 @@ class elements_facets_surfaces_over_time(Operator):
                     type_names=["scoping"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="displacement",
                     type_names=["fields_container"],
                     optional=True,
                     document="""Displacement field's container.""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="mesh",
@@ -100,6 +102,7 @@ class elements_facets_surfaces_over_time(Operator):
                     document="""Mesh must be defined if the displacement
         field's container does not contain
         it, or if there is no displacement.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -108,12 +111,14 @@ class elements_facets_surfaces_over_time(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""Surfaces field.""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="mesh",
                     type_names=["abstract_meshed_region"],
                     optional=False,
                     document="""Mesh made of surface elements only.""",
+                    aliases=[],
                 ),
             },
         )
@@ -247,6 +252,11 @@ class InputsElementsFacetsSurfacesOverTime(_Inputs):
         """
         return self._mesh
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsElementsFacetsSurfacesOverTime(_Outputs):
     """Intermediate class used to get outputs from
@@ -305,3 +315,8 @@ class OutputsElementsFacetsSurfacesOverTime(_Outputs):
         >>> result_mesh = op.outputs.mesh()
         """  # noqa: E501
         return self._mesh
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

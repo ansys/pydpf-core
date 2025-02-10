@@ -20,7 +20,7 @@ class accumulate(Operator):
     fieldA : Field or FieldsContainer
         Field or fields container with only one field
         is expected
-    ponderation : Field, optional
+    weights : Field, optional
         Field containing weights, one weight per
         entity
     time_scoping : Scoping, optional
@@ -42,15 +42,15 @@ class accumulate(Operator):
     >>> # Make input connections
     >>> my_fieldA = dpf.Field()
     >>> op.inputs.fieldA.connect(my_fieldA)
-    >>> my_ponderation = dpf.Field()
-    >>> op.inputs.ponderation.connect(my_ponderation)
+    >>> my_weights = dpf.Field()
+    >>> op.inputs.weights.connect(my_weights)
     >>> my_time_scoping = dpf.Scoping()
     >>> op.inputs.time_scoping.connect(my_time_scoping)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.math.accumulate(
     ...     fieldA=my_fieldA,
-    ...     ponderation=my_ponderation,
+    ...     weights=my_weights,
     ...     time_scoping=my_time_scoping,
     ... )
 
@@ -59,15 +59,15 @@ class accumulate(Operator):
     """
 
     def __init__(
-        self, fieldA=None, ponderation=None, time_scoping=None, config=None, server=None
+        self, fieldA=None, weights=None, time_scoping=None, config=None, server=None
     ):
         super().__init__(name="accumulate", config=config, server=server)
         self._inputs = InputsAccumulate(self)
         self._outputs = OutputsAccumulate(self)
         if fieldA is not None:
             self.inputs.fieldA.connect(fieldA)
-        if ponderation is not None:
-            self.inputs.ponderation.connect(ponderation)
+        if weights is not None:
+            self.inputs.weights.connect(weights)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
 
@@ -84,19 +84,22 @@ class accumulate(Operator):
                     optional=False,
                     document="""Field or fields container with only one field
         is expected""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
-                    name="ponderation",
+                    name="weights",
                     type_names=["field"],
                     optional=True,
                     document="""Field containing weights, one weight per
         entity""",
+                    aliases=["ponderation"],
                 ),
                 2: PinSpecification(
                     name="time_scoping",
                     type_names=["scoping"],
                     optional=True,
                     document="""Time_scoping""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -106,6 +109,7 @@ class accumulate(Operator):
                     optional=False,
                     document="""Field containing the (weighted) sum for each
         component in an elementary data""",
+                    aliases=[],
                 ),
             },
         )
@@ -158,8 +162,8 @@ class InputsAccumulate(_Inputs):
     >>> op = dpf.operators.math.accumulate()
     >>> my_fieldA = dpf.Field()
     >>> op.inputs.fieldA.connect(my_fieldA)
-    >>> my_ponderation = dpf.Field()
-    >>> op.inputs.ponderation.connect(my_ponderation)
+    >>> my_weights = dpf.Field()
+    >>> op.inputs.weights.connect(my_weights)
     >>> my_time_scoping = dpf.Scoping()
     >>> op.inputs.time_scoping.connect(my_time_scoping)
     """
@@ -168,8 +172,8 @@ class InputsAccumulate(_Inputs):
         super().__init__(accumulate._spec().inputs, op)
         self._fieldA = Input(accumulate._spec().input_pin(0), 0, op, -1)
         self._inputs.append(self._fieldA)
-        self._ponderation = Input(accumulate._spec().input_pin(1), 1, op, -1)
-        self._inputs.append(self._ponderation)
+        self._weights = Input(accumulate._spec().input_pin(1), 1, op, -1)
+        self._inputs.append(self._weights)
         self._time_scoping = Input(accumulate._spec().input_pin(2), 2, op, -1)
         self._inputs.append(self._time_scoping)
 
@@ -195,25 +199,25 @@ class InputsAccumulate(_Inputs):
         return self._fieldA
 
     @property
-    def ponderation(self):
-        """Allows to connect ponderation input to the operator.
+    def weights(self):
+        """Allows to connect weights input to the operator.
 
         Field containing weights, one weight per
         entity
 
         Parameters
         ----------
-        my_ponderation : Field
+        my_weights : Field
 
         Examples
         --------
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.math.accumulate()
-        >>> op.inputs.ponderation.connect(my_ponderation)
+        >>> op.inputs.weights.connect(my_weights)
         >>> # or
-        >>> op.inputs.ponderation(my_ponderation)
+        >>> op.inputs.weights(my_weights)
         """
-        return self._ponderation
+        return self._weights
 
     @property
     def time_scoping(self):
@@ -234,6 +238,18 @@ class InputsAccumulate(_Inputs):
         >>> op.inputs.time_scoping(my_time_scoping)
         """
         return self._time_scoping
+
+    def __getattr__(self, name):
+        if name in ["ponderation"]:
+            warn(
+                DeprecationWarning(
+                    f'Operator accumulate: Input name "{name}" is deprecated in favor of "weights".'
+                )
+            )
+            return self.weights
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
 
 
 class OutputsAccumulate(_Outputs):
@@ -269,3 +285,8 @@ class OutputsAccumulate(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

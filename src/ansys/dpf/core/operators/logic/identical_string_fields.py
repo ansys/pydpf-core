@@ -70,12 +70,14 @@ class identical_string_fields(Operator):
                     type_names=["string_field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="string_fieldB",
                     type_names=["string_field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -84,12 +86,14 @@ class identical_string_fields(Operator):
                     type_names=["bool"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="information",
                     type_names=["string"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -193,6 +197,11 @@ class InputsIdenticalStringFields(_Inputs):
         """
         return self._string_fieldB
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsIdenticalStringFields(_Outputs):
     """Intermediate class used to get outputs from
@@ -249,3 +258,8 @@ class OutputsIdenticalStringFields(_Outputs):
         >>> result_information = op.outputs.information()
         """  # noqa: E501
         return self._information
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

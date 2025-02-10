@@ -100,18 +100,21 @@ class producer_consumer_for_each(Operator):
                     document="""The result of the
         make_producer_consumer_for_each_itera
         tor operator.""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="forward",
                     type_names=["any"],
                     optional=False,
                     document="""Output of the last operators of the workflow""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="forward",
                     type_names=["any"],
                     optional=False,
                     document="""Output of the last operators of the workflow""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -119,16 +122,19 @@ class producer_consumer_for_each(Operator):
                     name="empty",
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="output1",
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="output2",
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -264,6 +270,11 @@ class InputsProducerConsumerForEach(_Inputs):
         """
         return self._forward2
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsProducerConsumerForEach(_Outputs):
     """Intermediate class used to get outputs from
@@ -338,3 +349,8 @@ class OutputsProducerConsumerForEach(_Outputs):
         >>> result_output2 = op.outputs.output2()
         """  # noqa: E501
         return self._output2
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

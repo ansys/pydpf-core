@@ -72,6 +72,7 @@ class html_doc(Operator):
                     optional=True,
                     document="""Default is {working
         directory}/dataprocessingdoc.html""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="exposure_level",
@@ -83,6 +84,7 @@ class html_doc(Operator):
         operator, 2 includes private
         operator, 3 includes operator without
         specifications.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={},
@@ -193,6 +195,11 @@ class InputsHtmlDoc(_Inputs):
         """
         return self._exposure_level
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsHtmlDoc(_Outputs):
     """Intermediate class used to get outputs from
@@ -207,3 +214,8 @@ class OutputsHtmlDoc(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(html_doc._spec().outputs, op)
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

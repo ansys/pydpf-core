@@ -96,6 +96,7 @@ class elementary_data_selector(Operator):
                     type_names=["field", "fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="elementary_data_index",
@@ -105,6 +106,7 @@ class elementary_data_selector(Operator):
         will be extracted from the initial
         field. for field with nature matrix,
         this is the line indices to extract.""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="default_value",
@@ -112,6 +114,7 @@ class elementary_data_selector(Operator):
                     optional=True,
                     document="""Set a default value for elementary data that
         do not exist.""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="elementary_data_index_2",
@@ -119,6 +122,7 @@ class elementary_data_selector(Operator):
                     optional=True,
                     document="""For field with nature matrix, this is the
         column indices to extract.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -127,6 +131,7 @@ class elementary_data_selector(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -287,6 +292,11 @@ class InputsElementaryDataSelector(_Inputs):
         """
         return self._elementary_data_index_2
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsElementaryDataSelector(_Outputs):
     """Intermediate class used to get outputs from
@@ -321,3 +331,8 @@ class OutputsElementaryDataSelector(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

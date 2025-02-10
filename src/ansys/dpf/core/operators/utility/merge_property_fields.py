@@ -92,6 +92,7 @@ class merge_property_fields(Operator):
         assuming that there is no repetition
         in their scoping ids. default is
         false.""",
+                    aliases=[],
                 ),
                 0: PinSpecification(
                     name="property_fields",
@@ -100,6 +101,7 @@ class merge_property_fields(Operator):
                     document="""Either a property fields container, a vector
         of property fields to merge or
         property fields from pin 0 to ...""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="property_fields",
@@ -108,6 +110,7 @@ class merge_property_fields(Operator):
                     document="""Either a property fields container, a vector
         of property fields to merge or
         property fields from pin 0 to ...""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -116,6 +119,7 @@ class merge_property_fields(Operator):
                     type_names=["property_field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -256,6 +260,11 @@ class InputsMergePropertyFields(_Inputs):
         """
         return self._property_fields2
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMergePropertyFields(_Outputs):
     """Intermediate class used to get outputs from
@@ -292,3 +301,8 @@ class OutputsMergePropertyFields(_Outputs):
         >>> result_property_field = op.outputs.property_field()
         """  # noqa: E501
         return self._property_field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -20,17 +20,18 @@ class included_fields(Operator):
     fieldB : Field
     double_value : float
         Double positive small value. smallest value
-        which will be considered during the
-        comparison step. all the abs(values)
-        in the field less than this value are
-        considered as null, (default
-        value:1.0e-14).
+        considered during the comparison
+        step. all the absolute values in the
+        field less than this value are
+        considered null, (default value:
+        1.0e-14).
     double_tolerance : float, optional
         Double relative tolerance. maximum tolerance
         gap between two compared values.
         values within relative tolerance are
-        considered identical (v1-v2)/v2 <
-        relativetol (default is 0.001).
+        considered identical. formula is
+        (v1-v2)/v2 < relativetol. default is
+        0.001.
 
     Returns
     -------
@@ -100,23 +101,26 @@ class included_fields(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="fieldB",
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="double_value",
                     type_names=["double"],
                     optional=False,
                     document="""Double positive small value. smallest value
-        which will be considered during the
-        comparison step. all the abs(values)
-        in the field less than this value are
-        considered as null, (default
-        value:1.0e-14).""",
+        considered during the comparison
+        step. all the absolute values in the
+        field less than this value are
+        considered null, (default value:
+        1.0e-14).""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="double_tolerance",
@@ -125,8 +129,10 @@ class included_fields(Operator):
                     document="""Double relative tolerance. maximum tolerance
         gap between two compared values.
         values within relative tolerance are
-        considered identical (v1-v2)/v2 <
-        relativetol (default is 0.001).""",
+        considered identical. formula is
+        (v1-v2)/v2 < relativetol. default is
+        0.001.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -135,12 +141,14 @@ class included_fields(Operator):
                     type_names=["bool"],
                     optional=False,
                     document="""Bool (true if belongs...)""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="message",
                     type_names=["string"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -253,11 +261,11 @@ class InputsIncludedFields(_Inputs):
         """Allows to connect double_value input to the operator.
 
         Double positive small value. smallest value
-        which will be considered during the
-        comparison step. all the abs(values)
-        in the field less than this value are
-        considered as null, (default
-        value:1.0e-14).
+        considered during the comparison
+        step. all the absolute values in the
+        field less than this value are
+        considered null, (default value:
+        1.0e-14).
 
         Parameters
         ----------
@@ -280,8 +288,9 @@ class InputsIncludedFields(_Inputs):
         Double relative tolerance. maximum tolerance
         gap between two compared values.
         values within relative tolerance are
-        considered identical (v1-v2)/v2 <
-        relativetol (default is 0.001).
+        considered identical. formula is
+        (v1-v2)/v2 < relativetol. default is
+        0.001.
 
         Parameters
         ----------
@@ -296,6 +305,11 @@ class InputsIncludedFields(_Inputs):
         >>> op.inputs.double_tolerance(my_double_tolerance)
         """
         return self._double_tolerance
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
 
 
 class OutputsIncludedFields(_Outputs):
@@ -351,3 +365,8 @@ class OutputsIncludedFields(_Outputs):
         >>> result_message = op.outputs.message()
         """  # noqa: E501
         return self._message
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

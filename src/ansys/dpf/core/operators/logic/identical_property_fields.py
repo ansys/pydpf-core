@@ -70,12 +70,14 @@ class identical_property_fields(Operator):
                     type_names=["abstract_meshed_region"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="property_fieldB",
                     type_names=["abstract_meshed_region"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -84,12 +86,14 @@ class identical_property_fields(Operator):
                     type_names=["bool"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="information",
                     type_names=["string"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -193,6 +197,11 @@ class InputsIdenticalPropertyFields(_Inputs):
         """
         return self._property_fieldB
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsIdenticalPropertyFields(_Outputs):
     """Intermediate class used to get outputs from
@@ -251,3 +260,8 @@ class OutputsIdenticalPropertyFields(_Outputs):
         >>> result_information = op.outputs.information()
         """  # noqa: E501
         return self._information
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

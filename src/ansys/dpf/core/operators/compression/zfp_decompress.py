@@ -75,6 +75,7 @@ class zfp_decompress(Operator):
                     document="""Custom type field container from
         zfp_compression operator to
         decompress""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -85,6 +86,7 @@ class zfp_decompress(Operator):
                     document="""The output entity is a field or a fields
         container; it contains decompressed
         data""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="decompress_speed",
@@ -92,6 +94,7 @@ class zfp_decompress(Operator):
                     optional=False,
                     document="""The output entity is a double, containing
         decompression speed (mb/sec)""",
+                    aliases=[],
                 ),
             },
         )
@@ -173,6 +176,11 @@ class InputsZfpDecompress(_Inputs):
         """
         return self._dataIn
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsZfpDecompress(_Outputs):
     """Intermediate class used to get outputs from
@@ -224,3 +232,8 @@ class OutputsZfpDecompress(_Outputs):
         >>> result_decompress_speed = op.outputs.decompress_speed()
         """  # noqa: E501
         return self._decompress_speed
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

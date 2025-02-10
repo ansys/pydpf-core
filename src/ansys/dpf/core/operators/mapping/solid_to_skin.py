@@ -94,18 +94,21 @@ class solid_to_skin(Operator):
                     optional=False,
                     document="""Field or fields container with only one field
         is expected""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="mesh",
                     type_names=["abstract_meshed_region"],
                     optional=False,
                     document="""Skin mesh region expected""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="solid_mesh",
                     type_names=["abstract_meshed_region"],
                     optional=True,
                     document="""Solid mesh support (optional).""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -114,6 +117,7 @@ class solid_to_skin(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -242,6 +246,11 @@ class InputsSolidToSkin(_Inputs):
         """
         return self._solid_mesh
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsSolidToSkin(_Outputs):
     """Intermediate class used to get outputs from
@@ -276,3 +285,8 @@ class OutputsSolidToSkin(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

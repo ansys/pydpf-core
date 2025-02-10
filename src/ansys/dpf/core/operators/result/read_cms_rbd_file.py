@@ -113,6 +113,7 @@ class read_cms_rbd_file(Operator):
                     optional=False,
                     document="""File name with cms_rbd extension where to
         read the input cms_rbd file.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -121,138 +122,161 @@ class read_cms_rbd_file(Operator):
                     type_names=["property_field"],
                     optional=False,
                     document="""Data describing the finite element model""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="center_of_mass",
                     type_names=["field"],
                     optional=False,
                     document="""Center of mass of the body""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="inertia_relief",
                     type_names=["field"],
                     optional=False,
                     document="""Inertia matrix""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="model_size",
                     type_names=["property_field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="master_node_coordinates",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 5: PinSpecification(
                     name="v_trsf",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""Translational and rotational shape functions""",
+                    aliases=[],
                 ),
                 6: PinSpecification(
                     name="k_mat",
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="mass_mat",
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 8: PinSpecification(
                     name="c_mat",
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 9: PinSpecification(
                     name="rhs",
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 10: PinSpecification(
                     name="dn",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 11: PinSpecification(
                     name="dr_cross_n",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 12: PinSpecification(
                     name="drn",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 13: PinSpecification(
                     name="dn_cross_n",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 14: PinSpecification(
                     name="dnx_y",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 15: PinSpecification(
                     name="dny_y",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 16: PinSpecification(
                     name="dnz_y",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 17: PinSpecification(
                     name="dyx_n",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 18: PinSpecification(
                     name="dyy_n",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 19: PinSpecification(
                     name="dyz_n",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 20: PinSpecification(
                     name="dnxn",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 21: PinSpecification(
                     name="dnyn",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 22: PinSpecification(
                     name="dnzn",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -334,6 +358,11 @@ class InputsReadCmsRbdFile(_Inputs):
         >>> op.inputs.in_cms_rbd_file_path(my_in_cms_rbd_file_path)
         """
         return self._in_cms_rbd_file_path
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
 
 
 class OutputsReadCmsRbdFile(_Outputs):
@@ -811,3 +840,8 @@ class OutputsReadCmsRbdFile(_Outputs):
         >>> result_dnzn = op.outputs.dnzn()
         """  # noqa: E501
         return self._dnzn
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -71,6 +71,7 @@ class change_cs(Operator):
                     type_names=["meshed_region", "meshes_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="coordinate_system",
@@ -78,6 +79,7 @@ class change_cs(Operator):
                     optional=False,
                     document="""3-3 rotation matrix + 3 translations (x, y,
         z)""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -86,6 +88,7 @@ class change_cs(Operator):
                     type_names=["meshed_region", "meshes_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -188,6 +191,11 @@ class InputsChangeCs(_Inputs):
         """
         return self._coordinate_system
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsChangeCs(_Outputs):
     """Intermediate class used to get outputs from
@@ -219,3 +227,8 @@ class OutputsChangeCs(_Outputs):
             op,
         )
         self._outputs.append(self.meshed_region_as_meshes_container)
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

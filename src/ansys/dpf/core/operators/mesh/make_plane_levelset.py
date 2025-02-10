@@ -78,6 +78,7 @@ class make_plane_levelset(Operator):
                     type_names=["abstract_meshed_region", "field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="normal",
@@ -85,6 +86,7 @@ class make_plane_levelset(Operator):
                     optional=False,
                     document="""An overall 3d vector that gives the normal
         direction of the plane.""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="origin",
@@ -92,6 +94,7 @@ class make_plane_levelset(Operator):
                     optional=False,
                     document="""An overall 3d vector that gives a point of
         the plane.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -100,6 +103,7 @@ class make_plane_levelset(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -227,6 +231,11 @@ class InputsMakePlaneLevelset(_Inputs):
         """
         return self._origin
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMakePlaneLevelset(_Outputs):
     """Intermediate class used to get outputs from
@@ -261,3 +270,8 @@ class OutputsMakePlaneLevelset(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

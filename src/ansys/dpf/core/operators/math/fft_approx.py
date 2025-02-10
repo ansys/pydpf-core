@@ -146,6 +146,7 @@ class fft_approx(Operator):
                     optional=True,
                     document="""A time scoping to rescope / split the fields
         container given as input.""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="mesh_scoping",
@@ -154,12 +155,14 @@ class fft_approx(Operator):
                     document="""A space (mesh entities) scoping (or scopings
         container) to rescope / split the
         fields container given as input.""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="entity_to_fit",
                     type_names=["fields_container"],
                     optional=False,
                     document="""Data changing in time to be fitted.""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="component_number",
@@ -168,6 +171,7 @@ class fft_approx(Operator):
                     document="""Component number as an integer, for example
         '0' for x-displacement, '1' for
         y-displacement, and so on.""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="first_derivative",
@@ -175,6 +179,7 @@ class fft_approx(Operator):
                     optional=False,
                     document="""Calculate the first derivative (bool). the
         default is false.""",
+                    aliases=[],
                 ),
                 5: PinSpecification(
                     name="second_derivative",
@@ -182,6 +187,7 @@ class fft_approx(Operator):
                     optional=False,
                     document="""Calculate the second derivative (bool). the
         default is false.""",
+                    aliases=[],
                 ),
                 6: PinSpecification(
                     name="fit_data",
@@ -189,12 +195,14 @@ class fft_approx(Operator):
                     optional=False,
                     document="""Calculate the fitted values (bool). the
         default is false""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="cutoff_fr",
                     type_names=["double", "int32"],
                     optional=True,
                     document="""Cutoff frequency.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -206,12 +214,14 @@ class fft_approx(Operator):
         the space scoping (node i: x=time,
         y=data). fitted y is expected to be
         close to the input data.""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="first_der_dy",
                     type_names=["fields_container"],
                     optional=False,
                     document="""The first derivative (dy) from the fitted y.""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="second_der_d2y",
@@ -219,6 +229,7 @@ class fft_approx(Operator):
                     optional=False,
                     document="""The second derivative (d2y) from the fitted
         y.""",
+                    aliases=[],
                 ),
             },
         )
@@ -474,6 +485,11 @@ class InputsFftApprox(_Inputs):
         """
         return self._cutoff_fr
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsFftApprox(_Outputs):
     """Intermediate class used to get outputs from
@@ -548,3 +564,8 @@ class OutputsFftApprox(_Outputs):
         >>> result_second_der_d2y = op.outputs.second_der_d2y()
         """  # noqa: E501
         return self._second_der_d2y
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

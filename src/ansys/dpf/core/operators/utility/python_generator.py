@@ -83,24 +83,28 @@ class python_generator(Operator):
                     type_names=["string"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="output_path",
                     type_names=["string"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="load_symbol",
                     type_names=["string"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="library_key",
                     type_names=["string"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={},
@@ -245,6 +249,11 @@ class InputsPythonGenerator(_Inputs):
         """
         return self._library_key
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsPythonGenerator(_Outputs):
     """Intermediate class used to get outputs from
@@ -259,3 +268,8 @@ class OutputsPythonGenerator(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(python_generator._spec().outputs, op)
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

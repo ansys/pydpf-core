@@ -91,12 +91,14 @@ class sweeping_phase_fc(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="angle",
                     type_names=["double"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="unit_name",
@@ -104,12 +106,14 @@ class sweeping_phase_fc(Operator):
                     optional=True,
                     document="""String unit. supported values: "deg" or
         "rad". default: "rad".""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="abs_value",
                     type_names=["bool"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -118,6 +122,7 @@ class sweeping_phase_fc(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -266,6 +271,11 @@ class InputsSweepingPhaseFc(_Inputs):
         """
         return self._abs_value
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsSweepingPhaseFc(_Outputs):
     """Intermediate class used to get outputs from
@@ -300,3 +310,8 @@ class OutputsSweepingPhaseFc(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

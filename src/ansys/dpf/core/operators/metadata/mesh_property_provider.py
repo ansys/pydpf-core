@@ -121,12 +121,14 @@ class mesh_property_provider(Operator):
                     optional=True,
                     document="""Retrieves a property field on a subset of
         elements or nodes.""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="streams_container",
                     type_names=["streams_container"],
                     optional=True,
                     document="""Streams (result file container) (optional)""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
@@ -134,6 +136,7 @@ class mesh_property_provider(Operator):
                     optional=False,
                     document="""If the stream is null, retrieves the file
         path from the data sources.""",
+                    aliases=[],
                 ),
                 13: PinSpecification(
                     name="property_name",
@@ -144,6 +147,7 @@ class mesh_property_provider(Operator):
         "named_selection_names",
         "apdl_element_type", "section",
         "elprops", "keyopt_1" to "keyopt_18".""",
+                    aliases=[],
                 ),
                 17: PinSpecification(
                     name="property_identifier",
@@ -153,6 +157,7 @@ class mesh_property_provider(Operator):
         name. for example, a named
         selection's number or a named
         selection's name.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -168,6 +173,7 @@ class mesh_property_provider(Operator):
         properties:"named_selection", a
         string field for properties:
         "named_selection_names".""",
+                    aliases=[],
                 ),
             },
         )
@@ -362,6 +368,11 @@ class InputsMeshPropertyProvider(_Inputs):
         """
         return self._property_identifier
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMeshPropertyProvider(_Outputs):
     """Intermediate class used to get outputs from
@@ -401,3 +412,8 @@ class OutputsMeshPropertyProvider(_Outputs):
             op,
         )
         self._outputs.append(self.property_as_string_field)
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -99,12 +99,14 @@ class to_nodal(Operator):
                     optional=False,
                     document="""Field or fields container with only one field
         is expected""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="mesh_scoping",
                     type_names=["scoping"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 26: PinSpecification(
                     name="merge_solid_shell",
@@ -113,6 +115,7 @@ class to_nodal(Operator):
                     document="""For shell/solid mixed field, gather in one
         field all solids and shells (only on
         one layer, false by default).""",
+                    aliases=[],
                 ),
                 27: PinSpecification(
                     name="shell_layer",
@@ -123,6 +126,7 @@ class to_nodal(Operator):
         shell/solid mixed field, gather in
         one field all solids and shells (only
         on one layer).""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -131,6 +135,7 @@ class to_nodal(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -287,6 +292,11 @@ class InputsToNodal(_Inputs):
         """
         return self._shell_layer
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsToNodal(_Outputs):
     """Intermediate class used to get outputs from
@@ -321,3 +331,8 @@ class OutputsToNodal(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

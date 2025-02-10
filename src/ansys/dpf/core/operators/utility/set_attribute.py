@@ -85,12 +85,14 @@ class set_attribute(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="property_name",
                     type_names=["string"],
                     optional=False,
                     document="""Supported property names are: "labels".""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="property_identifier",
@@ -98,6 +100,7 @@ class set_attribute(Operator):
                     optional=True,
                     document="""Value of the property to be set : vector of
         string or labelspace for "labels".""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -106,6 +109,7 @@ class set_attribute(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""Returns the modified fieldscontainer.""",
+                    aliases=[],
                 ),
             },
         )
@@ -234,6 +238,11 @@ class InputsSetAttribute(_Inputs):
         """
         return self._property_identifier
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsSetAttribute(_Outputs):
     """Intermediate class used to get outputs from
@@ -268,3 +277,8 @@ class OutputsSetAttribute(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -77,6 +77,7 @@ class mesh_selection_manager_provider(Operator):
                     type_names=["streams_container"],
                     optional=True,
                     document="""Streams (result file container) (optional)""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
@@ -84,6 +85,7 @@ class mesh_selection_manager_provider(Operator):
                     optional=False,
                     document="""If the stream is null, retrieves the file
         path from the data sources.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -92,6 +94,7 @@ class mesh_selection_manager_provider(Operator):
                     type_names=["mesh_selection_manager"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -202,6 +205,11 @@ class InputsMeshSelectionManagerProvider(_Inputs):
         """
         return self._data_sources
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMeshSelectionManagerProvider(_Outputs):
     """Intermediate class used to get outputs from
@@ -238,3 +246,8 @@ class OutputsMeshSelectionManagerProvider(_Outputs):
         >>> result_mesh_selection_manager = op.outputs.mesh_selection_manager()
         """  # noqa: E501
         return self._mesh_selection_manager
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

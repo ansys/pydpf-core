@@ -182,12 +182,14 @@ class cyclic_equivalent_mass(Operator):
                     type_names=["scoping", "vector<int32>"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="mesh_scoping",
                     type_names=["scopings_container", "scoping", "vector<int32>"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="fields_container",
@@ -195,18 +197,21 @@ class cyclic_equivalent_mass(Operator):
                     optional=True,
                     document="""Fieldscontainer already allocated modified
         inplace""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="streams_container",
                     type_names=["streams_container", "stream"],
                     optional=True,
                     document="""Streams containing the result file.""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
                     type_names=["data_sources"],
                     optional=False,
                     document="""Data sources containing the result file.""",
+                    aliases=[],
                 ),
                 5: PinSpecification(
                     name="bool_rotate_to_global",
@@ -214,24 +219,28 @@ class cyclic_equivalent_mass(Operator):
                     optional=True,
                     document="""If true the field is rotated to global
         coordinate system (default true)""",
+                    aliases=[],
                 ),
                 6: PinSpecification(
                     name="all_dofs",
                     type_names=["bool"],
                     optional=True,
                     document="""Default is false.""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="sector_mesh",
                     type_names=["abstract_meshed_region", "meshes_container"],
                     optional=True,
                     document="""Mesh of the base sector (can be a skin).""",
+                    aliases=[],
                 ),
                 9: PinSpecification(
                     name="requested_location",
                     type_names=["string"],
                     optional=True,
                     document="""Location needed in output""",
+                    aliases=[],
                 ),
                 14: PinSpecification(
                     name="read_cyclic",
@@ -242,18 +251,21 @@ class cyclic_equivalent_mass(Operator):
         is done, if 3 cyclic expansion is
         done and stages are merged (default
         is 1)""",
+                    aliases=[],
                 ),
                 15: PinSpecification(
                     name="expanded_meshed_region",
                     type_names=["abstract_meshed_region", "meshes_container"],
                     optional=True,
                     document="""Mesh expanded.""",
+                    aliases=[],
                 ),
                 16: PinSpecification(
                     name="cyclic_support",
                     type_names=["cyclic_support"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 18: PinSpecification(
                     name="sectors_to_expand",
@@ -262,12 +274,14 @@ class cyclic_equivalent_mass(Operator):
                     document="""Sectors to expand (start at 0), for
         multistage: use scopings container
         with 'stage' label.""",
+                    aliases=[],
                 ),
                 19: PinSpecification(
                     name="phi",
                     type_names=["double"],
                     optional=True,
                     document="""Angle phi in degrees (default value 0.0)""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -276,12 +290,14 @@ class cyclic_equivalent_mass(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""Fieldscontainer filled in""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="expanded_meshes",
                     type_names=["meshes_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -701,6 +717,11 @@ class InputsCyclicEquivalentMass(_Inputs):
         """
         return self._phi
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsCyclicEquivalentMass(_Outputs):
     """Intermediate class used to get outputs from
@@ -759,3 +780,8 @@ class OutputsCyclicEquivalentMass(_Outputs):
         >>> result_expanded_meshes = op.outputs.expanded_meshes()
         """  # noqa: E501
         return self._expanded_meshes
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

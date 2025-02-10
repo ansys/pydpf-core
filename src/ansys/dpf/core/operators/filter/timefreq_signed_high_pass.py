@@ -91,6 +91,7 @@ class timefreq_signed_high_pass(Operator):
                     type_names=["time_freq_support"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="threshold",
@@ -98,6 +99,7 @@ class timefreq_signed_high_pass(Operator):
                     optional=False,
                     document="""A threshold scalar or a field containing one
         value is expected.""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="both",
@@ -107,6 +109,7 @@ class timefreq_signed_high_pass(Operator):
         complement of the filtered fields
         container is returned on output pin
         1.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -115,12 +118,14 @@ class timefreq_signed_high_pass(Operator):
                     type_names=["time_freq_support"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="scoping",
                     type_names=["scoping"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -256,6 +261,11 @@ class InputsTimefreqSignedHighPass(_Inputs):
         """
         return self._both
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsTimefreqSignedHighPass(_Outputs):
     """Intermediate class used to get outputs from
@@ -312,3 +322,8 @@ class OutputsTimefreqSignedHighPass(_Outputs):
         >>> result_scoping = op.outputs.scoping()
         """  # noqa: E501
         return self._scoping
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

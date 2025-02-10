@@ -108,6 +108,7 @@ class meshes_provider(Operator):
                     type_names=["scoping", "vector<int32>", "int32"],
                     optional=True,
                     document="""Time/frequency set ids required in output.""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="streams_container",
@@ -115,6 +116,7 @@ class meshes_provider(Operator):
                     optional=True,
                     document="""Result file container allowed to be kept open
         to cache data""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
@@ -122,6 +124,7 @@ class meshes_provider(Operator):
                     optional=False,
                     document="""Result file path container, used if no
         streams are set""",
+                    aliases=[],
                 ),
                 14: PinSpecification(
                     name="read_cyclic",
@@ -130,6 +133,7 @@ class meshes_provider(Operator):
                     document="""If 1, cyclic symmetry is ignored. if 2,
         cyclic expansion is done (default is
         1).""",
+                    aliases=[],
                 ),
                 25: PinSpecification(
                     name="region_scoping",
@@ -140,6 +144,7 @@ class meshes_provider(Operator):
         of the model (region corresponds to
         zone for fluid results or part for
         lsdyna results).""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -148,6 +153,7 @@ class meshes_provider(Operator):
                     type_names=["meshes_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -331,6 +337,11 @@ class InputsMeshesProvider(_Inputs):
         """
         return self._region_scoping
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMeshesProvider(_Outputs):
     """Intermediate class used to get outputs from
@@ -365,3 +376,8 @@ class OutputsMeshesProvider(_Outputs):
         >>> result_meshes = op.outputs.meshes()
         """  # noqa: E501
         return self._meshes
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

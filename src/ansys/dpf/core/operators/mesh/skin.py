@@ -123,6 +123,7 @@ class skin(Operator):
                     type_names=["abstract_meshed_region"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="mesh_scoping",
@@ -133,6 +134,7 @@ class skin(Operator):
         skin element is added to the skin
         mesh if all its nodes are in the
         scoping.""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="duplicate_shell",
@@ -142,6 +144,7 @@ class skin(Operator):
         mesh shell elements (boolean = 1) are
         duplicated, one per each orientation,
         or (boolean = 0) remain unchanged.""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="add_beam",
@@ -150,6 +153,7 @@ class skin(Operator):
                     document="""If input mesh contains beam elements, output
         mesh beam elements (boolean = 1) are
         added or (boolean = 0) are ignored.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -159,18 +163,21 @@ class skin(Operator):
                     optional=False,
                     document="""Skin meshed region with facets and
         facets_to_ele property fields.""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="nodes_mesh_scoping",
                     type_names=["scoping"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="map_new_elements_to_old",
                     type_names=["umap<int32,int32>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="property_field_new_elements_to_old",
@@ -183,6 +190,7 @@ class skin(Operator):
         from. the 3d volume element id can be
         found with the element scoping of the
         input mesh.""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="facet_indices",
@@ -194,6 +202,7 @@ class skin(Operator):
         source 3d volume element. the 3d
         volume element can be extracted from
         the previous output.""",
+                    aliases=[],
                 ),
             },
         )
@@ -352,6 +361,11 @@ class InputsSkin(_Inputs):
         """
         return self._add_beam
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsSkin(_Outputs):
     """Intermediate class used to get outputs from
@@ -468,3 +482,8 @@ class OutputsSkin(_Outputs):
         >>> result_facet_indices = op.outputs.facet_indices()
         """  # noqa: E501
         return self._facet_indices
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

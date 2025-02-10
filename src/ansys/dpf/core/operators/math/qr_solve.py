@@ -68,12 +68,14 @@ class qr_solve(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""Fields_container""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="rhs",
                     type_names=["fields_container"],
                     optional=False,
                     document="""Fields_container""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -82,6 +84,7 @@ class qr_solve(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -185,6 +188,11 @@ class InputsQrSolve(_Inputs):
         """
         return self._rhs
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsQrSolve(_Outputs):
     """Intermediate class used to get outputs from
@@ -219,3 +227,8 @@ class OutputsQrSolve(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -89,6 +89,7 @@ class rotate_in_cylindrical_cs(Operator):
                     optional=False,
                     document="""Field or fields container with only one field
         is expected""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="coordinate_system",
@@ -97,12 +98,14 @@ class rotate_in_cylindrical_cs(Operator):
                     document="""3-3 rotation matrix and origin coordinates
         must be set here to define a
         coordinate system.""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="mesh",
                     type_names=["abstract_meshed_region"],
                     optional=True,
                     document="""Mesh support of the input field.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -111,6 +114,7 @@ class rotate_in_cylindrical_cs(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -243,6 +247,11 @@ class InputsRotateInCylindricalCs(_Inputs):
         """
         return self._mesh
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsRotateInCylindricalCs(_Outputs):
     """Intermediate class used to get outputs from
@@ -277,3 +286,8 @@ class OutputsRotateInCylindricalCs(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

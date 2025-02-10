@@ -64,6 +64,7 @@ class total_mass(Operator):
                     optional=False,
                     document="""Data sources (must contain at least one mode
         file).""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -72,6 +73,7 @@ class total_mass(Operator):
                     type_names=["double"],
                     optional=False,
                     document="""The unit should be grabbed from the rst file""",
+                    aliases=[],
                 ),
             },
         )
@@ -152,6 +154,11 @@ class InputsTotalMass(_Inputs):
         """
         return self._data_sources
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsTotalMass(_Outputs):
     """Intermediate class used to get outputs from
@@ -186,3 +193,8 @@ class OutputsTotalMass(_Outputs):
         >>> result_mass = op.outputs.mass()
         """  # noqa: E501
         return self._mass
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

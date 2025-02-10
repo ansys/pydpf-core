@@ -71,6 +71,7 @@ class forward_meshes_container(Operator):
                     type_names=["meshes_container", "abstract_meshed_region"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="default_label",
@@ -79,6 +80,7 @@ class forward_meshes_container(Operator):
                     document="""This default label is used if a new meshes
         container needs to be created
         (default is unknown)""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -87,6 +89,7 @@ class forward_meshes_container(Operator):
                     type_names=["meshes_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -192,6 +195,11 @@ class InputsForwardMeshesContainer(_Inputs):
         """
         return self._default_label
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsForwardMeshesContainer(_Outputs):
     """Intermediate class used to get outputs from
@@ -228,3 +236,8 @@ class OutputsForwardMeshesContainer(_Outputs):
         >>> result_meshes_container = op.outputs.meshes_container()
         """  # noqa: E501
         return self._meshes_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

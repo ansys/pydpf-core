@@ -64,6 +64,7 @@ class min_max_by_entity(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -72,12 +73,14 @@ class min_max_by_entity(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="field_max",
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -157,6 +160,11 @@ class InputsMinMaxByEntity(_Inputs):
         """
         return self._fields_container
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMinMaxByEntity(_Outputs):
     """Intermediate class used to get outputs from
@@ -211,3 +219,8 @@ class OutputsMinMaxByEntity(_Outputs):
         >>> result_field_max = op.outputs.field_max()
         """  # noqa: E501
         return self._field_max
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

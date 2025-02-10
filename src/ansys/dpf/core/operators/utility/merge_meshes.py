@@ -132,6 +132,7 @@ class merge_meshes(Operator):
         of the input meshes assuming that
         there is no repetition in their
         scoping ids. default is false.""",
+                    aliases=[],
                 ),
                 -200: PinSpecification(
                     name="should_merge_named_selections",
@@ -143,6 +144,7 @@ class merge_meshes(Operator):
         true, the merge occurs. if this pin
         is false, the merge does not occur.
         default is true.""",
+                    aliases=[],
                 ),
                 0: PinSpecification(
                     name="meshes",
@@ -150,6 +152,7 @@ class merge_meshes(Operator):
                     optional=False,
                     document="""A vector of meshed region to merge or meshed
         region from pin 0 to ...""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="meshes",
@@ -157,6 +160,7 @@ class merge_meshes(Operator):
                     optional=False,
                     document="""A vector of meshed region to merge or meshed
         region from pin 0 to ...""",
+                    aliases=[],
                 ),
                 101: PinSpecification(
                     name="merge_method",
@@ -164,6 +168,7 @@ class merge_meshes(Operator):
                     optional=True,
                     document="""0: merge by distance, 1: merge by node id
         (default)""",
+                    aliases=[],
                 ),
                 102: PinSpecification(
                     name="box_size",
@@ -171,6 +176,7 @@ class merge_meshes(Operator):
                     optional=True,
                     document="""Box size used when merging by distance.
         default value is 1e-12.""",
+                    aliases=[],
                 ),
                 103: PinSpecification(
                     name="remove_duplicate_elements",
@@ -178,6 +184,7 @@ class merge_meshes(Operator):
                     optional=True,
                     document="""0: keep duplicate elements (default), 1:
         remove duplicate elements""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -186,6 +193,7 @@ class merge_meshes(Operator):
                     type_names=["abstract_meshed_region"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -428,6 +436,11 @@ class InputsMergeMeshes(_Inputs):
         """
         return self._remove_duplicate_elements
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMergeMeshes(_Outputs):
     """Intermediate class used to get outputs from
@@ -462,3 +475,8 @@ class OutputsMergeMeshes(_Outputs):
         >>> result_merges_mesh = op.outputs.merges_mesh()
         """  # noqa: E501
         return self._merges_mesh
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

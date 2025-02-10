@@ -72,12 +72,14 @@ class extract_field(Operator):
                     optional=False,
                     document="""If a field is in input, it is passed on as an
         output""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="indices",
                     type_names=["vector<int32>"],
                     optional=True,
                     document="""Default is the first field""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -86,6 +88,7 @@ class extract_field(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -190,6 +193,11 @@ class InputsExtractField(_Inputs):
         """
         return self._indices
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsExtractField(_Outputs):
     """Intermediate class used to get outputs from
@@ -224,3 +232,8 @@ class OutputsExtractField(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

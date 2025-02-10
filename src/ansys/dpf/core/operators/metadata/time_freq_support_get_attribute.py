@@ -107,6 +107,7 @@ class time_freq_support_get_attribute(Operator):
                     type_names=["time_freq_support"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="property_name",
@@ -116,6 +117,7 @@ class time_freq_support_get_attribute(Operator):
         "imaginary_freqs",
         "frequency_tolerance", "set_id",
         "cummulative_index", "sets_freqs".""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="property_identifier",
@@ -124,6 +126,7 @@ class time_freq_support_get_attribute(Operator):
                     document="""Additional pin for properties "set_id" and
         "cummulative_index": the step id, for
         "sets_freqs": the sets scoping.""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="property_identifier_2",
@@ -133,6 +136,7 @@ class time_freq_support_get_attribute(Operator):
         "cummulative_index": the substep id
         (if none, last substep is
         considered).""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -145,6 +149,7 @@ class time_freq_support_get_attribute(Operator):
         scoping for properties for "set_id"
         and "cummulative_index", and a field
         otherwise.""",
+                    aliases=[],
                 ),
             },
         )
@@ -312,6 +317,11 @@ class InputsTimeFreqSupportGetAttribute(_Inputs):
         """
         return self._property_identifier_2
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsTimeFreqSupportGetAttribute(_Outputs):
     """Intermediate class used to get outputs from
@@ -351,3 +361,8 @@ class OutputsTimeFreqSupportGetAttribute(_Outputs):
             op,
         )
         self._outputs.append(self.property_as_scoping)
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

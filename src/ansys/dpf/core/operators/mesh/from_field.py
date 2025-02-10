@@ -62,6 +62,7 @@ class from_field(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -70,6 +71,7 @@ class from_field(Operator):
                     type_names=["abstract_meshed_region"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -147,6 +149,11 @@ class InputsFromField(_Inputs):
         """
         return self._field
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsFromField(_Outputs):
     """Intermediate class used to get outputs from
@@ -181,3 +188,8 @@ class OutputsFromField(_Outputs):
         >>> result_mesh = op.outputs.mesh()
         """  # noqa: E501
         return self._mesh
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -70,12 +70,14 @@ class intersect(Operator):
                     type_names=["scoping"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="scopingB",
                     type_names=["scoping"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -84,12 +86,14 @@ class intersect(Operator):
                     type_names=["scoping"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="scopingA_min_intersection",
                     type_names=["scoping"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -189,6 +193,11 @@ class InputsIntersect(_Inputs):
         """
         return self._scopingB
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsIntersect(_Outputs):
     """Intermediate class used to get outputs from
@@ -243,3 +252,8 @@ class OutputsIntersect(_Outputs):
         >>> result_scopingA_min_intersection = op.outputs.scopingA_min_intersection()
         """  # noqa: E501
         return self._scopingA_min_intersection
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

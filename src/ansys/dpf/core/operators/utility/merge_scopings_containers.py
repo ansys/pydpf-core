@@ -77,6 +77,7 @@ class merge_scopings_containers(Operator):
                     optional=False,
                     document="""A vector of scopings containers to merge or
         scopings containers from pin 0 to ...""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="scopings_containers",
@@ -84,6 +85,7 @@ class merge_scopings_containers(Operator):
                     optional=False,
                     document="""A vector of scopings containers to merge or
         scopings containers from pin 0 to ...""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -92,6 +94,7 @@ class merge_scopings_containers(Operator):
                     type_names=["scopings_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -201,6 +204,11 @@ class InputsMergeScopingsContainers(_Inputs):
         """
         return self._scopings_containers2
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMergeScopingsContainers(_Outputs):
     """Intermediate class used to get outputs from
@@ -237,3 +245,8 @@ class OutputsMergeScopingsContainers(_Outputs):
         >>> result_merged_scopings_container = op.outputs.merged_scopings_container()
         """  # noqa: E501
         return self._merged_scopings_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

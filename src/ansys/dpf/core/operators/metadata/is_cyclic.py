@@ -73,6 +73,7 @@ class is_cyclic(Operator):
                     type_names=["streams_container"],
                     optional=True,
                     document="""Streams (result file container) (optional)""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
@@ -80,6 +81,7 @@ class is_cyclic(Operator):
                     optional=False,
                     document="""If the stream is null, retrieves the file
         path from the data sources.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -89,6 +91,7 @@ class is_cyclic(Operator):
                     optional=False,
                     document="""Returns 'single_stage' or 'multi_stage' or an
         empty string for non cyclic model""",
+                    aliases=[],
                 ),
             },
         )
@@ -193,6 +196,11 @@ class InputsIsCyclic(_Inputs):
         """
         return self._data_sources
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsIsCyclic(_Outputs):
     """Intermediate class used to get outputs from
@@ -227,3 +235,8 @@ class OutputsIsCyclic(_Outputs):
         >>> result_file_path = op.outputs.file_path()
         """  # noqa: E501
         return self._file_path
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

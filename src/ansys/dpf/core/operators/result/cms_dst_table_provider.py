@@ -64,6 +64,7 @@ class cms_dst_table_provider(Operator):
                     optional=False,
                     document="""Data_sources (must contain at least one
         subfile).""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -72,6 +73,7 @@ class cms_dst_table_provider(Operator):
                     type_names=["property_field"],
                     optional=False,
                     document="""Returns integer values of the dst table""",
+                    aliases=[],
                 ),
             },
         )
@@ -154,6 +156,11 @@ class InputsCmsDstTableProvider(_Inputs):
         """
         return self._data_sources
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsCmsDstTableProvider(_Outputs):
     """Intermediate class used to get outputs from
@@ -188,3 +195,8 @@ class OutputsCmsDstTableProvider(_Outputs):
         >>> result_dst_table = op.outputs.dst_table()
         """  # noqa: E501
         return self._dst_table
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

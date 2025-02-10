@@ -69,12 +69,14 @@ class ints_to_scoping(Operator):
                     type_names=["int32", "vector<int32>"],
                     optional=False,
                     document="""Int or vector of int""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="location",
                     type_names=["string"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -83,6 +85,7 @@ class ints_to_scoping(Operator):
                     type_names=["scoping"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -184,6 +187,11 @@ class InputsIntsToScoping(_Inputs):
         """
         return self._location
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsIntsToScoping(_Outputs):
     """Intermediate class used to get outputs from
@@ -218,3 +226,8 @@ class OutputsIntsToScoping(_Outputs):
         >>> result_scoping = op.outputs.scoping()
         """  # noqa: E501
         return self._scoping
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

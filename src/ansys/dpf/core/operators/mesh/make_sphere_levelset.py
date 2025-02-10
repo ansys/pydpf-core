@@ -77,6 +77,7 @@ class make_sphere_levelset(Operator):
                     type_names=["abstract_meshed_region", "field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="origin",
@@ -84,12 +85,14 @@ class make_sphere_levelset(Operator):
                     optional=False,
                     document="""An overall 3d vector that gives a point of
         the plane.""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="radius",
                     type_names=["double"],
                     optional=False,
                     document="""Sphere radius.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -98,6 +101,7 @@ class make_sphere_levelset(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -224,6 +228,11 @@ class InputsMakeSphereLevelset(_Inputs):
         """
         return self._radius
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMakeSphereLevelset(_Outputs):
     """Intermediate class used to get outputs from
@@ -258,3 +267,8 @@ class OutputsMakeSphereLevelset(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

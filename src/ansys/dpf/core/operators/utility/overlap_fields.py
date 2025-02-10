@@ -70,12 +70,14 @@ class overlap_fields(Operator):
                     type_names=["field"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="overlapping_field",
                     type_names=["field"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -84,6 +86,7 @@ class overlap_fields(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -183,6 +186,11 @@ class InputsOverlapFields(_Inputs):
         """
         return self._overlapping_field
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsOverlapFields(_Outputs):
     """Intermediate class used to get outputs from
@@ -217,3 +225,8 @@ class OutputsOverlapFields(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

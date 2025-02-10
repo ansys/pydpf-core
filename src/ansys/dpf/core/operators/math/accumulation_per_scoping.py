@@ -97,6 +97,7 @@ class accumulation_per_scoping(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="mesh_scoping",
@@ -105,12 +106,14 @@ class accumulation_per_scoping(Operator):
                     document="""Master scoping. all scopings in the scopings
         container will be intersected with
         this scoping.""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
                     type_names=["data_sources"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 5: PinSpecification(
                     name="scopings_container",
@@ -118,6 +121,7 @@ class accumulation_per_scoping(Operator):
                     optional=False,
                     document="""The intersection between the of the first
         will be used.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -126,12 +130,14 @@ class accumulation_per_scoping(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="accumulation_per_scoping_percentage",
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -290,6 +296,11 @@ class InputsAccumulationPerScoping(_Inputs):
         """
         return self._scopings_container
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsAccumulationPerScoping(_Outputs):
     """Intermediate class used to get outputs from
@@ -348,3 +359,8 @@ class OutputsAccumulationPerScoping(_Outputs):
         >>> result_accumulation_per_scoping_percentage = op.outputs.accumulation_per_scoping_percentage()
         """  # noqa: E501
         return self._accumulation_per_scoping_percentage
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

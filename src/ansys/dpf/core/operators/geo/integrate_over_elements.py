@@ -76,6 +76,7 @@ class integrate_over_elements(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="scoping",
@@ -83,6 +84,7 @@ class integrate_over_elements(Operator):
                     optional=True,
                     document="""Integrate the input field over a specific
         scoping.""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="mesh",
@@ -90,6 +92,7 @@ class integrate_over_elements(Operator):
                     optional=True,
                     document="""Mesh to integrate on. if not provided, the
         one from input field is employed.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -98,6 +101,7 @@ class integrate_over_elements(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -225,6 +229,11 @@ class InputsIntegrateOverElements(_Inputs):
         """
         return self._mesh
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsIntegrateOverElements(_Outputs):
     """Intermediate class used to get outputs from
@@ -259,3 +268,8 @@ class OutputsIntegrateOverElements(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

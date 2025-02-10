@@ -66,6 +66,7 @@ class workflow_to_workflow_topology(Operator):
                     type_names=["workflow"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -75,6 +76,7 @@ class workflow_to_workflow_topology(Operator):
                     optional=False,
                     document="""""",
                     name_derived_class=["WorkflowTopology"],
+                    aliases=[],
                 ),
             },
         )
@@ -156,6 +158,11 @@ class InputsWorkflowToWorkflowTopology(_Inputs):
         """
         return self._workflow
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsWorkflowToWorkflowTopology(_Outputs):
     """Intermediate class used to get outputs from
@@ -192,3 +199,8 @@ class OutputsWorkflowToWorkflowTopology(_Outputs):
         >>> result_workflow_topology = op.outputs.workflow_topology()
         """  # noqa: E501
         return self._workflow_topology
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

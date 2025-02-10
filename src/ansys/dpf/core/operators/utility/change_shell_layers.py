@@ -111,6 +111,7 @@ class change_shell_layers(Operator):
                     type_names=["fields_container", "field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="e_shell_layer",
@@ -118,6 +119,7 @@ class change_shell_layers(Operator):
                     optional=False,
                     document="""0:top, 1: bottom, 2: bottomtop, 3:mid,
         4:bottomtopmid""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="mesh",
@@ -129,6 +131,7 @@ class change_shell_layers(Operator):
         mixed shell/solid results, the mesh
         is required (either by connecting
         this pin or in the support).""",
+                    aliases=[],
                 ),
                 26: PinSpecification(
                     name="merge",
@@ -137,6 +140,7 @@ class change_shell_layers(Operator):
                     document="""If set to true, merge shells and solids
         regarding the shell layer set in
         s_shell_layer pin (false by default).""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -145,6 +149,7 @@ class change_shell_layers(Operator):
                     type_names=["fields_container", "field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -304,6 +309,11 @@ class InputsChangeShellLayers(_Inputs):
         """
         return self._merge
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsChangeShellLayers(_Outputs):
     """Intermediate class used to get outputs from
@@ -335,3 +345,8 @@ class OutputsChangeShellLayers(_Outputs):
             op,
         )
         self._outputs.append(self.fields_container_as_field)
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

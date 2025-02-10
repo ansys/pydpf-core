@@ -91,6 +91,7 @@ class connectivity_ids(Operator):
                     type_names=["scoping"],
                     optional=False,
                     document="""Elemental scoping""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="mesh",
@@ -98,12 +99,14 @@ class connectivity_ids(Operator):
                     optional=True,
                     document="""The support of the scoping is expected if
         there is no mesh in input""",
+                    aliases=[],
                 ),
                 10: PinSpecification(
                     name="take_mid_nodes",
                     type_names=["bool"],
                     optional=True,
                     document="""Default is true""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -112,6 +115,7 @@ class connectivity_ids(Operator):
                     type_names=["scoping"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="elemental_scoping",
@@ -120,6 +124,7 @@ class connectivity_ids(Operator):
                     document="""Same as the input scoping but with ids
         duplicated to have the same size as
         nodal output scoping""",
+                    aliases=[],
                 ),
             },
         )
@@ -248,6 +253,11 @@ class InputsConnectivityIds(_Inputs):
         """
         return self._take_mid_nodes
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsConnectivityIds(_Outputs):
     """Intermediate class used to get outputs from
@@ -302,3 +312,8 @@ class OutputsConnectivityIds(_Outputs):
         >>> result_elemental_scoping = op.outputs.elemental_scoping()
         """  # noqa: E501
         return self._elemental_scoping
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

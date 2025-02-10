@@ -80,18 +80,21 @@ class elemental_to_elemental_nodal(Operator):
                     optional=False,
                     document="""Field or fields container with only one field
         is expected""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="mesh_scoping",
                     type_names=["scoping"],
                     optional=True,
                     document="""Average only on these entities""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="mesh",
                     type_names=["abstract_meshed_region"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -100,6 +103,7 @@ class elemental_to_elemental_nodal(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -232,6 +236,11 @@ class InputsElementalToElementalNodal(_Inputs):
         """
         return self._mesh
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsElementalToElementalNodal(_Outputs):
     """Intermediate class used to get outputs from
@@ -266,3 +275,8 @@ class OutputsElementalToElementalNodal(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

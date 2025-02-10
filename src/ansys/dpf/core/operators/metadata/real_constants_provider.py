@@ -92,6 +92,7 @@ class real_constants_provider(Operator):
                     document="""Real constant ids to recover used by the
         solver. if not set, all available
         real constants to be recovered.""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="streams",
@@ -99,6 +100,7 @@ class real_constants_provider(Operator):
                     optional=True,
                     document="""Result file container allowed to be kept open
         to cache data.""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
@@ -106,6 +108,7 @@ class real_constants_provider(Operator):
                     optional=False,
                     document="""Result file path container, used if no
         streams are set.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -114,12 +117,14 @@ class real_constants_provider(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="real_constants2",
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -255,6 +260,11 @@ class InputsRealConstantsProvider(_Inputs):
         """
         return self._data_sources
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsRealConstantsProvider(_Outputs):
     """Intermediate class used to get outputs from
@@ -313,3 +323,8 @@ class OutputsRealConstantsProvider(_Outputs):
         >>> result_real_constants2 = op.outputs.real_constants2()
         """  # noqa: E501
         return self._real_constants2
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

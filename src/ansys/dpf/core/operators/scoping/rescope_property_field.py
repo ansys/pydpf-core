@@ -87,12 +87,14 @@ class rescope_property_field(Operator):
                     type_names=["property_fields_container", "property_field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="mesh_scoping",
                     type_names=["scoping", "vector<int32>"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="default_value",
@@ -101,6 +103,7 @@ class rescope_property_field(Operator):
                     document="""If pin 2 is used, the ids not found in the
         property field are added with this
         default value.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -109,6 +112,7 @@ class rescope_property_field(Operator):
                     type_names=["property_fields_container", "property_field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -238,6 +242,11 @@ class InputsRescopePropertyField(_Inputs):
         """
         return self._default_value
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsRescopePropertyField(_Outputs):
     """Intermediate class used to get outputs from
@@ -270,3 +279,8 @@ class OutputsRescopePropertyField(_Outputs):
             op,
         )
         self._outputs.append(self.fields_as_property_field)
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -98,6 +98,7 @@ class merge_supports(Operator):
         false, the merging process is
         skipped. if it is true, this scoping
         is merged. default is true.""",
+                    aliases=[],
                 ),
                 0: PinSpecification(
                     name="supports",
@@ -105,6 +106,7 @@ class merge_supports(Operator):
                     optional=False,
                     document="""A vector of supports to merge or supports
         from pin 0 to ...""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="supports",
@@ -112,6 +114,7 @@ class merge_supports(Operator):
                     optional=False,
                     document="""A vector of supports to merge or supports
         from pin 0 to ...""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -120,6 +123,7 @@ class merge_supports(Operator):
                     type_names=["abstract_field_support"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -257,6 +261,11 @@ class InputsMergeSupports(_Inputs):
         """
         return self._supports2
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMergeSupports(_Outputs):
     """Intermediate class used to get outputs from
@@ -291,3 +300,8 @@ class OutputsMergeSupports(_Outputs):
         >>> result_merged_support = op.outputs.merged_support()
         """  # noqa: E501
         return self._merged_support
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

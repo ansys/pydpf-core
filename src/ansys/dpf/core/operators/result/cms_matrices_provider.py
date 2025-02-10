@@ -77,6 +77,7 @@ class cms_matrices_provider(Operator):
                     optional=False,
                     document="""Data_sources (must contain at list one
         subfile).""",
+                    aliases=[],
                 ),
                 200: PinSpecification(
                     name="matrix_form",
@@ -84,6 +85,7 @@ class cms_matrices_provider(Operator):
                     optional=False,
                     document="""If this pin i set to true, data are return as
         matrix form.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -95,6 +97,7 @@ class cms_matrices_provider(Operator):
         stiffness, damping, mass matrices,
         and then load vector. but if pin 200
         is set to true, it's in matrix form.""",
+                    aliases=[],
                 ),
             },
         )
@@ -204,6 +207,11 @@ class InputsCmsMatricesProvider(_Inputs):
         """
         return self._matrix_form
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsCmsMatricesProvider(_Outputs):
     """Intermediate class used to get outputs from
@@ -240,3 +248,8 @@ class OutputsCmsMatricesProvider(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

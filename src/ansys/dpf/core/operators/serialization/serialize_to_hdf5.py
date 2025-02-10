@@ -102,6 +102,7 @@ class serialize_to_hdf5(Operator):
                     type_names=["string"],
                     optional=False,
                     document="""Output file path with .h5 extension""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="export_floats",
@@ -109,6 +110,7 @@ class serialize_to_hdf5(Operator):
                     optional=True,
                     document="""Converts double to float to reduce file size
         (default is true)""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="export_flat_vectors",
@@ -117,6 +119,7 @@ class serialize_to_hdf5(Operator):
                     document="""If true, vectors and matrices data are
         exported flat (x1,y1,z1,x2,y2,z2..)
         (default is false)""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="data",
@@ -124,6 +127,7 @@ class serialize_to_hdf5(Operator):
                     optional=False,
                     document="""Only the data set explicitly to export is
         exported""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data",
@@ -131,6 +135,7 @@ class serialize_to_hdf5(Operator):
                     optional=False,
                     document="""Only the data set explicitly to export is
         exported""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={},
@@ -314,6 +319,11 @@ class InputsSerializeToHdf5(_Inputs):
         """
         return self._data2
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsSerializeToHdf5(_Outputs):
     """Intermediate class used to get outputs from
@@ -328,3 +338,8 @@ class OutputsSerializeToHdf5(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(serialize_to_hdf5._spec().outputs, op)
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

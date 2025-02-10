@@ -153,6 +153,7 @@ class apply_zfp(Operator):
                     type_names=["field", "fields_container"],
                     optional=False,
                     document="""Field or fields container to be compressed""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="mode",
@@ -160,6 +161,7 @@ class apply_zfp(Operator):
                     optional=False,
                     document="""Zfp mode: fixed-rate ('r'), fixed-precision
         ('p'), fixed-accuracy ('a')""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="mode_parameter",
@@ -167,6 +169,7 @@ class apply_zfp(Operator):
                     optional=False,
                     document="""Mode-corresponding parameter: rate (double) /
         precision (int) / accuracy (double)""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="dim",
@@ -175,6 +178,7 @@ class apply_zfp(Operator):
                     document="""Dimension (1d/2d/3d) for data organization
         before the compression (int; default:
         2)""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="order",
@@ -186,6 +190,7 @@ class apply_zfp(Operator):
         z - number of components (applicable
         only for 3d data) : 0=xyz, 1=yxz
         (int; default: 0)""",
+                    aliases=[],
                 ),
                 5: PinSpecification(
                     name="double_absthreshold",
@@ -196,6 +201,7 @@ class apply_zfp(Operator):
         * relative threshold) are considered
         as zero values, (default value:
         1.0e-18).""",
+                    aliases=[],
                 ),
                 6: PinSpecification(
                     name="double_relthreshold",
@@ -205,6 +211,7 @@ class apply_zfp(Operator):
         than (v1 - v2) < max(small value, v1
         * relativetol) are considered
         identical (default value: 1.0e-10).""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -217,6 +224,7 @@ class apply_zfp(Operator):
         for elementalnodal location -
         [elements/sec], for nodal location -
         [nodes/sec]""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="compress_ratio",
@@ -224,6 +232,7 @@ class apply_zfp(Operator):
                     optional=False,
                     document="""The output entity is a double, containing
         compression rate = initial/compressed""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="dataOut",
@@ -239,6 +248,7 @@ class apply_zfp(Operator):
         the case when input pin3 is set to 3,
         all components will be compressed
         into one field.""",
+                    aliases=[],
                 ),
             },
         )
@@ -478,6 +488,11 @@ class InputsApplyZfp(_Inputs):
         """
         return self._double_relthreshold
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsApplyZfp(_Outputs):
     """Intermediate class used to get outputs from
@@ -552,3 +567,8 @@ class OutputsApplyZfp(_Outputs):
         >>> result_dataOut = op.outputs.dataOut()
         """  # noqa: E501
         return self._dataOut
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

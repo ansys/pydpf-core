@@ -21,7 +21,7 @@ class scale_fc(Operator):
     ----------
     fields_container : FieldsContainer
         Fields container to be scaled
-    ponderation : float or Field or FieldsContainer
+    weights : float or Field or FieldsContainer
         Double/vector of
         doubles/field/fieldscontainer. when
         scoped on overall, same value(s)
@@ -48,8 +48,8 @@ class scale_fc(Operator):
     >>> # Make input connections
     >>> my_fields_container = dpf.FieldsContainer()
     >>> op.inputs.fields_container.connect(my_fields_container)
-    >>> my_ponderation = float()
-    >>> op.inputs.ponderation.connect(my_ponderation)
+    >>> my_weights = float()
+    >>> op.inputs.weights.connect(my_weights)
     >>> my_boolean = bool()
     >>> op.inputs.boolean.connect(my_boolean)
     >>> my_algorithm = int()
@@ -58,7 +58,7 @@ class scale_fc(Operator):
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.math.scale_fc(
     ...     fields_container=my_fields_container,
-    ...     ponderation=my_ponderation,
+    ...     weights=my_weights,
     ...     boolean=my_boolean,
     ...     algorithm=my_algorithm,
     ... )
@@ -70,7 +70,7 @@ class scale_fc(Operator):
     def __init__(
         self,
         fields_container=None,
-        ponderation=None,
+        weights=None,
         boolean=None,
         algorithm=None,
         config=None,
@@ -81,8 +81,8 @@ class scale_fc(Operator):
         self._outputs = OutputsScaleFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
-        if ponderation is not None:
-            self.inputs.ponderation.connect(ponderation)
+        if weights is not None:
+            self.inputs.weights.connect(weights)
         if boolean is not None:
             self.inputs.boolean.connect(boolean)
         if algorithm is not None:
@@ -103,9 +103,10 @@ class scale_fc(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""Fields container to be scaled""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
-                    name="ponderation",
+                    name="weights",
                     type_names=[
                         "double",
                         "field",
@@ -119,6 +120,7 @@ class scale_fc(Operator):
         applied on all the data, when scoped
         elsewhere, corresponding values will
         be multiplied due to the scoping""",
+                    aliases=["ponderation"],
                 ),
                 2: PinSpecification(
                     name="boolean",
@@ -126,12 +128,14 @@ class scale_fc(Operator):
                     optional=True,
                     document="""Default is false. if set to true, output of
         scale is made dimensionless""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="algorithm",
                     type_names=["int32"],
                     optional=True,
                     document="""Default is 0 use mkl. if set to 1, don't""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -140,6 +144,7 @@ class scale_fc(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -192,8 +197,8 @@ class InputsScaleFc(_Inputs):
     >>> op = dpf.operators.math.scale_fc()
     >>> my_fields_container = dpf.FieldsContainer()
     >>> op.inputs.fields_container.connect(my_fields_container)
-    >>> my_ponderation = float()
-    >>> op.inputs.ponderation.connect(my_ponderation)
+    >>> my_weights = float()
+    >>> op.inputs.weights.connect(my_weights)
     >>> my_boolean = bool()
     >>> op.inputs.boolean.connect(my_boolean)
     >>> my_algorithm = int()
@@ -204,8 +209,8 @@ class InputsScaleFc(_Inputs):
         super().__init__(scale_fc._spec().inputs, op)
         self._fields_container = Input(scale_fc._spec().input_pin(0), 0, op, -1)
         self._inputs.append(self._fields_container)
-        self._ponderation = Input(scale_fc._spec().input_pin(1), 1, op, -1)
-        self._inputs.append(self._ponderation)
+        self._weights = Input(scale_fc._spec().input_pin(1), 1, op, -1)
+        self._inputs.append(self._weights)
         self._boolean = Input(scale_fc._spec().input_pin(2), 2, op, -1)
         self._inputs.append(self._boolean)
         self._algorithm = Input(scale_fc._spec().input_pin(3), 3, op, -1)
@@ -232,8 +237,8 @@ class InputsScaleFc(_Inputs):
         return self._fields_container
 
     @property
-    def ponderation(self):
-        """Allows to connect ponderation input to the operator.
+    def weights(self):
+        """Allows to connect weights input to the operator.
 
         Double/vector of
         doubles/field/fieldscontainer. when
@@ -244,17 +249,17 @@ class InputsScaleFc(_Inputs):
 
         Parameters
         ----------
-        my_ponderation : float or Field or FieldsContainer
+        my_weights : float or Field or FieldsContainer
 
         Examples
         --------
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.math.scale_fc()
-        >>> op.inputs.ponderation.connect(my_ponderation)
+        >>> op.inputs.weights.connect(my_weights)
         >>> # or
-        >>> op.inputs.ponderation(my_ponderation)
+        >>> op.inputs.weights(my_weights)
         """
-        return self._ponderation
+        return self._weights
 
     @property
     def boolean(self):
@@ -297,6 +302,18 @@ class InputsScaleFc(_Inputs):
         """
         return self._algorithm
 
+    def __getattr__(self, name):
+        if name in ["ponderation"]:
+            warn(
+                DeprecationWarning(
+                    f'Operator scale_fc: Input name "{name}" is deprecated in favor of "weights".'
+                )
+            )
+            return self.weights
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsScaleFc(_Outputs):
     """Intermediate class used to get outputs from
@@ -331,3 +348,8 @@ class OutputsScaleFc(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

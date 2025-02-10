@@ -88,24 +88,28 @@ class phase_of_max(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="imaginary_field",
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="abs_value",
                     type_names=["bool"],
                     optional=True,
                     document="""Should use absolute value.""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="phase_increment",
                     type_names=["double"],
                     optional=False,
                     document="""Phase increment.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -114,6 +118,7 @@ class phase_of_max(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -261,6 +266,11 @@ class InputsPhaseOfMax(_Inputs):
         """
         return self._phase_increment
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsPhaseOfMax(_Outputs):
     """Intermediate class used to get outputs from
@@ -295,3 +305,8 @@ class OutputsPhaseOfMax(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

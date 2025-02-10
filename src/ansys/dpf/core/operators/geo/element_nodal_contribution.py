@@ -91,6 +91,7 @@ class element_nodal_contribution(Operator):
                     type_names=["abstract_meshed_region"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="scoping",
@@ -98,6 +99,7 @@ class element_nodal_contribution(Operator):
                     optional=True,
                     document="""Integrate the input field over a specific
         scoping.""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="volume_fraction",
@@ -107,6 +109,7 @@ class element_nodal_contribution(Operator):
         length. if false, the values are
         normalized with the element volume,
         area or length. default: true.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -115,6 +118,7 @@ class element_nodal_contribution(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -250,6 +254,11 @@ class InputsElementNodalContribution(_Inputs):
         """
         return self._volume_fraction
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsElementNodalContribution(_Outputs):
     """Intermediate class used to get outputs from
@@ -284,3 +293,8 @@ class OutputsElementNodalContribution(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

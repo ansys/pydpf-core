@@ -63,6 +63,7 @@ class extract_scoping(Operator):
                     type_names=["field", "fields_container"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -71,6 +72,7 @@ class extract_scoping(Operator):
                     type_names=["scoping", "scopings_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -150,6 +152,11 @@ class InputsExtractScoping(_Inputs):
         """
         return self._field_or_fields_container
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsExtractScoping(_Outputs):
     """Intermediate class used to get outputs from
@@ -181,3 +188,8 @@ class OutputsExtractScoping(_Outputs):
             op,
         )
         self._outputs.append(self.mesh_scoping_as_scopings_container)
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

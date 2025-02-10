@@ -67,6 +67,7 @@ class principal_invariants(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -75,18 +76,21 @@ class principal_invariants(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""First eigen value field""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="field_eig_2",
                     type_names=["field"],
                     optional=False,
                     document="""Second eigen value field""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="field_eig_3",
                     type_names=["field"],
                     optional=False,
                     document="""Third eigen value field""",
+                    aliases=[],
                 ),
             },
         )
@@ -164,6 +168,11 @@ class InputsPrincipalInvariants(_Inputs):
         """
         return self._field
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsPrincipalInvariants(_Outputs):
     """Intermediate class used to get outputs from
@@ -238,3 +247,8 @@ class OutputsPrincipalInvariants(_Outputs):
         >>> result_field_eig_3 = op.outputs.field_eig_3()
         """  # noqa: E501
         return self._field_eig_3
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

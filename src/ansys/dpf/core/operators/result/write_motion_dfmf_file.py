@@ -203,6 +203,7 @@ class write_motion_dfmf_file(Operator):
                     type_names=["property_field"],
                     optional=False,
                     document="""Data describing the finite element model""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="mode_shapes",
@@ -211,96 +212,112 @@ class write_motion_dfmf_file(Operator):
                     document="""Fieldscontainers containing the mode shapes,
         which are cst and nor for the cms
         method""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="lumped_mass",
                     type_names=["fields_container"],
                     optional=False,
                     document="""Fieldscontainers containing the lumped mass""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="field_coordinates",
                     type_names=["field"],
                     optional=False,
                     document="""Coordinates of all nodes""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="nod",
                     type_names=["vector<int32>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 5: PinSpecification(
                     name="used_node_index",
                     type_names=["vector<int32>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 6: PinSpecification(
                     name="eigenvalue",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="translational_mode_shape",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 8: PinSpecification(
                     name="rotational_mode_shape",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 9: PinSpecification(
                     name="invrt_1",
                     type_names=["double"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 10: PinSpecification(
                     name="invrt_2",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 11: PinSpecification(
                     name="invrt_3",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 12: PinSpecification(
                     name="invrt_4",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 13: PinSpecification(
                     name="invrt_5",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 14: PinSpecification(
                     name="invrt_6",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 15: PinSpecification(
                     name="invrt_7",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 16: PinSpecification(
                     name="invrt_8",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 17: PinSpecification(
                     name="dfmffile_path",
@@ -308,12 +325,14 @@ class write_motion_dfmf_file(Operator):
                     optional=False,
                     document="""Path with motion dfmf extension where the
         export occurs""",
+                    aliases=[],
                 ),
                 18: PinSpecification(
                     name="rstfile_path",
                     type_names=["string"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -323,6 +342,7 @@ class write_motion_dfmf_file(Operator):
                     optional=False,
                     document="""Data source containing the dfmf file
         generated.""",
+                    aliases=[],
                 ),
             },
         )
@@ -825,6 +845,11 @@ class InputsWriteMotionDfmfFile(_Inputs):
         """
         return self._rstfile_path
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsWriteMotionDfmfFile(_Outputs):
     """Intermediate class used to get outputs from
@@ -861,3 +886,8 @@ class OutputsWriteMotionDfmfFile(_Outputs):
         >>> result_dfmf_data_source = op.outputs.dfmf_data_source()
         """  # noqa: E501
         return self._dfmf_data_source
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

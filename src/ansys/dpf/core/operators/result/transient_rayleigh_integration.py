@@ -129,6 +129,7 @@ class transient_rayleigh_integration(Operator):
                     optional=False,
                     document="""The input field container expects
         acceleration fields""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="mesh",
@@ -137,6 +138,7 @@ class transient_rayleigh_integration(Operator):
                     document="""The meshes region in this pin has to be
         boundary or skin mesh. this is the
         source meshes.""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="time_scoping",
@@ -146,6 +148,7 @@ class transient_rayleigh_integration(Operator):
         transient rayleigh integration is
         computed only on the substeps of this
         step) or time scoping""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="field",
@@ -155,12 +158,14 @@ class transient_rayleigh_integration(Operator):
         observation position. it should be
         specified if not observation mesh is
         provided.""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="observation_mesh",
                     type_names=["abstract_meshed_region"],
                     optional=False,
                     document="""This is the observation mesh region""",
+                    aliases=[],
                 ),
                 5: PinSpecification(
                     name="mass_density",
@@ -168,6 +173,7 @@ class transient_rayleigh_integration(Operator):
                     optional=False,
                     document="""Mass density (if it's not specified, default
         value of the air is applied).""",
+                    aliases=[],
                 ),
                 6: PinSpecification(
                     name="speed_of_sound",
@@ -176,6 +182,7 @@ class transient_rayleigh_integration(Operator):
                     document="""Speed of sound (if it's not specified,
         default value of the speed of sound
         in the air is applied).""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -184,6 +191,7 @@ class transient_rayleigh_integration(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -435,6 +443,11 @@ class InputsTransientRayleighIntegration(_Inputs):
         """
         return self._speed_of_sound
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsTransientRayleighIntegration(_Outputs):
     """Intermediate class used to get outputs from
@@ -471,3 +484,8 @@ class OutputsTransientRayleighIntegration(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

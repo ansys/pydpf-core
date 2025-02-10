@@ -112,6 +112,7 @@ class elemental_mean_fc(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="collapse_shell_layers",
@@ -119,12 +120,14 @@ class elemental_mean_fc(Operator):
                     optional=True,
                     document="""If true, shell layers are averaged as well
         (default is false).""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="force_averaging",
                     type_names=["bool"],
                     optional=True,
                     document="""If true you average, if false you just sum.""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="scoping",
@@ -134,6 +137,7 @@ class elemental_mean_fc(Operator):
         scoping container, the label must
         correspond to the one of the fields
         containers.""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="abstract_meshed_region",
@@ -142,6 +146,7 @@ class elemental_mean_fc(Operator):
                     document="""The mesh region in this pin is used to
         perform the averaging. it is used if
         there is no fields support.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -150,6 +155,7 @@ class elemental_mean_fc(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -335,6 +341,11 @@ class InputsElementalMeanFc(_Inputs):
         """
         return self._abstract_meshed_region
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsElementalMeanFc(_Outputs):
     """Intermediate class used to get outputs from
@@ -369,3 +380,8 @@ class OutputsElementalMeanFc(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

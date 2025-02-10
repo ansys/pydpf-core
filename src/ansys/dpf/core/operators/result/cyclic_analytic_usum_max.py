@@ -99,12 +99,14 @@ class cyclic_analytic_usum_max(Operator):
                     type_names=["scoping", "vector<int32>"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="mesh_scoping",
                     type_names=["scopings_container", "scoping", "vector<int32>"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="fields_container",
@@ -112,18 +114,21 @@ class cyclic_analytic_usum_max(Operator):
                     optional=False,
                     document="""Field container with the base and duplicate
         sectors""",
+                    aliases=[],
                 ),
                 5: PinSpecification(
                     name="bool_rotate_to_global",
                     type_names=["bool"],
                     optional=True,
                     document="""Default is true""",
+                    aliases=[],
                 ),
                 16: PinSpecification(
                     name="cyclic_support",
                     type_names=["cyclic_support"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -132,6 +137,7 @@ class cyclic_analytic_usum_max(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""Fieldscontainer filled in""",
+                    aliases=[],
                 ),
             },
         )
@@ -312,6 +318,11 @@ class InputsCyclicAnalyticUsumMax(_Inputs):
         """
         return self._cyclic_support
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsCyclicAnalyticUsumMax(_Outputs):
     """Intermediate class used to get outputs from
@@ -348,3 +359,8 @@ class OutputsCyclicAnalyticUsumMax(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

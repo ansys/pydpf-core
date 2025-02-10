@@ -149,12 +149,14 @@ class beam_axial_total_strain(Operator):
         is taken when time/freqs are higher
         than available time/freqs in result
         files.""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="mesh_scoping",
                     type_names=["scopings_container", "scoping"],
                     optional=True,
                     document="""Elements scoping required in output.""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="streams_container",
@@ -162,6 +164,7 @@ class beam_axial_total_strain(Operator):
                     optional=True,
                     document="""Result file container allowed to be kept open
         to cache data""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
@@ -169,6 +172,7 @@ class beam_axial_total_strain(Operator):
                     optional=False,
                     document="""Result file path container, used if no
         streams are set""",
+                    aliases=[],
                 ),
                 6: PinSpecification(
                     name="integration_point",
@@ -177,6 +181,7 @@ class beam_axial_total_strain(Operator):
                     document="""Integration point where the result will be
         read from. default value: 0 (first
         integration point).""",
+                    aliases=[],
                 ),
                 50: PinSpecification(
                     name="unit_system",
@@ -189,6 +194,7 @@ class beam_axial_total_strain(Operator):
                     document="""Unit system id (int), semicolon-separated
         list of base unit strings (str) or
         unitsystem instance""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -197,6 +203,7 @@ class beam_axial_total_strain(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -428,6 +435,11 @@ class InputsBeamAxialTotalStrain(_Inputs):
         """
         return self._unit_system
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsBeamAxialTotalStrain(_Outputs):
     """Intermediate class used to get outputs from
@@ -464,3 +476,8 @@ class OutputsBeamAxialTotalStrain(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

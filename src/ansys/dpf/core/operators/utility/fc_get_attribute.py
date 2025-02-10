@@ -98,6 +98,7 @@ class fc_get_attribute(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="property_name",
@@ -107,6 +108,7 @@ class fc_get_attribute(Operator):
         "label_scoping", "label_values",
         "time_freq_support", "labels",
         "field_scoping" .""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="property_identifier",
@@ -116,6 +118,7 @@ class fc_get_attribute(Operator):
         name for "label_scoping" or
         "label_values", the field index
         (default 0) for "field_scoping".""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -135,6 +138,7 @@ class fc_get_attribute(Operator):
         for "time_freq_support", a vector of
         string for "labels", a labelspace for
         "field_scoping".""",
+                    aliases=[],
                 ),
             },
         )
@@ -270,6 +274,11 @@ class InputsFcGetAttribute(_Inputs):
         """
         return self._property_identifier
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsFcGetAttribute(_Outputs):
     """Intermediate class used to get outputs from
@@ -325,3 +334,8 @@ class OutputsFcGetAttribute(_Outputs):
             op,
         )
         self._outputs.append(self.property_as_label_space)
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

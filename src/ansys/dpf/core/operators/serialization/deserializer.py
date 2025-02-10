@@ -76,12 +76,14 @@ class deserializer(Operator):
                     type_names=["int32"],
                     optional=False,
                     document="""0 for ascii (default), and 1 for binary""",
+                    aliases=[],
                 ),
                 0: PinSpecification(
                     name="file_path",
                     type_names=["string"],
                     optional=False,
                     document="""File path""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -91,6 +93,7 @@ class deserializer(Operator):
                     optional=False,
                     document="""Number and types of outputs corresponding of
         the inputs used in the serialization""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="any_output2",
@@ -98,6 +101,7 @@ class deserializer(Operator):
                     optional=False,
                     document="""Number and types of outputs corresponding of
         the inputs used in the serialization""",
+                    aliases=[],
                 ),
             },
         )
@@ -201,6 +205,11 @@ class InputsDeserializer(_Inputs):
         """
         return self._file_path
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsDeserializer(_Outputs):
     """Intermediate class used to get outputs from
@@ -255,3 +264,8 @@ class OutputsDeserializer(_Outputs):
         >>> result_any_output2 = op.outputs.any_output2()
         """  # noqa: E501
         return self._any_output2
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

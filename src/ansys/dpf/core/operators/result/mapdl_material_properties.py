@@ -113,6 +113,7 @@ class mapdl_material_properties(Operator):
                     type_names=["string", "vector<string>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="materials",
@@ -120,18 +121,21 @@ class mapdl_material_properties(Operator):
                     optional=False,
                     document="""Property field that contains a material id
         per element.""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="streams_container",
                     type_names=["streams_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
                     type_names=["data_sources"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -140,6 +144,7 @@ class mapdl_material_properties(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -294,6 +299,11 @@ class InputsMapdlMaterialProperties(_Inputs):
         """
         return self._data_sources
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMapdlMaterialProperties(_Outputs):
     """Intermediate class used to get outputs from
@@ -330,3 +340,8 @@ class OutputsMapdlMaterialProperties(_Outputs):
         >>> result_properties_value = op.outputs.properties_value()
         """  # noqa: E501
         return self._properties_value
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

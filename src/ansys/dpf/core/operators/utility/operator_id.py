@@ -60,6 +60,7 @@ class operator_id(Operator):
                     type_names=["operator"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -68,6 +69,7 @@ class operator_id(Operator):
                     type_names=["int32"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -145,6 +147,11 @@ class InputsOperatorId(_Inputs):
         """
         return self._op
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsOperatorId(_Outputs):
     """Intermediate class used to get outputs from
@@ -179,3 +186,8 @@ class OutputsOperatorId(_Outputs):
         >>> result_id = op.outputs.id()
         """  # noqa: E501
         return self._id
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

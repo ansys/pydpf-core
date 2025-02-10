@@ -76,12 +76,14 @@ class component_wise_divide_fc(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="fields_containerB",
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -90,6 +92,7 @@ class component_wise_divide_fc(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -193,6 +196,11 @@ class InputsComponentWiseDivideFc(_Inputs):
         """
         return self._fields_containerB
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsComponentWiseDivideFc(_Outputs):
     """Intermediate class used to get outputs from
@@ -229,3 +237,8 @@ class OutputsComponentWiseDivideFc(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

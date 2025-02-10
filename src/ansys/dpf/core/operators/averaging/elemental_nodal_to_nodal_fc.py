@@ -153,6 +153,7 @@ class elemental_nodal_to_nodal_fc(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="mesh",
@@ -161,6 +162,7 @@ class elemental_nodal_to_nodal_fc(Operator):
                     document="""The mesh region in this pin is used to
         perform the averaging. it is used if
         there is no fields support.""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="should_average",
@@ -169,6 +171,7 @@ class elemental_nodal_to_nodal_fc(Operator):
                     document="""Each nodal value is divided by the number of
         elements linked to this node (default
         is true for discrete quantities).""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="scoping",
@@ -178,6 +181,7 @@ class elemental_nodal_to_nodal_fc(Operator):
         scoping container, the label must
         correspond to the one of the fields
         containers.""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="extend_to_mid_nodes",
@@ -186,6 +190,7 @@ class elemental_nodal_to_nodal_fc(Operator):
                     document="""Compute mid nodes (when available) by
         averaging the neighbour primary
         nodes.""",
+                    aliases=[],
                 ),
                 5: PinSpecification(
                     name="extend_weights_to_mid_nodes",
@@ -193,6 +198,7 @@ class elemental_nodal_to_nodal_fc(Operator):
                     optional=True,
                     document="""Extends weights to mid nodes (when
         available). default is false.""",
+                    aliases=[],
                 ),
                 26: PinSpecification(
                     name="merge_solid_shell",
@@ -201,6 +207,7 @@ class elemental_nodal_to_nodal_fc(Operator):
                     document="""For shell/solid mixed field, gather in one
         field all solids and shells (only on
         one layer, false by default).""",
+                    aliases=[],
                 ),
                 27: PinSpecification(
                     name="shell_layer",
@@ -211,6 +218,7 @@ class elemental_nodal_to_nodal_fc(Operator):
         shell/solid mixed field, gather in
         one field all solids and shells (only
         on one layer).""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -219,6 +227,7 @@ class elemental_nodal_to_nodal_fc(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="weights",
@@ -229,6 +238,7 @@ class elemental_nodal_to_nodal_fc(Operator):
                     document="""Gives for each node, the number of times it
         was found in the elemental nodal
         field. can be used to average later.""",
+                    aliases=[],
                 ),
             },
         )
@@ -506,6 +516,11 @@ class InputsElementalNodalToNodalFc(_Inputs):
         """
         return self._shell_layer
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsElementalNodalToNodalFc(_Outputs):
     """Intermediate class used to get outputs from
@@ -563,3 +578,8 @@ class OutputsElementalNodalToNodalFc(_Outputs):
         >>> result_weights = op.outputs.weights()
         """  # noqa: E501
         return self._weights
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -152,6 +152,7 @@ class compute_residual_and_error(Operator):
                     type_names=["field", "fields_container"],
                     optional=False,
                     document="""Field or fields container - compulsory""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="normalization_type",
@@ -171,6 +172,7 @@ class compute_residual_and_error(Operator):
         time steps of the first entry or
         residuals depending on the reference
         field option""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="norm_calculation_type",
@@ -181,6 +183,7 @@ class compute_residual_and_error(Operator):
         pin2 selection
         1 for l1, ie sum(abs(xi)),
         2 for l2, ie sqrt(sum((xi^2))""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="field_reference",
@@ -189,6 +192,7 @@ class compute_residual_and_error(Operator):
                     document="""Field reference for the normalization step,
         default: 0 for entry 1, 1 for
         residuals - optional""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="field_or_fields_container2",
@@ -196,6 +200,7 @@ class compute_residual_and_error(Operator):
                     optional=True,
                     document="""Field or fields container of same
         dimensionality as entry 1 - optional""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -207,6 +212,7 @@ class compute_residual_and_error(Operator):
         2) as a field or field container,
         normalized depending on the
         normalization type""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="error",
@@ -214,18 +220,21 @@ class compute_residual_and_error(Operator):
                     optional=False,
                     document="""1: error as a field or a field container
         depending on the entry's type.""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="residuals_normalization_factor",
                     type_names=["field", "fields_container"],
                     optional=False,
                     document="""2: factor used for residual normalization""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="error_normalization_factor",
                     type_names=["field", "fields_container"],
                     optional=False,
                     document="""3: factor used for error norm normalization""",
+                    aliases=[],
                 ),
             },
         )
@@ -431,6 +440,11 @@ class InputsComputeResidualAndError(_Inputs):
         """
         return self._field_or_fields_container2
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsComputeResidualAndError(_Outputs):
     """Intermediate class used to get outputs from
@@ -513,3 +527,8 @@ class OutputsComputeResidualAndError(_Outputs):
             op,
         )
         self._outputs.append(self.error_normalization_factor_as_fields_container)
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

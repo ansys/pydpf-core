@@ -73,6 +73,7 @@ class merge_data_tree(Operator):
                     optional=False,
                     document="""Either a vector of data trees or data trees
         from pin 0 to ... to merge.""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="data_tree",
@@ -80,6 +81,7 @@ class merge_data_tree(Operator):
                     optional=False,
                     document="""Either a vector of data trees or data trees
         from pin 0 to ... to merge.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -88,6 +90,7 @@ class merge_data_tree(Operator):
                     type_names=["any"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -193,6 +196,11 @@ class InputsMergeDataTree(_Inputs):
         """
         return self._data_tree2
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMergeDataTree(_Outputs):
     """Intermediate class used to get outputs from
@@ -227,3 +235,8 @@ class OutputsMergeDataTree(_Outputs):
         >>> result_any = op.outputs.any()
         """  # noqa: E501
         return self._any
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

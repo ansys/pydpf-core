@@ -62,6 +62,7 @@ class property_field(Operator):
                     type_names=["property_field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -69,6 +70,7 @@ class property_field(Operator):
                     name="incremented_result",
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -148,6 +150,11 @@ class InputsPropertyField(_Inputs):
         """
         return self._input
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsPropertyField(_Outputs):
     """Intermediate class used to get outputs from
@@ -182,3 +189,8 @@ class OutputsPropertyField(_Outputs):
         >>> result_incremented_result = op.outputs.incremented_result()
         """  # noqa: E501
         return self._incremented_result
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

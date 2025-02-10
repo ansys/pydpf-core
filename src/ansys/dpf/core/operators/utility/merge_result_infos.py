@@ -73,6 +73,7 @@ class merge_result_infos(Operator):
                     optional=False,
                     document="""A vector of result info containers to merge
         or result infos from pin 0 to ...""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="result_infos",
@@ -80,6 +81,7 @@ class merge_result_infos(Operator):
                     optional=False,
                     document="""A vector of result info containers to merge
         or result infos from pin 0 to ...""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -88,6 +90,7 @@ class merge_result_infos(Operator):
                     type_names=["result_info"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -193,6 +196,11 @@ class InputsMergeResultInfos(_Inputs):
         """
         return self._result_infos2
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMergeResultInfos(_Outputs):
     """Intermediate class used to get outputs from
@@ -229,3 +237,8 @@ class OutputsMergeResultInfos(_Outputs):
         >>> result_merged_result_infos = op.outputs.merged_result_infos()
         """  # noqa: E501
         return self._merged_result_infos
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

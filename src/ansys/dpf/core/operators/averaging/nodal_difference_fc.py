@@ -92,6 +92,7 @@ class nodal_difference_fc(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="mesh",
@@ -100,6 +101,7 @@ class nodal_difference_fc(Operator):
                     document="""The mesh region in this pin is used to
         perform the averaging. it is used if
         there is no fields support.""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="scoping",
@@ -109,6 +111,7 @@ class nodal_difference_fc(Operator):
         scoping container, the label must
         correspond to the one of the fields
         containers.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -117,6 +120,7 @@ class nodal_difference_fc(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -249,6 +253,11 @@ class InputsNodalDifferenceFc(_Inputs):
         """
         return self._scoping
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsNodalDifferenceFc(_Outputs):
     """Intermediate class used to get outputs from
@@ -285,3 +294,8 @@ class OutputsNodalDifferenceFc(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -136,6 +136,7 @@ class workflow_energy_per_component(Operator):
                     type_names=["scoping"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="mesh_scoping",
@@ -147,6 +148,7 @@ class workflow_energy_per_component(Operator):
         when the input is a scopings
         container, named selections will not
         be needed.""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="energy_type",
@@ -156,12 +158,14 @@ class workflow_energy_per_component(Operator):
         kinetic energy (default), 1: strain
         energy, 2: kinetic energy, 3: all
         energy types)""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
                     type_names=["data_sources"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 5: PinSpecification(
                     name="named_selection",
@@ -170,6 +174,7 @@ class workflow_energy_per_component(Operator):
                     document="""Named selections. intersection of all  named
         selections with the master scoping
         will be done.""",
+                    aliases=[],
                 ),
                 6: PinSpecification(
                     name="named_selection",
@@ -178,6 +183,7 @@ class workflow_energy_per_component(Operator):
                     document="""Named selections. intersection of all  named
         selections with the master scoping
         will be done.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -186,48 +192,56 @@ class workflow_energy_per_component(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="component_energy_percentage",
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="component_total_energy",
                     type_names=["fields_container"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="component_total_energy_percentage",
                     type_names=["fields_container"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="component_strain_energy",
                     type_names=["fields_container"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 5: PinSpecification(
                     name="component_strain_energy_percentage",
                     type_names=["fields_container"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 6: PinSpecification(
                     name="component_kinetic_energy",
                     type_names=["fields_container"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="component_kinetic_energy_percentage",
                     type_names=["fields_container"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -449,6 +463,11 @@ class InputsWorkflowEnergyPerComponent(_Inputs):
         """
         return self._named_selection2
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsWorkflowEnergyPerComponent(_Outputs):
     """Intermediate class used to get outputs from
@@ -639,3 +658,8 @@ class OutputsWorkflowEnergyPerComponent(_Outputs):
         >>> result_component_kinetic_energy_percentage = op.outputs.component_kinetic_energy_percentage()
         """  # noqa: E501
         return self._component_kinetic_energy_percentage
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

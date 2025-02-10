@@ -107,12 +107,14 @@ class transpose(Operator):
                     optional=False,
                     document="""Scoping or scopings container (the input type
         is the output type)""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="meshed_region",
                     type_names=["meshed_region", "meshes_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="inclusive",
@@ -124,6 +126,7 @@ class transpose(Operator):
         only the elements/faces which have
         all their nodes/faces in the scoping
         are included""",
+                    aliases=[],
                 ),
                 9: PinSpecification(
                     name="requested_location",
@@ -134,6 +137,7 @@ class transpose(Operator):
         default, elemental and faces scopings
         transpose to nodal, and nodal
         scopings transpose to elemental.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -143,6 +147,7 @@ class transpose(Operator):
                     optional=False,
                     document="""Scoping or scopings container (the input type
         is the output type)""",
+                    aliases=[],
                 ),
             },
         )
@@ -302,6 +307,11 @@ class InputsTranspose(_Inputs):
         """
         return self._requested_location
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsTranspose(_Outputs):
     """Intermediate class used to get outputs from
@@ -333,3 +343,8 @@ class OutputsTranspose(_Outputs):
             op,
         )
         self._outputs.append(self.mesh_scoping_as_scopings_container)
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

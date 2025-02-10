@@ -73,6 +73,7 @@ class rigid_transformation(Operator):
                     type_names=["streams_container"],
                     optional=True,
                     document="""Streams (result file container) (optional)""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
@@ -80,6 +81,7 @@ class rigid_transformation(Operator):
                     optional=False,
                     document="""If the stream is null, retrieves the file
         path from the data sources.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -88,6 +90,7 @@ class rigid_transformation(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -196,6 +199,11 @@ class InputsRigidTransformation(_Inputs):
         """
         return self._data_sources
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsRigidTransformation(_Outputs):
     """Intermediate class used to get outputs from
@@ -232,3 +240,8 @@ class OutputsRigidTransformation(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

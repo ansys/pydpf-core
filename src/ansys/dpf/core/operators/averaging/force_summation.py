@@ -130,6 +130,7 @@ class force_summation(Operator):
                     type_names=["scoping"],
                     optional=True,
                     document="""Default = all time steps""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="nodal_scoping",
@@ -138,6 +139,7 @@ class force_summation(Operator):
                     document="""Nodal scoping. set of nodes in which
         elemental contribution forces will be
         accumulated (default = all nodes)""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="elemental_scoping",
@@ -146,12 +148,14 @@ class force_summation(Operator):
                     document="""Elemental scoping. set of elements
         contributing to the force calcuation.
         (default = all elements)""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
                     type_names=["data_sources"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 5: PinSpecification(
                     name="force_type",
@@ -161,6 +165,7 @@ class force_summation(Operator):
         total forces (static, damping, and
         inertia)., 1: static forces, 2:
         damping forces, 3: inertia forces)""",
+                    aliases=[],
                 ),
                 6: PinSpecification(
                     name="spoint",
@@ -168,6 +173,7 @@ class force_summation(Operator):
                     optional=True,
                     document="""Coordinate field of a point for moment
         summations. defaults to (0,0,0).""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -176,36 +182,42 @@ class force_summation(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="moment_accumulation",
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="heat_accumulation",
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 10: PinSpecification(
                     name="forces_on_nodes",
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 11: PinSpecification(
                     name="moments_on_nodes",
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 12: PinSpecification(
                     name="heats_on_nodes",
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -411,6 +423,11 @@ class InputsForceSummation(_Inputs):
         """
         return self._spoint
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsForceSummation(_Outputs):
     """Intermediate class used to get outputs from
@@ -545,3 +562,8 @@ class OutputsForceSummation(_Outputs):
         >>> result_heats_on_nodes = op.outputs.heats_on_nodes()
         """  # noqa: E501
         return self._heats_on_nodes
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -73,6 +73,7 @@ class fft_eval(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""Field of values to evaluate""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="time_scoping",
@@ -80,6 +81,7 @@ class fft_eval(Operator):
                     optional=True,
                     document="""If specified only the results at these set
         ids are used""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -88,12 +90,14 @@ class fft_eval(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="offset",
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -198,6 +202,11 @@ class InputsFftEval(_Inputs):
         """
         return self._time_scoping
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsFftEval(_Outputs):
     """Intermediate class used to get outputs from
@@ -252,3 +261,8 @@ class OutputsFftEval(_Outputs):
         >>> result_offset = op.outputs.offset()
         """  # noqa: E501
         return self._offset
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -97,12 +97,14 @@ class min_max_over_label_fc(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="label",
                     type_names=["string"],
                     optional=False,
                     document="""Label name from the fields container""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -111,36 +113,42 @@ class min_max_over_label_fc(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="field_max",
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="domain_ids_min",
                     type_names=["scoping"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="domain_ids_max",
                     type_names=["scoping"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="scoping_ids_min",
                     type_names=["scoping"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 5: PinSpecification(
                     name="scoping_ids_max",
                     type_names=["scoping"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -243,6 +251,11 @@ class InputsMinMaxOverLabelFc(_Inputs):
         >>> op.inputs.label(my_label)
         """
         return self._label
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
 
 
 class OutputsMinMaxOverLabelFc(_Outputs):
@@ -386,3 +399,8 @@ class OutputsMinMaxOverLabelFc(_Outputs):
         >>> result_scoping_ids_max = op.outputs.scoping_ids_max()
         """  # noqa: E501
         return self._scoping_ids_max
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

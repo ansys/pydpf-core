@@ -66,12 +66,14 @@ class acmo_mesh_provider(Operator):
                     type_names=["ans_dispatch_holder", "struct IAnsDispatch"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="unit",
                     type_names=["string"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -80,6 +82,7 @@ class acmo_mesh_provider(Operator):
                     type_names=["meshes_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -179,6 +182,11 @@ class InputsAcmoMeshProvider(_Inputs):
         """
         return self._unit
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsAcmoMeshProvider(_Outputs):
     """Intermediate class used to get outputs from
@@ -213,3 +221,8 @@ class OutputsAcmoMeshProvider(_Outputs):
         >>> result_meshes_container = op.outputs.meshes_container()
         """  # noqa: E501
         return self._meshes_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -67,6 +67,7 @@ class txt_file_to_dpf(Operator):
                     optional=False,
                     document="""Ex: 'double:1.0', 'int:1',
         'vector<double>:1.0;1.0'""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -74,11 +75,13 @@ class txt_file_to_dpf(Operator):
                     name="any_output1",
                     optional=False,
                     document="""Any output""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="any_output2",
                     optional=False,
                     document="""Any output""",
+                    aliases=[],
                 ),
             },
         )
@@ -159,6 +162,11 @@ class InputsTxtFileToDpf(_Inputs):
         """
         return self._input_string
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsTxtFileToDpf(_Outputs):
     """Intermediate class used to get outputs from
@@ -213,3 +221,8 @@ class OutputsTxtFileToDpf(_Outputs):
         >>> result_any_output2 = op.outputs.any_output2()
         """  # noqa: E501
         return self._any_output2
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

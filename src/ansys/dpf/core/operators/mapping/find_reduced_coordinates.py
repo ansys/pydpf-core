@@ -103,6 +103,7 @@ class find_reduced_coordinates(Operator):
                     ],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="mesh",
@@ -115,6 +116,7 @@ class find_reduced_coordinates(Operator):
         is set, it should be on the same
         label spaces as the coordinates
         fields container.""",
+                    aliases=[],
                 ),
                 200: PinSpecification(
                     name="use_quadratic_elements",
@@ -125,6 +127,7 @@ class find_reduced_coordinates(Operator):
         quadratic element if the element is
         quadratic (more precise but less
         performant). default is false.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -133,6 +136,7 @@ class find_reduced_coordinates(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""Coordinates in the reference elements""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="element_ids",
@@ -140,6 +144,7 @@ class find_reduced_coordinates(Operator):
                     optional=False,
                     document="""Ids of the elements where each set of reduced
         coordinates is found""",
+                    aliases=[],
                 ),
             },
         )
@@ -279,6 +284,11 @@ class InputsFindReducedCoordinates(_Inputs):
         """
         return self._use_quadratic_elements
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsFindReducedCoordinates(_Outputs):
     """Intermediate class used to get outputs from
@@ -337,3 +347,8 @@ class OutputsFindReducedCoordinates(_Outputs):
         >>> result_element_ids = op.outputs.element_ids()
         """  # noqa: E501
         return self._element_ids
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

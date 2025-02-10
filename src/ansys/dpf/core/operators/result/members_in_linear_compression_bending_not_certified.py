@@ -210,6 +210,7 @@ class members_in_linear_compression_bending_not_certified(Operator):
                     type_names=["scoping", "vector<int32>", "int32"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="field_yield_strength",
@@ -217,6 +218,7 @@ class members_in_linear_compression_bending_not_certified(Operator):
                     optional=False,
                     document="""This pin contains field of beam's yield
         strength defined by the user.""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="field_end_condition",
@@ -227,6 +229,7 @@ class members_in_linear_compression_bending_not_certified(Operator):
         no input at this pin found, it would
         take end conditions value of all
         beams as 1""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="streams",
@@ -234,6 +237,7 @@ class members_in_linear_compression_bending_not_certified(Operator):
                     optional=True,
                     document="""result file container allowed to be kept open
         to cache data.""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
@@ -241,6 +245,7 @@ class members_in_linear_compression_bending_not_certified(Operator):
                     optional=True,
                     document="""Result file path container, used if no
         streams are set.""",
+                    aliases=[],
                 ),
                 5: PinSpecification(
                     name="manufacture",
@@ -249,6 +254,7 @@ class members_in_linear_compression_bending_not_certified(Operator):
                     document="""Manufacturing processus:hot finished if true
         or cold formed if false. default
         value : hot finished.""",
+                    aliases=[],
                 ),
                 6: PinSpecification(
                     name="partial_factor",
@@ -257,6 +263,7 @@ class members_in_linear_compression_bending_not_certified(Operator):
                     document="""Partial factor for resistance of members to
         instability assessed by member
         checks. default value: 1.0""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="mesh",
@@ -264,6 +271,7 @@ class members_in_linear_compression_bending_not_certified(Operator):
                     optional=False,
                     document="""mesh containing beam's properties defined by
         user""",
+                    aliases=[],
                 ),
                 8: PinSpecification(
                     name="bending_moment_y",
@@ -271,6 +279,7 @@ class members_in_linear_compression_bending_not_certified(Operator):
                     optional=False,
                     document="""Fields container of bending moment on axis y
         defined by user""",
+                    aliases=[],
                 ),
                 9: PinSpecification(
                     name="bending_moment_z",
@@ -278,6 +287,7 @@ class members_in_linear_compression_bending_not_certified(Operator):
                     optional=False,
                     document="""Fields container of bending moment on axis z
         defined by user""",
+                    aliases=[],
                 ),
                 10: PinSpecification(
                     name="axial_force",
@@ -285,6 +295,7 @@ class members_in_linear_compression_bending_not_certified(Operator):
                     optional=False,
                     document="""Fields container of axial force defined by
         user""",
+                    aliases=[],
                 ),
                 11: PinSpecification(
                     name="class_cross_section",
@@ -298,6 +309,7 @@ class members_in_linear_compression_bending_not_certified(Operator):
         section modulus. if it's class 3-
         cross section,the section modulus
         would be elastic section modulus""",
+                    aliases=[],
                 ),
                 12: PinSpecification(
                     name="fabrication_type",
@@ -307,6 +319,7 @@ class members_in_linear_compression_bending_not_certified(Operator):
         beams i in the structure. true:
         rolled section, false: welded
         section. default: rolled section.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -319,6 +332,7 @@ class members_in_linear_compression_bending_not_certified(Operator):
         combination of both bending and
         compression. these factors should be
         less than 1 and positive.""",
+                    aliases=[],
                 ),
             },
         )
@@ -778,6 +792,11 @@ class InputsMembersInLinearCompressionBendingNotCertified(_Inputs):
         """
         return self._fabrication_type
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMembersInLinearCompressionBendingNotCertified(_Outputs):
     """Intermediate class used to get outputs from
@@ -820,3 +839,8 @@ class OutputsMembersInLinearCompressionBendingNotCertified(_Outputs):
         >>> result_buckling_resistance_linear_summation_utilization_ratios = op.outputs.buckling_resistance_linear_summation_utilization_ratios()
         """  # noqa: E501
         return self._buckling_resistance_linear_summation_utilization_ratios
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

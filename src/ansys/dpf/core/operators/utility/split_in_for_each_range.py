@@ -100,6 +100,7 @@ class split_in_for_each_range(Operator):
                     optional=True,
                     document="""Iterable that can be combined with the one
         currently generated.""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="operator_to_iterate",
@@ -107,24 +108,28 @@ class split_in_for_each_range(Operator):
                     optional=False,
                     document="""Operator that must be reconnected with the
         range values.""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="pin_index",
                     type_names=["int32"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="scoping",
                     type_names=["scoping"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="chunk_size",
                     type_names=["int32"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -132,6 +137,7 @@ class split_in_for_each_range(Operator):
                     name="output",
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -307,6 +313,11 @@ class InputsSplitInForEachRange(_Inputs):
         """
         return self._chunk_size
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsSplitInForEachRange(_Outputs):
     """Intermediate class used to get outputs from
@@ -341,3 +352,8 @@ class OutputsSplitInForEachRange(_Outputs):
         >>> result_output = op.outputs.output()
         """  # noqa: E501
         return self._output
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -82,6 +82,7 @@ class gauss_to_node(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="scoping",
@@ -89,12 +90,14 @@ class gauss_to_node(Operator):
                     optional=True,
                     document="""Scoping to integrate on, if not provided, the
         one from input field is provided.""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="mesh",
                     type_names=["abstract_meshed_region"],
                     optional=True,
                     document="""Mesh to integrate on.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -103,6 +106,7 @@ class gauss_to_node(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -229,6 +233,11 @@ class InputsGaussToNode(_Inputs):
         """
         return self._mesh
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsGaussToNode(_Outputs):
     """Intermediate class used to get outputs from
@@ -263,3 +272,8 @@ class OutputsGaussToNode(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

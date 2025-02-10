@@ -102,6 +102,7 @@ class spectrum_data(Operator):
                     optional=True,
                     document="""Result file container allowed to be kept open
         to cache data.""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
@@ -109,6 +110,7 @@ class spectrum_data(Operator):
                     optional=False,
                     document="""Result file path container, used if no
         streams are set.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -118,6 +120,7 @@ class spectrum_data(Operator):
                     optional=False,
                     document="""Fields container holding participation
         factors.""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="mode_coefficients",
@@ -125,6 +128,7 @@ class spectrum_data(Operator):
                     optional=False,
                     document="""Fields container holding mode coefficients
         (prs file).""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="damping_ratios",
@@ -132,6 +136,7 @@ class spectrum_data(Operator):
                     optional=False,
                     document="""Fields container holding damping ratios (prs
         file).""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="global_damping",
@@ -141,6 +146,7 @@ class spectrum_data(Operator):
         global damping ratio, damping
         stiffness coefficient & damping mass
         coefficient (prs file).""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="missing_mass",
@@ -150,6 +156,7 @@ class spectrum_data(Operator):
         missing mass mode (0: none, 1:
         active), missing mass effect zpa (prs
         file).""",
+                    aliases=[],
                 ),
                 5: PinSpecification(
                     name="rigid_response",
@@ -160,6 +167,7 @@ class spectrum_data(Operator):
         gupta, 2: lindley), freq begin
         (gupta) / zpa (lindley), freq end
         (gupta) (prs file).""",
+                    aliases=[],
                 ),
             },
         )
@@ -264,6 +272,11 @@ class InputsSpectrumData(_Inputs):
         >>> op.inputs.data_sources(my_data_sources)
         """
         return self._data_sources
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
 
 
 class OutputsSpectrumData(_Outputs):
@@ -399,3 +412,8 @@ class OutputsSpectrumData(_Outputs):
         >>> result_rigid_response = op.outputs.rigid_response()
         """  # noqa: E501
         return self._rigid_response
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -84,6 +84,7 @@ class merge_any(Operator):
         ... to merge. supported types rely on
         existing type specific merge
         operators.""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="any",
@@ -94,6 +95,7 @@ class merge_any(Operator):
         ... to merge. supported types rely on
         existing type specific merge
         operators.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -102,6 +104,7 @@ class merge_any(Operator):
                     type_names=["any"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -213,6 +216,11 @@ class InputsMergeAny(_Inputs):
         """
         return self._any2
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMergeAny(_Outputs):
     """Intermediate class used to get outputs from
@@ -247,3 +255,8 @@ class OutputsMergeAny(_Outputs):
         >>> result_any = op.outputs.any()
         """  # noqa: E501
         return self._any
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

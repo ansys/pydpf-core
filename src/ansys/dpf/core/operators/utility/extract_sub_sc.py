@@ -93,6 +93,7 @@ class extract_sub_sc(Operator):
                     type_names=["scopings_container"],
                     optional=False,
                     document="""Scopings_container""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="label_space",
@@ -101,6 +102,7 @@ class extract_sub_sc(Operator):
                     document="""Label space, or scoping defining the label
         space (scoping location), values to
         keep (scoping ids)""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="collapse_labels",
@@ -111,6 +113,7 @@ class extract_sub_sc(Operator):
         suppressed from the output scopings
         container, otherwise, label space is
         kept.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -119,6 +122,7 @@ class extract_sub_sc(Operator):
                     type_names=["scopings_container"],
                     optional=False,
                     document="""Scopings_container""",
+                    aliases=[],
                 ),
             },
         )
@@ -252,6 +256,11 @@ class InputsExtractSubSc(_Inputs):
         """
         return self._collapse_labels
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsExtractSubSc(_Outputs):
     """Intermediate class used to get outputs from
@@ -286,3 +295,8 @@ class OutputsExtractSubSc(_Outputs):
         >>> result_scopings_container = op.outputs.scopings_container()
         """  # noqa: E501
         return self._scopings_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

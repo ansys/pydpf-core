@@ -71,12 +71,14 @@ class rotate_fc(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="coordinate_system",
                     type_names=["field"],
                     optional=False,
                     document="""3-3 rotation matrix""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -85,6 +87,7 @@ class rotate_fc(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -186,6 +189,11 @@ class InputsRotateFc(_Inputs):
         """
         return self._coordinate_system
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsRotateFc(_Outputs):
     """Intermediate class used to get outputs from
@@ -220,3 +228,8 @@ class OutputsRotateFc(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

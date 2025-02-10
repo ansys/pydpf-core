@@ -68,6 +68,7 @@ class change_location(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="new_location",
@@ -75,6 +76,7 @@ class change_location(Operator):
                     optional=False,
                     document="""New location of the output field ex 'nodal',
         'elementalnodal', 'elemental'...""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -83,6 +85,7 @@ class change_location(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -185,6 +188,11 @@ class InputsChangeLocation(_Inputs):
         """
         return self._new_location
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsChangeLocation(_Outputs):
     """Intermediate class used to get outputs from
@@ -219,3 +227,8 @@ class OutputsChangeLocation(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

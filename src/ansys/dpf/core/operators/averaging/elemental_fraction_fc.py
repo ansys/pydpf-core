@@ -114,6 +114,7 @@ class elemental_fraction_fc(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="mesh",
@@ -122,6 +123,7 @@ class elemental_fraction_fc(Operator):
                     document="""The mesh region in this pin is used to
         perform the averaging. it is used if
         there is no fields support.""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="scoping",
@@ -131,6 +133,7 @@ class elemental_fraction_fc(Operator):
         scoping container, the label must
         correspond to the one of the fields
         containers.""",
+                    aliases=[],
                 ),
                 6: PinSpecification(
                     name="denominator",
@@ -140,6 +143,7 @@ class elemental_fraction_fc(Operator):
         is used as the denominator of the
         fraction instead of
         entity_average_fc.""",
+                    aliases=[],
                 ),
                 10: PinSpecification(
                     name="collapse_shell_layers",
@@ -149,6 +153,7 @@ class elemental_fraction_fc(Operator):
         average are taken through the
         different shell layers if true
         (default is false).""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -157,6 +162,7 @@ class elemental_fraction_fc(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -345,6 +351,11 @@ class InputsElementalFractionFc(_Inputs):
         """
         return self._collapse_shell_layers
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsElementalFractionFc(_Outputs):
     """Intermediate class used to get outputs from
@@ -381,3 +392,8 @@ class OutputsElementalFractionFc(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

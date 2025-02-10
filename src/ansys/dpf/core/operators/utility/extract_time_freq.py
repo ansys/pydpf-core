@@ -82,12 +82,14 @@ class extract_time_freq(Operator):
                     type_names=["time_freq_support"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="time_scoping",
                     type_names=["scoping"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="real_or_complex",
@@ -95,6 +97,7 @@ class extract_time_freq(Operator):
                     optional=True,
                     document="""False for real only (default). true for
         complex output.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -103,6 +106,7 @@ class extract_time_freq(Operator):
                     type_names=["field", "fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -229,6 +233,11 @@ class InputsExtractTimeFreq(_Inputs):
         """
         return self._real_or_complex
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsExtractTimeFreq(_Outputs):
     """Intermediate class used to get outputs from
@@ -260,3 +269,8 @@ class OutputsExtractTimeFreq(_Outputs):
             op,
         )
         self._outputs.append(self.field_as_fields_container)
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

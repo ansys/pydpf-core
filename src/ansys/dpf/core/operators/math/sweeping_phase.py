@@ -113,6 +113,7 @@ class sweeping_phase(Operator):
                     optional=False,
                     document="""Field or fields container with only one field
         is expected""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="imaginary_field",
@@ -120,12 +121,14 @@ class sweeping_phase(Operator):
                     optional=False,
                     document="""Field or fields container with only one field
         is expected""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="angle",
                     type_names=["double"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="unit_name",
@@ -133,12 +136,14 @@ class sweeping_phase(Operator):
                     optional=True,
                     document="""String unit. supported values: "deg" or
         "rad". default: "rad".""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="abs_value",
                     type_names=["bool"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 5: PinSpecification(
                     name="imaginary_part_null",
@@ -148,6 +153,7 @@ class sweeping_phase(Operator):
         pin is true, then the imaginary part
         is supposed to be 0 (default is
         false).""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -156,6 +162,7 @@ class sweeping_phase(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -359,6 +366,11 @@ class InputsSweepingPhase(_Inputs):
         """
         return self._imaginary_part_null
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsSweepingPhase(_Outputs):
     """Intermediate class used to get outputs from
@@ -393,3 +405,8 @@ class OutputsSweepingPhase(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

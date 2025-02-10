@@ -76,18 +76,21 @@ class vtk_to_fields(Operator):
                     type_names=["string"],
                     optional=True,
                     document="""Name of the field in the vtk file""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="streams",
                     type_names=["streams_container"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
                     type_names=["data_sources"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -96,6 +99,7 @@ class vtk_to_fields(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""Fields_container""",
+                    aliases=[],
                 ),
             },
         )
@@ -219,6 +223,11 @@ class InputsVtkToFields(_Inputs):
         """
         return self._data_sources
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsVtkToFields(_Outputs):
     """Intermediate class used to get outputs from
@@ -253,3 +262,8 @@ class OutputsVtkToFields(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -71,6 +71,7 @@ class time_derivation(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""Field""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="spline_fitting",
@@ -78,6 +79,7 @@ class time_derivation(Operator):
                     optional=True,
                     document="""Uses spline fitting on the input field to
         compute smooth derivatives""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -86,6 +88,7 @@ class time_derivation(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -190,6 +193,11 @@ class InputsTimeDerivation(_Inputs):
         """
         return self._spline_fitting
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsTimeDerivation(_Outputs):
     """Intermediate class used to get outputs from
@@ -224,3 +232,8 @@ class OutputsTimeDerivation(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

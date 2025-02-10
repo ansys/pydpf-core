@@ -74,6 +74,7 @@ class elements_volume(Operator):
                     type_names=["abstract_meshed_region"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="mesh_scoping",
@@ -83,6 +84,7 @@ class elements_volume(Operator):
         for the mesh is computed. if
         provided, the scoping needs to have
         "elemental" location.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -91,6 +93,7 @@ class elements_volume(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -195,6 +198,11 @@ class InputsElementsVolume(_Inputs):
         """
         return self._mesh_scoping
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsElementsVolume(_Outputs):
     """Intermediate class used to get outputs from
@@ -229,3 +237,8 @@ class OutputsElementsVolume(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

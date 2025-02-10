@@ -103,6 +103,7 @@ class mapdl_split_to_acmo_facet_indices(Operator):
         fieldscontainer will have location
         elemental and the scoping ids will be
         the element ids on the skin mesh.""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="property_fields_container_element_types",
@@ -114,6 +115,7 @@ class mapdl_split_to_acmo_facet_indices(Operator):
         corresponding elements.the scoping
         should be the same as the scoping of
         the corresponding field in input 0.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -122,6 +124,7 @@ class mapdl_split_to_acmo_facet_indices(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""Output splitted fields containter""",
+                    aliases=[],
                 ),
             },
         )
@@ -242,6 +245,11 @@ class InputsMapdlSplitToAcmoFacetIndices(_Inputs):
         """
         return self._property_fields_container_element_types
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMapdlSplitToAcmoFacetIndices(_Outputs):
     """Intermediate class used to get outputs from
@@ -278,3 +286,8 @@ class OutputsMapdlSplitToAcmoFacetIndices(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

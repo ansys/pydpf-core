@@ -99,18 +99,21 @@ class elemental_difference(Operator):
                     optional=False,
                     document="""Field or fields container with only one field
         is expected""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="mesh_scoping",
                     type_names=["scoping"],
                     optional=True,
                     document="""Average only on these entities""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="mesh",
                     type_names=["abstract_meshed_region"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 10: PinSpecification(
                     name="through_layers",
@@ -119,6 +122,7 @@ class elemental_difference(Operator):
                     document="""The maximum elemental difference is taken
         through the different shell layers if
         true (default is false).""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -127,6 +131,7 @@ class elemental_difference(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -281,6 +286,11 @@ class InputsElementalDifference(_Inputs):
         """
         return self._through_layers
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsElementalDifference(_Outputs):
     """Intermediate class used to get outputs from
@@ -315,3 +325,8 @@ class OutputsElementalDifference(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

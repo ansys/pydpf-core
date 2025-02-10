@@ -60,6 +60,7 @@ class streams_provider(Operator):
                     type_names=["data_sources"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -68,6 +69,7 @@ class streams_provider(Operator):
                     type_names=["streams_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -145,6 +147,11 @@ class InputsStreamsProvider(_Inputs):
         """
         return self._data_sources
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsStreamsProvider(_Outputs):
     """Intermediate class used to get outputs from
@@ -179,3 +186,8 @@ class OutputsStreamsProvider(_Outputs):
         >>> result_streams_container = op.outputs.streams_container()
         """  # noqa: E501
         return self._streams_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -96,12 +96,14 @@ class merge_fields(Operator):
                     document="""Default is false. if true, redundant
         quantities are summed instead of
         being ignored.""",
+                    aliases=[],
                 ),
                 -1: PinSpecification(
                     name="merged_support",
                     type_names=["abstract_field_support"],
                     optional=True,
                     document="""Already merged field support.""",
+                    aliases=[],
                 ),
                 0: PinSpecification(
                     name="fields",
@@ -109,6 +111,7 @@ class merge_fields(Operator):
                     optional=False,
                     document="""Either a fields container, a vector of fields
         to merge, or fields from pin 0 to ...""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="fields",
@@ -116,6 +119,7 @@ class merge_fields(Operator):
                     optional=False,
                     document="""Either a fields container, a vector of fields
         to merge, or fields from pin 0 to ...""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -124,6 +128,7 @@ class merge_fields(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -279,6 +284,11 @@ class InputsMergeFields(_Inputs):
         """
         return self._fields2
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMergeFields(_Outputs):
     """Intermediate class used to get outputs from
@@ -313,3 +323,8 @@ class OutputsMergeFields(_Outputs):
         >>> result_merged_field = op.outputs.merged_field()
         """  # noqa: E501
         return self._merged_field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

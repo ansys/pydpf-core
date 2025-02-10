@@ -108,6 +108,7 @@ class erp_radiation_efficiency(Operator):
                     optional=False,
                     document="""The input field container expects
         displacements fields""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="mesh",
@@ -115,6 +116,7 @@ class erp_radiation_efficiency(Operator):
                     optional=False,
                     document="""The meshes region in this pin has to be
         boundary or skin mesh""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="time_scoping",
@@ -123,6 +125,7 @@ class erp_radiation_efficiency(Operator):
                     document="""Load step number (if it's specified, the erp
         is computed only on the substeps of
         this step) or time scoping""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="mass_density",
@@ -130,6 +133,7 @@ class erp_radiation_efficiency(Operator):
                     optional=False,
                     document="""Mass density (if it's not specified, default
         value of the air is applied).""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="speed_of_sound",
@@ -138,6 +142,7 @@ class erp_radiation_efficiency(Operator):
                     document="""Speed of sound (if it's not specified,
         default value of the speed of sound
         in the air is applied).""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -146,6 +151,7 @@ class erp_radiation_efficiency(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -336,6 +342,11 @@ class InputsErpRadiationEfficiency(_Inputs):
         """
         return self._speed_of_sound
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsErpRadiationEfficiency(_Outputs):
     """Intermediate class used to get outputs from
@@ -372,3 +383,8 @@ class OutputsErpRadiationEfficiency(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

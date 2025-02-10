@@ -134,6 +134,7 @@ class fft(Operator):
                     type_names=["field", "fields_container"],
                     optional=False,
                     document="""Field or fields container.""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="scale_forward_transform",
@@ -141,12 +142,14 @@ class fft(Operator):
                     optional=True,
                     document="""Scale for forward transform, default is
         2/field_num_elementary_data.""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="inplace",
                     type_names=["bool"],
                     optional=True,
                     document="""True if inplace, default is false.""",
+                    aliases=[],
                 ),
                 5: PinSpecification(
                     name="force_fft_points",
@@ -155,6 +158,7 @@ class fft(Operator):
                     document="""Explicitely define number of fft points to
         either rescope or perform zero
         padding.""",
+                    aliases=[],
                 ),
                 6: PinSpecification(
                     name="cutoff_frequency",
@@ -162,6 +166,7 @@ class fft(Operator):
                     optional=True,
                     document="""Restrict output frequency up to this cutoff
         frequency""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="scale_right_amplitude",
@@ -171,6 +176,7 @@ class fft(Operator):
         2/field_num_entities scaling will be
         applied, to have right amplitude
         values.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -182,6 +188,7 @@ class fft(Operator):
         matching input fields container. no
         supports binded, but
         prepare_sampling_fft provides it.""",
+                    aliases=[],
                 ),
             },
         )
@@ -388,6 +395,11 @@ class InputsFft(_Inputs):
         """
         return self._scale_right_amplitude
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsFft(_Outputs):
     """Intermediate class used to get outputs from
@@ -422,3 +434,8 @@ class OutputsFft(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

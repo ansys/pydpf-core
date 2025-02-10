@@ -99,6 +99,7 @@ class interface_contact_mass(Operator):
                     optional=True,
                     document="""Result file container allowed to be kept open
         to cache data""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
@@ -106,6 +107,7 @@ class interface_contact_mass(Operator):
                     optional=False,
                     document="""Result file path container, used if no
         streams are set""",
+                    aliases=[],
                 ),
                 6: PinSpecification(
                     name="entity_scoping",
@@ -114,6 +116,7 @@ class interface_contact_mass(Operator):
                     document="""Entity (part for matsum, interface for
         rcforc) where the result will be
         scoped""",
+                    aliases=[],
                 ),
                 50: PinSpecification(
                     name="unit_system",
@@ -126,6 +129,7 @@ class interface_contact_mass(Operator):
                     document="""Unit system id (int), semicolon-separated
         list of base unit strings (str) or
         unitsystem instance""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -134,6 +138,7 @@ class interface_contact_mass(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -299,6 +304,11 @@ class InputsInterfaceContactMass(_Inputs):
         """
         return self._unit_system
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsInterfaceContactMass(_Outputs):
     """Intermediate class used to get outputs from
@@ -335,3 +345,8 @@ class OutputsInterfaceContactMass(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

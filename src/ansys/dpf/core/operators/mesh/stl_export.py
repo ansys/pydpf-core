@@ -66,12 +66,14 @@ class stl_export(Operator):
                     type_names=["abstract_meshed_region"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="file_path",
                     type_names=["string"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -80,6 +82,7 @@ class stl_export(Operator):
                     type_names=["data_sources"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -179,6 +182,11 @@ class InputsStlExport(_Inputs):
         """
         return self._file_path
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsStlExport(_Outputs):
     """Intermediate class used to get outputs from
@@ -213,3 +221,8 @@ class OutputsStlExport(_Outputs):
         >>> result_data_sources = op.outputs.data_sources()
         """  # noqa: E501
         return self._data_sources
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

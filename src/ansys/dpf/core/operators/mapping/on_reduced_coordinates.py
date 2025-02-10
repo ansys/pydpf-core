@@ -115,6 +115,7 @@ class on_reduced_coordinates(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="reduced_coordinates",
@@ -123,6 +124,7 @@ class on_reduced_coordinates(Operator):
                     document="""Coordinates in the reference elements to find
         (found with the operator
         "find_reduced_coordinates")""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="element_ids",
@@ -131,6 +133,7 @@ class on_reduced_coordinates(Operator):
                     document="""Ids of the elements where each set of reduced
         coordinates is found (found with the
         operator "find_reduced_coordinates")""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="mesh",
@@ -143,6 +146,7 @@ class on_reduced_coordinates(Operator):
         is set, it should be on the same
         label spaces as the coordinates
         fields container""",
+                    aliases=[],
                 ),
                 200: PinSpecification(
                     name="use_quadratic_elements",
@@ -154,6 +158,7 @@ class on_reduced_coordinates(Operator):
         precise but less performant). default
         is false. to use only when results
         have mid side nodes values.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -162,6 +167,7 @@ class on_reduced_coordinates(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -358,6 +364,11 @@ class InputsOnReducedCoordinates(_Inputs):
         """
         return self._use_quadratic_elements
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsOnReducedCoordinates(_Outputs):
     """Intermediate class used to get outputs from
@@ -394,3 +405,8 @@ class OutputsOnReducedCoordinates(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

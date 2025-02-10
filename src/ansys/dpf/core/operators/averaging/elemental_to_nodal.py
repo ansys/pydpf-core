@@ -118,12 +118,14 @@ class elemental_to_nodal(Operator):
                     optional=False,
                     document="""Field or fields container with only one field
         is expected""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="mesh_scoping",
                     type_names=["scoping"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="force_averaging",
@@ -132,6 +134,7 @@ class elemental_to_nodal(Operator):
                     document="""Averaging on nodes is used if this pin is set
         to 1 (default is 1 for integrated
         results and 0 for discrete ones).""",
+                    aliases=[],
                 ),
                 200: PinSpecification(
                     name="algorithm",
@@ -140,6 +143,7 @@ class elemental_to_nodal(Operator):
                     document="""Forces the usage of algorithm 1, 2 or 3
         (default is chosen based on the type
         of mesh).""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -148,6 +152,7 @@ class elemental_to_nodal(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -304,6 +309,11 @@ class InputsElementalToNodal(_Inputs):
         """
         return self._algorithm
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsElementalToNodal(_Outputs):
     """Intermediate class used to get outputs from
@@ -338,3 +348,8 @@ class OutputsElementalToNodal(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

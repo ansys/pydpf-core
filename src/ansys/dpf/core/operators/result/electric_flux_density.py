@@ -65,12 +65,6 @@ class electric_flux_density(Operator):
     requested_location : str, optional
         Requested location nodal, elemental or
         elementalnodal
-    read_cyclic : int, optional
-        If 0 cyclic symmetry is ignored, if 1 cyclic
-        sector is read, if 2 cyclic expansion
-        is done, if 3 cyclic expansion is
-        done and stages are merged (default
-        is 1)
     read_beams : bool, optional
         Elemental nodal beam results are read if this
         pin is set to true (default is false)
@@ -120,8 +114,6 @@ class electric_flux_density(Operator):
     >>> op.inputs.mesh.connect(my_mesh)
     >>> my_requested_location = str()
     >>> op.inputs.requested_location.connect(my_requested_location)
-    >>> my_read_cyclic = int()
-    >>> op.inputs.read_cyclic.connect(my_read_cyclic)
     >>> my_read_beams = bool()
     >>> op.inputs.read_beams.connect(my_read_beams)
     >>> my_split_shells = bool()
@@ -139,7 +131,6 @@ class electric_flux_density(Operator):
     ...     bool_rotate_to_global=my_bool_rotate_to_global,
     ...     mesh=my_mesh,
     ...     requested_location=my_requested_location,
-    ...     read_cyclic=my_read_cyclic,
     ...     read_beams=my_read_beams,
     ...     split_shells=my_split_shells,
     ...     shell_layer=my_shell_layer,
@@ -159,7 +150,6 @@ class electric_flux_density(Operator):
         bool_rotate_to_global=None,
         mesh=None,
         requested_location=None,
-        read_cyclic=None,
         read_beams=None,
         split_shells=None,
         shell_layer=None,
@@ -185,8 +175,6 @@ class electric_flux_density(Operator):
             self.inputs.mesh.connect(mesh)
         if requested_location is not None:
             self.inputs.requested_location.connect(requested_location)
-        if read_cyclic is not None:
-            self.inputs.read_cyclic.connect(read_cyclic)
         if read_beams is not None:
             self.inputs.read_beams.connect(read_beams)
         if split_shells is not None:
@@ -229,6 +217,7 @@ class electric_flux_density(Operator):
         is taken when time/freqs are higher
         than available time/freqs in result
         files.""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="mesh_scoping",
@@ -245,6 +234,7 @@ class electric_flux_density(Operator):
         are asked for. using scopings
         container allows you to split the
         result fields container into domains""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="fields_container",
@@ -252,6 +242,7 @@ class electric_flux_density(Operator):
                     optional=True,
                     document="""Fields container already allocated modified
         inplace""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="streams_container",
@@ -259,6 +250,7 @@ class electric_flux_density(Operator):
                     optional=True,
                     document="""Result file container allowed to be kept open
         to cache data""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
@@ -266,6 +258,7 @@ class electric_flux_density(Operator):
                     optional=False,
                     document="""Result file path container, used if no
         streams are set""",
+                    aliases=[],
                 ),
                 5: PinSpecification(
                     name="bool_rotate_to_global",
@@ -273,6 +266,7 @@ class electric_flux_density(Operator):
                     optional=True,
                     document="""If true the field is rotated to global
         coordinate system (default true)""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="mesh",
@@ -280,6 +274,7 @@ class electric_flux_density(Operator):
                     optional=True,
                     document="""Prevents from reading the mesh in the result
         files""",
+                    aliases=[],
                 ),
                 9: PinSpecification(
                     name="requested_location",
@@ -287,16 +282,7 @@ class electric_flux_density(Operator):
                     optional=True,
                     document="""Requested location nodal, elemental or
         elementalnodal""",
-                ),
-                14: PinSpecification(
-                    name="read_cyclic",
-                    type_names=["enum dataProcessing::ECyclicReading", "int32"],
-                    optional=True,
-                    document="""If 0 cyclic symmetry is ignored, if 1 cyclic
-        sector is read, if 2 cyclic expansion
-        is done, if 3 cyclic expansion is
-        done and stages are merged (default
-        is 1)""",
+                    aliases=[],
                 ),
                 22: PinSpecification(
                     name="read_beams",
@@ -304,6 +290,7 @@ class electric_flux_density(Operator):
                     optional=True,
                     document="""Elemental nodal beam results are read if this
         pin is set to true (default is false)""",
+                    aliases=[],
                 ),
                 26: PinSpecification(
                     name="split_shells",
@@ -316,6 +303,7 @@ class electric_flux_density(Operator):
         still needed to merge the fields.
         merge is possible only if a shell
         layer is provided.""",
+                    aliases=[],
                 ),
                 27: PinSpecification(
                     name="shell_layer",
@@ -329,6 +317,7 @@ class electric_flux_density(Operator):
         (default value) and a specific shell
         layer is provided, results will be
         merged on this specific shell layer.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -337,6 +326,7 @@ class electric_flux_density(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -403,8 +393,6 @@ class InputsElectricFluxDensity(_Inputs):
     >>> op.inputs.mesh.connect(my_mesh)
     >>> my_requested_location = str()
     >>> op.inputs.requested_location.connect(my_requested_location)
-    >>> my_read_cyclic = int()
-    >>> op.inputs.read_cyclic.connect(my_read_cyclic)
     >>> my_read_beams = bool()
     >>> op.inputs.read_beams.connect(my_read_beams)
     >>> my_split_shells = bool()
@@ -445,10 +433,6 @@ class InputsElectricFluxDensity(_Inputs):
             electric_flux_density._spec().input_pin(9), 9, op, -1
         )
         self._inputs.append(self._requested_location)
-        self._read_cyclic = Input(
-            electric_flux_density._spec().input_pin(14), 14, op, -1
-        )
-        self._inputs.append(self._read_cyclic)
         self._read_beams = Input(
             electric_flux_density._spec().input_pin(22), 22, op, -1
         )
@@ -653,30 +637,6 @@ class InputsElectricFluxDensity(_Inputs):
         return self._requested_location
 
     @property
-    def read_cyclic(self):
-        """Allows to connect read_cyclic input to the operator.
-
-        If 0 cyclic symmetry is ignored, if 1 cyclic
-        sector is read, if 2 cyclic expansion
-        is done, if 3 cyclic expansion is
-        done and stages are merged (default
-        is 1)
-
-        Parameters
-        ----------
-        my_read_cyclic : int
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.result.electric_flux_density()
-        >>> op.inputs.read_cyclic.connect(my_read_cyclic)
-        >>> # or
-        >>> op.inputs.read_cyclic(my_read_cyclic)
-        """
-        return self._read_cyclic
-
-    @property
     def read_beams(self):
         """Allows to connect read_beams input to the operator.
 
@@ -750,6 +710,11 @@ class InputsElectricFluxDensity(_Inputs):
         """
         return self._shell_layer
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsElectricFluxDensity(_Outputs):
     """Intermediate class used to get outputs from
@@ -786,3 +751,8 @@ class OutputsElectricFluxDensity(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

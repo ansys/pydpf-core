@@ -107,18 +107,21 @@ class cyclic_support_provider(Operator):
                     type_names=["streams_container"],
                     optional=True,
                     document="""Streams containing the result file.""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
                     type_names=["data_sources"],
                     optional=False,
                     document="""Data sources containing the result file.""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="sector_meshed_region",
                     type_names=["abstract_meshed_region", "meshes_container"],
                     optional=True,
                     document="""Mesh of the first sector.""",
+                    aliases=[],
                 ),
                 15: PinSpecification(
                     name="expanded_meshed_region",
@@ -126,6 +129,7 @@ class cyclic_support_provider(Operator):
                     optional=True,
                     document="""If this pin is set, expanding the mesh is not
         necessary.""",
+                    aliases=[],
                 ),
                 18: PinSpecification(
                     name="sectors_to_expand",
@@ -134,6 +138,7 @@ class cyclic_support_provider(Operator):
                     document="""Sectors to expand (start at 0), for
         multistage: use scopings container
         with 'stage' label.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -142,12 +147,14 @@ class cyclic_support_provider(Operator):
                     type_names=["cyclic_support"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="sector_meshes",
                     type_names=["meshes_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -338,6 +345,11 @@ class InputsCyclicSupportProvider(_Inputs):
         """
         return self._sectors_to_expand
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsCyclicSupportProvider(_Outputs):
     """Intermediate class used to get outputs from
@@ -396,3 +408,8 @@ class OutputsCyclicSupportProvider(_Outputs):
         >>> result_sector_meshes = op.outputs.sector_meshes()
         """  # noqa: E501
         return self._sector_meshes
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

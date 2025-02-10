@@ -16,6 +16,10 @@ class hdf5dpf_generate_result_file(Operator):
 
     Parameters
     ----------
+    append_mode : bool, optional
+        Experimental: allow appending chunked data to
+        the file. this disables fields
+        container content deduplication.
     dataset_size_compression_threshold : int, optional
         Integer value that defines the minimum
         dataset size (in bytes) to use h5
@@ -87,6 +91,8 @@ class hdf5dpf_generate_result_file(Operator):
     >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
 
     >>> # Make input connections
+    >>> my_append_mode = bool()
+    >>> op.inputs.append_mode.connect(my_append_mode)
     >>> my_dataset_size_compression_threshold = int()
     >>> op.inputs.dataset_size_compression_threshold.connect(my_dataset_size_compression_threshold)
     >>> my_h5_native_compression = int()
@@ -108,6 +114,7 @@ class hdf5dpf_generate_result_file(Operator):
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file(
+    ...     append_mode=my_append_mode,
     ...     dataset_size_compression_threshold=my_dataset_size_compression_threshold,
     ...     h5_native_compression=my_h5_native_compression,
     ...     export_floats=my_export_floats,
@@ -125,6 +132,7 @@ class hdf5dpf_generate_result_file(Operator):
 
     def __init__(
         self,
+        append_mode=None,
         dataset_size_compression_threshold=None,
         h5_native_compression=None,
         export_floats=None,
@@ -142,6 +150,8 @@ class hdf5dpf_generate_result_file(Operator):
         )
         self._inputs = InputsHdf5DpfGenerateResultFile(self)
         self._outputs = OutputsHdf5DpfGenerateResultFile(self)
+        if append_mode is not None:
+            self.inputs.append_mode.connect(append_mode)
         if dataset_size_compression_threshold is not None:
             self.inputs.dataset_size_compression_threshold.connect(
                 dataset_size_compression_threshold
@@ -169,6 +179,15 @@ class hdf5dpf_generate_result_file(Operator):
         spec = Specification(
             description=description,
             map_input_pin_spec={
+                -6: PinSpecification(
+                    name="append_mode",
+                    type_names=["bool"],
+                    optional=True,
+                    document="""Experimental: allow appending chunked data to
+        the file. this disables fields
+        container content deduplication.""",
+                    aliases=[],
+                ),
                 -5: PinSpecification(
                     name="dataset_size_compression_threshold",
                     type_names=["int32"],
@@ -178,6 +197,7 @@ class hdf5dpf_generate_result_file(Operator):
         native compression applicable for
         arrays of floats, doubles and
         integers.""",
+                    aliases=[],
                 ),
                 -2: PinSpecification(
                     name="h5_native_compression",
@@ -192,6 +212,7 @@ class hdf5dpf_generate_result_file(Operator):
         {type: none / gzip / zstd; level:
         gzip (1-9) / zstd (1-20);
         num_threads: zstd (>0)}""",
+                    aliases=[],
                 ),
                 -1: PinSpecification(
                     name="export_floats",
@@ -199,6 +220,7 @@ class hdf5dpf_generate_result_file(Operator):
                     optional=True,
                     document="""Converts double to float to reduce file size
         (default is true)""",
+                    aliases=[],
                 ),
                 0: PinSpecification(
                     name="filename",
@@ -206,6 +228,7 @@ class hdf5dpf_generate_result_file(Operator):
                     optional=False,
                     document="""Name of the output file that will be
         generated (utf8).""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="mesh_provider_out",
@@ -213,6 +236,7 @@ class hdf5dpf_generate_result_file(Operator):
                     optional=True,
                     document="""Defines the meshedregion that is exported and
         provided by meshprovider.""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="time_freq_support_out",
@@ -221,6 +245,7 @@ class hdf5dpf_generate_result_file(Operator):
                     document="""Defines the timefreqsupport that is exported
         and provided by
         timefreqsupportprovider.""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="ansys_unit_system_id",
@@ -230,6 +255,7 @@ class hdf5dpf_generate_result_file(Operator):
         exported with. a result info can be
         input to also export physics type and
         analysis type.""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="input_name",
@@ -245,6 +271,7 @@ class hdf5dpf_generate_result_file(Operator):
         (for each result name, there should
         be a result) and connected
         sequentially.""",
+                    aliases=[],
                 ),
                 5: PinSpecification(
                     name="input_name",
@@ -260,6 +287,7 @@ class hdf5dpf_generate_result_file(Operator):
         (for each result name, there should
         be a result) and connected
         sequentially.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -269,6 +297,7 @@ class hdf5dpf_generate_result_file(Operator):
                     optional=False,
                     document="""Data_sources filled with the h5 generated
         file path.""",
+                    aliases=[],
                 ),
             },
         )
@@ -321,6 +350,8 @@ class InputsHdf5DpfGenerateResultFile(_Inputs):
     --------
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
+    >>> my_append_mode = bool()
+    >>> op.inputs.append_mode.connect(my_append_mode)
     >>> my_dataset_size_compression_threshold = int()
     >>> op.inputs.dataset_size_compression_threshold.connect(my_dataset_size_compression_threshold)
     >>> my_h5_native_compression = int()
@@ -343,6 +374,10 @@ class InputsHdf5DpfGenerateResultFile(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(hdf5dpf_generate_result_file._spec().inputs, op)
+        self._append_mode = Input(
+            hdf5dpf_generate_result_file._spec().input_pin(-6), -6, op, -1
+        )
+        self._inputs.append(self._append_mode)
         self._dataset_size_compression_threshold = Input(
             hdf5dpf_generate_result_file._spec().input_pin(-5), -5, op, -1
         )
@@ -379,6 +414,28 @@ class InputsHdf5DpfGenerateResultFile(_Inputs):
             hdf5dpf_generate_result_file._spec().input_pin(5), 5, op, 1
         )
         self._inputs.append(self._input_name2)
+
+    @property
+    def append_mode(self):
+        """Allows to connect append_mode input to the operator.
+
+        Experimental: allow appending chunked data to
+        the file. this disables fields
+        container content deduplication.
+
+        Parameters
+        ----------
+        my_append_mode : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
+        >>> op.inputs.append_mode.connect(my_append_mode)
+        >>> # or
+        >>> op.inputs.append_mode(my_append_mode)
+        """
+        return self._append_mode
 
     @property
     def dataset_size_compression_threshold(self):
@@ -598,6 +655,11 @@ class InputsHdf5DpfGenerateResultFile(_Inputs):
         """
         return self._input_name2
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsHdf5DpfGenerateResultFile(_Outputs):
     """Intermediate class used to get outputs from
@@ -634,3 +696,8 @@ class OutputsHdf5DpfGenerateResultFile(_Outputs):
         >>> result_data_sources = op.outputs.data_sources()
         """  # noqa: E501
         return self._data_sources
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

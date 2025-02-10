@@ -163,6 +163,7 @@ class mapdl_split_on_facet_indices(Operator):
         fieldscontainer will have location
         elemental and the scoping ids will be
         the element ids on the skin mesh.""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="property_field_new_elements_to_old",
@@ -175,6 +176,7 @@ class mapdl_split_on_facet_indices(Operator):
         from. the 3d volume element id can be
         found with the element scoping of the
         input mesh.""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="facet_indices",
@@ -186,12 +188,14 @@ class mapdl_split_on_facet_indices(Operator):
         source 3d volume element. the 3d
         volume element can be extracted from
         the previous output.""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="volume_mesh",
                     type_names=["abstract_meshed_region"],
                     optional=False,
                     document="""The solid support.""",
+                    aliases=[],
                 ),
                 185: PinSpecification(
                     name="degenerated_tets",
@@ -207,6 +211,7 @@ class mapdl_split_on_facet_indices(Operator):
         time), and if none of them is
         connected, all tets are treated as
         non-degenerated (solid285).""",
+                    aliases=[],
                 ),
                 285: PinSpecification(
                     name="non_degenerated_tets",
@@ -222,6 +227,7 @@ class mapdl_split_on_facet_indices(Operator):
         time), and if none of them is
         connected, all tets are treated as
         non-degenerated (solid285).""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -230,6 +236,7 @@ class mapdl_split_on_facet_indices(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""Output splitted fields containter""",
+                    aliases=[],
                 ),
             },
         )
@@ -477,6 +484,11 @@ class InputsMapdlSplitOnFacetIndices(_Inputs):
         """
         return self._non_degenerated_tets
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMapdlSplitOnFacetIndices(_Outputs):
     """Intermediate class used to get outputs from
@@ -513,3 +525,8 @@ class OutputsMapdlSplitOnFacetIndices(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

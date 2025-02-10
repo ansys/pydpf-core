@@ -89,24 +89,28 @@ class prepare_mapping_workflow(Operator):
                     type_names=["field", "abstract_meshed_region"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="output_support",
                     type_names=["field", "abstract_meshed_region"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="filter_radius",
                     type_names=["double"],
                     optional=False,
                     document="""Radius size for the rbf filter""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="influence_box",
                     type_names=["double"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -115,6 +119,7 @@ class prepare_mapping_workflow(Operator):
                     type_names=["workflow"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -268,6 +273,11 @@ class InputsPrepareMappingWorkflow(_Inputs):
         """
         return self._influence_box
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsPrepareMappingWorkflow(_Outputs):
     """Intermediate class used to get outputs from
@@ -304,3 +314,8 @@ class OutputsPrepareMappingWorkflow(_Outputs):
         >>> result_mapping_workflow = op.outputs.mapping_workflow()
         """  # noqa: E501
         return self._mapping_workflow
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

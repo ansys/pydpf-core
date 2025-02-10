@@ -93,18 +93,21 @@ class remote_workflow_instantiate(Operator):
                     optional=False,
                     document="""Local workflow to push to a remote or id of a
         remote workflow""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="streams_to_remote",
                     type_names=["streams_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources_to_remote",
                     type_names=["data_sources"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -115,6 +118,7 @@ class remote_workflow_instantiate(Operator):
                     document="""Remote workflow containing an image of the
         remote workflow and the protocols
         streams""",
+                    aliases=[],
                 ),
             },
         )
@@ -247,6 +251,11 @@ class InputsRemoteWorkflowInstantiate(_Inputs):
         """
         return self._data_sources_to_remote
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsRemoteWorkflowInstantiate(_Outputs):
     """Intermediate class used to get outputs from
@@ -283,3 +292,8 @@ class OutputsRemoteWorkflowInstantiate(_Outputs):
         >>> result_remote_workflow = op.outputs.remote_workflow()
         """  # noqa: E501
         return self._remote_workflow
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

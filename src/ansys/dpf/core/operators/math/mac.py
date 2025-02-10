@@ -23,7 +23,7 @@ class mac(Operator):
         Fields container a.
     fields_containerB : FieldsContainer
         Fields container b.
-    ponderation : Field
+    weights : Field
         Field m, optional weighting for mac matrix
         computation.
 
@@ -47,14 +47,14 @@ class mac(Operator):
     >>> op.inputs.fields_containerA.connect(my_fields_containerA)
     >>> my_fields_containerB = dpf.FieldsContainer()
     >>> op.inputs.fields_containerB.connect(my_fields_containerB)
-    >>> my_ponderation = dpf.Field()
-    >>> op.inputs.ponderation.connect(my_ponderation)
+    >>> my_weights = dpf.Field()
+    >>> op.inputs.weights.connect(my_weights)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.math.mac(
     ...     fields_containerA=my_fields_containerA,
     ...     fields_containerB=my_fields_containerB,
-    ...     ponderation=my_ponderation,
+    ...     weights=my_weights,
     ... )
 
     >>> # Get output data
@@ -65,7 +65,7 @@ class mac(Operator):
         self,
         fields_containerA=None,
         fields_containerB=None,
-        ponderation=None,
+        weights=None,
         config=None,
         server=None,
     ):
@@ -76,8 +76,8 @@ class mac(Operator):
             self.inputs.fields_containerA.connect(fields_containerA)
         if fields_containerB is not None:
             self.inputs.fields_containerB.connect(fields_containerB)
-        if ponderation is not None:
-            self.inputs.ponderation.connect(ponderation)
+        if weights is not None:
+            self.inputs.weights.connect(weights)
 
     @staticmethod
     def _spec():
@@ -93,19 +93,22 @@ class mac(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""Fields container a.""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="fields_containerB",
                     type_names=["fields_container"],
                     optional=False,
                     document="""Fields container b.""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
-                    name="ponderation",
+                    name="weights",
                     type_names=["field"],
                     optional=False,
                     document="""Field m, optional weighting for mac matrix
         computation.""",
+                    aliases=["ponderation"],
                 ),
             },
             map_output_pin_spec={
@@ -117,6 +120,7 @@ class mac(Operator):
         mode fields of field container a and
         field container b. results listed row
         by row.""",
+                    aliases=[],
                 ),
             },
         )
@@ -171,8 +175,8 @@ class InputsMac(_Inputs):
     >>> op.inputs.fields_containerA.connect(my_fields_containerA)
     >>> my_fields_containerB = dpf.FieldsContainer()
     >>> op.inputs.fields_containerB.connect(my_fields_containerB)
-    >>> my_ponderation = dpf.Field()
-    >>> op.inputs.ponderation.connect(my_ponderation)
+    >>> my_weights = dpf.Field()
+    >>> op.inputs.weights.connect(my_weights)
     """
 
     def __init__(self, op: Operator):
@@ -181,8 +185,8 @@ class InputsMac(_Inputs):
         self._inputs.append(self._fields_containerA)
         self._fields_containerB = Input(mac._spec().input_pin(1), 1, op, -1)
         self._inputs.append(self._fields_containerB)
-        self._ponderation = Input(mac._spec().input_pin(2), 2, op, -1)
-        self._inputs.append(self._ponderation)
+        self._weights = Input(mac._spec().input_pin(2), 2, op, -1)
+        self._inputs.append(self._weights)
 
     @property
     def fields_containerA(self):
@@ -225,25 +229,37 @@ class InputsMac(_Inputs):
         return self._fields_containerB
 
     @property
-    def ponderation(self):
-        """Allows to connect ponderation input to the operator.
+    def weights(self):
+        """Allows to connect weights input to the operator.
 
         Field m, optional weighting for mac matrix
         computation.
 
         Parameters
         ----------
-        my_ponderation : Field
+        my_weights : Field
 
         Examples
         --------
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.math.mac()
-        >>> op.inputs.ponderation.connect(my_ponderation)
+        >>> op.inputs.weights.connect(my_weights)
         >>> # or
-        >>> op.inputs.ponderation(my_ponderation)
+        >>> op.inputs.weights(my_weights)
         """
-        return self._ponderation
+        return self._weights
+
+    def __getattr__(self, name):
+        if name in ["ponderation"]:
+            warn(
+                DeprecationWarning(
+                    f'Operator mac: Input name "{name}" is deprecated in favor of "weights".'
+                )
+            )
+            return self.weights
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
 
 
 class OutputsMac(_Outputs):
@@ -279,3 +295,8 @@ class OutputsMac(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

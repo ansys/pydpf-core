@@ -109,18 +109,21 @@ class property_field_provider_by_name(Operator):
         fetch the property values for. if not
         specified, applied on all the
         elements of the mesh.""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="streams_container",
                     type_names=["streams_container"],
                     optional=True,
                     document="""Optional if using a datasources""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
                     type_names=["data_sources"],
                     optional=False,
                     document="""Optional if using a streamscontainer""",
+                    aliases=[],
                 ),
                 13: PinSpecification(
                     name="property_name",
@@ -135,6 +138,7 @@ class property_field_provider_by_name(Operator):
         mapdl_element_type_id,
         harmonic_index, step, substep,
         keyopt_i (i = 1 -> 18).""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -143,6 +147,7 @@ class property_field_provider_by_name(Operator):
                     type_names=["property_field"],
                     optional=False,
                     document="""Property field""",
+                    aliases=[],
                 ),
             },
         )
@@ -315,6 +320,11 @@ class InputsPropertyFieldProviderByName(_Inputs):
         """
         return self._property_name
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsPropertyFieldProviderByName(_Outputs):
     """Intermediate class used to get outputs from
@@ -351,3 +361,8 @@ class OutputsPropertyFieldProviderByName(_Outputs):
         >>> result_property_field = op.outputs.property_field()
         """  # noqa: E501
         return self._property_field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -106,6 +106,7 @@ class vtk_export(Operator):
         with their fields with value 0 or
         faces elements in the mesh with their
         fields with value 1 (default is 0)""",
+                    aliases=[],
                 ),
                 0: PinSpecification(
                     name="file_path",
@@ -113,6 +114,7 @@ class vtk_export(Operator):
                     optional=False,
                     document="""Path with vtk extension were the export
         occurs""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="mesh",
@@ -121,18 +123,21 @@ class vtk_export(Operator):
                     document="""Necessary if the first field or fields
         container don't have a mesh in their
         support""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="fields",
                     type_names=["fields_container", "field"],
                     optional=False,
                     document="""Fields exported""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="fields",
                     type_names=["fields_container", "field"],
                     optional=False,
                     document="""Fields exported""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={},
@@ -315,6 +320,11 @@ class InputsVtkExport(_Inputs):
         """
         return self._fields2
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsVtkExport(_Outputs):
     """Intermediate class used to get outputs from
@@ -329,3 +339,8 @@ class OutputsVtkExport(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(vtk_export._spec().outputs, op)
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -145,12 +145,14 @@ class stress_eqv_as_mechanical_workflow(Operator):
         time/freq step ids use scoping with
         timefreq_steps location) required in
         output.""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="mesh_scoping",
                     type_names=["scoping", "scopings_container"],
                     optional=True,
                     document="""Nodes or elements scoping required in output.""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="streams_container",
@@ -158,12 +160,14 @@ class stress_eqv_as_mechanical_workflow(Operator):
                     optional=True,
                     document="""Result file container allowed to be kept open
         to cache data.""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
                     type_names=["data_sources"],
                     optional=False,
                     document="""Result file path container.""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="mesh",
@@ -171,6 +175,7 @@ class stress_eqv_as_mechanical_workflow(Operator):
                     optional=True,
                     document="""Prevents from reading the mesh in the results
         file.""",
+                    aliases=[],
                 ),
                 9: PinSpecification(
                     name="requested_location",
@@ -179,6 +184,7 @@ class stress_eqv_as_mechanical_workflow(Operator):
                     document="""Average the elemental nodal result to the
         requested location (default is
         nodal).""",
+                    aliases=[],
                 ),
                 14: PinSpecification(
                     name="read_cyclic",
@@ -186,6 +192,7 @@ class stress_eqv_as_mechanical_workflow(Operator):
                     optional=True,
                     document="""If true, cyclic expansion is done. if false,
         it's ignored..""",
+                    aliases=[],
                 ),
                 200: PinSpecification(
                     name="average_across_bodies",
@@ -194,6 +201,7 @@ class stress_eqv_as_mechanical_workflow(Operator):
                     document="""For multibody simulations, the stresses are
         averaged across bodies if true or not
         if false (default).""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -202,6 +210,7 @@ class stress_eqv_as_mechanical_workflow(Operator):
                     type_names=["workflow"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -478,6 +487,11 @@ class InputsStressEqvAsMechanicalWorkflow(_Inputs):
         """
         return self._average_across_bodies
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsStressEqvAsMechanicalWorkflow(_Outputs):
     """Intermediate class used to get outputs from
@@ -514,3 +528,8 @@ class OutputsStressEqvAsMechanicalWorkflow(_Outputs):
         >>> result_workflow = op.outputs.workflow()
         """  # noqa: E501
         return self._workflow
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -74,12 +74,14 @@ class field_to_fc(Operator):
                     document="""If a fields container is set in input, it is
         passed on as an output with the
         additional label space (if any).""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="label",
                     type_names=["label_space"],
                     optional=False,
                     document="""Sets a label space.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -88,6 +90,7 @@ class field_to_fc(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -193,6 +196,11 @@ class InputsFieldToFc(_Inputs):
         """
         return self._label
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsFieldToFc(_Outputs):
     """Intermediate class used to get outputs from
@@ -227,3 +235,8 @@ class OutputsFieldToFc(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

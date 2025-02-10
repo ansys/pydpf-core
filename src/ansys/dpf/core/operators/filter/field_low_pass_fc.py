@@ -85,6 +85,7 @@ class field_low_pass_fc(Operator):
                     optional=False,
                     document="""Field or fields container with only one field
         is expected""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="threshold",
@@ -92,6 +93,7 @@ class field_low_pass_fc(Operator):
                     optional=False,
                     document="""A threshold scalar or a field containing one
         value is expected""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="both",
@@ -101,6 +103,7 @@ class field_low_pass_fc(Operator):
         complement of the filtered fields
         container is returned on output pin
         1.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -109,6 +112,7 @@ class field_low_pass_fc(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -243,6 +247,11 @@ class InputsFieldLowPassFc(_Inputs):
         """
         return self._both
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsFieldLowPassFc(_Outputs):
     """Intermediate class used to get outputs from
@@ -277,3 +286,8 @@ class OutputsFieldLowPassFc(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

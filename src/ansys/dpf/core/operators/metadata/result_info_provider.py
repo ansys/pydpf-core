@@ -75,6 +75,7 @@ class result_info_provider(Operator):
                     type_names=["streams_container"],
                     optional=True,
                     document="""Streams (result file container) (optional)""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
@@ -82,6 +83,7 @@ class result_info_provider(Operator):
                     optional=False,
                     document="""If the stream is null, retrieves the file
         path from the data sources.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -90,6 +92,7 @@ class result_info_provider(Operator):
                     type_names=["result_info"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -196,6 +199,11 @@ class InputsResultInfoProvider(_Inputs):
         """
         return self._data_sources
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsResultInfoProvider(_Outputs):
     """Intermediate class used to get outputs from
@@ -230,3 +238,8 @@ class OutputsResultInfoProvider(_Outputs):
         >>> result_result_info = op.outputs.result_info()
         """  # noqa: E501
         return self._result_info
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

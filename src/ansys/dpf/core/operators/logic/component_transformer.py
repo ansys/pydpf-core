@@ -84,6 +84,7 @@ class component_transformer(Operator):
                     type_names=["field", "fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="component_number",
@@ -91,12 +92,14 @@ class component_transformer(Operator):
                     optional=False,
                     document="""One or several component index that will be
         modified from the initial field.""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="default_value",
                     type_names=["double"],
                     optional=True,
                     document="""Set a default value for components selected.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -105,6 +108,7 @@ class component_transformer(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -235,6 +239,11 @@ class InputsComponentTransformer(_Inputs):
         """
         return self._default_value
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsComponentTransformer(_Outputs):
     """Intermediate class used to get outputs from
@@ -269,3 +278,8 @@ class OutputsComponentTransformer(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

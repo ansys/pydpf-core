@@ -19,7 +19,7 @@ class add_constant(Operator):
     field : Field or FieldsContainer
         Field or fields container with only one field
         is expected
-    ponderation : float
+    weights : float
         Double or vector of double
 
     Returns
@@ -36,27 +36,27 @@ class add_constant(Operator):
     >>> # Make input connections
     >>> my_field = dpf.Field()
     >>> op.inputs.field.connect(my_field)
-    >>> my_ponderation = float()
-    >>> op.inputs.ponderation.connect(my_ponderation)
+    >>> my_weights = float()
+    >>> op.inputs.weights.connect(my_weights)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.math.add_constant(
     ...     field=my_field,
-    ...     ponderation=my_ponderation,
+    ...     weights=my_weights,
     ... )
 
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
 
-    def __init__(self, field=None, ponderation=None, config=None, server=None):
+    def __init__(self, field=None, weights=None, config=None, server=None):
         super().__init__(name="add_constant", config=config, server=server)
         self._inputs = InputsAddConstant(self)
         self._outputs = OutputsAddConstant(self)
         if field is not None:
             self.inputs.field.connect(field)
-        if ponderation is not None:
-            self.inputs.ponderation.connect(ponderation)
+        if weights is not None:
+            self.inputs.weights.connect(weights)
 
     @staticmethod
     def _spec():
@@ -70,12 +70,14 @@ class add_constant(Operator):
                     optional=False,
                     document="""Field or fields container with only one field
         is expected""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
-                    name="ponderation",
+                    name="weights",
                     type_names=["double", "vector<double>"],
                     optional=False,
                     document="""Double or vector of double""",
+                    aliases=["ponderation"],
                 ),
             },
             map_output_pin_spec={
@@ -84,6 +86,7 @@ class add_constant(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -136,16 +139,16 @@ class InputsAddConstant(_Inputs):
     >>> op = dpf.operators.math.add_constant()
     >>> my_field = dpf.Field()
     >>> op.inputs.field.connect(my_field)
-    >>> my_ponderation = float()
-    >>> op.inputs.ponderation.connect(my_ponderation)
+    >>> my_weights = float()
+    >>> op.inputs.weights.connect(my_weights)
     """
 
     def __init__(self, op: Operator):
         super().__init__(add_constant._spec().inputs, op)
         self._field = Input(add_constant._spec().input_pin(0), 0, op, -1)
         self._inputs.append(self._field)
-        self._ponderation = Input(add_constant._spec().input_pin(1), 1, op, -1)
-        self._inputs.append(self._ponderation)
+        self._weights = Input(add_constant._spec().input_pin(1), 1, op, -1)
+        self._inputs.append(self._weights)
 
     @property
     def field(self):
@@ -169,24 +172,36 @@ class InputsAddConstant(_Inputs):
         return self._field
 
     @property
-    def ponderation(self):
-        """Allows to connect ponderation input to the operator.
+    def weights(self):
+        """Allows to connect weights input to the operator.
 
         Double or vector of double
 
         Parameters
         ----------
-        my_ponderation : float
+        my_weights : float
 
         Examples
         --------
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.math.add_constant()
-        >>> op.inputs.ponderation.connect(my_ponderation)
+        >>> op.inputs.weights.connect(my_weights)
         >>> # or
-        >>> op.inputs.ponderation(my_ponderation)
+        >>> op.inputs.weights(my_weights)
         """
-        return self._ponderation
+        return self._weights
+
+    def __getattr__(self, name):
+        if name in ["ponderation"]:
+            warn(
+                DeprecationWarning(
+                    f'Operator add_constant: Input name "{name}" is deprecated in favor of "weights".'
+                )
+            )
+            return self.weights
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
 
 
 class OutputsAddConstant(_Outputs):
@@ -222,3 +237,8 @@ class OutputsAddConstant(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

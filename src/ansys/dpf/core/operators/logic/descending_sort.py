@@ -90,12 +90,14 @@ class descending_sort(Operator):
                     optional=False,
                     document="""Field or fields container with only one field
         is expected""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="component_priority_table",
                     type_names=["vector<int32>"],
                     optional=True,
                     document="""Component priority table (vector of int)""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="sort_by_scoping",
@@ -103,6 +105,7 @@ class descending_sort(Operator):
                     optional=True,
                     document="""If true, uses scoping to sort the field
         (default is false)""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -111,6 +114,7 @@ class descending_sort(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -242,6 +246,11 @@ class InputsDescendingSort(_Inputs):
         """
         return self._sort_by_scoping
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsDescendingSort(_Outputs):
     """Intermediate class used to get outputs from
@@ -276,3 +285,8 @@ class OutputsDescendingSort(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

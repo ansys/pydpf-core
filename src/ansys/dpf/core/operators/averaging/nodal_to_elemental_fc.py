@@ -126,6 +126,7 @@ class nodal_to_elemental_fc(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="mesh",
@@ -134,6 +135,7 @@ class nodal_to_elemental_fc(Operator):
                     document="""The mesh region in this pin is used to
         perform the averaging. it is used if
         there is no fields support.""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="scoping",
@@ -143,6 +145,7 @@ class nodal_to_elemental_fc(Operator):
         scoping container, the label must
         correspond to the one of the fields
         containers.""",
+                    aliases=[],
                 ),
                 10: PinSpecification(
                     name="collapse_shell_layers",
@@ -150,6 +153,7 @@ class nodal_to_elemental_fc(Operator):
                     optional=True,
                     document="""If true, shell layers are averaged as well
         (default is false).""",
+                    aliases=[],
                 ),
                 26: PinSpecification(
                     name="merge_solid_shell",
@@ -158,6 +162,7 @@ class nodal_to_elemental_fc(Operator):
                     document="""For shell/solid mixed field, gather in one
         field all solids and shells (only on
         one layer, false by default).""",
+                    aliases=[],
                 ),
                 27: PinSpecification(
                     name="shell_layer",
@@ -168,6 +173,7 @@ class nodal_to_elemental_fc(Operator):
         shell/solid mixed field, gather in
         one field all solids and shells (only
         on one layer).""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -176,6 +182,7 @@ class nodal_to_elemental_fc(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -393,6 +400,11 @@ class InputsNodalToElementalFc(_Inputs):
         """
         return self._shell_layer
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsNodalToElementalFc(_Outputs):
     """Intermediate class used to get outputs from
@@ -429,3 +441,8 @@ class OutputsNodalToElementalFc(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

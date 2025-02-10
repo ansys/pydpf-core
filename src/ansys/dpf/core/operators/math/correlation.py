@@ -24,7 +24,7 @@ class correlation(Operator):
         Field b. if a fields container is provided,
         correlation is computed for each
         field.
-    ponderation : Field or FieldsContainer
+    weights : Field or FieldsContainer
         Field m, optional weighting for correlation
         computation.
     absoluteValue : bool
@@ -52,8 +52,8 @@ class correlation(Operator):
     >>> op.inputs.fieldA.connect(my_fieldA)
     >>> my_fieldB = dpf.Field()
     >>> op.inputs.fieldB.connect(my_fieldB)
-    >>> my_ponderation = dpf.Field()
-    >>> op.inputs.ponderation.connect(my_ponderation)
+    >>> my_weights = dpf.Field()
+    >>> op.inputs.weights.connect(my_weights)
     >>> my_absoluteValue = bool()
     >>> op.inputs.absoluteValue.connect(my_absoluteValue)
 
@@ -61,7 +61,7 @@ class correlation(Operator):
     >>> op = dpf.operators.math.correlation(
     ...     fieldA=my_fieldA,
     ...     fieldB=my_fieldB,
-    ...     ponderation=my_ponderation,
+    ...     weights=my_weights,
     ...     absoluteValue=my_absoluteValue,
     ... )
 
@@ -74,7 +74,7 @@ class correlation(Operator):
         self,
         fieldA=None,
         fieldB=None,
-        ponderation=None,
+        weights=None,
         absoluteValue=None,
         config=None,
         server=None,
@@ -86,8 +86,8 @@ class correlation(Operator):
             self.inputs.fieldA.connect(fieldA)
         if fieldB is not None:
             self.inputs.fieldB.connect(fieldB)
-        if ponderation is not None:
-            self.inputs.ponderation.connect(ponderation)
+        if weights is not None:
+            self.inputs.weights.connect(weights)
         if absoluteValue is not None:
             self.inputs.absoluteValue.connect(absoluteValue)
 
@@ -105,6 +105,7 @@ class correlation(Operator):
                     type_names=["field", "double", "vector<double>"],
                     optional=False,
                     document="""Field a. the reference field.""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="fieldB",
@@ -113,13 +114,15 @@ class correlation(Operator):
                     document="""Field b. if a fields container is provided,
         correlation is computed for each
         field.""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
-                    name="ponderation",
+                    name="weights",
                     type_names=["field", "fields_container"],
                     optional=False,
                     document="""Field m, optional weighting for correlation
         computation.""",
+                    aliases=["ponderation"],
                 ),
                 3: PinSpecification(
                     name="absoluteValue",
@@ -127,6 +130,7 @@ class correlation(Operator):
                     optional=False,
                     document="""If true, correlation factor is
         ||amb||/(||ama||.||bmb||)""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -135,6 +139,7 @@ class correlation(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""Correlation factor for each input field b.""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="index",
@@ -143,6 +148,7 @@ class correlation(Operator):
                     document="""If several b are provided, this output
         contains the index of the highest
         correlation factor.""",
+                    aliases=[],
                 ),
             },
         )
@@ -197,8 +203,8 @@ class InputsCorrelation(_Inputs):
     >>> op.inputs.fieldA.connect(my_fieldA)
     >>> my_fieldB = dpf.Field()
     >>> op.inputs.fieldB.connect(my_fieldB)
-    >>> my_ponderation = dpf.Field()
-    >>> op.inputs.ponderation.connect(my_ponderation)
+    >>> my_weights = dpf.Field()
+    >>> op.inputs.weights.connect(my_weights)
     >>> my_absoluteValue = bool()
     >>> op.inputs.absoluteValue.connect(my_absoluteValue)
     """
@@ -209,8 +215,8 @@ class InputsCorrelation(_Inputs):
         self._inputs.append(self._fieldA)
         self._fieldB = Input(correlation._spec().input_pin(1), 1, op, -1)
         self._inputs.append(self._fieldB)
-        self._ponderation = Input(correlation._spec().input_pin(2), 2, op, -1)
-        self._inputs.append(self._ponderation)
+        self._weights = Input(correlation._spec().input_pin(2), 2, op, -1)
+        self._inputs.append(self._weights)
         self._absoluteValue = Input(correlation._spec().input_pin(3), 3, op, -1)
         self._inputs.append(self._absoluteValue)
 
@@ -257,25 +263,25 @@ class InputsCorrelation(_Inputs):
         return self._fieldB
 
     @property
-    def ponderation(self):
-        """Allows to connect ponderation input to the operator.
+    def weights(self):
+        """Allows to connect weights input to the operator.
 
         Field m, optional weighting for correlation
         computation.
 
         Parameters
         ----------
-        my_ponderation : Field or FieldsContainer
+        my_weights : Field or FieldsContainer
 
         Examples
         --------
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.math.correlation()
-        >>> op.inputs.ponderation.connect(my_ponderation)
+        >>> op.inputs.weights.connect(my_weights)
         >>> # or
-        >>> op.inputs.ponderation(my_ponderation)
+        >>> op.inputs.weights(my_weights)
         """
-        return self._ponderation
+        return self._weights
 
     @property
     def absoluteValue(self):
@@ -297,6 +303,18 @@ class InputsCorrelation(_Inputs):
         >>> op.inputs.absoluteValue(my_absoluteValue)
         """
         return self._absoluteValue
+
+    def __getattr__(self, name):
+        if name in ["ponderation"]:
+            warn(
+                DeprecationWarning(
+                    f'Operator correlation: Input name "{name}" is deprecated in favor of "weights".'
+                )
+            )
+            return self.weights
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
 
 
 class OutputsCorrelation(_Outputs):
@@ -352,3 +370,8 @@ class OutputsCorrelation(_Outputs):
         >>> result_index = op.outputs.index()
         """  # noqa: E501
         return self._index
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

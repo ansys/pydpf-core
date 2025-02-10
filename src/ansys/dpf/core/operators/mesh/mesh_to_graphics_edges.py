@@ -82,18 +82,21 @@ class mesh_to_graphics_edges(Operator):
                     type_names=["scoping"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 6: PinSpecification(
                     name="include_mid_nodes",
                     type_names=["bool"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="mesh",
                     type_names=["abstract_meshed_region"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -102,12 +105,14 @@ class mesh_to_graphics_edges(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""Node coordinates""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="connectivity",
                     type_names=["property_field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -233,6 +238,11 @@ class InputsMeshToGraphicsEdges(_Inputs):
         """
         return self._mesh
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMeshToGraphicsEdges(_Outputs):
     """Intermediate class used to get outputs from
@@ -287,3 +297,8 @@ class OutputsMeshToGraphicsEdges(_Outputs):
         >>> result_connectivity = op.outputs.connectivity()
         """  # noqa: E501
         return self._connectivity
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

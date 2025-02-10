@@ -177,6 +177,7 @@ class migrate_to_h5dpf(Operator):
         native compression applicable for
         arrays of floats, doubles and
         integers.""",
+                    aliases=[],
                 ),
                 -2: PinSpecification(
                     name="h5_native_compression",
@@ -191,6 +192,7 @@ class migrate_to_h5dpf(Operator):
         {type: none / gzip / zstd; level:
         gzip (1-9) / zstd (1-20);
         num_threads: zstd (>0)}""",
+                    aliases=[],
                 ),
                 -1: PinSpecification(
                     name="export_floats",
@@ -198,12 +200,14 @@ class migrate_to_h5dpf(Operator):
                     optional=True,
                     document="""Converts double to float to reduce file size
         (default is true)""",
+                    aliases=[],
                 ),
                 0: PinSpecification(
                     name="filename",
                     type_names=["string"],
                     optional=False,
                     document="""Filename of the migrated file""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="comma_separated_list_of_results",
@@ -214,18 +218,21 @@ class migrate_to_h5dpf(Operator):
         stored. (example: u;s;epel). if
         empty, all available results will be
         converted.""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="all_time_sets",
                     type_names=["bool"],
                     optional=True,
                     document="""Default is false""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="streams_container",
                     type_names=["streams_container"],
                     optional=True,
                     document="""Streams (result file container) (optional)""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
@@ -233,6 +240,7 @@ class migrate_to_h5dpf(Operator):
                     optional=True,
                     document="""If the stream is null then we need to get the
         file path from the data sources""",
+                    aliases=[],
                 ),
                 6: PinSpecification(
                     name="compression_workflow",
@@ -244,6 +252,7 @@ class migrate_to_h5dpf(Operator):
         compression workflow to a result
         name. example of map: {{ default:
         wf1}, {eul: wf2}, {eng_se: wf3}}""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="filtering_workflow",
@@ -254,6 +263,7 @@ class migrate_to_h5dpf(Operator):
         format described for pin(6) that will
         map a filtering workflow to a result
         name.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -262,6 +272,7 @@ class migrate_to_h5dpf(Operator):
                     type_names=["data_sources"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -596,6 +607,11 @@ class InputsMigrateToH5Dpf(_Inputs):
         """
         return self._filtering_workflow
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMigrateToH5Dpf(_Outputs):
     """Intermediate class used to get outputs from
@@ -630,3 +646,8 @@ class OutputsMigrateToH5Dpf(_Outputs):
         >>> result_migrated_file = op.outputs.migrated_file()
         """  # noqa: E501
         return self._migrated_file
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

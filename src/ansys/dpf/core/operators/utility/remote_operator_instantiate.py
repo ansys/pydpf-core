@@ -108,30 +108,35 @@ class remote_operator_instantiate(Operator):
                     optional=False,
                     document="""Local workflow to push to a remote or id of a
         remote workflow""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="output_pin",
                     type_names=["int32"],
                     optional=False,
                     document="""Pin number of the output to name""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="streams_to_remote",
                     type_names=["streams_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources_to_remote",
                     type_names=["data_sources"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 5: PinSpecification(
                     name="output_name",
                     type_names=["string"],
                     optional=False,
                     document="""Output's name of the workflow to return""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -142,6 +147,7 @@ class remote_operator_instantiate(Operator):
                     document="""Remote workflow containing an image of the
         remote workflow and the protocols
         streams""",
+                    aliases=[],
                 ),
             },
         )
@@ -326,6 +332,11 @@ class InputsRemoteOperatorInstantiate(_Inputs):
         """
         return self._output_name
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsRemoteOperatorInstantiate(_Outputs):
     """Intermediate class used to get outputs from
@@ -362,3 +373,8 @@ class OutputsRemoteOperatorInstantiate(_Outputs):
         >>> result_remote_workflow = op.outputs.remote_workflow()
         """  # noqa: E501
         return self._remote_workflow
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

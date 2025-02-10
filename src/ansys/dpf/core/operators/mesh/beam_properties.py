@@ -129,6 +129,7 @@ class beam_properties(Operator):
                     optional=True,
                     document="""Result file container allowed to be kept open
         to cache data.""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
@@ -136,6 +137,7 @@ class beam_properties(Operator):
                     optional=False,
                     document="""Result file path container, used if no
         streams are set.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -146,6 +148,7 @@ class beam_properties(Operator):
                     document="""This mesh updates a new map containing a
         field of the beam's properties if
         there is at least one beam in mesh.""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="field_type_section_id",
@@ -154,12 +157,14 @@ class beam_properties(Operator):
                     document="""This field contains the section id of beams.
         1:rec; 3:csolid, 4:ctube, 5:chan,
         6:z, 7:l, 8:i, 9:t, 11:hats, 12:hrec.""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="field_area",
                     type_names=["field"],
                     optional=False,
                     document="""This field contains the area of beams.""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="field_moment_inertia",
@@ -167,6 +172,7 @@ class beam_properties(Operator):
                     optional=False,
                     document="""This field contains the inertia moment of
         beams. iyy, iyz, izz.""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="field_geometry",
@@ -179,6 +185,7 @@ class beam_properties(Operator):
         i:w1,w2,w3,t1,t2,t3. t:w1,w2,t1,t2.
         hats: w1,w2,w3,w4,t1,t2,t3,t4.
         hrec:w1,w2,t1,t2,t3,t4.""",
+                    aliases=[],
                 ),
                 5: PinSpecification(
                     name="field_young_modulus",
@@ -186,6 +193,7 @@ class beam_properties(Operator):
                     optional=False,
                     document="""This field contains the young's modulus of
         beams.""",
+                    aliases=[],
                 ),
                 6: PinSpecification(
                     name="field_poisson_ratio",
@@ -193,6 +201,7 @@ class beam_properties(Operator):
                     optional=False,
                     document="""This field contains the poisson's ratio of
         beams.""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="field_shear_modulus",
@@ -200,12 +209,14 @@ class beam_properties(Operator):
                     optional=False,
                     document="""This field contains the shear modulus of
         beams.""",
+                    aliases=[],
                 ),
                 8: PinSpecification(
                     name="field_beam_length",
                     type_names=["field"],
                     optional=False,
                     document="""This field contains the length of beams.""",
+                    aliases=[],
                 ),
                 9: PinSpecification(
                     name="field_torsion_constant",
@@ -213,6 +224,7 @@ class beam_properties(Operator):
                     optional=False,
                     document="""This field contains the torsion constant of
         beams.""",
+                    aliases=[],
                 ),
                 10: PinSpecification(
                     name="field_warping_constant",
@@ -220,24 +232,28 @@ class beam_properties(Operator):
                     optional=False,
                     document="""This field contains the warping constant of
         beams.""",
+                    aliases=[],
                 ),
                 11: PinSpecification(
                     name="field_offset_type",
                     type_names=["field"],
                     optional=False,
                     document="""This field contains offset type of beams.""",
+                    aliases=[],
                 ),
                 12: PinSpecification(
                     name="field_offset_y",
                     type_names=["field"],
                     optional=False,
                     document="""This field contains offset y of beams.""",
+                    aliases=[],
                 ),
                 13: PinSpecification(
                     name="field_offset_z",
                     type_names=["field"],
                     optional=False,
                     document="""This field contains offset z of beams.""",
+                    aliases=[],
                 ),
             },
         )
@@ -342,6 +358,11 @@ class InputsBeamProperties(_Inputs):
         >>> op.inputs.data_sources(my_data_sources)
         """
         return self._data_sources
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
 
 
 class OutputsBeamProperties(_Outputs):
@@ -645,3 +666,8 @@ class OutputsBeamProperties(_Outputs):
         >>> result_field_offset_z = op.outputs.field_offset_z()
         """  # noqa: E501
         return self._field_offset_z
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -84,18 +84,21 @@ class coordinate_system(Operator):
                     type_names=["int32"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="streams_container",
                     type_names=["streams_container"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
                     type_names=["data_sources"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -106,6 +109,7 @@ class coordinate_system(Operator):
                     document="""The first 9 double are the rotation (3x3
         matrix) and the last 3 is the
         translation vector""",
+                    aliases=[],
                 ),
             },
         )
@@ -229,6 +233,11 @@ class InputsCoordinateSystem(_Inputs):
         """
         return self._data_sources
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsCoordinateSystem(_Outputs):
     """Intermediate class used to get outputs from
@@ -263,3 +272,8 @@ class OutputsCoordinateSystem(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

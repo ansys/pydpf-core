@@ -99,12 +99,14 @@ class kmeans_clustering(Operator):
                     type_names=["int32"],
                     optional=True,
                     document="""Number of the clusters (dafault is 3)""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="formula",
                     type_names=["string"],
                     optional=True,
                     document="""Formula ('dist'/'dotprod'), default is 'dist'""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="fields_container",
@@ -113,6 +115,7 @@ class kmeans_clustering(Operator):
                     document="""An iunput fields container containing the
         data which will be used for the
         clustering""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="component_number",
@@ -121,6 +124,7 @@ class kmeans_clustering(Operator):
                     document="""Component number as an int (default is 0), ex
         '0' for x-displacement, '1' for
         y-displacement,...""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -131,6 +135,7 @@ class kmeans_clustering(Operator):
                     document="""Scopings container with the space scoping
         (entities' ids) corresponding to each
         of k-clusters""",
+                    aliases=[],
                 ),
             },
         )
@@ -290,6 +295,11 @@ class InputsKmeansClustering(_Inputs):
         """
         return self._component_number
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsKmeansClustering(_Outputs):
     """Intermediate class used to get outputs from
@@ -324,3 +334,8 @@ class OutputsKmeansClustering(_Outputs):
         >>> result_scoping_clusters = op.outputs.scoping_clusters()
         """  # noqa: E501
         return self._scoping_clusters
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -97,24 +97,28 @@ class make_label_space(Operator):
         fields/scoping container, or directly
         from label space) that is
         concatenated with provided values.""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="label_name",
                     type_names=["string"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="label_value",
                     type_names=["int32"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="label_value",
                     type_names=["int32"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -123,6 +127,7 @@ class make_label_space(Operator):
                     type_names=["label_space"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -271,6 +276,11 @@ class InputsMakeLabelSpace(_Inputs):
         """
         return self._label_value2
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMakeLabelSpace(_Outputs):
     """Intermediate class used to get outputs from
@@ -305,3 +315,8 @@ class OutputsMakeLabelSpace(_Outputs):
         >>> result_label = op.outputs.label()
         """  # noqa: E501
         return self._label
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

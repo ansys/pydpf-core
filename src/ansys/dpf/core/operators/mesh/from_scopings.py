@@ -101,6 +101,7 @@ class from_scopings(Operator):
                     document="""If nodal scoping, then the scoping is
         transposed respecting the inclusive
         pin""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="inclusive",
@@ -112,6 +113,7 @@ class from_scopings(Operator):
         only the elements/faces which have
         all their nodes/faces in the scoping
         are included""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="nodes_only",
@@ -119,12 +121,14 @@ class from_scopings(Operator):
                     optional=True,
                     document="""Returns mesh with nodes only (without any
         elements). default is false.""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="mesh",
                     type_names=["abstract_meshed_region"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -133,6 +137,7 @@ class from_scopings(Operator):
                     type_names=["meshes_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -290,6 +295,11 @@ class InputsFromScopings(_Inputs):
         """
         return self._mesh
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsFromScopings(_Outputs):
     """Intermediate class used to get outputs from
@@ -324,3 +334,8 @@ class OutputsFromScopings(_Outputs):
         >>> result_meshes = op.outputs.meshes()
         """  # noqa: E501
         return self._meshes
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

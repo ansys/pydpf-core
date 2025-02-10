@@ -96,12 +96,14 @@ class export_symbolic_workflow(Operator):
                     type_names=["workflow"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="path",
                     type_names=["string"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="format",
@@ -109,6 +111,7 @@ class export_symbolic_workflow(Operator):
                     optional=True,
                     document="""0 is ascii format and 1 is binary, default is
         0.""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="options",
@@ -119,6 +122,7 @@ class export_symbolic_workflow(Operator):
         names, 7 copies connections of named
         inputs and ouputs with their data.
         default is 7.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -127,6 +131,7 @@ class export_symbolic_workflow(Operator):
                     type_names=["data_sources", "string"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -279,6 +284,11 @@ class InputsExportSymbolicWorkflow(_Inputs):
         """
         return self._options
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsExportSymbolicWorkflow(_Outputs):
     """Intermediate class used to get outputs from
@@ -310,3 +320,8 @@ class OutputsExportSymbolicWorkflow(_Outputs):
             op,
         )
         self._outputs.append(self.data_sources_as_string)
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

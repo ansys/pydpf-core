@@ -81,18 +81,21 @@ class time_of_max_by_entity(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="abs_value",
                     type_names=["bool"],
                     optional=True,
                     document="""Should use absolute value.""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="compute_amplitude",
                     type_names=["bool"],
                     optional=True,
                     document="""Do calculate amplitude.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -101,6 +104,7 @@ class time_of_max_by_entity(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -230,6 +234,11 @@ class InputsTimeOfMaxByEntity(_Inputs):
         """
         return self._compute_amplitude
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsTimeOfMaxByEntity(_Outputs):
     """Intermediate class used to get outputs from
@@ -266,3 +275,8 @@ class OutputsTimeOfMaxByEntity(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

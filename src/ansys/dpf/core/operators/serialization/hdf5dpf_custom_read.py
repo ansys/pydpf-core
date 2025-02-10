@@ -109,24 +109,28 @@ class hdf5dpf_custom_read(Operator):
                     type_names=["scoping"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="mesh_scoping",
                     type_names=["scoping"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="streams",
                     type_names=["streams_container"],
                     optional=True,
                     document="""Hdf5df file stream.""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
                     type_names=["data_sources"],
                     optional=True,
                     document="""Hdf5df file data source.""",
+                    aliases=[],
                 ),
                 24: PinSpecification(
                     name="meta_data",
@@ -134,6 +138,7 @@ class hdf5dpf_custom_read(Operator):
                     optional=True,
                     document="""Meta_data that may be used to evaluate
         results or extract workflows.""",
+                    aliases=[],
                 ),
                 60: PinSpecification(
                     name="result_name",
@@ -141,6 +146,7 @@ class hdf5dpf_custom_read(Operator):
                     optional=False,
                     document="""Name of the result that must be extracted
         from the hdf5dpf file""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -149,6 +155,7 @@ class hdf5dpf_custom_read(Operator):
                     type_names=["fields_container", "field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -346,6 +353,11 @@ class InputsHdf5DpfCustomRead(_Inputs):
         """
         return self._result_name
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsHdf5DpfCustomRead(_Outputs):
     """Intermediate class used to get outputs from
@@ -377,3 +389,8 @@ class OutputsHdf5DpfCustomRead(_Outputs):
             op,
         )
         self._outputs.append(self.field_or_fields_container_as_field)
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

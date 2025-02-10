@@ -80,6 +80,7 @@ class mesh_plan_clip(Operator):
                     type_names=["abstract_meshed_region", "field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="normal",
@@ -87,6 +88,7 @@ class mesh_plan_clip(Operator):
                     optional=False,
                     document="""An overall 3d vector that gives the normal
         direction of the plane.""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="origin",
@@ -94,6 +96,7 @@ class mesh_plan_clip(Operator):
                     optional=False,
                     document="""An overall 3d vector that gives a point of
         the plane.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -102,12 +105,14 @@ class mesh_plan_clip(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="mesh",
                     type_names=["abstract_meshed_region"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -235,6 +240,11 @@ class InputsMeshPlanClip(_Inputs):
         """
         return self._origin
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMeshPlanClip(_Outputs):
     """Intermediate class used to get outputs from
@@ -289,3 +299,8 @@ class OutputsMeshPlanClip(_Outputs):
         >>> result_mesh = op.outputs.mesh()
         """  # noqa: E501
         return self._mesh
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

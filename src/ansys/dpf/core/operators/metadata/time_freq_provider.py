@@ -75,6 +75,7 @@ class time_freq_provider(Operator):
                     type_names=["streams_container"],
                     optional=True,
                     document="""Streams (result file container) (optional)""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
@@ -82,6 +83,7 @@ class time_freq_provider(Operator):
                     optional=False,
                     document="""If the stream is null, retrieves the file
         path from the data sources.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -90,6 +92,7 @@ class time_freq_provider(Operator):
                     type_names=["time_freq_support"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -196,6 +199,11 @@ class InputsTimeFreqProvider(_Inputs):
         """
         return self._data_sources
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsTimeFreqProvider(_Outputs):
     """Intermediate class used to get outputs from
@@ -232,3 +240,8 @@ class OutputsTimeFreqProvider(_Outputs):
         >>> result_time_freq_support = op.outputs.time_freq_support()
         """  # noqa: E501
         return self._time_freq_support
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

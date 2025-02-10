@@ -12,7 +12,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class cyclic_kinetic_energy(Operator):
-    """Computes mapdl::rst::ENG_KE from an rst file.
+    """This operator is deprecated: use the operator mapdl::rst::ENG_KE with
+    the read_cyclic pin instead. Compute mapdl::rst::ENG_KE from an
+    rst file and expand it with cyclic symmetry.
 
     Parameters
     ----------
@@ -146,7 +148,9 @@ class cyclic_kinetic_energy(Operator):
 
     @staticmethod
     def _spec():
-        description = """Computes mapdl::rst::ENG_KE from an rst file."""
+        description = """This operator is deprecated: use the operator mapdl::rst::ENG_KE with
+            the read_cyclic pin instead. Compute mapdl::rst::ENG_KE
+            from an rst file and expand it with cyclic symmetry."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -155,12 +159,14 @@ class cyclic_kinetic_energy(Operator):
                     type_names=["scoping", "vector<int32>"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="mesh_scoping",
                     type_names=["scopings_container", "scoping", "vector<int32>"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="fields_container",
@@ -168,18 +174,21 @@ class cyclic_kinetic_energy(Operator):
                     optional=True,
                     document="""Fieldscontainer already allocated modified
         inplace""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="streams_container",
                     type_names=["streams_container", "stream"],
                     optional=True,
                     document="""Streams containing the result file.""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
                     type_names=["data_sources"],
                     optional=False,
                     document="""Data sources containing the result file.""",
+                    aliases=[],
                 ),
                 5: PinSpecification(
                     name="bool_rotate_to_global",
@@ -187,6 +196,7 @@ class cyclic_kinetic_energy(Operator):
                     optional=True,
                     document="""If true the field is rotated to global
         coordinate system (default true)""",
+                    aliases=[],
                 ),
                 6: PinSpecification(
                     name="all_dofs",
@@ -196,12 +206,14 @@ class cyclic_kinetic_energy(Operator):
         retrieved. by default this pin is set
         to false and only the translational
         dofs are retrieved.""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="sector_mesh",
                     type_names=["abstract_meshed_region", "meshes_container"],
                     optional=True,
                     document="""Mesh of the base sector (can be a skin).""",
+                    aliases=[],
                 ),
                 14: PinSpecification(
                     name="read_cyclic",
@@ -212,18 +224,21 @@ class cyclic_kinetic_energy(Operator):
         is done, if 3 cyclic expansion is
         done and stages are merged (default
         is 1)""",
+                    aliases=[],
                 ),
                 15: PinSpecification(
                     name="expanded_meshed_region",
                     type_names=["abstract_meshed_region", "meshes_container"],
                     optional=True,
                     document="""Mesh expanded.""",
+                    aliases=[],
                 ),
                 16: PinSpecification(
                     name="cyclic_support",
                     type_names=["cyclic_support"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -232,12 +247,14 @@ class cyclic_kinetic_energy(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""Fieldscontainer filled in""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="expanded_meshes",
                     type_names=["meshes_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -578,6 +595,11 @@ class InputsCyclicKineticEnergy(_Inputs):
         """
         return self._cyclic_support
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsCyclicKineticEnergy(_Outputs):
     """Intermediate class used to get outputs from
@@ -636,3 +658,8 @@ class OutputsCyclicKineticEnergy(_Outputs):
         >>> result_expanded_meshes = op.outputs.expanded_meshes()
         """  # noqa: E501
         return self._expanded_meshes
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

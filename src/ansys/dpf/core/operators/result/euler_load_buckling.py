@@ -112,24 +112,28 @@ class euler_load_buckling(Operator):
         there's no file added, it would take
         value of all beam's end condition as
         1.""",
+                    aliases=[],
                 ),
                 6: PinSpecification(
                     name="field_beam_moment_inertia",
                     type_names=["field"],
                     optional=False,
                     document="""Field of beam's moment inertia""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="field_beam_young_modulus",
                     type_names=["field"],
                     optional=False,
                     document="""Field of beam's young modulus""",
+                    aliases=[],
                 ),
                 8: PinSpecification(
                     name="field_beam_length",
                     type_names=["field"],
                     optional=False,
                     document="""Field of beam's length""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -141,6 +145,7 @@ class euler_load_buckling(Operator):
         about the principle axis of the cross
         section having the least moment of
         inertia.""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="field_euler_critical_load_yy",
@@ -148,6 +153,7 @@ class euler_load_buckling(Operator):
                     optional=False,
                     document="""This field contains euler's critical load on
         axis y.""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="field_euler_critical_load_zz",
@@ -155,6 +161,7 @@ class euler_load_buckling(Operator):
                     optional=False,
                     document="""This field contains euler's critical load on
         axis z.""",
+                    aliases=[],
                 ),
             },
         )
@@ -318,6 +325,11 @@ class InputsEulerLoadBuckling(_Inputs):
         """
         return self._field_beam_length
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsEulerLoadBuckling(_Outputs):
     """Intermediate class used to get outputs from
@@ -398,3 +410,8 @@ class OutputsEulerLoadBuckling(_Outputs):
         >>> result_field_euler_critical_load_zz = op.outputs.field_euler_critical_load_zz()
         """  # noqa: E501
         return self._field_euler_critical_load_zz
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

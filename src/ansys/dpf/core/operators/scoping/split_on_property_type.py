@@ -126,18 +126,21 @@ class split_on_property_type(Operator):
                     type_names=["scoping"],
                     optional=True,
                     document="""Scoping""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="mesh",
                     type_names=["abstract_meshed_region"],
                     optional=False,
                     document="""Mesh region""",
+                    aliases=[],
                 ),
                 9: PinSpecification(
                     name="requested_location",
                     type_names=["string"],
                     optional=False,
                     document="""Location (default is elemental)""",
+                    aliases=[],
                 ),
                 12: PinSpecification(
                     name="skin_case",
@@ -147,6 +150,7 @@ class split_on_property_type(Operator):
         group, 1: merge skin and solid
         elements, 2: merge skin and shell
         elements (default)""",
+                    aliases=[],
                 ),
                 13: PinSpecification(
                     name="label",
@@ -157,6 +161,7 @@ class split_on_property_type(Operator):
         supports any property name contained
         in the mesh property fields) (default
         is 'elshape')""",
+                    aliases=[],
                 ),
                 14: PinSpecification(
                     name="label",
@@ -167,6 +172,7 @@ class split_on_property_type(Operator):
         supports any property name contained
         in the mesh property fields) (default
         is 'elshape')""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -175,6 +181,7 @@ class split_on_property_type(Operator):
                     type_names=["scopings_container"],
                     optional=False,
                     document="""Scoping""",
+                    aliases=[],
                 ),
             },
         )
@@ -391,6 +398,11 @@ class InputsSplitOnPropertyType(_Inputs):
         """
         return self._label2
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsSplitOnPropertyType(_Outputs):
     """Intermediate class used to get outputs from
@@ -425,3 +437,8 @@ class OutputsSplitOnPropertyType(_Outputs):
         >>> result_mesh_scoping = op.outputs.mesh_scoping()
         """  # noqa: E501
         return self._mesh_scoping
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

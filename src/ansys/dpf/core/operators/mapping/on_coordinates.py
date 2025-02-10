@@ -122,6 +122,7 @@ class on_coordinates(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="coordinates",
@@ -133,6 +134,7 @@ class on_coordinates(Operator):
                     ],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="create_support",
@@ -141,6 +143,7 @@ class on_coordinates(Operator):
                     document="""If this pin is set to true, then, a support
         associated to the fields consisting
         of points is created""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="mapping_on_scoping",
@@ -150,6 +153,7 @@ class on_coordinates(Operator):
         between the coordinates and the
         fields is created only on the first
         field scoping""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="mesh",
@@ -162,6 +166,7 @@ class on_coordinates(Operator):
         is set, it should be on the same
         label spaces as the coordinates
         fields container""",
+                    aliases=[],
                 ),
                 200: PinSpecification(
                     name="use_quadratic_elements",
@@ -173,6 +178,7 @@ class on_coordinates(Operator):
         the element is quadratic (more
         precise but less performant). default
         is false.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -181,6 +187,7 @@ class on_coordinates(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -394,6 +401,11 @@ class InputsOnCoordinates(_Inputs):
         """
         return self._use_quadratic_elements
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsOnCoordinates(_Outputs):
     """Intermediate class used to get outputs from
@@ -428,3 +440,8 @@ class OutputsOnCoordinates(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

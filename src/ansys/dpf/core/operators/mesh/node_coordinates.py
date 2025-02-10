@@ -66,6 +66,7 @@ class node_coordinates(Operator):
                     type_names=["abstract_meshed_region", "meshes_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -78,6 +79,7 @@ class node_coordinates(Operator):
         the input is a  meshes container, a
         fields container (one field by mesh)
         is the output""",
+                    aliases=[],
                 ),
             },
         )
@@ -155,6 +157,11 @@ class InputsNodeCoordinates(_Inputs):
         """
         return self._mesh
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsNodeCoordinates(_Outputs):
     """Intermediate class used to get outputs from
@@ -186,3 +193,8 @@ class OutputsNodeCoordinates(_Outputs):
             op,
         )
         self._outputs.append(self.coordinates_as_fields_container)
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

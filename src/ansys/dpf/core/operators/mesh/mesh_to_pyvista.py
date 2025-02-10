@@ -115,6 +115,7 @@ class mesh_to_pyvista(Operator):
                     optional=True,
                     document="""Node coordinates. if not set, the node
         coordinates of the mesh are employed.""",
+                    aliases=[],
                 ),
                 6: PinSpecification(
                     name="as_linear",
@@ -124,12 +125,14 @@ class mesh_to_pyvista(Operator):
         (quadratic surface elements do no
         include midside nodes). if not set,
         defaults to true.""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="mesh",
                     type_names=["abstract_meshed_region"],
                     optional=False,
                     document="""Mesh to export in pyvista format""",
+                    aliases=[],
                 ),
                 60: PinSpecification(
                     name="vtk_updated",
@@ -137,6 +140,7 @@ class mesh_to_pyvista(Operator):
                     optional=True,
                     document="""True if the vtk version employed by pyvista
         is > vtk 9. default true.""",
+                    aliases=[],
                 ),
                 200: PinSpecification(
                     name="as_poly",
@@ -144,6 +148,7 @@ class mesh_to_pyvista(Operator):
                     optional=True,
                     document="""Export elements as polyhedrons (cell-face-
         node representation). default false.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -152,24 +157,28 @@ class mesh_to_pyvista(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""Node coordinates double vector""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="cells",
                     type_names=["vector<int32>"],
                     optional=False,
                     document="""Cell connectivity int vector""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="cell_types",
                     type_names=["vector<int32>"],
                     optional=False,
                     document="""Cell types property int vector""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="offsets",
                     type_names=["vector<int32>"],
                     optional=True,
                     document="""If vtk_updated=false, offsets int vector""",
+                    aliases=[],
                 ),
             },
         )
@@ -351,6 +360,11 @@ class InputsMeshToPyvista(_Inputs):
         """
         return self._as_poly
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMeshToPyvista(_Outputs):
     """Intermediate class used to get outputs from
@@ -445,3 +459,8 @@ class OutputsMeshToPyvista(_Outputs):
         >>> result_offsets = op.outputs.offsets()
         """  # noqa: E501
         return self._offsets
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

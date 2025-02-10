@@ -127,6 +127,7 @@ class iso_surfaces(Operator):
         surface computation. the mesh can be
         retrieved from this field's support
         or through pin 2.""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="num_surfaces",
@@ -137,6 +138,7 @@ class iso_surfaces(Operator):
         field of results. if not, iso_values
         must be provided by the user through
         pin 4""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="mesh",
@@ -145,6 +147,7 @@ class iso_surfaces(Operator):
                     document="""Mesh to compute the iso-surface from. used
         when not given through the support of
         the field in pin 0.""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="slice_surfaces",
@@ -154,6 +157,7 @@ class iso_surfaces(Operator):
         shell and skin elements. false:
         slicing will ignore shell and skin
         elements. the default is true.""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="vector_iso_values",
@@ -163,6 +167,7 @@ class iso_surfaces(Operator):
         compute. if not provided, iso_values
         are linearly compute between the min
         and the max of the field of results.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -171,12 +176,14 @@ class iso_surfaces(Operator):
                     type_names=["meshes_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -367,6 +374,11 @@ class InputsIsoSurfaces(_Inputs):
         """
         return self._vector_iso_values
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsIsoSurfaces(_Outputs):
     """Intermediate class used to get outputs from
@@ -421,3 +433,8 @@ class OutputsIsoSurfaces(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -121,12 +121,14 @@ class elemental_nodal_to_nodal(Operator):
                     optional=False,
                     document="""Field or fields container with only one field
         is expected""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="mesh_scoping",
                     type_names=["scoping"],
                     optional=True,
                     document="""Average only on these entities""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="should_average",
@@ -135,6 +137,7 @@ class elemental_nodal_to_nodal(Operator):
                     document="""Each nodal value is divided by the number of
         elements linked to this node (default
         is true for discrete quantities).""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="extend_to_mid_nodes",
@@ -143,6 +146,7 @@ class elemental_nodal_to_nodal(Operator):
                     document="""Compute mid nodes (when available) by
         averaging the neighbour primary
         nodes.""",
+                    aliases=[],
                 ),
                 5: PinSpecification(
                     name="extend_weights_to_mid_nodes",
@@ -150,12 +154,14 @@ class elemental_nodal_to_nodal(Operator):
                     optional=True,
                     document="""Extends weights to mid nodes (when
         available). default is false.""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="mesh",
                     type_names=["abstract_meshed_region"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -164,6 +170,7 @@ class elemental_nodal_to_nodal(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="weight",
@@ -172,6 +179,7 @@ class elemental_nodal_to_nodal(Operator):
                     document="""Provides the number of times it was found in
         the elemental nodal field, for each
         node. can be used to average later.""",
+                    aliases=[],
                 ),
             },
         )
@@ -383,6 +391,11 @@ class InputsElementalNodalToNodal(_Inputs):
         """
         return self._mesh
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsElementalNodalToNodal(_Outputs):
     """Intermediate class used to get outputs from
@@ -437,3 +450,8 @@ class OutputsElementalNodalToNodal(_Outputs):
         >>> result_weight = op.outputs.weight()
         """  # noqa: E501
         return self._weight
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

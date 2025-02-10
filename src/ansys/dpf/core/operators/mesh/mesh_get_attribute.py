@@ -111,6 +111,7 @@ class mesh_get_attribute(Operator):
                     type_names=["abstract_meshed_region"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="property_name",
@@ -127,6 +128,7 @@ class mesh_get_attribute(Operator):
         "named_selection_locations",
         "node_scoping", "element_scoping",
         "face_scoping"...""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="property_identifier",
@@ -136,6 +138,7 @@ class mesh_get_attribute(Operator):
         index, example: a named selection's
         number or by name, example: a named
         selection's name.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -163,6 +166,7 @@ class mesh_get_attribute(Operator):
         "named_selection_locations" and an
         int for property:
         "num_named_selections".""",
+                    aliases=[],
                 ),
             },
         )
@@ -305,6 +309,11 @@ class InputsMeshGetAttribute(_Inputs):
         """
         return self._property_identifier
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMeshGetAttribute(_Outputs):
     """Intermediate class used to get outputs from
@@ -360,3 +369,8 @@ class OutputsMeshGetAttribute(_Outputs):
             op,
         )
         self._outputs.append(self.property_as_string_field)
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

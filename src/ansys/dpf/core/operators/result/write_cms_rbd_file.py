@@ -237,138 +237,161 @@ class write_cms_rbd_file(Operator):
                     type_names=["property_field"],
                     optional=False,
                     document="""Data describing the finite element model""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="center_of_mass",
                     type_names=["field"],
                     optional=False,
                     document="""Center of mass of the body""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="inertia_relief",
                     type_names=["field"],
                     optional=False,
                     document="""Inertia matrix""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="model_size",
                     type_names=["double"],
                     optional=False,
                     document="""Size of the diagonal box containing the body""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="master_node_coordinates",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 5: PinSpecification(
                     name="v_trsf",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""Translational and rotational shape functions""",
+                    aliases=[],
                 ),
                 6: PinSpecification(
                     name="k_mat",
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="mass_mat",
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 8: PinSpecification(
                     name="c_mat",
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 9: PinSpecification(
                     name="rhs",
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 10: PinSpecification(
                     name="dn",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 11: PinSpecification(
                     name="dr_cross_n",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 12: PinSpecification(
                     name="drn",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 13: PinSpecification(
                     name="dn_cross_n",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 14: PinSpecification(
                     name="dnx_y",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 15: PinSpecification(
                     name="dny_y",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 16: PinSpecification(
                     name="dnz_y",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 17: PinSpecification(
                     name="dyx_n",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 18: PinSpecification(
                     name="dyy_n",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 19: PinSpecification(
                     name="dyz_n",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 20: PinSpecification(
                     name="dnxn",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 21: PinSpecification(
                     name="dnyn",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 22: PinSpecification(
                     name="dnzn",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 23: PinSpecification(
                     name="file_path",
@@ -376,6 +399,7 @@ class write_cms_rbd_file(Operator):
                     optional=False,
                     document="""Path with cms_rbd extension where the export
         occurs""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -385,6 +409,7 @@ class write_cms_rbd_file(Operator):
                     optional=False,
                     document="""Data source containing the cms_rbd file
         generated.""",
+                    aliases=[],
                 ),
             },
         )
@@ -983,6 +1008,11 @@ class InputsWriteCmsRbdFile(_Inputs):
         """
         return self._file_path
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsWriteCmsRbdFile(_Outputs):
     """Intermediate class used to get outputs from
@@ -1017,3 +1047,8 @@ class OutputsWriteCmsRbdFile(_Outputs):
         >>> result_data_sources = op.outputs.data_sources()
         """  # noqa: E501
         return self._data_sources
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

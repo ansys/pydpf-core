@@ -96,6 +96,7 @@ class coordinate_system_data_provider(Operator):
                     document="""Coorfinate system ids to recover used by the
         solver. if not set, all available
         materials to be recovered.""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="streams",
@@ -103,6 +104,7 @@ class coordinate_system_data_provider(Operator):
                     optional=True,
                     document="""Result file container allowed to be kept open
         to cache data.""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
@@ -110,6 +112,7 @@ class coordinate_system_data_provider(Operator):
                     optional=False,
                     document="""Result file path container, used if no
         streams are set.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -118,12 +121,14 @@ class coordinate_system_data_provider(Operator):
                     type_names=["generic_data_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="coordinate_system_data2",
                     type_names=["generic_data_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -263,6 +268,11 @@ class InputsCoordinateSystemDataProvider(_Inputs):
         """
         return self._data_sources
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsCoordinateSystemDataProvider(_Outputs):
     """Intermediate class used to get outputs from
@@ -321,3 +331,8 @@ class OutputsCoordinateSystemDataProvider(_Outputs):
         >>> result_coordinate_system_data2 = op.outputs.coordinate_system_data2()
         """  # noqa: E501
         return self._coordinate_system_data2
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

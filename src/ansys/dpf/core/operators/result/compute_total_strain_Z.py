@@ -209,6 +209,7 @@ class compute_total_strain_Z(Operator):
         files.. will only be used if no
         displacement input is given (will be
         applied on displacement operator).""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="scoping",
@@ -216,6 +217,7 @@ class compute_total_strain_Z(Operator):
                     optional=True,
                     document="""The element scoping on which the result is
         computed.""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="streams_container",
@@ -225,6 +227,7 @@ class compute_total_strain_Z(Operator):
         been connected. required if no
         displacement input have been
         connected.""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
@@ -235,6 +238,7 @@ class compute_total_strain_Z(Operator):
         displacement's field has a mesh
         support. required if no displacement
         input have been connected.""",
+                    aliases=[],
                 ),
                 5: PinSpecification(
                     name="extrapolate",
@@ -242,6 +246,7 @@ class compute_total_strain_Z(Operator):
                     optional=True,
                     document="""Whether to extrapolate the data from the
         integration points to the nodes.""",
+                    aliases=[],
                 ),
                 6: PinSpecification(
                     name="nonlinear",
@@ -250,6 +255,7 @@ class compute_total_strain_Z(Operator):
                     document="""Whether to use nonlinear geometry or
         nonlinear material (1 = large strain,
         2 = hyperelasticity).""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="abstract_meshed_region",
@@ -260,6 +266,7 @@ class compute_total_strain_Z(Operator):
         have been connected, or if the
         displacement's field has a mesh
         support.""",
+                    aliases=[],
                 ),
                 9: PinSpecification(
                     name="requested_location",
@@ -267,6 +274,7 @@ class compute_total_strain_Z(Operator):
                     optional=True,
                     document="""Average the elemental nodal result to the
         requested location.""",
+                    aliases=[],
                 ),
                 10: PinSpecification(
                     name="displacement",
@@ -276,6 +284,7 @@ class compute_total_strain_Z(Operator):
         displacement field (nodal). if none
         specified, read displacements from
         result file using the data_sources.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -285,6 +294,7 @@ class compute_total_strain_Z(Operator):
                     optional=False,
                     document="""The computed result fields container
         (elemental nodal).""",
+                    aliases=[],
                 ),
             },
         )
@@ -605,6 +615,11 @@ class InputsComputeTotalStrainZ(_Inputs):
         """
         return self._displacement
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsComputeTotalStrainZ(_Outputs):
     """Intermediate class used to get outputs from
@@ -641,3 +656,8 @@ class OutputsComputeTotalStrainZ(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

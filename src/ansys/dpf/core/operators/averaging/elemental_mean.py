@@ -95,6 +95,7 @@ class elemental_mean(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="collapse_shell_layers",
@@ -102,12 +103,14 @@ class elemental_mean(Operator):
                     optional=True,
                     document="""If true, shell layers are averaged as well
         (default is false).""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="force_averaging",
                     type_names=["bool"],
                     optional=True,
                     document="""If true you average, if false you just sum.""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="scoping",
@@ -117,6 +120,7 @@ class elemental_mean(Operator):
         scoping container, the label must
         correspond to the one of the fields
         containers.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -125,6 +129,7 @@ class elemental_mean(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -280,6 +285,11 @@ class InputsElementalMean(_Inputs):
         """
         return self._scoping
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsElementalMean(_Outputs):
     """Intermediate class used to get outputs from
@@ -314,3 +324,8 @@ class OutputsElementalMean(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

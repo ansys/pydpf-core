@@ -97,18 +97,21 @@ class remove_rigid_body_motion_fc(Operator):
                     optional=False,
                     document="""Field or fields container with only one field
         is expected""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="reference_node_id",
                     type_names=["int32"],
                     optional=True,
                     document="""Id of the reference entity (node).""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="mesh",
                     type_names=["abstract_meshed_region"],
                     optional=True,
                     document="""Default is the mesh in the support""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -117,24 +120,28 @@ class remove_rigid_body_motion_fc(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="translation_field",
                     type_names=["field"],
                     optional=False,
                     document="""Global rigid translation vector""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="rotation_field",
                     type_names=["field"],
                     optional=False,
                     document="""Global rigid rotation angles""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="center_field",
                     type_names=["field"],
                     optional=False,
                     document="""Center of the rigid rotation""",
+                    aliases=[],
                 ),
             },
         )
@@ -267,6 +274,11 @@ class InputsRemoveRigidBodyMotionFc(_Inputs):
         """
         return self._mesh
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsRemoveRigidBodyMotionFc(_Outputs):
     """Intermediate class used to get outputs from
@@ -369,3 +381,8 @@ class OutputsRemoveRigidBodyMotionFc(_Outputs):
         >>> result_center_field = op.outputs.center_field()
         """  # noqa: E501
         return self._center_field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

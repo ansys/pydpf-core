@@ -89,6 +89,7 @@ class minus_fc(Operator):
                     optional=False,
                     document="""Field or fields container with only one field
         is expected""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="field_or_fields_container_B",
@@ -101,6 +102,7 @@ class minus_fc(Operator):
                     optional=False,
                     document="""Field or fields container with only one field
         is expected""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -109,6 +111,7 @@ class minus_fc(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -218,6 +221,11 @@ class InputsMinusFc(_Inputs):
         """
         return self._field_or_fields_container_B
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMinusFc(_Outputs):
     """Intermediate class used to get outputs from
@@ -252,3 +260,8 @@ class OutputsMinusFc(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

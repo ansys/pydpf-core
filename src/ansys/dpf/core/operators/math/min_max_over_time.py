@@ -69,12 +69,14 @@ class min_max_over_time(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 5: PinSpecification(
                     name="int32",
                     type_names=["int32"],
                     optional=False,
                     document="""Define min or max.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -83,6 +85,7 @@ class min_max_over_time(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -188,6 +191,11 @@ class InputsMinMaxOverTime(_Inputs):
         """
         return self._int32
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMinMaxOverTime(_Outputs):
     """Intermediate class used to get outputs from
@@ -222,3 +230,8 @@ class OutputsMinMaxOverTime(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -103,24 +103,28 @@ class mesh_clip(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="iso_value",
                     type_names=["double"],
                     optional=False,
                     document="""Iso value""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="closed_surface",
                     type_names=["int32"],
                     optional=False,
                     document="""1: closed surface, 0: iso surface.""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="mesh",
                     type_names=["abstract_meshed_region"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="slice_surfaces",
@@ -130,6 +134,7 @@ class mesh_clip(Operator):
         shell and skin elements. false:
         slicing will ignore shell and skin
         elements. the default is true.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -138,12 +143,14 @@ class mesh_clip(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="mesh",
                     type_names=["meshed_region"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -318,6 +325,11 @@ class InputsMeshClip(_Inputs):
         """
         return self._slice_surfaces
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMeshClip(_Outputs):
     """Intermediate class used to get outputs from
@@ -372,3 +384,8 @@ class OutputsMeshClip(_Outputs):
         >>> result_mesh = op.outputs.mesh()
         """  # noqa: E501
         return self._mesh
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

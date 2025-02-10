@@ -127,6 +127,7 @@ class ds_get_attribute(Operator):
                     type_names=["data_sources"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="property_name",
@@ -145,6 +146,7 @@ class ds_get_attribute(Operator):
         string), 'path_by_index' (returns
         string), 'path_key_by_index' (returns
         string).""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="property_index",
@@ -157,6 +159,7 @@ class ds_get_attribute(Operator):
         'result_key_by_index',
         'path_by_index' and
         'path_key_by_index' properties.""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="property_key",
@@ -164,6 +167,7 @@ class ds_get_attribute(Operator):
                     optional=True,
                     document="""Key to look for. must be set for 'file_path'
         and 'domain_file_path' properties.""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="property_result_key",
@@ -173,6 +177,7 @@ class ds_get_attribute(Operator):
         'file_path', 'result_file_name',
         'domain_file_path' and
         'domain_result_file_name'.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -181,6 +186,7 @@ class ds_get_attribute(Operator):
                     type_names=["string", "int32"],
                     optional=False,
                     document="""Property value.""",
+                    aliases=[],
                 ),
             },
         )
@@ -378,6 +384,11 @@ class InputsDsGetAttribute(_Inputs):
         """
         return self._property_result_key
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsDsGetAttribute(_Outputs):
     """Intermediate class used to get outputs from
@@ -409,3 +420,8 @@ class OutputsDsGetAttribute(_Outputs):
             op,
         )
         self._outputs.append(self.property_as_int32)
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

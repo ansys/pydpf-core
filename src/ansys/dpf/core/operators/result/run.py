@@ -112,12 +112,14 @@ class run(Operator):
                     type_names=["string"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="working_dir",
                     type_names=["string"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="number_of_processes",
@@ -125,12 +127,14 @@ class run(Operator):
                     optional=True,
                     document="""Set the number of mpi processes used for
         resolution (default is 2)""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
                     type_names=["data_sources"],
                     optional=False,
                     document="""Data sources containing the input file.""",
+                    aliases=[],
                 ),
                 5: PinSpecification(
                     name="server_mode",
@@ -140,6 +144,7 @@ class run(Operator):
         input file allowing to launch dpf
         server inside mapdl to interact with
         mapdl using dpf client api""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -149,6 +154,7 @@ class run(Operator):
                     optional=False,
                     document="""Returns the data source if the server_mode
         pin is not set to yes""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="ip",
@@ -156,6 +162,7 @@ class run(Operator):
                     optional=False,
                     document="""Returns the ip if the server_mode pin is set
         to yes""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="port",
@@ -163,6 +170,7 @@ class run(Operator):
                     optional=False,
                     document="""Returns a port when the server mode pin is
         set to yes""",
+                    aliases=[],
                 ),
             },
         )
@@ -338,6 +346,11 @@ class InputsRun(_Inputs):
         """
         return self._server_mode
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsRun(_Outputs):
     """Intermediate class used to get outputs from
@@ -412,3 +425,8 @@ class OutputsRun(_Outputs):
         >>> result_port = op.outputs.port()
         """  # noqa: E501
         return self._port
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

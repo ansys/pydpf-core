@@ -82,6 +82,7 @@ class unit_convert(Operator):
                     ],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="unit_name",
@@ -91,6 +92,7 @@ class unit_convert(Operator):
         pascal,... or ansys unit system's id,
         or a field from which expected unit
         will be extracted.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -105,6 +107,7 @@ class unit_convert(Operator):
                     optional=False,
                     document="""The output entity is the same as the input
         (inplace operator)""",
+                    aliases=[],
                 ),
             },
         )
@@ -209,6 +212,11 @@ class InputsUnitConvert(_Inputs):
         """
         return self._unit_name
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsUnitConvert(_Outputs):
     """Intermediate class used to get outputs from
@@ -256,3 +264,8 @@ class OutputsUnitConvert(_Outputs):
             op,
         )
         self._outputs.append(self.converted_entity_as_meshes_container)
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -130,12 +130,14 @@ class grpc_start_server(Operator):
                     optional=True,
                     document="""If no ip address is put, the local ip address
         is taken""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="port",
                     type_names=["string", "int32"],
                     optional=True,
                     document="""If no port is put, port 50052 is taken""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="starting_option",
@@ -147,6 +149,7 @@ class grpc_start_server(Operator):
         be usable for anything else. with 2,
         it the server will be started in a
         new process.""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="should_start_server",
@@ -156,6 +159,7 @@ class grpc_start_server(Operator):
         and is started. if false, only a
         client (able to send grpc calls) will
         be started""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
@@ -164,6 +168,7 @@ class grpc_start_server(Operator):
                     document="""A data source with result key 'grpc' and file
         path 'port:ip' can be used instead of
         the input port and ip.""",
+                    aliases=[],
                 ),
                 5: PinSpecification(
                     name="dpf_context",
@@ -177,6 +182,7 @@ class grpc_start_server(Operator):
         custom - dpfcustomdefined.xml) or a
         string with the path of the xml
         specifying the context.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -187,6 +193,7 @@ class grpc_start_server(Operator):
                     document="""Dpf streams handling the server, if the
         server is started in this thread,
         then nothing is added in output""",
+                    aliases=[],
                 ),
             },
         )
@@ -406,6 +413,11 @@ class InputsGrpcStartServer(_Inputs):
         """
         return self._dpf_context
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsGrpcStartServer(_Outputs):
     """Intermediate class used to get outputs from
@@ -440,3 +452,8 @@ class OutputsGrpcStartServer(_Outputs):
         >>> result_grpc_streams = op.outputs.grpc_streams()
         """  # noqa: E501
         return self._grpc_streams
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

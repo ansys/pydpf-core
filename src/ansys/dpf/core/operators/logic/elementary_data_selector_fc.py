@@ -90,6 +90,7 @@ class elementary_data_selector_fc(Operator):
                     type_names=["fields_container", "field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="elementary_data_index",
@@ -100,6 +101,7 @@ class elementary_data_selector_fc(Operator):
         field. for a field with a nature
         matrix, this extracts the line
         indices.""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="elementary_data_index_2",
@@ -107,6 +109,7 @@ class elementary_data_selector_fc(Operator):
                     optional=True,
                     document="""For a field with nature matrix, this extracts
         the column indices.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -115,6 +118,7 @@ class elementary_data_selector_fc(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -253,6 +257,11 @@ class InputsElementaryDataSelectorFc(_Inputs):
         """
         return self._elementary_data_index_2
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsElementaryDataSelectorFc(_Outputs):
     """Intermediate class used to get outputs from
@@ -289,3 +298,8 @@ class OutputsElementaryDataSelectorFc(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

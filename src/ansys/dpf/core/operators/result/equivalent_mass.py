@@ -59,12 +59,6 @@ class equivalent_mass(Operator):
     mesh : MeshedRegion or MeshesContainer, optional
         Prevents from reading the mesh in the result
         files
-    read_cyclic : int, optional
-        If 0 cyclic symmetry is ignored, if 1 cyclic
-        sector is read, if 2 cyclic expansion
-        is done, if 3 cyclic expansion is
-        done and stages are merged (default
-        is 1)
 
     Returns
     -------
@@ -92,8 +86,6 @@ class equivalent_mass(Operator):
     >>> op.inputs.all_dofs.connect(my_all_dofs)
     >>> my_mesh = dpf.MeshedRegion()
     >>> op.inputs.mesh.connect(my_mesh)
-    >>> my_read_cyclic = int()
-    >>> op.inputs.read_cyclic.connect(my_read_cyclic)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.equivalent_mass(
@@ -104,7 +96,6 @@ class equivalent_mass(Operator):
     ...     data_sources=my_data_sources,
     ...     all_dofs=my_all_dofs,
     ...     mesh=my_mesh,
-    ...     read_cyclic=my_read_cyclic,
     ... )
 
     >>> # Get output data
@@ -120,7 +111,6 @@ class equivalent_mass(Operator):
         data_sources=None,
         all_dofs=None,
         mesh=None,
-        read_cyclic=None,
         config=None,
         server=None,
     ):
@@ -141,8 +131,6 @@ class equivalent_mass(Operator):
             self.inputs.all_dofs.connect(all_dofs)
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
-        if read_cyclic is not None:
-            self.inputs.read_cyclic.connect(read_cyclic)
 
     @staticmethod
     def _spec():
@@ -177,6 +165,7 @@ class equivalent_mass(Operator):
         is taken when time/freqs are higher
         than available time/freqs in result
         files.""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="mesh_scoping",
@@ -193,6 +182,7 @@ class equivalent_mass(Operator):
         are asked for. using scopings
         container allows you to split the
         result fields container into domains""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="fields_container",
@@ -200,6 +190,7 @@ class equivalent_mass(Operator):
                     optional=True,
                     document="""Fields container already allocated modified
         inplace""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="streams_container",
@@ -207,6 +198,7 @@ class equivalent_mass(Operator):
                     optional=True,
                     document="""Result file container allowed to be kept open
         to cache data""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
@@ -214,12 +206,14 @@ class equivalent_mass(Operator):
                     optional=False,
                     document="""Result file path container, used if no
         streams are set""",
+                    aliases=[],
                 ),
                 6: PinSpecification(
                     name="all_dofs",
                     type_names=["bool"],
                     optional=True,
                     document="""Default is false.""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="mesh",
@@ -227,16 +221,7 @@ class equivalent_mass(Operator):
                     optional=True,
                     document="""Prevents from reading the mesh in the result
         files""",
-                ),
-                14: PinSpecification(
-                    name="read_cyclic",
-                    type_names=["enum dataProcessing::ECyclicReading", "int32"],
-                    optional=True,
-                    document="""If 0 cyclic symmetry is ignored, if 1 cyclic
-        sector is read, if 2 cyclic expansion
-        is done, if 3 cyclic expansion is
-        done and stages are merged (default
-        is 1)""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -245,6 +230,7 @@ class equivalent_mass(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -309,8 +295,6 @@ class InputsEquivalentMass(_Inputs):
     >>> op.inputs.all_dofs.connect(my_all_dofs)
     >>> my_mesh = dpf.MeshedRegion()
     >>> op.inputs.mesh.connect(my_mesh)
-    >>> my_read_cyclic = int()
-    >>> op.inputs.read_cyclic.connect(my_read_cyclic)
     """
 
     def __init__(self, op: Operator):
@@ -329,8 +313,6 @@ class InputsEquivalentMass(_Inputs):
         self._inputs.append(self._all_dofs)
         self._mesh = Input(equivalent_mass._spec().input_pin(7), 7, op, -1)
         self._inputs.append(self._mesh)
-        self._read_cyclic = Input(equivalent_mass._spec().input_pin(14), 14, op, -1)
-        self._inputs.append(self._read_cyclic)
 
     @property
     def time_scoping(self):
@@ -500,29 +482,10 @@ class InputsEquivalentMass(_Inputs):
         """
         return self._mesh
 
-    @property
-    def read_cyclic(self):
-        """Allows to connect read_cyclic input to the operator.
-
-        If 0 cyclic symmetry is ignored, if 1 cyclic
-        sector is read, if 2 cyclic expansion
-        is done, if 3 cyclic expansion is
-        done and stages are merged (default
-        is 1)
-
-        Parameters
-        ----------
-        my_read_cyclic : int
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.result.equivalent_mass()
-        >>> op.inputs.read_cyclic.connect(my_read_cyclic)
-        >>> # or
-        >>> op.inputs.read_cyclic(my_read_cyclic)
-        """
-        return self._read_cyclic
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
 
 
 class OutputsEquivalentMass(_Outputs):
@@ -558,3 +521,8 @@ class OutputsEquivalentMass(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

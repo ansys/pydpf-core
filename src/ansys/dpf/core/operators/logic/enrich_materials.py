@@ -81,18 +81,21 @@ class enrich_materials(Operator):
                     type_names=["any"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="streams",
                     type_names=["streams_container", "fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="streams_mapping",
                     type_names=["property_fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -101,6 +104,7 @@ class enrich_materials(Operator):
                     type_names=["bool"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -224,6 +228,11 @@ class InputsEnrichMaterials(_Inputs):
         """
         return self._streams_mapping
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsEnrichMaterials(_Outputs):
     """Intermediate class used to get outputs from
@@ -258,3 +267,8 @@ class OutputsEnrichMaterials(_Outputs):
         >>> result_MaterialContainer = op.outputs.MaterialContainer()
         """  # noqa: E501
         return self._MaterialContainer
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -102,12 +102,14 @@ class on_named_selection(Operator):
                     type_names=["string"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="named_selection_name",
                     type_names=["string"],
                     optional=False,
                     document="""The string is expected to be in upper case""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="int_inclusive",
@@ -119,18 +121,21 @@ class on_named_selection(Operator):
         the nodes.if inclusive == 0, only the
         elements which have all their nodes
         in the named selection are included""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="streams_container",
                     type_names=["streams_container"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
                     type_names=["data_sources"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -139,6 +144,7 @@ class on_named_selection(Operator):
                     type_names=["scoping"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -319,6 +325,11 @@ class InputsOnNamedSelection(_Inputs):
         """
         return self._data_sources
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsOnNamedSelection(_Outputs):
     """Intermediate class used to get outputs from
@@ -353,3 +364,8 @@ class OutputsOnNamedSelection(_Outputs):
         >>> result_mesh_scoping = op.outputs.mesh_scoping()
         """  # noqa: E501
         return self._mesh_scoping
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

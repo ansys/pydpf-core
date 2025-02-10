@@ -70,6 +70,7 @@ class wireframe(Operator):
                     type_names=["abstract_meshed_region"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="threshold",
@@ -77,6 +78,7 @@ class wireframe(Operator):
                     optional=False,
                     document="""Angle threshold in radian that will trigger
         an edge detection.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -85,6 +87,7 @@ class wireframe(Operator):
                     type_names=["abstract_meshed_region"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -187,6 +190,11 @@ class InputsWireframe(_Inputs):
         """
         return self._threshold
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsWireframe(_Outputs):
     """Intermediate class used to get outputs from
@@ -221,3 +229,8 @@ class OutputsWireframe(_Outputs):
         >>> result_wireframe = op.outputs.wireframe()
         """  # noqa: E501
         return self._wireframe
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

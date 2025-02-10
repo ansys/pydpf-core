@@ -102,12 +102,14 @@ class euler_nodes(Operator):
                     type_names=["streams_container", "stream"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
                     type_names=["data_sources"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 5: PinSpecification(
                     name="filter_zeros",
@@ -116,6 +118,7 @@ class euler_nodes(Operator):
                     document="""If true, then the field will only contain the
         scoping if any rotation is not zero.
         (default is false).""",
+                    aliases=[],
                 ),
                 6: PinSpecification(
                     name="coord_and_euler",
@@ -125,12 +128,14 @@ class euler_nodes(Operator):
         coordinates and 3 euler angles, else
         there is only the euler angles
         (default is true).""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="mesh",
                     type_names=["abstract_meshed_region"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -139,6 +144,7 @@ class euler_nodes(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -313,6 +319,11 @@ class InputsEulerNodes(_Inputs):
         """
         return self._mesh
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsEulerNodes(_Outputs):
     """Intermediate class used to get outputs from
@@ -347,3 +358,8 @@ class OutputsEulerNodes(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

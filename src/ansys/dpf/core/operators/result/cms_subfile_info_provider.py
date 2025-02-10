@@ -100,6 +100,7 @@ class cms_subfile_info_provider(Operator):
                     optional=False,
                     document="""Data_sources (must contain at least one
         subfile).""",
+                    aliases=[],
                 ),
                 200: PinSpecification(
                     name="cms_subfile_data",
@@ -107,6 +108,7 @@ class cms_subfile_info_provider(Operator):
                     optional=False,
                     document="""If this pin i set to true, data are return in
         a field.""",
+                    aliases=[],
                 ),
                 300: PinSpecification(
                     name="output_maxdof_on_masternodes",
@@ -115,6 +117,7 @@ class cms_subfile_info_provider(Operator):
                     document="""If this pin is set to true, compute and add
         field with max degrees of freedom on
         master nodes""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -127,6 +130,7 @@ class cms_subfile_info_provider(Operator):
         key, damping matrix present key, mass
         matrix present key, number of master
         nodes, number of virtual nodes""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="field",
@@ -136,6 +140,7 @@ class cms_subfile_info_provider(Operator):
         of load vectors (nvects), number of
         nodes (nnod), number of virtual nodes
         (nvnodes), number of modes (nvmodes)""",
+                    aliases=[],
                 ),
             },
         )
@@ -273,6 +278,11 @@ class InputsCmsSubfileInfoProvider(_Inputs):
         """
         return self._output_maxdof_on_masternodes
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsCmsSubfileInfoProvider(_Outputs):
     """Intermediate class used to get outputs from
@@ -327,3 +337,8 @@ class OutputsCmsSubfileInfoProvider(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -74,12 +74,14 @@ class min_max_inc(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 17: PinSpecification(
                     name="domain_id",
                     type_names=["int32"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -88,24 +90,28 @@ class min_max_inc(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="field_max",
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="domain_ids_min",
                     type_names=["scoping"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="domain_ids_max",
                     type_names=["scoping"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -205,6 +211,11 @@ class InputsMinMaxInc(_Inputs):
         """
         return self._domain_id
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMinMaxInc(_Outputs):
     """Intermediate class used to get outputs from
@@ -299,3 +310,8 @@ class OutputsMinMaxInc(_Outputs):
         >>> result_domain_ids_max = op.outputs.domain_ids_max()
         """  # noqa: E501
         return self._domain_ids_max
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

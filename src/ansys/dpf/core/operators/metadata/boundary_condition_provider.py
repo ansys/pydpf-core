@@ -72,12 +72,14 @@ class boundary_condition_provider(Operator):
                     type_names=["streams_container"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
                     type_names=["data_sources"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -86,6 +88,7 @@ class boundary_condition_provider(Operator):
                     type_names=["field", "fields_container"],
                     optional=False,
                     document="""Results info""",
+                    aliases=[],
                 ),
             },
         )
@@ -189,6 +192,11 @@ class InputsBoundaryConditionProvider(_Inputs):
         """
         return self._data_sources
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsBoundaryConditionProvider(_Outputs):
     """Intermediate class used to get outputs from
@@ -220,3 +228,8 @@ class OutputsBoundaryConditionProvider(_Outputs):
             op,
         )
         self._outputs.append(self.results_info_as_fields_container)
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

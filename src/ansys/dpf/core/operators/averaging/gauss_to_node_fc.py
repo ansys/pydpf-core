@@ -89,6 +89,7 @@ class gauss_to_node_fc(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="mesh",
@@ -98,6 +99,7 @@ class gauss_to_node_fc(Operator):
         extrapolating results available at
         gauss or quadrature points to nodal
         points.""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="scoping",
@@ -107,6 +109,7 @@ class gauss_to_node_fc(Operator):
         scoping. if it is a scoping
         container, the label must correspond
         to the one of the fields containers.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -115,6 +118,7 @@ class gauss_to_node_fc(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -246,6 +250,11 @@ class InputsGaussToNodeFc(_Inputs):
         """
         return self._scoping
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsGaussToNodeFc(_Outputs):
     """Intermediate class used to get outputs from
@@ -280,3 +289,8 @@ class OutputsGaussToNodeFc(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

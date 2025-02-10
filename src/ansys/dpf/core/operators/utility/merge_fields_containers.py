@@ -126,6 +126,7 @@ class merge_fields_containers(Operator):
         false, the merging process is
         skipped. if it is true, this scoping
         is merged. default is true.""",
+                    aliases=[],
                 ),
                 -3: PinSpecification(
                     name="sum_merge",
@@ -134,12 +135,14 @@ class merge_fields_containers(Operator):
                     document="""Default is false. if true, redundant
         quantities are summed instead of
         being ignored.""",
+                    aliases=[],
                 ),
                 -2: PinSpecification(
                     name="merged_fields_support",
                     type_names=["abstract_field_support"],
                     optional=True,
                     document="""Already merged field support.""",
+                    aliases=[],
                 ),
                 -1: PinSpecification(
                     name="merged_fields_containers_support",
@@ -149,6 +152,7 @@ class merge_fields_containers(Operator):
                     ],
                     optional=True,
                     document="""Already merged fields containers support.""",
+                    aliases=[],
                 ),
                 0: PinSpecification(
                     name="fields_containers",
@@ -156,6 +160,7 @@ class merge_fields_containers(Operator):
                     optional=False,
                     document="""A vector of fields containers to merge or
         fields containers from pin 0 to ...""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="fields_containers",
@@ -163,6 +168,7 @@ class merge_fields_containers(Operator):
                     optional=False,
                     document="""A vector of fields containers to merge or
         fields containers from pin 0 to ...""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -171,6 +177,7 @@ class merge_fields_containers(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -392,6 +399,11 @@ class InputsMergeFieldsContainers(_Inputs):
         """
         return self._fields_containers2
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMergeFieldsContainers(_Outputs):
     """Intermediate class used to get outputs from
@@ -428,3 +440,8 @@ class OutputsMergeFieldsContainers(_Outputs):
         >>> result_merged_fields_container = op.outputs.merged_fields_container()
         """  # noqa: E501
         return self._merged_fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

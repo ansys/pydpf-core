@@ -70,12 +70,14 @@ class workflow_to_pydpf(Operator):
                     type_names=["workflow"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="output_path",
                     type_names=["string"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -84,6 +86,7 @@ class workflow_to_pydpf(Operator):
                     type_names=["string"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -183,6 +186,11 @@ class InputsWorkflowToPydpf(_Inputs):
         """
         return self._output_path
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsWorkflowToPydpf(_Outputs):
     """Intermediate class used to get outputs from
@@ -217,3 +225,8 @@ class OutputsWorkflowToPydpf(_Outputs):
         >>> result_pydpf_code = op.outputs.pydpf_code()
         """  # noqa: E501
         return self._pydpf_code
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

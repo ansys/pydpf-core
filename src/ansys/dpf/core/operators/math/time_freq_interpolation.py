@@ -126,6 +126,7 @@ class time_freq_interpolation(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="time_freq_values",
@@ -135,6 +136,7 @@ class time_freq_interpolation(Operator):
         specify load steps, put a field (and
         not a list) in input with a scoping
         located on "timefreq_steps".""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="step",
@@ -142,12 +144,14 @@ class time_freq_interpolation(Operator):
                     optional=True,
                     document="""If a field is set as input, the step ids
         should be its scoping.""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="interpolation_type",
                     type_names=["int32"],
                     optional=True,
                     document="""1 is ramped, 2 is stepped, default is 1.""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="force_new_time_freq_support",
@@ -161,12 +165,14 @@ class time_freq_interpolation(Operator):
         support is only recreated when time
         or frequency values are between
         existing ones.""",
+                    aliases=[],
                 ),
                 8: PinSpecification(
                     name="time_freq_support",
                     type_names=["time_freq_support"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -175,6 +181,7 @@ class time_freq_interpolation(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -391,6 +398,11 @@ class InputsTimeFreqInterpolation(_Inputs):
         """
         return self._time_freq_support
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsTimeFreqInterpolation(_Outputs):
     """Intermediate class used to get outputs from
@@ -427,3 +439,8 @@ class OutputsTimeFreqInterpolation(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

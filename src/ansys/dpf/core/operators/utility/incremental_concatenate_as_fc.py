@@ -70,6 +70,7 @@ class incremental_concatenate_as_fc(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="label",
@@ -77,6 +78,7 @@ class incremental_concatenate_as_fc(Operator):
                     optional=True,
                     document="""Label space value that must be applied to the
         added field.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -85,6 +87,7 @@ class incremental_concatenate_as_fc(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -193,6 +196,11 @@ class InputsIncrementalConcatenateAsFc(_Inputs):
         """
         return self._label
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsIncrementalConcatenateAsFc(_Outputs):
     """Intermediate class used to get outputs from
@@ -229,3 +237,8 @@ class OutputsIncrementalConcatenateAsFc(_Outputs):
         >>> result_output = op.outputs.output()
         """  # noqa: E501
         return self._output
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

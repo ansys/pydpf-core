@@ -97,6 +97,7 @@ class workflow_energy_per_harmonic(Operator):
                     type_names=["scoping"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="mesh_scoping",
@@ -104,6 +105,7 @@ class workflow_energy_per_harmonic(Operator):
                     optional=True,
                     document="""Master scoping. all harmonics will be
         intersected with this scoping.""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="energy_type",
@@ -112,12 +114,14 @@ class workflow_energy_per_harmonic(Operator):
                     document="""Type of energy to be processed: (0: strain +
         kinetic energy (default), 1: strain
         energy, 2: kinetic energy)""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
                     type_names=["data_sources"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -126,12 +130,14 @@ class workflow_energy_per_harmonic(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="harmonic_energy_percentage",
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -292,6 +298,11 @@ class InputsWorkflowEnergyPerHarmonic(_Inputs):
         """
         return self._data_sources
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsWorkflowEnergyPerHarmonic(_Outputs):
     """Intermediate class used to get outputs from
@@ -350,3 +361,8 @@ class OutputsWorkflowEnergyPerHarmonic(_Outputs):
         >>> result_harmonic_energy_percentage = op.outputs.harmonic_energy_percentage()
         """  # noqa: E501
         return self._harmonic_energy_percentage
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

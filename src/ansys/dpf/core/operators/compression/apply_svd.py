@@ -116,6 +116,7 @@ class apply_svd(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""Fields container to be compressed""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="scalar_int",
@@ -125,6 +126,7 @@ class apply_svd(Operator):
         reconstraction of the matrix a, ex.
         a[m,n]=coef[m,r]*vt[r,n], where
         coef=u*sigma""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="scalar_double",
@@ -132,6 +134,7 @@ class apply_svd(Operator):
                     optional=False,
                     document="""Threshold (precision) as a double, default
         value is 1e-7""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="boolean",
@@ -140,6 +143,7 @@ class apply_svd(Operator):
                     document="""Apply svd on the initial input data (true) or
         transposed (square matrix), default
         value is false""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -151,6 +155,7 @@ class apply_svd(Operator):
         dependant); it contains the
         multiplication of two matrices, u and
         s, where a=u.s.vt""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="vt_svd",
@@ -159,6 +164,7 @@ class apply_svd(Operator):
                     document="""The output entity is a field container (space
         dependant), containing the vt, where
         a=u.s.vt""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="sigma",
@@ -170,6 +176,7 @@ class apply_svd(Operator):
         results per label), containing
         singular (s) values of the input
         data, where a=u.s.vt""",
+                    aliases=[],
                 ),
             },
         )
@@ -329,6 +336,11 @@ class InputsApplySvd(_Inputs):
         """
         return self._boolean
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsApplySvd(_Outputs):
     """Intermediate class used to get outputs from
@@ -398,3 +410,8 @@ class OutputsApplySvd(_Outputs):
         >>> result_vt_svd = op.outputs.vt_svd()
         """  # noqa: E501
         return self._vt_svd
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

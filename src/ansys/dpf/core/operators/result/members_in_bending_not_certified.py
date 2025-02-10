@@ -171,6 +171,7 @@ class members_in_bending_not_certified(Operator):
                     type_names=["scoping", "vector<int32>", "int32"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="field_yield_strength",
@@ -178,6 +179,7 @@ class members_in_bending_not_certified(Operator):
                     optional=False,
                     document="""This pin contains field of beam's yield
         strength defined by the user.""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="class_cross_section",
@@ -191,6 +193,7 @@ class members_in_bending_not_certified(Operator):
         section modulus. if it's class 3-
         cross section,the section modulus
         would be elastic section modulus""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="streams",
@@ -198,6 +201,7 @@ class members_in_bending_not_certified(Operator):
                     optional=True,
                     document="""result file container allowed to be kept open
         to cache data.""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
@@ -205,6 +209,7 @@ class members_in_bending_not_certified(Operator):
                     optional=True,
                     document="""Result file path container, used if no
         streams are set.""",
+                    aliases=[],
                 ),
                 6: PinSpecification(
                     name="partial_factor",
@@ -213,6 +218,7 @@ class members_in_bending_not_certified(Operator):
                     document="""Partial safety factor for resistance of
         members to instability assessed by
         member checks. default value: 1.""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="mesh",
@@ -220,6 +226,7 @@ class members_in_bending_not_certified(Operator):
                     optional=False,
                     document="""mesh containing beam's properties defined by
         user""",
+                    aliases=[],
                 ),
                 8: PinSpecification(
                     name="bending_moment_y",
@@ -227,6 +234,7 @@ class members_in_bending_not_certified(Operator):
                     optional=False,
                     document="""Fields container of bending moment on axis y
         defined by user""",
+                    aliases=[],
                 ),
                 9: PinSpecification(
                     name="bending_moment_z",
@@ -234,6 +242,7 @@ class members_in_bending_not_certified(Operator):
                     optional=False,
                     document="""Fields container of bending moment on axis z
         defined by user""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -245,6 +254,7 @@ class members_in_bending_not_certified(Operator):
         factor on axis y-y in case of
         bending(m). these factors should be
         less than 1 and positive.""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="buckling_resistance_bending_zz",
@@ -254,6 +264,7 @@ class members_in_bending_not_certified(Operator):
         factor on axis z-z in case of
         bending(m). these factors should be
         less than 1 and positive.""",
+                    aliases=[],
                 ),
             },
         )
@@ -558,6 +569,11 @@ class InputsMembersInBendingNotCertified(_Inputs):
         """
         return self._bending_moment_z
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMembersInBendingNotCertified(_Outputs):
     """Intermediate class used to get outputs from
@@ -616,3 +632,8 @@ class OutputsMembersInBendingNotCertified(_Outputs):
         >>> result_buckling_resistance_bending_zz = op.outputs.buckling_resistance_bending_zz()
         """  # noqa: E501
         return self._buckling_resistance_bending_zz
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

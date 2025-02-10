@@ -68,12 +68,14 @@ class default_value(Operator):
                     type_names=["any"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="default_value",
                     type_names=["any"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -81,6 +83,7 @@ class default_value(Operator):
                     name="output",
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -180,6 +183,11 @@ class InputsDefaultValue(_Inputs):
         """
         return self._default_value
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsDefaultValue(_Outputs):
     """Intermediate class used to get outputs from
@@ -214,3 +222,8 @@ class OutputsDefaultValue(_Outputs):
         >>> result_output = op.outputs.output()
         """  # noqa: E501
         return self._output
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

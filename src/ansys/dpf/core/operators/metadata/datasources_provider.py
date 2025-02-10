@@ -60,6 +60,7 @@ class datasources_provider(Operator):
                     type_names=["data_sources"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -68,6 +69,7 @@ class datasources_provider(Operator):
                     type_names=["data_sources"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -145,6 +147,11 @@ class InputsDatasourcesProvider(_Inputs):
         """
         return self._data_sources
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsDatasourcesProvider(_Outputs):
     """Intermediate class used to get outputs from
@@ -179,3 +186,8 @@ class OutputsDatasourcesProvider(_Outputs):
         >>> result_data_sources = op.outputs.data_sources()
         """  # noqa: E501
         return self._data_sources
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

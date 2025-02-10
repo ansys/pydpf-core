@@ -84,6 +84,7 @@ class fft_gradient_eval(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="time_scoping",
@@ -91,12 +92,14 @@ class fft_gradient_eval(Operator):
                     optional=True,
                     document="""If specified only the results at these set
         ids are used""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="fs_ratio",
                     type_names=["int32"],
                     optional=True,
                     document="""Default value = 20""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -105,6 +108,7 @@ class fft_gradient_eval(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -233,6 +237,11 @@ class InputsFftGradientEval(_Inputs):
         """
         return self._fs_ratio
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsFftGradientEval(_Outputs):
     """Intermediate class used to get outputs from
@@ -267,3 +276,8 @@ class OutputsFftGradientEval(_Outputs):
         >>> result_coefficients = op.outputs.coefficients()
         """  # noqa: E501
         return self._coefficients
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

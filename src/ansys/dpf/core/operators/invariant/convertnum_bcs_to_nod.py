@@ -70,12 +70,14 @@ class convertnum_bcs_to_nod(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""Fields_container""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
                     type_names=["data_sources"],
                     optional=False,
                     document="""Data_sources (must contain the full file).""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -84,6 +86,7 @@ class convertnum_bcs_to_nod(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -191,6 +194,11 @@ class InputsConvertnumBcsToNod(_Inputs):
         """
         return self._data_sources
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsConvertnumBcsToNod(_Outputs):
     """Intermediate class used to get outputs from
@@ -227,3 +235,8 @@ class OutputsConvertnumBcsToNod(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

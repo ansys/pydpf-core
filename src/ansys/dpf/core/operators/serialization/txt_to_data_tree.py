@@ -60,6 +60,7 @@ class txt_to_data_tree(Operator):
                     type_names=["string", "data_sources"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -68,6 +69,7 @@ class txt_to_data_tree(Operator):
                     type_names=["abstract_data_tree"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -145,6 +147,11 @@ class InputsTxtToDataTree(_Inputs):
         """
         return self._string_or_path
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsTxtToDataTree(_Outputs):
     """Intermediate class used to get outputs from
@@ -179,3 +186,8 @@ class OutputsTxtToDataTree(_Outputs):
         >>> result_data_tree = op.outputs.data_tree()
         """  # noqa: E501
         return self._data_tree
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

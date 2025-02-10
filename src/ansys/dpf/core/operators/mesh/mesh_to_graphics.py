@@ -83,6 +83,7 @@ class mesh_to_graphics(Operator):
                     type_names=["scoping"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="node_normals",
@@ -91,12 +92,14 @@ class mesh_to_graphics(Operator):
                     document="""Average element normals for node normals
         (default no, use element normals for
         node normals)""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="mesh",
                     type_names=["abstract_meshed_region"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -105,18 +108,21 @@ class mesh_to_graphics(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""Node coordinates""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="normals",
                     type_names=["field"],
                     optional=False,
                     document="""Node normals""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="connectivity",
                     type_names=["property_field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -242,6 +248,11 @@ class InputsMeshToGraphics(_Inputs):
         """
         return self._mesh
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMeshToGraphics(_Outputs):
     """Intermediate class used to get outputs from
@@ -316,3 +327,8 @@ class OutputsMeshToGraphics(_Outputs):
         >>> result_connectivity = op.outputs.connectivity()
         """  # noqa: E501
         return self._connectivity
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

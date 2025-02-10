@@ -73,6 +73,7 @@ class norm_fc(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="scalar_int",
@@ -80,6 +81,7 @@ class norm_fc(Operator):
                     optional=True,
                     document="""Lp normalisation type, p = 1, 2, ...n -
         default lp=2""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -88,6 +90,7 @@ class norm_fc(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -190,6 +193,11 @@ class InputsNormFc(_Inputs):
         """
         return self._scalar_int
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsNormFc(_Outputs):
     """Intermediate class used to get outputs from
@@ -224,3 +232,8 @@ class OutputsNormFc(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

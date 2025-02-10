@@ -94,6 +94,7 @@ class prep_sampling_fft(Operator):
                     type_names=["time_freq_support"],
                     optional=False,
                     document="""Initial time domain timefreqsupport.""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="cutoff_frequency",
@@ -104,6 +105,7 @@ class prep_sampling_fft(Operator):
         (time_range * cutoff_freq * 2) and
         taking the next power of 2 (optimum
         for fft calculation).""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="number_sampling_point",
@@ -111,6 +113,7 @@ class prep_sampling_fft(Operator):
                     optional=True,
                     document="""For number of sampling point (calculation
         with cutoff_frequency is ignored).""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -119,6 +122,7 @@ class prep_sampling_fft(Operator):
                     type_names=["time_freq_support"],
                     optional=False,
                     document="""Optimum sampled time domain timefreqsupport.""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="freq_tfs_fft",
@@ -126,6 +130,7 @@ class prep_sampling_fft(Operator):
                     optional=False,
                     document="""Frequency domain timefreqsupport expected in
         output of fft.""",
+                    aliases=[],
                 ),
             },
         )
@@ -264,6 +269,11 @@ class InputsPrepSamplingFft(_Inputs):
         """
         return self._number_sampling_point
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsPrepSamplingFft(_Outputs):
     """Intermediate class used to get outputs from
@@ -318,3 +328,8 @@ class OutputsPrepSamplingFft(_Outputs):
         >>> result_freq_tfs_fft = op.outputs.freq_tfs_fft()
         """  # noqa: E501
         return self._freq_tfs_fft
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

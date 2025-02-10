@@ -79,6 +79,7 @@ class to_polar_coordinates(Operator):
                     optional=False,
                     document="""Field or fields container with only one field
         is expected""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="coordinate_system",
@@ -89,6 +90,7 @@ class to_polar_coordinates(Operator):
         coordinate system. by default, the
         rotation axis is the z axis and the
         origin is [0,0,0].""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -97,6 +99,7 @@ class to_polar_coordinates(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -207,6 +210,11 @@ class InputsToPolarCoordinates(_Inputs):
         """
         return self._coordinate_system
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsToPolarCoordinates(_Outputs):
     """Intermediate class used to get outputs from
@@ -241,3 +249,8 @@ class OutputsToPolarCoordinates(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

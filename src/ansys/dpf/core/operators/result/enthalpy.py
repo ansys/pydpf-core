@@ -180,6 +180,7 @@ class enthalpy(Operator):
         is taken when time/freqs are higher
         than available time/freqs in result
         files.""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="mesh_scoping",
@@ -196,6 +197,7 @@ class enthalpy(Operator):
         are asked for. using scopings
         container allows you to split the
         result fields container into domains""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="streams_container",
@@ -203,6 +205,7 @@ class enthalpy(Operator):
                     optional=True,
                     document="""Result file container allowed to be kept open
         to cache data""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
@@ -210,6 +213,7 @@ class enthalpy(Operator):
                     optional=False,
                     document="""Result file path container, used if no
         streams are set""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="mesh",
@@ -217,6 +221,7 @@ class enthalpy(Operator):
                     optional=True,
                     document="""Prevents from reading the mesh in the result
         files""",
+                    aliases=[],
                 ),
                 25: PinSpecification(
                     name="region_scoping",
@@ -227,6 +232,7 @@ class enthalpy(Operator):
         of the model (region corresponds to
         zone for fluid results or part for
         lsdyna results).""",
+                    aliases=[],
                 ),
                 1000: PinSpecification(
                     name="qualifiers",
@@ -235,6 +241,7 @@ class enthalpy(Operator):
                     document="""(for fluid results only) labelspace with
         combination of zone, phases or
         species ids""",
+                    aliases=[],
                 ),
                 1001: PinSpecification(
                     name="qualifiers",
@@ -243,6 +250,7 @@ class enthalpy(Operator):
                     document="""(for fluid results only) labelspace with
         combination of zone, phases or
         species ids""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -251,6 +259,7 @@ class enthalpy(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -533,6 +542,11 @@ class InputsEnthalpy(_Inputs):
         """
         return self._qualifiers2
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsEnthalpy(_Outputs):
     """Intermediate class used to get outputs from
@@ -567,3 +581,8 @@ class OutputsEnthalpy(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

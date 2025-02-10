@@ -179,6 +179,7 @@ class acceleration_X(Operator):
         is taken when time/freqs are higher
         than available time/freqs in result
         files.""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="mesh_scoping",
@@ -195,6 +196,7 @@ class acceleration_X(Operator):
         are asked for. using scopings
         container allows you to split the
         result fields container into domains""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="fields_container",
@@ -202,6 +204,7 @@ class acceleration_X(Operator):
                     optional=True,
                     document="""Fieldscontainer already allocated modified
         inplace""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="streams_container",
@@ -209,6 +212,7 @@ class acceleration_X(Operator):
                     optional=True,
                     document="""Result file container allowed to be kept open
         to cache data""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
@@ -216,6 +220,7 @@ class acceleration_X(Operator):
                     optional=False,
                     document="""Result file path container, used if no
         streams are set""",
+                    aliases=[],
                 ),
                 5: PinSpecification(
                     name="bool_rotate_to_global",
@@ -223,6 +228,7 @@ class acceleration_X(Operator):
                     optional=True,
                     document="""If true the field is rotated to global
         coordinate system (default true)""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="mesh",
@@ -230,6 +236,7 @@ class acceleration_X(Operator):
                     optional=True,
                     document="""Prevents from reading the mesh in the result
         files""",
+                    aliases=[],
                 ),
                 14: PinSpecification(
                     name="read_cyclic",
@@ -240,6 +247,7 @@ class acceleration_X(Operator):
         is done, if 3 cyclic expansion is
         done and stages are merged (default
         is 1)""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -248,6 +256,7 @@ class acceleration_X(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -530,6 +539,11 @@ class InputsAccelerationX(_Inputs):
         """
         return self._read_cyclic
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsAccelerationX(_Outputs):
     """Intermediate class used to get outputs from
@@ -564,3 +578,8 @@ class OutputsAccelerationX(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

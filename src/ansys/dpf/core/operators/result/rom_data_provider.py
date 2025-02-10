@@ -161,6 +161,7 @@ class rom_data_provider(Operator):
                     optional=False,
                     document="""If this pin is set to true, customized rom
         data must be given""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="reduced_stiff_matrix",
@@ -168,6 +169,7 @@ class rom_data_provider(Operator):
                     optional=False,
                     document="""Fieldscontainers containing the reduced
         stiffness matrix""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="reduced_damping_matrix",
@@ -175,6 +177,7 @@ class rom_data_provider(Operator):
                     optional=False,
                     document="""Fieldscontainers containing the reduced mass
         matrix""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="reduced_mass_matrix",
@@ -182,12 +185,14 @@ class rom_data_provider(Operator):
                     optional=False,
                     document="""Fieldscontainers containing the reduced damp
         matrix""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
                     type_names=["data_sources"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 5: PinSpecification(
                     name="reduced_rhs_vector",
@@ -195,6 +200,7 @@ class rom_data_provider(Operator):
                     optional=False,
                     document="""Fieldscontainers containing the reduced rhs
         vector""",
+                    aliases=[],
                 ),
                 6: PinSpecification(
                     name="lumped_mass_matrix",
@@ -202,6 +208,7 @@ class rom_data_provider(Operator):
                     optional=False,
                     document="""Fieldscontainers containing the lumped mass
         matrix""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="mode_shapes",
@@ -209,6 +216,7 @@ class rom_data_provider(Operator):
                     optional=False,
                     document="""Fieldscontainers containing the customized
         mode shapes""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -218,6 +226,7 @@ class rom_data_provider(Operator):
                     optional=False,
                     document="""Fieldscontainers containing the reduced
         matrices""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="mode_shapes",
@@ -226,54 +235,63 @@ class rom_data_provider(Operator):
                     document="""Fieldscontainers containing the mode shapes,
         which are cst and nor for the cms
         method""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="lumped_mass",
                     type_names=["fields_container"],
                     optional=False,
                     document="""Fieldscontainers containing the lumped mass""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="model_data",
                     type_names=["property_field"],
                     optional=False,
                     document="""Data describing the finite element model""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="center_of_mass",
                     type_names=["property_field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 5: PinSpecification(
                     name="inertia_relief",
                     type_names=["field"],
                     optional=False,
                     document="""Inertia matrix""",
+                    aliases=[],
                 ),
                 6: PinSpecification(
                     name="model_size",
                     type_names=["double"],
                     optional=False,
                     document="""Size of the model""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="field_coordinates_and_euler_angles",
                     type_names=["double"],
                     optional=False,
                     document="""Coordinates and euler angles of all nodes""",
+                    aliases=[],
                 ),
                 8: PinSpecification(
                     name="nod",
                     type_names=["vector<int32>"],
                     optional=False,
                     document="""Ids of master nodes""",
+                    aliases=[],
                 ),
                 9: PinSpecification(
                     name="meshed_region",
                     type_names=["abstract_meshed_region"],
                     optional=False,
                     document="""Expanded meshed region.""",
+                    aliases=[],
                 ),
             },
         )
@@ -536,6 +554,11 @@ class InputsRomDataProvider(_Inputs):
         """
         return self._mode_shapes
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsRomDataProvider(_Outputs):
     """Intermediate class used to get outputs from
@@ -752,3 +775,8 @@ class OutputsRomDataProvider(_Outputs):
         >>> result_meshed_region = op.outputs.meshed_region()
         """  # noqa: E501
         return self._meshed_region
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

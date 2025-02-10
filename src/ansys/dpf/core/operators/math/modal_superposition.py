@@ -109,6 +109,7 @@ class modal_superposition(Operator):
                     document="""One field by mode with each field
         representing a mode shape on nodes or
         elements.""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="solution_in_modal_space",
@@ -117,6 +118,7 @@ class modal_superposition(Operator):
                     document="""One field by time/frequency with each field
         having a ponderating coefficient for
         each mode of the modal_basis pin.""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="time_scoping",
@@ -126,6 +128,7 @@ class modal_superposition(Operator):
         frequency domain defined in the
         solution_in_modal_space fields
         container.""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="mesh_scoping",
@@ -134,6 +137,7 @@ class modal_superposition(Operator):
                     document="""Compute the result on a subset of the space
         domain defined in the modal_basis
         fields container.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -142,6 +146,7 @@ class modal_superposition(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -306,6 +311,11 @@ class InputsModalSuperposition(_Inputs):
         """
         return self._mesh_scoping
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsModalSuperposition(_Outputs):
     """Intermediate class used to get outputs from
@@ -342,3 +352,8 @@ class OutputsModalSuperposition(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -67,6 +67,7 @@ class invariants(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -75,18 +76,21 @@ class invariants(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""Stress intensity field""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="field_eqv",
                     type_names=["field"],
                     optional=False,
                     document="""Stress equivalent intensity""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="field_max_shear",
                     type_names=["field"],
                     optional=False,
                     document="""Max shear stress field""",
+                    aliases=[],
                 ),
             },
         )
@@ -164,6 +168,11 @@ class InputsInvariants(_Inputs):
         """
         return self._field
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsInvariants(_Outputs):
     """Intermediate class used to get outputs from
@@ -238,3 +247,8 @@ class OutputsInvariants(_Outputs):
         >>> result_field_max_shear = op.outputs.field_max_shear()
         """  # noqa: E501
         return self._field_max_shear
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

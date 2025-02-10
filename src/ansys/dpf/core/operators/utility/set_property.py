@@ -82,18 +82,21 @@ class set_property(Operator):
                     type_names=["field", "fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="property_name",
                     type_names=["string"],
                     optional=False,
                     document="""Property to set""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="property_value",
                     type_names=["string", "int32", "double"],
                     optional=False,
                     document="""Property to set""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -102,6 +105,7 @@ class set_property(Operator):
                     type_names=["field", "fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -227,6 +231,11 @@ class InputsSetProperty(_Inputs):
         """
         return self._property_value
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsSetProperty(_Outputs):
     """Intermediate class used to get outputs from
@@ -258,3 +267,8 @@ class OutputsSetProperty(_Outputs):
             op,
         )
         self._outputs.append(self.field_as_fields_container)
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

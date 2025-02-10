@@ -94,6 +94,7 @@ class tri_mesh_skin(Operator):
                     type_names=["abstract_meshed_region"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="include_surfaces",
@@ -103,6 +104,7 @@ class tri_mesh_skin(Operator):
         shell and skin elements. false:
         meshing will ignore shell and skin
         elements. the default is false.""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="mesh_scoping",
@@ -113,6 +115,7 @@ class tri_mesh_skin(Operator):
         skin element is added to the skin
         mesh if all its nodes are in the
         scoping.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -121,12 +124,14 @@ class tri_mesh_skin(Operator):
                     type_names=["abstract_meshed_region"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="nodes_mesh_scoping",
                     type_names=["scoping"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -261,6 +266,11 @@ class InputsTriMeshSkin(_Inputs):
         """
         return self._mesh_scoping
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsTriMeshSkin(_Outputs):
     """Intermediate class used to get outputs from
@@ -315,3 +325,8 @@ class OutputsTriMeshSkin(_Outputs):
         >>> result_nodes_mesh_scoping = op.outputs.nodes_mesh_scoping()
         """  # noqa: E501
         return self._nodes_mesh_scoping
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

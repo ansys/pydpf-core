@@ -197,6 +197,7 @@ class make_producer_consumer_for_each_iterator(Operator):
         timefreqsupport, containers and
         datasources are split to iterate on
         it (default is true)""",
+                    aliases=[],
                 ),
                 0: PinSpecification(
                     name="iterable",
@@ -206,6 +207,7 @@ class make_producer_consumer_for_each_iterator(Operator):
         make_for_each_range oeprator, that
         can be combined with the one
         currently generated.""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="operator_to_iterate",
@@ -213,84 +215,98 @@ class make_producer_consumer_for_each_iterator(Operator):
                     optional=False,
                     document="""Operator that must be reconnected with the
         range values.""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="pin_index",
                     type_names=["int32"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="valueA",
                     type_names=["any"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="valueB",
                     type_names=["any"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 5: PinSpecification(
                     name="valueC",
                     type_names=["any"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 6: PinSpecification(
                     name="valueC",
                     type_names=["any"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1000: PinSpecification(
                     name="producer_op1",
                     type_names=["operator"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1001: PinSpecification(
                     name="producer_op1",
                     type_names=["operator"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1001: PinSpecification(
                     name="output_pin_of_producer_op1",
                     type_names=["int32"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1002: PinSpecification(
                     name="output_pin_of_producer_op1",
                     type_names=["int32"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1002: PinSpecification(
                     name="input_pin_of_consumer_op1",
                     type_names=["int32"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1003: PinSpecification(
                     name="input_pin_of_consumer_op1",
                     type_names=["int32"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1003: PinSpecification(
                     name="consumer_op1",
                     type_names=["operator"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1004: PinSpecification(
                     name="consumer_op1",
                     type_names=["operator"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -298,6 +314,7 @@ class make_producer_consumer_for_each_iterator(Operator):
                     name="iterator",
                     optional=False,
                     document="""To connect to producer_consumer_for_each""",
+                    aliases=[],
                 ),
             },
         )
@@ -777,6 +794,11 @@ class InputsMakeProducerConsumerForEachIterator(_Inputs):
         """
         return self._consumer_op12
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMakeProducerConsumerForEachIterator(_Outputs):
     """Intermediate class used to get outputs from
@@ -813,3 +835,8 @@ class OutputsMakeProducerConsumerForEachIterator(_Outputs):
         >>> result_iterator = op.outputs.iterator()
         """  # noqa: E501
         return self._iterator
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -86,6 +86,7 @@ class relative_error(Operator):
                     optional=False,
                     document="""Field or fields container with only one field
         is expected""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="reference",
@@ -98,6 +99,7 @@ class relative_error(Operator):
                     optional=False,
                     document="""Field or fields container with only one field
         is expected""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -106,6 +108,7 @@ class relative_error(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="zero_ref_scoping",
@@ -113,6 +116,7 @@ class relative_error(Operator):
                     optional=False,
                     document="""Ids of entities where reference value is
         zero.""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="no_ref_scoping",
@@ -120,6 +124,7 @@ class relative_error(Operator):
                     optional=False,
                     document="""Ids of entities where there are no reference
         value.""",
+                    aliases=[],
                 ),
             },
         )
@@ -225,6 +230,11 @@ class InputsRelativeError(_Inputs):
         """
         return self._reference
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsRelativeError(_Outputs):
     """Intermediate class used to get outputs from
@@ -299,3 +309,8 @@ class OutputsRelativeError(_Outputs):
         >>> result_no_ref_scoping = op.outputs.no_ref_scoping()
         """  # noqa: E501
         return self._no_ref_scoping
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

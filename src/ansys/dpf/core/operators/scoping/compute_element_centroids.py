@@ -78,12 +78,14 @@ class compute_element_centroids(Operator):
                     optional=True,
                     document="""If provided, only the centroids of the
         elements in the scoping are computed.""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="mesh",
                     type_names=["abstract_meshed_region"],
                     optional=False,
                     document="""Mesh to compute centroids""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -92,6 +94,7 @@ class compute_element_centroids(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""Element centroids.""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="measure",
@@ -100,6 +103,7 @@ class compute_element_centroids(Operator):
                     document="""Element measure (length, surface or volume
         depending on the dimension of the
         element).""",
+                    aliases=[],
                 ),
             },
         )
@@ -206,6 +210,11 @@ class InputsComputeElementCentroids(_Inputs):
         """
         return self._mesh
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsComputeElementCentroids(_Outputs):
     """Intermediate class used to get outputs from
@@ -260,3 +269,8 @@ class OutputsComputeElementCentroids(_Outputs):
         >>> result_measure = op.outputs.measure()
         """  # noqa: E501
         return self._measure
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

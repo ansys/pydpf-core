@@ -119,6 +119,7 @@ class mapdl_section(Operator):
                     type_names=["string", "vector<string>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="section",
@@ -126,18 +127,21 @@ class mapdl_section(Operator):
                     optional=True,
                     document="""Property field that contains a section id per
         element.(optional)""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="streams_container",
                     type_names=["streams_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
                     type_names=["data_sources"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 5: PinSpecification(
                     name="layer_property",
@@ -145,6 +149,7 @@ class mapdl_section(Operator):
                     optional=True,
                     document="""Property requested is layered. default =
         false.""",
+                    aliases=[],
                 ),
                 6: PinSpecification(
                     name="layers_requested",
@@ -152,6 +157,7 @@ class mapdl_section(Operator):
                     optional=True,
                     document="""Array with layers requested for the section.
         default = alllayers.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -160,6 +166,7 @@ class mapdl_section(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="layers_per_section",
@@ -167,6 +174,7 @@ class mapdl_section(Operator):
                     optional=False,
                     document="""Only available if layer_property option is
         set to true.""",
+                    aliases=[],
                 ),
             },
         )
@@ -363,6 +371,11 @@ class InputsMapdlSection(_Inputs):
         """
         return self._layers_requested
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMapdlSection(_Outputs):
     """Intermediate class used to get outputs from
@@ -417,3 +430,8 @@ class OutputsMapdlSection(_Outputs):
         >>> result_layers_per_section = op.outputs.layers_per_section()
         """  # noqa: E501
         return self._layers_per_section
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

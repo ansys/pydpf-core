@@ -72,6 +72,7 @@ class split_fields(Operator):
                     type_names=["field", "fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="meshes",
@@ -79,6 +80,7 @@ class split_fields(Operator):
                     optional=False,
                     document="""Body meshes in the mesh controller cannot be
         mixed shell/solid""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -87,6 +89,7 @@ class split_fields(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -191,6 +194,11 @@ class InputsSplitFields(_Inputs):
         """
         return self._meshes
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsSplitFields(_Outputs):
     """Intermediate class used to get outputs from
@@ -225,3 +233,8 @@ class OutputsSplitFields(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -73,6 +73,7 @@ class server_path(Operator):
         "dpf/bin/platform", 2:
         "aisol/bin(dll)/platform", 3:
         "dpf/plugins", 4: "dpf/workflows".""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -82,6 +83,7 @@ class server_path(Operator):
                     optional=False,
                     document="""Path to the requested folder in the dpf
         server""",
+                    aliases=[],
                 ),
             },
         )
@@ -165,6 +167,11 @@ class InputsServerPath(_Inputs):
         """
         return self._subpath
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsServerPath(_Outputs):
     """Intermediate class used to get outputs from
@@ -199,3 +206,8 @@ class OutputsServerPath(_Outputs):
         >>> result_path = op.outputs.path()
         """  # noqa: E501
         return self._path
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

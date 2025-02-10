@@ -119,6 +119,7 @@ class expansion_psd(Operator):
         from modal analysis file: mode shapes
         for dynamic and pseudo-static
         displacements""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="static_shapes",
@@ -127,6 +128,7 @@ class expansion_psd(Operator):
                     document="""Fields container containing the static shapes
         (base excitations) from spectral
         analysis file""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="rel_rel_covar_matrix",
@@ -137,6 +139,7 @@ class expansion_psd(Operator):
         matrix terms for
         displacement/velocity/acceleration
         mode-mode shapes""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="stat_stat_covar_matrix",
@@ -147,6 +150,7 @@ class expansion_psd(Operator):
         matrix terms for
         displacement/velocity/acceleration
         static-static shapes""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="rel_stat_covar_matrix",
@@ -157,6 +161,7 @@ class expansion_psd(Operator):
         matrix terms for
         displacement/velocity/acceleration
         mode-static shapes""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -165,6 +170,7 @@ class expansion_psd(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""Psd solution per label""",
+                    aliases=[],
                 ),
             },
         )
@@ -363,6 +369,11 @@ class InputsExpansionPsd(_Inputs):
         """
         return self._rel_stat_covar_matrix
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsExpansionPsd(_Outputs):
     """Intermediate class used to get outputs from
@@ -397,3 +408,8 @@ class OutputsExpansionPsd(_Outputs):
         >>> result_psd = op.outputs.psd()
         """  # noqa: E501
         return self._psd
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -105,24 +105,28 @@ class poynting_vector(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="fields_containerB",
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="fields_containerC",
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="fields_containerD",
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="abstract_meshed_region",
@@ -130,6 +134,7 @@ class poynting_vector(Operator):
                     optional=True,
                     document="""The mesh region in this pin have to be
         boundary or skin mesh""",
+                    aliases=[],
                 ),
                 5: PinSpecification(
                     name="int32",
@@ -138,6 +143,7 @@ class poynting_vector(Operator):
                     document="""Load step number, if it's specified, the
         poynting vector is computed only on
         the substeps of this step""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -146,6 +152,7 @@ class poynting_vector(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -342,6 +349,11 @@ class InputsPoyntingVector(_Inputs):
         """
         return self._int32
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsPoyntingVector(_Outputs):
     """Intermediate class used to get outputs from
@@ -376,3 +388,8 @@ class OutputsPoyntingVector(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

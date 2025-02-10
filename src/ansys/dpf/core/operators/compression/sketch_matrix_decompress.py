@@ -93,12 +93,14 @@ class sketch_matrix_decompress(Operator):
                     document="""Fields container to be decompressed. it is
         assumed that all fields have the same
         structure (scoping, num_entities).""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="sketch_matrix",
                     type_names=["field"],
                     optional=False,
                     document="""Field containing the sketch matrix.""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="shell_field",
@@ -106,6 +108,7 @@ class sketch_matrix_decompress(Operator):
                     optional=False,
                     document="""Empty field containing the shell of the field
         of decompressed data.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -117,6 +120,7 @@ class sketch_matrix_decompress(Operator):
         each field correspond to the
         multiplication of the sketch matrix
         by the original fields.""",
+                    aliases=[],
                 ),
             },
         )
@@ -251,6 +255,11 @@ class InputsSketchMatrixDecompress(_Inputs):
         """
         return self._shell_field
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsSketchMatrixDecompress(_Outputs):
     """Intermediate class used to get outputs from
@@ -285,3 +294,8 @@ class OutputsSketchMatrixDecompress(_Outputs):
         >>> result_dataOut = op.outputs.dataOut()
         """  # noqa: E501
         return self._dataOut
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

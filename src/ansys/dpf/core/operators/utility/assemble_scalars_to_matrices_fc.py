@@ -135,60 +135,70 @@ class assemble_scalars_to_matrices_fc(Operator):
                     type_names=["fields_container"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="yy",
                     type_names=["fields_container"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="zz",
                     type_names=["fields_container"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="xy",
                     type_names=["fields_container"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="yz",
                     type_names=["fields_container"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 5: PinSpecification(
                     name="xz",
                     type_names=["fields_container"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 6: PinSpecification(
                     name="yx",
                     type_names=["fields_container"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="zy",
                     type_names=["fields_container"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 8: PinSpecification(
                     name="zx",
                     type_names=["fields_container"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 60: PinSpecification(
                     name="symmetrical",
                     type_names=["bool"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -197,6 +207,7 @@ class assemble_scalars_to_matrices_fc(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -494,6 +505,11 @@ class InputsAssembleScalarsToMatricesFc(_Inputs):
         """
         return self._symmetrical
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsAssembleScalarsToMatricesFc(_Outputs):
     """Intermediate class used to get outputs from
@@ -530,3 +546,8 @@ class OutputsAssembleScalarsToMatricesFc(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

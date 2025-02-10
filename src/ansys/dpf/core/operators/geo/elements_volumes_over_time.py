@@ -82,6 +82,7 @@ class elements_volumes_over_time(Operator):
                     type_names=["scoping"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="displacement",
@@ -90,6 +91,7 @@ class elements_volumes_over_time(Operator):
                     document="""Displacement field's container. must contain
         the mesh if mesh not specified in
         input.""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="mesh",
@@ -98,6 +100,7 @@ class elements_volumes_over_time(Operator):
                     document="""Mesh must be defined if the displacement
         field's container does not contain
         it, or if there is no displacement.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -106,6 +109,7 @@ class elements_volumes_over_time(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -239,6 +243,11 @@ class InputsElementsVolumesOverTime(_Inputs):
         """
         return self._mesh
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsElementsVolumesOverTime(_Outputs):
     """Intermediate class used to get outputs from
@@ -275,3 +284,8 @@ class OutputsElementsVolumesOverTime(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

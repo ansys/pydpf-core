@@ -113,6 +113,7 @@ class from_scoping(Operator):
                     document="""If nodal/face scoping, then the scoping is
         transposed respecting the inclusive
         pin""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="inclusive",
@@ -124,6 +125,7 @@ class from_scoping(Operator):
         only the elements/faces which have
         all their nodes/faces in the scoping
         are included""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="nodes_only",
@@ -132,12 +134,14 @@ class from_scoping(Operator):
                     document="""Returns mesh with nodes only (without any
         elements or property fields). default
         is false.""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="mesh",
                     type_names=["abstract_meshed_region"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -146,6 +150,7 @@ class from_scoping(Operator):
                     type_names=["abstract_meshed_region"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -304,6 +309,11 @@ class InputsFromScoping(_Inputs):
         """
         return self._mesh
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsFromScoping(_Outputs):
     """Intermediate class used to get outputs from
@@ -338,3 +348,8 @@ class OutputsFromScoping(_Outputs):
         >>> result_mesh = op.outputs.mesh()
         """  # noqa: E501
         return self._mesh
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

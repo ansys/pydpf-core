@@ -63,6 +63,7 @@ class sqr(Operator):
                     optional=False,
                     document="""Field or fields container with only one field
         is expected""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -71,6 +72,7 @@ class sqr(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -151,6 +153,11 @@ class InputsSqr(_Inputs):
         """
         return self._field
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsSqr(_Outputs):
     """Intermediate class used to get outputs from
@@ -185,3 +192,8 @@ class OutputsSqr(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

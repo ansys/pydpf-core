@@ -71,6 +71,7 @@ class from_mesh(Operator):
                     type_names=["abstract_meshed_region"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="requested_location",
@@ -79,6 +80,7 @@ class from_mesh(Operator):
                     document="""If nothing the operator returns the nodes
         scoping, possible locations are:
         nodal(default) or elemental""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -87,6 +89,7 @@ class from_mesh(Operator):
                     type_names=["scoping"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -190,6 +193,11 @@ class InputsFromMesh(_Inputs):
         """
         return self._requested_location
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsFromMesh(_Outputs):
     """Intermediate class used to get outputs from
@@ -224,3 +232,8 @@ class OutputsFromMesh(_Outputs):
         >>> result_scoping = op.outputs.scoping()
         """  # noqa: E501
         return self._scoping
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -90,12 +90,14 @@ class fields_container_matrices_label(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""Fields container to be merged""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="label",
                     type_names=["string"],
                     optional=False,
                     document="""Label where the merge is required""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="time_scoping",
@@ -104,6 +106,7 @@ class fields_container_matrices_label(Operator):
                     document="""If it's specified, fields container of field
         matrices is constructed only on the
         specified time scoping""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -113,6 +116,7 @@ class fields_container_matrices_label(Operator):
                     optional=False,
                     document="""Fields container of field matrices obtained
         after merging.""",
+                    aliases=[],
                 ),
             },
         )
@@ -250,6 +254,11 @@ class InputsFieldsContainerMatricesLabel(_Inputs):
         """
         return self._time_scoping
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsFieldsContainerMatricesLabel(_Outputs):
     """Intermediate class used to get outputs from
@@ -286,3 +295,8 @@ class OutputsFieldsContainerMatricesLabel(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

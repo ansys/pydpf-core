@@ -93,6 +93,7 @@ class min_max_over_time_by_entity(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="compute_absolute_value",
@@ -101,12 +102,14 @@ class min_max_over_time_by_entity(Operator):
                     document="""Calculate the absolute value of field
         entities before computing the
         min/max.""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="compute_amplitude",
                     type_names=["bool"],
                     optional=True,
                     document="""Do calculate amplitude.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -115,24 +118,28 @@ class min_max_over_time_by_entity(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="max",
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="time_freq_of_min",
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="time_freq_of_max",
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -268,6 +275,11 @@ class InputsMinMaxOverTimeByEntity(_Inputs):
         """
         return self._compute_amplitude
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMinMaxOverTimeByEntity(_Outputs):
     """Intermediate class used to get outputs from
@@ -366,3 +378,8 @@ class OutputsMinMaxOverTimeByEntity(_Outputs):
         >>> result_time_freq_of_max = op.outputs.time_freq_of_max()
         """  # noqa: E501
         return self._time_freq_of_max
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -101,6 +101,7 @@ class nodal_fraction_fc(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="mesh",
@@ -109,6 +110,7 @@ class nodal_fraction_fc(Operator):
                     document="""The mesh region in this pin is used to
         perform the averaging. it is used if
         there is no fields support.""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="scoping",
@@ -118,6 +120,7 @@ class nodal_fraction_fc(Operator):
         scoping container, the label must
         correspond to the one of the fields
         containers.""",
+                    aliases=[],
                 ),
                 6: PinSpecification(
                     name="denominator",
@@ -127,6 +130,7 @@ class nodal_fraction_fc(Operator):
         is used as the denominator of the
         fraction instead of
         elemental_nodal_to_nodal_fc.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -135,6 +139,7 @@ class nodal_fraction_fc(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -294,6 +299,11 @@ class InputsNodalFractionFc(_Inputs):
         """
         return self._denominator
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsNodalFractionFc(_Outputs):
     """Intermediate class used to get outputs from
@@ -328,3 +338,8 @@ class OutputsNodalFractionFc(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

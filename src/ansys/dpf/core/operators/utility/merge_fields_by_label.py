@@ -98,12 +98,14 @@ class merge_fields_by_label(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="label",
                     type_names=["string"],
                     optional=False,
                     document="""Label identifier that should be merged.""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="merged_field_support",
@@ -111,6 +113,7 @@ class merge_fields_by_label(Operator):
                     optional=True,
                     document="""The fieldscontainer's support that has
         already been merged.""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="sum_merge",
@@ -119,6 +122,7 @@ class merge_fields_by_label(Operator):
                     document="""Default is false. if true, redundant
         quantities are summed instead of
         being ignored.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -127,12 +131,14 @@ class merge_fields_by_label(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="merged_field_support",
                     type_names=["abstract_field_support"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -291,6 +297,11 @@ class InputsMergeFieldsByLabel(_Inputs):
         """
         return self._sum_merge
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMergeFieldsByLabel(_Outputs):
     """Intermediate class used to get outputs from
@@ -349,3 +360,8 @@ class OutputsMergeFieldsByLabel(_Outputs):
         >>> result_merged_field_support = op.outputs.merged_field_support()
         """  # noqa: E501
         return self._merged_field_support
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

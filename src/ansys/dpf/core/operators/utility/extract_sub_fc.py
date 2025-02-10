@@ -93,6 +93,7 @@ class extract_sub_fc(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""Fields_container""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="label_space",
@@ -101,6 +102,7 @@ class extract_sub_fc(Operator):
                     document="""Label space, or scoping defining the label
         space (scoping location), values to
         keep (scoping ids)""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="collapse_labels",
@@ -111,6 +113,7 @@ class extract_sub_fc(Operator):
         suppressed from the output fields
         container, otherwise, label space is
         kept.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -119,6 +122,7 @@ class extract_sub_fc(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""Fields_container""",
+                    aliases=[],
                 ),
             },
         )
@@ -252,6 +256,11 @@ class InputsExtractSubFc(_Inputs):
         """
         return self._collapse_labels
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsExtractSubFc(_Outputs):
     """Intermediate class used to get outputs from
@@ -286,3 +295,8 @@ class OutputsExtractSubFc(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

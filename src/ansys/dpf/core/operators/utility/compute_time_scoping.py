@@ -105,24 +105,28 @@ class compute_time_scoping(Operator):
         specify load steps, put a field (and
         not a list) in input with a scoping
         located on "timefreq_steps".""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="step",
                     type_names=["int32"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="interpolation_type",
                     type_names=["int32"],
                     optional=True,
                     document="""1:ramped' or 2:stepped', default is ramped""",
+                    aliases=[],
                 ),
                 8: PinSpecification(
                     name="time_freq_support",
                     type_names=["time_freq_support"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -131,12 +135,14 @@ class compute_time_scoping(Operator):
                     type_names=["scoping"],
                     optional=False,
                     document="""Time_scoping""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="field",
                     type_names=["field"],
                     optional=False,
                     document="""Time_freq_values""",
+                    aliases=[],
                 ),
             },
         )
@@ -293,6 +299,11 @@ class InputsComputeTimeScoping(_Inputs):
         """
         return self._time_freq_support
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsComputeTimeScoping(_Outputs):
     """Intermediate class used to get outputs from
@@ -347,3 +358,8 @@ class OutputsComputeTimeScoping(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

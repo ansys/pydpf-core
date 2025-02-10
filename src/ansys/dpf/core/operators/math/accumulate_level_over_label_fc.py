@@ -81,6 +81,7 @@ class accumulate_level_over_label_fc(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="label",
@@ -88,6 +89,7 @@ class accumulate_level_over_label_fc(Operator):
                     optional=True,
                     document="""Label of the fields container where it should
         operate.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -96,6 +98,7 @@ class accumulate_level_over_label_fc(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -204,6 +207,11 @@ class InputsAccumulateLevelOverLabelFc(_Inputs):
         """
         return self._label
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsAccumulateLevelOverLabelFc(_Outputs):
     """Intermediate class used to get outputs from
@@ -240,3 +248,8 @@ class OutputsAccumulateLevelOverLabelFc(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

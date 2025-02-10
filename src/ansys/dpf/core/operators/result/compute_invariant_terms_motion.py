@@ -151,6 +151,7 @@ class compute_invariant_terms_motion(Operator):
                     optional=False,
                     document="""Fieldscontainers containing the reduced
         matrices""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="mode_shapes",
@@ -159,30 +160,35 @@ class compute_invariant_terms_motion(Operator):
                     document="""Fieldscontainers containing the mode shapes,
         which are cst and nor for the cms
         method""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="lumped_mass",
                     type_names=["fields_container"],
                     optional=False,
                     document="""Fieldscontainers containing the lumped mass""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="model_data",
                     type_names=["fields_container"],
                     optional=False,
                     document="""Data describing the finite element model""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="field_coordinates",
                     type_names=["field"],
                     optional=False,
                     document="""Coordinates of all nodes""",
+                    aliases=[],
                 ),
                 5: PinSpecification(
                     name="nod",
                     type_names=["vector<int32>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -191,6 +197,7 @@ class compute_invariant_terms_motion(Operator):
                     type_names=["property_field"],
                     optional=False,
                     document="""Data describing the finite element model""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="mode_shapes",
@@ -199,96 +206,112 @@ class compute_invariant_terms_motion(Operator):
                     document="""Fieldscontainers containing the mode shapes,
         which are cst and nor for the cms
         method""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="lumped_mass",
                     type_names=["fields_container"],
                     optional=False,
                     document="""Fieldscontainers containing the lumped mass""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="field_coordinates_and_euler_angles",
                     type_names=["fields_container"],
                     optional=False,
                     document="""Coordinates and euler angles of all nodes""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="nod",
                     type_names=["vector<int32>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 5: PinSpecification(
                     name="used_node_index",
                     type_names=["vector<int32>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 6: PinSpecification(
                     name="eigenvalue",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="translational_mode_shape",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 8: PinSpecification(
                     name="rotational_mode_shape",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 9: PinSpecification(
                     name="invrt_1",
                     type_names=["double"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 10: PinSpecification(
                     name="invrt_2",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 11: PinSpecification(
                     name="invrt_3",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 12: PinSpecification(
                     name="invrt_4",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 13: PinSpecification(
                     name="invrt_5",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 14: PinSpecification(
                     name="invrt_6",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 15: PinSpecification(
                     name="invrt_7",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 16: PinSpecification(
                     name="invrt_8",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -502,6 +525,11 @@ class InputsComputeInvariantTermsMotion(_Inputs):
         >>> op.inputs.nod(my_nod)
         """
         return self._nod
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
 
 
 class OutputsComputeInvariantTermsMotion(_Outputs):
@@ -889,3 +917,8 @@ class OutputsComputeInvariantTermsMotion(_Outputs):
         >>> result_invrt_8 = op.outputs.invrt_8()
         """  # noqa: E501
         return self._invrt_8
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

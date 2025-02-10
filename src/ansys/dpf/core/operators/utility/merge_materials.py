@@ -71,6 +71,7 @@ class merge_materials(Operator):
                     optional=False,
                     document="""A vector of materials to merge or materials
         from pin 0 to ...""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="materials",
@@ -78,6 +79,7 @@ class merge_materials(Operator):
                     optional=False,
                     document="""A vector of materials to merge or materials
         from pin 0 to ...""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -86,6 +88,7 @@ class merge_materials(Operator):
                     type_names=["materials"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -191,6 +194,11 @@ class InputsMergeMaterials(_Inputs):
         """
         return self._materials2
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMergeMaterials(_Outputs):
     """Intermediate class used to get outputs from
@@ -225,3 +233,8 @@ class OutputsMergeMaterials(_Outputs):
         >>> result_merged_materials = op.outputs.merged_materials()
         """  # noqa: E501
         return self._merged_materials
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -71,6 +71,7 @@ class svd(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""Fields_container""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -80,18 +81,21 @@ class svd(Operator):
                     optional=False,
                     document="""Singular values of the input data, where
         a=u.s.vt""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="u_svd",
                     type_names=["fields_container"],
                     optional=False,
                     document="""U of the input data, where a=u.s.vt""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="vt_svd",
                     type_names=["fields_container"],
                     optional=False,
                     document="""Vt of the input data, where a=u.s.vt""",
+                    aliases=[],
                 ),
             },
         )
@@ -171,6 +175,11 @@ class InputsSvd(_Inputs):
         """
         return self._fields_container
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsSvd(_Outputs):
     """Intermediate class used to get outputs from
@@ -245,3 +254,8 @@ class OutputsSvd(_Outputs):
         >>> result_vt_svd = op.outputs.vt_svd()
         """  # noqa: E501
         return self._vt_svd
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

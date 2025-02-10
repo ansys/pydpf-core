@@ -67,12 +67,14 @@ class data_tree_to_json(Operator):
                     type_names=["abstract_data_tree"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="path",
                     type_names=["string"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -81,6 +83,7 @@ class data_tree_to_json(Operator):
                     type_names=["data_sources", "string"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -180,6 +183,11 @@ class InputsDataTreeToJson(_Inputs):
         """
         return self._path
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsDataTreeToJson(_Outputs):
     """Intermediate class used to get outputs from
@@ -211,3 +219,8 @@ class OutputsDataTreeToJson(_Outputs):
             op,
         )
         self._outputs.append(self.data_sources_as_string)
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

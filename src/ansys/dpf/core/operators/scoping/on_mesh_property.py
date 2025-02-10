@@ -115,6 +115,7 @@ class on_mesh_property(Operator):
                     type_names=["string"],
                     optional=True,
                     document="""Nodal or elemental location are expected""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="property_name",
@@ -125,12 +126,14 @@ class on_mesh_property(Operator):
         "shell_elements", "solid_elements",
         "skin_elements", "beam_elements",
         "point_elements"...""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="property_id",
                     type_names=["vector<int32>", "int32"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 5: PinSpecification(
                     name="inclusive",
@@ -147,12 +150,14 @@ class on_mesh_property(Operator):
         property field is available, it will
         select the elements that are only set
         on this property.""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="mesh",
                     type_names=["abstract_meshed_region"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -161,6 +166,7 @@ class on_mesh_property(Operator):
                     type_names=["scoping"],
                     optional=False,
                     document="""Scoping""",
+                    aliases=[],
                 ),
             },
         )
@@ -350,6 +356,11 @@ class InputsOnMeshProperty(_Inputs):
         """
         return self._mesh
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsOnMeshProperty(_Outputs):
     """Intermediate class used to get outputs from
@@ -384,3 +395,8 @@ class OutputsOnMeshProperty(_Outputs):
         >>> result_mesh_scoping = op.outputs.mesh_scoping()
         """  # noqa: E501
         return self._mesh_scoping
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -90,6 +90,7 @@ class decimate_mesh(Operator):
                     type_names=["abstract_meshed_region"],
                     optional=False,
                     document="""Mesh to decimate""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="preservation_ratio",
@@ -98,6 +99,7 @@ class decimate_mesh(Operator):
                     document="""Target ratio of elements to preserve, the
         actual number of elements preserved
         might differ. default value is 0.5.""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="aggressiveness",
@@ -109,6 +111,7 @@ class decimate_mesh(Operator):
         the tradeoff of higher execution
         time. value range is 0 to 150,
         default is 0.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -117,6 +120,7 @@ class decimate_mesh(Operator):
                     type_names=["abstract_meshed_region"],
                     optional=False,
                     document="""Decimated mesh with triangle elements""",
+                    aliases=[],
                 ),
             },
         )
@@ -251,6 +255,11 @@ class InputsDecimateMesh(_Inputs):
         """
         return self._aggressiveness
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsDecimateMesh(_Outputs):
     """Intermediate class used to get outputs from
@@ -285,3 +294,8 @@ class OutputsDecimateMesh(_Outputs):
         >>> result_mesh = op.outputs.mesh()
         """  # noqa: E501
         return self._mesh
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

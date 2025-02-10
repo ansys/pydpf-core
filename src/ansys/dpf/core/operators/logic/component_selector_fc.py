@@ -72,6 +72,7 @@ class component_selector_fc(Operator):
                     type_names=["fields_container", "field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="component_number",
@@ -79,6 +80,7 @@ class component_selector_fc(Operator):
                     optional=False,
                     document="""One or several component index that will be
         extracted from the initial field.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -87,6 +89,7 @@ class component_selector_fc(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -193,6 +196,11 @@ class InputsComponentSelectorFc(_Inputs):
         """
         return self._component_number
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsComponentSelectorFc(_Outputs):
     """Intermediate class used to get outputs from
@@ -229,3 +237,8 @@ class OutputsComponentSelectorFc(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

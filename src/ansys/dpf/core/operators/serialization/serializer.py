@@ -89,24 +89,28 @@ class serializer(Operator):
                     type_names=["int32"],
                     optional=False,
                     document="""0 for ascii (default), and 1 for binary""",
+                    aliases=[],
                 ),
                 0: PinSpecification(
                     name="file_path",
                     type_names=["string"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="any_input",
                     type_names=["any"],
                     optional=False,
                     document="""Any input""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="any_input",
                     type_names=["any"],
                     optional=False,
                     document="""Any input""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -115,6 +119,7 @@ class serializer(Operator):
                     type_names=["string"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -264,6 +269,11 @@ class InputsSerializer(_Inputs):
         """
         return self._any_input2
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsSerializer(_Outputs):
     """Intermediate class used to get outputs from
@@ -298,3 +308,8 @@ class OutputsSerializer(_Outputs):
         >>> result_file_path = op.outputs.file_path()
         """  # noqa: E501
         return self._file_path
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

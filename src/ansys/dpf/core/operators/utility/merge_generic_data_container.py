@@ -97,6 +97,7 @@ class merge_generic_data_container(Operator):
         ... to merge. supported types rely on
         existing type specific merge
         operators.""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="generic_data_container",
@@ -108,6 +109,7 @@ class merge_generic_data_container(Operator):
         ... to merge. supported types rely on
         existing type specific merge
         operators.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -116,6 +118,7 @@ class merge_generic_data_container(Operator):
                     type_names=["generic_data_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -235,6 +238,11 @@ class InputsMergeGenericDataContainer(_Inputs):
         """
         return self._generic_data_container2
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMergeGenericDataContainer(_Outputs):
     """Intermediate class used to get outputs from
@@ -271,3 +279,8 @@ class OutputsMergeGenericDataContainer(_Outputs):
         >>> result_generic_data_container = op.outputs.generic_data_container()
         """  # noqa: E501
         return self._generic_data_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -118,6 +118,7 @@ class on_property(Operator):
                     type_names=["string"],
                     optional=False,
                     document="""Nodal or elemental location are expected""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="property_name",
@@ -129,24 +130,28 @@ class on_property(Operator):
         "material", "apdl_section_id",
         "apdl_real_id", "apdl_esys_id",
         "shell_axi", "volume_axi"...""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="property_id",
                     type_names=["int32"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="streams_container",
                     type_names=["streams_container"],
                     optional=True,
                     document="""""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
                     type_names=["data_sources"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 5: PinSpecification(
                     name="inclusive",
@@ -160,6 +165,7 @@ class on_property(Operator):
         elements/faces which have all their
         nodes/faces in the scoping are
         included""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -168,6 +174,7 @@ class on_property(Operator):
                     type_names=["scoping"],
                     optional=False,
                     document="""Scoping""",
+                    aliases=[],
                 ),
             },
         )
@@ -373,6 +380,11 @@ class InputsOnProperty(_Inputs):
         """
         return self._inclusive
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsOnProperty(_Outputs):
     """Intermediate class used to get outputs from
@@ -407,3 +419,8 @@ class OutputsOnProperty(_Outputs):
         >>> result_mesh_scoping = op.outputs.mesh_scoping()
         """  # noqa: E501
         return self._mesh_scoping
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

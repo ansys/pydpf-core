@@ -146,18 +146,21 @@ class sketch_matrix(Operator):
                     document="""Fields container to be compressed. it is
         assumed that all fields have the same
         structure (scoping, num_entities).""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="sketch_matrix",
                     type_names=["field"],
                     optional=True,
                     document="""Field containing the sketch matrix.""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="rank",
                     type_names=["int32"],
                     optional=False,
                     document="""Rank of the output matrix fields_container.""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="random_generator_seed",
@@ -165,6 +168,7 @@ class sketch_matrix(Operator):
                     optional=True,
                     document="""Value used as the seed for the random number
         generator. default = 0.""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="mean",
@@ -172,6 +176,7 @@ class sketch_matrix(Operator):
                     optional=True,
                     document="""Mean value of the random numbers matrix.
         default = 0.0.""",
+                    aliases=[],
                 ),
                 5: PinSpecification(
                     name="standard_deviation",
@@ -179,12 +184,14 @@ class sketch_matrix(Operator):
                     optional=True,
                     document="""Standard deviation of the random numbers
         matrix. default = 1.0.""",
+                    aliases=[],
                 ),
                 6: PinSpecification(
                     name="othogonalized",
                     type_names=["bool"],
                     optional=True,
                     document="""Orthogonalize matrix. default = true.""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="power_iterations",
@@ -194,6 +201,7 @@ class sketch_matrix(Operator):
         larger number of iterations impact
         performance, but increase the
         accuracy. default = 0.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -205,12 +213,14 @@ class sketch_matrix(Operator):
         each field correspond to the
         multiplication of the sketch matrix
         by the original fields.""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="sketch_matrix",
                     type_names=["field"],
                     optional=False,
                     document="""Field containing the sketch matrix.""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="shell_field",
@@ -219,6 +229,7 @@ class sketch_matrix(Operator):
                     document="""Empty field containing the shell of the
         original field for future
         reconstruction.""",
+                    aliases=[],
                 ),
             },
         )
@@ -476,6 +487,11 @@ class InputsSketchMatrix(_Inputs):
         """
         return self._power_iterations
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsSketchMatrix(_Outputs):
     """Intermediate class used to get outputs from
@@ -550,3 +566,8 @@ class OutputsSketchMatrix(_Outputs):
         >>> result_shell_field = op.outputs.shell_field()
         """  # noqa: E501
         return self._shell_field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

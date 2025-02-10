@@ -62,6 +62,7 @@ class forward(Operator):
                     type_names=["any"],
                     optional=False,
                     document="""Any type of input""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -70,6 +71,7 @@ class forward(Operator):
                     type_names=["any"],
                     optional=False,
                     document="""Same types as inputs""",
+                    aliases=[],
                 ),
             },
         )
@@ -149,6 +151,11 @@ class InputsForward(_Inputs):
         """
         return self._any
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsForward(_Outputs):
     """Intermediate class used to get outputs from
@@ -183,3 +190,8 @@ class OutputsForward(_Outputs):
         >>> result_any = op.outputs.any()
         """  # noqa: E501
         return self._any
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

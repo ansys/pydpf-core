@@ -68,12 +68,14 @@ class pres_to_field(Operator):
                     type_names=["string"],
                     optional=False,
                     document="""Filepath""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="columns_to_read",
                     type_names=["int32"],
                     optional=True,
                     document="""Columns_to_read""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -82,6 +84,7 @@ class pres_to_field(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -185,6 +188,11 @@ class InputsPresToField(_Inputs):
         """
         return self._columns_to_read
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsPresToField(_Outputs):
     """Intermediate class used to get outputs from
@@ -219,3 +227,8 @@ class OutputsPresToField(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

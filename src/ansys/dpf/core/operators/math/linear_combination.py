@@ -97,30 +97,35 @@ class linear_combination(Operator):
                     type_names=["double"],
                     optional=False,
                     document="""Double""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="fields_containerA",
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="fields_containerB",
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="b",
                     type_names=["double"],
                     optional=False,
                     document="""Double""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="fields_containerC",
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -129,6 +134,7 @@ class linear_combination(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -304,6 +310,11 @@ class InputsLinearCombination(_Inputs):
         """
         return self._fields_containerC
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsLinearCombination(_Outputs):
     """Intermediate class used to get outputs from
@@ -338,3 +349,8 @@ class OutputsLinearCombination(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

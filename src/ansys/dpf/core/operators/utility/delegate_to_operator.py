@@ -67,6 +67,7 @@ class delegate_to_operator(Operator):
                     type_names=["string"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -75,12 +76,14 @@ class delegate_to_operator(Operator):
                     type_names=["any"],
                     optional=False,
                     document="""Inputs""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="any2",
                     type_names=["any"],
                     optional=False,
                     document="""Inputs""",
+                    aliases=[],
                 ),
             },
         )
@@ -160,6 +163,11 @@ class InputsDelegateToOperator(_Inputs):
         """
         return self._operator_name
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsDelegateToOperator(_Outputs):
     """Intermediate class used to get outputs from
@@ -214,3 +222,8 @@ class OutputsDelegateToOperator(_Outputs):
         >>> result_any2 = op.outputs.any2()
         """  # noqa: E501
         return self._any2
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

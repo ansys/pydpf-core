@@ -74,6 +74,7 @@ class scoping_get_attribute(Operator):
                     type_names=["scoping"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="property_name",
@@ -81,6 +82,7 @@ class scoping_get_attribute(Operator):
                     optional=False,
                     document="""Supported property names are: "ids",
         "location".""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -91,6 +93,7 @@ class scoping_get_attribute(Operator):
                     document="""Returns a vector of int for property: "ids"
         and a string for property:
         "location".""",
+                    aliases=[],
                 ),
             },
         )
@@ -195,6 +198,11 @@ class InputsScopingGetAttribute(_Inputs):
         """
         return self._property_name
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsScopingGetAttribute(_Outputs):
     """Intermediate class used to get outputs from
@@ -226,3 +234,8 @@ class OutputsScopingGetAttribute(_Outputs):
             op,
         )
         self._outputs.append(self.property_as_string)
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

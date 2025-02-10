@@ -149,6 +149,7 @@ class fft_multi_harmonic_minmax(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="rpm_scoping",
@@ -156,6 +157,7 @@ class fft_multi_harmonic_minmax(Operator):
                     optional=True,
                     document="""Rpm scoping, by default the fourier series
         sum is evaluated using all the rpms""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="fs_ratio",
@@ -163,6 +165,7 @@ class fft_multi_harmonic_minmax(Operator):
                     optional=True,
                     document="""Field or fields container with only one field
         is expected""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="num_subdivisions",
@@ -170,6 +173,7 @@ class fft_multi_harmonic_minmax(Operator):
                     optional=True,
                     document="""Connect number subdivisions, used for uniform
         discretization""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="max_num_subdivisions",
@@ -177,6 +181,7 @@ class fft_multi_harmonic_minmax(Operator):
                     optional=True,
                     document="""Connect max number subdivisions, used to
         avoid huge number of sudivisions""",
+                    aliases=[],
                 ),
                 5: PinSpecification(
                     name="num_cycles",
@@ -184,6 +189,7 @@ class fft_multi_harmonic_minmax(Operator):
                     optional=True,
                     document="""Number of cycle of the periodic signal
         (default is 2)""",
+                    aliases=[],
                 ),
                 6: PinSpecification(
                     name="use_harmonic_zero",
@@ -191,6 +197,7 @@ class fft_multi_harmonic_minmax(Operator):
                     optional=True,
                     document="""Use harmonic zero for first rpm (default is
         false)""",
+                    aliases=[],
                 ),
                 7: PinSpecification(
                     name="calculate_time_series",
@@ -200,6 +207,7 @@ class fft_multi_harmonic_minmax(Operator):
         setting it to false enhance
         performance if only min/max are
         required (default is true)""",
+                    aliases=[],
                 ),
                 8: PinSpecification(
                     name="substeps_selector",
@@ -208,6 +216,7 @@ class fft_multi_harmonic_minmax(Operator):
                     document="""Substeps to evaluate (frequencies), by
         default the operator is evaluated
         using all the available steps""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -216,18 +225,21 @@ class fft_multi_harmonic_minmax(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="field_max",
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="all_fields",
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -526,6 +538,11 @@ class InputsFftMultiHarmonicMinmax(_Inputs):
         """
         return self._substeps_selector
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsFftMultiHarmonicMinmax(_Outputs):
     """Intermediate class used to get outputs from
@@ -602,3 +619,8 @@ class OutputsFftMultiHarmonicMinmax(_Outputs):
         >>> result_all_fields = op.outputs.all_fields()
         """  # noqa: E501
         return self._all_fields
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

@@ -89,12 +89,14 @@ class mesh_info_provider(Operator):
                     type_names=["int32"],
                     optional=True,
                     document="""Optional time/frequency set id of the mesh.""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="streams_container",
                     type_names=["streams_container"],
                     optional=True,
                     document="""Streams (mesh file container) (optional)""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
@@ -102,6 +104,7 @@ class mesh_info_provider(Operator):
                     optional=False,
                     document="""If the stream is null, retrieves the file
         path from the data sources.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -111,6 +114,7 @@ class mesh_info_provider(Operator):
                     optional=False,
                     document="""""",
                     name_derived_class=["mesh_info"],
+                    aliases=[],
                 ),
             },
         )
@@ -241,6 +245,11 @@ class InputsMeshInfoProvider(_Inputs):
         """
         return self._data_sources
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsMeshInfoProvider(_Outputs):
     """Intermediate class used to get outputs from
@@ -275,3 +284,8 @@ class OutputsMeshInfoProvider(_Outputs):
         >>> result_mesh_info = op.outputs.mesh_info()
         """  # noqa: E501
         return self._mesh_info
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

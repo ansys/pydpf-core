@@ -110,6 +110,7 @@ class compute_stress(Operator):
                     optional=True,
                     document="""The element scoping on which the result is
         computed.""",
+                    aliases=[],
                 ),
                 3: PinSpecification(
                     name="streams_container",
@@ -118,6 +119,7 @@ class compute_stress(Operator):
                     document="""Needed to get mesh and material ids. optional
         if a data_sources have been
         connected.""",
+                    aliases=[],
                 ),
                 4: PinSpecification(
                     name="data_sources",
@@ -126,6 +128,7 @@ class compute_stress(Operator):
                     document="""Needed to get mesh and material ids. optional
         if a streams_container have been
         connected.""",
+                    aliases=[],
                 ),
                 9: PinSpecification(
                     name="requested_location",
@@ -133,6 +136,7 @@ class compute_stress(Operator):
                     optional=True,
                     document="""Average the elemental nodal result to the
         requested location.""",
+                    aliases=[],
                 ),
                 10: PinSpecification(
                     name="strain",
@@ -140,6 +144,7 @@ class compute_stress(Operator):
                     optional=False,
                     document="""Field/or fields container containing only the
         elastic strain field (element nodal).""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -149,6 +154,7 @@ class compute_stress(Operator):
                     optional=False,
                     document="""The computed result fields container
         (elemental nodal).""",
+                    aliases=[],
                 ),
             },
         )
@@ -331,6 +337,11 @@ class InputsComputeStress(_Inputs):
         """
         return self._strain
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsComputeStress(_Outputs):
     """Intermediate class used to get outputs from
@@ -365,3 +376,8 @@ class OutputsComputeStress(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

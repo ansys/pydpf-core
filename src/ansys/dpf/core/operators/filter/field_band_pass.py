@@ -90,6 +90,7 @@ class field_band_pass(Operator):
                     optional=False,
                     document="""Field or fields container with only one field
         is expected""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="min_threshold",
@@ -97,6 +98,7 @@ class field_band_pass(Operator):
                     optional=False,
                     document="""A minimum threshold scalar or a field
         containing one value is expected.""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="max_threshold",
@@ -104,6 +106,7 @@ class field_band_pass(Operator):
                     optional=True,
                     document="""A maximum threshold scalar or a field
         containing one value is expected.""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -112,6 +115,7 @@ class field_band_pass(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                    aliases=[],
                 ),
             },
         )
@@ -242,6 +246,11 @@ class InputsFieldBandPass(_Inputs):
         """
         return self._max_threshold
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsFieldBandPass(_Outputs):
     """Intermediate class used to get outputs from
@@ -276,3 +285,8 @@ class OutputsFieldBandPass(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

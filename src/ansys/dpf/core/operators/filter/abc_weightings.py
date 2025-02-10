@@ -91,6 +91,7 @@ class abc_weightings(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""Data to be weighted in db units.""",
+                    aliases=[],
                 ),
                 1: PinSpecification(
                     name="weighting_type",
@@ -100,6 +101,7 @@ class abc_weightings(Operator):
         computed, 1 the b-weigting is
         computed and 2 the c-weightings is
         computed.""",
+                    aliases=[],
                 ),
                 2: PinSpecification(
                     name="shape_by_tf_scoping",
@@ -109,6 +111,7 @@ class abc_weightings(Operator):
         input fields container is defined by
         time freq scoping and not by ids.
         default is false""",
+                    aliases=[],
                 ),
             },
             map_output_pin_spec={
@@ -117,6 +120,7 @@ class abc_weightings(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""Weighted data in db units.""",
+                    aliases=[],
                 ),
             },
         )
@@ -252,6 +256,11 @@ class InputsAbcWeightings(_Inputs):
         """
         return self._shape_by_tf_scoping
 
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
+
 
 class OutputsAbcWeightings(_Outputs):
     """Intermediate class used to get outputs from
@@ -286,3 +295,8 @@ class OutputsAbcWeightings(_Outputs):
         >>> result_weightings = op.outputs.weightings()
         """  # noqa: E501
         return self._weightings
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
