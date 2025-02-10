@@ -133,11 +133,13 @@ def build_operator(
     input_pins = []
     if specification.inputs:
         input_pins = build_pin_data(specification.inputs)
+    has_input_aliases = any(pin["aliases"] for pin in input_pins)
 
     output_pins = []
     if specification.outputs:
         output_pins = build_pin_data(specification.outputs, output=True)
     multiple_output_types = any(pin["multiple_types"] for pin in output_pins)
+    has_output_aliases = any(pin["aliases"] for pin in output_pins)
 
     docstring = build_docstring(specification)
 
@@ -160,6 +162,8 @@ def build_operator(
         "multiple_output_types": multiple_output_types,
         "category": category,
         "date_and_time": date_and_time,
+        "has_input_aliases": has_input_aliases,
+        "has_output_aliases": has_output_aliases,
     }
 
     this_path = os.path.dirname(os.path.abspath(__file__))
