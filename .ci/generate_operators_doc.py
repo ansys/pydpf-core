@@ -19,7 +19,9 @@ def initialize_server(ansys_path=None, include_composites=False, include_sound=F
         )
     if include_sound:
         print("Loading Acoustics Plugin")
-        load_library(Path(server.ansys_path) / "Acoustics" / "SAS" / "ads" / "dpf_sound.dll")
+        load_library(
+            Path(server.ansys_path) / "Acoustics" / "SAS" / "ads" / "dpf_sound.dll"
+        )
     return server
 
 
@@ -136,7 +138,7 @@ def main():
     args = parser.parse_args()
     desired_plugin = args.plugin
 
-    server = initialize_server(args.ansys_path)
+    server = initialize_server(args.ansys_path, args.include_composites, args.include_sound)
     if desired_plugin is None:
         operators = available_operator_names(server)
     else:
