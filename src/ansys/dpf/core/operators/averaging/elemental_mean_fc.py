@@ -14,9 +14,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 class elemental_mean_fc(Operator):
     """Computes the average of a multi-entity container of fields,
     (ElementalNodal -> Elemental), (NodalElemental -> Nodal). If the
-    input fields are mixed shell/solid and collapseShellLayers is not
-    specified, then the fields are split by element shape and the
-    output fields container has an elshape label.
+    input fields are mixed shell/solid and collapseShellLayers is
+    false, then the fields are split by element shape and the output
+    fields container has an elshape label. If collapseShellLayers is
+    true, then e_shell_layer can be connected to only collapse the
+    information on the provided layers.
 
     Parameters
     ----------
@@ -26,15 +28,18 @@ class elemental_mean_fc(Operator):
         (default is false).
     force_averaging : bool, optional
         If true you average, if false you just sum.
-    scoping : Scoping, optional
+    scoping : Scoping or ScopingsContainer, optional
         Average only on these elements. if it is a
         scoping container, the label must
         correspond to the one of the fields
-        containers.
-    abstract_meshed_region : MeshedRegion, optional
+        container.
+    abstract_meshed_region : MeshedRegion or MeshesContainer, optional
         The mesh region in this pin is used to
         perform the averaging. it is used if
         there is no fields support.
+    e_shell_layer : int, optional
+        0: top, 1: bottom, 2: bottomtop, 3: mid, 4:
+        bottomtopmid
 
     Returns
     -------
@@ -58,6 +63,8 @@ class elemental_mean_fc(Operator):
     >>> op.inputs.scoping.connect(my_scoping)
     >>> my_abstract_meshed_region = dpf.MeshedRegion()
     >>> op.inputs.abstract_meshed_region.connect(my_abstract_meshed_region)
+    >>> my_e_shell_layer = int()
+    >>> op.inputs.e_shell_layer.connect(my_e_shell_layer)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.averaging.elemental_mean_fc(
@@ -66,6 +73,7 @@ class elemental_mean_fc(Operator):
     ...     force_averaging=my_force_averaging,
     ...     scoping=my_scoping,
     ...     abstract_meshed_region=my_abstract_meshed_region,
+    ...     e_shell_layer=my_e_shell_layer,
     ... )
 
     >>> # Get output data
@@ -79,6 +87,7 @@ class elemental_mean_fc(Operator):
         force_averaging=None,
         scoping=None,
         abstract_meshed_region=None,
+        e_shell_layer=None,
         config=None,
         server=None,
     ):
@@ -95,15 +104,19 @@ class elemental_mean_fc(Operator):
             self.inputs.scoping.connect(scoping)
         if abstract_meshed_region is not None:
             self.inputs.abstract_meshed_region.connect(abstract_meshed_region)
+        if e_shell_layer is not None:
+            self.inputs.e_shell_layer.connect(e_shell_layer)
 
     @staticmethod
     def _spec():
         description = """Computes the average of a multi-entity container of fields,
             (ElementalNodal -&gt; Elemental), (NodalElemental -&gt; Nodal).
             If the input fields are mixed shell/solid and
-            collapseShellLayers is not specified, then the fields are
-            split by element shape and the output fields container has
-            an elshape label."""
+            collapseShellLayers is false, then the fields are split by
+            element shape and the output fields container has an
+            elshape label. If collapseShellLayers is true, then
+            e_shell_layer can be connected to only collapse the
+            information on the provided layers."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -128,20 +141,27 @@ class elemental_mean_fc(Operator):
                 ),
                 3: PinSpecification(
                     name="scoping",
-                    type_names=["scoping"],
+                    type_names=["scoping", "scopings_container"],
                     optional=True,
                     document="""Average only on these elements. if it is a
         scoping container, the label must
         correspond to the one of the fields
-        containers.""",
+        container.""",
                 ),
                 4: PinSpecification(
                     name="abstract_meshed_region",
-                    type_names=["abstract_meshed_region"],
+                    type_names=["abstract_meshed_region", "meshes_container"],
                     optional=True,
                     document="""The mesh region in this pin is used to
         perform the averaging. it is used if
         there is no fields support.""",
+                ),
+                27: PinSpecification(
+                    name="e_shell_layer",
+                    type_names=["int32"],
+                    optional=True,
+                    document="""0: top, 1: bottom, 2: bottomtop, 3: mid, 4:
+        bottomtopmid""",
                 ),
             },
             map_output_pin_spec={
@@ -210,6 +230,8 @@ class InputsElementalMeanFc(_Inputs):
     >>> op.inputs.scoping.connect(my_scoping)
     >>> my_abstract_meshed_region = dpf.MeshedRegion()
     >>> op.inputs.abstract_meshed_region.connect(my_abstract_meshed_region)
+    >>> my_e_shell_layer = int()
+    >>> op.inputs.e_shell_layer.connect(my_e_shell_layer)
     """
 
     def __init__(self, op: Operator):
@@ -230,6 +252,8 @@ class InputsElementalMeanFc(_Inputs):
             elemental_mean_fc._spec().input_pin(4), 4, op, -1
         )
         self._inputs.append(self._abstract_meshed_region)
+        self._e_shell_layer = Input(elemental_mean_fc._spec().input_pin(27), 27, op, -1)
+        self._inputs.append(self._e_shell_layer)
 
     @property
     def fields_container(self):
@@ -297,11 +321,11 @@ class InputsElementalMeanFc(_Inputs):
         Average only on these elements. if it is a
         scoping container, the label must
         correspond to the one of the fields
-        containers.
+        container.
 
         Parameters
         ----------
-        my_scoping : Scoping
+        my_scoping : Scoping or ScopingsContainer
 
         Examples
         --------
@@ -323,7 +347,7 @@ class InputsElementalMeanFc(_Inputs):
 
         Parameters
         ----------
-        my_abstract_meshed_region : MeshedRegion
+        my_abstract_meshed_region : MeshedRegion or MeshesContainer
 
         Examples
         --------
@@ -334,6 +358,27 @@ class InputsElementalMeanFc(_Inputs):
         >>> op.inputs.abstract_meshed_region(my_abstract_meshed_region)
         """
         return self._abstract_meshed_region
+
+    @property
+    def e_shell_layer(self):
+        """Allows to connect e_shell_layer input to the operator.
+
+        0: top, 1: bottom, 2: bottomtop, 3: mid, 4:
+        bottomtopmid
+
+        Parameters
+        ----------
+        my_e_shell_layer : int
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.averaging.elemental_mean_fc()
+        >>> op.inputs.e_shell_layer.connect(my_e_shell_layer)
+        >>> # or
+        >>> op.inputs.e_shell_layer(my_e_shell_layer)
+        """
+        return self._e_shell_layer
 
 
 class OutputsElementalMeanFc(_Outputs):
