@@ -149,7 +149,7 @@ Available qualifier labels:"""  # noqa: E501
 def test_print_result_info_with_qualifiers(cfx_heating_coil, server_type):
     model = Model(cfx_heating_coil(server=server_type), server=server_type)
     ref = """Static analysis
-Unit system: SI: m, kg, N, s, V, A, K
+Unit system: Custom: m, kg, N, s, V, A, K
 Physics Type: Fluid
 Available results:
      -  specific_heat: Nodal Specific Heat
