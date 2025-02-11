@@ -1,13 +1,19 @@
-import os
-from glob import glob
 from datetime import datetime
+from glob import glob
+import os
 
+from ansys_sphinx_theme import (
+    ansys_favicon,
+    get_version_match,
+    pyansys_logo_dark_mode,
+    pyansys_logo_light_mode,
+)
 import numpy as np
 import pyvista
 import sphinx
+
 from ansys.dpf.core import __version__, server, server_factory
 from ansys.dpf.core.examples import get_example_required_minimum_dpf_version
-from ansys_sphinx_theme import ansys_favicon, get_version_match, pyansys_logo_light_mode, pyansys_logo_dark_mode
 
 # Manage errors
 pyvista.set_error_output_file("errors.txt")
@@ -62,9 +68,6 @@ for example in glob(r"../../examples/**/*.py"):
         ignored_pattern += f"|{example_name}"
 ignored_pattern += "|11-server_types.py"
 ignored_pattern += "|06-distributed_stress_averaging.py"
-# ignored_pattern += "|00-wrapping_numpy_capabilities.py"
-# ignored_pattern += "|01-package_python_operators.py"
-ignored_pattern += "|02-python_operators_with_dependencies.py"
 ignored_pattern += r")"
 
 # Autoapi ignore pattern
@@ -164,9 +167,11 @@ from sphinx_gallery.sorting import FileNameSortKey
 
 
 def reset_servers(gallery_conf, fname, when):
-    import psutil
-    from ansys.dpf.core import server
     import gc
+
+    import psutil
+
+    from ansys.dpf.core import server
 
     gc.collect()
     server.shutdown_all_session_servers()
@@ -262,7 +267,7 @@ html_theme_options = {
 
 # Configuration for Sphinx autoapi
 suppress_warnings = [
-    "autoapi.python_import_resolution", # Todo: remove suppression of this warning in the future
+    "autoapi.python_import_resolution", # TODO: remove suppression of this warning in the future #1967
     "design.grid",
     "config.cache",
     "design.fa-build",
@@ -375,9 +380,11 @@ epub_exclude_files = ["search.html"]
 def close_live_servers_and_processes(app: sphinx.application.Sphinx) -> None:
     # Adapted from reset_servers() function, so this can be called after
     # sphinx gallery finishes execution
-    import psutil
-    from ansys.dpf.core import server
     import gc
+
+    import psutil
+
+    from ansys.dpf.core import server
 
     gc.collect()
     server.shutdown_all_session_servers()
