@@ -30,6 +30,7 @@ from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_1,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
 )
 
 if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0:
@@ -117,7 +118,8 @@ def test_repr_available_results_list(model):
 )
 def test_print_available_result_with_qualifiers(cfx_heating_coil, server_type):
     model = Model(cfx_heating_coil(server=server_type), server=server_type)
-    ref = """DPF Result
+    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0:
+        ref = """DPF Result
 ----------
 specific_heat
 Operator name: "CP"
@@ -125,6 +127,17 @@ Number of components: 1
 Dimensionality: scalar
 Homogeneity: specific_heat
 Units: J/kg*dK^-1
+Location: Nodal
+Available qualifier labels:"""  # noqa: E501
+    else:
+        ref = """DPF Result
+----------
+specific_heat
+Operator name: "CP"
+Number of components: 1
+Dimensionality: scalar
+Homogeneity: specific_heat
+Units: J/kg*K^-1
 Location: Nodal
 Available qualifier labels:"""  # noqa: E501
     ref2 = "'phase': 2"
@@ -148,7 +161,28 @@ Available qualifier labels:"""  # noqa: E501
 )
 def test_print_result_info_with_qualifiers(cfx_heating_coil, server_type):
     model = Model(cfx_heating_coil(server=server_type), server=server_type)
-    ref = """Static analysis
+    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0:
+        ref = """Static analysis
+Unit system: Custom: m, kg, N, s, V, A, K
+Physics Type: Fluid
+Available results:
+     -  specific_heat: Nodal Specific Heat
+     -  epsilon: Nodal Epsilon        
+     -  enthalpy: Nodal Enthalpy      
+     -  turbulent_kinetic_energy: Nodal Turbulent Kinetic Energy
+     -  thermal_conductivity: Nodal Thermal Conductivity
+     -  dynamic_viscosity: Nodal Dynamic Viscosity
+     -  turbulent_viscosity: Nodal Turbulent Viscosity
+     -  static_pressure: Nodal Static Pressure
+     -  total_pressure: Nodal Total Pressure
+     -  density: Nodal Density        
+     -  entropy: Nodal Entropy        
+     -  temperature: Nodal Temperature
+     -  total_temperature: Nodal Total Temperature
+     -  velocity: Nodal Velocity      
+Available qualifier labels:"""  # noqa
+    else:
+        ref = """Static analysis
 Unit system: Custom: m, kg, N, s, V, A, K
 Physics Type: Fluid
 Available results:
