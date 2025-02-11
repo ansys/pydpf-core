@@ -268,6 +268,7 @@ from .run import run
 from .smisc import smisc
 from .specific_heat import specific_heat
 from .spectrum_data import spectrum_data
+from .state_variable import state_variable
 from .static_pressure import static_pressure
 from .stiffness_matrix_energy import stiffness_matrix_energy
 from .strain_eqv_as_mechanical import strain_eqv_as_mechanical

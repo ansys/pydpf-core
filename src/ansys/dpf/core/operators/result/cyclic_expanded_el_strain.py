@@ -12,8 +12,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class cyclic_expanded_el_strain(Operator):
-    """Read mapdl::rst::EPEL from an rst file and expand it with cyclic
-    symmetry.
+    """This operator is deprecated: use the operator mapdl::rst::EPEL with
+    the read_cyclic pin instead. Read mapdl::rst::EPEL from an rst
+    file and expand it with cyclic symmetry.
 
     Parameters
     ----------
@@ -172,8 +173,9 @@ class cyclic_expanded_el_strain(Operator):
 
     @staticmethod
     def _spec():
-        description = """Read mapdl::rst::EPEL from an rst file and expand it with cyclic
-            symmetry."""
+        description = """This operator is deprecated: use the operator mapdl::rst::EPEL with
+            the read_cyclic pin instead. Read mapdl::rst::EPEL from an
+            rst file and expand it with cyclic symmetry."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
