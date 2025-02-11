@@ -27,17 +27,17 @@ The OperatorSpecification Provides a documentation for each Operator
 """
 
 from __future__ import annotations
+
 import abc
 from typing import Union
-from ansys.dpf.core import server as server_module
+
+from ansys.dpf.core import common, mapping_types, server as server_module
+from ansys.dpf.core.check_version import server_meet_version, version_requires
 from ansys.dpf.gate import (
+    integral_types,
     operator_specification_capi,
     operator_specification_grpcapi,
-    integral_types,
 )
-from ansys.dpf.core import mapping_types, common
-from ansys.dpf.core.check_version import version_requires
-from ansys.dpf.core.check_version import server_meet_version
 
 
 class PinSpecification:

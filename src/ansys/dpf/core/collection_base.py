@@ -23,26 +23,27 @@
 """Contains classes associated with the DPF collection."""
 
 from __future__ import annotations
+
 import abc
-import warnings
 import traceback
+from typing import TYPE_CHECKING, Generic, List, Optional, TypeVar
+import warnings
 
 import numpy as np
 
-from ansys.dpf.core.check_version import version_requires
-from ansys.dpf.core.server_types import BaseServer
-from ansys.dpf.core.scoping import Scoping
-from ansys.dpf.core.label_space import LabelSpace
 from ansys.dpf.core import server as server_module
+from ansys.dpf.core.check_version import version_requires
+from ansys.dpf.core.label_space import LabelSpace
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.server_types import BaseServer
 from ansys.dpf.gate import (
     collection_capi,
     collection_grpcapi,
     data_processing_capi,
     data_processing_grpcapi,
-    dpf_vector,
     dpf_array,
+    dpf_vector,
 )
-from typing import List, Optional, Generic, TypeVar, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from ansys.dpf.core.support import Support
@@ -57,7 +58,7 @@ class CollectionBase(Generic[TYPE]):
 
     Parameters
     ----------
-    collection : ansys.grpc.dpf.collection_pb2.Collection, optional
+    collection : ansys.grpc.dpf.collection_message_pb2.Collection, optional
         Collection to create from the collection message. The default is ``None``.
     server : server.DPFServer, optional
         Server with the channel connected to the remote or local instance. The
@@ -470,9 +471,9 @@ class CollectionBase(Generic[TYPE]):
         """
         from ansys.dpf.core.time_freq_support import TimeFreqSupport
         from ansys.dpf.gate import (
+            object_handler,
             support_capi,
             support_grpcapi,
-            object_handler,
         )
 
         data_api = self._server.get_api_for_type(

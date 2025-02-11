@@ -20,11 +20,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from ansys.dpf import core as dpf
 import os
-import pytest
-import conftest
 from pathlib import Path
+
+import pytest
+
+from ansys.dpf import core as dpf
+import conftest
 
 
 @conftest.raises_for_servers_version_under("4.0")

@@ -27,27 +27,25 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:  # pragma: nocover
-    from ansys.dpf.core.server_types import AnyServerType
     from ansys.dpf.core.scoping import Scoping
+    from ansys.dpf.core.server_types import AnyServerType
 
 import traceback
 import warnings
 
-import ansys.dpf.core.errors
-
-from ansys.dpf.core import scoping, field, property_field
+from ansys.dpf.core import field, property_field, scoping, server as server_module
+from ansys.dpf.core.cache import class_handling_cache
 from ansys.dpf.core.check_version import server_meet_version, version_requires
 from ansys.dpf.core.common import (
     locations,
-    types,
     nodal_properties,
+    types,
 )
 from ansys.dpf.core.elements import Elements, element_types
-from ansys.dpf.core.nodes import Nodes
+import ansys.dpf.core.errors
 from ansys.dpf.core.faces import Faces
+from ansys.dpf.core.nodes import Nodes
 from ansys.dpf.core.plotter import DpfPlotter, Plotter
-from ansys.dpf.core.cache import class_handling_cache
-from ansys.dpf.core import server as server_module
 from ansys.dpf.gate import meshed_region_capi, meshed_region_grpcapi
 
 
@@ -406,23 +404,8 @@ class MeshedRegion:
             A scoping containing the IDs of the entities in the named selection.
             The location depends on the type of entities targeted by the named selection.
         """
-        if server_meet_version("2.1", self._server):
-            out = self._api.meshed_region_get_named_selection_scoping(self, named_selection)
-            out_scoping = scoping.Scoping(scoping=out, server=self._server)
-        else:
-            if hasattr(self, "_stream_provider"):
-                from ansys.dpf.core.dpf_operator import Operator
-
-                op = Operator("scoping_provider_by_ns", server=self._server)
-                op.connect(1, named_selection)
-                op.connect(3, self._stream_provider, 0)
-                out_scoping = op.get_output(0, types.scoping)
-            else:
-                raise Exception(
-                    "Getting a named selection from a meshed region is "
-                    "only implemented for meshed region created from a "
-                    "model for server version 2.0. Please update your server."
-                )
+        out = self._api.meshed_region_get_named_selection_scoping(self, named_selection)
+        out_scoping = scoping.Scoping(scoping=out, server=self._server)
         if server:
             # Copy the scoping to another server
             out_scoping = out_scoping.deep_copy(server=server)

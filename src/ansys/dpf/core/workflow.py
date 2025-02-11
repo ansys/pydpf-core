@@ -22,32 +22,32 @@
 
 """Workflow."""
 
+from enum import Enum
 import logging
 import os
-import traceback
-import warnings
 from pathlib import Path
-
-from enum import Enum
+import traceback
 from typing import Union
+import warnings
+
+import numpy
 
 from ansys import dpf
-from ansys.dpf.core import dpf_operator, inputs, outputs
+from ansys.dpf.core import dpf_operator, inputs, outputs, server as server_module
 from ansys.dpf.core.check_version import (
     server_meet_version,
-    version_requires,
     server_meet_version_and_raise,
+    version_requires,
 )
-from ansys.dpf.core import server as server_module
 from ansys.dpf.gate import (
-    workflow_abstract_api,
-    workflow_grpcapi,
-    workflow_capi,
     data_processing_capi,
     data_processing_grpcapi,
     dpf_vector,
-    object_handler,
     integral_types,
+    object_handler,
+    workflow_abstract_api,
+    workflow_capi,
+    workflow_grpcapi,
 )
 
 LOG = logging.getLogger(__name__)
@@ -214,17 +214,11 @@ class Workflow:
             self._api.work_flow_connect_operator_output(self, pin_name, inpt, pin_out)
         elif isinstance(inpt, dpf_operator.Output):
             self._api.work_flow_connect_operator_output(self, pin_name, inpt._operator, inpt._pin)
-        elif isinstance(inpt, list):
+        elif isinstance(inpt, (list, numpy.ndarray)):
             from ansys.dpf.core import collection
 
-            if server_meet_version("3.0", self._server):
-                inpt = collection.CollectionBase.integral_collection(inpt, self._server)
-                self._api.work_flow_connect_collection_as_vector(self, pin_name, inpt)
-            else:
-                if all(isinstance(x, int) for x in inpt):
-                    self._api.work_flow_connect_vector_int(self, pin_name, inpt, len(inpt))
-                else:
-                    self._api.work_flow_connect_vector_double(self, pin_name, inpt, len(inpt))
+            inpt = collection.CollectionBase.integral_collection(inpt, self._server)
+            self._api.work_flow_connect_collection_as_vector(self, pin_name, inpt)
         elif isinstance(inpt, dict):
             from ansys.dpf.core import label_space
 
@@ -244,22 +238,22 @@ class Workflow:
     @property
     def _type_to_input_method(self):
         from ansys.dpf.core import (
+            any,
+            collection,
+            custom_type_field,
             cyclic_support,
             data_sources,
-            field,
-            collection,
-            meshed_region,
-            property_field,
-            string_field,
-            custom_type_field,
-            scoping,
-            time_freq_support,
             data_tree,
-            workflow,
-            model,
+            field,
             generic_data_container,
-            any,
+            meshed_region,
+            model,
+            property_field,
+            scoping,
             streams_container,
+            string_field,
+            time_freq_support,
+            workflow,
         )
 
         out = [
@@ -307,26 +301,26 @@ class Workflow:
     @property
     def _type_to_output_method(self):
         from ansys.dpf.core import (
+            any,
+            collection,
+            collection_base,
+            custom_type_field,
             cyclic_support,
             data_sources,
+            data_tree,
             field,
             fields_container,
+            generic_data_container,
             meshed_region,
             meshes_container,
             property_field,
-            string_field,
-            custom_type_field,
             result_info,
             scoping,
             scopings_container,
-            time_freq_support,
-            data_tree,
-            workflow,
-            collection,
-            generic_data_container,
-            any,
-            collection_base,
             streams_container,
+            string_field,
+            time_freq_support,
+            workflow,
         )
         from ansys.dpf.core.custom_container_base import CustomContainerBase
 
@@ -450,7 +444,7 @@ class Workflow:
         output_type : core.type enum
             Type of the requested output.
         """
-        if server_meet_version("3.0", self._server) and self.progress_bar:
+        if self.progress_bar:
             # handle progress bar
             self._server.session.add_workflow(self, "workflow")
             self._progress_thread = self._server.session.listen_to_progress()

@@ -2,13 +2,12 @@
 # Input can be one of ["any", "win", "manylinux1", "manylinux_2_17"]
 
 import argparse
-import subprocess
-from pathlib import Path
 import os
-import sys
+from pathlib import Path
 import shutil
+import subprocess
+import sys
 import tempfile
-
 
 supported_platforms = {
     "any": "any",

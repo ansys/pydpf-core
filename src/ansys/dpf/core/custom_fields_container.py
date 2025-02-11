@@ -29,8 +29,8 @@ These new classes offer helpers to access data for specific usage, such as
 results split by body or split by material.
 """
 
-from ansys.dpf.core.fields_container import FieldsContainer
 from ansys.dpf.core import elements
+from ansys.dpf.core.fields_container import FieldsContainer
 
 
 class ElShapeFieldsContainer(FieldsContainer):
@@ -42,7 +42,7 @@ class ElShapeFieldsContainer(FieldsContainer):
 
     Parameters
     ----------
-    fields_container : ansys.grpc.dpf.collection_pb2.Collection or FieldsContainer, optional
+    fields_container : ansys.grpc.dpf.collection_message_pb2.Collection or FieldsContainer, optional
         Fields container created from either a collection message or by copying an existing
         fields container. The default is ``None``.
     server : server.DPFServer, optional
@@ -278,7 +278,7 @@ class BodyFieldsContainer(FieldsContainer):
 
     Parameters
     ----------
-    fields_container : ansys.grpc.dpf.collection_pb2.Collection or FieldsContainer, optional
+    fields_container : ansys.grpc.dpf.collection_message_pb2.Collection or FieldsContainer, optional
         Fields container created from either a collection message or by copying an existing
         fields container. The default is ``None``.
     server : server.DPFServer, optional

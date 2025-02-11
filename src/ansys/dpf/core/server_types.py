@@ -28,29 +28,29 @@ servers available for the factory.
 """
 
 from __future__ import annotations
+
 import abc
+from abc import ABC
+import ctypes
 import io
 import os
+from pathlib import Path
 import socket
 import subprocess
 import sys
+from threading import Lock, Thread
 import time
-import warnings
 import traceback
-from threading import Thread, Lock
-from abc import ABC
-import ctypes
 from typing import TYPE_CHECKING, Union
-from pathlib import Path
+import warnings
 
 import psutil
 
 import ansys.dpf.core as core
-from ansys.dpf.core.check_version import server_meet_version
-from ansys.dpf.core import errors, server_factory, __version__
+from ansys.dpf.core import __version__, errors, server_context, server_factory
 from ansys.dpf.core._version import min_server_version, server_to_ansys_version
-from ansys.dpf.core import server_context
-from ansys.dpf.gate import load_api, data_processing_grpcapi
+from ansys.dpf.core.check_version import server_meet_version
+from ansys.dpf.gate import data_processing_grpcapi, load_api
 
 if TYPE_CHECKING:
     from ansys.dpf.core.server_factory import DockerConfig
@@ -329,6 +329,7 @@ def launch_remote_dpf(version=None):
 def _compare_ansys_grpc_dpf_version(right_grpc_module_version_str: str, grpc_module_version: str):
     if right_grpc_module_version_str:
         import re
+
         from packaging.version import parse as parse_version
 
         right_version_first_numbers = re.search(r"\d", right_grpc_module_version_str)

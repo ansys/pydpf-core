@@ -23,36 +23,39 @@
 """Scoping."""
 
 from __future__ import annotations
-import traceback
-from typing import Union, TYPE_CHECKING
-import warnings
+
 import ctypes
+import traceback
+from typing import TYPE_CHECKING, Union
+import warnings
 
 import numpy as np
 
+from ansys.dpf.core import server as server_module, server_types
+from ansys.dpf.core.cache import _setter
 from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.core.common import locations
-from ansys.dpf.core import server as server_module
-from ansys.dpf.core import server_types
-from ansys.dpf.core.cache import _setter
 from ansys.dpf.gate import (
-    scoping_capi,
-    scoping_grpcapi,
     data_processing_capi,
     data_processing_grpcapi,
-    dpf_vector_capi,
-    dpf_vector_abstract_api,
     dpf_vector,
+    dpf_vector_abstract_api,
+    dpf_vector_capi,
+    scoping_capi,
+    scoping_grpcapi,
     utils,
 )
 from ansys.dpf.gate.dpf_array import DPFArray
 
 if TYPE_CHECKING:  # pragma: nocover
-    from ansys.dpf.core.server_types import AnyServerType
-    import ansys.grpc.dpf.scoping_pb2.Scoping as ScopingMessage
     from ctypes import c_void_p as ScopingPointer
 
-    IdVectorType = Union[list[int], range]
+    from numpy import typing as np_typing
+
+    from ansys.dpf.core.server_types import AnyServerType
+    import ansys.grpc.dpf.scoping_pb2.Scoping as ScopingMessage
+
+    IdVectorType = Union[list[int], range, np_typing.NDArray[np.int32]]
 
 
 class Scoping:
@@ -183,6 +186,9 @@ class Scoping:
     def _set_ids(self, ids: IdVectorType):
         """Set the ids.
 
+        Scoping IDs are stored as int32.
+        Converts automatically int64 Numpy arrays to int32.
+
         Parameters
         ----------
         ids:
@@ -191,6 +197,14 @@ class Scoping:
         """
         if isinstance(ids, range):
             ids = list(ids)
+        if isinstance(ids, np.ndarray):
+            if ids.dtype == np.int64:
+                ids = ids.astype(np.int32)
+            if ids.dtype != np.int32:
+                raise ValueError(
+                    f"Accepted dtypes for NumPy arrays when setting scoping IDs are "
+                    f"'np.int32' and np.int64' (provided is '{ids.dtype}')."
+                )
         if isinstance(self._server, server_types.InProcessServer):
             self._api.scoping_resize(self, len(ids))
             ids_ptr = self._api.scoping_get_ids(self, len(ids))

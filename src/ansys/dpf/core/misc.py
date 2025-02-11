@@ -22,16 +22,16 @@
 
 """Miscellaneous functions for the DPF module."""
 
-import platform
 import glob
 import os
-import re
 from pathlib import Path
-
 from pkgutil import iter_modules
+import platform
+import re
+
 from ansys.dpf.core import errors
-from ansys.dpf.gate._version import __ansys_version__
 from ansys.dpf.gate import load_api
+from ansys.dpf.gate._version import __ansys_version__
 
 DEFAULT_FILE_CHUNK_SIZE = 524288
 DYNAMIC_RESULTS = True

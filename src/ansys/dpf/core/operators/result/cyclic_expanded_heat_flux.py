@@ -12,8 +12,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class cyclic_expanded_heat_flux(Operator):
-    """Read mapdl::rth::TF from an rst file and expand it with cyclic
-    symmetry.
+    """This operator is deprecated: use the operator mapdl::rst::TF with the
+    read_cyclic pin instead. Read mapdl::rst::TF from an rst file and
+    expand it with cyclic symmetry.
 
     Parameters
     ----------
@@ -138,7 +139,7 @@ class cyclic_expanded_heat_flux(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="mapdl::rth::TF_cyclic", config=config, server=server)
+        super().__init__(name="mapdl::rst::TF_cyclic", config=config, server=server)
         self._inputs = InputsCyclicExpandedHeatFlux(self)
         self._outputs = OutputsCyclicExpandedHeatFlux(self)
         if time_scoping is not None:
@@ -172,8 +173,9 @@ class cyclic_expanded_heat_flux(Operator):
 
     @staticmethod
     def _spec():
-        description = """Read mapdl::rth::TF from an rst file and expand it with cyclic
-            symmetry."""
+        description = """This operator is deprecated: use the operator mapdl::rst::TF with the
+            read_cyclic pin instead. Read mapdl::rst::TF from an rst
+            file and expand it with cyclic symmetry."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -303,7 +305,7 @@ class cyclic_expanded_heat_flux(Operator):
             Server with channel connected to the remote or local instance. When
             ``None``, attempts to use the global server.
         """
-        return Operator.default_config(name="mapdl::rth::TF_cyclic", server=server)
+        return Operator.default_config(name="mapdl::rst::TF_cyclic", server=server)
 
     @property
     def inputs(self):
