@@ -4,6 +4,7 @@ import os
 from datetime import datetime
 from textwrap import wrap
 
+import pypandoc
 import black
 import chevron
 from ansys.dpf import core as dpf
@@ -17,9 +18,9 @@ def build_docstring(specification):
     """Used to generate class docstrings."""
     docstring = ""
     if specification.description:
-        docstring += "\n".join(
-            wrap(specification.description, subsequent_indent="    ")
-        )
+        docstring += pypandoc.convert_text(
+        source=specification.description, to="rst", format="md"
+    )
         docstring += "\n\n"
     docstring = docstring.rstrip()
     return docstring.replace('"', "'")
@@ -97,13 +98,9 @@ def build_pin_data(pins, output=False):
             "main_type": main_type,
             "built_in_main_type": main_type in built_in_types,
             "optional": specification.optional,
-            "document": "\n".join(
-                wrap(
-                    specification.document.capitalize().lstrip(' '),
-                    subsequent_indent="        ",
-                    width=45,
-                )
-            ),
+            "document": pypandoc.convert_text(
+        source=specification.document, to="rst", format="md"
+    ),
             "ellipsis": 0 if specification.ellipsis else -1,
         }
 
@@ -139,8 +136,8 @@ def build_operator(
 
     docstring = build_docstring(specification)
 
-    specification_description = "\n".join(
-        wrap(specification.description, subsequent_indent="            ")
+    specification_description = pypandoc.convert_text(
+        source=specification.description, to="rst", format="md"
     )
 
     date_and_time = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
