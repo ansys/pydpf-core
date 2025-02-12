@@ -60,12 +60,6 @@ class electric_potential(Operator):
     mesh : MeshedRegion or MeshesContainer, optional
         Prevents from reading the mesh in the result
         files
-    read_cyclic : int, optional
-        If 0 cyclic symmetry is ignored, if 1 cyclic
-        sector is read, if 2 cyclic expansion
-        is done, if 3 cyclic expansion is
-        done and stages are merged (default
-        is 1)
 
     Returns
     -------
@@ -93,8 +87,6 @@ class electric_potential(Operator):
     >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
     >>> my_mesh = dpf.MeshedRegion()
     >>> op.inputs.mesh.connect(my_mesh)
-    >>> my_read_cyclic = int()
-    >>> op.inputs.read_cyclic.connect(my_read_cyclic)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.electric_potential(
@@ -105,7 +97,6 @@ class electric_potential(Operator):
     ...     data_sources=my_data_sources,
     ...     bool_rotate_to_global=my_bool_rotate_to_global,
     ...     mesh=my_mesh,
-    ...     read_cyclic=my_read_cyclic,
     ... )
 
     >>> # Get output data
@@ -121,7 +112,6 @@ class electric_potential(Operator):
         data_sources=None,
         bool_rotate_to_global=None,
         mesh=None,
-        read_cyclic=None,
         config=None,
         server=None,
     ):
@@ -142,8 +132,6 @@ class electric_potential(Operator):
             self.inputs.bool_rotate_to_global.connect(bool_rotate_to_global)
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
-        if read_cyclic is not None:
-            self.inputs.read_cyclic.connect(read_cyclic)
 
     @staticmethod
     def _spec():
@@ -230,16 +218,6 @@ class electric_potential(Operator):
                     document="""Prevents from reading the mesh in the result
         files""",
                 ),
-                14: PinSpecification(
-                    name="read_cyclic",
-                    type_names=["enum dataProcessing::ECyclicReading", "int32"],
-                    optional=True,
-                    document="""If 0 cyclic symmetry is ignored, if 1 cyclic
-        sector is read, if 2 cyclic expansion
-        is done, if 3 cyclic expansion is
-        done and stages are merged (default
-        is 1)""",
-                ),
             },
             map_output_pin_spec={
                 0: PinSpecification(
@@ -311,8 +289,6 @@ class InputsElectricPotential(_Inputs):
     >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
     >>> my_mesh = dpf.MeshedRegion()
     >>> op.inputs.mesh.connect(my_mesh)
-    >>> my_read_cyclic = int()
-    >>> op.inputs.read_cyclic.connect(my_read_cyclic)
     """
 
     def __init__(self, op: Operator):
@@ -337,8 +313,6 @@ class InputsElectricPotential(_Inputs):
         self._inputs.append(self._bool_rotate_to_global)
         self._mesh = Input(electric_potential._spec().input_pin(7), 7, op, -1)
         self._inputs.append(self._mesh)
-        self._read_cyclic = Input(electric_potential._spec().input_pin(14), 14, op, -1)
-        self._inputs.append(self._read_cyclic)
 
     @property
     def time_scoping(self):
@@ -508,30 +482,6 @@ class InputsElectricPotential(_Inputs):
         >>> op.inputs.mesh(my_mesh)
         """
         return self._mesh
-
-    @property
-    def read_cyclic(self):
-        """Allows to connect read_cyclic input to the operator.
-
-        If 0 cyclic symmetry is ignored, if 1 cyclic
-        sector is read, if 2 cyclic expansion
-        is done, if 3 cyclic expansion is
-        done and stages are merged (default
-        is 1)
-
-        Parameters
-        ----------
-        my_read_cyclic : int
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.result.electric_potential()
-        >>> op.inputs.read_cyclic.connect(my_read_cyclic)
-        >>> # or
-        >>> op.inputs.read_cyclic(my_read_cyclic)
-        """
-        return self._read_cyclic
 
 
 class OutputsElectricPotential(_Outputs):
