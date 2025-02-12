@@ -17,7 +17,9 @@ def build_docstring(specification):
     """Used to generate class docstrings."""
     docstring = ""
     if specification.description:
-        docstring += specification.description
+        docstring += "\n".join(
+            wrap(specification.description, subsequent_indent="    ")
+        )
         docstring += "\n\n"
     docstring = docstring.rstrip()
     return docstring.replace('"', "'")
@@ -95,7 +97,12 @@ def build_pin_data(pins, output=False):
             "main_type": main_type,
             "built_in_main_type": main_type in built_in_types,
             "optional": specification.optional,
-            "document": specification.document,
+            "document": "\n".join(
+                wrap(
+                    specification.document,
+                    subsequent_indent="        ",
+                )
+            ),
             "ellipsis": 0 if specification.ellipsis else -1,
         }
 
@@ -131,7 +138,9 @@ def build_operator(
 
     docstring = build_docstring(specification)
 
-    specification_description = specification.description
+    specification_description = "\n".join(
+        wrap(specification.description, subsequent_indent="            ")
+    )
 
     date_and_time = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
 
