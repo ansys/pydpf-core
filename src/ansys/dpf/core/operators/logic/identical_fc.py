@@ -12,7 +12,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class identical_fc(Operator):
-    """Checks if two fields containers are identical.
+    """Checks if two fields_container are identical.
 
     Parameters
     ----------
@@ -91,7 +91,7 @@ class identical_fc(Operator):
 
     @staticmethod
     def _spec():
-        description = """Checks if two fields containers are identical."""
+        description = """Checks if two fields_container are identical."""
         spec = Specification(
             description=description,
             map_input_pin_spec={

@@ -138,8 +138,7 @@ jobs:
           branch: maint/update_code_for_${{ github.event.inputs.ANSYS_VERSION || '251' }}${{ github.event.inputs.standalone_branch_suffix || '' }}_on_${{ github.ref_name }}
           labels: server-sync
           token: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
-          reviewers: ansys/dpf_integration_proxies
-          assignees: ansys/dpf_integration_proxies
+          reviewers: ${{ github.ref_name == 'master' && 'ansys/dpf_integration_proxies' || '' }}
 
       - name: "Kill all servers"
         uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
