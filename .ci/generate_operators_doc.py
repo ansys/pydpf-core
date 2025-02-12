@@ -1,9 +1,12 @@
-from ansys.dpf import core as dpf
-from ansys.dpf.core.dpf_operator import available_operator_names
-from ansys.dpf.core.core import load_library
 import argparse
-from jinja2 import Template
 from pathlib import Path
+
+from jinja2 import Template
+
+from ansys.dpf import core as dpf
+from ansys.dpf.core.core import load_library
+from ansys.dpf.core.dpf_operator import available_operator_names
+
 
 def initialize_server(ansys_path=None, include_composites=False, include_sound=False):
     server = dpf.start_local_server(ansys_path=ansys_path)
@@ -15,13 +18,15 @@ def initialize_server(ansys_path=None, include_composites=False, include_sound=F
     if include_composites:
         print("Loading Composites Plugin")
         load_library(
-            Path(server.ansys_path) / "dpf" / "plugins" / "dpf_composites" / "composite_operators.dll"
+            Path(server.ansys_path)
+            / "dpf"
+            / "plugins"
+            / "dpf_composites"
+            / "composite_operators.dll"
         )
     if include_sound:
         print("Loading Acoustics Plugin")
-        load_library(
-            Path(server.ansys_path) / "Acoustics" / "SAS" / "ads" / "dpf_sound.dll"
-        )
+        load_library(Path(server.ansys_path) / "Acoustics" / "SAS" / "ads" / "dpf_sound.dll")
     return server
 
 
@@ -74,7 +79,7 @@ def fetch_doc_info(server, operator_name):
         full_name = None
 
     user_name = properties.pop("user_name", operator_name)
-    
+
     op_friendly_name = user_name
     if category:
         op_friendly_name = category + ":" + op_friendly_name
@@ -133,7 +138,9 @@ def main():
         "--ansys_path", default=None, help="Path to Ansys DPF Server installation directory"
     )
     parser.add_argument("--include_private", action="store_true", help="Include private operators")
-    parser.add_argument("--include_composites", action="store_true", help="Include composites operators")
+    parser.add_argument(
+        "--include_composites", action="store_true", help="Include composites operators"
+    )
     parser.add_argument("--include_sound", action="store_true", help="Include sound operators")
     args = parser.parse_args()
     desired_plugin = args.plugin
