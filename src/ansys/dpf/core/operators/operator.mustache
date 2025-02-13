@@ -200,10 +200,10 @@ class Inputs{{capital_class_name}}(_Inputs):
     @property
     def {{name}}(self) -> Input:
         r"""Allows to connect {{name}} input to the operator.
-        {{#document}}
+        {{#document_pin_docstring}}
 
-        {{{document}}}
-        {{/document}}
+        {{{document_pin_docstring}}}
+        {{/document_pin_docstring}}
 
         Returns
         -------
@@ -256,6 +256,10 @@ class Outputs{{capital_class_name}}(_Outputs):
     @property
     def {{name}}(self) -> Output:
         r"""Allows to get {{name}} output of the operator
+        {{#document_pin_docstring}}
+
+        {{{document_pin_docstring}}}
+        {{/document_pin_docstring}}
 
         Returns
         -------

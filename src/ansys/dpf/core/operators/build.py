@@ -82,7 +82,7 @@ def build_pin_data(pins, output=False):
             printable_type_names = [_make_printable_type(name) for name in type_names]
 
         document = specification.document
-        document_docstring = document.replace("\n", "\n        ")
+        document_pin_docstring = document.replace("\n", "\n        ")
 
         pin_data = {
             "id": id,
@@ -99,7 +99,7 @@ def build_pin_data(pins, output=False):
             "built_in_main_type": main_type in built_in_types,
             "optional": specification.optional,
             "document": document,
-            "document_docstring": document_docstring,
+            "document_pin_docstring": document_pin_docstring,
             "ellipsis": 0 if specification.ellipsis else -1,
         }
 
