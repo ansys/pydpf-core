@@ -21,15 +21,17 @@ class to_nodal_fc(Operator):
     mesh : MeshedRegion, optional
     mesh_scoping : Scoping, optional
     merge_solid_shell : bool, optional
-        For shell/solid mixed field, gather in one
-        field all solids and shells (only on
-        one layer, false by default).
+        For shell/solid mixed fields, group in the
+        same field all solids and shells
+        (false by default). if this pin is
+        true, a shell_layer needs to be
+        specified.
     shell_layer : int, optional
-        If merge_solid_shell pin set to true, user
-        have to choose a shell layer. for
-        shell/solid mixed field, gather in
-        one field all solids and shells (only
-        on one layer).
+        0: top, 1: bottom, 2: bottomtop, 3: mid, 4:
+        bottomtopmid. if merge_solid_shell is
+        true, this pin needs to be specified
+        to a value that extracts only one
+        layer (top, bottom or mid).
 
     Returns
     -------
@@ -120,19 +122,21 @@ class to_nodal_fc(Operator):
                     name="merge_solid_shell",
                     type_names=["bool"],
                     optional=True,
-                    document="""For shell/solid mixed field, gather in one
-        field all solids and shells (only on
-        one layer, false by default).""",
+                    document="""For shell/solid mixed fields, group in the
+        same field all solids and shells
+        (false by default). if this pin is
+        true, a shell_layer needs to be
+        specified.""",
                 ),
                 27: PinSpecification(
                     name="shell_layer",
                     type_names=["int32"],
                     optional=True,
-                    document="""If merge_solid_shell pin set to true, user
-        have to choose a shell layer. for
-        shell/solid mixed field, gather in
-        one field all solids and shells (only
-        on one layer).""",
+                    document="""0: top, 1: bottom, 2: bottomtop, 3: mid, 4:
+        bottomtopmid. if merge_solid_shell is
+        true, this pin needs to be specified
+        to a value that extracts only one
+        layer (top, bottom or mid).""",
                 ),
             },
             map_output_pin_spec={
@@ -274,9 +278,11 @@ class InputsToNodalFc(_Inputs):
     def merge_solid_shell(self):
         """Allows to connect merge_solid_shell input to the operator.
 
-        For shell/solid mixed field, gather in one
-        field all solids and shells (only on
-        one layer, false by default).
+        For shell/solid mixed fields, group in the
+        same field all solids and shells
+        (false by default). if this pin is
+        true, a shell_layer needs to be
+        specified.
 
         Parameters
         ----------
@@ -296,11 +302,11 @@ class InputsToNodalFc(_Inputs):
     def shell_layer(self):
         """Allows to connect shell_layer input to the operator.
 
-        If merge_solid_shell pin set to true, user
-        have to choose a shell layer. for
-        shell/solid mixed field, gather in
-        one field all solids and shells (only
-        on one layer).
+        0: top, 1: bottom, 2: bottomtop, 3: mid, 4:
+        bottomtopmid. if merge_solid_shell is
+        true, this pin needs to be specified
+        to a value that extracts only one
+        layer (top, bottom or mid).
 
         Parameters
         ----------
