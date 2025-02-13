@@ -18,9 +18,7 @@ def build_docstring(specification):
     docstring = ""
     if specification.description:
         docstring += specification.description.replace("\n", "\n    ")
-        docstring += "\n\n"
-    # docstring = docstring.rstrip()
-    return docstring  #.replace('"', "'")
+    return docstring
 
 
 def map_types(cpp_types):
