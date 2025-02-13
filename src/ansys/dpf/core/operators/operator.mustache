@@ -34,9 +34,9 @@ class {{class_name}}(Operator):
     {{^optional}}
     {{name}}:{{#types_for_docstring}} {{types_for_docstring}}{{/types_for_docstring}}
     {{/optional}}
-    {{#document_docstring}}
-        {{{document_docstring}}}
-    {{/document_docstring}}
+    {{#document_pin_docstring}}
+        {{{document_pin_docstring}}}
+    {{/document_pin_docstring}}
     {{/input_pins}}
 
     Returns
@@ -48,9 +48,9 @@ class {{class_name}}(Operator):
     {{^optional}}
     {{name}}:{{#types_for_docstring}} {{types_for_docstring}}{{/types_for_docstring}}
     {{/optional}}
-    {{#document_docstring}}
-        {{{document_docstring}}}
-    {{/document_docstring}}
+    {{#document_pin_docstring}}
+        {{{document_pin_docstring}}}
+    {{/document_pin_docstring}}
     {{/output_pins}}
 
     Examples
