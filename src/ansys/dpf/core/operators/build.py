@@ -155,8 +155,7 @@ def build_operator(
     with open(mustache_file, "r") as f:
         cls = chevron.render(f, data)
     try:
-        # return black.format_str(cls, mode=black.FileMode())
-        return cls
+        return black.format_str(cls, mode=black.FileMode())
     except Exception as e:
         print(f"{operator_name=}")
         raise e
