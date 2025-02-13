@@ -19,7 +19,7 @@ from ansys.dpf.core.outputs import _modify_output_spec_with_one_type
 from ansys.dpf.core.operators.specification import PinSpecification, Specification
 
 class {{class_name}}(Operator):
-    """{{{docstring}}}
+    r"""{{{docstring}}}
 
     Parameters
     ----------
@@ -30,9 +30,9 @@ class {{class_name}}(Operator):
     {{^optional}}
     {{name}} :{{#types_for_docstring}} {{types_for_docstring}}{{/types_for_docstring}}
     {{/optional}}
-    {{#document}}
-        {{{document}}}
-    {{/document}}
+    {{#document_docstring}}
+        {{{document_docstring}}}
+    {{/document_docstring}}
     {{/input_pins}}
 
     Returns
@@ -44,9 +44,9 @@ class {{class_name}}(Operator):
     {{^optional}}
     {{name}} :{{#types_for_docstring}} {{types_for_docstring}}{{/types_for_docstring}}
     {{/optional}}
-    {{#document}}
-        {{{document}}}
-    {{/document}}
+    {{#document_docstring}}
+        {{{document_docstring}}}
+    {{/document_docstring}}
     {{/output_pins}}
 
     Examples
@@ -88,7 +88,7 @@ class {{class_name}}(Operator):
 
     @staticmethod
     def _spec():
-        description = """{{specification_description}}"""
+        description = r"""{{{specification_description}}}"""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -102,7 +102,7 @@ class {{class_name}}(Operator):
                     type_names=["any"],
                     {{/has_types}}
                     optional={{optional}},
-                    document="""{{{document}}}""",
+                    document=r"""{{{document}}}""",
                     {{#has_derived_class}}
                     name_derived_class=["{{{derived_type_name}}}"],
                     {{/has_derived_class}}
@@ -117,7 +117,7 @@ class {{class_name}}(Operator):
                     type_names={{{types}}},
                     {{/has_types}}
                     optional={{optional}},
-                    document="""{{{document}}}""",
+                    document=r"""{{{document}}}""",
                     {{#has_derived_class}}
                     name_derived_class=["{{{derived_type_name}}}"],
                     {{/has_derived_class}}
@@ -187,7 +187,7 @@ class Inputs{{capital_class_name}}(_Inputs):
     {{#input_pins}}
     @property
     def {{name}}(self):
-        """Allows to connect {{name}} input to the operator.
+        r"""Allows to connect {{name}} input to the operator.
         {{#document}}
 
         {{{document}}}
@@ -240,7 +240,7 @@ class Outputs{{capital_class_name}}(_Outputs):
 
     @property
     def {{name}}(self):
-        """Allows to get {{name}} output of the operator
+        r"""Allows to get {{name}} output of the operator
 
         Returns
         ----------

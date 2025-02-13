@@ -17,12 +17,10 @@ def build_docstring(specification):
     """Used to generate class docstrings."""
     docstring = ""
     if specification.description:
-        docstring += "\n".join(
-            wrap(specification.description, subsequent_indent="    ")
-        )
+        docstring += specification.description.replace("\n", "\n    ")
         docstring += "\n\n"
-    docstring = docstring.rstrip()
-    return docstring.replace('"', "'")
+    # docstring = docstring.rstrip()
+    return docstring  #.replace('"', "'")
 
 
 def map_types(cpp_types):
@@ -83,6 +81,9 @@ def build_pin_data(pins, output=False):
         if multiple_types and output:
             printable_type_names = [_make_printable_type(name) for name in type_names]
 
+        document = specification.document
+        document_docstring = document.replace("\n", "\n        ")
+
         pin_data = {
             "id": id,
             "name": pin_name,
@@ -97,12 +98,8 @@ def build_pin_data(pins, output=False):
             "main_type": main_type,
             "built_in_main_type": main_type in built_in_types,
             "optional": specification.optional,
-            "document": "\n".join(
-                wrap(
-                    specification.document,
-                    subsequent_indent="        ",
-                )
-            ),
+            "document": document,
+            "document_docstring": document_docstring,
             "ellipsis": 0 if specification.ellipsis else -1,
         }
 
@@ -138,10 +135,6 @@ def build_operator(
 
     docstring = build_docstring(specification)
 
-    specification_description = "\n".join(
-        wrap(specification.description, subsequent_indent="            ")
-    )
-
     date_and_time = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
 
     data = {
@@ -150,7 +143,7 @@ def build_operator(
         "class_name_underlining": len(class_name)*"=",
         "capital_class_name": capital_class_name,
         "docstring": docstring,
-        "specification_description": specification_description,
+        "specification_description": specification.description,
         "input_pins": input_pins,
         "output_pins": output_pins,
         "outputs": len(output_pins) >= 1,
