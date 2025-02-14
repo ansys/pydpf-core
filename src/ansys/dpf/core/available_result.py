@@ -31,6 +31,7 @@ from typing import List
 from warnings import warn
 
 from ansys.dpf.core.common import _make_as_function_name, _remove_spaces, natures
+import ansys.dpf.core as dpf
 
 
 @unique
@@ -215,13 +216,15 @@ class AvailableResult:
     def homogeneity(self):
         """Homogeneity of the result."""
         try:
-            # homogeneity = self._homogeneity
-            # if homogeneity == 117:
-            #     return Homogeneity(Homogeneity.DIMENSIONLESS).name
-            return Homogeneity(self._homogeneity).name
-        except ValueError as exception:
-            warn(str(exception))
-            return ""
+            op = dpf.Operator("homogeneity_name")
+            op.connect(0, self._homogeneity)
+            return op.get_output(0, dpf.types.string)
+        except dpf.errors.DPFServerException:
+            try:
+                return Homogeneity(self._homogeneity).name
+            except ValueError as exception:
+                warn(str(exception))
+                return ""
 
     @property
     def unit(self):
