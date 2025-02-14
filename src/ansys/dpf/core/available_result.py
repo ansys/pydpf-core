@@ -219,7 +219,7 @@ class AvailableResult:
             op = dpf.Operator("homogeneity_name")
             op.connect(0, self._homogeneity)
             return op.get_output(0, dpf.types.string)
-        except (dpf.errors.KeyError, dpf.errors.DPFServerException):
+        except (KeyError, dpf.errors.DPFServerException):
             try:
                 return Homogeneity(self._homogeneity).name
             except ValueError as exception:
