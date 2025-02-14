@@ -88,7 +88,89 @@ Test a new feature
 ==================
 
 It is possible to test a new feature before it is officially released. To do
-so, you can install PyDPF-Core from the source code.
+so, you can install PyDPF-Core from the source code by following the steps below.
+
+Clone the repository
+--------------------
+
+Clone and install the latest version of PyDPF-Core by running this code:
+
+.. code-block:: bash
+
+    git clone https://github.com/ansys/pydpf-core
+
+Install for users
+-----------------
+
+Installing the latest version of PyDPF-Core allows you to test latest features as
+they are being developed without having to wait for releases.
+
+Virtual environment
+~~~~~~~~~~~~~~~~~~~
+
+Start by navigating to the project's root directory by running:
+
+.. code-block::
+
+    cd pydpf-core
+
+Then, create a new virtual environment named ``.venv`` to isolate your system's
+Python environment by running:
+
+.. code-block:: text
+
+    python -m venv .venv
+
+Finally, activate this environment by running:
+
+.. tab-set::
+
+    .. tab-item:: Windows
+
+        .. tab-set::
+
+            .. tab-item:: CMD
+
+                .. code-block:: text
+
+                    .venv\Scripts\activate.bat
+
+            .. tab-item:: PowerShell
+
+                .. code-block:: text
+
+                    .venv\Scripts\Activate.ps1
+
+    .. tab-item:: macOS/Linux/UNIX
+
+        .. code-block:: text
+
+            source .venv/bin/activate
+
+Latest version installation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Now, install PyDPF-Core in editable mode by running:
+
+.. code-block:: text
+
+    python -m pip install .
+
+Verify the installation by checking the version of the library:
+
+
+.. code-block:: python
+
+    from ansys.dpf.core import __version__
+
+
+    print(f"PyDPF-Core version is {__version__}")
+
+.. jinja::
+
+    .. code-block:: text
+
+       >>> PyDPF-Core version is {{ PYDPF_CORE_VERSION }}
 
 .. _start-a-discussion:
 
