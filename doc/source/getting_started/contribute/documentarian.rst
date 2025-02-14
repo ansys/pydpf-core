@@ -17,7 +17,7 @@ Contributing as a documentarian
 
         Showcase the capabilities of PyDPF-Core by adding a new example. 
 
-    .. grid-item-card:: :fa:`file-code` Build the documentation
+    .. grid-item-card:: :fa:`book` Build the documentation
         :padding: 2 2 2 2
         :link: build-documentation
         :link-type: ref
@@ -116,7 +116,7 @@ Build the documentation
 
     python -m pip install tox tox-uv
 
-There are different environments for cleaning previous build, building the HTML documentation,
+There are different tox environments for cleaning previous build, building the HTML documentation,
 and checking the integrity of external links. The following environments are available:
 
 .. jinja:: toxenvs
@@ -130,11 +130,13 @@ and checking the integrity of external links. The following environments are ava
             :widths: auto
 
             * - Environment
+              - Description
               - Command
             {% for environment in envs %}
             {% set name, description  = environment.split("->") %}
             {% if name.startswith("doc-")%}
             * - {{ name }}
+              - {{ description }}
               - python -m tox -e {{ name }}
             {% endif %}
             {% endfor %}
@@ -154,11 +156,11 @@ are modified.
 
 .. tip::
     Instead of setting environment variables at the operating system level, you can
-    add ``-x testenv:<environment_name>.setenv+="<env_var>=<env_var_value>"`` to the
+    add ``-x testenv:<env_name>.setenv+="<env_var>=<env_var_value>"`` to the
     previous tox commands. This can also be repeated to set multiple environment variables
     through tox. For example, to build HTML documentation while excluding both examples and
     API during the build, you can use the following command:
 
     .. code-block:: text
 
-    python -m tox -e doc-html -x testenv:doc-html.setenv+="BUILD_API=false" -x testenv:doc-html.setenv+="BUILD_EXAMPLES=false"
+        python -m tox -e doc-html -x testenv:doc-html.setenv+="BUILD_API=false" -x testenv:doc-html.setenv+="BUILD_EXAMPLES=false"
