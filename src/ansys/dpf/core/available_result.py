@@ -30,8 +30,8 @@ from enum import Enum, unique
 from typing import List
 from warnings import warn
 
-from ansys.dpf.core.common import _make_as_function_name, _remove_spaces, natures
 import ansys.dpf.core as dpf
+from ansys.dpf.core.common import _make_as_function_name, _remove_spaces, natures
 
 
 @unique
@@ -219,7 +219,7 @@ class AvailableResult:
             op = dpf.Operator("homogeneity_name")
             op.connect(0, self._homogeneity)
             return op.get_output(0, dpf.types.string)
-        except dpf.errors.DPFServerException:
+        except (dpf.errors.KeyError, dpf.errors.DPFServerException):
             try:
                 return Homogeneity(self._homogeneity).name
             except ValueError as exception:
