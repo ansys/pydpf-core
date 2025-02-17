@@ -934,10 +934,10 @@ class Workflow:
 
         if save_as:
             image_path = Path(save_as)
-            dot_path = image_path.parent / image_path.stem / ".dot"
+            dot_path = image_path.parent / f"{image_path.stem}.dot"
         else:
             image_path = Path.cwd() / f"{name}.png"
-            dot_path = image_path.parent / image_path.stem / ".dot"
+            dot_path = image_path.parent / f"{image_path.stem}.dot"
 
         # Create graphviz file of workflow
         self.to_graphviz(dot_path)
