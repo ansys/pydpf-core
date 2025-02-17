@@ -434,7 +434,7 @@ class Specification(SpecificationBase):
                     for i_type in range(n_types)
                 ]
                 pin_aliases = []
-                if server_meet_version("10.0", self._server):
+                if hasattr(self._api, "operator_specification_get_pin_num_aliases"):
                     for i_alias in range(
                         self._api.operator_specification_get_pin_num_aliases(self, binput, i_pin)
                     ):
