@@ -30,7 +30,7 @@ Contributing as a developer
 Clone the repository
 ====================
 
-Clone and install the latest version of PyDPF-Core in
+Clone the latest version of PyDPF-Core in
 development mode by running this code:
 
 .. code-block:: bash

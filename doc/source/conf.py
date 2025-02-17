@@ -2,7 +2,6 @@ from datetime import datetime
 from glob import glob
 import os
 from pathlib import Path
-import sys
 import subprocess
 
 from ansys_sphinx_theme import (

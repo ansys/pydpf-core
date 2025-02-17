@@ -31,7 +31,7 @@ Write documentation
 
 The documentation generator used in PyDPF-Core is `Sphinx`_. Most of the documents
 are written in `reStructuredText`_. Some parts of the documentation, like the
-:ref:`examples <Examples>`, uses a mix of `reStructuredText`_ and Python, thanks to `Sphinx-Gallery`_.
+:ref:`examples <Examples>`, use a mix of `reStructuredText`_ and Python, thanks to `Sphinx-Gallery`_.
 If you are interested in writing examples, see the :ref:`writing examples <write-examples>` 
 section.
 

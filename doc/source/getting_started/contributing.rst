@@ -8,8 +8,7 @@ Overall guidance on contributing to a PyAnsys repository appears in
 in the *PyAnsys Developer's Guide*. Ensure that you are thoroughly familiar
 with this guide before attempting to contribute to PyDPF-Core.
  
-The following contribution information is classified according to your role in the PyDPF-Core project.
-
+The following contribution information is specific to PyDPF-Core. Start by selecting your role in the project:
 .. grid:: 1 1 3 3
 
     .. grid-item-card:: :fa:`user` User
