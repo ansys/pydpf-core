@@ -10,3 +10,7 @@
 .. _reStructuredText: https://docutils.sourceforge.io/rst.html
 .. _Sphinx-Gallery: https://sphinx-gallery.github.io/stable/index.html
 .. _Sphinx: https://www.sphinx-doc.org/en/master/
+
+.. Other links
+
+.. _Contributor Covenant Code of Conduct: https://www.contributor-covenant.org/version/2/1/code_of_conduct/

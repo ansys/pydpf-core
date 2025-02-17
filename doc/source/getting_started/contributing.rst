@@ -7,6 +7,11 @@ Overall guidance on contributing to a PyAnsys repository appears in
 `Contribute <https://dev.docs.pyansys.com/how-to/contributing.html>`_
 in the *PyAnsys Developer's Guide*. Ensure that you are thoroughly familiar
 with this guide before attempting to contribute to PyDPF-Core.
+
+.. important::
+
+    This project adheres to the `Contributor Covenant Code of Conduct`_. By
+    participating, you agree to uphold this code.
  
 The following contribution information is specific to PyDPF-Core. Start by selecting your role in the project:
 .. grid:: 1 1 3 3
