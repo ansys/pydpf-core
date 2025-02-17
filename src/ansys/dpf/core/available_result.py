@@ -102,6 +102,8 @@ class Homogeneity(Enum):
     mass_flow_rate = 122
     specific_energy = 123
     specific_entropy = 124
+    force_density = 125
+    magnetic_potential = 126
 
 
 class AvailableResult:
