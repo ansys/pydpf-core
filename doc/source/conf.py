@@ -10,7 +10,6 @@ from ansys_sphinx_theme import (
 )
 import numpy as np
 import pyvista
-import sphinx
 
 from ansys.dpf.core import __version__, server, server_factory
 from ansys.dpf.core.examples import get_example_required_minimum_dpf_version
@@ -375,39 +374,3 @@ epub_title = project
 
 # A list of files that should not be packed into the epub file.
 epub_exclude_files = ["search.html"]
-
-
-def close_live_servers_and_processes(app: sphinx.application.Sphinx) -> None:
-    # Adapted from reset_servers() function, so this can be called after
-    # sphinx gallery finishes execution
-    import gc
-
-    import psutil
-
-    from ansys.dpf.core import server
-
-    gc.collect()
-    server.shutdown_all_session_servers()
-
-    proc_name = "Ans.Dpf.Grpc"
-    nb_procs = 0
-    for proc in psutil.process_iter():
-        try:
-            # check whether the process name matches
-            if proc_name in proc.name():
-                proc.kill()
-                nb_procs += 1
-        except psutil.NoSuchProcess:
-            pass
-
-def setup(app: sphinx.application.Sphinx) -> None:
-    """
-    Run hook function(s) during the documentation build.
-
-    Parameters
-    ----------
-    app : sphinx.application.Sphinx
-        Sphinx application instance containing the all the doc build configuration.
-    """
-
-    app.connect("builder-inited", close_live_servers_and_processes)
