@@ -500,7 +500,9 @@ class Field(_FieldBase):
         op.inputs.connect(self)
         return op.outputs.field()
 
-    def plot(self, shell_layers=None, deform_by=None, scale_factor=1.0, **kwargs):
+    def plot(
+        self, shell_layers=None, deform_by=None, scale_factor=1.0, meshed_region=None, **kwargs
+    ):
         """Plot the field or fields container on the mesh support if it exists.
 
         Warning
@@ -536,7 +538,9 @@ class Field(_FieldBase):
         """
         from ansys.dpf.core.plotter import Plotter
 
-        pl = Plotter(self.meshed_region, **kwargs)
+        if meshed_region is None:
+            meshed_region = self.meshed_region
+        pl = Plotter(meshed_region, **kwargs)
         return pl.plot_contour(
             self,
             shell_layers,
