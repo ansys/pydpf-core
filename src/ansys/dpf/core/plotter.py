@@ -892,6 +892,8 @@ class Plotter:
             mesh = meshed_region
         else:
             mesh = self._mesh
+        if mesh.elements.n_elements == 0 and mesh.nodes.n_nodes == 0 and mesh.faces.n_faces == 0:
+            raise dpf_errors.EmptyMeshPlottingError
 
         # get mesh scoping
         location = None
