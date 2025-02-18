@@ -438,6 +438,15 @@ configsserver_type, config_namesserver_type = remove_none_available_config(
 )
 
 
+current_port = ansys.dpf.core.server_types.DPF_DEFAULT_PORT
+
+
+def get_next_port() -> int:
+    global current_port
+    current_port += 1
+    return current_port
+
+
 @pytest.fixture(
     scope="package",
     params=configsserver_type,
@@ -446,7 +455,7 @@ configsserver_type, config_namesserver_type = remove_none_available_config(
 def server_type(request):
     if core.global_server().config == request.param and os.name != "posix":
         return core.global_server()
-    server = core.start_local_server(config=request.param, as_global=False)
+    server = core.start_local_server(config=request.param, as_global=False, port=get_next_port())
     return server
 
 
@@ -470,7 +479,7 @@ def server_type(request):
 def server_type_remote_process(request):
     if core.global_server().config == request.param and os.name != "posix":
         return core.global_server()
-    server = core.start_local_server(config=request.param, as_global=False)
+    server = core.start_local_server(config=request.param, as_global=False, port=get_next_port())
     return server
 
 
@@ -509,7 +518,7 @@ def config_server_type(request):
 def server_type_legacy_grpc(request):
     if core.global_server().config == request.param and os.name != "posix":
         return core.global_server()
-    return core.start_local_server(config=request.param, as_global=False)
+    return core.start_local_server(config=request.param, as_global=False, port=get_next_port())
 
 
 @pytest.fixture(
@@ -522,7 +531,7 @@ def server_type_legacy_grpc(request):
 def server_clayer_remote_process(request):
     if core.global_server().config == request.param and os.name != "posix":
         return core.global_server()
-    server = core.start_local_server(config=request.param, as_global=False)
+    server = core.start_local_server(config=request.param, as_global=False, port=get_next_port())
     return server
 
 
@@ -543,7 +552,7 @@ configs_server_clayer, config_names_server_clayer = remove_none_available_config
 def server_clayer(request):
     if core.global_server().config == request.param and os.name != "posix":
         return core.global_server()
-    server = core.start_local_server(config=request.param, as_global=False)
+    server = core.start_local_server(config=request.param, as_global=False, port=get_next_port())
     return server
 
 
@@ -584,7 +593,9 @@ class LocalServers:
             conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
         if len(self._local_servers) <= item:
             while len(self._local_servers) <= item:
-                self._local_servers.append(core.start_local_server(as_global=False, config=conf))
+                self._local_servers.append(
+                    core.start_local_server(as_global=False, config=conf, port=get_next_port())
+                )
         try:
             self._local_servers[item].info
             return self._local_servers[item]
@@ -592,7 +603,7 @@ class LocalServers:
             for iter in range(0, self._max_iter):
                 try:
                     self._local_servers[item] = core.start_local_server(
-                        as_global=False, config=conf
+                        as_global=False, config=conf, port=get_next_port()
                     )
                     self._local_servers[item].info
                     break
