@@ -275,16 +275,11 @@ class _PyVistaPlotter:
             mesh_location = meshed_region.elements
         else:
             raise ValueError("Only elemental, nodal or faces location are supported for plotting.")
-        if field.component_count > 1:
-            # Take the norm
-            field = dpf.core.operators.math.norm(field=field, server=field._server).eval()
-        # Patch for badly defined ls-dyna fields
-        field = dpf.core.operators.logic.elementary_data_selector(
-            field=field,
-            elementary_data_index=0,
-            server=field._server,
-        ).eval()
-        overall_data = np.full(len(mesh_location), np.nan)
+        component_count = field.component_count
+        if component_count > 1:
+            overall_data = np.full((len(mesh_location), component_count), np.nan)
+        else:
+            overall_data = np.full(len(mesh_location), np.nan)
         if location != locations.overall:
             ind, mask = mesh_location.map_scoping(field.scoping)
             overall_data[ind] = field.data[mask]
@@ -943,17 +938,9 @@ class Plotter:
 
         # Merge field data into a single array
         if component_count > 1:
-            fields_container = dpf.core.operators.math.norm_fc(
-                fields_container=fields_container, server=fields_container._server
-            ).eval()
-        # Patch for badly defined ls-dyna fields
-        fields_container = dpf.core.operators.logic.elementary_data_selector_fc(
-            fields_container=fields_container,
-            elementary_data_index=0,
-            server=fields_container._server,
-        ).eval()
-
-        overall_data = np.full(len(mesh_location), np.nan)
+            overall_data = np.full((len(mesh_location), component_count), np.nan)
+        else:
+            overall_data = np.full(len(mesh_location), np.nan)
 
         for field in fields_container:
             ind, mask = mesh_location.map_scoping(field.scoping)
