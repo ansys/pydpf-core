@@ -26,9 +26,17 @@ FieldsContainer.
 Contains classes associated with the DPF FieldsContainer.
 """
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from ansys import dpf
 from ansys.dpf.core import errors as dpf_errors, field
 from ansys.dpf.core.collection_base import CollectionBase
+from ansys.dpf.core.common import shell_layers
+
+if TYPE_CHECKING:
+    from ansys.dpf.core import Operator, Result
 
 
 class FieldsContainer(CollectionBase["field.Field"]):
@@ -543,7 +551,14 @@ class FieldsContainer(CollectionBase["field.Field"]):
             plt.add_field(field=f, **kwargs)
         plt.show_figure(**kwargs)
 
-    def animate(self, save_as=None, deform_by=None, scale_factor=1.0, **kwargs):
+    def animate(
+        self,
+        save_as: str = None,
+        deform_by: Union[FieldsContainer, Result, Operator] = None,
+        scale_factor: Union[float, Sequence[float]] = 1.0,
+        shell_layer: shell_layers = shell_layers.top,
+        **kwargs,
+    ):
         """Create an animation based on the Fields contained in the FieldsContainer.
 
         This method creates a movie or a gif based on the time ids of a FieldsContainer.
@@ -551,15 +566,24 @@ class FieldsContainer(CollectionBase["field.Field"]):
 
         Parameters
         ----------
-        save_as : Path of file to save the animation to. Defaults to None. Can be of any format
+        save_as:
+            Path of file to save the animation to. Defaults to None. Can be of any format
             supported by pyvista.Plotter.write_frame (.gif, .mp4, ...).
-        deform_by : FieldsContainer, Result, Operator, optional
+        deform_by:
             Used to deform the plotted mesh. Must return a FieldsContainer of the same length as
             self, containing 3D vector Fields of distances.
             Defaults to None, which takes self if possible. Set as False to force static animation.
         scale_factor : float, list, optional
             Scale factor to apply when warping the mesh. Defaults to 1.0. Can be a list to make
             scaling frequency-dependent.
+        shell_layer:
+            Enum used to set the shell layer if the field to plot
+            contains shell elements. Defaults to top layer.
+        **kwargs:
+            Additional keyword arguments for the animator.
+            Used by :func:`pyvista.Plotter` (off_screen, cpos, ...),
+            or by :func:`pyvista.Plotter.open_movie`
+            (framerate, quality, ...)
         """
         from ansys.dpf.core.animator import Animator
 
@@ -655,6 +679,7 @@ class FieldsContainer(CollectionBase["field.Field"]):
             loop_over=loop_over_field,
             save_as=save_as,
             scale_factor=scale_factor,
+            shell_layer=shell_layer,
             **kwargs,
         )
 
