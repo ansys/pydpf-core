@@ -47,6 +47,8 @@ from ansys.dpf.core.helpers.streamlines import _sort_supported_kwargs
 from ansys.dpf.core.nodes import Node, Nodes
 
 if TYPE_CHECKING:  # pragma: no cover
+    from ansys.dpf.core import Operator, Result
+    from ansys.dpf.core.fields_container import FieldsContainer
     from ansys.dpf.core.meshed_region import MeshedRegion
 
 
@@ -831,31 +833,30 @@ class Plotter:
 
     def plot_contour(
         self,
-        field_or_fields_container,
-        shell_layers=None,
-        meshed_region=None,
-        deform_by=None,
-        scale_factor=1.0,
+        field_or_fields_container: Union[Field, FieldsContainer],
+        shell_layers: eshell_layers = None,
+        meshed_region: MeshedRegion = None,
+        deform_by: Union[Field, Result, Operator] = None,
+        scale_factor: float = 1.0,
         **kwargs,
     ):
         """Plot the contour result on its mesh support.
 
         You cannot plot a fields container containing results at several
-        time steps.
+        time steps. Use :func:`FieldsContainer.animate` instead.
 
         Parameters
         ----------
-        field_or_fields_container : dpf.core.Field or dpf.core.FieldsContainer
+        field_or_fields_container:
             Field or field container that contains the result to plot.
-        shell_layers : core.shell_layers, optional
+        shell_layers:
             Enum used to set the shell layers if the model to plot
-            contains shell elements.
-        deform_by : Field, Result, Operator, optional
+            contains shell elements. Defaults to the top layer.
+        deform_by:
             Used to deform the plotted mesh. Must output a 3D vector field.
-            Defaults to None.
-        scale_factor : float, optional
-            Scaling factor to apply when warping the mesh. Defaults to 1.0.
-        **kwargs : optional
+        scale_factor:
+            Scaling factor to apply when warping the mesh.
+        **kwargs:
             Additional keyword arguments for the plotter. For more information,
             see ``help(pyvista.plot)``.
         """
