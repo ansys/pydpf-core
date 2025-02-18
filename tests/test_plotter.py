@@ -253,6 +253,16 @@ def test_field_shell_plot_scoping_elemental(multishells):
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_field_plot_raise_empty_mesh(simple_bar):
+    ds = core.DataSources(simple_bar)
+    stream_prov = core.operators.metadata.streams_provider(data_sources=ds)
+    result_op = core.operators.result.displacement(streams_container=stream_prov)
+    field = result_op.outputs.fields_container()[0]
+    with pytest.raises(dpf_errors.EmptyMeshPlottingError):
+        field.plot()
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_throw_shell_layers(multishells):
     model = core.Model(multishells)
     stress = model.results.stress()
