@@ -22,6 +22,7 @@
 
 """Inputs."""
 
+from enum import Enum
 from textwrap import wrap
 import warnings
 import weakref
@@ -73,7 +74,7 @@ class Input:
 
         Parameters
         ----------
-        inpt : str, int, double, Field, FieldsContainer, Scoping, DataSources, MeshedRegion,
+        inpt : str, int, double, Field, FieldsContainer, Scoping, DataSources, MeshedRegion, Enum,
         Output, Outputs, Operator, os.PathLike
             Input of the operator.
 
@@ -100,6 +101,8 @@ class Input:
                 inpt = inpt.ID
             else:  # Custom UnitSystem
                 inpt = inpt.unit_names
+        elif isinstance(inpt, Enum):
+            inpt = inpt.value
 
         input_type_name = type(inpt).__name__
         if not (input_type_name in self._python_expected_types or ["Outputs", "Output", "Any"]):
@@ -226,7 +229,7 @@ class _Inputs:
 
         Parameters
         ----------
-        inpt : str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping,
+        inpt : str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping, Enum,
         ScopingsContainer, MeshedRegion, MeshesContainer, DataSources, CyclicSupport, Outputs, os.PathLike  # noqa: E501
             Input of the operator.
 
@@ -250,6 +253,8 @@ class _Inputs:
             inpt = inpt.metadata.data_sources
         elif isinstance(inpt, Path):
             inpt = str(inpt)
+        elif isinstance(inpt, Enum):
+            inpt = inpt.value
 
         input_type_name = type(inpt).__name__
         for input_pin in self._inputs:
