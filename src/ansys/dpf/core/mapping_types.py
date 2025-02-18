@@ -21,27 +21,30 @@
 # SOFTWARE.
 """Provides utilities for mapping and transforming data types between Python and C++ representations."""
 
-from enum import Enum  # noqa: F401
+from enum import Enum  # noqa: F401  # pylint: disable=W0611
 import inspect
-from pathlib import Path  # noqa: F401
+from pathlib import Path  # noqa: F401  # pylint: disable=W0611
 import sys
 
 # Import types to map to cpp (camel case to snake case)
-from ansys.dpf.core.available_result import AvailableResult, Homogeneity  # noqa: F401
-from ansys.dpf.core.collection_base import CollectionBase  # noqa: F401
+from ansys.dpf.core.available_result import (  # noqa: F401  # pylint: disable=W0611
+    AvailableResult,
+    Homogeneity,
+)
+from ansys.dpf.core.collection_base import CollectionBase  # noqa: F401  # pylint: disable=W0611
 from ansys.dpf.core.common import (
     _camel_to_snake_case,
     _smart_dict_camel,
     _snake_to_camel_case,
 )
-from ansys.dpf.core.data_sources import DataSources  # noqa: F401
-from ansys.dpf.core.dpf_array import DPFArray  # noqa: F401
-from ansys.dpf.core.field import Field, FieldDefinition  # noqa: F401
-from ansys.dpf.core.fields_container import FieldsContainer  # noqa: F401
-from ansys.dpf.core.meshed_region import MeshedRegion  # noqa: F401
-from ansys.dpf.core.scoping import Scoping  # noqa: F401
-from ansys.dpf.core.support import Support  # noqa: F401
-from ansys.dpf.core.time_freq_support import TimeFreqSupport  # noqa: F401
+from ansys.dpf.core.data_sources import DataSources  # noqa: F401  # pylint: disable=W0611
+from ansys.dpf.core.dpf_array import DPFArray  # noqa: F401  # pylint: disable=W0611
+from ansys.dpf.core.field import Field, FieldDefinition  # noqa: F401  # pylint: disable=W0611
+from ansys.dpf.core.fields_container import FieldsContainer  # noqa: F401  # pylint: disable=W0611
+from ansys.dpf.core.meshed_region import MeshedRegion  # noqa: F401  # pylint: disable=W0611
+from ansys.dpf.core.scoping import Scoping  # noqa: F401  # pylint: disable=W0611
+from ansys.dpf.core.support import Support  # noqa: F401  # pylint: disable=W0611
+from ansys.dpf.core.time_freq_support import TimeFreqSupport  # noqa: F401  # pylint: disable=W0611
 
 map_types_to_cpp = _smart_dict_camel()
 for classes in inspect.getmembers(sys.modules[__name__], inspect.isclass):
