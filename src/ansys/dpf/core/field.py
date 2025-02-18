@@ -22,11 +22,21 @@
 
 """Field."""
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 import numpy as np
 
 from ansys import dpf
 from ansys.dpf.core import dimensionality, errors, meshed_region, scoping, time_freq_support
-from ansys.dpf.core.common import _get_size_of_list, locations, natures, types
+from ansys.dpf.core.common import (
+    _get_size_of_list,
+    locations,
+    natures,
+    shell_layers as eshell_layers,
+    types,
+)
 from ansys.dpf.core.field_base import _FieldBase, _LocalFieldBase
 from ansys.dpf.core.field_definition import FieldDefinition
 from ansys.dpf.gate import (
@@ -36,6 +46,11 @@ from ansys.dpf.gate import (
     field_capi,
     field_grpcapi,
 )
+
+if TYPE_CHECKING:
+    from ansys.dpf.core.dpf_operator import Operator
+    from ansys.dpf.core.meshed_region import MeshedRegion
+    from ansys.dpf.core.results import Result
 
 
 class Field(_FieldBase):
@@ -501,7 +516,12 @@ class Field(_FieldBase):
         return op.outputs.field()
 
     def plot(
-        self, shell_layers=None, deform_by=None, scale_factor=1.0, meshed_region=None, **kwargs
+        self,
+        shell_layers: eshell_layers = None,
+        deform_by: Union[Field, Result, Operator] = None,
+        scale_factor: float = 1.0,
+        meshed_region: MeshedRegion = None,
+        **kwargs,
     ):
         """Plot the field or fields container on the mesh support if it exists.
 
@@ -524,15 +544,14 @@ class Field(_FieldBase):
 
         Parameters
         ----------
-        shell_layers : shell_layers, optional
+        shell_layers:
             Enum used to set the shell layers if the model to plot
-            contains shell elements. The default is ``None``.
-        deform_by : Field, Result, Operator, optional
+            contains shell elements. Defaults to the top layer.
+        deform_by:
             Used to deform the plotted mesh. Must output a 3D vector field.
-            Defaults to None.
-        scale_factor : float, optional
-            Scaling factor to apply when warping the mesh. Defaults to 1.0.
-        **kwargs : optional
+        scale_factor:
+            Scaling factor to apply when warping the mesh.
+        **kwargs:
             Additional keyword arguments for the plotter. For additional keyword
             arguments, see ``help(pyvista.plot)``.
         """
