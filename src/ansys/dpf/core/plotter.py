@@ -852,6 +852,8 @@ class Plotter:
         shell_layers:
             Enum used to set the shell layers if the model to plot
             contains shell elements. Defaults to the top layer.
+        meshed_region:
+            Mesh to plot the data on.
         deform_by:
             Used to deform the plotted mesh. Must output a 3D vector field.
         scale_factor:

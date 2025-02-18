@@ -551,6 +551,8 @@ class Field(_FieldBase):
             Used to deform the plotted mesh. Must output a 3D vector field.
         scale_factor:
             Scaling factor to apply when warping the mesh.
+        meshed_region:
+            Mesh to plot the field on.
         **kwargs:
             Additional keyword arguments for the plotter. For additional keyword
             arguments, see ``help(pyvista.plot)``.
