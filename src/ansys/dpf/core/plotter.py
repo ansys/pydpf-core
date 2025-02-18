@@ -286,9 +286,7 @@ class _PyVistaPlotter:
         ]:
             change_shell_layer_op = core.operators.utility.change_shell_layers()
             change_shell_layer_op.inputs.fields_container.connect(field)
-            change_shell_layer_op.inputs.e_shell_layer.connect(
-                shell_layer.value
-            )  # top layers taken
+            change_shell_layer_op.inputs.e_shell_layer.connect(shell_layer)  # top layer taken
             field = change_shell_layer_op.get_output(0, core.types.field)
 
         component_count = field.component_count
