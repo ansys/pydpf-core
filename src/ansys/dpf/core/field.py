@@ -728,8 +728,10 @@ class Field(_FieldBase):
         try:
             support = self._api.csfield_get_support_as_meshed_region(self)
         except DPFServerException as e:
-            if "the field doesn't have this support type" in e.msg:
+            if "the field doesn't have this support type" in str(e):
                 support = None
+            else:
+                raise e
         return meshed_region.MeshedRegion(
             mesh=support,
             server=self._server,
