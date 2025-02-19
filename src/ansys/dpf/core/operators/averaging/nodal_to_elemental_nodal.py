@@ -22,8 +22,9 @@ class nodal_to_elemental_nodal(Operator):
         is expected
     mesh_scoping : Scoping, optional
     collapse_shell_layers : bool, optional
-        If true, shell layers are averaged as well
-        (default is false).
+        If true, the data across different shell
+        layers is averaged as well (default
+        is false).
 
     Returns
     -------
@@ -97,8 +98,9 @@ class nodal_to_elemental_nodal(Operator):
                     name="collapse_shell_layers",
                     type_names=["bool"],
                     optional=True,
-                    document="""If true, shell layers are averaged as well
-        (default is false).""",
+                    document="""If true, the data across different shell
+        layers is averaged as well (default
+        is false).""",
                 ),
             },
             map_output_pin_spec={
@@ -221,8 +223,9 @@ class InputsNodalToElementalNodal(_Inputs):
     def collapse_shell_layers(self):
         """Allows to connect collapse_shell_layers input to the operator.
 
-        If true, shell layers are averaged as well
-        (default is false).
+        If true, the data across different shell
+        layers is averaged as well (default
+        is false).
 
         Parameters
         ----------
