@@ -48,7 +48,7 @@ from ansys.dpf.gate import (
 )
 from ansys.dpf.gate.errors import DPFServerException
 
-if TYPE_CHECKING:
+if TYPE_CHECKING:  # pragma: nocover
     from ansys.dpf.core.dpf_operator import Operator
     from ansys.dpf.core.meshed_region import MeshedRegion
     from ansys.dpf.core.results import Result
