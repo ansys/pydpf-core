@@ -28,7 +28,7 @@ import warnings
 import weakref
 
 from ansys.dpf.core import collection_base, common, errors, server as server_module
-from ansys.dpf.core.mapping_types import types
+from ansys.dpf.core.common import types
 from ansys.dpf.gate import (
     data_processing_capi,
     data_processing_grpcapi,

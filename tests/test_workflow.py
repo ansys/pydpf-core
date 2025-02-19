@@ -63,7 +63,7 @@ def remove_dot_file(request):
     request.addfinalizer(remove_files)
 
 
-@pytest.mark.skipif(not HAS_GRAPHVIZ, reason="Please install pyvista")
+@pytest.mark.skipif(not HAS_GRAPHVIZ, reason="Please install graphviz")
 def test_workflow_view(server_in_process, remove_dot_file):
     pre_wf = dpf.core.Workflow(server=server_in_process)
     pre_op = dpf.core.operators.utility.forward(server=server_in_process)

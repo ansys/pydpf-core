@@ -13,20 +13,20 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class change_shell_layers(Operator):
-    """Extract the expected shell layers from the input fields. If the fields
-    contain only one layer and the permissive configuration input is
-    set to true then it returns the input fields. If permissive
-    configuration input is set to false, any change which should not
-    be permitted won't be achieved and corresponding field in output
-    will be empty. If permissive configuration input is set to true
-    (default), carefully check the result.
+    """Extract the requested shell layers from the input fields. If the
+    fields contain only one layer and the permissive configuration
+    input is set to true then it returns the input fields. If
+    permissive configuration input is set to false, any change which
+    should not be permitted won't be achieved and the corresponding
+    field in the output will be empty. If permissive configuration
+    input is set to true (default), carefully check the result.
 
     Parameters
     ----------
     fields_container : FieldsContainer or Field
     e_shell_layer : int
-        0:top, 1: bottom, 2: bottomtop, 3:mid,
-        4:bottomtopmid
+        0: top, 1: bottom, 2: bottomtop, 3: mid, 4:
+        bottomtopmid.
     mesh : MeshedRegion or MeshesContainer, optional
         Mesh support of the input fields_container,
         in case it does not have one defined.
@@ -35,9 +35,9 @@ class change_shell_layers(Operator):
         is required (either by connecting
         this pin or in the support).
     merge : bool, optional
-        If set to true, merge shells and solids
-        regarding the shell layer set in
-        s_shell_layer pin (false by default).
+        For shell/solid mixed fields, group in the
+        same field all solids and shells
+        (false by default).
 
     Returns
     -------
@@ -95,14 +95,14 @@ class change_shell_layers(Operator):
 
     @staticmethod
     def _spec():
-        description = """Extract the expected shell layers from the input fields. If the fields
-            contain only one layer and the permissive configuration
-            input is set to true then it returns the input fields. If
-            permissive configuration input is set to false, any change
-            which should not be permitted won't be achieved and
-            corresponding field in output will be empty. If permissive
-            configuration input is set to true (default), carefully
-            check the result."""
+        description = """Extract the requested shell layers from the input fields. If the
+            fields contain only one layer and the permissive
+            configuration input is set to true then it returns the
+            input fields. If permissive configuration input is set to
+            false, any change which should not be permitted won't be
+            achieved and the corresponding field in the output will be
+            empty. If permissive configuration input is set to true
+            (default), carefully check the result."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -116,8 +116,8 @@ class change_shell_layers(Operator):
                     name="e_shell_layer",
                     type_names=["int32", "enum dataProcessing::EShellLayers"],
                     optional=False,
-                    document="""0:top, 1: bottom, 2: bottomtop, 3:mid,
-        4:bottomtopmid""",
+                    document="""0: top, 1: bottom, 2: bottomtop, 3: mid, 4:
+        bottomtopmid.""",
                 ),
                 2: PinSpecification(
                     name="mesh",
@@ -134,9 +134,9 @@ class change_shell_layers(Operator):
                     name="merge",
                     type_names=["bool"],
                     optional=True,
-                    document="""If set to true, merge shells and solids
-        regarding the shell layer set in
-        s_shell_layer pin (false by default).""",
+                    document="""For shell/solid mixed fields, group in the
+        same field all solids and shells
+        (false by default).""",
                 ),
             },
             map_output_pin_spec={
@@ -240,8 +240,8 @@ class InputsChangeShellLayers(_Inputs):
     def e_shell_layer(self):
         """Allows to connect e_shell_layer input to the operator.
 
-        0:top, 1: bottom, 2: bottomtop, 3:mid,
-        4:bottomtopmid
+        0: top, 1: bottom, 2: bottomtop, 3: mid, 4:
+        bottomtopmid.
 
         Parameters
         ----------
@@ -286,9 +286,9 @@ class InputsChangeShellLayers(_Inputs):
     def merge(self):
         """Allows to connect merge input to the operator.
 
-        If set to true, merge shells and solids
-        regarding the shell layer set in
-        s_shell_layer pin (false by default).
+        For shell/solid mixed fields, group in the
+        same field all solids and shells
+        (false by default).
 
         Parameters
         ----------
