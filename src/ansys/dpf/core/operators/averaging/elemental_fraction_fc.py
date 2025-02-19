@@ -35,10 +35,9 @@ class elemental_fraction_fc(Operator):
         fraction instead of
         entity_average_fc.
     collapse_shell_layers : bool, optional
-        The elemental difference and the entity
-        average are taken through the
-        different shell layers if true
-        (default is false).
+        If true, the data across different shell
+        layers is averaged as well (default
+        is false).
 
     Returns
     -------
@@ -145,10 +144,9 @@ class elemental_fraction_fc(Operator):
                     name="collapse_shell_layers",
                     type_names=["bool"],
                     optional=True,
-                    document="""The elemental difference and the entity
-        average are taken through the
-        different shell layers if true
-        (default is false).""",
+                    document="""If true, the data across different shell
+        layers is averaged as well (default
+        is false).""",
                 ),
             },
             map_output_pin_spec={
@@ -326,10 +324,9 @@ class InputsElementalFractionFc(_Inputs):
     def collapse_shell_layers(self):
         """Allows to connect collapse_shell_layers input to the operator.
 
-        The elemental difference and the entity
-        average are taken through the
-        different shell layers if true
-        (default is false).
+        If true, the data across different shell
+        layers is averaged as well (default
+        is false).
 
         Parameters
         ----------
