@@ -57,16 +57,19 @@ def fetch_doc_info(server, operator_name):
                 "optional": output.optional,
             }
         )
-    for configuration_key in spec.config_specification:
-        configuration = spec.config_specification[configuration_key]
-        configurations_info.append(
-            {
-                "name": configuration.name,
-                "types": [str(t) for t in configuration.type_names],
-                "document": configuration.document,
-                "default_value": configuration.default_value_str,
-            }
-        )
+    try:
+        for configuration_key in spec.config_specification:
+            configuration = spec.config_specification[configuration_key]
+            configurations_info.append(
+                {
+                    "name": configuration.name,
+                    "types": [str(t) for t in configuration.type_names],
+                    "document": configuration.document,
+                    "default_value": configuration.default_value_str,
+                }
+            )
+    except:
+        print(f"Operator {operator_name} - error in fetching configuration info!")
     properties = spec.properties
     plugin = properties.pop("plugin", "N/A")
 
@@ -85,6 +88,8 @@ def fetch_doc_info(server, operator_name):
         op_friendly_name = category + ":" + op_friendly_name
 
     license = properties.pop("license", "None")
+
+    exposure = properties.pop("exposure", "N/A")
     scripting_info = {
         "category": category,
         "plugin": plugin,
@@ -100,7 +105,7 @@ def fetch_doc_info(server, operator_name):
         "outputs": output_info,
         "configurations": configurations_info,
         "scripting_info": scripting_info,
-        "exposure": properties["exposure"],
+        "exposure": exposure,
     }
 
 
