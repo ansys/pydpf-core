@@ -34,9 +34,9 @@ class elemental_difference_fc(Operator):
         correspond to the one of the fields
         container.
     collapse_shell_layers : bool, optional
-        The maximum elemental difference is taken
-        through the different shell layers if
-        true (default is false).
+        If true, the data across different shell
+        layers is averaged as well (default
+        is false).
 
     Returns
     -------
@@ -133,9 +133,9 @@ class elemental_difference_fc(Operator):
                     name="collapse_shell_layers",
                     type_names=["bool"],
                     optional=True,
-                    document="""The maximum elemental difference is taken
-        through the different shell layers if
-        true (default is false).""",
+                    document="""If true, the data across different shell
+        layers is averaged as well (default
+        is false).""",
                 ),
             },
             map_output_pin_spec={
@@ -286,9 +286,9 @@ class InputsElementalDifferenceFc(_Inputs):
     def collapse_shell_layers(self):
         """Allows to connect collapse_shell_layers input to the operator.
 
-        The maximum elemental difference is taken
-        through the different shell layers if
-        true (default is false).
+        If true, the data across different shell
+        layers is averaged as well (default
+        is false).
 
         Parameters
         ----------
