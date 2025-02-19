@@ -253,7 +253,7 @@ def test_field_shell_plot_scoping_elemental(multishells):
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
-def test_throw_shell_layers(multishells):
+def test_plotter_plot_contour_throw_shell_layers(multishells):
     model = core.Model(multishells)
     stress = model.results.stress()
     scoping = core.Scoping()
@@ -267,6 +267,27 @@ def test_throw_shell_layers(multishells):
     f = s[1]
     with pytest.raises(TypeError):
         f.plot(shell_layers="test")
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_dpf_plotter_add_field_throw_shell_layer(multishells):
+    field: core.Field = core.operators.result.stress(
+        data_sources=core.DataSources(multishells),
+        requested_location=core.locations.elemental,
+    ).eval()[1]
+    plt = DpfPlotter()
+    with pytest.raises(TypeError):
+        plt.add_field(field=field, shell_layer="test")
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_dpf_plotter_add_field_change_shell_layer(multishells):
+    field: core.Field = core.operators.result.stress(
+        data_sources=core.DataSources(multishells),
+        requested_location=core.locations.elemental,
+    ).eval()[1]
+    plt = DpfPlotter()
+    plt.add_field(field=field)
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")

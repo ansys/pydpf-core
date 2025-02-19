@@ -233,6 +233,7 @@ class _PyVistaPlotter:
         scale_factor=1.0,
         scale_factor_legend=None,
         as_linear=True,
+        shell_layer=eshell_layers.top,
         **kwargs,
     ):
         # Get the field name
@@ -275,6 +276,20 @@ class _PyVistaPlotter:
             mesh_location = meshed_region.elements
         else:
             raise ValueError("Only elemental, nodal or faces location are supported for plotting.")
+
+        # Treat multilayered shells
+        if not isinstance(shell_layer, eshell_layers):
+            raise TypeError("shell_layer attribute must be a core.shell_layers instance.")
+        if field.shell_layers in [
+            eshell_layers.topbottom,
+            eshell_layers.topbottommid,
+        ]:
+            change_shell_layer_op = core.operators.utility.change_shell_layers(
+                fields_container=field,
+                e_shell_layer=shell_layer,
+            )
+            field = change_shell_layer_op.get_output(0, core.types.field)
+
         component_count = field.component_count
         if component_count > 1:
             overall_data = np.full((len(mesh_location), component_count), np.nan)
@@ -603,6 +618,7 @@ class DpfPlotter:
         label_point_size=20,
         deform_by=None,
         scale_factor=1.0,
+        shell_layer=eshell_layers.top,
         **kwargs,
     ):
         """Add a field containing data to the plotter.
@@ -627,6 +643,9 @@ class DpfPlotter:
             Defaults to None.
         scale_factor : float, optional
             Scaling factor to apply when warping the mesh. Defaults to 1.0.
+        shell_layer: core.shell_layers, optional
+            Enum used to set the shell layer if the field to plot
+            contains shell elements. Defaults to top layer.
         **kwargs : optional
             Additional keyword arguments for the plotter. More information
             are available at :func:`pyvista.plot`.
@@ -653,6 +672,7 @@ class DpfPlotter:
             deform_by=deform_by,
             scale_factor=scale_factor,
             as_linear=True,
+            shell_layer=shell_layer,
             **kwargs,
         )
 

@@ -60,6 +60,7 @@ class _PyVistaAnimator(_PyVistaPlotter):
         save_as="",
         mode_number=None,
         scale_factor=1.0,
+        shell_layer=core.shell_layers.top,
         **kwargs,
     ):
         unit = loop_over.unit
@@ -121,6 +122,7 @@ class _PyVistaAnimator(_PyVistaPlotter):
                 field,
                 deform_by=deform,
                 scale_factor_legend=scale_factor[frame],
+                shell_layer=shell_layer,
                 **kwargs,
             )
             kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.add_text, **freq_kwargs)
@@ -267,6 +269,7 @@ class Animator:
         save_as: str = None,
         scale_factor: Union[float, Sequence[float]] = 1.0,
         freq_kwargs: dict = None,
+        shell_layer: core.shell_layers = core.shell_layers.top,
         **kwargs,
     ):
         """
@@ -274,26 +277,29 @@ class Animator:
 
         Parameters
         ----------
-        loop_over : Field
+        loop_over:
             Field of values to loop over.
             Can for example be a subset of sets of TimeFreqSupport.time_frequencies.
             The unit of the Field will be displayed if present.
-        output_name : str, optional
+        output_name:
             Name of the workflow output to use as Field for each frame's contour.
             Defaults to "to_render".
-        input_name : list of str, optional
+        input_name:
             Name of the workflow inputs to feed loop_over values into.
             Defaults to "loop_over".
-        save_as : str, optional
+        save_as:
             Path of file to save the animation to. Defaults to None. Can be of any format supported
             by pyvista.Plotter.write_frame (.gif, .mp4, ...).
-        scale_factor : float, list, optional
+        scale_factor:
             Scale factor to apply when warping the mesh. Defaults to 1.0. Can be a list to make
             scaling frequency-dependent.
-        freq_kwargs : dict, optional
+        freq_kwargs:
             Dictionary of kwargs given to the :func:`pyvista.Plotter.add_text` method, used to
             format the frequency information. Can also contain a "fmt" key,
             defining the format for the frequency displayed with a string such as ".3e".
+        shell_layer:
+            Enum used to set the shell layer if the field to plot
+            contains shell elements. Defaults to top layer.
         **kwargs : optional
             Additional keyword arguments for the animator.
             Used by :func:`pyvista.Plotter` (off_screen, cpos, ...),
@@ -314,6 +320,7 @@ class Animator:
             save_as=save_as,
             scale_factor=scale_factor,
             freq_kwargs=freq_kwargs,
+            shell_layer=shell_layer,
             **kwargs,
         )
 
