@@ -46,6 +46,7 @@ from ansys.dpf.gate import (
     field_capi,
     field_grpcapi,
 )
+from ansys.dpf.gate.errors import DPFServerException
 
 if TYPE_CHECKING:
     from ansys.dpf.core.dpf_operator import Operator
@@ -716,7 +717,7 @@ class Field(_FieldBase):
     def field_definition(self, value):
         return self._set_field_definition(value)
 
-    def _get_meshed_region(self):
+    def _get_meshed_region(self) -> MeshedRegion:
         """Retrieve the meshed region.
 
         Returns
@@ -724,8 +725,13 @@ class Field(_FieldBase):
         :class:`ansys.dpf.core.meshed_region.MeshedRegion`
 
         """
+        try:
+            support = self._api.csfield_get_support_as_meshed_region(self)
+        except DPFServerException as e:
+            if "the field doesn't have this support type" in e.msg:
+                support = None
         return meshed_region.MeshedRegion(
-            mesh=self._api.csfield_get_support_as_meshed_region(self),
+            mesh=support,
             server=self._server,
         )
 
@@ -761,7 +767,7 @@ class Field(_FieldBase):
         self._api.csfield_set_support(self, value)
 
     @property
-    def meshed_region(self):
+    def meshed_region(self) -> MeshedRegion:
         """Meshed region of the field.
 
         Return
@@ -772,8 +778,8 @@ class Field(_FieldBase):
         return self._get_meshed_region()
 
     @meshed_region.setter
-    def meshed_region(self, value):
-        self._set_support(value, "MESHED_REGION")
+    def meshed_region(self, value: MeshedRegion):
+        self._set_support(support=value, support_type="MESHED_REGION")
 
     def __add__(self, field_b):
         """Add two fields.
