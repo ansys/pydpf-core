@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -20,8 +20,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import ansys.dpf.core as dpf
+"""Module contains the function for modal animation creation."""
+
 import numpy as np
+
+import ansys.dpf.core as dpf
 
 
 def animate_mode(
@@ -34,8 +37,7 @@ def animate_mode(
     **kwargs,
 ):
     # other option: instead of `type` use `min_factor` and `max_factor`.
-
-    """Creates a modal animation based on Fields contained in the FieldsContainer.
+    """Create a modal animation based on Fields contained in the FieldsContainer.
 
     This method creates a movie or a gif based on the time ids of a ``FieldsContainer``.
     For kwargs see pyvista.Plotter.open_movie/add_text/show.

@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -21,10 +21,9 @@
 # SOFTWARE.
 
 """
-.. _ref_any:
+Any.
 
-Any
-====================
+Module containing the wrapper class representing all supported DPF datatypes.
 """
 
 import traceback
@@ -32,13 +31,11 @@ import warnings
 
 import numpy as np
 
-import ansys.dpf.core.server_types
-from ansys.dpf.core import server as server_module
-from ansys.dpf.core import errors
+from ansys.dpf.core import errors, server as server_module
 from ansys.dpf.core.check_version import server_meet_version, server_meet_version_and_raise
 from ansys.dpf.core.common import create_dpf_instance
-from ansys.dpf.gate import any_abstract_api, integral_types
-from ansys.dpf.gate import dpf_vector
+import ansys.dpf.core.server_types
+from ansys.dpf.gate import any_abstract_api, dpf_vector, integral_types
 
 
 class Any:
@@ -114,14 +111,17 @@ class Any:
 
     def _type_to_new_from_get_as_method(self, obj):
         from ansys.dpf.core import (
-            field,
-            property_field,
-            generic_data_container,
-            string_field,
-            scoping,
-            data_tree,
-            custom_type_field,
             collection,
+            custom_type_field,
+            data_tree,
+            dpf_operator,
+            field,
+            fields_container,
+            generic_data_container,
+            property_field,
+            scoping,
+            string_field,
+            workflow,
         )
 
         if issubclass(obj, int):
@@ -155,6 +155,11 @@ class Any:
                 self._api.any_new_from_property_field,
                 self._api.any_get_as_property_field,
             )
+        elif issubclass(obj, fields_container.FieldsContainer):
+            return (
+                self._api.any_new_from_fields_container,
+                self._api.any_get_as_fields_container,
+            )
         elif issubclass(obj, string_field.StringField):
             return (
                 self._api.any_new_from_string_field,
@@ -185,10 +190,20 @@ class Any:
                 self._api.any_new_from_any_collection,
                 self._api.any_get_as_any_collection,
             )
+        elif issubclass(obj, workflow.Workflow):
+            return (
+                self._api.any_new_from_workflow,
+                self._api.any_get_as_workflow,
+            )
         elif issubclass(obj, dpf_vector.DPFVectorInt):
             return (
                 self._api.any_new_from_int_collection,
                 self._api.any_get_as_int_collection,
+            )
+        elif issubclass(obj, dpf_operator.Operator):
+            return (
+                self._api.any_new_from_operator,
+                self._api.any_get_as_operator,
             )
 
     @staticmethod
@@ -204,7 +219,6 @@ class Any:
         any : Any
             Wrapped any type.
         """
-
         inner_server = server if server is not None else obj._server
 
         if not inner_server.meet_version("7.0"):
@@ -283,7 +297,6 @@ class Any:
         type
             Original object instance
         """
-
         self._internal_type = output_type if output_type is not None else self._internal_type
 
         type_tuple = self._type_to_new_from_get_as_method(self._internal_type)
@@ -304,6 +317,7 @@ class Any:
         raise TypeError(f"{output_type} is not currently supported by the Any class.")
 
     def __del__(self):
+        """Delete the entry."""
         try:
             if hasattr(self, "_deleter_func"):
                 obj = self._deleter_func[1](self)

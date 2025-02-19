@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -20,15 +20,19 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""Module containing the different geometry objects."""
+"""
+Geometry.
+
+Module containing the different geometry objects.
+
+"""
+
+import numpy as np
 
 from ansys.dpf import core as dpf
-
 from ansys.dpf.core import Field
 from ansys.dpf.core.fields_factory import field_from_array
 from ansys.dpf.core.plotter import DpfPlotter
-
-import numpy as np
 
 
 def normalize_vector(vector):
@@ -76,9 +80,11 @@ class Points:
         self._server = server
 
     def __getitem__(self, value):
+        """Retrieve coordinates data corresponding to a given value."""
         return self.coordinates.data[value]
 
     def __len__(self):
+        """Retrieve the number of points."""
         return self.n_points
 
     def __str__(self):
@@ -380,7 +386,6 @@ class Plane:
 
     def _discretize(self):
         """Discretize plane with a certain size and number of cells per direction."""
-
         # Get plane axis (local) from reference axis (global) and plane's normal
         self._axes_plane = get_plane_local_axis(self._normal_dir)
 
@@ -423,7 +428,7 @@ class Plane:
         self._mesh = mesh
 
     def _get_direction_from_vect(self, vect):
-        """Normal direction to the plane."""
+        """Get normal direction to the plane."""
         direction = [x - y for x, y in zip(vect[1], vect[0])]
         return normalize_vector(direction)
 
@@ -450,6 +455,7 @@ class Plane:
 
 
 def get_plane_local_axis(normal_dir):
+    """Determine local axis of the plane."""
     axis_ref = [np.array([1, 0, 0]), np.array([0, 1, 0]), np.array([0, 0, 1])]
     if np.allclose(abs(normal_dir), [1.0, 0.0, 0.0]):
         plane_x = np.cross(axis_ref[1], normal_dir)
@@ -466,8 +472,10 @@ def get_plane_local_axis(normal_dir):
 
 
 def get_global_coords_from_local(local_coords, axes_plane, center):
+    """Determine global coordinates from local coordinates."""
     return np.dot(local_coords, axes_plane) + center
 
 
 def get_local_coords_from_global(global_coords, axes_plane, center):
+    """Determine local coordinates from global coordinates."""
     return np.dot(axes_plane, (global_coords - np.array(center)))

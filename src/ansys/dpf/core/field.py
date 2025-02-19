@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -20,27 +20,38 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""
-.. _ref_field:
+"""Field."""
 
-Field
-=====
-"""
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 import numpy as np
+
 from ansys import dpf
-from ansys.dpf.core import errors, meshed_region, time_freq_support, scoping
-from ansys.dpf.core import dimensionality
-from ansys.dpf.core.common import locations, natures, types, _get_size_of_list
+from ansys.dpf.core import dimensionality, errors, meshed_region, scoping, time_freq_support
+from ansys.dpf.core.common import (
+    _get_size_of_list,
+    locations,
+    natures,
+    shell_layers as eshell_layers,
+    types,
+)
 from ansys.dpf.core.field_base import _FieldBase, _LocalFieldBase
 from ansys.dpf.core.field_definition import FieldDefinition
 from ansys.dpf.gate import (
+    dpf_array,
+    dpf_vector,
     field_abstract_api,
     field_capi,
     field_grpcapi,
-    dpf_array,
-    dpf_vector,
 )
+from ansys.dpf.gate.errors import DPFServerException
+
+if TYPE_CHECKING:  # pragma: nocover
+    from ansys.dpf.core.dpf_operator import Operator
+    from ansys.dpf.core.meshed_region import MeshedRegion
+    from ansys.dpf.core.results import Result
 
 
 class Field(_FieldBase):
@@ -56,9 +67,16 @@ class Field(_FieldBase):
     The field's scoping defines the order of the data, for example: the first ID in the
     ``scoping`` identifies to which entity the first ``entity data`` belongs.
 
-    For more information, see the `Fields container and fields
-    <https://dpf.docs.pyansys.com/version/stable/user_guide/fields_container.html>`_
-    documentation section.
+    The minimum requirement for a well defined field is for it to have a dimensionality
+    (scalar, three components vector, six components symmetrical matrix, and so on), a location
+    ("Nodal", "Elemental", "ElementalNodal", "TimeFreq"), a data vector, and a scoping with IDs.
+    You can also set the number of shell layers. If the field has one elementary data by entity
+    (elementary data size equals the number of components for "Nodal" or "Elemental" field for example),
+    then the data vector can be set directly. If a more complex field is required
+    ("ElementalNodal" field for example), the data can be set entity by entity.
+
+    For more information, see `Fields container and fields
+    <https://dpf.docs.pyansys.com/version/stable/user_guide/fields_container.html>`_.
 
 
     Parameters
@@ -81,16 +99,43 @@ class Field(_FieldBase):
         Server with the channel connected to the remote or local instance. The
         default is ``None``, in which case an attempt is made to use the global
         server.
+
     Examples
     --------
     Create a field from scratch.
 
-    >>> from ansys.dpf.core import fields_factory
     >>> from ansys.dpf.core import locations
     >>> from ansys.dpf import core as dpf
     >>> field_with_classic_api = dpf.Field()
     >>> field_with_classic_api.location = locations.nodal
-    >>> field_with_factory = fields_factory.create_scalar_field(10)
+
+    Create a symmetrical matrix elemental field from scratch.
+
+    >>> from ansys.dpf import core as dpf
+    >>> num_entities = 2
+    >>> my_field = dpf.Field(num_entities, dpf.natures.symmatrix, locations.elemental)
+    >>> my_scoping = dpf.Scoping(location=locations.elemental, ids=[1, 2])
+    >>> my_field.scoping = my_scoping
+
+    Add all the data at once.
+
+    >>> from ansys.dpf import core as dpf
+    >>> my_data = [1.0,1.0,1.0,0.0,0.0,0.0,1.0,1.0,1.0,0.0,0.0,0.0]
+    >>> my_field.data = my_data
+
+    Add data entity by entity.
+
+    >>> from ansys.dpf import core as dpf
+    >>> my_elem_data = [1.0,1.0,1.0,0.0,0.0,0.0]
+    >>> my_field.append(my_elem_data, scopingid=1)
+    >>> my_field.append(my_elem_data, scopingid=2)
+
+    Create a nodal scalar field using the fields factory.
+
+    >>> from ansys.dpf.core import fields_factory
+    >>> from ansys.dpf import core as dpf
+    >>> my_scalar_field = fields_factory.create_scalar_field(num_entities=2, location=locations.nodal)
+    >>> my_scalar_field.data = [1.0, 3.0]
 
     Extract a displacement field from a transient result file.
 
@@ -163,9 +208,7 @@ class Field(_FieldBase):
         field=None,
         server=None,
     ):
-        """Initialize the field either with an optional field message or
-        by connecting to a stub.
-        """
+        """Initialize the field either with an optional field message or by connecting to a stub."""
         super().__init__(
             nentities=nentities,
             nature=nature,
@@ -298,7 +341,7 @@ class Field(_FieldBase):
         """Change the field location.
 
         Parameters
-        -------
+        ----------
         location : str or locations
             Location string, Options are in :class:`locations <ansys.dpf.core.common.locations>`.
 
@@ -324,14 +367,17 @@ class Field(_FieldBase):
 
     @property
     def component_count(self):
+        """Number of components."""
         return self._api.csfield_get_number_of_components(self)
 
     @property
     def elementary_data_count(self):
+        """Number of elementary data."""
         return self._api.csfield_get_number_elementary_data(self)
 
     @property
     def size(self):
+        """Size of data."""
         return self._api.csfield_get_data_size(self)
 
     def _set_scoping(self, scoping):
@@ -361,6 +407,7 @@ class Field(_FieldBase):
         self.field_definition = fielddef
 
     def get_entity_data(self, index: int) -> dpf_array.DPFArray:
+        """Retrieve entity data by index."""
         try:
             vec = dpf_vector.DPFVectorDouble(client=self._server.client)
             self._api.csfield_get_entity_data_for_dpf_vector(
@@ -376,6 +423,7 @@ class Field(_FieldBase):
         return data
 
     def get_entity_data_by_id(self, id: int) -> dpf_array.DPFArray:
+        """Retrieve entity data by id."""
         try:
             vec = dpf_vector.DPFVectorDouble(client=self._server.client)
             self._api.csfield_get_entity_data_by_id_for_dpf_vector(
@@ -394,6 +442,7 @@ class Field(_FieldBase):
         return data
 
     def append(self, data, scopingid):
+        """Append data to the Field."""
         if isinstance(data, list):
             if isinstance(data[0], list):
                 data = np.array(data)
@@ -467,7 +516,14 @@ class Field(_FieldBase):
         op.inputs.connect(self)
         return op.outputs.field()
 
-    def plot(self, shell_layers=None, deform_by=None, scale_factor=1.0, **kwargs):
+    def plot(
+        self,
+        shell_layers: eshell_layers = None,
+        deform_by: Union[Field, Result, Operator] = None,
+        scale_factor: float = 1.0,
+        meshed_region: MeshedRegion = None,
+        **kwargs,
+    ):
         """Plot the field or fields container on the mesh support if it exists.
 
         Warning
@@ -489,21 +545,24 @@ class Field(_FieldBase):
 
         Parameters
         ----------
-        shell_layers : shell_layers, optional
+        shell_layers:
             Enum used to set the shell layers if the model to plot
-            contains shell elements. The default is ``None``.
-        deform_by : Field, Result, Operator, optional
+            contains shell elements. Defaults to the top layer.
+        deform_by:
             Used to deform the plotted mesh. Must output a 3D vector field.
-            Defaults to None.
-        scale_factor : float, optional
-            Scaling factor to apply when warping the mesh. Defaults to 1.0.
-        **kwargs : optional
+        scale_factor:
+            Scaling factor to apply when warping the mesh.
+        meshed_region:
+            Mesh to plot the field on.
+        **kwargs:
             Additional keyword arguments for the plotter. For additional keyword
             arguments, see ``help(pyvista.plot)``.
         """
         from ansys.dpf.core.plotter import Plotter
 
-        pl = Plotter(self.meshed_region, **kwargs)
+        if meshed_region is None:
+            meshed_region = self.meshed_region
+        pl = Plotter(meshed_region, **kwargs)
         return pl.plot_contour(
             self,
             shell_layers,
@@ -539,7 +598,7 @@ class Field(_FieldBase):
         """Units for the field.
 
         Returns
-        ----------
+        -------
         str
            Units for the field.
 
@@ -559,7 +618,7 @@ class Field(_FieldBase):
 
     @unit.setter
     def unit(self, value):
-        """Change the unit for the field
+        """Change the unit for the field.
 
         Parameters
         ----------
@@ -613,7 +672,7 @@ class Field(_FieldBase):
 
     @name.setter
     def name(self, value):
-        """Change the name of the field
+        """Change the name of the field.
 
         Parameters
         ----------
@@ -658,7 +717,7 @@ class Field(_FieldBase):
     def field_definition(self, value):
         return self._set_field_definition(value)
 
-    def _get_meshed_region(self):
+    def _get_meshed_region(self) -> MeshedRegion:
         """Retrieve the meshed region.
 
         Returns
@@ -666,8 +725,15 @@ class Field(_FieldBase):
         :class:`ansys.dpf.core.meshed_region.MeshedRegion`
 
         """
+        try:
+            support = self._api.csfield_get_support_as_meshed_region(self)
+        except DPFServerException as e:
+            if "the field doesn't have this support type" in str(e):
+                support = None
+            else:
+                raise e
         return meshed_region.MeshedRegion(
-            mesh=self._api.csfield_get_support_as_meshed_region(self),
+            mesh=support,
             server=self._server,
         )
 
@@ -703,7 +769,7 @@ class Field(_FieldBase):
         self._api.csfield_set_support(self, value)
 
     @property
-    def meshed_region(self):
+    def meshed_region(self) -> MeshedRegion:
         """Meshed region of the field.
 
         Return
@@ -714,8 +780,8 @@ class Field(_FieldBase):
         return self._get_meshed_region()
 
     @meshed_region.setter
-    def meshed_region(self, value):
-        self._set_support(value, "MESHED_REGION")
+    def meshed_region(self, value: MeshedRegion):
+        self._set_support(support=value, support_type="MESHED_REGION")
 
     def __add__(self, field_b):
         """Add two fields.
@@ -736,6 +802,7 @@ class Field(_FieldBase):
         return op
 
     def __pow__(self, value):
+        """Compute element-wise field[i]^2."""
         if value != 2:
             raise ValueError('Only the value "2" is supported.')
         from ansys.dpf.core import dpf_operator, operators
@@ -839,7 +906,6 @@ class Field(_FieldBase):
         >>> deep_copy = field.deep_copy(server=other_server)
 
         """
-
         f = Field(
             nentities=len(self.scoping),
             location=self.location,

@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -20,25 +20,18 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""
-.. _ref_support:
-
-Support
-=======
-"""
+"""Support."""
 
 import traceback
 import warnings
-from ansys.dpf.gate import support_capi, support_grpcapi
-from ansys.dpf.core.check_version import version_requires
 
-from ansys.dpf.core import server as server_module
-from ansys.dpf.core import collection_base
+from ansys.dpf.core import collection_base, server as server_module
+from ansys.dpf.core.check_version import version_requires
+from ansys.dpf.gate import support_capi, support_grpcapi
 
 
 class Support:
-    """Base class for support (supporting Field's location, Scoping's location,
-    Collection's labels...)
+    """Base class for support (supporting Field's location, Scoping's location, Collection's labels...).
 
     Field, PropertyField and StringField support can be accessed generically via this base class.
 
@@ -88,7 +81,7 @@ class Support:
 
     @version_requires("5.0")
     def field_support_by_property(self, property_name: str):
-        """Returns a Field supporting (describing) a given property.
+        """Return a Field supporting (describing) a given property.
 
         Returns
         -------
@@ -106,7 +99,7 @@ class Support:
 
     @version_requires("5.0")
     def prop_field_support_by_property(self, property_name: str):
-        """Returns a PropertyField supporting (describing) a given property.
+        """Return a PropertyField supporting (describing) a given property.
 
         Returns
         -------
@@ -124,7 +117,7 @@ class Support:
 
     @version_requires("5.0")
     def string_field_support_by_property(self, property_name: str):
-        """Returns a StringField supporting (describing) a given property.
+        """Return a StringField supporting (describing) a given property.
 
         Returns
         -------
@@ -142,7 +135,7 @@ class Support:
 
     @version_requires("5.0")
     def available_field_supported_properties(self):
-        """Returns the list of property names supported by a Field.
+        """Return the list of property names supported by a Field.
 
         Returns
         -------
@@ -160,7 +153,7 @@ class Support:
 
     @version_requires("5.0")
     def available_prop_field_supported_properties(self):
-        """Returns the list of property names supported by a PropertyField.
+        """Return the list of property names supported by a PropertyField.
 
         Returns
         -------
@@ -180,7 +173,7 @@ class Support:
 
     @version_requires("5.0")
     def available_string_field_supported_properties(self):
-        """Returns the list of property names supported by a StringField.
+        """Return the list of property names supported by a StringField.
 
         Returns
         -------
@@ -199,6 +192,17 @@ class Support:
         return coll_obj.get_integral_entries()
 
     def __del__(self):
+        """
+        Clean up resources associated with the instance.
+
+        This method calls the deleter function to release resources. If an exception
+        occurs during deletion, a warning is issued.
+
+        Raises
+        ------
+        Warning
+            If an exception occurs while attempting to delete resources.
+        """
         try:
             self._deleter_func[0](self._deleter_func[1](self))
         except:

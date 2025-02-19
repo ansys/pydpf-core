@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -56,7 +56,6 @@ Here are the steps for extrapolation:
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
-
 
 ###############################################################################
 # Get the data source's analysis of integration points and analysis reference

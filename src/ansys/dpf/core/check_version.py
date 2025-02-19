@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -26,10 +26,11 @@ Check the matching for a client/server pair.
 Used to verify if the server version is a minimum value.
 """
 
-from ansys.dpf.core import errors as dpf_errors
+from functools import wraps
 import sys
 import weakref
-from functools import wraps
+
+from ansys.dpf.core import errors as dpf_errors
 
 
 def server_meet_version(required_version, server):
@@ -52,8 +53,7 @@ def server_meet_version(required_version, server):
 
 
 def server_meet_version_and_raise(required_version, server, msg=None):
-    """Check if a given server version matches with a required version and raise
-    an exception if it does not match.
+    """Check if a given server version matches with a required version and raise an exception if it does not match.
 
     Parameters
     ----------
@@ -76,7 +76,6 @@ def server_meet_version_and_raise(required_version, server, msg=None):
     bool
         ``True`` when successful, ``False`` when failed.
     """
-
     if not server_meet_version(required_version, server):
         if msg is not None:
             raise dpf_errors.DpfVersionNotSupported(required_version, msg=msg)
@@ -142,8 +141,7 @@ def version_requires(min_version):
 
         @wraps(func)
         def wrapper(self, *args, **kwargs):
-            """Call the original function"""
-
+            """Call the original function."""
             if isinstance(self._server, weakref.ref):
                 server = self._server()
             else:

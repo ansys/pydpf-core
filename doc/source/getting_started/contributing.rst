@@ -1,8 +1,8 @@
 .. _contributing:
 
-==========
-Contribute
-==========
+============
+Contributing
+============
 
 Overall guidance on contributing to a PyAnsys repository appears in
 `Contribute <https://dev.docs.pyansys.com/overview/contributing.html>`_

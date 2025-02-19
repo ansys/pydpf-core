@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -20,28 +20,32 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import os
+import platform
+import subprocess
+import sys
 import time
 
-import pytest
-import subprocess
-import platform
-import psutil
-import sys
-import os
 import packaging.version
+import psutil
+import pytest
 
 from ansys import dpf
-from ansys.dpf.core import errors, server_types
-from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
-from ansys.dpf.core.server import set_server_configuration, _global_server
-from ansys.dpf.core.server import start_local_server, connect_to_server
-from ansys.dpf.core.server import shutdown_all_session_servers, has_local_server
-from ansys.dpf.core.server import get_or_create_server
-from ansys.dpf.core import server
+from ansys.dpf.core import errors, server, server_types
+from ansys.dpf.core.server import (
+    _global_server,
+    connect_to_server,
+    get_or_create_server,
+    has_local_server,
+    set_server_configuration,
+    shutdown_all_session_servers,
+    start_local_server,
+)
+from ansys.dpf.core.server_factory import CommunicationProtocols, ServerConfig
 from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-    running_docker,
     remove_none_available_config,
+    running_docker,
 )
 
 server_configs, server_configs_names = remove_none_available_config(

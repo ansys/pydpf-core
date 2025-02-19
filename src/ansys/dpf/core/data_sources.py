@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -20,31 +20,25 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""
-.. _ref_data_sources:
-
-Data Sources
-============
-"""
+"""Data sources."""
 
 from __future__ import annotations
 
 import os
-import warnings
+from pathlib import Path
 import traceback
-from typing import Union, Optional, TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional, Union
+import warnings
 
-from ansys.dpf.core import server as server_module
+from ansys.dpf.core import errors, server as server_module
+from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.gate import (
+    data_processing_capi,
+    data_processing_grpcapi,
     data_sources_capi,
     data_sources_grpcapi,
     integral_types,
-    data_processing_capi,
-    data_processing_grpcapi,
 )
-
-from ansys.dpf.core.check_version import version_requires
-from ansys.dpf.core import errors
 
 if TYPE_CHECKING:  # pragma: no cover
     from ansys.dpf import core as dpf
@@ -159,10 +153,11 @@ class DataSources:
         >>> my_data_sources.set_result_file_path(filepath='/tmp/file.rst', key='rst')
         >>> # Get the path to the main result file
         >>> my_data_sources.result_files
-        ['/tmp/file.rst']
+        ['...tmp...file.rst']
 
         """
-        extension = os.path.splitext(filepath)[1]
+        filepath = Path(filepath)
+        extension = filepath.suffix
         # Handle .res files from CFX
         if key == "" and extension == ".res":
             key = "cas"
@@ -212,7 +207,7 @@ class DataSources:
 
         """
         result_keys = ["d3plot", "binout"]
-        base_name = os.path.basename(filepath)
+        base_name = Path(filepath).name
         # Handle files without extension
         for result_key in result_keys:
             if result_key in base_name:
@@ -254,14 +249,12 @@ class DataSources:
         cas
 
         """
+        # These files usually end with .cas.h5 or .dat.h5
         accepted = ["cas", "dat"]
-        without_ext = os.path.splitext(filepath)[0]
-        new_split = os.path.splitext(without_ext)
+        new_split = Path(filepath).suffixes
         new_key = ""
-        if len(new_split) > 1:
-            key = new_split[1][1:]
-            if key in accepted:
-                new_key = key
+        if new_split[0].strip(".") in accepted:
+            new_key = new_split[0].strip(".")
         return new_key
 
     def set_domain_result_file_path(
@@ -294,6 +287,7 @@ class DataSources:
         >>> my_data_sources.set_domain_result_file_path(path='/tmp/file1.rst', key='rst', domain_id=1)
 
         """
+        path = Path(path)
         if key:
             self._api.data_sources_set_domain_result_file_path_with_key_utf8(
                 self, str(path), key, domain_id
@@ -342,9 +336,12 @@ class DataSources:
 
         """
         # The filename needs to be a fully qualified file name
-        if not os.path.dirname(filepath):
+        # if not os.path.dirname(filepath)
+
+        filepath = Path(filepath)
+        if not filepath.parent.name:
             # append local path
-            filepath = os.path.join(os.getcwd(), os.path.basename(filepath))
+            filepath = Path.cwd() / filepath.name
         if is_domain:
             if key == "":
                 raise NotImplementedError("A key must be given when using is_domain=True.")
@@ -391,9 +388,10 @@ class DataSources:
 
         """
         # The filename needs to be a fully qualified file name
-        if not os.path.dirname(filepath):
+        filepath = Path(filepath)
+        if not filepath.parent.name:
             # append local path
-            filepath = os.path.join(os.getcwd(), os.path.basename(filepath))
+            filepath = Path.cwd() / filepath.name
         self._api.data_sources_add_domain_file_path_with_key_utf8(
             self, str(filepath), key, domain_id
         )
@@ -423,9 +421,10 @@ class DataSources:
             The default is ``""``, in which case the key is found directly.
         """
         # The filename needs to be a fully qualified file name
-        if not os.path.dirname(filepath):
+        filepath = Path(filepath)
+        if not filepath.parent.name:
             # append local path
-            filepath = os.path.join(os.getcwd(), os.path.basename(filepath))
+            filepath = Path.cwd() / filepath.name
 
         self._api.data_sources_add_file_path_for_specified_result_utf8(
             self, str(filepath), key, result_key
@@ -497,6 +496,8 @@ class DataSources:
         --------
         Add an upstream data to the main DataSources object of an expansion distributed analysis
 
+        >>> import os
+        >>>
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
         >>>
@@ -506,19 +507,19 @@ class DataSources:
         >>> my_data_sources = dpf.DataSources()
         >>> # Define the path where the main result file can be found and specify its domain
         >>> # We use a format string here because the function used to define the path gives the path to a folder
-        >>> my_data_sources.set_domain_result_file_path(path=rf"{paths}\file_load_1.rfrq", key='rfrq', domain_id=0)
+        >>> my_data_sources.set_domain_result_file_path(path=os.path.join(paths, "file_load_1.rfrq", key='rfrq', domain_id=0)
         >>> # Add the additional result file to the DataSources object and specify its domain
-        >>> my_data_sources.add_domain_file_path(filepath=rf"{paths}\file_load_2.rfrq", key='rfrq', domain_id=1)
+        >>> my_data_sources.add_domain_file_path(filepath=os.path.join(paths, "file_load_2.rfrq", key='rfrq', domain_id=1)
         >>>
         >>> # Create the DataSources object for the first and second upstream files
         >>> my_data_sources_upstream_g0 = dpf.DataSources()
         >>> my_data_sources_upstream_g1 = dpf.DataSources()
         >>> # Define the path where the main upstream files can be found
-        >>> my_data_sources_upstream_g0.set_result_file_path(filepath=rf"{paths}\file0.mode", key='mode')
-        >>> my_data_sources_upstream_g1.set_result_file_path(filepath=rf"{paths}\file1.mode", key='mode')
+        >>> my_data_sources_upstream_g0.set_result_file_path(filepath=os.path.join(paths, "file0.mode", key='mode')
+        >>> my_data_sources_upstream_g1.set_result_file_path(filepath=os.path.join(paths, "file1.mode", key='mode')
         >>> # Add the additional upstream files to the upstream DataSources objectS
-        >>> my_data_sources_upstream_g0.add_file_path(filepath=rf"{paths}\file0.rst", key='rst')
-        >>> my_data_sources_upstream_g1.add_file_path(filepath=rf"{paths}\file1.rst", key='rst')
+        >>> my_data_sources_upstream_g0.add_file_path(filepath=os.path.join(paths, "file0.rst", key='rst')
+        >>> my_data_sources_upstream_g1.add_file_path(filepath=os.path.join(paths, "file1.rst", key='rst')
         >>>
         >>> # Add the upstream DataSources to the main DataSources object and specify its domain
         >>> my_data_sources.add_upstream_for_domain(upstream_data_sources=my_data_sources_upstream_g0, domain_id=0)
@@ -540,7 +541,6 @@ class DataSources:
 
         Examples
         --------
-
         >>> from ansys.dpf import core as dpf
         >>>
         >>> # Create the DataSources object
@@ -559,7 +559,7 @@ class DataSources:
         """List of result files contained in the data sources.
 
         Returns
-        ----------
+        -------
         list
             List of result files.
 
@@ -638,7 +638,8 @@ class DataSources:
 
     @version_requires("7.0")
     def register_namespace(self, result_key: str, namespace: str):
-        """Adds a link from this ``result_key`` to this ``namespace`` in the DataSources.
+        """Add a link from this ``result_key`` to this ``namespace`` in the DataSources.
+
         This ``result_key`` to ``namespace`` mapping is used by source operators
         to find internal operators to call.
 
@@ -669,7 +670,6 @@ class DataSources:
 
         Examples
         --------
-
         >>> from ansys.dpf import core as dpf
         >>>
         >>> # Create the main DataSources object
@@ -695,6 +695,7 @@ class DataSources:
         return _description(self._internal_obj, self._server)
 
     def __del__(self):
+        """Delete this instance."""
         try:
             self._deleter_func[0](self._deleter_func[1](self))
         except:

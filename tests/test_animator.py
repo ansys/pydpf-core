@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -21,12 +21,12 @@
 # SOFTWARE.
 
 import os
+from pathlib import Path
 
 import pytest
 
 from ansys.dpf import core as dpf
-from ansys.dpf.core import misc, Workflow
-from ansys.dpf.core import examples
+from ansys.dpf.core import Workflow, examples, misc
 
 if misc.module_exists("pyvista"):
     HAS_PYVISTA = True
@@ -42,8 +42,8 @@ def remove_gifs(request):
     """Remove GIF once finished."""
 
     def remove_gif():
-        if os.path.exists(os.path.join(os.getcwd(), gif_name)):
-            os.remove(os.path.join(os.getcwd(), gif_name))
+        if Path.cwd().joinpath(gif_name).exists():
+            Path.cwd().joinpath(gif_name).unlink()
 
     request.addfinalizer(remove_gif)
 
@@ -250,5 +250,5 @@ def test_animator_animate_fields_container_cpos(remove_gifs, displacement_fields
         off_screen=True,
         show_axes=True,
     )
-    assert os.path.isfile(gif_name)
-    assert os.path.getsize(gif_name) > 6000
+    assert Path(gif_name).is_file()
+    assert Path(gif_name).stat().st_size > 6000

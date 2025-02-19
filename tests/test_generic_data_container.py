@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -21,15 +21,15 @@
 # SOFTWARE.
 
 import numpy as np
+import pytest
 
 from ansys.dpf import core as dpf
+import conftest
 from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0,
     raises_for_servers_version_under,
 )
-import pytest
-import conftest
 
 
 @conftest.raises_for_servers_version_under("7.0")
