@@ -708,7 +708,7 @@ class MeshedRegion:
         A mesh is considered empty when it has zero element, zero face, and zero node.
         """
         no_faces = True
-        if meets_version(self._server, "7.0"):
+        if meets_version(self._server.version, "7.0"):
             no_faces = self.faces.n_faces == 0
         no_elements = self.elements.n_elements == 0
         no_nodes = self.nodes.n_nodes == 0
