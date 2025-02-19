@@ -1,3 +1,9 @@
+---
+category: {{ scripting_info.category }}
+plugin: {{ scripting_info.plugin }}
+license: {{ scripting_info.license }}
+---
+
 # {{ operator_name }}
 
 ## Description
