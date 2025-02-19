@@ -35,7 +35,7 @@ from ansys.dpf.core import errors as dpf_errors, field
 from ansys.dpf.core.collection_base import CollectionBase
 from ansys.dpf.core.common import shell_layers
 
-if TYPE_CHECKING:
+if TYPE_CHECKING:  # pragma: no cover
     from ansys.dpf.core import Operator, Result
 
 
