@@ -672,7 +672,7 @@ class DpfPlotter:
             deform_by=deform_by,
             scale_factor=scale_factor,
             as_linear=True,
-            shell_layer=eshell_layers.top,
+            shell_layer=shell_layer,
             **kwargs,
         )
 
