@@ -281,6 +281,16 @@ def test_dpf_plotter_add_field_throw_shell_layer(multishells):
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_dpf_plotter_add_field_change_shell_layer(multishells):
+    field: core.Field = core.operators.result.stress(
+        data_sources=core.DataSources(multishells),
+        requested_location=core.locations.elemental,
+    ).eval()[1]
+    plt = DpfPlotter()
+    plt.add_field(field=field)
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_plot_fieldscontainer_on_mesh_scoping(multishells):
     model = core.Model(multishells)
     mesh = model.metadata.meshed_region
