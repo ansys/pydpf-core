@@ -286,7 +286,7 @@ class _PyVistaPlotter:
         ]:
             change_shell_layer_op = core.operators.utility.change_shell_layers(
                 fields_container=field,
-                e_shell_layer=shell_layer,  # top layer taken
+                e_shell_layer=shell_layer,
             )
             field = change_shell_layer_op.get_output(0, core.types.field)
 
