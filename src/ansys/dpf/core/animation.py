@@ -22,8 +22,9 @@
 
 """Module contains the function for modal animation creation."""
 
-import ansys.dpf.core as dpf
 import numpy as np
+
+import ansys.dpf.core as dpf
 
 
 def animate_mode(

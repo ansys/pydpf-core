@@ -53,6 +53,7 @@ To change the default type of server's configuration used by DPF change:
 """
 
 import os
+
 from ansys.dpf import core as dpf
 
 ###############################################################################

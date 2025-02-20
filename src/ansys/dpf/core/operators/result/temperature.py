@@ -58,14 +58,25 @@ class temperature(Operator):
         If true the field is rotated to global
         coordinate system (default true)
     mesh : MeshedRegion or MeshesContainer, optional
-        Prevents from reading the mesh in the result
-        files
+        Mesh. if cylic expansion is to be done, mesh
+        of the base sector
     read_cyclic : int, optional
         If 0 cyclic symmetry is ignored, if 1 cyclic
         sector is read, if 2 cyclic expansion
         is done, if 3 cyclic expansion is
         done and stages are merged (default
         is 1)
+    expanded_meshed_region : MeshedRegion or MeshesContainer, optional
+        Mesh expanded, use if cyclic expansion is to
+        be done.
+    sectors_to_expand : Scoping or ScopingsContainer, optional
+        Sectors to expand (start at 0), for
+        multistage: use scopings container
+        with 'stage' label, use if cyclic
+        expansion is to be done.
+    phi : float, optional
+        Angle phi in degrees (default value 0.0), use
+        if cyclic expansion is to be done.
     region_scoping : Scoping or int, optional
         Region id (integer) or vector of region ids
         (vector) or region scoping (scoping)
@@ -109,6 +120,12 @@ class temperature(Operator):
     >>> op.inputs.mesh.connect(my_mesh)
     >>> my_read_cyclic = int()
     >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+    >>> my_expanded_meshed_region = dpf.MeshedRegion()
+    >>> op.inputs.expanded_meshed_region.connect(my_expanded_meshed_region)
+    >>> my_sectors_to_expand = dpf.Scoping()
+    >>> op.inputs.sectors_to_expand.connect(my_sectors_to_expand)
+    >>> my_phi = float()
+    >>> op.inputs.phi.connect(my_phi)
     >>> my_region_scoping = dpf.Scoping()
     >>> op.inputs.region_scoping.connect(my_region_scoping)
     >>> my_qualifiers1 = dict()
@@ -126,6 +143,9 @@ class temperature(Operator):
     ...     bool_rotate_to_global=my_bool_rotate_to_global,
     ...     mesh=my_mesh,
     ...     read_cyclic=my_read_cyclic,
+    ...     expanded_meshed_region=my_expanded_meshed_region,
+    ...     sectors_to_expand=my_sectors_to_expand,
+    ...     phi=my_phi,
     ...     region_scoping=my_region_scoping,
     ...     qualifiers1=my_qualifiers1,
     ...     qualifiers2=my_qualifiers2,
@@ -145,6 +165,9 @@ class temperature(Operator):
         bool_rotate_to_global=None,
         mesh=None,
         read_cyclic=None,
+        expanded_meshed_region=None,
+        sectors_to_expand=None,
+        phi=None,
         region_scoping=None,
         qualifiers1=None,
         qualifiers2=None,
@@ -170,6 +193,12 @@ class temperature(Operator):
             self.inputs.mesh.connect(mesh)
         if read_cyclic is not None:
             self.inputs.read_cyclic.connect(read_cyclic)
+        if expanded_meshed_region is not None:
+            self.inputs.expanded_meshed_region.connect(expanded_meshed_region)
+        if sectors_to_expand is not None:
+            self.inputs.sectors_to_expand.connect(sectors_to_expand)
+        if phi is not None:
+            self.inputs.phi.connect(phi)
         if region_scoping is not None:
             self.inputs.region_scoping.connect(region_scoping)
         if qualifiers1 is not None:
@@ -259,8 +288,8 @@ class temperature(Operator):
                     name="mesh",
                     type_names=["abstract_meshed_region", "meshes_container"],
                     optional=True,
-                    document="""Prevents from reading the mesh in the result
-        files""",
+                    document="""Mesh. if cylic expansion is to be done, mesh
+        of the base sector""",
                 ),
                 14: PinSpecification(
                     name="read_cyclic",
@@ -271,6 +300,29 @@ class temperature(Operator):
         is done, if 3 cyclic expansion is
         done and stages are merged (default
         is 1)""",
+                ),
+                15: PinSpecification(
+                    name="expanded_meshed_region",
+                    type_names=["abstract_meshed_region", "meshes_container"],
+                    optional=True,
+                    document="""Mesh expanded, use if cyclic expansion is to
+        be done.""",
+                ),
+                18: PinSpecification(
+                    name="sectors_to_expand",
+                    type_names=["vector<int32>", "scoping", "scopings_container"],
+                    optional=True,
+                    document="""Sectors to expand (start at 0), for
+        multistage: use scopings container
+        with 'stage' label, use if cyclic
+        expansion is to be done.""",
+                ),
+                19: PinSpecification(
+                    name="phi",
+                    type_names=["double"],
+                    optional=True,
+                    document="""Angle phi in degrees (default value 0.0), use
+        if cyclic expansion is to be done.""",
                 ),
                 25: PinSpecification(
                     name="region_scoping",
@@ -371,6 +423,12 @@ class InputsTemperature(_Inputs):
     >>> op.inputs.mesh.connect(my_mesh)
     >>> my_read_cyclic = int()
     >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+    >>> my_expanded_meshed_region = dpf.MeshedRegion()
+    >>> op.inputs.expanded_meshed_region.connect(my_expanded_meshed_region)
+    >>> my_sectors_to_expand = dpf.Scoping()
+    >>> op.inputs.sectors_to_expand.connect(my_sectors_to_expand)
+    >>> my_phi = float()
+    >>> op.inputs.phi.connect(my_phi)
     >>> my_region_scoping = dpf.Scoping()
     >>> op.inputs.region_scoping.connect(my_region_scoping)
     >>> my_qualifiers1 = dict()
@@ -397,6 +455,14 @@ class InputsTemperature(_Inputs):
         self._inputs.append(self._mesh)
         self._read_cyclic = Input(temperature._spec().input_pin(14), 14, op, -1)
         self._inputs.append(self._read_cyclic)
+        self._expanded_meshed_region = Input(
+            temperature._spec().input_pin(15), 15, op, -1
+        )
+        self._inputs.append(self._expanded_meshed_region)
+        self._sectors_to_expand = Input(temperature._spec().input_pin(18), 18, op, -1)
+        self._inputs.append(self._sectors_to_expand)
+        self._phi = Input(temperature._spec().input_pin(19), 19, op, -1)
+        self._inputs.append(self._phi)
         self._region_scoping = Input(temperature._spec().input_pin(25), 25, op, -1)
         self._inputs.append(self._region_scoping)
         self._qualifiers1 = Input(temperature._spec().input_pin(1000), 1000, op, 0)
@@ -556,8 +622,8 @@ class InputsTemperature(_Inputs):
     def mesh(self):
         """Allows to connect mesh input to the operator.
 
-        Prevents from reading the mesh in the result
-        files
+        Mesh. if cylic expansion is to be done, mesh
+        of the base sector
 
         Parameters
         ----------
@@ -596,6 +662,71 @@ class InputsTemperature(_Inputs):
         >>> op.inputs.read_cyclic(my_read_cyclic)
         """
         return self._read_cyclic
+
+    @property
+    def expanded_meshed_region(self):
+        """Allows to connect expanded_meshed_region input to the operator.
+
+        Mesh expanded, use if cyclic expansion is to
+        be done.
+
+        Parameters
+        ----------
+        my_expanded_meshed_region : MeshedRegion or MeshesContainer
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.temperature()
+        >>> op.inputs.expanded_meshed_region.connect(my_expanded_meshed_region)
+        >>> # or
+        >>> op.inputs.expanded_meshed_region(my_expanded_meshed_region)
+        """
+        return self._expanded_meshed_region
+
+    @property
+    def sectors_to_expand(self):
+        """Allows to connect sectors_to_expand input to the operator.
+
+        Sectors to expand (start at 0), for
+        multistage: use scopings container
+        with 'stage' label, use if cyclic
+        expansion is to be done.
+
+        Parameters
+        ----------
+        my_sectors_to_expand : Scoping or ScopingsContainer
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.temperature()
+        >>> op.inputs.sectors_to_expand.connect(my_sectors_to_expand)
+        >>> # or
+        >>> op.inputs.sectors_to_expand(my_sectors_to_expand)
+        """
+        return self._sectors_to_expand
+
+    @property
+    def phi(self):
+        """Allows to connect phi input to the operator.
+
+        Angle phi in degrees (default value 0.0), use
+        if cyclic expansion is to be done.
+
+        Parameters
+        ----------
+        my_phi : float
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.temperature()
+        >>> op.inputs.phi.connect(my_phi)
+        >>> # or
+        >>> op.inputs.phi(my_phi)
+        """
+        return self._phi
 
     @property
     def region_scoping(self):

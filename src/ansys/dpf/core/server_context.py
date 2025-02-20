@@ -35,11 +35,11 @@ variable.
 ANSYS_DPF_SERVER_CONTEXT=ENTRY and ANSYS_DPF_SERVER_CONTEXT=PREMIUM can be used.
 """
 
+from enum import Enum
 import os
 import warnings
-from enum import Enum
-from ansys.dpf.core import dpf_operator
-from ansys.dpf.core import errors
+
+from ansys.dpf.core import dpf_operator, errors
 
 
 class LicensingContextType(Enum):

@@ -21,8 +21,8 @@
 # SOFTWARE.
 """Provide utility functions for downloading and locating DPF example files."""
 
-from .examples import *
 from .downloads import *
+from .examples import *
 
 
 # called if module.<name> fails

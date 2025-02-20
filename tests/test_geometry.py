@@ -24,22 +24,22 @@ import numpy as np
 import pytest
 
 from ansys.dpf.core.geometry import (
-    Points,
     Line,
     Plane,
-    normalize_vector,
-    get_plane_local_axis,
-    get_local_coords_from_global,
+    Points,
     get_global_coords_from_local,
+    get_local_coords_from_global,
+    get_plane_local_axis,
+    normalize_vector,
 )
 from ansys.dpf.core.geometry_factory import (
-    create_points,
     create_line_from_points,
     create_line_from_vector,
     create_plane_from_center_and_normal,
-    create_plane_from_points,
     create_plane_from_lines,
     create_plane_from_point_and_line,
+    create_plane_from_points,
+    create_points,
     get_center_from_coords,
 )
 

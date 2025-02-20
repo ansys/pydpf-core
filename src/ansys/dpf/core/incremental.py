@@ -22,9 +22,9 @@
 
 """Incremental."""
 
-from ansys.dpf import core
+from typing import Any, Dict
 
-from typing import Dict, Any
+from ansys.dpf import core
 
 
 class IncrementalHelper:

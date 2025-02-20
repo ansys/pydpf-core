@@ -13,7 +13,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class hdf5dpf_custom_read(Operator):
-    """Extract a custom result from an hdf5dpf file.
+    """Extract a custom result from an hdf5dpf file. This operator is
+    deprecated, please use the 'custom' operator instead.
 
     Parameters
     ----------
@@ -98,7 +99,8 @@ class hdf5dpf_custom_read(Operator):
 
     @staticmethod
     def _spec():
-        description = """Extract a custom result from an hdf5dpf file."""
+        description = """Extract a custom result from an hdf5dpf file. This operator is
+            deprecated, please use the 'custom' operator instead."""
         spec = Specification(
             description=description,
             map_input_pin_spec={

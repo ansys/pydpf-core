@@ -24,21 +24,19 @@
 
 import os
 from pathlib import Path
-import warnings
 import traceback
 from typing import Union
+import warnings
 
-from ansys.dpf.core import server as server_module
+from ansys.dpf.core import errors, server as server_module
+from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.gate import (
+    data_processing_capi,
+    data_processing_grpcapi,
     data_sources_capi,
     data_sources_grpcapi,
     integral_types,
-    data_processing_capi,
-    data_processing_grpcapi,
 )
-
-from ansys.dpf.core.check_version import version_requires
-from ansys.dpf.core import errors
 
 
 class DataSources:
@@ -135,10 +133,11 @@ class DataSources:
         >>> data_sources = dpf.DataSources()
         >>> data_sources.set_result_file_path('/tmp/file.rst')
         >>> data_sources.result_files
-        ['/tmp/file.rst']
+        ['...tmp...file.rst']
 
         """
-        extension = Path(filepath).suffix
+        filepath = Path(filepath)
+        extension = filepath.suffix
         # Handle .res files from CFX
         if key == "" and extension == ".res":
             key = "cas"
@@ -201,6 +200,7 @@ class DataSources:
         >>> data_sources.set_domain_result_file_path('/tmp/file1.sub', 1)
 
         """
+        path = Path(path)
         if key:
             self._api.data_sources_set_domain_result_file_path_with_key_utf8(
                 self, str(path), key, domain_id

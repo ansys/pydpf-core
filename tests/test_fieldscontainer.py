@@ -20,24 +20,28 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import os
 import weakref
 
 import numpy as np
 import pytest
-import os
 
-import conftest
-from ansys.dpf.core.check_version import server_meet_version
 from ansys.dpf import core as dpf
-from ansys.dpf.core import FieldsContainer, Field, TimeFreqSupport
-from ansys.dpf.core import errors as dpf_errors
-from ansys.dpf.core import examples
-from ansys.dpf.core import fields_factory
-from ansys.dpf.core import operators as ops
-from ansys.dpf.core.custom_fields_container import (
-    ElShapeFieldsContainer,
-    BodyFieldsContainer,
+from ansys.dpf.core import (
+    Field,
+    FieldsContainer,
+    TimeFreqSupport,
+    errors as dpf_errors,
+    examples,
+    fields_factory,
+    operators as ops,
 )
+from ansys.dpf.core.check_version import server_meet_version
+from ansys.dpf.core.custom_fields_container import (
+    BodyFieldsContainer,
+    ElShapeFieldsContainer,
+)
+import conftest
 
 
 @pytest.fixture()

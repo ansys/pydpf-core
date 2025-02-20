@@ -27,13 +27,12 @@ Module containing the different geometry objects.
 
 """
 
-from ansys.dpf import core as dpf
+import numpy as np
 
+from ansys.dpf import core as dpf
 from ansys.dpf.core import Field
 from ansys.dpf.core.fields_factory import field_from_array
 from ansys.dpf.core.plotter import DpfPlotter
-
-import numpy as np
 
 
 def normalize_vector(vector):

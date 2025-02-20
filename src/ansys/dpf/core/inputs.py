@@ -22,11 +22,14 @@
 
 """Inputs."""
 
-import weakref
+from enum import Enum
 from textwrap import wrap
-from ansys.dpf.core.mapping_types import map_types_to_python
-from ansys.dpf.core.outputs import _Outputs, Output
+import warnings
+import weakref
+
 from ansys.dpf import core
+from ansys.dpf.core.mapping_types import map_types_to_python
+from ansys.dpf.core.outputs import Output, _Outputs
 
 
 class Input:
@@ -71,7 +74,7 @@ class Input:
 
         Parameters
         ----------
-        inpt : str, int, double, Field, FieldsContainer, Scoping, DataSources, MeshedRegion,
+        inpt : str, int, double, Field, FieldsContainer, Scoping, DataSources, MeshedRegion, Enum,
         Output, Outputs, Operator, os.PathLike
             Input of the operator.
 
@@ -98,6 +101,8 @@ class Input:
                 inpt = inpt.ID
             else:  # Custom UnitSystem
                 inpt = inpt.unit_names
+        elif isinstance(inpt, Enum):
+            inpt = inpt.value
 
         input_type_name = type(inpt).__name__
         if not (input_type_name in self._python_expected_types or ["Outputs", "Output", "Any"]):
@@ -111,7 +116,7 @@ class Input:
             self._python_expected_types, inpt, self._pin, corresponding_pins
         )
         if len(corresponding_pins) > 1:
-            err_str = "Pin connection is ambiguous, specify the pin with:\n"
+            err_str = "Pin connection is ambiguous, specify the input to connect to with:\n"
             for pin in corresponding_pins:
                 err_str += (
                     "   - operator.inputs."
@@ -120,7 +125,9 @@ class Input:
                     + inpt._dict_outputs[pin[1]].name
                     + ")"
                 )
-            raise ValueError(err_str)
+            err_str += "Connecting to first input in the list.\n"
+            warnings.warn(message=err_str)
+            corresponding_pins = [corresponding_pins[0]]
 
         if len(corresponding_pins) == 0:
             err_str = (
@@ -217,13 +224,20 @@ class _Inputs:
 
         Searches for the input type corresponding to the output.
 
+        .. deprecated::
+            Deprecated in favor of explicit output-to-input connections.
+
         Parameters
         ----------
-        inpt : str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping,
+        inpt : str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping, Enum,
         ScopingsContainer, MeshedRegion, MeshesContainer, DataSources, CyclicSupport, Outputs, os.PathLike  # noqa: E501
             Input of the operator.
 
         """
+        warnings.warn(
+            message="Use explicit output-to-input connections.", category=DeprecationWarning
+        )
+
         from pathlib import Path
 
         corresponding_pins = []
@@ -239,6 +253,8 @@ class _Inputs:
             inpt = inpt.metadata.data_sources
         elif isinstance(inpt, Path):
             inpt = str(inpt)
+        elif isinstance(inpt, Enum):
+            inpt = inpt.value
 
         input_type_name = type(inpt).__name__
         for input_pin in self._inputs:
@@ -249,12 +265,14 @@ class _Inputs:
                 corresponding_pins,
             )
         if len(corresponding_pins) > 1:
-            err_str = "Pin connection is ambiguous, specify the pin with:\n"
+            err_str = "Pin connection is ambiguous, specify the input to connect to with:\n"
             for pin in corresponding_pins:
                 if isinstance(pin, tuple):
                     pin = pin[0]
                 err_str += "   - operator.inputs." + self._dict_inputs[pin].name + "(input)\n"
-            raise ValueError(err_str)
+            err_str += "Connecting to first input in the list.\n"
+            warnings.warn(message=err_str)
+            corresponding_pins = [corresponding_pins[0]]
 
         if len(corresponding_pins) == 0:
             err_str = "The input should have one of the expected types:\n"

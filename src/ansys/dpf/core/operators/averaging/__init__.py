@@ -20,6 +20,8 @@ from .nodal_difference_fc import nodal_difference_fc
 from .nodal_fraction_fc import nodal_fraction_fc
 from .nodal_to_elemental import nodal_to_elemental
 from .nodal_to_elemental_fc import nodal_to_elemental_fc
+from .nodal_to_elemental_nodal import nodal_to_elemental_nodal
+from .nodal_to_elemental_nodal_fc import nodal_to_elemental_nodal_fc
 from .to_elemental_fc import to_elemental_fc
 from .to_elemental_nodal_fc import to_elemental_nodal_fc
 from .to_nodal import to_nodal

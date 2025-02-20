@@ -20,11 +20,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import weakref
+
 import pytest
 
 from ansys import dpf
 import conftest
-import weakref
 
 skip_always = pytest.mark.skipif(True, reason="Investigate why this is failing")
 

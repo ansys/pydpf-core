@@ -26,10 +26,11 @@ Check the matching for a client/server pair.
 Used to verify if the server version is a minimum value.
 """
 
-from ansys.dpf.core import errors as dpf_errors
+from functools import wraps
 import sys
 import weakref
-from functools import wraps
+
+from ansys.dpf.core import errors as dpf_errors
 
 
 def server_meet_version(required_version, server):

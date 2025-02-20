@@ -23,8 +23,7 @@
 """UnitSystem."""
 
 from ansys.dpf import core as dpf
-from ansys.dpf.core import errors as dpf_errors
-from ansys.dpf.core import server as server_module
+from ansys.dpf.core import errors as dpf_errors, server as server_module
 
 
 class UnitSystem:

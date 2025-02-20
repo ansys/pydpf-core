@@ -37,8 +37,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from ansys.dpf import core as dpf
-from ansys.dpf.core import examples
-from ansys.dpf.core import operators as ops
+from ansys.dpf.core import examples, operators as ops
 
 ###############################################################################
 # Download the transient result example. This example is
