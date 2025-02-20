@@ -1,24 +1,21 @@
 Contributing as a developer
 ###########################
 
-.. grid:: 1 1 3 3
-
+.. grid:: 1 2 3 3
+   :padding: 2 2 2 2
     .. grid-item-card:: :fa:`download` Clone the repository
-        :padding: 2 2 2 2
         :link: clone-the-repository
         :link-type: ref
 
         Download your own copy in your local machine.
 
     .. grid-item-card:: :fa:`download` Install for developers
-        :padding: 2 2 2 2
         :link: install-for-developers
         :link-type: ref
 
         Install the project in editable mode.
 
     .. grid-item-card:: :fa:`vial-circle-check` Run the tests
-        :padding: 2 2 2 2
         :link: run-tests
         :link-type: ref
 
@@ -58,7 +55,7 @@ Start by navigating to the project's root directory by running:
 Then, create a new virtual environment named ``.venv`` to isolate your system's
 Python environment by running:
 
-.. code-block:: text
+.. code-block:: bash
 
     python -m venv .venv
 
@@ -72,7 +69,7 @@ Finally, activate this environment by running:
 
             .. tab-item:: CMD
 
-                .. code-block:: text
+                .. code-block:: bash
 
                     .venv\Scripts\activate.bat
 
@@ -109,7 +106,7 @@ Verify the installation by checking the version of the library:
 
 .. jinja::
 
-    .. code-block:: text
+    .. code-block:: bash
 
        >>> PyDPF-Core version is {{ PYDPF_CORE_VERSION }}
 
@@ -236,7 +233,7 @@ to any of the previous tox commands.
 
 For example, to run compatible parallel tests while using a Standalone DPF Server whose path is ``ansys_dpf_server_lin_v2025.1.pre0``, simply run:
 
-.. code-block:: text
+.. code-block:: bash
 
     python -m tox -m localparalleltests --parallel -x testenv.deps+="-e ansys_dpf_server_lin_v2025.1.pre0"
 

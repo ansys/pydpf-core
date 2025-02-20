@@ -5,10 +5,10 @@ Users can contribute in a variety of ways, such as reporting bugs, requesting
 new features, testing in-development features, starting discussions, answering
 questions, and sharing their work with the community.
 
-.. grid:: 1 1 3 3
+.. grid:: 1 2 3 3
+    :padding: 2 2 2 2
 
     .. grid-item-card:: :fa:`bug` Report bugs
-        :padding: 2 2 2 2
         :link: report-bugs
         :link-type: ref
 
