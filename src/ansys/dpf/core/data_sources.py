@@ -506,19 +506,19 @@ class DataSources:
         >>> my_data_sources = dpf.DataSources()
         >>> # Define the path where the main result file can be found and specify its domain
         >>> # We use a format string here because the function used to define the path gives the path to a folder
-        >>> my_data_sources.set_domain_result_file_path(path=os.path.join(paths, "file_load_1.rfrq", key='rfrq', domain_id=0))
+        >>> my_data_sources.set_domain_result_file_path(path=os.path.join(paths, "file_load_1.rfrq"), key='rfrq', domain_id=0)
         >>> # Add the additional result file to the DataSources object and specify its domain
-        >>> my_data_sources.add_domain_file_path(filepath=os.path.join(paths, "file_load_2.rfrq", key='rfrq', domain_id=1))
+        >>> my_data_sources.add_domain_file_path(filepath=os.path.join(paths, "file_load_2.rfrq"), key='rfrq', domain_id=1)
         >>>
         >>> # Create the DataSources object for the first and second upstream files
         >>> my_data_sources_upstream_g0 = dpf.DataSources()
         >>> my_data_sources_upstream_g1 = dpf.DataSources()
         >>> # Define the path where the main upstream files can be found
-        >>> my_data_sources_upstream_g0.set_result_file_path(filepath=os.path.join(paths, "file0.mode", key='mode'))
-        >>> my_data_sources_upstream_g1.set_result_file_path(filepath=os.path.join(paths, "file1.mode", key='mode'))
+        >>> my_data_sources_upstream_g0.set_result_file_path(filepath=os.path.join(paths, "file0.mode"), key='mode')
+        >>> my_data_sources_upstream_g1.set_result_file_path(filepath=os.path.join(paths, "file1.mode"), key='mode')
         >>> # Add the additional upstream files to the upstream DataSources objectS
-        >>> my_data_sources_upstream_g0.add_file_path(filepath=os.path.join(paths, "file0.rst", key='rst'))
-        >>> my_data_sources_upstream_g1.add_file_path(filepath=os.path.join(paths, "file1.rst", key='rst'))
+        >>> my_data_sources_upstream_g0.add_file_path(filepath=os.path.join(paths, "file0.rst"), key='rst')
+        >>> my_data_sources_upstream_g1.add_file_path(filepath=os.path.join(paths, "file1.rst"), key='rst')
         >>>
         >>> # Add the upstream DataSources to the main DataSources object and specify its domain
         >>> my_data_sources.add_upstream_for_domain(upstream_data_sources=my_data_sources_upstream_g0, domain_id=0)
