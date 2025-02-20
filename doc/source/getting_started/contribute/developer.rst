@@ -2,7 +2,8 @@ Contributing as a developer
 ###########################
 
 .. grid:: 1 2 3 3
-   :padding: 2 2 2 2
+    :padding: 2 2 2 2
+
     .. grid-item-card:: :fa:`download` Clone the repository
         :link: clone-the-repository
         :link-type: ref

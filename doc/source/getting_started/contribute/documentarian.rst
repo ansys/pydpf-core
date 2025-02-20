@@ -1,24 +1,22 @@
 Contributing as a documentarian
 ###############################
 
-.. grid:: 1 1 3 3
+.. grid:: 1 2 3 3
+    :padding: 2 2 2 2
 
     .. grid-item-card:: :fa:`pencil` Write documentation
-        :padding: 2 2 2 2
         :link: write-documentation
         :link-type: ref
 
         Explain how to get started, use, and contribute to the project.
 
     .. grid-item-card:: :fa:`laptop-code` Add a new example
-        :padding: 2 2 2 2
         :link: write-examples
         :link-type: ref
 
         Showcase the capabilities of PyDPF-Core by adding a new example. 
 
     .. grid-item-card:: :fa:`book` Build the documentation
-        :padding: 2 2 2 2
         :link: build-documentation
         :link-type: ref
 

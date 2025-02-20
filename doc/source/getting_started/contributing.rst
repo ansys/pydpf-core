@@ -14,26 +14,25 @@ with this guide before attempting to contribute to PyDPF-Core.
     participating, you agree to uphold this code.
  
 The following contribution information is specific to PyDPF-Core. Start by selecting your role in the project:
-.. grid:: 1 1 3 3
+
+.. grid:: 1 2 3 3
+    :padding: 2 2 2 2
 
     .. grid-item-card:: :fa:`user` User
         :link: contribute/user
         :link-type: doc
-        :padding: 2 2 2 2
 
         Report bugs, suggesting features, and ask questions.
 
     .. grid-item-card:: :fa:`book` Documentarian
         :link: contribute/documentarian
         :link-type: doc
-        :padding: 2 2 2 2
 
         Improve the documentation and write new guides.
 
     .. grid-item-card:: :fa:`laptop-code` Developer
         :link: contribute/developer
         :link-type: doc
-        :padding: 2 2 2 2
 
         Fix bugs, add new features, and improve the codebase.
 
