@@ -169,9 +169,11 @@ from sphinx_gallery.sorting import FileNameSortKey
 
 
 def reset_servers(gallery_conf, fname, when):
-    import psutil
-    from ansys.dpf.core import server
     import gc
+
+    import psutil
+
+    from ansys.dpf.core import server
 
     gc.collect()
     server.shutdown_all_session_servers()
@@ -182,7 +184,7 @@ def reset_servers(gallery_conf, fname, when):
         try:
             # check whether the process name matches
             if proc_name in proc.name():
-                # proc.kill()
+                proc.kill()
                 nb_procs += 1
         except psutil.NoSuchProcess:
             pass
@@ -267,7 +269,7 @@ html_theme_options = {
 
 # Configuration for Sphinx autoapi
 suppress_warnings = [
-    "autoapi.python_import_resolution", # Todo: remove suppression of this warning in the future
+    "autoapi.python_import_resolution", # TODO: remove suppression of this warning in the future #1967
     "design.grid",
     "config.cache",
     "design.fa-build",

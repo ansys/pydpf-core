@@ -1,5 +1,5 @@
 ansys-platform-instancemanagement==1.1.2
-coverage==7.6.11
+coverage==7.6.12
 graphviz==0.20.1
 imageio==2.36.0
 imageio-ffmpeg==0.6.0
