@@ -27,7 +27,7 @@ from __future__ import annotations
 import os
 from pathlib import Path
 import traceback
-from typing import TYPE_CHECKING, Optional, Union
+from typing import TYPE_CHECKING, Union
 import warnings
 
 from ansys.dpf.core import errors, server as server_module
@@ -43,6 +43,7 @@ from ansys.dpf.gate import (
 if TYPE_CHECKING:  # pragma: no cover
     from ansys.dpf import core as dpf
     from ansys.dpf.core import server_types
+    from ansys.dpf.core.server_types import AnyServerType
     from ansys.grpc.dpf import data_sources_pb2
 
 
@@ -57,11 +58,11 @@ class DataSources:
 
     Parameters
     ----------
-    result_path
-        Path of the result. The default is ``None``.
-    data_sources
-        gRPC data sources message. The default is ``None``.
-    server
+    result_path:
+        Path of the result.
+    data_sources:
+        gRPC data sources message.
+    server:
         Server with the channel connected to the remote or local instance. The
         default is ``None``, in which case an attempt is made to use the global
         server.
@@ -81,9 +82,9 @@ class DataSources:
 
     def __init__(
         self,
-        result_path: Optional[str, os.PathLike] = None,
-        data_sources: Optional[dpf.DataSources, int, data_sources_pb2.DataSources] = None,
-        server: Optional[type[server_types.BaseServer]] = None,
+        result_path: Union[str, os.PathLike] = None,
+        data_sources: Union[dpf.DataSources, int, data_sources_pb2.DataSources] = None,
+        server: AnyServerType = None,
     ):
         """Initialize a connection with the server."""
         # step 1: get server
@@ -129,18 +130,20 @@ class DataSources:
             self.set_result_file_path(result_path)
 
     def set_result_file_path(
-        self, filepath: Union[str, os.PathLike], key: Optional[str] = ""
+        self,
+        filepath: Union[str, os.PathLike],
+        key: str = "",
     ) -> None:
         """Set the main result file path to the data sources.
 
         Parameters
         ----------
-        filepath
+        filepath:
             Path to the result file.
-        key
+        key:
             Extension of the file, which is used as a key for choosing the correct
-            plugin when a result is requested by an operator. The default is ``""``,
-            in which case the key is found directly.
+            plugin when a result is requested by an operator.
+            Overrides the default key detection logic.
 
         Examples
         --------
@@ -174,18 +177,18 @@ class DataSources:
             self._api.data_sources_set_result_file_path_with_key_utf8(self, str(filepath), key)
 
     @staticmethod
-    def guess_result_key(filepath: str) -> str:
+    def guess_result_key(filepath: Union[str, os.PathLike]) -> str:
         """Guess result key for files without a file extension.
 
         Parameters
         ----------
-        filepath
+        filepath:
             Path to the file.
 
         Returns
         -------
-        str
-            Extension key name
+        str:
+            Extension key name.
 
         Examples
         --------
@@ -215,22 +218,22 @@ class DataSources:
         return ""
 
     @staticmethod
-    def guess_second_key(filepath: str) -> str:
+    def guess_second_key(filepath: Union[str, os.PathLike]) -> str:
         """For files with an h5 or cff extension, look for another extension.
 
         Parameters
         ----------
-        filepath
+        filepath:
             Path to the file.
 
         Returns
         -------
-        str
-            First extension key name
+        str:
+            First extension key name.
 
         Examples
         --------
-        Find the first extension key of a result file with multiple extensions keys
+        Find the first extension key of a result file with multiple extensions keys.
 
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
@@ -258,7 +261,7 @@ class DataSources:
         return new_key
 
     def set_domain_result_file_path(
-        self, path: Union[str, os.PathLike], domain_id: int, key: Union[str, None] = None
+        self, path: Union[str, os.PathLike], domain_id: int, key: str = None
     ) -> None:
         """Set a result file path for a specific domain.
 
@@ -267,11 +270,11 @@ class DataSources:
 
         Parameters
         ----------
-        path
+        path:
             Path to the file.
-        domain_id
+        domain_id:
             Domain ID for the distributed files.
-        key
+        key:
             Key to associate to the file.
 
         Examples
@@ -298,9 +301,9 @@ class DataSources:
     def add_file_path(
         self,
         filepath: Union[str, os.PathLike],
-        key: Optional[str] = "",
-        is_domain: Optional[bool] = False,
-        domain_id: Optional[int] = 0,
+        key: str = "",
+        is_domain: bool = False,
+        domain_id: int = 0,
     ) -> None:
         """Add an accessory file path to the data sources.
 
@@ -309,21 +312,21 @@ class DataSources:
 
         Parameters
         ----------
-        filepath
+        filepath:
             Path of the file.
-        key
+        key:
             Extension of the file, which is used as a key for choosing the correct
-            plugin when a result is requested by an operator. The default is ``""``,
-            in which case the key is found directly.
-        is_domain
-            Whether the file path is the domain path. The default is ``False``.
-        domain_id
-            Domain ID for the distributed files. The default is ``0``. For this
-            parameter to be taken into account, ``domain_path=True`` must be set.
+            plugin when a result is requested by an operator.
+            Overrides the default key detection logic.
+        is_domain:
+            Whether the file path is the domain path.
+        domain_id:
+            Domain ID for the distributed files.
+            For this parameter to be taken into account, ``domain_path=True`` must be set.
 
         Examples
         --------
-        Add an accessory file to the DataSources object
+        Add an accessory file to the DataSources object.
 
         >>> from ansys.dpf import core as dpf
         >>>
@@ -399,8 +402,8 @@ class DataSources:
     def add_file_path_for_specified_result(
         self,
         filepath: Union[str, os.PathLike],
-        key: Optional[str] = "",
-        result_key: Optional[str] = "",
+        key: str = "",
+        result_key: str = "",
     ) -> None:
         """Add a file path for a specified result file key to the data sources.
 
@@ -410,13 +413,13 @@ class DataSources:
 
         Parameters
         ----------
-        filepath : str or os.PathLike object
+        filepath:
             Path of the file.
-        key : str, optional
+        key:
             Extension of the file, which is used as a key for choosing the correct
-            plugin when a result is requested by an operator. The default is ``""``,
-            in which case the key is found directly.
-        result_key: str, optional
+            plugin when a result is requested by an operator.
+            Overrides the default key detection logic.
+        result_key:
             Extension of the results file that the specified file path belongs to.
             The default is ``""``, in which case the key is found directly.
         """
@@ -430,9 +433,7 @@ class DataSources:
             self, str(filepath), key, result_key
         )
 
-    def add_upstream(
-        self, upstream_data_sources: DataSources, result_key: Optional[str] = ""
-    ) -> None:
+    def add_upstream(self, upstream_data_sources: DataSources, result_key: str = "") -> None:
         """Add upstream data sources to the main DataSources object.
 
         This is used to add a set of paths creating an upstream for
@@ -440,15 +441,14 @@ class DataSources:
 
         Parameters
         ----------
-        upstream_data_sources
+        upstream_data_sources:
             Set of paths creating an upstream for recursive workflows.
-
-        result_key
-            Extension of the result file group with which this upstream belongs
+        result_key:
+            Extension of the result file group for the upstream data source.
 
         Examples
         --------
-        Add upstream data to the main DataSources object of an expansion analysis
+        Add upstream data to the main DataSources object of an expansion analysis.
 
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
@@ -486,15 +486,14 @@ class DataSources:
 
         Parameters
         ----------
-        upstream_data_sources
+        upstream_data_sources:
             Set of paths creating an upstream for recursive workflows.
-
-        domain_id
+        domain_id:
             Domain id for distributed files.
 
         Examples
         --------
-        Add an upstream data to the main DataSources object of an expansion distributed analysis
+        Add an upstream data to the main DataSources object of an expansion distributed analysis.
 
         >>> import os
         >>>
@@ -531,12 +530,12 @@ class DataSources:
         )
 
     @property
-    def result_key(self):
+    def result_key(self) -> str:
         """Result key used by the data sources.
 
         Returns
         -------
-        str
+        str:
            Result key.
 
         Examples
@@ -555,18 +554,18 @@ class DataSources:
         return self._api.data_sources_get_result_key(self)
 
     @property
-    def result_files(self):
+    def result_files(self) -> list[str]:
         """List of result files contained in the data sources.
 
         Returns
         -------
-        list
-            List of result files.
+        list:
+            List of result file paths.
 
         Examples
         --------
-        If you use the :func:`set_result_file_path() <ansys.dpf.core.data_sources.DataSources.set_result_file_path>`
-        function, it will return only the file path given as an argument to this function.
+        Get the path to the result file set using
+        :func:`set_result_file_path() <ansys.dpf.core.DataSources.set_result_file_path>`.
 
         >>> from ansys.dpf import core as dpf
         >>>
@@ -638,35 +637,34 @@ class DataSources:
 
     @version_requires("7.0")
     def register_namespace(self, result_key: str, namespace: str):
-        """Add a link from this ``result_key`` to this ``namespace`` in the DataSources.
+        """Associate a ``result_key`` to a ``namespace`` for this `DataSources`` instance.
 
-        This ``result_key`` to ``namespace`` mapping is used by source operators
-        to find internal operators to call.
+        The ``result_key`` to ``namespace`` mapping of a ``DataSources`` instance is used by
+        source operators to redirect a specific implementation of the operator.
 
+        Most public source operators in the documentation are solver-independant interfaces.
+        Plugins bring solver-specific implementations of these operators and record them using a
+        combination of the namespace, the file extension, and the operator name:
+        ``namespace::key::operator_name``.
 
-        When using an operator that requires data from a ``DataSources`` object, DPF must find
-        a corresponding entry to this call in its code. This entry is given
-        by the namespace, the file extension, and the operator name: ``namespace::key::operator_name``.
+        For example, if the namespace associated to the file extension 'rst' is 'mapdl'
+        (which is the case in the default mapping), the 'displacement' source operator tries calling
+        operator ``mapdl::rst::displacement``.
 
-        For example, if the results file comes from a MAPDL solver and has an '.rst' extension
-        and you want to get the displacement results in this file, DPF code will get the
-        corresponding operator: ``mapdl::rst::displacement``.
-
-        So, if you have an extension that is not registered in DPF you have to define its namespace.
-        This function is mainly used when creating your own operators and plugins, or when you have
-        a file with an unknown namespace, but you know that it corresponds to a given solver.
+        This function is useful when creating custom operators or plugins for files with extensions
+        unknown to the DPF framework, or to override the default extension to namespace association.
 
         Parameters
         ----------
-        result_key
+        result_key:
             Extension of the file, which is used as a key for choosing the correct
             plugin when a result is requested by an operator.
-        namespace
+        namespace:
             Namespace to associate the file extension to.
 
         Notes
         -----
-        Available with server's version starting at 7.0.
+        Available with server version starting at 7.0.
 
         Examples
         --------
