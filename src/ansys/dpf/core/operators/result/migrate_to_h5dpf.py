@@ -36,7 +36,10 @@ class migrate_to_h5dpf(Operator):
         num_threads: zstd (>0)}
     export_floats : bool, optional
         Converts double to float to reduce file size
-        (default is true)
+        (default is true).if false, nodal
+        results are exported as double
+        precision and elemental results as
+        single precision.
     filename : str
         Filename of the migrated file
     comma_separated_list_of_results : str, optional
@@ -197,7 +200,10 @@ class migrate_to_h5dpf(Operator):
                     type_names=["bool"],
                     optional=True,
                     document="""Converts double to float to reduce file size
-        (default is true)""",
+        (default is true).if false, nodal
+        results are exported as double
+        precision and elemental results as
+        single precision.""",
                 ),
                 0: PinSpecification(
                     name="filename",
@@ -426,7 +432,10 @@ class InputsMigrateToH5Dpf(_Inputs):
         """Allows to connect export_floats input to the operator.
 
         Converts double to float to reduce file size
-        (default is true)
+        (default is true).if false, nodal
+        results are exported as double
+        precision and elemental results as
+        single precision.
 
         Parameters
         ----------
