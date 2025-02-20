@@ -1,13 +1,18 @@
-import os
-import sys
-from glob import glob
 from datetime import datetime
+from glob import glob
+import os
 
+from ansys_sphinx_theme import (
+    ansys_favicon,
+    get_version_match,
+    pyansys_logo_dark_mode,
+    pyansys_logo_light_mode,
+)
 import numpy as np
 import pyvista
+
 from ansys.dpf.core import __version__, server, server_factory
 from ansys.dpf.core.examples import get_example_required_minimum_dpf_version
-from ansys_sphinx_theme import ansys_favicon, get_version_match, pyansys_logo_light_mode, pyansys_logo_dark_mode
 
 # Manage errors
 pyvista.set_error_output_file("errors.txt")
@@ -161,9 +166,11 @@ from sphinx_gallery.sorting import FileNameSortKey
 
 
 def reset_servers(gallery_conf, fname, when):
-    import psutil
-    from ansys.dpf.core import server
     import gc
+
+    import psutil
+
+    from ansys.dpf.core import server
 
     gc.collect()
     server.shutdown_all_session_servers()
@@ -174,7 +181,7 @@ def reset_servers(gallery_conf, fname, when):
         try:
             # check whether the process name matches
             if proc_name in proc.name():
-                # proc.kill()
+                proc.kill()
                 nb_procs += 1
         except psutil.NoSuchProcess:
             pass
@@ -259,7 +266,7 @@ html_theme_options = {
 
 # Configuration for Sphinx autoapi
 suppress_warnings = [
-    "autoapi.python_import_resolution", # Todo: remove suppression of this warning in the future
+    "autoapi.python_import_resolution", # TODO: remove suppression of this warning in the future #1967
     "design.grid",
     "config.cache",
     "design.fa-build",
