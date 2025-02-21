@@ -814,7 +814,7 @@ class Workflow:
                     self._api.workflow_add_entry_connection_map(map, key, output_input_names[key])
             else:
                 raise TypeError(
-                    "output_input_names argument is expect" "to be either a str tuple or a str dict"
+                    "output_input_names argument is expected to be either a str tuple or a str dict"
                 )
             self._api.work_flow_connect_with_specified_names(self, left_workflow, map)
         else:
