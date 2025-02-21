@@ -1,0 +1,153 @@
+
+
+
+
+
+
+:class:`cyclic_support_provider`
+================================
+
+.. py:class:: ansys.dpf.core.operators.metadata.cyclic_support_provider.cyclic_support_provider(streams_container=None, data_sources=None, sector_meshed_region=None, expanded_meshed_region=None, sectors_to_expand=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Read the cyclic support (DPF entity containing necessary information
+   for expansions) and expands the mesh.
+
+   :param streams_container: Streams containing the result file.
+   :type streams_container: StreamsContainer, optional
+   :param data_sources: Data sources containing the result file.
+   :type data_sources: DataSources
+   :param sector_meshed_region: Mesh of the first sector.
+   :type sector_meshed_region: MeshedRegion or MeshesContainer, optional
+   :param expanded_meshed_region: If this pin is set, expanding the mesh is not
+                                  necessary.
+   :type expanded_meshed_region: MeshedRegion or MeshesContainer, optional
+   :param sectors_to_expand: Sectors to expand (start at 0), for
+                             multistage: use scopings container
+                             with 'stage' label.
+   :type sectors_to_expand: Scoping or ScopingsContainer, optional
+
+   :returns: * **cyclic_support** (*CyclicSupport*)
+             * **sector_meshes** (*MeshesContainer*)
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.metadata.cyclic_support_provider()
+
+   >>> # Make input connections
+   >>> my_streams_container = dpf.StreamsContainer()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_sector_meshed_region = dpf.MeshedRegion()
+   >>> op.inputs.sector_meshed_region.connect(my_sector_meshed_region)
+   >>> my_expanded_meshed_region = dpf.MeshedRegion()
+   >>> op.inputs.expanded_meshed_region.connect(my_expanded_meshed_region)
+   >>> my_sectors_to_expand = dpf.Scoping()
+   >>> op.inputs.sectors_to_expand.connect(my_sectors_to_expand)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.metadata.cyclic_support_provider(
+   ...     streams_container=my_streams_container,
+   ...     data_sources=my_data_sources,
+   ...     sector_meshed_region=my_sector_meshed_region,
+   ...     expanded_meshed_region=my_expanded_meshed_region,
+   ...     sectors_to_expand=my_sectors_to_expand,
+   ... )
+
+   >>> # Get output data
+   >>> result_cyclic_support = op.outputs.cyclic_support()
+   >>> result_sector_meshes = op.outputs.sector_meshes()
+
+
+
+
+.. py:currentmodule:: cyclic_support_provider
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.metadata.cyclic_support_provider import cyclic_support_provider
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsCyclicSupportProvider
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsCyclicSupportProvider
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

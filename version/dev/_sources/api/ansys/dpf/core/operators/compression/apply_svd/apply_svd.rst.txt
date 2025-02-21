@@ -1,0 +1,162 @@
+
+
+
+
+
+
+:class:`apply_svd`
+==================
+
+.. py:class:: ansys.dpf.core.operators.compression.apply_svd.apply_svd(field_contaner_to_compress=None, scalar_int=None, scalar_double=None, boolean=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Computes the coefficients (=U*Sigma) and VT components from SVD.
+
+   :param field_contaner_to_compress: Fields container to be compressed
+   :type field_contaner_to_compress: FieldsContainer
+   :param scalar_int: Number of vectors (r) to keep for the future
+                      reconstraction of the matrix a, ex.
+                      a[m,n]=coef[m,r]*vt[r,n], where
+                      coef=u*sigma
+   :type scalar_int: int
+   :param scalar_double: Threshold (precision) as a double, default
+                         value is 1e-7
+   :type scalar_double: float
+   :param boolean: Apply svd on the initial input data (true) or
+                   transposed (square matrix), default
+                   value is false
+   :type boolean: bool
+
+   :returns: * **us_svd** (*FieldsContainer*) -- The output entity is a field container (time
+               dependant); it contains the
+               multiplication of two matrices, u and
+               s, where a=u.s.vt
+             * **vt_svd** (*FieldsContainer*) -- The output entity is a field container (space
+               dependant), containing the vt, where
+               a=u.s.vt
+             * **sigma** (*Field or FieldsContainer*) -- The output entity is a field (or a field
+               container if input fc contains
+               several labels, where field contains
+               results per label), containing
+               singular (s) values of the input
+               data, where a=u.s.vt
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.compression.apply_svd()
+
+   >>> # Make input connections
+   >>> my_field_contaner_to_compress = dpf.FieldsContainer()
+   >>> op.inputs.field_contaner_to_compress.connect(my_field_contaner_to_compress)
+   >>> my_scalar_int = int()
+   >>> op.inputs.scalar_int.connect(my_scalar_int)
+   >>> my_scalar_double = float()
+   >>> op.inputs.scalar_double.connect(my_scalar_double)
+   >>> my_boolean = bool()
+   >>> op.inputs.boolean.connect(my_boolean)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.compression.apply_svd(
+   ...     field_contaner_to_compress=my_field_contaner_to_compress,
+   ...     scalar_int=my_scalar_int,
+   ...     scalar_double=my_scalar_double,
+   ...     boolean=my_boolean,
+   ... )
+
+   >>> # Get output data
+   >>> result_us_svd = op.outputs.us_svd()
+   >>> result_vt_svd = op.outputs.vt_svd()
+   >>> result_sigma = op.outputs.sigma()
+
+
+
+
+.. py:currentmodule:: apply_svd
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.compression.apply_svd import apply_svd
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsApplySvd
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsApplySvd
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

@@ -1,0 +1,80 @@
+
+
+
+
+
+
+:class:`OutputsEnrichMaterials`
+===============================
+
+.. py:class:: ansys.dpf.core.operators.logic.enrich_materials.OutputsEnrichMaterials(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   enrich_materials operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.enrich_materials()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_MaterialContainer = op.outputs.MaterialContainer()
+
+
+
+.. py:currentmodule:: OutputsEnrichMaterials
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~MaterialContainer`
+            - Allows to get MaterialContainer output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.logic.enrich_materials import OutputsEnrichMaterials
+
+Property detail
+---------------
+
+.. py:property:: MaterialContainer
+
+   Allows to get MaterialContainer output of the operator
+
+   :returns: **my_MaterialContainer**
+   :rtype: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.enrich_materials()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_MaterialContainer = op.outputs.MaterialContainer()
+
+
+
+
+
+

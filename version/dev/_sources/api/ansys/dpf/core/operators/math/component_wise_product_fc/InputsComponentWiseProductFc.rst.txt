@@ -1,0 +1,106 @@
+
+
+
+
+
+
+:class:`InputsComponentWiseProductFc`
+=====================================
+
+.. py:class:: ansys.dpf.core.operators.math.component_wise_product_fc.InputsComponentWiseProductFc(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   component_wise_product_fc operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.component_wise_product_fc()
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_fieldB = dpf.Field()
+   >>> op.inputs.fieldB.connect(my_fieldB)
+
+
+
+.. py:currentmodule:: InputsComponentWiseProductFc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fields_container`
+            - Allows to connect fields_container input to the operator.
+          * - :py:attr:`~fieldB`
+            - Allows to connect fieldB input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.component_wise_product_fc import InputsComponentWiseProductFc
+
+Property detail
+---------------
+
+.. py:property:: fields_container
+
+   Allows to connect fields_container input to the operator.
+
+   Field or fields container with only one field
+   is expected
+
+   :param my_fields_container:
+   :type my_fields_container: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.component_wise_product_fc()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> # or
+   >>> op.inputs.fields_container(my_fields_container)
+
+.. py:property:: fieldB
+
+   Allows to connect fieldB input to the operator.
+
+   Field or fields container with only one field
+   is expected
+
+   :param my_fieldB:
+   :type my_fieldB: Field or FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.component_wise_product_fc()
+   >>> op.inputs.fieldB.connect(my_fieldB)
+   >>> # or
+   >>> op.inputs.fieldB(my_fieldB)
+
+
+
+
+
+

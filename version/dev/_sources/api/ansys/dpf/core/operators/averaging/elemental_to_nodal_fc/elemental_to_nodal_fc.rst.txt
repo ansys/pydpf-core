@@ -1,0 +1,163 @@
+
+
+
+
+
+
+:class:`elemental_to_nodal_fc`
+==============================
+
+.. py:class:: ansys.dpf.core.operators.averaging.elemental_to_nodal_fc.elemental_to_nodal_fc(fields_container=None, mesh=None, force_averaging=None, mesh_scoping=None, algorithm=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Transforms Elemental Nodal fields to Nodal fields. The result is
+   computed on a given node's scoping.1. For a finite element mesh,
+   the value on a node is the average of the values of the neighbour
+   elements.  2. For a finite volume mesh, the agorithm is :    - For
+   each node, compute interpolation weights for the cells connected
+   to it based   on the Frink's Laplacian method.         - If the
+   determinant of the I matrix is zero, switch to an inverse distance
+   weighted average.         - If not, compute the Frink weights and
+   apply the Holmes' weight clip.         - If the clipping produces
+   a large overshoot, inverse volume weighted average is used.. 3.
+   For a face finite volume mesh inverse distance weighted average is
+   used.
+
+   :param fields_container:
+   :type fields_container: FieldsContainer
+   :param mesh:
+   :type mesh: MeshedRegion or MeshesContainer, optional
+   :param force_averaging: Averaging on nodes is used if this pin is set
+                           to 1 (default is 1 for integrated
+                           results and 0 for discrete ones).
+   :type force_averaging: int, optional
+   :param mesh_scoping:
+   :type mesh_scoping: Scoping or ScopingsContainer, optional
+   :param algorithm: Forces the usage of algorithm 1, 2 or 3
+                     (default is chosen based on the type
+                     of mesh).
+   :type algorithm: int, optional
+
+   :returns: **fields_container**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.averaging.elemental_to_nodal_fc()
+
+   >>> # Make input connections
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_force_averaging = int()
+   >>> op.inputs.force_averaging.connect(my_force_averaging)
+   >>> my_mesh_scoping = dpf.Scoping()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> my_algorithm = int()
+   >>> op.inputs.algorithm.connect(my_algorithm)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.averaging.elemental_to_nodal_fc(
+   ...     fields_container=my_fields_container,
+   ...     mesh=my_mesh,
+   ...     force_averaging=my_force_averaging,
+   ...     mesh_scoping=my_mesh_scoping,
+   ...     algorithm=my_algorithm,
+   ... )
+
+   >>> # Get output data
+   >>> result_fields_container = op.outputs.fields_container()
+
+
+
+
+.. py:currentmodule:: elemental_to_nodal_fc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.averaging.elemental_to_nodal_fc import elemental_to_nodal_fc
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsElementalToNodalFc
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsElementalToNodalFc
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

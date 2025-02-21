@@ -1,0 +1,135 @@
+
+
+
+
+
+
+:class:`von_mises_eqv`
+======================
+
+.. py:class:: ansys.dpf.core.operators.invariant.von_mises_eqv.von_mises_eqv(field=None, poisson_ratio=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Computes the element-wise Von-Mises criteria on a tensor field.
+
+   :param field: Field or fields container with only one field
+                 is expected
+   :type field: Field or FieldsContainer
+   :param poisson_ratio: Poisson ratio to be used in equivalent strain
+                         calculation.
+   :type poisson_ratio: float or int
+
+   :returns: **field**
+   :rtype: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.invariant.von_mises_eqv()
+
+   >>> # Make input connections
+   >>> my_field = dpf.Field()
+   >>> op.inputs.field.connect(my_field)
+   >>> my_poisson_ratio = float()
+   >>> op.inputs.poisson_ratio.connect(my_poisson_ratio)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.invariant.von_mises_eqv(
+   ...     field=my_field,
+   ...     poisson_ratio=my_poisson_ratio,
+   ... )
+
+   >>> # Get output data
+   >>> result_field = op.outputs.field()
+
+
+
+
+.. py:currentmodule:: von_mises_eqv
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.invariant.von_mises_eqv import von_mises_eqv
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsVonMisesEqv
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsVonMisesEqv
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

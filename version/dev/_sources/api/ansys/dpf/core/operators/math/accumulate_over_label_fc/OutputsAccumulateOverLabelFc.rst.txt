@@ -1,0 +1,80 @@
+
+
+
+
+
+
+:class:`OutputsAccumulateOverLabelFc`
+=====================================
+
+.. py:class:: ansys.dpf.core.operators.math.accumulate_over_label_fc.OutputsAccumulateOverLabelFc(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   accumulate_over_label_fc operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.accumulate_over_label_fc()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_field = op.outputs.field()
+
+
+
+.. py:currentmodule:: OutputsAccumulateOverLabelFc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~field`
+            - Allows to get field output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.accumulate_over_label_fc import OutputsAccumulateOverLabelFc
+
+Property detail
+---------------
+
+.. py:property:: field
+
+   Allows to get field output of the operator
+
+   :returns: **my_field**
+   :rtype: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.accumulate_over_label_fc()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_field = op.outputs.field()
+
+
+
+
+
+

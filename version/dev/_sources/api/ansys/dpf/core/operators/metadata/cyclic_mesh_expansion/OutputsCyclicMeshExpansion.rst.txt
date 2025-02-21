@@ -1,0 +1,97 @@
+
+
+
+
+
+
+:class:`OutputsCyclicMeshExpansion`
+===================================
+
+.. py:class:: ansys.dpf.core.operators.metadata.cyclic_mesh_expansion.OutputsCyclicMeshExpansion(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   cyclic_mesh_expansion operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.cyclic_mesh_expansion()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_meshed_region = op.outputs.meshed_region()
+   >>> result_cyclic_support = op.outputs.cyclic_support()
+
+
+
+.. py:currentmodule:: OutputsCyclicMeshExpansion
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~meshed_region`
+            - Allows to get meshed_region output of the operator
+          * - :py:attr:`~cyclic_support`
+            - Allows to get cyclic_support output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.metadata.cyclic_mesh_expansion import OutputsCyclicMeshExpansion
+
+Property detail
+---------------
+
+.. py:property:: meshed_region
+
+   Allows to get meshed_region output of the operator
+
+   :returns: **my_meshed_region**
+   :rtype: MeshedRegion
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.cyclic_mesh_expansion()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_meshed_region = op.outputs.meshed_region()
+
+.. py:property:: cyclic_support
+
+   Allows to get cyclic_support output of the operator
+
+   :returns: **my_cyclic_support**
+   :rtype: CyclicSupport
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.cyclic_mesh_expansion()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_cyclic_support = op.outputs.cyclic_support()
+
+
+
+
+
+

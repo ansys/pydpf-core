@@ -1,0 +1,144 @@
+
+
+
+
+
+
+:class:`prepare_mapping_workflow`
+=================================
+
+.. py:class:: ansys.dpf.core.operators.mapping.prepare_mapping_workflow.prepare_mapping_workflow(input_support=None, output_support=None, filter_radius=None, influence_box=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Generates a workflow that can map results from a support to another
+   one.
+
+   :param input_support:
+   :type input_support: Field or MeshedRegion
+   :param output_support:
+   :type output_support: Field or MeshedRegion
+   :param filter_radius: Radius size for the rbf filter
+   :type filter_radius: float
+   :param influence_box:
+   :type influence_box: float, optional
+
+   :returns: **mapping_workflow**
+   :rtype: Workflow
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.mapping.prepare_mapping_workflow()
+
+   >>> # Make input connections
+   >>> my_input_support = dpf.Field()
+   >>> op.inputs.input_support.connect(my_input_support)
+   >>> my_output_support = dpf.Field()
+   >>> op.inputs.output_support.connect(my_output_support)
+   >>> my_filter_radius = float()
+   >>> op.inputs.filter_radius.connect(my_filter_radius)
+   >>> my_influence_box = float()
+   >>> op.inputs.influence_box.connect(my_influence_box)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.mapping.prepare_mapping_workflow(
+   ...     input_support=my_input_support,
+   ...     output_support=my_output_support,
+   ...     filter_radius=my_filter_radius,
+   ...     influence_box=my_influence_box,
+   ... )
+
+   >>> # Get output data
+   >>> result_mapping_workflow = op.outputs.mapping_workflow()
+
+
+
+
+.. py:currentmodule:: prepare_mapping_workflow
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mapping.prepare_mapping_workflow import prepare_mapping_workflow
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsPrepareMappingWorkflow
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsPrepareMappingWorkflow
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

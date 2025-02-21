@@ -1,0 +1,80 @@
+
+
+
+
+
+
+:class:`OutputsKmeansClustering`
+================================
+
+.. py:class:: ansys.dpf.core.operators.compression.kmeans_clustering.OutputsKmeansClustering(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   kmeans_clustering operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.kmeans_clustering()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_scoping_clusters = op.outputs.scoping_clusters()
+
+
+
+.. py:currentmodule:: OutputsKmeansClustering
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~scoping_clusters`
+            - Allows to get scoping_clusters output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.compression.kmeans_clustering import OutputsKmeansClustering
+
+Property detail
+---------------
+
+.. py:property:: scoping_clusters
+
+   Allows to get scoping_clusters output of the operator
+
+   :returns: **my_scoping_clusters**
+   :rtype: ScopingsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.kmeans_clustering()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_scoping_clusters = op.outputs.scoping_clusters()
+
+
+
+
+
+

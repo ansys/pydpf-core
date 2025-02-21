@@ -1,0 +1,102 @@
+
+
+
+
+
+
+:class:`InputsBindSupportFc`
+============================
+
+.. py:class:: ansys.dpf.core.operators.utility.bind_support_fc.InputsBindSupportFc(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   bind_support_fc operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.bind_support_fc()
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_support = dpf.MeshedRegion()
+   >>> op.inputs.support.connect(my_support)
+
+
+
+.. py:currentmodule:: InputsBindSupportFc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fields_container`
+            - Allows to connect fields_container input to the operator.
+          * - :py:attr:`~support`
+            - Allows to connect support input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.bind_support_fc import InputsBindSupportFc
+
+Property detail
+---------------
+
+.. py:property:: fields_container
+
+   Allows to connect fields_container input to the operator.
+
+   :param my_fields_container:
+   :type my_fields_container: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.bind_support_fc()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> # or
+   >>> op.inputs.fields_container(my_fields_container)
+
+.. py:property:: support
+
+   Allows to connect support input to the operator.
+
+   Meshed region or a support of the field.
+
+   :param my_support:
+   :type my_support: MeshedRegion or AbstractFieldSupport or TimeFreqSupport
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.bind_support_fc()
+   >>> op.inputs.support.connect(my_support)
+   >>> # or
+   >>> op.inputs.support(my_support)
+
+
+
+
+
+

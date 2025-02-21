@@ -1,0 +1,166 @@
+
+
+
+
+
+
+:class:`mesh_property_provider`
+===============================
+
+.. py:class:: ansys.dpf.core.operators.metadata.mesh_property_provider.mesh_property_provider(mesh_scoping=None, streams_container=None, data_sources=None, property_name=None, property_identifier=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Reads a property related to the mesh, defined by its name, by calling
+   the readers defined by the data sources. These properties can be
+   used to fill in the mesh.
+
+   :param mesh_scoping: Retrieves a property field on a subset of
+                        elements or nodes.
+   :type mesh_scoping: Scoping, optional
+   :param streams_container: Streams (result file container) (optional)
+   :type streams_container: StreamsContainer, optional
+   :param data_sources: If the stream is null, retrieves the file
+                        path from the data sources.
+   :type data_sources: DataSources
+   :param property_name: Supported property names are: "mat",
+                         "named_selection",
+                         "named_selection_names",
+                         "apdl_element_type", "section",
+                         "elprops", "keyopt_1" to "keyopt_18".
+   :type property_name: str
+   :param property_identifier: Retrieves a property at a given index or by
+                               name. for example, a named
+                               selection's number or a named
+                               selection's name.
+   :type property_identifier: int or str, optional
+
+   :returns: **property** -- Returns a property field for properties:
+             "mat", "apdl_element_type",
+             "section", "elprops", "keyopt_1" to
+             "keyopt_18" (or any mesh's property
+             field), a scoping for
+             properties:"named_selection", a
+             string field for properties:
+             "named_selection_names".
+   :rtype: Scoping or PropertyField or StringField
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.metadata.mesh_property_provider()
+
+   >>> # Make input connections
+   >>> my_mesh_scoping = dpf.Scoping()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> my_streams_container = dpf.StreamsContainer()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_property_name = str()
+   >>> op.inputs.property_name.connect(my_property_name)
+   >>> my_property_identifier = int()
+   >>> op.inputs.property_identifier.connect(my_property_identifier)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.metadata.mesh_property_provider(
+   ...     mesh_scoping=my_mesh_scoping,
+   ...     streams_container=my_streams_container,
+   ...     data_sources=my_data_sources,
+   ...     property_name=my_property_name,
+   ...     property_identifier=my_property_identifier,
+   ... )
+
+   >>> # Get output data
+   >>> result_property = op.outputs.property()
+
+
+
+
+.. py:currentmodule:: mesh_property_provider
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.metadata.mesh_property_provider import mesh_property_provider
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsMeshPropertyProvider
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsMeshPropertyProvider
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

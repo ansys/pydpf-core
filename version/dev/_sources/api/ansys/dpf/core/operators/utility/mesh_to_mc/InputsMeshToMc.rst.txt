@@ -1,0 +1,106 @@
+
+
+
+
+
+
+:class:`InputsMeshToMc`
+=======================
+
+.. py:class:: ansys.dpf.core.operators.utility.mesh_to_mc.InputsMeshToMc(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   mesh_to_mc operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.mesh_to_mc()
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_label = dict()
+   >>> op.inputs.label.connect(my_label)
+
+
+
+.. py:currentmodule:: InputsMeshToMc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~mesh`
+            - Allows to connect mesh input to the operator.
+          * - :py:attr:`~label`
+            - Allows to connect label input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.mesh_to_mc import InputsMeshToMc
+
+Property detail
+---------------
+
+.. py:property:: mesh
+
+   Allows to connect mesh input to the operator.
+
+   If a meshes container is set in input, it is
+   passed on as an output with the
+   additional label space (if any).
+
+   :param my_mesh:
+   :type my_mesh: MeshedRegion or MeshesContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.mesh_to_mc()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> # or
+   >>> op.inputs.mesh(my_mesh)
+
+.. py:property:: label
+
+   Allows to connect label input to the operator.
+
+   Sets a label space.
+
+   :param my_label:
+   :type my_label: dict
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.mesh_to_mc()
+   >>> op.inputs.label.connect(my_label)
+   >>> # or
+   >>> op.inputs.label(my_label)
+
+
+
+
+
+

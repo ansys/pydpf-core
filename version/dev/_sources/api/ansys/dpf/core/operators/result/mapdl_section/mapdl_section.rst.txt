@@ -1,0 +1,162 @@
+
+
+
+
+
+
+:class:`mapdl_section`
+======================
+
+.. py:class:: ansys.dpf.core.operators.result.mapdl_section.mapdl_section(properties_name=None, section=None, streams_container=None, data_sources=None, layer_property=None, layers_requested=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Read the values of the section properties for a given section property
+   field (property field that contains section information for each
+   element of a mesh). The following keys can be used: Thickness,
+   NumLayers. For layered elements, the following keys can be used:
+   Thickness, MatID, Orientation, NumIntPoints.
+
+   :param properties_name:
+   :type properties_name: str
+   :param section: Property field that contains a section id per
+                   element.(optional)
+   :type section: PropertyField, optional
+   :param streams_container:
+   :type streams_container: StreamsContainer
+   :param data_sources:
+   :type data_sources: DataSources
+   :param layer_property: Property requested is layered. default =
+                          false.
+   :type layer_property: bool, optional
+   :param layers_requested: Array with layers requested for the section.
+                            default = alllayers.
+   :type layers_requested: optional
+
+   :returns: * **properties_value** (*FieldsContainer*)
+             * **layers_per_section** (*PropertyField*) -- Only available if layer_property option is
+               set to true.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.result.mapdl_section()
+
+   >>> # Make input connections
+   >>> my_properties_name = str()
+   >>> op.inputs.properties_name.connect(my_properties_name)
+   >>> my_section = dpf.PropertyField()
+   >>> op.inputs.section.connect(my_section)
+   >>> my_streams_container = dpf.StreamsContainer()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_layer_property = bool()
+   >>> op.inputs.layer_property.connect(my_layer_property)
+   >>> my_layers_requested = dpf.()
+   >>> op.inputs.layers_requested.connect(my_layers_requested)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.result.mapdl_section(
+   ...     properties_name=my_properties_name,
+   ...     section=my_section,
+   ...     streams_container=my_streams_container,
+   ...     data_sources=my_data_sources,
+   ...     layer_property=my_layer_property,
+   ...     layers_requested=my_layers_requested,
+   ... )
+
+   >>> # Get output data
+   >>> result_properties_value = op.outputs.properties_value()
+   >>> result_layers_per_section = op.outputs.layers_per_section()
+
+
+
+
+.. py:currentmodule:: mapdl_section
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.mapdl_section import mapdl_section
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsMapdlSection
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsMapdlSection
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

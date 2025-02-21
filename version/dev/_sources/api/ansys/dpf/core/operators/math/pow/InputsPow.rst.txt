@@ -1,0 +1,100 @@
+
+
+
+
+
+
+:class:`InputsPow`
+==================
+
+.. py:class:: ansys.dpf.core.operators.math.pow.InputsPow(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   pow operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.pow()
+   >>> my_field = dpf.Field()
+   >>> op.inputs.field.connect(my_field)
+   >>> my_factor = float()
+   >>> op.inputs.factor.connect(my_factor)
+
+
+
+.. py:currentmodule:: InputsPow
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~field`
+            - Allows to connect field input to the operator.
+          * - :py:attr:`~factor`
+            - Allows to connect factor input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.pow import InputsPow
+
+Property detail
+---------------
+
+.. py:property:: field
+
+   Allows to connect field input to the operator.
+
+   :param my_field:
+   :type my_field: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.pow()
+   >>> op.inputs.field.connect(my_field)
+   >>> # or
+   >>> op.inputs.field(my_field)
+
+.. py:property:: factor
+
+   Allows to connect factor input to the operator.
+
+   :param my_factor:
+   :type my_factor: float
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.pow()
+   >>> op.inputs.factor.connect(my_factor)
+   >>> # or
+   >>> op.inputs.factor(my_factor)
+
+
+
+
+
+

@@ -1,0 +1,131 @@
+
+
+
+
+
+
+:class:`OutputsRemoveRigidBodyMotion`
+=====================================
+
+.. py:class:: ansys.dpf.core.operators.result.remove_rigid_body_motion.OutputsRemoveRigidBodyMotion(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   remove_rigid_body_motion operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.remove_rigid_body_motion()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_field = op.outputs.field()
+   >>> result_translation_field = op.outputs.translation_field()
+   >>> result_rotation_field = op.outputs.rotation_field()
+   >>> result_center_field = op.outputs.center_field()
+
+
+
+.. py:currentmodule:: OutputsRemoveRigidBodyMotion
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~field`
+            - Allows to get field output of the operator
+          * - :py:attr:`~translation_field`
+            - Allows to get translation_field output of the operator
+          * - :py:attr:`~rotation_field`
+            - Allows to get rotation_field output of the operator
+          * - :py:attr:`~center_field`
+            - Allows to get center_field output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.remove_rigid_body_motion import OutputsRemoveRigidBodyMotion
+
+Property detail
+---------------
+
+.. py:property:: field
+
+   Allows to get field output of the operator
+
+   :returns: **my_field**
+   :rtype: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.remove_rigid_body_motion()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_field = op.outputs.field()
+
+.. py:property:: translation_field
+
+   Allows to get translation_field output of the operator
+
+   :returns: **my_translation_field**
+   :rtype: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.remove_rigid_body_motion()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_translation_field = op.outputs.translation_field()
+
+.. py:property:: rotation_field
+
+   Allows to get rotation_field output of the operator
+
+   :returns: **my_rotation_field**
+   :rtype: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.remove_rigid_body_motion()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_rotation_field = op.outputs.rotation_field()
+
+.. py:property:: center_field
+
+   Allows to get center_field output of the operator
+
+   :returns: **my_center_field**
+   :rtype: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.remove_rigid_body_motion()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_center_field = op.outputs.center_field()
+
+
+
+
+
+

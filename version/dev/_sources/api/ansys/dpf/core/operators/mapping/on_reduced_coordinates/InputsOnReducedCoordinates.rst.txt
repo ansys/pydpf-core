@@ -1,0 +1,180 @@
+
+
+
+
+
+
+:class:`InputsOnReducedCoordinates`
+===================================
+
+.. py:class:: ansys.dpf.core.operators.mapping.on_reduced_coordinates.InputsOnReducedCoordinates(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   on_reduced_coordinates operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.on_reduced_coordinates()
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_reduced_coordinates = dpf.Field()
+   >>> op.inputs.reduced_coordinates.connect(my_reduced_coordinates)
+   >>> my_element_ids = dpf.ScopingsContainer()
+   >>> op.inputs.element_ids.connect(my_element_ids)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_use_quadratic_elements = bool()
+   >>> op.inputs.use_quadratic_elements.connect(my_use_quadratic_elements)
+
+
+
+.. py:currentmodule:: InputsOnReducedCoordinates
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fields_container`
+            - Allows to connect fields_container input to the operator.
+          * - :py:attr:`~reduced_coordinates`
+            - Allows to connect reduced_coordinates input to the operator.
+          * - :py:attr:`~element_ids`
+            - Allows to connect element_ids input to the operator.
+          * - :py:attr:`~mesh`
+            - Allows to connect mesh input to the operator.
+          * - :py:attr:`~use_quadratic_elements`
+            - Allows to connect use_quadratic_elements input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mapping.on_reduced_coordinates import InputsOnReducedCoordinates
+
+Property detail
+---------------
+
+.. py:property:: fields_container
+
+   Allows to connect fields_container input to the operator.
+
+   :param my_fields_container:
+   :type my_fields_container: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.on_reduced_coordinates()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> # or
+   >>> op.inputs.fields_container(my_fields_container)
+
+.. py:property:: reduced_coordinates
+
+   Allows to connect reduced_coordinates input to the operator.
+
+   Coordinates in the reference elements to find
+   (found with the operator
+   "find_reduced_coordinates")
+
+   :param my_reduced_coordinates:
+   :type my_reduced_coordinates: Field or FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.on_reduced_coordinates()
+   >>> op.inputs.reduced_coordinates.connect(my_reduced_coordinates)
+   >>> # or
+   >>> op.inputs.reduced_coordinates(my_reduced_coordinates)
+
+.. py:property:: element_ids
+
+   Allows to connect element_ids input to the operator.
+
+   Ids of the elements where each set of reduced
+   coordinates is found (found with the
+   operator "find_reduced_coordinates")
+
+   :param my_element_ids:
+   :type my_element_ids: ScopingsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.on_reduced_coordinates()
+   >>> op.inputs.element_ids.connect(my_element_ids)
+   >>> # or
+   >>> op.inputs.element_ids(my_element_ids)
+
+.. py:property:: mesh
+
+   Allows to connect mesh input to the operator.
+
+   If the first field in input has no mesh in
+   support, then the mesh in this pin is
+   expected (default is false), if a
+   meshes container with several meshes
+   is set, it should be on the same
+   label spaces as the coordinates
+   fields container
+
+   :param my_mesh:
+   :type my_mesh: MeshedRegion or MeshesContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.on_reduced_coordinates()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> # or
+   >>> op.inputs.mesh(my_mesh)
+
+.. py:property:: use_quadratic_elements
+
+   Allows to connect use_quadratic_elements input to the operator.
+
+   If this pin is set to true, the interpolation
+   is computed on the quadratic element
+   if the element is quadratic (more
+   precise but less performant). default
+   is false. to use only when results
+   have mid side nodes values.
+
+   :param my_use_quadratic_elements:
+   :type my_use_quadratic_elements: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.on_reduced_coordinates()
+   >>> op.inputs.use_quadratic_elements.connect(my_use_quadratic_elements)
+   >>> # or
+   >>> op.inputs.use_quadratic_elements(my_use_quadratic_elements)
+
+
+
+
+
+

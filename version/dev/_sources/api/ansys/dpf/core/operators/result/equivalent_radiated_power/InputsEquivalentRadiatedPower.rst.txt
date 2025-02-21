@@ -1,0 +1,243 @@
+
+
+
+
+
+
+:class:`InputsEquivalentRadiatedPower`
+======================================
+
+.. py:class:: ansys.dpf.core.operators.result.equivalent_radiated_power.InputsEquivalentRadiatedPower(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   equivalent_radiated_power operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.equivalent_radiated_power()
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_time_scoping = int()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> my_mass_density = float()
+   >>> op.inputs.mass_density.connect(my_mass_density)
+   >>> my_speed_of_sound = float()
+   >>> op.inputs.speed_of_sound.connect(my_speed_of_sound)
+   >>> my_erp_type = int()
+   >>> op.inputs.erp_type.connect(my_erp_type)
+   >>> my_boolean = bool()
+   >>> op.inputs.boolean.connect(my_boolean)
+   >>> my_factor = float()
+   >>> op.inputs.factor.connect(my_factor)
+
+
+
+.. py:currentmodule:: InputsEquivalentRadiatedPower
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fields_container`
+            - Allows to connect fields_container input to the operator.
+          * - :py:attr:`~mesh`
+            - Allows to connect mesh input to the operator.
+          * - :py:attr:`~time_scoping`
+            - Allows to connect time_scoping input to the operator.
+          * - :py:attr:`~mass_density`
+            - Allows to connect mass_density input to the operator.
+          * - :py:attr:`~speed_of_sound`
+            - Allows to connect speed_of_sound input to the operator.
+          * - :py:attr:`~erp_type`
+            - Allows to connect erp_type input to the operator.
+          * - :py:attr:`~boolean`
+            - Allows to connect boolean input to the operator.
+          * - :py:attr:`~factor`
+            - Allows to connect factor input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.equivalent_radiated_power import InputsEquivalentRadiatedPower
+
+Property detail
+---------------
+
+.. py:property:: fields_container
+
+   Allows to connect fields_container input to the operator.
+
+   The input field container expects
+   displacements fields
+
+   :param my_fields_container:
+   :type my_fields_container: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.equivalent_radiated_power()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> # or
+   >>> op.inputs.fields_container(my_fields_container)
+
+.. py:property:: mesh
+
+   Allows to connect mesh input to the operator.
+
+   The mesh region in this pin has to be
+   boundary or skin mesh
+
+   :param my_mesh:
+   :type my_mesh: MeshedRegion or MeshesContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.equivalent_radiated_power()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> # or
+   >>> op.inputs.mesh(my_mesh)
+
+.. py:property:: time_scoping
+
+   Allows to connect time_scoping input to the operator.
+
+   Load step number (if it's specified, the erp
+   is computed only on the substeps of
+   this step) or time scoping
+
+   :param my_time_scoping:
+   :type my_time_scoping: int or Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.equivalent_radiated_power()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> # or
+   >>> op.inputs.time_scoping(my_time_scoping)
+
+.. py:property:: mass_density
+
+   Allows to connect mass_density input to the operator.
+
+   Mass density (if it's not specified, default
+   value of the air is applied).
+
+   :param my_mass_density:
+   :type my_mass_density: float
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.equivalent_radiated_power()
+   >>> op.inputs.mass_density.connect(my_mass_density)
+   >>> # or
+   >>> op.inputs.mass_density(my_mass_density)
+
+.. py:property:: speed_of_sound
+
+   Allows to connect speed_of_sound input to the operator.
+
+   Speed of sound (if it's not specified,
+   default value of the speed of sound
+   in the air is applied).
+
+   :param my_speed_of_sound:
+   :type my_speed_of_sound: float
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.equivalent_radiated_power()
+   >>> op.inputs.speed_of_sound.connect(my_speed_of_sound)
+   >>> # or
+   >>> op.inputs.speed_of_sound(my_speed_of_sound)
+
+.. py:property:: erp_type
+
+   Allows to connect erp_type input to the operator.
+
+   If this pin is set to 0, the classical erp is
+   computed, 1 the corrected erp is
+   computed (a mesh of one face has to
+   be given in the pin 1) and 2 the
+   enhanced erp is computed. default is
+   0.
+
+   :param my_erp_type:
+   :type my_erp_type: int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.equivalent_radiated_power()
+   >>> op.inputs.erp_type.connect(my_erp_type)
+   >>> # or
+   >>> op.inputs.erp_type(my_erp_type)
+
+.. py:property:: boolean
+
+   Allows to connect boolean input to the operator.
+
+   If this pin is set to true, the erp level in
+   db is computed
+
+   :param my_boolean:
+   :type my_boolean: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.equivalent_radiated_power()
+   >>> op.inputs.boolean.connect(my_boolean)
+   >>> # or
+   >>> op.inputs.boolean(my_boolean)
+
+.. py:property:: factor
+
+   Allows to connect factor input to the operator.
+
+   Erp reference value. default is 1e-12
+
+   :param my_factor:
+   :type my_factor: float
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.equivalent_radiated_power()
+   >>> op.inputs.factor.connect(my_factor)
+   >>> # or
+   >>> op.inputs.factor(my_factor)
+
+
+
+
+
+

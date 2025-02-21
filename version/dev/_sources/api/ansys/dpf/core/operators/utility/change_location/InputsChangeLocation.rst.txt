@@ -1,0 +1,103 @@
+
+
+
+
+
+
+:class:`InputsChangeLocation`
+=============================
+
+.. py:class:: ansys.dpf.core.operators.utility.change_location.InputsChangeLocation(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   change_location operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.change_location()
+   >>> my_field = dpf.Field()
+   >>> op.inputs.field.connect(my_field)
+   >>> my_new_location = str()
+   >>> op.inputs.new_location.connect(my_new_location)
+
+
+
+.. py:currentmodule:: InputsChangeLocation
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~field`
+            - Allows to connect field input to the operator.
+          * - :py:attr:`~new_location`
+            - Allows to connect new_location input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.change_location import InputsChangeLocation
+
+Property detail
+---------------
+
+.. py:property:: field
+
+   Allows to connect field input to the operator.
+
+   :param my_field:
+   :type my_field: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.change_location()
+   >>> op.inputs.field.connect(my_field)
+   >>> # or
+   >>> op.inputs.field(my_field)
+
+.. py:property:: new_location
+
+   Allows to connect new_location input to the operator.
+
+   New location of the output field ex 'nodal',
+   'elementalnodal', 'elemental'...
+
+   :param my_new_location:
+   :type my_new_location: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.change_location()
+   >>> op.inputs.new_location.connect(my_new_location)
+   >>> # or
+   >>> op.inputs.new_location(my_new_location)
+
+
+
+
+
+

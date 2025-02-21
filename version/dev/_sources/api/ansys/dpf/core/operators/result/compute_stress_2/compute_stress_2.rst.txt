@@ -1,0 +1,158 @@
+
+
+
+
+
+
+:class:`compute_stress_2`
+=========================
+
+.. py:class:: ansys.dpf.core.operators.result.compute_stress_2.compute_stress_2(scoping=None, streams_container=None, data_sources=None, requested_location=None, strain=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Computes the stress from an elastic strain field. compute_total_strain
+   limitations are applicable for stress computation Get the 2nd
+   principal component.
+
+   :param scoping: The element scoping on which the result is
+                   computed.
+   :type scoping: Scoping, optional
+   :param streams_container: Needed to get mesh and material ids. optional
+                             if a data_sources have been
+                             connected.
+   :type streams_container: StreamsContainer, optional
+   :param data_sources: Needed to get mesh and material ids. optional
+                        if a streams_container have been
+                        connected.
+   :type data_sources: DataSources, optional
+   :param requested_location: Average the elemental nodal result to the
+                              requested location.
+   :type requested_location: str, optional
+   :param strain: Field/or fields container containing only the
+                  elastic strain field (element nodal).
+   :type strain: FieldsContainer or Field
+
+   :returns: **fields_container** -- The computed result fields container
+             (elemental nodal).
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.result.compute_stress_2()
+
+   >>> # Make input connections
+   >>> my_scoping = dpf.Scoping()
+   >>> op.inputs.scoping.connect(my_scoping)
+   >>> my_streams_container = dpf.StreamsContainer()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_requested_location = str()
+   >>> op.inputs.requested_location.connect(my_requested_location)
+   >>> my_strain = dpf.FieldsContainer()
+   >>> op.inputs.strain.connect(my_strain)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.result.compute_stress_2(
+   ...     scoping=my_scoping,
+   ...     streams_container=my_streams_container,
+   ...     data_sources=my_data_sources,
+   ...     requested_location=my_requested_location,
+   ...     strain=my_strain,
+   ... )
+
+   >>> # Get output data
+   >>> result_fields_container = op.outputs.fields_container()
+
+
+
+
+.. py:currentmodule:: compute_stress_2
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.compute_stress_2 import compute_stress_2
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsComputeStress2
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsComputeStress2
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

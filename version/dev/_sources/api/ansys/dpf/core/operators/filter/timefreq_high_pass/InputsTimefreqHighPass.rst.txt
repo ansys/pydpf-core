@@ -1,0 +1,127 @@
+
+
+
+
+
+
+:class:`InputsTimefreqHighPass`
+===============================
+
+.. py:class:: ansys.dpf.core.operators.filter.timefreq_high_pass.InputsTimefreqHighPass(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   timefreq_high_pass operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.filter.timefreq_high_pass()
+   >>> my_time_freq_support = dpf.TimeFreqSupport()
+   >>> op.inputs.time_freq_support.connect(my_time_freq_support)
+   >>> my_threshold = float()
+   >>> op.inputs.threshold.connect(my_threshold)
+   >>> my_both = bool()
+   >>> op.inputs.both.connect(my_both)
+
+
+
+.. py:currentmodule:: InputsTimefreqHighPass
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~time_freq_support`
+            - Allows to connect time_freq_support input to the operator.
+          * - :py:attr:`~threshold`
+            - Allows to connect threshold input to the operator.
+          * - :py:attr:`~both`
+            - Allows to connect both input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.filter.timefreq_high_pass import InputsTimefreqHighPass
+
+Property detail
+---------------
+
+.. py:property:: time_freq_support
+
+   Allows to connect time_freq_support input to the operator.
+
+   :param my_time_freq_support:
+   :type my_time_freq_support: TimeFreqSupport
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.filter.timefreq_high_pass()
+   >>> op.inputs.time_freq_support.connect(my_time_freq_support)
+   >>> # or
+   >>> op.inputs.time_freq_support(my_time_freq_support)
+
+.. py:property:: threshold
+
+   Allows to connect threshold input to the operator.
+
+   A threshold scalar or a field containing one
+   value is expected.
+
+   :param my_threshold:
+   :type my_threshold: float or Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.filter.timefreq_high_pass()
+   >>> op.inputs.threshold.connect(my_threshold)
+   >>> # or
+   >>> op.inputs.threshold(my_threshold)
+
+.. py:property:: both
+
+   Allows to connect both input to the operator.
+
+   The default is false. if set to true, the
+   complement of the filtered fields
+   container is returned on output pin
+   1.
+
+   :param my_both:
+   :type my_both: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.filter.timefreq_high_pass()
+   >>> op.inputs.both.connect(my_both)
+   >>> # or
+   >>> op.inputs.both(my_both)
+
+
+
+
+
+

@@ -1,0 +1,172 @@
+
+
+
+
+
+
+:class:`read_cms_rbd_file`
+==========================
+
+.. py:class:: ansys.dpf.core.operators.result.read_cms_rbd_file.read_cms_rbd_file(in_cms_rbd_file_path=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Read the invariant terms and the model data from a cms_rbd file
+
+   :param in_cms_rbd_file_path: File name with cms_rbd extension where to
+                                read the input cms_rbd file.
+   :type in_cms_rbd_file_path: str
+
+   :returns: * **model_data** (*PropertyField*) -- Data describing the finite element model
+             * **center_of_mass** (*Field*) -- Center of mass of the body
+             * **inertia_relief** (*Field*) -- Inertia matrix
+             * **model_size** (*PropertyField*)
+             * *master_node_coordinates*
+             * *v_trsf* -- Translational and rotational shape functions
+             * **k_mat** (*Field*)
+             * **mass_mat** (*Field*)
+             * **c_mat** (*Field*)
+             * **rhs** (*Field*)
+             * *dn*
+             * *dr_cross_n*
+             * *drn*
+             * *dn_cross_n*
+             * *dnx_y*
+             * *dny_y*
+             * *dnz_y*
+             * *dyx_n*
+             * *dyy_n*
+             * *dyz_n*
+             * *dnxn*
+             * *dnyn*
+             * *dnzn*
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.result.read_cms_rbd_file()
+
+   >>> # Make input connections
+   >>> my_in_cms_rbd_file_path = str()
+   >>> op.inputs.in_cms_rbd_file_path.connect(my_in_cms_rbd_file_path)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.result.read_cms_rbd_file(
+   ...     in_cms_rbd_file_path=my_in_cms_rbd_file_path,
+   ... )
+
+   >>> # Get output data
+   >>> result_model_data = op.outputs.model_data()
+   >>> result_center_of_mass = op.outputs.center_of_mass()
+   >>> result_inertia_relief = op.outputs.inertia_relief()
+   >>> result_model_size = op.outputs.model_size()
+   >>> result_master_node_coordinates = op.outputs.master_node_coordinates()
+   >>> result_v_trsf = op.outputs.v_trsf()
+   >>> result_k_mat = op.outputs.k_mat()
+   >>> result_mass_mat = op.outputs.mass_mat()
+   >>> result_c_mat = op.outputs.c_mat()
+   >>> result_rhs = op.outputs.rhs()
+   >>> result_dn = op.outputs.dn()
+   >>> result_dr_cross_n = op.outputs.dr_cross_n()
+   >>> result_drn = op.outputs.drn()
+   >>> result_dn_cross_n = op.outputs.dn_cross_n()
+   >>> result_dnx_y = op.outputs.dnx_y()
+   >>> result_dny_y = op.outputs.dny_y()
+   >>> result_dnz_y = op.outputs.dnz_y()
+   >>> result_dyx_n = op.outputs.dyx_n()
+   >>> result_dyy_n = op.outputs.dyy_n()
+   >>> result_dyz_n = op.outputs.dyz_n()
+   >>> result_dnxn = op.outputs.dnxn()
+   >>> result_dnyn = op.outputs.dnyn()
+   >>> result_dnzn = op.outputs.dnzn()
+
+
+
+
+.. py:currentmodule:: read_cms_rbd_file
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.read_cms_rbd_file import read_cms_rbd_file
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsReadCmsRbdFile
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsReadCmsRbdFile
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

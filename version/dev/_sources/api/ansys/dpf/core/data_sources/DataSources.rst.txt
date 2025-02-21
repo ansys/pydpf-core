@@ -1,0 +1,317 @@
+
+
+
+
+
+
+:class:`DataSources`
+====================
+
+.. py:class:: ansys.dpf.core.data_sources.DataSources(result_path=None, data_sources=None, server=None)
+
+   Contains files with analysis results.
+
+   An extension key (``'rst'`` for example) is used to choose which files represent
+   results files versus accessory files. You can set a result file path when
+   initializing this class.
+
+
+   :param result_path: Path of the result. The default is ``None``.
+   :type result_path: str or os.PathLike object, optional
+   :param data_sources: gRPC data sources message. The default is ``None``.
+   :type data_sources: ansys.grpc.dpf.data_sources_pb2.DataSources
+   :param server: Server with the channel connected to the remote or local instance. The
+                  default is ``None``, in which case an attempt is made to use the global
+                  server.
+   :type server: server.DPFServer, optional
+
+   .. rubric:: Examples
+
+   Initialize a model from a result path.
+
+   >>> from ansys.dpf import core as dpf
+   >>> my_data_sources = dpf.DataSources('file.rst')
+   >>> my_data_sources.result_files
+   ['file.rst']
+
+
+
+
+
+
+
+.. py:currentmodule:: DataSources
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~set_result_file_path`
+            - Add a result file path to the data sources.
+          * - :py:attr:`~set_domain_result_file_path`
+            - Add a result file path by domain.
+          * - :py:attr:`~add_file_path`
+            - Add a file path to the data sources.
+          * - :py:attr:`~add_domain_file_path`
+            - Add a file path to the data sources.
+          * - :py:attr:`~add_file_path_for_specified_result`
+            - Add a file path for a specified result file key to the data sources.
+          * - :py:attr:`~add_upstream`
+            - Add upstream data sources.
+          * - :py:attr:`~add_upstream_for_domain`
+            - Add an upstream data sources for a given domain.
+          * - :py:attr:`~register_namespace`
+            - Add a link from this ``result_key`` to this ``namespace`` in the DataSources.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~result_key`
+            - Result key used by the data sources.
+          * - :py:attr:`~result_files`
+            - List of result files contained in the data sources.
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~guess_result_key`
+            - Guess result key for files without a file extension.
+          * - :py:attr:`~guess_second_key`
+            - For files with an h5 or cff extension, look for another extension.
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - Describe the entity.
+          * - :py:attr:`~__del__`
+            - Delete this instance.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.data_sources import DataSources
+
+Property detail
+---------------
+
+.. py:property:: result_key
+
+   Result key used by the data sources.
+
+   :returns: Result key.
+   :rtype: str
+
+.. py:property:: result_files
+
+   List of result files contained in the data sources.
+
+   :returns: List of result files.
+   :rtype: list
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: set_result_file_path(filepath, key='')
+
+   Add a result file path to the data sources.
+
+   :param filepath: Path to the result file.
+   :type filepath: str or os.PathLike object
+   :param key: Extension of the file, which is used as a key for choosing the correct
+               plugin when a result is requested by an operator. The default is ``""``,
+               in which case the key is found directly.
+   :type key: str, optional
+
+   .. rubric:: Examples
+
+   Create a data source and set the result file path.
+
+   >>> from ansys.dpf import core as dpf
+   >>> data_sources = dpf.DataSources()
+   >>> data_sources.set_result_file_path('/tmp/file.rst')
+   >>> data_sources.result_files
+   ['...tmp...file.rst']
+
+
+.. py:method:: guess_result_key(filepath: str) -> str
+   :staticmethod:
+
+
+   Guess result key for files without a file extension.
+
+
+.. py:method:: guess_second_key(filepath: str) -> str
+   :staticmethod:
+
+
+   For files with an h5 or cff extension, look for another extension.
+
+
+.. py:method:: set_domain_result_file_path(path: Union[str, os.PathLike], domain_id: int, key: Union[str, None] = None)
+
+   Add a result file path by domain.
+
+   This method is used to handle files created by a
+   distributed solve.
+
+   :param path: Path to the file.
+   :param domain_id: Domain ID for the distributed files.
+   :param key: Key to associate to the file.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> data_sources = dpf.DataSources()
+   >>> data_sources.set_domain_result_file_path('/tmp/file0.sub', 0)
+   >>> data_sources.set_domain_result_file_path('/tmp/file1.sub', 1)
+
+
+.. py:method:: add_file_path(filepath, key='', is_domain: bool = False, domain_id=0)
+
+   Add a file path to the data sources.
+
+   Files not added as result files are accessory files, which contain accessory
+   information not present in the result files.
+
+   :param filepath: Path of the file.
+   :type filepath: str or os.PathLike object
+   :param key: Extension of the file, which is used as a key for choosing the correct
+               plugin when a result is requested by an operator. The default is ``""``,
+               in which case the key is found directly.
+   :type key: str, optional
+   :param is_domain: Whether the file path is the domain path. The default is ``False``.
+   :type is_domain: bool, optional
+   :param domain_id: Domain ID for the distributed files. The default is ``0``. For this
+                     parameter to be taken into account, ``domain_path=True`` must be set.
+   :type domain_id: int, optional
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> data_sources = dpf.DataSources()
+   >>> data_sources.add_file_path('/tmp/ds.dat')
+
+
+.. py:method:: add_domain_file_path(filepath, key, domain_id)
+
+   Add a file path to the data sources.
+
+   Files not added as result files are accessory files, which contain accessory
+   information not present in the result files.
+
+   :param filepath: Path of the file.
+   :param key: Extension of the file, which is used as a key for choosing the correct
+               plugin when a result is requested by an operator.
+   :param domain_id: Domain ID for the distributed files.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> data_sources = dpf.DataSources()
+   >>> data_sources.add_domain_file_path('/tmp/ds.dat', "dat", 1)
+
+
+.. py:method:: add_file_path_for_specified_result(filepath, key='', result_key='')
+
+   Add a file path for a specified result file key to the data sources.
+
+   This method can be used when results files with different keys (extensions) are
+   contained in the data sources. For example, a solve using two different solvers
+   could generate two different sets of files.
+
+   :param filepath: Path of the file.
+   :type filepath: str or os.PathLike object
+   :param key: Extension of the file, which is used as a key for choosing the correct
+               plugin when a result is requested by an operator. The default is ``""``,
+               in which case the key is found directly.
+   :type key: str, optional
+   :param result_key: Extension of the results file that the specified file path belongs to.
+                      The default is ``""``, in which case the key is found directly.
+   :type result_key: str, optional
+
+
+.. py:method:: add_upstream(upstream_data_sources, result_key='')
+
+   Add upstream data sources.
+
+   This is used to add a set of path creating an upstream for
+   recursive workflows.
+
+   :param upstream_data_sources: Set of paths creating an upstream for recursive workflows.
+   :type upstream_data_sources: DataSources
+   :param result_key: Extension of the result file group with which this upstream belongs
+   :type result_key: str, optional
+
+
+.. py:method:: add_upstream_for_domain(upstream_data_sources, domain_id)
+
+   Add an upstream data sources for a given domain.
+
+   This is used to add a set of path creating an upstream for
+   recursive workflows in a distributed solve.
+
+   :param upstream_data_sources: Set of paths creating an upstream for recursive workflows.
+   :type upstream_data_sources: DataSources
+   :param domain_id: Domain id for distributed files.
+   :type domain_id: int
+
+
+.. py:method:: register_namespace(result_key: str, namespace: str)
+
+   Add a link from this ``result_key`` to this ``namespace`` in the DataSources.
+
+   This ``result_key`` to ``namespace`` mapping is used by source operators
+   to find internal operators to call.
+
+   .. rubric:: Notes
+
+   Available with server's version starting at 7.0.
+
+
+.. py:method:: __str__()
+
+   Describe the entity.
+
+   :returns: Description of the entity.
+   :rtype: str
+
+
+.. py:method:: __del__()
+
+   Delete this instance.
+
+
+
+
+

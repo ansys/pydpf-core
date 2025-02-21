@@ -1,0 +1,106 @@
+
+
+
+
+
+
+:class:`InputsMinusFc`
+======================
+
+.. py:class:: ansys.dpf.core.operators.math.minus_fc.InputsMinusFc(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   minus_fc operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.minus_fc()
+   >>> my_field_or_fields_container_A = dpf.Field()
+   >>> op.inputs.field_or_fields_container_A.connect(my_field_or_fields_container_A)
+   >>> my_field_or_fields_container_B = dpf.Field()
+   >>> op.inputs.field_or_fields_container_B.connect(my_field_or_fields_container_B)
+
+
+
+.. py:currentmodule:: InputsMinusFc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~field_or_fields_container_A`
+            - Allows to connect field_or_fields_container_A input to the operator.
+          * - :py:attr:`~field_or_fields_container_B`
+            - Allows to connect field_or_fields_container_B input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.minus_fc import InputsMinusFc
+
+Property detail
+---------------
+
+.. py:property:: field_or_fields_container_A
+
+   Allows to connect field_or_fields_container_A input to the operator.
+
+   Field or fields container with only one field
+   is expected
+
+   :param my_field_or_fields_container_A:
+   :type my_field_or_fields_container_A: Field or FieldsContainer or float
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.minus_fc()
+   >>> op.inputs.field_or_fields_container_A.connect(my_field_or_fields_container_A)
+   >>> # or
+   >>> op.inputs.field_or_fields_container_A(my_field_or_fields_container_A)
+
+.. py:property:: field_or_fields_container_B
+
+   Allows to connect field_or_fields_container_B input to the operator.
+
+   Field or fields container with only one field
+   is expected
+
+   :param my_field_or_fields_container_B:
+   :type my_field_or_fields_container_B: Field or FieldsContainer or float
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.minus_fc()
+   >>> op.inputs.field_or_fields_container_B.connect(my_field_or_fields_container_B)
+   >>> # or
+   >>> op.inputs.field_or_fields_container_B(my_field_or_fields_container_B)
+
+
+
+
+
+

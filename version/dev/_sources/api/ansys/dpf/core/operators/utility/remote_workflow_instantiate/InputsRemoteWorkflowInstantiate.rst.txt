@@ -1,0 +1,122 @@
+
+
+
+
+
+
+:class:`InputsRemoteWorkflowInstantiate`
+========================================
+
+.. py:class:: ansys.dpf.core.operators.utility.remote_workflow_instantiate.InputsRemoteWorkflowInstantiate(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   remote_workflow_instantiate operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.remote_workflow_instantiate()
+   >>> my_workflow_to_send = dpf.Workflow()
+   >>> op.inputs.workflow_to_send.connect(my_workflow_to_send)
+   >>> my_streams_to_remote = dpf.StreamsContainer()
+   >>> op.inputs.streams_to_remote.connect(my_streams_to_remote)
+   >>> my_data_sources_to_remote = dpf.DataSources()
+   >>> op.inputs.data_sources_to_remote.connect(my_data_sources_to_remote)
+
+
+
+.. py:currentmodule:: InputsRemoteWorkflowInstantiate
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~workflow_to_send`
+            - Allows to connect workflow_to_send input to the operator.
+          * - :py:attr:`~streams_to_remote`
+            - Allows to connect streams_to_remote input to the operator.
+          * - :py:attr:`~data_sources_to_remote`
+            - Allows to connect data_sources_to_remote input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.remote_workflow_instantiate import InputsRemoteWorkflowInstantiate
+
+Property detail
+---------------
+
+.. py:property:: workflow_to_send
+
+   Allows to connect workflow_to_send input to the operator.
+
+   Local workflow to push to a remote or id of a
+   remote workflow
+
+   :param my_workflow_to_send:
+   :type my_workflow_to_send: Workflow or int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.remote_workflow_instantiate()
+   >>> op.inputs.workflow_to_send.connect(my_workflow_to_send)
+   >>> # or
+   >>> op.inputs.workflow_to_send(my_workflow_to_send)
+
+.. py:property:: streams_to_remote
+
+   Allows to connect streams_to_remote input to the operator.
+
+   :param my_streams_to_remote:
+   :type my_streams_to_remote: StreamsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.remote_workflow_instantiate()
+   >>> op.inputs.streams_to_remote.connect(my_streams_to_remote)
+   >>> # or
+   >>> op.inputs.streams_to_remote(my_streams_to_remote)
+
+.. py:property:: data_sources_to_remote
+
+   Allows to connect data_sources_to_remote input to the operator.
+
+   :param my_data_sources_to_remote:
+   :type my_data_sources_to_remote: DataSources
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.remote_workflow_instantiate()
+   >>> op.inputs.data_sources_to_remote.connect(my_data_sources_to_remote)
+   >>> # or
+   >>> op.inputs.data_sources_to_remote(my_data_sources_to_remote)
+
+
+
+
+
+

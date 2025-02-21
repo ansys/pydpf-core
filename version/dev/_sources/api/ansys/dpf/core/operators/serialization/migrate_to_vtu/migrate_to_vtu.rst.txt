@@ -1,0 +1,175 @@
+
+
+
+
+
+
+:class:`migrate_to_vtu`
+=======================
+
+.. py:class:: ansys.dpf.core.operators.serialization.migrate_to_vtu.migrate_to_vtu(time_scoping=None, streams_container=None, data_sources=None, directory=None, base_name=None, result1=None, result2=None, write_mode=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Extract all results from a datasources and exports them into vtu
+   format. All the connected inputs are forwarded to the result
+   providers operators.
+
+   :param time_scoping: Time sets to export, default is all
+   :type time_scoping: Scoping, optional
+   :param streams_container: Result file container allowed to be kept open
+                             to cache data
+   :type streams_container: StreamsContainer, optional
+   :param data_sources: Result file path container, used if no
+                        streams are set
+   :type data_sources: DataSources
+   :param directory: Directory path
+   :type directory: str
+   :param base_name: Vtu base file name, (default is file)
+   :type base_name: str, optional
+   :param result1: If operator's names are connected to this
+                   pin, only these results are exported
+                   (else all available results are
+                   exported)
+   :type result1: str, optional
+   :param result2: If operator's names are connected to this
+                   pin, only these results are exported
+                   (else all available results are
+                   exported)
+   :type result2: str, optional
+   :param write_mode: Available are rawbinarycompressed, rawbinary,
+                      base64appended, base64inline, ascii,
+                      default is (rawbinarycompressed)
+   :type write_mode: str, optional
+
+   :returns: **path** -- List of output vtu file path
+   :rtype: DataSources
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.serialization.migrate_to_vtu()
+
+   >>> # Make input connections
+   >>> my_time_scoping = dpf.Scoping()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> my_streams_container = dpf.StreamsContainer()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_directory = str()
+   >>> op.inputs.directory.connect(my_directory)
+   >>> my_base_name = str()
+   >>> op.inputs.base_name.connect(my_base_name)
+   >>> my_result1 = str()
+   >>> op.inputs.result1.connect(my_result1)
+   >>> my_result2 = str()
+   >>> op.inputs.result2.connect(my_result2)
+   >>> my_write_mode = str()
+   >>> op.inputs.write_mode.connect(my_write_mode)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.serialization.migrate_to_vtu(
+   ...     time_scoping=my_time_scoping,
+   ...     streams_container=my_streams_container,
+   ...     data_sources=my_data_sources,
+   ...     directory=my_directory,
+   ...     base_name=my_base_name,
+   ...     result1=my_result1,
+   ...     result2=my_result2,
+   ...     write_mode=my_write_mode,
+   ... )
+
+   >>> # Get output data
+   >>> result_path = op.outputs.path()
+
+
+
+
+.. py:currentmodule:: migrate_to_vtu
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.serialization.migrate_to_vtu import migrate_to_vtu
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsMigrateToVtu
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsMigrateToVtu
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

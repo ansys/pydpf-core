@@ -1,0 +1,106 @@
+
+
+
+
+
+
+:class:`InputsMergeScopingsContainers`
+======================================
+
+.. py:class:: ansys.dpf.core.operators.utility.merge_scopings_containers.InputsMergeScopingsContainers(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   merge_scopings_containers operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_scopings_containers()
+   >>> my_scopings_containers1 = dpf.ScopingsContainer()
+   >>> op.inputs.scopings_containers1.connect(my_scopings_containers1)
+   >>> my_scopings_containers2 = dpf.ScopingsContainer()
+   >>> op.inputs.scopings_containers2.connect(my_scopings_containers2)
+
+
+
+.. py:currentmodule:: InputsMergeScopingsContainers
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~scopings_containers1`
+            - Allows to connect scopings_containers1 input to the operator.
+          * - :py:attr:`~scopings_containers2`
+            - Allows to connect scopings_containers2 input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.merge_scopings_containers import InputsMergeScopingsContainers
+
+Property detail
+---------------
+
+.. py:property:: scopings_containers1
+
+   Allows to connect scopings_containers1 input to the operator.
+
+   A vector of scopings containers to merge or
+   scopings containers from pin 0 to ...
+
+   :param my_scopings_containers1:
+   :type my_scopings_containers1: ScopingsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_scopings_containers()
+   >>> op.inputs.scopings_containers1.connect(my_scopings_containers1)
+   >>> # or
+   >>> op.inputs.scopings_containers1(my_scopings_containers1)
+
+.. py:property:: scopings_containers2
+
+   Allows to connect scopings_containers2 input to the operator.
+
+   A vector of scopings containers to merge or
+   scopings containers from pin 0 to ...
+
+   :param my_scopings_containers2:
+   :type my_scopings_containers2: ScopingsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_scopings_containers()
+   >>> op.inputs.scopings_containers2.connect(my_scopings_containers2)
+   >>> # or
+   >>> op.inputs.scopings_containers2(my_scopings_containers2)
+
+
+
+
+
+

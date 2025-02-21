@@ -1,0 +1,148 @@
+
+
+
+
+
+
+:class:`workflow_energy_per_harmonic`
+=====================================
+
+.. py:class:: ansys.dpf.core.operators.result.workflow_energy_per_harmonic.workflow_energy_per_harmonic(time_scoping=None, mesh_scoping=None, energy_type=None, data_sources=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Calculates the cumulated energy per harmonic in a multistage
+   multiharmonic model.
+
+   :param time_scoping:
+   :type time_scoping: Scoping, optional
+   :param mesh_scoping: Master scoping. all harmonics will be
+                        intersected with this scoping.
+   :type mesh_scoping: Scoping, optional
+   :param energy_type: Type of energy to be processed: (0: strain +
+                       kinetic energy (default), 1: strain
+                       energy, 2: kinetic energy)
+   :type energy_type: int, optional
+   :param data_sources:
+   :type data_sources: DataSources
+
+   :returns: * **harmonic_energy** (*FieldsContainer*)
+             * **harmonic_energy_percentage** (*FieldsContainer*)
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.result.workflow_energy_per_harmonic()
+
+   >>> # Make input connections
+   >>> my_time_scoping = dpf.Scoping()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> my_mesh_scoping = dpf.Scoping()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> my_energy_type = int()
+   >>> op.inputs.energy_type.connect(my_energy_type)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.result.workflow_energy_per_harmonic(
+   ...     time_scoping=my_time_scoping,
+   ...     mesh_scoping=my_mesh_scoping,
+   ...     energy_type=my_energy_type,
+   ...     data_sources=my_data_sources,
+   ... )
+
+   >>> # Get output data
+   >>> result_harmonic_energy = op.outputs.harmonic_energy()
+   >>> result_harmonic_energy_percentage = op.outputs.harmonic_energy_percentage()
+
+
+
+
+.. py:currentmodule:: workflow_energy_per_harmonic
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.workflow_energy_per_harmonic import workflow_energy_per_harmonic
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsWorkflowEnergyPerHarmonic
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsWorkflowEnergyPerHarmonic
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

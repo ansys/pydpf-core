@@ -1,0 +1,100 @@
+
+
+
+
+
+
+:class:`InputsWorkflowToPydpf`
+==============================
+
+.. py:class:: ansys.dpf.core.operators.serialization.workflow_to_pydpf.InputsWorkflowToPydpf(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   workflow_to_pydpf operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.workflow_to_pydpf()
+   >>> my_workflow = dpf.Workflow()
+   >>> op.inputs.workflow.connect(my_workflow)
+   >>> my_output_path = str()
+   >>> op.inputs.output_path.connect(my_output_path)
+
+
+
+.. py:currentmodule:: InputsWorkflowToPydpf
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~workflow`
+            - Allows to connect workflow input to the operator.
+          * - :py:attr:`~output_path`
+            - Allows to connect output_path input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.serialization.workflow_to_pydpf import InputsWorkflowToPydpf
+
+Property detail
+---------------
+
+.. py:property:: workflow
+
+   Allows to connect workflow input to the operator.
+
+   :param my_workflow:
+   :type my_workflow: Workflow
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.workflow_to_pydpf()
+   >>> op.inputs.workflow.connect(my_workflow)
+   >>> # or
+   >>> op.inputs.workflow(my_workflow)
+
+.. py:property:: output_path
+
+   Allows to connect output_path input to the operator.
+
+   :param my_output_path:
+   :type my_output_path: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.workflow_to_pydpf()
+   >>> op.inputs.output_path.connect(my_output_path)
+   >>> # or
+   >>> op.inputs.output_path(my_output_path)
+
+
+
+
+
+

@@ -1,0 +1,143 @@
+
+
+
+
+
+
+:class:`field_band_pass_fc`
+===========================
+
+.. py:class:: ansys.dpf.core.operators.filter.field_band_pass_fc.field_band_pass_fc(fields_container=None, min_threshold=None, max_threshold=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   The band pass filter returns all the values above (but not equal to)
+   the minimum threshold value and below (but not equal to) the
+   maximum threshold value in input.
+
+   :param fields_container: Field or fields container with only one field
+                            is expected
+   :type fields_container: FieldsContainer
+   :param min_threshold: A minimum threshold scalar or a field
+                         containing one value is expected.
+   :type min_threshold: float or Field
+   :param max_threshold: A maximum threshold scalar or a field
+                         containing one value is expected.
+   :type max_threshold: float or Field, optional
+
+   :returns: **fields_container**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.filter.field_band_pass_fc()
+
+   >>> # Make input connections
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_min_threshold = float()
+   >>> op.inputs.min_threshold.connect(my_min_threshold)
+   >>> my_max_threshold = float()
+   >>> op.inputs.max_threshold.connect(my_max_threshold)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.filter.field_band_pass_fc(
+   ...     fields_container=my_fields_container,
+   ...     min_threshold=my_min_threshold,
+   ...     max_threshold=my_max_threshold,
+   ... )
+
+   >>> # Get output data
+   >>> result_fields_container = op.outputs.fields_container()
+
+
+
+
+.. py:currentmodule:: field_band_pass_fc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.filter.field_band_pass_fc import field_band_pass_fc
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsFieldBandPassFc
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsFieldBandPassFc
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

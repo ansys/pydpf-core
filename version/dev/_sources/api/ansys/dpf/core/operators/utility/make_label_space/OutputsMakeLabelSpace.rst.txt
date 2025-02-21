@@ -1,0 +1,80 @@
+
+
+
+
+
+
+:class:`OutputsMakeLabelSpace`
+==============================
+
+.. py:class:: ansys.dpf.core.operators.utility.make_label_space.OutputsMakeLabelSpace(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   make_label_space operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.make_label_space()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_label = op.outputs.label()
+
+
+
+.. py:currentmodule:: OutputsMakeLabelSpace
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~label`
+            - Allows to get label output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.make_label_space import OutputsMakeLabelSpace
+
+Property detail
+---------------
+
+.. py:property:: label
+
+   Allows to get label output of the operator
+
+   :returns: **my_label**
+   :rtype: dict
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.make_label_space()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_label = op.outputs.label()
+
+
+
+
+
+

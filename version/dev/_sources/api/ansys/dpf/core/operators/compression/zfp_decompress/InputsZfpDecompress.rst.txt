@@ -1,0 +1,85 @@
+
+
+
+
+
+
+:class:`InputsZfpDecompress`
+============================
+
+.. py:class:: ansys.dpf.core.operators.compression.zfp_decompress.InputsZfpDecompress(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   zfp_decompress operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.zfp_decompress()
+   >>> my_dataIn = dpf.CustomTypeFieldsContainer()
+   >>> op.inputs.dataIn.connect(my_dataIn)
+
+
+
+.. py:currentmodule:: InputsZfpDecompress
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~dataIn`
+            - Allows to connect dataIn input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.compression.zfp_decompress import InputsZfpDecompress
+
+Property detail
+---------------
+
+.. py:property:: dataIn
+
+   Allows to connect dataIn input to the operator.
+
+   Custom type field container from
+   zfp_compression operator to
+   decompress
+
+   :param my_dataIn:
+   :type my_dataIn: CustomTypeFieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.zfp_decompress()
+   >>> op.inputs.dataIn.connect(my_dataIn)
+   >>> # or
+   >>> op.inputs.dataIn(my_dataIn)
+
+
+
+
+
+

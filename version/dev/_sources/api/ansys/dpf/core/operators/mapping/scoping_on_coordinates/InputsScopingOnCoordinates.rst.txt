@@ -1,0 +1,100 @@
+
+
+
+
+
+
+:class:`InputsScopingOnCoordinates`
+===================================
+
+.. py:class:: ansys.dpf.core.operators.mapping.scoping_on_coordinates.InputsScopingOnCoordinates(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   scoping_on_coordinates operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.scoping_on_coordinates()
+   >>> my_coordinates = dpf.Field()
+   >>> op.inputs.coordinates.connect(my_coordinates)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+
+
+
+.. py:currentmodule:: InputsScopingOnCoordinates
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~coordinates`
+            - Allows to connect coordinates input to the operator.
+          * - :py:attr:`~mesh`
+            - Allows to connect mesh input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mapping.scoping_on_coordinates import InputsScopingOnCoordinates
+
+Property detail
+---------------
+
+.. py:property:: coordinates
+
+   Allows to connect coordinates input to the operator.
+
+   :param my_coordinates:
+   :type my_coordinates: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.scoping_on_coordinates()
+   >>> op.inputs.coordinates.connect(my_coordinates)
+   >>> # or
+   >>> op.inputs.coordinates(my_coordinates)
+
+.. py:property:: mesh
+
+   Allows to connect mesh input to the operator.
+
+   :param my_mesh:
+   :type my_mesh: MeshedRegion
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.scoping_on_coordinates()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> # or
+   >>> op.inputs.mesh(my_mesh)
+
+
+
+
+
+

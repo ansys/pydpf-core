@@ -1,0 +1,144 @@
+
+
+
+
+
+
+:class:`field_signed_high_pass`
+===============================
+
+.. py:class:: ansys.dpf.core.operators.filter.field_signed_high_pass.field_signed_high_pass(field=None, threshold=None, both=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   The high pass filter returns all the values above, or equal, in
+   absolute value to the threshold value in input.
+
+   :param field: Field or fields container with only one field
+                 is expected
+   :type field: Field or FieldsContainer
+   :param threshold: A threshold scalar or a field containing one
+                     value is expected.
+   :type threshold: float or Field
+   :param both: The default is false. if set to true, the
+                complement of the filtered fields
+                container is returned on output pin
+                1.
+   :type both: bool, optional
+
+   :returns: **field**
+   :rtype: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.filter.field_signed_high_pass()
+
+   >>> # Make input connections
+   >>> my_field = dpf.Field()
+   >>> op.inputs.field.connect(my_field)
+   >>> my_threshold = float()
+   >>> op.inputs.threshold.connect(my_threshold)
+   >>> my_both = bool()
+   >>> op.inputs.both.connect(my_both)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.filter.field_signed_high_pass(
+   ...     field=my_field,
+   ...     threshold=my_threshold,
+   ...     both=my_both,
+   ... )
+
+   >>> # Get output data
+   >>> result_field = op.outputs.field()
+
+
+
+
+.. py:currentmodule:: field_signed_high_pass
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.filter.field_signed_high_pass import field_signed_high_pass
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsFieldSignedHighPass
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsFieldSignedHighPass
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

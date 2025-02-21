@@ -1,0 +1,189 @@
+
+
+
+
+
+
+:class:`compute_invariant_terms_motion`
+=======================================
+
+.. py:class:: ansys.dpf.core.operators.result.compute_invariant_terms_motion.compute_invariant_terms_motion(rom_matrices=None, mode_shapes=None, lumped_mass=None, model_data=None, field_coordinates=None, nod=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Set the required data for the invariant terms computation (reduced
+   matrices, lumped mass matrix, modes ...)
+
+   :param rom_matrices: Fieldscontainers containing the reduced
+                        matrices
+   :type rom_matrices: FieldsContainer
+   :param mode_shapes: Fieldscontainers containing the mode shapes,
+                       which are cst and nor for the cms
+                       method
+   :type mode_shapes: FieldsContainer
+   :param lumped_mass: Fieldscontainers containing the lumped mass
+   :type lumped_mass: FieldsContainer
+   :param model_data: Data describing the finite element model
+   :type model_data: FieldsContainer
+   :param field_coordinates: Coordinates of all nodes
+   :type field_coordinates: Field
+   :param nod:
+
+   :returns: * **model_data** (*PropertyField*) -- Data describing the finite element model
+             * **mode_shapes** (*FieldsContainer*) -- Fieldscontainers containing the mode shapes,
+               which are cst and nor for the cms
+               method
+             * **lumped_mass** (*FieldsContainer*) -- Fieldscontainers containing the lumped mass
+             * **field_coordinates_and_euler_angles** (*FieldsContainer*) -- Coordinates and euler angles of all nodes
+             * *nod*
+             * *used_node_index*
+             * *eigenvalue*
+             * *translational_mode_shape*
+             * *rotational_mode_shape*
+             * **invrt_1** (*float*)
+             * *invrt_2*
+             * *invrt_3*
+             * *invrt_4*
+             * *invrt_5*
+             * *invrt_6*
+             * *invrt_7*
+             * *invrt_8*
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.result.compute_invariant_terms_motion()
+
+   >>> # Make input connections
+   >>> my_rom_matrices = dpf.FieldsContainer()
+   >>> op.inputs.rom_matrices.connect(my_rom_matrices)
+   >>> my_mode_shapes = dpf.FieldsContainer()
+   >>> op.inputs.mode_shapes.connect(my_mode_shapes)
+   >>> my_lumped_mass = dpf.FieldsContainer()
+   >>> op.inputs.lumped_mass.connect(my_lumped_mass)
+   >>> my_model_data = dpf.FieldsContainer()
+   >>> op.inputs.model_data.connect(my_model_data)
+   >>> my_field_coordinates = dpf.Field()
+   >>> op.inputs.field_coordinates.connect(my_field_coordinates)
+   >>> my_nod = dpf.()
+   >>> op.inputs.nod.connect(my_nod)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.result.compute_invariant_terms_motion(
+   ...     rom_matrices=my_rom_matrices,
+   ...     mode_shapes=my_mode_shapes,
+   ...     lumped_mass=my_lumped_mass,
+   ...     model_data=my_model_data,
+   ...     field_coordinates=my_field_coordinates,
+   ...     nod=my_nod,
+   ... )
+
+   >>> # Get output data
+   >>> result_model_data = op.outputs.model_data()
+   >>> result_mode_shapes = op.outputs.mode_shapes()
+   >>> result_lumped_mass = op.outputs.lumped_mass()
+   >>> result_field_coordinates_and_euler_angles = op.outputs.field_coordinates_and_euler_angles()
+   >>> result_nod = op.outputs.nod()
+   >>> result_used_node_index = op.outputs.used_node_index()
+   >>> result_eigenvalue = op.outputs.eigenvalue()
+   >>> result_translational_mode_shape = op.outputs.translational_mode_shape()
+   >>> result_rotational_mode_shape = op.outputs.rotational_mode_shape()
+   >>> result_invrt_1 = op.outputs.invrt_1()
+   >>> result_invrt_2 = op.outputs.invrt_2()
+   >>> result_invrt_3 = op.outputs.invrt_3()
+   >>> result_invrt_4 = op.outputs.invrt_4()
+   >>> result_invrt_5 = op.outputs.invrt_5()
+   >>> result_invrt_6 = op.outputs.invrt_6()
+   >>> result_invrt_7 = op.outputs.invrt_7()
+   >>> result_invrt_8 = op.outputs.invrt_8()
+
+
+
+
+.. py:currentmodule:: compute_invariant_terms_motion
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.compute_invariant_terms_motion import compute_invariant_terms_motion
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsComputeInvariantTermsMotion
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsComputeInvariantTermsMotion
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

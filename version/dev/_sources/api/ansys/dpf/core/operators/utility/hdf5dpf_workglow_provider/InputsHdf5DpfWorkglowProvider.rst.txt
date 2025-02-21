@@ -1,0 +1,185 @@
+
+
+
+
+
+
+:class:`InputsHdf5DpfWorkglowProvider`
+======================================
+
+.. py:class:: ansys.dpf.core.operators.utility.hdf5dpf_workglow_provider.InputsHdf5DpfWorkglowProvider(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   hdf5dpf_workglow_provider operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.hdf5dpf_workglow_provider()
+   >>> my_time_scoping = dpf.Scoping()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> my_mesh_scoping = dpf.Scoping()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> my_streams = dpf.StreamsContainer()
+   >>> op.inputs.streams.connect(my_streams)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_meta_data = dpf.DataTree()
+   >>> op.inputs.meta_data.connect(my_meta_data)
+   >>> my_result_name = dpf.()
+   >>> op.inputs.result_name.connect(my_result_name)
+
+
+
+.. py:currentmodule:: InputsHdf5DpfWorkglowProvider
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~time_scoping`
+            - Allows to connect time_scoping input to the operator.
+          * - :py:attr:`~mesh_scoping`
+            - Allows to connect mesh_scoping input to the operator.
+          * - :py:attr:`~streams`
+            - Allows to connect streams input to the operator.
+          * - :py:attr:`~data_sources`
+            - Allows to connect data_sources input to the operator.
+          * - :py:attr:`~meta_data`
+            - Allows to connect meta_data input to the operator.
+          * - :py:attr:`~result_name`
+            - Allows to connect result_name input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.hdf5dpf_workglow_provider import InputsHdf5DpfWorkglowProvider
+
+Property detail
+---------------
+
+.. py:property:: time_scoping
+
+   Allows to connect time_scoping input to the operator.
+
+   :param my_time_scoping:
+   :type my_time_scoping: Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.hdf5dpf_workglow_provider()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> # or
+   >>> op.inputs.time_scoping(my_time_scoping)
+
+.. py:property:: mesh_scoping
+
+   Allows to connect mesh_scoping input to the operator.
+
+   :param my_mesh_scoping:
+   :type my_mesh_scoping: Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.hdf5dpf_workglow_provider()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> # or
+   >>> op.inputs.mesh_scoping(my_mesh_scoping)
+
+.. py:property:: streams
+
+   Allows to connect streams input to the operator.
+
+   Hdf5df file stream.
+
+   :param my_streams:
+   :type my_streams: StreamsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.hdf5dpf_workglow_provider()
+   >>> op.inputs.streams.connect(my_streams)
+   >>> # or
+   >>> op.inputs.streams(my_streams)
+
+.. py:property:: data_sources
+
+   Allows to connect data_sources input to the operator.
+
+   Hdf5df file data source.
+
+   :param my_data_sources:
+   :type my_data_sources: DataSources
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.hdf5dpf_workglow_provider()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> # or
+   >>> op.inputs.data_sources(my_data_sources)
+
+.. py:property:: meta_data
+
+   Allows to connect meta_data input to the operator.
+
+   Meta_data that may be used to evaluate
+   results or extract workflows.
+
+   :param my_meta_data:
+   :type my_meta_data: DataTree
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.hdf5dpf_workglow_provider()
+   >>> op.inputs.meta_data.connect(my_meta_data)
+   >>> # or
+   >>> op.inputs.meta_data(my_meta_data)
+
+.. py:property:: result_name
+
+   Allows to connect result_name input to the operator.
+
+   Name of the result that must be extracted
+   from the hdf5dpf file
+
+   :param my_result_name:
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.hdf5dpf_workglow_provider()
+   >>> op.inputs.result_name.connect(my_result_name)
+   >>> # or
+   >>> op.inputs.result_name(my_result_name)
+
+
+
+
+
+

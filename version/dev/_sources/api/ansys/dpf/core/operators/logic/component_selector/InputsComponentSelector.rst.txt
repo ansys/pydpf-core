@@ -1,0 +1,125 @@
+
+
+
+
+
+
+:class:`InputsComponentSelector`
+================================
+
+.. py:class:: ansys.dpf.core.operators.logic.component_selector.InputsComponentSelector(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   component_selector operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.component_selector()
+   >>> my_field = dpf.Field()
+   >>> op.inputs.field.connect(my_field)
+   >>> my_component_number = int()
+   >>> op.inputs.component_number.connect(my_component_number)
+   >>> my_default_value = float()
+   >>> op.inputs.default_value.connect(my_default_value)
+
+
+
+.. py:currentmodule:: InputsComponentSelector
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~field`
+            - Allows to connect field input to the operator.
+          * - :py:attr:`~component_number`
+            - Allows to connect component_number input to the operator.
+          * - :py:attr:`~default_value`
+            - Allows to connect default_value input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.logic.component_selector import InputsComponentSelector
+
+Property detail
+---------------
+
+.. py:property:: field
+
+   Allows to connect field input to the operator.
+
+   :param my_field:
+   :type my_field: Field or FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.component_selector()
+   >>> op.inputs.field.connect(my_field)
+   >>> # or
+   >>> op.inputs.field(my_field)
+
+.. py:property:: component_number
+
+   Allows to connect component_number input to the operator.
+
+   One or several component index that will be
+   extracted from the initial field.
+
+   :param my_component_number:
+   :type my_component_number: int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.component_selector()
+   >>> op.inputs.component_number.connect(my_component_number)
+   >>> # or
+   >>> op.inputs.component_number(my_component_number)
+
+.. py:property:: default_value
+
+   Allows to connect default_value input to the operator.
+
+   Set a default value for components that do
+   not exist.
+
+   :param my_default_value:
+   :type my_default_value: float
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.component_selector()
+   >>> op.inputs.default_value.connect(my_default_value)
+   >>> # or
+   >>> op.inputs.default_value(my_default_value)
+
+
+
+
+
+

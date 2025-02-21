@@ -1,0 +1,176 @@
+
+
+
+
+
+
+:class:`InputsMeshPropertyProvider`
+===================================
+
+.. py:class:: ansys.dpf.core.operators.metadata.mesh_property_provider.InputsMeshPropertyProvider(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   mesh_property_provider operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.mesh_property_provider()
+   >>> my_mesh_scoping = dpf.Scoping()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> my_streams_container = dpf.StreamsContainer()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_property_name = str()
+   >>> op.inputs.property_name.connect(my_property_name)
+   >>> my_property_identifier = int()
+   >>> op.inputs.property_identifier.connect(my_property_identifier)
+
+
+
+.. py:currentmodule:: InputsMeshPropertyProvider
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~mesh_scoping`
+            - Allows to connect mesh_scoping input to the operator.
+          * - :py:attr:`~streams_container`
+            - Allows to connect streams_container input to the operator.
+          * - :py:attr:`~data_sources`
+            - Allows to connect data_sources input to the operator.
+          * - :py:attr:`~property_name`
+            - Allows to connect property_name input to the operator.
+          * - :py:attr:`~property_identifier`
+            - Allows to connect property_identifier input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.metadata.mesh_property_provider import InputsMeshPropertyProvider
+
+Property detail
+---------------
+
+.. py:property:: mesh_scoping
+
+   Allows to connect mesh_scoping input to the operator.
+
+   Retrieves a property field on a subset of
+   elements or nodes.
+
+   :param my_mesh_scoping:
+   :type my_mesh_scoping: Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.mesh_property_provider()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> # or
+   >>> op.inputs.mesh_scoping(my_mesh_scoping)
+
+.. py:property:: streams_container
+
+   Allows to connect streams_container input to the operator.
+
+   Streams (result file container) (optional)
+
+   :param my_streams_container:
+   :type my_streams_container: StreamsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.mesh_property_provider()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> # or
+   >>> op.inputs.streams_container(my_streams_container)
+
+.. py:property:: data_sources
+
+   Allows to connect data_sources input to the operator.
+
+   If the stream is null, retrieves the file
+   path from the data sources.
+
+   :param my_data_sources:
+   :type my_data_sources: DataSources
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.mesh_property_provider()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> # or
+   >>> op.inputs.data_sources(my_data_sources)
+
+.. py:property:: property_name
+
+   Allows to connect property_name input to the operator.
+
+   Supported property names are: "mat",
+   "named_selection",
+   "named_selection_names",
+   "apdl_element_type", "section",
+   "elprops", "keyopt_1" to "keyopt_18".
+
+   :param my_property_name:
+   :type my_property_name: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.mesh_property_provider()
+   >>> op.inputs.property_name.connect(my_property_name)
+   >>> # or
+   >>> op.inputs.property_name(my_property_name)
+
+.. py:property:: property_identifier
+
+   Allows to connect property_identifier input to the operator.
+
+   Retrieves a property at a given index or by
+   name. for example, a named
+   selection's number or a named
+   selection's name.
+
+   :param my_property_identifier:
+   :type my_property_identifier: int or str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.mesh_property_provider()
+   >>> op.inputs.property_identifier.connect(my_property_identifier)
+   >>> # or
+   >>> op.inputs.property_identifier(my_property_identifier)
+
+
+
+
+
+

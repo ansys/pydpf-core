@@ -1,0 +1,168 @@
+
+
+
+
+
+
+:class:`split_on_property_type`
+===============================
+
+.. py:class:: ansys.dpf.core.operators.scoping.split_on_property_type.split_on_property_type(mesh_scoping=None, mesh=None, requested_location=None, skin_case=None, label1=None, label2=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Splits a given scoping or the mesh scoping (nodal or elemental) on
+   given properties (elshape and/or material, since 2025R1 it
+   supports any scalar property field name contained in the mesh
+   property fields) and returns a scopings container with those split
+   scopings.
+
+   :param mesh_scoping: Scoping
+   :type mesh_scoping: Scoping, optional
+   :param mesh: Mesh region
+   :type mesh: MeshedRegion
+   :param requested_location: Location (default is elemental)
+   :type requested_location: str
+   :param skin_case: Set to 0: to have skin elements in their own
+                     group, 1: merge skin and solid
+                     elements, 2: merge skin and shell
+                     elements (default)
+   :type skin_case: int, optional
+   :param label1: Properties to apply the filtering 'mat'
+                  and/or 'elshape' (since 2025r1 it
+                  supports any property name contained
+                  in the mesh property fields) (default
+                  is 'elshape')
+   :type label1: str, optional
+   :param label2: Properties to apply the filtering 'mat'
+                  and/or 'elshape' (since 2025r1 it
+                  supports any property name contained
+                  in the mesh property fields) (default
+                  is 'elshape')
+   :type label2: str, optional
+
+   :returns: **mesh_scoping** -- Scoping
+   :rtype: ScopingsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.scoping.split_on_property_type()
+
+   >>> # Make input connections
+   >>> my_mesh_scoping = dpf.Scoping()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_requested_location = str()
+   >>> op.inputs.requested_location.connect(my_requested_location)
+   >>> my_skin_case = int()
+   >>> op.inputs.skin_case.connect(my_skin_case)
+   >>> my_label1 = str()
+   >>> op.inputs.label1.connect(my_label1)
+   >>> my_label2 = str()
+   >>> op.inputs.label2.connect(my_label2)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.scoping.split_on_property_type(
+   ...     mesh_scoping=my_mesh_scoping,
+   ...     mesh=my_mesh,
+   ...     requested_location=my_requested_location,
+   ...     skin_case=my_skin_case,
+   ...     label1=my_label1,
+   ...     label2=my_label2,
+   ... )
+
+   >>> # Get output data
+   >>> result_mesh_scoping = op.outputs.mesh_scoping()
+
+
+
+
+.. py:currentmodule:: split_on_property_type
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.scoping.split_on_property_type import split_on_property_type
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsSplitOnPropertyType
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsSplitOnPropertyType
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

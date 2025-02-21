@@ -1,0 +1,184 @@
+
+
+
+
+
+
+:class:`fft_multi_harmonic_minmax`
+==================================
+
+.. py:class:: ansys.dpf.core.operators.math.fft_multi_harmonic_minmax.fft_multi_harmonic_minmax(fields_container=None, rpm_scoping=None, fs_ratio=None, num_subdivisions=None, max_num_subdivisions=None, num_cycles=None, use_harmonic_zero=None, calculate_time_series=None, substeps_selector=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Evaluate min max fields on multi harmonic solution. min and max fields
+   are calculated based on evaluating a fourier series sum wrt rpms
+   and using the gradient method for adaptive time steping
+
+   :param fields_container:
+   :type fields_container: FieldsContainer
+   :param rpm_scoping: Rpm scoping, by default the fourier series
+                       sum is evaluated using all the rpms
+   :type rpm_scoping: Scoping, optional
+   :param fs_ratio: Field or fields container with only one field
+                    is expected
+   :type fs_ratio: int, optional
+   :param num_subdivisions: Connect number subdivisions, used for uniform
+                            discretization
+   :type num_subdivisions: int, optional
+   :param max_num_subdivisions: Connect max number subdivisions, used to
+                                avoid huge number of sudivisions
+   :type max_num_subdivisions: int, optional
+   :param num_cycles: Number of cycle of the periodic signal
+                      (default is 2)
+   :type num_cycles: int, optional
+   :param use_harmonic_zero: Use harmonic zero for first rpm (default is
+                             false)
+   :type use_harmonic_zero: bool, optional
+   :param calculate_time_series: Calculates time series output (output pin 2),
+                                 setting it to false enhance
+                                 performance if only min/max are
+                                 required (default is true)
+   :type calculate_time_series: bool, optional
+   :param substeps_selector: Substeps to evaluate (frequencies), by
+                             default the operator is evaluated
+                             using all the available steps
+   :type substeps_selector: optional
+
+   :returns: * **field_min** (*FieldsContainer*)
+             * **field_max** (*FieldsContainer*)
+             * **all_fields** (*FieldsContainer*)
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.math.fft_multi_harmonic_minmax()
+
+   >>> # Make input connections
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_rpm_scoping = dpf.Scoping()
+   >>> op.inputs.rpm_scoping.connect(my_rpm_scoping)
+   >>> my_fs_ratio = int()
+   >>> op.inputs.fs_ratio.connect(my_fs_ratio)
+   >>> my_num_subdivisions = int()
+   >>> op.inputs.num_subdivisions.connect(my_num_subdivisions)
+   >>> my_max_num_subdivisions = int()
+   >>> op.inputs.max_num_subdivisions.connect(my_max_num_subdivisions)
+   >>> my_num_cycles = int()
+   >>> op.inputs.num_cycles.connect(my_num_cycles)
+   >>> my_use_harmonic_zero = bool()
+   >>> op.inputs.use_harmonic_zero.connect(my_use_harmonic_zero)
+   >>> my_calculate_time_series = bool()
+   >>> op.inputs.calculate_time_series.connect(my_calculate_time_series)
+   >>> my_substeps_selector = dpf.()
+   >>> op.inputs.substeps_selector.connect(my_substeps_selector)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.math.fft_multi_harmonic_minmax(
+   ...     fields_container=my_fields_container,
+   ...     rpm_scoping=my_rpm_scoping,
+   ...     fs_ratio=my_fs_ratio,
+   ...     num_subdivisions=my_num_subdivisions,
+   ...     max_num_subdivisions=my_max_num_subdivisions,
+   ...     num_cycles=my_num_cycles,
+   ...     use_harmonic_zero=my_use_harmonic_zero,
+   ...     calculate_time_series=my_calculate_time_series,
+   ...     substeps_selector=my_substeps_selector,
+   ... )
+
+   >>> # Get output data
+   >>> result_field_min = op.outputs.field_min()
+   >>> result_field_max = op.outputs.field_max()
+   >>> result_all_fields = op.outputs.all_fields()
+
+
+
+
+.. py:currentmodule:: fft_multi_harmonic_minmax
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.fft_multi_harmonic_minmax import fft_multi_harmonic_minmax
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsFftMultiHarmonicMinmax
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsFftMultiHarmonicMinmax
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

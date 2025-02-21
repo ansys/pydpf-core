@@ -1,0 +1,134 @@
+
+
+
+
+
+
+:class:`points_from_coordinates`
+================================
+
+.. py:class:: ansys.dpf.core.operators.mesh.points_from_coordinates.points_from_coordinates(nodes_to_keep=None, mesh=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Extract a mesh made of points elements. This mesh is made from input
+   meshes coordinates on the input scopings.
+
+   :param nodes_to_keep:
+   :type nodes_to_keep: Scoping or ScopingsContainer
+   :param mesh:
+   :type mesh: MeshedRegion or MeshesContainer
+
+   :returns: **abstract_meshed_region**
+   :rtype: MeshedRegion
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.mesh.points_from_coordinates()
+
+   >>> # Make input connections
+   >>> my_nodes_to_keep = dpf.Scoping()
+   >>> op.inputs.nodes_to_keep.connect(my_nodes_to_keep)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.mesh.points_from_coordinates(
+   ...     nodes_to_keep=my_nodes_to_keep,
+   ...     mesh=my_mesh,
+   ... )
+
+   >>> # Get output data
+   >>> result_abstract_meshed_region = op.outputs.abstract_meshed_region()
+
+
+
+
+.. py:currentmodule:: points_from_coordinates
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mesh.points_from_coordinates import points_from_coordinates
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsPointsFromCoordinates
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsPointsFromCoordinates
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

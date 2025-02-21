@@ -1,0 +1,97 @@
+
+
+
+
+
+
+:class:`OutputsWorkflowEnergyPerHarmonic`
+=========================================
+
+.. py:class:: ansys.dpf.core.operators.result.workflow_energy_per_harmonic.OutputsWorkflowEnergyPerHarmonic(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   workflow_energy_per_harmonic operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.workflow_energy_per_harmonic()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_harmonic_energy = op.outputs.harmonic_energy()
+   >>> result_harmonic_energy_percentage = op.outputs.harmonic_energy_percentage()
+
+
+
+.. py:currentmodule:: OutputsWorkflowEnergyPerHarmonic
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~harmonic_energy`
+            - Allows to get harmonic_energy output of the operator
+          * - :py:attr:`~harmonic_energy_percentage`
+            - Allows to get harmonic_energy_percentage output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.workflow_energy_per_harmonic import OutputsWorkflowEnergyPerHarmonic
+
+Property detail
+---------------
+
+.. py:property:: harmonic_energy
+
+   Allows to get harmonic_energy output of the operator
+
+   :returns: **my_harmonic_energy**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.workflow_energy_per_harmonic()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_harmonic_energy = op.outputs.harmonic_energy()
+
+.. py:property:: harmonic_energy_percentage
+
+   Allows to get harmonic_energy_percentage output of the operator
+
+   :returns: **my_harmonic_energy_percentage**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.workflow_energy_per_harmonic()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_harmonic_energy_percentage = op.outputs.harmonic_energy_percentage()
+
+
+
+
+
+

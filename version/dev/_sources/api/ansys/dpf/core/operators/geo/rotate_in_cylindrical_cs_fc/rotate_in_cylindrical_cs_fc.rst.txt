@@ -1,0 +1,146 @@
+
+
+
+
+
+
+:class:`rotate_in_cylindrical_cs_fc`
+====================================
+
+.. py:class:: ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc.rotate_in_cylindrical_cs_fc(field=None, coordinate_system=None, mesh=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Rotates all the fields of a fields container (not defined with a
+   cynlindrical coordinate system) to its corresponding values into
+   the specified cylindrical coordinate system (corresponding to the
+   field position). If a coordinate system is not set in the
+   coordinate_system pin, the field is rotated on each node following
+   the local polar coordinate system.
+
+   :param field:
+   :type field: Field or FieldsContainer
+   :param coordinate_system: 3-3 rotation matrix and origin coordinates
+                             must be set here to define a
+                             coordinate system.
+   :type coordinate_system: Field, optional
+   :param mesh: Mesh support of the input fields_container,
+                in case it does not have one defined.
+   :type mesh: MeshedRegion, optional
+
+   :returns: **fields_container**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.geo.rotate_in_cylindrical_cs_fc()
+
+   >>> # Make input connections
+   >>> my_field = dpf.Field()
+   >>> op.inputs.field.connect(my_field)
+   >>> my_coordinate_system = dpf.Field()
+   >>> op.inputs.coordinate_system.connect(my_coordinate_system)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.geo.rotate_in_cylindrical_cs_fc(
+   ...     field=my_field,
+   ...     coordinate_system=my_coordinate_system,
+   ...     mesh=my_mesh,
+   ... )
+
+   >>> # Get output data
+   >>> result_fields_container = op.outputs.fields_container()
+
+
+
+
+.. py:currentmodule:: rotate_in_cylindrical_cs_fc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc import rotate_in_cylindrical_cs_fc
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsRotateInCylindricalCsFc
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsRotateInCylindricalCsFc
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

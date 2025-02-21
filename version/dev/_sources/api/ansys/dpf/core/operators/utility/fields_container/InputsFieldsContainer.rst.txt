@@ -1,0 +1,81 @@
+
+
+
+
+
+
+:class:`InputsFieldsContainer`
+==============================
+
+.. py:class:: ansys.dpf.core.operators.utility.fields_container.InputsFieldsContainer(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   fields_container operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.fields_container()
+   >>> my_input = dpf.FieldsContainer()
+   >>> op.inputs.input.connect(my_input)
+
+
+
+.. py:currentmodule:: InputsFieldsContainer
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~input`
+            - Allows to connect input input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.fields_container import InputsFieldsContainer
+
+Property detail
+---------------
+
+.. py:property:: input
+
+   Allows to connect input input to the operator.
+
+   :param my_input:
+   :type my_input: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.fields_container()
+   >>> op.inputs.input.connect(my_input)
+   >>> # or
+   >>> op.inputs.input(my_input)
+
+
+
+
+
+

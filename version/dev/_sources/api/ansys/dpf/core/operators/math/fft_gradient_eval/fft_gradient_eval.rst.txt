@@ -1,0 +1,140 @@
+
+
+
+
+
+
+:class:`fft_gradient_eval`
+==========================
+
+.. py:class:: ansys.dpf.core.operators.math.fft_gradient_eval.fft_gradient_eval(fields_container=None, time_scoping=None, fs_ratio=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Evaluate min max based on the fast fourier transform at a given field,
+   using gradient method for adaptative time step.
+
+   :param fields_container:
+   :type fields_container: FieldsContainer
+   :param time_scoping: If specified only the results at these set
+                        ids are used
+   :type time_scoping: Scoping, optional
+   :param fs_ratio: Default value = 20
+   :type fs_ratio: int, optional
+
+   :returns: **coefficients**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.math.fft_gradient_eval()
+
+   >>> # Make input connections
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_time_scoping = dpf.Scoping()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> my_fs_ratio = int()
+   >>> op.inputs.fs_ratio.connect(my_fs_ratio)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.math.fft_gradient_eval(
+   ...     fields_container=my_fields_container,
+   ...     time_scoping=my_time_scoping,
+   ...     fs_ratio=my_fs_ratio,
+   ... )
+
+   >>> # Get output data
+   >>> result_coefficients = op.outputs.coefficients()
+
+
+
+
+.. py:currentmodule:: fft_gradient_eval
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.fft_gradient_eval import fft_gradient_eval
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsFftGradientEval
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsFftGradientEval
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

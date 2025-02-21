@@ -1,0 +1,153 @@
+
+
+
+
+
+
+:class:`mesh_clip`
+==================
+
+.. py:class:: ansys.dpf.core.operators.mesh.mesh_clip.mesh_clip(field=None, iso_value=None, closed_surface=None, mesh=None, slice_surfaces=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Clips a volume mesh along an iso value x, and construct the volume
+   mesh defined by v < x.
+
+   :param field:
+   :type field: Field
+   :param iso_value: Iso value
+   :type iso_value: float
+   :param closed_surface: 1: closed surface, 0: iso surface.
+   :type closed_surface: int
+   :param mesh:
+   :type mesh: MeshedRegion, optional
+   :param slice_surfaces: True: slicing will also take into account
+                          shell and skin elements. false:
+                          slicing will ignore shell and skin
+                          elements. the default is true.
+   :type slice_surfaces: bool
+
+   :returns: * **field** (*Field*)
+             * **mesh** (*MeshedRegion*)
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.mesh.mesh_clip()
+
+   >>> # Make input connections
+   >>> my_field = dpf.Field()
+   >>> op.inputs.field.connect(my_field)
+   >>> my_iso_value = float()
+   >>> op.inputs.iso_value.connect(my_iso_value)
+   >>> my_closed_surface = int()
+   >>> op.inputs.closed_surface.connect(my_closed_surface)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_slice_surfaces = bool()
+   >>> op.inputs.slice_surfaces.connect(my_slice_surfaces)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.mesh.mesh_clip(
+   ...     field=my_field,
+   ...     iso_value=my_iso_value,
+   ...     closed_surface=my_closed_surface,
+   ...     mesh=my_mesh,
+   ...     slice_surfaces=my_slice_surfaces,
+   ... )
+
+   >>> # Get output data
+   >>> result_field = op.outputs.field()
+   >>> result_mesh = op.outputs.mesh()
+
+
+
+
+.. py:currentmodule:: mesh_clip
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mesh.mesh_clip import mesh_clip
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsMeshClip
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsMeshClip
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

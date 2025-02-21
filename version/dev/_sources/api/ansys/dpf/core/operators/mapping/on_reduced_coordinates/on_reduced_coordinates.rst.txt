@@ -1,0 +1,164 @@
+
+
+
+
+
+
+:class:`on_reduced_coordinates`
+===============================
+
+.. py:class:: ansys.dpf.core.operators.mapping.on_reduced_coordinates.on_reduced_coordinates(fields_container=None, reduced_coordinates=None, element_ids=None, mesh=None, use_quadratic_elements=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Evaluates a result on specified reduced coordinates of given elements
+   (interpolates results inside elements with shape functions).
+
+   :param fields_container:
+   :type fields_container: FieldsContainer
+   :param reduced_coordinates: Coordinates in the reference elements to find
+                               (found with the operator
+                               "find_reduced_coordinates")
+   :type reduced_coordinates: Field or FieldsContainer
+   :param element_ids: Ids of the elements where each set of reduced
+                       coordinates is found (found with the
+                       operator "find_reduced_coordinates")
+   :type element_ids: ScopingsContainer
+   :param mesh: If the first field in input has no mesh in
+                support, then the mesh in this pin is
+                expected (default is false), if a
+                meshes container with several meshes
+                is set, it should be on the same
+                label spaces as the coordinates
+                fields container
+   :type mesh: MeshedRegion or MeshesContainer, optional
+   :param use_quadratic_elements: If this pin is set to true, the interpolation
+                                  is computed on the quadratic element
+                                  if the element is quadratic (more
+                                  precise but less performant). default
+                                  is false. to use only when results
+                                  have mid side nodes values.
+   :type use_quadratic_elements: bool, optional
+
+   :returns: **fields_container**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.mapping.on_reduced_coordinates()
+
+   >>> # Make input connections
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_reduced_coordinates = dpf.Field()
+   >>> op.inputs.reduced_coordinates.connect(my_reduced_coordinates)
+   >>> my_element_ids = dpf.ScopingsContainer()
+   >>> op.inputs.element_ids.connect(my_element_ids)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_use_quadratic_elements = bool()
+   >>> op.inputs.use_quadratic_elements.connect(my_use_quadratic_elements)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.mapping.on_reduced_coordinates(
+   ...     fields_container=my_fields_container,
+   ...     reduced_coordinates=my_reduced_coordinates,
+   ...     element_ids=my_element_ids,
+   ...     mesh=my_mesh,
+   ...     use_quadratic_elements=my_use_quadratic_elements,
+   ... )
+
+   >>> # Get output data
+   >>> result_fields_container = op.outputs.fields_container()
+
+
+
+
+.. py:currentmodule:: on_reduced_coordinates
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mapping.on_reduced_coordinates import on_reduced_coordinates
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsOnReducedCoordinates
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsOnReducedCoordinates
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

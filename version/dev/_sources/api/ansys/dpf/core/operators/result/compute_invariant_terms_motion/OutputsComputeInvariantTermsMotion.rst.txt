@@ -1,0 +1,340 @@
+
+
+
+
+
+
+:class:`OutputsComputeInvariantTermsMotion`
+===========================================
+
+.. py:class:: ansys.dpf.core.operators.result.compute_invariant_terms_motion.OutputsComputeInvariantTermsMotion(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   compute_invariant_terms_motion operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_invariant_terms_motion()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_model_data = op.outputs.model_data()
+   >>> result_mode_shapes = op.outputs.mode_shapes()
+   >>> result_lumped_mass = op.outputs.lumped_mass()
+   >>> result_field_coordinates_and_euler_angles = op.outputs.field_coordinates_and_euler_angles()
+   >>> result_nod = op.outputs.nod()
+   >>> result_used_node_index = op.outputs.used_node_index()
+   >>> result_eigenvalue = op.outputs.eigenvalue()
+   >>> result_translational_mode_shape = op.outputs.translational_mode_shape()
+   >>> result_rotational_mode_shape = op.outputs.rotational_mode_shape()
+   >>> result_invrt_1 = op.outputs.invrt_1()
+   >>> result_invrt_2 = op.outputs.invrt_2()
+   >>> result_invrt_3 = op.outputs.invrt_3()
+   >>> result_invrt_4 = op.outputs.invrt_4()
+   >>> result_invrt_5 = op.outputs.invrt_5()
+   >>> result_invrt_6 = op.outputs.invrt_6()
+   >>> result_invrt_7 = op.outputs.invrt_7()
+   >>> result_invrt_8 = op.outputs.invrt_8()
+
+
+
+.. py:currentmodule:: OutputsComputeInvariantTermsMotion
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~model_data`
+            - Allows to get model_data output of the operator
+          * - :py:attr:`~mode_shapes`
+            - Allows to get mode_shapes output of the operator
+          * - :py:attr:`~lumped_mass`
+            - Allows to get lumped_mass output of the operator
+          * - :py:attr:`~field_coordinates_and_euler_angles`
+            - Allows to get field_coordinates_and_euler_angles output of the operator
+          * - :py:attr:`~nod`
+            - Allows to get nod output of the operator
+          * - :py:attr:`~used_node_index`
+            - Allows to get used_node_index output of the operator
+          * - :py:attr:`~eigenvalue`
+            - Allows to get eigenvalue output of the operator
+          * - :py:attr:`~translational_mode_shape`
+            - Allows to get translational_mode_shape output of the operator
+          * - :py:attr:`~rotational_mode_shape`
+            - Allows to get rotational_mode_shape output of the operator
+          * - :py:attr:`~invrt_1`
+            - Allows to get invrt_1 output of the operator
+          * - :py:attr:`~invrt_2`
+            - Allows to get invrt_2 output of the operator
+          * - :py:attr:`~invrt_3`
+            - Allows to get invrt_3 output of the operator
+          * - :py:attr:`~invrt_4`
+            - Allows to get invrt_4 output of the operator
+          * - :py:attr:`~invrt_5`
+            - Allows to get invrt_5 output of the operator
+          * - :py:attr:`~invrt_6`
+            - Allows to get invrt_6 output of the operator
+          * - :py:attr:`~invrt_7`
+            - Allows to get invrt_7 output of the operator
+          * - :py:attr:`~invrt_8`
+            - Allows to get invrt_8 output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.compute_invariant_terms_motion import OutputsComputeInvariantTermsMotion
+
+Property detail
+---------------
+
+.. py:property:: model_data
+
+   Allows to get model_data output of the operator
+
+   :returns: **my_model_data**
+   :rtype: PropertyField
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_invariant_terms_motion()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_model_data = op.outputs.model_data()
+
+.. py:property:: mode_shapes
+
+   Allows to get mode_shapes output of the operator
+
+   :returns: **my_mode_shapes**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_invariant_terms_motion()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_mode_shapes = op.outputs.mode_shapes()
+
+.. py:property:: lumped_mass
+
+   Allows to get lumped_mass output of the operator
+
+   :returns: **my_lumped_mass**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_invariant_terms_motion()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_lumped_mass = op.outputs.lumped_mass()
+
+.. py:property:: field_coordinates_and_euler_angles
+
+   Allows to get field_coordinates_and_euler_angles output of the operator
+
+   :returns: **my_field_coordinates_and_euler_angles**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_invariant_terms_motion()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_field_coordinates_and_euler_angles = op.outputs.field_coordinates_and_euler_angles()
+
+.. py:property:: nod
+
+   Allows to get nod output of the operator
+
+   :rtype: my_nod
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_invariant_terms_motion()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_nod = op.outputs.nod()
+
+.. py:property:: used_node_index
+
+   Allows to get used_node_index output of the operator
+
+   :rtype: my_used_node_index
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_invariant_terms_motion()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_used_node_index = op.outputs.used_node_index()
+
+.. py:property:: eigenvalue
+
+   Allows to get eigenvalue output of the operator
+
+   :rtype: my_eigenvalue
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_invariant_terms_motion()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_eigenvalue = op.outputs.eigenvalue()
+
+.. py:property:: translational_mode_shape
+
+   Allows to get translational_mode_shape output of the operator
+
+   :rtype: my_translational_mode_shape
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_invariant_terms_motion()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_translational_mode_shape = op.outputs.translational_mode_shape()
+
+.. py:property:: rotational_mode_shape
+
+   Allows to get rotational_mode_shape output of the operator
+
+   :rtype: my_rotational_mode_shape
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_invariant_terms_motion()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_rotational_mode_shape = op.outputs.rotational_mode_shape()
+
+.. py:property:: invrt_1
+
+   Allows to get invrt_1 output of the operator
+
+   :returns: **my_invrt_1**
+   :rtype: float
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_invariant_terms_motion()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_invrt_1 = op.outputs.invrt_1()
+
+.. py:property:: invrt_2
+
+   Allows to get invrt_2 output of the operator
+
+   :rtype: my_invrt_2
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_invariant_terms_motion()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_invrt_2 = op.outputs.invrt_2()
+
+.. py:property:: invrt_3
+
+   Allows to get invrt_3 output of the operator
+
+   :rtype: my_invrt_3
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_invariant_terms_motion()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_invrt_3 = op.outputs.invrt_3()
+
+.. py:property:: invrt_4
+
+   Allows to get invrt_4 output of the operator
+
+   :rtype: my_invrt_4
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_invariant_terms_motion()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_invrt_4 = op.outputs.invrt_4()
+
+.. py:property:: invrt_5
+
+   Allows to get invrt_5 output of the operator
+
+   :rtype: my_invrt_5
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_invariant_terms_motion()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_invrt_5 = op.outputs.invrt_5()
+
+.. py:property:: invrt_6
+
+   Allows to get invrt_6 output of the operator
+
+   :rtype: my_invrt_6
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_invariant_terms_motion()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_invrt_6 = op.outputs.invrt_6()
+
+.. py:property:: invrt_7
+
+   Allows to get invrt_7 output of the operator
+
+   :rtype: my_invrt_7
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_invariant_terms_motion()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_invrt_7 = op.outputs.invrt_7()
+
+.. py:property:: invrt_8
+
+   Allows to get invrt_8 output of the operator
+
+   :rtype: my_invrt_8
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_invariant_terms_motion()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_invrt_8 = op.outputs.invrt_8()
+
+
+
+
+
+

@@ -1,0 +1,152 @@
+
+
+
+
+
+
+:class:`InputsIncludedFields`
+=============================
+
+.. py:class:: ansys.dpf.core.operators.logic.included_fields.InputsIncludedFields(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   included_fields operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.included_fields()
+   >>> my_fieldA = dpf.Field()
+   >>> op.inputs.fieldA.connect(my_fieldA)
+   >>> my_fieldB = dpf.Field()
+   >>> op.inputs.fieldB.connect(my_fieldB)
+   >>> my_double_value = float()
+   >>> op.inputs.double_value.connect(my_double_value)
+   >>> my_double_tolerance = float()
+   >>> op.inputs.double_tolerance.connect(my_double_tolerance)
+
+
+
+.. py:currentmodule:: InputsIncludedFields
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fieldA`
+            - Allows to connect fieldA input to the operator.
+          * - :py:attr:`~fieldB`
+            - Allows to connect fieldB input to the operator.
+          * - :py:attr:`~double_value`
+            - Allows to connect double_value input to the operator.
+          * - :py:attr:`~double_tolerance`
+            - Allows to connect double_tolerance input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.logic.included_fields import InputsIncludedFields
+
+Property detail
+---------------
+
+.. py:property:: fieldA
+
+   Allows to connect fieldA input to the operator.
+
+   :param my_fieldA:
+   :type my_fieldA: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.included_fields()
+   >>> op.inputs.fieldA.connect(my_fieldA)
+   >>> # or
+   >>> op.inputs.fieldA(my_fieldA)
+
+.. py:property:: fieldB
+
+   Allows to connect fieldB input to the operator.
+
+   :param my_fieldB:
+   :type my_fieldB: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.included_fields()
+   >>> op.inputs.fieldB.connect(my_fieldB)
+   >>> # or
+   >>> op.inputs.fieldB(my_fieldB)
+
+.. py:property:: double_value
+
+   Allows to connect double_value input to the operator.
+
+   Double positive small value. smallest value
+   considered during the comparison
+   step. all the absolute values in the
+   field less than this value are
+   considered null, (default value:
+   1.0e-14).
+
+   :param my_double_value:
+   :type my_double_value: float
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.included_fields()
+   >>> op.inputs.double_value.connect(my_double_value)
+   >>> # or
+   >>> op.inputs.double_value(my_double_value)
+
+.. py:property:: double_tolerance
+
+   Allows to connect double_tolerance input to the operator.
+
+   Double relative tolerance. maximum tolerance
+   gap between two compared values.
+   values within relative tolerance are
+   considered identical. formula is
+   (v1-v2)/v2 < relativetol. default is
+   0.001.
+
+   :param my_double_tolerance:
+   :type my_double_tolerance: float
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.included_fields()
+   >>> op.inputs.double_tolerance.connect(my_double_tolerance)
+   >>> # or
+   >>> op.inputs.double_tolerance(my_double_tolerance)
+
+
+
+
+
+

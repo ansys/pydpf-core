@@ -1,0 +1,176 @@
+
+
+
+
+
+
+:class:`InputsIdenticalAnys`
+============================
+
+.. py:class:: ansys.dpf.core.operators.logic.identical_anys.InputsIdenticalAnys(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   identical_anys operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_anys()
+   >>> my_anyA = dpf.Any()
+   >>> op.inputs.anyA.connect(my_anyA)
+   >>> my_anyB = dpf.Any()
+   >>> op.inputs.anyB.connect(my_anyB)
+   >>> my_double_value = float()
+   >>> op.inputs.double_value.connect(my_double_value)
+   >>> my_double_tolerance = float()
+   >>> op.inputs.double_tolerance.connect(my_double_tolerance)
+   >>> my_compare_auxiliary = bool()
+   >>> op.inputs.compare_auxiliary.connect(my_compare_auxiliary)
+
+
+
+.. py:currentmodule:: InputsIdenticalAnys
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~anyA`
+            - Allows to connect anyA input to the operator.
+          * - :py:attr:`~anyB`
+            - Allows to connect anyB input to the operator.
+          * - :py:attr:`~double_value`
+            - Allows to connect double_value input to the operator.
+          * - :py:attr:`~double_tolerance`
+            - Allows to connect double_tolerance input to the operator.
+          * - :py:attr:`~compare_auxiliary`
+            - Allows to connect compare_auxiliary input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.logic.identical_anys import InputsIdenticalAnys
+
+Property detail
+---------------
+
+.. py:property:: anyA
+
+   Allows to connect anyA input to the operator.
+
+   :param my_anyA:
+   :type my_anyA: Any
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_anys()
+   >>> op.inputs.anyA.connect(my_anyA)
+   >>> # or
+   >>> op.inputs.anyA(my_anyA)
+
+.. py:property:: anyB
+
+   Allows to connect anyB input to the operator.
+
+   :param my_anyB:
+   :type my_anyB: Any
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_anys()
+   >>> op.inputs.anyB.connect(my_anyB)
+   >>> # or
+   >>> op.inputs.anyB(my_anyB)
+
+.. py:property:: double_value
+
+   Allows to connect double_value input to the operator.
+
+   Double positive small value. smallest value
+   considered during the comparison
+   step. all the absolute values in the
+   field less than this value are
+   considered null, (default value:
+   1.0e-14).
+
+   :param my_double_value:
+   :type my_double_value: float
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_anys()
+   >>> op.inputs.double_value.connect(my_double_value)
+   >>> # or
+   >>> op.inputs.double_value(my_double_value)
+
+.. py:property:: double_tolerance
+
+   Allows to connect double_tolerance input to the operator.
+
+   Double relative tolerance. maximum tolerance
+   gap between two compared values.
+   values within relative tolerance are
+   considered identical. formula is
+   (v1-v2)/v2 < relativetol. default is
+   0.001.
+
+   :param my_double_tolerance:
+   :type my_double_tolerance: float
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_anys()
+   >>> op.inputs.double_tolerance.connect(my_double_tolerance)
+   >>> # or
+   >>> op.inputs.double_tolerance(my_double_tolerance)
+
+.. py:property:: compare_auxiliary
+
+   Allows to connect compare_auxiliary input to the operator.
+
+   For meshes and meshescontainer: compare
+   auxiliary data (i.e property fields,
+   scopings...). default value is
+   'false'.
+
+   :param my_compare_auxiliary:
+   :type my_compare_auxiliary: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_anys()
+   >>> op.inputs.compare_auxiliary.connect(my_compare_auxiliary)
+   >>> # or
+   >>> op.inputs.compare_auxiliary(my_compare_auxiliary)
+
+
+
+
+
+

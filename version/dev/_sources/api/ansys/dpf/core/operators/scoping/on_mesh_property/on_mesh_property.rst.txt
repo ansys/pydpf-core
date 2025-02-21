@@ -1,0 +1,162 @@
+
+
+
+
+
+
+:class:`on_mesh_property`
+=========================
+
+.. py:class:: ansys.dpf.core.operators.scoping.on_mesh_property.on_mesh_property(requested_location=None, property_name=None, property_id=None, inclusive=None, mesh=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Provides a scoping on a given property name and a property number.
+
+   :param requested_location: Nodal or elemental location are expected
+   :type requested_location: str, optional
+   :param property_name: Ex "apdl_element_type", "elprops", "mat",
+                         "eltype", "connectivity",
+                         "shell_elements", "solid_elements",
+                         "skin_elements", "beam_elements",
+                         "point_elements"...
+   :type property_name: str
+   :param property_id:
+   :type property_id: int, optional
+   :param inclusive: Default is 1 (inclusive is true). only used
+                     if 'shape_values' property is
+                     requested. if inclusive is set to 1
+                     and 'elprops' property field is
+                     available, it will select all
+                     elements that are set on the
+                     corresponding property. if inclusive
+                     is set to 0 (exclusive) and 'elprops'
+                     property field is available, it will
+                     select the elements that are only set
+                     on this property.
+   :type inclusive: int, optional
+   :param mesh:
+   :type mesh: MeshedRegion
+
+   :returns: **mesh_scoping** -- Scoping
+   :rtype: Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.scoping.on_mesh_property()
+
+   >>> # Make input connections
+   >>> my_requested_location = str()
+   >>> op.inputs.requested_location.connect(my_requested_location)
+   >>> my_property_name = str()
+   >>> op.inputs.property_name.connect(my_property_name)
+   >>> my_property_id = int()
+   >>> op.inputs.property_id.connect(my_property_id)
+   >>> my_inclusive = int()
+   >>> op.inputs.inclusive.connect(my_inclusive)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.scoping.on_mesh_property(
+   ...     requested_location=my_requested_location,
+   ...     property_name=my_property_name,
+   ...     property_id=my_property_id,
+   ...     inclusive=my_inclusive,
+   ...     mesh=my_mesh,
+   ... )
+
+   >>> # Get output data
+   >>> result_mesh_scoping = op.outputs.mesh_scoping()
+
+
+
+
+.. py:currentmodule:: on_mesh_property
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.scoping.on_mesh_property import on_mesh_property
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsOnMeshProperty
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsOnMeshProperty
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

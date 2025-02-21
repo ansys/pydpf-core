@@ -1,0 +1,214 @@
+
+
+
+
+
+
+:class:`hdf5dpf_generate_result_file`
+=====================================
+
+.. py:class:: ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.hdf5dpf_generate_result_file(append_mode=None, dataset_size_compression_threshold=None, h5_native_compression=None, export_floats=None, filename=None, mesh_provider_out=None, time_freq_support_out=None, ansys_unit_system_id=None, input_name1=None, input_name2=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Generate a dpf result file from provided information.
+
+   :param append_mode: Experimental: allow appending chunked data to
+                       the file. this disables fields
+                       container content deduplication.
+   :type append_mode: bool, optional
+   :param dataset_size_compression_threshold: Integer value that defines the minimum
+                                              dataset size (in bytes) to use h5
+                                              native compression applicable for
+                                              arrays of floats, doubles and
+                                              integers.
+   :type dataset_size_compression_threshold: int, optional
+   :param h5_native_compression: Integer value / datatree that defines the h5
+                                 native compression used for integer
+                                 input {0: no compression (default);
+                                 1-9: gzip compression : 9 provides
+                                 maximum compression but at the
+                                 slowest speed.}for datatree input
+                                 {type: none / gzip / zstd; level:
+                                 gzip (1-9) / zstd (1-20);
+                                 num_threads: zstd (>0)}
+   :type h5_native_compression: int or DataTree, optional
+   :param export_floats: Converts double to float to reduce file size
+                         (default is true)
+   :type export_floats: bool, optional
+   :param filename: Name of the output file that will be
+                    generated (utf8).
+   :type filename: str
+   :param mesh_provider_out: Defines the meshedregion that is exported and
+                             provided by meshprovider.
+   :type mesh_provider_out: MeshedRegion, optional
+   :param time_freq_support_out: Defines the timefreqsupport that is exported
+                                 and provided by
+                                 timefreqsupportprovider.
+   :type time_freq_support_out: TimeFreqSupport, optional
+   :param ansys_unit_system_id: Defines the unit system the results are
+                                exported with. a result info can be
+                                input to also export physics type and
+                                analysis type.
+   :type ansys_unit_system_id: int or ResultInfo, optional
+   :param input_name1: Set of even and odd pins to serialize
+                       results. odd pins (4, 6, 8...) are
+                       strings, and they represent the names
+                       of the results to be serialized. even
+                       pins (5, 7, 9...) are dpf types, and
+                       they represent the results to be
+                       serialized. they should go in pairs
+                       (for each result name, there should
+                       be a result) and connected
+                       sequentially.
+   :type input_name1: str or Any, optional
+   :param input_name2: Set of even and odd pins to serialize
+                       results. odd pins (4, 6, 8...) are
+                       strings, and they represent the names
+                       of the results to be serialized. even
+                       pins (5, 7, 9...) are dpf types, and
+                       they represent the results to be
+                       serialized. they should go in pairs
+                       (for each result name, there should
+                       be a result) and connected
+                       sequentially.
+   :type input_name2: str or Any, optional
+
+   :returns: **data_sources** -- Data_sources filled with the h5 generated
+             file path.
+   :rtype: DataSources
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
+
+   >>> # Make input connections
+   >>> my_append_mode = bool()
+   >>> op.inputs.append_mode.connect(my_append_mode)
+   >>> my_dataset_size_compression_threshold = int()
+   >>> op.inputs.dataset_size_compression_threshold.connect(my_dataset_size_compression_threshold)
+   >>> my_h5_native_compression = int()
+   >>> op.inputs.h5_native_compression.connect(my_h5_native_compression)
+   >>> my_export_floats = bool()
+   >>> op.inputs.export_floats.connect(my_export_floats)
+   >>> my_filename = str()
+   >>> op.inputs.filename.connect(my_filename)
+   >>> my_mesh_provider_out = dpf.MeshedRegion()
+   >>> op.inputs.mesh_provider_out.connect(my_mesh_provider_out)
+   >>> my_time_freq_support_out = dpf.TimeFreqSupport()
+   >>> op.inputs.time_freq_support_out.connect(my_time_freq_support_out)
+   >>> my_ansys_unit_system_id = int()
+   >>> op.inputs.ansys_unit_system_id.connect(my_ansys_unit_system_id)
+   >>> my_input_name1 = str()
+   >>> op.inputs.input_name1.connect(my_input_name1)
+   >>> my_input_name2 = str()
+   >>> op.inputs.input_name2.connect(my_input_name2)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file(
+   ...     append_mode=my_append_mode,
+   ...     dataset_size_compression_threshold=my_dataset_size_compression_threshold,
+   ...     h5_native_compression=my_h5_native_compression,
+   ...     export_floats=my_export_floats,
+   ...     filename=my_filename,
+   ...     mesh_provider_out=my_mesh_provider_out,
+   ...     time_freq_support_out=my_time_freq_support_out,
+   ...     ansys_unit_system_id=my_ansys_unit_system_id,
+   ...     input_name1=my_input_name1,
+   ...     input_name2=my_input_name2,
+   ... )
+
+   >>> # Get output data
+   >>> result_data_sources = op.outputs.data_sources()
+
+
+
+
+.. py:currentmodule:: hdf5dpf_generate_result_file
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file import hdf5dpf_generate_result_file
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsHdf5DpfGenerateResultFile
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsHdf5DpfGenerateResultFile
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

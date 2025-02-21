@@ -1,0 +1,106 @@
+
+
+
+
+
+
+:class:`InputsMergeDataTree`
+============================
+
+.. py:class:: ansys.dpf.core.operators.utility.merge_data_tree.InputsMergeDataTree(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   merge_data_tree operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_data_tree()
+   >>> my_data_tree1 = dpf.DataTree()
+   >>> op.inputs.data_tree1.connect(my_data_tree1)
+   >>> my_data_tree2 = dpf.DataTree()
+   >>> op.inputs.data_tree2.connect(my_data_tree2)
+
+
+
+.. py:currentmodule:: InputsMergeDataTree
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~data_tree1`
+            - Allows to connect data_tree1 input to the operator.
+          * - :py:attr:`~data_tree2`
+            - Allows to connect data_tree2 input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.merge_data_tree import InputsMergeDataTree
+
+Property detail
+---------------
+
+.. py:property:: data_tree1
+
+   Allows to connect data_tree1 input to the operator.
+
+   Either a vector of data trees or data trees
+   from pin 0 to ... to merge.
+
+   :param my_data_tree1:
+   :type my_data_tree1: DataTree
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_data_tree()
+   >>> op.inputs.data_tree1.connect(my_data_tree1)
+   >>> # or
+   >>> op.inputs.data_tree1(my_data_tree1)
+
+.. py:property:: data_tree2
+
+   Allows to connect data_tree2 input to the operator.
+
+   Either a vector of data trees or data trees
+   from pin 0 to ... to merge.
+
+   :param my_data_tree2:
+   :type my_data_tree2: DataTree
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_data_tree()
+   >>> op.inputs.data_tree2.connect(my_data_tree2)
+   >>> # or
+   >>> op.inputs.data_tree2(my_data_tree2)
+
+
+
+
+
+

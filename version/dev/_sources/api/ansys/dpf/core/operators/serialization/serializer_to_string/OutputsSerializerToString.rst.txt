@@ -1,0 +1,80 @@
+
+
+
+
+
+
+:class:`OutputsSerializerToString`
+==================================
+
+.. py:class:: ansys.dpf.core.operators.serialization.serializer_to_string.OutputsSerializerToString(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   serializer_to_string operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.serializer_to_string()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_serialized_string = op.outputs.serialized_string()
+
+
+
+.. py:currentmodule:: OutputsSerializerToString
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~serialized_string`
+            - Allows to get serialized_string output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.serialization.serializer_to_string import OutputsSerializerToString
+
+Property detail
+---------------
+
+.. py:property:: serialized_string
+
+   Allows to get serialized_string output of the operator
+
+   :returns: **my_serialized_string**
+   :rtype: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.serializer_to_string()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_serialized_string = op.outputs.serialized_string()
+
+
+
+
+
+

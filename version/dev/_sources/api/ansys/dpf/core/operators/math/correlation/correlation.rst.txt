@@ -1,0 +1,152 @@
+
+
+
+
+
+
+:class:`correlation`
+====================
+
+.. py:class:: ansys.dpf.core.operators.math.correlation.correlation(fieldA=None, fieldB=None, ponderation=None, absoluteValue=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Takes two fields and a weighting and computes their correlation:
+   aMb/(||aMa||.||bMb||). If several b fields are provided (via a
+   fields container), correlation is computed for each of them.
+
+   :param fieldA: Field a. the reference field.
+   :type fieldA: Field or float
+   :param fieldB: Field b. if a fields container is provided,
+                  correlation is computed for each
+                  field.
+   :type fieldB: Field or FieldsContainer
+   :param ponderation: Field m, optional weighting for correlation
+                       computation.
+   :type ponderation: Field or FieldsContainer
+   :param absoluteValue: If true, correlation factor is
+                         ||amb||/(||ama||.||bmb||)
+   :type absoluteValue: bool
+
+   :returns: * **field** (*Field*) -- Correlation factor for each input field b.
+             * **index** (*int*) -- If several b are provided, this output
+               contains the index of the highest
+               correlation factor.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.math.correlation()
+
+   >>> # Make input connections
+   >>> my_fieldA = dpf.Field()
+   >>> op.inputs.fieldA.connect(my_fieldA)
+   >>> my_fieldB = dpf.Field()
+   >>> op.inputs.fieldB.connect(my_fieldB)
+   >>> my_ponderation = dpf.Field()
+   >>> op.inputs.ponderation.connect(my_ponderation)
+   >>> my_absoluteValue = bool()
+   >>> op.inputs.absoluteValue.connect(my_absoluteValue)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.math.correlation(
+   ...     fieldA=my_fieldA,
+   ...     fieldB=my_fieldB,
+   ...     ponderation=my_ponderation,
+   ...     absoluteValue=my_absoluteValue,
+   ... )
+
+   >>> # Get output data
+   >>> result_field = op.outputs.field()
+   >>> result_index = op.outputs.index()
+
+
+
+
+.. py:currentmodule:: correlation
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.correlation import correlation
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsCorrelation
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsCorrelation
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

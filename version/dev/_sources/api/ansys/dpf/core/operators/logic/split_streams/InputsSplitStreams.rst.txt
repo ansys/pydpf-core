@@ -1,0 +1,104 @@
+
+
+
+
+
+
+:class:`InputsSplitStreams`
+===========================
+
+.. py:class:: ansys.dpf.core.operators.logic.split_streams.InputsSplitStreams(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   split_streams operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.split_streams()
+   >>> my_streams = dpf.StreamsContainer()
+   >>> op.inputs.streams.connect(my_streams)
+   >>> my_output_count = int()
+   >>> op.inputs.output_count.connect(my_output_count)
+
+
+
+.. py:currentmodule:: InputsSplitStreams
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~streams`
+            - Allows to connect streams input to the operator.
+          * - :py:attr:`~output_count`
+            - Allows to connect output_count input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.logic.split_streams import InputsSplitStreams
+
+Property detail
+---------------
+
+.. py:property:: streams
+
+   Allows to connect streams input to the operator.
+
+   Streams to split.
+
+   :param my_streams:
+   :type my_streams: StreamsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.split_streams()
+   >>> op.inputs.streams.connect(my_streams)
+   >>> # or
+   >>> op.inputs.streams(my_streams)
+
+.. py:property:: output_count
+
+   Allows to connect output_count input to the operator.
+
+   Number of desired outputs.
+
+   :param my_output_count:
+   :type my_output_count: int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.split_streams()
+   >>> op.inputs.output_count.connect(my_output_count)
+   >>> # or
+   >>> op.inputs.output_count(my_output_count)
+
+
+
+
+
+

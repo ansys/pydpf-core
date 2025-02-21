@@ -1,0 +1,151 @@
+
+
+
+
+
+
+:class:`add_rigid_body_motion_fc`
+=================================
+
+.. py:class:: ansys.dpf.core.operators.result.add_rigid_body_motion_fc.add_rigid_body_motion_fc(fields_container=None, translation_field=None, rotation_field=None, center_field=None, mesh=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Adds a given rigid translation, center and rotation from a
+   displacement field. The rotation is given in terms of rotations
+   angles. Note that the displacement field has to be in the global
+   coordinate system
+
+   :param fields_container:
+   :type fields_container: FieldsContainer
+   :param translation_field:
+   :type translation_field: Field
+   :param rotation_field:
+   :type rotation_field: Field
+   :param center_field:
+   :type center_field: Field
+   :param mesh: Default is the mesh in the support
+   :type mesh: MeshedRegion, optional
+
+   :returns: **fields_container**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.result.add_rigid_body_motion_fc()
+
+   >>> # Make input connections
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_translation_field = dpf.Field()
+   >>> op.inputs.translation_field.connect(my_translation_field)
+   >>> my_rotation_field = dpf.Field()
+   >>> op.inputs.rotation_field.connect(my_rotation_field)
+   >>> my_center_field = dpf.Field()
+   >>> op.inputs.center_field.connect(my_center_field)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.result.add_rigid_body_motion_fc(
+   ...     fields_container=my_fields_container,
+   ...     translation_field=my_translation_field,
+   ...     rotation_field=my_rotation_field,
+   ...     center_field=my_center_field,
+   ...     mesh=my_mesh,
+   ... )
+
+   >>> # Get output data
+   >>> result_fields_container = op.outputs.fields_container()
+
+
+
+
+.. py:currentmodule:: add_rigid_body_motion_fc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.add_rigid_body_motion_fc import add_rigid_body_motion_fc
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsAddRigidBodyMotionFc
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsAddRigidBodyMotionFc
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

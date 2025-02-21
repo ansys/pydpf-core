@@ -1,0 +1,143 @@
+
+
+
+
+
+
+:class:`connectivity_ids`
+=========================
+
+.. py:class:: ansys.dpf.core.operators.scoping.connectivity_ids.connectivity_ids(mesh_scoping=None, mesh=None, take_mid_nodes=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Returns the ordered node ids corresponding to the element ids scoping
+   in input. For each element the node ids are its connectivity.
+
+   :param mesh_scoping: Elemental scoping
+   :type mesh_scoping: Scoping
+   :param mesh: The support of the scoping is expected if
+                there is no mesh in input
+   :type mesh: MeshedRegion, optional
+   :param take_mid_nodes: Default is true
+   :type take_mid_nodes: bool, optional
+
+   :returns: * **mesh_scoping** (*Scoping*)
+             * **elemental_scoping** (*Scoping*) -- Same as the input scoping but with ids
+               duplicated to have the same size as
+               nodal output scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.scoping.connectivity_ids()
+
+   >>> # Make input connections
+   >>> my_mesh_scoping = dpf.Scoping()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_take_mid_nodes = bool()
+   >>> op.inputs.take_mid_nodes.connect(my_take_mid_nodes)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.scoping.connectivity_ids(
+   ...     mesh_scoping=my_mesh_scoping,
+   ...     mesh=my_mesh,
+   ...     take_mid_nodes=my_take_mid_nodes,
+   ... )
+
+   >>> # Get output data
+   >>> result_mesh_scoping = op.outputs.mesh_scoping()
+   >>> result_elemental_scoping = op.outputs.elemental_scoping()
+
+
+
+
+.. py:currentmodule:: connectivity_ids
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.scoping.connectivity_ids import connectivity_ids
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsConnectivityIds
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsConnectivityIds
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

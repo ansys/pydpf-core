@@ -1,0 +1,138 @@
+
+
+
+
+
+
+:class:`max_over_time_by_entity`
+================================
+
+.. py:class:: ansys.dpf.core.operators.min_max.max_over_time_by_entity.max_over_time_by_entity(fields_container=None, abs_value=None, compute_amplitude=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Evaluates maximum over time/frequency.
+
+   :param fields_container:
+   :type fields_container: FieldsContainer
+   :param abs_value: Should use absolute value.
+   :type abs_value: bool, optional
+   :param compute_amplitude: Do calculate amplitude.
+   :type compute_amplitude: bool, optional
+
+   :returns: **fields_container**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.min_max.max_over_time_by_entity()
+
+   >>> # Make input connections
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_abs_value = bool()
+   >>> op.inputs.abs_value.connect(my_abs_value)
+   >>> my_compute_amplitude = bool()
+   >>> op.inputs.compute_amplitude.connect(my_compute_amplitude)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.min_max.max_over_time_by_entity(
+   ...     fields_container=my_fields_container,
+   ...     abs_value=my_abs_value,
+   ...     compute_amplitude=my_compute_amplitude,
+   ... )
+
+   >>> # Get output data
+   >>> result_fields_container = op.outputs.fields_container()
+
+
+
+
+.. py:currentmodule:: max_over_time_by_entity
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.min_max.max_over_time_by_entity import max_over_time_by_entity
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsMaxOverTimeByEntity
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsMaxOverTimeByEntity
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

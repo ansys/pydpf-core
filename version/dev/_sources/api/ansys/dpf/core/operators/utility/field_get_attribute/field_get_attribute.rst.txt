@@ -1,0 +1,135 @@
+
+
+
+
+
+
+:class:`field_get_attribute`
+============================
+
+.. py:class:: ansys.dpf.core.operators.utility.field_get_attribute.field_get_attribute(field=None, property_name=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   A Field in pin 0 and a property name (string) in pin 1 are expected in
+   input.
+
+   :param field:
+   :type field: Field
+   :param property_name: Accepted inputs are: 'time_freq_support' and
+                         'scoping'.
+   :type property_name: str
+
+   :returns: **property** -- Property value.
+   :rtype: TimeFreqSupport or Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.utility.field_get_attribute()
+
+   >>> # Make input connections
+   >>> my_field = dpf.Field()
+   >>> op.inputs.field.connect(my_field)
+   >>> my_property_name = str()
+   >>> op.inputs.property_name.connect(my_property_name)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.utility.field_get_attribute(
+   ...     field=my_field,
+   ...     property_name=my_property_name,
+   ... )
+
+   >>> # Get output data
+   >>> result_property = op.outputs.property()
+
+
+
+
+.. py:currentmodule:: field_get_attribute
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.field_get_attribute import field_get_attribute
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsFieldGetAttribute
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsFieldGetAttribute
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

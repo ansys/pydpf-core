@@ -1,0 +1,158 @@
+
+
+
+
+
+
+:class:`from_scoping`
+=====================
+
+.. py:class:: ansys.dpf.core.operators.mesh.from_scoping.from_scoping(scoping=None, inclusive=None, nodes_only=None, mesh=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Extracts a meshed region from another meshed region based on a
+   scoping. Regarding the property fields of the meshed region: the
+   'Elemental', 'Face', and 'Nodal' property fields are scoped to the
+   elements, faces or nodes of the output mesh, the 'Global' property
+   fields are transferred from the input mesh to the output mesh
+   without changes, and the rest of the property fields are not
+   present in the output mesh.
+
+   :param scoping: If nodal/face scoping, then the scoping is
+                   transposed respecting the inclusive
+                   pin
+   :type scoping: Scoping
+   :param inclusive: If inclusive == 1 then all the elements/faces
+                     adjacent to the nodes/faces ids in
+                     input are added, if inclusive == 0,
+                     only the elements/faces which have
+                     all their nodes/faces in the scoping
+                     are included
+   :type inclusive: int, optional
+   :param nodes_only: Returns mesh with nodes only (without any
+                      elements or property fields). default
+                      is false.
+   :type nodes_only: bool, optional
+   :param mesh:
+   :type mesh: MeshedRegion
+
+   :returns: **mesh**
+   :rtype: MeshedRegion
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.mesh.from_scoping()
+
+   >>> # Make input connections
+   >>> my_scoping = dpf.Scoping()
+   >>> op.inputs.scoping.connect(my_scoping)
+   >>> my_inclusive = int()
+   >>> op.inputs.inclusive.connect(my_inclusive)
+   >>> my_nodes_only = bool()
+   >>> op.inputs.nodes_only.connect(my_nodes_only)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.mesh.from_scoping(
+   ...     scoping=my_scoping,
+   ...     inclusive=my_inclusive,
+   ...     nodes_only=my_nodes_only,
+   ...     mesh=my_mesh,
+   ... )
+
+   >>> # Get output data
+   >>> result_mesh = op.outputs.mesh()
+
+
+
+
+.. py:currentmodule:: from_scoping
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mesh.from_scoping import from_scoping
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsFromScoping
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsFromScoping
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

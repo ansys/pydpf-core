@@ -1,0 +1,81 @@
+
+
+
+
+
+
+:class:`InputsForwardFieldsContainer`
+=====================================
+
+.. py:class:: ansys.dpf.core.operators.utility.forward_fields_container.InputsForwardFieldsContainer(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   forward_fields_container operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.forward_fields_container()
+   >>> my_fields = dpf.FieldsContainer()
+   >>> op.inputs.fields.connect(my_fields)
+
+
+
+.. py:currentmodule:: InputsForwardFieldsContainer
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fields`
+            - Allows to connect fields input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.forward_fields_container import InputsForwardFieldsContainer
+
+Property detail
+---------------
+
+.. py:property:: fields
+
+   Allows to connect fields input to the operator.
+
+   :param my_fields:
+   :type my_fields: FieldsContainer or Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.forward_fields_container()
+   >>> op.inputs.fields.connect(my_fields)
+   >>> # or
+   >>> op.inputs.fields(my_fields)
+
+
+
+
+
+

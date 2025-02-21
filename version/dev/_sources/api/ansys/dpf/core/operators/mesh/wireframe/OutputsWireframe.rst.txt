@@ -1,0 +1,80 @@
+
+
+
+
+
+
+:class:`OutputsWireframe`
+=========================
+
+.. py:class:: ansys.dpf.core.operators.mesh.wireframe.OutputsWireframe(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   wireframe operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.wireframe()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_wireframe = op.outputs.wireframe()
+
+
+
+.. py:currentmodule:: OutputsWireframe
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~wireframe`
+            - Allows to get wireframe output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mesh.wireframe import OutputsWireframe
+
+Property detail
+---------------
+
+.. py:property:: wireframe
+
+   Allows to get wireframe output of the operator
+
+   :returns: **my_wireframe**
+   :rtype: MeshedRegion
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.wireframe()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_wireframe = op.outputs.wireframe()
+
+
+
+
+
+

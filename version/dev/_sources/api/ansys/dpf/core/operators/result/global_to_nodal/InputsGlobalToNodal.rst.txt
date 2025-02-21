@@ -1,0 +1,108 @@
+
+
+
+
+
+
+:class:`InputsGlobalToNodal`
+============================
+
+.. py:class:: ansys.dpf.core.operators.result.global_to_nodal.InputsGlobalToNodal(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   global_to_nodal operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.global_to_nodal()
+   >>> my_fieldA = dpf.Field()
+   >>> op.inputs.fieldA.connect(my_fieldA)
+   >>> my_fieldB = dpf.Field()
+   >>> op.inputs.fieldB.connect(my_fieldB)
+
+
+
+.. py:currentmodule:: InputsGlobalToNodal
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fieldA`
+            - Allows to connect fieldA input to the operator.
+          * - :py:attr:`~fieldB`
+            - Allows to connect fieldB input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.global_to_nodal import InputsGlobalToNodal
+
+Property detail
+---------------
+
+.. py:property:: fieldA
+
+   Allows to connect fieldA input to the operator.
+
+   Vector or tensor field that must be rotated,
+   expressed in global coordinate
+   system.
+
+   :param my_fieldA:
+   :type my_fieldA: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.global_to_nodal()
+   >>> op.inputs.fieldA.connect(my_fieldA)
+   >>> # or
+   >>> op.inputs.fieldA(my_fieldA)
+
+.. py:property:: fieldB
+
+   Allows to connect fieldB input to the operator.
+
+   Nodal euler angles defined from a result
+   file. those  must be the rotations
+   from nodal to global.
+
+   :param my_fieldB:
+   :type my_fieldB: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.global_to_nodal()
+   >>> op.inputs.fieldB.connect(my_fieldB)
+   >>> # or
+   >>> op.inputs.fieldB(my_fieldB)
+
+
+
+
+
+

@@ -1,0 +1,97 @@
+
+
+
+
+
+
+:class:`OutputsIdenticalFields`
+===============================
+
+.. py:class:: ansys.dpf.core.operators.logic.identical_fields.OutputsIdenticalFields(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   identical_fields operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_fields()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_boolean = op.outputs.boolean()
+   >>> result_message = op.outputs.message()
+
+
+
+.. py:currentmodule:: OutputsIdenticalFields
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~boolean`
+            - Allows to get boolean output of the operator
+          * - :py:attr:`~message`
+            - Allows to get message output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.logic.identical_fields import OutputsIdenticalFields
+
+Property detail
+---------------
+
+.. py:property:: boolean
+
+   Allows to get boolean output of the operator
+
+   :returns: **my_boolean**
+   :rtype: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_fields()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_boolean = op.outputs.boolean()
+
+.. py:property:: message
+
+   Allows to get message output of the operator
+
+   :returns: **my_message**
+   :rtype: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_fields()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_message = op.outputs.message()
+
+
+
+
+
+

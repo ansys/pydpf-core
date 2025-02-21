@@ -1,0 +1,144 @@
+
+
+
+
+
+
+:class:`abc_weightings`
+=======================
+
+.. py:class:: ansys.dpf.core.operators.filter.abc_weightings.abc_weightings(fields_container=None, weighting_type=None, shape_by_tf_scoping=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Computes ABC-weightings for the amplitude spectrum in dB units.
+
+   :param fields_container: Data to be weighted in db units.
+   :type fields_container: FieldsContainer
+   :param weighting_type: If this pin is set to 0, the a-weighting is
+                          computed, 1 the b-weigting is
+                          computed and 2 the c-weightings is
+                          computed.
+   :type weighting_type: int
+   :param shape_by_tf_scoping: If this pin is set to true, each field of the
+                               input fields container is defined by
+                               time freq scoping and not by ids.
+                               default is false
+   :type shape_by_tf_scoping: bool
+
+   :returns: **weightings** -- Weighted data in db units.
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.filter.abc_weightings()
+
+   >>> # Make input connections
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_weighting_type = int()
+   >>> op.inputs.weighting_type.connect(my_weighting_type)
+   >>> my_shape_by_tf_scoping = bool()
+   >>> op.inputs.shape_by_tf_scoping.connect(my_shape_by_tf_scoping)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.filter.abc_weightings(
+   ...     fields_container=my_fields_container,
+   ...     weighting_type=my_weighting_type,
+   ...     shape_by_tf_scoping=my_shape_by_tf_scoping,
+   ... )
+
+   >>> # Get output data
+   >>> result_weightings = op.outputs.weightings()
+
+
+
+
+.. py:currentmodule:: abc_weightings
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.filter.abc_weightings import abc_weightings
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsAbcWeightings
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsAbcWeightings
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

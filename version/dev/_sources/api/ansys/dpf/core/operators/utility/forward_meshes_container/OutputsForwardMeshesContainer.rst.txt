@@ -1,0 +1,80 @@
+
+
+
+
+
+
+:class:`OutputsForwardMeshesContainer`
+======================================
+
+.. py:class:: ansys.dpf.core.operators.utility.forward_meshes_container.OutputsForwardMeshesContainer(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   forward_meshes_container operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.forward_meshes_container()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_meshes_container = op.outputs.meshes_container()
+
+
+
+.. py:currentmodule:: OutputsForwardMeshesContainer
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~meshes_container`
+            - Allows to get meshes_container output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.forward_meshes_container import OutputsForwardMeshesContainer
+
+Property detail
+---------------
+
+.. py:property:: meshes_container
+
+   Allows to get meshes_container output of the operator
+
+   :returns: **my_meshes_container**
+   :rtype: MeshesContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.forward_meshes_container()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_meshes_container = op.outputs.meshes_container()
+
+
+
+
+
+

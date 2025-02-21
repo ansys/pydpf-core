@@ -1,0 +1,210 @@
+
+
+
+
+
+
+:class:`write_motion_dfmf_file`
+===============================
+
+.. py:class:: ansys.dpf.core.operators.result.write_motion_dfmf_file.write_motion_dfmf_file(model_data=None, mode_shapes=None, lumped_mass=None, field_coordinates=None, nod=None, used_node_index=None, eigenvalue=None, translational_mode_shape=None, rotational_mode_shape=None, invrt_1=None, invrt_2=None, invrt_3=None, invrt_4=None, invrt_5=None, invrt_6=None, invrt_7=None, invrt_8=None, dfmffile_path=None, rstfile_path=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Write the invariant terms and the model data in a motion dfmf file
+
+   :param model_data: Data describing the finite element model
+   :type model_data: PropertyField
+   :param mode_shapes: Fieldscontainers containing the mode shapes,
+                       which are cst and nor for the cms
+                       method
+   :type mode_shapes: FieldsContainer
+   :param lumped_mass: Fieldscontainers containing the lumped mass
+   :type lumped_mass: FieldsContainer
+   :param field_coordinates: Coordinates of all nodes
+   :type field_coordinates: Field
+   :param nod:
+   :param used_node_index:
+   :param eigenvalue:
+   :param translational_mode_shape:
+   :param rotational_mode_shape:
+   :param invrt_1:
+   :type invrt_1: float
+   :param invrt_2:
+   :param invrt_3:
+   :param invrt_4:
+   :param invrt_5:
+   :param invrt_6:
+   :param invrt_7:
+   :param invrt_8:
+   :param dfmffile_path: Path with motion dfmf extension where the
+                         export occurs
+   :type dfmffile_path: str
+   :param rstfile_path:
+   :type rstfile_path: str
+
+   :returns: **dfmf_data_source** -- Data source containing the dfmf file
+             generated.
+   :rtype: DataSources
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.result.write_motion_dfmf_file()
+
+   >>> # Make input connections
+   >>> my_model_data = dpf.PropertyField()
+   >>> op.inputs.model_data.connect(my_model_data)
+   >>> my_mode_shapes = dpf.FieldsContainer()
+   >>> op.inputs.mode_shapes.connect(my_mode_shapes)
+   >>> my_lumped_mass = dpf.FieldsContainer()
+   >>> op.inputs.lumped_mass.connect(my_lumped_mass)
+   >>> my_field_coordinates = dpf.Field()
+   >>> op.inputs.field_coordinates.connect(my_field_coordinates)
+   >>> my_nod = dpf.()
+   >>> op.inputs.nod.connect(my_nod)
+   >>> my_used_node_index = dpf.()
+   >>> op.inputs.used_node_index.connect(my_used_node_index)
+   >>> my_eigenvalue = dpf.()
+   >>> op.inputs.eigenvalue.connect(my_eigenvalue)
+   >>> my_translational_mode_shape = dpf.()
+   >>> op.inputs.translational_mode_shape.connect(my_translational_mode_shape)
+   >>> my_rotational_mode_shape = dpf.()
+   >>> op.inputs.rotational_mode_shape.connect(my_rotational_mode_shape)
+   >>> my_invrt_1 = float()
+   >>> op.inputs.invrt_1.connect(my_invrt_1)
+   >>> my_invrt_2 = dpf.()
+   >>> op.inputs.invrt_2.connect(my_invrt_2)
+   >>> my_invrt_3 = dpf.()
+   >>> op.inputs.invrt_3.connect(my_invrt_3)
+   >>> my_invrt_4 = dpf.()
+   >>> op.inputs.invrt_4.connect(my_invrt_4)
+   >>> my_invrt_5 = dpf.()
+   >>> op.inputs.invrt_5.connect(my_invrt_5)
+   >>> my_invrt_6 = dpf.()
+   >>> op.inputs.invrt_6.connect(my_invrt_6)
+   >>> my_invrt_7 = dpf.()
+   >>> op.inputs.invrt_7.connect(my_invrt_7)
+   >>> my_invrt_8 = dpf.()
+   >>> op.inputs.invrt_8.connect(my_invrt_8)
+   >>> my_dfmffile_path = str()
+   >>> op.inputs.dfmffile_path.connect(my_dfmffile_path)
+   >>> my_rstfile_path = str()
+   >>> op.inputs.rstfile_path.connect(my_rstfile_path)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.result.write_motion_dfmf_file(
+   ...     model_data=my_model_data,
+   ...     mode_shapes=my_mode_shapes,
+   ...     lumped_mass=my_lumped_mass,
+   ...     field_coordinates=my_field_coordinates,
+   ...     nod=my_nod,
+   ...     used_node_index=my_used_node_index,
+   ...     eigenvalue=my_eigenvalue,
+   ...     translational_mode_shape=my_translational_mode_shape,
+   ...     rotational_mode_shape=my_rotational_mode_shape,
+   ...     invrt_1=my_invrt_1,
+   ...     invrt_2=my_invrt_2,
+   ...     invrt_3=my_invrt_3,
+   ...     invrt_4=my_invrt_4,
+   ...     invrt_5=my_invrt_5,
+   ...     invrt_6=my_invrt_6,
+   ...     invrt_7=my_invrt_7,
+   ...     invrt_8=my_invrt_8,
+   ...     dfmffile_path=my_dfmffile_path,
+   ...     rstfile_path=my_rstfile_path,
+   ... )
+
+   >>> # Get output data
+   >>> result_dfmf_data_source = op.outputs.dfmf_data_source()
+
+
+
+
+.. py:currentmodule:: write_motion_dfmf_file
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.write_motion_dfmf_file import write_motion_dfmf_file
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsWriteMotionDfmfFile
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsWriteMotionDfmfFile
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

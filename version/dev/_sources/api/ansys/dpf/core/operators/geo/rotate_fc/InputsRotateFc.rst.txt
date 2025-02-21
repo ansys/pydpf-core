@@ -1,0 +1,102 @@
+
+
+
+
+
+
+:class:`InputsRotateFc`
+=======================
+
+.. py:class:: ansys.dpf.core.operators.geo.rotate_fc.InputsRotateFc(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   rotate_fc operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.geo.rotate_fc()
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_coordinate_system = dpf.Field()
+   >>> op.inputs.coordinate_system.connect(my_coordinate_system)
+
+
+
+.. py:currentmodule:: InputsRotateFc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fields_container`
+            - Allows to connect fields_container input to the operator.
+          * - :py:attr:`~coordinate_system`
+            - Allows to connect coordinate_system input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.geo.rotate_fc import InputsRotateFc
+
+Property detail
+---------------
+
+.. py:property:: fields_container
+
+   Allows to connect fields_container input to the operator.
+
+   :param my_fields_container:
+   :type my_fields_container: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.geo.rotate_fc()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> # or
+   >>> op.inputs.fields_container(my_fields_container)
+
+.. py:property:: coordinate_system
+
+   Allows to connect coordinate_system input to the operator.
+
+   3-3 rotation matrix
+
+   :param my_coordinate_system:
+   :type my_coordinate_system: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.geo.rotate_fc()
+   >>> op.inputs.coordinate_system.connect(my_coordinate_system)
+   >>> # or
+   >>> op.inputs.coordinate_system(my_coordinate_system)
+
+
+
+
+
+

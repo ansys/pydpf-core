@@ -1,0 +1,129 @@
+
+
+
+
+
+
+:class:`InputsRemoveUnnecessaryLabels`
+======================================
+
+.. py:class:: ansys.dpf.core.operators.utility.remove_unnecessary_labels.InputsRemoveUnnecessaryLabels(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   remove_unnecessary_labels operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.remove_unnecessary_labels()
+   >>> my_permissive = bool()
+   >>> op.inputs.permissive.connect(my_permissive)
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_label_to_remove = str()
+   >>> op.inputs.label_to_remove.connect(my_label_to_remove)
+
+
+
+.. py:currentmodule:: InputsRemoveUnnecessaryLabels
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~permissive`
+            - Allows to connect permissive input to the operator.
+          * - :py:attr:`~fields_container`
+            - Allows to connect fields_container input to the operator.
+          * - :py:attr:`~label_to_remove`
+            - Allows to connect label_to_remove input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.remove_unnecessary_labels import InputsRemoveUnnecessaryLabels
+
+Property detail
+---------------
+
+.. py:property:: permissive
+
+   Allows to connect permissive input to the operator.
+
+   If true, the operator does not throw an error
+   if the label to be removed has more
+   than one entry.
+
+   :param my_permissive:
+   :type my_permissive: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.remove_unnecessary_labels()
+   >>> op.inputs.permissive.connect(my_permissive)
+   >>> # or
+   >>> op.inputs.permissive(my_permissive)
+
+.. py:property:: fields_container
+
+   Allows to connect fields_container input to the operator.
+
+   Fields container with the label to be
+   removed.
+
+   :param my_fields_container:
+   :type my_fields_container: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.remove_unnecessary_labels()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> # or
+   >>> op.inputs.fields_container(my_fields_container)
+
+.. py:property:: label_to_remove
+
+   Allows to connect label_to_remove input to the operator.
+
+   Label to be removed from the fields
+   container.
+
+   :param my_label_to_remove:
+   :type my_label_to_remove: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.remove_unnecessary_labels()
+   >>> op.inputs.label_to_remove.connect(my_label_to_remove)
+   >>> # or
+   >>> op.inputs.label_to_remove(my_label_to_remove)
+
+
+
+
+
+

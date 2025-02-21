@@ -1,0 +1,174 @@
+
+
+
+
+
+
+:class:`InputsComputeStressY`
+=============================
+
+.. py:class:: ansys.dpf.core.operators.result.compute_stress_Y.InputsComputeStressY(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   compute_stress_Y operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_stress_Y()
+   >>> my_scoping = dpf.Scoping()
+   >>> op.inputs.scoping.connect(my_scoping)
+   >>> my_streams_container = dpf.StreamsContainer()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_requested_location = str()
+   >>> op.inputs.requested_location.connect(my_requested_location)
+   >>> my_strain = dpf.FieldsContainer()
+   >>> op.inputs.strain.connect(my_strain)
+
+
+
+.. py:currentmodule:: InputsComputeStressY
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~scoping`
+            - Allows to connect scoping input to the operator.
+          * - :py:attr:`~streams_container`
+            - Allows to connect streams_container input to the operator.
+          * - :py:attr:`~data_sources`
+            - Allows to connect data_sources input to the operator.
+          * - :py:attr:`~requested_location`
+            - Allows to connect requested_location input to the operator.
+          * - :py:attr:`~strain`
+            - Allows to connect strain input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.compute_stress_Y import InputsComputeStressY
+
+Property detail
+---------------
+
+.. py:property:: scoping
+
+   Allows to connect scoping input to the operator.
+
+   The element scoping on which the result is
+   computed.
+
+   :param my_scoping:
+   :type my_scoping: Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_stress_Y()
+   >>> op.inputs.scoping.connect(my_scoping)
+   >>> # or
+   >>> op.inputs.scoping(my_scoping)
+
+.. py:property:: streams_container
+
+   Allows to connect streams_container input to the operator.
+
+   Needed to get mesh and material ids. optional
+   if a data_sources have been
+   connected.
+
+   :param my_streams_container:
+   :type my_streams_container: StreamsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_stress_Y()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> # or
+   >>> op.inputs.streams_container(my_streams_container)
+
+.. py:property:: data_sources
+
+   Allows to connect data_sources input to the operator.
+
+   Needed to get mesh and material ids. optional
+   if a streams_container have been
+   connected.
+
+   :param my_data_sources:
+   :type my_data_sources: DataSources
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_stress_Y()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> # or
+   >>> op.inputs.data_sources(my_data_sources)
+
+.. py:property:: requested_location
+
+   Allows to connect requested_location input to the operator.
+
+   Average the elemental nodal result to the
+   requested location.
+
+   :param my_requested_location:
+   :type my_requested_location: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_stress_Y()
+   >>> op.inputs.requested_location.connect(my_requested_location)
+   >>> # or
+   >>> op.inputs.requested_location(my_requested_location)
+
+.. py:property:: strain
+
+   Allows to connect strain input to the operator.
+
+   Field/or fields container containing only the
+   elastic strain field (element nodal).
+
+   :param my_strain:
+   :type my_strain: FieldsContainer or Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_stress_Y()
+   >>> op.inputs.strain.connect(my_strain)
+   >>> # or
+   >>> op.inputs.strain(my_strain)
+
+
+
+
+
+

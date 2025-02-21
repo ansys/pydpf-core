@@ -1,0 +1,146 @@
+
+
+
+
+
+
+:class:`remove_rigid_body_motion`
+=================================
+
+.. py:class:: ansys.dpf.core.operators.result.remove_rigid_body_motion.remove_rigid_body_motion(field=None, reference_node_id=None, mesh=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Removes rigid body mode from a total displacement field by
+   minimization. Use a reference point in order to subtract its
+   displacement to the result displacement field.
+
+   :param field: Field or fields container with only one field
+                 is expected
+   :type field: Field or FieldsContainer
+   :param reference_node_id: Id of the reference entity (node).
+   :type reference_node_id: int, optional
+   :param mesh: Default is the mesh in the support
+   :type mesh: MeshedRegion, optional
+
+   :returns: * **field** (*Field*)
+             * **translation_field** (*Field*) -- Global rigid translation vector
+             * **rotation_field** (*Field*) -- Global rigid rotation angles
+             * **center_field** (*Field*) -- Center of the rigid rotation
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.result.remove_rigid_body_motion()
+
+   >>> # Make input connections
+   >>> my_field = dpf.Field()
+   >>> op.inputs.field.connect(my_field)
+   >>> my_reference_node_id = int()
+   >>> op.inputs.reference_node_id.connect(my_reference_node_id)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.result.remove_rigid_body_motion(
+   ...     field=my_field,
+   ...     reference_node_id=my_reference_node_id,
+   ...     mesh=my_mesh,
+   ... )
+
+   >>> # Get output data
+   >>> result_field = op.outputs.field()
+   >>> result_translation_field = op.outputs.translation_field()
+   >>> result_rotation_field = op.outputs.rotation_field()
+   >>> result_center_field = op.outputs.center_field()
+
+
+
+
+.. py:currentmodule:: remove_rigid_body_motion
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.remove_rigid_body_motion import remove_rigid_body_motion
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsRemoveRigidBodyMotion
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsRemoveRigidBodyMotion
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

@@ -1,0 +1,181 @@
+
+
+
+
+
+
+:class:`vtu_export`
+===================
+
+.. py:class:: ansys.dpf.core.operators.serialization.vtu_export.vtu_export(directory=None, base_name=None, mesh=None, fields1=None, fields2=None, write_mode=None, as_point_cloud=None, export_faces=None, mesh_properties=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Export DPF data into vtu format.
+
+   :param directory: Directory path
+   :type directory: str
+   :param base_name: Vtu base file name, (default is file)
+   :type base_name: str, optional
+   :param mesh: Mesh
+   :type mesh: MeshedRegion
+   :param fields1: Nodal, face, or elemental field, fields
+                   container (over time), or property
+                   field to export. when there is no
+                   support available in the exported
+                   mesh, that data is ignored.
+   :type fields1: Field or FieldsContainer or PropertyField
+   :param fields2: Nodal, face, or elemental field, fields
+                   container (over time), or property
+                   field to export. when there is no
+                   support available in the exported
+                   mesh, that data is ignored.
+   :type fields2: Field or FieldsContainer or PropertyField
+   :param write_mode: Available are rawbinarycompressed, rawbinary,
+                      base64appended, base64inline, ascii,
+                      default is (rawbinarycompressed)
+   :type write_mode: str, optional
+   :param as_point_cloud: Whether to export the mesh as a point cloud.
+                          default is false.
+   :type as_point_cloud: bool, optional
+   :param export_faces: Whether to also export faces as shell
+                        elements when the mesh contains
+                        cells. default is false.
+   :type export_faces: bool, optional
+   :param mesh_properties: List of names of mesh properties to export.
+   :type mesh_properties: StringField, optional
+
+   :returns: **path** -- List of output vtu file path
+   :rtype: DataSources
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.serialization.vtu_export()
+
+   >>> # Make input connections
+   >>> my_directory = str()
+   >>> op.inputs.directory.connect(my_directory)
+   >>> my_base_name = str()
+   >>> op.inputs.base_name.connect(my_base_name)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_fields1 = dpf.Field()
+   >>> op.inputs.fields1.connect(my_fields1)
+   >>> my_fields2 = dpf.Field()
+   >>> op.inputs.fields2.connect(my_fields2)
+   >>> my_write_mode = str()
+   >>> op.inputs.write_mode.connect(my_write_mode)
+   >>> my_as_point_cloud = bool()
+   >>> op.inputs.as_point_cloud.connect(my_as_point_cloud)
+   >>> my_export_faces = bool()
+   >>> op.inputs.export_faces.connect(my_export_faces)
+   >>> my_mesh_properties = dpf.StringField()
+   >>> op.inputs.mesh_properties.connect(my_mesh_properties)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.serialization.vtu_export(
+   ...     directory=my_directory,
+   ...     base_name=my_base_name,
+   ...     mesh=my_mesh,
+   ...     fields1=my_fields1,
+   ...     fields2=my_fields2,
+   ...     write_mode=my_write_mode,
+   ...     as_point_cloud=my_as_point_cloud,
+   ...     export_faces=my_export_faces,
+   ...     mesh_properties=my_mesh_properties,
+   ... )
+
+   >>> # Get output data
+   >>> result_path = op.outputs.path()
+
+
+
+
+.. py:currentmodule:: vtu_export
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.serialization.vtu_export import vtu_export
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsVtuExport
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsVtuExport
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

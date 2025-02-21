@@ -1,0 +1,97 @@
+
+
+
+
+
+
+:class:`OutputsElementalNodalToNodalFc`
+=======================================
+
+.. py:class:: ansys.dpf.core.operators.averaging.elemental_nodal_to_nodal_fc.OutputsElementalNodalToNodalFc(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   elemental_nodal_to_nodal_fc operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.elemental_nodal_to_nodal_fc()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_fields_container = op.outputs.fields_container()
+   >>> result_weights = op.outputs.weights()
+
+
+
+.. py:currentmodule:: OutputsElementalNodalToNodalFc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fields_container`
+            - Allows to get fields_container output of the operator
+          * - :py:attr:`~weights`
+            - Allows to get weights output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.averaging.elemental_nodal_to_nodal_fc import OutputsElementalNodalToNodalFc
+
+Property detail
+---------------
+
+.. py:property:: fields_container
+
+   Allows to get fields_container output of the operator
+
+   :returns: **my_fields_container**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.elemental_nodal_to_nodal_fc()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_fields_container = op.outputs.fields_container()
+
+.. py:property:: weights
+
+   Allows to get weights output of the operator
+
+   :returns: * **my_weights** (*Class Dataprocessing::Dpftypecollection&lt;Class*)
+             * *Dataprocessing::Cpropertyfield&gt;*
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.elemental_nodal_to_nodal_fc()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_weights = op.outputs.weights()
+
+
+
+
+
+

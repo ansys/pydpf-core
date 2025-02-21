@@ -1,0 +1,122 @@
+
+
+
+
+
+
+:class:`grpc_shutdown_server`
+=============================
+
+.. py:class:: ansys.dpf.core.operators.server.grpc_shutdown_server.grpc_shutdown_server(grpc_stream=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Shutdowns dpf's grpc server
+
+   :param grpc_stream: Dpf streams handling the server
+   :type grpc_stream: StreamsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.server.grpc_shutdown_server()
+
+   >>> # Make input connections
+   >>> my_grpc_stream = dpf.StreamsContainer()
+   >>> op.inputs.grpc_stream.connect(my_grpc_stream)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.server.grpc_shutdown_server(
+   ...     grpc_stream=my_grpc_stream,
+   ... )
+
+
+
+
+.. py:currentmodule:: grpc_shutdown_server
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.server.grpc_shutdown_server import grpc_shutdown_server
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsGrpcShutdownServer
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsGrpcShutdownServer
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

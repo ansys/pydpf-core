@@ -1,0 +1,80 @@
+
+
+
+
+
+
+:class:`OutputsWorkflowToPydpf`
+===============================
+
+.. py:class:: ansys.dpf.core.operators.serialization.workflow_to_pydpf.OutputsWorkflowToPydpf(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   workflow_to_pydpf operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.workflow_to_pydpf()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_pydpf_code = op.outputs.pydpf_code()
+
+
+
+.. py:currentmodule:: OutputsWorkflowToPydpf
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~pydpf_code`
+            - Allows to get pydpf_code output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.serialization.workflow_to_pydpf import OutputsWorkflowToPydpf
+
+Property detail
+---------------
+
+.. py:property:: pydpf_code
+
+   Allows to get pydpf_code output of the operator
+
+   :returns: **my_pydpf_code**
+   :rtype: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.workflow_to_pydpf()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_pydpf_code = op.outputs.pydpf_code()
+
+
+
+
+
+

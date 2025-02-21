@@ -1,0 +1,150 @@
+
+
+
+
+
+
+:class:`InputsKmeansClustering`
+===============================
+
+.. py:class:: ansys.dpf.core.operators.compression.kmeans_clustering.InputsKmeansClustering(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   kmeans_clustering operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.kmeans_clustering()
+   >>> my_clusters_number = int()
+   >>> op.inputs.clusters_number.connect(my_clusters_number)
+   >>> my_formula = str()
+   >>> op.inputs.formula.connect(my_formula)
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_component_number = int()
+   >>> op.inputs.component_number.connect(my_component_number)
+
+
+
+.. py:currentmodule:: InputsKmeansClustering
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~clusters_number`
+            - Allows to connect clusters_number input to the operator.
+          * - :py:attr:`~formula`
+            - Allows to connect formula input to the operator.
+          * - :py:attr:`~fields_container`
+            - Allows to connect fields_container input to the operator.
+          * - :py:attr:`~component_number`
+            - Allows to connect component_number input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.compression.kmeans_clustering import InputsKmeansClustering
+
+Property detail
+---------------
+
+.. py:property:: clusters_number
+
+   Allows to connect clusters_number input to the operator.
+
+   Number of the clusters (dafault is 3)
+
+   :param my_clusters_number:
+   :type my_clusters_number: int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.kmeans_clustering()
+   >>> op.inputs.clusters_number.connect(my_clusters_number)
+   >>> # or
+   >>> op.inputs.clusters_number(my_clusters_number)
+
+.. py:property:: formula
+
+   Allows to connect formula input to the operator.
+
+   Formula ('dist'/'dotprod'), default is 'dist'
+
+   :param my_formula:
+   :type my_formula: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.kmeans_clustering()
+   >>> op.inputs.formula.connect(my_formula)
+   >>> # or
+   >>> op.inputs.formula(my_formula)
+
+.. py:property:: fields_container
+
+   Allows to connect fields_container input to the operator.
+
+   An iunput fields container containing the
+   data which will be used for the
+   clustering
+
+   :param my_fields_container:
+   :type my_fields_container: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.kmeans_clustering()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> # or
+   >>> op.inputs.fields_container(my_fields_container)
+
+.. py:property:: component_number
+
+   Allows to connect component_number input to the operator.
+
+   Component number as an int (default is 0), ex
+   '0' for x-displacement, '1' for
+   y-displacement,...
+
+   :param my_component_number:
+   :type my_component_number: int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.kmeans_clustering()
+   >>> op.inputs.component_number.connect(my_component_number)
+   >>> # or
+   >>> op.inputs.component_number(my_component_number)
+
+
+
+
+
+

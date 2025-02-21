@@ -1,0 +1,105 @@
+
+
+
+
+
+
+:class:`InputsRotate`
+=====================
+
+.. py:class:: ansys.dpf.core.operators.geo.rotate.InputsRotate(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   rotate operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.geo.rotate()
+   >>> my_field = dpf.Field()
+   >>> op.inputs.field.connect(my_field)
+   >>> my_field_rotation_matrix = dpf.Field()
+   >>> op.inputs.field_rotation_matrix.connect(my_field_rotation_matrix)
+
+
+
+.. py:currentmodule:: InputsRotate
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~field`
+            - Allows to connect field input to the operator.
+          * - :py:attr:`~field_rotation_matrix`
+            - Allows to connect field_rotation_matrix input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.geo.rotate import InputsRotate
+
+Property detail
+---------------
+
+.. py:property:: field
+
+   Allows to connect field input to the operator.
+
+   Field or fields container with only one field
+   is expected
+
+   :param my_field:
+   :type my_field: Field or FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.geo.rotate()
+   >>> op.inputs.field.connect(my_field)
+   >>> # or
+   >>> op.inputs.field(my_field)
+
+.. py:property:: field_rotation_matrix
+
+   Allows to connect field_rotation_matrix input to the operator.
+
+   3-3 rotation matrix
+
+   :param my_field_rotation_matrix:
+   :type my_field_rotation_matrix: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.geo.rotate()
+   >>> op.inputs.field_rotation_matrix.connect(my_field_rotation_matrix)
+   >>> # or
+   >>> op.inputs.field_rotation_matrix(my_field_rotation_matrix)
+
+
+
+
+
+
