@@ -142,6 +142,13 @@ class Results:
         """
         return Result(self._connector, self._mesh_by_default, result_type, self._server)
 
+    def __getattr__(self, item):
+        """Inform the requested result is unavailable."""
+        raise AttributeError(
+            f"Result '{item}' is not available. "
+            f"Available results are:\n{list(self._op_map_rev.keys())}"
+        )
+
     def _connect_operators(self, result_info):
         """Dynamically add operators for results.
 
