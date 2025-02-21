@@ -22,6 +22,8 @@
 
 """Workflow."""
 
+from __future__ import annotations
+
 from enum import Enum
 import logging
 import os
@@ -714,7 +716,11 @@ class Workflow:
         return out
 
     @version_requires("3.0")
-    def connect_with(self, left_workflow, output_input_names=None):
+    def connect_with(
+        self,
+        left_workflow: Workflow,
+        output_input_names: Union[tuple[str, str], dict[str, str]] = None,
+    ):
         """Prepend a given workflow to the current workflow.
 
         Updates the current workflow to include all the operators of the workflow given as argument.
@@ -724,9 +730,9 @@ class Workflow:
 
         Parameters
         ----------
-        left_workflow : core.Workflow
+        left_workflow:
             The given workflow's outputs are chained with the current workflow's inputs.
-        output_input_names : str tuple, str dict optional
+        output_input_names:
             Map used to connect the outputs of the given workflow to the inputs of the current
             workflow.
             Check the names of available inputs and outputs for each workflow using
