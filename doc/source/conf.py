@@ -112,9 +112,7 @@ extensions = [
     "sphinx_copybutton",
     "sphinx_design",
     "sphinx_jinja",
-    "sphinx_gallery.gen_gallery",
     'sphinx_reredirects',
-    "ansys_sphinx_theme.extension.autoapi",
 ]
 
 redirects = {
@@ -402,8 +400,8 @@ jinja_contexts = {
 # Optionally exclude api or example documentation generation.
 BUILD_API = True if os.environ.get("BUILD_API", "true") == "true" else False
 if not BUILD_API:
-    extensions.remove("ansys_sphinx_theme.extension.autoapi")
+    extensions.extend("ansys_sphinx_theme.extension.autoapi")
 
 BUILD_EXAMPLES = True if os.environ.get("BUILD_EXAMPLES", "true") == "true" else False
-if not BUILD_EXAMPLES:
-    extensions.remove("sphinx_gallery.gen_gallery")
+if BUILD_EXAMPLES:
+    extensions.extend("sphinx_gallery.gen_gallery")
