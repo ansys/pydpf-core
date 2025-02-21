@@ -460,6 +460,7 @@ class Specification(SpecificationBase):
         """
         if self._config_specification is None:
             self._config_specification = ConfigSpecification()
+        if self._internal_obj is not None:
             num_options = self._api.operator_specification_get_num_config_options(self)
             for i in range(num_options):
                 option_name = self._api.operator_specification_get_config_name(self, i)
