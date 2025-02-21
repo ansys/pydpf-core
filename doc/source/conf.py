@@ -1,6 +1,8 @@
 from datetime import datetime
 from glob import glob
 import os
+from pathlib import Path
+import subprocess
 
 from ansys_sphinx_theme import (
     ansys_favicon,
@@ -109,9 +111,8 @@ extensions = [
     "sphinx.ext.todo",
     "sphinx_copybutton",
     "sphinx_design",
-    "sphinx_gallery.gen_gallery",
+    "sphinx_jinja",
     'sphinx_reredirects',
-    "ansys_sphinx_theme.extension.autoapi",
 ]
 
 redirects = {
@@ -374,3 +375,33 @@ epub_title = project
 
 # A list of files that should not be packed into the epub file.
 epub_exclude_files = ["search.html"]
+
+# Common content for every RST file such us links
+rst_epilog = ""
+links_filepath = Path(__file__).parent.absolute() / "links.rst"
+rst_epilog += links_filepath.read_text(encoding="utf-8")
+
+jinja_globals = {
+    "PYDPF_CORE_VERSION": version,
+}
+
+# Get list of tox environments and add to jinja context
+envs = subprocess.run(["tox", "list", "-q"], capture_output=True, text=True).stdout.splitlines()
+envs.remove("default environments:")
+envs.remove("additional environments:")
+envs.remove("")
+
+jinja_contexts = {
+    "toxenvs" : {
+        "envs": envs,
+    }
+}
+
+# Optionally exclude api or example documentation generation.
+BUILD_API = True if os.environ.get("BUILD_API", "true") == "true" else False
+if BUILD_API:
+    extensions.extend(["ansys_sphinx_theme.extension.autoapi"])
+
+BUILD_EXAMPLES = True if os.environ.get("BUILD_EXAMPLES", "true") == "true" else False
+if BUILD_EXAMPLES:
+    extensions.extend(["sphinx_gallery.gen_gallery"])

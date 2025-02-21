@@ -1,41 +1,46 @@
 .. _contributing:
 
-============
 Contributing
-============
+############
 
 Overall guidance on contributing to a PyAnsys repository appears in
-`Contribute <https://dev.docs.pyansys.com/overview/contributing.html>`_
+`Contribute <https://dev.docs.pyansys.com/how-to/contributing.html>`_
 in the *PyAnsys Developer's Guide*. Ensure that you are thoroughly familiar
 with this guide before attempting to contribute to PyDPF-Core.
+
+.. important::
+
+    This project adheres to the `Contributor Covenant Code of Conduct`_. By
+    participating, you agree to uphold this code.
  
-The following contribution information is specific to PyDPF-Core.
+The following contribution information is specific to PyDPF-Core. Start by selecting your role in the project:
 
-Clone the repository
---------------------
-Clone and install the latest version of PyDPF-Core in
-development mode by running this code:
+.. grid:: 1 2 3 3
+    :padding: 2 2 2 2
 
-.. code::
+    .. grid-item-card:: :fa:`user` User
+        :link: contribute/user
+        :link-type: doc
 
-    git clone https://github.com/ansys/pydpf-core
-    cd pydpf-core
-    pip install -e .
+        Report bugs, suggesting features, and ask questions.
 
+    .. grid-item-card:: :fa:`book` Documentarian
+        :link: contribute/documentarian
+        :link-type: doc
 
-Post issues
------------
-Use the `PyDPF-Core Issues <https://github.com/ansys/pydpf-core/issues>`_
-page to submit questions, report bugs, and request new features.
+        Improve the documentation and write new guides.
 
-To reach the project support team, email `pyansys.core@ansys.com <pyansys.core@ansys.com>`_.
+    .. grid-item-card:: :fa:`laptop-code` Developer
+        :link: contribute/developer
+        :link-type: doc
 
-View documentation
-------------------
-Documentation for the latest stable release of PyDPF-Core is hosted at
-`PyDPF-Core Documentation <https://dpf.docs.pyansys.com/>`_. 
+        Fix bugs, add new features, and improve the codebase.
 
-In the upper right corner of the documentation's title bar, there is an option
-for switching from viewing the documentation for the latest stable release
-to viewing the documentation for the development version or previously
-released versions.
+.. toctree::
+    :hidden:
+    :maxdepth: 3
+    :caption: Contribute
+
+    User<contribute/user>
+    Documentarian<contribute/documentarian>
+    Developer<contribute/developer>
