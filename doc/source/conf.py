@@ -400,8 +400,8 @@ jinja_contexts = {
 # Optionally exclude api or example documentation generation.
 BUILD_API = True if os.environ.get("BUILD_API", "true") == "true" else False
 if BUILD_API:
-    extensions.extend("ansys_sphinx_theme.extension.autoapi")
+    extensions.extend(["ansys_sphinx_theme.extension.autoapi"])
 
 BUILD_EXAMPLES = True if os.environ.get("BUILD_EXAMPLES", "true") == "true" else False
 if BUILD_EXAMPLES:
-    extensions.extend("sphinx_gallery.gen_gallery")
+    extensions.extend(["sphinx_gallery.gen_gallery"])
