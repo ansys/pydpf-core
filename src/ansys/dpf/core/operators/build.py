@@ -3,6 +3,7 @@ import copy
 import os
 from datetime import datetime
 from textwrap import wrap
+import time
 
 import black
 import chevron
@@ -163,6 +164,7 @@ def build_operator(
 
 def build_operators():
     print(f"Generating operators for server {dpf.SERVER.version}")
+    time_0 = time.time()
 
     this_path = os.path.dirname(os.path.abspath(__file__))
 
@@ -260,6 +262,7 @@ def build_operators():
 
     if succeeded == len(available_operators) - hidden:
         print("Success")
+        print(f"Took {time.time() - time_0}")
         exit(0)
     else:
         print("Terminated with errors")
