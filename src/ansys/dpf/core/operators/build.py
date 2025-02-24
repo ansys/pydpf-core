@@ -13,11 +13,11 @@ from ansys.dpf.core.outputs import _make_printable_type
 from ansys.dpf.core.mapping_types import map_types_to_python
 
 
-def build_docstring(specification):
+def build_docstring(specification_description):
     """Used to generate class docstrings."""
     docstring = ""
-    if specification.description:
-        docstring += specification.description.replace("\n", "\n    ")
+    if specification_description:
+        docstring += specification_description.replace("\n", "\n    ")
     return docstring
 
 
@@ -119,7 +119,7 @@ def build_pin_data(pins, output=False):
 
 
 def build_operator(
-    specification, operator_name, class_name, capital_class_name, category
+    specification, operator_name, class_name, capital_class_name, category, specification_description
 ):
 
     input_pins = []
@@ -131,7 +131,7 @@ def build_operator(
         output_pins = build_pin_data(specification.outputs, output=True)
     multiple_output_types = any(pin["multiple_types"] for pin in output_pins)
 
-    docstring = build_docstring(specification)
+    docstring = build_docstring(specification_description)
 
     date_and_time = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
 
@@ -141,7 +141,7 @@ def build_operator(
         "class_name_underlining": len(class_name)*"=",
         "capital_class_name": capital_class_name,
         "docstring": docstring,
-        "specification_description": specification.description,
+        "specification_description": specification_description,
         "input_pins": input_pins,
         "output_pins": output_pins,
         "outputs": len(output_pins) >= 1,
@@ -226,6 +226,7 @@ def build_operators():
                     scripting_name,
                     capital_class_name,
                     category,
+                    specification_description,
                 )
                 exec(operator_str, globals())
                 f.write(operator_str.encode())
