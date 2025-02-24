@@ -184,6 +184,14 @@ def build_operators():
         "invert", "invert_fc",
     ]
     categories = set()
+
+    # import mistune
+    # from mistune.renderers.rst import RSTRenderer
+    #
+    # md2rst_converter = mistune.create_markdown(renderer=RSTRenderer())
+
+    import pypandoc
+
     for operator_name in available_operators:
         if succeeded == done + 100:
             done += 100
@@ -217,6 +225,11 @@ def build_operators():
 
         # Get python class name from scripting name
         capital_class_name = common._snake_to_camel_case(scripting_name)
+
+        # Convert Markdown descriptions to RST
+        # specification_description = md2rst_converter(specification.description)
+        specification_description = pypandoc.convert_text(specification.description, to="rst", format="md")
+        # specification_description = specification.description
 
         # Write to operator file
         operator_file = os.path.join(category_path, scripting_name + ".py")
