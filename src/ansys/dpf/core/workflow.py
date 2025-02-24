@@ -715,6 +715,35 @@ class Workflow:
             out.append(self._api.work_flow_output_by_index(self, i))
         return out
 
+    def safe_connect_with(
+        self,
+        left_workflow: Workflow,
+        output_input_names: Union[tuple[str, str], dict[str, str]],
+    ):
+        """Prepend a given workflow to the current workflow for valid connections only.
+
+        See Workflow.connect_with for more information on the connection logic.
+
+        Parameters
+        ----------
+        left_workflow:
+            The given workflow's outputs are chained with the current workflow's inputs.
+        output_input_names:
+            Map used to connect the outputs of the given workflow to the inputs of the current
+            workflow.
+            Check the names of available inputs and outputs for each workflow using
+            `Workflow.input_names` and `Workflow.output_names`.
+        """
+        if isinstance(output_input_names, tuple):
+            output_input_names = {output_input_names[0]: output_input_names[1]}
+        valid_connections = dict(
+            filter(
+                lambda item: item[0] in left_workflow.output_names and item[1] in self.input_names,
+                output_input_names.items(),
+            )
+        )
+        self.connect_with(left_workflow, valid_connections)
+
     @version_requires("3.0")
     def connect_with(
         self,
