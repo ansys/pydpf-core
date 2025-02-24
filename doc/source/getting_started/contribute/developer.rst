@@ -49,7 +49,7 @@ Virtual environment
 
 Start by navigating to the project's root directory by running:
 
-.. code-block::
+.. code-block:: bash
 
     cd pydpf-core
 
