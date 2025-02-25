@@ -1328,6 +1328,16 @@ def test_generated_operator_config_specification_simple(server_type):
     assert "id" in conf_spec["work_by_index"].document
 
 
+def test_empty_specification(server_type):
+    op = dpf.core.dpf_operator.Operator("chunk_fc", server=server_type)
+    spec = op.specification
+    _ = spec.config_specification
+    _ = spec.properties
+    _ = spec.description
+    _ = spec.inputs
+    _ = spec.outputs
+
+
 def test_operator_exception():
     ds = dpf.core.DataSources(r"dummy/file.rst")
     op = ops.result.displacement(data_sources=ds)

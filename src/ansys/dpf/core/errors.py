@@ -41,6 +41,12 @@ result can be plotted at a time. Extract a field with
 ``fields_container[index]``.
 """
 
+_EMPTY_MESH_PLOTTING_MSG = """"
+The mesh support is empty. 
+Either provide one to the plot function called, or use MeshedRegion.plot 
+and provide the current data as parameter.
+"""
+
 
 class DpfValueError(ValueError):
     """Error raised when a specific DPF error value must be defined."""
@@ -77,6 +83,13 @@ class FieldContainerPlottingError(ValueError):
     """Error raised when attempting to plot a fields_container containing multiple fields."""
 
     def __init__(self, msg=_FIELD_CONTAINER_PLOTTING_MSG):
+        ValueError.__init__(self, msg)
+
+
+class EmptyMeshPlottingError(ValueError):
+    """Error raised when attempting to plot data with no mesh."""
+
+    def __init__(self, msg=_EMPTY_MESH_PLOTTING_MSG):
         ValueError.__init__(self, msg)
 
 
