@@ -12,6 +12,7 @@ from ansys.dpf.core import common
 from ansys.dpf.core.dpf_operator import available_operator_names
 from ansys.dpf.core.outputs import _make_printable_type
 from ansys.dpf.core.mapping_types import map_types_to_python
+from ansys.dpf.core.operators.translator import Markdown2RstTranslator
 
 
 def build_docstring(specification_description):
@@ -273,30 +274,6 @@ def build_operators():
     else:
         print("Terminated with errors")
         exit(1)
-
-
-class Markdown2RstTranslator:
-    """A translator class for Markdown to RST text conversion."""
-    def __init__(self):
-        import pypandoc
-
-        self._convert = pypandoc.convert_text
-
-        # import mistune
-        # from mistune.renderers.rst import RSTRenderer
-        #
-        # md2rst_converter = mistune.create_markdown(renderer=RSTRenderer())
-
-    def convert(self, text:str) -> str:
-        """Convert the Markdown text in input to RST."""
-        return self._convert(
-            source=text,
-            to="rst",
-            format="md",
-            verify_format=False,  # Improves performance but does not check validity of format
-            extra_args=["--eol=lf"],
-        )
-        # return md2rst_converter(specification.description)
 
 
 if __name__ == "__main__":

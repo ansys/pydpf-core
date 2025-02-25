@@ -366,7 +366,7 @@ def test_generated_operator_set_config():
 
 
 def test_markdown_to_rst():
-    from ansys.dpf.core.operators.build import Markdown2RstTranslator
+    from ansys.dpf.core.operators.translator import Markdown2RstTranslator
 
     markdown_reference_input = r"""# Headings
 ## h2
