@@ -1,0 +1,126 @@
+
+
+
+
+
+
+:class:`InputsAscendingSort`
+============================
+
+.. py:class:: ansys.dpf.core.operators.logic.ascending_sort.InputsAscendingSort(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   ascending_sort operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.ascending_sort()
+   >>> my_field = dpf.Field()
+   >>> op.inputs.field.connect(my_field)
+   >>> my_component_priority_table = dpf.()
+   >>> op.inputs.component_priority_table.connect(my_component_priority_table)
+   >>> my_sort_by_scoping = bool()
+   >>> op.inputs.sort_by_scoping.connect(my_sort_by_scoping)
+
+
+
+.. py:currentmodule:: InputsAscendingSort
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~field`
+            - Allows to connect field input to the operator.
+          * - :py:attr:`~component_priority_table`
+            - Allows to connect component_priority_table input to the operator.
+          * - :py:attr:`~sort_by_scoping`
+            - Allows to connect sort_by_scoping input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.logic.ascending_sort import InputsAscendingSort
+
+Property detail
+---------------
+
+.. py:property:: field
+
+   Allows to connect field input to the operator.
+
+   Field or fields container with only one field
+   is expected
+
+   :param my_field:
+   :type my_field: Field or FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.ascending_sort()
+   >>> op.inputs.field.connect(my_field)
+   >>> # or
+   >>> op.inputs.field(my_field)
+
+.. py:property:: component_priority_table
+
+   Allows to connect component_priority_table input to the operator.
+
+   Component priority table (vector of int)
+
+   :param my_component_priority_table:
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.ascending_sort()
+   >>> op.inputs.component_priority_table.connect(my_component_priority_table)
+   >>> # or
+   >>> op.inputs.component_priority_table(my_component_priority_table)
+
+.. py:property:: sort_by_scoping
+
+   Allows to connect sort_by_scoping input to the operator.
+
+   If true, uses scoping to sort the field
+   (default is false)
+
+   :param my_sort_by_scoping:
+   :type my_sort_by_scoping: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.ascending_sort()
+   >>> op.inputs.sort_by_scoping.connect(my_sort_by_scoping)
+   >>> # or
+   >>> op.inputs.sort_by_scoping(my_sort_by_scoping)
+
+
+
+
+
+

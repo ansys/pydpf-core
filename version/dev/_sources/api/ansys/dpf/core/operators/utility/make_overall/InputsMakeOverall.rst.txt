@@ -1,0 +1,100 @@
+
+
+
+
+
+
+:class:`InputsMakeOverall`
+==========================
+
+.. py:class:: ansys.dpf.core.operators.utility.make_overall.InputsMakeOverall(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   make_overall operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.make_overall()
+   >>> my_field = dpf.Field()
+   >>> op.inputs.field.connect(my_field)
+   >>> my_id = int()
+   >>> op.inputs.id.connect(my_id)
+
+
+
+.. py:currentmodule:: InputsMakeOverall
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~field`
+            - Allows to connect field input to the operator.
+          * - :py:attr:`~id`
+            - Allows to connect id input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.make_overall import InputsMakeOverall
+
+Property detail
+---------------
+
+.. py:property:: field
+
+   Allows to connect field input to the operator.
+
+   :param my_field:
+   :type my_field: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.make_overall()
+   >>> op.inputs.field.connect(my_field)
+   >>> # or
+   >>> op.inputs.field(my_field)
+
+.. py:property:: id
+
+   Allows to connect id input to the operator.
+
+   :param my_id:
+   :type my_id: int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.make_overall()
+   >>> op.inputs.id.connect(my_id)
+   >>> # or
+   >>> op.inputs.id(my_id)
+
+
+
+
+
+

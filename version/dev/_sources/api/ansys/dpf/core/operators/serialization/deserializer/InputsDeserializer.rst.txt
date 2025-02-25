@@ -1,0 +1,104 @@
+
+
+
+
+
+
+:class:`InputsDeserializer`
+===========================
+
+.. py:class:: ansys.dpf.core.operators.serialization.deserializer.InputsDeserializer(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   deserializer operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.deserializer()
+   >>> my_stream_type = int()
+   >>> op.inputs.stream_type.connect(my_stream_type)
+   >>> my_file_path = str()
+   >>> op.inputs.file_path.connect(my_file_path)
+
+
+
+.. py:currentmodule:: InputsDeserializer
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~stream_type`
+            - Allows to connect stream_type input to the operator.
+          * - :py:attr:`~file_path`
+            - Allows to connect file_path input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.serialization.deserializer import InputsDeserializer
+
+Property detail
+---------------
+
+.. py:property:: stream_type
+
+   Allows to connect stream_type input to the operator.
+
+   0 for ascii (default), and 1 for binary
+
+   :param my_stream_type:
+   :type my_stream_type: int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.deserializer()
+   >>> op.inputs.stream_type.connect(my_stream_type)
+   >>> # or
+   >>> op.inputs.stream_type(my_stream_type)
+
+.. py:property:: file_path
+
+   Allows to connect file_path input to the operator.
+
+   File path
+
+   :param my_file_path:
+   :type my_file_path: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.deserializer()
+   >>> op.inputs.file_path.connect(my_file_path)
+   >>> # or
+   >>> op.inputs.file_path(my_file_path)
+
+
+
+
+
+

@@ -1,0 +1,171 @@
+
+
+
+
+
+
+:class:`fft`
+============
+
+.. py:class:: ansys.dpf.core.operators.mapping.fft.fft(field=None, scale_forward_transform=None, inplace=None, force_fft_points=None, cutoff_frequency=None, scale_right_amplitude=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Computes the Fast Fourier Transform on each component of input Field
+   or each field of input Fields Container (you can use
+   transpose_fields_container to have relevant scoping). Fields are
+   assumed with the same scoping, number of components and
+   representing equally spaced data, ideally resampled to have a 2^n
+   points (prepare_sampling_fft with time_freq_interpolation can help
+   creating these fields). If Complex label is present, Complex to
+   Complex FFT performed otherwise Real to Complex is performed (only
+   half of the coefficient will be returned).
+
+   :param field: Field or fields container.
+   :type field: Field or FieldsContainer
+   :param scale_forward_transform: Scale for forward transform, default is
+                                   2/field_num_elementary_data.
+   :type scale_forward_transform: float, optional
+   :param inplace: True if inplace, default is false.
+   :type inplace: bool, optional
+   :param force_fft_points: Explicitely define number of fft points to
+                            either rescope or perform zero
+                            padding.
+   :type force_fft_points: int, optional
+   :param cutoff_frequency: Restrict output frequency up to this cutoff
+                            frequency
+   :type cutoff_frequency: float, optional
+   :param scale_right_amplitude: If set to true (default is false),
+                                 2/field_num_entities scaling will be
+                                 applied, to have right amplitude
+                                 values.
+   :type scale_right_amplitude: bool, optional
+
+   :returns: **fields_container** -- Output complex fields container with labels
+             matching input fields container. no
+             supports binded, but
+             prepare_sampling_fft provides it.
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.mapping.fft()
+
+   >>> # Make input connections
+   >>> my_field = dpf.Field()
+   >>> op.inputs.field.connect(my_field)
+   >>> my_scale_forward_transform = float()
+   >>> op.inputs.scale_forward_transform.connect(my_scale_forward_transform)
+   >>> my_inplace = bool()
+   >>> op.inputs.inplace.connect(my_inplace)
+   >>> my_force_fft_points = int()
+   >>> op.inputs.force_fft_points.connect(my_force_fft_points)
+   >>> my_cutoff_frequency = float()
+   >>> op.inputs.cutoff_frequency.connect(my_cutoff_frequency)
+   >>> my_scale_right_amplitude = bool()
+   >>> op.inputs.scale_right_amplitude.connect(my_scale_right_amplitude)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.mapping.fft(
+   ...     field=my_field,
+   ...     scale_forward_transform=my_scale_forward_transform,
+   ...     inplace=my_inplace,
+   ...     force_fft_points=my_force_fft_points,
+   ...     cutoff_frequency=my_cutoff_frequency,
+   ...     scale_right_amplitude=my_scale_right_amplitude,
+   ... )
+
+   >>> # Get output data
+   >>> result_fields_container = op.outputs.fields_container()
+
+
+
+
+.. py:currentmodule:: fft
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mapping.fft import fft
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsFft
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsFft
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

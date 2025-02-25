@@ -1,0 +1,200 @@
+
+
+
+
+
+
+:class:`InputsCgnsResultProvider`
+=================================
+
+.. py:class:: ansys.dpf.core.operators.result.cgns_result_provider.InputsCgnsResultProvider(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   cgns_result_provider operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.cgns_result_provider()
+   >>> my_time_scoping = dpf.Scoping()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> my_mesh_scoping = dpf.Scoping()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> my_streams_container = dpf.StreamsContainer()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_result_name = str()
+   >>> op.inputs.result_name.connect(my_result_name)
+   >>> my_region_scoping = dpf.Scoping()
+   >>> op.inputs.region_scoping.connect(my_region_scoping)
+
+
+
+.. py:currentmodule:: InputsCgnsResultProvider
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~time_scoping`
+            - Allows to connect time_scoping input to the operator.
+          * - :py:attr:`~mesh_scoping`
+            - Allows to connect mesh_scoping input to the operator.
+          * - :py:attr:`~streams_container`
+            - Allows to connect streams_container input to the operator.
+          * - :py:attr:`~data_sources`
+            - Allows to connect data_sources input to the operator.
+          * - :py:attr:`~result_name`
+            - Allows to connect result_name input to the operator.
+          * - :py:attr:`~region_scoping`
+            - Allows to connect region_scoping input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.cgns_result_provider import InputsCgnsResultProvider
+
+Property detail
+---------------
+
+.. py:property:: time_scoping
+
+   Allows to connect time_scoping input to the operator.
+
+   Time/freq (use doubles or field), time/freq
+   set ids (use ints or scoping) or
+   time/freq step ids (use scoping with
+   timefreq_steps location) required in
+   output
+
+   :param my_time_scoping:
+   :type my_time_scoping: Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.cgns_result_provider()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> # or
+   >>> op.inputs.time_scoping(my_time_scoping)
+
+.. py:property:: mesh_scoping
+
+   Allows to connect mesh_scoping input to the operator.
+
+   Nodes or elements scoping required in output.
+   the scoping's location indicates
+   whether nodes or elements are asked.
+   using scopings container enables to
+   split the result fields container in
+   domains
+
+   :param my_mesh_scoping:
+   :type my_mesh_scoping: Scoping or ScopingsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.cgns_result_provider()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> # or
+   >>> op.inputs.mesh_scoping(my_mesh_scoping)
+
+.. py:property:: streams_container
+
+   Allows to connect streams_container input to the operator.
+
+   Result file container allowed to be kept open
+   to cache data
+
+   :param my_streams_container:
+   :type my_streams_container: StreamsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.cgns_result_provider()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> # or
+   >>> op.inputs.streams_container(my_streams_container)
+
+.. py:property:: data_sources
+
+   Allows to connect data_sources input to the operator.
+
+   Result file path container, used if no
+   streams are set
+
+   :param my_data_sources:
+   :type my_data_sources: DataSources
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.cgns_result_provider()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> # or
+   >>> op.inputs.data_sources(my_data_sources)
+
+.. py:property:: result_name
+
+   Allows to connect result_name input to the operator.
+
+   Name of the result to read. by default the
+   name of the operator is taken.
+
+   :param my_result_name:
+   :type my_result_name: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.cgns_result_provider()
+   >>> op.inputs.result_name.connect(my_result_name)
+   >>> # or
+   >>> op.inputs.result_name(my_result_name)
+
+.. py:property:: region_scoping
+
+   Allows to connect region_scoping input to the operator.
+
+   Optional zone name/id of the mesh.
+
+   :param my_region_scoping:
+   :type my_region_scoping: Scoping or int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.cgns_result_provider()
+   >>> op.inputs.region_scoping.connect(my_region_scoping)
+   >>> # or
+   >>> op.inputs.region_scoping(my_region_scoping)
+
+
+
+
+
+

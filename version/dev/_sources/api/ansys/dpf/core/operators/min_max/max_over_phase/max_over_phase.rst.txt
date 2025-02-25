@@ -1,0 +1,145 @@
+
+
+
+
+
+
+:class:`max_over_phase`
+=======================
+
+.. py:class:: ansys.dpf.core.operators.min_max.max_over_phase.max_over_phase(real_field=None, imaginary_field=None, abs_value=None, phase_increment=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Returns, for each entity, the maximum value of (real value *
+   cos(theta) - imaginary value * sin(theta)) for theta in [0,
+   360]degrees with the increment in input.
+
+   :param real_field:
+   :type real_field: Field
+   :param imaginary_field:
+   :type imaginary_field: Field
+   :param abs_value: Should use absolute value.
+   :type abs_value: bool, optional
+   :param phase_increment: Phase increment (default is 10.0 degrees).
+   :type phase_increment: float, optional
+
+   :returns: **field**
+   :rtype: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.min_max.max_over_phase()
+
+   >>> # Make input connections
+   >>> my_real_field = dpf.Field()
+   >>> op.inputs.real_field.connect(my_real_field)
+   >>> my_imaginary_field = dpf.Field()
+   >>> op.inputs.imaginary_field.connect(my_imaginary_field)
+   >>> my_abs_value = bool()
+   >>> op.inputs.abs_value.connect(my_abs_value)
+   >>> my_phase_increment = float()
+   >>> op.inputs.phase_increment.connect(my_phase_increment)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.min_max.max_over_phase(
+   ...     real_field=my_real_field,
+   ...     imaginary_field=my_imaginary_field,
+   ...     abs_value=my_abs_value,
+   ...     phase_increment=my_phase_increment,
+   ... )
+
+   >>> # Get output data
+   >>> result_field = op.outputs.field()
+
+
+
+
+.. py:currentmodule:: max_over_phase
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.min_max.max_over_phase import max_over_phase
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsMaxOverPhase
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsMaxOverPhase
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

@@ -1,0 +1,155 @@
+
+
+
+
+
+
+:class:`euler_load_buckling`
+============================
+
+.. py:class:: ansys.dpf.core.operators.result.euler_load_buckling.euler_load_buckling(field_beam_end_condition=None, field_beam_moment_inertia=None, field_beam_young_modulus=None, field_beam_length=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Computing Euler's Critical Load. Formula: Ncr = n*E*I*pi*pi /(L*L)
+
+   :param field_beam_end_condition: This pin contains file csv or field of beam's
+                                    end condition added by the user. if
+                                    there's no file added, it would take
+                                    value of all beam's end condition as
+                                    1.
+   :type field_beam_end_condition: DataSources or Field
+   :param field_beam_moment_inertia: Field of beam's moment inertia
+   :type field_beam_moment_inertia: Field
+   :param field_beam_young_modulus: Field of beam's young modulus
+   :type field_beam_young_modulus: Field
+   :param field_beam_length: Field of beam's length
+   :type field_beam_length: Field
+
+   :returns: * **field_euler_critical_load** (*Field*) -- This field contains euler's critical load
+               about the principle axis of the cross
+               section having the least moment of
+               inertia.
+             * **field_euler_critical_load_yy** (*Field*) -- This field contains euler's critical load on
+               axis y.
+             * **field_euler_critical_load_zz** (*Field*) -- This field contains euler's critical load on
+               axis z.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.result.euler_load_buckling()
+
+   >>> # Make input connections
+   >>> my_field_beam_end_condition = dpf.DataSources()
+   >>> op.inputs.field_beam_end_condition.connect(my_field_beam_end_condition)
+   >>> my_field_beam_moment_inertia = dpf.Field()
+   >>> op.inputs.field_beam_moment_inertia.connect(my_field_beam_moment_inertia)
+   >>> my_field_beam_young_modulus = dpf.Field()
+   >>> op.inputs.field_beam_young_modulus.connect(my_field_beam_young_modulus)
+   >>> my_field_beam_length = dpf.Field()
+   >>> op.inputs.field_beam_length.connect(my_field_beam_length)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.result.euler_load_buckling(
+   ...     field_beam_end_condition=my_field_beam_end_condition,
+   ...     field_beam_moment_inertia=my_field_beam_moment_inertia,
+   ...     field_beam_young_modulus=my_field_beam_young_modulus,
+   ...     field_beam_length=my_field_beam_length,
+   ... )
+
+   >>> # Get output data
+   >>> result_field_euler_critical_load = op.outputs.field_euler_critical_load()
+   >>> result_field_euler_critical_load_yy = op.outputs.field_euler_critical_load_yy()
+   >>> result_field_euler_critical_load_zz = op.outputs.field_euler_critical_load_zz()
+
+
+
+
+.. py:currentmodule:: euler_load_buckling
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.euler_load_buckling import euler_load_buckling
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsEulerLoadBuckling
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsEulerLoadBuckling
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

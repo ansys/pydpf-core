@@ -1,0 +1,141 @@
+
+
+
+
+
+
+:class:`InputsSweepingPhaseFc`
+==============================
+
+.. py:class:: ansys.dpf.core.operators.math.sweeping_phase_fc.InputsSweepingPhaseFc(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   sweeping_phase_fc operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.sweeping_phase_fc()
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_angle = float()
+   >>> op.inputs.angle.connect(my_angle)
+   >>> my_unit_name = str()
+   >>> op.inputs.unit_name.connect(my_unit_name)
+   >>> my_abs_value = bool()
+   >>> op.inputs.abs_value.connect(my_abs_value)
+
+
+
+.. py:currentmodule:: InputsSweepingPhaseFc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fields_container`
+            - Allows to connect fields_container input to the operator.
+          * - :py:attr:`~angle`
+            - Allows to connect angle input to the operator.
+          * - :py:attr:`~unit_name`
+            - Allows to connect unit_name input to the operator.
+          * - :py:attr:`~abs_value`
+            - Allows to connect abs_value input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.sweeping_phase_fc import InputsSweepingPhaseFc
+
+Property detail
+---------------
+
+.. py:property:: fields_container
+
+   Allows to connect fields_container input to the operator.
+
+   :param my_fields_container:
+   :type my_fields_container: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.sweeping_phase_fc()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> # or
+   >>> op.inputs.fields_container(my_fields_container)
+
+.. py:property:: angle
+
+   Allows to connect angle input to the operator.
+
+   :param my_angle:
+   :type my_angle: float
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.sweeping_phase_fc()
+   >>> op.inputs.angle.connect(my_angle)
+   >>> # or
+   >>> op.inputs.angle(my_angle)
+
+.. py:property:: unit_name
+
+   Allows to connect unit_name input to the operator.
+
+   String unit. supported values: "deg" or
+   "rad". default: "rad".
+
+   :param my_unit_name:
+   :type my_unit_name: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.sweeping_phase_fc()
+   >>> op.inputs.unit_name.connect(my_unit_name)
+   >>> # or
+   >>> op.inputs.unit_name(my_unit_name)
+
+.. py:property:: abs_value
+
+   Allows to connect abs_value input to the operator.
+
+   :param my_abs_value:
+   :type my_abs_value: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.sweeping_phase_fc()
+   >>> op.inputs.abs_value.connect(my_abs_value)
+   >>> # or
+   >>> op.inputs.abs_value(my_abs_value)
+
+
+
+
+
+

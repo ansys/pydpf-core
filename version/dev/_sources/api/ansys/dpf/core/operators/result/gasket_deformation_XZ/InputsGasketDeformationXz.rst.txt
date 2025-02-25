@@ -1,0 +1,306 @@
+
+
+
+
+
+
+:class:`InputsGasketDeformationXz`
+==================================
+
+.. py:class:: ansys.dpf.core.operators.result.gasket_deformation_XZ.InputsGasketDeformationXz(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   gasket_deformation_XZ operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.gasket_deformation_XZ()
+   >>> my_time_scoping = dpf.Scoping()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> my_mesh_scoping = dpf.ScopingsContainer()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_streams_container = dpf.StreamsContainer()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_bool_rotate_to_global = bool()
+   >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_requested_location = str()
+   >>> op.inputs.requested_location.connect(my_requested_location)
+   >>> my_read_cyclic = int()
+   >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+   >>> my_read_beams = bool()
+   >>> op.inputs.read_beams.connect(my_read_beams)
+
+
+
+.. py:currentmodule:: InputsGasketDeformationXz
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~time_scoping`
+            - Allows to connect time_scoping input to the operator.
+          * - :py:attr:`~mesh_scoping`
+            - Allows to connect mesh_scoping input to the operator.
+          * - :py:attr:`~fields_container`
+            - Allows to connect fields_container input to the operator.
+          * - :py:attr:`~streams_container`
+            - Allows to connect streams_container input to the operator.
+          * - :py:attr:`~data_sources`
+            - Allows to connect data_sources input to the operator.
+          * - :py:attr:`~bool_rotate_to_global`
+            - Allows to connect bool_rotate_to_global input to the operator.
+          * - :py:attr:`~mesh`
+            - Allows to connect mesh input to the operator.
+          * - :py:attr:`~requested_location`
+            - Allows to connect requested_location input to the operator.
+          * - :py:attr:`~read_cyclic`
+            - Allows to connect read_cyclic input to the operator.
+          * - :py:attr:`~read_beams`
+            - Allows to connect read_beams input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.gasket_deformation_XZ import InputsGasketDeformationXz
+
+Property detail
+---------------
+
+.. py:property:: time_scoping
+
+   Allows to connect time_scoping input to the operator.
+
+   Time/freq values (use doubles or field),
+   time/freq set ids (use ints or
+   scoping) or time/freq step ids (use
+   scoping with timefreq_steps location)
+   required in output. to specify
+   time/freq values at specific load
+   steps, put a field (and not a list)
+   in input with a scoping located on
+   "timefreq_steps". linear time freq
+   intrapolation is performed if the
+   values are not in the result files
+   and the data at the max time or freq
+   is taken when time/freqs are higher
+   than available time/freqs in result
+   files.
+
+   :param my_time_scoping:
+   :type my_time_scoping: Scoping or int or float or Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.gasket_deformation_XZ()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> # or
+   >>> op.inputs.time_scoping(my_time_scoping)
+
+.. py:property:: mesh_scoping
+
+   Allows to connect mesh_scoping input to the operator.
+
+   Nodes or elements scoping required in output.
+   the output fields will be scoped on
+   these node or element ids. to figure
+   out the ordering of the fields data,
+   look at their scoping ids as they
+   might not be ordered as the input
+   scoping was. the scoping's location
+   indicates whether nodes or elements
+   are asked for. using scopings
+   container allows you to split the
+   result fields container into domains
+
+   :param my_mesh_scoping:
+   :type my_mesh_scoping: ScopingsContainer or Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.gasket_deformation_XZ()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> # or
+   >>> op.inputs.mesh_scoping(my_mesh_scoping)
+
+.. py:property:: fields_container
+
+   Allows to connect fields_container input to the operator.
+
+   Fieldscontainer already allocated modified
+   inplace
+
+   :param my_fields_container:
+   :type my_fields_container: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.gasket_deformation_XZ()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> # or
+   >>> op.inputs.fields_container(my_fields_container)
+
+.. py:property:: streams_container
+
+   Allows to connect streams_container input to the operator.
+
+   Result file container allowed to be kept open
+   to cache data
+
+   :param my_streams_container:
+   :type my_streams_container: StreamsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.gasket_deformation_XZ()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> # or
+   >>> op.inputs.streams_container(my_streams_container)
+
+.. py:property:: data_sources
+
+   Allows to connect data_sources input to the operator.
+
+   Result file path container, used if no
+   streams are set
+
+   :param my_data_sources:
+   :type my_data_sources: DataSources
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.gasket_deformation_XZ()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> # or
+   >>> op.inputs.data_sources(my_data_sources)
+
+.. py:property:: bool_rotate_to_global
+
+   Allows to connect bool_rotate_to_global input to the operator.
+
+   If true the field is rotated to global
+   coordinate system (default true)
+
+   :param my_bool_rotate_to_global:
+   :type my_bool_rotate_to_global: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.gasket_deformation_XZ()
+   >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+   >>> # or
+   >>> op.inputs.bool_rotate_to_global(my_bool_rotate_to_global)
+
+.. py:property:: mesh
+
+   Allows to connect mesh input to the operator.
+
+   Prevents from reading the mesh in the result
+   files
+
+   :param my_mesh:
+   :type my_mesh: MeshedRegion or MeshesContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.gasket_deformation_XZ()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> # or
+   >>> op.inputs.mesh(my_mesh)
+
+.. py:property:: requested_location
+
+   Allows to connect requested_location input to the operator.
+
+   Requested location, default is nodal
+
+   :param my_requested_location:
+   :type my_requested_location: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.gasket_deformation_XZ()
+   >>> op.inputs.requested_location.connect(my_requested_location)
+   >>> # or
+   >>> op.inputs.requested_location(my_requested_location)
+
+.. py:property:: read_cyclic
+
+   Allows to connect read_cyclic input to the operator.
+
+   If 0 cyclic symmetry is ignored, if 1 cyclic
+   sector is read, if 2 cyclic expansion
+   is done, if 3 cyclic expansion is
+   done and stages are merged (default
+   is 1)
+
+   :param my_read_cyclic:
+   :type my_read_cyclic: int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.gasket_deformation_XZ()
+   >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+   >>> # or
+   >>> op.inputs.read_cyclic(my_read_cyclic)
+
+.. py:property:: read_beams
+
+   Allows to connect read_beams input to the operator.
+
+   Elemental nodal beam results are read if this
+   pin is set to true (default is false)
+
+   :param my_read_beams:
+   :type my_read_beams: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.gasket_deformation_XZ()
+   >>> op.inputs.read_beams.connect(my_read_beams)
+   >>> # or
+   >>> op.inputs.read_beams(my_read_beams)
+
+
+
+
+
+

@@ -1,0 +1,105 @@
+
+
+
+
+
+
+:class:`InputsBindSupport`
+==========================
+
+.. py:class:: ansys.dpf.core.operators.utility.bind_support.InputsBindSupport(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   bind_support operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.bind_support()
+   >>> my_field = dpf.Field()
+   >>> op.inputs.field.connect(my_field)
+   >>> my_support = dpf.MeshedRegion()
+   >>> op.inputs.support.connect(my_support)
+
+
+
+.. py:currentmodule:: InputsBindSupport
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~field`
+            - Allows to connect field input to the operator.
+          * - :py:attr:`~support`
+            - Allows to connect support input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.bind_support import InputsBindSupport
+
+Property detail
+---------------
+
+.. py:property:: field
+
+   Allows to connect field input to the operator.
+
+   Field or fields container with only one field
+   is expected
+
+   :param my_field:
+   :type my_field: Field or FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.bind_support()
+   >>> op.inputs.field.connect(my_field)
+   >>> # or
+   >>> op.inputs.field(my_field)
+
+.. py:property:: support
+
+   Allows to connect support input to the operator.
+
+   Meshed region or a support of the field
+
+   :param my_support:
+   :type my_support: MeshedRegion or AbstractFieldSupport
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.bind_support()
+   >>> op.inputs.support.connect(my_support)
+   >>> # or
+   >>> op.inputs.support(my_support)
+
+
+
+
+
+

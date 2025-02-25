@@ -1,0 +1,150 @@
+
+
+
+
+
+
+:class:`InputsMergeFields`
+==========================
+
+.. py:class:: ansys.dpf.core.operators.utility.merge_fields.InputsMergeFields(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   merge_fields operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_fields()
+   >>> my_sum_merge = bool()
+   >>> op.inputs.sum_merge.connect(my_sum_merge)
+   >>> my_merged_support = dpf.AbstractFieldSupport()
+   >>> op.inputs.merged_support.connect(my_merged_support)
+   >>> my_fields1 = dpf.Field()
+   >>> op.inputs.fields1.connect(my_fields1)
+   >>> my_fields2 = dpf.Field()
+   >>> op.inputs.fields2.connect(my_fields2)
+
+
+
+.. py:currentmodule:: InputsMergeFields
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~sum_merge`
+            - Allows to connect sum_merge input to the operator.
+          * - :py:attr:`~merged_support`
+            - Allows to connect merged_support input to the operator.
+          * - :py:attr:`~fields1`
+            - Allows to connect fields1 input to the operator.
+          * - :py:attr:`~fields2`
+            - Allows to connect fields2 input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.merge_fields import InputsMergeFields
+
+Property detail
+---------------
+
+.. py:property:: sum_merge
+
+   Allows to connect sum_merge input to the operator.
+
+   Default is false. if true, redundant
+   quantities are summed instead of
+   being ignored.
+
+   :param my_sum_merge:
+   :type my_sum_merge: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_fields()
+   >>> op.inputs.sum_merge.connect(my_sum_merge)
+   >>> # or
+   >>> op.inputs.sum_merge(my_sum_merge)
+
+.. py:property:: merged_support
+
+   Allows to connect merged_support input to the operator.
+
+   Already merged field support.
+
+   :param my_merged_support:
+   :type my_merged_support: AbstractFieldSupport
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_fields()
+   >>> op.inputs.merged_support.connect(my_merged_support)
+   >>> # or
+   >>> op.inputs.merged_support(my_merged_support)
+
+.. py:property:: fields1
+
+   Allows to connect fields1 input to the operator.
+
+   Either a fields container, a vector of fields
+   to merge, or fields from pin 0 to ...
+
+   :param my_fields1:
+   :type my_fields1: Field or FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_fields()
+   >>> op.inputs.fields1.connect(my_fields1)
+   >>> # or
+   >>> op.inputs.fields1(my_fields1)
+
+.. py:property:: fields2
+
+   Allows to connect fields2 input to the operator.
+
+   Either a fields container, a vector of fields
+   to merge, or fields from pin 0 to ...
+
+   :param my_fields2:
+   :type my_fields2: Field or FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_fields()
+   >>> op.inputs.fields2.connect(my_fields2)
+   >>> # or
+   >>> op.inputs.fields2(my_fields2)
+
+
+
+
+
+

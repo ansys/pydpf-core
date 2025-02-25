@@ -1,0 +1,80 @@
+
+
+
+
+
+
+:class:`OutputsPolarToCplx`
+===========================
+
+.. py:class:: ansys.dpf.core.operators.math.polar_to_cplx.OutputsPolarToCplx(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   polar_to_cplx operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.polar_to_cplx()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_fields_container = op.outputs.fields_container()
+
+
+
+.. py:currentmodule:: OutputsPolarToCplx
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fields_container`
+            - Allows to get fields_container output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.polar_to_cplx import OutputsPolarToCplx
+
+Property detail
+---------------
+
+.. py:property:: fields_container
+
+   Allows to get fields_container output of the operator
+
+   :returns: **my_fields_container**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.polar_to_cplx()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_fields_container = op.outputs.fields_container()
+
+
+
+
+
+

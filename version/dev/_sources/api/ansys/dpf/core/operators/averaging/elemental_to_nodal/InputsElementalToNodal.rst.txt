@@ -1,0 +1,149 @@
+
+
+
+
+
+
+:class:`InputsElementalToNodal`
+===============================
+
+.. py:class:: ansys.dpf.core.operators.averaging.elemental_to_nodal.InputsElementalToNodal(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   elemental_to_nodal operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.elemental_to_nodal()
+   >>> my_field = dpf.Field()
+   >>> op.inputs.field.connect(my_field)
+   >>> my_mesh_scoping = dpf.Scoping()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> my_force_averaging = int()
+   >>> op.inputs.force_averaging.connect(my_force_averaging)
+   >>> my_algorithm = int()
+   >>> op.inputs.algorithm.connect(my_algorithm)
+
+
+
+.. py:currentmodule:: InputsElementalToNodal
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~field`
+            - Allows to connect field input to the operator.
+          * - :py:attr:`~mesh_scoping`
+            - Allows to connect mesh_scoping input to the operator.
+          * - :py:attr:`~force_averaging`
+            - Allows to connect force_averaging input to the operator.
+          * - :py:attr:`~algorithm`
+            - Allows to connect algorithm input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.averaging.elemental_to_nodal import InputsElementalToNodal
+
+Property detail
+---------------
+
+.. py:property:: field
+
+   Allows to connect field input to the operator.
+
+   Field or fields container with only one field
+   is expected
+
+   :param my_field:
+   :type my_field: Field or FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.elemental_to_nodal()
+   >>> op.inputs.field.connect(my_field)
+   >>> # or
+   >>> op.inputs.field(my_field)
+
+.. py:property:: mesh_scoping
+
+   Allows to connect mesh_scoping input to the operator.
+
+   :param my_mesh_scoping:
+   :type my_mesh_scoping: Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.elemental_to_nodal()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> # or
+   >>> op.inputs.mesh_scoping(my_mesh_scoping)
+
+.. py:property:: force_averaging
+
+   Allows to connect force_averaging input to the operator.
+
+   Averaging on nodes is used if this pin is set
+   to 1 (default is 1 for integrated
+   results and 0 for discrete ones).
+
+   :param my_force_averaging:
+   :type my_force_averaging: int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.elemental_to_nodal()
+   >>> op.inputs.force_averaging.connect(my_force_averaging)
+   >>> # or
+   >>> op.inputs.force_averaging(my_force_averaging)
+
+.. py:property:: algorithm
+
+   Allows to connect algorithm input to the operator.
+
+   Forces the usage of algorithm 1, 2 or 3
+   (default is chosen based on the type
+   of mesh).
+
+   :param my_algorithm:
+   :type my_algorithm: int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.elemental_to_nodal()
+   >>> op.inputs.algorithm.connect(my_algorithm)
+   >>> # or
+   >>> op.inputs.algorithm(my_algorithm)
+
+
+
+
+
+

@@ -1,0 +1,126 @@
+
+
+
+
+
+
+:class:`InputsRemoveRigidBodyMotion`
+====================================
+
+.. py:class:: ansys.dpf.core.operators.result.remove_rigid_body_motion.InputsRemoveRigidBodyMotion(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   remove_rigid_body_motion operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.remove_rigid_body_motion()
+   >>> my_field = dpf.Field()
+   >>> op.inputs.field.connect(my_field)
+   >>> my_reference_node_id = int()
+   >>> op.inputs.reference_node_id.connect(my_reference_node_id)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+
+
+
+.. py:currentmodule:: InputsRemoveRigidBodyMotion
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~field`
+            - Allows to connect field input to the operator.
+          * - :py:attr:`~reference_node_id`
+            - Allows to connect reference_node_id input to the operator.
+          * - :py:attr:`~mesh`
+            - Allows to connect mesh input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.remove_rigid_body_motion import InputsRemoveRigidBodyMotion
+
+Property detail
+---------------
+
+.. py:property:: field
+
+   Allows to connect field input to the operator.
+
+   Field or fields container with only one field
+   is expected
+
+   :param my_field:
+   :type my_field: Field or FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.remove_rigid_body_motion()
+   >>> op.inputs.field.connect(my_field)
+   >>> # or
+   >>> op.inputs.field(my_field)
+
+.. py:property:: reference_node_id
+
+   Allows to connect reference_node_id input to the operator.
+
+   Id of the reference entity (node).
+
+   :param my_reference_node_id:
+   :type my_reference_node_id: int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.remove_rigid_body_motion()
+   >>> op.inputs.reference_node_id.connect(my_reference_node_id)
+   >>> # or
+   >>> op.inputs.reference_node_id(my_reference_node_id)
+
+.. py:property:: mesh
+
+   Allows to connect mesh input to the operator.
+
+   Default is the mesh in the support
+
+   :param my_mesh:
+   :type my_mesh: MeshedRegion
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.remove_rigid_body_motion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> # or
+   >>> op.inputs.mesh(my_mesh)
+
+
+
+
+
+

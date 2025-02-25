@@ -1,0 +1,195 @@
+
+
+
+
+
+
+:class:`InputsTimeFreqInterpolation`
+====================================
+
+.. py:class:: ansys.dpf.core.operators.math.time_freq_interpolation.InputsTimeFreqInterpolation(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   time_freq_interpolation operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.time_freq_interpolation()
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_time_freq_values = float()
+   >>> op.inputs.time_freq_values.connect(my_time_freq_values)
+   >>> my_step = int()
+   >>> op.inputs.step.connect(my_step)
+   >>> my_interpolation_type = int()
+   >>> op.inputs.interpolation_type.connect(my_interpolation_type)
+   >>> my_force_new_time_freq_support = bool()
+   >>> op.inputs.force_new_time_freq_support.connect(my_force_new_time_freq_support)
+   >>> my_time_freq_support = dpf.TimeFreqSupport()
+   >>> op.inputs.time_freq_support.connect(my_time_freq_support)
+
+
+
+.. py:currentmodule:: InputsTimeFreqInterpolation
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fields_container`
+            - Allows to connect fields_container input to the operator.
+          * - :py:attr:`~time_freq_values`
+            - Allows to connect time_freq_values input to the operator.
+          * - :py:attr:`~step`
+            - Allows to connect step input to the operator.
+          * - :py:attr:`~interpolation_type`
+            - Allows to connect interpolation_type input to the operator.
+          * - :py:attr:`~force_new_time_freq_support`
+            - Allows to connect force_new_time_freq_support input to the operator.
+          * - :py:attr:`~time_freq_support`
+            - Allows to connect time_freq_support input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.time_freq_interpolation import InputsTimeFreqInterpolation
+
+Property detail
+---------------
+
+.. py:property:: fields_container
+
+   Allows to connect fields_container input to the operator.
+
+   :param my_fields_container:
+   :type my_fields_container: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.time_freq_interpolation()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> # or
+   >>> op.inputs.fields_container(my_fields_container)
+
+.. py:property:: time_freq_values
+
+   Allows to connect time_freq_values input to the operator.
+
+   List of frequencies or times needed. to
+   specify load steps, put a field (and
+   not a list) in input with a scoping
+   located on "timefreq_steps".
+
+   :param my_time_freq_values:
+   :type my_time_freq_values: float or Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.time_freq_interpolation()
+   >>> op.inputs.time_freq_values.connect(my_time_freq_values)
+   >>> # or
+   >>> op.inputs.time_freq_values(my_time_freq_values)
+
+.. py:property:: step
+
+   Allows to connect step input to the operator.
+
+   If a field is set as input, the step ids
+   should be its scoping.
+
+   :param my_step:
+   :type my_step: int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.time_freq_interpolation()
+   >>> op.inputs.step.connect(my_step)
+   >>> # or
+   >>> op.inputs.step(my_step)
+
+.. py:property:: interpolation_type
+
+   Allows to connect interpolation_type input to the operator.
+
+   1 is ramped, 2 is stepped, default is 1.
+
+   :param my_interpolation_type:
+   :type my_interpolation_type: int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.time_freq_interpolation()
+   >>> op.inputs.interpolation_type.connect(my_interpolation_type)
+   >>> # or
+   >>> op.inputs.interpolation_type(my_interpolation_type)
+
+.. py:property:: force_new_time_freq_support
+
+   Allows to connect force_new_time_freq_support input to the operator.
+
+   If set to true, the output fields container
+   will always have a new time freq
+   support rescoped to the output
+   time_freq_values (default is false).
+   if set to false, the time freq
+   support is only recreated when time
+   or frequency values are between
+   existing ones.
+
+   :param my_force_new_time_freq_support:
+   :type my_force_new_time_freq_support: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.time_freq_interpolation()
+   >>> op.inputs.force_new_time_freq_support.connect(my_force_new_time_freq_support)
+   >>> # or
+   >>> op.inputs.force_new_time_freq_support(my_force_new_time_freq_support)
+
+.. py:property:: time_freq_support
+
+   Allows to connect time_freq_support input to the operator.
+
+   :param my_time_freq_support:
+   :type my_time_freq_support: TimeFreqSupport
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.time_freq_interpolation()
+   >>> op.inputs.time_freq_support.connect(my_time_freq_support)
+   >>> # or
+   >>> op.inputs.time_freq_support(my_time_freq_support)
+
+
+
+
+
+

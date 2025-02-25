@@ -1,0 +1,152 @@
+
+
+
+
+
+
+:class:`scale_fc`
+=================
+
+.. py:class:: ansys.dpf.core.operators.math.scale_fc.scale_fc(fields_container=None, ponderation=None, boolean=None, algorithm=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Scales a fields container by a constant factor. This factor can be a
+   scalar, a vector a field, a fields container, where each value of
+   the vector represents a scaler per component. Number of the
+   components are corresponding to the input field dimensionality
+
+   :param fields_container: Fields container to be scaled
+   :type fields_container: FieldsContainer
+   :param ponderation: Double/vector of
+                       doubles/field/fieldscontainer. when
+                       scoped on overall, same value(s)
+                       applied on all the data, when scoped
+                       elsewhere, corresponding values will
+                       be multiplied due to the scoping
+   :type ponderation: float or Field or FieldsContainer
+   :param boolean: Default is false. if set to true, output of
+                   scale is made dimensionless
+   :type boolean: bool, optional
+   :param algorithm: Default is 0 use mkl. if set to 1, don't
+   :type algorithm: int, optional
+
+   :returns: **fields_container**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.math.scale_fc()
+
+   >>> # Make input connections
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_ponderation = float()
+   >>> op.inputs.ponderation.connect(my_ponderation)
+   >>> my_boolean = bool()
+   >>> op.inputs.boolean.connect(my_boolean)
+   >>> my_algorithm = int()
+   >>> op.inputs.algorithm.connect(my_algorithm)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.math.scale_fc(
+   ...     fields_container=my_fields_container,
+   ...     ponderation=my_ponderation,
+   ...     boolean=my_boolean,
+   ...     algorithm=my_algorithm,
+   ... )
+
+   >>> # Get output data
+   >>> result_fields_container = op.outputs.fields_container()
+
+
+
+
+.. py:currentmodule:: scale_fc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.scale_fc import scale_fc
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsScaleFc
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsScaleFc
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

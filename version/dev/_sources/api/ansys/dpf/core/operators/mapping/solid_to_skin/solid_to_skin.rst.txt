@@ -1,0 +1,146 @@
+
+
+
+
+
+
+:class:`solid_to_skin`
+======================
+
+.. py:class:: ansys.dpf.core.operators.mapping.solid_to_skin.solid_to_skin(field=None, mesh=None, solid_mesh=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Maps a field defined on solid elements to a field defined on skin
+   elements. Three cases are possible, based on the solid field data
+   location; (i) Elemental: The values associated with the solid
+   elements are copied according to those underlying the skin, (ii)
+   Nodal: The solid field is rescoped with respect to the nodes of
+   the skin mesh, (iii) ElementalNodal: The values are copied from
+   the solid mesh to the skin mesh for each element face and the
+   nodes associated with it.
+
+   :param field: Field or fields container with only one field
+                 is expected
+   :type field: Field or FieldsContainer
+   :param mesh: Skin mesh region expected
+   :type mesh: MeshedRegion
+   :param solid_mesh: Solid mesh support (optional).
+   :type solid_mesh: MeshedRegion, optional
+
+   :returns: **field**
+   :rtype: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.mapping.solid_to_skin()
+
+   >>> # Make input connections
+   >>> my_field = dpf.Field()
+   >>> op.inputs.field.connect(my_field)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_solid_mesh = dpf.MeshedRegion()
+   >>> op.inputs.solid_mesh.connect(my_solid_mesh)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.mapping.solid_to_skin(
+   ...     field=my_field,
+   ...     mesh=my_mesh,
+   ...     solid_mesh=my_solid_mesh,
+   ... )
+
+   >>> # Get output data
+   >>> result_field = op.outputs.field()
+
+
+
+
+.. py:currentmodule:: solid_to_skin
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mapping.solid_to_skin import solid_to_skin
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsSolidToSkin
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsSolidToSkin
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

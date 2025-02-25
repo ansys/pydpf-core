@@ -1,0 +1,97 @@
+
+
+
+
+
+
+:class:`OutputsCyclicExpandedTemperature`
+=========================================
+
+.. py:class:: ansys.dpf.core.operators.result.cyclic_expanded_temperature.OutputsCyclicExpandedTemperature(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   cyclic_expanded_temperature operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.cyclic_expanded_temperature()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_fields_container = op.outputs.fields_container()
+   >>> result_expanded_meshes = op.outputs.expanded_meshes()
+
+
+
+.. py:currentmodule:: OutputsCyclicExpandedTemperature
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fields_container`
+            - Allows to get fields_container output of the operator
+          * - :py:attr:`~expanded_meshes`
+            - Allows to get expanded_meshes output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.cyclic_expanded_temperature import OutputsCyclicExpandedTemperature
+
+Property detail
+---------------
+
+.. py:property:: fields_container
+
+   Allows to get fields_container output of the operator
+
+   :returns: **my_fields_container**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.cyclic_expanded_temperature()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_fields_container = op.outputs.fields_container()
+
+.. py:property:: expanded_meshes
+
+   Allows to get expanded_meshes output of the operator
+
+   :returns: **my_expanded_meshes**
+   :rtype: MeshesContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.cyclic_expanded_temperature()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_expanded_meshes = op.outputs.expanded_meshes()
+
+
+
+
+
+

@@ -1,0 +1,148 @@
+
+
+
+
+
+
+:class:`nodal_difference_fc`
+============================
+
+.. py:class:: ansys.dpf.core.operators.averaging.nodal_difference_fc.nodal_difference_fc(fields_container=None, mesh=None, scoping=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Transforms Elemental Nodal fields into Nodal fields. Each nodal value
+   is the maximum difference between the unaveraged computed result
+   for all elements that share this particular node. The result is
+   computed on a given node scoping. If the input fields are mixed
+   shell/solid, then the fields are split by element shape and the
+   output fields container has an elshape label.
+
+   :param fields_container:
+   :type fields_container: FieldsContainer
+   :param mesh: The mesh region in this pin is used to
+                perform the averaging. it is used if
+                there is no fields support.
+   :type mesh: MeshedRegion or MeshesContainer, optional
+   :param scoping: Average only on these nodes. if it is a
+                   scoping container, the label must
+                   correspond to the one of the fields
+                   containers.
+   :type scoping: Scoping or ScopingsContainer, optional
+
+   :returns: **fields_container**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.averaging.nodal_difference_fc()
+
+   >>> # Make input connections
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_scoping = dpf.Scoping()
+   >>> op.inputs.scoping.connect(my_scoping)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.averaging.nodal_difference_fc(
+   ...     fields_container=my_fields_container,
+   ...     mesh=my_mesh,
+   ...     scoping=my_scoping,
+   ... )
+
+   >>> # Get output data
+   >>> result_fields_container = op.outputs.fields_container()
+
+
+
+
+.. py:currentmodule:: nodal_difference_fc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.averaging.nodal_difference_fc import nodal_difference_fc
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsNodalDifferenceFc
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsNodalDifferenceFc
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

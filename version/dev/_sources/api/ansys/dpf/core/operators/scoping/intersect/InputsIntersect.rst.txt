@@ -1,0 +1,100 @@
+
+
+
+
+
+
+:class:`InputsIntersect`
+========================
+
+.. py:class:: ansys.dpf.core.operators.scoping.intersect.InputsIntersect(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   intersect operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.scoping.intersect()
+   >>> my_scopingA = dpf.Scoping()
+   >>> op.inputs.scopingA.connect(my_scopingA)
+   >>> my_scopingB = dpf.Scoping()
+   >>> op.inputs.scopingB.connect(my_scopingB)
+
+
+
+.. py:currentmodule:: InputsIntersect
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~scopingA`
+            - Allows to connect scopingA input to the operator.
+          * - :py:attr:`~scopingB`
+            - Allows to connect scopingB input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.scoping.intersect import InputsIntersect
+
+Property detail
+---------------
+
+.. py:property:: scopingA
+
+   Allows to connect scopingA input to the operator.
+
+   :param my_scopingA:
+   :type my_scopingA: Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.scoping.intersect()
+   >>> op.inputs.scopingA.connect(my_scopingA)
+   >>> # or
+   >>> op.inputs.scopingA(my_scopingA)
+
+.. py:property:: scopingB
+
+   Allows to connect scopingB input to the operator.
+
+   :param my_scopingB:
+   :type my_scopingB: Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.scoping.intersect()
+   >>> op.inputs.scopingB.connect(my_scopingB)
+   >>> # or
+   >>> op.inputs.scopingB(my_scopingB)
+
+
+
+
+
+

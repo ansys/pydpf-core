@@ -1,0 +1,106 @@
+
+
+
+
+
+
+:class:`InputsCmsMatricesProvider`
+==================================
+
+.. py:class:: ansys.dpf.core.operators.result.cms_matrices_provider.InputsCmsMatricesProvider(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   cms_matrices_provider operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.cms_matrices_provider()
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_matrix_form = bool()
+   >>> op.inputs.matrix_form.connect(my_matrix_form)
+
+
+
+.. py:currentmodule:: InputsCmsMatricesProvider
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~data_sources`
+            - Allows to connect data_sources input to the operator.
+          * - :py:attr:`~matrix_form`
+            - Allows to connect matrix_form input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.cms_matrices_provider import InputsCmsMatricesProvider
+
+Property detail
+---------------
+
+.. py:property:: data_sources
+
+   Allows to connect data_sources input to the operator.
+
+   Data_sources (must contain at list one
+   subfile).
+
+   :param my_data_sources:
+   :type my_data_sources: DataSources
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.cms_matrices_provider()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> # or
+   >>> op.inputs.data_sources(my_data_sources)
+
+.. py:property:: matrix_form
+
+   Allows to connect matrix_form input to the operator.
+
+   If this pin i set to true, data are return as
+   matrix form.
+
+   :param my_matrix_form:
+   :type my_matrix_form: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.cms_matrices_provider()
+   >>> op.inputs.matrix_form.connect(my_matrix_form)
+   >>> # or
+   >>> op.inputs.matrix_form(my_matrix_form)
+
+
+
+
+
+

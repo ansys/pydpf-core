@@ -1,0 +1,114 @@
+
+
+
+
+
+
+:class:`OutputsRun`
+===================
+
+.. py:class:: ansys.dpf.core.operators.result.run.OutputsRun(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   run operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.run()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_data_sources = op.outputs.data_sources()
+   >>> result_ip = op.outputs.ip()
+   >>> result_port = op.outputs.port()
+
+
+
+.. py:currentmodule:: OutputsRun
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~data_sources`
+            - Allows to get data_sources output of the operator
+          * - :py:attr:`~ip`
+            - Allows to get ip output of the operator
+          * - :py:attr:`~port`
+            - Allows to get port output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.run import OutputsRun
+
+Property detail
+---------------
+
+.. py:property:: data_sources
+
+   Allows to get data_sources output of the operator
+
+   :returns: **my_data_sources**
+   :rtype: DataSources
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.run()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_data_sources = op.outputs.data_sources()
+
+.. py:property:: ip
+
+   Allows to get ip output of the operator
+
+   :returns: **my_ip**
+   :rtype: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.run()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_ip = op.outputs.ip()
+
+.. py:property:: port
+
+   Allows to get port output of the operator
+
+   :returns: **my_port**
+   :rtype: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.run()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_port = op.outputs.port()
+
+
+
+
+
+

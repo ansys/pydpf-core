@@ -1,0 +1,80 @@
+
+
+
+
+
+
+:class:`OutputsMergeToFieldMatrix`
+==================================
+
+.. py:class:: ansys.dpf.core.operators.utility.merge_to_field_matrix.OutputsMergeToFieldMatrix(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   merge_to_field_matrix operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_to_field_matrix()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_merged_field_matrix = op.outputs.merged_field_matrix()
+
+
+
+.. py:currentmodule:: OutputsMergeToFieldMatrix
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~merged_field_matrix`
+            - Allows to get merged_field_matrix output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.merge_to_field_matrix import OutputsMergeToFieldMatrix
+
+Property detail
+---------------
+
+.. py:property:: merged_field_matrix
+
+   Allows to get merged_field_matrix output of the operator
+
+   :returns: **my_merged_field_matrix**
+   :rtype: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_to_field_matrix()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_merged_field_matrix = op.outputs.merged_field_matrix()
+
+
+
+
+
+

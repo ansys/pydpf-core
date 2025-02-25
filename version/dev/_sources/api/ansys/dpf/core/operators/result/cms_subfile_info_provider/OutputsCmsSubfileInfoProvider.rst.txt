@@ -1,0 +1,97 @@
+
+
+
+
+
+
+:class:`OutputsCmsSubfileInfoProvider`
+======================================
+
+.. py:class:: ansys.dpf.core.operators.result.cms_subfile_info_provider.OutputsCmsSubfileInfoProvider(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   cms_subfile_info_provider operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.cms_subfile_info_provider()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_int32 = op.outputs.int32()
+   >>> result_field = op.outputs.field()
+
+
+
+.. py:currentmodule:: OutputsCmsSubfileInfoProvider
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~int32`
+            - Allows to get int32 output of the operator
+          * - :py:attr:`~field`
+            - Allows to get field output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.cms_subfile_info_provider import OutputsCmsSubfileInfoProvider
+
+Property detail
+---------------
+
+.. py:property:: int32
+
+   Allows to get int32 output of the operator
+
+   :returns: **my_int32**
+   :rtype: int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.cms_subfile_info_provider()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_int32 = op.outputs.int32()
+
+.. py:property:: field
+
+   Allows to get field output of the operator
+
+   :returns: **my_field**
+   :rtype: PropertyField
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.cms_subfile_info_provider()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_field = op.outputs.field()
+
+
+
+
+
+

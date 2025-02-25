@@ -1,0 +1,84 @@
+
+
+
+
+
+
+:class:`InputsTxtFileToDpf`
+===========================
+
+.. py:class:: ansys.dpf.core.operators.utility.txt_file_to_dpf.InputsTxtFileToDpf(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   txt_file_to_dpf operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.txt_file_to_dpf()
+   >>> my_input_string = str()
+   >>> op.inputs.input_string.connect(my_input_string)
+
+
+
+.. py:currentmodule:: InputsTxtFileToDpf
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~input_string`
+            - Allows to connect input_string input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.txt_file_to_dpf import InputsTxtFileToDpf
+
+Property detail
+---------------
+
+.. py:property:: input_string
+
+   Allows to connect input_string input to the operator.
+
+   Ex: 'double:1.0', 'int:1',
+   'vector<double>:1.0;1.0'
+
+   :param my_input_string:
+   :type my_input_string: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.txt_file_to_dpf()
+   >>> op.inputs.input_string.connect(my_input_string)
+   >>> # or
+   >>> op.inputs.input_string(my_input_string)
+
+
+
+
+
+

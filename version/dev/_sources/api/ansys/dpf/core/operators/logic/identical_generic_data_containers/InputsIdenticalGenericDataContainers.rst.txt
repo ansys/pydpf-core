@@ -1,0 +1,176 @@
+
+
+
+
+
+
+:class:`InputsIdenticalGenericDataContainers`
+=============================================
+
+.. py:class:: ansys.dpf.core.operators.logic.identical_generic_data_containers.InputsIdenticalGenericDataContainers(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   identical_generic_data_containers operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_generic_data_containers()
+   >>> my_generic_data_containerA = dpf.GenericDataContainer()
+   >>> op.inputs.generic_data_containerA.connect(my_generic_data_containerA)
+   >>> my_generic_data_containerB = dpf.GenericDataContainer()
+   >>> op.inputs.generic_data_containerB.connect(my_generic_data_containerB)
+   >>> my_double_value = float()
+   >>> op.inputs.double_value.connect(my_double_value)
+   >>> my_double_tolerance = float()
+   >>> op.inputs.double_tolerance.connect(my_double_tolerance)
+   >>> my_compare_auxiliary = bool()
+   >>> op.inputs.compare_auxiliary.connect(my_compare_auxiliary)
+
+
+
+.. py:currentmodule:: InputsIdenticalGenericDataContainers
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~generic_data_containerA`
+            - Allows to connect generic_data_containerA input to the operator.
+          * - :py:attr:`~generic_data_containerB`
+            - Allows to connect generic_data_containerB input to the operator.
+          * - :py:attr:`~double_value`
+            - Allows to connect double_value input to the operator.
+          * - :py:attr:`~double_tolerance`
+            - Allows to connect double_tolerance input to the operator.
+          * - :py:attr:`~compare_auxiliary`
+            - Allows to connect compare_auxiliary input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.logic.identical_generic_data_containers import InputsIdenticalGenericDataContainers
+
+Property detail
+---------------
+
+.. py:property:: generic_data_containerA
+
+   Allows to connect generic_data_containerA input to the operator.
+
+   :param my_generic_data_containerA:
+   :type my_generic_data_containerA: GenericDataContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_generic_data_containers()
+   >>> op.inputs.generic_data_containerA.connect(my_generic_data_containerA)
+   >>> # or
+   >>> op.inputs.generic_data_containerA(my_generic_data_containerA)
+
+.. py:property:: generic_data_containerB
+
+   Allows to connect generic_data_containerB input to the operator.
+
+   :param my_generic_data_containerB:
+   :type my_generic_data_containerB: GenericDataContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_generic_data_containers()
+   >>> op.inputs.generic_data_containerB.connect(my_generic_data_containerB)
+   >>> # or
+   >>> op.inputs.generic_data_containerB(my_generic_data_containerB)
+
+.. py:property:: double_value
+
+   Allows to connect double_value input to the operator.
+
+   Double positive small value. smallest value
+   considered during the comparison
+   step. all the absolute values in the
+   field less than this value are
+   considered null, (default value:
+   1.0e-14).
+
+   :param my_double_value:
+   :type my_double_value: float
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_generic_data_containers()
+   >>> op.inputs.double_value.connect(my_double_value)
+   >>> # or
+   >>> op.inputs.double_value(my_double_value)
+
+.. py:property:: double_tolerance
+
+   Allows to connect double_tolerance input to the operator.
+
+   Double relative tolerance. maximum tolerance
+   gap between two compared values.
+   values within relative tolerance are
+   considered identical. formula is
+   (v1-v2)/v2 < relativetol. default is
+   0.001.
+
+   :param my_double_tolerance:
+   :type my_double_tolerance: float
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_generic_data_containers()
+   >>> op.inputs.double_tolerance.connect(my_double_tolerance)
+   >>> # or
+   >>> op.inputs.double_tolerance(my_double_tolerance)
+
+.. py:property:: compare_auxiliary
+
+   Allows to connect compare_auxiliary input to the operator.
+
+   For meshes and meshescontainer: compare
+   auxiliary data (i.e property fields,
+   scopings...). default value is
+   'false'.
+
+   :param my_compare_auxiliary:
+   :type my_compare_auxiliary: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_generic_data_containers()
+   >>> op.inputs.compare_auxiliary.connect(my_compare_auxiliary)
+   >>> # or
+   >>> op.inputs.compare_auxiliary(my_compare_auxiliary)
+
+
+
+
+
+

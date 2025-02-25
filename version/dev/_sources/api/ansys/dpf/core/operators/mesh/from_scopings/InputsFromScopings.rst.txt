@@ -1,0 +1,152 @@
+
+
+
+
+
+
+:class:`InputsFromScopings`
+===========================
+
+.. py:class:: ansys.dpf.core.operators.mesh.from_scopings.InputsFromScopings(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   from_scopings operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.from_scopings()
+   >>> my_scopings_container = dpf.ScopingsContainer()
+   >>> op.inputs.scopings_container.connect(my_scopings_container)
+   >>> my_inclusive = int()
+   >>> op.inputs.inclusive.connect(my_inclusive)
+   >>> my_nodes_only = bool()
+   >>> op.inputs.nodes_only.connect(my_nodes_only)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+
+
+
+.. py:currentmodule:: InputsFromScopings
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~scopings_container`
+            - Allows to connect scopings_container input to the operator.
+          * - :py:attr:`~inclusive`
+            - Allows to connect inclusive input to the operator.
+          * - :py:attr:`~nodes_only`
+            - Allows to connect nodes_only input to the operator.
+          * - :py:attr:`~mesh`
+            - Allows to connect mesh input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mesh.from_scopings import InputsFromScopings
+
+Property detail
+---------------
+
+.. py:property:: scopings_container
+
+   Allows to connect scopings_container input to the operator.
+
+   If nodal scoping, then the scoping is
+   transposed respecting the inclusive
+   pin
+
+   :param my_scopings_container:
+   :type my_scopings_container: ScopingsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.from_scopings()
+   >>> op.inputs.scopings_container.connect(my_scopings_container)
+   >>> # or
+   >>> op.inputs.scopings_container(my_scopings_container)
+
+.. py:property:: inclusive
+
+   Allows to connect inclusive input to the operator.
+
+   If inclusive == 1 then all the elements/faces
+   adjacent to the nodes/faces ids in
+   input are added, if inclusive == 0,
+   only the elements/faces which have
+   all their nodes/faces in the scoping
+   are included
+
+   :param my_inclusive:
+   :type my_inclusive: int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.from_scopings()
+   >>> op.inputs.inclusive.connect(my_inclusive)
+   >>> # or
+   >>> op.inputs.inclusive(my_inclusive)
+
+.. py:property:: nodes_only
+
+   Allows to connect nodes_only input to the operator.
+
+   Returns mesh with nodes only (without any
+   elements). default is false.
+
+   :param my_nodes_only:
+   :type my_nodes_only: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.from_scopings()
+   >>> op.inputs.nodes_only.connect(my_nodes_only)
+   >>> # or
+   >>> op.inputs.nodes_only(my_nodes_only)
+
+.. py:property:: mesh
+
+   Allows to connect mesh input to the operator.
+
+   :param my_mesh:
+   :type my_mesh: MeshedRegion
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.from_scopings()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> # or
+   >>> op.inputs.mesh(my_mesh)
+
+
+
+
+
+

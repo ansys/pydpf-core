@@ -1,0 +1,97 @@
+
+
+
+
+
+
+:class:`OutputsMembersInBendingNotCertified`
+============================================
+
+.. py:class:: ansys.dpf.core.operators.result.members_in_bending_not_certified.OutputsMembersInBendingNotCertified(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   members_in_bending_not_certified operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.members_in_bending_not_certified()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_buckling_resistance_bending_yy = op.outputs.buckling_resistance_bending_yy()
+   >>> result_buckling_resistance_bending_zz = op.outputs.buckling_resistance_bending_zz()
+
+
+
+.. py:currentmodule:: OutputsMembersInBendingNotCertified
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~buckling_resistance_bending_yy`
+            - Allows to get buckling_resistance_bending_yy output of the operator
+          * - :py:attr:`~buckling_resistance_bending_zz`
+            - Allows to get buckling_resistance_bending_zz output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.members_in_bending_not_certified import OutputsMembersInBendingNotCertified
+
+Property detail
+---------------
+
+.. py:property:: buckling_resistance_bending_yy
+
+   Allows to get buckling_resistance_bending_yy output of the operator
+
+   :returns: **my_buckling_resistance_bending_yy**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.members_in_bending_not_certified()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_buckling_resistance_bending_yy = op.outputs.buckling_resistance_bending_yy()
+
+.. py:property:: buckling_resistance_bending_zz
+
+   Allows to get buckling_resistance_bending_zz output of the operator
+
+   :returns: **my_buckling_resistance_bending_zz**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.members_in_bending_not_certified()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_buckling_resistance_bending_zz = op.outputs.buckling_resistance_bending_zz()
+
+
+
+
+
+

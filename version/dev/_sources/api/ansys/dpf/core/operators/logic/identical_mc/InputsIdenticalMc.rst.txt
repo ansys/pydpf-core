@@ -1,0 +1,174 @@
+
+
+
+
+
+
+:class:`InputsIdenticalMc`
+==========================
+
+.. py:class:: ansys.dpf.core.operators.logic.identical_mc.InputsIdenticalMc(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   identical_mc operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_mc()
+   >>> my_meshes_containerA = dpf.MeshesContainer()
+   >>> op.inputs.meshes_containerA.connect(my_meshes_containerA)
+   >>> my_meshes_containerB = dpf.MeshesContainer()
+   >>> op.inputs.meshes_containerB.connect(my_meshes_containerB)
+   >>> my_small_value = float()
+   >>> op.inputs.small_value.connect(my_small_value)
+   >>> my_tolerance = float()
+   >>> op.inputs.tolerance.connect(my_tolerance)
+   >>> my_compare_auxiliary = bool()
+   >>> op.inputs.compare_auxiliary.connect(my_compare_auxiliary)
+
+
+
+.. py:currentmodule:: InputsIdenticalMc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~meshes_containerA`
+            - Allows to connect meshes_containerA input to the operator.
+          * - :py:attr:`~meshes_containerB`
+            - Allows to connect meshes_containerB input to the operator.
+          * - :py:attr:`~small_value`
+            - Allows to connect small_value input to the operator.
+          * - :py:attr:`~tolerance`
+            - Allows to connect tolerance input to the operator.
+          * - :py:attr:`~compare_auxiliary`
+            - Allows to connect compare_auxiliary input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.logic.identical_mc import InputsIdenticalMc
+
+Property detail
+---------------
+
+.. py:property:: meshes_containerA
+
+   Allows to connect meshes_containerA input to the operator.
+
+   :param my_meshes_containerA:
+   :type my_meshes_containerA: MeshesContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_mc()
+   >>> op.inputs.meshes_containerA.connect(my_meshes_containerA)
+   >>> # or
+   >>> op.inputs.meshes_containerA(my_meshes_containerA)
+
+.. py:property:: meshes_containerB
+
+   Allows to connect meshes_containerB input to the operator.
+
+   :param my_meshes_containerB:
+   :type my_meshes_containerB: MeshesContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_mc()
+   >>> op.inputs.meshes_containerB.connect(my_meshes_containerB)
+   >>> # or
+   >>> op.inputs.meshes_containerB(my_meshes_containerB)
+
+.. py:property:: small_value
+
+   Allows to connect small_value input to the operator.
+
+   Double positive small value. smallest value
+   which will be considered during the
+   comparison step. all the abs(values)
+   in the field less than this value are
+   considered as null, (default
+   value:1.0e-14).
+
+   :param my_small_value:
+   :type my_small_value: float
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_mc()
+   >>> op.inputs.small_value.connect(my_small_value)
+   >>> # or
+   >>> op.inputs.small_value(my_small_value)
+
+.. py:property:: tolerance
+
+   Allows to connect tolerance input to the operator.
+
+   Double relative tolerance. maximum tolerance
+   gap between two compared values.
+   values within relative tolerance are
+   considered identical (v1-v2)/v2 <
+   relativetol (default is 0.001).
+
+   :param my_tolerance:
+   :type my_tolerance: float
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_mc()
+   >>> op.inputs.tolerance.connect(my_tolerance)
+   >>> # or
+   >>> op.inputs.tolerance(my_tolerance)
+
+.. py:property:: compare_auxiliary
+
+   Allows to connect compare_auxiliary input to the operator.
+
+   Compare auxiliary data (i.e property fields,
+   scopings...). default value is
+   'false'.
+
+   :param my_compare_auxiliary:
+   :type my_compare_auxiliary: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_mc()
+   >>> op.inputs.compare_auxiliary.connect(my_compare_auxiliary)
+   >>> # or
+   >>> op.inputs.compare_auxiliary(my_compare_auxiliary)
+
+
+
+
+
+

@@ -1,0 +1,97 @@
+
+
+
+
+
+
+:class:`OutputsStressEqvAsMechanical`
+=====================================
+
+.. py:class:: ansys.dpf.core.operators.result.stress_eqv_as_mechanical.OutputsStressEqvAsMechanical(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   stress_eqv_as_mechanical operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.stress_eqv_as_mechanical()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_fields_container = op.outputs.fields_container()
+   >>> result_meshes_container = op.outputs.meshes_container()
+
+
+
+.. py:currentmodule:: OutputsStressEqvAsMechanical
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fields_container`
+            - Allows to get fields_container output of the operator
+          * - :py:attr:`~meshes_container`
+            - Allows to get meshes_container output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.stress_eqv_as_mechanical import OutputsStressEqvAsMechanical
+
+Property detail
+---------------
+
+.. py:property:: fields_container
+
+   Allows to get fields_container output of the operator
+
+   :returns: **my_fields_container**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.stress_eqv_as_mechanical()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_fields_container = op.outputs.fields_container()
+
+.. py:property:: meshes_container
+
+   Allows to get meshes_container output of the operator
+
+   :returns: **my_meshes_container**
+   :rtype: MeshesContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.stress_eqv_as_mechanical()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_meshes_container = op.outputs.meshes_container()
+
+
+
+
+
+

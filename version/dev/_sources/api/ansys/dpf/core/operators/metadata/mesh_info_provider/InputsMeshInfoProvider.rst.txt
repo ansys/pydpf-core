@@ -1,0 +1,126 @@
+
+
+
+
+
+
+:class:`InputsMeshInfoProvider`
+===============================
+
+.. py:class:: ansys.dpf.core.operators.metadata.mesh_info_provider.InputsMeshInfoProvider(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   mesh_info_provider operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.mesh_info_provider()
+   >>> my_time_scoping = int()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> my_streams_container = dpf.StreamsContainer()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+
+
+
+.. py:currentmodule:: InputsMeshInfoProvider
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~time_scoping`
+            - Allows to connect time_scoping input to the operator.
+          * - :py:attr:`~streams_container`
+            - Allows to connect streams_container input to the operator.
+          * - :py:attr:`~data_sources`
+            - Allows to connect data_sources input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.metadata.mesh_info_provider import InputsMeshInfoProvider
+
+Property detail
+---------------
+
+.. py:property:: time_scoping
+
+   Allows to connect time_scoping input to the operator.
+
+   Optional time/frequency set id of the mesh.
+
+   :param my_time_scoping:
+   :type my_time_scoping: int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.mesh_info_provider()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> # or
+   >>> op.inputs.time_scoping(my_time_scoping)
+
+.. py:property:: streams_container
+
+   Allows to connect streams_container input to the operator.
+
+   Streams (mesh file container) (optional)
+
+   :param my_streams_container:
+   :type my_streams_container: StreamsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.mesh_info_provider()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> # or
+   >>> op.inputs.streams_container(my_streams_container)
+
+.. py:property:: data_sources
+
+   Allows to connect data_sources input to the operator.
+
+   If the stream is null, retrieves the file
+   path from the data sources.
+
+   :param my_data_sources:
+   :type my_data_sources: DataSources
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.mesh_info_provider()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> # or
+   >>> op.inputs.data_sources(my_data_sources)
+
+
+
+
+
+

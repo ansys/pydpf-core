@@ -1,0 +1,143 @@
+
+
+
+
+
+
+:class:`normals_provider_nl`
+============================
+
+.. py:class:: ansys.dpf.core.operators.geo.normals_provider_nl.normals_provider_nl(mesh=None, mesh_scoping=None, requested_location=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Computes the normals on nodes/faces/elements based on integration
+   points (more accurate for non-linear elements) on a skin mesh.
+
+   :param mesh: Skin, face, or shell mesh region.
+   :type mesh: MeshedRegion
+   :param mesh_scoping: Elemental, elementalnodal, or nodal scoping.
+                        location derived from this.
+   :type mesh_scoping: Scoping, optional
+   :param requested_location: If no scoping, specifies location. if scoping
+                              is elemental or elementalnodal this
+                              overrides scoping. default is
+                              elemental.
+   :type requested_location: str, optional
+
+   :returns: **field**
+   :rtype: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.geo.normals_provider_nl()
+
+   >>> # Make input connections
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_mesh_scoping = dpf.Scoping()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> my_requested_location = str()
+   >>> op.inputs.requested_location.connect(my_requested_location)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.geo.normals_provider_nl(
+   ...     mesh=my_mesh,
+   ...     mesh_scoping=my_mesh_scoping,
+   ...     requested_location=my_requested_location,
+   ... )
+
+   >>> # Get output data
+   >>> result_field = op.outputs.field()
+
+
+
+
+.. py:currentmodule:: normals_provider_nl
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.geo.normals_provider_nl import normals_provider_nl
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsNormalsProviderNl
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsNormalsProviderNl
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

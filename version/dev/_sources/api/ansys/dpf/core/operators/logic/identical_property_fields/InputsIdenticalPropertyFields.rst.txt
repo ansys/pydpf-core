@@ -1,0 +1,100 @@
+
+
+
+
+
+
+:class:`InputsIdenticalPropertyFields`
+======================================
+
+.. py:class:: ansys.dpf.core.operators.logic.identical_property_fields.InputsIdenticalPropertyFields(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   identical_property_fields operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_property_fields()
+   >>> my_property_fieldA = dpf.MeshedRegion()
+   >>> op.inputs.property_fieldA.connect(my_property_fieldA)
+   >>> my_property_fieldB = dpf.MeshedRegion()
+   >>> op.inputs.property_fieldB.connect(my_property_fieldB)
+
+
+
+.. py:currentmodule:: InputsIdenticalPropertyFields
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~property_fieldA`
+            - Allows to connect property_fieldA input to the operator.
+          * - :py:attr:`~property_fieldB`
+            - Allows to connect property_fieldB input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.logic.identical_property_fields import InputsIdenticalPropertyFields
+
+Property detail
+---------------
+
+.. py:property:: property_fieldA
+
+   Allows to connect property_fieldA input to the operator.
+
+   :param my_property_fieldA:
+   :type my_property_fieldA: MeshedRegion
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_property_fields()
+   >>> op.inputs.property_fieldA.connect(my_property_fieldA)
+   >>> # or
+   >>> op.inputs.property_fieldA(my_property_fieldA)
+
+.. py:property:: property_fieldB
+
+   Allows to connect property_fieldB input to the operator.
+
+   :param my_property_fieldB:
+   :type my_property_fieldB: MeshedRegion
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_property_fields()
+   >>> op.inputs.property_fieldB.connect(my_property_fieldB)
+   >>> # or
+   >>> op.inputs.property_fieldB(my_property_fieldB)
+
+
+
+
+
+

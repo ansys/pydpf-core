@@ -1,0 +1,141 @@
+
+
+
+
+
+
+:class:`integrate_over_time_freq`
+=================================
+
+.. py:class:: ansys.dpf.core.operators.metadata.integrate_over_time_freq.integrate_over_time_freq(field=None, scoping=None, time_freq_support=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Integration of an input field over timefreq.
+
+   :param field:
+   :type field: Field
+   :param scoping: Integrate the input field over a specific
+                   scoping.
+   :type scoping: Scoping, optional
+   :param time_freq_support: Time freq to integrate on, otherwise time
+                             freq support from the input field is
+                             taken.
+   :type time_freq_support: TimeFreqSupport, optional
+
+   :returns: **field**
+   :rtype: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.metadata.integrate_over_time_freq()
+
+   >>> # Make input connections
+   >>> my_field = dpf.Field()
+   >>> op.inputs.field.connect(my_field)
+   >>> my_scoping = dpf.Scoping()
+   >>> op.inputs.scoping.connect(my_scoping)
+   >>> my_time_freq_support = dpf.TimeFreqSupport()
+   >>> op.inputs.time_freq_support.connect(my_time_freq_support)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.metadata.integrate_over_time_freq(
+   ...     field=my_field,
+   ...     scoping=my_scoping,
+   ...     time_freq_support=my_time_freq_support,
+   ... )
+
+   >>> # Get output data
+   >>> result_field = op.outputs.field()
+
+
+
+
+.. py:currentmodule:: integrate_over_time_freq
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.metadata.integrate_over_time_freq import integrate_over_time_freq
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsIntegrateOverTimeFreq
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsIntegrateOverTimeFreq
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

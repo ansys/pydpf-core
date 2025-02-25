@@ -1,0 +1,126 @@
+
+
+
+
+
+
+:class:`InputsRotateInCylindricalCsFc`
+======================================
+
+.. py:class:: ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc.InputsRotateInCylindricalCsFc(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   rotate_in_cylindrical_cs_fc operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.geo.rotate_in_cylindrical_cs_fc()
+   >>> my_field = dpf.Field()
+   >>> op.inputs.field.connect(my_field)
+   >>> my_coordinate_system = dpf.Field()
+   >>> op.inputs.coordinate_system.connect(my_coordinate_system)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+
+
+
+.. py:currentmodule:: InputsRotateInCylindricalCsFc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~field`
+            - Allows to connect field input to the operator.
+          * - :py:attr:`~coordinate_system`
+            - Allows to connect coordinate_system input to the operator.
+          * - :py:attr:`~mesh`
+            - Allows to connect mesh input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc import InputsRotateInCylindricalCsFc
+
+Property detail
+---------------
+
+.. py:property:: field
+
+   Allows to connect field input to the operator.
+
+   :param my_field:
+   :type my_field: Field or FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.geo.rotate_in_cylindrical_cs_fc()
+   >>> op.inputs.field.connect(my_field)
+   >>> # or
+   >>> op.inputs.field(my_field)
+
+.. py:property:: coordinate_system
+
+   Allows to connect coordinate_system input to the operator.
+
+   3-3 rotation matrix and origin coordinates
+   must be set here to define a
+   coordinate system.
+
+   :param my_coordinate_system:
+   :type my_coordinate_system: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.geo.rotate_in_cylindrical_cs_fc()
+   >>> op.inputs.coordinate_system.connect(my_coordinate_system)
+   >>> # or
+   >>> op.inputs.coordinate_system(my_coordinate_system)
+
+.. py:property:: mesh
+
+   Allows to connect mesh input to the operator.
+
+   Mesh support of the input fields_container,
+   in case it does not have one defined.
+
+   :param my_mesh:
+   :type my_mesh: MeshedRegion
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.geo.rotate_in_cylindrical_cs_fc()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> # or
+   >>> op.inputs.mesh(my_mesh)
+
+
+
+
+
+

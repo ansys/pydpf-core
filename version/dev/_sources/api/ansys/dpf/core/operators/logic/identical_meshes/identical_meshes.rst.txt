@@ -1,0 +1,155 @@
+
+
+
+
+
+
+:class:`identical_meshes`
+=========================
+
+.. py:class:: ansys.dpf.core.operators.logic.identical_meshes.identical_meshes(meshA=None, meshB=None, small_value=None, tolerance=None, compare_auxiliary=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Takes two meshes and compares them. Note: When comparing mesh
+   properties, the current behaviour is to verify that the properties
+   in the first mesh (pin 0) are included in the second mesh (pin 1).
+
+   :param meshA:
+   :type meshA: MeshedRegion
+   :param meshB:
+   :type meshB: MeshedRegion
+   :param small_value: Define what is a small value for numeric
+                       comparison (default value:1.0e-14).
+   :type small_value: float, optional
+   :param tolerance: Define the relative tolerance ceil for
+                     numeric comparison (default is
+                     0.001).
+   :type tolerance: float, optional
+   :param compare_auxiliary: Compare auxiliary data (i.e property fields,
+                             scopings...). default value is
+                             'false'.
+   :type compare_auxiliary: bool
+
+   :returns: **are_identical**
+   :rtype: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.logic.identical_meshes()
+
+   >>> # Make input connections
+   >>> my_meshA = dpf.MeshedRegion()
+   >>> op.inputs.meshA.connect(my_meshA)
+   >>> my_meshB = dpf.MeshedRegion()
+   >>> op.inputs.meshB.connect(my_meshB)
+   >>> my_small_value = float()
+   >>> op.inputs.small_value.connect(my_small_value)
+   >>> my_tolerance = float()
+   >>> op.inputs.tolerance.connect(my_tolerance)
+   >>> my_compare_auxiliary = bool()
+   >>> op.inputs.compare_auxiliary.connect(my_compare_auxiliary)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.logic.identical_meshes(
+   ...     meshA=my_meshA,
+   ...     meshB=my_meshB,
+   ...     small_value=my_small_value,
+   ...     tolerance=my_tolerance,
+   ...     compare_auxiliary=my_compare_auxiliary,
+   ... )
+
+   >>> # Get output data
+   >>> result_are_identical = op.outputs.are_identical()
+
+
+
+
+.. py:currentmodule:: identical_meshes
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.logic.identical_meshes import identical_meshes
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsIdenticalMeshes
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsIdenticalMeshes
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

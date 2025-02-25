@@ -1,0 +1,133 @@
+
+
+
+
+
+
+:class:`exclude_levelset`
+=========================
+
+.. py:class:: ansys.dpf.core.operators.mesh.exclude_levelset.exclude_levelset(fieldA=None, fieldB=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Takes two level sets and excludes the second one from the first.
+
+   :param fieldA:
+   :type fieldA: Field
+   :param fieldB:
+   :type fieldB: Field
+
+   :returns: **field**
+   :rtype: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.mesh.exclude_levelset()
+
+   >>> # Make input connections
+   >>> my_fieldA = dpf.Field()
+   >>> op.inputs.fieldA.connect(my_fieldA)
+   >>> my_fieldB = dpf.Field()
+   >>> op.inputs.fieldB.connect(my_fieldB)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.mesh.exclude_levelset(
+   ...     fieldA=my_fieldA,
+   ...     fieldB=my_fieldB,
+   ... )
+
+   >>> # Get output data
+   >>> result_field = op.outputs.field()
+
+
+
+
+.. py:currentmodule:: exclude_levelset
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mesh.exclude_levelset import exclude_levelset
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsExcludeLevelset
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsExcludeLevelset
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

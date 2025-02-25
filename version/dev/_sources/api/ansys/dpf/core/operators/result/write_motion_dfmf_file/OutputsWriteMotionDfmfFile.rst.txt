@@ -1,0 +1,80 @@
+
+
+
+
+
+
+:class:`OutputsWriteMotionDfmfFile`
+===================================
+
+.. py:class:: ansys.dpf.core.operators.result.write_motion_dfmf_file.OutputsWriteMotionDfmfFile(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   write_motion_dfmf_file operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.write_motion_dfmf_file()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_dfmf_data_source = op.outputs.dfmf_data_source()
+
+
+
+.. py:currentmodule:: OutputsWriteMotionDfmfFile
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~dfmf_data_source`
+            - Allows to get dfmf_data_source output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.write_motion_dfmf_file import OutputsWriteMotionDfmfFile
+
+Property detail
+---------------
+
+.. py:property:: dfmf_data_source
+
+   Allows to get dfmf_data_source output of the operator
+
+   :returns: **my_dfmf_data_source**
+   :rtype: DataSources
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.write_motion_dfmf_file()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_dfmf_data_source = op.outputs.dfmf_data_source()
+
+
+
+
+
+

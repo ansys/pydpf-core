@@ -1,0 +1,150 @@
+
+
+
+
+
+
+:class:`InputsCorrelation`
+==========================
+
+.. py:class:: ansys.dpf.core.operators.math.correlation.InputsCorrelation(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   correlation operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.correlation()
+   >>> my_fieldA = dpf.Field()
+   >>> op.inputs.fieldA.connect(my_fieldA)
+   >>> my_fieldB = dpf.Field()
+   >>> op.inputs.fieldB.connect(my_fieldB)
+   >>> my_ponderation = dpf.Field()
+   >>> op.inputs.ponderation.connect(my_ponderation)
+   >>> my_absoluteValue = bool()
+   >>> op.inputs.absoluteValue.connect(my_absoluteValue)
+
+
+
+.. py:currentmodule:: InputsCorrelation
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fieldA`
+            - Allows to connect fieldA input to the operator.
+          * - :py:attr:`~fieldB`
+            - Allows to connect fieldB input to the operator.
+          * - :py:attr:`~ponderation`
+            - Allows to connect ponderation input to the operator.
+          * - :py:attr:`~absoluteValue`
+            - Allows to connect absoluteValue input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.correlation import InputsCorrelation
+
+Property detail
+---------------
+
+.. py:property:: fieldA
+
+   Allows to connect fieldA input to the operator.
+
+   Field a. the reference field.
+
+   :param my_fieldA:
+   :type my_fieldA: Field or float
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.correlation()
+   >>> op.inputs.fieldA.connect(my_fieldA)
+   >>> # or
+   >>> op.inputs.fieldA(my_fieldA)
+
+.. py:property:: fieldB
+
+   Allows to connect fieldB input to the operator.
+
+   Field b. if a fields container is provided,
+   correlation is computed for each
+   field.
+
+   :param my_fieldB:
+   :type my_fieldB: Field or FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.correlation()
+   >>> op.inputs.fieldB.connect(my_fieldB)
+   >>> # or
+   >>> op.inputs.fieldB(my_fieldB)
+
+.. py:property:: ponderation
+
+   Allows to connect ponderation input to the operator.
+
+   Field m, optional weighting for correlation
+   computation.
+
+   :param my_ponderation:
+   :type my_ponderation: Field or FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.correlation()
+   >>> op.inputs.ponderation.connect(my_ponderation)
+   >>> # or
+   >>> op.inputs.ponderation(my_ponderation)
+
+.. py:property:: absoluteValue
+
+   Allows to connect absoluteValue input to the operator.
+
+   If true, correlation factor is
+   ||amb||/(||ama||.||bmb||)
+
+   :param my_absoluteValue:
+   :type my_absoluteValue: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.correlation()
+   >>> op.inputs.absoluteValue.connect(my_absoluteValue)
+   >>> # or
+   >>> op.inputs.absoluteValue(my_absoluteValue)
+
+
+
+
+
+

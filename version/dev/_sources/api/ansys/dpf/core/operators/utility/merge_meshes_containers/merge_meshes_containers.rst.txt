@@ -1,0 +1,135 @@
+
+
+
+
+
+
+:class:`merge_meshes_containers`
+================================
+
+.. py:class:: ansys.dpf.core.operators.utility.merge_meshes_containers.merge_meshes_containers(meshes_containers1=None, meshes_containers2=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Assembles a set of meshes containers into a unique one.
+
+   :param meshes_containers1: A vector of meshes containers to merge or
+                              meshes containers from pin 0 to ...
+   :type meshes_containers1: MeshesContainer
+   :param meshes_containers2: A vector of meshes containers to merge or
+                              meshes containers from pin 0 to ...
+   :type meshes_containers2: MeshesContainer
+
+   :returns: **merged_meshes_container**
+   :rtype: MeshesContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.utility.merge_meshes_containers()
+
+   >>> # Make input connections
+   >>> my_meshes_containers1 = dpf.MeshesContainer()
+   >>> op.inputs.meshes_containers1.connect(my_meshes_containers1)
+   >>> my_meshes_containers2 = dpf.MeshesContainer()
+   >>> op.inputs.meshes_containers2.connect(my_meshes_containers2)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.utility.merge_meshes_containers(
+   ...     meshes_containers1=my_meshes_containers1,
+   ...     meshes_containers2=my_meshes_containers2,
+   ... )
+
+   >>> # Get output data
+   >>> result_merged_meshes_container = op.outputs.merged_meshes_container()
+
+
+
+
+.. py:currentmodule:: merge_meshes_containers
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.merge_meshes_containers import merge_meshes_containers
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsMergeMeshesContainers
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsMergeMeshesContainers
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

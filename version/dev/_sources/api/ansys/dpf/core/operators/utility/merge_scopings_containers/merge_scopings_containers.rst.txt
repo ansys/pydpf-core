@@ -1,0 +1,135 @@
+
+
+
+
+
+
+:class:`merge_scopings_containers`
+==================================
+
+.. py:class:: ansys.dpf.core.operators.utility.merge_scopings_containers.merge_scopings_containers(scopings_containers1=None, scopings_containers2=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Assembles a set of scopings containers into a unique one.
+
+   :param scopings_containers1: A vector of scopings containers to merge or
+                                scopings containers from pin 0 to ...
+   :type scopings_containers1: ScopingsContainer
+   :param scopings_containers2: A vector of scopings containers to merge or
+                                scopings containers from pin 0 to ...
+   :type scopings_containers2: ScopingsContainer
+
+   :returns: **merged_scopings_container**
+   :rtype: ScopingsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.utility.merge_scopings_containers()
+
+   >>> # Make input connections
+   >>> my_scopings_containers1 = dpf.ScopingsContainer()
+   >>> op.inputs.scopings_containers1.connect(my_scopings_containers1)
+   >>> my_scopings_containers2 = dpf.ScopingsContainer()
+   >>> op.inputs.scopings_containers2.connect(my_scopings_containers2)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.utility.merge_scopings_containers(
+   ...     scopings_containers1=my_scopings_containers1,
+   ...     scopings_containers2=my_scopings_containers2,
+   ... )
+
+   >>> # Get output data
+   >>> result_merged_scopings_container = op.outputs.merged_scopings_container()
+
+
+
+
+.. py:currentmodule:: merge_scopings_containers
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.merge_scopings_containers import merge_scopings_containers
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsMergeScopingsContainers
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsMergeScopingsContainers
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

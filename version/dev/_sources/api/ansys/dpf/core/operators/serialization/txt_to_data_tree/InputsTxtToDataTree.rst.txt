@@ -1,0 +1,81 @@
+
+
+
+
+
+
+:class:`InputsTxtToDataTree`
+============================
+
+.. py:class:: ansys.dpf.core.operators.serialization.txt_to_data_tree.InputsTxtToDataTree(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   txt_to_data_tree operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.txt_to_data_tree()
+   >>> my_string_or_path = str()
+   >>> op.inputs.string_or_path.connect(my_string_or_path)
+
+
+
+.. py:currentmodule:: InputsTxtToDataTree
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~string_or_path`
+            - Allows to connect string_or_path input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.serialization.txt_to_data_tree import InputsTxtToDataTree
+
+Property detail
+---------------
+
+.. py:property:: string_or_path
+
+   Allows to connect string_or_path input to the operator.
+
+   :param my_string_or_path:
+   :type my_string_or_path: str or DataSources
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.txt_to_data_tree()
+   >>> op.inputs.string_or_path.connect(my_string_or_path)
+   >>> # or
+   >>> op.inputs.string_or_path(my_string_or_path)
+
+
+
+
+
+

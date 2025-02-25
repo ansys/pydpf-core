@@ -1,0 +1,171 @@
+
+
+
+
+
+
+:class:`merge_meshes`
+=====================
+
+.. py:class:: ansys.dpf.core.operators.utility.merge_meshes.merge_meshes(naive_merge_elements=None, should_merge_named_selections=None, meshes1=None, meshes2=None, merge_method=None, box_size=None, remove_duplicate_elements=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Take a set of mesh and assemble them in a unique one
+
+   :param naive_merge_elements: If true, merge the elemental property fields
+                                of the input meshes assuming that
+                                there is no repetition in their
+                                scoping ids. default is false.
+   :type naive_merge_elements: bool, optional
+   :param should_merge_named_selections: For certain types of files (such as rst),
+                                         scoping from names selection does not
+                                         need to be merged.if this pin is
+                                         true, the merge occurs. if this pin
+                                         is false, the merge does not occur.
+                                         default is true.
+   :type should_merge_named_selections: bool, optional
+   :param meshes1: A vector of meshed region to merge or meshed
+                   region from pin 0 to ...
+   :type meshes1: MeshedRegion
+   :param meshes2: A vector of meshed region to merge or meshed
+                   region from pin 0 to ...
+   :type meshes2: MeshedRegion
+   :param merge_method: 0: merge by distance, 1: merge by node id
+                        (default)
+   :type merge_method: int, optional
+   :param box_size: Box size used when merging by distance.
+                    default value is 1e-12.
+   :type box_size: float, optional
+   :param remove_duplicate_elements: 0: keep duplicate elements (default), 1:
+                                     remove duplicate elements
+   :type remove_duplicate_elements: int, optional
+
+   :returns: **merges_mesh**
+   :rtype: MeshedRegion
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.utility.merge_meshes()
+
+   >>> # Make input connections
+   >>> my_naive_merge_elements = bool()
+   >>> op.inputs.naive_merge_elements.connect(my_naive_merge_elements)
+   >>> my_should_merge_named_selections = bool()
+   >>> op.inputs.should_merge_named_selections.connect(my_should_merge_named_selections)
+   >>> my_meshes1 = dpf.MeshedRegion()
+   >>> op.inputs.meshes1.connect(my_meshes1)
+   >>> my_meshes2 = dpf.MeshedRegion()
+   >>> op.inputs.meshes2.connect(my_meshes2)
+   >>> my_merge_method = int()
+   >>> op.inputs.merge_method.connect(my_merge_method)
+   >>> my_box_size = float()
+   >>> op.inputs.box_size.connect(my_box_size)
+   >>> my_remove_duplicate_elements = int()
+   >>> op.inputs.remove_duplicate_elements.connect(my_remove_duplicate_elements)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.utility.merge_meshes(
+   ...     naive_merge_elements=my_naive_merge_elements,
+   ...     should_merge_named_selections=my_should_merge_named_selections,
+   ...     meshes1=my_meshes1,
+   ...     meshes2=my_meshes2,
+   ...     merge_method=my_merge_method,
+   ...     box_size=my_box_size,
+   ...     remove_duplicate_elements=my_remove_duplicate_elements,
+   ... )
+
+   >>> # Get output data
+   >>> result_merges_mesh = op.outputs.merges_mesh()
+
+
+
+
+.. py:currentmodule:: merge_meshes
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.merge_meshes import merge_meshes
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsMergeMeshes
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsMergeMeshes
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

@@ -1,0 +1,80 @@
+
+
+
+
+
+
+:class:`OutputsCmsDstTableProvider`
+===================================
+
+.. py:class:: ansys.dpf.core.operators.result.cms_dst_table_provider.OutputsCmsDstTableProvider(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   cms_dst_table_provider operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.cms_dst_table_provider()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_dst_table = op.outputs.dst_table()
+
+
+
+.. py:currentmodule:: OutputsCmsDstTableProvider
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~dst_table`
+            - Allows to get dst_table output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.cms_dst_table_provider import OutputsCmsDstTableProvider
+
+Property detail
+---------------
+
+.. py:property:: dst_table
+
+   Allows to get dst_table output of the operator
+
+   :returns: **my_dst_table**
+   :rtype: PropertyField
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.cms_dst_table_provider()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_dst_table = op.outputs.dst_table()
+
+
+
+
+
+

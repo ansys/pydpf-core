@@ -1,0 +1,160 @@
+
+
+
+
+
+
+:class:`sweeping_phase`
+=======================
+
+.. py:class:: ansys.dpf.core.operators.math.sweeping_phase.sweeping_phase(real_field=None, imaginary_field=None, angle=None, unit_name=None, abs_value=None, imaginary_part_null=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Shifts the phase of a real and an imaginary field (in 0 and 1) of a
+   given angle (in 3) of a unit (in 4).
+
+   :param real_field: Field or fields container with only one field
+                      is expected
+   :type real_field: Field or FieldsContainer
+   :param imaginary_field: Field or fields container with only one field
+                           is expected
+   :type imaginary_field: Field or FieldsContainer
+   :param angle:
+   :type angle: float
+   :param unit_name: String unit. supported values: "deg" or
+                     "rad". default: "rad".
+   :type unit_name: str, optional
+   :param abs_value:
+   :type abs_value: bool
+   :param imaginary_part_null: If the imaginary part field is empty and this
+                               pin is true, then the imaginary part
+                               is supposed to be 0 (default is
+                               false).
+   :type imaginary_part_null: bool
+
+   :returns: **field**
+   :rtype: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.math.sweeping_phase()
+
+   >>> # Make input connections
+   >>> my_real_field = dpf.Field()
+   >>> op.inputs.real_field.connect(my_real_field)
+   >>> my_imaginary_field = dpf.Field()
+   >>> op.inputs.imaginary_field.connect(my_imaginary_field)
+   >>> my_angle = float()
+   >>> op.inputs.angle.connect(my_angle)
+   >>> my_unit_name = str()
+   >>> op.inputs.unit_name.connect(my_unit_name)
+   >>> my_abs_value = bool()
+   >>> op.inputs.abs_value.connect(my_abs_value)
+   >>> my_imaginary_part_null = bool()
+   >>> op.inputs.imaginary_part_null.connect(my_imaginary_part_null)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.math.sweeping_phase(
+   ...     real_field=my_real_field,
+   ...     imaginary_field=my_imaginary_field,
+   ...     angle=my_angle,
+   ...     unit_name=my_unit_name,
+   ...     abs_value=my_abs_value,
+   ...     imaginary_part_null=my_imaginary_part_null,
+   ... )
+
+   >>> # Get output data
+   >>> result_field = op.outputs.field()
+
+
+
+
+.. py:currentmodule:: sweeping_phase
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.sweeping_phase import sweeping_phase
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsSweepingPhase
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsSweepingPhase
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

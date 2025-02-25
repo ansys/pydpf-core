@@ -1,0 +1,97 @@
+
+
+
+
+
+
+:class:`OutputsIntersect`
+=========================
+
+.. py:class:: ansys.dpf.core.operators.scoping.intersect.OutputsIntersect(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   intersect operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.scoping.intersect()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_intersection = op.outputs.intersection()
+   >>> result_scopingA_min_intersection = op.outputs.scopingA_min_intersection()
+
+
+
+.. py:currentmodule:: OutputsIntersect
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~intersection`
+            - Allows to get intersection output of the operator
+          * - :py:attr:`~scopingA_min_intersection`
+            - Allows to get scopingA_min_intersection output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.scoping.intersect import OutputsIntersect
+
+Property detail
+---------------
+
+.. py:property:: intersection
+
+   Allows to get intersection output of the operator
+
+   :returns: **my_intersection**
+   :rtype: Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.scoping.intersect()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_intersection = op.outputs.intersection()
+
+.. py:property:: scopingA_min_intersection
+
+   Allows to get scopingA_min_intersection output of the operator
+
+   :returns: **my_scopingA_min_intersection**
+   :rtype: Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.scoping.intersect()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_scopingA_min_intersection = op.outputs.scopingA_min_intersection()
+
+
+
+
+
+

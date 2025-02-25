@@ -1,0 +1,135 @@
+
+
+
+
+
+
+:class:`merge_result_infos`
+===========================
+
+.. py:class:: ansys.dpf.core.operators.utility.merge_result_infos.merge_result_infos(result_infos1=None, result_infos2=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Assembles a set of result information into a unique one.
+
+   :param result_infos1: A vector of result info containers to merge
+                         or result infos from pin 0 to ...
+   :type result_infos1: ResultInfo
+   :param result_infos2: A vector of result info containers to merge
+                         or result infos from pin 0 to ...
+   :type result_infos2: ResultInfo
+
+   :returns: **merged_result_infos**
+   :rtype: ResultInfo
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.utility.merge_result_infos()
+
+   >>> # Make input connections
+   >>> my_result_infos1 = dpf.ResultInfo()
+   >>> op.inputs.result_infos1.connect(my_result_infos1)
+   >>> my_result_infos2 = dpf.ResultInfo()
+   >>> op.inputs.result_infos2.connect(my_result_infos2)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.utility.merge_result_infos(
+   ...     result_infos1=my_result_infos1,
+   ...     result_infos2=my_result_infos2,
+   ... )
+
+   >>> # Get output data
+   >>> result_merged_result_infos = op.outputs.merged_result_infos()
+
+
+
+
+.. py:currentmodule:: merge_result_infos
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.merge_result_infos import merge_result_infos
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsMergeResultInfos
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsMergeResultInfos
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

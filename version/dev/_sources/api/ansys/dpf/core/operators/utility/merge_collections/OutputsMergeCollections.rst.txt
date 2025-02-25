@@ -1,0 +1,80 @@
+
+
+
+
+
+
+:class:`OutputsMergeCollections`
+================================
+
+.. py:class:: ansys.dpf.core.operators.utility.merge_collections.OutputsMergeCollections(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   merge_collections operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_collections()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_merged_collections = op.outputs.merged_collections()
+
+
+
+.. py:currentmodule:: OutputsMergeCollections
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~merged_collections`
+            - Allows to get merged_collections output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.merge_collections import OutputsMergeCollections
+
+Property detail
+---------------
+
+.. py:property:: merged_collections
+
+   Allows to get merged_collections output of the operator
+
+   :returns: **my_merged_collections**
+   :rtype: AnyCollection
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_collections()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_merged_collections = op.outputs.merged_collections()
+
+
+
+
+
+

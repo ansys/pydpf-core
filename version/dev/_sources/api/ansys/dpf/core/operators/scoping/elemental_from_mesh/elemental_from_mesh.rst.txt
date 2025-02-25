@@ -1,0 +1,129 @@
+
+
+
+
+
+
+:class:`elemental_from_mesh`
+============================
+
+.. py:class:: ansys.dpf.core.operators.scoping.elemental_from_mesh.elemental_from_mesh(mesh=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Retrieves the elemental scoping of a given input mesh, which contains
+   the element IDs.
+
+   :param mesh:
+   :type mesh: MeshedRegion
+
+   :returns: **mesh_scoping**
+   :rtype: Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.scoping.elemental_from_mesh()
+
+   >>> # Make input connections
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.scoping.elemental_from_mesh(
+   ...     mesh=my_mesh,
+   ... )
+
+   >>> # Get output data
+   >>> result_mesh_scoping = op.outputs.mesh_scoping()
+
+
+
+
+.. py:currentmodule:: elemental_from_mesh
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.scoping.elemental_from_mesh import elemental_from_mesh
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsElementalFromMesh
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsElementalFromMesh
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

@@ -1,0 +1,143 @@
+
+
+
+
+
+
+:class:`merge_any`
+==================
+
+.. py:class:: ansys.dpf.core.operators.utility.merge_any.merge_any(any1=None, any2=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Merges a list of objects having the same data types. Once the data
+   type is found, the merge operation is forwarded to the correct
+   merge Operator.
+
+   :param any1: Either a vector of objects (sharing the same
+                data types) or objects from pin 0 to
+                ... to merge. supported types rely on
+                existing type specific merge
+                operators.
+   :type any1: Any
+   :param any2: Either a vector of objects (sharing the same
+                data types) or objects from pin 0 to
+                ... to merge. supported types rely on
+                existing type specific merge
+                operators.
+   :type any2: Any
+
+   :returns: **any**
+   :rtype: Any
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.utility.merge_any()
+
+   >>> # Make input connections
+   >>> my_any1 = dpf.Any()
+   >>> op.inputs.any1.connect(my_any1)
+   >>> my_any2 = dpf.Any()
+   >>> op.inputs.any2.connect(my_any2)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.utility.merge_any(
+   ...     any1=my_any1,
+   ...     any2=my_any2,
+   ... )
+
+   >>> # Get output data
+   >>> result_any = op.outputs.any()
+
+
+
+
+.. py:currentmodule:: merge_any
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.merge_any import merge_any
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsMergeAny
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsMergeAny
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

@@ -1,0 +1,145 @@
+
+
+
+
+
+
+:class:`InputsWorkflowEnergyPerHarmonic`
+========================================
+
+.. py:class:: ansys.dpf.core.operators.result.workflow_energy_per_harmonic.InputsWorkflowEnergyPerHarmonic(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   workflow_energy_per_harmonic operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.workflow_energy_per_harmonic()
+   >>> my_time_scoping = dpf.Scoping()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> my_mesh_scoping = dpf.Scoping()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> my_energy_type = int()
+   >>> op.inputs.energy_type.connect(my_energy_type)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+
+
+
+.. py:currentmodule:: InputsWorkflowEnergyPerHarmonic
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~time_scoping`
+            - Allows to connect time_scoping input to the operator.
+          * - :py:attr:`~mesh_scoping`
+            - Allows to connect mesh_scoping input to the operator.
+          * - :py:attr:`~energy_type`
+            - Allows to connect energy_type input to the operator.
+          * - :py:attr:`~data_sources`
+            - Allows to connect data_sources input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.workflow_energy_per_harmonic import InputsWorkflowEnergyPerHarmonic
+
+Property detail
+---------------
+
+.. py:property:: time_scoping
+
+   Allows to connect time_scoping input to the operator.
+
+   :param my_time_scoping:
+   :type my_time_scoping: Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.workflow_energy_per_harmonic()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> # or
+   >>> op.inputs.time_scoping(my_time_scoping)
+
+.. py:property:: mesh_scoping
+
+   Allows to connect mesh_scoping input to the operator.
+
+   Master scoping. all harmonics will be
+   intersected with this scoping.
+
+   :param my_mesh_scoping:
+   :type my_mesh_scoping: Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.workflow_energy_per_harmonic()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> # or
+   >>> op.inputs.mesh_scoping(my_mesh_scoping)
+
+.. py:property:: energy_type
+
+   Allows to connect energy_type input to the operator.
+
+   Type of energy to be processed: (0: strain +
+   kinetic energy (default), 1: strain
+   energy, 2: kinetic energy)
+
+   :param my_energy_type:
+   :type my_energy_type: int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.workflow_energy_per_harmonic()
+   >>> op.inputs.energy_type.connect(my_energy_type)
+   >>> # or
+   >>> op.inputs.energy_type(my_energy_type)
+
+.. py:property:: data_sources
+
+   Allows to connect data_sources input to the operator.
+
+   :param my_data_sources:
+   :type my_data_sources: DataSources
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.workflow_energy_per_harmonic()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> # or
+   >>> op.inputs.data_sources(my_data_sources)
+
+
+
+
+
+

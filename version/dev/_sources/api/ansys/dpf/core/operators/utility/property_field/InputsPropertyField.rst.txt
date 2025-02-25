@@ -1,0 +1,81 @@
+
+
+
+
+
+
+:class:`InputsPropertyField`
+============================
+
+.. py:class:: ansys.dpf.core.operators.utility.property_field.InputsPropertyField(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   property_field operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.property_field()
+   >>> my_input = dpf.PropertyField()
+   >>> op.inputs.input.connect(my_input)
+
+
+
+.. py:currentmodule:: InputsPropertyField
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~input`
+            - Allows to connect input input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.property_field import InputsPropertyField
+
+Property detail
+---------------
+
+.. py:property:: input
+
+   Allows to connect input input to the operator.
+
+   :param my_input:
+   :type my_input: PropertyField
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.property_field()
+   >>> op.inputs.input.connect(my_input)
+   >>> # or
+   >>> op.inputs.input(my_input)
+
+
+
+
+
+

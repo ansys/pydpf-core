@@ -1,0 +1,222 @@
+
+
+
+
+
+
+:class:`InputsMapdlSplitOnFacetIndices`
+=======================================
+
+.. py:class:: ansys.dpf.core.operators.result.mapdl_split_on_facet_indices.InputsMapdlSplitOnFacetIndices(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   mapdl_split_on_facet_indices operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.mapdl_split_on_facet_indices()
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_property_field_new_elements_to_old = dpf.PropertyField()
+   >>> op.inputs.property_field_new_elements_to_old.connect(my_property_field_new_elements_to_old)
+   >>> my_facet_indices = dpf.PropertyField()
+   >>> op.inputs.facet_indices.connect(my_facet_indices)
+   >>> my_volume_mesh = dpf.MeshedRegion()
+   >>> op.inputs.volume_mesh.connect(my_volume_mesh)
+   >>> my_degenerated_tets = dpf.Scoping()
+   >>> op.inputs.degenerated_tets.connect(my_degenerated_tets)
+   >>> my_non_degenerated_tets = dpf.Scoping()
+   >>> op.inputs.non_degenerated_tets.connect(my_non_degenerated_tets)
+
+
+
+.. py:currentmodule:: InputsMapdlSplitOnFacetIndices
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fields_container`
+            - Allows to connect fields_container input to the operator.
+          * - :py:attr:`~property_field_new_elements_to_old`
+            - Allows to connect property_field_new_elements_to_old input to the operator.
+          * - :py:attr:`~facet_indices`
+            - Allows to connect facet_indices input to the operator.
+          * - :py:attr:`~volume_mesh`
+            - Allows to connect volume_mesh input to the operator.
+          * - :py:attr:`~degenerated_tets`
+            - Allows to connect degenerated_tets input to the operator.
+          * - :py:attr:`~non_degenerated_tets`
+            - Allows to connect non_degenerated_tets input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.mapdl_split_on_facet_indices import InputsMapdlSplitOnFacetIndices
+
+Property detail
+---------------
+
+.. py:property:: fields_container
+
+   Allows to connect fields_container input to the operator.
+
+   Fields container to split, with generic
+   number of labels (e.g. time, zone,
+   complex...), and the fields of the
+   fieldscontainer will have location
+   elemental and the scoping ids will be
+   the element ids on the skin mesh.
+
+   :param my_fields_container:
+   :type my_fields_container: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.mapdl_split_on_facet_indices()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> # or
+   >>> op.inputs.fields_container(my_fields_container)
+
+.. py:property:: property_field_new_elements_to_old
+
+   Allows to connect property_field_new_elements_to_old input to the operator.
+
+   This property field provides, for each new
+   face element id (in the scoping), the
+   corresponding 3d volume element index
+   (in the data) it has been extracted
+   from. the 3d volume element id can be
+   found with the element scoping of the
+   input mesh.
+
+   :param my_property_field_new_elements_to_old:
+   :type my_property_field_new_elements_to_old: PropertyField
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.mapdl_split_on_facet_indices()
+   >>> op.inputs.property_field_new_elements_to_old.connect(my_property_field_new_elements_to_old)
+   >>> # or
+   >>> op.inputs.property_field_new_elements_to_old(my_property_field_new_elements_to_old)
+
+.. py:property:: facet_indices
+
+   Allows to connect facet_indices input to the operator.
+
+   This property field gives, for each new face
+   element id (in the scoping), the
+   corresponding face index on the
+   source 3d volume element. the 3d
+   volume element can be extracted from
+   the previous output.
+
+   :param my_facet_indices:
+   :type my_facet_indices: PropertyField
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.mapdl_split_on_facet_indices()
+   >>> op.inputs.facet_indices.connect(my_facet_indices)
+   >>> # or
+   >>> op.inputs.facet_indices(my_facet_indices)
+
+.. py:property:: volume_mesh
+
+   Allows to connect volume_mesh input to the operator.
+
+   The solid support.
+
+   :param my_volume_mesh:
+   :type my_volume_mesh: MeshedRegion
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.mapdl_split_on_facet_indices()
+   >>> op.inputs.volume_mesh.connect(my_volume_mesh)
+   >>> # or
+   >>> op.inputs.volume_mesh(my_volume_mesh)
+
+.. py:property:: degenerated_tets
+
+   Allows to connect degenerated_tets input to the operator.
+
+   Elemental scoping of tet elements. if
+   connected, the tets in the scoping
+   are treated as degenerated tets
+   (solid185), and the rest as non-
+   degenerated tets (solid285). pins 185
+   and 285 are mutually exclusionary
+   (they cannot be connected at the same
+   time), and if none of them is
+   connected, all tets are treated as
+   non-degenerated (solid285).
+
+   :param my_degenerated_tets:
+   :type my_degenerated_tets: Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.mapdl_split_on_facet_indices()
+   >>> op.inputs.degenerated_tets.connect(my_degenerated_tets)
+   >>> # or
+   >>> op.inputs.degenerated_tets(my_degenerated_tets)
+
+.. py:property:: non_degenerated_tets
+
+   Allows to connect non_degenerated_tets input to the operator.
+
+   Elemental scoping of tet elements. if
+   connected, the tets in the scoping
+   are treated as non-degenerated tets
+   (solid285), and the rest as
+   degenerated tets (solid185). pins 185
+   and 285 are mutually exclusionary
+   (they cannot be connected at the same
+   time), and if none of them is
+   connected, all tets are treated as
+   non-degenerated (solid285).
+
+   :param my_non_degenerated_tets:
+   :type my_non_degenerated_tets: Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.mapdl_split_on_facet_indices()
+   >>> op.inputs.non_degenerated_tets.connect(my_non_degenerated_tets)
+   >>> # or
+   >>> op.inputs.non_degenerated_tets(my_non_degenerated_tets)
+
+
+
+
+
+

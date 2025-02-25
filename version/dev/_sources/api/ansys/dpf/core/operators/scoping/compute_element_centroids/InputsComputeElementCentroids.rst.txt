@@ -1,0 +1,105 @@
+
+
+
+
+
+
+:class:`InputsComputeElementCentroids`
+======================================
+
+.. py:class:: ansys.dpf.core.operators.scoping.compute_element_centroids.InputsComputeElementCentroids(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   compute_element_centroids operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.scoping.compute_element_centroids()
+   >>> my_element_scoping = dpf.Scoping()
+   >>> op.inputs.element_scoping.connect(my_element_scoping)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+
+
+
+.. py:currentmodule:: InputsComputeElementCentroids
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~element_scoping`
+            - Allows to connect element_scoping input to the operator.
+          * - :py:attr:`~mesh`
+            - Allows to connect mesh input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.scoping.compute_element_centroids import InputsComputeElementCentroids
+
+Property detail
+---------------
+
+.. py:property:: element_scoping
+
+   Allows to connect element_scoping input to the operator.
+
+   If provided, only the centroids of the
+   elements in the scoping are computed.
+
+   :param my_element_scoping:
+   :type my_element_scoping: Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.scoping.compute_element_centroids()
+   >>> op.inputs.element_scoping.connect(my_element_scoping)
+   >>> # or
+   >>> op.inputs.element_scoping(my_element_scoping)
+
+.. py:property:: mesh
+
+   Allows to connect mesh input to the operator.
+
+   Mesh to compute centroids
+
+   :param my_mesh:
+   :type my_mesh: MeshedRegion
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.scoping.compute_element_centroids()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> # or
+   >>> op.inputs.mesh(my_mesh)
+
+
+
+
+
+

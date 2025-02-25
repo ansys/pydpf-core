@@ -1,0 +1,424 @@
+
+
+
+
+
+
+:class:`InputsWriteMotionDfmfFile`
+==================================
+
+.. py:class:: ansys.dpf.core.operators.result.write_motion_dfmf_file.InputsWriteMotionDfmfFile(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   write_motion_dfmf_file operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.write_motion_dfmf_file()
+   >>> my_model_data = dpf.PropertyField()
+   >>> op.inputs.model_data.connect(my_model_data)
+   >>> my_mode_shapes = dpf.FieldsContainer()
+   >>> op.inputs.mode_shapes.connect(my_mode_shapes)
+   >>> my_lumped_mass = dpf.FieldsContainer()
+   >>> op.inputs.lumped_mass.connect(my_lumped_mass)
+   >>> my_field_coordinates = dpf.Field()
+   >>> op.inputs.field_coordinates.connect(my_field_coordinates)
+   >>> my_nod = dpf.()
+   >>> op.inputs.nod.connect(my_nod)
+   >>> my_used_node_index = dpf.()
+   >>> op.inputs.used_node_index.connect(my_used_node_index)
+   >>> my_eigenvalue = dpf.()
+   >>> op.inputs.eigenvalue.connect(my_eigenvalue)
+   >>> my_translational_mode_shape = dpf.()
+   >>> op.inputs.translational_mode_shape.connect(my_translational_mode_shape)
+   >>> my_rotational_mode_shape = dpf.()
+   >>> op.inputs.rotational_mode_shape.connect(my_rotational_mode_shape)
+   >>> my_invrt_1 = float()
+   >>> op.inputs.invrt_1.connect(my_invrt_1)
+   >>> my_invrt_2 = dpf.()
+   >>> op.inputs.invrt_2.connect(my_invrt_2)
+   >>> my_invrt_3 = dpf.()
+   >>> op.inputs.invrt_3.connect(my_invrt_3)
+   >>> my_invrt_4 = dpf.()
+   >>> op.inputs.invrt_4.connect(my_invrt_4)
+   >>> my_invrt_5 = dpf.()
+   >>> op.inputs.invrt_5.connect(my_invrt_5)
+   >>> my_invrt_6 = dpf.()
+   >>> op.inputs.invrt_6.connect(my_invrt_6)
+   >>> my_invrt_7 = dpf.()
+   >>> op.inputs.invrt_7.connect(my_invrt_7)
+   >>> my_invrt_8 = dpf.()
+   >>> op.inputs.invrt_8.connect(my_invrt_8)
+   >>> my_dfmffile_path = str()
+   >>> op.inputs.dfmffile_path.connect(my_dfmffile_path)
+   >>> my_rstfile_path = str()
+   >>> op.inputs.rstfile_path.connect(my_rstfile_path)
+
+
+
+.. py:currentmodule:: InputsWriteMotionDfmfFile
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~model_data`
+            - Allows to connect model_data input to the operator.
+          * - :py:attr:`~mode_shapes`
+            - Allows to connect mode_shapes input to the operator.
+          * - :py:attr:`~lumped_mass`
+            - Allows to connect lumped_mass input to the operator.
+          * - :py:attr:`~field_coordinates`
+            - Allows to connect field_coordinates input to the operator.
+          * - :py:attr:`~nod`
+            - Allows to connect nod input to the operator.
+          * - :py:attr:`~used_node_index`
+            - Allows to connect used_node_index input to the operator.
+          * - :py:attr:`~eigenvalue`
+            - Allows to connect eigenvalue input to the operator.
+          * - :py:attr:`~translational_mode_shape`
+            - Allows to connect translational_mode_shape input to the operator.
+          * - :py:attr:`~rotational_mode_shape`
+            - Allows to connect rotational_mode_shape input to the operator.
+          * - :py:attr:`~invrt_1`
+            - Allows to connect invrt_1 input to the operator.
+          * - :py:attr:`~invrt_2`
+            - Allows to connect invrt_2 input to the operator.
+          * - :py:attr:`~invrt_3`
+            - Allows to connect invrt_3 input to the operator.
+          * - :py:attr:`~invrt_4`
+            - Allows to connect invrt_4 input to the operator.
+          * - :py:attr:`~invrt_5`
+            - Allows to connect invrt_5 input to the operator.
+          * - :py:attr:`~invrt_6`
+            - Allows to connect invrt_6 input to the operator.
+          * - :py:attr:`~invrt_7`
+            - Allows to connect invrt_7 input to the operator.
+          * - :py:attr:`~invrt_8`
+            - Allows to connect invrt_8 input to the operator.
+          * - :py:attr:`~dfmffile_path`
+            - Allows to connect dfmffile_path input to the operator.
+          * - :py:attr:`~rstfile_path`
+            - Allows to connect rstfile_path input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.write_motion_dfmf_file import InputsWriteMotionDfmfFile
+
+Property detail
+---------------
+
+.. py:property:: model_data
+
+   Allows to connect model_data input to the operator.
+
+   Data describing the finite element model
+
+   :param my_model_data:
+   :type my_model_data: PropertyField
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.write_motion_dfmf_file()
+   >>> op.inputs.model_data.connect(my_model_data)
+   >>> # or
+   >>> op.inputs.model_data(my_model_data)
+
+.. py:property:: mode_shapes
+
+   Allows to connect mode_shapes input to the operator.
+
+   Fieldscontainers containing the mode shapes,
+   which are cst and nor for the cms
+   method
+
+   :param my_mode_shapes:
+   :type my_mode_shapes: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.write_motion_dfmf_file()
+   >>> op.inputs.mode_shapes.connect(my_mode_shapes)
+   >>> # or
+   >>> op.inputs.mode_shapes(my_mode_shapes)
+
+.. py:property:: lumped_mass
+
+   Allows to connect lumped_mass input to the operator.
+
+   Fieldscontainers containing the lumped mass
+
+   :param my_lumped_mass:
+   :type my_lumped_mass: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.write_motion_dfmf_file()
+   >>> op.inputs.lumped_mass.connect(my_lumped_mass)
+   >>> # or
+   >>> op.inputs.lumped_mass(my_lumped_mass)
+
+.. py:property:: field_coordinates
+
+   Allows to connect field_coordinates input to the operator.
+
+   Coordinates of all nodes
+
+   :param my_field_coordinates:
+   :type my_field_coordinates: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.write_motion_dfmf_file()
+   >>> op.inputs.field_coordinates.connect(my_field_coordinates)
+   >>> # or
+   >>> op.inputs.field_coordinates(my_field_coordinates)
+
+.. py:property:: nod
+
+   Allows to connect nod input to the operator.
+
+   :param my_nod:
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.write_motion_dfmf_file()
+   >>> op.inputs.nod.connect(my_nod)
+   >>> # or
+   >>> op.inputs.nod(my_nod)
+
+.. py:property:: used_node_index
+
+   Allows to connect used_node_index input to the operator.
+
+   :param my_used_node_index:
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.write_motion_dfmf_file()
+   >>> op.inputs.used_node_index.connect(my_used_node_index)
+   >>> # or
+   >>> op.inputs.used_node_index(my_used_node_index)
+
+.. py:property:: eigenvalue
+
+   Allows to connect eigenvalue input to the operator.
+
+   :param my_eigenvalue:
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.write_motion_dfmf_file()
+   >>> op.inputs.eigenvalue.connect(my_eigenvalue)
+   >>> # or
+   >>> op.inputs.eigenvalue(my_eigenvalue)
+
+.. py:property:: translational_mode_shape
+
+   Allows to connect translational_mode_shape input to the operator.
+
+   :param my_translational_mode_shape:
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.write_motion_dfmf_file()
+   >>> op.inputs.translational_mode_shape.connect(my_translational_mode_shape)
+   >>> # or
+   >>> op.inputs.translational_mode_shape(my_translational_mode_shape)
+
+.. py:property:: rotational_mode_shape
+
+   Allows to connect rotational_mode_shape input to the operator.
+
+   :param my_rotational_mode_shape:
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.write_motion_dfmf_file()
+   >>> op.inputs.rotational_mode_shape.connect(my_rotational_mode_shape)
+   >>> # or
+   >>> op.inputs.rotational_mode_shape(my_rotational_mode_shape)
+
+.. py:property:: invrt_1
+
+   Allows to connect invrt_1 input to the operator.
+
+   :param my_invrt_1:
+   :type my_invrt_1: float
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.write_motion_dfmf_file()
+   >>> op.inputs.invrt_1.connect(my_invrt_1)
+   >>> # or
+   >>> op.inputs.invrt_1(my_invrt_1)
+
+.. py:property:: invrt_2
+
+   Allows to connect invrt_2 input to the operator.
+
+   :param my_invrt_2:
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.write_motion_dfmf_file()
+   >>> op.inputs.invrt_2.connect(my_invrt_2)
+   >>> # or
+   >>> op.inputs.invrt_2(my_invrt_2)
+
+.. py:property:: invrt_3
+
+   Allows to connect invrt_3 input to the operator.
+
+   :param my_invrt_3:
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.write_motion_dfmf_file()
+   >>> op.inputs.invrt_3.connect(my_invrt_3)
+   >>> # or
+   >>> op.inputs.invrt_3(my_invrt_3)
+
+.. py:property:: invrt_4
+
+   Allows to connect invrt_4 input to the operator.
+
+   :param my_invrt_4:
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.write_motion_dfmf_file()
+   >>> op.inputs.invrt_4.connect(my_invrt_4)
+   >>> # or
+   >>> op.inputs.invrt_4(my_invrt_4)
+
+.. py:property:: invrt_5
+
+   Allows to connect invrt_5 input to the operator.
+
+   :param my_invrt_5:
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.write_motion_dfmf_file()
+   >>> op.inputs.invrt_5.connect(my_invrt_5)
+   >>> # or
+   >>> op.inputs.invrt_5(my_invrt_5)
+
+.. py:property:: invrt_6
+
+   Allows to connect invrt_6 input to the operator.
+
+   :param my_invrt_6:
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.write_motion_dfmf_file()
+   >>> op.inputs.invrt_6.connect(my_invrt_6)
+   >>> # or
+   >>> op.inputs.invrt_6(my_invrt_6)
+
+.. py:property:: invrt_7
+
+   Allows to connect invrt_7 input to the operator.
+
+   :param my_invrt_7:
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.write_motion_dfmf_file()
+   >>> op.inputs.invrt_7.connect(my_invrt_7)
+   >>> # or
+   >>> op.inputs.invrt_7(my_invrt_7)
+
+.. py:property:: invrt_8
+
+   Allows to connect invrt_8 input to the operator.
+
+   :param my_invrt_8:
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.write_motion_dfmf_file()
+   >>> op.inputs.invrt_8.connect(my_invrt_8)
+   >>> # or
+   >>> op.inputs.invrt_8(my_invrt_8)
+
+.. py:property:: dfmffile_path
+
+   Allows to connect dfmffile_path input to the operator.
+
+   Path with motion dfmf extension where the
+   export occurs
+
+   :param my_dfmffile_path:
+   :type my_dfmffile_path: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.write_motion_dfmf_file()
+   >>> op.inputs.dfmffile_path.connect(my_dfmffile_path)
+   >>> # or
+   >>> op.inputs.dfmffile_path(my_dfmffile_path)
+
+.. py:property:: rstfile_path
+
+   Allows to connect rstfile_path input to the operator.
+
+   :param my_rstfile_path:
+   :type my_rstfile_path: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.write_motion_dfmf_file()
+   >>> op.inputs.rstfile_path.connect(my_rstfile_path)
+   >>> # or
+   >>> op.inputs.rstfile_path(my_rstfile_path)
+
+
+
+
+
+

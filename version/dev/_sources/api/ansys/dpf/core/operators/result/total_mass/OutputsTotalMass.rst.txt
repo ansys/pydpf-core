@@ -1,0 +1,80 @@
+
+
+
+
+
+
+:class:`OutputsTotalMass`
+=========================
+
+.. py:class:: ansys.dpf.core.operators.result.total_mass.OutputsTotalMass(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   total_mass operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.total_mass()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_mass = op.outputs.mass()
+
+
+
+.. py:currentmodule:: OutputsTotalMass
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~mass`
+            - Allows to get mass output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.total_mass import OutputsTotalMass
+
+Property detail
+---------------
+
+.. py:property:: mass
+
+   Allows to get mass output of the operator
+
+   :returns: **my_mass**
+   :rtype: float
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.total_mass()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_mass = op.outputs.mass()
+
+
+
+
+
+

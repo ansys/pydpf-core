@@ -1,0 +1,103 @@
+
+
+
+
+
+
+:class:`InputsScopingGetAttribute`
+==================================
+
+.. py:class:: ansys.dpf.core.operators.scoping.scoping_get_attribute.InputsScopingGetAttribute(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   scoping_get_attribute operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.scoping.scoping_get_attribute()
+   >>> my_scoping = dpf.Scoping()
+   >>> op.inputs.scoping.connect(my_scoping)
+   >>> my_property_name = str()
+   >>> op.inputs.property_name.connect(my_property_name)
+
+
+
+.. py:currentmodule:: InputsScopingGetAttribute
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~scoping`
+            - Allows to connect scoping input to the operator.
+          * - :py:attr:`~property_name`
+            - Allows to connect property_name input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.scoping.scoping_get_attribute import InputsScopingGetAttribute
+
+Property detail
+---------------
+
+.. py:property:: scoping
+
+   Allows to connect scoping input to the operator.
+
+   :param my_scoping:
+   :type my_scoping: Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.scoping.scoping_get_attribute()
+   >>> op.inputs.scoping.connect(my_scoping)
+   >>> # or
+   >>> op.inputs.scoping(my_scoping)
+
+.. py:property:: property_name
+
+   Allows to connect property_name input to the operator.
+
+   Supported property names are: "ids",
+   "location".
+
+   :param my_property_name:
+   :type my_property_name: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.scoping.scoping_get_attribute()
+   >>> op.inputs.property_name.connect(my_property_name)
+   >>> # or
+   >>> op.inputs.property_name(my_property_name)
+
+
+
+
+
+

@@ -1,0 +1,114 @@
+
+
+
+
+
+
+:class:`OutputsApplyZfp`
+========================
+
+.. py:class:: ansys.dpf.core.operators.compression.apply_zfp.OutputsApplyZfp(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   apply_zfp operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.apply_zfp()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_compress_speed = op.outputs.compress_speed()
+   >>> result_compress_ratio = op.outputs.compress_ratio()
+   >>> result_dataOut = op.outputs.dataOut()
+
+
+
+.. py:currentmodule:: OutputsApplyZfp
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~compress_speed`
+            - Allows to get compress_speed output of the operator
+          * - :py:attr:`~compress_ratio`
+            - Allows to get compress_ratio output of the operator
+          * - :py:attr:`~dataOut`
+            - Allows to get dataOut output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.compression.apply_zfp import OutputsApplyZfp
+
+Property detail
+---------------
+
+.. py:property:: compress_speed
+
+   Allows to get compress_speed output of the operator
+
+   :returns: **my_compress_speed**
+   :rtype: float
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.apply_zfp()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_compress_speed = op.outputs.compress_speed()
+
+.. py:property:: compress_ratio
+
+   Allows to get compress_ratio output of the operator
+
+   :returns: **my_compress_ratio**
+   :rtype: float
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.apply_zfp()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_compress_ratio = op.outputs.compress_ratio()
+
+.. py:property:: dataOut
+
+   Allows to get dataOut output of the operator
+
+   :returns: **my_dataOut**
+   :rtype: CustomTypeFieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.apply_zfp()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_dataOut = op.outputs.dataOut()
+
+
+
+
+
+

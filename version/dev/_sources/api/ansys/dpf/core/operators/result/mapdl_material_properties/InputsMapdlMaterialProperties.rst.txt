@@ -1,0 +1,141 @@
+
+
+
+
+
+
+:class:`InputsMapdlMaterialProperties`
+======================================
+
+.. py:class:: ansys.dpf.core.operators.result.mapdl_material_properties.InputsMapdlMaterialProperties(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   mapdl_material_properties operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.mapdl_material_properties()
+   >>> my_properties_name = str()
+   >>> op.inputs.properties_name.connect(my_properties_name)
+   >>> my_materials = dpf.PropertyField()
+   >>> op.inputs.materials.connect(my_materials)
+   >>> my_streams_container = dpf.StreamsContainer()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+
+
+
+.. py:currentmodule:: InputsMapdlMaterialProperties
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~properties_name`
+            - Allows to connect properties_name input to the operator.
+          * - :py:attr:`~materials`
+            - Allows to connect materials input to the operator.
+          * - :py:attr:`~streams_container`
+            - Allows to connect streams_container input to the operator.
+          * - :py:attr:`~data_sources`
+            - Allows to connect data_sources input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.mapdl_material_properties import InputsMapdlMaterialProperties
+
+Property detail
+---------------
+
+.. py:property:: properties_name
+
+   Allows to connect properties_name input to the operator.
+
+   :param my_properties_name:
+   :type my_properties_name: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.mapdl_material_properties()
+   >>> op.inputs.properties_name.connect(my_properties_name)
+   >>> # or
+   >>> op.inputs.properties_name(my_properties_name)
+
+.. py:property:: materials
+
+   Allows to connect materials input to the operator.
+
+   Property field that contains a material id
+   per element.
+
+   :param my_materials:
+   :type my_materials: PropertyField
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.mapdl_material_properties()
+   >>> op.inputs.materials.connect(my_materials)
+   >>> # or
+   >>> op.inputs.materials(my_materials)
+
+.. py:property:: streams_container
+
+   Allows to connect streams_container input to the operator.
+
+   :param my_streams_container:
+   :type my_streams_container: StreamsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.mapdl_material_properties()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> # or
+   >>> op.inputs.streams_container(my_streams_container)
+
+.. py:property:: data_sources
+
+   Allows to connect data_sources input to the operator.
+
+   :param my_data_sources:
+   :type my_data_sources: DataSources
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.mapdl_material_properties()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> # or
+   >>> op.inputs.data_sources(my_data_sources)
+
+
+
+
+
+

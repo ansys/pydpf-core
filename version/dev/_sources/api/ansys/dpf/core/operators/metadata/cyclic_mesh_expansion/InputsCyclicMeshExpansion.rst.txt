@@ -1,0 +1,123 @@
+
+
+
+
+
+
+:class:`InputsCyclicMeshExpansion`
+==================================
+
+.. py:class:: ansys.dpf.core.operators.metadata.cyclic_mesh_expansion.InputsCyclicMeshExpansion(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   cyclic_mesh_expansion operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.cyclic_mesh_expansion()
+   >>> my_sector_meshed_region = dpf.MeshedRegion()
+   >>> op.inputs.sector_meshed_region.connect(my_sector_meshed_region)
+   >>> my_cyclic_support = dpf.CyclicSupport()
+   >>> op.inputs.cyclic_support.connect(my_cyclic_support)
+   >>> my_sectors_to_expand = dpf.Scoping()
+   >>> op.inputs.sectors_to_expand.connect(my_sectors_to_expand)
+
+
+
+.. py:currentmodule:: InputsCyclicMeshExpansion
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~sector_meshed_region`
+            - Allows to connect sector_meshed_region input to the operator.
+          * - :py:attr:`~cyclic_support`
+            - Allows to connect cyclic_support input to the operator.
+          * - :py:attr:`~sectors_to_expand`
+            - Allows to connect sectors_to_expand input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.metadata.cyclic_mesh_expansion import InputsCyclicMeshExpansion
+
+Property detail
+---------------
+
+.. py:property:: sector_meshed_region
+
+   Allows to connect sector_meshed_region input to the operator.
+
+   :param my_sector_meshed_region:
+   :type my_sector_meshed_region: MeshedRegion or MeshesContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.cyclic_mesh_expansion()
+   >>> op.inputs.sector_meshed_region.connect(my_sector_meshed_region)
+   >>> # or
+   >>> op.inputs.sector_meshed_region(my_sector_meshed_region)
+
+.. py:property:: cyclic_support
+
+   Allows to connect cyclic_support input to the operator.
+
+   :param my_cyclic_support:
+   :type my_cyclic_support: CyclicSupport
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.cyclic_mesh_expansion()
+   >>> op.inputs.cyclic_support.connect(my_cyclic_support)
+   >>> # or
+   >>> op.inputs.cyclic_support(my_cyclic_support)
+
+.. py:property:: sectors_to_expand
+
+   Allows to connect sectors_to_expand input to the operator.
+
+   Sectors to expand (start at 0), for
+   multistage: use scopings container
+   with 'stage' label.
+
+   :param my_sectors_to_expand:
+   :type my_sectors_to_expand: Scoping or ScopingsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.cyclic_mesh_expansion()
+   >>> op.inputs.sectors_to_expand.connect(my_sectors_to_expand)
+   >>> # or
+   >>> op.inputs.sectors_to_expand(my_sectors_to_expand)
+
+
+
+
+
+

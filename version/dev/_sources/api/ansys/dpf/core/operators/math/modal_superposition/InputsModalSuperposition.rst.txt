@@ -1,0 +1,155 @@
+
+
+
+
+
+
+:class:`InputsModalSuperposition`
+=================================
+
+.. py:class:: ansys.dpf.core.operators.math.modal_superposition.InputsModalSuperposition(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   modal_superposition operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.modal_superposition()
+   >>> my_modal_basis = dpf.FieldsContainer()
+   >>> op.inputs.modal_basis.connect(my_modal_basis)
+   >>> my_solution_in_modal_space = dpf.FieldsContainer()
+   >>> op.inputs.solution_in_modal_space.connect(my_solution_in_modal_space)
+   >>> my_time_scoping = dpf.Scoping()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> my_mesh_scoping = dpf.Scoping()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+
+
+
+.. py:currentmodule:: InputsModalSuperposition
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~modal_basis`
+            - Allows to connect modal_basis input to the operator.
+          * - :py:attr:`~solution_in_modal_space`
+            - Allows to connect solution_in_modal_space input to the operator.
+          * - :py:attr:`~time_scoping`
+            - Allows to connect time_scoping input to the operator.
+          * - :py:attr:`~mesh_scoping`
+            - Allows to connect mesh_scoping input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.modal_superposition import InputsModalSuperposition
+
+Property detail
+---------------
+
+.. py:property:: modal_basis
+
+   Allows to connect modal_basis input to the operator.
+
+   One field by mode with each field
+   representing a mode shape on nodes or
+   elements.
+
+   :param my_modal_basis:
+   :type my_modal_basis: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.modal_superposition()
+   >>> op.inputs.modal_basis.connect(my_modal_basis)
+   >>> # or
+   >>> op.inputs.modal_basis(my_modal_basis)
+
+.. py:property:: solution_in_modal_space
+
+   Allows to connect solution_in_modal_space input to the operator.
+
+   One field by time/frequency with each field
+   having a ponderating coefficient for
+   each mode of the modal_basis pin.
+
+   :param my_solution_in_modal_space:
+   :type my_solution_in_modal_space: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.modal_superposition()
+   >>> op.inputs.solution_in_modal_space.connect(my_solution_in_modal_space)
+   >>> # or
+   >>> op.inputs.solution_in_modal_space(my_solution_in_modal_space)
+
+.. py:property:: time_scoping
+
+   Allows to connect time_scoping input to the operator.
+
+   Compute the result on a subset of the time
+   frequency domain defined in the
+   solution_in_modal_space fields
+   container.
+
+   :param my_time_scoping:
+   :type my_time_scoping: Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.modal_superposition()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> # or
+   >>> op.inputs.time_scoping(my_time_scoping)
+
+.. py:property:: mesh_scoping
+
+   Allows to connect mesh_scoping input to the operator.
+
+   Compute the result on a subset of the space
+   domain defined in the modal_basis
+   fields container.
+
+   :param my_mesh_scoping:
+   :type my_mesh_scoping: Scoping or ScopingsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.modal_superposition()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> # or
+   >>> op.inputs.mesh_scoping(my_mesh_scoping)
+
+
+
+
+
+

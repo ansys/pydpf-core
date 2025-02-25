@@ -1,0 +1,124 @@
+
+
+
+
+
+
+:class:`InputsMakeSphereLevelset`
+=================================
+
+.. py:class:: ansys.dpf.core.operators.mesh.make_sphere_levelset.InputsMakeSphereLevelset(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   make_sphere_levelset operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.make_sphere_levelset()
+   >>> my_coordinates = dpf.MeshedRegion()
+   >>> op.inputs.coordinates.connect(my_coordinates)
+   >>> my_origin = dpf.Field()
+   >>> op.inputs.origin.connect(my_origin)
+   >>> my_radius = float()
+   >>> op.inputs.radius.connect(my_radius)
+
+
+
+.. py:currentmodule:: InputsMakeSphereLevelset
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~coordinates`
+            - Allows to connect coordinates input to the operator.
+          * - :py:attr:`~origin`
+            - Allows to connect origin input to the operator.
+          * - :py:attr:`~radius`
+            - Allows to connect radius input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mesh.make_sphere_levelset import InputsMakeSphereLevelset
+
+Property detail
+---------------
+
+.. py:property:: coordinates
+
+   Allows to connect coordinates input to the operator.
+
+   :param my_coordinates:
+   :type my_coordinates: MeshedRegion or Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.make_sphere_levelset()
+   >>> op.inputs.coordinates.connect(my_coordinates)
+   >>> # or
+   >>> op.inputs.coordinates(my_coordinates)
+
+.. py:property:: origin
+
+   Allows to connect origin input to the operator.
+
+   An overall 3d vector that gives a point of
+   the plane.
+
+   :param my_origin:
+   :type my_origin: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.make_sphere_levelset()
+   >>> op.inputs.origin.connect(my_origin)
+   >>> # or
+   >>> op.inputs.origin(my_origin)
+
+.. py:property:: radius
+
+   Allows to connect radius input to the operator.
+
+   Sphere radius.
+
+   :param my_radius:
+   :type my_radius: float
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.make_sphere_levelset()
+   >>> op.inputs.radius.connect(my_radius)
+   >>> # or
+   >>> op.inputs.radius(my_radius)
+
+
+
+
+
+

@@ -1,0 +1,199 @@
+
+
+
+
+
+
+:class:`omega`
+==============
+
+.. py:class:: ansys.dpf.core.operators.result.omega.omega(time_scoping=None, mesh_scoping=None, streams_container=None, data_sources=None, mesh=None, region_scoping=None, qualifiers1=None, qualifiers2=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Read Turbulent Specific Dissipation Rate (omega) by calling the
+   readers defined by the datasources.
+
+   :param time_scoping: Time/freq values (use doubles or field),
+                        time/freq set ids (use ints or
+                        scoping) or time/freq step ids (use
+                        scoping with timefreq_steps location)
+                        required in output. to specify
+                        time/freq values at specific load
+                        steps, put a field (and not a list)
+                        in input with a scoping located on
+                        "timefreq_steps". linear time freq
+                        intrapolation is performed if the
+                        values are not in the result files
+                        and the data at the max time or freq
+                        is taken when time/freqs are higher
+                        than available time/freqs in result
+                        files.
+   :type time_scoping: Scoping or int or float or Field, optional
+   :param mesh_scoping: Nodes or elements scoping required in output.
+                        the output fields will be scoped on
+                        these node or element ids. to figure
+                        out the ordering of the fields data,
+                        look at their scoping ids as they
+                        might not be ordered as the input
+                        scoping was. the scoping's location
+                        indicates whether nodes or elements
+                        are asked for. using scopings
+                        container allows you to split the
+                        result fields container into domains
+   :type mesh_scoping: ScopingsContainer or Scoping, optional
+   :param streams_container: Result file container allowed to be kept open
+                             to cache data
+   :type streams_container: StreamsContainer, optional
+   :param data_sources: Result file path container, used if no
+                        streams are set
+   :type data_sources: DataSources
+   :param mesh: Prevents from reading the mesh in the result
+                files
+   :type mesh: MeshedRegion or MeshesContainer, optional
+   :param region_scoping: Region id (integer) or vector of region ids
+                          (vector) or region scoping (scoping)
+                          of the model (region corresponds to
+                          zone for fluid results or part for
+                          lsdyna results).
+   :type region_scoping: Scoping or int, optional
+   :param qualifiers1: (for fluid results only) labelspace with
+                       combination of zone, phases or
+                       species ids
+   :type qualifiers1: dict, optional
+   :param qualifiers2: (for fluid results only) labelspace with
+                       combination of zone, phases or
+                       species ids
+   :type qualifiers2: dict, optional
+
+   :returns: **fields_container**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.result.omega()
+
+   >>> # Make input connections
+   >>> my_time_scoping = dpf.Scoping()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> my_mesh_scoping = dpf.ScopingsContainer()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> my_streams_container = dpf.StreamsContainer()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_region_scoping = dpf.Scoping()
+   >>> op.inputs.region_scoping.connect(my_region_scoping)
+   >>> my_qualifiers1 = dict()
+   >>> op.inputs.qualifiers1.connect(my_qualifiers1)
+   >>> my_qualifiers2 = dict()
+   >>> op.inputs.qualifiers2.connect(my_qualifiers2)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.result.omega(
+   ...     time_scoping=my_time_scoping,
+   ...     mesh_scoping=my_mesh_scoping,
+   ...     streams_container=my_streams_container,
+   ...     data_sources=my_data_sources,
+   ...     mesh=my_mesh,
+   ...     region_scoping=my_region_scoping,
+   ...     qualifiers1=my_qualifiers1,
+   ...     qualifiers2=my_qualifiers2,
+   ... )
+
+   >>> # Get output data
+   >>> result_fields_container = op.outputs.fields_container()
+
+
+
+
+.. py:currentmodule:: omega
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.omega import omega
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsOmega
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsOmega
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

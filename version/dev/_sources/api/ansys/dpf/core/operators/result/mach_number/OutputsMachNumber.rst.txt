@@ -1,0 +1,80 @@
+
+
+
+
+
+
+:class:`OutputsMachNumber`
+==========================
+
+.. py:class:: ansys.dpf.core.operators.result.mach_number.OutputsMachNumber(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   mach_number operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.mach_number()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_fields_container = op.outputs.fields_container()
+
+
+
+.. py:currentmodule:: OutputsMachNumber
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fields_container`
+            - Allows to get fields_container output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.mach_number import OutputsMachNumber
+
+Property detail
+---------------
+
+.. py:property:: fields_container
+
+   Allows to get fields_container output of the operator
+
+   :returns: **my_fields_container**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.mach_number()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_fields_container = op.outputs.fields_container()
+
+
+
+
+
+

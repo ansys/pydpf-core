@@ -1,0 +1,136 @@
+
+
+
+
+
+
+:class:`import_symbolic_workflow`
+=================================
+
+.. py:class:: ansys.dpf.core.operators.serialization.import_symbolic_workflow.import_symbolic_workflow(string_or_path=None, format=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Reads a file or string holding a Symbolic Workflow and instantiate a
+   WorkFlow with its data.
+
+   :param string_or_path:
+   :type string_or_path: str or DataSources
+   :param format: -1 is auto-detection, 0 is ascii format, 1 is
+                  binary, 2 is json, default is -1
+                  (auto-detection).
+   :type format: int, optional
+
+   :returns: **workflow**
+   :rtype: Workflow
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.serialization.import_symbolic_workflow()
+
+   >>> # Make input connections
+   >>> my_string_or_path = str()
+   >>> op.inputs.string_or_path.connect(my_string_or_path)
+   >>> my_format = int()
+   >>> op.inputs.format.connect(my_format)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.serialization.import_symbolic_workflow(
+   ...     string_or_path=my_string_or_path,
+   ...     format=my_format,
+   ... )
+
+   >>> # Get output data
+   >>> result_workflow = op.outputs.workflow()
+
+
+
+
+.. py:currentmodule:: import_symbolic_workflow
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.serialization.import_symbolic_workflow import import_symbolic_workflow
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsImportSymbolicWorkflow
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsImportSymbolicWorkflow
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

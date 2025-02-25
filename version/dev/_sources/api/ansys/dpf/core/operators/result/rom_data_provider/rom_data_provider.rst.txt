@@ -1,0 +1,191 @@
+
+
+
+
+
+
+:class:`rom_data_provider`
+==========================
+
+.. py:class:: ansys.dpf.core.operators.result.rom_data_provider.rom_data_provider(rom_type=None, reduced_stiff_matrix=None, reduced_damping_matrix=None, reduced_mass_matrix=None, data_sources=None, reduced_rhs_vector=None, lumped_mass_matrix=None, mode_shapes=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Set the required data for the invariant terms computation (reduced
+   matrices, lumped mass matrix, modes ...)
+
+   :param rom_type: If this pin is set to true, customized rom
+                    data must be given
+   :type rom_type: bool
+   :param reduced_stiff_matrix: Fieldscontainers containing the reduced
+                                stiffness matrix
+   :type reduced_stiff_matrix: FieldsContainer
+   :param reduced_damping_matrix: Fieldscontainers containing the reduced mass
+                                  matrix
+   :type reduced_damping_matrix: FieldsContainer
+   :param reduced_mass_matrix: Fieldscontainers containing the reduced damp
+                               matrix
+   :type reduced_mass_matrix: FieldsContainer
+   :param data_sources:
+   :type data_sources: DataSources
+   :param reduced_rhs_vector: Fieldscontainers containing the reduced rhs
+                              vector
+   :type reduced_rhs_vector: FieldsContainer
+   :param lumped_mass_matrix: Fieldscontainers containing the lumped mass
+                              matrix
+   :type lumped_mass_matrix: FieldsContainer
+   :param mode_shapes: Fieldscontainers containing the customized
+                       mode shapes
+   :type mode_shapes: FieldsContainer
+
+   :returns: * **rom_matrices** (*FieldsContainer*) -- Fieldscontainers containing the reduced
+               matrices
+             * **mode_shapes** (*FieldsContainer*) -- Fieldscontainers containing the mode shapes,
+               which are cst and nor for the cms
+               method
+             * **lumped_mass** (*FieldsContainer*) -- Fieldscontainers containing the lumped mass
+             * **model_data** (*PropertyField*) -- Data describing the finite element model
+             * **center_of_mass** (*PropertyField*)
+             * **inertia_relief** (*Field*) -- Inertia matrix
+             * **model_size** (*float*) -- Size of the model
+             * **field_coordinates_and_euler_angles** (*float*) -- Coordinates and euler angles of all nodes
+             * *nod* -- Ids of master nodes
+             * **meshed_region** (*MeshedRegion*) -- Expanded meshed region.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.result.rom_data_provider()
+
+   >>> # Make input connections
+   >>> my_rom_type = bool()
+   >>> op.inputs.rom_type.connect(my_rom_type)
+   >>> my_reduced_stiff_matrix = dpf.FieldsContainer()
+   >>> op.inputs.reduced_stiff_matrix.connect(my_reduced_stiff_matrix)
+   >>> my_reduced_damping_matrix = dpf.FieldsContainer()
+   >>> op.inputs.reduced_damping_matrix.connect(my_reduced_damping_matrix)
+   >>> my_reduced_mass_matrix = dpf.FieldsContainer()
+   >>> op.inputs.reduced_mass_matrix.connect(my_reduced_mass_matrix)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_reduced_rhs_vector = dpf.FieldsContainer()
+   >>> op.inputs.reduced_rhs_vector.connect(my_reduced_rhs_vector)
+   >>> my_lumped_mass_matrix = dpf.FieldsContainer()
+   >>> op.inputs.lumped_mass_matrix.connect(my_lumped_mass_matrix)
+   >>> my_mode_shapes = dpf.FieldsContainer()
+   >>> op.inputs.mode_shapes.connect(my_mode_shapes)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.result.rom_data_provider(
+   ...     rom_type=my_rom_type,
+   ...     reduced_stiff_matrix=my_reduced_stiff_matrix,
+   ...     reduced_damping_matrix=my_reduced_damping_matrix,
+   ...     reduced_mass_matrix=my_reduced_mass_matrix,
+   ...     data_sources=my_data_sources,
+   ...     reduced_rhs_vector=my_reduced_rhs_vector,
+   ...     lumped_mass_matrix=my_lumped_mass_matrix,
+   ...     mode_shapes=my_mode_shapes,
+   ... )
+
+   >>> # Get output data
+   >>> result_rom_matrices = op.outputs.rom_matrices()
+   >>> result_mode_shapes = op.outputs.mode_shapes()
+   >>> result_lumped_mass = op.outputs.lumped_mass()
+   >>> result_model_data = op.outputs.model_data()
+   >>> result_center_of_mass = op.outputs.center_of_mass()
+   >>> result_inertia_relief = op.outputs.inertia_relief()
+   >>> result_model_size = op.outputs.model_size()
+   >>> result_field_coordinates_and_euler_angles = op.outputs.field_coordinates_and_euler_angles()
+   >>> result_nod = op.outputs.nod()
+   >>> result_meshed_region = op.outputs.meshed_region()
+
+
+
+
+.. py:currentmodule:: rom_data_provider
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.rom_data_provider import rom_data_provider
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsRomDataProvider
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsRomDataProvider
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

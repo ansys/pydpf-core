@@ -1,0 +1,105 @@
+
+
+
+
+
+
+:class:`InputsFftEval`
+======================
+
+.. py:class:: ansys.dpf.core.operators.math.fft_eval.InputsFftEval(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   fft_eval operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.fft_eval()
+   >>> my_field_t = dpf.Field()
+   >>> op.inputs.field_t.connect(my_field_t)
+   >>> my_time_scoping = dpf.Scoping()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+
+
+
+.. py:currentmodule:: InputsFftEval
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~field_t`
+            - Allows to connect field_t input to the operator.
+          * - :py:attr:`~time_scoping`
+            - Allows to connect time_scoping input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.fft_eval import InputsFftEval
+
+Property detail
+---------------
+
+.. py:property:: field_t
+
+   Allows to connect field_t input to the operator.
+
+   Field of values to evaluate
+
+   :param my_field_t:
+   :type my_field_t: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.fft_eval()
+   >>> op.inputs.field_t.connect(my_field_t)
+   >>> # or
+   >>> op.inputs.field_t(my_field_t)
+
+.. py:property:: time_scoping
+
+   Allows to connect time_scoping input to the operator.
+
+   If specified only the results at these set
+   ids are used
+
+   :param my_time_scoping:
+   :type my_time_scoping: Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.fft_eval()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> # or
+   >>> op.inputs.time_scoping(my_time_scoping)
+
+
+
+
+
+

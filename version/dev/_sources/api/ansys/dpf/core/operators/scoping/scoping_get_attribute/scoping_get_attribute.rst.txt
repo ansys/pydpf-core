@@ -1,0 +1,137 @@
+
+
+
+
+
+
+:class:`scoping_get_attribute`
+==============================
+
+.. py:class:: ansys.dpf.core.operators.scoping.scoping_get_attribute.scoping_get_attribute(scoping=None, property_name=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Uses the Scoping APIs to return a given attribute of the scoping in
+   input.
+
+   :param scoping:
+   :type scoping: Scoping
+   :param property_name: Supported property names are: "ids",
+                         "location".
+   :type property_name: str
+
+   :returns: **property** -- Returns a vector of int for property: "ids"
+             and a string for property:
+             "location".
+   :rtype: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.scoping.scoping_get_attribute()
+
+   >>> # Make input connections
+   >>> my_scoping = dpf.Scoping()
+   >>> op.inputs.scoping.connect(my_scoping)
+   >>> my_property_name = str()
+   >>> op.inputs.property_name.connect(my_property_name)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.scoping.scoping_get_attribute(
+   ...     scoping=my_scoping,
+   ...     property_name=my_property_name,
+   ... )
+
+   >>> # Get output data
+   >>> result_property = op.outputs.property()
+
+
+
+
+.. py:currentmodule:: scoping_get_attribute
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.scoping.scoping_get_attribute import scoping_get_attribute
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsScopingGetAttribute
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsScopingGetAttribute
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

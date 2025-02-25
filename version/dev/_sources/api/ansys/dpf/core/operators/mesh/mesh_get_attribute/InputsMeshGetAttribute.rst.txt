@@ -1,0 +1,136 @@
+
+
+
+
+
+
+:class:`InputsMeshGetAttribute`
+===============================
+
+.. py:class:: ansys.dpf.core.operators.mesh.mesh_get_attribute.InputsMeshGetAttribute(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   mesh_get_attribute operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.mesh_get_attribute()
+   >>> my_abstract_meshed_region = dpf.MeshedRegion()
+   >>> op.inputs.abstract_meshed_region.connect(my_abstract_meshed_region)
+   >>> my_property_name = str()
+   >>> op.inputs.property_name.connect(my_property_name)
+   >>> my_property_identifier = int()
+   >>> op.inputs.property_identifier.connect(my_property_identifier)
+
+
+
+.. py:currentmodule:: InputsMeshGetAttribute
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~abstract_meshed_region`
+            - Allows to connect abstract_meshed_region input to the operator.
+          * - :py:attr:`~property_name`
+            - Allows to connect property_name input to the operator.
+          * - :py:attr:`~property_identifier`
+            - Allows to connect property_identifier input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mesh.mesh_get_attribute import InputsMeshGetAttribute
+
+Property detail
+---------------
+
+.. py:property:: abstract_meshed_region
+
+   Allows to connect abstract_meshed_region input to the operator.
+
+   :param my_abstract_meshed_region:
+   :type my_abstract_meshed_region: MeshedRegion
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.mesh_get_attribute()
+   >>> op.inputs.abstract_meshed_region.connect(my_abstract_meshed_region)
+   >>> # or
+   >>> op.inputs.abstract_meshed_region(my_abstract_meshed_region)
+
+.. py:property:: property_name
+
+   Allows to connect property_name input to the operator.
+
+   Supported property names are: "connectivity",
+   "reverse_connectivity", "mat",
+   "faces_nodes_connectivity",
+   "elements_faces_connectivity" (or any
+   mesh's property field),
+   "coordinates", "named_selection",
+   "num_named_selections",
+   "named_selection_names",
+   "named_selection_locations",
+   "node_scoping", "element_scoping",
+   "face_scoping"...
+
+   :param my_property_name:
+   :type my_property_name: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.mesh_get_attribute()
+   >>> op.inputs.property_name.connect(my_property_name)
+   >>> # or
+   >>> op.inputs.property_name(my_property_name)
+
+.. py:property:: property_identifier
+
+   Allows to connect property_identifier input to the operator.
+
+   Can be used to get a property at a given
+   index, example: a named selection's
+   number or by name, example: a named
+   selection's name.
+
+   :param my_property_identifier:
+   :type my_property_identifier: int or str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.mesh_get_attribute()
+   >>> op.inputs.property_identifier.connect(my_property_identifier)
+   >>> # or
+   >>> op.inputs.property_identifier(my_property_identifier)
+
+
+
+
+
+

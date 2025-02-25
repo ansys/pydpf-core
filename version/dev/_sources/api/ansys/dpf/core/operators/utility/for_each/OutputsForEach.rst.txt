@@ -1,0 +1,111 @@
+
+
+
+
+
+
+:class:`OutputsForEach`
+=======================
+
+.. py:class:: ansys.dpf.core.operators.utility.for_each.OutputsForEach(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   for_each operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.for_each()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_empty = op.outputs.empty()
+   >>> result_output1 = op.outputs.output1()
+   >>> result_output2 = op.outputs.output2()
+
+
+
+.. py:currentmodule:: OutputsForEach
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~empty`
+            - Allows to get empty output of the operator
+          * - :py:attr:`~output1`
+            - Allows to get output1 output of the operator
+          * - :py:attr:`~output2`
+            - Allows to get output2 output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.for_each import OutputsForEach
+
+Property detail
+---------------
+
+.. py:property:: empty
+
+   Allows to get empty output of the operator
+
+   :rtype: my_empty
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.for_each()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_empty = op.outputs.empty()
+
+.. py:property:: output1
+
+   Allows to get output1 output of the operator
+
+   :rtype: my_output1
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.for_each()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_output1 = op.outputs.output1()
+
+.. py:property:: output2
+
+   Allows to get output2 output of the operator
+
+   :rtype: my_output2
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.for_each()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_output2 = op.outputs.output2()
+
+
+
+
+
+

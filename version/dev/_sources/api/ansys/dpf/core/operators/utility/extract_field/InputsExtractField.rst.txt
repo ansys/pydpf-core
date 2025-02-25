@@ -1,0 +1,104 @@
+
+
+
+
+
+
+:class:`InputsExtractField`
+===========================
+
+.. py:class:: ansys.dpf.core.operators.utility.extract_field.InputsExtractField(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   extract_field operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.extract_field()
+   >>> my_fields_container = dpf.Field()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_indices = dpf.()
+   >>> op.inputs.indices.connect(my_indices)
+
+
+
+.. py:currentmodule:: InputsExtractField
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fields_container`
+            - Allows to connect fields_container input to the operator.
+          * - :py:attr:`~indices`
+            - Allows to connect indices input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.extract_field import InputsExtractField
+
+Property detail
+---------------
+
+.. py:property:: fields_container
+
+   Allows to connect fields_container input to the operator.
+
+   If a field is in input, it is passed on as an
+   output
+
+   :param my_fields_container:
+   :type my_fields_container: Field or FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.extract_field()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> # or
+   >>> op.inputs.fields_container(my_fields_container)
+
+.. py:property:: indices
+
+   Allows to connect indices input to the operator.
+
+   Default is the first field
+
+   :param my_indices:
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.extract_field()
+   >>> op.inputs.indices.connect(my_indices)
+   >>> # or
+   >>> op.inputs.indices(my_indices)
+
+
+
+
+
+

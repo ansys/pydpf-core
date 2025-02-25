@@ -1,0 +1,220 @@
+
+
+
+
+
+
+:class:`compute_invariant_terms_rbd`
+====================================
+
+.. py:class:: ansys.dpf.core.operators.result.compute_invariant_terms_rbd.compute_invariant_terms_rbd(rom_matrices=None, mode_shapes=None, lumped_mass=None, model_data=None, center_of_mass=None, inertia_relief=None, model_size=None, field_coordinates=None, nod=None, constraint_mode_check=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Set the required data for the invariant terms computation (reduced
+   matrices, lumped mass matrix, modes ...)
+
+   :param rom_matrices: Fieldscontainers containing the reduced
+                        matrices
+   :type rom_matrices: FieldsContainer
+   :param mode_shapes: Fieldscontainers containing the mode shapes,
+                       which are cst and nor for the cms
+                       method
+   :type mode_shapes: FieldsContainer
+   :param lumped_mass: Fieldscontainers containing the lumped mass
+   :type lumped_mass: FieldsContainer
+   :param model_data: Data describing the finite element model
+   :type model_data: FieldsContainer
+   :param center_of_mass:
+   :type center_of_mass: FieldsContainer
+   :param inertia_relief: Inertia matrix
+   :type inertia_relief: FieldsContainer
+   :param model_size: Model size
+   :type model_size: float
+   :param field_coordinates: Coordinates of all nodes
+   :type field_coordinates: Field
+   :param nod:
+   :param constraint_mode_check: If true, the orthogonality of the constraint
+                                 modes are checked. default is false.
+   :type constraint_mode_check: bool, optional
+
+   :returns: * **model_data** (*PropertyField*) -- Data describing the finite element model
+             * **center_of_mass** (*Field*) -- Center of mass of the body
+             * **inertia_relief** (*Field*) -- Inertia matrix
+             * **model_size** (*PropertyField*)
+             * *master_node_coordinates*
+             * *v_trsf* -- Translational and rotational shape functions
+             * **k_mat** (*Field*)
+             * **mass_mat** (*Field*)
+             * **c_mat** (*Field*)
+             * **rhs** (*Field*)
+             * *dn*
+             * *dr_cross_n*
+             * *drn*
+             * *dn_cross_n*
+             * *dnx_y*
+             * *dny_y*
+             * *dnz_y*
+             * *dyx_n*
+             * *dyy_n*
+             * *dyz_n*
+             * *dnxn*
+             * *dnyn*
+             * *dnzn*
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.result.compute_invariant_terms_rbd()
+
+   >>> # Make input connections
+   >>> my_rom_matrices = dpf.FieldsContainer()
+   >>> op.inputs.rom_matrices.connect(my_rom_matrices)
+   >>> my_mode_shapes = dpf.FieldsContainer()
+   >>> op.inputs.mode_shapes.connect(my_mode_shapes)
+   >>> my_lumped_mass = dpf.FieldsContainer()
+   >>> op.inputs.lumped_mass.connect(my_lumped_mass)
+   >>> my_model_data = dpf.FieldsContainer()
+   >>> op.inputs.model_data.connect(my_model_data)
+   >>> my_center_of_mass = dpf.FieldsContainer()
+   >>> op.inputs.center_of_mass.connect(my_center_of_mass)
+   >>> my_inertia_relief = dpf.FieldsContainer()
+   >>> op.inputs.inertia_relief.connect(my_inertia_relief)
+   >>> my_model_size = float()
+   >>> op.inputs.model_size.connect(my_model_size)
+   >>> my_field_coordinates = dpf.Field()
+   >>> op.inputs.field_coordinates.connect(my_field_coordinates)
+   >>> my_nod = dpf.()
+   >>> op.inputs.nod.connect(my_nod)
+   >>> my_constraint_mode_check = bool()
+   >>> op.inputs.constraint_mode_check.connect(my_constraint_mode_check)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.result.compute_invariant_terms_rbd(
+   ...     rom_matrices=my_rom_matrices,
+   ...     mode_shapes=my_mode_shapes,
+   ...     lumped_mass=my_lumped_mass,
+   ...     model_data=my_model_data,
+   ...     center_of_mass=my_center_of_mass,
+   ...     inertia_relief=my_inertia_relief,
+   ...     model_size=my_model_size,
+   ...     field_coordinates=my_field_coordinates,
+   ...     nod=my_nod,
+   ...     constraint_mode_check=my_constraint_mode_check,
+   ... )
+
+   >>> # Get output data
+   >>> result_model_data = op.outputs.model_data()
+   >>> result_center_of_mass = op.outputs.center_of_mass()
+   >>> result_inertia_relief = op.outputs.inertia_relief()
+   >>> result_model_size = op.outputs.model_size()
+   >>> result_master_node_coordinates = op.outputs.master_node_coordinates()
+   >>> result_v_trsf = op.outputs.v_trsf()
+   >>> result_k_mat = op.outputs.k_mat()
+   >>> result_mass_mat = op.outputs.mass_mat()
+   >>> result_c_mat = op.outputs.c_mat()
+   >>> result_rhs = op.outputs.rhs()
+   >>> result_dn = op.outputs.dn()
+   >>> result_dr_cross_n = op.outputs.dr_cross_n()
+   >>> result_drn = op.outputs.drn()
+   >>> result_dn_cross_n = op.outputs.dn_cross_n()
+   >>> result_dnx_y = op.outputs.dnx_y()
+   >>> result_dny_y = op.outputs.dny_y()
+   >>> result_dnz_y = op.outputs.dnz_y()
+   >>> result_dyx_n = op.outputs.dyx_n()
+   >>> result_dyy_n = op.outputs.dyy_n()
+   >>> result_dyz_n = op.outputs.dyz_n()
+   >>> result_dnxn = op.outputs.dnxn()
+   >>> result_dnyn = op.outputs.dnyn()
+   >>> result_dnzn = op.outputs.dnzn()
+
+
+
+
+.. py:currentmodule:: compute_invariant_terms_rbd
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.compute_invariant_terms_rbd import compute_invariant_terms_rbd
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsComputeInvariantTermsRbd
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsComputeInvariantTermsRbd
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

@@ -1,0 +1,194 @@
+
+
+
+
+
+
+:class:`InputsForceSummation`
+=============================
+
+.. py:class:: ansys.dpf.core.operators.averaging.force_summation.InputsForceSummation(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   force_summation operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.force_summation()
+   >>> my_time_scoping = dpf.Scoping()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> my_nodal_scoping = dpf.Scoping()
+   >>> op.inputs.nodal_scoping.connect(my_nodal_scoping)
+   >>> my_elemental_scoping = dpf.Scoping()
+   >>> op.inputs.elemental_scoping.connect(my_elemental_scoping)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_force_type = int()
+   >>> op.inputs.force_type.connect(my_force_type)
+   >>> my_spoint = dpf.Field()
+   >>> op.inputs.spoint.connect(my_spoint)
+
+
+
+.. py:currentmodule:: InputsForceSummation
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~time_scoping`
+            - Allows to connect time_scoping input to the operator.
+          * - :py:attr:`~nodal_scoping`
+            - Allows to connect nodal_scoping input to the operator.
+          * - :py:attr:`~elemental_scoping`
+            - Allows to connect elemental_scoping input to the operator.
+          * - :py:attr:`~data_sources`
+            - Allows to connect data_sources input to the operator.
+          * - :py:attr:`~force_type`
+            - Allows to connect force_type input to the operator.
+          * - :py:attr:`~spoint`
+            - Allows to connect spoint input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.averaging.force_summation import InputsForceSummation
+
+Property detail
+---------------
+
+.. py:property:: time_scoping
+
+   Allows to connect time_scoping input to the operator.
+
+   Default = all time steps
+
+   :param my_time_scoping:
+   :type my_time_scoping: Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.force_summation()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> # or
+   >>> op.inputs.time_scoping(my_time_scoping)
+
+.. py:property:: nodal_scoping
+
+   Allows to connect nodal_scoping input to the operator.
+
+   Nodal scoping. set of nodes in which
+   elemental contribution forces will be
+   accumulated (default = all nodes)
+
+   :param my_nodal_scoping:
+   :type my_nodal_scoping: Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.force_summation()
+   >>> op.inputs.nodal_scoping.connect(my_nodal_scoping)
+   >>> # or
+   >>> op.inputs.nodal_scoping(my_nodal_scoping)
+
+.. py:property:: elemental_scoping
+
+   Allows to connect elemental_scoping input to the operator.
+
+   Elemental scoping. set of elements
+   contributing to the force calcuation.
+   (default = all elements)
+
+   :param my_elemental_scoping:
+   :type my_elemental_scoping: Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.force_summation()
+   >>> op.inputs.elemental_scoping.connect(my_elemental_scoping)
+   >>> # or
+   >>> op.inputs.elemental_scoping(my_elemental_scoping)
+
+.. py:property:: data_sources
+
+   Allows to connect data_sources input to the operator.
+
+   :param my_data_sources:
+   :type my_data_sources: DataSources
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.force_summation()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> # or
+   >>> op.inputs.data_sources(my_data_sources)
+
+.. py:property:: force_type
+
+   Allows to connect force_type input to the operator.
+
+   Type of force to be processed (0 - default:
+   total forces (static, damping, and
+   inertia)., 1: static forces, 2:
+   damping forces, 3: inertia forces)
+
+   :param my_force_type:
+   :type my_force_type: int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.force_summation()
+   >>> op.inputs.force_type.connect(my_force_type)
+   >>> # or
+   >>> op.inputs.force_type(my_force_type)
+
+.. py:property:: spoint
+
+   Allows to connect spoint input to the operator.
+
+   Coordinate field of a point for moment
+   summations. defaults to (0,0,0).
+
+   :param my_spoint:
+   :type my_spoint: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.force_summation()
+   >>> op.inputs.spoint.connect(my_spoint)
+   >>> # or
+   >>> op.inputs.spoint(my_spoint)
+
+
+
+
+
+

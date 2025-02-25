@@ -1,0 +1,144 @@
+
+
+
+
+
+
+:class:`producer_consumer_for_each`
+===================================
+
+.. py:class:: ansys.dpf.core.operators.utility.producer_consumer_for_each.producer_consumer_for_each(producer_consumer_iterableq=None, forward1=None, forward2=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Allows to write a loop over operators by connecting data to iterate
+   and by requesting the incrementally output merged.The chain of
+   Operators are split into a first part: the producers and a second
+   part: the consumers. These 2 parts will run asynchronously on 2
+   threads.
+
+   :param producer_consumer_iterableq: The result of the
+                                       make_producer_consumer_for_each_itera
+                                       tor operator.
+   :param forward1: Output of the last operators of the workflow
+   :param forward2: Output of the last operators of the workflow
+
+   :returns: * *empty*
+             * *output1*
+             * *output2*
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.utility.producer_consumer_for_each()
+
+   >>> # Make input connections
+   >>> my_producer_consumer_iterableq = dpf.()
+   >>> op.inputs.producer_consumer_iterableq.connect(my_producer_consumer_iterableq)
+   >>> my_forward1 = dpf.()
+   >>> op.inputs.forward1.connect(my_forward1)
+   >>> my_forward2 = dpf.()
+   >>> op.inputs.forward2.connect(my_forward2)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.utility.producer_consumer_for_each(
+   ...     producer_consumer_iterableq=my_producer_consumer_iterableq,
+   ...     forward1=my_forward1,
+   ...     forward2=my_forward2,
+   ... )
+
+   >>> # Get output data
+   >>> result_empty = op.outputs.empty()
+   >>> result_output1 = op.outputs.output1()
+   >>> result_output2 = op.outputs.output2()
+
+
+
+
+.. py:currentmodule:: producer_consumer_for_each
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.producer_consumer_for_each import producer_consumer_for_each
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsProducerConsumerForEach
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsProducerConsumerForEach
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

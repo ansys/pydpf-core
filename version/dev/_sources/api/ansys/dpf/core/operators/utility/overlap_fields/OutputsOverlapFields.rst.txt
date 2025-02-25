@@ -1,0 +1,80 @@
+
+
+
+
+
+
+:class:`OutputsOverlapFields`
+=============================
+
+.. py:class:: ansys.dpf.core.operators.utility.overlap_fields.OutputsOverlapFields(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   overlap_fields operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.overlap_fields()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_field = op.outputs.field()
+
+
+
+.. py:currentmodule:: OutputsOverlapFields
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~field`
+            - Allows to get field output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.overlap_fields import OutputsOverlapFields
+
+Property detail
+---------------
+
+.. py:property:: field
+
+   Allows to get field output of the operator
+
+   :returns: **my_field**
+   :rtype: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.overlap_fields()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_field = op.outputs.field()
+
+
+
+
+
+

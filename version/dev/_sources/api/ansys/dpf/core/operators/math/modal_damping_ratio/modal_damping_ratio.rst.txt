@@ -1,0 +1,148 @@
+
+
+
+
+
+
+:class:`modal_damping_ratio`
+============================
+
+.. py:class:: ansys.dpf.core.operators.math.modal_damping_ratio.modal_damping_ratio(natural_freq=None, const_ratio=None, ratio_by_modes=None, m_coefficient=None, k_coefficient=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Computes damping ratio for each mode shape as X_i = const + ratio_i +
+   m_coefficient / (2*omega_i) + k_coefficient * omega_i/2.
+
+   :param natural_freq: Input vector expects natural frequencies.
+   :param const_ratio: Constant modal damping ratio
+   :type const_ratio: float, optional
+   :param ratio_by_modes: Modal damping ratio for each mode shape
+   :type ratio_by_modes: optional
+   :param m_coefficient: Global mass matrix multiplier
+   :type m_coefficient: float
+   :param k_coefficient: Global stiffness matrix multiplier
+   :type k_coefficient: float
+
+   :returns: **field** -- Field of modal damping ratio.
+   :rtype: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.math.modal_damping_ratio()
+
+   >>> # Make input connections
+   >>> my_natural_freq = dpf.()
+   >>> op.inputs.natural_freq.connect(my_natural_freq)
+   >>> my_const_ratio = float()
+   >>> op.inputs.const_ratio.connect(my_const_ratio)
+   >>> my_ratio_by_modes = dpf.()
+   >>> op.inputs.ratio_by_modes.connect(my_ratio_by_modes)
+   >>> my_m_coefficient = float()
+   >>> op.inputs.m_coefficient.connect(my_m_coefficient)
+   >>> my_k_coefficient = float()
+   >>> op.inputs.k_coefficient.connect(my_k_coefficient)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.math.modal_damping_ratio(
+   ...     natural_freq=my_natural_freq,
+   ...     const_ratio=my_const_ratio,
+   ...     ratio_by_modes=my_ratio_by_modes,
+   ...     m_coefficient=my_m_coefficient,
+   ...     k_coefficient=my_k_coefficient,
+   ... )
+
+   >>> # Get output data
+   >>> result_field = op.outputs.field()
+
+
+
+
+.. py:currentmodule:: modal_damping_ratio
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.modal_damping_ratio import modal_damping_ratio
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsModalDampingRatio
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsModalDampingRatio
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

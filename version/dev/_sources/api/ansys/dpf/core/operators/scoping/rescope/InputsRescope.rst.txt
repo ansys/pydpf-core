@@ -1,0 +1,123 @@
+
+
+
+
+
+
+:class:`InputsRescope`
+======================
+
+.. py:class:: ansys.dpf.core.operators.scoping.rescope.InputsRescope(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   rescope operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.scoping.rescope()
+   >>> my_fields = dpf.FieldsContainer()
+   >>> op.inputs.fields.connect(my_fields)
+   >>> my_mesh_scoping = dpf.Scoping()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> my_default_value = float()
+   >>> op.inputs.default_value.connect(my_default_value)
+
+
+
+.. py:currentmodule:: InputsRescope
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fields`
+            - Allows to connect fields input to the operator.
+          * - :py:attr:`~mesh_scoping`
+            - Allows to connect mesh_scoping input to the operator.
+          * - :py:attr:`~default_value`
+            - Allows to connect default_value input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.scoping.rescope import InputsRescope
+
+Property detail
+---------------
+
+.. py:property:: fields
+
+   Allows to connect fields input to the operator.
+
+   :param my_fields:
+   :type my_fields: FieldsContainer or Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.scoping.rescope()
+   >>> op.inputs.fields.connect(my_fields)
+   >>> # or
+   >>> op.inputs.fields(my_fields)
+
+.. py:property:: mesh_scoping
+
+   Allows to connect mesh_scoping input to the operator.
+
+   :param my_mesh_scoping:
+   :type my_mesh_scoping: Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.scoping.rescope()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> # or
+   >>> op.inputs.mesh_scoping(my_mesh_scoping)
+
+.. py:property:: default_value
+
+   Allows to connect default_value input to the operator.
+
+   If pin 2 is used, the ids not found in the
+   field are added with this default
+   value.
+
+   :param my_default_value:
+   :type my_default_value: float
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.scoping.rescope()
+   >>> op.inputs.default_value.connect(my_default_value)
+   >>> # or
+   >>> op.inputs.default_value(my_default_value)
+
+
+
+
+
+
