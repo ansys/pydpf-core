@@ -185,12 +185,7 @@ def build_operators():
     ]
     categories = set()
 
-    # import mistune
-    # from mistune.renderers.rst import RSTRenderer
-    #
-    # md2rst_converter = mistune.create_markdown(renderer=RSTRenderer())
-
-    import pypandoc
+    translator = Markdown2RstTranslator()
 
     for operator_name in available_operators:
         if succeeded == done + 100:
@@ -227,9 +222,7 @@ def build_operators():
         capital_class_name = common._snake_to_camel_case(scripting_name)
 
         # Convert Markdown descriptions to RST
-        # specification_description = md2rst_converter(specification.description)
-        specification_description = pypandoc.convert_text(specification.description, to="rst", format="md")
-        # specification_description = specification.description
+        specification_description = translator.convert(specification.description)
 
         # Write to operator file
         operator_file = os.path.join(category_path, scripting_name + ".py")
@@ -280,6 +273,30 @@ def build_operators():
     else:
         print("Terminated with errors")
         exit(1)
+
+
+class Markdown2RstTranslator:
+    """A translator class for Markdown to RST text conversion."""
+    def __init__(self):
+        import pypandoc
+
+        self._convert = pypandoc.convert_text
+
+        # import mistune
+        # from mistune.renderers.rst import RSTRenderer
+        #
+        # md2rst_converter = mistune.create_markdown(renderer=RSTRenderer())
+
+    def convert(self, text:str) -> str:
+        """Convert the Markdown text in input to RST."""
+        return self._convert(
+            source=text,
+            to="rst",
+            format="md",
+            verify_format=False,  # Improves performance but does not check validity of format
+            extra_args=["--eol=lf"],
+        )
+        # return md2rst_converter(specification.description)
 
 
 if __name__ == "__main__":
