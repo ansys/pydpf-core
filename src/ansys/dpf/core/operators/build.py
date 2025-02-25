@@ -3,6 +3,7 @@ import copy
 import os
 from datetime import datetime
 from textwrap import wrap
+import time
 
 import black
 import chevron
@@ -11,18 +12,15 @@ from ansys.dpf.core import common
 from ansys.dpf.core.dpf_operator import available_operator_names
 from ansys.dpf.core.outputs import _make_printable_type
 from ansys.dpf.core.mapping_types import map_types_to_python
+from ansys.dpf.core.operators.translator import Markdown2RstTranslator
 
 
-def build_docstring(specification):
+def build_docstring(specification_description):
     """Used to generate class docstrings."""
     docstring = ""
-    if specification.description:
-        docstring += "\n".join(
-            wrap(specification.description, subsequent_indent="    ")
-        )
-        docstring += "\n\n"
-    docstring = docstring.rstrip()
-    return docstring.replace('"', "'")
+    if specification_description:
+        docstring += specification_description.replace("\n", "\n    ")
+    return docstring
 
 
 def map_types(cpp_types):
@@ -83,6 +81,9 @@ def build_pin_data(pins, output=False):
         if multiple_types and output:
             printable_type_names = [_make_printable_type(name) for name in type_names]
 
+        document = specification.document
+        document_pin_docstring = document.replace("\n", "\n        ")
+
         pin_data = {
             "id": id,
             "name": pin_name,
@@ -97,13 +98,8 @@ def build_pin_data(pins, output=False):
             "main_type": main_type,
             "built_in_main_type": main_type in built_in_types,
             "optional": specification.optional,
-            "document": "\n".join(
-                wrap(
-                    specification.document.capitalize().lstrip(' '),
-                    subsequent_indent="        ",
-                    width=45,
-                )
-            ),
+            "document": document,
+            "document_pin_docstring": document_pin_docstring,
             "ellipsis": 0 if specification.ellipsis else -1,
         }
 
@@ -125,7 +121,7 @@ def build_pin_data(pins, output=False):
 
 
 def build_operator(
-    specification, operator_name, class_name, capital_class_name, category
+    specification, operator_name, class_name, capital_class_name, category, specification_description
 ):
 
     input_pins = []
@@ -137,11 +133,7 @@ def build_operator(
         output_pins = build_pin_data(specification.outputs, output=True)
     multiple_output_types = any(pin["multiple_types"] for pin in output_pins)
 
-    docstring = build_docstring(specification)
-
-    specification_description = "\n".join(
-        wrap(specification.description, subsequent_indent="            ")
-    )
+    docstring = build_docstring(specification_description)
 
     date_and_time = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
 
@@ -173,6 +165,7 @@ def build_operator(
 
 def build_operators():
     print(f"Generating operators for server {dpf.SERVER.version}")
+    time_0 = time.time()
 
     this_path = os.path.dirname(os.path.abspath(__file__))
 
@@ -192,6 +185,9 @@ def build_operators():
         "invert", "invert_fc",
     ]
     categories = set()
+
+    translator = Markdown2RstTranslator()
+
     for operator_name in available_operators:
         if succeeded == done + 100:
             done += 100
@@ -226,6 +222,9 @@ def build_operators():
         # Get python class name from scripting name
         capital_class_name = common._snake_to_camel_case(scripting_name)
 
+        # Convert Markdown descriptions to RST
+        specification_description = translator.convert(specification.description)
+
         # Write to operator file
         operator_file = os.path.join(category_path, scripting_name + ".py")
         with open(operator_file, "wb") as f:
@@ -236,6 +235,7 @@ def build_operators():
                     scripting_name,
                     capital_class_name,
                     category,
+                    specification_description,
                 )
                 exec(operator_str, globals())
                 f.write(operator_str.encode())
@@ -269,6 +269,7 @@ def build_operators():
 
     if succeeded == len(available_operators) - hidden:
         print("Success")
+        print(f"Took {time.time() - time_0}")
         exit(0)
     else:
         print("Terminated with errors")
