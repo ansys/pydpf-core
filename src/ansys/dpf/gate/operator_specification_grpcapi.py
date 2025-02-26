@@ -84,6 +84,8 @@ class OperatorSpecificationGRPCAPI(
 
     @staticmethod
     def operator_specification_get_pin_num_aliases(specification, binput, numPin):
+        if not hasattr(specification._internal_obj.map_input_pin_spec[numPin], "aliases"):
+            return 0
         if binput:
             return len(specification._internal_obj.map_input_pin_spec[numPin].aliases)
         else:
