@@ -715,40 +715,12 @@ class Workflow:
             out.append(self._api.work_flow_output_by_index(self, i))
         return out
 
-    def safe_connect_with(
-        self,
-        left_workflow: Workflow,
-        output_input_names: Union[tuple[str, str], dict[str, str]],
-    ):
-        """Prepend a given workflow to the current workflow for valid connections only.
-
-        See Workflow.connect_with for more information on the connection logic.
-
-        Parameters
-        ----------
-        left_workflow:
-            The given workflow's outputs are chained with the current workflow's inputs.
-        output_input_names:
-            Map used to connect the outputs of the given workflow to the inputs of the current
-            workflow.
-            Check the names of available inputs and outputs for each workflow using
-            `Workflow.input_names` and `Workflow.output_names`.
-        """
-        if isinstance(output_input_names, tuple):
-            output_input_names = {output_input_names[0]: output_input_names[1]}
-        valid_connections = dict(
-            filter(
-                lambda item: item[0] in left_workflow.output_names and item[1] in self.input_names,
-                output_input_names.items(),
-            )
-        )
-        self.connect_with(left_workflow, valid_connections)
-
     @version_requires("3.0")
     def connect_with(
         self,
         left_workflow: Workflow,
         output_input_names: Union[tuple[str, str], dict[str, str]] = None,
+        permissive: bool = True,
     ):
         """Prepend a given workflow to the current workflow.
 
@@ -768,6 +740,9 @@ class Workflow:
             `Workflow.input_names` and `Workflow.output_names`.
             The default is ``None``, in which case it tries to connect each output of the
             left_workflow with an input of the current workflow with the same name.
+        permissive:
+            Whether to filter 'output_input_names' to only keep available connections.
+            Otherwise raise an error if 'output_input_names' contains unavailable inputs or outputs.
 
         Examples
         --------
@@ -839,6 +814,14 @@ class Workflow:
                 )
                 output_names = left_workflow.output_names
                 input_names = self.input_names
+                if permissive:
+                    output_input_names = dict(
+                        filter(
+                            lambda item: item[0] in left_workflow.output_names
+                            and item[1] in self.input_names,
+                            output_input_names.items(),
+                        )
+                    )
                 for output_name, input_name in output_input_names.items():
                     if output_name not in output_names:
                         raise ValueError(

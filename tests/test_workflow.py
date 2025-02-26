@@ -707,15 +707,15 @@ def test_workflow_connect_raise_wrong_label(server_type):
     with pytest.raises(
         ValueError, match="Cannot connect workflow output 'out'. Exposed outputs are:\n"
     ):
-        workflow2.connect_with(workflow1, output_input_names={"out": "input"})
+        workflow2.connect_with(workflow1, output_input_names={"out": "input"}, permissive=False)
     with pytest.raises(
         ValueError, match="Cannot connect workflow input 'in'. Exposed inputs are:\n"
     ):
-        workflow2.connect_with(workflow1, output_input_names={"output": "in"})
-    workflow2.connect_with(workflow1, output_input_names={"output": "input"})
+        workflow2.connect_with(workflow1, output_input_names={"output": "in"}, permissive=False)
+    workflow2.connect_with(workflow1, output_input_names={"output": "input"}, permissive=False)
 
 
-def test_workflow_safe_connect_with(server_type):
+def test_workflow_connect_with_permissive(server_type):
     workflow1 = dpf.core.Workflow()
     forward_1 = dpf.core.operators.utility.forward()
     workflow1.set_output_name("output", forward_1.outputs.any)
@@ -724,11 +724,11 @@ def test_workflow_safe_connect_with(server_type):
     forward_2 = dpf.core.operators.utility.forward()
     workflow2.set_input_name("input", forward_2.inputs.any)
 
-    workflow2.safe_connect_with(workflow1, output_input_names={"out": "input"})
+    workflow2.connect_with(workflow1, output_input_names={"out": "input"})
 
-    workflow2.safe_connect_with(workflow1, output_input_names={"output": "in"})
+    workflow2.connect_with(workflow1, output_input_names={"output": "in"})
 
-    workflow2.safe_connect_with(workflow1, output_input_names=("output", "input"))
+    workflow2.connect_with(workflow1, output_input_names=("output", "input"))
 
 
 @pytest.mark.xfail(raises=dpf.core.errors.ServerTypeError)
