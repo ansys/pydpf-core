@@ -1,0 +1,124 @@
+
+
+
+
+
+
+:class:`InputsFftGradientEval`
+==============================
+
+.. py:class:: ansys.dpf.core.operators.math.fft_gradient_eval.InputsFftGradientEval(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   fft_gradient_eval operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.fft_gradient_eval()
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_time_scoping = dpf.Scoping()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> my_fs_ratio = int()
+   >>> op.inputs.fs_ratio.connect(my_fs_ratio)
+
+
+
+.. py:currentmodule:: InputsFftGradientEval
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fields_container`
+            - Allows to connect fields_container input to the operator.
+          * - :py:attr:`~time_scoping`
+            - Allows to connect time_scoping input to the operator.
+          * - :py:attr:`~fs_ratio`
+            - Allows to connect fs_ratio input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.fft_gradient_eval import InputsFftGradientEval
+
+Property detail
+---------------
+
+.. py:property:: fields_container
+
+   Allows to connect fields_container input to the operator.
+
+   :param my_fields_container:
+   :type my_fields_container: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.fft_gradient_eval()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> # or
+   >>> op.inputs.fields_container(my_fields_container)
+
+.. py:property:: time_scoping
+
+   Allows to connect time_scoping input to the operator.
+
+   If specified only the results at these set
+   ids are used
+
+   :param my_time_scoping:
+   :type my_time_scoping: Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.fft_gradient_eval()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> # or
+   >>> op.inputs.time_scoping(my_time_scoping)
+
+.. py:property:: fs_ratio
+
+   Allows to connect fs_ratio input to the operator.
+
+   Default value = 20
+
+   :param my_fs_ratio:
+   :type my_fs_ratio: int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.fft_gradient_eval()
+   >>> op.inputs.fs_ratio.connect(my_fs_ratio)
+   >>> # or
+   >>> op.inputs.fs_ratio(my_fs_ratio)
+
+
+
+
+
+

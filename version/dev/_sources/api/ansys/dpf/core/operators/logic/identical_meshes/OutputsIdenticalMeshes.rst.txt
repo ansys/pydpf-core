@@ -1,0 +1,80 @@
+
+
+
+
+
+
+:class:`OutputsIdenticalMeshes`
+===============================
+
+.. py:class:: ansys.dpf.core.operators.logic.identical_meshes.OutputsIdenticalMeshes(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   identical_meshes operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_meshes()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_are_identical = op.outputs.are_identical()
+
+
+
+.. py:currentmodule:: OutputsIdenticalMeshes
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~are_identical`
+            - Allows to get are_identical output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.logic.identical_meshes import OutputsIdenticalMeshes
+
+Property detail
+---------------
+
+.. py:property:: are_identical
+
+   Allows to get are_identical output of the operator
+
+   :returns: **my_are_identical**
+   :rtype: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_meshes()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_are_identical = op.outputs.are_identical()
+
+
+
+
+
+

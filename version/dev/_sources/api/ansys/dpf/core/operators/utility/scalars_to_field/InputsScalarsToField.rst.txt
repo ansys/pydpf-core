@@ -1,0 +1,195 @@
+
+
+
+
+
+
+:class:`InputsScalarsToField`
+=============================
+
+.. py:class:: ansys.dpf.core.operators.utility.scalars_to_field.InputsScalarsToField(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   scalars_to_field operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.scalars_to_field()
+   >>> my_double_or_vector_double = float()
+   >>> op.inputs.double_or_vector_double.connect(my_double_or_vector_double)
+   >>> my_unit = str()
+   >>> op.inputs.unit.connect(my_unit)
+   >>> my_location = str()
+   >>> op.inputs.location.connect(my_location)
+   >>> my_num_entity = int()
+   >>> op.inputs.num_entity.connect(my_num_entity)
+   >>> my_num_comp = int()
+   >>> op.inputs.num_comp.connect(my_num_comp)
+   >>> my_scoping = dpf.Scoping()
+   >>> op.inputs.scoping.connect(my_scoping)
+
+
+
+.. py:currentmodule:: InputsScalarsToField
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~double_or_vector_double`
+            - Allows to connect double_or_vector_double input to the operator.
+          * - :py:attr:`~unit`
+            - Allows to connect unit input to the operator.
+          * - :py:attr:`~location`
+            - Allows to connect location input to the operator.
+          * - :py:attr:`~num_entity`
+            - Allows to connect num_entity input to the operator.
+          * - :py:attr:`~num_comp`
+            - Allows to connect num_comp input to the operator.
+          * - :py:attr:`~scoping`
+            - Allows to connect scoping input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.scalars_to_field import InputsScalarsToField
+
+Property detail
+---------------
+
+.. py:property:: double_or_vector_double
+
+   Allows to connect double_or_vector_double input to the operator.
+
+   Data of the field, default is 0-field.
+   specify a double to have a field of
+   same value or specify directly the
+   data vector.
+
+   :param my_double_or_vector_double:
+   :type my_double_or_vector_double: float
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.scalars_to_field()
+   >>> op.inputs.double_or_vector_double.connect(my_double_or_vector_double)
+   >>> # or
+   >>> op.inputs.double_or_vector_double(my_double_or_vector_double)
+
+.. py:property:: unit
+
+   Allows to connect unit input to the operator.
+
+   Unit symbol (m, hz, kg, ...)
+
+   :param my_unit:
+   :type my_unit: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.scalars_to_field()
+   >>> op.inputs.unit.connect(my_unit)
+   >>> # or
+   >>> op.inputs.unit(my_unit)
+
+.. py:property:: location
+
+   Allows to connect location input to the operator.
+
+   Location of the field ex 'nodal',
+   'elementalnodal', 'elemental'...
+   default is 'numeric'.
+
+   :param my_location:
+   :type my_location: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.scalars_to_field()
+   >>> op.inputs.location.connect(my_location)
+   >>> # or
+   >>> op.inputs.location(my_location)
+
+.. py:property:: num_entity
+
+   Allows to connect num_entity input to the operator.
+
+   Number of field entities. default is 1 or the
+   size of the scoping in input if
+   specified.
+
+   :param my_num_entity:
+   :type my_num_entity: int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.scalars_to_field()
+   >>> op.inputs.num_entity.connect(my_num_entity)
+   >>> # or
+   >>> op.inputs.num_entity(my_num_entity)
+
+.. py:property:: num_comp
+
+   Allows to connect num_comp input to the operator.
+
+   Number of field components. default is 1.
+
+   :param my_num_comp:
+   :type my_num_comp: int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.scalars_to_field()
+   >>> op.inputs.num_comp.connect(my_num_comp)
+   >>> # or
+   >>> op.inputs.num_comp(my_num_comp)
+
+.. py:property:: scoping
+
+   Allows to connect scoping input to the operator.
+
+   Scoping.
+
+   :param my_scoping:
+   :type my_scoping: Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.scalars_to_field()
+   >>> op.inputs.scoping.connect(my_scoping)
+   >>> # or
+   >>> op.inputs.scoping(my_scoping)
+
+
+
+
+
+

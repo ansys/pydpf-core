@@ -1,0 +1,106 @@
+
+
+
+
+
+
+:class:`InputsFieldToFc`
+========================
+
+.. py:class:: ansys.dpf.core.operators.utility.field_to_fc.InputsFieldToFc(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   field_to_fc operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.field_to_fc()
+   >>> my_field = dpf.Field()
+   >>> op.inputs.field.connect(my_field)
+   >>> my_label = dict()
+   >>> op.inputs.label.connect(my_label)
+
+
+
+.. py:currentmodule:: InputsFieldToFc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~field`
+            - Allows to connect field input to the operator.
+          * - :py:attr:`~label`
+            - Allows to connect label input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.field_to_fc import InputsFieldToFc
+
+Property detail
+---------------
+
+.. py:property:: field
+
+   Allows to connect field input to the operator.
+
+   If a fields container is set in input, it is
+   passed on as an output with the
+   additional label space (if any).
+
+   :param my_field:
+   :type my_field: Field or FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.field_to_fc()
+   >>> op.inputs.field.connect(my_field)
+   >>> # or
+   >>> op.inputs.field(my_field)
+
+.. py:property:: label
+
+   Allows to connect label input to the operator.
+
+   Sets a label space.
+
+   :param my_label:
+   :type my_label: dict
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.field_to_fc()
+   >>> op.inputs.label.connect(my_label)
+   >>> # or
+   >>> op.inputs.label(my_label)
+
+
+
+
+
+

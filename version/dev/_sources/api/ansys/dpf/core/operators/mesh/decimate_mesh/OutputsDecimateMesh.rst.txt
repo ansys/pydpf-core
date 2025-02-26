@@ -1,0 +1,80 @@
+
+
+
+
+
+
+:class:`OutputsDecimateMesh`
+============================
+
+.. py:class:: ansys.dpf.core.operators.mesh.decimate_mesh.OutputsDecimateMesh(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   decimate_mesh operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.decimate_mesh()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_mesh = op.outputs.mesh()
+
+
+
+.. py:currentmodule:: OutputsDecimateMesh
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~mesh`
+            - Allows to get mesh output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mesh.decimate_mesh import OutputsDecimateMesh
+
+Property detail
+---------------
+
+.. py:property:: mesh
+
+   Allows to get mesh output of the operator
+
+   :returns: **my_mesh**
+   :rtype: MeshedRegion
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.decimate_mesh()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_mesh = op.outputs.mesh()
+
+
+
+
+
+

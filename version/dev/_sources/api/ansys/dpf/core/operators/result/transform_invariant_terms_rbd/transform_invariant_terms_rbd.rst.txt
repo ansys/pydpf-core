@@ -1,0 +1,277 @@
+
+
+
+
+
+
+:class:`transform_invariant_terms_rbd`
+======================================
+
+.. py:class:: ansys.dpf.core.operators.result.transform_invariant_terms_rbd.transform_invariant_terms_rbd(rotation_matrix=None, coordinate_system=None, model_data=None, center_of_mass=None, inertia_relief=None, model_size=None, master_node_coordinates=None, v_trsf=None, k_mat=None, mass_mat=None, c_mat=None, rhs=None, dn=None, dr_cross_n=None, drn=None, dn_cross_n=None, dnx_y=None, dny_y=None, dnz_y=None, dyx_n=None, dyy_n=None, dyz_n=None, dnxn=None, dnyn=None, dnzn=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Transform invariant terms rbd based on a coordinate system
+   (translation + rotation).
+
+   :param rotation_matrix: 3-3 rotation matrix.
+   :type rotation_matrix: Field
+   :param coordinate_system: Origin of the new coordinate system.
+   :type coordinate_system: Field
+   :param model_data: Data describing the finite element model
+   :type model_data: PropertyField
+   :param center_of_mass: Center of mass of the body
+   :type center_of_mass: Field
+   :param inertia_relief: Inertia matrix
+   :type inertia_relief: Field
+   :param model_size: Size of the diagonal box containing the body
+   :type model_size: float
+   :param master_node_coordinates:
+   :param v_trsf: Translational and rotational shape functions
+   :param k_mat:
+   :type k_mat: Field
+   :param mass_mat:
+   :type mass_mat: Field
+   :param c_mat:
+   :type c_mat: Field
+   :param rhs:
+   :type rhs: Field
+   :param dn:
+   :param dr_cross_n:
+   :param drn:
+   :param dn_cross_n:
+   :param dnx_y:
+   :param dny_y:
+   :param dnz_y:
+   :param dyx_n:
+   :param dyy_n:
+   :param dyz_n:
+   :param dnxn:
+   :param dnyn:
+   :param dnzn:
+
+   :returns: * **model_data** (*PropertyField*) -- Data describing the finite element model
+             * **center_of_mass** (*Field*) -- Center of mass of the body
+             * **inertia_relief** (*Field*) -- Inertia matrix
+             * **model_size** (*PropertyField*)
+             * *master_node_coordinates*
+             * *v_trsf* -- Translational and rotational shape functions
+             * **k_mat** (*Field*)
+             * **mass_mat** (*Field*)
+             * **c_mat** (*Field*)
+             * **rhs** (*Field*)
+             * *dn*
+             * *dr_cross_n*
+             * *drn*
+             * *dn_cross_n*
+             * *dnx_y*
+             * *dny_y*
+             * *dnz_y*
+             * *dyx_n*
+             * *dyy_n*
+             * *dyz_n*
+             * *dnxn*
+             * *dnyn*
+             * *dnzn*
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.result.transform_invariant_terms_rbd()
+
+   >>> # Make input connections
+   >>> my_rotation_matrix = dpf.Field()
+   >>> op.inputs.rotation_matrix.connect(my_rotation_matrix)
+   >>> my_coordinate_system = dpf.Field()
+   >>> op.inputs.coordinate_system.connect(my_coordinate_system)
+   >>> my_model_data = dpf.PropertyField()
+   >>> op.inputs.model_data.connect(my_model_data)
+   >>> my_center_of_mass = dpf.Field()
+   >>> op.inputs.center_of_mass.connect(my_center_of_mass)
+   >>> my_inertia_relief = dpf.Field()
+   >>> op.inputs.inertia_relief.connect(my_inertia_relief)
+   >>> my_model_size = float()
+   >>> op.inputs.model_size.connect(my_model_size)
+   >>> my_master_node_coordinates = dpf.()
+   >>> op.inputs.master_node_coordinates.connect(my_master_node_coordinates)
+   >>> my_v_trsf = dpf.()
+   >>> op.inputs.v_trsf.connect(my_v_trsf)
+   >>> my_k_mat = dpf.Field()
+   >>> op.inputs.k_mat.connect(my_k_mat)
+   >>> my_mass_mat = dpf.Field()
+   >>> op.inputs.mass_mat.connect(my_mass_mat)
+   >>> my_c_mat = dpf.Field()
+   >>> op.inputs.c_mat.connect(my_c_mat)
+   >>> my_rhs = dpf.Field()
+   >>> op.inputs.rhs.connect(my_rhs)
+   >>> my_dn = dpf.()
+   >>> op.inputs.dn.connect(my_dn)
+   >>> my_dr_cross_n = dpf.()
+   >>> op.inputs.dr_cross_n.connect(my_dr_cross_n)
+   >>> my_drn = dpf.()
+   >>> op.inputs.drn.connect(my_drn)
+   >>> my_dn_cross_n = dpf.()
+   >>> op.inputs.dn_cross_n.connect(my_dn_cross_n)
+   >>> my_dnx_y = dpf.()
+   >>> op.inputs.dnx_y.connect(my_dnx_y)
+   >>> my_dny_y = dpf.()
+   >>> op.inputs.dny_y.connect(my_dny_y)
+   >>> my_dnz_y = dpf.()
+   >>> op.inputs.dnz_y.connect(my_dnz_y)
+   >>> my_dyx_n = dpf.()
+   >>> op.inputs.dyx_n.connect(my_dyx_n)
+   >>> my_dyy_n = dpf.()
+   >>> op.inputs.dyy_n.connect(my_dyy_n)
+   >>> my_dyz_n = dpf.()
+   >>> op.inputs.dyz_n.connect(my_dyz_n)
+   >>> my_dnxn = dpf.()
+   >>> op.inputs.dnxn.connect(my_dnxn)
+   >>> my_dnyn = dpf.()
+   >>> op.inputs.dnyn.connect(my_dnyn)
+   >>> my_dnzn = dpf.()
+   >>> op.inputs.dnzn.connect(my_dnzn)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.result.transform_invariant_terms_rbd(
+   ...     rotation_matrix=my_rotation_matrix,
+   ...     coordinate_system=my_coordinate_system,
+   ...     model_data=my_model_data,
+   ...     center_of_mass=my_center_of_mass,
+   ...     inertia_relief=my_inertia_relief,
+   ...     model_size=my_model_size,
+   ...     master_node_coordinates=my_master_node_coordinates,
+   ...     v_trsf=my_v_trsf,
+   ...     k_mat=my_k_mat,
+   ...     mass_mat=my_mass_mat,
+   ...     c_mat=my_c_mat,
+   ...     rhs=my_rhs,
+   ...     dn=my_dn,
+   ...     dr_cross_n=my_dr_cross_n,
+   ...     drn=my_drn,
+   ...     dn_cross_n=my_dn_cross_n,
+   ...     dnx_y=my_dnx_y,
+   ...     dny_y=my_dny_y,
+   ...     dnz_y=my_dnz_y,
+   ...     dyx_n=my_dyx_n,
+   ...     dyy_n=my_dyy_n,
+   ...     dyz_n=my_dyz_n,
+   ...     dnxn=my_dnxn,
+   ...     dnyn=my_dnyn,
+   ...     dnzn=my_dnzn,
+   ... )
+
+   >>> # Get output data
+   >>> result_model_data = op.outputs.model_data()
+   >>> result_center_of_mass = op.outputs.center_of_mass()
+   >>> result_inertia_relief = op.outputs.inertia_relief()
+   >>> result_model_size = op.outputs.model_size()
+   >>> result_master_node_coordinates = op.outputs.master_node_coordinates()
+   >>> result_v_trsf = op.outputs.v_trsf()
+   >>> result_k_mat = op.outputs.k_mat()
+   >>> result_mass_mat = op.outputs.mass_mat()
+   >>> result_c_mat = op.outputs.c_mat()
+   >>> result_rhs = op.outputs.rhs()
+   >>> result_dn = op.outputs.dn()
+   >>> result_dr_cross_n = op.outputs.dr_cross_n()
+   >>> result_drn = op.outputs.drn()
+   >>> result_dn_cross_n = op.outputs.dn_cross_n()
+   >>> result_dnx_y = op.outputs.dnx_y()
+   >>> result_dny_y = op.outputs.dny_y()
+   >>> result_dnz_y = op.outputs.dnz_y()
+   >>> result_dyx_n = op.outputs.dyx_n()
+   >>> result_dyy_n = op.outputs.dyy_n()
+   >>> result_dyz_n = op.outputs.dyz_n()
+   >>> result_dnxn = op.outputs.dnxn()
+   >>> result_dnyn = op.outputs.dnyn()
+   >>> result_dnzn = op.outputs.dnzn()
+
+
+
+
+.. py:currentmodule:: transform_invariant_terms_rbd
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.transform_invariant_terms_rbd import transform_invariant_terms_rbd
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsTransformInvariantTermsRbd
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsTransformInvariantTermsRbd
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

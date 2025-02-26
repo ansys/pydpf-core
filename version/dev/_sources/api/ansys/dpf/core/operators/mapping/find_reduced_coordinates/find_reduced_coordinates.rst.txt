@@ -1,0 +1,151 @@
+
+
+
+
+
+
+:class:`find_reduced_coordinates`
+=================================
+
+.. py:class:: ansys.dpf.core.operators.mapping.find_reduced_coordinates.find_reduced_coordinates(coordinates=None, mesh=None, use_quadratic_elements=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Finds the elements corresponding to the given coordinates in input and
+   computes their reduced coordinates in those elements.
+
+   :param coordinates:
+   :type coordinates: Field or FieldsContainer or MeshedRegion or MeshesContainer
+   :param mesh: If the first field in input has no mesh in
+                support, then the mesh in this pin is
+                expected (default is false). if a
+                meshes container with several meshes
+                is set, it should be on the same
+                label spaces as the coordinates
+                fields container.
+   :type mesh: MeshedRegion or MeshesContainer, optional
+   :param use_quadratic_elements: If this pin is set to true, reduced
+                                  coordinates are computed on the
+                                  quadratic element if the element is
+                                  quadratic (more precise but less
+                                  performant). default is false.
+   :type use_quadratic_elements: bool, optional
+
+   :returns: * **reduced_coordinates** (*FieldsContainer*) -- Coordinates in the reference elements
+             * **element_ids** (*ScopingsContainer*) -- Ids of the elements where each set of reduced
+               coordinates is found
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.mapping.find_reduced_coordinates()
+
+   >>> # Make input connections
+   >>> my_coordinates = dpf.Field()
+   >>> op.inputs.coordinates.connect(my_coordinates)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_use_quadratic_elements = bool()
+   >>> op.inputs.use_quadratic_elements.connect(my_use_quadratic_elements)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.mapping.find_reduced_coordinates(
+   ...     coordinates=my_coordinates,
+   ...     mesh=my_mesh,
+   ...     use_quadratic_elements=my_use_quadratic_elements,
+   ... )
+
+   >>> # Get output data
+   >>> result_reduced_coordinates = op.outputs.reduced_coordinates()
+   >>> result_element_ids = op.outputs.element_ids()
+
+
+
+
+.. py:currentmodule:: find_reduced_coordinates
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mapping.find_reduced_coordinates import find_reduced_coordinates
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsFindReducedCoordinates
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsFindReducedCoordinates
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

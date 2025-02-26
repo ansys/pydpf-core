@@ -1,0 +1,80 @@
+
+
+
+
+
+
+:class:`OutputsMergeStringFields`
+=================================
+
+.. py:class:: ansys.dpf.core.operators.utility.merge_string_fields.OutputsMergeStringFields(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   merge_string_fields operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_string_fields()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_string_field = op.outputs.string_field()
+
+
+
+.. py:currentmodule:: OutputsMergeStringFields
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~string_field`
+            - Allows to get string_field output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.merge_string_fields import OutputsMergeStringFields
+
+Property detail
+---------------
+
+.. py:property:: string_field
+
+   Allows to get string_field output of the operator
+
+   :returns: **my_string_field**
+   :rtype: StringField
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_string_fields()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_string_field = op.outputs.string_field()
+
+
+
+
+
+

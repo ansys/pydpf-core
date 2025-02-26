@@ -1,0 +1,135 @@
+
+
+
+
+
+
+:class:`add_fc`
+===============
+
+.. py:class:: ansys.dpf.core.operators.math.add_fc.add_fc(fields_container1=None, fields_container2=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Selects all fields with the same label space in the input fields
+   container and add those together. If fields, doubles, or vectors
+   of doubles, are put in input they are added to all the fields.
+
+   :param fields_container1:
+   :type fields_container1: FieldsContainer or Field or float
+   :param fields_container2:
+   :type fields_container2: FieldsContainer or Field or float
+
+   :returns: **fields_container**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.math.add_fc()
+
+   >>> # Make input connections
+   >>> my_fields_container1 = dpf.FieldsContainer()
+   >>> op.inputs.fields_container1.connect(my_fields_container1)
+   >>> my_fields_container2 = dpf.FieldsContainer()
+   >>> op.inputs.fields_container2.connect(my_fields_container2)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.math.add_fc(
+   ...     fields_container1=my_fields_container1,
+   ...     fields_container2=my_fields_container2,
+   ... )
+
+   >>> # Get output data
+   >>> result_fields_container = op.outputs.fields_container()
+
+
+
+
+.. py:currentmodule:: add_fc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.add_fc import add_fc
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsAddFc
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsAddFc
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

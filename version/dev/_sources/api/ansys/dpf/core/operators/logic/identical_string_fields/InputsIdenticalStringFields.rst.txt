@@ -1,0 +1,100 @@
+
+
+
+
+
+
+:class:`InputsIdenticalStringFields`
+====================================
+
+.. py:class:: ansys.dpf.core.operators.logic.identical_string_fields.InputsIdenticalStringFields(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   identical_string_fields operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_string_fields()
+   >>> my_string_fieldA = dpf.StringField()
+   >>> op.inputs.string_fieldA.connect(my_string_fieldA)
+   >>> my_string_fieldB = dpf.StringField()
+   >>> op.inputs.string_fieldB.connect(my_string_fieldB)
+
+
+
+.. py:currentmodule:: InputsIdenticalStringFields
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~string_fieldA`
+            - Allows to connect string_fieldA input to the operator.
+          * - :py:attr:`~string_fieldB`
+            - Allows to connect string_fieldB input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.logic.identical_string_fields import InputsIdenticalStringFields
+
+Property detail
+---------------
+
+.. py:property:: string_fieldA
+
+   Allows to connect string_fieldA input to the operator.
+
+   :param my_string_fieldA:
+   :type my_string_fieldA: StringField
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_string_fields()
+   >>> op.inputs.string_fieldA.connect(my_string_fieldA)
+   >>> # or
+   >>> op.inputs.string_fieldA(my_string_fieldA)
+
+.. py:property:: string_fieldB
+
+   Allows to connect string_fieldB input to the operator.
+
+   :param my_string_fieldB:
+   :type my_string_fieldB: StringField
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_string_fields()
+   >>> op.inputs.string_fieldB.connect(my_string_fieldB)
+   >>> # or
+   >>> op.inputs.string_fieldB(my_string_fieldB)
+
+
+
+
+
+

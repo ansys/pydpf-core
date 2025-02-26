@@ -1,0 +1,102 @@
+
+
+
+
+
+
+:class:`InputsMinMaxOverTime`
+=============================
+
+.. py:class:: ansys.dpf.core.operators.math.min_max_over_time.InputsMinMaxOverTime(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   min_max_over_time operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.min_max_over_time()
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_int32 = int()
+   >>> op.inputs.int32.connect(my_int32)
+
+
+
+.. py:currentmodule:: InputsMinMaxOverTime
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fields_container`
+            - Allows to connect fields_container input to the operator.
+          * - :py:attr:`~int32`
+            - Allows to connect int32 input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.min_max_over_time import InputsMinMaxOverTime
+
+Property detail
+---------------
+
+.. py:property:: fields_container
+
+   Allows to connect fields_container input to the operator.
+
+   :param my_fields_container:
+   :type my_fields_container: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.min_max_over_time()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> # or
+   >>> op.inputs.fields_container(my_fields_container)
+
+.. py:property:: int32
+
+   Allows to connect int32 input to the operator.
+
+   Define min or max.
+
+   :param my_int32:
+   :type my_int32: int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.min_max_over_time()
+   >>> op.inputs.int32.connect(my_int32)
+   >>> # or
+   >>> op.inputs.int32(my_int32)
+
+
+
+
+
+

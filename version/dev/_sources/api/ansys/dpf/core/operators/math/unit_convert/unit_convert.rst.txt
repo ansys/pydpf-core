@@ -1,0 +1,138 @@
+
+
+
+
+
+
+:class:`unit_convert`
+=====================
+
+.. py:class:: ansys.dpf.core.operators.math.unit_convert.unit_convert(entity_to_convert=None, unit_name=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Converts an input field/fields container or mesh of a given unit to
+   another unit.
+
+   :param entity_to_convert:
+   :type entity_to_convert: Field or FieldsContainer or MeshedRegion or MeshesContainer
+   :param unit_name: Unit as a string, ex 'm' for meter, 'pa' for
+                     pascal,... or ansys unit system's id,
+                     or a field from which expected unit
+                     will be extracted.
+   :type unit_name: str or int or Field
+
+   :returns: **converted_entity** -- The output entity is the same as the input
+             (inplace operator)
+   :rtype: Field or FieldsContainer or MeshedRegion or MeshesContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.math.unit_convert()
+
+   >>> # Make input connections
+   >>> my_entity_to_convert = dpf.Field()
+   >>> op.inputs.entity_to_convert.connect(my_entity_to_convert)
+   >>> my_unit_name = str()
+   >>> op.inputs.unit_name.connect(my_unit_name)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.math.unit_convert(
+   ...     entity_to_convert=my_entity_to_convert,
+   ...     unit_name=my_unit_name,
+   ... )
+
+   >>> # Get output data
+   >>> result_converted_entity = op.outputs.converted_entity()
+
+
+
+
+.. py:currentmodule:: unit_convert
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.unit_convert import unit_convert
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsUnitConvert
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsUnitConvert
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

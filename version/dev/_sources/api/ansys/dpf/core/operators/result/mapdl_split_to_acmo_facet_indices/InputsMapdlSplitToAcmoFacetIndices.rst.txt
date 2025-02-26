@@ -1,0 +1,115 @@
+
+
+
+
+
+
+:class:`InputsMapdlSplitToAcmoFacetIndices`
+===========================================
+
+.. py:class:: ansys.dpf.core.operators.result.mapdl_split_to_acmo_facet_indices.InputsMapdlSplitToAcmoFacetIndices(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   mapdl_split_to_acmo_facet_indices operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.mapdl_split_to_acmo_facet_indices()
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_property_fields_container_element_types = dpf.PropertyFieldsContainer()
+   >>> op.inputs.property_fields_container_element_types.connect(my_property_fields_container_element_types)
+
+
+
+.. py:currentmodule:: InputsMapdlSplitToAcmoFacetIndices
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fields_container`
+            - Allows to connect fields_container input to the operator.
+          * - :py:attr:`~property_fields_container_element_types`
+            - Allows to connect property_fields_container_element_types input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.mapdl_split_to_acmo_facet_indices import InputsMapdlSplitToAcmoFacetIndices
+
+Property detail
+---------------
+
+.. py:property:: fields_container
+
+   Allows to connect fields_container input to the operator.
+
+   Fields container to split, with generic
+   number of labels (e.g. time, zone,
+   complex...), 'facet' label is
+   compulsory.the fields of the
+   fieldscontainer will have location
+   elemental and the scoping ids will be
+   the element ids on the skin mesh.
+
+   :param my_fields_container:
+   :type my_fields_container: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.mapdl_split_to_acmo_facet_indices()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> # or
+   >>> op.inputs.fields_container(my_fields_container)
+
+.. py:property:: property_fields_container_element_types
+
+   Allows to connect property_fields_container_element_types input to the operator.
+
+   It should only have the 'facet' label. for
+   each facet, it stores a propertyfield
+   with the element types of the
+   corresponding elements.the scoping
+   should be the same as the scoping of
+   the corresponding field in input 0.
+
+   :param my_property_fields_container_element_types:
+   :type my_property_fields_container_element_types: PropertyFieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.mapdl_split_to_acmo_facet_indices()
+   >>> op.inputs.property_fields_container_element_types.connect(my_property_fields_container_element_types)
+   >>> # or
+   >>> op.inputs.property_fields_container_element_types(my_property_fields_container_element_types)
+
+
+
+
+
+

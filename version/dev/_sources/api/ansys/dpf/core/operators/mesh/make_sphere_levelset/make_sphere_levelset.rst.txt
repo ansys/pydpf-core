@@ -1,0 +1,139 @@
+
+
+
+
+
+
+:class:`make_sphere_levelset`
+=============================
+
+.. py:class:: ansys.dpf.core.operators.mesh.make_sphere_levelset.make_sphere_levelset(coordinates=None, origin=None, radius=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Computes the level set for a sphere using coordinates.
+
+   :param coordinates:
+   :type coordinates: MeshedRegion or Field
+   :param origin: An overall 3d vector that gives a point of
+                  the plane.
+   :type origin: Field
+   :param radius: Sphere radius.
+   :type radius: float
+
+   :returns: **field**
+   :rtype: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.mesh.make_sphere_levelset()
+
+   >>> # Make input connections
+   >>> my_coordinates = dpf.MeshedRegion()
+   >>> op.inputs.coordinates.connect(my_coordinates)
+   >>> my_origin = dpf.Field()
+   >>> op.inputs.origin.connect(my_origin)
+   >>> my_radius = float()
+   >>> op.inputs.radius.connect(my_radius)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.mesh.make_sphere_levelset(
+   ...     coordinates=my_coordinates,
+   ...     origin=my_origin,
+   ...     radius=my_radius,
+   ... )
+
+   >>> # Get output data
+   >>> result_field = op.outputs.field()
+
+
+
+
+.. py:currentmodule:: make_sphere_levelset
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mesh.make_sphere_levelset import make_sphere_levelset
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsMakeSphereLevelset
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsMakeSphereLevelset
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

@@ -1,0 +1,100 @@
+
+
+
+
+
+
+:class:`InputsDataTreeToTxt`
+============================
+
+.. py:class:: ansys.dpf.core.operators.serialization.data_tree_to_txt.InputsDataTreeToTxt(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   data_tree_to_txt operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.data_tree_to_txt()
+   >>> my_data_tree = dpf.DataTree()
+   >>> op.inputs.data_tree.connect(my_data_tree)
+   >>> my_path = str()
+   >>> op.inputs.path.connect(my_path)
+
+
+
+.. py:currentmodule:: InputsDataTreeToTxt
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~data_tree`
+            - Allows to connect data_tree input to the operator.
+          * - :py:attr:`~path`
+            - Allows to connect path input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.serialization.data_tree_to_txt import InputsDataTreeToTxt
+
+Property detail
+---------------
+
+.. py:property:: data_tree
+
+   Allows to connect data_tree input to the operator.
+
+   :param my_data_tree:
+   :type my_data_tree: DataTree
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.data_tree_to_txt()
+   >>> op.inputs.data_tree.connect(my_data_tree)
+   >>> # or
+   >>> op.inputs.data_tree(my_data_tree)
+
+.. py:property:: path
+
+   Allows to connect path input to the operator.
+
+   :param my_path:
+   :type my_path: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.data_tree_to_txt()
+   >>> op.inputs.path.connect(my_path)
+   >>> # or
+   >>> op.inputs.path(my_path)
+
+
+
+
+
+

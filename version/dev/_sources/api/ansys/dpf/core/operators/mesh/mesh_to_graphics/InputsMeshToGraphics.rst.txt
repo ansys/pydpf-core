@@ -1,0 +1,123 @@
+
+
+
+
+
+
+:class:`InputsMeshToGraphics`
+=============================
+
+.. py:class:: ansys.dpf.core.operators.mesh.mesh_to_graphics.InputsMeshToGraphics(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   mesh_to_graphics operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.mesh_to_graphics()
+   >>> my_mesh_scoping = dpf.Scoping()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> my_node_normals = bool()
+   >>> op.inputs.node_normals.connect(my_node_normals)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+
+
+
+.. py:currentmodule:: InputsMeshToGraphics
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~mesh_scoping`
+            - Allows to connect mesh_scoping input to the operator.
+          * - :py:attr:`~node_normals`
+            - Allows to connect node_normals input to the operator.
+          * - :py:attr:`~mesh`
+            - Allows to connect mesh input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mesh.mesh_to_graphics import InputsMeshToGraphics
+
+Property detail
+---------------
+
+.. py:property:: mesh_scoping
+
+   Allows to connect mesh_scoping input to the operator.
+
+   :param my_mesh_scoping:
+   :type my_mesh_scoping: Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.mesh_to_graphics()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> # or
+   >>> op.inputs.mesh_scoping(my_mesh_scoping)
+
+.. py:property:: node_normals
+
+   Allows to connect node_normals input to the operator.
+
+   Average element normals for node normals
+   (default no, use element normals for
+   node normals)
+
+   :param my_node_normals:
+   :type my_node_normals: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.mesh_to_graphics()
+   >>> op.inputs.node_normals.connect(my_node_normals)
+   >>> # or
+   >>> op.inputs.node_normals(my_node_normals)
+
+.. py:property:: mesh
+
+   Allows to connect mesh input to the operator.
+
+   :param my_mesh:
+   :type my_mesh: MeshedRegion
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.mesh_to_graphics()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> # or
+   >>> op.inputs.mesh(my_mesh)
+
+
+
+
+
+

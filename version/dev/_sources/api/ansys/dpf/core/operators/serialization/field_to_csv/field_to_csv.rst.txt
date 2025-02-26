@@ -1,0 +1,138 @@
+
+
+
+
+
+
+:class:`field_to_csv`
+=====================
+
+.. py:class:: ansys.dpf.core.operators.serialization.field_to_csv.field_to_csv(field_or_fields_container=None, file_path=None, storage_type=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Exports a field or a fields container into a csv file
+
+   :param field_or_fields_container: Field_or_fields_container
+   :type field_or_fields_container: FieldsContainer or Field
+   :param file_path:
+   :type file_path: str
+   :param storage_type: Storage type : if matrices (without any
+                        particularity) are included in the
+                        fields container, the storage format
+                        can be chosen. 0 : flat/line format,
+                        1 : ranked format. if 1 is chosen,
+                        the csv can not be read by "csv to
+                        field" operator anymore. default : 0.
+   :type storage_type: int, optional
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.serialization.field_to_csv()
+
+   >>> # Make input connections
+   >>> my_field_or_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.field_or_fields_container.connect(my_field_or_fields_container)
+   >>> my_file_path = str()
+   >>> op.inputs.file_path.connect(my_file_path)
+   >>> my_storage_type = int()
+   >>> op.inputs.storage_type.connect(my_storage_type)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.serialization.field_to_csv(
+   ...     field_or_fields_container=my_field_or_fields_container,
+   ...     file_path=my_file_path,
+   ...     storage_type=my_storage_type,
+   ... )
+
+
+
+
+.. py:currentmodule:: field_to_csv
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.serialization.field_to_csv import field_to_csv
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsFieldToCsv
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsFieldToCsv
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

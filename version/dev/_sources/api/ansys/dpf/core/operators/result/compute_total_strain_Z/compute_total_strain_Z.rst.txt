@@ -1,0 +1,213 @@
+
+
+
+
+
+
+:class:`compute_total_strain_Z`
+===============================
+
+.. py:class:: ansys.dpf.core.operators.result.compute_total_strain_Z.compute_total_strain_Z(time_scoping=None, scoping=None, streams_container=None, data_sources=None, extrapolate=None, nonlinear=None, abstract_meshed_region=None, requested_location=None, displacement=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Computes the strain from a displacement field. Only SOLID185 (B-Bar,
+   Simplified Enhanced Strain, Enhanced Strain formulations),
+   SOLID186 (Full Integration) & SOLID187 elements are supported.
+   Layered elements are not supported. Thermal strains are not
+   supported. Only one value of material properties are allowed per
+   element for isotropic and orthotropic elasticity. Material
+   nonlinearity is not supported Only linear analysis are supported
+   without On Demand Expansion. All coordinates are global
+   coordinates. Euler Angles need to be included in the database.
+   Get the ZZ normal component (22 component).
+
+   :param time_scoping: Time/freq values (use doubles or field),
+                        time/freq set ids (use ints or
+                        scoping) or time/freq step ids (use
+                        scoping with timefreq_steps location)
+                        required in output. to specify
+                        time/freq values at specific load
+                        steps, put a field (and not a list)
+                        in input with a scoping located on
+                        "timefreq_steps". linear time freq
+                        intrapolation is performed if the
+                        values are not in the result files
+                        and the data at the max time or freq
+                        is taken when time/freqs are higher
+                        than available time/freqs in result
+                        files.. will only be used if no
+                        displacement input is given (will be
+                        applied on displacement operator).
+   :type time_scoping: Scoping or int or float or Field, optional
+   :param scoping: The element scoping on which the result is
+                   computed.
+   :type scoping: Scoping, optional
+   :param streams_container: Optional if a mesh or a data_sources have
+                             been connected. required if no
+                             displacement input have been
+                             connected.
+   :type streams_container: StreamsContainer, optional
+   :param data_sources: Optional if a mesh or a streams_container
+                        have been connected, or if the
+                        displacement's field has a mesh
+                        support. required if no displacement
+                        input have been connected.
+   :type data_sources: DataSources
+   :param extrapolate: Whether to extrapolate the data from the
+                       integration points to the nodes.
+   :type extrapolate: int, optional
+   :param nonlinear: Whether to use nonlinear geometry or
+                     nonlinear material (1 = large strain,
+                     2 = hyperelasticity).
+   :type nonlinear: int, optional
+   :param abstract_meshed_region: The underlying mesh. optional if a
+                                  data_sources or a streams_container
+                                  have been connected, or if the
+                                  displacement's field has a mesh
+                                  support.
+   :type abstract_meshed_region: MeshedRegion, optional
+   :param requested_location: Average the elemental nodal result to the
+                              requested location.
+   :type requested_location: str, optional
+   :param displacement: Field/or fields container containing only the
+                        displacement field (nodal). if none
+                        specified, read displacements from
+                        result file using the data_sources.
+   :type displacement: FieldsContainer or Field, optional
+
+   :returns: **fields_container** -- The computed result fields container
+             (elemental nodal).
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.result.compute_total_strain_Z()
+
+   >>> # Make input connections
+   >>> my_time_scoping = dpf.Scoping()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> my_scoping = dpf.Scoping()
+   >>> op.inputs.scoping.connect(my_scoping)
+   >>> my_streams_container = dpf.StreamsContainer()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_extrapolate = int()
+   >>> op.inputs.extrapolate.connect(my_extrapolate)
+   >>> my_nonlinear = int()
+   >>> op.inputs.nonlinear.connect(my_nonlinear)
+   >>> my_abstract_meshed_region = dpf.MeshedRegion()
+   >>> op.inputs.abstract_meshed_region.connect(my_abstract_meshed_region)
+   >>> my_requested_location = str()
+   >>> op.inputs.requested_location.connect(my_requested_location)
+   >>> my_displacement = dpf.FieldsContainer()
+   >>> op.inputs.displacement.connect(my_displacement)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.result.compute_total_strain_Z(
+   ...     time_scoping=my_time_scoping,
+   ...     scoping=my_scoping,
+   ...     streams_container=my_streams_container,
+   ...     data_sources=my_data_sources,
+   ...     extrapolate=my_extrapolate,
+   ...     nonlinear=my_nonlinear,
+   ...     abstract_meshed_region=my_abstract_meshed_region,
+   ...     requested_location=my_requested_location,
+   ...     displacement=my_displacement,
+   ... )
+
+   >>> # Get output data
+   >>> result_fields_container = op.outputs.fields_container()
+
+
+
+
+.. py:currentmodule:: compute_total_strain_Z
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.compute_total_strain_Z import compute_total_strain_Z
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsComputeTotalStrainZ
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsComputeTotalStrainZ
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

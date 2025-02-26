@@ -1,0 +1,79 @@
+
+
+
+
+
+
+:class:`OutputsField`
+=====================
+
+.. py:class:: ansys.dpf.core.operators.utility.field.OutputsField(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   field operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.field()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_incremented_result = op.outputs.incremented_result()
+
+
+
+.. py:currentmodule:: OutputsField
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~incremented_result`
+            - Allows to get incremented_result output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.field import OutputsField
+
+Property detail
+---------------
+
+.. py:property:: incremented_result
+
+   Allows to get incremented_result output of the operator
+
+   :rtype: my_incremented_result
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.field()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_incremented_result = op.outputs.incremented_result()
+
+
+
+
+
+

@@ -1,0 +1,146 @@
+
+
+
+
+
+
+:class:`make_label_space`
+=========================
+
+.. py:class:: ansys.dpf.core.operators.utility.make_label_space.make_label_space(base_label=None, label_name=None, label_value1=None, label_value2=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Assemble strings and integers to make a label space.
+
+   :param base_label: Used as a base label (extracted from
+                      fields/scoping container, or directly
+                      from label space) that is
+                      concatenated with provided values.
+   :type base_label: dict or FieldsContainer or ScopingsContainer, optional
+   :param label_name:
+   :type label_name: str
+   :param label_value1:
+   :type label_value1: int
+   :param label_value2:
+   :type label_value2: int
+
+   :returns: **label**
+   :rtype: dict
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.utility.make_label_space()
+
+   >>> # Make input connections
+   >>> my_base_label = dict()
+   >>> op.inputs.base_label.connect(my_base_label)
+   >>> my_label_name = str()
+   >>> op.inputs.label_name.connect(my_label_name)
+   >>> my_label_value1 = int()
+   >>> op.inputs.label_value1.connect(my_label_value1)
+   >>> my_label_value2 = int()
+   >>> op.inputs.label_value2.connect(my_label_value2)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.utility.make_label_space(
+   ...     base_label=my_base_label,
+   ...     label_name=my_label_name,
+   ...     label_value1=my_label_value1,
+   ...     label_value2=my_label_value2,
+   ... )
+
+   >>> # Get output data
+   >>> result_label = op.outputs.label()
+
+
+
+
+.. py:currentmodule:: make_label_space
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.make_label_space import make_label_space
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsMakeLabelSpace
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsMakeLabelSpace
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

@@ -1,0 +1,133 @@
+
+
+
+
+
+
+:class:`scoping_on_coordinates`
+===============================
+
+.. py:class:: ansys.dpf.core.operators.mapping.scoping_on_coordinates.scoping_on_coordinates(coordinates=None, mesh=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Finds the Elemental scoping of a set of coordinates.
+
+   :param coordinates:
+   :type coordinates: Field
+   :param mesh:
+   :type mesh: MeshedRegion
+
+   :returns: **scoping**
+   :rtype: Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.mapping.scoping_on_coordinates()
+
+   >>> # Make input connections
+   >>> my_coordinates = dpf.Field()
+   >>> op.inputs.coordinates.connect(my_coordinates)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.mapping.scoping_on_coordinates(
+   ...     coordinates=my_coordinates,
+   ...     mesh=my_mesh,
+   ... )
+
+   >>> # Get output data
+   >>> result_scoping = op.outputs.scoping()
+
+
+
+
+.. py:currentmodule:: scoping_on_coordinates
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mapping.scoping_on_coordinates import scoping_on_coordinates
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsScopingOnCoordinates
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsScopingOnCoordinates
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

@@ -1,0 +1,265 @@
+
+
+
+
+
+
+:class:`InputsTotalPressure`
+============================
+
+.. py:class:: ansys.dpf.core.operators.result.total_pressure.InputsTotalPressure(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   total_pressure operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.total_pressure()
+   >>> my_time_scoping = dpf.Scoping()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> my_mesh_scoping = dpf.ScopingsContainer()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> my_streams_container = dpf.StreamsContainer()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_region_scoping = dpf.Scoping()
+   >>> op.inputs.region_scoping.connect(my_region_scoping)
+   >>> my_qualifiers1 = dict()
+   >>> op.inputs.qualifiers1.connect(my_qualifiers1)
+   >>> my_qualifiers2 = dict()
+   >>> op.inputs.qualifiers2.connect(my_qualifiers2)
+
+
+
+.. py:currentmodule:: InputsTotalPressure
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~time_scoping`
+            - Allows to connect time_scoping input to the operator.
+          * - :py:attr:`~mesh_scoping`
+            - Allows to connect mesh_scoping input to the operator.
+          * - :py:attr:`~streams_container`
+            - Allows to connect streams_container input to the operator.
+          * - :py:attr:`~data_sources`
+            - Allows to connect data_sources input to the operator.
+          * - :py:attr:`~mesh`
+            - Allows to connect mesh input to the operator.
+          * - :py:attr:`~region_scoping`
+            - Allows to connect region_scoping input to the operator.
+          * - :py:attr:`~qualifiers1`
+            - Allows to connect qualifiers1 input to the operator.
+          * - :py:attr:`~qualifiers2`
+            - Allows to connect qualifiers2 input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.total_pressure import InputsTotalPressure
+
+Property detail
+---------------
+
+.. py:property:: time_scoping
+
+   Allows to connect time_scoping input to the operator.
+
+   Time/freq values (use doubles or field),
+   time/freq set ids (use ints or
+   scoping) or time/freq step ids (use
+   scoping with timefreq_steps location)
+   required in output. to specify
+   time/freq values at specific load
+   steps, put a field (and not a list)
+   in input with a scoping located on
+   "timefreq_steps". linear time freq
+   intrapolation is performed if the
+   values are not in the result files
+   and the data at the max time or freq
+   is taken when time/freqs are higher
+   than available time/freqs in result
+   files.
+
+   :param my_time_scoping:
+   :type my_time_scoping: Scoping or int or float or Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.total_pressure()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> # or
+   >>> op.inputs.time_scoping(my_time_scoping)
+
+.. py:property:: mesh_scoping
+
+   Allows to connect mesh_scoping input to the operator.
+
+   Nodes or elements scoping required in output.
+   the output fields will be scoped on
+   these node or element ids. to figure
+   out the ordering of the fields data,
+   look at their scoping ids as they
+   might not be ordered as the input
+   scoping was. the scoping's location
+   indicates whether nodes or elements
+   are asked for. using scopings
+   container allows you to split the
+   result fields container into domains
+
+   :param my_mesh_scoping:
+   :type my_mesh_scoping: ScopingsContainer or Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.total_pressure()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> # or
+   >>> op.inputs.mesh_scoping(my_mesh_scoping)
+
+.. py:property:: streams_container
+
+   Allows to connect streams_container input to the operator.
+
+   Result file container allowed to be kept open
+   to cache data
+
+   :param my_streams_container:
+   :type my_streams_container: StreamsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.total_pressure()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> # or
+   >>> op.inputs.streams_container(my_streams_container)
+
+.. py:property:: data_sources
+
+   Allows to connect data_sources input to the operator.
+
+   Result file path container, used if no
+   streams are set
+
+   :param my_data_sources:
+   :type my_data_sources: DataSources
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.total_pressure()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> # or
+   >>> op.inputs.data_sources(my_data_sources)
+
+.. py:property:: mesh
+
+   Allows to connect mesh input to the operator.
+
+   Prevents from reading the mesh in the result
+   files
+
+   :param my_mesh:
+   :type my_mesh: MeshedRegion or MeshesContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.total_pressure()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> # or
+   >>> op.inputs.mesh(my_mesh)
+
+.. py:property:: region_scoping
+
+   Allows to connect region_scoping input to the operator.
+
+   Region id (integer) or vector of region ids
+   (vector) or region scoping (scoping)
+   of the model (region corresponds to
+   zone for fluid results or part for
+   lsdyna results).
+
+   :param my_region_scoping:
+   :type my_region_scoping: Scoping or int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.total_pressure()
+   >>> op.inputs.region_scoping.connect(my_region_scoping)
+   >>> # or
+   >>> op.inputs.region_scoping(my_region_scoping)
+
+.. py:property:: qualifiers1
+
+   Allows to connect qualifiers1 input to the operator.
+
+   (for fluid results only) labelspace with
+   combination of zone, phases or
+   species ids
+
+   :param my_qualifiers1:
+   :type my_qualifiers1: dict
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.total_pressure()
+   >>> op.inputs.qualifiers1.connect(my_qualifiers1)
+   >>> # or
+   >>> op.inputs.qualifiers1(my_qualifiers1)
+
+.. py:property:: qualifiers2
+
+   Allows to connect qualifiers2 input to the operator.
+
+   (for fluid results only) labelspace with
+   combination of zone, phases or
+   species ids
+
+   :param my_qualifiers2:
+   :type my_qualifiers2: dict
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.total_pressure()
+   >>> op.inputs.qualifiers2.connect(my_qualifiers2)
+   >>> # or
+   >>> op.inputs.qualifiers2(my_qualifiers2)
+
+
+
+
+
+

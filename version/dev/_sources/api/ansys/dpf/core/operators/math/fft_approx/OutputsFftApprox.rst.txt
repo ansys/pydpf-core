@@ -1,0 +1,114 @@
+
+
+
+
+
+
+:class:`OutputsFftApprox`
+=========================
+
+.. py:class:: ansys.dpf.core.operators.math.fft_approx.OutputsFftApprox(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   fft_approx operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.fft_approx()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_fitted_entity_y = op.outputs.fitted_entity_y()
+   >>> result_first_der_dy = op.outputs.first_der_dy()
+   >>> result_second_der_d2y = op.outputs.second_der_d2y()
+
+
+
+.. py:currentmodule:: OutputsFftApprox
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fitted_entity_y`
+            - Allows to get fitted_entity_y output of the operator
+          * - :py:attr:`~first_der_dy`
+            - Allows to get first_der_dy output of the operator
+          * - :py:attr:`~second_der_d2y`
+            - Allows to get second_der_d2y output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.fft_approx import OutputsFftApprox
+
+Property detail
+---------------
+
+.. py:property:: fitted_entity_y
+
+   Allows to get fitted_entity_y output of the operator
+
+   :returns: **my_fitted_entity_y**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.fft_approx()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_fitted_entity_y = op.outputs.fitted_entity_y()
+
+.. py:property:: first_der_dy
+
+   Allows to get first_der_dy output of the operator
+
+   :returns: **my_first_der_dy**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.fft_approx()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_first_der_dy = op.outputs.first_der_dy()
+
+.. py:property:: second_der_d2y
+
+   Allows to get second_der_d2y output of the operator
+
+   :returns: **my_second_der_d2y**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.fft_approx()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_second_der_d2y = op.outputs.second_der_d2y()
+
+
+
+
+
+

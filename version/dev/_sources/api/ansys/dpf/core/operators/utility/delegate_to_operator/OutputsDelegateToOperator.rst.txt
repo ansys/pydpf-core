@@ -1,0 +1,97 @@
+
+
+
+
+
+
+:class:`OutputsDelegateToOperator`
+==================================
+
+.. py:class:: ansys.dpf.core.operators.utility.delegate_to_operator.OutputsDelegateToOperator(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   delegate_to_operator operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.delegate_to_operator()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_any1 = op.outputs.any1()
+   >>> result_any2 = op.outputs.any2()
+
+
+
+.. py:currentmodule:: OutputsDelegateToOperator
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~any1`
+            - Allows to get any1 output of the operator
+          * - :py:attr:`~any2`
+            - Allows to get any2 output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.delegate_to_operator import OutputsDelegateToOperator
+
+Property detail
+---------------
+
+.. py:property:: any1
+
+   Allows to get any1 output of the operator
+
+   :returns: **my_any1**
+   :rtype: Any
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.delegate_to_operator()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_any1 = op.outputs.any1()
+
+.. py:property:: any2
+
+   Allows to get any2 output of the operator
+
+   :returns: **my_any2**
+   :rtype: Any
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.delegate_to_operator()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_any2 = op.outputs.any2()
+
+
+
+
+
+

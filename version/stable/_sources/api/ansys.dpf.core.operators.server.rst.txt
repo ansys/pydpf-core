@@ -1,0 +1,17 @@
+ansys.dpf.core.operators.server package
+=======================================
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   ansys.dpf.core.operators.server.grpc_shutdown_server
+   ansys.dpf.core.operators.server.grpc_start_server
+
+Module contents
+---------------
+
+.. automodule:: ansys.dpf.core.operators.server
+   :inherited-members:

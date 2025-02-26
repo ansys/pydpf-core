@@ -1,0 +1,127 @@
+
+
+
+
+
+
+:class:`InputsElementsVolumesOverTime`
+======================================
+
+.. py:class:: ansys.dpf.core.operators.geo.elements_volumes_over_time.InputsElementsVolumesOverTime(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   elements_volumes_over_time operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.geo.elements_volumes_over_time()
+   >>> my_scoping = dpf.Scoping()
+   >>> op.inputs.scoping.connect(my_scoping)
+   >>> my_displacement = dpf.FieldsContainer()
+   >>> op.inputs.displacement.connect(my_displacement)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+
+
+
+.. py:currentmodule:: InputsElementsVolumesOverTime
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~scoping`
+            - Allows to connect scoping input to the operator.
+          * - :py:attr:`~displacement`
+            - Allows to connect displacement input to the operator.
+          * - :py:attr:`~mesh`
+            - Allows to connect mesh input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.geo.elements_volumes_over_time import InputsElementsVolumesOverTime
+
+Property detail
+---------------
+
+.. py:property:: scoping
+
+   Allows to connect scoping input to the operator.
+
+   :param my_scoping:
+   :type my_scoping: Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.geo.elements_volumes_over_time()
+   >>> op.inputs.scoping.connect(my_scoping)
+   >>> # or
+   >>> op.inputs.scoping(my_scoping)
+
+.. py:property:: displacement
+
+   Allows to connect displacement input to the operator.
+
+   Displacement field's container. must contain
+   the mesh if mesh not specified in
+   input.
+
+   :param my_displacement:
+   :type my_displacement: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.geo.elements_volumes_over_time()
+   >>> op.inputs.displacement.connect(my_displacement)
+   >>> # or
+   >>> op.inputs.displacement(my_displacement)
+
+.. py:property:: mesh
+
+   Allows to connect mesh input to the operator.
+
+   Mesh must be defined if the displacement
+   field's container does not contain
+   it, or if there is no displacement.
+
+   :param my_mesh:
+   :type my_mesh: MeshedRegion
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.geo.elements_volumes_over_time()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> # or
+   >>> op.inputs.mesh(my_mesh)
+
+
+
+
+
+

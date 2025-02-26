@@ -1,0 +1,102 @@
+
+
+
+
+
+
+:class:`InputsStringDeserializer`
+=================================
+
+.. py:class:: ansys.dpf.core.operators.serialization.string_deserializer.InputsStringDeserializer(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   string_deserializer operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.string_deserializer()
+   >>> my_stream_type = int()
+   >>> op.inputs.stream_type.connect(my_stream_type)
+   >>> my_serialized_string = str()
+   >>> op.inputs.serialized_string.connect(my_serialized_string)
+
+
+
+.. py:currentmodule:: InputsStringDeserializer
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~stream_type`
+            - Allows to connect stream_type input to the operator.
+          * - :py:attr:`~serialized_string`
+            - Allows to connect serialized_string input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.serialization.string_deserializer import InputsStringDeserializer
+
+Property detail
+---------------
+
+.. py:property:: stream_type
+
+   Allows to connect stream_type input to the operator.
+
+   0 for string (default), and 1 for binary
+
+   :param my_stream_type:
+   :type my_stream_type: int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.string_deserializer()
+   >>> op.inputs.stream_type.connect(my_stream_type)
+   >>> # or
+   >>> op.inputs.stream_type(my_stream_type)
+
+.. py:property:: serialized_string
+
+   Allows to connect serialized_string input to the operator.
+
+   :param my_serialized_string:
+   :type my_serialized_string: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.string_deserializer()
+   >>> op.inputs.serialized_string.connect(my_serialized_string)
+   >>> # or
+   >>> op.inputs.serialized_string(my_serialized_string)
+
+
+
+
+
+

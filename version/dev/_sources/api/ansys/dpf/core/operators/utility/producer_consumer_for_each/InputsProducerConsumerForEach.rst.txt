@@ -1,0 +1,124 @@
+
+
+
+
+
+
+:class:`InputsProducerConsumerForEach`
+======================================
+
+.. py:class:: ansys.dpf.core.operators.utility.producer_consumer_for_each.InputsProducerConsumerForEach(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   producer_consumer_for_each operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.producer_consumer_for_each()
+   >>> my_producer_consumer_iterableq = dpf.()
+   >>> op.inputs.producer_consumer_iterableq.connect(my_producer_consumer_iterableq)
+   >>> my_forward1 = dpf.()
+   >>> op.inputs.forward1.connect(my_forward1)
+   >>> my_forward2 = dpf.()
+   >>> op.inputs.forward2.connect(my_forward2)
+
+
+
+.. py:currentmodule:: InputsProducerConsumerForEach
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~producer_consumer_iterableq`
+            - Allows to connect producer_consumer_iterableq input to the operator.
+          * - :py:attr:`~forward1`
+            - Allows to connect forward1 input to the operator.
+          * - :py:attr:`~forward2`
+            - Allows to connect forward2 input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.producer_consumer_for_each import InputsProducerConsumerForEach
+
+Property detail
+---------------
+
+.. py:property:: producer_consumer_iterableq
+
+   Allows to connect producer_consumer_iterableq input to the operator.
+
+   The result of the
+   make_producer_consumer_for_each_itera
+   tor operator.
+
+   :param my_producer_consumer_iterableq:
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.producer_consumer_for_each()
+   >>> op.inputs.producer_consumer_iterableq.connect(my_producer_consumer_iterableq)
+   >>> # or
+   >>> op.inputs.producer_consumer_iterableq(my_producer_consumer_iterableq)
+
+.. py:property:: forward1
+
+   Allows to connect forward1 input to the operator.
+
+   Output of the last operators of the workflow
+
+   :param my_forward1:
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.producer_consumer_for_each()
+   >>> op.inputs.forward1.connect(my_forward1)
+   >>> # or
+   >>> op.inputs.forward1(my_forward1)
+
+.. py:property:: forward2
+
+   Allows to connect forward2 input to the operator.
+
+   Output of the last operators of the workflow
+
+   :param my_forward2:
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.producer_consumer_for_each()
+   >>> op.inputs.forward2.connect(my_forward2)
+   >>> # or
+   >>> op.inputs.forward2(my_forward2)
+
+
+
+
+
+

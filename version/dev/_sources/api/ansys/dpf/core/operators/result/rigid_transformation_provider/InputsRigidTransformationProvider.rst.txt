@@ -1,0 +1,104 @@
+
+
+
+
+
+
+:class:`InputsRigidTransformationProvider`
+==========================================
+
+.. py:class:: ansys.dpf.core.operators.result.rigid_transformation_provider.InputsRigidTransformationProvider(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   rigid_transformation_provider operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.rigid_transformation_provider()
+   >>> my_streams = dpf.Stream()
+   >>> op.inputs.streams.connect(my_streams)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+
+
+
+.. py:currentmodule:: InputsRigidTransformationProvider
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~streams`
+            - Allows to connect streams input to the operator.
+          * - :py:attr:`~data_sources`
+            - Allows to connect data_sources input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.rigid_transformation_provider import InputsRigidTransformationProvider
+
+Property detail
+---------------
+
+.. py:property:: streams
+
+   Allows to connect streams input to the operator.
+
+   Streams (result file container) (optional)
+
+   :param my_streams:
+   :type my_streams: Stream
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.rigid_transformation_provider()
+   >>> op.inputs.streams.connect(my_streams)
+   >>> # or
+   >>> op.inputs.streams(my_streams)
+
+.. py:property:: data_sources
+
+   Allows to connect data_sources input to the operator.
+
+   Data source of dsub file.
+
+   :param my_data_sources:
+   :type my_data_sources: DataSources
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.rigid_transformation_provider()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> # or
+   >>> op.inputs.data_sources(my_data_sources)
+
+
+
+
+
+

@@ -1,0 +1,127 @@
+
+
+
+
+
+
+:class:`InputsCentroid`
+=======================
+
+.. py:class:: ansys.dpf.core.operators.math.centroid.InputsCentroid(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   centroid operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.centroid()
+   >>> my_fieldA = dpf.Field()
+   >>> op.inputs.fieldA.connect(my_fieldA)
+   >>> my_fieldB = dpf.Field()
+   >>> op.inputs.fieldB.connect(my_fieldB)
+   >>> my_factor = float()
+   >>> op.inputs.factor.connect(my_factor)
+
+
+
+.. py:currentmodule:: InputsCentroid
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fieldA`
+            - Allows to connect fieldA input to the operator.
+          * - :py:attr:`~fieldB`
+            - Allows to connect fieldB input to the operator.
+          * - :py:attr:`~factor`
+            - Allows to connect factor input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.centroid import InputsCentroid
+
+Property detail
+---------------
+
+.. py:property:: fieldA
+
+   Allows to connect fieldA input to the operator.
+
+   Field or fields container with only one field
+   is expected
+
+   :param my_fieldA:
+   :type my_fieldA: Field or FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.centroid()
+   >>> op.inputs.fieldA.connect(my_fieldA)
+   >>> # or
+   >>> op.inputs.fieldA(my_fieldA)
+
+.. py:property:: fieldB
+
+   Allows to connect fieldB input to the operator.
+
+   Field or fields container with only one field
+   is expected
+
+   :param my_fieldB:
+   :type my_fieldB: Field or FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.centroid()
+   >>> op.inputs.fieldB.connect(my_fieldB)
+   >>> # or
+   >>> op.inputs.fieldB(my_fieldB)
+
+.. py:property:: factor
+
+   Allows to connect factor input to the operator.
+
+   Scalar
+
+   :param my_factor:
+   :type my_factor: float
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.centroid()
+   >>> op.inputs.factor.connect(my_factor)
+   >>> # or
+   >>> op.inputs.factor(my_factor)
+
+
+
+
+
+

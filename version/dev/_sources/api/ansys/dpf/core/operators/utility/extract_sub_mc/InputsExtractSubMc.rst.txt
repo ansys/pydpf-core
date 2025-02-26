@@ -1,0 +1,131 @@
+
+
+
+
+
+
+:class:`InputsExtractSubMc`
+===========================
+
+.. py:class:: ansys.dpf.core.operators.utility.extract_sub_mc.InputsExtractSubMc(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   extract_sub_mc operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.extract_sub_mc()
+   >>> my_meshes = dpf.MeshesContainer()
+   >>> op.inputs.meshes.connect(my_meshes)
+   >>> my_label_space = dict()
+   >>> op.inputs.label_space.connect(my_label_space)
+   >>> my_collapse_labels = bool()
+   >>> op.inputs.collapse_labels.connect(my_collapse_labels)
+
+
+
+.. py:currentmodule:: InputsExtractSubMc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~meshes`
+            - Allows to connect meshes input to the operator.
+          * - :py:attr:`~label_space`
+            - Allows to connect label_space input to the operator.
+          * - :py:attr:`~collapse_labels`
+            - Allows to connect collapse_labels input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.extract_sub_mc import InputsExtractSubMc
+
+Property detail
+---------------
+
+.. py:property:: meshes
+
+   Allows to connect meshes input to the operator.
+
+   Meshes
+
+   :param my_meshes:
+   :type my_meshes: MeshesContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.extract_sub_mc()
+   >>> op.inputs.meshes.connect(my_meshes)
+   >>> # or
+   >>> op.inputs.meshes(my_meshes)
+
+.. py:property:: label_space
+
+   Allows to connect label_space input to the operator.
+
+   Label space, or scoping defining the label
+   space (scoping location), values to
+   keep (scoping ids)
+
+   :param my_label_space:
+   :type my_label_space: dict or Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.extract_sub_mc()
+   >>> op.inputs.label_space.connect(my_label_space)
+   >>> # or
+   >>> op.inputs.label_space(my_label_space)
+
+.. py:property:: collapse_labels
+
+   Allows to connect collapse_labels input to the operator.
+
+   If set to true (default) the input label
+   space (scoping location) is
+   suppressed from the output meshes
+   container, otherwise, label space is
+   kept.
+
+   :param my_collapse_labels:
+   :type my_collapse_labels: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.extract_sub_mc()
+   >>> op.inputs.collapse_labels.connect(my_collapse_labels)
+   >>> # or
+   >>> op.inputs.collapse_labels(my_collapse_labels)
+
+
+
+
+
+

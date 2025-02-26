@@ -1,0 +1,106 @@
+
+
+
+
+
+
+:class:`InputsMergeMeshesContainers`
+====================================
+
+.. py:class:: ansys.dpf.core.operators.utility.merge_meshes_containers.InputsMergeMeshesContainers(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   merge_meshes_containers operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_meshes_containers()
+   >>> my_meshes_containers1 = dpf.MeshesContainer()
+   >>> op.inputs.meshes_containers1.connect(my_meshes_containers1)
+   >>> my_meshes_containers2 = dpf.MeshesContainer()
+   >>> op.inputs.meshes_containers2.connect(my_meshes_containers2)
+
+
+
+.. py:currentmodule:: InputsMergeMeshesContainers
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~meshes_containers1`
+            - Allows to connect meshes_containers1 input to the operator.
+          * - :py:attr:`~meshes_containers2`
+            - Allows to connect meshes_containers2 input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.merge_meshes_containers import InputsMergeMeshesContainers
+
+Property detail
+---------------
+
+.. py:property:: meshes_containers1
+
+   Allows to connect meshes_containers1 input to the operator.
+
+   A vector of meshes containers to merge or
+   meshes containers from pin 0 to ...
+
+   :param my_meshes_containers1:
+   :type my_meshes_containers1: MeshesContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_meshes_containers()
+   >>> op.inputs.meshes_containers1.connect(my_meshes_containers1)
+   >>> # or
+   >>> op.inputs.meshes_containers1(my_meshes_containers1)
+
+.. py:property:: meshes_containers2
+
+   Allows to connect meshes_containers2 input to the operator.
+
+   A vector of meshes containers to merge or
+   meshes containers from pin 0 to ...
+
+   :param my_meshes_containers2:
+   :type my_meshes_containers2: MeshesContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_meshes_containers()
+   >>> op.inputs.meshes_containers2.connect(my_meshes_containers2)
+   >>> # or
+   >>> op.inputs.meshes_containers2(my_meshes_containers2)
+
+
+
+
+
+

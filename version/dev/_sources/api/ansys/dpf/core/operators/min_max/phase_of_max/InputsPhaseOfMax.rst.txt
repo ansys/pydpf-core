@@ -1,0 +1,142 @@
+
+
+
+
+
+
+:class:`InputsPhaseOfMax`
+=========================
+
+.. py:class:: ansys.dpf.core.operators.min_max.phase_of_max.InputsPhaseOfMax(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   phase_of_max operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.min_max.phase_of_max()
+   >>> my_real_field = dpf.Field()
+   >>> op.inputs.real_field.connect(my_real_field)
+   >>> my_imaginary_field = dpf.Field()
+   >>> op.inputs.imaginary_field.connect(my_imaginary_field)
+   >>> my_abs_value = bool()
+   >>> op.inputs.abs_value.connect(my_abs_value)
+   >>> my_phase_increment = float()
+   >>> op.inputs.phase_increment.connect(my_phase_increment)
+
+
+
+.. py:currentmodule:: InputsPhaseOfMax
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~real_field`
+            - Allows to connect real_field input to the operator.
+          * - :py:attr:`~imaginary_field`
+            - Allows to connect imaginary_field input to the operator.
+          * - :py:attr:`~abs_value`
+            - Allows to connect abs_value input to the operator.
+          * - :py:attr:`~phase_increment`
+            - Allows to connect phase_increment input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.min_max.phase_of_max import InputsPhaseOfMax
+
+Property detail
+---------------
+
+.. py:property:: real_field
+
+   Allows to connect real_field input to the operator.
+
+   :param my_real_field:
+   :type my_real_field: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.min_max.phase_of_max()
+   >>> op.inputs.real_field.connect(my_real_field)
+   >>> # or
+   >>> op.inputs.real_field(my_real_field)
+
+.. py:property:: imaginary_field
+
+   Allows to connect imaginary_field input to the operator.
+
+   :param my_imaginary_field:
+   :type my_imaginary_field: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.min_max.phase_of_max()
+   >>> op.inputs.imaginary_field.connect(my_imaginary_field)
+   >>> # or
+   >>> op.inputs.imaginary_field(my_imaginary_field)
+
+.. py:property:: abs_value
+
+   Allows to connect abs_value input to the operator.
+
+   Should use absolute value.
+
+   :param my_abs_value:
+   :type my_abs_value: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.min_max.phase_of_max()
+   >>> op.inputs.abs_value.connect(my_abs_value)
+   >>> # or
+   >>> op.inputs.abs_value(my_abs_value)
+
+.. py:property:: phase_increment
+
+   Allows to connect phase_increment input to the operator.
+
+   Phase increment.
+
+   :param my_phase_increment:
+   :type my_phase_increment: float
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.min_max.phase_of_max()
+   >>> op.inputs.phase_increment.connect(my_phase_increment)
+   >>> # or
+   >>> op.inputs.phase_increment(my_phase_increment)
+
+
+
+
+
+

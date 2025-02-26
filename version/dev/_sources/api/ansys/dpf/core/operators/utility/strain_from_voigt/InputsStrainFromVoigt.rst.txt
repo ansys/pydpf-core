@@ -1,0 +1,84 @@
+
+
+
+
+
+
+:class:`InputsStrainFromVoigt`
+==============================
+
+.. py:class:: ansys.dpf.core.operators.utility.strain_from_voigt.InputsStrainFromVoigt(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   strain_from_voigt operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.strain_from_voigt()
+   >>> my_field = dpf.Field()
+   >>> op.inputs.field.connect(my_field)
+
+
+
+.. py:currentmodule:: InputsStrainFromVoigt
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~field`
+            - Allows to connect field input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.strain_from_voigt import InputsStrainFromVoigt
+
+Property detail
+---------------
+
+.. py:property:: field
+
+   Allows to connect field input to the operator.
+
+   Field or fields container with only one field
+   is expected
+
+   :param my_field:
+   :type my_field: Field or FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.strain_from_voigt()
+   >>> op.inputs.field.connect(my_field)
+   >>> # or
+   >>> op.inputs.field(my_field)
+
+
+
+
+
+

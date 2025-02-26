@@ -1,0 +1,169 @@
+
+
+
+
+
+
+:class:`time_freq_interpolation`
+================================
+
+.. py:class:: ansys.dpf.core.operators.math.time_freq_interpolation.time_freq_interpolation(fields_container=None, time_freq_values=None, step=None, interpolation_type=None, force_new_time_freq_support=None, time_freq_support=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Interpolates between all the matching fields of a fields container at
+   given times or frequencies, using ramped: fieldOut =
+   field1*(1.-fact)+field2*(fact), or stepped: fieldOut=field2. If
+   the time freq is higher than the max available, the field at the
+   max time freq is taken. Computes the output time freq support to
+   support the fields container
+
+   :param fields_container:
+   :type fields_container: FieldsContainer
+   :param time_freq_values: List of frequencies or times needed. to
+                            specify load steps, put a field (and
+                            not a list) in input with a scoping
+                            located on "timefreq_steps".
+   :type time_freq_values: float or Field
+   :param step: If a field is set as input, the step ids
+                should be its scoping.
+   :type step: int, optional
+   :param interpolation_type: 1 is ramped, 2 is stepped, default is 1.
+   :type interpolation_type: int, optional
+   :param force_new_time_freq_support: If set to true, the output fields container
+                                       will always have a new time freq
+                                       support rescoped to the output
+                                       time_freq_values (default is false).
+                                       if set to false, the time freq
+                                       support is only recreated when time
+                                       or frequency values are between
+                                       existing ones.
+   :type force_new_time_freq_support: bool, optional
+   :param time_freq_support:
+   :type time_freq_support: TimeFreqSupport, optional
+
+   :returns: **fields_container**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.math.time_freq_interpolation()
+
+   >>> # Make input connections
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_time_freq_values = float()
+   >>> op.inputs.time_freq_values.connect(my_time_freq_values)
+   >>> my_step = int()
+   >>> op.inputs.step.connect(my_step)
+   >>> my_interpolation_type = int()
+   >>> op.inputs.interpolation_type.connect(my_interpolation_type)
+   >>> my_force_new_time_freq_support = bool()
+   >>> op.inputs.force_new_time_freq_support.connect(my_force_new_time_freq_support)
+   >>> my_time_freq_support = dpf.TimeFreqSupport()
+   >>> op.inputs.time_freq_support.connect(my_time_freq_support)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.math.time_freq_interpolation(
+   ...     fields_container=my_fields_container,
+   ...     time_freq_values=my_time_freq_values,
+   ...     step=my_step,
+   ...     interpolation_type=my_interpolation_type,
+   ...     force_new_time_freq_support=my_force_new_time_freq_support,
+   ...     time_freq_support=my_time_freq_support,
+   ... )
+
+   >>> # Get output data
+   >>> result_fields_container = op.outputs.fields_container()
+
+
+
+
+.. py:currentmodule:: time_freq_interpolation
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.time_freq_interpolation import time_freq_interpolation
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsTimeFreqInterpolation
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsTimeFreqInterpolation
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

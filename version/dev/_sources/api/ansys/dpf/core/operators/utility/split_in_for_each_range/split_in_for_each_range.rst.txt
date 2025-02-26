@@ -1,0 +1,150 @@
+
+
+
+
+
+
+:class:`split_in_for_each_range`
+================================
+
+.. py:class:: ansys.dpf.core.operators.utility.split_in_for_each_range.split_in_for_each_range(iterable=None, operator_to_iterate=None, pin_index=None, scoping=None, chunk_size=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Split a scoping into several pieces so you can iterate it with a
+   for_each loop.
+
+   :param iterable: Iterable that can be combined with the one
+                    currently generated.
+   :type iterable: optional
+   :param operator_to_iterate: Operator that must be reconnected with the
+                               range values.
+   :type operator_to_iterate: Operator
+   :param pin_index:
+   :type pin_index: int
+   :param scoping:
+   :type scoping: Scoping
+   :param chunk_size:
+   :type chunk_size: int
+
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.utility.split_in_for_each_range()
+
+   >>> # Make input connections
+   >>> my_iterable = dpf.()
+   >>> op.inputs.iterable.connect(my_iterable)
+   >>> my_operator_to_iterate = dpf.Operator()
+   >>> op.inputs.operator_to_iterate.connect(my_operator_to_iterate)
+   >>> my_pin_index = int()
+   >>> op.inputs.pin_index.connect(my_pin_index)
+   >>> my_scoping = dpf.Scoping()
+   >>> op.inputs.scoping.connect(my_scoping)
+   >>> my_chunk_size = int()
+   >>> op.inputs.chunk_size.connect(my_chunk_size)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.utility.split_in_for_each_range(
+   ...     iterable=my_iterable,
+   ...     operator_to_iterate=my_operator_to_iterate,
+   ...     pin_index=my_pin_index,
+   ...     scoping=my_scoping,
+   ...     chunk_size=my_chunk_size,
+   ... )
+
+   >>> # Get output data
+   >>> result_output = op.outputs.output()
+
+
+
+
+.. py:currentmodule:: split_in_for_each_range
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.split_in_for_each_range import split_in_for_each_range
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsSplitInForEachRange
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsSplitInForEachRange
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

@@ -1,0 +1,84 @@
+
+
+
+
+
+
+:class:`InputsCmsDstTableProvider`
+==================================
+
+.. py:class:: ansys.dpf.core.operators.result.cms_dst_table_provider.InputsCmsDstTableProvider(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   cms_dst_table_provider operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.cms_dst_table_provider()
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+
+
+
+.. py:currentmodule:: InputsCmsDstTableProvider
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~data_sources`
+            - Allows to connect data_sources input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.cms_dst_table_provider import InputsCmsDstTableProvider
+
+Property detail
+---------------
+
+.. py:property:: data_sources
+
+   Allows to connect data_sources input to the operator.
+
+   Data_sources (must contain at least one
+   subfile).
+
+   :param my_data_sources:
+   :type my_data_sources: DataSources
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.cms_dst_table_provider()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> # or
+   >>> op.inputs.data_sources(my_data_sources)
+
+
+
+
+
+

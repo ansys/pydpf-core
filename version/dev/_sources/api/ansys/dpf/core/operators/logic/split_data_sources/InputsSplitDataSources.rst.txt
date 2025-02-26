@@ -1,0 +1,104 @@
+
+
+
+
+
+
+:class:`InputsSplitDataSources`
+===============================
+
+.. py:class:: ansys.dpf.core.operators.logic.split_data_sources.InputsSplitDataSources(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   split_data_sources operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.split_data_sources()
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_output_count = int()
+   >>> op.inputs.output_count.connect(my_output_count)
+
+
+
+.. py:currentmodule:: InputsSplitDataSources
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~data_sources`
+            - Allows to connect data_sources input to the operator.
+          * - :py:attr:`~output_count`
+            - Allows to connect output_count input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.logic.split_data_sources import InputsSplitDataSources
+
+Property detail
+---------------
+
+.. py:property:: data_sources
+
+   Allows to connect data_sources input to the operator.
+
+   Data sources to split.
+
+   :param my_data_sources:
+   :type my_data_sources: DataSources
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.split_data_sources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> # or
+   >>> op.inputs.data_sources(my_data_sources)
+
+.. py:property:: output_count
+
+   Allows to connect output_count input to the operator.
+
+   Number of desired outputs.
+
+   :param my_output_count:
+   :type my_output_count: int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.split_data_sources()
+   >>> op.inputs.output_count.connect(my_output_count)
+   >>> # or
+   >>> op.inputs.output_count(my_output_count)
+
+
+
+
+
+

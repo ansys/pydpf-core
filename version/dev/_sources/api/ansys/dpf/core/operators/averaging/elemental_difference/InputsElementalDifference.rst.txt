@@ -1,0 +1,147 @@
+
+
+
+
+
+
+:class:`InputsElementalDifference`
+==================================
+
+.. py:class:: ansys.dpf.core.operators.averaging.elemental_difference.InputsElementalDifference(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   elemental_difference operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.elemental_difference()
+   >>> my_field = dpf.Field()
+   >>> op.inputs.field.connect(my_field)
+   >>> my_mesh_scoping = dpf.Scoping()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_through_layers = bool()
+   >>> op.inputs.through_layers.connect(my_through_layers)
+
+
+
+.. py:currentmodule:: InputsElementalDifference
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~field`
+            - Allows to connect field input to the operator.
+          * - :py:attr:`~mesh_scoping`
+            - Allows to connect mesh_scoping input to the operator.
+          * - :py:attr:`~mesh`
+            - Allows to connect mesh input to the operator.
+          * - :py:attr:`~through_layers`
+            - Allows to connect through_layers input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.averaging.elemental_difference import InputsElementalDifference
+
+Property detail
+---------------
+
+.. py:property:: field
+
+   Allows to connect field input to the operator.
+
+   Field or fields container with only one field
+   is expected
+
+   :param my_field:
+   :type my_field: Field or FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.elemental_difference()
+   >>> op.inputs.field.connect(my_field)
+   >>> # or
+   >>> op.inputs.field(my_field)
+
+.. py:property:: mesh_scoping
+
+   Allows to connect mesh_scoping input to the operator.
+
+   Average only on these entities
+
+   :param my_mesh_scoping:
+   :type my_mesh_scoping: Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.elemental_difference()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> # or
+   >>> op.inputs.mesh_scoping(my_mesh_scoping)
+
+.. py:property:: mesh
+
+   Allows to connect mesh input to the operator.
+
+   :param my_mesh:
+   :type my_mesh: MeshedRegion
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.elemental_difference()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> # or
+   >>> op.inputs.mesh(my_mesh)
+
+.. py:property:: through_layers
+
+   Allows to connect through_layers input to the operator.
+
+   The maximum elemental difference is taken
+   through the different shell layers if
+   true (default is false).
+
+   :param my_through_layers:
+   :type my_through_layers: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.elemental_difference()
+   >>> op.inputs.through_layers.connect(my_through_layers)
+   >>> # or
+   >>> op.inputs.through_layers(my_through_layers)
+
+
+
+
+
+

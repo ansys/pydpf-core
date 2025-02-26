@@ -1,0 +1,148 @@
+
+
+
+
+
+
+:class:`time_integration`
+=========================
+
+.. py:class:: ansys.dpf.core.operators.math.time_integration.time_integration(field=None, resample_output=None, absolute_error=None, minimum_step_size=None, integration_constant=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Integrates a field of time varying quantities over time
+
+   :param field: Field
+   :type field: Field
+   :param resample_output: Resample the output
+   :type resample_output: bool, optional
+   :param absolute_error: Absolute error for the resampling
+   :type absolute_error: float, optional
+   :param minimum_step_size: Minimum time step size for the resamplig
+   :type minimum_step_size: float, optional
+   :param integration_constant: Constant to be added to the integrated field
+   :type integration_constant: float, optional
+
+   :returns: **field**
+   :rtype: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.math.time_integration()
+
+   >>> # Make input connections
+   >>> my_field = dpf.Field()
+   >>> op.inputs.field.connect(my_field)
+   >>> my_resample_output = bool()
+   >>> op.inputs.resample_output.connect(my_resample_output)
+   >>> my_absolute_error = float()
+   >>> op.inputs.absolute_error.connect(my_absolute_error)
+   >>> my_minimum_step_size = float()
+   >>> op.inputs.minimum_step_size.connect(my_minimum_step_size)
+   >>> my_integration_constant = float()
+   >>> op.inputs.integration_constant.connect(my_integration_constant)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.math.time_integration(
+   ...     field=my_field,
+   ...     resample_output=my_resample_output,
+   ...     absolute_error=my_absolute_error,
+   ...     minimum_step_size=my_minimum_step_size,
+   ...     integration_constant=my_integration_constant,
+   ... )
+
+   >>> # Get output data
+   >>> result_field = op.outputs.field()
+
+
+
+
+.. py:currentmodule:: time_integration
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.time_integration import time_integration
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsTimeIntegration
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsTimeIntegration
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

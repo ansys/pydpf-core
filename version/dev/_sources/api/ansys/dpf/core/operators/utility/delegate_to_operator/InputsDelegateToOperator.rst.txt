@@ -1,0 +1,81 @@
+
+
+
+
+
+
+:class:`InputsDelegateToOperator`
+=================================
+
+.. py:class:: ansys.dpf.core.operators.utility.delegate_to_operator.InputsDelegateToOperator(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   delegate_to_operator operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.delegate_to_operator()
+   >>> my_operator_name = str()
+   >>> op.inputs.operator_name.connect(my_operator_name)
+
+
+
+.. py:currentmodule:: InputsDelegateToOperator
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~operator_name`
+            - Allows to connect operator_name input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.delegate_to_operator import InputsDelegateToOperator
+
+Property detail
+---------------
+
+.. py:property:: operator_name
+
+   Allows to connect operator_name input to the operator.
+
+   :param my_operator_name:
+   :type my_operator_name: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.delegate_to_operator()
+   >>> op.inputs.operator_name.connect(my_operator_name)
+   >>> # or
+   >>> op.inputs.operator_name(my_operator_name)
+
+
+
+
+
+

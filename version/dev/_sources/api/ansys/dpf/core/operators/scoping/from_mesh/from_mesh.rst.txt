@@ -1,0 +1,135 @@
+
+
+
+
+
+
+:class:`from_mesh`
+==================
+
+.. py:class:: ansys.dpf.core.operators.scoping.from_mesh.from_mesh(mesh=None, requested_location=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Provides the entire mesh scoping based on the requested location
+
+   :param mesh:
+   :type mesh: MeshedRegion
+   :param requested_location: If nothing the operator returns the nodes
+                              scoping, possible locations are:
+                              nodal(default) or elemental
+   :type requested_location: str, optional
+
+   :returns: **scoping**
+   :rtype: Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.scoping.from_mesh()
+
+   >>> # Make input connections
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_requested_location = str()
+   >>> op.inputs.requested_location.connect(my_requested_location)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.scoping.from_mesh(
+   ...     mesh=my_mesh,
+   ...     requested_location=my_requested_location,
+   ... )
+
+   >>> # Get output data
+   >>> result_scoping = op.outputs.scoping()
+
+
+
+
+.. py:currentmodule:: from_mesh
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.scoping.from_mesh import from_mesh
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsFromMesh
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsFromMesh
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

@@ -1,0 +1,133 @@
+
+
+
+
+
+
+:class:`svd`
+============
+
+.. py:class:: ansys.dpf.core.operators.math.svd.svd(fields_container=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Computes the matrix singular value decomposition (SVD) for each field
+   in the given fields container.
+
+   :param fields_container: Fields_container
+   :type fields_container: FieldsContainer
+
+   :returns: * **s_svd** (*FieldsContainer*) -- Singular values of the input data, where
+               a=u.s.vt
+             * **u_svd** (*FieldsContainer*) -- U of the input data, where a=u.s.vt
+             * **vt_svd** (*FieldsContainer*) -- Vt of the input data, where a=u.s.vt
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.math.svd()
+
+   >>> # Make input connections
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.math.svd(
+   ...     fields_container=my_fields_container,
+   ... )
+
+   >>> # Get output data
+   >>> result_s_svd = op.outputs.s_svd()
+   >>> result_u_svd = op.outputs.u_svd()
+   >>> result_vt_svd = op.outputs.vt_svd()
+
+
+
+
+.. py:currentmodule:: svd
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.svd import svd
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsSvd
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsSvd
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

@@ -1,0 +1,80 @@
+
+
+
+
+
+
+:class:`OutputsElementTypesProvider`
+====================================
+
+.. py:class:: ansys.dpf.core.operators.metadata.element_types_provider.OutputsElementTypesProvider(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   element_types_provider operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.element_types_provider()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_element_types_data = op.outputs.element_types_data()
+
+
+
+.. py:currentmodule:: OutputsElementTypesProvider
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~element_types_data`
+            - Allows to get element_types_data output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.metadata.element_types_provider import OutputsElementTypesProvider
+
+Property detail
+---------------
+
+.. py:property:: element_types_data
+
+   Allows to get element_types_data output of the operator
+
+   :returns: **my_element_types_data**
+   :rtype: GenericDataContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.element_types_provider()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_element_types_data = op.outputs.element_types_data()
+
+
+
+
+
+

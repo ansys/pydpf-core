@@ -1,0 +1,104 @@
+
+
+
+
+
+
+:class:`InputsReduceSampling`
+=============================
+
+.. py:class:: ansys.dpf.core.operators.scoping.reduce_sampling.InputsReduceSampling(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   reduce_sampling operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.scoping.reduce_sampling()
+   >>> my_mesh_scoping = dpf.Scoping()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> my_denominator = int()
+   >>> op.inputs.denominator.connect(my_denominator)
+
+
+
+.. py:currentmodule:: InputsReduceSampling
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~mesh_scoping`
+            - Allows to connect mesh_scoping input to the operator.
+          * - :py:attr:`~denominator`
+            - Allows to connect denominator input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.scoping.reduce_sampling import InputsReduceSampling
+
+Property detail
+---------------
+
+.. py:property:: mesh_scoping
+
+   Allows to connect mesh_scoping input to the operator.
+
+   :param my_mesh_scoping:
+   :type my_mesh_scoping: Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.scoping.reduce_sampling()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> # or
+   >>> op.inputs.mesh_scoping(my_mesh_scoping)
+
+.. py:property:: denominator
+
+   Allows to connect denominator input to the operator.
+
+   Set the number of time the scoping is reduced
+   (default is 2). must be integer value
+   above 1.
+
+   :param my_denominator:
+   :type my_denominator: int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.scoping.reduce_sampling()
+   >>> op.inputs.denominator.connect(my_denominator)
+   >>> # or
+   >>> op.inputs.denominator(my_denominator)
+
+
+
+
+
+

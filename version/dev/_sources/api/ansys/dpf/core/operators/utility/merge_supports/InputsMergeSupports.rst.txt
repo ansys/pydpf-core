@@ -1,0 +1,133 @@
+
+
+
+
+
+
+:class:`InputsMergeSupports`
+============================
+
+.. py:class:: ansys.dpf.core.operators.utility.merge_supports.InputsMergeSupports(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   merge_supports operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_supports()
+   >>> my_should_merge_named_selections = bool()
+   >>> op.inputs.should_merge_named_selections.connect(my_should_merge_named_selections)
+   >>> my_supports1 = dpf.AbstractFieldSupport()
+   >>> op.inputs.supports1.connect(my_supports1)
+   >>> my_supports2 = dpf.AbstractFieldSupport()
+   >>> op.inputs.supports2.connect(my_supports2)
+
+
+
+.. py:currentmodule:: InputsMergeSupports
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~should_merge_named_selections`
+            - Allows to connect should_merge_named_selections input to the operator.
+          * - :py:attr:`~supports1`
+            - Allows to connect supports1 input to the operator.
+          * - :py:attr:`~supports2`
+            - Allows to connect supports2 input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.merge_supports import InputsMergeSupports
+
+Property detail
+---------------
+
+.. py:property:: should_merge_named_selections
+
+   Allows to connect should_merge_named_selections input to the operator.
+
+   For some result files (such as rst), the
+   scoping on names selection is
+   duplicated through all the
+   distributed files.if this pin is
+   false, the merging process is
+   skipped. if it is true, this scoping
+   is merged. default is true.
+
+   :param my_should_merge_named_selections:
+   :type my_should_merge_named_selections: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_supports()
+   >>> op.inputs.should_merge_named_selections.connect(my_should_merge_named_selections)
+   >>> # or
+   >>> op.inputs.should_merge_named_selections(my_should_merge_named_selections)
+
+.. py:property:: supports1
+
+   Allows to connect supports1 input to the operator.
+
+   A vector of supports to merge or supports
+   from pin 0 to ...
+
+   :param my_supports1:
+   :type my_supports1: AbstractFieldSupport
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_supports()
+   >>> op.inputs.supports1.connect(my_supports1)
+   >>> # or
+   >>> op.inputs.supports1(my_supports1)
+
+.. py:property:: supports2
+
+   Allows to connect supports2 input to the operator.
+
+   A vector of supports to merge or supports
+   from pin 0 to ...
+
+   :param my_supports2:
+   :type my_supports2: AbstractFieldSupport
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_supports()
+   >>> op.inputs.supports2.connect(my_supports2)
+   >>> # or
+   >>> op.inputs.supports2(my_supports2)
+
+
+
+
+
+

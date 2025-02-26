@@ -1,0 +1,174 @@
+
+
+
+
+
+
+:class:`grpc_start_server`
+==========================
+
+.. py:class:: ansys.dpf.core.operators.server.grpc_start_server.grpc_start_server(ip=None, port=None, starting_option=None, should_start_server=None, data_sources=None, dpf_context=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Starts a dpf's grpc server (if local) or connect to one and keep it
+   waiting for requests in a streams.
+
+   :param ip: If no ip address is put, the local ip address
+              is taken
+   :type ip: str, optional
+   :param port: If no port is put, port 50052 is taken
+   :type port: str or int, optional
+   :param starting_option: Default is 1 that starts server in new
+                           thread. with 0, this thread will be
+                           waiting for grpc calls and will not
+                           be usable for anything else. with 2,
+                           it the server will be started in a
+                           new process.
+   :type starting_option: int, optional
+   :param should_start_server: If true, the server is assumed to be local
+                               and is started. if false, only a
+                               client (able to send grpc calls) will
+                               be started
+   :type should_start_server: bool, optional
+   :param data_sources: A data source with result key 'grpc' and file
+                        path 'port:ip' can be used instead of
+                        the input port and ip.
+   :type data_sources: DataSources, optional
+   :param dpf_context: This pin is associated with pin(2) = 2
+                       (server started in a new process).
+                       user can enter the integer associated
+                       with a dpf context (1: standalone
+                       context - dpfcorestandalone.xml, 3:
+                       custom - dpfcustomdefined.xml) or a
+                       string with the path of the xml
+                       specifying the context.
+   :type dpf_context: str or int, optional
+
+   :returns: **grpc_streams** -- Dpf streams handling the server, if the
+             server is started in this thread,
+             then nothing is added in output
+   :rtype: StreamsContainer, optional
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.server.grpc_start_server()
+
+   >>> # Make input connections
+   >>> my_ip = str()
+   >>> op.inputs.ip.connect(my_ip)
+   >>> my_port = str()
+   >>> op.inputs.port.connect(my_port)
+   >>> my_starting_option = int()
+   >>> op.inputs.starting_option.connect(my_starting_option)
+   >>> my_should_start_server = bool()
+   >>> op.inputs.should_start_server.connect(my_should_start_server)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_dpf_context = str()
+   >>> op.inputs.dpf_context.connect(my_dpf_context)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.server.grpc_start_server(
+   ...     ip=my_ip,
+   ...     port=my_port,
+   ...     starting_option=my_starting_option,
+   ...     should_start_server=my_should_start_server,
+   ...     data_sources=my_data_sources,
+   ...     dpf_context=my_dpf_context,
+   ... )
+
+   >>> # Get output data
+   >>> result_grpc_streams = op.outputs.grpc_streams()
+
+
+
+
+.. py:currentmodule:: grpc_start_server
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.server.grpc_start_server import grpc_start_server
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsGrpcStartServer
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsGrpcStartServer
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

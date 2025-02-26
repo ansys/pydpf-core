@@ -1,0 +1,80 @@
+
+
+
+
+
+
+:class:`OutputsJsonToDataTree`
+==============================
+
+.. py:class:: ansys.dpf.core.operators.serialization.json_to_data_tree.OutputsJsonToDataTree(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   json_to_data_tree operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.json_to_data_tree()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_data_tree = op.outputs.data_tree()
+
+
+
+.. py:currentmodule:: OutputsJsonToDataTree
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~data_tree`
+            - Allows to get data_tree output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.serialization.json_to_data_tree import OutputsJsonToDataTree
+
+Property detail
+---------------
+
+.. py:property:: data_tree
+
+   Allows to get data_tree output of the operator
+
+   :returns: **my_data_tree**
+   :rtype: DataTree
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.json_to_data_tree()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_data_tree = op.outputs.data_tree()
+
+
+
+
+
+

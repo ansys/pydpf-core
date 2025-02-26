@@ -1,0 +1,106 @@
+
+
+
+
+
+
+:class:`InputsBeamProperties`
+=============================
+
+.. py:class:: ansys.dpf.core.operators.mesh.beam_properties.InputsBeamProperties(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   beam_properties operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.beam_properties()
+   >>> my_streams = dpf.StreamsContainer()
+   >>> op.inputs.streams.connect(my_streams)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+
+
+
+.. py:currentmodule:: InputsBeamProperties
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~streams`
+            - Allows to connect streams input to the operator.
+          * - :py:attr:`~data_sources`
+            - Allows to connect data_sources input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mesh.beam_properties import InputsBeamProperties
+
+Property detail
+---------------
+
+.. py:property:: streams
+
+   Allows to connect streams input to the operator.
+
+   Result file container allowed to be kept open
+   to cache data.
+
+   :param my_streams:
+   :type my_streams: StreamsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.beam_properties()
+   >>> op.inputs.streams.connect(my_streams)
+   >>> # or
+   >>> op.inputs.streams(my_streams)
+
+.. py:property:: data_sources
+
+   Allows to connect data_sources input to the operator.
+
+   Result file path container, used if no
+   streams are set.
+
+   :param my_data_sources:
+   :type my_data_sources: DataSources
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.beam_properties()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> # or
+   >>> op.inputs.data_sources(my_data_sources)
+
+
+
+
+
+

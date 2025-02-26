@@ -1,0 +1,165 @@
+
+
+
+
+
+
+:class:`InputsElementalToNodalFc`
+=================================
+
+.. py:class:: ansys.dpf.core.operators.averaging.elemental_to_nodal_fc.InputsElementalToNodalFc(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   elemental_to_nodal_fc operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.elemental_to_nodal_fc()
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_force_averaging = int()
+   >>> op.inputs.force_averaging.connect(my_force_averaging)
+   >>> my_mesh_scoping = dpf.Scoping()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> my_algorithm = int()
+   >>> op.inputs.algorithm.connect(my_algorithm)
+
+
+
+.. py:currentmodule:: InputsElementalToNodalFc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fields_container`
+            - Allows to connect fields_container input to the operator.
+          * - :py:attr:`~mesh`
+            - Allows to connect mesh input to the operator.
+          * - :py:attr:`~force_averaging`
+            - Allows to connect force_averaging input to the operator.
+          * - :py:attr:`~mesh_scoping`
+            - Allows to connect mesh_scoping input to the operator.
+          * - :py:attr:`~algorithm`
+            - Allows to connect algorithm input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.averaging.elemental_to_nodal_fc import InputsElementalToNodalFc
+
+Property detail
+---------------
+
+.. py:property:: fields_container
+
+   Allows to connect fields_container input to the operator.
+
+   :param my_fields_container:
+   :type my_fields_container: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.elemental_to_nodal_fc()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> # or
+   >>> op.inputs.fields_container(my_fields_container)
+
+.. py:property:: mesh
+
+   Allows to connect mesh input to the operator.
+
+   :param my_mesh:
+   :type my_mesh: MeshedRegion or MeshesContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.elemental_to_nodal_fc()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> # or
+   >>> op.inputs.mesh(my_mesh)
+
+.. py:property:: force_averaging
+
+   Allows to connect force_averaging input to the operator.
+
+   Averaging on nodes is used if this pin is set
+   to 1 (default is 1 for integrated
+   results and 0 for discrete ones).
+
+   :param my_force_averaging:
+   :type my_force_averaging: int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.elemental_to_nodal_fc()
+   >>> op.inputs.force_averaging.connect(my_force_averaging)
+   >>> # or
+   >>> op.inputs.force_averaging(my_force_averaging)
+
+.. py:property:: mesh_scoping
+
+   Allows to connect mesh_scoping input to the operator.
+
+   :param my_mesh_scoping:
+   :type my_mesh_scoping: Scoping or ScopingsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.elemental_to_nodal_fc()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> # or
+   >>> op.inputs.mesh_scoping(my_mesh_scoping)
+
+.. py:property:: algorithm
+
+   Allows to connect algorithm input to the operator.
+
+   Forces the usage of algorithm 1, 2 or 3
+   (default is chosen based on the type
+   of mesh).
+
+   :param my_algorithm:
+   :type my_algorithm: int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.elemental_to_nodal_fc()
+   >>> op.inputs.algorithm.connect(my_algorithm)
+   >>> # or
+   >>> op.inputs.algorithm(my_algorithm)
+
+
+
+
+
+

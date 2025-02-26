@@ -1,0 +1,142 @@
+
+
+
+
+
+
+:class:`gauss_to_node`
+======================
+
+.. py:class:: ansys.dpf.core.operators.geo.gauss_to_node.gauss_to_node(field=None, scoping=None, mesh=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Extrapolating results available at Gauss or quadrature points to nodal
+   points for one field. The available elements are: Linear
+   quadrangle, parabolic quadrangle, linear hexagonal, quadratic
+   hexagonal, linear tetrahedral, and quadratic tetrahedral
+
+   :param field:
+   :type field: Field
+   :param scoping: Scoping to integrate on, if not provided, the
+                   one from input field is provided.
+   :type scoping: Scoping, optional
+   :param mesh: Mesh to integrate on.
+   :type mesh: MeshedRegion, optional
+
+   :returns: **field**
+   :rtype: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.geo.gauss_to_node()
+
+   >>> # Make input connections
+   >>> my_field = dpf.Field()
+   >>> op.inputs.field.connect(my_field)
+   >>> my_scoping = dpf.Scoping()
+   >>> op.inputs.scoping.connect(my_scoping)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.geo.gauss_to_node(
+   ...     field=my_field,
+   ...     scoping=my_scoping,
+   ...     mesh=my_mesh,
+   ... )
+
+   >>> # Get output data
+   >>> result_field = op.outputs.field()
+
+
+
+
+.. py:currentmodule:: gauss_to_node
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.geo.gauss_to_node import gauss_to_node
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsGaussToNode
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsGaussToNode
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

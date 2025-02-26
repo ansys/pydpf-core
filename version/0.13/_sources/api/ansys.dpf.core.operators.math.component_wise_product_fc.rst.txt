@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.math.component_wise_product_fc
+   :inherited-members:

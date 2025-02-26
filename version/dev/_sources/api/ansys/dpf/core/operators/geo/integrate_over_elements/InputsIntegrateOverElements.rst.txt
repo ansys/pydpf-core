@@ -1,0 +1,125 @@
+
+
+
+
+
+
+:class:`InputsIntegrateOverElements`
+====================================
+
+.. py:class:: ansys.dpf.core.operators.geo.integrate_over_elements.InputsIntegrateOverElements(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   integrate_over_elements operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.geo.integrate_over_elements()
+   >>> my_field = dpf.Field()
+   >>> op.inputs.field.connect(my_field)
+   >>> my_scoping = dpf.Scoping()
+   >>> op.inputs.scoping.connect(my_scoping)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+
+
+
+.. py:currentmodule:: InputsIntegrateOverElements
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~field`
+            - Allows to connect field input to the operator.
+          * - :py:attr:`~scoping`
+            - Allows to connect scoping input to the operator.
+          * - :py:attr:`~mesh`
+            - Allows to connect mesh input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.geo.integrate_over_elements import InputsIntegrateOverElements
+
+Property detail
+---------------
+
+.. py:property:: field
+
+   Allows to connect field input to the operator.
+
+   :param my_field:
+   :type my_field: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.geo.integrate_over_elements()
+   >>> op.inputs.field.connect(my_field)
+   >>> # or
+   >>> op.inputs.field(my_field)
+
+.. py:property:: scoping
+
+   Allows to connect scoping input to the operator.
+
+   Integrate the input field over a specific
+   scoping.
+
+   :param my_scoping:
+   :type my_scoping: Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.geo.integrate_over_elements()
+   >>> op.inputs.scoping.connect(my_scoping)
+   >>> # or
+   >>> op.inputs.scoping(my_scoping)
+
+.. py:property:: mesh
+
+   Allows to connect mesh input to the operator.
+
+   Mesh to integrate on. if not provided, the
+   one from input field is employed.
+
+   :param my_mesh:
+   :type my_mesh: MeshedRegion
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.geo.integrate_over_elements()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> # or
+   >>> op.inputs.mesh(my_mesh)
+
+
+
+
+
+

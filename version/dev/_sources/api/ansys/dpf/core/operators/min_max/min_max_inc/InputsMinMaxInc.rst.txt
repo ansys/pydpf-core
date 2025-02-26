@@ -1,0 +1,100 @@
+
+
+
+
+
+
+:class:`InputsMinMaxInc`
+========================
+
+.. py:class:: ansys.dpf.core.operators.min_max.min_max_inc.InputsMinMaxInc(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   min_max_inc operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.min_max.min_max_inc()
+   >>> my_field = dpf.Field()
+   >>> op.inputs.field.connect(my_field)
+   >>> my_domain_id = int()
+   >>> op.inputs.domain_id.connect(my_domain_id)
+
+
+
+.. py:currentmodule:: InputsMinMaxInc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~field`
+            - Allows to connect field input to the operator.
+          * - :py:attr:`~domain_id`
+            - Allows to connect domain_id input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.min_max.min_max_inc import InputsMinMaxInc
+
+Property detail
+---------------
+
+.. py:property:: field
+
+   Allows to connect field input to the operator.
+
+   :param my_field:
+   :type my_field: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.min_max.min_max_inc()
+   >>> op.inputs.field.connect(my_field)
+   >>> # or
+   >>> op.inputs.field(my_field)
+
+.. py:property:: domain_id
+
+   Allows to connect domain_id input to the operator.
+
+   :param my_domain_id:
+   :type my_domain_id: int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.min_max.min_max_inc()
+   >>> op.inputs.domain_id.connect(my_domain_id)
+   >>> # or
+   >>> op.inputs.domain_id(my_domain_id)
+
+
+
+
+
+

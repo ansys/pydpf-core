@@ -1,0 +1,135 @@
+
+
+
+
+
+
+:class:`merge_to_field_matrix`
+==============================
+
+.. py:class:: ansys.dpf.core.operators.utility.merge_to_field_matrix.merge_to_field_matrix(fields1=None, fields2=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Assembles a set of fields into a field matrix.
+
+   :param fields1: Either a fields container, a vector of fields
+                   to merge, or fields from pin 0 to ...
+   :type fields1: Field or FieldsContainer
+   :param fields2: Either a fields container, a vector of fields
+                   to merge, or fields from pin 0 to ...
+   :type fields2: Field or FieldsContainer
+
+   :returns: **merged_field_matrix**
+   :rtype: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.utility.merge_to_field_matrix()
+
+   >>> # Make input connections
+   >>> my_fields1 = dpf.Field()
+   >>> op.inputs.fields1.connect(my_fields1)
+   >>> my_fields2 = dpf.Field()
+   >>> op.inputs.fields2.connect(my_fields2)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.utility.merge_to_field_matrix(
+   ...     fields1=my_fields1,
+   ...     fields2=my_fields2,
+   ... )
+
+   >>> # Get output data
+   >>> result_merged_field_matrix = op.outputs.merged_field_matrix()
+
+
+
+
+.. py:currentmodule:: merge_to_field_matrix
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.merge_to_field_matrix import merge_to_field_matrix
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsMergeToFieldMatrix
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsMergeToFieldMatrix
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

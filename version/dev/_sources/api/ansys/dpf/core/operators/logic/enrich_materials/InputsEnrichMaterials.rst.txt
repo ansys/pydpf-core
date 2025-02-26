@@ -1,0 +1,118 @@
+
+
+
+
+
+
+:class:`InputsEnrichMaterials`
+==============================
+
+.. py:class:: ansys.dpf.core.operators.logic.enrich_materials.InputsEnrichMaterials(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   enrich_materials operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.enrich_materials()
+   >>> my_MaterialContainer = dpf.()
+   >>> op.inputs.MaterialContainer.connect(my_MaterialContainer)
+   >>> my_streams = dpf.StreamsContainer()
+   >>> op.inputs.streams.connect(my_streams)
+   >>> my_streams_mapping = dpf.PropertyFieldsContainer()
+   >>> op.inputs.streams_mapping.connect(my_streams_mapping)
+
+
+
+.. py:currentmodule:: InputsEnrichMaterials
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~MaterialContainer`
+            - Allows to connect MaterialContainer input to the operator.
+          * - :py:attr:`~streams`
+            - Allows to connect streams input to the operator.
+          * - :py:attr:`~streams_mapping`
+            - Allows to connect streams_mapping input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.logic.enrich_materials import InputsEnrichMaterials
+
+Property detail
+---------------
+
+.. py:property:: MaterialContainer
+
+   Allows to connect MaterialContainer input to the operator.
+
+   :param my_MaterialContainer:
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.enrich_materials()
+   >>> op.inputs.MaterialContainer.connect(my_MaterialContainer)
+   >>> # or
+   >>> op.inputs.MaterialContainer(my_MaterialContainer)
+
+.. py:property:: streams
+
+   Allows to connect streams input to the operator.
+
+   :param my_streams:
+   :type my_streams: StreamsContainer or FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.enrich_materials()
+   >>> op.inputs.streams.connect(my_streams)
+   >>> # or
+   >>> op.inputs.streams(my_streams)
+
+.. py:property:: streams_mapping
+
+   Allows to connect streams_mapping input to the operator.
+
+   :param my_streams_mapping:
+   :type my_streams_mapping: PropertyFieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.enrich_materials()
+   >>> op.inputs.streams_mapping.connect(my_streams_mapping)
+   >>> # or
+   >>> op.inputs.streams_mapping(my_streams_mapping)
+
+
+
+
+
+

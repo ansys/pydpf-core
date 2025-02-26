@@ -1,0 +1,80 @@
+
+
+
+
+
+
+:class:`OutputsTimeFreqProvider`
+================================
+
+.. py:class:: ansys.dpf.core.operators.metadata.time_freq_provider.OutputsTimeFreqProvider(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   time_freq_provider operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.time_freq_provider()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_time_freq_support = op.outputs.time_freq_support()
+
+
+
+.. py:currentmodule:: OutputsTimeFreqProvider
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~time_freq_support`
+            - Allows to get time_freq_support output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.metadata.time_freq_provider import OutputsTimeFreqProvider
+
+Property detail
+---------------
+
+.. py:property:: time_freq_support
+
+   Allows to get time_freq_support output of the operator
+
+   :returns: **my_time_freq_support**
+   :rtype: TimeFreqSupport
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.time_freq_provider()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_time_freq_support = op.outputs.time_freq_support()
+
+
+
+
+
+

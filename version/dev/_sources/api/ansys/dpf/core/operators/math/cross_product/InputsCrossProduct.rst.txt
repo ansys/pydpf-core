@@ -1,0 +1,106 @@
+
+
+
+
+
+
+:class:`InputsCrossProduct`
+===========================
+
+.. py:class:: ansys.dpf.core.operators.math.cross_product.InputsCrossProduct(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   cross_product operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.cross_product()
+   >>> my_fieldA = dpf.Field()
+   >>> op.inputs.fieldA.connect(my_fieldA)
+   >>> my_fieldB = dpf.Field()
+   >>> op.inputs.fieldB.connect(my_fieldB)
+
+
+
+.. py:currentmodule:: InputsCrossProduct
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fieldA`
+            - Allows to connect fieldA input to the operator.
+          * - :py:attr:`~fieldB`
+            - Allows to connect fieldB input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.cross_product import InputsCrossProduct
+
+Property detail
+---------------
+
+.. py:property:: fieldA
+
+   Allows to connect fieldA input to the operator.
+
+   Field or fields container with only one field
+   is expected
+
+   :param my_fieldA:
+   :type my_fieldA: Field or FieldsContainer or float
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.cross_product()
+   >>> op.inputs.fieldA.connect(my_fieldA)
+   >>> # or
+   >>> op.inputs.fieldA(my_fieldA)
+
+.. py:property:: fieldB
+
+   Allows to connect fieldB input to the operator.
+
+   Field or fields container with only one field
+   is expected
+
+   :param my_fieldB:
+   :type my_fieldB: Field or FieldsContainer or float
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.cross_product()
+   >>> op.inputs.fieldB.connect(my_fieldB)
+   >>> # or
+   >>> op.inputs.fieldB(my_fieldB)
+
+
+
+
+
+

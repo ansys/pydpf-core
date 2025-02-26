@@ -1,0 +1,81 @@
+
+
+
+
+
+
+:class:`InputsElementalFromMesh`
+================================
+
+.. py:class:: ansys.dpf.core.operators.scoping.elemental_from_mesh.InputsElementalFromMesh(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   elemental_from_mesh operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.scoping.elemental_from_mesh()
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+
+
+
+.. py:currentmodule:: InputsElementalFromMesh
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~mesh`
+            - Allows to connect mesh input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.scoping.elemental_from_mesh import InputsElementalFromMesh
+
+Property detail
+---------------
+
+.. py:property:: mesh
+
+   Allows to connect mesh input to the operator.
+
+   :param my_mesh:
+   :type my_mesh: MeshedRegion
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.scoping.elemental_from_mesh()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> # or
+   >>> op.inputs.mesh(my_mesh)
+
+
+
+
+
+

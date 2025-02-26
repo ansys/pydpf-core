@@ -1,0 +1,80 @@
+
+
+
+
+
+
+:class:`OutputsWorkflowToWorkflowTopology`
+==========================================
+
+.. py:class:: ansys.dpf.core.operators.serialization.workflow_to_workflow_topology.OutputsWorkflowToWorkflowTopology(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   workflow_to_workflow_topology operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.workflow_to_workflow_topology()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_workflow_topology = op.outputs.workflow_topology()
+
+
+
+.. py:currentmodule:: OutputsWorkflowToWorkflowTopology
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~workflow_topology`
+            - Allows to get workflow_topology output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.serialization.workflow_to_workflow_topology import OutputsWorkflowToWorkflowTopology
+
+Property detail
+---------------
+
+.. py:property:: workflow_topology
+
+   Allows to get workflow_topology output of the operator
+
+   :returns: **my_workflow_topology**
+   :rtype: WorkflowTopology
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.workflow_to_workflow_topology()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_workflow_topology = op.outputs.workflow_topology()
+
+
+
+
+
+

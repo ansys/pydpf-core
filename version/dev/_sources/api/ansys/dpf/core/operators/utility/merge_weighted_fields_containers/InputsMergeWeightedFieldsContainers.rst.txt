@@ -1,0 +1,217 @@
+
+
+
+
+
+
+:class:`InputsMergeWeightedFieldsContainers`
+============================================
+
+.. py:class:: ansys.dpf.core.operators.utility.merge_weighted_fields_containers.InputsMergeWeightedFieldsContainers(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   merge_weighted_fields_containers operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_weighted_fields_containers()
+   >>> my_sum_merge = bool()
+   >>> op.inputs.sum_merge.connect(my_sum_merge)
+   >>> my_merged_fields_support = dpf.AbstractFieldSupport()
+   >>> op.inputs.merged_fields_support.connect(my_merged_fields_support)
+   >>> my_merged_fields_containers_support = dpf.AbstractFieldSupport()
+   >>> op.inputs.merged_fields_containers_support.connect(my_merged_fields_containers_support)
+   >>> my_fields_containers1 = dpf.FieldsContainer()
+   >>> op.inputs.fields_containers1.connect(my_fields_containers1)
+   >>> my_fields_containers2 = dpf.FieldsContainer()
+   >>> op.inputs.fields_containers2.connect(my_fields_containers2)
+   >>> my_weights1 = dpf.Class Dataprocessing::Dpftypecollection&lt;Class Dataprocessing::Cpropertyfield&gt;()
+   >>> op.inputs.weights1.connect(my_weights1)
+   >>> my_weights2 = dpf.Class Dataprocessing::Dpftypecollection&lt;Class Dataprocessing::Cpropertyfield&gt;()
+   >>> op.inputs.weights2.connect(my_weights2)
+
+
+
+.. py:currentmodule:: InputsMergeWeightedFieldsContainers
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~sum_merge`
+            - Allows to connect sum_merge input to the operator.
+          * - :py:attr:`~merged_fields_support`
+            - Allows to connect merged_fields_support input to the operator.
+          * - :py:attr:`~merged_fields_containers_support`
+            - Allows to connect merged_fields_containers_support input to the operator.
+          * - :py:attr:`~fields_containers1`
+            - Allows to connect fields_containers1 input to the operator.
+          * - :py:attr:`~fields_containers2`
+            - Allows to connect fields_containers2 input to the operator.
+          * - :py:attr:`~weights1`
+            - Allows to connect weights1 input to the operator.
+          * - :py:attr:`~weights2`
+            - Allows to connect weights2 input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.merge_weighted_fields_containers import InputsMergeWeightedFieldsContainers
+
+Property detail
+---------------
+
+.. py:property:: sum_merge
+
+   Allows to connect sum_merge input to the operator.
+
+   Default is false. if true, redundant
+   quantities are summed instead of
+   being ignored.
+
+   :param my_sum_merge:
+   :type my_sum_merge: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_weighted_fields_containers()
+   >>> op.inputs.sum_merge.connect(my_sum_merge)
+   >>> # or
+   >>> op.inputs.sum_merge(my_sum_merge)
+
+.. py:property:: merged_fields_support
+
+   Allows to connect merged_fields_support input to the operator.
+
+   Already merged field support.
+
+   :param my_merged_fields_support:
+   :type my_merged_fields_support: AbstractFieldSupport
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_weighted_fields_containers()
+   >>> op.inputs.merged_fields_support.connect(my_merged_fields_support)
+   >>> # or
+   >>> op.inputs.merged_fields_support(my_merged_fields_support)
+
+.. py:property:: merged_fields_containers_support
+
+   Allows to connect merged_fields_containers_support input to the operator.
+
+   Already merged fields containers support.
+
+   :param my_merged_fields_containers_support:
+   :type my_merged_fields_containers_support: AbstractFieldSupport
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_weighted_fields_containers()
+   >>> op.inputs.merged_fields_containers_support.connect(my_merged_fields_containers_support)
+   >>> # or
+   >>> op.inputs.merged_fields_containers_support(my_merged_fields_containers_support)
+
+.. py:property:: fields_containers1
+
+   Allows to connect fields_containers1 input to the operator.
+
+   A vector of fields containers to merge or
+   fields containers from pin 0 to ...
+
+   :param my_fields_containers1:
+   :type my_fields_containers1: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_weighted_fields_containers()
+   >>> op.inputs.fields_containers1.connect(my_fields_containers1)
+   >>> # or
+   >>> op.inputs.fields_containers1(my_fields_containers1)
+
+.. py:property:: fields_containers2
+
+   Allows to connect fields_containers2 input to the operator.
+
+   A vector of fields containers to merge or
+   fields containers from pin 0 to ...
+
+   :param my_fields_containers2:
+   :type my_fields_containers2: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_weighted_fields_containers()
+   >>> op.inputs.fields_containers2.connect(my_fields_containers2)
+   >>> # or
+   >>> op.inputs.fields_containers2(my_fields_containers2)
+
+.. py:property:: weights1
+
+   Allows to connect weights1 input to the operator.
+
+   Weights to apply to each field from pin 1000
+   to ...
+
+   :param my_weights1:
+   :type my_weights1: Class Dataprocessing::Dpftypecollection&lt;Class
+   :param Dataprocessing::Cpropertyfield&gt;:
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_weighted_fields_containers()
+   >>> op.inputs.weights1.connect(my_weights1)
+   >>> # or
+   >>> op.inputs.weights1(my_weights1)
+
+.. py:property:: weights2
+
+   Allows to connect weights2 input to the operator.
+
+   Weights to apply to each field from pin 1000
+   to ...
+
+   :param my_weights2:
+   :type my_weights2: Class Dataprocessing::Dpftypecollection&lt;Class
+   :param Dataprocessing::Cpropertyfield&gt;:
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_weighted_fields_containers()
+   >>> op.inputs.weights2.connect(my_weights2)
+   >>> # or
+   >>> op.inputs.weights2(my_weights2)
+
+
+
+
+
+

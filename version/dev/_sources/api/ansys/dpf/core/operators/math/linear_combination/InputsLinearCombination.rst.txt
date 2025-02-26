@@ -1,0 +1,161 @@
+
+
+
+
+
+
+:class:`InputsLinearCombination`
+================================
+
+.. py:class:: ansys.dpf.core.operators.math.linear_combination.InputsLinearCombination(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   linear_combination operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.linear_combination()
+   >>> my_a = float()
+   >>> op.inputs.a.connect(my_a)
+   >>> my_fields_containerA = dpf.FieldsContainer()
+   >>> op.inputs.fields_containerA.connect(my_fields_containerA)
+   >>> my_fields_containerB = dpf.FieldsContainer()
+   >>> op.inputs.fields_containerB.connect(my_fields_containerB)
+   >>> my_b = float()
+   >>> op.inputs.b.connect(my_b)
+   >>> my_fields_containerC = dpf.FieldsContainer()
+   >>> op.inputs.fields_containerC.connect(my_fields_containerC)
+
+
+
+.. py:currentmodule:: InputsLinearCombination
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~a`
+            - Allows to connect a input to the operator.
+          * - :py:attr:`~fields_containerA`
+            - Allows to connect fields_containerA input to the operator.
+          * - :py:attr:`~fields_containerB`
+            - Allows to connect fields_containerB input to the operator.
+          * - :py:attr:`~b`
+            - Allows to connect b input to the operator.
+          * - :py:attr:`~fields_containerC`
+            - Allows to connect fields_containerC input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.linear_combination import InputsLinearCombination
+
+Property detail
+---------------
+
+.. py:property:: a
+
+   Allows to connect a input to the operator.
+
+   Double
+
+   :param my_a:
+   :type my_a: float
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.linear_combination()
+   >>> op.inputs.a.connect(my_a)
+   >>> # or
+   >>> op.inputs.a(my_a)
+
+.. py:property:: fields_containerA
+
+   Allows to connect fields_containerA input to the operator.
+
+   :param my_fields_containerA:
+   :type my_fields_containerA: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.linear_combination()
+   >>> op.inputs.fields_containerA.connect(my_fields_containerA)
+   >>> # or
+   >>> op.inputs.fields_containerA(my_fields_containerA)
+
+.. py:property:: fields_containerB
+
+   Allows to connect fields_containerB input to the operator.
+
+   :param my_fields_containerB:
+   :type my_fields_containerB: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.linear_combination()
+   >>> op.inputs.fields_containerB.connect(my_fields_containerB)
+   >>> # or
+   >>> op.inputs.fields_containerB(my_fields_containerB)
+
+.. py:property:: b
+
+   Allows to connect b input to the operator.
+
+   Double
+
+   :param my_b:
+   :type my_b: float
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.linear_combination()
+   >>> op.inputs.b.connect(my_b)
+   >>> # or
+   >>> op.inputs.b(my_b)
+
+.. py:property:: fields_containerC
+
+   Allows to connect fields_containerC input to the operator.
+
+   :param my_fields_containerC:
+   :type my_fields_containerC: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.linear_combination()
+   >>> op.inputs.fields_containerC.connect(my_fields_containerC)
+   >>> # or
+   >>> op.inputs.fields_containerC(my_fields_containerC)
+
+
+
+
+
+

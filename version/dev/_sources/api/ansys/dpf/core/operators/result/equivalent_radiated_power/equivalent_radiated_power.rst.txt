@@ -1,0 +1,176 @@
+
+
+
+
+
+
+:class:`equivalent_radiated_power`
+==================================
+
+.. py:class:: ansys.dpf.core.operators.result.equivalent_radiated_power.equivalent_radiated_power(fields_container=None, mesh=None, time_scoping=None, mass_density=None, speed_of_sound=None, erp_type=None, boolean=None, factor=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Compute the Equivalent Radiated Power (ERP)
+
+   :param fields_container: The input field container expects
+                            displacements fields
+   :type fields_container: FieldsContainer
+   :param mesh: The mesh region in this pin has to be
+                boundary or skin mesh
+   :type mesh: MeshedRegion or MeshesContainer
+   :param time_scoping: Load step number (if it's specified, the erp
+                        is computed only on the substeps of
+                        this step) or time scoping
+   :type time_scoping: int or Scoping
+   :param mass_density: Mass density (if it's not specified, default
+                        value of the air is applied).
+   :type mass_density: float
+   :param speed_of_sound: Speed of sound (if it's not specified,
+                          default value of the speed of sound
+                          in the air is applied).
+   :type speed_of_sound: float
+   :param erp_type: If this pin is set to 0, the classical erp is
+                    computed, 1 the corrected erp is
+                    computed (a mesh of one face has to
+                    be given in the pin 1) and 2 the
+                    enhanced erp is computed. default is
+                    0.
+   :type erp_type: int
+   :param boolean: If this pin is set to true, the erp level in
+                   db is computed
+   :type boolean: bool
+   :param factor: Erp reference value. default is 1e-12
+   :type factor: float
+
+   :returns: **fields_container**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.result.equivalent_radiated_power()
+
+   >>> # Make input connections
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_time_scoping = int()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> my_mass_density = float()
+   >>> op.inputs.mass_density.connect(my_mass_density)
+   >>> my_speed_of_sound = float()
+   >>> op.inputs.speed_of_sound.connect(my_speed_of_sound)
+   >>> my_erp_type = int()
+   >>> op.inputs.erp_type.connect(my_erp_type)
+   >>> my_boolean = bool()
+   >>> op.inputs.boolean.connect(my_boolean)
+   >>> my_factor = float()
+   >>> op.inputs.factor.connect(my_factor)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.result.equivalent_radiated_power(
+   ...     fields_container=my_fields_container,
+   ...     mesh=my_mesh,
+   ...     time_scoping=my_time_scoping,
+   ...     mass_density=my_mass_density,
+   ...     speed_of_sound=my_speed_of_sound,
+   ...     erp_type=my_erp_type,
+   ...     boolean=my_boolean,
+   ...     factor=my_factor,
+   ... )
+
+   >>> # Get output data
+   >>> result_fields_container = op.outputs.fields_container()
+
+
+
+
+.. py:currentmodule:: equivalent_radiated_power
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.equivalent_radiated_power import equivalent_radiated_power
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsEquivalentRadiatedPower
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsEquivalentRadiatedPower
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

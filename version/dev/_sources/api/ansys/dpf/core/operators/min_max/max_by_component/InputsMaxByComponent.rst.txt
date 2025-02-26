@@ -1,0 +1,127 @@
+
+
+
+
+
+
+:class:`InputsMaxByComponent`
+=============================
+
+.. py:class:: ansys.dpf.core.operators.min_max.max_by_component.InputsMaxByComponent(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   max_by_component operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.min_max.max_by_component()
+   >>> my_use_absolute_value = bool()
+   >>> op.inputs.use_absolute_value.connect(my_use_absolute_value)
+   >>> my_field1 = dpf.Field()
+   >>> op.inputs.field1.connect(my_field1)
+   >>> my_field2 = dpf.Field()
+   >>> op.inputs.field2.connect(my_field2)
+
+
+
+.. py:currentmodule:: InputsMaxByComponent
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~use_absolute_value`
+            - Allows to connect use_absolute_value input to the operator.
+          * - :py:attr:`~field1`
+            - Allows to connect field1 input to the operator.
+          * - :py:attr:`~field2`
+            - Allows to connect field2 input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.min_max.max_by_component import InputsMaxByComponent
+
+Property detail
+---------------
+
+.. py:property:: use_absolute_value
+
+   Allows to connect use_absolute_value input to the operator.
+
+   Use_absolute_value
+
+   :param my_use_absolute_value:
+   :type my_use_absolute_value: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.min_max.max_by_component()
+   >>> op.inputs.use_absolute_value.connect(my_use_absolute_value)
+   >>> # or
+   >>> op.inputs.use_absolute_value(my_use_absolute_value)
+
+.. py:property:: field1
+
+   Allows to connect field1 input to the operator.
+
+   Field or fields container with only one field
+   is expected
+
+   :param my_field1:
+   :type my_field1: Field or FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.min_max.max_by_component()
+   >>> op.inputs.field1.connect(my_field1)
+   >>> # or
+   >>> op.inputs.field1(my_field1)
+
+.. py:property:: field2
+
+   Allows to connect field2 input to the operator.
+
+   Field or fields container with only one field
+   is expected
+
+   :param my_field2:
+   :type my_field2: Field or FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.min_max.max_by_component()
+   >>> op.inputs.field2.connect(my_field2)
+   >>> # or
+   >>> op.inputs.field2(my_field2)
+
+
+
+
+
+

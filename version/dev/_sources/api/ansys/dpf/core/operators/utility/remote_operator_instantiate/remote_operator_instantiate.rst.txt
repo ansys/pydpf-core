@@ -1,0 +1,153 @@
+
+
+
+
+
+
+:class:`remote_operator_instantiate`
+====================================
+
+.. py:class:: ansys.dpf.core.operators.utility.remote_operator_instantiate.remote_operator_instantiate(operator_to_send=None, output_pin=None, streams_to_remote=None, data_sources_to_remote=None, output_name=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Create a local image of an existing remote operator (identified by an
+   id and an address) for a given protocol registered in the streams.
+   A workflow is created with this operator and returned in output
+
+   :param operator_to_send: Local workflow to push to a remote or id of a
+                            remote workflow
+   :type operator_to_send: int
+   :param output_pin: Pin number of the output to name
+   :type output_pin: int
+   :param streams_to_remote:
+   :type streams_to_remote: StreamsContainer
+   :param data_sources_to_remote:
+   :type data_sources_to_remote: DataSources, optional
+   :param output_name: Output's name of the workflow to return
+   :type output_name: str
+
+   :returns: **remote_workflow** -- Remote workflow containing an image of the
+             remote workflow and the protocols
+             streams
+   :rtype: Workflow
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.utility.remote_operator_instantiate()
+
+   >>> # Make input connections
+   >>> my_operator_to_send = int()
+   >>> op.inputs.operator_to_send.connect(my_operator_to_send)
+   >>> my_output_pin = int()
+   >>> op.inputs.output_pin.connect(my_output_pin)
+   >>> my_streams_to_remote = dpf.StreamsContainer()
+   >>> op.inputs.streams_to_remote.connect(my_streams_to_remote)
+   >>> my_data_sources_to_remote = dpf.DataSources()
+   >>> op.inputs.data_sources_to_remote.connect(my_data_sources_to_remote)
+   >>> my_output_name = str()
+   >>> op.inputs.output_name.connect(my_output_name)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.utility.remote_operator_instantiate(
+   ...     operator_to_send=my_operator_to_send,
+   ...     output_pin=my_output_pin,
+   ...     streams_to_remote=my_streams_to_remote,
+   ...     data_sources_to_remote=my_data_sources_to_remote,
+   ...     output_name=my_output_name,
+   ... )
+
+   >>> # Get output data
+   >>> result_remote_workflow = op.outputs.remote_workflow()
+
+
+
+
+.. py:currentmodule:: remote_operator_instantiate
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.remote_operator_instantiate import remote_operator_instantiate
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsRemoteOperatorInstantiate
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsRemoteOperatorInstantiate
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

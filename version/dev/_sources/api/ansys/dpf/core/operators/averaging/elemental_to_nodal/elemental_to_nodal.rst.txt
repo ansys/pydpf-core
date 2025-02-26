@@ -1,0 +1,159 @@
+
+
+
+
+
+
+:class:`elemental_to_nodal`
+===========================
+
+.. py:class:: ansys.dpf.core.operators.averaging.elemental_to_nodal.elemental_to_nodal(field=None, mesh_scoping=None, force_averaging=None, algorithm=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Transforms an Elemental field to a Nodal field. The result is computed
+   on a given node's scoping.  1. For a finite element mesh, the
+   value on a node is the average of the values of the neighbour
+   elements.  2. For a volume finite volume mesh, the agorithm is :
+   - For each node, compute interpolation weights for the cells
+   connected to it based   on the Frink's Laplacian method.         -
+   If the determinant of the I matrix is zero, switch to an inverse
+   distance weighted average.         - If not, compute the Frink
+   weights and apply the Holmes' weight clip.         - If the
+   clipping produces a large overshoot, inverse volume weighted
+   average is used.. 3. For a face finite volume mesh inverse
+   distance weighted average is used.
+
+   :param field: Field or fields container with only one field
+                 is expected
+   :type field: Field or FieldsContainer
+   :param mesh_scoping:
+   :type mesh_scoping: Scoping, optional
+   :param force_averaging: Averaging on nodes is used if this pin is set
+                           to 1 (default is 1 for integrated
+                           results and 0 for discrete ones).
+   :type force_averaging: int, optional
+   :param algorithm: Forces the usage of algorithm 1, 2 or 3
+                     (default is chosen based on the type
+                     of mesh).
+   :type algorithm: int, optional
+
+   :returns: **field**
+   :rtype: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.averaging.elemental_to_nodal()
+
+   >>> # Make input connections
+   >>> my_field = dpf.Field()
+   >>> op.inputs.field.connect(my_field)
+   >>> my_mesh_scoping = dpf.Scoping()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> my_force_averaging = int()
+   >>> op.inputs.force_averaging.connect(my_force_averaging)
+   >>> my_algorithm = int()
+   >>> op.inputs.algorithm.connect(my_algorithm)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.averaging.elemental_to_nodal(
+   ...     field=my_field,
+   ...     mesh_scoping=my_mesh_scoping,
+   ...     force_averaging=my_force_averaging,
+   ...     algorithm=my_algorithm,
+   ... )
+
+   >>> # Get output data
+   >>> result_field = op.outputs.field()
+
+
+
+
+.. py:currentmodule:: elemental_to_nodal
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.averaging.elemental_to_nodal import elemental_to_nodal
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsElementalToNodal
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsElementalToNodal
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

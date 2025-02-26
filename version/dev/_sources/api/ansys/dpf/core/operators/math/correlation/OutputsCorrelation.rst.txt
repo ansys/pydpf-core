@@ -1,0 +1,97 @@
+
+
+
+
+
+
+:class:`OutputsCorrelation`
+===========================
+
+.. py:class:: ansys.dpf.core.operators.math.correlation.OutputsCorrelation(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   correlation operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.correlation()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_field = op.outputs.field()
+   >>> result_index = op.outputs.index()
+
+
+
+.. py:currentmodule:: OutputsCorrelation
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~field`
+            - Allows to get field output of the operator
+          * - :py:attr:`~index`
+            - Allows to get index output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.correlation import OutputsCorrelation
+
+Property detail
+---------------
+
+.. py:property:: field
+
+   Allows to get field output of the operator
+
+   :returns: **my_field**
+   :rtype: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.correlation()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_field = op.outputs.field()
+
+.. py:property:: index
+
+   Allows to get index output of the operator
+
+   :returns: **my_index**
+   :rtype: int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.correlation()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_index = op.outputs.index()
+
+
+
+
+
+

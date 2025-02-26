@@ -1,0 +1,100 @@
+
+
+
+
+
+
+:class:`InputsPointsFromCoordinates`
+====================================
+
+.. py:class:: ansys.dpf.core.operators.mesh.points_from_coordinates.InputsPointsFromCoordinates(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   points_from_coordinates operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.points_from_coordinates()
+   >>> my_nodes_to_keep = dpf.Scoping()
+   >>> op.inputs.nodes_to_keep.connect(my_nodes_to_keep)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+
+
+
+.. py:currentmodule:: InputsPointsFromCoordinates
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~nodes_to_keep`
+            - Allows to connect nodes_to_keep input to the operator.
+          * - :py:attr:`~mesh`
+            - Allows to connect mesh input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mesh.points_from_coordinates import InputsPointsFromCoordinates
+
+Property detail
+---------------
+
+.. py:property:: nodes_to_keep
+
+   Allows to connect nodes_to_keep input to the operator.
+
+   :param my_nodes_to_keep:
+   :type my_nodes_to_keep: Scoping or ScopingsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.points_from_coordinates()
+   >>> op.inputs.nodes_to_keep.connect(my_nodes_to_keep)
+   >>> # or
+   >>> op.inputs.nodes_to_keep(my_nodes_to_keep)
+
+.. py:property:: mesh
+
+   Allows to connect mesh input to the operator.
+
+   :param my_mesh:
+   :type my_mesh: MeshedRegion or MeshesContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.points_from_coordinates()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> # or
+   >>> op.inputs.mesh(my_mesh)
+
+
+
+
+
+

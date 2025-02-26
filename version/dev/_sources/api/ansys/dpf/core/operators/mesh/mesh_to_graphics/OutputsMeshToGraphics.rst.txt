@@ -1,0 +1,114 @@
+
+
+
+
+
+
+:class:`OutputsMeshToGraphics`
+==============================
+
+.. py:class:: ansys.dpf.core.operators.mesh.mesh_to_graphics.OutputsMeshToGraphics(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   mesh_to_graphics operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.mesh_to_graphics()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_nodes = op.outputs.nodes()
+   >>> result_normals = op.outputs.normals()
+   >>> result_connectivity = op.outputs.connectivity()
+
+
+
+.. py:currentmodule:: OutputsMeshToGraphics
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~nodes`
+            - Allows to get nodes output of the operator
+          * - :py:attr:`~normals`
+            - Allows to get normals output of the operator
+          * - :py:attr:`~connectivity`
+            - Allows to get connectivity output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mesh.mesh_to_graphics import OutputsMeshToGraphics
+
+Property detail
+---------------
+
+.. py:property:: nodes
+
+   Allows to get nodes output of the operator
+
+   :returns: **my_nodes**
+   :rtype: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.mesh_to_graphics()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_nodes = op.outputs.nodes()
+
+.. py:property:: normals
+
+   Allows to get normals output of the operator
+
+   :returns: **my_normals**
+   :rtype: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.mesh_to_graphics()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_normals = op.outputs.normals()
+
+.. py:property:: connectivity
+
+   Allows to get connectivity output of the operator
+
+   :returns: **my_connectivity**
+   :rtype: PropertyField
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.mesh_to_graphics()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_connectivity = op.outputs.connectivity()
+
+
+
+
+
+

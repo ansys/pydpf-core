@@ -1,0 +1,135 @@
+
+
+
+
+
+
+:class:`intersect`
+==================
+
+.. py:class:: ansys.dpf.core.operators.scoping.intersect.intersect(scopingA=None, scopingB=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Intersect 2 scopings and return the intersection and the difference
+   between the intersection and the first scoping.
+
+   :param scopingA:
+   :type scopingA: Scoping
+   :param scopingB:
+   :type scopingB: Scoping
+
+   :returns: * **intersection** (*Scoping*)
+             * **scopingA_min_intersection** (*Scoping*)
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.scoping.intersect()
+
+   >>> # Make input connections
+   >>> my_scopingA = dpf.Scoping()
+   >>> op.inputs.scopingA.connect(my_scopingA)
+   >>> my_scopingB = dpf.Scoping()
+   >>> op.inputs.scopingB.connect(my_scopingB)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.scoping.intersect(
+   ...     scopingA=my_scopingA,
+   ...     scopingB=my_scopingB,
+   ... )
+
+   >>> # Get output data
+   >>> result_intersection = op.outputs.intersection()
+   >>> result_scopingA_min_intersection = op.outputs.scopingA_min_intersection()
+
+
+
+
+.. py:currentmodule:: intersect
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.scoping.intersect import intersect
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsIntersect
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsIntersect
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

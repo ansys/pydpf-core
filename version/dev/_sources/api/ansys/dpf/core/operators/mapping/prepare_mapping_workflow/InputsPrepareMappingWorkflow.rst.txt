@@ -1,0 +1,140 @@
+
+
+
+
+
+
+:class:`InputsPrepareMappingWorkflow`
+=====================================
+
+.. py:class:: ansys.dpf.core.operators.mapping.prepare_mapping_workflow.InputsPrepareMappingWorkflow(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   prepare_mapping_workflow operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.prepare_mapping_workflow()
+   >>> my_input_support = dpf.Field()
+   >>> op.inputs.input_support.connect(my_input_support)
+   >>> my_output_support = dpf.Field()
+   >>> op.inputs.output_support.connect(my_output_support)
+   >>> my_filter_radius = float()
+   >>> op.inputs.filter_radius.connect(my_filter_radius)
+   >>> my_influence_box = float()
+   >>> op.inputs.influence_box.connect(my_influence_box)
+
+
+
+.. py:currentmodule:: InputsPrepareMappingWorkflow
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~input_support`
+            - Allows to connect input_support input to the operator.
+          * - :py:attr:`~output_support`
+            - Allows to connect output_support input to the operator.
+          * - :py:attr:`~filter_radius`
+            - Allows to connect filter_radius input to the operator.
+          * - :py:attr:`~influence_box`
+            - Allows to connect influence_box input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mapping.prepare_mapping_workflow import InputsPrepareMappingWorkflow
+
+Property detail
+---------------
+
+.. py:property:: input_support
+
+   Allows to connect input_support input to the operator.
+
+   :param my_input_support:
+   :type my_input_support: Field or MeshedRegion
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.prepare_mapping_workflow()
+   >>> op.inputs.input_support.connect(my_input_support)
+   >>> # or
+   >>> op.inputs.input_support(my_input_support)
+
+.. py:property:: output_support
+
+   Allows to connect output_support input to the operator.
+
+   :param my_output_support:
+   :type my_output_support: Field or MeshedRegion
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.prepare_mapping_workflow()
+   >>> op.inputs.output_support.connect(my_output_support)
+   >>> # or
+   >>> op.inputs.output_support(my_output_support)
+
+.. py:property:: filter_radius
+
+   Allows to connect filter_radius input to the operator.
+
+   Radius size for the rbf filter
+
+   :param my_filter_radius:
+   :type my_filter_radius: float
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.prepare_mapping_workflow()
+   >>> op.inputs.filter_radius.connect(my_filter_radius)
+   >>> # or
+   >>> op.inputs.filter_radius(my_filter_radius)
+
+.. py:property:: influence_box
+
+   Allows to connect influence_box input to the operator.
+
+   :param my_influence_box:
+   :type my_influence_box: float
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.prepare_mapping_workflow()
+   >>> op.inputs.influence_box.connect(my_influence_box)
+   >>> # or
+   >>> op.inputs.influence_box(my_influence_box)
+
+
+
+
+
+

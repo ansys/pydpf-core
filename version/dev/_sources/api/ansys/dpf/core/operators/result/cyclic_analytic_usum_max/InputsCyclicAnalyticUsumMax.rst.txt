@@ -1,0 +1,162 @@
+
+
+
+
+
+
+:class:`InputsCyclicAnalyticUsumMax`
+====================================
+
+.. py:class:: ansys.dpf.core.operators.result.cyclic_analytic_usum_max.InputsCyclicAnalyticUsumMax(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   cyclic_analytic_usum_max operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.cyclic_analytic_usum_max()
+   >>> my_time_scoping = dpf.Scoping()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> my_mesh_scoping = dpf.ScopingsContainer()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_bool_rotate_to_global = bool()
+   >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+   >>> my_cyclic_support = dpf.CyclicSupport()
+   >>> op.inputs.cyclic_support.connect(my_cyclic_support)
+
+
+
+.. py:currentmodule:: InputsCyclicAnalyticUsumMax
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~time_scoping`
+            - Allows to connect time_scoping input to the operator.
+          * - :py:attr:`~mesh_scoping`
+            - Allows to connect mesh_scoping input to the operator.
+          * - :py:attr:`~fields_container`
+            - Allows to connect fields_container input to the operator.
+          * - :py:attr:`~bool_rotate_to_global`
+            - Allows to connect bool_rotate_to_global input to the operator.
+          * - :py:attr:`~cyclic_support`
+            - Allows to connect cyclic_support input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.cyclic_analytic_usum_max import InputsCyclicAnalyticUsumMax
+
+Property detail
+---------------
+
+.. py:property:: time_scoping
+
+   Allows to connect time_scoping input to the operator.
+
+   :param my_time_scoping:
+   :type my_time_scoping: Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.cyclic_analytic_usum_max()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> # or
+   >>> op.inputs.time_scoping(my_time_scoping)
+
+.. py:property:: mesh_scoping
+
+   Allows to connect mesh_scoping input to the operator.
+
+   :param my_mesh_scoping:
+   :type my_mesh_scoping: ScopingsContainer or Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.cyclic_analytic_usum_max()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> # or
+   >>> op.inputs.mesh_scoping(my_mesh_scoping)
+
+.. py:property:: fields_container
+
+   Allows to connect fields_container input to the operator.
+
+   Field container with the base and duplicate
+   sectors
+
+   :param my_fields_container:
+   :type my_fields_container: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.cyclic_analytic_usum_max()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> # or
+   >>> op.inputs.fields_container(my_fields_container)
+
+.. py:property:: bool_rotate_to_global
+
+   Allows to connect bool_rotate_to_global input to the operator.
+
+   Default is true
+
+   :param my_bool_rotate_to_global:
+   :type my_bool_rotate_to_global: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.cyclic_analytic_usum_max()
+   >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+   >>> # or
+   >>> op.inputs.bool_rotate_to_global(my_bool_rotate_to_global)
+
+.. py:property:: cyclic_support
+
+   Allows to connect cyclic_support input to the operator.
+
+   :param my_cyclic_support:
+   :type my_cyclic_support: CyclicSupport
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.cyclic_analytic_usum_max()
+   >>> op.inputs.cyclic_support.connect(my_cyclic_support)
+   >>> # or
+   >>> op.inputs.cyclic_support(my_cyclic_support)
+
+
+
+
+
+

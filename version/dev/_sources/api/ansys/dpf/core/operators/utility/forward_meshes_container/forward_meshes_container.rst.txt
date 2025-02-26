@@ -1,0 +1,135 @@
+
+
+
+
+
+
+:class:`forward_meshes_container`
+=================================
+
+.. py:class:: ansys.dpf.core.operators.utility.forward_meshes_container.forward_meshes_container(meshes=None, default_label=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Returns the input mesh or meshes container into a meshes container.
+
+   :param meshes:
+   :type meshes: MeshesContainer or MeshedRegion
+   :param default_label: This default label is used if a new meshes
+                         container needs to be created
+                         (default is unknown)
+   :type default_label: str, optional
+
+   :returns: **meshes_container**
+   :rtype: MeshesContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.utility.forward_meshes_container()
+
+   >>> # Make input connections
+   >>> my_meshes = dpf.MeshesContainer()
+   >>> op.inputs.meshes.connect(my_meshes)
+   >>> my_default_label = str()
+   >>> op.inputs.default_label.connect(my_default_label)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.utility.forward_meshes_container(
+   ...     meshes=my_meshes,
+   ...     default_label=my_default_label,
+   ... )
+
+   >>> # Get output data
+   >>> result_meshes_container = op.outputs.meshes_container()
+
+
+
+
+.. py:currentmodule:: forward_meshes_container
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.forward_meshes_container import forward_meshes_container
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsForwardMeshesContainer
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsForwardMeshesContainer
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

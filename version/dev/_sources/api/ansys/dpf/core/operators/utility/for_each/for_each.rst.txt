@@ -1,0 +1,150 @@
+
+
+
+
+
+
+:class:`for_each`
+=================
+
+.. py:class:: ansys.dpf.core.operators.utility.for_each.for_each(iterable=None, iterable_values=None, pin_index=None, forward1=None, forward2=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Allows to write a loop over a chunk of operators.
+
+   :param iterable: Either the result of the make_iterable_info
+                    operator, or the operator that must
+                    be incremented.
+   :param iterable_values:
+   :type iterable_values: optional
+   :param pin_index:
+   :type pin_index: int, optional
+   :param forward1:
+   :param forward2:
+
+   :returns: * *empty*
+             * *output1*
+             * *output2*
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.utility.for_each()
+
+   >>> # Make input connections
+   >>> my_iterable = dpf.()
+   >>> op.inputs.iterable.connect(my_iterable)
+   >>> my_iterable_values = dpf.()
+   >>> op.inputs.iterable_values.connect(my_iterable_values)
+   >>> my_pin_index = int()
+   >>> op.inputs.pin_index.connect(my_pin_index)
+   >>> my_forward1 = dpf.()
+   >>> op.inputs.forward1.connect(my_forward1)
+   >>> my_forward2 = dpf.()
+   >>> op.inputs.forward2.connect(my_forward2)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.utility.for_each(
+   ...     iterable=my_iterable,
+   ...     iterable_values=my_iterable_values,
+   ...     pin_index=my_pin_index,
+   ...     forward1=my_forward1,
+   ...     forward2=my_forward2,
+   ... )
+
+   >>> # Get output data
+   >>> result_empty = op.outputs.empty()
+   >>> result_output1 = op.outputs.output1()
+   >>> result_output2 = op.outputs.output2()
+
+
+
+
+.. py:currentmodule:: for_each
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.for_each import for_each
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsForEach
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsForEach
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+
