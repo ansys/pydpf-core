@@ -444,9 +444,7 @@ class Specification(SpecificationBase):
                             )
                         )
                 pin_derived_class_type_name = ""
-                if server_meet_version("7.0", self._server) and hasattr(
-                    self._api, "operator_specification_get_pin_derived_class_type_name"
-                ):
+                if hasattr(self._api, "operator_specification_get_pin_derived_class_type_name"):
                     pin_derived_class_type_name = (
                         self._api.operator_specification_get_pin_derived_class_type_name(
                             self, binput, i_pin
