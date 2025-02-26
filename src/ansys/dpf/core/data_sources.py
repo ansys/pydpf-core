@@ -577,7 +577,7 @@ class DataSources:
         >>> my_data_sources.add_file_path(filepath='/tmp/ds.dat', key='dat')
         >>> # Get the path to the main result file
         >>> my_data_sources.result_files
-        ['/tmp/file.cas']
+        ['...tmp...file.cas']
 
         If you added an upstream result file, it is not listed in the main ``DataSources`` object. You have to
         check directly in the ``DataSources`` object created to define the upstream data.
@@ -597,13 +597,13 @@ class DataSources:
         >>>
         >>> # Get the path to the main result file of the main DataSources object
         >>> my_data_sources.result_files
-        ['/tmp/file.rfrq']
+        ['...tmp...file.rfrq']
 
         If you are checking the DataSources object created to define the upstream data, only the first one is listed.
 
         >>> # Get the path to the upstream file of the upstream DataSources object
         >>> my_data_sources_upstream.result_files
-        ['/tmp/file.mode']
+        ['...tmp...file.mode']
 
         If you have a ``DataSources`` object with more than one domain, an empty list is returned.
 
