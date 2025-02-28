@@ -247,6 +247,7 @@ from .poynting_vector import poynting_vector
 from .poynting_vector_surface import poynting_vector_surface
 from .pressure import pressure
 from .pres_to_field import pres_to_field
+from .pretension import pretension
 from .prns_to_field import prns_to_field
 from .raw_displacement import raw_displacement
 from .raw_reaction_force import raw_reaction_force
