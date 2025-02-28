@@ -1,0 +1,184 @@
+
+
+
+
+
+
+:class:`InputsMapdlSection`
+===========================
+
+.. py:class:: ansys.dpf.core.operators.result.mapdl_section.InputsMapdlSection(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   mapdl_section operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.mapdl_section()
+   >>> my_properties_name = str()
+   >>> op.inputs.properties_name.connect(my_properties_name)
+   >>> my_section = dpf.PropertyField()
+   >>> op.inputs.section.connect(my_section)
+   >>> my_streams_container = dpf.StreamsContainer()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_layer_property = bool()
+   >>> op.inputs.layer_property.connect(my_layer_property)
+   >>> my_layers_requested = dpf.()
+   >>> op.inputs.layers_requested.connect(my_layers_requested)
+
+
+
+.. py:currentmodule:: InputsMapdlSection
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~properties_name`
+            - Allows to connect properties_name input to the operator.
+          * - :py:attr:`~section`
+            - Allows to connect section input to the operator.
+          * - :py:attr:`~streams_container`
+            - Allows to connect streams_container input to the operator.
+          * - :py:attr:`~data_sources`
+            - Allows to connect data_sources input to the operator.
+          * - :py:attr:`~layer_property`
+            - Allows to connect layer_property input to the operator.
+          * - :py:attr:`~layers_requested`
+            - Allows to connect layers_requested input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.mapdl_section import InputsMapdlSection
+
+Property detail
+---------------
+
+.. py:property:: properties_name
+
+   Allows to connect properties_name input to the operator.
+
+   :param my_properties_name:
+   :type my_properties_name: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.mapdl_section()
+   >>> op.inputs.properties_name.connect(my_properties_name)
+   >>> # or
+   >>> op.inputs.properties_name(my_properties_name)
+
+.. py:property:: section
+
+   Allows to connect section input to the operator.
+
+   Property field that contains a section id per
+   element.(optional)
+
+   :param my_section:
+   :type my_section: PropertyField
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.mapdl_section()
+   >>> op.inputs.section.connect(my_section)
+   >>> # or
+   >>> op.inputs.section(my_section)
+
+.. py:property:: streams_container
+
+   Allows to connect streams_container input to the operator.
+
+   :param my_streams_container:
+   :type my_streams_container: StreamsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.mapdl_section()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> # or
+   >>> op.inputs.streams_container(my_streams_container)
+
+.. py:property:: data_sources
+
+   Allows to connect data_sources input to the operator.
+
+   :param my_data_sources:
+   :type my_data_sources: DataSources
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.mapdl_section()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> # or
+   >>> op.inputs.data_sources(my_data_sources)
+
+.. py:property:: layer_property
+
+   Allows to connect layer_property input to the operator.
+
+   Property requested is layered. default =
+   false.
+
+   :param my_layer_property:
+   :type my_layer_property: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.mapdl_section()
+   >>> op.inputs.layer_property.connect(my_layer_property)
+   >>> # or
+   >>> op.inputs.layer_property(my_layer_property)
+
+.. py:property:: layers_requested
+
+   Allows to connect layers_requested input to the operator.
+
+   Array with layers requested for the section.
+   default = alllayers.
+
+   :param my_layers_requested:
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.mapdl_section()
+   >>> op.inputs.layers_requested.connect(my_layers_requested)
+   >>> # or
+   >>> op.inputs.layers_requested(my_layers_requested)
+
+
+
+
+
+

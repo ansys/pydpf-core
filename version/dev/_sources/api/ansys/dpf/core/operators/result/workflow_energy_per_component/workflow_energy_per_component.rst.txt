@@ -1,0 +1,180 @@
+
+
+
+
+
+
+:class:`workflow_energy_per_component`
+======================================
+
+.. py:class:: ansys.dpf.core.operators.result.workflow_energy_per_component.workflow_energy_per_component(time_scoping=None, mesh_scoping=None, energy_type=None, data_sources=None, named_selection1=None, named_selection2=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Calculates the cumulated energy per component (Named Selection). For
+   cyclic and multistage models, the expansion will be automatically
+   done.
+
+   :param time_scoping:
+   :type time_scoping: Scoping, optional
+   :param mesh_scoping: When the input is a scoping, it is treated as
+                        the master scoping. all named
+                        selections will intersect with it.
+                        when the input is a scopings
+                        container, named selections will not
+                        be needed.
+   :type mesh_scoping: Scoping or ScopingsContainer, optional
+   :param energy_type: Type of energy to be processed: (0: strain +
+                       kinetic energy (default), 1: strain
+                       energy, 2: kinetic energy, 3: all
+                       energy types)
+   :type energy_type: int, optional
+   :param data_sources:
+   :type data_sources: DataSources
+   :param named_selection1: Named selections. intersection of all  named
+                            selections with the master scoping
+                            will be done.
+   :type named_selection1: str, optional
+   :param named_selection2: Named selections. intersection of all  named
+                            selections with the master scoping
+                            will be done.
+   :type named_selection2: str, optional
+
+   :returns: * **component_energy** (*FieldsContainer*)
+             * **component_energy_percentage** (*FieldsContainer*)
+             * **component_total_energy** (*FieldsContainer, optional*)
+             * **component_total_energy_percentage** (*FieldsContainer, optional*)
+             * **component_strain_energy** (*FieldsContainer, optional*)
+             * **component_strain_energy_percentage** (*FieldsContainer, optional*)
+             * **component_kinetic_energy** (*FieldsContainer, optional*)
+             * **component_kinetic_energy_percentage** (*FieldsContainer, optional*)
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.result.workflow_energy_per_component()
+
+   >>> # Make input connections
+   >>> my_time_scoping = dpf.Scoping()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> my_mesh_scoping = dpf.Scoping()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> my_energy_type = int()
+   >>> op.inputs.energy_type.connect(my_energy_type)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_named_selection1 = str()
+   >>> op.inputs.named_selection1.connect(my_named_selection1)
+   >>> my_named_selection2 = str()
+   >>> op.inputs.named_selection2.connect(my_named_selection2)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.result.workflow_energy_per_component(
+   ...     time_scoping=my_time_scoping,
+   ...     mesh_scoping=my_mesh_scoping,
+   ...     energy_type=my_energy_type,
+   ...     data_sources=my_data_sources,
+   ...     named_selection1=my_named_selection1,
+   ...     named_selection2=my_named_selection2,
+   ... )
+
+   >>> # Get output data
+   >>> result_component_energy = op.outputs.component_energy()
+   >>> result_component_energy_percentage = op.outputs.component_energy_percentage()
+   >>> result_component_total_energy = op.outputs.component_total_energy()
+   >>> result_component_total_energy_percentage = op.outputs.component_total_energy_percentage()
+   >>> result_component_strain_energy = op.outputs.component_strain_energy()
+   >>> result_component_strain_energy_percentage = op.outputs.component_strain_energy_percentage()
+   >>> result_component_kinetic_energy = op.outputs.component_kinetic_energy()
+   >>> result_component_kinetic_energy_percentage = op.outputs.component_kinetic_energy_percentage()
+
+
+
+
+.. py:currentmodule:: workflow_energy_per_component
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.workflow_energy_per_component import workflow_energy_per_component
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsWorkflowEnergyPerComponent
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsWorkflowEnergyPerComponent
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

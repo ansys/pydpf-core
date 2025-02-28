@@ -1,0 +1,148 @@
+
+
+
+
+
+
+:class:`elemental_mean`
+=======================
+
+.. py:class:: ansys.dpf.core.operators.averaging.elemental_mean.elemental_mean(field=None, collapse_shell_layers=None, force_averaging=None, scoping=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Computes the average of a multi-entity field, (ElementalNodal ->
+   Elemental), (NodalElemental -> Nodal).
+
+   :param field:
+   :type field: Field
+   :param collapse_shell_layers: If true, shell layers are averaged as well
+                                 (default is false).
+   :type collapse_shell_layers: bool, optional
+   :param force_averaging: If true you average, if false you just sum.
+   :type force_averaging: bool, optional
+   :param scoping: Average only on these elements. if it is a
+                   scoping container, the label must
+                   correspond to the one of the fields
+                   containers.
+   :type scoping: Scoping, optional
+
+   :returns: **field**
+   :rtype: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.averaging.elemental_mean()
+
+   >>> # Make input connections
+   >>> my_field = dpf.Field()
+   >>> op.inputs.field.connect(my_field)
+   >>> my_collapse_shell_layers = bool()
+   >>> op.inputs.collapse_shell_layers.connect(my_collapse_shell_layers)
+   >>> my_force_averaging = bool()
+   >>> op.inputs.force_averaging.connect(my_force_averaging)
+   >>> my_scoping = dpf.Scoping()
+   >>> op.inputs.scoping.connect(my_scoping)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.averaging.elemental_mean(
+   ...     field=my_field,
+   ...     collapse_shell_layers=my_collapse_shell_layers,
+   ...     force_averaging=my_force_averaging,
+   ...     scoping=my_scoping,
+   ... )
+
+   >>> # Get output data
+   >>> result_field = op.outputs.field()
+
+
+
+
+.. py:currentmodule:: elemental_mean
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.averaging.elemental_mean import elemental_mean
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsElementalMean
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsElementalMean
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

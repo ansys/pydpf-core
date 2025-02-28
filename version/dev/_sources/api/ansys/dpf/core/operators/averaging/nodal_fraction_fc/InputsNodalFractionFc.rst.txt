@@ -1,0 +1,152 @@
+
+
+
+
+
+
+:class:`InputsNodalFractionFc`
+==============================
+
+.. py:class:: ansys.dpf.core.operators.averaging.nodal_fraction_fc.InputsNodalFractionFc(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   nodal_fraction_fc operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.nodal_fraction_fc()
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_scoping = dpf.Scoping()
+   >>> op.inputs.scoping.connect(my_scoping)
+   >>> my_denominator = dpf.FieldsContainer()
+   >>> op.inputs.denominator.connect(my_denominator)
+
+
+
+.. py:currentmodule:: InputsNodalFractionFc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fields_container`
+            - Allows to connect fields_container input to the operator.
+          * - :py:attr:`~mesh`
+            - Allows to connect mesh input to the operator.
+          * - :py:attr:`~scoping`
+            - Allows to connect scoping input to the operator.
+          * - :py:attr:`~denominator`
+            - Allows to connect denominator input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.averaging.nodal_fraction_fc import InputsNodalFractionFc
+
+Property detail
+---------------
+
+.. py:property:: fields_container
+
+   Allows to connect fields_container input to the operator.
+
+   :param my_fields_container:
+   :type my_fields_container: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.nodal_fraction_fc()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> # or
+   >>> op.inputs.fields_container(my_fields_container)
+
+.. py:property:: mesh
+
+   Allows to connect mesh input to the operator.
+
+   The mesh region in this pin is used to
+   perform the averaging. it is used if
+   there is no fields support.
+
+   :param my_mesh:
+   :type my_mesh: MeshedRegion
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.nodal_fraction_fc()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> # or
+   >>> op.inputs.mesh(my_mesh)
+
+.. py:property:: scoping
+
+   Allows to connect scoping input to the operator.
+
+   Average only on these nodes. if it is a
+   scoping container, the label must
+   correspond to the one of the fields
+   containers.
+
+   :param my_scoping:
+   :type my_scoping: Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.nodal_fraction_fc()
+   >>> op.inputs.scoping.connect(my_scoping)
+   >>> # or
+   >>> op.inputs.scoping(my_scoping)
+
+.. py:property:: denominator
+
+   Allows to connect denominator input to the operator.
+
+   If a fields container is set in this pin, it
+   is used as the denominator of the
+   fraction instead of
+   elemental_nodal_to_nodal_fc.
+
+   :param my_denominator:
+   :type my_denominator: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.nodal_fraction_fc()
+   >>> op.inputs.denominator.connect(my_denominator)
+   >>> # or
+   >>> op.inputs.denominator(my_denominator)
+
+
+
+
+
+

@@ -1,0 +1,95 @@
+
+
+
+
+
+
+:class:`OutputsTxtFileToDpf`
+============================
+
+.. py:class:: ansys.dpf.core.operators.utility.txt_file_to_dpf.OutputsTxtFileToDpf(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   txt_file_to_dpf operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.txt_file_to_dpf()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_any_output1 = op.outputs.any_output1()
+   >>> result_any_output2 = op.outputs.any_output2()
+
+
+
+.. py:currentmodule:: OutputsTxtFileToDpf
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~any_output1`
+            - Allows to get any_output1 output of the operator
+          * - :py:attr:`~any_output2`
+            - Allows to get any_output2 output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.txt_file_to_dpf import OutputsTxtFileToDpf
+
+Property detail
+---------------
+
+.. py:property:: any_output1
+
+   Allows to get any_output1 output of the operator
+
+   :rtype: my_any_output1
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.txt_file_to_dpf()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_any_output1 = op.outputs.any_output1()
+
+.. py:property:: any_output2
+
+   Allows to get any_output2 output of the operator
+
+   :rtype: my_any_output2
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.txt_file_to_dpf()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_any_output2 = op.outputs.any_output2()
+
+
+
+
+
+

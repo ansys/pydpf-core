@@ -1,0 +1,80 @@
+
+
+
+
+
+
+:class:`OutputsMergeMeshes`
+===========================
+
+.. py:class:: ansys.dpf.core.operators.utility.merge_meshes.OutputsMergeMeshes(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   merge_meshes operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_meshes()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_merges_mesh = op.outputs.merges_mesh()
+
+
+
+.. py:currentmodule:: OutputsMergeMeshes
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~merges_mesh`
+            - Allows to get merges_mesh output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.merge_meshes import OutputsMergeMeshes
+
+Property detail
+---------------
+
+.. py:property:: merges_mesh
+
+   Allows to get merges_mesh output of the operator
+
+   :returns: **my_merges_mesh**
+   :rtype: MeshedRegion
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_meshes()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_merges_mesh = op.outputs.merges_mesh()
+
+
+
+
+
+

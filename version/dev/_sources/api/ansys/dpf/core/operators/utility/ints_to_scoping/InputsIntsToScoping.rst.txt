@@ -1,0 +1,102 @@
+
+
+
+
+
+
+:class:`InputsIntsToScoping`
+============================
+
+.. py:class:: ansys.dpf.core.operators.utility.ints_to_scoping.InputsIntsToScoping(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   ints_to_scoping operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.ints_to_scoping()
+   >>> my_int_or_vector_int = int()
+   >>> op.inputs.int_or_vector_int.connect(my_int_or_vector_int)
+   >>> my_location = str()
+   >>> op.inputs.location.connect(my_location)
+
+
+
+.. py:currentmodule:: InputsIntsToScoping
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~int_or_vector_int`
+            - Allows to connect int_or_vector_int input to the operator.
+          * - :py:attr:`~location`
+            - Allows to connect location input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.ints_to_scoping import InputsIntsToScoping
+
+Property detail
+---------------
+
+.. py:property:: int_or_vector_int
+
+   Allows to connect int_or_vector_int input to the operator.
+
+   Int or vector of int
+
+   :param my_int_or_vector_int:
+   :type my_int_or_vector_int: int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.ints_to_scoping()
+   >>> op.inputs.int_or_vector_int.connect(my_int_or_vector_int)
+   >>> # or
+   >>> op.inputs.int_or_vector_int(my_int_or_vector_int)
+
+.. py:property:: location
+
+   Allows to connect location input to the operator.
+
+   :param my_location:
+   :type my_location: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.ints_to_scoping()
+   >>> op.inputs.location.connect(my_location)
+   >>> # or
+   >>> op.inputs.location(my_location)
+
+
+
+
+
+

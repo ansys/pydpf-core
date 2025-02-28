@@ -1,0 +1,152 @@
+
+
+
+
+
+
+:class:`InputsScale`
+====================
+
+.. py:class:: ansys.dpf.core.operators.math.scale.InputsScale(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   scale operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.scale()
+   >>> my_field = dpf.Field()
+   >>> op.inputs.field.connect(my_field)
+   >>> my_ponderation = float()
+   >>> op.inputs.ponderation.connect(my_ponderation)
+   >>> my_boolean = bool()
+   >>> op.inputs.boolean.connect(my_boolean)
+   >>> my_algorithm = int()
+   >>> op.inputs.algorithm.connect(my_algorithm)
+
+
+
+.. py:currentmodule:: InputsScale
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~field`
+            - Allows to connect field input to the operator.
+          * - :py:attr:`~ponderation`
+            - Allows to connect ponderation input to the operator.
+          * - :py:attr:`~boolean`
+            - Allows to connect boolean input to the operator.
+          * - :py:attr:`~algorithm`
+            - Allows to connect algorithm input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.scale import InputsScale
+
+Property detail
+---------------
+
+.. py:property:: field
+
+   Allows to connect field input to the operator.
+
+   Field or fields container with only one field
+   is expected
+
+   :param my_field:
+   :type my_field: Field or FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.scale()
+   >>> op.inputs.field.connect(my_field)
+   >>> # or
+   >>> op.inputs.field(my_field)
+
+.. py:property:: ponderation
+
+   Allows to connect ponderation input to the operator.
+
+   Double/field/vector of doubles. when scoped
+   on overall, same value(s) applied on
+   all the data, when scoped elsewhere,
+   corresponding values will be
+   multiplied due to the scoping
+
+   :param my_ponderation:
+   :type my_ponderation: float or Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.scale()
+   >>> op.inputs.ponderation.connect(my_ponderation)
+   >>> # or
+   >>> op.inputs.ponderation(my_ponderation)
+
+.. py:property:: boolean
+
+   Allows to connect boolean input to the operator.
+
+   Default is false. if set to true, output of
+   scale is made dimensionless
+
+   :param my_boolean:
+   :type my_boolean: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.scale()
+   >>> op.inputs.boolean.connect(my_boolean)
+   >>> # or
+   >>> op.inputs.boolean(my_boolean)
+
+.. py:property:: algorithm
+
+   Allows to connect algorithm input to the operator.
+
+   Default is 0 use mkl. if set to 1, don't
+
+   :param my_algorithm:
+   :type my_algorithm: int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.scale()
+   >>> op.inputs.algorithm.connect(my_algorithm)
+   >>> # or
+   >>> op.inputs.algorithm(my_algorithm)
+
+
+
+
+
+

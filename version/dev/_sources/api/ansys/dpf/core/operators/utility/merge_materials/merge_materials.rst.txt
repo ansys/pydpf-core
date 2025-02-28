@@ -1,0 +1,135 @@
+
+
+
+
+
+
+:class:`merge_materials`
+========================
+
+.. py:class:: ansys.dpf.core.operators.utility.merge_materials.merge_materials(materials1=None, materials2=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Assembles a set of materials into a unique one.
+
+   :param materials1: A vector of materials to merge or materials
+                      from pin 0 to ...
+   :type materials1: Materials
+   :param materials2: A vector of materials to merge or materials
+                      from pin 0 to ...
+   :type materials2: Materials
+
+   :returns: **merged_materials**
+   :rtype: Materials
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.utility.merge_materials()
+
+   >>> # Make input connections
+   >>> my_materials1 = dpf.Materials()
+   >>> op.inputs.materials1.connect(my_materials1)
+   >>> my_materials2 = dpf.Materials()
+   >>> op.inputs.materials2.connect(my_materials2)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.utility.merge_materials(
+   ...     materials1=my_materials1,
+   ...     materials2=my_materials2,
+   ... )
+
+   >>> # Get output data
+   >>> result_merged_materials = op.outputs.merged_materials()
+
+
+
+
+.. py:currentmodule:: merge_materials
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.merge_materials import merge_materials
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsMergeMaterials
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsMergeMaterials
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

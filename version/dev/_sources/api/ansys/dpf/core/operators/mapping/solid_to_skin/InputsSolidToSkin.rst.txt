@@ -1,0 +1,126 @@
+
+
+
+
+
+
+:class:`InputsSolidToSkin`
+==========================
+
+.. py:class:: ansys.dpf.core.operators.mapping.solid_to_skin.InputsSolidToSkin(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   solid_to_skin operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.solid_to_skin()
+   >>> my_field = dpf.Field()
+   >>> op.inputs.field.connect(my_field)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_solid_mesh = dpf.MeshedRegion()
+   >>> op.inputs.solid_mesh.connect(my_solid_mesh)
+
+
+
+.. py:currentmodule:: InputsSolidToSkin
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~field`
+            - Allows to connect field input to the operator.
+          * - :py:attr:`~mesh`
+            - Allows to connect mesh input to the operator.
+          * - :py:attr:`~solid_mesh`
+            - Allows to connect solid_mesh input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mapping.solid_to_skin import InputsSolidToSkin
+
+Property detail
+---------------
+
+.. py:property:: field
+
+   Allows to connect field input to the operator.
+
+   Field or fields container with only one field
+   is expected
+
+   :param my_field:
+   :type my_field: Field or FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.solid_to_skin()
+   >>> op.inputs.field.connect(my_field)
+   >>> # or
+   >>> op.inputs.field(my_field)
+
+.. py:property:: mesh
+
+   Allows to connect mesh input to the operator.
+
+   Skin mesh region expected
+
+   :param my_mesh:
+   :type my_mesh: MeshedRegion
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.solid_to_skin()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> # or
+   >>> op.inputs.mesh(my_mesh)
+
+.. py:property:: solid_mesh
+
+   Allows to connect solid_mesh input to the operator.
+
+   Solid mesh support (optional).
+
+   :param my_solid_mesh:
+   :type my_solid_mesh: MeshedRegion
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.solid_to_skin()
+   >>> op.inputs.solid_mesh.connect(my_solid_mesh)
+   >>> # or
+   >>> op.inputs.solid_mesh(my_solid_mesh)
+
+
+
+
+
+

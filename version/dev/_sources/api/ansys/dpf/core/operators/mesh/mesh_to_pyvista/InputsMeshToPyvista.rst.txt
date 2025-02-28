@@ -1,0 +1,173 @@
+
+
+
+
+
+
+:class:`InputsMeshToPyvista`
+============================
+
+.. py:class:: ansys.dpf.core.operators.mesh.mesh_to_pyvista.InputsMeshToPyvista(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   mesh_to_pyvista operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.mesh_to_pyvista()
+   >>> my_coordinates = dpf.Field()
+   >>> op.inputs.coordinates.connect(my_coordinates)
+   >>> my_as_linear = bool()
+   >>> op.inputs.as_linear.connect(my_as_linear)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_vtk_updated = bool()
+   >>> op.inputs.vtk_updated.connect(my_vtk_updated)
+   >>> my_as_poly = bool()
+   >>> op.inputs.as_poly.connect(my_as_poly)
+
+
+
+.. py:currentmodule:: InputsMeshToPyvista
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~coordinates`
+            - Allows to connect coordinates input to the operator.
+          * - :py:attr:`~as_linear`
+            - Allows to connect as_linear input to the operator.
+          * - :py:attr:`~mesh`
+            - Allows to connect mesh input to the operator.
+          * - :py:attr:`~vtk_updated`
+            - Allows to connect vtk_updated input to the operator.
+          * - :py:attr:`~as_poly`
+            - Allows to connect as_poly input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mesh.mesh_to_pyvista import InputsMeshToPyvista
+
+Property detail
+---------------
+
+.. py:property:: coordinates
+
+   Allows to connect coordinates input to the operator.
+
+   Node coordinates. if not set, the node
+   coordinates of the mesh are employed.
+
+   :param my_coordinates:
+   :type my_coordinates: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.mesh_to_pyvista()
+   >>> op.inputs.coordinates.connect(my_coordinates)
+   >>> # or
+   >>> op.inputs.coordinates(my_coordinates)
+
+.. py:property:: as_linear
+
+   Allows to connect as_linear input to the operator.
+
+   Export a linear version of the mesh
+   (quadratic surface elements do no
+   include midside nodes). if not set,
+   defaults to true.
+
+   :param my_as_linear:
+   :type my_as_linear: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.mesh_to_pyvista()
+   >>> op.inputs.as_linear.connect(my_as_linear)
+   >>> # or
+   >>> op.inputs.as_linear(my_as_linear)
+
+.. py:property:: mesh
+
+   Allows to connect mesh input to the operator.
+
+   Mesh to export in pyvista format
+
+   :param my_mesh:
+   :type my_mesh: MeshedRegion
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.mesh_to_pyvista()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> # or
+   >>> op.inputs.mesh(my_mesh)
+
+.. py:property:: vtk_updated
+
+   Allows to connect vtk_updated input to the operator.
+
+   True if the vtk version employed by pyvista
+   is > vtk 9. default true.
+
+   :param my_vtk_updated:
+   :type my_vtk_updated: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.mesh_to_pyvista()
+   >>> op.inputs.vtk_updated.connect(my_vtk_updated)
+   >>> # or
+   >>> op.inputs.vtk_updated(my_vtk_updated)
+
+.. py:property:: as_poly
+
+   Allows to connect as_poly input to the operator.
+
+   Export elements as polyhedrons (cell-face-
+   node representation). default false.
+
+   :param my_as_poly:
+   :type my_as_poly: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.mesh_to_pyvista()
+   >>> op.inputs.as_poly.connect(my_as_poly)
+   >>> # or
+   >>> op.inputs.as_poly(my_as_poly)
+
+
+
+
+
+

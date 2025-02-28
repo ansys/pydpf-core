@@ -1,0 +1,81 @@
+
+
+
+
+
+
+:class:`InputsMesh`
+===================
+
+.. py:class:: ansys.dpf.core.operators.utility.mesh.InputsMesh(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   mesh operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.mesh()
+   >>> my_input = dpf.MeshedRegion()
+   >>> op.inputs.input.connect(my_input)
+
+
+
+.. py:currentmodule:: InputsMesh
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~input`
+            - Allows to connect input input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.mesh import InputsMesh
+
+Property detail
+---------------
+
+.. py:property:: input
+
+   Allows to connect input input to the operator.
+
+   :param my_input:
+   :type my_input: MeshedRegion
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.mesh()
+   >>> op.inputs.input.connect(my_input)
+   >>> # or
+   >>> op.inputs.input(my_input)
+
+
+
+
+
+

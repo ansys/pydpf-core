@@ -1,0 +1,97 @@
+
+
+
+
+
+
+:class:`OutputsIdenticalPropertyFields`
+=======================================
+
+.. py:class:: ansys.dpf.core.operators.logic.identical_property_fields.OutputsIdenticalPropertyFields(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   identical_property_fields operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_property_fields()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_are_identical = op.outputs.are_identical()
+   >>> result_information = op.outputs.information()
+
+
+
+.. py:currentmodule:: OutputsIdenticalPropertyFields
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~are_identical`
+            - Allows to get are_identical output of the operator
+          * - :py:attr:`~information`
+            - Allows to get information output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.logic.identical_property_fields import OutputsIdenticalPropertyFields
+
+Property detail
+---------------
+
+.. py:property:: are_identical
+
+   Allows to get are_identical output of the operator
+
+   :returns: **my_are_identical**
+   :rtype: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_property_fields()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_are_identical = op.outputs.are_identical()
+
+.. py:property:: information
+
+   Allows to get information output of the operator
+
+   :returns: **my_information**
+   :rtype: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_property_fields()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_information = op.outputs.information()
+
+
+
+
+
+

@@ -1,0 +1,127 @@
+
+
+
+
+
+
+:class:`InputsFieldsContainerMatricesLabel`
+===========================================
+
+.. py:class:: ansys.dpf.core.operators.utility.fields_container_matrices_label.InputsFieldsContainerMatricesLabel(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   fields_container_matrices_label operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.fields_container_matrices_label()
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_label = str()
+   >>> op.inputs.label.connect(my_label)
+   >>> my_time_scoping = int()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+
+
+
+.. py:currentmodule:: InputsFieldsContainerMatricesLabel
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fields_container`
+            - Allows to connect fields_container input to the operator.
+          * - :py:attr:`~label`
+            - Allows to connect label input to the operator.
+          * - :py:attr:`~time_scoping`
+            - Allows to connect time_scoping input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.fields_container_matrices_label import InputsFieldsContainerMatricesLabel
+
+Property detail
+---------------
+
+.. py:property:: fields_container
+
+   Allows to connect fields_container input to the operator.
+
+   Fields container to be merged
+
+   :param my_fields_container:
+   :type my_fields_container: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.fields_container_matrices_label()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> # or
+   >>> op.inputs.fields_container(my_fields_container)
+
+.. py:property:: label
+
+   Allows to connect label input to the operator.
+
+   Label where the merge is required
+
+   :param my_label:
+   :type my_label: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.fields_container_matrices_label()
+   >>> op.inputs.label.connect(my_label)
+   >>> # or
+   >>> op.inputs.label(my_label)
+
+.. py:property:: time_scoping
+
+   Allows to connect time_scoping input to the operator.
+
+   If it's specified, fields container of field
+   matrices is constructed only on the
+   specified time scoping
+
+   :param my_time_scoping:
+   :type my_time_scoping: int or Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.fields_container_matrices_label()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> # or
+   >>> op.inputs.time_scoping(my_time_scoping)
+
+
+
+
+
+

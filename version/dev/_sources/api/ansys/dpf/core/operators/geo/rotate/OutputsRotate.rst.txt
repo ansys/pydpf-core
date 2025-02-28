@@ -1,0 +1,80 @@
+
+
+
+
+
+
+:class:`OutputsRotate`
+======================
+
+.. py:class:: ansys.dpf.core.operators.geo.rotate.OutputsRotate(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   rotate operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.geo.rotate()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_field = op.outputs.field()
+
+
+
+.. py:currentmodule:: OutputsRotate
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~field`
+            - Allows to get field output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.geo.rotate import OutputsRotate
+
+Property detail
+---------------
+
+.. py:property:: field
+
+   Allows to get field output of the operator
+
+   :returns: **my_field**
+   :rtype: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.geo.rotate()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_field = op.outputs.field()
+
+
+
+
+
+

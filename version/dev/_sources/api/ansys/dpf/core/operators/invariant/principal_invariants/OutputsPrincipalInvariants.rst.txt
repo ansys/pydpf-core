@@ -1,0 +1,114 @@
+
+
+
+
+
+
+:class:`OutputsPrincipalInvariants`
+===================================
+
+.. py:class:: ansys.dpf.core.operators.invariant.principal_invariants.OutputsPrincipalInvariants(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   principal_invariants operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.invariant.principal_invariants()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_field_eig_1 = op.outputs.field_eig_1()
+   >>> result_field_eig_2 = op.outputs.field_eig_2()
+   >>> result_field_eig_3 = op.outputs.field_eig_3()
+
+
+
+.. py:currentmodule:: OutputsPrincipalInvariants
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~field_eig_1`
+            - Allows to get field_eig_1 output of the operator
+          * - :py:attr:`~field_eig_2`
+            - Allows to get field_eig_2 output of the operator
+          * - :py:attr:`~field_eig_3`
+            - Allows to get field_eig_3 output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.invariant.principal_invariants import OutputsPrincipalInvariants
+
+Property detail
+---------------
+
+.. py:property:: field_eig_1
+
+   Allows to get field_eig_1 output of the operator
+
+   :returns: **my_field_eig_1**
+   :rtype: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.invariant.principal_invariants()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_field_eig_1 = op.outputs.field_eig_1()
+
+.. py:property:: field_eig_2
+
+   Allows to get field_eig_2 output of the operator
+
+   :returns: **my_field_eig_2**
+   :rtype: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.invariant.principal_invariants()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_field_eig_2 = op.outputs.field_eig_2()
+
+.. py:property:: field_eig_3
+
+   Allows to get field_eig_3 output of the operator
+
+   :returns: **my_field_eig_3**
+   :rtype: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.invariant.principal_invariants()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_field_eig_3 = op.outputs.field_eig_3()
+
+
+
+
+
+

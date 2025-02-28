@@ -1,0 +1,177 @@
+
+
+
+
+
+
+:class:`stress_eqv_as_mechanical_workflow`
+==========================================
+
+.. py:class:: ansys.dpf.core.operators.result.stress_eqv_as_mechanical_workflow.stress_eqv_as_mechanical_workflow(time_scoping=None, mesh_scoping=None, streams_container=None, data_sources=None, mesh=None, requested_location=None, read_cyclic=None, average_across_bodies=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Generates a workflow that computes the equivalent (Von Mises) stresses
+   and averages it to the nodes (by default). For multibody
+   simulations, averaging across bodies can either be activated or
+   deactivated.
+
+   :param time_scoping: Time/freq (use doubles or field), time/freq
+                        set ids (use ints or scoping) or
+                        time/freq step ids use scoping with
+                        timefreq_steps location) required in
+                        output.
+   :type time_scoping: Scoping, optional
+   :param mesh_scoping: Nodes or elements scoping required in output.
+   :type mesh_scoping: Scoping or ScopingsContainer, optional
+   :param streams_container: Result file container allowed to be kept open
+                             to cache data.
+   :type streams_container: StreamsContainer, optional
+   :param data_sources: Result file path container.
+   :type data_sources: DataSources
+   :param mesh: Prevents from reading the mesh in the results
+                file.
+   :type mesh: MeshedRegion or MeshesContainer, optional
+   :param requested_location: Average the elemental nodal result to the
+                              requested location (default is
+                              nodal).
+   :type requested_location: str, optional
+   :param read_cyclic: If true, cyclic expansion is done. if false,
+                       it's ignored..
+   :type read_cyclic: bool, optional
+   :param average_across_bodies: For multibody simulations, the stresses are
+                                 averaged across bodies if true or not
+                                 if false (default).
+   :type average_across_bodies: bool, optional
+
+   :returns: **workflow**
+   :rtype: Workflow
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.result.stress_eqv_as_mechanical_workflow()
+
+   >>> # Make input connections
+   >>> my_time_scoping = dpf.Scoping()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> my_mesh_scoping = dpf.Scoping()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> my_streams_container = dpf.StreamsContainer()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_requested_location = str()
+   >>> op.inputs.requested_location.connect(my_requested_location)
+   >>> my_read_cyclic = bool()
+   >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+   >>> my_average_across_bodies = bool()
+   >>> op.inputs.average_across_bodies.connect(my_average_across_bodies)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.result.stress_eqv_as_mechanical_workflow(
+   ...     time_scoping=my_time_scoping,
+   ...     mesh_scoping=my_mesh_scoping,
+   ...     streams_container=my_streams_container,
+   ...     data_sources=my_data_sources,
+   ...     mesh=my_mesh,
+   ...     requested_location=my_requested_location,
+   ...     read_cyclic=my_read_cyclic,
+   ...     average_across_bodies=my_average_across_bodies,
+   ... )
+
+   >>> # Get output data
+   >>> result_workflow = op.outputs.workflow()
+
+
+
+
+.. py:currentmodule:: stress_eqv_as_mechanical_workflow
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.stress_eqv_as_mechanical_workflow import stress_eqv_as_mechanical_workflow
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsStressEqvAsMechanicalWorkflow
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsStressEqvAsMechanicalWorkflow
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.averaging.force_summation
+   :inherited-members:

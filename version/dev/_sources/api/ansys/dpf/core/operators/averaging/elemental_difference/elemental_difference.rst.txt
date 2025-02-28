@@ -1,0 +1,149 @@
+
+
+
+
+
+
+:class:`elemental_difference`
+=============================
+
+.. py:class:: ansys.dpf.core.operators.averaging.elemental_difference.elemental_difference(field=None, mesh_scoping=None, mesh=None, through_layers=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Transforms an Elemental Nodal or Nodal field into an Elemental field.
+   Each elemental value is the maximum difference between the
+   computed result for all nodes in this element. The result is
+   computed on a given element scoping.
+
+   :param field: Field or fields container with only one field
+                 is expected
+   :type field: Field or FieldsContainer
+   :param mesh_scoping: Average only on these entities
+   :type mesh_scoping: Scoping, optional
+   :param mesh:
+   :type mesh: MeshedRegion, optional
+   :param through_layers: The maximum elemental difference is taken
+                          through the different shell layers if
+                          true (default is false).
+   :type through_layers: bool, optional
+
+   :returns: **field**
+   :rtype: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.averaging.elemental_difference()
+
+   >>> # Make input connections
+   >>> my_field = dpf.Field()
+   >>> op.inputs.field.connect(my_field)
+   >>> my_mesh_scoping = dpf.Scoping()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_through_layers = bool()
+   >>> op.inputs.through_layers.connect(my_through_layers)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.averaging.elemental_difference(
+   ...     field=my_field,
+   ...     mesh_scoping=my_mesh_scoping,
+   ...     mesh=my_mesh,
+   ...     through_layers=my_through_layers,
+   ... )
+
+   >>> # Get output data
+   >>> result_field = op.outputs.field()
+
+
+
+
+.. py:currentmodule:: elemental_difference
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.averaging.elemental_difference import elemental_difference
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsElementalDifference
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsElementalDifference
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

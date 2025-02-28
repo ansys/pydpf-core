@@ -1,0 +1,142 @@
+
+
+
+
+
+
+:class:`remove_unnecessary_labels`
+==================================
+
+.. py:class:: ansys.dpf.core.operators.utility.remove_unnecessary_labels.remove_unnecessary_labels(permissive=None, fields_container=None, label_to_remove=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Removes the selected label from a fields container.
+
+   :param permissive: If true, the operator does not throw an error
+                      if the label to be removed has more
+                      than one entry.
+   :type permissive: bool, optional
+   :param fields_container: Fields container with the label to be
+                            removed.
+   :type fields_container: FieldsContainer
+   :param label_to_remove: Label to be removed from the fields
+                           container.
+   :type label_to_remove: str
+
+   :returns: **fields_container**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.utility.remove_unnecessary_labels()
+
+   >>> # Make input connections
+   >>> my_permissive = bool()
+   >>> op.inputs.permissive.connect(my_permissive)
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_label_to_remove = str()
+   >>> op.inputs.label_to_remove.connect(my_label_to_remove)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.utility.remove_unnecessary_labels(
+   ...     permissive=my_permissive,
+   ...     fields_container=my_fields_container,
+   ...     label_to_remove=my_label_to_remove,
+   ... )
+
+   >>> # Get output data
+   >>> result_fields_container = op.outputs.fields_container()
+
+
+
+
+.. py:currentmodule:: remove_unnecessary_labels
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.remove_unnecessary_labels import remove_unnecessary_labels
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsRemoveUnnecessaryLabels
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsRemoveUnnecessaryLabels
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

@@ -1,0 +1,146 @@
+
+
+
+
+
+
+:class:`tri_mesh_skin`
+======================
+
+.. py:class:: ansys.dpf.core.operators.mesh.tri_mesh_skin.tri_mesh_skin(mesh=None, include_surfaces=None, mesh_scoping=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Extracts a skin of the mesh in triangles in a new meshed region.
+
+   :param mesh:
+   :type mesh: MeshedRegion
+   :param include_surfaces: True: meshing will also take into account
+                            shell and skin elements. false:
+                            meshing will ignore shell and skin
+                            elements. the default is false.
+   :type include_surfaces: bool, optional
+   :param mesh_scoping: Nodal scoping to restrict the skin extraction
+                        to a set of nodes. if provided, a
+                        skin element is added to the skin
+                        mesh if all its nodes are in the
+                        scoping.
+   :type mesh_scoping: Scoping, optional
+
+   :returns: * **mesh** (*MeshedRegion*)
+             * **nodes_mesh_scoping** (*Scoping*)
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.mesh.tri_mesh_skin()
+
+   >>> # Make input connections
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_include_surfaces = bool()
+   >>> op.inputs.include_surfaces.connect(my_include_surfaces)
+   >>> my_mesh_scoping = dpf.Scoping()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.mesh.tri_mesh_skin(
+   ...     mesh=my_mesh,
+   ...     include_surfaces=my_include_surfaces,
+   ...     mesh_scoping=my_mesh_scoping,
+   ... )
+
+   >>> # Get output data
+   >>> result_mesh = op.outputs.mesh()
+   >>> result_nodes_mesh_scoping = op.outputs.nodes_mesh_scoping()
+
+
+
+
+.. py:currentmodule:: tri_mesh_skin
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mesh.tri_mesh_skin import tri_mesh_skin
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsTriMeshSkin
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsTriMeshSkin
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

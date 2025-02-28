@@ -1,0 +1,180 @@
+
+
+
+
+
+
+:class:`fft_approx`
+===================
+
+.. py:class:: ansys.dpf.core.operators.math.fft_approx.fft_approx(time_scoping=None, mesh_scoping=None, entity_to_fit=None, component_number=None, first_derivative=None, second_derivative=None, fit_data=None, cutoff_fr=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Computes the fitting curve using FFT filtering and cubic fitting in
+   space (node i: x=time, y=data), with the possibility to compute
+   the first and the second derivatives of the curve.
+
+   :param time_scoping: A time scoping to rescope / split the fields
+                        container given as input.
+   :type time_scoping: Scoping, optional
+   :param mesh_scoping: A space (mesh entities) scoping (or scopings
+                        container) to rescope / split the
+                        fields container given as input.
+   :type mesh_scoping: Scoping or ScopingsContainer, optional
+   :param entity_to_fit: Data changing in time to be fitted.
+   :type entity_to_fit: FieldsContainer
+   :param component_number: Component number as an integer, for example
+                            '0' for x-displacement, '1' for
+                            y-displacement, and so on.
+   :type component_number: int
+   :param first_derivative: Calculate the first derivative (bool). the
+                            default is false.
+   :type first_derivative: bool
+   :param second_derivative: Calculate the second derivative (bool). the
+                             default is false.
+   :type second_derivative: bool
+   :param fit_data: Calculate the fitted values (bool). the
+                    default is false
+   :type fit_data: bool
+   :param cutoff_fr: Cutoff frequency.
+   :type cutoff_fr: float or int, optional
+
+   :returns: * **fitted_entity_y** (*FieldsContainer*) -- The fitted entity is fitted using fft along
+               the space scoping (node i: x=time,
+               y=data). fitted y is expected to be
+               close to the input data.
+             * **first_der_dy** (*FieldsContainer*) -- The first derivative (dy) from the fitted y.
+             * **second_der_d2y** (*FieldsContainer*) -- The second derivative (d2y) from the fitted
+               y.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.math.fft_approx()
+
+   >>> # Make input connections
+   >>> my_time_scoping = dpf.Scoping()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> my_mesh_scoping = dpf.Scoping()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> my_entity_to_fit = dpf.FieldsContainer()
+   >>> op.inputs.entity_to_fit.connect(my_entity_to_fit)
+   >>> my_component_number = int()
+   >>> op.inputs.component_number.connect(my_component_number)
+   >>> my_first_derivative = bool()
+   >>> op.inputs.first_derivative.connect(my_first_derivative)
+   >>> my_second_derivative = bool()
+   >>> op.inputs.second_derivative.connect(my_second_derivative)
+   >>> my_fit_data = bool()
+   >>> op.inputs.fit_data.connect(my_fit_data)
+   >>> my_cutoff_fr = float()
+   >>> op.inputs.cutoff_fr.connect(my_cutoff_fr)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.math.fft_approx(
+   ...     time_scoping=my_time_scoping,
+   ...     mesh_scoping=my_mesh_scoping,
+   ...     entity_to_fit=my_entity_to_fit,
+   ...     component_number=my_component_number,
+   ...     first_derivative=my_first_derivative,
+   ...     second_derivative=my_second_derivative,
+   ...     fit_data=my_fit_data,
+   ...     cutoff_fr=my_cutoff_fr,
+   ... )
+
+   >>> # Get output data
+   >>> result_fitted_entity_y = op.outputs.fitted_entity_y()
+   >>> result_first_der_dy = op.outputs.first_der_dy()
+   >>> result_second_der_d2y = op.outputs.second_der_d2y()
+
+
+
+
+.. py:currentmodule:: fft_approx
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.fft_approx import fft_approx
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsFftApprox
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsFftApprox
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

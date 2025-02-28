@@ -1,0 +1,119 @@
+
+
+
+
+
+
+:class:`InputsAssembleScalarsToVectorsFc`
+=========================================
+
+.. py:class:: ansys.dpf.core.operators.utility.assemble_scalars_to_vectors_fc.InputsAssembleScalarsToVectorsFc(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   assemble_scalars_to_vectors_fc operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.assemble_scalars_to_vectors_fc()
+   >>> my_x = dpf.FieldsContainer()
+   >>> op.inputs.x.connect(my_x)
+   >>> my_y = dpf.FieldsContainer()
+   >>> op.inputs.y.connect(my_y)
+   >>> my_z = dpf.FieldsContainer()
+   >>> op.inputs.z.connect(my_z)
+
+
+
+.. py:currentmodule:: InputsAssembleScalarsToVectorsFc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~x`
+            - Allows to connect x input to the operator.
+          * - :py:attr:`~y`
+            - Allows to connect y input to the operator.
+          * - :py:attr:`~z`
+            - Allows to connect z input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.assemble_scalars_to_vectors_fc import InputsAssembleScalarsToVectorsFc
+
+Property detail
+---------------
+
+.. py:property:: x
+
+   Allows to connect x input to the operator.
+
+   :param my_x:
+   :type my_x: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.assemble_scalars_to_vectors_fc()
+   >>> op.inputs.x.connect(my_x)
+   >>> # or
+   >>> op.inputs.x(my_x)
+
+.. py:property:: y
+
+   Allows to connect y input to the operator.
+
+   :param my_y:
+   :type my_y: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.assemble_scalars_to_vectors_fc()
+   >>> op.inputs.y.connect(my_y)
+   >>> # or
+   >>> op.inputs.y(my_y)
+
+.. py:property:: z
+
+   Allows to connect z input to the operator.
+
+   :param my_z:
+   :type my_z: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.assemble_scalars_to_vectors_fc()
+   >>> op.inputs.z.connect(my_z)
+   >>> # or
+   >>> op.inputs.z(my_z)
+
+
+
+
+
+

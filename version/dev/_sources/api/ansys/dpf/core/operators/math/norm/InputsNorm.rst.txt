@@ -1,0 +1,106 @@
+
+
+
+
+
+
+:class:`InputsNorm`
+===================
+
+.. py:class:: ansys.dpf.core.operators.math.norm.InputsNorm(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   norm operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.norm()
+   >>> my_field = dpf.Field()
+   >>> op.inputs.field.connect(my_field)
+   >>> my_scalar_int = int()
+   >>> op.inputs.scalar_int.connect(my_scalar_int)
+
+
+
+.. py:currentmodule:: InputsNorm
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~field`
+            - Allows to connect field input to the operator.
+          * - :py:attr:`~scalar_int`
+            - Allows to connect scalar_int input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.norm import InputsNorm
+
+Property detail
+---------------
+
+.. py:property:: field
+
+   Allows to connect field input to the operator.
+
+   Field or fields container with only one field
+   is expected
+
+   :param my_field:
+   :type my_field: Field or FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.norm()
+   >>> op.inputs.field.connect(my_field)
+   >>> # or
+   >>> op.inputs.field(my_field)
+
+.. py:property:: scalar_int
+
+   Allows to connect scalar_int input to the operator.
+
+   Lp normalisation type, p = 1, 2, ...n -
+   default lp=l2
+
+   :param my_scalar_int:
+   :type my_scalar_int: int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.norm()
+   >>> op.inputs.scalar_int.connect(my_scalar_int)
+   >>> # or
+   >>> op.inputs.scalar_int(my_scalar_int)
+
+
+
+
+
+

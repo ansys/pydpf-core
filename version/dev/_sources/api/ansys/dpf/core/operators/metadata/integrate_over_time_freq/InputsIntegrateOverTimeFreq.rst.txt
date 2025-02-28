@@ -1,0 +1,126 @@
+
+
+
+
+
+
+:class:`InputsIntegrateOverTimeFreq`
+====================================
+
+.. py:class:: ansys.dpf.core.operators.metadata.integrate_over_time_freq.InputsIntegrateOverTimeFreq(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   integrate_over_time_freq operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.integrate_over_time_freq()
+   >>> my_field = dpf.Field()
+   >>> op.inputs.field.connect(my_field)
+   >>> my_scoping = dpf.Scoping()
+   >>> op.inputs.scoping.connect(my_scoping)
+   >>> my_time_freq_support = dpf.TimeFreqSupport()
+   >>> op.inputs.time_freq_support.connect(my_time_freq_support)
+
+
+
+.. py:currentmodule:: InputsIntegrateOverTimeFreq
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~field`
+            - Allows to connect field input to the operator.
+          * - :py:attr:`~scoping`
+            - Allows to connect scoping input to the operator.
+          * - :py:attr:`~time_freq_support`
+            - Allows to connect time_freq_support input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.metadata.integrate_over_time_freq import InputsIntegrateOverTimeFreq
+
+Property detail
+---------------
+
+.. py:property:: field
+
+   Allows to connect field input to the operator.
+
+   :param my_field:
+   :type my_field: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.integrate_over_time_freq()
+   >>> op.inputs.field.connect(my_field)
+   >>> # or
+   >>> op.inputs.field(my_field)
+
+.. py:property:: scoping
+
+   Allows to connect scoping input to the operator.
+
+   Integrate the input field over a specific
+   scoping.
+
+   :param my_scoping:
+   :type my_scoping: Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.integrate_over_time_freq()
+   >>> op.inputs.scoping.connect(my_scoping)
+   >>> # or
+   >>> op.inputs.scoping(my_scoping)
+
+.. py:property:: time_freq_support
+
+   Allows to connect time_freq_support input to the operator.
+
+   Time freq to integrate on, otherwise time
+   freq support from the input field is
+   taken.
+
+   :param my_time_freq_support:
+   :type my_time_freq_support: TimeFreqSupport
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.integrate_over_time_freq()
+   >>> op.inputs.time_freq_support.connect(my_time_freq_support)
+   >>> # or
+   >>> op.inputs.time_freq_support(my_time_freq_support)
+
+
+
+
+
+

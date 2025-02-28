@@ -1,0 +1,108 @@
+
+
+
+
+
+
+:class:`InputsMergeTimeFreqSupports`
+====================================
+
+.. py:class:: ansys.dpf.core.operators.utility.merge_time_freq_supports.InputsMergeTimeFreqSupports(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   merge_time_freq_supports operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_time_freq_supports()
+   >>> my_time_freq_supports1 = dpf.TimeFreqSupport()
+   >>> op.inputs.time_freq_supports1.connect(my_time_freq_supports1)
+   >>> my_time_freq_supports2 = dpf.TimeFreqSupport()
+   >>> op.inputs.time_freq_supports2.connect(my_time_freq_supports2)
+
+
+
+.. py:currentmodule:: InputsMergeTimeFreqSupports
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~time_freq_supports1`
+            - Allows to connect time_freq_supports1 input to the operator.
+          * - :py:attr:`~time_freq_supports2`
+            - Allows to connect time_freq_supports2 input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.merge_time_freq_supports import InputsMergeTimeFreqSupports
+
+Property detail
+---------------
+
+.. py:property:: time_freq_supports1
+
+   Allows to connect time_freq_supports1 input to the operator.
+
+   A vector of time/frequency supports to merge
+   or time/frequency supports from pin 0
+   to ...
+
+   :param my_time_freq_supports1:
+   :type my_time_freq_supports1: TimeFreqSupport
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_time_freq_supports()
+   >>> op.inputs.time_freq_supports1.connect(my_time_freq_supports1)
+   >>> # or
+   >>> op.inputs.time_freq_supports1(my_time_freq_supports1)
+
+.. py:property:: time_freq_supports2
+
+   Allows to connect time_freq_supports2 input to the operator.
+
+   A vector of time/frequency supports to merge
+   or time/frequency supports from pin 0
+   to ...
+
+   :param my_time_freq_supports2:
+   :type my_time_freq_supports2: TimeFreqSupport
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_time_freq_supports()
+   >>> op.inputs.time_freq_supports2.connect(my_time_freq_supports2)
+   >>> # or
+   >>> op.inputs.time_freq_supports2(my_time_freq_supports2)
+
+
+
+
+
+

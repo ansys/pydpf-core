@@ -1,0 +1,80 @@
+
+
+
+
+
+
+:class:`OutputsStreamsProvider`
+===============================
+
+.. py:class:: ansys.dpf.core.operators.metadata.streams_provider.OutputsStreamsProvider(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   streams_provider operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.streams_provider()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_streams_container = op.outputs.streams_container()
+
+
+
+.. py:currentmodule:: OutputsStreamsProvider
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~streams_container`
+            - Allows to get streams_container output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.metadata.streams_provider import OutputsStreamsProvider
+
+Property detail
+---------------
+
+.. py:property:: streams_container
+
+   Allows to get streams_container output of the operator
+
+   :returns: **my_streams_container**
+   :rtype: StreamsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.streams_provider()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_streams_container = op.outputs.streams_container()
+
+
+
+
+
+

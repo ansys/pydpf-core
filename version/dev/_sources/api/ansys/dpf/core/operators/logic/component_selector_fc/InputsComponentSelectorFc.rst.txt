@@ -1,0 +1,103 @@
+
+
+
+
+
+
+:class:`InputsComponentSelectorFc`
+==================================
+
+.. py:class:: ansys.dpf.core.operators.logic.component_selector_fc.InputsComponentSelectorFc(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   component_selector_fc operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.component_selector_fc()
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_component_number = int()
+   >>> op.inputs.component_number.connect(my_component_number)
+
+
+
+.. py:currentmodule:: InputsComponentSelectorFc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fields_container`
+            - Allows to connect fields_container input to the operator.
+          * - :py:attr:`~component_number`
+            - Allows to connect component_number input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.logic.component_selector_fc import InputsComponentSelectorFc
+
+Property detail
+---------------
+
+.. py:property:: fields_container
+
+   Allows to connect fields_container input to the operator.
+
+   :param my_fields_container:
+   :type my_fields_container: FieldsContainer or Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.component_selector_fc()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> # or
+   >>> op.inputs.fields_container(my_fields_container)
+
+.. py:property:: component_number
+
+   Allows to connect component_number input to the operator.
+
+   One or several component index that will be
+   extracted from the initial field.
+
+   :param my_component_number:
+   :type my_component_number: int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.component_selector_fc()
+   >>> op.inputs.component_number.connect(my_component_number)
+   >>> # or
+   >>> op.inputs.component_number(my_component_number)
+
+
+
+
+
+

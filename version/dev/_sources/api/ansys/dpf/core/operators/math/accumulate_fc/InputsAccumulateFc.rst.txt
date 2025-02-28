@@ -1,0 +1,127 @@
+
+
+
+
+
+
+:class:`InputsAccumulateFc`
+===========================
+
+.. py:class:: ansys.dpf.core.operators.math.accumulate_fc.InputsAccumulateFc(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   accumulate_fc operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.accumulate_fc()
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_ponderation = dpf.Field()
+   >>> op.inputs.ponderation.connect(my_ponderation)
+   >>> my_time_scoping = dpf.Scoping()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+
+
+
+.. py:currentmodule:: InputsAccumulateFc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fields_container`
+            - Allows to connect fields_container input to the operator.
+          * - :py:attr:`~ponderation`
+            - Allows to connect ponderation input to the operator.
+          * - :py:attr:`~time_scoping`
+            - Allows to connect time_scoping input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.accumulate_fc import InputsAccumulateFc
+
+Property detail
+---------------
+
+.. py:property:: fields_container
+
+   Allows to connect fields_container input to the operator.
+
+   Field or fields container with only one field
+   is expected
+
+   :param my_fields_container:
+   :type my_fields_container: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.accumulate_fc()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> # or
+   >>> op.inputs.fields_container(my_fields_container)
+
+.. py:property:: ponderation
+
+   Allows to connect ponderation input to the operator.
+
+   Field containing weights, one weight per
+   entity
+
+   :param my_ponderation:
+   :type my_ponderation: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.accumulate_fc()
+   >>> op.inputs.ponderation.connect(my_ponderation)
+   >>> # or
+   >>> op.inputs.ponderation(my_ponderation)
+
+.. py:property:: time_scoping
+
+   Allows to connect time_scoping input to the operator.
+
+   Time_scoping
+
+   :param my_time_scoping:
+   :type my_time_scoping: Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.accumulate_fc()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> # or
+   >>> op.inputs.time_scoping(my_time_scoping)
+
+
+
+
+
+

@@ -1,0 +1,112 @@
+
+
+
+
+
+
+:class:`InputsMergeAny`
+=======================
+
+.. py:class:: ansys.dpf.core.operators.utility.merge_any.InputsMergeAny(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   merge_any operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_any()
+   >>> my_any1 = dpf.Any()
+   >>> op.inputs.any1.connect(my_any1)
+   >>> my_any2 = dpf.Any()
+   >>> op.inputs.any2.connect(my_any2)
+
+
+
+.. py:currentmodule:: InputsMergeAny
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~any1`
+            - Allows to connect any1 input to the operator.
+          * - :py:attr:`~any2`
+            - Allows to connect any2 input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.merge_any import InputsMergeAny
+
+Property detail
+---------------
+
+.. py:property:: any1
+
+   Allows to connect any1 input to the operator.
+
+   Either a vector of objects (sharing the same
+   data types) or objects from pin 0 to
+   ... to merge. supported types rely on
+   existing type specific merge
+   operators.
+
+   :param my_any1:
+   :type my_any1: Any
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_any()
+   >>> op.inputs.any1.connect(my_any1)
+   >>> # or
+   >>> op.inputs.any1(my_any1)
+
+.. py:property:: any2
+
+   Allows to connect any2 input to the operator.
+
+   Either a vector of objects (sharing the same
+   data types) or objects from pin 0 to
+   ... to merge. supported types rely on
+   existing type specific merge
+   operators.
+
+   :param my_any2:
+   :type my_any2: Any
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_any()
+   >>> op.inputs.any2.connect(my_any2)
+   >>> # or
+   >>> op.inputs.any2(my_any2)
+
+
+
+
+
+

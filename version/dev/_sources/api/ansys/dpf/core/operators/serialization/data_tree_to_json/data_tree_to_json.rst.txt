@@ -1,0 +1,133 @@
+
+
+
+
+
+
+:class:`data_tree_to_json`
+==========================
+
+.. py:class:: ansys.dpf.core.operators.serialization.data_tree_to_json.data_tree_to_json(data_tree=None, path=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Writes a json file or string from a DataTree
+
+   :param data_tree:
+   :type data_tree: DataTree
+   :param path:
+   :type path: str, optional
+
+   :returns: **data_sources**
+   :rtype: DataSources or str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.serialization.data_tree_to_json()
+
+   >>> # Make input connections
+   >>> my_data_tree = dpf.DataTree()
+   >>> op.inputs.data_tree.connect(my_data_tree)
+   >>> my_path = str()
+   >>> op.inputs.path.connect(my_path)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.serialization.data_tree_to_json(
+   ...     data_tree=my_data_tree,
+   ...     path=my_path,
+   ... )
+
+   >>> # Get output data
+   >>> result_data_sources = op.outputs.data_sources()
+
+
+
+
+.. py:currentmodule:: data_tree_to_json
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.serialization.data_tree_to_json import data_tree_to_json
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsDataTreeToJson
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsDataTreeToJson
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

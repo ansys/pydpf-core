@@ -1,0 +1,287 @@
+
+
+
+
+
+
+:class:`InputsMembersInCompressionNotCertified`
+===============================================
+
+.. py:class:: ansys.dpf.core.operators.result.members_in_compression_not_certified.InputsMembersInCompressionNotCertified(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   members_in_compression_not_certified operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.members_in_compression_not_certified()
+   >>> my_time_scoping = dpf.Scoping()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> my_field_yield_strength = dpf.DataSources()
+   >>> op.inputs.field_yield_strength.connect(my_field_yield_strength)
+   >>> my_field_end_condition = dpf.DataSources()
+   >>> op.inputs.field_end_condition.connect(my_field_end_condition)
+   >>> my_streams = dpf.StreamsContainer()
+   >>> op.inputs.streams.connect(my_streams)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_manufacture = bool()
+   >>> op.inputs.manufacture.connect(my_manufacture)
+   >>> my_partial_factor = float()
+   >>> op.inputs.partial_factor.connect(my_partial_factor)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_axial_force = dpf.FieldsContainer()
+   >>> op.inputs.axial_force.connect(my_axial_force)
+   >>> my_fabrication_type = bool()
+   >>> op.inputs.fabrication_type.connect(my_fabrication_type)
+
+
+
+.. py:currentmodule:: InputsMembersInCompressionNotCertified
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~time_scoping`
+            - Allows to connect time_scoping input to the operator.
+          * - :py:attr:`~field_yield_strength`
+            - Allows to connect field_yield_strength input to the operator.
+          * - :py:attr:`~field_end_condition`
+            - Allows to connect field_end_condition input to the operator.
+          * - :py:attr:`~streams`
+            - Allows to connect streams input to the operator.
+          * - :py:attr:`~data_sources`
+            - Allows to connect data_sources input to the operator.
+          * - :py:attr:`~manufacture`
+            - Allows to connect manufacture input to the operator.
+          * - :py:attr:`~partial_factor`
+            - Allows to connect partial_factor input to the operator.
+          * - :py:attr:`~mesh`
+            - Allows to connect mesh input to the operator.
+          * - :py:attr:`~axial_force`
+            - Allows to connect axial_force input to the operator.
+          * - :py:attr:`~fabrication_type`
+            - Allows to connect fabrication_type input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.members_in_compression_not_certified import InputsMembersInCompressionNotCertified
+
+Property detail
+---------------
+
+.. py:property:: time_scoping
+
+   Allows to connect time_scoping input to the operator.
+
+   Time/freq set ids (use ints or scoping)
+
+   :param my_time_scoping:
+   :type my_time_scoping: Scoping or int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.members_in_compression_not_certified()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> # or
+   >>> op.inputs.time_scoping(my_time_scoping)
+
+.. py:property:: field_yield_strength
+
+   Allows to connect field_yield_strength input to the operator.
+
+   This pin contains file csv or field of beam's
+   yield strength.
+
+   :param my_field_yield_strength:
+   :type my_field_yield_strength: DataSources or Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.members_in_compression_not_certified()
+   >>> op.inputs.field_yield_strength.connect(my_field_yield_strength)
+   >>> # or
+   >>> op.inputs.field_yield_strength(my_field_yield_strength)
+
+.. py:property:: field_end_condition
+
+   Allows to connect field_end_condition input to the operator.
+
+   This pin contains file csv or field of beam's
+   end condition defined by the user. if
+   no input at this pin found, it would
+   take end condition's value of all
+   beams as 1.
+
+   :param my_field_end_condition:
+   :type my_field_end_condition: DataSources or Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.members_in_compression_not_certified()
+   >>> op.inputs.field_end_condition.connect(my_field_end_condition)
+   >>> # or
+   >>> op.inputs.field_end_condition(my_field_end_condition)
+
+.. py:property:: streams
+
+   Allows to connect streams input to the operator.
+
+   result file container allowed to be kept open
+   to cache data.
+
+   :param my_streams:
+   :type my_streams: StreamsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.members_in_compression_not_certified()
+   >>> op.inputs.streams.connect(my_streams)
+   >>> # or
+   >>> op.inputs.streams(my_streams)
+
+.. py:property:: data_sources
+
+   Allows to connect data_sources input to the operator.
+
+   Result file path container, used if no
+   streams are set.
+
+   :param my_data_sources:
+   :type my_data_sources: DataSources
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.members_in_compression_not_certified()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> # or
+   >>> op.inputs.data_sources(my_data_sources)
+
+.. py:property:: manufacture
+
+   Allows to connect manufacture input to the operator.
+
+   Manufacturing processus:hot finished if true
+   or cold formed if false. default
+   value : hot finished.
+
+   :param my_manufacture:
+   :type my_manufacture: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.members_in_compression_not_certified()
+   >>> op.inputs.manufacture.connect(my_manufacture)
+   >>> # or
+   >>> op.inputs.manufacture(my_manufacture)
+
+.. py:property:: partial_factor
+
+   Allows to connect partial_factor input to the operator.
+
+   Partial safety factor for resistance of
+   members to instability assessed by
+   member checks. default value: 1.
+
+   :param my_partial_factor:
+   :type my_partial_factor: float
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.members_in_compression_not_certified()
+   >>> op.inputs.partial_factor.connect(my_partial_factor)
+   >>> # or
+   >>> op.inputs.partial_factor(my_partial_factor)
+
+.. py:property:: mesh
+
+   Allows to connect mesh input to the operator.
+
+   mesh containing beam's properties defined by
+   user
+
+   :param my_mesh:
+   :type my_mesh: MeshedRegion
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.members_in_compression_not_certified()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> # or
+   >>> op.inputs.mesh(my_mesh)
+
+.. py:property:: axial_force
+
+   Allows to connect axial_force input to the operator.
+
+   Fields container of axial force defined by
+   user
+
+   :param my_axial_force:
+   :type my_axial_force: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.members_in_compression_not_certified()
+   >>> op.inputs.axial_force.connect(my_axial_force)
+   >>> # or
+   >>> op.inputs.axial_force(my_axial_force)
+
+.. py:property:: fabrication_type
+
+   Allows to connect fabrication_type input to the operator.
+
+   If there is beam i in the structure, please
+   define its fabrication type. true:
+   rolled section, false: welded section
+
+   :param my_fabrication_type:
+   :type my_fabrication_type: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.members_in_compression_not_certified()
+   >>> op.inputs.fabrication_type.connect(my_fabrication_type)
+   >>> # or
+   >>> op.inputs.fabrication_type(my_fabrication_type)
+
+
+
+
+
+

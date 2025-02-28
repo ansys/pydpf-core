@@ -1,0 +1,175 @@
+
+
+
+
+
+
+:class:`assemble_scalars_to_matrices_fc`
+========================================
+
+.. py:class:: ansys.dpf.core.operators.utility.assemble_scalars_to_matrices_fc.assemble_scalars_to_matrices_fc(xx=None, yy=None, zz=None, xy=None, yz=None, xz=None, yx=None, zy=None, zx=None, symmetrical=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Take nine scalar fields container and assemble them as a 3x3 matrix
+   fields. If the 'symmetrical' input is set to true, only six field
+   containers are required (xx, yy, zz, xy, xz and yz).
+
+   :param xx:
+   :type xx: FieldsContainer, optional
+   :param yy:
+   :type yy: FieldsContainer, optional
+   :param zz:
+   :type zz: FieldsContainer, optional
+   :param xy:
+   :type xy: FieldsContainer, optional
+   :param yz:
+   :type yz: FieldsContainer, optional
+   :param xz:
+   :type xz: FieldsContainer, optional
+   :param yx:
+   :type yx: FieldsContainer, optional
+   :param zy:
+   :type zy: FieldsContainer, optional
+   :param zx:
+   :type zx: FieldsContainer, optional
+   :param symmetrical:
+   :type symmetrical: bool, optional
+
+   :returns: **fields_container**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.utility.assemble_scalars_to_matrices_fc()
+
+   >>> # Make input connections
+   >>> my_xx = dpf.FieldsContainer()
+   >>> op.inputs.xx.connect(my_xx)
+   >>> my_yy = dpf.FieldsContainer()
+   >>> op.inputs.yy.connect(my_yy)
+   >>> my_zz = dpf.FieldsContainer()
+   >>> op.inputs.zz.connect(my_zz)
+   >>> my_xy = dpf.FieldsContainer()
+   >>> op.inputs.xy.connect(my_xy)
+   >>> my_yz = dpf.FieldsContainer()
+   >>> op.inputs.yz.connect(my_yz)
+   >>> my_xz = dpf.FieldsContainer()
+   >>> op.inputs.xz.connect(my_xz)
+   >>> my_yx = dpf.FieldsContainer()
+   >>> op.inputs.yx.connect(my_yx)
+   >>> my_zy = dpf.FieldsContainer()
+   >>> op.inputs.zy.connect(my_zy)
+   >>> my_zx = dpf.FieldsContainer()
+   >>> op.inputs.zx.connect(my_zx)
+   >>> my_symmetrical = bool()
+   >>> op.inputs.symmetrical.connect(my_symmetrical)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.utility.assemble_scalars_to_matrices_fc(
+   ...     xx=my_xx,
+   ...     yy=my_yy,
+   ...     zz=my_zz,
+   ...     xy=my_xy,
+   ...     yz=my_yz,
+   ...     xz=my_xz,
+   ...     yx=my_yx,
+   ...     zy=my_zy,
+   ...     zx=my_zx,
+   ...     symmetrical=my_symmetrical,
+   ... )
+
+   >>> # Get output data
+   >>> result_fields_container = op.outputs.fields_container()
+
+
+
+
+.. py:currentmodule:: assemble_scalars_to_matrices_fc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.assemble_scalars_to_matrices_fc import assemble_scalars_to_matrices_fc
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsAssembleScalarsToMatricesFc
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsAssembleScalarsToMatricesFc
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

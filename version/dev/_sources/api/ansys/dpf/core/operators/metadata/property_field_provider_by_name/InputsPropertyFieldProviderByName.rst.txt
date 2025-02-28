@@ -1,0 +1,157 @@
+
+
+
+
+
+
+:class:`InputsPropertyFieldProviderByName`
+==========================================
+
+.. py:class:: ansys.dpf.core.operators.metadata.property_field_provider_by_name.InputsPropertyFieldProviderByName(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   property_field_provider_by_name operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.property_field_provider_by_name()
+   >>> my_mesh_scoping = dpf.Scoping()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> my_streams_container = dpf.StreamsContainer()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_property_name = str()
+   >>> op.inputs.property_name.connect(my_property_name)
+
+
+
+.. py:currentmodule:: InputsPropertyFieldProviderByName
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~mesh_scoping`
+            - Allows to connect mesh_scoping input to the operator.
+          * - :py:attr:`~streams_container`
+            - Allows to connect streams_container input to the operator.
+          * - :py:attr:`~data_sources`
+            - Allows to connect data_sources input to the operator.
+          * - :py:attr:`~property_name`
+            - Allows to connect property_name input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.metadata.property_field_provider_by_name import InputsPropertyFieldProviderByName
+
+Property detail
+---------------
+
+.. py:property:: mesh_scoping
+
+   Allows to connect mesh_scoping input to the operator.
+
+   Scoping that defines the set of elements to
+   fetch the property values for. if not
+   specified, applied on all the
+   elements of the mesh.
+
+   :param my_mesh_scoping:
+   :type my_mesh_scoping: Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.property_field_provider_by_name()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> # or
+   >>> op.inputs.mesh_scoping(my_mesh_scoping)
+
+.. py:property:: streams_container
+
+   Allows to connect streams_container input to the operator.
+
+   Optional if using a datasources
+
+   :param my_streams_container:
+   :type my_streams_container: StreamsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.property_field_provider_by_name()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> # or
+   >>> op.inputs.streams_container(my_streams_container)
+
+.. py:property:: data_sources
+
+   Allows to connect data_sources input to the operator.
+
+   Optional if using a streamscontainer
+
+   :param my_data_sources:
+   :type my_data_sources: DataSources
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.property_field_provider_by_name()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> # or
+   >>> op.inputs.data_sources(my_data_sources)
+
+.. py:property:: property_name
+
+   Allows to connect property_name input to the operator.
+
+   Property to read, that can be the following:
+   elements_connectivity,
+   nodes_connectivity, material,
+   element_type, apdl_section_id,
+   apdl_real_id, apdl_esys_id,
+   mapdl_element_type,
+   mapdl_element_type_id,
+   harmonic_index, step, substep,
+   keyopt_i (i = 1 -> 18).
+
+   :param my_property_name:
+   :type my_property_name: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.property_field_provider_by_name()
+   >>> op.inputs.property_name.connect(my_property_name)
+   >>> # or
+   >>> op.inputs.property_name(my_property_name)
+
+
+
+
+
+

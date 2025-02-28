@@ -1,0 +1,81 @@
+
+
+
+
+
+
+:class:`InputsWorkflowToWorkflowTopology`
+=========================================
+
+.. py:class:: ansys.dpf.core.operators.serialization.workflow_to_workflow_topology.InputsWorkflowToWorkflowTopology(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   workflow_to_workflow_topology operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.workflow_to_workflow_topology()
+   >>> my_workflow = dpf.Workflow()
+   >>> op.inputs.workflow.connect(my_workflow)
+
+
+
+.. py:currentmodule:: InputsWorkflowToWorkflowTopology
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~workflow`
+            - Allows to connect workflow input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.serialization.workflow_to_workflow_topology import InputsWorkflowToWorkflowTopology
+
+Property detail
+---------------
+
+.. py:property:: workflow
+
+   Allows to connect workflow input to the operator.
+
+   :param my_workflow:
+   :type my_workflow: Workflow
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.workflow_to_workflow_topology()
+   >>> op.inputs.workflow.connect(my_workflow)
+   >>> # or
+   >>> op.inputs.workflow(my_workflow)
+
+
+
+
+
+

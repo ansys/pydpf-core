@@ -1,0 +1,131 @@
+
+
+
+
+
+
+:class:`InputsExtractSubFc`
+===========================
+
+.. py:class:: ansys.dpf.core.operators.utility.extract_sub_fc.InputsExtractSubFc(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   extract_sub_fc operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.extract_sub_fc()
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_label_space = dict()
+   >>> op.inputs.label_space.connect(my_label_space)
+   >>> my_collapse_labels = bool()
+   >>> op.inputs.collapse_labels.connect(my_collapse_labels)
+
+
+
+.. py:currentmodule:: InputsExtractSubFc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fields_container`
+            - Allows to connect fields_container input to the operator.
+          * - :py:attr:`~label_space`
+            - Allows to connect label_space input to the operator.
+          * - :py:attr:`~collapse_labels`
+            - Allows to connect collapse_labels input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.extract_sub_fc import InputsExtractSubFc
+
+Property detail
+---------------
+
+.. py:property:: fields_container
+
+   Allows to connect fields_container input to the operator.
+
+   Fields_container
+
+   :param my_fields_container:
+   :type my_fields_container: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.extract_sub_fc()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> # or
+   >>> op.inputs.fields_container(my_fields_container)
+
+.. py:property:: label_space
+
+   Allows to connect label_space input to the operator.
+
+   Label space, or scoping defining the label
+   space (scoping location), values to
+   keep (scoping ids)
+
+   :param my_label_space:
+   :type my_label_space: dict or Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.extract_sub_fc()
+   >>> op.inputs.label_space.connect(my_label_space)
+   >>> # or
+   >>> op.inputs.label_space(my_label_space)
+
+.. py:property:: collapse_labels
+
+   Allows to connect collapse_labels input to the operator.
+
+   If set to true (default) the input label
+   space (scoping location) is
+   suppressed from the output fields
+   container, otherwise, label space is
+   kept.
+
+   :param my_collapse_labels:
+   :type my_collapse_labels: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.extract_sub_fc()
+   >>> op.inputs.collapse_labels.connect(my_collapse_labels)
+   >>> # or
+   >>> op.inputs.collapse_labels(my_collapse_labels)
+
+
+
+
+
+

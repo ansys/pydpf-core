@@ -1,0 +1,114 @@
+
+
+
+
+
+
+:class:`OutputsPrincipalInvariantsFc`
+=====================================
+
+.. py:class:: ansys.dpf.core.operators.invariant.principal_invariants_fc.OutputsPrincipalInvariantsFc(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   principal_invariants_fc operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.invariant.principal_invariants_fc()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_fields_eig_1 = op.outputs.fields_eig_1()
+   >>> result_fields_eig_2 = op.outputs.fields_eig_2()
+   >>> result_fields_eig_3 = op.outputs.fields_eig_3()
+
+
+
+.. py:currentmodule:: OutputsPrincipalInvariantsFc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fields_eig_1`
+            - Allows to get fields_eig_1 output of the operator
+          * - :py:attr:`~fields_eig_2`
+            - Allows to get fields_eig_2 output of the operator
+          * - :py:attr:`~fields_eig_3`
+            - Allows to get fields_eig_3 output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.invariant.principal_invariants_fc import OutputsPrincipalInvariantsFc
+
+Property detail
+---------------
+
+.. py:property:: fields_eig_1
+
+   Allows to get fields_eig_1 output of the operator
+
+   :returns: **my_fields_eig_1**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.invariant.principal_invariants_fc()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_fields_eig_1 = op.outputs.fields_eig_1()
+
+.. py:property:: fields_eig_2
+
+   Allows to get fields_eig_2 output of the operator
+
+   :returns: **my_fields_eig_2**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.invariant.principal_invariants_fc()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_fields_eig_2 = op.outputs.fields_eig_2()
+
+.. py:property:: fields_eig_3
+
+   Allows to get fields_eig_3 output of the operator
+
+   :returns: **my_fields_eig_3**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.invariant.principal_invariants_fc()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_fields_eig_3 = op.outputs.fields_eig_3()
+
+
+
+
+
+

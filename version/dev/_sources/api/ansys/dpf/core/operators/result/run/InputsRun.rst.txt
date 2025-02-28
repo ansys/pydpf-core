@@ -1,0 +1,167 @@
+
+
+
+
+
+
+:class:`InputsRun`
+==================
+
+.. py:class:: ansys.dpf.core.operators.result.run.InputsRun(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   run operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.run()
+   >>> my_mapdl_exe_path = str()
+   >>> op.inputs.mapdl_exe_path.connect(my_mapdl_exe_path)
+   >>> my_working_dir = str()
+   >>> op.inputs.working_dir.connect(my_working_dir)
+   >>> my_number_of_processes = int()
+   >>> op.inputs.number_of_processes.connect(my_number_of_processes)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_server_mode = bool()
+   >>> op.inputs.server_mode.connect(my_server_mode)
+
+
+
+.. py:currentmodule:: InputsRun
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~mapdl_exe_path`
+            - Allows to connect mapdl_exe_path input to the operator.
+          * - :py:attr:`~working_dir`
+            - Allows to connect working_dir input to the operator.
+          * - :py:attr:`~number_of_processes`
+            - Allows to connect number_of_processes input to the operator.
+          * - :py:attr:`~data_sources`
+            - Allows to connect data_sources input to the operator.
+          * - :py:attr:`~server_mode`
+            - Allows to connect server_mode input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.run import InputsRun
+
+Property detail
+---------------
+
+.. py:property:: mapdl_exe_path
+
+   Allows to connect mapdl_exe_path input to the operator.
+
+   :param my_mapdl_exe_path:
+   :type my_mapdl_exe_path: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.run()
+   >>> op.inputs.mapdl_exe_path.connect(my_mapdl_exe_path)
+   >>> # or
+   >>> op.inputs.mapdl_exe_path(my_mapdl_exe_path)
+
+.. py:property:: working_dir
+
+   Allows to connect working_dir input to the operator.
+
+   :param my_working_dir:
+   :type my_working_dir: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.run()
+   >>> op.inputs.working_dir.connect(my_working_dir)
+   >>> # or
+   >>> op.inputs.working_dir(my_working_dir)
+
+.. py:property:: number_of_processes
+
+   Allows to connect number_of_processes input to the operator.
+
+   Set the number of mpi processes used for
+   resolution (default is 2)
+
+   :param my_number_of_processes:
+   :type my_number_of_processes: int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.run()
+   >>> op.inputs.number_of_processes.connect(my_number_of_processes)
+   >>> # or
+   >>> op.inputs.number_of_processes(my_number_of_processes)
+
+.. py:property:: data_sources
+
+   Allows to connect data_sources input to the operator.
+
+   Data sources containing the input file.
+
+   :param my_data_sources:
+   :type my_data_sources: DataSources
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.run()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> # or
+   >>> op.inputs.data_sources(my_data_sources)
+
+.. py:property:: server_mode
+
+   Allows to connect server_mode input to the operator.
+
+   Used when a user includes commands in the
+   input file allowing to launch dpf
+   server inside mapdl to interact with
+   mapdl using dpf client api
+
+   :param my_server_mode:
+   :type my_server_mode: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.run()
+   >>> op.inputs.server_mode.connect(my_server_mode)
+   >>> # or
+   >>> op.inputs.server_mode(my_server_mode)
+
+
+
+
+
+

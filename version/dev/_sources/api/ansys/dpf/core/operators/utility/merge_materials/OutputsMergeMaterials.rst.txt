@@ -1,0 +1,80 @@
+
+
+
+
+
+
+:class:`OutputsMergeMaterials`
+==============================
+
+.. py:class:: ansys.dpf.core.operators.utility.merge_materials.OutputsMergeMaterials(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   merge_materials operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_materials()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_merged_materials = op.outputs.merged_materials()
+
+
+
+.. py:currentmodule:: OutputsMergeMaterials
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~merged_materials`
+            - Allows to get merged_materials output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.merge_materials import OutputsMergeMaterials
+
+Property detail
+---------------
+
+.. py:property:: merged_materials
+
+   Allows to get merged_materials output of the operator
+
+   :returns: **my_merged_materials**
+   :rtype: Materials
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_materials()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_merged_materials = op.outputs.merged_materials()
+
+
+
+
+
+

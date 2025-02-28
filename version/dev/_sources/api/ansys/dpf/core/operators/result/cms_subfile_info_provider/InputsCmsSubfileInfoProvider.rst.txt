@@ -1,0 +1,129 @@
+
+
+
+
+
+
+:class:`InputsCmsSubfileInfoProvider`
+=====================================
+
+.. py:class:: ansys.dpf.core.operators.result.cms_subfile_info_provider.InputsCmsSubfileInfoProvider(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   cms_subfile_info_provider operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.cms_subfile_info_provider()
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_cms_subfile_data = bool()
+   >>> op.inputs.cms_subfile_data.connect(my_cms_subfile_data)
+   >>> my_output_maxdof_on_masternodes = bool()
+   >>> op.inputs.output_maxdof_on_masternodes.connect(my_output_maxdof_on_masternodes)
+
+
+
+.. py:currentmodule:: InputsCmsSubfileInfoProvider
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~data_sources`
+            - Allows to connect data_sources input to the operator.
+          * - :py:attr:`~cms_subfile_data`
+            - Allows to connect cms_subfile_data input to the operator.
+          * - :py:attr:`~output_maxdof_on_masternodes`
+            - Allows to connect output_maxdof_on_masternodes input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.cms_subfile_info_provider import InputsCmsSubfileInfoProvider
+
+Property detail
+---------------
+
+.. py:property:: data_sources
+
+   Allows to connect data_sources input to the operator.
+
+   Data_sources (must contain at least one
+   subfile).
+
+   :param my_data_sources:
+   :type my_data_sources: DataSources
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.cms_subfile_info_provider()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> # or
+   >>> op.inputs.data_sources(my_data_sources)
+
+.. py:property:: cms_subfile_data
+
+   Allows to connect cms_subfile_data input to the operator.
+
+   If this pin i set to true, data are return in
+   a field.
+
+   :param my_cms_subfile_data:
+   :type my_cms_subfile_data: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.cms_subfile_info_provider()
+   >>> op.inputs.cms_subfile_data.connect(my_cms_subfile_data)
+   >>> # or
+   >>> op.inputs.cms_subfile_data(my_cms_subfile_data)
+
+.. py:property:: output_maxdof_on_masternodes
+
+   Allows to connect output_maxdof_on_masternodes input to the operator.
+
+   If this pin is set to true, compute and add
+   field with max degrees of freedom on
+   master nodes
+
+   :param my_output_maxdof_on_masternodes:
+   :type my_output_maxdof_on_masternodes: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.cms_subfile_info_provider()
+   >>> op.inputs.output_maxdof_on_masternodes.connect(my_output_maxdof_on_masternodes)
+   >>> # or
+   >>> op.inputs.output_maxdof_on_masternodes(my_output_maxdof_on_masternodes)
+
+
+
+
+
+

@@ -1,0 +1,126 @@
+
+
+
+
+
+
+:class:`InputsMac`
+==================
+
+.. py:class:: ansys.dpf.core.operators.math.mac.InputsMac(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   mac operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.mac()
+   >>> my_fields_containerA = dpf.FieldsContainer()
+   >>> op.inputs.fields_containerA.connect(my_fields_containerA)
+   >>> my_fields_containerB = dpf.FieldsContainer()
+   >>> op.inputs.fields_containerB.connect(my_fields_containerB)
+   >>> my_ponderation = dpf.Field()
+   >>> op.inputs.ponderation.connect(my_ponderation)
+
+
+
+.. py:currentmodule:: InputsMac
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fields_containerA`
+            - Allows to connect fields_containerA input to the operator.
+          * - :py:attr:`~fields_containerB`
+            - Allows to connect fields_containerB input to the operator.
+          * - :py:attr:`~ponderation`
+            - Allows to connect ponderation input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.mac import InputsMac
+
+Property detail
+---------------
+
+.. py:property:: fields_containerA
+
+   Allows to connect fields_containerA input to the operator.
+
+   Fields container a.
+
+   :param my_fields_containerA:
+   :type my_fields_containerA: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.mac()
+   >>> op.inputs.fields_containerA.connect(my_fields_containerA)
+   >>> # or
+   >>> op.inputs.fields_containerA(my_fields_containerA)
+
+.. py:property:: fields_containerB
+
+   Allows to connect fields_containerB input to the operator.
+
+   Fields container b.
+
+   :param my_fields_containerB:
+   :type my_fields_containerB: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.mac()
+   >>> op.inputs.fields_containerB.connect(my_fields_containerB)
+   >>> # or
+   >>> op.inputs.fields_containerB(my_fields_containerB)
+
+.. py:property:: ponderation
+
+   Allows to connect ponderation input to the operator.
+
+   Field m, optional weighting for mac matrix
+   computation.
+
+   :param my_ponderation:
+   :type my_ponderation: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.mac()
+   >>> op.inputs.ponderation.connect(my_ponderation)
+   >>> # or
+   >>> op.inputs.ponderation(my_ponderation)
+
+
+
+
+
+

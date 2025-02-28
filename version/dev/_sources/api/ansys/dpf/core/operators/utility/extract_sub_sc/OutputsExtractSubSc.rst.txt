@@ -1,0 +1,80 @@
+
+
+
+
+
+
+:class:`OutputsExtractSubSc`
+============================
+
+.. py:class:: ansys.dpf.core.operators.utility.extract_sub_sc.OutputsExtractSubSc(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   extract_sub_sc operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.extract_sub_sc()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_scopings_container = op.outputs.scopings_container()
+
+
+
+.. py:currentmodule:: OutputsExtractSubSc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~scopings_container`
+            - Allows to get scopings_container output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.extract_sub_sc import OutputsExtractSubSc
+
+Property detail
+---------------
+
+.. py:property:: scopings_container
+
+   Allows to get scopings_container output of the operator
+
+   :returns: **my_scopings_container**
+   :rtype: ScopingsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.extract_sub_sc()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_scopings_container = op.outputs.scopings_container()
+
+
+
+
+
+

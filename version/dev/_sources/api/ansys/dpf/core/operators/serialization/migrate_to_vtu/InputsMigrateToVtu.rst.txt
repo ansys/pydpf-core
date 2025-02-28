@@ -1,0 +1,240 @@
+
+
+
+
+
+
+:class:`InputsMigrateToVtu`
+===========================
+
+.. py:class:: ansys.dpf.core.operators.serialization.migrate_to_vtu.InputsMigrateToVtu(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   migrate_to_vtu operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.migrate_to_vtu()
+   >>> my_time_scoping = dpf.Scoping()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> my_streams_container = dpf.StreamsContainer()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_directory = str()
+   >>> op.inputs.directory.connect(my_directory)
+   >>> my_base_name = str()
+   >>> op.inputs.base_name.connect(my_base_name)
+   >>> my_result1 = str()
+   >>> op.inputs.result1.connect(my_result1)
+   >>> my_result2 = str()
+   >>> op.inputs.result2.connect(my_result2)
+   >>> my_write_mode = str()
+   >>> op.inputs.write_mode.connect(my_write_mode)
+
+
+
+.. py:currentmodule:: InputsMigrateToVtu
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~time_scoping`
+            - Allows to connect time_scoping input to the operator.
+          * - :py:attr:`~streams_container`
+            - Allows to connect streams_container input to the operator.
+          * - :py:attr:`~data_sources`
+            - Allows to connect data_sources input to the operator.
+          * - :py:attr:`~directory`
+            - Allows to connect directory input to the operator.
+          * - :py:attr:`~base_name`
+            - Allows to connect base_name input to the operator.
+          * - :py:attr:`~result1`
+            - Allows to connect result1 input to the operator.
+          * - :py:attr:`~result2`
+            - Allows to connect result2 input to the operator.
+          * - :py:attr:`~write_mode`
+            - Allows to connect write_mode input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.serialization.migrate_to_vtu import InputsMigrateToVtu
+
+Property detail
+---------------
+
+.. py:property:: time_scoping
+
+   Allows to connect time_scoping input to the operator.
+
+   Time sets to export, default is all
+
+   :param my_time_scoping:
+   :type my_time_scoping: Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.migrate_to_vtu()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> # or
+   >>> op.inputs.time_scoping(my_time_scoping)
+
+.. py:property:: streams_container
+
+   Allows to connect streams_container input to the operator.
+
+   Result file container allowed to be kept open
+   to cache data
+
+   :param my_streams_container:
+   :type my_streams_container: StreamsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.migrate_to_vtu()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> # or
+   >>> op.inputs.streams_container(my_streams_container)
+
+.. py:property:: data_sources
+
+   Allows to connect data_sources input to the operator.
+
+   Result file path container, used if no
+   streams are set
+
+   :param my_data_sources:
+   :type my_data_sources: DataSources
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.migrate_to_vtu()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> # or
+   >>> op.inputs.data_sources(my_data_sources)
+
+.. py:property:: directory
+
+   Allows to connect directory input to the operator.
+
+   Directory path
+
+   :param my_directory:
+   :type my_directory: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.migrate_to_vtu()
+   >>> op.inputs.directory.connect(my_directory)
+   >>> # or
+   >>> op.inputs.directory(my_directory)
+
+.. py:property:: base_name
+
+   Allows to connect base_name input to the operator.
+
+   Vtu base file name, (default is file)
+
+   :param my_base_name:
+   :type my_base_name: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.migrate_to_vtu()
+   >>> op.inputs.base_name.connect(my_base_name)
+   >>> # or
+   >>> op.inputs.base_name(my_base_name)
+
+.. py:property:: result1
+
+   Allows to connect result1 input to the operator.
+
+   If operator's names are connected to this
+   pin, only these results are exported
+   (else all available results are
+   exported)
+
+   :param my_result1:
+   :type my_result1: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.migrate_to_vtu()
+   >>> op.inputs.result1.connect(my_result1)
+   >>> # or
+   >>> op.inputs.result1(my_result1)
+
+.. py:property:: result2
+
+   Allows to connect result2 input to the operator.
+
+   If operator's names are connected to this
+   pin, only these results are exported
+   (else all available results are
+   exported)
+
+   :param my_result2:
+   :type my_result2: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.migrate_to_vtu()
+   >>> op.inputs.result2.connect(my_result2)
+   >>> # or
+   >>> op.inputs.result2(my_result2)
+
+.. py:property:: write_mode
+
+   Allows to connect write_mode input to the operator.
+
+   Available are rawbinarycompressed, rawbinary,
+   base64appended, base64inline, ascii,
+   default is (rawbinarycompressed)
+
+   :param my_write_mode:
+   :type my_write_mode: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.migrate_to_vtu()
+   >>> op.inputs.write_mode.connect(my_write_mode)
+   >>> # or
+   >>> op.inputs.write_mode(my_write_mode)
+
+
+
+
+
+

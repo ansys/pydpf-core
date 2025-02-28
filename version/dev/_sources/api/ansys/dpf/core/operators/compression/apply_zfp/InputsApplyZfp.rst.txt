@@ -1,0 +1,225 @@
+
+
+
+
+
+
+:class:`InputsApplyZfp`
+=======================
+
+.. py:class:: ansys.dpf.core.operators.compression.apply_zfp.InputsApplyZfp(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   apply_zfp operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.apply_zfp()
+   >>> my_dataIn = dpf.Field()
+   >>> op.inputs.dataIn.connect(my_dataIn)
+   >>> my_mode = str()
+   >>> op.inputs.mode.connect(my_mode)
+   >>> my_mode_parameter = int()
+   >>> op.inputs.mode_parameter.connect(my_mode_parameter)
+   >>> my_dim = int()
+   >>> op.inputs.dim.connect(my_dim)
+   >>> my_order = int()
+   >>> op.inputs.order.connect(my_order)
+   >>> my_double_absthreshold = float()
+   >>> op.inputs.double_absthreshold.connect(my_double_absthreshold)
+   >>> my_double_relthreshold = float()
+   >>> op.inputs.double_relthreshold.connect(my_double_relthreshold)
+
+
+
+.. py:currentmodule:: InputsApplyZfp
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~dataIn`
+            - Allows to connect dataIn input to the operator.
+          * - :py:attr:`~mode`
+            - Allows to connect mode input to the operator.
+          * - :py:attr:`~mode_parameter`
+            - Allows to connect mode_parameter input to the operator.
+          * - :py:attr:`~dim`
+            - Allows to connect dim input to the operator.
+          * - :py:attr:`~order`
+            - Allows to connect order input to the operator.
+          * - :py:attr:`~double_absthreshold`
+            - Allows to connect double_absthreshold input to the operator.
+          * - :py:attr:`~double_relthreshold`
+            - Allows to connect double_relthreshold input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.compression.apply_zfp import InputsApplyZfp
+
+Property detail
+---------------
+
+.. py:property:: dataIn
+
+   Allows to connect dataIn input to the operator.
+
+   Field or fields container to be compressed
+
+   :param my_dataIn:
+   :type my_dataIn: Field or FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.apply_zfp()
+   >>> op.inputs.dataIn.connect(my_dataIn)
+   >>> # or
+   >>> op.inputs.dataIn(my_dataIn)
+
+.. py:property:: mode
+
+   Allows to connect mode input to the operator.
+
+   Zfp mode: fixed-rate ('r'), fixed-precision
+   ('p'), fixed-accuracy ('a')
+
+   :param my_mode:
+   :type my_mode: str or Char
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.apply_zfp()
+   >>> op.inputs.mode.connect(my_mode)
+   >>> # or
+   >>> op.inputs.mode(my_mode)
+
+.. py:property:: mode_parameter
+
+   Allows to connect mode_parameter input to the operator.
+
+   Mode-corresponding parameter: rate (double) /
+   precision (int) / accuracy (double)
+
+   :param my_mode_parameter:
+   :type my_mode_parameter: int or float
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.apply_zfp()
+   >>> op.inputs.mode_parameter.connect(my_mode_parameter)
+   >>> # or
+   >>> op.inputs.mode_parameter(my_mode_parameter)
+
+.. py:property:: dim
+
+   Allows to connect dim input to the operator.
+
+   Dimension (1d/2d/3d) for data organization
+   before the compression (int; default:
+   2)
+
+   :param my_dim:
+   :type my_dim: int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.apply_zfp()
+   >>> op.inputs.dim.connect(my_dim)
+   >>> # or
+   >>> op.inputs.dim(my_dim)
+
+.. py:property:: order
+
+   Allows to connect order input to the operator.
+
+   Xyz dimensions order, where x (row)
+   corresponds to number of elementary
+   data, y (col) - number of time steps,
+   z - number of components (applicable
+   only for 3d data) : 0=xyz, 1=yxz
+   (int; default: 0)
+
+   :param my_order:
+   :type my_order: int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.apply_zfp()
+   >>> op.inputs.order.connect(my_order)
+   >>> # or
+   >>> op.inputs.order(my_order)
+
+.. py:property:: double_absthreshold
+
+   Allows to connect double_absthreshold input to the operator.
+
+   Double positive small value. all the values
+   smaller than max(small value, max(vi)
+   * relative threshold) are considered
+   as zero values, (default value:
+   1.0e-18).
+
+   :param my_double_absthreshold:
+   :type my_double_absthreshold: float
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.apply_zfp()
+   >>> op.inputs.double_absthreshold.connect(my_double_absthreshold)
+   >>> # or
+   >>> op.inputs.double_absthreshold(my_double_absthreshold)
+
+.. py:property:: double_relthreshold
+
+   Allows to connect double_relthreshold input to the operator.
+
+   Double relative threshold. values smaller
+   than (v1 - v2) < max(small value, v1
+   * relativetol) are considered
+   identical (default value: 1.0e-10).
+
+   :param my_double_relthreshold:
+   :type my_double_relthreshold: float
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.apply_zfp()
+   >>> op.inputs.double_relthreshold.connect(my_double_relthreshold)
+   >>> # or
+   >>> op.inputs.double_relthreshold(my_double_relthreshold)
+
+
+
+
+
+

@@ -1,0 +1,106 @@
+
+
+
+
+
+
+:class:`InputsVonMisesEqv`
+==========================
+
+.. py:class:: ansys.dpf.core.operators.invariant.von_mises_eqv.InputsVonMisesEqv(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   von_mises_eqv operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.invariant.von_mises_eqv()
+   >>> my_field = dpf.Field()
+   >>> op.inputs.field.connect(my_field)
+   >>> my_poisson_ratio = float()
+   >>> op.inputs.poisson_ratio.connect(my_poisson_ratio)
+
+
+
+.. py:currentmodule:: InputsVonMisesEqv
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~field`
+            - Allows to connect field input to the operator.
+          * - :py:attr:`~poisson_ratio`
+            - Allows to connect poisson_ratio input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.invariant.von_mises_eqv import InputsVonMisesEqv
+
+Property detail
+---------------
+
+.. py:property:: field
+
+   Allows to connect field input to the operator.
+
+   Field or fields container with only one field
+   is expected
+
+   :param my_field:
+   :type my_field: Field or FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.invariant.von_mises_eqv()
+   >>> op.inputs.field.connect(my_field)
+   >>> # or
+   >>> op.inputs.field(my_field)
+
+.. py:property:: poisson_ratio
+
+   Allows to connect poisson_ratio input to the operator.
+
+   Poisson ratio to be used in equivalent strain
+   calculation.
+
+   :param my_poisson_ratio:
+   :type my_poisson_ratio: float or int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.invariant.von_mises_eqv()
+   >>> op.inputs.poisson_ratio.connect(my_poisson_ratio)
+   >>> # or
+   >>> op.inputs.poisson_ratio(my_poisson_ratio)
+
+
+
+
+
+

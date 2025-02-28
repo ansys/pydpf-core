@@ -1,0 +1,172 @@
+
+
+
+
+
+
+:class:`skin`
+=============
+
+.. py:class:: ansys.dpf.core.operators.mesh.skin.skin(mesh=None, mesh_scoping=None, duplicate_shell=None, add_beam=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Extracts a skin of the mesh in a new meshed region. The material ID of
+   initial elements are propagated to their facets.
+
+   :param mesh:
+   :type mesh: MeshedRegion
+   :param mesh_scoping: Nodal scoping to restrict the skin extraction
+                        to a set of nodes. if provided, a
+                        skin element is added to the skin
+                        mesh if all its nodes are in the
+                        scoping.
+   :type mesh_scoping: Scoping, optional
+   :param duplicate_shell: If input mesh contains shell elements, output
+                           mesh shell elements (boolean = 1) are
+                           duplicated, one per each orientation,
+                           or (boolean = 0) remain unchanged.
+   :type duplicate_shell: bool, optional
+   :param add_beam: If input mesh contains beam elements, output
+                    mesh beam elements (boolean = 1) are
+                    added or (boolean = 0) are ignored.
+   :type add_beam: bool, optional
+
+   :returns: * **mesh** (*MeshedRegion*) -- Skin meshed region with facets and
+               facets_to_ele property fields.
+             * **nodes_mesh_scoping** (*Scoping*)
+             * *map_new_elements_to_old*
+             * **property_field_new_elements_to_old** (*PropertyField*) -- This property field provides, for each new
+               face element id (in the scoping), the
+               corresponding 3d volume element index
+               (in the data) it has been extracted
+               from. the 3d volume element id can be
+               found with the element scoping of the
+               input mesh.
+             * **facet_indices** (*PropertyField*) -- This property field gives, for each new face
+               element id (in the scoping), the
+               corresponding face index on the
+               source 3d volume element. the 3d
+               volume element can be extracted from
+               the previous output.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.mesh.skin()
+
+   >>> # Make input connections
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_mesh_scoping = dpf.Scoping()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> my_duplicate_shell = bool()
+   >>> op.inputs.duplicate_shell.connect(my_duplicate_shell)
+   >>> my_add_beam = bool()
+   >>> op.inputs.add_beam.connect(my_add_beam)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.mesh.skin(
+   ...     mesh=my_mesh,
+   ...     mesh_scoping=my_mesh_scoping,
+   ...     duplicate_shell=my_duplicate_shell,
+   ...     add_beam=my_add_beam,
+   ... )
+
+   >>> # Get output data
+   >>> result_mesh = op.outputs.mesh()
+   >>> result_nodes_mesh_scoping = op.outputs.nodes_mesh_scoping()
+   >>> result_map_new_elements_to_old = op.outputs.map_new_elements_to_old()
+   >>> result_property_field_new_elements_to_old = op.outputs.property_field_new_elements_to_old()
+   >>> result_facet_indices = op.outputs.facet_indices()
+
+
+
+
+.. py:currentmodule:: skin
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mesh.skin import skin
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsSkin
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsSkin
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

@@ -1,0 +1,312 @@
+
+
+
+
+
+
+:class:`InputsHdf5DpfGenerateResultFile`
+========================================
+
+.. py:class:: ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.InputsHdf5DpfGenerateResultFile(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   hdf5dpf_generate_result_file operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
+   >>> my_append_mode = bool()
+   >>> op.inputs.append_mode.connect(my_append_mode)
+   >>> my_dataset_size_compression_threshold = int()
+   >>> op.inputs.dataset_size_compression_threshold.connect(my_dataset_size_compression_threshold)
+   >>> my_h5_native_compression = int()
+   >>> op.inputs.h5_native_compression.connect(my_h5_native_compression)
+   >>> my_export_floats = bool()
+   >>> op.inputs.export_floats.connect(my_export_floats)
+   >>> my_filename = str()
+   >>> op.inputs.filename.connect(my_filename)
+   >>> my_mesh_provider_out = dpf.MeshedRegion()
+   >>> op.inputs.mesh_provider_out.connect(my_mesh_provider_out)
+   >>> my_time_freq_support_out = dpf.TimeFreqSupport()
+   >>> op.inputs.time_freq_support_out.connect(my_time_freq_support_out)
+   >>> my_ansys_unit_system_id = int()
+   >>> op.inputs.ansys_unit_system_id.connect(my_ansys_unit_system_id)
+   >>> my_input_name1 = str()
+   >>> op.inputs.input_name1.connect(my_input_name1)
+   >>> my_input_name2 = str()
+   >>> op.inputs.input_name2.connect(my_input_name2)
+
+
+
+.. py:currentmodule:: InputsHdf5DpfGenerateResultFile
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~append_mode`
+            - Allows to connect append_mode input to the operator.
+          * - :py:attr:`~dataset_size_compression_threshold`
+            - Allows to connect dataset_size_compression_threshold input to the operator.
+          * - :py:attr:`~h5_native_compression`
+            - Allows to connect h5_native_compression input to the operator.
+          * - :py:attr:`~export_floats`
+            - Allows to connect export_floats input to the operator.
+          * - :py:attr:`~filename`
+            - Allows to connect filename input to the operator.
+          * - :py:attr:`~mesh_provider_out`
+            - Allows to connect mesh_provider_out input to the operator.
+          * - :py:attr:`~time_freq_support_out`
+            - Allows to connect time_freq_support_out input to the operator.
+          * - :py:attr:`~ansys_unit_system_id`
+            - Allows to connect ansys_unit_system_id input to the operator.
+          * - :py:attr:`~input_name1`
+            - Allows to connect input_name1 input to the operator.
+          * - :py:attr:`~input_name2`
+            - Allows to connect input_name2 input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file import InputsHdf5DpfGenerateResultFile
+
+Property detail
+---------------
+
+.. py:property:: append_mode
+
+   Allows to connect append_mode input to the operator.
+
+   Experimental: allow appending chunked data to
+   the file. this disables fields
+   container content deduplication.
+
+   :param my_append_mode:
+   :type my_append_mode: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
+   >>> op.inputs.append_mode.connect(my_append_mode)
+   >>> # or
+   >>> op.inputs.append_mode(my_append_mode)
+
+.. py:property:: dataset_size_compression_threshold
+
+   Allows to connect dataset_size_compression_threshold input to the operator.
+
+   Integer value that defines the minimum
+   dataset size (in bytes) to use h5
+   native compression applicable for
+   arrays of floats, doubles and
+   integers.
+
+   :param my_dataset_size_compression_threshold:
+   :type my_dataset_size_compression_threshold: int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
+   >>> op.inputs.dataset_size_compression_threshold.connect(my_dataset_size_compression_threshold)
+   >>> # or
+   >>> op.inputs.dataset_size_compression_threshold(my_dataset_size_compression_threshold)
+
+.. py:property:: h5_native_compression
+
+   Allows to connect h5_native_compression input to the operator.
+
+   Integer value / datatree that defines the h5
+   native compression used for integer
+   input {0: no compression (default);
+   1-9: gzip compression : 9 provides
+   maximum compression but at the
+   slowest speed.}for datatree input
+   {type: none / gzip / zstd; level:
+   gzip (1-9) / zstd (1-20);
+   num_threads: zstd (>0)}
+
+   :param my_h5_native_compression:
+   :type my_h5_native_compression: int or DataTree
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
+   >>> op.inputs.h5_native_compression.connect(my_h5_native_compression)
+   >>> # or
+   >>> op.inputs.h5_native_compression(my_h5_native_compression)
+
+.. py:property:: export_floats
+
+   Allows to connect export_floats input to the operator.
+
+   Converts double to float to reduce file size
+   (default is true)
+
+   :param my_export_floats:
+   :type my_export_floats: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
+   >>> op.inputs.export_floats.connect(my_export_floats)
+   >>> # or
+   >>> op.inputs.export_floats(my_export_floats)
+
+.. py:property:: filename
+
+   Allows to connect filename input to the operator.
+
+   Name of the output file that will be
+   generated (utf8).
+
+   :param my_filename:
+   :type my_filename: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
+   >>> op.inputs.filename.connect(my_filename)
+   >>> # or
+   >>> op.inputs.filename(my_filename)
+
+.. py:property:: mesh_provider_out
+
+   Allows to connect mesh_provider_out input to the operator.
+
+   Defines the meshedregion that is exported and
+   provided by meshprovider.
+
+   :param my_mesh_provider_out:
+   :type my_mesh_provider_out: MeshedRegion
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
+   >>> op.inputs.mesh_provider_out.connect(my_mesh_provider_out)
+   >>> # or
+   >>> op.inputs.mesh_provider_out(my_mesh_provider_out)
+
+.. py:property:: time_freq_support_out
+
+   Allows to connect time_freq_support_out input to the operator.
+
+   Defines the timefreqsupport that is exported
+   and provided by
+   timefreqsupportprovider.
+
+   :param my_time_freq_support_out:
+   :type my_time_freq_support_out: TimeFreqSupport
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
+   >>> op.inputs.time_freq_support_out.connect(my_time_freq_support_out)
+   >>> # or
+   >>> op.inputs.time_freq_support_out(my_time_freq_support_out)
+
+.. py:property:: ansys_unit_system_id
+
+   Allows to connect ansys_unit_system_id input to the operator.
+
+   Defines the unit system the results are
+   exported with. a result info can be
+   input to also export physics type and
+   analysis type.
+
+   :param my_ansys_unit_system_id:
+   :type my_ansys_unit_system_id: int or ResultInfo
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
+   >>> op.inputs.ansys_unit_system_id.connect(my_ansys_unit_system_id)
+   >>> # or
+   >>> op.inputs.ansys_unit_system_id(my_ansys_unit_system_id)
+
+.. py:property:: input_name1
+
+   Allows to connect input_name1 input to the operator.
+
+   Set of even and odd pins to serialize
+   results. odd pins (4, 6, 8...) are
+   strings, and they represent the names
+   of the results to be serialized. even
+   pins (5, 7, 9...) are dpf types, and
+   they represent the results to be
+   serialized. they should go in pairs
+   (for each result name, there should
+   be a result) and connected
+   sequentially.
+
+   :param my_input_name1:
+   :type my_input_name1: str or Any
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
+   >>> op.inputs.input_name1.connect(my_input_name1)
+   >>> # or
+   >>> op.inputs.input_name1(my_input_name1)
+
+.. py:property:: input_name2
+
+   Allows to connect input_name2 input to the operator.
+
+   Set of even and odd pins to serialize
+   results. odd pins (4, 6, 8...) are
+   strings, and they represent the names
+   of the results to be serialized. even
+   pins (5, 7, 9...) are dpf types, and
+   they represent the results to be
+   serialized. they should go in pairs
+   (for each result name, there should
+   be a result) and connected
+   sequentially.
+
+   :param my_input_name2:
+   :type my_input_name2: str or Any
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
+   >>> op.inputs.input_name2.connect(my_input_name2)
+   >>> # or
+   >>> op.inputs.input_name2(my_input_name2)
+
+
+
+
+
+

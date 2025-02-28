@@ -1,0 +1,84 @@
+
+
+
+
+
+
+:class:`InputsReadCmsRbdFile`
+=============================
+
+.. py:class:: ansys.dpf.core.operators.result.read_cms_rbd_file.InputsReadCmsRbdFile(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   read_cms_rbd_file operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.read_cms_rbd_file()
+   >>> my_in_cms_rbd_file_path = str()
+   >>> op.inputs.in_cms_rbd_file_path.connect(my_in_cms_rbd_file_path)
+
+
+
+.. py:currentmodule:: InputsReadCmsRbdFile
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~in_cms_rbd_file_path`
+            - Allows to connect in_cms_rbd_file_path input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.read_cms_rbd_file import InputsReadCmsRbdFile
+
+Property detail
+---------------
+
+.. py:property:: in_cms_rbd_file_path
+
+   Allows to connect in_cms_rbd_file_path input to the operator.
+
+   File name with cms_rbd extension where to
+   read the input cms_rbd file.
+
+   :param my_in_cms_rbd_file_path:
+   :type my_in_cms_rbd_file_path: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.read_cms_rbd_file()
+   >>> op.inputs.in_cms_rbd_file_path.connect(my_in_cms_rbd_file_path)
+   >>> # or
+   >>> op.inputs.in_cms_rbd_file_path(my_in_cms_rbd_file_path)
+
+
+
+
+
+

@@ -1,0 +1,103 @@
+
+
+
+
+
+
+:class:`InputsNormFc`
+=====================
+
+.. py:class:: ansys.dpf.core.operators.math.norm_fc.InputsNormFc(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   norm_fc operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.norm_fc()
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_scalar_int = int()
+   >>> op.inputs.scalar_int.connect(my_scalar_int)
+
+
+
+.. py:currentmodule:: InputsNormFc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fields_container`
+            - Allows to connect fields_container input to the operator.
+          * - :py:attr:`~scalar_int`
+            - Allows to connect scalar_int input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.norm_fc import InputsNormFc
+
+Property detail
+---------------
+
+.. py:property:: fields_container
+
+   Allows to connect fields_container input to the operator.
+
+   :param my_fields_container:
+   :type my_fields_container: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.norm_fc()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> # or
+   >>> op.inputs.fields_container(my_fields_container)
+
+.. py:property:: scalar_int
+
+   Allows to connect scalar_int input to the operator.
+
+   Lp normalisation type, p = 1, 2, ...n -
+   default lp=2
+
+   :param my_scalar_int:
+   :type my_scalar_int: int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.norm_fc()
+   >>> op.inputs.scalar_int.connect(my_scalar_int)
+   >>> # or
+   >>> op.inputs.scalar_int(my_scalar_int)
+
+
+
+
+
+

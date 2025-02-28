@@ -1,0 +1,104 @@
+
+
+
+
+
+
+:class:`InputsForwardMeshesContainer`
+=====================================
+
+.. py:class:: ansys.dpf.core.operators.utility.forward_meshes_container.InputsForwardMeshesContainer(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   forward_meshes_container operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.forward_meshes_container()
+   >>> my_meshes = dpf.MeshesContainer()
+   >>> op.inputs.meshes.connect(my_meshes)
+   >>> my_default_label = str()
+   >>> op.inputs.default_label.connect(my_default_label)
+
+
+
+.. py:currentmodule:: InputsForwardMeshesContainer
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~meshes`
+            - Allows to connect meshes input to the operator.
+          * - :py:attr:`~default_label`
+            - Allows to connect default_label input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.forward_meshes_container import InputsForwardMeshesContainer
+
+Property detail
+---------------
+
+.. py:property:: meshes
+
+   Allows to connect meshes input to the operator.
+
+   :param my_meshes:
+   :type my_meshes: MeshesContainer or MeshedRegion
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.forward_meshes_container()
+   >>> op.inputs.meshes.connect(my_meshes)
+   >>> # or
+   >>> op.inputs.meshes(my_meshes)
+
+.. py:property:: default_label
+
+   Allows to connect default_label input to the operator.
+
+   This default label is used if a new meshes
+   container needs to be created
+   (default is unknown)
+
+   :param my_default_label:
+   :type my_default_label: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.forward_meshes_container()
+   >>> op.inputs.default_label.connect(my_default_label)
+   >>> # or
+   >>> op.inputs.default_label(my_default_label)
+
+
+
+
+
+

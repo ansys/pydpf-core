@@ -1,0 +1,224 @@
+
+
+
+
+
+
+:class:`members_in_linear_compression_bending_not_certified`
+============================================================
+
+.. py:class:: ansys.dpf.core.operators.result.members_in_linear_compression_bending_not_certified.members_in_linear_compression_bending_not_certified(time_scoping=None, field_yield_strength=None, field_end_condition=None, streams=None, data_sources=None, manufacture=None, partial_factor=None, mesh=None, bending_moment_y=None, bending_moment_z=None, axial_force=None, class_cross_section=None, fabrication_type=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   This operator is a non-certified example of buckling resistance
+   verification for the compression and bending members for Class I,
+   2 and 3 cross-sections. It is only provided as an example if you
+   want to develop your own compute norm operator. This norm is
+   linear summation of the utilization ratios of compression members
+   and bending members. The results computed by this beta operator
+   have not been certified by ANSYS. ANSYS declines all
+   responsibility for the use of this operator.
+
+   :param time_scoping:
+   :type time_scoping: Scoping or int, optional
+   :param field_yield_strength: This pin contains field of beam's yield
+                                strength defined by the user.
+   :type field_yield_strength: Field
+   :param field_end_condition: This pin contains file csv or field of beam's
+                               end condition defined by the user. if
+                               no input at this pin found, it would
+                               take end conditions value of all
+                               beams as 1
+   :type field_end_condition: DataSources or Field, optional
+   :param streams: result file container allowed to be kept open
+                   to cache data.
+   :type streams: StreamsContainer, optional
+   :param data_sources: Result file path container, used if no
+                        streams are set.
+   :type data_sources: DataSources, optional
+   :param manufacture: Manufacturing processus:hot finished if true
+                       or cold formed if false. default
+                       value : hot finished.
+   :type manufacture: bool, optional
+   :param partial_factor: Partial factor for resistance of members to
+                          instability assessed by member
+                          checks. default value: 1.0
+   :type partial_factor: float, optional
+   :param mesh: mesh containing beam's properties defined by
+                user
+   :type mesh: MeshedRegion
+   :param bending_moment_y: Fields container of bending moment on axis y
+                            defined by user
+   :type bending_moment_y: FieldsContainer
+   :param bending_moment_z: Fields container of bending moment on axis z
+                            defined by user
+   :type bending_moment_z: FieldsContainer
+   :param axial_force: Fields container of axial force defined by
+                       user
+   :type axial_force: FieldsContainer
+   :param class_cross_section: Selection for a cross-section. true: class 1
+                               or 2 cross-sections. false: class 3
+                               cross section. if the user defines
+                               the cross section as class 1 or 2,
+                               the section modulus would be plastic
+                               section modulus. if it's class 3-
+                               cross section,the section modulus
+                               would be elastic section modulus
+   :type class_cross_section: bool
+   :param fabrication_type: Selection of fabrication's type if there are
+                            beams i in the structure. true:
+                            rolled section, false: welded
+                            section. default: rolled section.
+   :type fabrication_type: bool, optional
+
+   :returns: **buckling_resistance_linear_summation_utilization_ratios** -- Linear summation of the utilization ratios in
+             all members submitted under a
+             combination of both bending and
+             compression. these factors should be
+             less than 1 and positive.
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.result.members_in_linear_compression_bending_not_certified()
+
+   >>> # Make input connections
+   >>> my_time_scoping = dpf.Scoping()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> my_field_yield_strength = dpf.Field()
+   >>> op.inputs.field_yield_strength.connect(my_field_yield_strength)
+   >>> my_field_end_condition = dpf.DataSources()
+   >>> op.inputs.field_end_condition.connect(my_field_end_condition)
+   >>> my_streams = dpf.StreamsContainer()
+   >>> op.inputs.streams.connect(my_streams)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_manufacture = bool()
+   >>> op.inputs.manufacture.connect(my_manufacture)
+   >>> my_partial_factor = float()
+   >>> op.inputs.partial_factor.connect(my_partial_factor)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_bending_moment_y = dpf.FieldsContainer()
+   >>> op.inputs.bending_moment_y.connect(my_bending_moment_y)
+   >>> my_bending_moment_z = dpf.FieldsContainer()
+   >>> op.inputs.bending_moment_z.connect(my_bending_moment_z)
+   >>> my_axial_force = dpf.FieldsContainer()
+   >>> op.inputs.axial_force.connect(my_axial_force)
+   >>> my_class_cross_section = bool()
+   >>> op.inputs.class_cross_section.connect(my_class_cross_section)
+   >>> my_fabrication_type = bool()
+   >>> op.inputs.fabrication_type.connect(my_fabrication_type)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.result.members_in_linear_compression_bending_not_certified(
+   ...     time_scoping=my_time_scoping,
+   ...     field_yield_strength=my_field_yield_strength,
+   ...     field_end_condition=my_field_end_condition,
+   ...     streams=my_streams,
+   ...     data_sources=my_data_sources,
+   ...     manufacture=my_manufacture,
+   ...     partial_factor=my_partial_factor,
+   ...     mesh=my_mesh,
+   ...     bending_moment_y=my_bending_moment_y,
+   ...     bending_moment_z=my_bending_moment_z,
+   ...     axial_force=my_axial_force,
+   ...     class_cross_section=my_class_cross_section,
+   ...     fabrication_type=my_fabrication_type,
+   ... )
+
+   >>> # Get output data
+   >>> result_buckling_resistance_linear_summation_utilization_ratios = op.outputs.buckling_resistance_linear_summation_utilization_ratios()
+
+
+
+
+.. py:currentmodule:: members_in_linear_compression_bending_not_certified
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.members_in_linear_compression_bending_not_certified import members_in_linear_compression_bending_not_certified
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsMembersInLinearCompressionBendingNotCertified
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsMembersInLinearCompressionBendingNotCertified
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

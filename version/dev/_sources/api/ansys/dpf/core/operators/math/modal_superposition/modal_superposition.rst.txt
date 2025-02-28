@@ -1,0 +1,155 @@
+
+
+
+
+
+
+:class:`modal_superposition`
+============================
+
+.. py:class:: ansys.dpf.core.operators.math.modal_superposition.modal_superposition(modal_basis=None, solution_in_modal_space=None, time_scoping=None, mesh_scoping=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Computes the solution in the time/frequency space from a modal
+   solution by multiplying a modal basis (in 0) by the solution in
+   this modal space (coefficients for each mode for each
+   time/frequency) (in 1).
+
+   :param modal_basis: One field by mode with each field
+                       representing a mode shape on nodes or
+                       elements.
+   :type modal_basis: FieldsContainer
+   :param solution_in_modal_space: One field by time/frequency with each field
+                                   having a ponderating coefficient for
+                                   each mode of the modal_basis pin.
+   :type solution_in_modal_space: FieldsContainer
+   :param time_scoping: Compute the result on a subset of the time
+                        frequency domain defined in the
+                        solution_in_modal_space fields
+                        container.
+   :type time_scoping: Scoping, optional
+   :param mesh_scoping: Compute the result on a subset of the space
+                        domain defined in the modal_basis
+                        fields container.
+   :type mesh_scoping: Scoping or ScopingsContainer, optional
+
+   :returns: **fields_container**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.math.modal_superposition()
+
+   >>> # Make input connections
+   >>> my_modal_basis = dpf.FieldsContainer()
+   >>> op.inputs.modal_basis.connect(my_modal_basis)
+   >>> my_solution_in_modal_space = dpf.FieldsContainer()
+   >>> op.inputs.solution_in_modal_space.connect(my_solution_in_modal_space)
+   >>> my_time_scoping = dpf.Scoping()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> my_mesh_scoping = dpf.Scoping()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.math.modal_superposition(
+   ...     modal_basis=my_modal_basis,
+   ...     solution_in_modal_space=my_solution_in_modal_space,
+   ...     time_scoping=my_time_scoping,
+   ...     mesh_scoping=my_mesh_scoping,
+   ... )
+
+   >>> # Get output data
+   >>> result_fields_container = op.outputs.fields_container()
+
+
+
+
+.. py:currentmodule:: modal_superposition
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.modal_superposition import modal_superposition
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsModalSuperposition
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsModalSuperposition
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

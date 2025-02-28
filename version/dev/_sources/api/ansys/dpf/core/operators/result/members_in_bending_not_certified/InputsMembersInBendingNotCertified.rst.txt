@@ -1,0 +1,264 @@
+
+
+
+
+
+
+:class:`InputsMembersInBendingNotCertified`
+===========================================
+
+.. py:class:: ansys.dpf.core.operators.result.members_in_bending_not_certified.InputsMembersInBendingNotCertified(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   members_in_bending_not_certified operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.members_in_bending_not_certified()
+   >>> my_time_scoping = dpf.Scoping()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> my_field_yield_strength = dpf.Field()
+   >>> op.inputs.field_yield_strength.connect(my_field_yield_strength)
+   >>> my_class_cross_section = bool()
+   >>> op.inputs.class_cross_section.connect(my_class_cross_section)
+   >>> my_streams = dpf.StreamsContainer()
+   >>> op.inputs.streams.connect(my_streams)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_partial_factor = float()
+   >>> op.inputs.partial_factor.connect(my_partial_factor)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_bending_moment_y = dpf.FieldsContainer()
+   >>> op.inputs.bending_moment_y.connect(my_bending_moment_y)
+   >>> my_bending_moment_z = dpf.FieldsContainer()
+   >>> op.inputs.bending_moment_z.connect(my_bending_moment_z)
+
+
+
+.. py:currentmodule:: InputsMembersInBendingNotCertified
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~time_scoping`
+            - Allows to connect time_scoping input to the operator.
+          * - :py:attr:`~field_yield_strength`
+            - Allows to connect field_yield_strength input to the operator.
+          * - :py:attr:`~class_cross_section`
+            - Allows to connect class_cross_section input to the operator.
+          * - :py:attr:`~streams`
+            - Allows to connect streams input to the operator.
+          * - :py:attr:`~data_sources`
+            - Allows to connect data_sources input to the operator.
+          * - :py:attr:`~partial_factor`
+            - Allows to connect partial_factor input to the operator.
+          * - :py:attr:`~mesh`
+            - Allows to connect mesh input to the operator.
+          * - :py:attr:`~bending_moment_y`
+            - Allows to connect bending_moment_y input to the operator.
+          * - :py:attr:`~bending_moment_z`
+            - Allows to connect bending_moment_z input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.members_in_bending_not_certified import InputsMembersInBendingNotCertified
+
+Property detail
+---------------
+
+.. py:property:: time_scoping
+
+   Allows to connect time_scoping input to the operator.
+
+   :param my_time_scoping:
+   :type my_time_scoping: Scoping or int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.members_in_bending_not_certified()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> # or
+   >>> op.inputs.time_scoping(my_time_scoping)
+
+.. py:property:: field_yield_strength
+
+   Allows to connect field_yield_strength input to the operator.
+
+   This pin contains field of beam's yield
+   strength defined by the user.
+
+   :param my_field_yield_strength:
+   :type my_field_yield_strength: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.members_in_bending_not_certified()
+   >>> op.inputs.field_yield_strength.connect(my_field_yield_strength)
+   >>> # or
+   >>> op.inputs.field_yield_strength(my_field_yield_strength)
+
+.. py:property:: class_cross_section
+
+   Allows to connect class_cross_section input to the operator.
+
+   Selection for a cross-section. true: class 1
+   or 2 cross-sections. false: class 3
+   cross section. if the user defines
+   the cross section as class 1 or 2,
+   the section modulus would be plastic
+   section modulus. if it's class 3-
+   cross section,the section modulus
+   would be elastic section modulus
+
+   :param my_class_cross_section:
+   :type my_class_cross_section: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.members_in_bending_not_certified()
+   >>> op.inputs.class_cross_section.connect(my_class_cross_section)
+   >>> # or
+   >>> op.inputs.class_cross_section(my_class_cross_section)
+
+.. py:property:: streams
+
+   Allows to connect streams input to the operator.
+
+   result file container allowed to be kept open
+   to cache data.
+
+   :param my_streams:
+   :type my_streams: StreamsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.members_in_bending_not_certified()
+   >>> op.inputs.streams.connect(my_streams)
+   >>> # or
+   >>> op.inputs.streams(my_streams)
+
+.. py:property:: data_sources
+
+   Allows to connect data_sources input to the operator.
+
+   Result file path container, used if no
+   streams are set.
+
+   :param my_data_sources:
+   :type my_data_sources: DataSources
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.members_in_bending_not_certified()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> # or
+   >>> op.inputs.data_sources(my_data_sources)
+
+.. py:property:: partial_factor
+
+   Allows to connect partial_factor input to the operator.
+
+   Partial safety factor for resistance of
+   members to instability assessed by
+   member checks. default value: 1.
+
+   :param my_partial_factor:
+   :type my_partial_factor: float
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.members_in_bending_not_certified()
+   >>> op.inputs.partial_factor.connect(my_partial_factor)
+   >>> # or
+   >>> op.inputs.partial_factor(my_partial_factor)
+
+.. py:property:: mesh
+
+   Allows to connect mesh input to the operator.
+
+   mesh containing beam's properties defined by
+   user
+
+   :param my_mesh:
+   :type my_mesh: MeshedRegion
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.members_in_bending_not_certified()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> # or
+   >>> op.inputs.mesh(my_mesh)
+
+.. py:property:: bending_moment_y
+
+   Allows to connect bending_moment_y input to the operator.
+
+   Fields container of bending moment on axis y
+   defined by user
+
+   :param my_bending_moment_y:
+   :type my_bending_moment_y: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.members_in_bending_not_certified()
+   >>> op.inputs.bending_moment_y.connect(my_bending_moment_y)
+   >>> # or
+   >>> op.inputs.bending_moment_y(my_bending_moment_y)
+
+.. py:property:: bending_moment_z
+
+   Allows to connect bending_moment_z input to the operator.
+
+   Fields container of bending moment on axis z
+   defined by user
+
+   :param my_bending_moment_z:
+   :type my_bending_moment_z: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.members_in_bending_not_certified()
+   >>> op.inputs.bending_moment_z.connect(my_bending_moment_z)
+   >>> # or
+   >>> op.inputs.bending_moment_z(my_bending_moment_z)
+
+
+
+
+
+

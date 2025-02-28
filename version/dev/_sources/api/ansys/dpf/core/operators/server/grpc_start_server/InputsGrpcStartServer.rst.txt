@@ -1,0 +1,206 @@
+
+
+
+
+
+
+:class:`InputsGrpcStartServer`
+==============================
+
+.. py:class:: ansys.dpf.core.operators.server.grpc_start_server.InputsGrpcStartServer(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   grpc_start_server operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.server.grpc_start_server()
+   >>> my_ip = str()
+   >>> op.inputs.ip.connect(my_ip)
+   >>> my_port = str()
+   >>> op.inputs.port.connect(my_port)
+   >>> my_starting_option = int()
+   >>> op.inputs.starting_option.connect(my_starting_option)
+   >>> my_should_start_server = bool()
+   >>> op.inputs.should_start_server.connect(my_should_start_server)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_dpf_context = str()
+   >>> op.inputs.dpf_context.connect(my_dpf_context)
+
+
+
+.. py:currentmodule:: InputsGrpcStartServer
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~ip`
+            - Allows to connect ip input to the operator.
+          * - :py:attr:`~port`
+            - Allows to connect port input to the operator.
+          * - :py:attr:`~starting_option`
+            - Allows to connect starting_option input to the operator.
+          * - :py:attr:`~should_start_server`
+            - Allows to connect should_start_server input to the operator.
+          * - :py:attr:`~data_sources`
+            - Allows to connect data_sources input to the operator.
+          * - :py:attr:`~dpf_context`
+            - Allows to connect dpf_context input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.server.grpc_start_server import InputsGrpcStartServer
+
+Property detail
+---------------
+
+.. py:property:: ip
+
+   Allows to connect ip input to the operator.
+
+   If no ip address is put, the local ip address
+   is taken
+
+   :param my_ip:
+   :type my_ip: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.server.grpc_start_server()
+   >>> op.inputs.ip.connect(my_ip)
+   >>> # or
+   >>> op.inputs.ip(my_ip)
+
+.. py:property:: port
+
+   Allows to connect port input to the operator.
+
+   If no port is put, port 50052 is taken
+
+   :param my_port:
+   :type my_port: str or int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.server.grpc_start_server()
+   >>> op.inputs.port.connect(my_port)
+   >>> # or
+   >>> op.inputs.port(my_port)
+
+.. py:property:: starting_option
+
+   Allows to connect starting_option input to the operator.
+
+   Default is 1 that starts server in new
+   thread. with 0, this thread will be
+   waiting for grpc calls and will not
+   be usable for anything else. with 2,
+   it the server will be started in a
+   new process.
+
+   :param my_starting_option:
+   :type my_starting_option: int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.server.grpc_start_server()
+   >>> op.inputs.starting_option.connect(my_starting_option)
+   >>> # or
+   >>> op.inputs.starting_option(my_starting_option)
+
+.. py:property:: should_start_server
+
+   Allows to connect should_start_server input to the operator.
+
+   If true, the server is assumed to be local
+   and is started. if false, only a
+   client (able to send grpc calls) will
+   be started
+
+   :param my_should_start_server:
+   :type my_should_start_server: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.server.grpc_start_server()
+   >>> op.inputs.should_start_server.connect(my_should_start_server)
+   >>> # or
+   >>> op.inputs.should_start_server(my_should_start_server)
+
+.. py:property:: data_sources
+
+   Allows to connect data_sources input to the operator.
+
+   A data source with result key 'grpc' and file
+   path 'port:ip' can be used instead of
+   the input port and ip.
+
+   :param my_data_sources:
+   :type my_data_sources: DataSources
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.server.grpc_start_server()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> # or
+   >>> op.inputs.data_sources(my_data_sources)
+
+.. py:property:: dpf_context
+
+   Allows to connect dpf_context input to the operator.
+
+   This pin is associated with pin(2) = 2
+   (server started in a new process).
+   user can enter the integer associated
+   with a dpf context (1: standalone
+   context - dpfcorestandalone.xml, 3:
+   custom - dpfcustomdefined.xml) or a
+   string with the path of the xml
+   specifying the context.
+
+   :param my_dpf_context:
+   :type my_dpf_context: str or int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.server.grpc_start_server()
+   >>> op.inputs.dpf_context.connect(my_dpf_context)
+   >>> # or
+   >>> op.inputs.dpf_context(my_dpf_context)
+
+
+
+
+
+

@@ -1,0 +1,97 @@
+
+
+
+
+
+
+:class:`OutputsCyclicSupportProvider`
+=====================================
+
+.. py:class:: ansys.dpf.core.operators.metadata.cyclic_support_provider.OutputsCyclicSupportProvider(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   cyclic_support_provider operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.cyclic_support_provider()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_cyclic_support = op.outputs.cyclic_support()
+   >>> result_sector_meshes = op.outputs.sector_meshes()
+
+
+
+.. py:currentmodule:: OutputsCyclicSupportProvider
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~cyclic_support`
+            - Allows to get cyclic_support output of the operator
+          * - :py:attr:`~sector_meshes`
+            - Allows to get sector_meshes output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.metadata.cyclic_support_provider import OutputsCyclicSupportProvider
+
+Property detail
+---------------
+
+.. py:property:: cyclic_support
+
+   Allows to get cyclic_support output of the operator
+
+   :returns: **my_cyclic_support**
+   :rtype: CyclicSupport
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.cyclic_support_provider()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_cyclic_support = op.outputs.cyclic_support()
+
+.. py:property:: sector_meshes
+
+   Allows to get sector_meshes output of the operator
+
+   :returns: **my_sector_meshes**
+   :rtype: MeshesContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.cyclic_support_provider()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_sector_meshes = op.outputs.sector_meshes()
+
+
+
+
+
+

@@ -1,0 +1,159 @@
+
+
+
+
+
+
+:class:`InputsAddRigidBodyMotion`
+=================================
+
+.. py:class:: ansys.dpf.core.operators.result.add_rigid_body_motion.InputsAddRigidBodyMotion(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   add_rigid_body_motion operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.add_rigid_body_motion()
+   >>> my_displacement_field = dpf.Field()
+   >>> op.inputs.displacement_field.connect(my_displacement_field)
+   >>> my_translation_field = dpf.Field()
+   >>> op.inputs.translation_field.connect(my_translation_field)
+   >>> my_rotation_field = dpf.Field()
+   >>> op.inputs.rotation_field.connect(my_rotation_field)
+   >>> my_center_field = dpf.Field()
+   >>> op.inputs.center_field.connect(my_center_field)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+
+
+
+.. py:currentmodule:: InputsAddRigidBodyMotion
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~displacement_field`
+            - Allows to connect displacement_field input to the operator.
+          * - :py:attr:`~translation_field`
+            - Allows to connect translation_field input to the operator.
+          * - :py:attr:`~rotation_field`
+            - Allows to connect rotation_field input to the operator.
+          * - :py:attr:`~center_field`
+            - Allows to connect center_field input to the operator.
+          * - :py:attr:`~mesh`
+            - Allows to connect mesh input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.add_rigid_body_motion import InputsAddRigidBodyMotion
+
+Property detail
+---------------
+
+.. py:property:: displacement_field
+
+   Allows to connect displacement_field input to the operator.
+
+   :param my_displacement_field:
+   :type my_displacement_field: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.add_rigid_body_motion()
+   >>> op.inputs.displacement_field.connect(my_displacement_field)
+   >>> # or
+   >>> op.inputs.displacement_field(my_displacement_field)
+
+.. py:property:: translation_field
+
+   Allows to connect translation_field input to the operator.
+
+   :param my_translation_field:
+   :type my_translation_field: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.add_rigid_body_motion()
+   >>> op.inputs.translation_field.connect(my_translation_field)
+   >>> # or
+   >>> op.inputs.translation_field(my_translation_field)
+
+.. py:property:: rotation_field
+
+   Allows to connect rotation_field input to the operator.
+
+   :param my_rotation_field:
+   :type my_rotation_field: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.add_rigid_body_motion()
+   >>> op.inputs.rotation_field.connect(my_rotation_field)
+   >>> # or
+   >>> op.inputs.rotation_field(my_rotation_field)
+
+.. py:property:: center_field
+
+   Allows to connect center_field input to the operator.
+
+   :param my_center_field:
+   :type my_center_field: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.add_rigid_body_motion()
+   >>> op.inputs.center_field.connect(my_center_field)
+   >>> # or
+   >>> op.inputs.center_field(my_center_field)
+
+.. py:property:: mesh
+
+   Allows to connect mesh input to the operator.
+
+   Default is the mesh in the support
+
+   :param my_mesh:
+   :type my_mesh: MeshedRegion
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.add_rigid_body_motion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> # or
+   >>> op.inputs.mesh(my_mesh)
+
+
+
+
+
+

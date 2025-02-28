@@ -1,0 +1,302 @@
+
+
+
+
+
+
+:class:`InputsMigrateToH5Dpf`
+=============================
+
+.. py:class:: ansys.dpf.core.operators.result.migrate_to_h5dpf.InputsMigrateToH5Dpf(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   migrate_to_h5dpf operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.migrate_to_h5dpf()
+   >>> my_dataset_size_compression_threshold = int()
+   >>> op.inputs.dataset_size_compression_threshold.connect(my_dataset_size_compression_threshold)
+   >>> my_h5_native_compression = int()
+   >>> op.inputs.h5_native_compression.connect(my_h5_native_compression)
+   >>> my_export_floats = bool()
+   >>> op.inputs.export_floats.connect(my_export_floats)
+   >>> my_filename = str()
+   >>> op.inputs.filename.connect(my_filename)
+   >>> my_comma_separated_list_of_results = str()
+   >>> op.inputs.comma_separated_list_of_results.connect(my_comma_separated_list_of_results)
+   >>> my_all_time_sets = bool()
+   >>> op.inputs.all_time_sets.connect(my_all_time_sets)
+   >>> my_streams_container = dpf.StreamsContainer()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_compression_workflow = dpf.Workflow()
+   >>> op.inputs.compression_workflow.connect(my_compression_workflow)
+   >>> my_filtering_workflow = dpf.Workflow()
+   >>> op.inputs.filtering_workflow.connect(my_filtering_workflow)
+
+
+
+.. py:currentmodule:: InputsMigrateToH5Dpf
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~dataset_size_compression_threshold`
+            - Allows to connect dataset_size_compression_threshold input to the operator.
+          * - :py:attr:`~h5_native_compression`
+            - Allows to connect h5_native_compression input to the operator.
+          * - :py:attr:`~export_floats`
+            - Allows to connect export_floats input to the operator.
+          * - :py:attr:`~filename`
+            - Allows to connect filename input to the operator.
+          * - :py:attr:`~comma_separated_list_of_results`
+            - Allows to connect comma_separated_list_of_results input to the operator.
+          * - :py:attr:`~all_time_sets`
+            - Allows to connect all_time_sets input to the operator.
+          * - :py:attr:`~streams_container`
+            - Allows to connect streams_container input to the operator.
+          * - :py:attr:`~data_sources`
+            - Allows to connect data_sources input to the operator.
+          * - :py:attr:`~compression_workflow`
+            - Allows to connect compression_workflow input to the operator.
+          * - :py:attr:`~filtering_workflow`
+            - Allows to connect filtering_workflow input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.migrate_to_h5dpf import InputsMigrateToH5Dpf
+
+Property detail
+---------------
+
+.. py:property:: dataset_size_compression_threshold
+
+   Allows to connect dataset_size_compression_threshold input to the operator.
+
+   Integer value that defines the minimum
+   dataset size (in bytes) to use h5
+   native compression applicable for
+   arrays of floats, doubles and
+   integers.
+
+   :param my_dataset_size_compression_threshold:
+   :type my_dataset_size_compression_threshold: int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.migrate_to_h5dpf()
+   >>> op.inputs.dataset_size_compression_threshold.connect(my_dataset_size_compression_threshold)
+   >>> # or
+   >>> op.inputs.dataset_size_compression_threshold(my_dataset_size_compression_threshold)
+
+.. py:property:: h5_native_compression
+
+   Allows to connect h5_native_compression input to the operator.
+
+   Integer value / datatree that defines the h5
+   native compression used for integer
+   input {0: no compression (default);
+   1-9: gzip compression : 9 provides
+   maximum compression but at the
+   slowest speed.}for datatree input
+   {type: none / gzip / zstd; level:
+   gzip (1-9) / zstd (1-20);
+   num_threads: zstd (>0)}
+
+   :param my_h5_native_compression:
+   :type my_h5_native_compression: int or DataTree
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.migrate_to_h5dpf()
+   >>> op.inputs.h5_native_compression.connect(my_h5_native_compression)
+   >>> # or
+   >>> op.inputs.h5_native_compression(my_h5_native_compression)
+
+.. py:property:: export_floats
+
+   Allows to connect export_floats input to the operator.
+
+   Converts double to float to reduce file size
+   (default is true).if false, nodal
+   results are exported as double
+   precision and elemental results as
+   single precision.
+
+   :param my_export_floats:
+   :type my_export_floats: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.migrate_to_h5dpf()
+   >>> op.inputs.export_floats.connect(my_export_floats)
+   >>> # or
+   >>> op.inputs.export_floats(my_export_floats)
+
+.. py:property:: filename
+
+   Allows to connect filename input to the operator.
+
+   Filename of the migrated file
+
+   :param my_filename:
+   :type my_filename: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.migrate_to_h5dpf()
+   >>> op.inputs.filename.connect(my_filename)
+   >>> # or
+   >>> op.inputs.filename(my_filename)
+
+.. py:property:: comma_separated_list_of_results
+
+   Allows to connect comma_separated_list_of_results input to the operator.
+
+   List of results (source operator names)
+   separated by semicolons that will be
+   stored. (example: u;s;epel). if
+   empty, all available results will be
+   converted.
+
+   :param my_comma_separated_list_of_results:
+   :type my_comma_separated_list_of_results: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.migrate_to_h5dpf()
+   >>> op.inputs.comma_separated_list_of_results.connect(my_comma_separated_list_of_results)
+   >>> # or
+   >>> op.inputs.comma_separated_list_of_results(my_comma_separated_list_of_results)
+
+.. py:property:: all_time_sets
+
+   Allows to connect all_time_sets input to the operator.
+
+   Default is false
+
+   :param my_all_time_sets:
+   :type my_all_time_sets: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.migrate_to_h5dpf()
+   >>> op.inputs.all_time_sets.connect(my_all_time_sets)
+   >>> # or
+   >>> op.inputs.all_time_sets(my_all_time_sets)
+
+.. py:property:: streams_container
+
+   Allows to connect streams_container input to the operator.
+
+   Streams (result file container) (optional)
+
+   :param my_streams_container:
+   :type my_streams_container: StreamsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.migrate_to_h5dpf()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> # or
+   >>> op.inputs.streams_container(my_streams_container)
+
+.. py:property:: data_sources
+
+   Allows to connect data_sources input to the operator.
+
+   If the stream is null then we need to get the
+   file path from the data sources
+
+   :param my_data_sources:
+   :type my_data_sources: DataSources
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.migrate_to_h5dpf()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> # or
+   >>> op.inputs.data_sources(my_data_sources)
+
+.. py:property:: compression_workflow
+
+   Allows to connect compression_workflow input to the operator.
+
+   Beta option: applies input compression
+   workflow. user can input a
+   genericdatacontainer that will map a
+   compression workflow to a result
+   name. example of map: {{ default:
+   wf1}, {eul: wf2}, {eng_se: wf3}}
+
+   :param my_compression_workflow:
+   :type my_compression_workflow: Workflow or GenericDataContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.migrate_to_h5dpf()
+   >>> op.inputs.compression_workflow.connect(my_compression_workflow)
+   >>> # or
+   >>> op.inputs.compression_workflow(my_compression_workflow)
+
+.. py:property:: filtering_workflow
+
+   Allows to connect filtering_workflow input to the operator.
+
+   Applies input filtering workflow. user can
+   input a genericdatacontainer of the
+   format described for pin(6) that will
+   map a filtering workflow to a result
+   name.
+
+   :param my_filtering_workflow:
+   :type my_filtering_workflow: Workflow or GenericDataContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.migrate_to_h5dpf()
+   >>> op.inputs.filtering_workflow.connect(my_filtering_workflow)
+   >>> # or
+   >>> op.inputs.filtering_workflow(my_filtering_workflow)
+
+
+
+
+
+

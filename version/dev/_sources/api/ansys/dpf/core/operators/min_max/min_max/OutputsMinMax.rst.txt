@@ -1,0 +1,97 @@
+
+
+
+
+
+
+:class:`OutputsMinMax`
+======================
+
+.. py:class:: ansys.dpf.core.operators.min_max.min_max.OutputsMinMax(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   min_max operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.min_max.min_max()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_field_min = op.outputs.field_min()
+   >>> result_field_max = op.outputs.field_max()
+
+
+
+.. py:currentmodule:: OutputsMinMax
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~field_min`
+            - Allows to get field_min output of the operator
+          * - :py:attr:`~field_max`
+            - Allows to get field_max output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.min_max.min_max import OutputsMinMax
+
+Property detail
+---------------
+
+.. py:property:: field_min
+
+   Allows to get field_min output of the operator
+
+   :returns: **my_field_min**
+   :rtype: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.min_max.min_max()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_field_min = op.outputs.field_min()
+
+.. py:property:: field_max
+
+   Allows to get field_max output of the operator
+
+   :returns: **my_field_max**
+   :rtype: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.min_max.min_max()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_field_max = op.outputs.field_max()
+
+
+
+
+
+

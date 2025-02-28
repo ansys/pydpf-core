@@ -1,0 +1,159 @@
+
+
+
+
+
+
+:class:`mesh_to_pyvista`
+========================
+
+.. py:class:: ansys.dpf.core.operators.mesh.mesh_to_pyvista.mesh_to_pyvista(coordinates=None, as_linear=None, mesh=None, vtk_updated=None, as_poly=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Export a MeshedRegion in the pyVista format.
+
+   :param coordinates: Node coordinates. if not set, the node
+                       coordinates of the mesh are employed.
+   :type coordinates: Field, optional
+   :param as_linear: Export a linear version of the mesh
+                     (quadratic surface elements do no
+                     include midside nodes). if not set,
+                     defaults to true.
+   :type as_linear: bool, optional
+   :param mesh: Mesh to export in pyvista format
+   :type mesh: MeshedRegion
+   :param vtk_updated: True if the vtk version employed by pyvista
+                       is > vtk 9. default true.
+   :type vtk_updated: bool, optional
+   :param as_poly: Export elements as polyhedrons (cell-face-
+                   node representation). default false.
+   :type as_poly: bool, optional
+
+   :returns: * **nodes** (*Field*) -- Node coordinates double vector
+             * *cells* -- Cell connectivity int vector
+             * *cell_types* -- Cell types property int vector
+             * **offsets** (*optional*) -- If vtk_updated=false, offsets int vector
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.mesh.mesh_to_pyvista()
+
+   >>> # Make input connections
+   >>> my_coordinates = dpf.Field()
+   >>> op.inputs.coordinates.connect(my_coordinates)
+   >>> my_as_linear = bool()
+   >>> op.inputs.as_linear.connect(my_as_linear)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_vtk_updated = bool()
+   >>> op.inputs.vtk_updated.connect(my_vtk_updated)
+   >>> my_as_poly = bool()
+   >>> op.inputs.as_poly.connect(my_as_poly)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.mesh.mesh_to_pyvista(
+   ...     coordinates=my_coordinates,
+   ...     as_linear=my_as_linear,
+   ...     mesh=my_mesh,
+   ...     vtk_updated=my_vtk_updated,
+   ...     as_poly=my_as_poly,
+   ... )
+
+   >>> # Get output data
+   >>> result_nodes = op.outputs.nodes()
+   >>> result_cells = op.outputs.cells()
+   >>> result_cell_types = op.outputs.cell_types()
+   >>> result_offsets = op.outputs.offsets()
+
+
+
+
+.. py:currentmodule:: mesh_to_pyvista
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mesh.mesh_to_pyvista import mesh_to_pyvista
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsMeshToPyvista
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsMeshToPyvista
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

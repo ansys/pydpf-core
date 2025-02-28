@@ -1,0 +1,271 @@
+
+
+
+
+
+
+:class:`InputsComputeInvariantTermsRbd`
+=======================================
+
+.. py:class:: ansys.dpf.core.operators.result.compute_invariant_terms_rbd.InputsComputeInvariantTermsRbd(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   compute_invariant_terms_rbd operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_invariant_terms_rbd()
+   >>> my_rom_matrices = dpf.FieldsContainer()
+   >>> op.inputs.rom_matrices.connect(my_rom_matrices)
+   >>> my_mode_shapes = dpf.FieldsContainer()
+   >>> op.inputs.mode_shapes.connect(my_mode_shapes)
+   >>> my_lumped_mass = dpf.FieldsContainer()
+   >>> op.inputs.lumped_mass.connect(my_lumped_mass)
+   >>> my_model_data = dpf.FieldsContainer()
+   >>> op.inputs.model_data.connect(my_model_data)
+   >>> my_center_of_mass = dpf.FieldsContainer()
+   >>> op.inputs.center_of_mass.connect(my_center_of_mass)
+   >>> my_inertia_relief = dpf.FieldsContainer()
+   >>> op.inputs.inertia_relief.connect(my_inertia_relief)
+   >>> my_model_size = float()
+   >>> op.inputs.model_size.connect(my_model_size)
+   >>> my_field_coordinates = dpf.Field()
+   >>> op.inputs.field_coordinates.connect(my_field_coordinates)
+   >>> my_nod = dpf.()
+   >>> op.inputs.nod.connect(my_nod)
+   >>> my_constraint_mode_check = bool()
+   >>> op.inputs.constraint_mode_check.connect(my_constraint_mode_check)
+
+
+
+.. py:currentmodule:: InputsComputeInvariantTermsRbd
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~rom_matrices`
+            - Allows to connect rom_matrices input to the operator.
+          * - :py:attr:`~mode_shapes`
+            - Allows to connect mode_shapes input to the operator.
+          * - :py:attr:`~lumped_mass`
+            - Allows to connect lumped_mass input to the operator.
+          * - :py:attr:`~model_data`
+            - Allows to connect model_data input to the operator.
+          * - :py:attr:`~center_of_mass`
+            - Allows to connect center_of_mass input to the operator.
+          * - :py:attr:`~inertia_relief`
+            - Allows to connect inertia_relief input to the operator.
+          * - :py:attr:`~model_size`
+            - Allows to connect model_size input to the operator.
+          * - :py:attr:`~field_coordinates`
+            - Allows to connect field_coordinates input to the operator.
+          * - :py:attr:`~nod`
+            - Allows to connect nod input to the operator.
+          * - :py:attr:`~constraint_mode_check`
+            - Allows to connect constraint_mode_check input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.compute_invariant_terms_rbd import InputsComputeInvariantTermsRbd
+
+Property detail
+---------------
+
+.. py:property:: rom_matrices
+
+   Allows to connect rom_matrices input to the operator.
+
+   Fieldscontainers containing the reduced
+   matrices
+
+   :param my_rom_matrices:
+   :type my_rom_matrices: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_invariant_terms_rbd()
+   >>> op.inputs.rom_matrices.connect(my_rom_matrices)
+   >>> # or
+   >>> op.inputs.rom_matrices(my_rom_matrices)
+
+.. py:property:: mode_shapes
+
+   Allows to connect mode_shapes input to the operator.
+
+   Fieldscontainers containing the mode shapes,
+   which are cst and nor for the cms
+   method
+
+   :param my_mode_shapes:
+   :type my_mode_shapes: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_invariant_terms_rbd()
+   >>> op.inputs.mode_shapes.connect(my_mode_shapes)
+   >>> # or
+   >>> op.inputs.mode_shapes(my_mode_shapes)
+
+.. py:property:: lumped_mass
+
+   Allows to connect lumped_mass input to the operator.
+
+   Fieldscontainers containing the lumped mass
+
+   :param my_lumped_mass:
+   :type my_lumped_mass: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_invariant_terms_rbd()
+   >>> op.inputs.lumped_mass.connect(my_lumped_mass)
+   >>> # or
+   >>> op.inputs.lumped_mass(my_lumped_mass)
+
+.. py:property:: model_data
+
+   Allows to connect model_data input to the operator.
+
+   Data describing the finite element model
+
+   :param my_model_data:
+   :type my_model_data: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_invariant_terms_rbd()
+   >>> op.inputs.model_data.connect(my_model_data)
+   >>> # or
+   >>> op.inputs.model_data(my_model_data)
+
+.. py:property:: center_of_mass
+
+   Allows to connect center_of_mass input to the operator.
+
+   :param my_center_of_mass:
+   :type my_center_of_mass: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_invariant_terms_rbd()
+   >>> op.inputs.center_of_mass.connect(my_center_of_mass)
+   >>> # or
+   >>> op.inputs.center_of_mass(my_center_of_mass)
+
+.. py:property:: inertia_relief
+
+   Allows to connect inertia_relief input to the operator.
+
+   Inertia matrix
+
+   :param my_inertia_relief:
+   :type my_inertia_relief: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_invariant_terms_rbd()
+   >>> op.inputs.inertia_relief.connect(my_inertia_relief)
+   >>> # or
+   >>> op.inputs.inertia_relief(my_inertia_relief)
+
+.. py:property:: model_size
+
+   Allows to connect model_size input to the operator.
+
+   Model size
+
+   :param my_model_size:
+   :type my_model_size: float
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_invariant_terms_rbd()
+   >>> op.inputs.model_size.connect(my_model_size)
+   >>> # or
+   >>> op.inputs.model_size(my_model_size)
+
+.. py:property:: field_coordinates
+
+   Allows to connect field_coordinates input to the operator.
+
+   Coordinates of all nodes
+
+   :param my_field_coordinates:
+   :type my_field_coordinates: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_invariant_terms_rbd()
+   >>> op.inputs.field_coordinates.connect(my_field_coordinates)
+   >>> # or
+   >>> op.inputs.field_coordinates(my_field_coordinates)
+
+.. py:property:: nod
+
+   Allows to connect nod input to the operator.
+
+   :param my_nod:
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_invariant_terms_rbd()
+   >>> op.inputs.nod.connect(my_nod)
+   >>> # or
+   >>> op.inputs.nod(my_nod)
+
+.. py:property:: constraint_mode_check
+
+   Allows to connect constraint_mode_check input to the operator.
+
+   If true, the orthogonality of the constraint
+   modes are checked. default is false.
+
+   :param my_constraint_mode_check:
+   :type my_constraint_mode_check: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_invariant_terms_rbd()
+   >>> op.inputs.constraint_mode_check.connect(my_constraint_mode_check)
+   >>> # or
+   >>> op.inputs.constraint_mode_check(my_constraint_mode_check)
+
+
+
+
+
+

@@ -1,0 +1,191 @@
+
+
+
+
+
+
+:class:`apply_zfp`
+==================
+
+.. py:class:: ansys.dpf.core.operators.compression.apply_zfp.apply_zfp(dataIn=None, mode=None, mode_parameter=None, dim=None, order=None, double_absthreshold=None, double_relthreshold=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Compressing input data using one of zfp compression algorithm modes.
+
+   :param dataIn: Field or fields container to be compressed
+   :type dataIn: Field or FieldsContainer
+   :param mode: Zfp mode: fixed-rate ('r'), fixed-precision
+                ('p'), fixed-accuracy ('a')
+   :type mode: str or Char
+   :param mode_parameter: Mode-corresponding parameter: rate (double) /
+                          precision (int) / accuracy (double)
+   :type mode_parameter: int or float
+   :param dim: Dimension (1d/2d/3d) for data organization
+               before the compression (int; default:
+               2)
+   :type dim: int, optional
+   :param order: Xyz dimensions order, where x (row)
+                 corresponds to number of elementary
+                 data, y (col) - number of time steps,
+                 z - number of components (applicable
+                 only for 3d data) : 0=xyz, 1=yxz
+                 (int; default: 0)
+   :type order: int, optional
+   :param double_absthreshold: Double positive small value. all the values
+                               smaller than max(small value, max(vi)
+                               * relative threshold) are considered
+                               as zero values, (default value:
+                               1.0e-18).
+   :type double_absthreshold: float, optional
+   :param double_relthreshold: Double relative threshold. values smaller
+                               than (v1 - v2) < max(small value, v1
+                               * relativetol) are considered
+                               identical (default value: 1.0e-10).
+   :type double_relthreshold: float, optional
+
+   :returns: * **compress_speed** (*float*) -- The output entity is a double, containing
+               compression speed of the input data:
+               for elementalnodal location -
+               [elements/sec], for nodal location -
+               [nodes/sec]
+             * **compress_ratio** (*float*) -- The output entity is a double, containing
+               compression rate = initial/compressed
+             * **dataOut** (*CustomTypeFieldsContainer*) -- The output entity is a 'custom type field
+               container';                     each
+               output field containing compressed
+               results corresponding to one
+               component data (ie. input vector
+               field/fc contains 3 components will
+               give 3 output fields), this is not
+               the case when input pin3 is set to 3,
+               all components will be compressed
+               into one field.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.compression.apply_zfp()
+
+   >>> # Make input connections
+   >>> my_dataIn = dpf.Field()
+   >>> op.inputs.dataIn.connect(my_dataIn)
+   >>> my_mode = str()
+   >>> op.inputs.mode.connect(my_mode)
+   >>> my_mode_parameter = int()
+   >>> op.inputs.mode_parameter.connect(my_mode_parameter)
+   >>> my_dim = int()
+   >>> op.inputs.dim.connect(my_dim)
+   >>> my_order = int()
+   >>> op.inputs.order.connect(my_order)
+   >>> my_double_absthreshold = float()
+   >>> op.inputs.double_absthreshold.connect(my_double_absthreshold)
+   >>> my_double_relthreshold = float()
+   >>> op.inputs.double_relthreshold.connect(my_double_relthreshold)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.compression.apply_zfp(
+   ...     dataIn=my_dataIn,
+   ...     mode=my_mode,
+   ...     mode_parameter=my_mode_parameter,
+   ...     dim=my_dim,
+   ...     order=my_order,
+   ...     double_absthreshold=my_double_absthreshold,
+   ...     double_relthreshold=my_double_relthreshold,
+   ... )
+
+   >>> # Get output data
+   >>> result_compress_speed = op.outputs.compress_speed()
+   >>> result_compress_ratio = op.outputs.compress_ratio()
+   >>> result_dataOut = op.outputs.dataOut()
+
+
+
+
+.. py:currentmodule:: apply_zfp
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.compression.apply_zfp import apply_zfp
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsApplyZfp
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsApplyZfp
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

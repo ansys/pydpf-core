@@ -1,0 +1,146 @@
+
+
+
+
+
+
+:class:`element_nodal_contribution`
+===================================
+
+.. py:class:: ansys.dpf.core.operators.geo.element_nodal_contribution.element_nodal_contribution(mesh=None, scoping=None, volume_fraction=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Compute the fraction of the element measure attributed to each node of
+   each element (fraction of the volume for 3D elements, fraction of
+   the area for 2D elements or fraction of the length for 1D
+   elements). It is computed by taking the integral of the shape
+   function associated to each node within each element.
+
+   :param mesh:
+   :type mesh: MeshedRegion
+   :param scoping: Integrate the input field over a specific
+                   scoping.
+   :type scoping: Scoping, optional
+   :param volume_fraction: If true, returns influence volume, area or
+                           length. if false, the values are
+                           normalized with the element volume,
+                           area or length. default: true.
+   :type volume_fraction: bool, optional
+
+   :returns: **field**
+   :rtype: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.geo.element_nodal_contribution()
+
+   >>> # Make input connections
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_scoping = dpf.Scoping()
+   >>> op.inputs.scoping.connect(my_scoping)
+   >>> my_volume_fraction = bool()
+   >>> op.inputs.volume_fraction.connect(my_volume_fraction)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.geo.element_nodal_contribution(
+   ...     mesh=my_mesh,
+   ...     scoping=my_scoping,
+   ...     volume_fraction=my_volume_fraction,
+   ... )
+
+   >>> # Get output data
+   >>> result_field = op.outputs.field()
+
+
+
+
+.. py:currentmodule:: element_nodal_contribution
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.geo.element_nodal_contribution import element_nodal_contribution
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsElementNodalContribution
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsElementNodalContribution
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

@@ -1,0 +1,156 @@
+
+
+
+
+
+
+:class:`transpose`
+==================
+
+.. py:class:: ansys.dpf.core.operators.scoping.transpose.transpose(mesh_scoping=None, meshed_region=None, inclusive=None, requested_location=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Transposes the input scoping or scopings container (Elemental/Faces
+   --> Nodal, or Nodal ---> Elemental/Faces), based on the input mesh
+   region.
+
+   :param mesh_scoping: Scoping or scopings container (the input type
+                        is the output type)
+   :type mesh_scoping: Scoping or ScopingsContainer
+   :param meshed_region:
+   :type meshed_region: MeshedRegion or MeshesContainer
+   :param inclusive: If inclusive == 1 then all the elements/faces
+                     adjacent to the nodes/faces ids in
+                     input are added, if inclusive == 0,
+                     only the elements/faces which have
+                     all their nodes/faces in the scoping
+                     are included
+   :type inclusive: int, optional
+   :param requested_location: Output scoping location for meshes with
+                              nodes, faces and elements. by
+                              default, elemental and faces scopings
+                              transpose to nodal, and nodal
+                              scopings transpose to elemental.
+   :type requested_location: str, optional
+
+   :returns: **mesh_scoping** -- Scoping or scopings container (the input type
+             is the output type)
+   :rtype: Scoping or ScopingsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.scoping.transpose()
+
+   >>> # Make input connections
+   >>> my_mesh_scoping = dpf.Scoping()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> my_meshed_region = dpf.MeshedRegion()
+   >>> op.inputs.meshed_region.connect(my_meshed_region)
+   >>> my_inclusive = int()
+   >>> op.inputs.inclusive.connect(my_inclusive)
+   >>> my_requested_location = str()
+   >>> op.inputs.requested_location.connect(my_requested_location)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.scoping.transpose(
+   ...     mesh_scoping=my_mesh_scoping,
+   ...     meshed_region=my_meshed_region,
+   ...     inclusive=my_inclusive,
+   ...     requested_location=my_requested_location,
+   ... )
+
+   >>> # Get output data
+   >>> result_mesh_scoping = op.outputs.mesh_scoping()
+
+
+
+
+.. py:currentmodule:: transpose
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.scoping.transpose import transpose
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsTranspose
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsTranspose
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

@@ -1,0 +1,193 @@
+
+
+
+
+
+
+:class:`mapdl_split_on_facet_indices`
+=====================================
+
+.. py:class:: ansys.dpf.core.operators.result.mapdl_split_on_facet_indices.mapdl_split_on_facet_indices(fields_container=None, property_field_new_elements_to_old=None, facet_indices=None, volume_mesh=None, degenerated_tets=None, non_degenerated_tets=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Splits each Field in a FieldsContainer defined on the skin elements of
+   a mesh according to the local facets indices of its corresponding
+   solid element. The output FieldsContainer retains the original
+   labels and adds a 'facet' label, which indicates at which facet of
+   the solid mesh was the original skin element located. The facet
+   ids are according to MAPDL convention. The scoping of the output
+   Fields reflects the element indices in the solid mesh.
+
+   :param fields_container: Fields container to split, with generic
+                            number of labels (e.g. time, zone,
+                            complex...), and the fields of the
+                            fieldscontainer will have location
+                            elemental and the scoping ids will be
+                            the element ids on the skin mesh.
+   :type fields_container: FieldsContainer
+   :param property_field_new_elements_to_old: This property field provides, for each new
+                                              face element id (in the scoping), the
+                                              corresponding 3d volume element index
+                                              (in the data) it has been extracted
+                                              from. the 3d volume element id can be
+                                              found with the element scoping of the
+                                              input mesh.
+   :type property_field_new_elements_to_old: PropertyField
+   :param facet_indices: This property field gives, for each new face
+                         element id (in the scoping), the
+                         corresponding face index on the
+                         source 3d volume element. the 3d
+                         volume element can be extracted from
+                         the previous output.
+   :type facet_indices: PropertyField
+   :param volume_mesh: The solid support.
+   :type volume_mesh: MeshedRegion
+   :param degenerated_tets: Elemental scoping of tet elements. if
+                            connected, the tets in the scoping
+                            are treated as degenerated tets
+                            (solid185), and the rest as non-
+                            degenerated tets (solid285). pins 185
+                            and 285 are mutually exclusionary
+                            (they cannot be connected at the same
+                            time), and if none of them is
+                            connected, all tets are treated as
+                            non-degenerated (solid285).
+   :type degenerated_tets: Scoping, optional
+   :param non_degenerated_tets: Elemental scoping of tet elements. if
+                                connected, the tets in the scoping
+                                are treated as non-degenerated tets
+                                (solid285), and the rest as
+                                degenerated tets (solid185). pins 185
+                                and 285 are mutually exclusionary
+                                (they cannot be connected at the same
+                                time), and if none of them is
+                                connected, all tets are treated as
+                                non-degenerated (solid285).
+   :type non_degenerated_tets: Scoping, optional
+
+   :returns: **fields_container** -- Output splitted fields containter
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.result.mapdl_split_on_facet_indices()
+
+   >>> # Make input connections
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_property_field_new_elements_to_old = dpf.PropertyField()
+   >>> op.inputs.property_field_new_elements_to_old.connect(my_property_field_new_elements_to_old)
+   >>> my_facet_indices = dpf.PropertyField()
+   >>> op.inputs.facet_indices.connect(my_facet_indices)
+   >>> my_volume_mesh = dpf.MeshedRegion()
+   >>> op.inputs.volume_mesh.connect(my_volume_mesh)
+   >>> my_degenerated_tets = dpf.Scoping()
+   >>> op.inputs.degenerated_tets.connect(my_degenerated_tets)
+   >>> my_non_degenerated_tets = dpf.Scoping()
+   >>> op.inputs.non_degenerated_tets.connect(my_non_degenerated_tets)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.result.mapdl_split_on_facet_indices(
+   ...     fields_container=my_fields_container,
+   ...     property_field_new_elements_to_old=my_property_field_new_elements_to_old,
+   ...     facet_indices=my_facet_indices,
+   ...     volume_mesh=my_volume_mesh,
+   ...     degenerated_tets=my_degenerated_tets,
+   ...     non_degenerated_tets=my_non_degenerated_tets,
+   ... )
+
+   >>> # Get output data
+   >>> result_fields_container = op.outputs.fields_container()
+
+
+
+
+.. py:currentmodule:: mapdl_split_on_facet_indices
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.mapdl_split_on_facet_indices import mapdl_split_on_facet_indices
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsMapdlSplitOnFacetIndices
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsMapdlSplitOnFacetIndices
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

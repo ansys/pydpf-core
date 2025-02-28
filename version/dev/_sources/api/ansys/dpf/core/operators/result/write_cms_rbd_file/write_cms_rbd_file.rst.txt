@@ -1,0 +1,230 @@
+
+
+
+
+
+
+:class:`write_cms_rbd_file`
+===========================
+
+.. py:class:: ansys.dpf.core.operators.result.write_cms_rbd_file.write_cms_rbd_file(model_data=None, center_of_mass=None, inertia_relief=None, model_size=None, master_node_coordinates=None, v_trsf=None, k_mat=None, mass_mat=None, c_mat=None, rhs=None, dn=None, dr_cross_n=None, drn=None, dn_cross_n=None, dnx_y=None, dny_y=None, dnz_y=None, dyx_n=None, dyy_n=None, dyz_n=None, dnxn=None, dnyn=None, dnzn=None, file_path=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Write the invariant terms and the model data in a cms_rbd file
+
+   :param model_data: Data describing the finite element model
+   :type model_data: PropertyField
+   :param center_of_mass: Center of mass of the body
+   :type center_of_mass: Field
+   :param inertia_relief: Inertia matrix
+   :type inertia_relief: Field
+   :param model_size: Size of the diagonal box containing the body
+   :type model_size: float
+   :param master_node_coordinates:
+   :param v_trsf: Translational and rotational shape functions
+   :param k_mat:
+   :type k_mat: Field
+   :param mass_mat:
+   :type mass_mat: Field
+   :param c_mat:
+   :type c_mat: Field
+   :param rhs:
+   :type rhs: Field
+   :param dn:
+   :param dr_cross_n:
+   :param drn:
+   :param dn_cross_n:
+   :param dnx_y:
+   :param dny_y:
+   :param dnz_y:
+   :param dyx_n:
+   :param dyy_n:
+   :param dyz_n:
+   :param dnxn:
+   :param dnyn:
+   :param dnzn:
+   :param file_path: Path with cms_rbd extension where the export
+                     occurs
+   :type file_path: str
+
+   :returns: **data_sources** -- Data source containing the cms_rbd file
+             generated.
+   :rtype: DataSources
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.result.write_cms_rbd_file()
+
+   >>> # Make input connections
+   >>> my_model_data = dpf.PropertyField()
+   >>> op.inputs.model_data.connect(my_model_data)
+   >>> my_center_of_mass = dpf.Field()
+   >>> op.inputs.center_of_mass.connect(my_center_of_mass)
+   >>> my_inertia_relief = dpf.Field()
+   >>> op.inputs.inertia_relief.connect(my_inertia_relief)
+   >>> my_model_size = float()
+   >>> op.inputs.model_size.connect(my_model_size)
+   >>> my_master_node_coordinates = dpf.()
+   >>> op.inputs.master_node_coordinates.connect(my_master_node_coordinates)
+   >>> my_v_trsf = dpf.()
+   >>> op.inputs.v_trsf.connect(my_v_trsf)
+   >>> my_k_mat = dpf.Field()
+   >>> op.inputs.k_mat.connect(my_k_mat)
+   >>> my_mass_mat = dpf.Field()
+   >>> op.inputs.mass_mat.connect(my_mass_mat)
+   >>> my_c_mat = dpf.Field()
+   >>> op.inputs.c_mat.connect(my_c_mat)
+   >>> my_rhs = dpf.Field()
+   >>> op.inputs.rhs.connect(my_rhs)
+   >>> my_dn = dpf.()
+   >>> op.inputs.dn.connect(my_dn)
+   >>> my_dr_cross_n = dpf.()
+   >>> op.inputs.dr_cross_n.connect(my_dr_cross_n)
+   >>> my_drn = dpf.()
+   >>> op.inputs.drn.connect(my_drn)
+   >>> my_dn_cross_n = dpf.()
+   >>> op.inputs.dn_cross_n.connect(my_dn_cross_n)
+   >>> my_dnx_y = dpf.()
+   >>> op.inputs.dnx_y.connect(my_dnx_y)
+   >>> my_dny_y = dpf.()
+   >>> op.inputs.dny_y.connect(my_dny_y)
+   >>> my_dnz_y = dpf.()
+   >>> op.inputs.dnz_y.connect(my_dnz_y)
+   >>> my_dyx_n = dpf.()
+   >>> op.inputs.dyx_n.connect(my_dyx_n)
+   >>> my_dyy_n = dpf.()
+   >>> op.inputs.dyy_n.connect(my_dyy_n)
+   >>> my_dyz_n = dpf.()
+   >>> op.inputs.dyz_n.connect(my_dyz_n)
+   >>> my_dnxn = dpf.()
+   >>> op.inputs.dnxn.connect(my_dnxn)
+   >>> my_dnyn = dpf.()
+   >>> op.inputs.dnyn.connect(my_dnyn)
+   >>> my_dnzn = dpf.()
+   >>> op.inputs.dnzn.connect(my_dnzn)
+   >>> my_file_path = str()
+   >>> op.inputs.file_path.connect(my_file_path)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.result.write_cms_rbd_file(
+   ...     model_data=my_model_data,
+   ...     center_of_mass=my_center_of_mass,
+   ...     inertia_relief=my_inertia_relief,
+   ...     model_size=my_model_size,
+   ...     master_node_coordinates=my_master_node_coordinates,
+   ...     v_trsf=my_v_trsf,
+   ...     k_mat=my_k_mat,
+   ...     mass_mat=my_mass_mat,
+   ...     c_mat=my_c_mat,
+   ...     rhs=my_rhs,
+   ...     dn=my_dn,
+   ...     dr_cross_n=my_dr_cross_n,
+   ...     drn=my_drn,
+   ...     dn_cross_n=my_dn_cross_n,
+   ...     dnx_y=my_dnx_y,
+   ...     dny_y=my_dny_y,
+   ...     dnz_y=my_dnz_y,
+   ...     dyx_n=my_dyx_n,
+   ...     dyy_n=my_dyy_n,
+   ...     dyz_n=my_dyz_n,
+   ...     dnxn=my_dnxn,
+   ...     dnyn=my_dnyn,
+   ...     dnzn=my_dnzn,
+   ...     file_path=my_file_path,
+   ... )
+
+   >>> # Get output data
+   >>> result_data_sources = op.outputs.data_sources()
+
+
+
+
+.. py:currentmodule:: write_cms_rbd_file
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.write_cms_rbd_file import write_cms_rbd_file
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsWriteCmsRbdFile
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsWriteCmsRbdFile
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

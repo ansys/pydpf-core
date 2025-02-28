@@ -1,0 +1,134 @@
+
+
+
+
+
+
+:class:`identical_string_fields`
+================================
+
+.. py:class:: ansys.dpf.core.operators.logic.identical_string_fields.identical_string_fields(string_fieldA=None, string_fieldB=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Takes two string fields and compares them.
+
+   :param string_fieldA:
+   :type string_fieldA: StringField
+   :param string_fieldB:
+   :type string_fieldB: StringField
+
+   :returns: * **are_identical** (*bool*)
+             * **information** (*str*)
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.logic.identical_string_fields()
+
+   >>> # Make input connections
+   >>> my_string_fieldA = dpf.StringField()
+   >>> op.inputs.string_fieldA.connect(my_string_fieldA)
+   >>> my_string_fieldB = dpf.StringField()
+   >>> op.inputs.string_fieldB.connect(my_string_fieldB)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.logic.identical_string_fields(
+   ...     string_fieldA=my_string_fieldA,
+   ...     string_fieldB=my_string_fieldB,
+   ... )
+
+   >>> # Get output data
+   >>> result_are_identical = op.outputs.are_identical()
+   >>> result_information = op.outputs.information()
+
+
+
+
+.. py:currentmodule:: identical_string_fields
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.logic.identical_string_fields import identical_string_fields
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsIdenticalStringFields
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsIdenticalStringFields
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

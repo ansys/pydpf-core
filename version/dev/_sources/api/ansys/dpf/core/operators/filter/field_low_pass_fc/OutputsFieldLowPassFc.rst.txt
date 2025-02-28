@@ -1,0 +1,80 @@
+
+
+
+
+
+
+:class:`OutputsFieldLowPassFc`
+==============================
+
+.. py:class:: ansys.dpf.core.operators.filter.field_low_pass_fc.OutputsFieldLowPassFc(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   field_low_pass_fc operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.filter.field_low_pass_fc()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_fields_container = op.outputs.fields_container()
+
+
+
+.. py:currentmodule:: OutputsFieldLowPassFc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fields_container`
+            - Allows to get fields_container output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.filter.field_low_pass_fc import OutputsFieldLowPassFc
+
+Property detail
+---------------
+
+.. py:property:: fields_container
+
+   Allows to get fields_container output of the operator
+
+   :returns: **my_fields_container**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.filter.field_low_pass_fc()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_fields_container = op.outputs.fields_container()
+
+
+
+
+
+

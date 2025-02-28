@@ -1,0 +1,80 @@
+
+
+
+
+
+
+:class:`OutputsMergeScopings`
+=============================
+
+.. py:class:: ansys.dpf.core.operators.utility.merge_scopings.OutputsMergeScopings(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   merge_scopings operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_scopings()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_merged_scoping = op.outputs.merged_scoping()
+
+
+
+.. py:currentmodule:: OutputsMergeScopings
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~merged_scoping`
+            - Allows to get merged_scoping output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.merge_scopings import OutputsMergeScopings
+
+Property detail
+---------------
+
+.. py:property:: merged_scoping
+
+   Allows to get merged_scoping output of the operator
+
+   :returns: **my_merged_scoping**
+   :rtype: Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_scopings()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_merged_scoping = op.outputs.merged_scoping()
+
+
+
+
+
+

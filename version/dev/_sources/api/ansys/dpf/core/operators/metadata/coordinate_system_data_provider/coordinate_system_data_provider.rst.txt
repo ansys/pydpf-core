@@ -1,0 +1,144 @@
+
+
+
+
+
+
+:class:`coordinate_system_data_provider`
+========================================
+
+.. py:class:: ansys.dpf.core.operators.metadata.coordinate_system_data_provider.coordinate_system_data_provider(solver_coordinate_system_ids=None, streams=None, data_sources=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Reads coordinate systems data from the result files contained in the
+   streams or data sources.
+
+   :param solver_coordinate_system_ids: Coorfinate system ids to recover used by the
+                                        solver. if not set, all available
+                                        materials to be recovered.
+   :type solver_coordinate_system_ids: int, optional
+   :param streams: Result file container allowed to be kept open
+                   to cache data.
+   :type streams: StreamsContainer, optional
+   :param data_sources: Result file path container, used if no
+                        streams are set.
+   :type data_sources: DataSources
+
+   :returns: * **coordinate_system_data1** (*GenericDataContainer*)
+             * **coordinate_system_data2** (*GenericDataContainer*)
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.metadata.coordinate_system_data_provider()
+
+   >>> # Make input connections
+   >>> my_solver_coordinate_system_ids = int()
+   >>> op.inputs.solver_coordinate_system_ids.connect(my_solver_coordinate_system_ids)
+   >>> my_streams = dpf.StreamsContainer()
+   >>> op.inputs.streams.connect(my_streams)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.metadata.coordinate_system_data_provider(
+   ...     solver_coordinate_system_ids=my_solver_coordinate_system_ids,
+   ...     streams=my_streams,
+   ...     data_sources=my_data_sources,
+   ... )
+
+   >>> # Get output data
+   >>> result_coordinate_system_data1 = op.outputs.coordinate_system_data1()
+   >>> result_coordinate_system_data2 = op.outputs.coordinate_system_data2()
+
+
+
+
+.. py:currentmodule:: coordinate_system_data_provider
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.metadata.coordinate_system_data_provider import coordinate_system_data_provider
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsCoordinateSystemDataProvider
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsCoordinateSystemDataProvider
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

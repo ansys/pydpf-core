@@ -1,0 +1,165 @@
+
+
+
+
+
+
+:class:`OutputsSpectrumData`
+============================
+
+.. py:class:: ansys.dpf.core.operators.result.spectrum_data.OutputsSpectrumData(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   spectrum_data operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.spectrum_data()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_participation_factors = op.outputs.participation_factors()
+   >>> result_mode_coefficients = op.outputs.mode_coefficients()
+   >>> result_damping_ratios = op.outputs.damping_ratios()
+   >>> result_global_damping = op.outputs.global_damping()
+   >>> result_missing_mass = op.outputs.missing_mass()
+   >>> result_rigid_response = op.outputs.rigid_response()
+
+
+
+.. py:currentmodule:: OutputsSpectrumData
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~participation_factors`
+            - Allows to get participation_factors output of the operator
+          * - :py:attr:`~mode_coefficients`
+            - Allows to get mode_coefficients output of the operator
+          * - :py:attr:`~damping_ratios`
+            - Allows to get damping_ratios output of the operator
+          * - :py:attr:`~global_damping`
+            - Allows to get global_damping output of the operator
+          * - :py:attr:`~missing_mass`
+            - Allows to get missing_mass output of the operator
+          * - :py:attr:`~rigid_response`
+            - Allows to get rigid_response output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.spectrum_data import OutputsSpectrumData
+
+Property detail
+---------------
+
+.. py:property:: participation_factors
+
+   Allows to get participation_factors output of the operator
+
+   :returns: **my_participation_factors**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.spectrum_data()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_participation_factors = op.outputs.participation_factors()
+
+.. py:property:: mode_coefficients
+
+   Allows to get mode_coefficients output of the operator
+
+   :returns: **my_mode_coefficients**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.spectrum_data()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_mode_coefficients = op.outputs.mode_coefficients()
+
+.. py:property:: damping_ratios
+
+   Allows to get damping_ratios output of the operator
+
+   :returns: **my_damping_ratios**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.spectrum_data()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_damping_ratios = op.outputs.damping_ratios()
+
+.. py:property:: global_damping
+
+   Allows to get global_damping output of the operator
+
+   :returns: **my_global_damping**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.spectrum_data()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_global_damping = op.outputs.global_damping()
+
+.. py:property:: missing_mass
+
+   Allows to get missing_mass output of the operator
+
+   :returns: **my_missing_mass**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.spectrum_data()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_missing_mass = op.outputs.missing_mass()
+
+.. py:property:: rigid_response
+
+   Allows to get rigid_response output of the operator
+
+   :returns: **my_rigid_response**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.spectrum_data()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_rigid_response = op.outputs.rigid_response()
+
+
+
+
+
+

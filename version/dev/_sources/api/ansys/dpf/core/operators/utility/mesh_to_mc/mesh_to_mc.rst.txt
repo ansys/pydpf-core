@@ -1,0 +1,135 @@
+
+
+
+
+
+
+:class:`mesh_to_mc`
+===================
+
+.. py:class:: ansys.dpf.core.operators.utility.mesh_to_mc.mesh_to_mc(mesh=None, label=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Creates a meshes container containing the mesh provided on pin 0.
+
+   :param mesh: If a meshes container is set in input, it is
+                passed on as an output with the
+                additional label space (if any).
+   :type mesh: MeshedRegion or MeshesContainer
+   :param label: Sets a label space.
+   :type label: dict
+
+   :returns: **meshes_container**
+   :rtype: MeshesContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.utility.mesh_to_mc()
+
+   >>> # Make input connections
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_label = dict()
+   >>> op.inputs.label.connect(my_label)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.utility.mesh_to_mc(
+   ...     mesh=my_mesh,
+   ...     label=my_label,
+   ... )
+
+   >>> # Get output data
+   >>> result_meshes_container = op.outputs.meshes_container()
+
+
+
+
+.. py:currentmodule:: mesh_to_mc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.mesh_to_mc import mesh_to_mc
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsMeshToMc
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsMeshToMc
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

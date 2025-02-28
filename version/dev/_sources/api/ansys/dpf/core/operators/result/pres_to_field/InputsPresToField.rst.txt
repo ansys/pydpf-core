@@ -1,0 +1,104 @@
+
+
+
+
+
+
+:class:`InputsPresToField`
+==========================
+
+.. py:class:: ansys.dpf.core.operators.result.pres_to_field.InputsPresToField(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   pres_to_field operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.pres_to_field()
+   >>> my_filepath = str()
+   >>> op.inputs.filepath.connect(my_filepath)
+   >>> my_columns_to_read = int()
+   >>> op.inputs.columns_to_read.connect(my_columns_to_read)
+
+
+
+.. py:currentmodule:: InputsPresToField
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~filepath`
+            - Allows to connect filepath input to the operator.
+          * - :py:attr:`~columns_to_read`
+            - Allows to connect columns_to_read input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.pres_to_field import InputsPresToField
+
+Property detail
+---------------
+
+.. py:property:: filepath
+
+   Allows to connect filepath input to the operator.
+
+   Filepath
+
+   :param my_filepath:
+   :type my_filepath: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.pres_to_field()
+   >>> op.inputs.filepath.connect(my_filepath)
+   >>> # or
+   >>> op.inputs.filepath(my_filepath)
+
+.. py:property:: columns_to_read
+
+   Allows to connect columns_to_read input to the operator.
+
+   Columns_to_read
+
+   :param my_columns_to_read:
+   :type my_columns_to_read: int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.pres_to_field()
+   >>> op.inputs.columns_to_read.connect(my_columns_to_read)
+   >>> # or
+   >>> op.inputs.columns_to_read(my_columns_to_read)
+
+
+
+
+
+

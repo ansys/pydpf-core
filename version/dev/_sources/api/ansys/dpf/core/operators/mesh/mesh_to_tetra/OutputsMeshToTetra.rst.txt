@@ -1,0 +1,114 @@
+
+
+
+
+
+
+:class:`OutputsMeshToTetra`
+===========================
+
+.. py:class:: ansys.dpf.core.operators.mesh.mesh_to_tetra.OutputsMeshToTetra(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   mesh_to_tetra operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.mesh_to_tetra()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_mesh = op.outputs.mesh()
+   >>> result_node_mapping = op.outputs.node_mapping()
+   >>> result_element_mapping = op.outputs.element_mapping()
+
+
+
+.. py:currentmodule:: OutputsMeshToTetra
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~mesh`
+            - Allows to get mesh output of the operator
+          * - :py:attr:`~node_mapping`
+            - Allows to get node_mapping output of the operator
+          * - :py:attr:`~element_mapping`
+            - Allows to get element_mapping output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mesh.mesh_to_tetra import OutputsMeshToTetra
+
+Property detail
+---------------
+
+.. py:property:: mesh
+
+   Allows to get mesh output of the operator
+
+   :returns: **my_mesh**
+   :rtype: MeshedRegion
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.mesh_to_tetra()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_mesh = op.outputs.mesh()
+
+.. py:property:: node_mapping
+
+   Allows to get node_mapping output of the operator
+
+   :returns: **my_node_mapping**
+   :rtype: Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.mesh_to_tetra()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_node_mapping = op.outputs.node_mapping()
+
+.. py:property:: element_mapping
+
+   Allows to get element_mapping output of the operator
+
+   :returns: **my_element_mapping**
+   :rtype: Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.mesh_to_tetra()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_element_mapping = op.outputs.element_mapping()
+
+
+
+
+
+

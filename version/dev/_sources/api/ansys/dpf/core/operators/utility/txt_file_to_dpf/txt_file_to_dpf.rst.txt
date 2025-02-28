@@ -1,0 +1,130 @@
+
+
+
+
+
+
+:class:`txt_file_to_dpf`
+========================
+
+.. py:class:: ansys.dpf.core.operators.utility.txt_file_to_dpf.txt_file_to_dpf(input_string=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Take an input string and parse it into dataProcessing type.
+
+   :param input_string: Ex: 'double:1.0', 'int:1',
+                        'vector<double>:1.0;1.0'
+   :type input_string: str
+
+   :returns: * *any_output1* -- Any output
+             * *any_output2* -- Any output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.utility.txt_file_to_dpf()
+
+   >>> # Make input connections
+   >>> my_input_string = str()
+   >>> op.inputs.input_string.connect(my_input_string)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.utility.txt_file_to_dpf(
+   ...     input_string=my_input_string,
+   ... )
+
+   >>> # Get output data
+   >>> result_any_output1 = op.outputs.any_output1()
+   >>> result_any_output2 = op.outputs.any_output2()
+
+
+
+
+.. py:currentmodule:: txt_file_to_dpf
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.txt_file_to_dpf import txt_file_to_dpf
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsTxtFileToDpf
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsTxtFileToDpf
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

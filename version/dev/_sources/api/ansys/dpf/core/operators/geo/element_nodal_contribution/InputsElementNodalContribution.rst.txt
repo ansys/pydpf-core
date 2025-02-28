@@ -1,0 +1,127 @@
+
+
+
+
+
+
+:class:`InputsElementNodalContribution`
+=======================================
+
+.. py:class:: ansys.dpf.core.operators.geo.element_nodal_contribution.InputsElementNodalContribution(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   element_nodal_contribution operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.geo.element_nodal_contribution()
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_scoping = dpf.Scoping()
+   >>> op.inputs.scoping.connect(my_scoping)
+   >>> my_volume_fraction = bool()
+   >>> op.inputs.volume_fraction.connect(my_volume_fraction)
+
+
+
+.. py:currentmodule:: InputsElementNodalContribution
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~mesh`
+            - Allows to connect mesh input to the operator.
+          * - :py:attr:`~scoping`
+            - Allows to connect scoping input to the operator.
+          * - :py:attr:`~volume_fraction`
+            - Allows to connect volume_fraction input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.geo.element_nodal_contribution import InputsElementNodalContribution
+
+Property detail
+---------------
+
+.. py:property:: mesh
+
+   Allows to connect mesh input to the operator.
+
+   :param my_mesh:
+   :type my_mesh: MeshedRegion
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.geo.element_nodal_contribution()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> # or
+   >>> op.inputs.mesh(my_mesh)
+
+.. py:property:: scoping
+
+   Allows to connect scoping input to the operator.
+
+   Integrate the input field over a specific
+   scoping.
+
+   :param my_scoping:
+   :type my_scoping: Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.geo.element_nodal_contribution()
+   >>> op.inputs.scoping.connect(my_scoping)
+   >>> # or
+   >>> op.inputs.scoping(my_scoping)
+
+.. py:property:: volume_fraction
+
+   Allows to connect volume_fraction input to the operator.
+
+   If true, returns influence volume, area or
+   length. if false, the values are
+   normalized with the element volume,
+   area or length. default: true.
+
+   :param my_volume_fraction:
+   :type my_volume_fraction: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.geo.element_nodal_contribution()
+   >>> op.inputs.volume_fraction.connect(my_volume_fraction)
+   >>> # or
+   >>> op.inputs.volume_fraction(my_volume_fraction)
+
+
+
+
+
+

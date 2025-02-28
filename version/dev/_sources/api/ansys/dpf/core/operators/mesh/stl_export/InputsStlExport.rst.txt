@@ -1,0 +1,100 @@
+
+
+
+
+
+
+:class:`InputsStlExport`
+========================
+
+.. py:class:: ansys.dpf.core.operators.mesh.stl_export.InputsStlExport(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   stl_export operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.stl_export()
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_file_path = str()
+   >>> op.inputs.file_path.connect(my_file_path)
+
+
+
+.. py:currentmodule:: InputsStlExport
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~mesh`
+            - Allows to connect mesh input to the operator.
+          * - :py:attr:`~file_path`
+            - Allows to connect file_path input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mesh.stl_export import InputsStlExport
+
+Property detail
+---------------
+
+.. py:property:: mesh
+
+   Allows to connect mesh input to the operator.
+
+   :param my_mesh:
+   :type my_mesh: MeshedRegion
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.stl_export()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> # or
+   >>> op.inputs.mesh(my_mesh)
+
+.. py:property:: file_path
+
+   Allows to connect file_path input to the operator.
+
+   :param my_file_path:
+   :type my_file_path: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.stl_export()
+   >>> op.inputs.file_path.connect(my_file_path)
+   >>> # or
+   >>> op.inputs.file_path(my_file_path)
+
+
+
+
+
+

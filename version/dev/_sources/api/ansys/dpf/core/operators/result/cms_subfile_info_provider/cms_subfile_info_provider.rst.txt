@@ -1,0 +1,150 @@
+
+
+
+
+
+
+:class:`cms_subfile_info_provider`
+==================================
+
+.. py:class:: ansys.dpf.core.operators.result.cms_subfile_info_provider.cms_subfile_info_provider(data_sources=None, cms_subfile_data=None, output_maxdof_on_masternodes=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Read required information from a subfile.
+
+   :param data_sources: Data_sources (must contain at least one
+                        subfile).
+   :type data_sources: DataSources
+   :param cms_subfile_data: If this pin i set to true, data are return in
+                            a field.
+   :type cms_subfile_data: bool
+   :param output_maxdof_on_masternodes: If this pin is set to true, compute and add
+                                        field with max degrees of freedom on
+                                        master nodes
+   :type output_maxdof_on_masternodes: bool, optional
+
+   :returns: * **int32** (*int*) -- Returns integer values in the order : unit
+               system used, stiffness matrix present
+               key, damping matrix present key, mass
+               matrix present key, number of master
+               nodes, number of virtual nodes
+             * **field** (*PropertyField*) -- Returns integer values in the order : number
+               of load vectors (nvects), number of
+               nodes (nnod), number of virtual nodes
+               (nvnodes), number of modes (nvmodes)
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.result.cms_subfile_info_provider()
+
+   >>> # Make input connections
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_cms_subfile_data = bool()
+   >>> op.inputs.cms_subfile_data.connect(my_cms_subfile_data)
+   >>> my_output_maxdof_on_masternodes = bool()
+   >>> op.inputs.output_maxdof_on_masternodes.connect(my_output_maxdof_on_masternodes)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.result.cms_subfile_info_provider(
+   ...     data_sources=my_data_sources,
+   ...     cms_subfile_data=my_cms_subfile_data,
+   ...     output_maxdof_on_masternodes=my_output_maxdof_on_masternodes,
+   ... )
+
+   >>> # Get output data
+   >>> result_int32 = op.outputs.int32()
+   >>> result_field = op.outputs.field()
+
+
+
+
+.. py:currentmodule:: cms_subfile_info_provider
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.cms_subfile_info_provider import cms_subfile_info_provider
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsCmsSubfileInfoProvider
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsCmsSubfileInfoProvider
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+
