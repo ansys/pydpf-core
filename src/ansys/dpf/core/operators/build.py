@@ -101,6 +101,8 @@ def build_pin_data(pins, output=False):
             "document": document,
             "document_pin_docstring": document_pin_docstring,
             "ellipsis": 0 if specification.ellipsis else -1,
+            "has_aliases": len(specification.aliases) > 0,
+            "aliases": str(specification.aliases),
         }
 
         if specification.ellipsis:
@@ -127,11 +129,13 @@ def build_operator(
     input_pins = []
     if specification.inputs:
         input_pins = build_pin_data(specification.inputs)
+    has_input_aliases = any(len(pin["aliases"]) > len("[]") for pin in input_pins)
 
     output_pins = []
     if specification.outputs:
         output_pins = build_pin_data(specification.outputs, output=True)
     multiple_output_types = any(pin["multiple_types"] for pin in output_pins)
+    has_output_aliases = any(len(pin["aliases"]) > len("[]") for pin in output_pins)
 
     docstring = build_docstring(specification_description)
 
@@ -150,6 +154,8 @@ def build_operator(
         "multiple_output_types": multiple_output_types,
         "category": category,
         "date_and_time": date_and_time,
+        "has_input_aliases": has_input_aliases,
+        "has_output_aliases": has_output_aliases,
     }
 
     this_path = os.path.dirname(os.path.abspath(__file__))
