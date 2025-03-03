@@ -82,7 +82,7 @@ class {{class_name}}(Operator):
     {{/outputs}}
     """
 
-    def __init__(self, {{#input_pins}}{{name}}=None, {{/input_pins}}config=None, server=None):
+def __init__(self, {{#input_pins}}{{name}}=None, {{/input_pins}}config=None, server=None, {{#input_pins}}{{#aliases}}{{{name}}}=None, {{/aliases}}{{/input_pins}}):
         super().__init__(name="{{operator_name}}", config=config, server=server)
         self._inputs = Inputs{{capital_class_name}}(self)
         self._outputs = Outputs{{capital_class_name}}(self)
