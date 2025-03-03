@@ -170,7 +170,7 @@ def build_operator(
 
 
 def build_operators():
-    print(f"Generating operators for server {dpf.SERVER.version}")
+    print(f"Generating operators for server {dpf.SERVER.version} ({dpf.SERVER.ansys_path})")
     time_0 = time.time()
 
     this_path = os.path.dirname(os.path.abspath(__file__))
