@@ -52,7 +52,7 @@ from ansys.dpf.core._version import min_server_version, server_to_ansys_version
 from ansys.dpf.core.check_version import server_meet_version
 from ansys.dpf.gate import data_processing_grpcapi, load_api
 
-if TYPE_CHECKING:
+if TYPE_CHECKING:  # pragma: no cover
     from ansys.dpf.core.server_factory import DockerConfig
 
 import logging

@@ -22,11 +22,21 @@
 
 """Field."""
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 import numpy as np
 
 from ansys import dpf
 from ansys.dpf.core import dimensionality, errors, meshed_region, scoping, time_freq_support
-from ansys.dpf.core.common import _get_size_of_list, locations, natures, types
+from ansys.dpf.core.common import (
+    _get_size_of_list,
+    locations,
+    natures,
+    shell_layers as eshell_layers,
+    types,
+)
 from ansys.dpf.core.field_base import _FieldBase, _LocalFieldBase
 from ansys.dpf.core.field_definition import FieldDefinition
 from ansys.dpf.gate import (
@@ -36,6 +46,12 @@ from ansys.dpf.gate import (
     field_capi,
     field_grpcapi,
 )
+from ansys.dpf.gate.errors import DPFServerException
+
+if TYPE_CHECKING:  # pragma: nocover
+    from ansys.dpf.core.dpf_operator import Operator
+    from ansys.dpf.core.meshed_region import MeshedRegion
+    from ansys.dpf.core.results import Result
 
 
 class Field(_FieldBase):
@@ -500,7 +516,14 @@ class Field(_FieldBase):
         op.inputs.connect(self)
         return op.outputs.field()
 
-    def plot(self, shell_layers=None, deform_by=None, scale_factor=1.0, **kwargs):
+    def plot(
+        self,
+        shell_layers: eshell_layers = None,
+        deform_by: Union[Field, Result, Operator] = None,
+        scale_factor: float = 1.0,
+        meshed_region: MeshedRegion = None,
+        **kwargs,
+    ):
         """Plot the field or fields container on the mesh support if it exists.
 
         Warning
@@ -522,21 +545,24 @@ class Field(_FieldBase):
 
         Parameters
         ----------
-        shell_layers : shell_layers, optional
+        shell_layers:
             Enum used to set the shell layers if the model to plot
-            contains shell elements. The default is ``None``.
-        deform_by : Field, Result, Operator, optional
+            contains shell elements. Defaults to the top layer.
+        deform_by:
             Used to deform the plotted mesh. Must output a 3D vector field.
-            Defaults to None.
-        scale_factor : float, optional
-            Scaling factor to apply when warping the mesh. Defaults to 1.0.
-        **kwargs : optional
+        scale_factor:
+            Scaling factor to apply when warping the mesh.
+        meshed_region:
+            Mesh to plot the field on.
+        **kwargs:
             Additional keyword arguments for the plotter. For additional keyword
             arguments, see ``help(pyvista.plot)``.
         """
         from ansys.dpf.core.plotter import Plotter
 
-        pl = Plotter(self.meshed_region, **kwargs)
+        if meshed_region is None:
+            meshed_region = self.meshed_region
+        pl = Plotter(meshed_region, **kwargs)
         return pl.plot_contour(
             self,
             shell_layers,
@@ -691,7 +717,7 @@ class Field(_FieldBase):
     def field_definition(self, value):
         return self._set_field_definition(value)
 
-    def _get_meshed_region(self):
+    def _get_meshed_region(self) -> MeshedRegion:
         """Retrieve the meshed region.
 
         Returns
@@ -699,8 +725,15 @@ class Field(_FieldBase):
         :class:`ansys.dpf.core.meshed_region.MeshedRegion`
 
         """
+        try:
+            support = self._api.csfield_get_support_as_meshed_region(self)
+        except DPFServerException as e:
+            if "the field doesn't have this support type" in str(e):
+                support = None
+            else:
+                raise e
         return meshed_region.MeshedRegion(
-            mesh=self._api.csfield_get_support_as_meshed_region(self),
+            mesh=support,
             server=self._server,
         )
 
@@ -736,7 +769,7 @@ class Field(_FieldBase):
         self._api.csfield_set_support(self, value)
 
     @property
-    def meshed_region(self):
+    def meshed_region(self) -> MeshedRegion:
         """Meshed region of the field.
 
         Return
@@ -747,8 +780,8 @@ class Field(_FieldBase):
         return self._get_meshed_region()
 
     @meshed_region.setter
-    def meshed_region(self, value):
-        self._set_support(value, "MESHED_REGION")
+    def meshed_region(self, value: MeshedRegion):
+        self._set_support(support=value, support_type="MESHED_REGION")
 
     def __add__(self, field_b):
         """Add two fields.
