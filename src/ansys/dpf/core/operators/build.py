@@ -234,6 +234,7 @@ def build_operators():
         # Write to operator file
         operator_file = os.path.join(category_path, scripting_name + ".py")
         with open(operator_file, "wb") as f:
+            operator_str = scripting_name
             try:
                 operator_str = build_operator(
                     specification,
