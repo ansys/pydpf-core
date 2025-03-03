@@ -88,6 +88,14 @@ class OperatorSpecificationAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def operator_specification_set_pin_aliases(specification, var1, position, n_aliases, aliases):
+		raise NotImplementedError
+
+	@staticmethod
+	def operator_specification_add_pin_alias(specification, var1, position, alias):
+		raise NotImplementedError
+
+	@staticmethod
 	def operator_specification_add_bool_config_option(specification, option_name, default_value, description):
 		raise NotImplementedError
 
@@ -125,6 +133,14 @@ class OperatorSpecificationAbstractAPI:
 
 	@staticmethod
 	def operator_specification_get_pin_derived_class_type_name(specification, binput, numPin):
+		raise NotImplementedError
+
+	@staticmethod
+	def operator_specification_get_pin_num_aliases(specification, binput, numPin):
+		raise NotImplementedError
+
+	@staticmethod
+	def operator_specification_get_pin_alias(specification, binput, numPin, numAlias):
 		raise NotImplementedError
 
 	@staticmethod
