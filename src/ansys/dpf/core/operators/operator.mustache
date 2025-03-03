@@ -269,9 +269,9 @@ class Outputs{{capital_class_name}}(_Outputs):
         self._outputs.append(self._{{name}})
         {{/multiple_types}}
         {{/output_pins}}
-
 {{#output_pins}}
 {{^multiple_types}}
+
     @property
     def {{name}}(self) -> Output:
         r"""Allows to get {{name}} output of the operator
@@ -293,8 +293,8 @@ class Outputs{{capital_class_name}}(_Outputs):
         >>> result_{{name}} = op.outputs.{{name}}()
         """
         return self._{{name}}
-    {{/multiple_types}}{{/output_pins}}
-    {{#has_output_aliases}}
+{{/multiple_types}}{{/output_pins}}
+{{#has_output_aliases}}
 
     def __getattr__(self, name):
         {{#output_pins}}
@@ -305,4 +305,4 @@ class Outputs{{capital_class_name}}(_Outputs):
         {{/has_aliases}}
         {{/output_pins}}
         raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{name}'.")
-    {{/has_output_aliases}}
+{{/has_output_aliases}}
