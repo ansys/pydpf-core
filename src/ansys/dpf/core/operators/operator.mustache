@@ -92,6 +92,7 @@ class {{class_name}}(Operator):
         {{#has_input_aliases}}
         {{#aliases_list}}
         elif {{alias}} is not None:
+            warn(DeprecationWarning(f"Operator {{class_name}}: Input name \"{{alias}}\" is deprecated in favor of \"{{name}}\"."))
             self.inputs.{{name}}.connect({{alias}})
         {{/aliases_list}}
         {{/has_input_aliases}}
