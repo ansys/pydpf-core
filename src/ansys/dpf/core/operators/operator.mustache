@@ -82,13 +82,19 @@ class {{class_name}}(Operator):
     {{/outputs}}
     """
 
-    def __init__(self, {{#input_pins}}{{name}}=None, {{/input_pins}}config=None, server=None):
+    def __init__(self, {{#input_pins}}{{name}}=None, {{/input_pins}}config=None, server=None{{#has_input_aliases}}, {{#input_pins}}{{#aliases_list}}{{alias}}=None, {{/aliases_list}}{{/input_pins}}{{/has_input_aliases}}):
         super().__init__(name="{{operator_name}}", config=config, server=server)
         self._inputs = Inputs{{capital_class_name}}(self)
         self._outputs = Outputs{{capital_class_name}}(self)
         {{#input_pins}}
         if {{name}} is not None:
             self.inputs.{{name}}.connect({{name}})
+        {{#has_input_aliases}}
+        {{#aliases_list}}
+        elif {{alias}} is not None:
+            self.inputs.{{name}}.connect({{alias}})
+        {{/aliases_list}}
+        {{/has_input_aliases}}
         {{/input_pins}}
 
     @staticmethod
