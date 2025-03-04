@@ -27,6 +27,10 @@ import pytest
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import Workflow, examples, misc
+from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0
+
+if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0:
+    pytest.skip("skipping retro temporarily", allow_module_level=True)
 
 if misc.module_exists("pyvista"):
     HAS_PYVISTA = True
