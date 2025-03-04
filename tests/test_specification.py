@@ -23,8 +23,13 @@
 import pytest
 
 import ansys.dpf.core as dpf
+from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0
 
 
+@pytest.mark.skipif(
+    condition=not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
+    reason="Aliases available with DPF 10.0 (25R2).",
+)
 def test_pin_alias(server_type):
     field = dpf.fields_factory.create_scalar_field(
         num_entities=1, location=dpf.locations.nodal, server=server_type
