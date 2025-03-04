@@ -67,6 +67,7 @@ class accumulate_fc(Operator):
         time_scoping=None,
         config=None,
         server=None,
+        ponderation=None,
     ):
         super().__init__(name="accumulate_fc", config=config, server=server)
         self._inputs = InputsAccumulateFc(self)
@@ -75,6 +76,13 @@ class accumulate_fc(Operator):
             self.inputs.fields_container.connect(fields_container)
         if weights is not None:
             self.inputs.weights.connect(weights)
+        elif ponderation is not None:
+            warn(
+                DeprecationWarning(
+                    f'Operator accumulate_fc: Input name "ponderation" is deprecated in favor of "weights".'
+                )
+            )
+            self.inputs.weights.connect(ponderation)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
 
@@ -97,6 +105,7 @@ point.
                     type_names=["field"],
                     optional=True,
                     document=r"""Field containing weights, one weight per entity""",
+                    aliases=["ponderation"],
                 ),
                 2: PinSpecification(
                     name="time_scoping",
@@ -247,6 +256,18 @@ class InputsAccumulateFc(_Inputs):
         >>> op.inputs.time_scoping(my_time_scoping)
         """
         return self._time_scoping
+
+    def __getattr__(self, name):
+        if name in ["ponderation"]:
+            warn(
+                DeprecationWarning(
+                    f'Operator accumulate_fc: Input name "{name}" is deprecated in favor of "weights".'
+                )
+            )
+            return self.weights
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
 
 
 class OutputsAccumulateFc(_Outputs):

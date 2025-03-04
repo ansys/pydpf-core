@@ -74,6 +74,7 @@ class scale(Operator):
         algorithm=None,
         config=None,
         server=None,
+        ponderation=None,
     ):
         super().__init__(name="scale", config=config, server=server)
         self._inputs = InputsScale(self)
@@ -82,6 +83,13 @@ class scale(Operator):
             self.inputs.field.connect(field)
         if weights is not None:
             self.inputs.weights.connect(weights)
+        elif ponderation is not None:
+            warn(
+                DeprecationWarning(
+                    f'Operator scale: Input name "ponderation" is deprecated in favor of "weights".'
+                )
+            )
+            self.inputs.weights.connect(ponderation)
         if boolean is not None:
             self.inputs.boolean.connect(boolean)
         if algorithm is not None:
@@ -108,6 +116,7 @@ dimensionality
                     type_names=["double", "field", "vector<double>"],
                     optional=False,
                     document=r"""Double/Field/Vector of doubles. When scoped on overall, same value(s) applied on all the data, when scoped elsewhere, corresponding values will be multiplied due to the scoping""",
+                    aliases=["ponderation"],
                 ),
                 2: PinSpecification(
                     name="boolean",
@@ -289,6 +298,18 @@ class InputsScale(_Inputs):
         >>> op.inputs.algorithm(my_algorithm)
         """
         return self._algorithm
+
+    def __getattr__(self, name):
+        if name in ["ponderation"]:
+            warn(
+                DeprecationWarning(
+                    f'Operator scale: Input name "{name}" is deprecated in favor of "weights".'
+                )
+            )
+            return self.weights
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
 
 
 class OutputsScale(_Outputs):

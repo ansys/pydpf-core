@@ -53,7 +53,14 @@ class add_constant_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    def __init__(self, fields_container=None, weights=None, config=None, server=None):
+    def __init__(
+        self,
+        fields_container=None,
+        weights=None,
+        config=None,
+        server=None,
+        ponderation=None,
+    ):
         super().__init__(name="add_constant_fc", config=config, server=server)
         self._inputs = InputsAddConstantFc(self)
         self._outputs = OutputsAddConstantFc(self)
@@ -61,6 +68,13 @@ class add_constant_fc(Operator):
             self.inputs.fields_container.connect(fields_container)
         if weights is not None:
             self.inputs.weights.connect(weights)
+        elif ponderation is not None:
+            warn(
+                DeprecationWarning(
+                    f'Operator add_constant_fc: Input name "ponderation" is deprecated in favor of "weights".'
+                )
+            )
+            self.inputs.weights.connect(ponderation)
 
     @staticmethod
     def _spec() -> Specification:
@@ -80,6 +94,7 @@ class add_constant_fc(Operator):
                     type_names=["double", "vector<double>"],
                     optional=False,
                     document=r"""double or vector of double""",
+                    aliases=["ponderation"],
                 ),
             },
             map_output_pin_spec={
@@ -199,6 +214,18 @@ class InputsAddConstantFc(_Inputs):
         >>> op.inputs.weights(my_weights)
         """
         return self._weights
+
+    def __getattr__(self, name):
+        if name in ["ponderation"]:
+            warn(
+                DeprecationWarning(
+                    f'Operator add_constant_fc: Input name "{name}" is deprecated in favor of "weights".'
+                )
+            )
+            return self.weights
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
 
 
 class OutputsAddConstantFc(_Outputs):
