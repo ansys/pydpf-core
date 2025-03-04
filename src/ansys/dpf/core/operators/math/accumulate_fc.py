@@ -77,6 +77,11 @@ class accumulate_fc(Operator):
         if weights is not None:
             self.inputs.weights.connect(weights)
         elif ponderation is not None:
+            warn(
+                DeprecationWarning(
+                    f'Operator accumulate_fc: Input name "ponderation" is deprecated in favor of "weights".'
+                )
+            )
             self.inputs.weights.connect(ponderation)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)

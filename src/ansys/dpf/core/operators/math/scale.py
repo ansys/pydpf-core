@@ -84,6 +84,11 @@ class scale(Operator):
         if weights is not None:
             self.inputs.weights.connect(weights)
         elif ponderation is not None:
+            warn(
+                DeprecationWarning(
+                    f'Operator scale: Input name "ponderation" is deprecated in favor of "weights".'
+                )
+            )
             self.inputs.weights.connect(ponderation)
         if boolean is not None:
             self.inputs.boolean.connect(boolean)
