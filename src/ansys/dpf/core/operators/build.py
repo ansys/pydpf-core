@@ -195,6 +195,8 @@ def build_operators():
     translator = Markdown2RstTranslator()
 
     for operator_name in available_operators:
+        if operator_name != "mac":
+            continue
         if succeeded == done + 100:
             done += 100
             print(f"{done} operators done...")
