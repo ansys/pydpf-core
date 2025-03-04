@@ -1,0 +1,19 @@
+ansys.dpf.core.operators.compression package
+============================================
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   ansys.dpf.core.operators.compression.apply_svd
+   ansys.dpf.core.operators.compression.apply_zfp
+   ansys.dpf.core.operators.compression.kmeans_clustering
+   ansys.dpf.core.operators.compression.zfp_decompress
+
+Module contents
+---------------
+
+.. automodule:: ansys.dpf.core.operators.compression
+   :inherited-members:

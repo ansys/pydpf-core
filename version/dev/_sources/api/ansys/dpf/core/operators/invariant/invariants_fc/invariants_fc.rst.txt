@@ -1,0 +1,139 @@
+
+
+
+
+
+
+:class:`invariants_fc`
+======================
+
+.. py:class:: ansys.dpf.core.operators.invariant.invariants_fc.invariants_fc(fields_container=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Computes the element-wise invariants of all the tensor fields of a
+   fields container.
+
+
+   :param fields_container:
+   :type fields_container: FieldsContainer
+
+   :returns: * **fields_int** (*FieldsContainer*) -- stress intensity field
+             * **fields_eqv** (*FieldsContainer*) -- stress equivalent intensity
+             * **fields_max_shear** (*FieldsContainer*) -- max shear stress field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.invariant.invariants_fc()
+
+   >>> # Make input connections
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.invariant.invariants_fc(
+   ...     fields_container=my_fields_container,
+   ... )
+
+   >>> # Get output data
+   >>> result_fields_int = op.outputs.fields_int()
+   >>> result_fields_eqv = op.outputs.fields_eqv()
+   >>> result_fields_max_shear = op.outputs.fields_max_shear()
+
+
+
+
+.. py:currentmodule:: invariants_fc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.invariant.invariants_fc import invariants_fc
+
+Property detail
+---------------
+
+.. py:property:: inputs
+   :type: InputsInvariantsFc
+
+
+   Enables to connect inputs to the operator
+
+   :returns: An instance of InputsInvariantsFc.
+   :rtype: inputs
+
+.. py:property:: outputs
+   :type: OutputsInvariantsFc
+
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: An instance of OutputsInvariantsFc.
+   :rtype: outputs
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server: ansys.dpf.core.server_types.AnyServerType = None) -> ansys.dpf.core.config.Config
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+
+   :returns: A new Config instance equivalent to the default config for this operator.
+   :rtype: config
+
+
+
+
+

@@ -1,0 +1,182 @@
+
+
+
+
+
+
+:class:`migrate_to_h5dpf`
+=========================
+
+.. py:class:: ansys.dpf.core.operators.result.migrate_to_h5dpf.migrate_to_h5dpf(dataset_size_compression_threshold=None, h5_native_compression=None, export_floats=None, filename=None, comma_separated_list_of_results=None, all_time_sets=None, streams_container=None, data_sources=None, compression_workflow=None, filtering_workflow=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Read mesh properties from the results files contained in the streams or
+   data sources and make those properties available through a mesh
+   selection manager in output.
+
+
+   :param dataset_size_compression_threshold: Integer value that defines the minimum dataset size (in bytes) to use h5 native compression Applicable for arrays of floats, doubles and integers.
+   :type dataset_size_compression_threshold: int, optional
+   :param h5_native_compression: Integer value / DataTree that defines the h5 native compression used For Integer Input {0: No Compression (default); 1-9: GZIP Compression : 9 provides maximum compression but at the slowest speed.}For DataTree Input {type: None / GZIP / ZSTD; level: GZIP (1-9) / ZSTD (1-20); num_threads: ZSTD (>0)}
+   :type h5_native_compression: int or DataTree, optional
+   :param export_floats: Converts double to float to reduce file size (default is true).If False, nodal results are exported as double precision and elemental results as single precision.
+   :type export_floats: bool, optional
+   :param filename: filename of the migrated file
+   :type filename: str
+   :param comma_separated_list_of_results: list of results (source operator names) separated by semicolons that will be stored. (Example: U;S;EPEL). If empty, all available results will be converted.
+   :type comma_separated_list_of_results: str, optional
+   :param all_time_sets: default is false
+   :type all_time_sets: bool, optional
+   :param streams_container: streams (result file container) (optional)
+   :type streams_container: StreamsContainer, optional
+   :param data_sources: if the stream is null then we need to get the file path from the data sources
+   :type data_sources: DataSources, optional
+   :param compression_workflow: BETA Option: Applies input compression workflow. User can input a GenericDataContainer that will map a compression workflow to a result name. Example of Map: {{ default: wf1}, {EUL: wf2}, {ENG_SE: wf3}}
+   :type compression_workflow: Workflow or GenericDataContainer, optional
+   :param filtering_workflow: Applies input filtering workflow. User can input a GenericDataContainer of the format described for Pin(6) that will map a filtering workflow to a result name.
+   :type filtering_workflow: Workflow or GenericDataContainer, optional
+
+   :returns: **migrated_file**
+   :rtype: DataSources
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.result.migrate_to_h5dpf()
+
+   >>> # Make input connections
+   >>> my_dataset_size_compression_threshold = int()
+   >>> op.inputs.dataset_size_compression_threshold.connect(my_dataset_size_compression_threshold)
+   >>> my_h5_native_compression = int()
+   >>> op.inputs.h5_native_compression.connect(my_h5_native_compression)
+   >>> my_export_floats = bool()
+   >>> op.inputs.export_floats.connect(my_export_floats)
+   >>> my_filename = str()
+   >>> op.inputs.filename.connect(my_filename)
+   >>> my_comma_separated_list_of_results = str()
+   >>> op.inputs.comma_separated_list_of_results.connect(my_comma_separated_list_of_results)
+   >>> my_all_time_sets = bool()
+   >>> op.inputs.all_time_sets.connect(my_all_time_sets)
+   >>> my_streams_container = dpf.StreamsContainer()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_compression_workflow = dpf.Workflow()
+   >>> op.inputs.compression_workflow.connect(my_compression_workflow)
+   >>> my_filtering_workflow = dpf.Workflow()
+   >>> op.inputs.filtering_workflow.connect(my_filtering_workflow)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.result.migrate_to_h5dpf(
+   ...     dataset_size_compression_threshold=my_dataset_size_compression_threshold,
+   ...     h5_native_compression=my_h5_native_compression,
+   ...     export_floats=my_export_floats,
+   ...     filename=my_filename,
+   ...     comma_separated_list_of_results=my_comma_separated_list_of_results,
+   ...     all_time_sets=my_all_time_sets,
+   ...     streams_container=my_streams_container,
+   ...     data_sources=my_data_sources,
+   ...     compression_workflow=my_compression_workflow,
+   ...     filtering_workflow=my_filtering_workflow,
+   ... )
+
+   >>> # Get output data
+   >>> result_migrated_file = op.outputs.migrated_file()
+
+
+
+
+.. py:currentmodule:: migrate_to_h5dpf
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.migrate_to_h5dpf import migrate_to_h5dpf
+
+Property detail
+---------------
+
+.. py:property:: inputs
+   :type: InputsMigrateToH5Dpf
+
+
+   Enables to connect inputs to the operator
+
+   :returns: An instance of InputsMigrateToH5Dpf.
+   :rtype: inputs
+
+.. py:property:: outputs
+   :type: OutputsMigrateToH5Dpf
+
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: An instance of OutputsMigrateToH5Dpf.
+   :rtype: outputs
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server: ansys.dpf.core.server_types.AnyServerType = None) -> ansys.dpf.core.config.Config
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+
+   :returns: A new Config instance equivalent to the default config for this operator.
+   :rtype: config
+
+
+
+
+
