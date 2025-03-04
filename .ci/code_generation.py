@@ -23,8 +23,6 @@ for file_path in files:
         continue
     if file_path.name == "operator.mustache":
         continue
-    if file_path.stem == "translator":
-        continue
     try:
         if file_path.is_dir():
             shutil.rmtree(file_path)
