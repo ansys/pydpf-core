@@ -118,7 +118,7 @@ def animate_mode(
     scaling_op.inputs.field.connect(field_mode)
     wf.add_operators([scaling_op])
 
-    wf.set_input_name("weights", scaling_op.inputs.ponderation)
+    wf.set_input_name("weights", scaling_op.inputs.weights)
     wf.set_output_name("field", scaling_op.outputs.field)
 
     anim = Animator(workflow=wf, **kwargs)
