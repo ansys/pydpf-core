@@ -94,11 +94,11 @@ stress_1 = maths.pow_fc(fields_container=stress_1, factor=2.0).eval()
 
 # Add a constant
 # Add 2 to each value in the field
-stress_2 = maths.add_constant_fc(fields_container=stress_2, ponderation=2.0).eval()
+stress_2 = maths.add_constant_fc(fields_container=stress_2, weights=2.0).eval()
 
 # Multiply by a constant
 # Multiply each value in the field by 3
-stress_3 = maths.scale_fc(fields_container=stress_3, ponderation=3.0).eval()
+stress_3 = maths.scale_fc(fields_container=stress_3, weights=3.0).eval()
 
 # Add fields containers
 # Each value of each field is added by the correspondent component of the others fields
