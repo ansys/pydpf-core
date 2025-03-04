@@ -74,6 +74,7 @@ class scale_fc(Operator):
         algorithm=None,
         config=None,
         server=None,
+        ponderation=None,
     ):
         super().__init__(name="scale_fc", config=config, server=server)
         self._inputs = InputsScaleFc(self)
@@ -82,6 +83,8 @@ class scale_fc(Operator):
             self.inputs.fields_container.connect(fields_container)
         if weights is not None:
             self.inputs.weights.connect(weights)
+        elif ponderation is not None:
+            self.inputs.weights.connect(ponderation)
         if boolean is not None:
             self.inputs.boolean.connect(boolean)
         if algorithm is not None:
@@ -113,6 +116,7 @@ corresponding to the input field dimensionality
                     ],
                     optional=False,
                     document=r"""Double/Vector of doubles/Field/FieldsContainer. When scoped on overall, same value(s) applied on all the data, when scoped elsewhere, corresponding values will be multiplied due to the scoping""",
+                    aliases=["ponderation"],
                 ),
                 2: PinSpecification(
                     name="boolean",
@@ -294,6 +298,18 @@ class InputsScaleFc(_Inputs):
         >>> op.inputs.algorithm(my_algorithm)
         """
         return self._algorithm
+
+    def __getattr__(self, name):
+        if name in ["ponderation"]:
+            warn(
+                DeprecationWarning(
+                    f'Operator scale_fc: Input name "{name}" is deprecated in favor of "weights".'
+                )
+            )
+            return self.weights
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
 
 
 class OutputsScaleFc(_Outputs):

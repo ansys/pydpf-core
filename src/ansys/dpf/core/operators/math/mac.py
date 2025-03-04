@@ -69,6 +69,7 @@ class mac(Operator):
         weights=None,
         config=None,
         server=None,
+        ponderation=None,
     ):
         super().__init__(name="mac", config=config, server=server)
         self._inputs = InputsMac(self)
@@ -79,6 +80,8 @@ class mac(Operator):
             self.inputs.fields_containerB.connect(fields_containerB)
         if weights is not None:
             self.inputs.weights.connect(weights)
+        elif ponderation is not None:
+            self.inputs.weights.connect(ponderation)
 
     @staticmethod
     def _spec() -> Specification:
@@ -107,6 +110,7 @@ an user responsability.
                     type_names=["field"],
                     optional=False,
                     document=r"""Field M, optional weighting for MAC Matrix computation.""",
+                    aliases=["ponderation"],
                 ),
             },
             map_output_pin_spec={
@@ -251,6 +255,18 @@ class InputsMac(_Inputs):
         >>> op.inputs.weights(my_weights)
         """
         return self._weights
+
+    def __getattr__(self, name):
+        if name in ["ponderation"]:
+            warn(
+                DeprecationWarning(
+                    f'Operator mac: Input name "{name}" is deprecated in favor of "weights".'
+                )
+            )
+            return self.weights
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
 
 
 class OutputsMac(_Outputs):

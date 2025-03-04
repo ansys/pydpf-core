@@ -77,6 +77,7 @@ class correlation(Operator):
         absoluteValue=None,
         config=None,
         server=None,
+        ponderation=None,
     ):
         super().__init__(name="correlation", config=config, server=server)
         self._inputs = InputsCorrelation(self)
@@ -87,6 +88,8 @@ class correlation(Operator):
             self.inputs.fieldB.connect(fieldB)
         if weights is not None:
             self.inputs.weights.connect(weights)
+        elif ponderation is not None:
+            self.inputs.weights.connect(ponderation)
         if absoluteValue is not None:
             self.inputs.absoluteValue.connect(absoluteValue)
 
@@ -116,6 +119,7 @@ container), correlation is computed for each of them.
                     type_names=["field", "fields_container"],
                     optional=False,
                     document=r"""Field M, optional weighting for correlation computation.""",
+                    aliases=["ponderation"],
                 ),
                 3: PinSpecification(
                     name="absoluteValue",
@@ -297,6 +301,18 @@ class InputsCorrelation(_Inputs):
         >>> op.inputs.absoluteValue(my_absoluteValue)
         """
         return self._absoluteValue
+
+    def __getattr__(self, name):
+        if name in ["ponderation"]:
+            warn(
+                DeprecationWarning(
+                    f'Operator correlation: Input name "{name}" is deprecated in favor of "weights".'
+                )
+            )
+            return self.weights
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
 
 
 class OutputsCorrelation(_Outputs):

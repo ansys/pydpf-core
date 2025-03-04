@@ -53,7 +53,14 @@ class add_constant(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    def __init__(self, field=None, weights=None, config=None, server=None):
+    def __init__(
+        self,
+        field=None,
+        weights=None,
+        config=None,
+        server=None,
+        ponderation=None,
+    ):
         super().__init__(name="add_constant", config=config, server=server)
         self._inputs = InputsAddConstant(self)
         self._outputs = OutputsAddConstant(self)
@@ -61,6 +68,8 @@ class add_constant(Operator):
             self.inputs.field.connect(field)
         if weights is not None:
             self.inputs.weights.connect(weights)
+        elif ponderation is not None:
+            self.inputs.weights.connect(ponderation)
 
     @staticmethod
     def _spec() -> Specification:
@@ -80,6 +89,7 @@ class add_constant(Operator):
                     type_names=["double", "vector<double>"],
                     optional=False,
                     document=r"""double or vector of double""",
+                    aliases=["ponderation"],
                 ),
             },
             map_output_pin_spec={
@@ -199,6 +209,18 @@ class InputsAddConstant(_Inputs):
         >>> op.inputs.weights(my_weights)
         """
         return self._weights
+
+    def __getattr__(self, name):
+        if name in ["ponderation"]:
+            warn(
+                DeprecationWarning(
+                    f'Operator add_constant: Input name "{name}" is deprecated in favor of "weights".'
+                )
+            )
+            return self.weights
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
 
 
 class OutputsAddConstant(_Outputs):
