@@ -102,7 +102,7 @@ def build_pin_data(pins, output=False):
             "document_pin_docstring": document_pin_docstring,
             "ellipsis": 0 if specification.ellipsis else -1,
             "has_aliases": len(specification.aliases) > 0,
-            "aliases_list": [dict(("alias", alias)) for alias in specification.aliases],
+            "aliases_list": [dict([("alias", alias)]) for alias in specification.aliases],
             "aliases": str(specification.aliases),
         }
 
