@@ -69,6 +69,11 @@ class add_constant_fc(Operator):
         if weights is not None:
             self.inputs.weights.connect(weights)
         elif ponderation is not None:
+            warn(
+                DeprecationWarning(
+                    f'Operator add_constant_fc: Input name "ponderation" is deprecated in favor of "weights".'
+                )
+            )
             self.inputs.weights.connect(ponderation)
 
     @staticmethod

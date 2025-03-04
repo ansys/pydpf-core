@@ -89,6 +89,11 @@ class correlation(Operator):
         if weights is not None:
             self.inputs.weights.connect(weights)
         elif ponderation is not None:
+            warn(
+                DeprecationWarning(
+                    f'Operator correlation: Input name "ponderation" is deprecated in favor of "weights".'
+                )
+            )
             self.inputs.weights.connect(ponderation)
         if absoluteValue is not None:
             self.inputs.absoluteValue.connect(absoluteValue)
