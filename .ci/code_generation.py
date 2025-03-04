@@ -25,6 +25,8 @@ for file_path in files:
         continue
     if file_path.stem == "translator":
         continue
+    if file_path.stem != "mac":
+        continue
     try:
         if file_path.is_dir():
             shutil.rmtree(file_path)
