@@ -66,7 +66,7 @@ class enf_rotation_by_euler_nodes(Operator):
         server=None,
     ):
         super().__init__(
-            name="ENF_rotation_by_euler_nodes", config=config, server=server
+            name="mapdl::rst::ENF_rotation_by_euler_nodes", config=config, server=server
         )
         self._inputs = InputsEnfRotationByEulerNodes(self)
         self._outputs = OutputsEnfRotationByEulerNodes(self)
@@ -139,7 +139,7 @@ in the fieldsContainer.
             A new Config instance equivalent to the default config for this operator.
         """
         return Operator.default_config(
-            name="ENF_rotation_by_euler_nodes", server=server
+            name="mapdl::rst::ENF_rotation_by_euler_nodes", server=server
         )
 
     @property
