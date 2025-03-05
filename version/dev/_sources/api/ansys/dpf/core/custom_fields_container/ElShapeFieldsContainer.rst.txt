@@ -1,0 +1,247 @@
+
+
+
+
+
+
+:class:`ElShapeFieldsContainer`
+===============================
+
+.. py:class:: ansys.dpf.core.custom_fields_container.ElShapeFieldsContainer(fields_container=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.fields_container.FieldsContainer`
+
+
+   Represents a fields container with fields split by an element shape.
+
+   Instances of this class are created when a model result is split by an
+   element shape, such as a solid, shell, or beam.
+
+   :param fields_container: Fields container created from either a collection message or by copying an existing
+                            fields container. The default is ``None``.
+   :type fields_container: ansys.grpc.dpf.collection_message_pb2.Collection or FieldsContainer, optional
+   :param server: Server with the channel connected to the remote or local instance. The default is
+                  ``None``, in which case an attempt is made to use the global server.
+   :type server: server.DPFServer, optional
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
+   >>> fc = model.results.displacement.on_all_time_freqs.split_by_shape.eval()
+   >>> len(fc.solid_fields())
+   45
+   >>> solid_f_time_2 = fc.solid_field(2)
+
+
+
+.. py:currentmodule:: ElShapeFieldsContainer
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~solid_fields`
+            - Retrieve a list of all fields with solid element shapes.
+          * - :py:attr:`~shell_fields`
+            - Retrieve a list of all fields with shell element shapes.
+          * - :py:attr:`~beam_fields`
+            - Retrieve a list of all fields with beam element shapes.
+          * - :py:attr:`~solid_field`
+            - Retrieve a field with a solid element shape.
+          * - :py:attr:`~shell_field`
+            - Retrieve a field with a shell element shape.
+          * - :py:attr:`~beam_field`
+            - Retrieve a field with a beam element shape.
+
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.custom_fields_container import ElShapeFieldsContainer
+
+
+
+Method detail
+-------------
+
+.. py:method:: solid_fields(timeid=None, complexid=None)
+
+   Retrieve a list of all fields with solid element shapes.
+
+   You can filter the list of fields with solid element shapes based on a given time,
+   complex type, or both.
+
+   :param timeid: Time ID for filtering fields with solid element shapes.
+   :type timeid: int, optional
+   :param complexid: Complex type ID for filtering fields with solid element shapes.
+                     0 is for real numbers, and 1 is for imaginary numbers.
+   :type complexid: int, optional
+
+   :returns: List of fields corresponding to the request.
+   :rtype: list
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
+   >>> fc = model.results.displacement.split_by_shape.eval()
+   >>> len(fc.solid_fields())
+   1
+   >>> len(fc.solid_fields(timeid=1))
+   1
+
+
+.. py:method:: shell_fields(timeid=None, complexid=None)
+
+   Retrieve a list of all fields with shell element shapes.
+
+   You can filter the list of fields with shell element shapes based on
+   a given time, complex type, or both.
+
+   :param timeid: Time ID for filtering fields with shell element shapes.
+   :type timeid: int, optional
+   :param complexid: Complex type ID for filtering fields with shell element shapes.
+                     0 is for real numbers, and 1 is for imaginary numbers.
+   :type complexid: int, optional
+
+   :returns: List of fields corresponding to the request.
+   :rtype: list
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
+   >>> fc = model.results.displacement.on_all_time_freqs.split_by_shape.eval()
+   >>> len(fc.shell_fields())
+   45
+   >>> len(fc.shell_fields(timeid=3))
+   1
+
+
+.. py:method:: beam_fields(timeid=None, complexid=None)
+
+   Retrieve a list of all fields with beam element shapes.
+
+   You can filter the list of fields with beam element shapes based on
+   a given time, complex type, or both.
+
+   :param timeid: Time ID for filtering fields with beam element shapes.
+   :type timeid: int, optional
+   :param complexid: Complex type ID for filtering fields with beam element shapes.
+                     0 is for real numbers, and 1 is for imaginary numbers.
+   :type complexid: int, optional
+
+   :returns: List of fields corresponding to the request.
+   :rtype: list
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
+   >>> fc = model.results.displacement.on_all_time_freqs.split_by_shape.eval()
+   >>> len(fc.beam_fields())
+   45
+   >>> len(fc.beam_fields(timeid=3))
+   1
+
+
+.. py:method:: solid_field(timeid=None, complexid=None)
+
+   Retrieve a field with a solid element shape.
+
+   You can give a time, complex type, or both. If the number of fields
+   matching the request is higher than one, an exception is raised.
+
+   :param timeid: Time ID for filtering fields with solid element shapes.
+   :type timeid: int, optional
+   :param complexid: Complex type ID for filtering fields with solid element shapes.
+                     0 is for real numbers, and 1 is for imaginary numbers.
+   :type complexid: int, optional
+
+   :returns: Field corresponding to the request.
+   :rtype: :class:`Field <ansys.dpf.core.field>`
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
+   >>> fc = model.results.displacement.on_all_time_freqs.split_by_shape.eval()
+   >>> field = fc.solid_field(timeid=3)
+
+
+.. py:method:: shell_field(timeid=None, complexid=None)
+
+   Retrieve a field with a shell element shape.
+
+   You can give a time, complex type, or both. If the number of fields
+   matching the request is higher than one, an exception is raised.
+
+   :param timeid: Time ID for filtering fields with shell element shapes.
+   :type timeid: int, optional
+   :param complexid: Complex type ID for filtering fields with shell element shapes.
+                     0 is for real numbers, and 1 is for imaginary numbers.
+   :type complexid: int, optional
+
+   :returns: Field corresponding to the request.
+   :rtype: :class:`Field <ansys.dpf.core.field>`
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
+   >>> fc = model.results.displacement.on_all_time_freqs.split_by_shape.eval()
+   >>> field = fc.shell_field(timeid=3)
+
+
+.. py:method:: beam_field(timeid=None, complexid=None)
+
+   Retrieve a field with a beam element shape.
+
+   You can give a time, complex type, or both. If the number of fields
+   matching the request is higher than one, an exception is raised.
+
+   :param timeid: Time ID for filtering fields with solid element shapes.
+   :type timeid: int, optional
+   :param complexid: Complex type ID for filtering fields with solid element shapes.
+                     0 is for real numbers, and 1 is for imaginary numbers.
+   :type complexid: int, optional
+
+   :returns: Field corresponding to the request.
+   :rtype: :class:`Field <ansys.dpf.core.field>`
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
+   >>> fc = model.results.displacement.on_all_time_freqs.split_by_shape.eval()
+   >>> field = fc.beam_field(timeid=3)
+
+
+
+
+
