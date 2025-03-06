@@ -101,6 +101,9 @@ def build_pin_data(pins, output=False):
             "document": document,
             "document_pin_docstring": document_pin_docstring,
             "ellipsis": 0 if specification.ellipsis else -1,
+            "has_aliases": len(specification.aliases) > 0,
+            "aliases_list": [dict([("alias", alias)]) for alias in specification.aliases],
+            "aliases": str(specification.aliases),
         }
 
         if specification.ellipsis:
@@ -127,11 +130,13 @@ def build_operator(
     input_pins = []
     if specification.inputs:
         input_pins = build_pin_data(specification.inputs)
+    has_input_aliases = any(len(pin["aliases_list"]) > 0 for pin in input_pins)
 
     output_pins = []
     if specification.outputs:
         output_pins = build_pin_data(specification.outputs, output=True)
     multiple_output_types = any(pin["multiple_types"] for pin in output_pins)
+    has_output_aliases = any(len(pin["aliases_list"]) > 0 for pin in output_pins)
 
     docstring = build_docstring(specification_description)
 
@@ -150,6 +155,8 @@ def build_operator(
         "multiple_output_types": multiple_output_types,
         "category": category,
         "date_and_time": date_and_time,
+        "has_input_aliases": has_input_aliases,
+        "has_output_aliases": has_output_aliases,
     }
 
     this_path = os.path.dirname(os.path.abspath(__file__))
@@ -164,7 +171,7 @@ def build_operator(
 
 
 def build_operators():
-    print(f"Generating operators for server {dpf.SERVER.version}")
+    print(f"Generating operators for server {dpf.SERVER.version} ({dpf.SERVER.ansys_path})")
     time_0 = time.time()
 
     this_path = os.path.dirname(os.path.abspath(__file__))
@@ -228,6 +235,7 @@ def build_operators():
         # Write to operator file
         operator_file = os.path.join(category_path, scripting_name + ".py")
         with open(operator_file, "wb") as f:
+            operator_str = scripting_name
             try:
                 operator_str = build_operator(
                     specification,
