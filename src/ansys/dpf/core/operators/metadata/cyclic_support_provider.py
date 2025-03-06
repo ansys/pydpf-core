@@ -81,9 +81,7 @@ class cyclic_support_provider(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(
-            name="mapdl::rst::support_provider_cyclic", config=config, server=server
-        )
+        super().__init__(name="support_provider_cyclic", config=config, server=server)
         self._inputs = InputsCyclicSupportProvider(self)
         self._outputs = OutputsCyclicSupportProvider(self)
         if streams_container is not None:
@@ -172,9 +170,7 @@ expansions) and expands the mesh.
         config:
             A new Config instance equivalent to the default config for this operator.
         """
-        return Operator.default_config(
-            name="mapdl::rst::support_provider_cyclic", server=server
-        )
+        return Operator.default_config(name="support_provider_cyclic", server=server)
 
     @property
     def inputs(self) -> InputsCyclicSupportProvider:
