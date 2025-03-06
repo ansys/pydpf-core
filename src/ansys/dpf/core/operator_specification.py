@@ -78,6 +78,7 @@ class PinSpecification:
     optional: bool
     ellipsis: bool
     name_derived_class = str
+    aliases: list[str]
 
     def __init__(
         self,
@@ -87,6 +88,7 @@ class PinSpecification:
         optional=False,
         ellipsis=False,
         name_derived_class="",
+        aliases=[],
     ):
         self.name = name
         self.type_names = type_names
@@ -94,6 +96,7 @@ class PinSpecification:
         self.document = document
         self.ellipsis = ellipsis
         self.name_derived_class = name_derived_class
+        self.aliases = aliases
 
     @property
     def type_names(self) -> list[str]:
@@ -140,6 +143,7 @@ class PinSpecification:
             other.optional,
             other.ellipsis,
             other.name_derived_class,
+            other.aliases,
         )
 
     def __repr__(self):
@@ -367,7 +371,7 @@ class Specification(SpecificationBase):
         return ""
 
     @property
-    def inputs(self) -> dict:
+    def inputs(self) -> dict[int, PinSpecification]:
         """Returns a dictionary mapping the input pin numbers to their ``PinSpecification``.
 
         Returns
@@ -382,7 +386,7 @@ class Specification(SpecificationBase):
         True
         >>> operator.specification.inputs[4]
         PinSpecification(name='data_sources', _type_names=['data_sources'], ...set', ellipsis=False,
-         name_derived_class='')
+         name_derived_class='', aliases=[...])
         """
         if self._map_input_pin_spec is None:
             self._map_input_pin_spec = {}
@@ -390,7 +394,7 @@ class Specification(SpecificationBase):
         return self._map_input_pin_spec
 
     @property
-    def outputs(self) -> dict:
+    def outputs(self) -> dict[int, PinSpecification]:
         """Returns a dictionary mapping the output pin numbers to their ``PinSpecification``.
 
         Returns
@@ -403,7 +407,7 @@ class Specification(SpecificationBase):
         >>> operator = dpf.operators.mesh.mesh_provider()
         >>> operator.specification.outputs
         {0: PinSpecification(name='mesh', _type_names=['abstract_meshed_region'], ...=False,
-         name_derived_class='')}
+         name_derived_class='', aliases=[...])}
         """
         if self._map_output_pin_spec is None:
             self._map_output_pin_spec = {}
@@ -429,7 +433,18 @@ class Specification(SpecificationBase):
                     self._api.operator_specification_get_pin_type_name(self, binput, i_pin, i_type)
                     for i_type in range(n_types)
                 ]
-
+                pin_aliases = []
+                if server_meet_version("10.0", self._server) and hasattr(
+                    self._api, "operator_specification_get_pin_num_aliases"
+                ):
+                    for i_alias in range(
+                        self._api.operator_specification_get_pin_num_aliases(self, binput, i_pin)
+                    ):
+                        pin_aliases.append(
+                            self._api.operator_specification_get_pin_alias(
+                                self, binput, i_pin, i_alias
+                            )
+                        )
                 pin_derived_class_type_name = ""
                 if server_meet_version("7.0", self._server) and hasattr(
                     self._api, "operator_specification_get_pin_derived_class_type_name"
@@ -448,6 +463,7 @@ class Specification(SpecificationBase):
                     pin_opt,
                     pin_ell,
                     pin_derived_class_type_name,
+                    pin_aliases,
                 )
 
     @property
