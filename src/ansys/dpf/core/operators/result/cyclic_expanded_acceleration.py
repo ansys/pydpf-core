@@ -16,9 +16,9 @@ from ansys.dpf.core.server_types import AnyServerType
 
 
 class cyclic_expanded_acceleration(Operator):
-    r"""This operator is deprecated: use the operator acceleration with the
-    read_cyclic pin instead. Read acceleration from an rst file and expand
-    it with cyclic symmetry.
+    r"""This operator is deprecated: use the operator nodal accelerations with
+    the read_cyclic pin instead. Read nodal accelerations from a result file
+    and expand it with cyclic symmetry.
 
 
     Parameters
@@ -32,7 +32,7 @@ class cyclic_expanded_acceleration(Operator):
     data_sources: DataSources
         data sources containing the result file.
     bool_rotate_to_global: bool, optional
-        default is true
+        if true the field is rotated to global coordinate system (default true)
     all_dofs: bool, optional
         if this pin is set to true, all the dofs are retrieved. By default this pin is set to false and only the translational dofs are retrieved.
     sector_mesh: MeshedRegion or MeshesContainer, optional
@@ -53,7 +53,6 @@ class cyclic_expanded_acceleration(Operator):
     -------
     fields_container: FieldsContainer
         FieldsContainer filled in
-    expanded_meshes: MeshesContainer
 
     Examples
     --------
@@ -112,7 +111,6 @@ class cyclic_expanded_acceleration(Operator):
 
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
-    >>> result_expanded_meshes = op.outputs.expanded_meshes()
     """
 
     def __init__(
@@ -134,7 +132,7 @@ class cyclic_expanded_acceleration(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="mapdl::rst::A_cyclic", config=config, server=server)
+        super().__init__(name="A_cyclic", config=config, server=server)
         self._inputs = InputsCyclicExpandedAcceleration(self)
         self._outputs = OutputsCyclicExpandedAcceleration(self)
         if time_scoping is not None:
@@ -168,9 +166,9 @@ class cyclic_expanded_acceleration(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""This operator is deprecated: use the operator acceleration with the
-read_cyclic pin instead. Read acceleration from an rst file and expand
-it with cyclic symmetry.
+        description = r"""This operator is deprecated: use the operator nodal accelerations with
+the read_cyclic pin instead. Read nodal accelerations from a result file
+and expand it with cyclic symmetry.
 """
         spec = Specification(
             description=description,
@@ -209,7 +207,7 @@ it with cyclic symmetry.
                     name="bool_rotate_to_global",
                     type_names=["bool"],
                     optional=True,
-                    document=r"""default is true""",
+                    document=r"""if true the field is rotated to global coordinate system (default true)""",
                 ),
                 6: PinSpecification(
                     name="all_dofs",
@@ -267,12 +265,6 @@ it with cyclic symmetry.
                     optional=False,
                     document=r"""FieldsContainer filled in""",
                 ),
-                1: PinSpecification(
-                    name="expanded_meshes",
-                    type_names=["meshes_container"],
-                    optional=False,
-                    document=r"""""",
-                ),
             },
         )
         return spec
@@ -296,7 +288,7 @@ it with cyclic symmetry.
         config:
             A new Config instance equivalent to the default config for this operator.
         """
-        return Operator.default_config(name="mapdl::rst::A_cyclic", server=server)
+        return Operator.default_config(name="A_cyclic", server=server)
 
     @property
     def inputs(self) -> InputsCyclicExpandedAcceleration:
@@ -523,7 +515,7 @@ class InputsCyclicExpandedAcceleration(_Inputs):
     def bool_rotate_to_global(self) -> Input:
         r"""Allows to connect bool_rotate_to_global input to the operator.
 
-        default is true
+        if true the field is rotated to global coordinate system (default true)
 
         Returns
         -------
@@ -717,7 +709,6 @@ class OutputsCyclicExpandedAcceleration(_Outputs):
     >>> op = dpf.operators.result.cyclic_expanded_acceleration()
     >>> # Connect inputs : op.inputs. ...
     >>> result_fields_container = op.outputs.fields_container()
-    >>> result_expanded_meshes = op.outputs.expanded_meshes()
     """
 
     def __init__(self, op: Operator):
@@ -726,10 +717,6 @@ class OutputsCyclicExpandedAcceleration(_Outputs):
             cyclic_expanded_acceleration._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._fields_container)
-        self._expanded_meshes = Output(
-            cyclic_expanded_acceleration._spec().output_pin(1), 1, op
-        )
-        self._outputs.append(self._expanded_meshes)
 
     @property
     def fields_container(self) -> Output:
@@ -750,21 +737,3 @@ class OutputsCyclicExpandedAcceleration(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """
         return self._fields_container
-
-    @property
-    def expanded_meshes(self) -> Output:
-        r"""Allows to get expanded_meshes output of the operator
-
-        Returns
-        -------
-        output:
-            An Output instance for this pin.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.result.cyclic_expanded_acceleration()
-        >>> # Get the output from op.outputs. ...
-        >>> result_expanded_meshes = op.outputs.expanded_meshes()
-        """
-        return self._expanded_meshes
