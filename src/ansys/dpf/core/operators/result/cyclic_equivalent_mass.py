@@ -16,9 +16,9 @@ from ansys.dpf.core.server_types import AnyServerType
 
 
 class cyclic_equivalent_mass(Operator):
-    r"""This operator is deprecated: use the operator equivalent_mass with the
-    read_cyclic pin instead. Read equivalent mass from an rst file and
-    expand it with cyclic symmetry.
+    r"""This operator is deprecated: use the operator equivalent dof mass with
+    the read_cyclic pin instead. Read equivalent dof mass from a result file
+    and expand it with cyclic symmetry.
 
 
     Parameters
@@ -34,26 +34,19 @@ class cyclic_equivalent_mass(Operator):
     bool_rotate_to_global: bool, optional
         if true the field is rotated to global coordinate system (default true)
     all_dofs: bool, optional
-        default is false.
+        if this pin is set to true, all the dofs are retrieved. By default this pin is set to false and only the translational dofs are retrieved.
     sector_mesh: MeshedRegion or MeshesContainer, optional
         mesh of the base sector (can be a skin).
-    requested_location: str, optional
-        location needed in output
     read_cyclic: int, optional
         if 0 cyclic symmetry is ignored, if 1 cyclic sector is read, if 2 cyclic expansion is done, if 3 cyclic expansion is done and stages are merged (default is 1)
     expanded_meshed_region: MeshedRegion or MeshesContainer, optional
         mesh expanded.
     cyclic_support: CyclicSupport, optional
-    sectors_to_expand: Scoping or ScopingsContainer, optional
-        sectors to expand (start at 0), for multistage: use scopings container with 'stage' label.
-    phi: float, optional
-        angle phi in degrees (default value 0.0)
 
     Returns
     -------
     fields_container: FieldsContainer
         FieldsContainer filled in
-    expanded_meshes: MeshesContainer
 
     Examples
     --------
@@ -79,18 +72,12 @@ class cyclic_equivalent_mass(Operator):
     >>> op.inputs.all_dofs.connect(my_all_dofs)
     >>> my_sector_mesh = dpf.MeshedRegion()
     >>> op.inputs.sector_mesh.connect(my_sector_mesh)
-    >>> my_requested_location = str()
-    >>> op.inputs.requested_location.connect(my_requested_location)
     >>> my_read_cyclic = int()
     >>> op.inputs.read_cyclic.connect(my_read_cyclic)
     >>> my_expanded_meshed_region = dpf.MeshedRegion()
     >>> op.inputs.expanded_meshed_region.connect(my_expanded_meshed_region)
     >>> my_cyclic_support = dpf.CyclicSupport()
     >>> op.inputs.cyclic_support.connect(my_cyclic_support)
-    >>> my_sectors_to_expand = dpf.Scoping()
-    >>> op.inputs.sectors_to_expand.connect(my_sectors_to_expand)
-    >>> my_phi = float()
-    >>> op.inputs.phi.connect(my_phi)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.cyclic_equivalent_mass(
@@ -102,17 +89,13 @@ class cyclic_equivalent_mass(Operator):
     ...     bool_rotate_to_global=my_bool_rotate_to_global,
     ...     all_dofs=my_all_dofs,
     ...     sector_mesh=my_sector_mesh,
-    ...     requested_location=my_requested_location,
     ...     read_cyclic=my_read_cyclic,
     ...     expanded_meshed_region=my_expanded_meshed_region,
     ...     cyclic_support=my_cyclic_support,
-    ...     sectors_to_expand=my_sectors_to_expand,
-    ...     phi=my_phi,
     ... )
 
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
-    >>> result_expanded_meshes = op.outputs.expanded_meshes()
     """
 
     def __init__(
@@ -125,12 +108,9 @@ class cyclic_equivalent_mass(Operator):
         bool_rotate_to_global=None,
         all_dofs=None,
         sector_mesh=None,
-        requested_location=None,
         read_cyclic=None,
         expanded_meshed_region=None,
         cyclic_support=None,
-        sectors_to_expand=None,
-        phi=None,
         config=None,
         server=None,
     ):
@@ -155,24 +135,18 @@ class cyclic_equivalent_mass(Operator):
             self.inputs.all_dofs.connect(all_dofs)
         if sector_mesh is not None:
             self.inputs.sector_mesh.connect(sector_mesh)
-        if requested_location is not None:
-            self.inputs.requested_location.connect(requested_location)
         if read_cyclic is not None:
             self.inputs.read_cyclic.connect(read_cyclic)
         if expanded_meshed_region is not None:
             self.inputs.expanded_meshed_region.connect(expanded_meshed_region)
         if cyclic_support is not None:
             self.inputs.cyclic_support.connect(cyclic_support)
-        if sectors_to_expand is not None:
-            self.inputs.sectors_to_expand.connect(sectors_to_expand)
-        if phi is not None:
-            self.inputs.phi.connect(phi)
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""This operator is deprecated: use the operator equivalent_mass with the
-read_cyclic pin instead. Read equivalent mass from an rst file and
-expand it with cyclic symmetry.
+        description = r"""This operator is deprecated: use the operator equivalent dof mass with
+the read_cyclic pin instead. Read equivalent dof mass from a result file
+and expand it with cyclic symmetry.
 """
         spec = Specification(
             description=description,
@@ -217,19 +191,13 @@ expand it with cyclic symmetry.
                     name="all_dofs",
                     type_names=["bool"],
                     optional=True,
-                    document=r"""default is false.""",
+                    document=r"""if this pin is set to true, all the dofs are retrieved. By default this pin is set to false and only the translational dofs are retrieved.""",
                 ),
                 7: PinSpecification(
                     name="sector_mesh",
                     type_names=["abstract_meshed_region", "meshes_container"],
                     optional=True,
                     document=r"""mesh of the base sector (can be a skin).""",
-                ),
-                9: PinSpecification(
-                    name="requested_location",
-                    type_names=["string"],
-                    optional=True,
-                    document=r"""location needed in output""",
                 ),
                 14: PinSpecification(
                     name="read_cyclic",
@@ -249,18 +217,6 @@ expand it with cyclic symmetry.
                     optional=True,
                     document=r"""""",
                 ),
-                18: PinSpecification(
-                    name="sectors_to_expand",
-                    type_names=["vector<int32>", "scoping", "scopings_container"],
-                    optional=True,
-                    document=r"""sectors to expand (start at 0), for multistage: use scopings container with 'stage' label.""",
-                ),
-                19: PinSpecification(
-                    name="phi",
-                    type_names=["double"],
-                    optional=True,
-                    document=r"""angle phi in degrees (default value 0.0)""",
-                ),
             },
             map_output_pin_spec={
                 0: PinSpecification(
@@ -268,12 +224,6 @@ expand it with cyclic symmetry.
                     type_names=["fields_container"],
                     optional=False,
                     document=r"""FieldsContainer filled in""",
-                ),
-                1: PinSpecification(
-                    name="expanded_meshes",
-                    type_names=["meshes_container"],
-                    optional=False,
-                    document=r"""""",
                 ),
             },
         )
@@ -349,18 +299,12 @@ class InputsCyclicEquivalentMass(_Inputs):
     >>> op.inputs.all_dofs.connect(my_all_dofs)
     >>> my_sector_mesh = dpf.MeshedRegion()
     >>> op.inputs.sector_mesh.connect(my_sector_mesh)
-    >>> my_requested_location = str()
-    >>> op.inputs.requested_location.connect(my_requested_location)
     >>> my_read_cyclic = int()
     >>> op.inputs.read_cyclic.connect(my_read_cyclic)
     >>> my_expanded_meshed_region = dpf.MeshedRegion()
     >>> op.inputs.expanded_meshed_region.connect(my_expanded_meshed_region)
     >>> my_cyclic_support = dpf.CyclicSupport()
     >>> op.inputs.cyclic_support.connect(my_cyclic_support)
-    >>> my_sectors_to_expand = dpf.Scoping()
-    >>> op.inputs.sectors_to_expand.connect(my_sectors_to_expand)
-    >>> my_phi = float()
-    >>> op.inputs.phi.connect(my_phi)
     """
 
     def __init__(self, op: Operator):
@@ -395,10 +339,6 @@ class InputsCyclicEquivalentMass(_Inputs):
             cyclic_equivalent_mass._spec().input_pin(7), 7, op, -1
         )
         self._inputs.append(self._sector_mesh)
-        self._requested_location = Input(
-            cyclic_equivalent_mass._spec().input_pin(9), 9, op, -1
-        )
-        self._inputs.append(self._requested_location)
         self._read_cyclic = Input(
             cyclic_equivalent_mass._spec().input_pin(14), 14, op, -1
         )
@@ -411,12 +351,6 @@ class InputsCyclicEquivalentMass(_Inputs):
             cyclic_equivalent_mass._spec().input_pin(16), 16, op, -1
         )
         self._inputs.append(self._cyclic_support)
-        self._sectors_to_expand = Input(
-            cyclic_equivalent_mass._spec().input_pin(18), 18, op, -1
-        )
-        self._inputs.append(self._sectors_to_expand)
-        self._phi = Input(cyclic_equivalent_mass._spec().input_pin(19), 19, op, -1)
-        self._inputs.append(self._phi)
 
     @property
     def time_scoping(self) -> Input:
@@ -544,7 +478,7 @@ class InputsCyclicEquivalentMass(_Inputs):
     def all_dofs(self) -> Input:
         r"""Allows to connect all_dofs input to the operator.
 
-        default is false.
+        if this pin is set to true, all the dofs are retrieved. By default this pin is set to false and only the translational dofs are retrieved.
 
         Returns
         -------
@@ -581,27 +515,6 @@ class InputsCyclicEquivalentMass(_Inputs):
         >>> op.inputs.sector_mesh(my_sector_mesh)
         """
         return self._sector_mesh
-
-    @property
-    def requested_location(self) -> Input:
-        r"""Allows to connect requested_location input to the operator.
-
-        location needed in output
-
-        Returns
-        -------
-        input:
-            An Input instance for this pin.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.result.cyclic_equivalent_mass()
-        >>> op.inputs.requested_location.connect(my_requested_location)
-        >>> # or
-        >>> op.inputs.requested_location(my_requested_location)
-        """
-        return self._requested_location
 
     @property
     def read_cyclic(self) -> Input:
@@ -664,48 +577,6 @@ class InputsCyclicEquivalentMass(_Inputs):
         """
         return self._cyclic_support
 
-    @property
-    def sectors_to_expand(self) -> Input:
-        r"""Allows to connect sectors_to_expand input to the operator.
-
-        sectors to expand (start at 0), for multistage: use scopings container with 'stage' label.
-
-        Returns
-        -------
-        input:
-            An Input instance for this pin.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.result.cyclic_equivalent_mass()
-        >>> op.inputs.sectors_to_expand.connect(my_sectors_to_expand)
-        >>> # or
-        >>> op.inputs.sectors_to_expand(my_sectors_to_expand)
-        """
-        return self._sectors_to_expand
-
-    @property
-    def phi(self) -> Input:
-        r"""Allows to connect phi input to the operator.
-
-        angle phi in degrees (default value 0.0)
-
-        Returns
-        -------
-        input:
-            An Input instance for this pin.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.result.cyclic_equivalent_mass()
-        >>> op.inputs.phi.connect(my_phi)
-        >>> # or
-        >>> op.inputs.phi(my_phi)
-        """
-        return self._phi
-
 
 class OutputsCyclicEquivalentMass(_Outputs):
     """Intermediate class used to get outputs from
@@ -717,7 +588,6 @@ class OutputsCyclicEquivalentMass(_Outputs):
     >>> op = dpf.operators.result.cyclic_equivalent_mass()
     >>> # Connect inputs : op.inputs. ...
     >>> result_fields_container = op.outputs.fields_container()
-    >>> result_expanded_meshes = op.outputs.expanded_meshes()
     """
 
     def __init__(self, op: Operator):
@@ -726,10 +596,6 @@ class OutputsCyclicEquivalentMass(_Outputs):
             cyclic_equivalent_mass._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._fields_container)
-        self._expanded_meshes = Output(
-            cyclic_equivalent_mass._spec().output_pin(1), 1, op
-        )
-        self._outputs.append(self._expanded_meshes)
 
     @property
     def fields_container(self) -> Output:
@@ -750,21 +616,3 @@ class OutputsCyclicEquivalentMass(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """
         return self._fields_container
-
-    @property
-    def expanded_meshes(self) -> Output:
-        r"""Allows to get expanded_meshes output of the operator
-
-        Returns
-        -------
-        output:
-            An Output instance for this pin.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.result.cyclic_equivalent_mass()
-        >>> # Get the output from op.outputs. ...
-        >>> result_expanded_meshes = op.outputs.expanded_meshes()
-        """
-        return self._expanded_meshes
