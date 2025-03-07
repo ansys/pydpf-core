@@ -16,9 +16,10 @@ from ansys.dpf.core.server_types import AnyServerType
 
 
 class cyclic_strain_energy(Operator):
-    r"""This operator is deprecated: use the operator mapdl::rst::ENG_SE with
-    the read_cyclic pin instead. Compute mapdl::rst::ENG_SE from an rst file
-    and expand it with cyclic symmetry.
+    r"""This operator is deprecated: use the operator element energy associated
+    with the stiffness matrix with the read_cyclic pin instead. Read element
+    energy associated with the stiffness matrix from a result file and
+    expand it with cyclic symmetry.
 
 
     Parameters
@@ -47,7 +48,6 @@ class cyclic_strain_energy(Operator):
     -------
     fields_container: FieldsContainer
         FieldsContainer filled in
-    expanded_meshes: MeshesContainer
 
     Examples
     --------
@@ -97,7 +97,6 @@ class cyclic_strain_energy(Operator):
 
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
-    >>> result_expanded_meshes = op.outputs.expanded_meshes()
     """
 
     def __init__(
@@ -144,9 +143,10 @@ class cyclic_strain_energy(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""This operator is deprecated: use the operator mapdl::rst::ENG_SE with
-the read_cyclic pin instead. Compute mapdl::rst::ENG_SE from an rst file
-and expand it with cyclic symmetry.
+        description = r"""This operator is deprecated: use the operator element energy associated
+with the stiffness matrix with the read_cyclic pin instead. Read element
+energy associated with the stiffness matrix from a result file and
+expand it with cyclic symmetry.
 """
         spec = Specification(
             description=description,
@@ -224,12 +224,6 @@ and expand it with cyclic symmetry.
                     type_names=["fields_container"],
                     optional=False,
                     document=r"""FieldsContainer filled in""",
-                ),
-                1: PinSpecification(
-                    name="expanded_meshes",
-                    type_names=["meshes_container"],
-                    optional=False,
-                    document=r"""""",
                 ),
             },
         )
@@ -584,7 +578,6 @@ class OutputsCyclicStrainEnergy(_Outputs):
     >>> op = dpf.operators.result.cyclic_strain_energy()
     >>> # Connect inputs : op.inputs. ...
     >>> result_fields_container = op.outputs.fields_container()
-    >>> result_expanded_meshes = op.outputs.expanded_meshes()
     """
 
     def __init__(self, op: Operator):
@@ -593,10 +586,6 @@ class OutputsCyclicStrainEnergy(_Outputs):
             cyclic_strain_energy._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._fields_container)
-        self._expanded_meshes = Output(
-            cyclic_strain_energy._spec().output_pin(1), 1, op
-        )
-        self._outputs.append(self._expanded_meshes)
 
     @property
     def fields_container(self) -> Output:
@@ -617,21 +606,3 @@ class OutputsCyclicStrainEnergy(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """
         return self._fields_container
-
-    @property
-    def expanded_meshes(self) -> Output:
-        r"""Allows to get expanded_meshes output of the operator
-
-        Returns
-        -------
-        output:
-            An Output instance for this pin.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.result.cyclic_strain_energy()
-        >>> # Get the output from op.outputs. ...
-        >>> result_expanded_meshes = op.outputs.expanded_meshes()
-        """
-        return self._expanded_meshes

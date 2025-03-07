@@ -16,9 +16,10 @@ from ansys.dpf.core.server_types import AnyServerType
 
 
 class cyclic_nmisc(Operator):
-    r"""This operator is deprecated: use the operator mapdl::rst::NMISC with the
-    read_cyclic pin instead. Compute mapdl::rst::NMISC from an rst file and
-    expand it with cyclic symmetry.
+    r"""This operator is deprecated: use the operator elemental non summable
+    miscellaneous data with the read_cyclic pin instead. Read elemental non
+    summable miscellaneous data from a result file and expand it with cyclic
+    symmetry.
 
 
     Parameters
@@ -47,7 +48,6 @@ class cyclic_nmisc(Operator):
     -------
     fields_container: FieldsContainer
         FieldsContainer filled in
-    expanded_meshes: MeshesContainer
 
     Examples
     --------
@@ -97,7 +97,6 @@ class cyclic_nmisc(Operator):
 
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
-    >>> result_expanded_meshes = op.outputs.expanded_meshes()
     """
 
     def __init__(
@@ -144,9 +143,10 @@ class cyclic_nmisc(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""This operator is deprecated: use the operator mapdl::rst::NMISC with the
-read_cyclic pin instead. Compute mapdl::rst::NMISC from an rst file and
-expand it with cyclic symmetry.
+        description = r"""This operator is deprecated: use the operator elemental non summable
+miscellaneous data with the read_cyclic pin instead. Read elemental non
+summable miscellaneous data from a result file and expand it with cyclic
+symmetry.
 """
         spec = Specification(
             description=description,
@@ -224,12 +224,6 @@ expand it with cyclic symmetry.
                     type_names=["fields_container"],
                     optional=False,
                     document=r"""FieldsContainer filled in""",
-                ),
-                1: PinSpecification(
-                    name="expanded_meshes",
-                    type_names=["meshes_container"],
-                    optional=False,
-                    document=r"""""",
                 ),
             },
         )
@@ -576,15 +570,12 @@ class OutputsCyclicNmisc(_Outputs):
     >>> op = dpf.operators.result.cyclic_nmisc()
     >>> # Connect inputs : op.inputs. ...
     >>> result_fields_container = op.outputs.fields_container()
-    >>> result_expanded_meshes = op.outputs.expanded_meshes()
     """
 
     def __init__(self, op: Operator):
         super().__init__(cyclic_nmisc._spec().outputs, op)
         self._fields_container = Output(cyclic_nmisc._spec().output_pin(0), 0, op)
         self._outputs.append(self._fields_container)
-        self._expanded_meshes = Output(cyclic_nmisc._spec().output_pin(1), 1, op)
-        self._outputs.append(self._expanded_meshes)
 
     @property
     def fields_container(self) -> Output:
@@ -605,21 +596,3 @@ class OutputsCyclicNmisc(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """
         return self._fields_container
-
-    @property
-    def expanded_meshes(self) -> Output:
-        r"""Allows to get expanded_meshes output of the operator
-
-        Returns
-        -------
-        output:
-            An Output instance for this pin.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.result.cyclic_nmisc()
-        >>> # Get the output from op.outputs. ...
-        >>> result_expanded_meshes = op.outputs.expanded_meshes()
-        """
-        return self._expanded_meshes
