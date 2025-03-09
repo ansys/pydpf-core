@@ -16,9 +16,9 @@ from ansys.dpf.core.server_types import AnyServerType
 
 
 class cyclic_volume(Operator):
-    r"""This operator is deprecated: use the operator mapdl::rst::ENG_VOL with
-    the read_cyclic pin instead. Read mapdl::rst::ENG_VOL from an rst file
-    and expand it with cyclic symmetry.
+    r"""This operator is deprecated: use the operator element volume with the
+    read_cyclic pin instead. Read element volume from a result file and
+    expand it with cyclic symmetry.
 
 
     Parameters
@@ -47,7 +47,6 @@ class cyclic_volume(Operator):
     -------
     fields_container: FieldsContainer
         FieldsContainer filled in
-    expanded_meshes: MeshesContainer
 
     Examples
     --------
@@ -97,7 +96,6 @@ class cyclic_volume(Operator):
 
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
-    >>> result_expanded_meshes = op.outputs.expanded_meshes()
     """
 
     def __init__(
@@ -116,9 +114,7 @@ class cyclic_volume(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(
-            name="mapdl::rst::ENG_VOL_cyclic", config=config, server=server
-        )
+        super().__init__(name="ENG_VOL_cyclic", config=config, server=server)
         self._inputs = InputsCyclicVolume(self)
         self._outputs = OutputsCyclicVolume(self)
         if time_scoping is not None:
@@ -146,9 +142,9 @@ class cyclic_volume(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""This operator is deprecated: use the operator mapdl::rst::ENG_VOL with
-the read_cyclic pin instead. Read mapdl::rst::ENG_VOL from an rst file
-and expand it with cyclic symmetry.
+        description = r"""This operator is deprecated: use the operator element volume with the
+read_cyclic pin instead. Read element volume from a result file and
+expand it with cyclic symmetry.
 """
         spec = Specification(
             description=description,
@@ -227,12 +223,6 @@ and expand it with cyclic symmetry.
                     optional=False,
                     document=r"""FieldsContainer filled in""",
                 ),
-                1: PinSpecification(
-                    name="expanded_meshes",
-                    type_names=["meshes_container"],
-                    optional=False,
-                    document=r"""""",
-                ),
             },
         )
         return spec
@@ -256,7 +246,7 @@ and expand it with cyclic symmetry.
         config:
             A new Config instance equivalent to the default config for this operator.
         """
-        return Operator.default_config(name="mapdl::rst::ENG_VOL_cyclic", server=server)
+        return Operator.default_config(name="ENG_VOL_cyclic", server=server)
 
     @property
     def inputs(self) -> InputsCyclicVolume:
@@ -578,15 +568,12 @@ class OutputsCyclicVolume(_Outputs):
     >>> op = dpf.operators.result.cyclic_volume()
     >>> # Connect inputs : op.inputs. ...
     >>> result_fields_container = op.outputs.fields_container()
-    >>> result_expanded_meshes = op.outputs.expanded_meshes()
     """
 
     def __init__(self, op: Operator):
         super().__init__(cyclic_volume._spec().outputs, op)
         self._fields_container = Output(cyclic_volume._spec().output_pin(0), 0, op)
         self._outputs.append(self._fields_container)
-        self._expanded_meshes = Output(cyclic_volume._spec().output_pin(1), 1, op)
-        self._outputs.append(self._expanded_meshes)
 
     @property
     def fields_container(self) -> Output:
@@ -607,21 +594,3 @@ class OutputsCyclicVolume(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """
         return self._fields_container
-
-    @property
-    def expanded_meshes(self) -> Output:
-        r"""Allows to get expanded_meshes output of the operator
-
-        Returns
-        -------
-        output:
-            An Output instance for this pin.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.result.cyclic_volume()
-        >>> # Get the output from op.outputs. ...
-        >>> result_expanded_meshes = op.outputs.expanded_meshes()
-        """
-        return self._expanded_meshes
