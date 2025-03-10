@@ -201,7 +201,7 @@ class StringField(_FieldBase):
     def get_entity_data(self, index):
         """Return entity data."""
         try:
-            vec = dpf_vector.DPFVectorString(client=self._server.client)
+            vec = dpf_vector.DPFVectorString(owner=self)
             self._api.csstring_field_get_entity_data_for_dpf_vector(
                 self, vec, vec.internal_data, vec.internal_size, index
             )
@@ -213,7 +213,7 @@ class StringField(_FieldBase):
     def get_entity_data_by_id(self, id):
         """Return entity data corresponding to the provided id."""
         try:
-            vec = dpf_vector.DPFVectorString(client=self._server.client)
+            vec = dpf_vector.DPFVectorString(owner=self)
             self._api.csstring_field_get_entity_data_by_id_for_dpf_vector(
                 self, vec, vec.internal_data, vec.internal_size, id
             )
@@ -236,7 +236,7 @@ class StringField(_FieldBase):
 
     def _get_data(self, np_array=True):
         try:
-            vec = dpf_vector.DPFVectorString(client=self._server.client)
+            vec = dpf_vector.DPFVectorString(owner=self)
             self._api.csstring_field_get_data_for_dpf_vector(
                 self, vec, vec.internal_data, vec.internal_size
             )
