@@ -23,23 +23,23 @@ class DPFVectorBase:
 
     Parameters
     ----------
-    client: object having _internal_obj attribute and a shared CLayer Client instance, optional
+    owner: object having _internal_obj attribute and a shared CLayer Client instance, optional
         Enables DPFClientAPI to choose the right API to use.
 
     api: DpfVectorAbstractAPI, optional
     """
 
-    def __init__(self, client, api):
+    def __init__(self, owner, api):
         self.dpf_vector_api = api
         self._modified = False
         self._check_changes = True
         try:
-            if not client:
+            if owner is None:
                 self._internal_obj = self.dpf_vector_api.dpf_vector_new()
                 self._check_changes = False
             else:
-                self._internal_obj = self.dpf_vector_api.dpf_vector_new_for_object(client)
-        except AttributeError:
+                self._internal_obj = self.dpf_vector_api.dpf_vector_new_for_object(owner)
+        except ctypes.ArgumentError:
             raise NotImplementedError
 
     @property
@@ -140,8 +140,8 @@ class DPFVectorBase:
 
 
 class DPFVectorInt(DPFVectorBase):
-    def __init__(self, client=None, api=dpf_vector_capi.DpfVectorCAPI):
-        super().__init__(client, api)
+    def __init__(self, owner=None, api=dpf_vector_capi.DpfVectorCAPI):
+        super().__init__(owner, api)
         self._array = MutableListInt32()
 
     @property
@@ -171,8 +171,8 @@ class DPFVectorInt(DPFVectorBase):
 
 
 class DPFVectorDouble(DPFVectorBase):
-    def __init__(self, client=None, api=dpf_vector_capi.DpfVectorCAPI):
-        super().__init__(client, api)
+    def __init__(self, owner=None, api=dpf_vector_capi.DpfVectorCAPI):
+        super().__init__(owner, api)
         self._array = MutableListDouble()
 
     @property
@@ -202,9 +202,9 @@ class DPFVectorDouble(DPFVectorBase):
 
 
 class DPFVectorCustomType(DPFVectorBase):
-    def __init__(self, unitary_type, client=None, api=dpf_vector_capi.DpfVectorCAPI):
+    def __init__(self, unitary_type, owner=None, api=dpf_vector_capi.DpfVectorCAPI):
         self.type = unitary_type
-        super().__init__(client, api)
+        super().__init__(owner, api)
         self._array = MutableListChar()
 
     @property
@@ -258,8 +258,8 @@ class DPFVectorCustomType(DPFVectorBase):
 
 
 class DPFVectorString(DPFVectorBase):
-    def __init__(self, client=None, api=dpf_vector_capi.DpfVectorCAPI):
-        super().__init__(client, api)
+    def __init__(self, owner=None, api=dpf_vector_capi.DpfVectorCAPI):
+        super().__init__(owner, api)
         self._array = MutableListString()
 
     @property
