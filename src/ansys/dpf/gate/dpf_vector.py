@@ -1,6 +1,8 @@
 import copy
 import ctypes
 import numpy as np
+
+from ansys.dpf.core.check_version import server_meet_version
 from ansys.dpf.gate.generated import dpf_vector_capi
 from ansys.dpf.gate.integral_types import MutableListInt32, MutableInt32, MutableListDouble, \
     MutableListString, MutableListChar
@@ -34,11 +36,10 @@ class DPFVectorBase:
         self._modified = False
         self._check_changes = True
         try:
-            if owner is None:
-                self._internal_obj = self.dpf_vector_api.dpf_vector_new()
+            self._internal_obj = self.dpf_vector_api.dpf_vector_new_for_object(owner)
+            if not server_meet_version("4.1",
+                                       owner._server) and owner._server.client is None:  # BUG in 22.2: DpfVector is not holding the data owner and not call to data owner should be done at delete
                 self._check_changes = False
-            else:
-                self._internal_obj = self.dpf_vector_api.dpf_vector_new_for_object(owner)
         except ctypes.ArgumentError:
             raise NotImplementedError
 
@@ -81,7 +82,6 @@ class DPFVectorBase:
                 self._modified = True
         return self._modified
 
-
     @property
     def np_array(self) -> np.ndarray:
         """
@@ -94,7 +94,7 @@ class DPFVectorBase:
         --------
         Memory of the DPFVector is not managed in this object. Use a ```DPFArray``` instead.
         """
-        if not self._array.pointer or self.size==0:
+        if not self._array.pointer or self.size == 0:
             return np.empty((0,), dtype=self._array.np_type)
         return np.ctypeslib.as_array(self._array.pointer, shape=(self.size,))
 
@@ -164,7 +164,8 @@ class DPFVectorInt(DPFVectorBase):
     def __del__(self):
         try:
             if self._array:
-                self.dpf_vector_api.dpf_vector_int_free(self, self.internal_data, self.internal_size, self.has_changed())
+                self.dpf_vector_api.dpf_vector_int_free(self, self.internal_data, self.internal_size,
+                                                        self.has_changed())
         except:
             pass
         super().__del__()
@@ -195,7 +196,8 @@ class DPFVectorDouble(DPFVectorBase):
     def __del__(self):
         try:
             if self._array:
-                self.dpf_vector_api.dpf_vector_double_free(self, self.internal_data, self.internal_size, self.has_changed())
+                self.dpf_vector_api.dpf_vector_double_free(self, self.internal_data, self.internal_size,
+                                                           self.has_changed())
         except:
             pass
         super().__del__()
@@ -222,7 +224,8 @@ class DPFVectorCustomType(DPFVectorBase):
         if self._check_changes is set to True, compares the initial data computed in
         ```start_checking_modification``` (which should have been called beforehand) to the current one.
         """
-        self.dpf_vector_api.dpf_vector_char_commit(self, self.internal_data, self.size*self.type.itemsize, self.has_changed())
+        self.dpf_vector_api.dpf_vector_char_commit(self, self.internal_data, self.size * self.type.itemsize,
+                                                   self.has_changed())
 
     @property
     def size(self) -> int:
@@ -241,7 +244,7 @@ class DPFVectorCustomType(DPFVectorBase):
         --------
         Memory of the DPFVector is not managed in this object. Use a ```DPFArray``` instead.
         """
-        if not self._array.pointer or self.size==0:
+        if not self._array.pointer or self.size == 0:
             return np.empty((0,), dtype=self._array.np_type)
         return np.ctypeslib.as_array(
             ctypes.cast(self._array.pointer, ctypes.POINTER(np.ctypeslib.as_ctypes_type(self.type))),
@@ -251,7 +254,8 @@ class DPFVectorCustomType(DPFVectorBase):
     def __del__(self):
         try:
             if self._array:
-                self.dpf_vector_api.dpf_vector_char_free(self, self.internal_data, self.size*self.type.itemsize, self.has_changed())
+                self.dpf_vector_api.dpf_vector_char_free(self, self.internal_data, self.size * self.type.itemsize,
+                                                         self.has_changed())
         except:
             pass
         super().__del__()
@@ -275,7 +279,8 @@ class DPFVectorString(DPFVectorBase):
     def __del__(self):
         try:
             if self._array:
-                self.dpf_vector_api.dpf_vector_char_ptr_free(self, self.internal_data, self.internal_size, self.has_changed())
+                self.dpf_vector_api.dpf_vector_char_ptr_free(self, self.internal_data, self.internal_size,
+                                                             self.has_changed())
         except:
             pass
         super().__del__()
@@ -293,7 +298,7 @@ class DPFVectorString(DPFVectorBase):
     def __next__(self):
         if self.n < len(self):
             self.n += 1
-            return self.__getitem__(self.n-1)
+            return self.__getitem__(self.n - 1)
         else:
             raise StopIteration
 
@@ -310,12 +315,11 @@ class DPFVectorString(DPFVectorBase):
 
     def __str__(self):
         out = f"DPFVectorString["
-        for i in range(min(5, len(self)-1)):
+        for i in range(min(5, len(self) - 1)):
             out += f"'{self[i]}', "
-        if len(self)>2:
+        if len(self) > 2:
             out += "..., "
         if len(self) >= 2:
-            out += f"'{self[len(self)-1]}'"
+            out += f"'{self[len(self) - 1]}'"
         out += "]"
         return out
-
