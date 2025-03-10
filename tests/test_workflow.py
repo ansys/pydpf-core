@@ -63,7 +63,7 @@ def remove_dot_file(request):
     request.addfinalizer(remove_files)
 
 
-@pytest.mark.skipif(not HAS_GRAPHVIZ, reason="Please install pyvista")
+@pytest.mark.skipif(not HAS_GRAPHVIZ, reason="Please install graphviz")
 def test_workflow_view(server_in_process, remove_dot_file):
     pre_wf = dpf.core.Workflow(server=server_in_process)
     pre_op = dpf.core.operators.utility.forward(server=server_in_process)
@@ -693,6 +693,42 @@ def test_connect_with_dict_workflow(cyclic_lin_rst, cyclic_ds, server_type):
     wf2.connect_with(wf, {"support1": "support2"})
     meshed_region = wf2.get_output("mesh_expand", dpf.core.types.meshed_region)
     fc = wf2.get_output("u", dpf.core.types.fields_container)
+
+
+def test_workflow_connect_raise_wrong_label(server_type):
+    workflow1 = dpf.core.Workflow()
+    forward_1 = dpf.core.operators.utility.forward()
+    workflow1.set_output_name("output", forward_1.outputs.any)
+
+    workflow2 = dpf.core.Workflow()
+    forward_2 = dpf.core.operators.utility.forward()
+    workflow2.set_input_name("input", forward_2.inputs.any)
+
+    with pytest.raises(
+        ValueError, match="Cannot connect workflow output 'out'. Exposed outputs are:\n"
+    ):
+        workflow2.connect_with(workflow1, output_input_names={"out": "input"}, permissive=False)
+    with pytest.raises(
+        ValueError, match="Cannot connect workflow input 'in'. Exposed inputs are:\n"
+    ):
+        workflow2.connect_with(workflow1, output_input_names={"output": "in"}, permissive=False)
+    workflow2.connect_with(workflow1, output_input_names={"output": "input"}, permissive=False)
+
+
+def test_workflow_connect_with_permissive(server_type):
+    workflow1 = dpf.core.Workflow()
+    forward_1 = dpf.core.operators.utility.forward()
+    workflow1.set_output_name("output", forward_1.outputs.any)
+
+    workflow2 = dpf.core.Workflow()
+    forward_2 = dpf.core.operators.utility.forward()
+    workflow2.set_input_name("input", forward_2.inputs.any)
+
+    workflow2.connect_with(workflow1, output_input_names={"out": "input"})
+
+    workflow2.connect_with(workflow1, output_input_names={"output": "in"})
+
+    workflow2.connect_with(workflow1, output_input_names=("output", "input"))
 
 
 @pytest.mark.xfail(raises=dpf.core.errors.ServerTypeError)

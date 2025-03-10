@@ -36,11 +36,10 @@ from ansys.dpf.core.check_version import (
     server_meet_version_and_raise,
     version_requires,
 )
-from ansys.dpf.core.common import types_enum_to_types
+from ansys.dpf.core.common import types, types_enum_to_types
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.errors import DpfVersionNotSupported
 from ansys.dpf.core.inputs import Inputs
-from ansys.dpf.core.mapping_types import types
 from ansys.dpf.core.operator_specification import Specification
 from ansys.dpf.core.outputs import Output, Outputs, _Outputs
 from ansys.dpf.core.unit_system import UnitSystem
@@ -681,7 +680,7 @@ class Operator:
         return self._id
 
     @property
-    def inputs(self):
+    def inputs(self) -> Inputs:
         """Inputs connected to the operator.
 
         Returns
@@ -703,7 +702,7 @@ class Operator:
         return self._inputs
 
     @property
-    def outputs(self):
+    def outputs(self) -> Outputs:
         """Outputs from the operator's evaluation.
 
         Returns

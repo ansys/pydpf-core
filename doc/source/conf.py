@@ -1,13 +1,20 @@
-import os
-import sys
-from glob import glob
 from datetime import datetime
+from glob import glob
+import os
+from pathlib import Path
+import subprocess
 
+from ansys_sphinx_theme import (
+    ansys_favicon,
+    get_version_match,
+    pyansys_logo_dark_mode,
+    pyansys_logo_light_mode,
+)
 import numpy as np
 import pyvista
+
 from ansys.dpf.core import __version__, server, server_factory
 from ansys.dpf.core.examples import get_example_required_minimum_dpf_version
-from ansys_sphinx_theme import ansys_favicon, get_version_match, pyansys_logo_light_mode, pyansys_logo_dark_mode
 
 # Manage errors
 pyvista.set_error_output_file("errors.txt")
@@ -104,9 +111,8 @@ extensions = [
     "sphinx.ext.todo",
     "sphinx_copybutton",
     "sphinx_design",
-    "sphinx_gallery.gen_gallery",
+    "sphinx_jinja",
     'sphinx_reredirects',
-    "ansys_sphinx_theme.extension.autoapi",
 ]
 
 redirects = {
@@ -161,9 +167,11 @@ from sphinx_gallery.sorting import FileNameSortKey
 
 
 def reset_servers(gallery_conf, fname, when):
-    import psutil
-    from ansys.dpf.core import server
     import gc
+
+    import psutil
+
+    from ansys.dpf.core import server
 
     gc.collect()
     server.shutdown_all_session_servers()
@@ -174,7 +182,7 @@ def reset_servers(gallery_conf, fname, when):
         try:
             # check whether the process name matches
             if proc_name in proc.name():
-                # proc.kill()
+                proc.kill()
                 nb_procs += 1
         except psutil.NoSuchProcess:
             pass
@@ -259,7 +267,7 @@ html_theme_options = {
 
 # Configuration for Sphinx autoapi
 suppress_warnings = [
-    "autoapi.python_import_resolution", # Todo: remove suppression of this warning in the future
+    "autoapi.python_import_resolution", # TODO: remove suppression of this warning in the future #1967
     "design.grid",
     "config.cache",
     "design.fa-build",
@@ -367,3 +375,33 @@ epub_title = project
 
 # A list of files that should not be packed into the epub file.
 epub_exclude_files = ["search.html"]
+
+# Common content for every RST file such us links
+rst_epilog = ""
+links_filepath = Path(__file__).parent.absolute() / "links.rst"
+rst_epilog += links_filepath.read_text(encoding="utf-8")
+
+jinja_globals = {
+    "PYDPF_CORE_VERSION": version,
+}
+
+# Get list of tox environments and add to jinja context
+envs = subprocess.run(["tox", "list", "-q"], capture_output=True, text=True).stdout.splitlines()
+envs.remove("default environments:")
+envs.remove("additional environments:")
+envs.remove("")
+
+jinja_contexts = {
+    "toxenvs" : {
+        "envs": envs,
+    }
+}
+
+# Optionally exclude api or example documentation generation.
+BUILD_API = True if os.environ.get("BUILD_API", "true") == "true" else False
+if BUILD_API:
+    extensions.extend(["ansys_sphinx_theme.extension.autoapi"])
+
+BUILD_EXAMPLES = True if os.environ.get("BUILD_EXAMPLES", "true") == "true" else False
+if BUILD_EXAMPLES:
+    extensions.extend(["sphinx_gallery.gen_gallery"])

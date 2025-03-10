@@ -22,6 +22,7 @@
 
 """Inputs."""
 
+from enum import Enum
 from textwrap import wrap
 import warnings
 import weakref
@@ -62,6 +63,7 @@ class Input:
                 self._python_expected_types.append(map_types_to_python[cpp_type])
         if len(self._spec.type_names) == 0:
             self._python_expected_types.append("Any")
+        self.aliases = self._spec.aliases
         docstr = self.__str__()
         self.name = self._spec.name
         if self._count_ellipsis != -1:
@@ -73,7 +75,7 @@ class Input:
 
         Parameters
         ----------
-        inpt : str, int, double, Field, FieldsContainer, Scoping, DataSources, MeshedRegion,
+        inpt : str, int, double, Field, FieldsContainer, Scoping, DataSources, MeshedRegion, Enum,
         Output, Outputs, Operator, os.PathLike
             Input of the operator.
 
@@ -100,6 +102,8 @@ class Input:
                 inpt = inpt.ID
             else:  # Custom UnitSystem
                 inpt = inpt.unit_names
+        elif isinstance(inpt, Enum):
+            inpt = inpt.value
 
         input_type_name = type(inpt).__name__
         if not (input_type_name in self._python_expected_types or ["Outputs", "Output", "Any"]):
@@ -184,6 +188,8 @@ class Input:
             docstr += "\n".join(wrap(self._spec.document.capitalize())) + "\n"
         if self._count_ellipsis >= 0:
             docstr += "is ellipsis\n"
+        if self.aliases:
+            docstr += f"aliases: {self.aliases}\n"
         return docstr
 
     def __inc_if_ellipsis(self):
@@ -226,7 +232,7 @@ class _Inputs:
 
         Parameters
         ----------
-        inpt : str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping,
+        inpt : str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping, Enum,
         ScopingsContainer, MeshedRegion, MeshesContainer, DataSources, CyclicSupport, Outputs, os.PathLike  # noqa: E501
             Input of the operator.
 
@@ -250,6 +256,8 @@ class _Inputs:
             inpt = inpt.metadata.data_sources
         elif isinstance(inpt, Path):
             inpt = str(inpt)
+        elif isinstance(inpt, Enum):
+            inpt = inpt.value
 
         input_type_name = type(inpt).__name__
         for input_pin in self._inputs:
@@ -311,6 +319,9 @@ class _Inputs:
 
     def __call__(self, inpt):
         self.connect(inpt)
+
+    def __getitem__(self, item) -> Input:
+        return self._inputs[item]
 
 
 # Dynamic class Inputs

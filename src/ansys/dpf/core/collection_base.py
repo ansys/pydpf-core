@@ -45,7 +45,7 @@ from ansys.dpf.gate import (
     dpf_vector,
 )
 
-if TYPE_CHECKING:
+if TYPE_CHECKING:  # pragma: no cover
     from ansys.dpf.core.support import Support
 
 from ansys.dpf.gate.integral_types import MutableListInt32

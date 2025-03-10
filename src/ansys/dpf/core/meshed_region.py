@@ -35,7 +35,7 @@ import warnings
 
 from ansys.dpf.core import field, property_field, scoping, server as server_module
 from ansys.dpf.core.cache import class_handling_cache
-from ansys.dpf.core.check_version import server_meet_version, version_requires
+from ansys.dpf.core.check_version import meets_version, server_meet_version, version_requires
 from ansys.dpf.core.common import (
     locations,
     nodal_properties,
@@ -493,7 +493,7 @@ class MeshedRegion:
             deform_by = deform_by[0]
         if deform_by.unit != self.unit:
             unit_convert(deform_by, self.unit)
-        scale_op = scale(field=deform_by, ponderation=scale_factor)
+        scale_op = scale(field=deform_by, weights=scale_factor)
         return add(fieldA=self.nodes.coordinates_field, fieldB=scale_op.outputs.field).eval()
 
     def _as_vtk(self, coordinates=None, as_linear=True, include_ids=False):
@@ -701,3 +701,15 @@ class MeshedRegion:
                     # Not sure we go through here since the only datatype not int is coordinates,
                     # which is already dealt with previously.
                     return field.Field(server=self._server, field=field_out)
+
+    def is_empty(self) -> bool:
+        """Whether the mesh is empty.
+
+        A mesh is considered empty when it has zero element, zero face, and zero node.
+        """
+        no_faces = True
+        if meets_version(self._server.version, "7.0"):
+            no_faces = self.faces.n_faces == 0
+        no_elements = self.elements.n_elements == 0
+        no_nodes = self.nodes.n_nodes == 0
+        return no_nodes and no_faces and no_elements
