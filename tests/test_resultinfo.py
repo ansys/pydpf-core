@@ -183,7 +183,7 @@ Available results:
 Available qualifier labels:"""  # noqa
     else:
         ref = """Static analysis
-Unit system: Custom: m, kg, N, s, V, A, K
+Unit system: SI: m, kg, N, s, V, A, K
 Physics Type: Fluid
 Available results:
      -  specific_heat: Nodal Specific Heat
