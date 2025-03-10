@@ -326,7 +326,7 @@ class CustomTypeField(_FieldBase):
 
         """
         try:
-            vec = dpf_vector.DPFVectorCustomType(self._type, client=self._server.client)
+            vec = dpf_vector.DPFVectorCustomType(self._type, owner=self)
             self._api.cscustom_type_field_get_entity_data_for_dpf_vector(
                 self, vec, vec.internal_data, vec.internal_size, index
             )
@@ -366,7 +366,7 @@ class CustomTypeField(_FieldBase):
 
         """
         try:
-            vec = dpf_vector.DPFVectorCustomType(self._type, client=self._server.client)
+            vec = dpf_vector.DPFVectorCustomType(self._type, owner=self)
             self._api.cscustom_type_field_get_entity_data_by_id_for_dpf_vector(
                 self, vec, vec.internal_data, vec.internal_size, id
             )
@@ -390,7 +390,7 @@ class CustomTypeField(_FieldBase):
 
     def _get_data_pointer(self):
         try:
-            vec = dpf_vector.DPFVectorInt(client=self._server.client)
+            vec = dpf_vector.DPFVectorInt(owner=self)
             self._api.cscustom_type_field_get_data_pointer_for_dpf_vector(
                 self, vec, vec.internal_data, vec.internal_size
             )
@@ -404,7 +404,7 @@ class CustomTypeField(_FieldBase):
 
     def _get_data(self, np_array=True):
         try:
-            vec = dpf_vector.DPFVectorCustomType(self._type, client=self._server.client)
+            vec = dpf_vector.DPFVectorCustomType(self._type, owner=self)
             self._api.cscustom_type_field_get_data_for_dpf_vector(
                 self, vec, vec.internal_data, vec.internal_size
             )

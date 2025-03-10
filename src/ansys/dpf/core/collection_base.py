@@ -655,7 +655,7 @@ class IntCollection(CollectionBase[int]):
     def get_integral_entries(self):
         """Get integral entries."""
         try:
-            vec = dpf_vector.DPFVectorInt(client=self._server.client)
+            vec = dpf_vector.DPFVectorInt(owner=self)
             self._api.collection_get_data_as_int_for_dpf_vector(
                 self, vec, vec.internal_data, vec.internal_size
             )
@@ -715,7 +715,7 @@ class FloatCollection(CollectionBase[float]):
     def get_integral_entries(self):
         """Get integral entries."""
         try:
-            vec = dpf_vector.DPFVectorDouble(client=self._server.client)
+            vec = dpf_vector.DPFVectorDouble(owner=self)
             self._api.collection_get_data_as_double_for_dpf_vector(
                 self, vec, vec.internal_data, vec.internal_size
             )
