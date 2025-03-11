@@ -37,8 +37,9 @@ from ansys.dpf.gate import (
     integral_types,
     operator_specification_capi,
     operator_specification_grpcapi,
+    semantic_version_capi
 )
-
+import ctypes
 
 class PinSpecification:
     """Documents an input or output pin of an Operator.
@@ -496,6 +497,22 @@ class Specification(SpecificationBase):
                     document=option_doc,
                 )
         return self._config_specification
+    
+    @property
+    def version(self) -> str:
+        semver_obj = lambda: None
+        semver_obj._internal_obj = self._api.operator_specification_get_version(self)
+
+        semver_api = self._server.get_api_for_type(
+            capi=semantic_version_capi.SemanticVersionCAPI, grpcapi=None
+        )
+
+        size = ctypes.c_uint64(0)
+        semver_api.semantic_version_to_string(semver_obj, None, ctypes.byref(size))
+        buf = integral_types.MutableString(size.value)
+        semver_api.semantic_version_to_string(semver_obj, buf, ctypes.byref(size))
+        return str(buf)
+
 
 
 class CustomConfigOptionSpec(ConfigOptionSpec):
