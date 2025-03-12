@@ -56,6 +56,24 @@ class AddFloatToFieldData(CustomOperatorBase):
     def name(self):
         return "custom_add_to_field"
 
+class OpWithVersion(CustomOperatorBase):
+    def run(self):
+        self.set_output("The brown fox jumps over the lazy dog.")
+        self.set_succeeded()
+    
+    @property
+    def specification(self):
+        spec = CustomSpecification()
+        spec.description = "Outputs a string"
+        spec.outputs = {
+            0: PinSpecification("message", [str], "Important message")
+        }
+        spec.version = (2, 3, 1)
+        return spec
+    @property
+    def name(self):
+        return "__op_with_version"
 
 def load_operators(*args):
     record_operator(AddFloatToFieldData, *args)
+    record_operator(OpWithVersion, *args)
