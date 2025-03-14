@@ -223,7 +223,7 @@ class PropertyField(_FieldBase):
     def get_entity_data(self, index):
         """Return the data associated with the entity by index."""
         try:
-            vec = dpf_vector.DPFVectorInt(client=self._server.client)
+            vec = dpf_vector.DPFVectorInt(owner=self)
             self._api.csproperty_field_get_entity_data_for_dpf_vector(
                 self, vec, vec.internal_data, vec.internal_size, index
             )
@@ -239,7 +239,7 @@ class PropertyField(_FieldBase):
     def get_entity_data_by_id(self, id):
         """Return the data associated with entity by id."""
         try:
-            vec = dpf_vector.DPFVectorInt(client=self._server.client)
+            vec = dpf_vector.DPFVectorInt(owner=self)
             self._api.csproperty_field_get_entity_data_by_id_for_dpf_vector(
                 self, vec, vec.internal_data, vec.internal_size, id
             )
@@ -264,7 +264,7 @@ class PropertyField(_FieldBase):
 
     def _get_data_pointer(self):
         try:
-            vec = dpf_vector.DPFVectorInt(client=self._server.client)
+            vec = dpf_vector.DPFVectorInt(owner=self)
             self._api.csproperty_field_get_data_pointer_for_dpf_vector(
                 self, vec, vec.internal_data, vec.internal_size
             )
@@ -278,7 +278,7 @@ class PropertyField(_FieldBase):
 
     def _get_data(self, np_array=True):
         try:
-            vec = dpf_vector.DPFVectorInt(client=self._server.client)
+            vec = dpf_vector.DPFVectorInt(owner=self)
             self._api.csproperty_field_get_data_for_dpf_vector(
                 self, vec, vec.internal_data, vec.internal_size
             )

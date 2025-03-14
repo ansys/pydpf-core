@@ -269,7 +269,7 @@ def build_operators():
             # Create category init file
             category_operators = os.listdir(os.path.join(this_path, category.split(".")[0]))
             with open(os.path.join(this_path, category, "__init__.py"), "wb") as category_init:
-                for category_operator in category_operators:
+                for category_operator in sorted(category_operators):
                     operator_name = category_operator.split(".")[0]
                     category_init.write(
                         f"from .{operator_name} import {operator_name}\n".encode()

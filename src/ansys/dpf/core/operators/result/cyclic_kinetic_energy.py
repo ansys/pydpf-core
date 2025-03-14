@@ -16,9 +16,9 @@ from ansys.dpf.core.server_types import AnyServerType
 
 
 class cyclic_kinetic_energy(Operator):
-    r"""This operator is deprecated: use the operator mapdl::rst::ENG_KE with
-    the read_cyclic pin instead. Compute mapdl::rst::ENG_KE from an rst file
-    and expand it with cyclic symmetry.
+    r"""This operator is deprecated: use the operator kinetic energy with the
+    read_cyclic pin instead. Read kinetic energy from a result file and
+    expand it with cyclic symmetry.
 
 
     Parameters
@@ -47,7 +47,6 @@ class cyclic_kinetic_energy(Operator):
     -------
     fields_container: FieldsContainer
         FieldsContainer filled in
-    expanded_meshes: MeshesContainer
 
     Examples
     --------
@@ -97,7 +96,6 @@ class cyclic_kinetic_energy(Operator):
 
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
-    >>> result_expanded_meshes = op.outputs.expanded_meshes()
     """
 
     def __init__(
@@ -116,7 +114,7 @@ class cyclic_kinetic_energy(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="mapdl::rst::ENG_KE_cyclic", config=config, server=server)
+        super().__init__(name="ENG_KE_cyclic", config=config, server=server)
         self._inputs = InputsCyclicKineticEnergy(self)
         self._outputs = OutputsCyclicKineticEnergy(self)
         if time_scoping is not None:
@@ -144,9 +142,9 @@ class cyclic_kinetic_energy(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""This operator is deprecated: use the operator mapdl::rst::ENG_KE with
-the read_cyclic pin instead. Compute mapdl::rst::ENG_KE from an rst file
-and expand it with cyclic symmetry.
+        description = r"""This operator is deprecated: use the operator kinetic energy with the
+read_cyclic pin instead. Read kinetic energy from a result file and
+expand it with cyclic symmetry.
 """
         spec = Specification(
             description=description,
@@ -225,12 +223,6 @@ and expand it with cyclic symmetry.
                     optional=False,
                     document=r"""FieldsContainer filled in""",
                 ),
-                1: PinSpecification(
-                    name="expanded_meshes",
-                    type_names=["meshes_container"],
-                    optional=False,
-                    document=r"""""",
-                ),
             },
         )
         return spec
@@ -254,7 +246,7 @@ and expand it with cyclic symmetry.
         config:
             A new Config instance equivalent to the default config for this operator.
         """
-        return Operator.default_config(name="mapdl::rst::ENG_KE_cyclic", server=server)
+        return Operator.default_config(name="ENG_KE_cyclic", server=server)
 
     @property
     def inputs(self) -> InputsCyclicKineticEnergy:
@@ -590,7 +582,6 @@ class OutputsCyclicKineticEnergy(_Outputs):
     >>> op = dpf.operators.result.cyclic_kinetic_energy()
     >>> # Connect inputs : op.inputs. ...
     >>> result_fields_container = op.outputs.fields_container()
-    >>> result_expanded_meshes = op.outputs.expanded_meshes()
     """
 
     def __init__(self, op: Operator):
@@ -599,10 +590,6 @@ class OutputsCyclicKineticEnergy(_Outputs):
             cyclic_kinetic_energy._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._fields_container)
-        self._expanded_meshes = Output(
-            cyclic_kinetic_energy._spec().output_pin(1), 1, op
-        )
-        self._outputs.append(self._expanded_meshes)
 
     @property
     def fields_container(self) -> Output:
@@ -623,21 +610,3 @@ class OutputsCyclicKineticEnergy(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """
         return self._fields_container
-
-    @property
-    def expanded_meshes(self) -> Output:
-        r"""Allows to get expanded_meshes output of the operator
-
-        Returns
-        -------
-        output:
-            An Output instance for this pin.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.result.cyclic_kinetic_energy()
-        >>> # Get the output from op.outputs. ...
-        >>> result_expanded_meshes = op.outputs.expanded_meshes()
-        """
-        return self._expanded_meshes
