@@ -766,7 +766,6 @@ class GrpcServer(CServer):
         launch_server: bool = True,
         docker_config: DockerConfig = RUNNING_DOCKER,
         use_pypim: bool = True,
-        num_connection_tryouts: int = 3,
         context: server_context.AvailableServerContexts = server_context.SERVER_CONTEXT,
     ):
         # Load DPFClientAPI
@@ -786,6 +785,7 @@ class GrpcServer(CServer):
         address = f"{ip}:{port}"
 
         self._remote_instance = None
+        start_time = time.time()
         if launch_server:
             if (
                 is_pypim_configured()
@@ -818,7 +818,7 @@ class GrpcServer(CServer):
         self._input_port = port
         self.live = True
         self._create_shutdown_funcs()
-        self._check_first_call(num_connection_tryouts)
+        self._check_first_call(timeout=timeout - (time.time() - start_time))  # Pass remaining time
         if context:
             if context == core.AvailableServerContexts.no_context:
                 self._base_service.initialize()
@@ -831,15 +831,16 @@ class GrpcServer(CServer):
                     pass
         self.set_as_global(as_global=as_global)
 
-    def _check_first_call(self, num_connection_tryouts):
-        for i in range(num_connection_tryouts):
+    def _check_first_call(self, timeout: float):
+        start_time = time.time()
+        while time.time() - start_time < timeout:
             try:
-                self.version
+                _ = self.version
                 break
             except errors.DPFServerException as e:
-                if ("GOAWAY" not in str(e.args) and "unavailable" not in str(e.args)) or i == (
-                    num_connection_tryouts - 1
-                ):
+                if "GOAWAY" in str(e.args) or "unavailable" in str(e.args):
+                    time.sleep(0.5)
+                else:
                     raise e
 
     @property

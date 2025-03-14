@@ -302,7 +302,7 @@ def connect_to_server(
     ip=LOCALHOST,
     port=DPF_DEFAULT_PORT,
     as_global=True,
-    timeout=5,
+    timeout=10.0,
     config=None,
     context=None,
 ):
@@ -367,6 +367,7 @@ def connect_to_server(
                 as_global=as_global,
                 launch_server=False,
                 context=context,
+                timeout=timeout,
             )
         else:
             server = server_type(as_global=as_global, context=context)

@@ -16,9 +16,9 @@ from ansys.dpf.core.server_types import AnyServerType
 
 
 class cyclic_expanded_temperature(Operator):
-    r"""This operator is deprecated: use the operator temperature with the
-    read_cyclic pin instead. Read temperature from an rst file and expand it
-    with cyclic symmetry.
+    r"""This operator is deprecated: use the operator temperature field with the
+    read_cyclic pin instead. Read temperature field from a result file and
+    expand it with cyclic symmetry.
 
 
     Parameters
@@ -32,7 +32,7 @@ class cyclic_expanded_temperature(Operator):
     data_sources: DataSources
         data sources containing the result file.
     bool_rotate_to_global: bool, optional
-        default is true
+        if true the field is rotated to global coordinate system (default true)
     all_dofs: bool, optional
         if this pin is set to true, all the dofs are retrieved. By default this pin is set to false and only the translational dofs are retrieved.
     sector_mesh: MeshedRegion or MeshesContainer, optional
@@ -53,7 +53,6 @@ class cyclic_expanded_temperature(Operator):
     -------
     fields_container: FieldsContainer
         FieldsContainer filled in
-    expanded_meshes: MeshesContainer
 
     Examples
     --------
@@ -112,7 +111,6 @@ class cyclic_expanded_temperature(Operator):
 
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
-    >>> result_expanded_meshes = op.outputs.expanded_meshes()
     """
 
     def __init__(
@@ -134,7 +132,7 @@ class cyclic_expanded_temperature(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="mapdl::rst::TEMP_cyclic", config=config, server=server)
+        super().__init__(name="TEMP_cyclic", config=config, server=server)
         self._inputs = InputsCyclicExpandedTemperature(self)
         self._outputs = OutputsCyclicExpandedTemperature(self)
         if time_scoping is not None:
@@ -168,9 +166,9 @@ class cyclic_expanded_temperature(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""This operator is deprecated: use the operator temperature with the
-read_cyclic pin instead. Read temperature from an rst file and expand it
-with cyclic symmetry.
+        description = r"""This operator is deprecated: use the operator temperature field with the
+read_cyclic pin instead. Read temperature field from a result file and
+expand it with cyclic symmetry.
 """
         spec = Specification(
             description=description,
@@ -209,7 +207,7 @@ with cyclic symmetry.
                     name="bool_rotate_to_global",
                     type_names=["bool"],
                     optional=True,
-                    document=r"""default is true""",
+                    document=r"""if true the field is rotated to global coordinate system (default true)""",
                 ),
                 6: PinSpecification(
                     name="all_dofs",
@@ -267,12 +265,6 @@ with cyclic symmetry.
                     optional=False,
                     document=r"""FieldsContainer filled in""",
                 ),
-                1: PinSpecification(
-                    name="expanded_meshes",
-                    type_names=["meshes_container"],
-                    optional=False,
-                    document=r"""""",
-                ),
             },
         )
         return spec
@@ -296,7 +288,7 @@ with cyclic symmetry.
         config:
             A new Config instance equivalent to the default config for this operator.
         """
-        return Operator.default_config(name="mapdl::rst::TEMP_cyclic", server=server)
+        return Operator.default_config(name="TEMP_cyclic", server=server)
 
     @property
     def inputs(self) -> InputsCyclicExpandedTemperature:
@@ -521,7 +513,7 @@ class InputsCyclicExpandedTemperature(_Inputs):
     def bool_rotate_to_global(self) -> Input:
         r"""Allows to connect bool_rotate_to_global input to the operator.
 
-        default is true
+        if true the field is rotated to global coordinate system (default true)
 
         Returns
         -------
@@ -715,7 +707,6 @@ class OutputsCyclicExpandedTemperature(_Outputs):
     >>> op = dpf.operators.result.cyclic_expanded_temperature()
     >>> # Connect inputs : op.inputs. ...
     >>> result_fields_container = op.outputs.fields_container()
-    >>> result_expanded_meshes = op.outputs.expanded_meshes()
     """
 
     def __init__(self, op: Operator):
@@ -724,10 +715,6 @@ class OutputsCyclicExpandedTemperature(_Outputs):
             cyclic_expanded_temperature._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._fields_container)
-        self._expanded_meshes = Output(
-            cyclic_expanded_temperature._spec().output_pin(1), 1, op
-        )
-        self._outputs.append(self._expanded_meshes)
 
     @property
     def fields_container(self) -> Output:
@@ -748,21 +735,3 @@ class OutputsCyclicExpandedTemperature(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """
         return self._fields_container
-
-    @property
-    def expanded_meshes(self) -> Output:
-        r"""Allows to get expanded_meshes output of the operator
-
-        Returns
-        -------
-        output:
-            An Output instance for this pin.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.result.cyclic_expanded_temperature()
-        >>> # Get the output from op.outputs. ...
-        >>> result_expanded_meshes = op.outputs.expanded_meshes()
-        """
-        return self._expanded_meshes
