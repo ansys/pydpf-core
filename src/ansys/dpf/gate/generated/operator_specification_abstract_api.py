@@ -136,6 +136,14 @@ class OperatorSpecificationAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def operator_specification_set_version(specification, semver):
+		raise NotImplementedError
+
+	@staticmethod
+	def operator_specification_get_version(specification):
+		raise NotImplementedError
+
+	@staticmethod
 	def operator_specification_get_pin_num_aliases(specification, binput, numPin):
 		raise NotImplementedError
 

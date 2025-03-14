@@ -63,6 +63,8 @@ from .generated import result_info_abstract_api
 from .generated import result_info_capi
 from .generated import scoping_abstract_api
 from .generated import scoping_capi
+from .generated import semantic_version_abstract_api
+from .generated import semantic_version_capi
 from .generated import serialization_stream_abstract_api
 from .generated import serialization_stream_capi
 from .generated import session_abstract_api

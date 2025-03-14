@@ -311,6 +311,24 @@ class OperatorSpecificationCAPI(operator_specification_abstract_api.OperatorSpec
 		return newres
 
 	@staticmethod
+	def operator_specification_set_version(specification, semver):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Operator_specification_SetVersion(specification._internal_obj if specification is not None else None, semver._internal_obj if semver is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def operator_specification_get_version(specification):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Operator_specification_GetVersion(specification._internal_obj if specification is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def operator_specification_get_pin_num_aliases(specification, binput, numPin):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
