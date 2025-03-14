@@ -151,6 +151,7 @@ jobs:
       ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '252' }}
       standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
       event_name: ${{ github.event_name }}
+      python_version: "3.11"
     secrets: inherit
 
   upload-development-docs:
