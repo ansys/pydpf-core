@@ -1,0 +1,108 @@
+
+
+
+
+
+
+:class:`InputsTimeDerivation`
+=============================
+
+.. py:class:: ansys.dpf.core.operators.math.time_derivation.InputsTimeDerivation(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   time_derivation operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.time_derivation()
+   >>> my_field = dpf.Field()
+   >>> op.inputs.field.connect(my_field)
+   >>> my_spline_fitting = bool()
+   >>> op.inputs.spline_fitting.connect(my_spline_fitting)
+
+
+
+.. py:currentmodule:: InputsTimeDerivation
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~field`
+            - Allows to connect field input to the operator.
+          * - :py:attr:`~spline_fitting`
+            - Allows to connect spline_fitting input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.time_derivation import InputsTimeDerivation
+
+Property detail
+---------------
+
+.. py:property:: field
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect field input to the operator.
+
+   field
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.time_derivation()
+   >>> op.inputs.field.connect(my_field)
+   >>> # or
+   >>> op.inputs.field(my_field)
+
+.. py:property:: spline_fitting
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect spline_fitting input to the operator.
+
+   Uses spline fitting on the input field to compute smooth derivatives
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.time_derivation()
+   >>> op.inputs.spline_fitting.connect(my_spline_fitting)
+   >>> # or
+   >>> op.inputs.spline_fitting(my_spline_fitting)
+
+
+
+
+
+

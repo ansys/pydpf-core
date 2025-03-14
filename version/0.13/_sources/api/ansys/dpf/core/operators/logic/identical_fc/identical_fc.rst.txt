@@ -1,0 +1,151 @@
+
+
+
+
+
+
+:class:`identical_fc`
+=====================
+
+.. py:class:: ansys.dpf.core.operators.logic.identical_fc.identical_fc(fields_containerA=None, fields_containerB=None, small_value=None, tolerance=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Checks if two fields_container are identical.
+
+
+   :param fields_containerA:
+   :type fields_containerA: FieldsContainer
+   :param fields_containerB:
+   :type fields_containerB: FieldsContainer
+   :param small_value: Double positive small value. Smallest value which will be considered during the comparison step. All the abs(values) in the field less than this value are considered as null, (default value:1.0e-14).
+   :type small_value: float, optional
+   :param tolerance: Double relative tolerance. Maximum tolerance gap between two compared values. Values within relative tolerance are considered identical (v1-v2)/v2 < relativeTol (default is 0.001).
+   :type tolerance: float, optional
+
+   :returns: * **boolean** (*bool*) -- bool (true if identical...)
+             * **message** (*str*)
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.logic.identical_fc()
+
+   >>> # Make input connections
+   >>> my_fields_containerA = dpf.FieldsContainer()
+   >>> op.inputs.fields_containerA.connect(my_fields_containerA)
+   >>> my_fields_containerB = dpf.FieldsContainer()
+   >>> op.inputs.fields_containerB.connect(my_fields_containerB)
+   >>> my_small_value = float()
+   >>> op.inputs.small_value.connect(my_small_value)
+   >>> my_tolerance = float()
+   >>> op.inputs.tolerance.connect(my_tolerance)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.logic.identical_fc(
+   ...     fields_containerA=my_fields_containerA,
+   ...     fields_containerB=my_fields_containerB,
+   ...     small_value=my_small_value,
+   ...     tolerance=my_tolerance,
+   ... )
+
+   >>> # Get output data
+   >>> result_boolean = op.outputs.boolean()
+   >>> result_message = op.outputs.message()
+
+
+
+
+.. py:currentmodule:: identical_fc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.logic.identical_fc import identical_fc
+
+Property detail
+---------------
+
+.. py:property:: inputs
+   :type: InputsIdenticalFc
+
+
+   Enables to connect inputs to the operator
+
+   :returns: An instance of InputsIdenticalFc.
+   :rtype: inputs
+
+.. py:property:: outputs
+   :type: OutputsIdenticalFc
+
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: An instance of OutputsIdenticalFc.
+   :rtype: outputs
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server: ansys.dpf.core.server_types.AnyServerType = None) -> ansys.dpf.core.config.Config
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+
+   :returns: A new Config instance equivalent to the default config for this operator.
+   :rtype: config
+
+
+
+
+

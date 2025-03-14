@@ -1,0 +1,84 @@
+
+
+
+
+
+
+:class:`OutputsCyclicExpandedNumSurfaceStatusChanges`
+=====================================================
+
+.. py:class:: ansys.dpf.core.operators.result.cyclic_expanded_num_surface_status_changes.OutputsCyclicExpandedNumSurfaceStatusChanges(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   cyclic_expanded_num_surface_status_changes operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.cyclic_expanded_num_surface_status_changes()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_fields_container = op.outputs.fields_container()
+
+
+
+.. py:currentmodule:: OutputsCyclicExpandedNumSurfaceStatusChanges
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fields_container`
+            - Allows to get fields_container output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.cyclic_expanded_num_surface_status_changes import OutputsCyclicExpandedNumSurfaceStatusChanges
+
+Property detail
+---------------
+
+.. py:property:: fields_container
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get fields_container output of the operator
+
+   FieldsContainer filled in
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.cyclic_expanded_num_surface_status_changes()
+   >>> # Get the output from op.outputs. ...
+   >>> result_fields_container = op.outputs.fields_container()
+
+
+
+
+
+

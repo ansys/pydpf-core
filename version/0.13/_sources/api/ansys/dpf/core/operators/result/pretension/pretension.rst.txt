@@ -1,0 +1,182 @@
+
+
+
+
+
+
+:class:`pretension`
+===================
+
+.. py:class:: ansys.dpf.core.operators.result.pretension.pretension(time_scoping=None, mesh_scoping=None, fields_container=None, streams_container=None, data_sources=None, mesh=None, read_cyclic=None, expanded_meshed_region=None, sectors_to_expand=None, phi=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Reads the pretension adjustment and tension force. Rotation is not
+   allowed for these results.
+
+
+   :param time_scoping:
+   :type time_scoping: ScopingsContainer or Scoping, optional
+   :param mesh_scoping:
+   :type mesh_scoping: ScopingsContainer or Scoping, optional
+   :param fields_container:
+   :type fields_container: FieldsContainer, optional
+   :param streams_container:
+   :type streams_container: StreamsContainer or Stream
+   :param data_sources:
+   :type data_sources: DataSources
+   :param mesh: mesh. If cylic expansion is to be done, mesh of the base sector
+   :type mesh: MeshedRegion or MeshesContainer, optional
+   :param read_cyclic: if 0 cyclic symmetry is ignored, if 1 cyclic sector is read, if 2 cyclic expansion is done, if 3 cyclic expansion is done and stages are merged (default is 1)
+   :type read_cyclic: int, optional
+   :param expanded_meshed_region: mesh expanded, use if cyclic expansion is to be done.
+   :type expanded_meshed_region: MeshedRegion or MeshesContainer, optional
+   :param sectors_to_expand: sectors to expand (start at 0), for multistage: use scopings container with 'stage' label, use if cyclic expansion is to be done.
+   :type sectors_to_expand: Scoping or ScopingsContainer, optional
+   :param phi: angle phi in degrees (default value 0.0), use if cyclic expansion is to be done.
+   :type phi: float, optional
+
+   :returns: * **adjustment** (*FieldsContainer*) -- Adjustment
+             * **tension_force** (*FieldsContainer*) -- Tension Force
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.result.pretension()
+
+   >>> # Make input connections
+   >>> my_time_scoping = dpf.ScopingsContainer()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> my_mesh_scoping = dpf.ScopingsContainer()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_streams_container = dpf.StreamsContainer()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_read_cyclic = int()
+   >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+   >>> my_expanded_meshed_region = dpf.MeshedRegion()
+   >>> op.inputs.expanded_meshed_region.connect(my_expanded_meshed_region)
+   >>> my_sectors_to_expand = dpf.Scoping()
+   >>> op.inputs.sectors_to_expand.connect(my_sectors_to_expand)
+   >>> my_phi = float()
+   >>> op.inputs.phi.connect(my_phi)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.result.pretension(
+   ...     time_scoping=my_time_scoping,
+   ...     mesh_scoping=my_mesh_scoping,
+   ...     fields_container=my_fields_container,
+   ...     streams_container=my_streams_container,
+   ...     data_sources=my_data_sources,
+   ...     mesh=my_mesh,
+   ...     read_cyclic=my_read_cyclic,
+   ...     expanded_meshed_region=my_expanded_meshed_region,
+   ...     sectors_to_expand=my_sectors_to_expand,
+   ...     phi=my_phi,
+   ... )
+
+   >>> # Get output data
+   >>> result_adjustment = op.outputs.adjustment()
+   >>> result_tension_force = op.outputs.tension_force()
+
+
+
+
+.. py:currentmodule:: pretension
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.pretension import pretension
+
+Property detail
+---------------
+
+.. py:property:: inputs
+   :type: InputsPretension
+
+
+   Enables to connect inputs to the operator
+
+   :returns: An instance of InputsPretension.
+   :rtype: inputs
+
+.. py:property:: outputs
+   :type: OutputsPretension
+
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: An instance of OutputsPretension.
+   :rtype: outputs
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server: ansys.dpf.core.server_types.AnyServerType = None) -> ansys.dpf.core.config.Config
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+
+   :returns: A new Config instance equivalent to the default config for this operator.
+   :rtype: config
+
+
+
+
+
