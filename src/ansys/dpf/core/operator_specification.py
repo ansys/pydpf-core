@@ -506,12 +506,13 @@ class Specification(SpecificationBase):
         semver_api = self._server.get_api_for_type(
             capi=semantic_version_capi.SemanticVersionCAPI, grpcapi=None
         )
+        
+        major = ctypes.c_uint16(0)
+        minor = ctypes.c_uint16(0)
+        patch = ctypes.c_uint16(0)
+        semver_api.semantic_vesion_get_components(semver_obj, ctypes.byref(major), ctypes.byref(minor), ctypes.byref(patch))
 
-        size = ctypes.c_uint64(0)
-        semver_api.semantic_version_to_string(semver_obj, None, ctypes.byref(size))
-        buf = integral_types.MutableString(size.value)
-        semver_api.semantic_version_to_string(semver_obj, buf, ctypes.byref(size))
-        return str(buf)
+        return f"{major}.{minor}.{patch}"
 
 
 
