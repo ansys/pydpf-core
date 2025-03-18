@@ -83,7 +83,13 @@ class {{class_name}}(Operator):
     """
 
     def __init__(self, {{#input_pins}}{{name}}=None, {{/input_pins}}config=None, server=None{{#has_input_aliases}}, {{#input_pins}}{{#aliases_list}}{{alias}}=None, {{/aliases_list}}{{/input_pins}}{{/has_input_aliases}}):
-        super().__init__(name="{{operator_name}}", config=config, server=server)
+        try:
+            super().__init__(name="{{operator_name}}", config=config, server=server)
+        except KeyError as e:
+            {{#has_internal_name_alias}}
+            super().__init__(name="{{internal_name_alias}}", config=config, server=server)
+            {{/has_internal_name_alias}}
+            raise e
         self._inputs = Inputs{{capital_class_name}}(self)
         self._outputs = Outputs{{capital_class_name}}(self)
         {{#input_pins}}
