@@ -30,7 +30,10 @@ class force_summation(Operator):
         Nodal Scoping. Set of nodes in which elemental contribution forces will be accumulated (default = all nodes)
     elemental_scoping: Scoping, optional
         Elemental Scoping. Set of elements contributing to the force calcuation. (default = all elements)
+    streams_container: StreamsContainer, optional
+        Streams container. Optional if using data sources.
     data_sources: DataSources
+        Data sources. Optional if using a streams container.
     force_type: int, optional
         Type of force to be processed (0 - default: Total forces (static, damping, and inertia)., 1: Static forces, 2: Damping forces, 3: Inertia forces)
     spoint: Field, optional
@@ -59,6 +62,8 @@ class force_summation(Operator):
     >>> op.inputs.nodal_scoping.connect(my_nodal_scoping)
     >>> my_elemental_scoping = dpf.Scoping()
     >>> op.inputs.elemental_scoping.connect(my_elemental_scoping)
+    >>> my_streams_container = dpf.StreamsContainer()
+    >>> op.inputs.streams_container.connect(my_streams_container)
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
     >>> my_force_type = int()
@@ -71,6 +76,7 @@ class force_summation(Operator):
     ...     time_scoping=my_time_scoping,
     ...     nodal_scoping=my_nodal_scoping,
     ...     elemental_scoping=my_elemental_scoping,
+    ...     streams_container=my_streams_container,
     ...     data_sources=my_data_sources,
     ...     force_type=my_force_type,
     ...     spoint=my_spoint,
@@ -90,6 +96,7 @@ class force_summation(Operator):
         time_scoping=None,
         nodal_scoping=None,
         elemental_scoping=None,
+        streams_container=None,
         data_sources=None,
         force_type=None,
         spoint=None,
@@ -105,6 +112,8 @@ class force_summation(Operator):
             self.inputs.nodal_scoping.connect(nodal_scoping)
         if elemental_scoping is not None:
             self.inputs.elemental_scoping.connect(elemental_scoping)
+        if streams_container is not None:
+            self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:
             self.inputs.data_sources.connect(data_sources)
         if force_type is not None:
@@ -124,7 +133,7 @@ structural degrees of freedom.
             map_input_pin_spec={
                 0: PinSpecification(
                     name="time_scoping",
-                    type_names=["scoping"],
+                    type_names=["scoping", "vector<int32>"],
                     optional=True,
                     document=r"""default = all time steps""",
                 ),
@@ -140,11 +149,17 @@ structural degrees of freedom.
                     optional=True,
                     document=r"""Elemental Scoping. Set of elements contributing to the force calcuation. (default = all elements)""",
                 ),
+                3: PinSpecification(
+                    name="streams_container",
+                    type_names=["streams_container"],
+                    optional=True,
+                    document=r"""Streams container. Optional if using data sources.""",
+                ),
                 4: PinSpecification(
                     name="data_sources",
                     type_names=["data_sources"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Data sources. Optional if using a streams container.""",
                 ),
                 5: PinSpecification(
                     name="force_type",
@@ -258,6 +273,8 @@ class InputsForceSummation(_Inputs):
     >>> op.inputs.nodal_scoping.connect(my_nodal_scoping)
     >>> my_elemental_scoping = dpf.Scoping()
     >>> op.inputs.elemental_scoping.connect(my_elemental_scoping)
+    >>> my_streams_container = dpf.StreamsContainer()
+    >>> op.inputs.streams_container.connect(my_streams_container)
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
     >>> my_force_type = int()
@@ -274,6 +291,8 @@ class InputsForceSummation(_Inputs):
         self._inputs.append(self._nodal_scoping)
         self._elemental_scoping = Input(force_summation._spec().input_pin(2), 2, op, -1)
         self._inputs.append(self._elemental_scoping)
+        self._streams_container = Input(force_summation._spec().input_pin(3), 3, op, -1)
+        self._inputs.append(self._streams_container)
         self._data_sources = Input(force_summation._spec().input_pin(4), 4, op, -1)
         self._inputs.append(self._data_sources)
         self._force_type = Input(force_summation._spec().input_pin(5), 5, op, -1)
@@ -345,8 +364,31 @@ class InputsForceSummation(_Inputs):
         return self._elemental_scoping
 
     @property
+    def streams_container(self) -> Input:
+        r"""Allows to connect streams_container input to the operator.
+
+        Streams container. Optional if using data sources.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.averaging.force_summation()
+        >>> op.inputs.streams_container.connect(my_streams_container)
+        >>> # or
+        >>> op.inputs.streams_container(my_streams_container)
+        """
+        return self._streams_container
+
+    @property
     def data_sources(self) -> Input:
         r"""Allows to connect data_sources input to the operator.
+
+        Data sources. Optional if using a streams container.
 
         Returns
         -------
