@@ -35,6 +35,7 @@ from ansys.dpf.core.operator_specification import (
     CustomSpecification,
     PinSpecification,
     SpecificationProperties,
+    Specification
 )
 import conftest
 from conftest import (
@@ -408,3 +409,26 @@ def test_custom_op_with_spec(server_type_remote_process, testfiles_dir):
     outf = op.outputs.field()
     expected = np.ones((3, 3), dtype=np.float64) + 4.0
     assert np.allclose(outf.data, expected)
+
+
+def test_custom_op_without_version(testfiles_dir):
+    dpf.load_library(
+        dpf.path_utilities.to_server_os(
+            Path(testfiles_dir) / "pythonPlugins"
+        ),
+        "py_operator_with_spec",
+        "load_operators",
+    )
+    spec = Specification("custom_add_to_field")
+    assert spec.version == "0.0.0"
+
+def test_custom_op_with_version(testfiles_dir):
+    dpf.load_library(
+        dpf.path_utilities.to_server_os(
+            Path(testfiles_dir) / "pythonPlugins",
+        ),
+        "py_operator_with_spec",
+        "load_operators"
+    )
+    spec = Specification("__op_with_version")
+    assert spec.version == "2.3.1"
