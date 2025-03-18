@@ -234,7 +234,7 @@ def build_operators():
 
         # Write to operator file
         operator_file = os.path.join(category_path, scripting_name + ".py")
-        with open(operator_file, "wb") as f:
+        with open(operator_file, "w", encoding='utf-8', newline="\u000A") as f:
             operator_str = scripting_name
             try:
                 operator_str = build_operator(
@@ -246,7 +246,7 @@ def build_operators():
                     specification_description,
                 )
                 exec(operator_str, globals())
-                f.write(operator_str.encode())
+                f.write(operator_str)
                 succeeded += 1
             except SyntaxError as e:
                 error_message = (
@@ -262,17 +262,17 @@ def build_operators():
 
     # Create __init__.py files
     print(f"Generating __init__.py files...")
-    with open(os.path.join(this_path, "__init__.py"), "wb") as main_init:
+    with open(os.path.join(this_path, "__init__.py"), "w", encoding="utf-8", newline="\u000A") as main_init:
         for category in sorted(categories):
             # Add category to main init file imports
-            main_init.write(f"from . import {category}\n".encode())
+            main_init.write(f"from . import {category}\n")
             # Create category init file
             category_operators = os.listdir(os.path.join(this_path, category.split(".")[0]))
-            with open(os.path.join(this_path, category, "__init__.py"), "wb") as category_init:
+            with open(os.path.join(this_path, category, "__init__.py"), "w", encoding="utf-8", newline="\u000A") as category_init:
                 for category_operator in sorted(category_operators):
                     operator_name = category_operator.split(".")[0]
                     category_init.write(
-                        f"from .{operator_name} import {operator_name}\n".encode()
+                        f"from .{operator_name} import {operator_name}\n"
                     )
 
     if succeeded == len(available_operators) - hidden:
