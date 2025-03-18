@@ -87,7 +87,7 @@ jobs:
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '251' }}
-      python_versions: '["3.10", "3.11"]'
+      python_versions: '["3.11", "3.12"]'
       DOCSTRING: false
       wheel: false
       wheelhouse: true
@@ -109,7 +109,7 @@ jobs:
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '251' }}
-      python_versions: '["3.10", "3.11"]'
+      python_versions: '["3.11", "3.12"]'
       DOCSTRING: false
       wheel: false
       wheelhouse: false
