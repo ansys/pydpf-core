@@ -81,7 +81,14 @@ class cyclic_support_provider(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="support_provider_cyclic", config=config, server=server)
+        try:
+            super().__init__(
+                name="support_provider_cyclic", config=config, server=server
+            )
+        except KeyError as e:
+            super().__init__(
+                name="mapdl::rst::support_provider_cyclic", config=config, server=server
+            )
         self._inputs = InputsCyclicSupportProvider(self)
         self._outputs = OutputsCyclicSupportProvider(self)
         if streams_container is not None:
