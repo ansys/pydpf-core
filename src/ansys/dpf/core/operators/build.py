@@ -19,7 +19,9 @@ from ansys.dpf.core.operators.translator import Markdown2RstTranslator
 # Operator internal names to call if first name is not available
 # Allows deprecating internal names associated to public Python operator modules
 operator_aliases = {
-    "support_provider_cyclic": "mapdl::rst::support_provider_cyclic"
+    "support_provider_cyclic": "mapdl::rst::support_provider_cyclic",
+    "NMISC": "mapdl::nmisc",
+    "SMISC": "mapdl::smisc",
 }
 
 def build_docstring(specification_description):
