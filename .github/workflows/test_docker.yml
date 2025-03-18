@@ -231,7 +231,7 @@ jobs:
           flags: docker,${{ inputs.ANSYS_VERSION }},${{ matrix.os }},${{ matrix.python-version }}
 
       - name: "Upload test analytics results to Codecov"
-        if: startsWith(github.head_ref, 'master') || ${{ !cancelled() }}
+        if: ${{ !cancelled() }}
         uses: codecov/test-results-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
