@@ -1,5 +1,6 @@
 import argparse
 from pathlib import Path
+import shutil
 
 from jinja2 import Template
 
@@ -118,18 +119,31 @@ def get_plugin_operators(server, plugin_name):
 
 def generate_operator_doc(server, operator_name, include_private):
     operator_info = fetch_doc_info(server, operator_name)
+    scripting_name = operator_info["scripting_info"]["scripting_name"]
+    category = operator_info["scripting_info"]["category"]
+    if scripting_name:
+        file_name = scripting_name
+    else:
+        file_name = operator_name
+    if "::" in file_name:
+        file_name = file_name.replace("::", "_")
     if not include_private and operator_info["exposure"] == "private":
         return
     script_path = Path(__file__)
     root_dir = script_path.parent.parent
     template_dir = Path(root_dir) / "doc" / "source" / "operators_doc"
+    category_dir = Path(template_dir) / category
+    if not category_dir.exists() and category is not None:
+        category_dir.mkdir()
+    if category is not None:
+        file_dir = category_dir
+    else:
+        file_dir = template_dir
     with Path.open(Path(template_dir) / "operator_doc_template.md", "r") as file:
         template = Template(file.read())
 
     output = template.render(operator_info)
-    if "::" in operator_name:
-        operator_name = operator_name.replace("::", "_")
-    with Path.open(Path(template_dir) / f"{operator_name}.md", "w") as file:
+    with Path.open(Path(file_dir) / f"{file_name}.md", "w") as file:
         file.write(output)
 
 

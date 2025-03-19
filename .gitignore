@@ -70,7 +70,7 @@ instance/
 doc/_build/
 
 # Operators documentation
-doc/source/operators_doc/*.md
+doc/source/operators_doc/**/*
 !doc/source/operators_doc/operator_doc_template.md
 
 # PyBuilder
