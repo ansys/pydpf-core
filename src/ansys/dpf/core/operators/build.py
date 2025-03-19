@@ -7,6 +7,7 @@ import time
 
 import black
 import chevron
+
 from ansys.dpf import core as dpf
 from ansys.dpf.core import common
 from ansys.dpf.core.dpf_operator import available_operator_names
@@ -14,6 +15,14 @@ from ansys.dpf.core.outputs import _make_printable_type
 from ansys.dpf.core.mapping_types import map_types_to_python
 from ansys.dpf.core.operators.translator import Markdown2RstTranslator
 
+
+# Operator internal names to call if first name is not available
+# Allows deprecating internal names associated to public Python operator modules
+operator_aliases = {
+    "support_provider_cyclic": "mapdl::rst::support_provider_cyclic",
+    "NMISC": "mapdl::nmisc",
+    "SMISC": "mapdl::smisc",
+}
 
 def build_docstring(specification_description):
     """Used to generate class docstrings."""
@@ -157,6 +166,8 @@ def build_operator(
         "date_and_time": date_and_time,
         "has_input_aliases": has_input_aliases,
         "has_output_aliases": has_output_aliases,
+        "has_internal_name_alias": operator_name in operator_aliases.keys(),
+        "internal_name_alias": operator_aliases.get(operator_name),
     }
 
     this_path = os.path.dirname(os.path.abspath(__file__))
