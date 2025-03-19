@@ -409,7 +409,7 @@ class Field(_FieldBase):
     def get_entity_data(self, index: int) -> dpf_array.DPFArray:
         """Retrieve entity data by index."""
         try:
-            vec = dpf_vector.DPFVectorDouble(client=self._server.client)
+            vec = dpf_vector.DPFVectorDouble(owner=self)
             self._api.csfield_get_entity_data_for_dpf_vector(
                 self, vec, vec.internal_data, vec.internal_size, index
             )
@@ -425,7 +425,7 @@ class Field(_FieldBase):
     def get_entity_data_by_id(self, id: int) -> dpf_array.DPFArray:
         """Retrieve entity data by id."""
         try:
-            vec = dpf_vector.DPFVectorDouble(client=self._server.client)
+            vec = dpf_vector.DPFVectorDouble(owner=self)
             self._api.csfield_get_entity_data_by_id_for_dpf_vector(
                 self, vec, vec.internal_data, vec.internal_size, id
             )
@@ -450,7 +450,7 @@ class Field(_FieldBase):
 
     def _get_data_pointer(self):
         try:
-            vec = dpf_vector.DPFVectorInt(client=self._server.client)
+            vec = dpf_vector.DPFVectorInt(owner=self)
             self._api.csfield_get_data_pointer_for_dpf_vector(
                 self, vec, vec.internal_data, vec.internal_size
             )
@@ -464,7 +464,7 @@ class Field(_FieldBase):
 
     def _get_data(self, np_array=True):
         try:
-            vec = dpf_vector.DPFVectorDouble(client=self._server.client)
+            vec = dpf_vector.DPFVectorDouble(owner=self)
             self._api.csfield_get_data_for_dpf_vector(
                 self, vec, vec.internal_data, vec.internal_size
             )

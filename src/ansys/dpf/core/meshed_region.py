@@ -493,7 +493,7 @@ class MeshedRegion:
             deform_by = deform_by[0]
         if deform_by.unit != self.unit:
             unit_convert(deform_by, self.unit)
-        scale_op = scale(field=deform_by, ponderation=scale_factor)
+        scale_op = scale(field=deform_by, weights=scale_factor)
         return add(fieldA=self.nodes.coordinates_field, fieldB=scale_op.outputs.field).eval()
 
     def _as_vtk(self, coordinates=None, as_linear=True, include_ids=False):

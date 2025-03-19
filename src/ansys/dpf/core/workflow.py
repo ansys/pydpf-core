@@ -22,6 +22,8 @@
 
 """Workflow."""
 
+from __future__ import annotations
+
 from enum import Enum
 import logging
 import os
@@ -714,7 +716,12 @@ class Workflow:
         return out
 
     @version_requires("3.0")
-    def connect_with(self, left_workflow, output_input_names=None):
+    def connect_with(
+        self,
+        left_workflow: Workflow,
+        output_input_names: Union[tuple[str, str], dict[str, str]] = None,
+        permissive: bool = True,
+    ):
         """Prepend a given workflow to the current workflow.
 
         Updates the current workflow to include all the operators of the workflow given as argument.
@@ -724,15 +731,18 @@ class Workflow:
 
         Parameters
         ----------
-        left_workflow : core.Workflow
+        left_workflow:
             The given workflow's outputs are chained with the current workflow's inputs.
-        output_input_names : str tuple, str dict optional
+        output_input_names:
             Map used to connect the outputs of the given workflow to the inputs of the current
             workflow.
             Check the names of available inputs and outputs for each workflow using
             `Workflow.input_names` and `Workflow.output_names`.
             The default is ``None``, in which case it tries to connect each output of the
             left_workflow with an input of the current workflow with the same name.
+        permissive:
+            Whether to filter 'output_input_names' to only keep available connections.
+            Otherwise raise an error if 'output_input_names' contains unavailable inputs or outputs.
 
         Examples
         --------
@@ -791,24 +801,40 @@ class Workflow:
 
         """
         if output_input_names:
-            core_api = self._server.get_api_for_type(
-                capi=data_processing_capi.DataProcessingCAPI,
-                grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI,
-            )
-            map = object_handler.ObjHandler(
-                data_processing_api=core_api,
-                internal_obj=self._api.workflow_create_connection_map_for_object(self),
-            )
             if isinstance(output_input_names, tuple):
-                self._api.workflow_add_entry_connection_map(
-                    map, output_input_names[0], output_input_names[1]
+                output_input_names = {output_input_names[0]: output_input_names[1]}
+            if isinstance(output_input_names, dict):
+                core_api = self._server.get_api_for_type(
+                    capi=data_processing_capi.DataProcessingCAPI,
+                    grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI,
                 )
-            elif isinstance(output_input_names, dict):
-                for key in output_input_names:
-                    self._api.workflow_add_entry_connection_map(map, key, output_input_names[key])
+                map = object_handler.ObjHandler(
+                    data_processing_api=core_api,
+                    internal_obj=self._api.workflow_create_connection_map_for_object(self),
+                )
+                output_names = left_workflow.output_names
+                input_names = self.input_names
+                if permissive:
+                    output_input_names = dict(
+                        filter(
+                            lambda item: item[0] in left_workflow.output_names
+                            and item[1] in self.input_names,
+                            output_input_names.items(),
+                        )
+                    )
+                for output_name, input_name in output_input_names.items():
+                    if output_name not in output_names:
+                        raise ValueError(
+                            f"Cannot connect workflow output '{output_name}'. Exposed outputs are:\n{output_names}"
+                        )
+                    elif input_name not in input_names:
+                        raise ValueError(
+                            f"Cannot connect workflow input '{input_name}'. Exposed inputs are:\n{input_names}"
+                        )
+                    self._api.workflow_add_entry_connection_map(map, output_name, input_name)
             else:
                 raise TypeError(
-                    "output_input_names argument is expect" "to be either a str tuple or a str dict"
+                    "output_input_names argument is expected to be either a str tuple or a str dict"
                 )
             self._api.work_flow_connect_with_specified_names(self, left_workflow, map)
         else:
