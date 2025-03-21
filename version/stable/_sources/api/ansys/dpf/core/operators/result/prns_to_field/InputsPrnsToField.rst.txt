@@ -1,0 +1,108 @@
+
+
+
+
+
+
+:class:`InputsPrnsToField`
+==========================
+
+.. py:class:: ansys.dpf.core.operators.result.prns_to_field.InputsPrnsToField(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   prns_to_field operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.prns_to_field()
+   >>> my_filepath = str()
+   >>> op.inputs.filepath.connect(my_filepath)
+   >>> my_columns_to_read = int()
+   >>> op.inputs.columns_to_read.connect(my_columns_to_read)
+
+
+
+.. py:currentmodule:: InputsPrnsToField
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~filepath`
+            - Allows to connect filepath input to the operator.
+          * - :py:attr:`~columns_to_read`
+            - Allows to connect columns_to_read input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.prns_to_field import InputsPrnsToField
+
+Property detail
+---------------
+
+.. py:property:: filepath
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect filepath input to the operator.
+
+   filepath
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.prns_to_field()
+   >>> op.inputs.filepath.connect(my_filepath)
+   >>> # or
+   >>> op.inputs.filepath(my_filepath)
+
+.. py:property:: columns_to_read
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect columns_to_read input to the operator.
+
+   columns_to_read
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.prns_to_field()
+   >>> op.inputs.columns_to_read.connect(my_columns_to_read)
+   >>> # or
+   >>> op.inputs.columns_to_read(my_columns_to_read)
+
+
+
+
+
+

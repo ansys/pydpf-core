@@ -1,0 +1,37 @@
+
+
+
+
+
+
+:class:`OutputsHtmlDoc`
+=======================
+
+.. py:class:: ansys.dpf.core.operators.utility.html_doc.OutputsHtmlDoc(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   html_doc operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.html_doc()
+   >>> # Connect inputs : op.inputs. ...
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.html_doc import OutputsHtmlDoc
+
+
+
+
+
