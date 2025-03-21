@@ -1,6 +1,7 @@
 import argparse
 from pathlib import Path
-import shutil
+import json
+import os
 
 from jinja2 import Template
 
@@ -146,6 +147,34 @@ def generate_operator_doc(server, operator_name, include_private):
     with Path.open(Path(file_dir) / f"{file_name}.md", "w") as file:
         file.write(output)
 
+def generate_toc_tree(docs_path):
+    data = []
+    for folder in docs_path.iterdir():
+        if folder.is_dir():  # Ensure 'folder' is a directory
+            category = folder.name
+            operators = []  # Reset operators for each category
+            for file in folder.iterdir():
+                if file.is_file() and file.suffix == ".md":  # Ensure 'file' is a file with .md extension
+                    file_name = file.name
+                    operator_name = file_name.replace("_", " ").replace(".md", "")
+                    operators.append({"operator_name": operator_name, "file_name": file_name})
+            data.append({"category": category, "operators": operators})
+
+    # Write the JSON file for debugging purposes
+    with open(docs_path / "toc_tree.json", "w") as file:
+        json.dump(data, file, indent=4)
+
+    # Render the Jinja2 template
+    template_path = docs_path / "toc_template.j2"
+    with open(template_path, "r") as template_file:
+        template = Template(template_file.read())
+    output = template.render(data=data)  # Pass 'data' as a named argument
+
+    # Write the rendered output to toc.md
+    with open(docs_path / "toc.md", "w") as file:
+        file.write(output)
+                
+
 
 def main():
     parser = argparse.ArgumentParser(description="Fetch available operators")
@@ -168,6 +197,10 @@ def main():
         operators = get_plugin_operators(server, desired_plugin)
     for operator_name in operators:
         generate_operator_doc(server, operator_name, args.include_private)
+
+    docs_path = Path(__file__).parent.parent / "doc" / "source" / "operators_doc"
+    print(docs_path)
+    generate_toc_tree(docs_path)
 
 
 if __name__ == "__main__":
