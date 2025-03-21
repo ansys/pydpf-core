@@ -4,5 +4,5 @@
 - name: {{ category.category }}
   items:{% for operator in category.operators %}
   - name: {{ operator.operator_name }}
-    href: {{ operator.file_name }}{% endfor %}
+    href: {{ operator.file_path }}{% endfor %}
 {% endfor %}
