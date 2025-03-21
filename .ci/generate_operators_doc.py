@@ -157,8 +157,9 @@ def generate_toc_tree(docs_path):
                     file.is_file() and file.suffix == ".md"
                 ):  # Ensure 'file' is a file with .md extension
                     file_name = file.name
+                    file_path = f"{category}/{file_name}"
                     operator_name = file_name.replace("_", " ").replace(".md", "")
-                    operators.append({"operator_name": operator_name, "file_name": file_name})
+                    operators.append({"operator_name": operator_name, "file_path": file_path})
             data.append({"category": category, "operators": operators})
 
     # Render the Jinja2 template
@@ -168,7 +169,7 @@ def generate_toc_tree(docs_path):
     output = template.render(data=data)  # Pass 'data' as a named argument
 
     # Write the rendered output to toc.md
-    with Path.open(docs_path / "toc.md", "w") as file:
+    with Path.open(docs_path / "toc.yml", "w") as file:
         file.write(output)
 
 
