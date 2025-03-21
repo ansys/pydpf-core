@@ -1,7 +1,5 @@
 import argparse
 from pathlib import Path
-import json
-import os
 
 from jinja2 import Template
 
@@ -159,10 +157,6 @@ def generate_toc_tree(docs_path):
                     operator_name = file_name.replace("_", " ").replace(".md", "")
                     operators.append({"operator_name": operator_name, "file_name": file_name})
             data.append({"category": category, "operators": operators})
-
-    # Write the JSON file for debugging purposes
-    with open(docs_path / "toc_tree.json", "w") as file:
-        json.dump(data, file, indent=4)
 
     # Render the Jinja2 template
     template_path = docs_path / "toc_template.j2"
