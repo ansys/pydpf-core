@@ -241,6 +241,15 @@ jobs:
         run: |
           tox -e pretest
 
+      - name: "Test API test_entry"
+        uses: nick-fields/retry@v3
+        with:
+          timeout_minutes: 10
+          max_attempts: 2
+          shell: bash
+          command: |
+            tox -e test-api_entry,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
+
       - name: "Run compatible tests in parallel"
         uses: nick-fields/retry@v3
         with:
