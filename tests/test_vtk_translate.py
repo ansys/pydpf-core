@@ -97,16 +97,15 @@ def test_dpf_field_to_vtk(simple_rst, fluent_mixing_elbow_steady_state, server_t
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
-def test_dpf_field_to_vtk_errors(simple_rst, server_type):
-    model = dpf.Model(simple_rst, server=server_type)
+def test_dpf_field_to_vtk_errors(server_type):
     # Elemental Field to VTK
-    field = model.results.elemental_volume.on_last_time_freq().eval()[0]
-    if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0:
-        # Elemental fields are shipped with mesh now
-        assert field.meshed_region.elements.n_elements > 0 and field.meshed_region.nodes.n_nodes > 0
-    else:
-        with pytest.raises(ValueError, match="The field does not have a meshed_region."):
-            _ = dpf_field_to_vtk(field=field)
+    field = dpf.fields_factory.create_scalar_field(
+        num_entities=3, location=dpf.locations.elemental, server=server_type
+    )
+    field.scoping.ids = [4, 67, 8]
+    field.data = [0.0, 4.0, 5.0]
+    with pytest.raises(ValueError, match="The field does not have a meshed_region."):
+        _ = dpf_field_to_vtk(field=field)
 
 
 @pytest.mark.skipif(
