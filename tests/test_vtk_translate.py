@@ -101,8 +101,12 @@ def test_dpf_field_to_vtk_errors(simple_rst, server_type):
     model = dpf.Model(simple_rst, server=server_type)
     # Elemental Field to VTK
     field = model.results.elemental_volume.on_last_time_freq().eval()[0]
-    with pytest.raises(ValueError, match="The field does not have a meshed_region."):
-        _ = dpf_field_to_vtk(field=field)
+    if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0:
+        # Elemental fields are shipped with mesh now
+        assert field.meshed_region.elements.n_elements > 0 and field.meshed_region.nodes.n_nodes > 0
+    else:
+        with pytest.raises(ValueError, match="The field does not have a meshed_region."):
+            _ = dpf_field_to_vtk(field=field)
 
 
 @pytest.mark.skipif(
