@@ -1,0 +1,97 @@
+
+
+
+
+
+
+:class:`StringCollection`
+=========================
+
+.. py:class:: ansys.dpf.core.collection_base.StringCollection(list=None, server=None, collection=None, local: bool = False)
+
+   Bases: :py:obj:`CollectionBase`\ [\ :py:obj:`str`\ ]
+
+
+   Creates a collection of strings with a list.
+
+   The collection of integral is the equivalent of an array of
+   data sent server side. It can be used to efficiently stream
+   large data to the server.
+
+   :param list: list to transfer server side
+   :type list: list[float], numpy.array
+
+   .. rubric:: Notes
+
+   Used by default by the ``'Operator'`` and the``'Workflow'`` when a
+   list is connected or returned.
+
+
+
+.. py:currentmodule:: StringCollection
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~create_subtype`
+            - Create a sub type.
+          * - :py:attr:`~get_integral_entries`
+            - Get integral entries.
+
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~entries_type`
+            - 
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.collection_base import StringCollection
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: entries_type
+
+
+
+Method detail
+-------------
+
+.. py:method:: create_subtype(obj_by_copy)
+
+   Create a sub type.
+
+
+.. py:method:: get_integral_entries()
+
+   Get integral entries.
+
+
+
+
+

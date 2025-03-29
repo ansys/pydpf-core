@@ -1,0 +1,183 @@
+
+
+
+
+
+
+:class:`MeshesContainer`
+========================
+
+.. py:class:: ansys.dpf.core.meshes_container.MeshesContainer(meshes_container=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.collection_base.CollectionBase`\ [\ :py:obj:`ansys.dpf.core.meshed_region.MeshedRegion`\ ]
+
+
+   Represents a meshes container, which contains meshes split on a given space.
+
+   :param meshes_container:                ansys.dpf.core.MeshesContainer, optional
+                            Create a meshes container from a collection message or create a copy from an
+                            existing meshes container. The default is ``None``.
+   :type meshes_container: ansys.grpc.dpf.collection_message_pb2.Collection or
+   :param server: Server with the channel connected to the remote or local instance.
+                  The default is ``None``, in which case an attempt is made to use the
+                  global server.
+   :type server: ansys.dpf.core.server, optional
+
+
+
+
+.. py:currentmodule:: MeshesContainer
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~create_subtype`
+            - Create a meshed region sub type.
+          * - :py:attr:`~plot`
+            - Plot the meshes container with a specific result if fields_container is specified.
+          * - :py:attr:`~get_meshes`
+            - Retrieve the meshes at a label space.
+          * - :py:attr:`~get_mesh`
+            - Retrieve the mesh at a requested index or label space.
+          * - :py:attr:`~add_mesh`
+            - Add or update the mesh at a requested label space.
+
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~entries_type`
+            - 
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - Retrieve the mesh at a requested index.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.meshes_container import MeshesContainer
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: entries_type
+
+
+
+Method detail
+-------------
+
+.. py:method:: create_subtype(obj_by_copy)
+
+   Create a meshed region sub type.
+
+
+.. py:method:: plot(fields_container=None, deform_by=None, scale_factor=1.0, **kwargs)
+
+   Plot the meshes container with a specific result if fields_container is specified.
+
+   :param fields_container: Data to plot. The default is ``None``.
+   :type fields_container: FieldsContainer, optional
+   :param deform_by: Used to deform the plotted mesh. Must output a 3D vector field.
+                     Defaults to None.
+   :type deform_by: Field, Result, Operator, optional
+   :param scale_factor: Scaling factor to apply when warping the mesh. Defaults to 1.0.
+   :type scale_factor: float, optional
+   :param \*\*kwargs: Additional keyword arguments for the plotter. For additional keyword
+                      arguments, see ``help(pyvista.plot)``.
+   :type \*\*kwargs: optional
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.find_multishells_rst())
+   >>> mesh = model.metadata.meshed_region
+   >>> split_mesh_op = dpf.operators.mesh.split_mesh(mesh=mesh, property="mat")
+   >>> meshes_cont = split_mesh_op.eval()
+   >>> disp_op = dpf.operators.result.displacement(
+   ...     data_sources = dpf.DataSources(examples.find_multishells_rst()),
+   ...     mesh = meshes_cont
+   ... )
+   >>> disp_fc = disp_op.outputs.fields_container()
+   >>> meshes_cont.plot(disp_fc)
+
+
+.. py:method:: get_meshes(label_space)
+
+   Retrieve the meshes at a label space.
+
+   :param label_space: Meshes corresponding to a filter (label space) in the input. For example:
+                       ``{"elshape":1, "body":12}``
+   :type label_space: dict[str,int]
+
+   :returns: **meshes** -- Meshes corresponding to the request.
+   :rtype: list[MeshedRegion]
+
+
+.. py:method:: get_mesh(label_space_or_index)
+
+   Retrieve the mesh at a requested index or label space.
+
+   Raises an exception if the request returns more than one mesh.
+
+   :param label_space_or_index: Scoping of the requested mesh, such as ``{"time": 1, "complex": 0}``
+                                or the index of the mesh.
+   :type label_space_or_index: dict[str,int] , int
+
+   :returns: **mesh** -- Mesh corresponding to the request.
+   :rtype: MeshedRegion
+
+
+.. py:method:: __getitem__(key)
+
+   Retrieve the mesh at a requested index.
+
+   :param key: Index
+   :type key: int
+
+   :returns: **mesh** -- Mesh corresponding to the request.
+   :rtype: MeshedRegion
+
+
+.. py:method:: add_mesh(label_space, mesh)
+
+   Add or update the mesh at a requested label space.
+
+   :param label_space: Label space of the requested meshes. For example, {"elshape":1, "body":12}.
+   :type label_space: dict[str,int]
+   :param mesh: DPF mesh to add or update.
+   :type mesh: MeshedRegion
+
+
+
+
+

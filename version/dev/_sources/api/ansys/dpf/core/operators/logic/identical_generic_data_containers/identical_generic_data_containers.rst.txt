@@ -1,0 +1,161 @@
+
+
+
+
+
+
+:class:`identical_generic_data_containers`
+==========================================
+
+.. py:class:: ansys.dpf.core.operators.logic.identical_generic_data_containers.identical_generic_data_containers(generic_data_containerA=None, generic_data_containerB=None, double_value=None, double_tolerance=None, compare_auxiliary=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Takes two generic data containers and compares them. Supported types:
+   Field, FieldsContainer, Mesh, MeshesContainer, PropertyField,
+   PropertyFieldsContainer, Scoping, ScopingsContainer, StringFieldstandard
+   types (double, int, string, vector of int, doubles, string)Note: all
+   inputs related to fields, mesh, and so on are passed to each property
+   check.
+
+
+   :param generic_data_containerA:
+   :type generic_data_containerA: GenericDataContainer
+   :param generic_data_containerB:
+   :type generic_data_containerB: GenericDataContainer
+   :param double_value: Double positive small value. Smallest value considered during the comparison step. All the absolute values in the field less than this value are considered null, (default value: 1.0e-14).
+   :type double_value: float
+   :param double_tolerance: Double relative tolerance. Maximum tolerance gap between two compared values. Values within relative tolerance are considered identical. Formula is (v1-v2)/v2 < relativeTol. Default is 0.001.
+   :type double_tolerance: float, optional
+   :param compare_auxiliary: For meshes and meshescontainer: compare auxiliary data (i.e property fields, scopings...). Default value is 'false'.
+   :type compare_auxiliary: bool
+
+   :returns: * **included** (*bool*) -- bool (true if belongs...)
+             * **message** (*str*)
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.logic.identical_generic_data_containers()
+
+   >>> # Make input connections
+   >>> my_generic_data_containerA = dpf.GenericDataContainer()
+   >>> op.inputs.generic_data_containerA.connect(my_generic_data_containerA)
+   >>> my_generic_data_containerB = dpf.GenericDataContainer()
+   >>> op.inputs.generic_data_containerB.connect(my_generic_data_containerB)
+   >>> my_double_value = float()
+   >>> op.inputs.double_value.connect(my_double_value)
+   >>> my_double_tolerance = float()
+   >>> op.inputs.double_tolerance.connect(my_double_tolerance)
+   >>> my_compare_auxiliary = bool()
+   >>> op.inputs.compare_auxiliary.connect(my_compare_auxiliary)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.logic.identical_generic_data_containers(
+   ...     generic_data_containerA=my_generic_data_containerA,
+   ...     generic_data_containerB=my_generic_data_containerB,
+   ...     double_value=my_double_value,
+   ...     double_tolerance=my_double_tolerance,
+   ...     compare_auxiliary=my_compare_auxiliary,
+   ... )
+
+   >>> # Get output data
+   >>> result_included = op.outputs.included()
+   >>> result_message = op.outputs.message()
+
+
+
+
+.. py:currentmodule:: identical_generic_data_containers
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.logic.identical_generic_data_containers import identical_generic_data_containers
+
+Property detail
+---------------
+
+.. py:property:: inputs
+   :type: InputsIdenticalGenericDataContainers
+
+
+   Enables to connect inputs to the operator
+
+   :returns: An instance of InputsIdenticalGenericDataContainers.
+   :rtype: inputs
+
+.. py:property:: outputs
+   :type: OutputsIdenticalGenericDataContainers
+
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: An instance of OutputsIdenticalGenericDataContainers.
+   :rtype: outputs
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server: ansys.dpf.core.server_types.AnyServerType = None) -> ansys.dpf.core.config.Config
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+
+   :returns: A new Config instance equivalent to the default config for this operator.
+   :rtype: config
+
+
+
+
+

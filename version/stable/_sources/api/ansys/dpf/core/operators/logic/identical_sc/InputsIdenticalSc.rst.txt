@@ -1,0 +1,104 @@
+
+
+
+
+
+
+:class:`InputsIdenticalSc`
+==========================
+
+.. py:class:: ansys.dpf.core.operators.logic.identical_sc.InputsIdenticalSc(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   identical_sc operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_sc()
+   >>> my_scopings_containerA = dpf.ScopingsContainer()
+   >>> op.inputs.scopings_containerA.connect(my_scopings_containerA)
+   >>> my_scopings_containerB = dpf.ScopingsContainer()
+   >>> op.inputs.scopings_containerB.connect(my_scopings_containerB)
+
+
+
+.. py:currentmodule:: InputsIdenticalSc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~scopings_containerA`
+            - Allows to connect scopings_containerA input to the operator.
+          * - :py:attr:`~scopings_containerB`
+            - Allows to connect scopings_containerB input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.logic.identical_sc import InputsIdenticalSc
+
+Property detail
+---------------
+
+.. py:property:: scopings_containerA
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect scopings_containerA input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_sc()
+   >>> op.inputs.scopings_containerA.connect(my_scopings_containerA)
+   >>> # or
+   >>> op.inputs.scopings_containerA(my_scopings_containerA)
+
+.. py:property:: scopings_containerB
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect scopings_containerB input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_sc()
+   >>> op.inputs.scopings_containerB.connect(my_scopings_containerB)
+   >>> # or
+   >>> op.inputs.scopings_containerB(my_scopings_containerB)
+
+
+
+
+
+

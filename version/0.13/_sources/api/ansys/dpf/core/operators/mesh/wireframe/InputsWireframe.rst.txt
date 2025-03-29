@@ -1,0 +1,106 @@
+
+
+
+
+
+
+:class:`InputsWireframe`
+========================
+
+.. py:class:: ansys.dpf.core.operators.mesh.wireframe.InputsWireframe(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   wireframe operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.wireframe()
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_threshold = float()
+   >>> op.inputs.threshold.connect(my_threshold)
+
+
+
+.. py:currentmodule:: InputsWireframe
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~mesh`
+            - Allows to connect mesh input to the operator.
+          * - :py:attr:`~threshold`
+            - Allows to connect threshold input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mesh.wireframe import InputsWireframe
+
+Property detail
+---------------
+
+.. py:property:: mesh
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect mesh input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.wireframe()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> # or
+   >>> op.inputs.mesh(my_mesh)
+
+.. py:property:: threshold
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect threshold input to the operator.
+
+   angle threshold in radian that will trigger an edge detection.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.wireframe()
+   >>> op.inputs.threshold.connect(my_threshold)
+   >>> # or
+   >>> op.inputs.threshold(my_threshold)
+
+
+
+
+
+
