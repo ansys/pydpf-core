@@ -18,6 +18,7 @@ from .extract_sub_sc import extract_sub_sc
 from .extract_time_freq import extract_time_freq
 from .fc_get_attribute import fc_get_attribute
 from .field import field
+from .field_clone_to_shell_layer import field_clone_to_shell_layer
 from .field_get_attribute import field_get_attribute
 from .field_to_fc import field_to_fc
 from .fields_container import fields_container
