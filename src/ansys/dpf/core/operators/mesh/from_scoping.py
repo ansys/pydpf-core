@@ -33,6 +33,10 @@ class from_scoping(Operator):
     nodes_only: bool, optional
         returns mesh with nodes only (without any elements or property fields). Default is false.
     mesh: MeshedRegion
+    already_fill_map: bool
+        internal pin used when running meshes::by_scopings operator to never recalculate heavy map over scopings. Default is false.
+    keep_map: bool
+        internal pin used to keep cached map if necessary. Default is false.
 
     Returns
     -------
@@ -54,6 +58,10 @@ class from_scoping(Operator):
     >>> op.inputs.nodes_only.connect(my_nodes_only)
     >>> my_mesh = dpf.MeshedRegion()
     >>> op.inputs.mesh.connect(my_mesh)
+    >>> my_already_fill_map = bool()
+    >>> op.inputs.already_fill_map.connect(my_already_fill_map)
+    >>> my_keep_map = bool()
+    >>> op.inputs.keep_map.connect(my_keep_map)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.mesh.from_scoping(
@@ -61,6 +69,8 @@ class from_scoping(Operator):
     ...     inclusive=my_inclusive,
     ...     nodes_only=my_nodes_only,
     ...     mesh=my_mesh,
+    ...     already_fill_map=my_already_fill_map,
+    ...     keep_map=my_keep_map,
     ... )
 
     >>> # Get output data
@@ -73,6 +83,8 @@ class from_scoping(Operator):
         inclusive=None,
         nodes_only=None,
         mesh=None,
+        already_fill_map=None,
+        keep_map=None,
         config=None,
         server=None,
     ):
@@ -87,6 +99,10 @@ class from_scoping(Operator):
             self.inputs.nodes_only.connect(nodes_only)
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
+        if already_fill_map is not None:
+            self.inputs.already_fill_map.connect(already_fill_map)
+        if keep_map is not None:
+            self.inputs.keep_map.connect(keep_map)
 
     @staticmethod
     def _spec() -> Specification:
@@ -123,6 +139,18 @@ the property fields are not present in the output mesh.
                     type_names=["abstract_meshed_region"],
                     optional=False,
                     document=r"""""",
+                ),
+                200: PinSpecification(
+                    name="already_fill_map",
+                    type_names=["bool"],
+                    optional=False,
+                    document=r"""internal pin used when running meshes::by_scopings operator to never recalculate heavy map over scopings. Default is false.""",
+                ),
+                201: PinSpecification(
+                    name="keep_map",
+                    type_names=["bool"],
+                    optional=False,
+                    document=r"""internal pin used to keep cached map if necessary. Default is false.""",
                 ),
             },
             map_output_pin_spec={
@@ -196,6 +224,10 @@ class InputsFromScoping(_Inputs):
     >>> op.inputs.nodes_only.connect(my_nodes_only)
     >>> my_mesh = dpf.MeshedRegion()
     >>> op.inputs.mesh.connect(my_mesh)
+    >>> my_already_fill_map = bool()
+    >>> op.inputs.already_fill_map.connect(my_already_fill_map)
+    >>> my_keep_map = bool()
+    >>> op.inputs.keep_map.connect(my_keep_map)
     """
 
     def __init__(self, op: Operator):
@@ -208,6 +240,10 @@ class InputsFromScoping(_Inputs):
         self._inputs.append(self._nodes_only)
         self._mesh = Input(from_scoping._spec().input_pin(7), 7, op, -1)
         self._inputs.append(self._mesh)
+        self._already_fill_map = Input(from_scoping._spec().input_pin(200), 200, op, -1)
+        self._inputs.append(self._already_fill_map)
+        self._keep_map = Input(from_scoping._spec().input_pin(201), 201, op, -1)
+        self._inputs.append(self._keep_map)
 
     @property
     def scoping(self) -> Input:
@@ -290,6 +326,48 @@ class InputsFromScoping(_Inputs):
         >>> op.inputs.mesh(my_mesh)
         """
         return self._mesh
+
+    @property
+    def already_fill_map(self) -> Input:
+        r"""Allows to connect already_fill_map input to the operator.
+
+        internal pin used when running meshes::by_scopings operator to never recalculate heavy map over scopings. Default is false.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.mesh.from_scoping()
+        >>> op.inputs.already_fill_map.connect(my_already_fill_map)
+        >>> # or
+        >>> op.inputs.already_fill_map(my_already_fill_map)
+        """
+        return self._already_fill_map
+
+    @property
+    def keep_map(self) -> Input:
+        r"""Allows to connect keep_map input to the operator.
+
+        internal pin used to keep cached map if necessary. Default is false.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.mesh.from_scoping()
+        >>> op.inputs.keep_map.connect(my_keep_map)
+        >>> # or
+        >>> op.inputs.keep_map(my_keep_map)
+        """
+        return self._keep_map
 
 
 class OutputsFromScoping(_Outputs):
