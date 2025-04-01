@@ -38,7 +38,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-plotting = [
+graphics = [
     # 2D chart plotting
     "matplotlib>=3.2",
     # 3D plotting

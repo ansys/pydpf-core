@@ -79,7 +79,7 @@ jobs:
       - name: "Install package wheel"
         shell: bash
         run: |
-          pip install dist/${{ steps.wheel.outputs.wheel_name }}[plotting]
+          pip install dist/${{ steps.wheel.outputs.wheel_name }}[graphics]
 
       - name: "Install DPF"
         id: set-server-path

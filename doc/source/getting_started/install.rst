@@ -21,7 +21,7 @@ To install PyDPF-Core with its optional plotting functionalities, run this comma
 
 .. code::
 
-   pip install ansys-dpf-core[plotting]
+   pip install ansys-dpf-core[graphics]
 
 For more information about PyDPF-Core plotting capabilities, see :ref:`user_guide_plotting`.
 
