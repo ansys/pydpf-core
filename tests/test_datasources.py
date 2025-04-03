@@ -176,6 +176,7 @@ def test_register_namespace(allkindofcomplexity, server_type):
         assert op.eval() is not None
 
 
+@conftest.raises_for_servers_version_under("7.0")
 def test_namespace(allkindofcomplexity, server_type):
     data_sources = dpf.core.DataSources(allkindofcomplexity, server=server_type)
     assert data_sources.namespace(data_sources.result_key) == "mapdl"

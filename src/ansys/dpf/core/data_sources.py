@@ -680,6 +680,7 @@ class DataSources:
         """
         self._api.data_sources_register_namespace(self, result_key, namespace)
 
+    @version_requires("7.0")
     def namespace(self, result_key: str) -> str:
         """
         Return the namespace associated to a result_key. The namespace identifies to which operator plugin a call should be delegated to.
