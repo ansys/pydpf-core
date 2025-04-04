@@ -17,22 +17,22 @@ from ansys.dpf.core.server_types import AnyServerType
 
 
 class fc_get_attribute(Operator):
-    r"""Uses the FieldsContainer APIs to return a given attribute of the mesh in
-    input.
+    r"""Uses the FieldsContainer APIs to return a given attribute of the fields
+    container in input.
 
 
     Parameters
     ----------
     fields_container: FieldsContainer
     property_name: str
-        Supported property names are: "label_scoping", "label_values", "time_freq_support", "labels", "field_scoping" .
+        Supported property names are: "label_scoping", "label_values", "time_freq_support", "labels", "field_scoping" and "field".
     property_identifier: str or int, optional
-        Additional pin for some property : the label name for "label_scoping" or "label_values", the field index (default 0) for "field_scoping".
+        Additional pin for some property : the label name for "label_scoping" or "label_values", the field index (default 0) for "field_scoping" or "field".
 
     Returns
     -------
-    property: Scoping or TimeFreqSupport or dict
-        Returns a Scoping for property: "label_scoping", a vector of int for "label_values", a time freq support for "time_freq_support", a vector of string for "labels", a LabelSpace for "field_scoping".
+    property: Scoping or TimeFreqSupport or dict or Field
+        Returns a Scoping for property: "label_scoping", a vector of int for "label_values", a time freq support for "time_freq_support", a vector of string for "labels", a LabelSpace for "field_scoping" and a "field" for "field".
 
     Examples
     --------
@@ -82,8 +82,8 @@ class fc_get_attribute(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Uses the FieldsContainer APIs to return a given attribute of the mesh in
-input.
+        description = r"""Uses the FieldsContainer APIs to return a given attribute of the fields
+container in input.
 """
         spec = Specification(
             description=description,
@@ -98,13 +98,13 @@ input.
                     name="property_name",
                     type_names=["string"],
                     optional=False,
-                    document=r"""Supported property names are: "label_scoping", "label_values", "time_freq_support", "labels", "field_scoping" .""",
+                    document=r"""Supported property names are: "label_scoping", "label_values", "time_freq_support", "labels", "field_scoping" and "field".""",
                 ),
                 2: PinSpecification(
                     name="property_identifier",
                     type_names=["string", "int32"],
                     optional=True,
-                    document=r"""Additional pin for some property : the label name for "label_scoping" or "label_values", the field index (default 0) for "field_scoping".""",
+                    document=r"""Additional pin for some property : the label name for "label_scoping" or "label_values", the field index (default 0) for "field_scoping" or "field".""",
                 ),
             },
             map_output_pin_spec={
@@ -116,9 +116,10 @@ input.
                         "time_freq_support",
                         "vector<string>",
                         "label_space",
+                        "field",
                     ],
                     optional=False,
-                    document=r"""Returns a Scoping for property: "label_scoping", a vector of int for "label_values", a time freq support for "time_freq_support", a vector of string for "labels", a LabelSpace for "field_scoping".""",
+                    document=r"""Returns a Scoping for property: "label_scoping", a vector of int for "label_values", a time freq support for "time_freq_support", a vector of string for "labels", a LabelSpace for "field_scoping" and a "field" for "field".""",
                 ),
             },
         )
@@ -220,7 +221,7 @@ class InputsFcGetAttribute(_Inputs):
     def property_name(self) -> Input:
         r"""Allows to connect property_name input to the operator.
 
-        Supported property names are: "label_scoping", "label_values", "time_freq_support", "labels", "field_scoping" .
+        Supported property names are: "label_scoping", "label_values", "time_freq_support", "labels", "field_scoping" and "field".
 
         Returns
         -------
@@ -241,7 +242,7 @@ class InputsFcGetAttribute(_Inputs):
     def property_identifier(self) -> Input:
         r"""Allows to connect property_identifier input to the operator.
 
-        Additional pin for some property : the label name for "label_scoping" or "label_values", the field index (default 0) for "field_scoping".
+        Additional pin for some property : the label name for "label_scoping" or "label_values", the field index (default 0) for "field_scoping" or "field".
 
         Returns
         -------
@@ -313,3 +314,11 @@ class OutputsFcGetAttribute(_Outputs):
             op,
         )
         self._outputs.append(self.property_as_label_space)
+        self.property_as_field = Output(
+            _modify_output_spec_with_one_type(
+                fc_get_attribute._spec().output_pin(0), "field"
+            ),
+            0,
+            op,
+        )
+        self._outputs.append(self.property_as_field)

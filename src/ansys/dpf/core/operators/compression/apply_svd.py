@@ -27,9 +27,9 @@ class apply_svd(Operator):
     scalar_int: int
         number of vectors (r) to keep for the future reconstraction of the matrix A, ex. A[m,n]=coef[m,r]*VT[r,n], where coef=U*Sigma
     scalar_double: float
-        threshold (precision) as a double, default value is 1e-7
+        threshold (precision) as a double, default value is 1e-7. If both pin1 and pin2 are provided, choose the min r-vectors
     boolean: bool
-        apply svd on the initial input data (true) or transposed (square matrix), default value is false
+        apply svd on the initial data (Default : false), otherwise use reduced data (square matrix with the smallest dimensions).
 
     Returns
     -------
@@ -115,13 +115,13 @@ class apply_svd(Operator):
                     name="scalar_double",
                     type_names=["double"],
                     optional=False,
-                    document=r"""threshold (precision) as a double, default value is 1e-7""",
+                    document=r"""threshold (precision) as a double, default value is 1e-7. If both pin1 and pin2 are provided, choose the min r-vectors""",
                 ),
                 3: PinSpecification(
                     name="boolean",
                     type_names=["bool"],
                     optional=False,
-                    document=r"""apply svd on the initial input data (true) or transposed (square matrix), default value is false""",
+                    document=r"""apply svd on the initial data (Default : false), otherwise use reduced data (square matrix with the smallest dimensions).""",
                 ),
             },
             map_output_pin_spec={
@@ -268,7 +268,7 @@ class InputsApplySvd(_Inputs):
     def scalar_double(self) -> Input:
         r"""Allows to connect scalar_double input to the operator.
 
-        threshold (precision) as a double, default value is 1e-7
+        threshold (precision) as a double, default value is 1e-7. If both pin1 and pin2 are provided, choose the min r-vectors
 
         Returns
         -------
@@ -289,7 +289,7 @@ class InputsApplySvd(_Inputs):
     def boolean(self) -> Input:
         r"""Allows to connect boolean input to the operator.
 
-        apply svd on the initial input data (true) or transposed (square matrix), default value is false
+        apply svd on the initial data (Default : false), otherwise use reduced data (square matrix with the smallest dimensions).
 
         Returns
         -------
