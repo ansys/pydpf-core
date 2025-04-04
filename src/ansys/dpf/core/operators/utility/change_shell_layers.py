@@ -34,7 +34,7 @@ class change_shell_layers(Operator):
     mesh: MeshedRegion or MeshesContainer, optional
         Mesh support of the input fields_container, in case it does not have one defined. If the fields_container contains mixed shell/solid results, the mesh is required (either by connecting this pin or in the support).
     merge: bool, optional
-        For shell/solid mixed fields, group in the same field all solids and shells (false by default).
+        For fields with mixed shell layers (solid/shell elements with heterogeneous shell layers), group all of them in the same field (false by default).
 
     Returns
     -------
@@ -125,7 +125,7 @@ the result.
                     name="merge",
                     type_names=["bool"],
                     optional=True,
-                    document=r"""For shell/solid mixed fields, group in the same field all solids and shells (false by default).""",
+                    document=r"""For fields with mixed shell layers (solid/shell elements with heterogeneous shell layers), group all of them in the same field (false by default).""",
                 ),
             },
             map_output_pin_spec={
@@ -279,7 +279,7 @@ class InputsChangeShellLayers(_Inputs):
     def merge(self) -> Input:
         r"""Allows to connect merge input to the operator.
 
-        For shell/solid mixed fields, group in the same field all solids and shells (false by default).
+        For fields with mixed shell layers (solid/shell elements with heterogeneous shell layers), group all of them in the same field (false by default).
 
         Returns
         -------
