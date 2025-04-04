@@ -1,0 +1,114 @@
+
+
+
+
+
+
+:class:`CServer`
+================
+
+.. py:class:: ansys.dpf.core.server_types.CServer(ansys_path=None, load_operators=True)
+
+   Bases: :py:obj:`BaseServer`, :py:obj:`abc.ABC`
+
+
+   Abstract class for servers going through the DPFClientAPI.
+
+
+
+
+.. py:currentmodule:: CServer
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~get_api_for_type`
+            - Return api for type.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~available_api_types`
+            - Return available api type, always c_api.
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~ansys_path`
+            - 
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__del__`
+            - Clean up resources associated with the instance.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.server_types import CServer
+
+Property detail
+---------------
+
+.. py:property:: available_api_types
+
+   Return available api type, always c_api.
+
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: ansys_path
+   :value: None
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: get_api_for_type(capi, grpcapi)
+
+   Return api for type.
+
+
+.. py:method:: __del__()
+
+   Clean up resources associated with the instance.
+
+   :raises Warning: If an exception occurs while attempting to delete resources.
+
+
+
+
+

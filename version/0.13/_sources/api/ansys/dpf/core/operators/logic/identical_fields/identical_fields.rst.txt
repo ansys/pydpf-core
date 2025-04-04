@@ -1,0 +1,151 @@
+
+
+
+
+
+
+:class:`identical_fields`
+=========================
+
+.. py:class:: ansys.dpf.core.operators.logic.identical_fields.identical_fields(fieldA=None, fieldB=None, double_value=None, double_tolerance=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Check if two fields are identical.
+
+
+   :param fieldA:
+   :type fieldA: Field
+   :param fieldB:
+   :type fieldB: Field
+   :param double_value: Double positive small value. Smallest value considered during the comparison step. All the absolute values in the field less than this value are considered null, (default value: 1.0e-14).
+   :type double_value: float, optional
+   :param double_tolerance: Double relative tolerance. Maximum tolerance gap between two compared values. Values within relative tolerance are considered identical. Formula is (v1 - v2) / v2 < relativeTol. Default is 0.001.
+   :type double_tolerance: float, optional
+
+   :returns: * **boolean** (*bool*) -- bool (true if identical...)
+             * **message** (*str*)
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.logic.identical_fields()
+
+   >>> # Make input connections
+   >>> my_fieldA = dpf.Field()
+   >>> op.inputs.fieldA.connect(my_fieldA)
+   >>> my_fieldB = dpf.Field()
+   >>> op.inputs.fieldB.connect(my_fieldB)
+   >>> my_double_value = float()
+   >>> op.inputs.double_value.connect(my_double_value)
+   >>> my_double_tolerance = float()
+   >>> op.inputs.double_tolerance.connect(my_double_tolerance)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.logic.identical_fields(
+   ...     fieldA=my_fieldA,
+   ...     fieldB=my_fieldB,
+   ...     double_value=my_double_value,
+   ...     double_tolerance=my_double_tolerance,
+   ... )
+
+   >>> # Get output data
+   >>> result_boolean = op.outputs.boolean()
+   >>> result_message = op.outputs.message()
+
+
+
+
+.. py:currentmodule:: identical_fields
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.logic.identical_fields import identical_fields
+
+Property detail
+---------------
+
+.. py:property:: inputs
+   :type: InputsIdenticalFields
+
+
+   Enables to connect inputs to the operator
+
+   :returns: An instance of InputsIdenticalFields.
+   :rtype: inputs
+
+.. py:property:: outputs
+   :type: OutputsIdenticalFields
+
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: An instance of OutputsIdenticalFields.
+   :rtype: outputs
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server: ansys.dpf.core.server_types.AnyServerType = None) -> ansys.dpf.core.config.Config
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+
+   :returns: A new Config instance equivalent to the default config for this operator.
+   :rtype: config
+
+
+
+
+
