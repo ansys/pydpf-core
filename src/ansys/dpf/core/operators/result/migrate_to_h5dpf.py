@@ -18,31 +18,33 @@ from ansys.dpf.core.server_types import AnyServerType
 class migrate_to_h5dpf(Operator):
     r"""Read mesh properties from the results files contained in the streams or
     data sources and make those properties available through a mesh
-    selection manager in output.
+    selection manager in output.User can input a GenericDataContainer that
+    will map an item to a result name. Example of Map: {{ default: wf1},
+    {EUL: wf2}, {ENG_SE: wf3}}.
 
 
     Parameters
     ----------
-    dataset_size_compression_threshold: int, optional
+    dataset_size_compression_threshold: int or GenericDataContainer, optional
         Integer value that defines the minimum dataset size (in bytes) to use h5 native compression Applicable for arrays of floats, doubles and integers.
-    h5_native_compression: int or DataTree, optional
+    h5_native_compression: int or DataTree or GenericDataContainer, optional
         Integer value / DataTree that defines the h5 native compression used For Integer Input {0: No Compression (default); 1-9: GZIP Compression : 9 provides maximum compression but at the slowest speed.}For DataTree Input {type: None / GZIP / ZSTD; level: GZIP (1-9) / ZSTD (1-20); num_threads: ZSTD (>0)}
-    export_floats: bool, optional
+    export_floats: bool or GenericDataContainer, optional
         Converts double to float to reduce file size (default is true).If False, nodal results are exported as double precision and elemental results as single precision.
     filename: str
         filename of the migrated file
     comma_separated_list_of_results: str, optional
         list of results (source operator names) separated by semicolons that will be stored. (Example: U;S;EPEL). If empty, all available results will be converted.
     all_time_sets: bool, optional
-        default is false
+        Deprecated. Please use filtering workflows instead to select time scoping. Default is false.
     streams_container: StreamsContainer, optional
         streams (result file container) (optional)
     data_sources: DataSources, optional
         if the stream is null then we need to get the file path from the data sources
     compression_workflow: Workflow or GenericDataContainer, optional
-        BETA Option: Applies input compression workflow. User can input a GenericDataContainer that will map a compression workflow to a result name. Example of Map: {{ default: wf1}, {EUL: wf2}, {ENG_SE: wf3}}
+        BETA Option: Applies input compression workflow.
     filtering_workflow: Workflow or GenericDataContainer, optional
-        Applies input filtering workflow. User can input a GenericDataContainer of the format described for Pin(6) that will map a filtering workflow to a result name.
+        Applies input filtering workflow.
 
     Returns
     -------
@@ -142,26 +144,32 @@ class migrate_to_h5dpf(Operator):
     def _spec() -> Specification:
         description = r"""Read mesh properties from the results files contained in the streams or
 data sources and make those properties available through a mesh
-selection manager in output.
+selection manager in output.User can input a GenericDataContainer that
+will map an item to a result name. Example of Map: {{ default: wf1},
+{EUL: wf2}, {ENG_SE: wf3}}.
 """
         spec = Specification(
             description=description,
             map_input_pin_spec={
                 -5: PinSpecification(
                     name="dataset_size_compression_threshold",
-                    type_names=["int32"],
+                    type_names=["int32", "generic_data_container"],
                     optional=True,
                     document=r"""Integer value that defines the minimum dataset size (in bytes) to use h5 native compression Applicable for arrays of floats, doubles and integers.""",
                 ),
                 -2: PinSpecification(
                     name="h5_native_compression",
-                    type_names=["int32", "abstract_data_tree"],
+                    type_names=[
+                        "int32",
+                        "abstract_data_tree",
+                        "generic_data_container",
+                    ],
                     optional=True,
                     document=r"""Integer value / DataTree that defines the h5 native compression used For Integer Input {0: No Compression (default); 1-9: GZIP Compression : 9 provides maximum compression but at the slowest speed.}For DataTree Input {type: None / GZIP / ZSTD; level: GZIP (1-9) / ZSTD (1-20); num_threads: ZSTD (>0)}""",
                 ),
                 -1: PinSpecification(
                     name="export_floats",
-                    type_names=["bool"],
+                    type_names=["bool", "generic_data_container"],
                     optional=True,
                     document=r"""Converts double to float to reduce file size (default is true).If False, nodal results are exported as double precision and elemental results as single precision.""",
                 ),
@@ -181,7 +189,7 @@ selection manager in output.
                     name="all_time_sets",
                     type_names=["bool"],
                     optional=True,
-                    document=r"""default is false""",
+                    document=r"""Deprecated. Please use filtering workflows instead to select time scoping. Default is false.""",
                 ),
                 3: PinSpecification(
                     name="streams_container",
@@ -199,13 +207,13 @@ selection manager in output.
                     name="compression_workflow",
                     type_names=["workflow", "generic_data_container"],
                     optional=True,
-                    document=r"""BETA Option: Applies input compression workflow. User can input a GenericDataContainer that will map a compression workflow to a result name. Example of Map: {{ default: wf1}, {EUL: wf2}, {ENG_SE: wf3}}""",
+                    document=r"""BETA Option: Applies input compression workflow.""",
                 ),
                 7: PinSpecification(
                     name="filtering_workflow",
                     type_names=["workflow", "generic_data_container"],
                     optional=True,
-                    document=r"""Applies input filtering workflow. User can input a GenericDataContainer of the format described for Pin(6) that will map a filtering workflow to a result name.""",
+                    document=r"""Applies input filtering workflow.""",
                 ),
             },
             map_output_pin_spec={
@@ -437,7 +445,7 @@ class InputsMigrateToH5Dpf(_Inputs):
     def all_time_sets(self) -> Input:
         r"""Allows to connect all_time_sets input to the operator.
 
-        default is false
+        Deprecated. Please use filtering workflows instead to select time scoping. Default is false.
 
         Returns
         -------
@@ -500,7 +508,7 @@ class InputsMigrateToH5Dpf(_Inputs):
     def compression_workflow(self) -> Input:
         r"""Allows to connect compression_workflow input to the operator.
 
-        BETA Option: Applies input compression workflow. User can input a GenericDataContainer that will map a compression workflow to a result name. Example of Map: {{ default: wf1}, {EUL: wf2}, {ENG_SE: wf3}}
+        BETA Option: Applies input compression workflow.
 
         Returns
         -------
@@ -521,7 +529,7 @@ class InputsMigrateToH5Dpf(_Inputs):
     def filtering_workflow(self) -> Input:
         r"""Allows to connect filtering_workflow input to the operator.
 
-        Applies input filtering workflow. User can input a GenericDataContainer of the format described for Pin(6) that will map a filtering workflow to a result name.
+        Applies input filtering workflow.
 
         Returns
         -------
