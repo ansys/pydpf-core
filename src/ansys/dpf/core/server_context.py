@@ -80,10 +80,6 @@ class LicensingContextType(Enum):
         bool
             True if the licensing contexts are compatible, False otherwise.
         """
-        if (first == LicensingContextType.none and second != LicensingContextType.none) or (
-            first != LicensingContextType.none and second == LicensingContextType.none
-        ):
-            return False
         if int(first) == int(LicensingContextType.entry) and int(second) != int(
             LicensingContextType.entry
         ):
