@@ -30,7 +30,7 @@ import platform
 import pytest
 
 from ansys import dpf
-from ansys.dpf.core import examples, path_utilities
+from ansys.dpf.core import check_version, examples, path_utilities
 import conftest
 from conftest import running_docker
 
@@ -510,7 +510,7 @@ def test_server_without_context(remote_config_server_type):
     )
     none_type = dpf.core.AvailableServerContexts.no_context.licensing_context_type
     assert server.context.licensing_context_type == none_type
-    if server.check_version("10.0"):  # Before, there was a bug
+    if check_version.server_meet_version_and_raise("10.0", server):  # Before, there was a bug
         assert len(dpf.core.available_operator_names(server=server)) < 20
 
 
