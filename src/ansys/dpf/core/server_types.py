@@ -133,7 +133,7 @@ def _run_launch_server_process(
             executable = "Ans.Dpf.Grpc.bat"
             run_cmd = f"{executable} --address {ip} --port {port}"
             if context is not None:
-                run_cmd += f" --context {context.licensing_context_type}"
+                run_cmd += f" --context {int(context.licensing_context_type)}"
         else:
             executable = "./Ans.Dpf.Grpc.sh"  # pragma: no cover
             run_cmd = [
@@ -142,7 +142,7 @@ def _run_launch_server_process(
                 f"--port {port}",
             ]  # pragma: no cover
             if context is not None:
-                run_cmd.append(f"--context {context.licensing_context_type}")
+                run_cmd.append(f"--context {int(context.licensing_context_type)}")
         path_in_install = load_api._get_path_in_install(internal_folder="bin")
         dpf_run_dir = _verify_ansys_path_is_valid(ansys_path, executable, path_in_install)
 
@@ -1047,18 +1047,14 @@ class InProcessServer(CServer):
                 )
             raise e
         if context:
-            if context == core.AvailableServerContexts.no_context:
-                self._base_service.initialize()
-                self._context = context
-            else:
-                try:
-                    self.apply_context(context)
-                except errors.DpfVersionNotSupported:
-                    self._base_service.initialize_with_context(
-                        server_context.AvailableServerContexts.premium
-                    )
-                    self._context = server_context.AvailableServerContexts.premium
-                    pass
+            try:
+                self.apply_context(context)
+            except errors.DpfVersionNotSupported:
+                self._base_service.initialize_with_context(
+                    server_context.AvailableServerContexts.premium
+                )
+                self._context = server_context.AvailableServerContexts.premium
+                pass
         self.set_as_global(as_global=as_global)
         # Update the python os.environment
         if not os.name == "posix":
