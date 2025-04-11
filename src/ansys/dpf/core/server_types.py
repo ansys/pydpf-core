@@ -50,6 +50,7 @@ import ansys.dpf.core as core
 from ansys.dpf.core import __version__, errors, server_context, server_factory
 from ansys.dpf.core._version import min_server_version, server_to_ansys_version
 from ansys.dpf.core.check_version import server_meet_version
+from ansys.dpf.core.server_context import ServerContext
 from ansys.dpf.gate import data_processing_grpcapi, load_api
 
 if TYPE_CHECKING:  # pragma: no cover
@@ -114,7 +115,11 @@ def _verify_ansys_path_is_valid(ansys_path, executable, path_in_install=None):
 
 
 def _run_launch_server_process(
-    ip, port, ansys_path=None, docker_config=server_factory.RunningDockerConfig()
+    ip,
+    port,
+    ansys_path=None,
+    docker_config=server_factory.RunningDockerConfig(),
+    context: ServerContext = None,
 ):
     bShell = False
     if docker_config.use_docker:
@@ -127,6 +132,8 @@ def _run_launch_server_process(
         if os.name == "nt":
             executable = "Ans.Dpf.Grpc.bat"
             run_cmd = f"{executable} --address {ip} --port {port}"
+            if context is not None:
+                run_cmd += f" --context {context.licensing_context_type}"
         else:
             executable = "./Ans.Dpf.Grpc.sh"  # pragma: no cover
             run_cmd = [
@@ -134,6 +141,8 @@ def _run_launch_server_process(
                 f"--address {ip}",
                 f"--port {port}",
             ]  # pragma: no cover
+            if context is not None:
+                run_cmd.append(f"--context {context.licensing_context_type}")
         path_in_install = load_api._get_path_in_install(internal_folder="bin")
         dpf_run_dir = _verify_ansys_path_is_valid(ansys_path, executable, path_in_install)
 
@@ -204,7 +213,9 @@ def _wait_and_check_server_connection(
         raise RuntimeError(errstr)
 
 
-def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10):
+def launch_dpf(
+    ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10, context: ServerContext = None
+):
     """Launch Ansys DPF.
 
     Parameters
@@ -222,9 +233,10 @@ def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10):
         Maximum number of seconds for the initialization attempt.
         The default is ``10``. Once the specified number of seconds
         passes, the connection fails.
-
+    context : , optional
+        Context to apply to DPF server when launching it.
     """
-    process = _run_launch_server_process(ip, port, ansys_path)
+    process = _run_launch_server_process(ip, port, ansys_path, context=context)
     lines = []
     current_errors = []
     _wait_and_check_server_connection(
@@ -766,7 +778,7 @@ class GrpcServer(CServer):
         launch_server: bool = True,
         docker_config: DockerConfig = RUNNING_DOCKER,
         use_pypim: bool = True,
-        context: server_context.AvailableServerContexts = server_context.SERVER_CONTEXT,
+        context: server_context.ServerContext = server_context.SERVER_CONTEXT,
     ):
         # Load DPFClientAPI
         from ansys.dpf.core.misc import is_pypim_configured
@@ -808,7 +820,7 @@ class GrpcServer(CServer):
                     timeout=timeout,
                 )
             else:
-                launch_dpf(ansys_path, ip, port, timeout=timeout)
+                launch_dpf(ansys_path, ip, port, timeout=timeout, context=context)
                 self._local_server = True
 
         # store port and ip for later reference
@@ -820,15 +832,11 @@ class GrpcServer(CServer):
         self._create_shutdown_funcs()
         self._check_first_call(timeout=timeout - (time.time() - start_time))  # Pass remaining time
         if context:
-            if context == core.AvailableServerContexts.no_context:
-                self._base_service.initialize()
+            try:
+                self._base_service.initialize_with_context(context)
                 self._context = context
-            else:
-                try:
-                    self._base_service.initialize_with_context(context)
-                    self._context = context
-                except errors.DpfVersionNotSupported:
-                    pass
+            except errors.DpfVersionNotSupported:
+                pass
         self.set_as_global(as_global=as_global)
 
     def _check_first_call(self, timeout: float):
@@ -1201,7 +1209,7 @@ class LegacyGrpcServer(BaseServer):
         launch_server: bool = True,
         docker_config: DockerConfig = RUNNING_DOCKER,
         use_pypim: bool = True,
-        context: server_context.AvailableServerContexts = server_context.SERVER_CONTEXT,
+        context: server_context.ServerContext = server_context.SERVER_CONTEXT,
     ):
         """Start the DPF server."""
         # Use ansys.grpc.dpf
@@ -1247,7 +1255,7 @@ class LegacyGrpcServer(BaseServer):
                         timeout=timeout,
                     )
                 else:
-                    launch_dpf(ansys_path, ip, port, timeout=timeout)
+                    launch_dpf(ansys_path, ip, port, timeout=timeout, context=context)
                     self._local_server = True
         from ansys.dpf.core import misc, settings
 
@@ -1267,14 +1275,11 @@ class LegacyGrpcServer(BaseServer):
 
         check_ansys_grpc_dpf_version(self, timeout)
         if context:
-            if context == core.AvailableServerContexts.no_context:
+            try:
+                self._base_service.initialize_with_context(context)
                 self._context = context
-            else:
-                try:
-                    self._base_service.initialize_with_context(context)
-                    self._context = context
-                except errors.DpfVersionNotSupported:
-                    pass
+            except errors.DpfVersionNotSupported:
+                pass
         self.set_as_global(as_global=as_global)
 
     def _create_shutdown_funcs(self):

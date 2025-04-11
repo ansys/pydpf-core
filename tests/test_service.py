@@ -510,6 +510,7 @@ def test_server_without_context(remote_config_server_type):
     )
     none_type = dpf.core.AvailableServerContexts.no_context.licensing_context_type
     assert server.context.licensing_context_type == none_type
+    assert len(dpf.core.available_operator_names(server=server)) < 20
 
 
 @pytest.mark.order("last")
