@@ -1,0 +1,30 @@
+
+
+
+
+
+
+:class:`CustomContainerBase`
+============================
+
+.. py:class:: ansys.dpf.core.custom_container_base.CustomContainerBase(container: ansys.dpf.core.generic_data_container.GenericDataContainer)
+
+   Base class for custom container wrappers.
+
+   This class provides a common interface for managing an underlying
+   `GenericDataContainer` object.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.custom_container_base import CustomContainerBase
+
+
+
+
+

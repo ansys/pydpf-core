@@ -1,0 +1,146 @@
+
+
+
+
+
+
+:class:`nodal_to_elemental_nodal`
+=================================
+
+.. py:class:: ansys.dpf.core.operators.averaging.nodal_to_elemental_nodal.nodal_to_elemental_nodal(field=None, mesh_scoping=None, collapse_shell_layers=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Transforms a Nodal field to an ElementalNodal field, The result is
+   computed on a given element’s scoping.
+
+
+   :param field: field or fields container with only one field is expected
+   :type field: Field or FieldsContainer
+   :param mesh_scoping:
+   :type mesh_scoping: Scoping, optional
+   :param collapse_shell_layers: If true, the data across different shell layers is averaged as well (default is false).
+   :type collapse_shell_layers: bool, optional
+
+   :returns: **field**
+   :rtype: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.averaging.nodal_to_elemental_nodal()
+
+   >>> # Make input connections
+   >>> my_field = dpf.Field()
+   >>> op.inputs.field.connect(my_field)
+   >>> my_mesh_scoping = dpf.Scoping()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> my_collapse_shell_layers = bool()
+   >>> op.inputs.collapse_shell_layers.connect(my_collapse_shell_layers)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.averaging.nodal_to_elemental_nodal(
+   ...     field=my_field,
+   ...     mesh_scoping=my_mesh_scoping,
+   ...     collapse_shell_layers=my_collapse_shell_layers,
+   ... )
+
+   >>> # Get output data
+   >>> result_field = op.outputs.field()
+
+
+
+
+.. py:currentmodule:: nodal_to_elemental_nodal
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.averaging.nodal_to_elemental_nodal import nodal_to_elemental_nodal
+
+Property detail
+---------------
+
+.. py:property:: inputs
+   :type: InputsNodalToElementalNodal
+
+
+   Enables to connect inputs to the operator
+
+   :returns: An instance of InputsNodalToElementalNodal.
+   :rtype: inputs
+
+.. py:property:: outputs
+   :type: OutputsNodalToElementalNodal
+
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: An instance of OutputsNodalToElementalNodal.
+   :rtype: outputs
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server: ansys.dpf.core.server_types.AnyServerType = None) -> ansys.dpf.core.config.Config
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+
+   :returns: A new Config instance equivalent to the default config for this operator.
+   :rtype: config
+
+
+
+
+

@@ -1,0 +1,160 @@
+
+
+
+
+
+
+:class:`StringField`
+====================
+
+.. py:class:: ansys.dpf.core.string_field.StringField(nentities=0, string_field=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.field_base._FieldBase`
+
+
+   Describes string data scoped on entities such as names.
+
+   This class is a field with string values instead of double values.
+
+   :param nentities: Number of entities that the string field is to contain (reserved). The
+                     default is ``0``.
+   :type nentities: int
+   :param string_field: Field message generated from a gRPC stub, or returned by DPF's C clients.
+   :type string_field: Field, ansys.grpc.dpf.field_pb2.Field, ctypes.c_void_p, optional
+   :param server: Server with the channel connected to the remote or local instance. The
+                  default is ``None``, in which case an attempt is made to use the global
+                  server.
+   :type server: server.DPFServer, optional
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> pfield = dpf.StringField()
+   >>> list_ids = [1, 2, 4, 6, 7]
+   >>> scop = dpf.Scoping(ids = list_ids, location = dpf.locations.nodal)
+   >>> pfield.scoping = scop
+   >>> list_data = ["water", "oil", "gaz", "paint", "air"]
+   >>> pfield.data = list_data
+
+   .. rubric:: Notes
+
+   Class available with server's version starting at 5.0 (Ansys 2023R1).
+
+
+
+.. py:currentmodule:: StringField
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~get_entity_data`
+            - Return entity data.
+          * - :py:attr:`~get_entity_data_by_id`
+            - Return entity data corresponding to the provided id.
+          * - :py:attr:`~append`
+            - Append data to the string field.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~location`
+            - Location of the string field.
+          * - :py:attr:`~component_count`
+            - Return the number of component, always 1.
+          * - :py:attr:`~elementary_data_count`
+            - Return elementary data count.
+          * - :py:attr:`~size`
+            - Return elementary data size.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.string_field import StringField
+
+Property detail
+---------------
+
+.. py:property:: location
+
+   Location of the string field.
+
+   A property field contains a scoping, which is the location that is read.
+   To update location, directly update the scoping location.
+
+   :returns: **location** -- Location string, can be found in ``dpf.locations``: ie.
+             ``dpf.locations.nodal`` or ``dpf.locations.elemental``.
+   :rtype: str
+
+   .. rubric:: Examples
+
+   Create a string field and request the location.
+
+   >>> from ansys.dpf import core as dpf
+   >>> pfield = dpf.StringField()
+   >>> list_ids = [1, 2, 4, 6, 7]
+   >>> scop = dpf.Scoping(ids = list_ids, location = dpf.locations.nodal)
+   >>> pfield.scoping = scop
+   >>> pfield.scoping.location = dpf.locations.nodal
+   >>> pfield.location
+   'Nodal'
+
+.. py:property:: component_count
+
+   Return the number of component, always 1.
+
+.. py:property:: elementary_data_count
+
+   Return elementary data count.
+
+.. py:property:: size
+
+   Return elementary data size.
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: get_entity_data(index)
+
+   Return entity data.
+
+
+.. py:method:: get_entity_data_by_id(id)
+
+   Return entity data corresponding to the provided id.
+
+
+.. py:method:: append(data: List[str], scopingid: int)
+
+   Append data to the string field.
+
+   This method appends data to the string field for a specific scoping ID.
+
+
+
+
+

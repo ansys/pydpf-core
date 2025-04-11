@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.zone_pressure_spectrum
+   :inherited-members:

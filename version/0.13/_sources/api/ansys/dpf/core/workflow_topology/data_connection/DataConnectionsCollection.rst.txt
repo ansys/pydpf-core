@@ -1,0 +1,102 @@
+
+
+
+
+
+
+:class:`DataConnectionsCollection`
+==================================
+
+.. py:class:: ansys.dpf.core.workflow_topology.data_connection.DataConnectionsCollection(collection: ansys.dpf.core.GenericDataContainersCollection)
+
+   Represents a collection of data connections in a workflow.
+
+   This class provides iterable access to all data connections, allowing retrieval
+   of individual connections or iteration through the entire collection.
+
+
+
+
+
+
+
+.. py:currentmodule:: DataConnectionsCollection
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__len__`
+            - Return the number of data connections in the collection.
+          * - :py:attr:`~__getitem__`
+            - Retrieve a data connection by its index.
+          * - :py:attr:`~__iter__`
+            - Iterate over the data connections in the collection.
+          * - :py:attr:`~__str__`
+            - Return a string representation of the data connections collection.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.workflow_topology.data_connection import DataConnectionsCollection
+
+
+
+Method detail
+-------------
+
+.. py:method:: __len__() -> int
+
+   Return the number of data connections in the collection.
+
+   :returns: The number of data connections.
+   :rtype: int
+
+
+.. py:method:: __getitem__(index: int) -> DataConnection
+
+   Retrieve a data connection by its index.
+
+   :param index: The index of the data connection to retrieve.
+   :type index: int
+
+   :returns: The data connection at the specified index.
+   :rtype: DataConnection
+
+
+.. py:method:: __iter__() -> Iterator[DataConnection]
+
+   Iterate over the data connections in the collection.
+
+   :Yields: *DataConnection* -- The next data connection in the collection.
+
+
+.. py:method:: __str__() -> str
+
+   Return a string representation of the data connections collection.
+
+   :returns: String representation of the collection.
+   :rtype: str
+
+
+
+
+

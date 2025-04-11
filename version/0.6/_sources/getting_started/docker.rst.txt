@@ -1,0 +1,105 @@
+.. _ref_docker:
+
+=============
+DPF in Docker
+=============
+
+On any operating system, you can run DPF in a containerized environment
+such as `Docker <https://www.docker.com/>`_ or `Singularity <https://singularity.hpcng.org/>`_.
+
+Advantages of using a containerized environment include:
+
+- Running in a consistent environment regardless of the host operating system
+- Offering portability and ease of install
+- Supporting large-scale cluster deployment using `Kubernetes <https://kubernetes.io/>`_
+- Providing genuine application isolation through containerization
+
+The following sections assume that you are going to run DPF in Docker.
+
+Install the DPF image
+---------------------
+
+#. Using your GitHub credentials, download the Docker image in the 
+   `DPF-Core GitHub <https://https://github.com/pyansys/DPF-Core>`_ repository.
+#. If you have Docker installed, use a GitHub personal access token (PAT) with 
+   ``packages read`` permission to authorize Docker to access this repository.
+   For more information, see `Creating a personal access token
+   <https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token>`_.
+#. Save the token to a file:
+
+       .. code::
+
+           echo XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX > GH_TOKEN.txt
+
+
+   This lets you send the token to Docker without leaving the token value
+   in your history.
+
+#. Authorize Docker to access the repository:
+
+
+   .. code::
+
+       GH_USERNAME=<my-github-username>
+       cat GH_TOKEN.txt | docker login docker.pkg.github.com -u $GH_USERNAME --password-stdin
+
+
+#. Launch DPF directly from Docker with a short script or directly from the command line:
+
+   .. code::
+
+       docker run -it --rm -v `pwd`:/dpf -p 50054:50054 docker.pkg.github.com/pyansys/dpf-core/dpf:v2021.1
+
+
+Note that the preceding command shares the current directory to the ``/dpf``
+directory contained within the image. This is necessary as the DPF
+binary within the image must access the files within the image
+itself. Any files that you want to have DPF read must be placed in
+``pwd``. You can map other directories as needed, but these
+directories must be mapped to the ``/dpf`` directory for the server to
+see the files that you want it to read.
+
+Use the DPF container from Python
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Normally PyDPF-Core attempts to start the DPF server on the first 
+use of the ``dpf`` class. If you do not have Ansys installed and simply want 
+to use the Docker image, you can override this behavior by connecting to the 
+DPF server on a specified port:
+
+.. code:: python
+
+   from ansys.dpf import core as dpf_core
+
+   # uses 127.0.0.1 and port 50054 by default
+   dpf_core.connect_to_server()
+   
+
+If you want to avoid having to run the ``connect_to_server()`` method
+at the start of every script, you can set environment variables to tell
+PyDPF-Core to always attempt to connect to DPF running within the Docker
+image:
+
+On Linux:
+
+.. code::
+
+   export DPF_START_SERVER=False
+   export DPF_PORT=50054
+
+On Windows:
+
+.. code::
+
+   set DPF_START_SERVER=False
+   set DPF_PORT=50054
+
+
+- The ``DPF_PORT`` environment variable is the port exposed from the
+  DPF container. It should match the first value within the ``-p 50054:50054``
+  pair.
+- The ``DPF_START_SERVER`` environment variable tells PyDPF-core not to start
+  an instance but rather use ``DPF_IP`` and ``DPF_PORT`` environment variables
+  to look for a running instance of the service. If the ``DPF_IP`` and ``DPF_PORT``
+  environment variables are undefined, they default to ``127.0.0.1`` and ``50054``
+  respectively.

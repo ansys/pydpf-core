@@ -1,0 +1,173 @@
+
+
+
+
+
+
+:class:`elemental_mean_fc`
+==========================
+
+.. py:class:: ansys.dpf.core.operators.averaging.elemental_mean_fc.elemental_mean_fc(fields_container=None, collapse_shell_layers=None, force_averaging=None, scoping=None, abstract_meshed_region=None, merge_solid_shell=None, e_shell_layer=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Computes the average of a multi-entity container of fields,
+   (ElementalNodal -> Elemental), (NodalElemental -> Nodal). If the input
+   fields are mixed shell/solid and collapseShellLayers is false, then the
+   fields could be split by element shape and the output fields container
+   would have an elshape label depending on the e_shell_layer and
+   merge_solid_shell inputs (if e_shell_layer is not specified, the fields
+   are split; if it is specified, the fields can be split based on
+   merge_solid_shell).If collapseShellLayers is true, all available shell
+   layers are collapsed and shells and solid fields are always merged.
+
+
+   :param fields_container:
+   :type fields_container: FieldsContainer
+   :param collapse_shell_layers: If true, the data across different shell layers is averaged as well (default is false).
+   :type collapse_shell_layers: bool, optional
+   :param force_averaging: If true you average, if false you just sum.
+   :type force_averaging: bool, optional
+   :param scoping: Average only on these elements. If it is a scoping container, the label must correspond to the one of the fields container.
+   :type scoping: Scoping or ScopingsContainer, optional
+   :param abstract_meshed_region: The mesh region in this pin is used to perform the averaging. It is used if there is no fields support.
+   :type abstract_meshed_region: MeshedRegion or MeshesContainer, optional
+   :param merge_solid_shell: For shell/solid mixed fields, group in the same field all solids and shells (false by default). This pin only has an effect when collapse_shell_layers is false and a value for e_shell_layer is provided.
+   :type merge_solid_shell: bool, optional
+   :param e_shell_layer: 0: Top, 1: Bottom, 2: BottomTop, 3: Mid, 4: BottomTopMid. This pin only has an effect when collapse_shell_layers is false.
+   :type e_shell_layer: int, optional
+
+   :returns: **fields_container**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.averaging.elemental_mean_fc()
+
+   >>> # Make input connections
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_collapse_shell_layers = bool()
+   >>> op.inputs.collapse_shell_layers.connect(my_collapse_shell_layers)
+   >>> my_force_averaging = bool()
+   >>> op.inputs.force_averaging.connect(my_force_averaging)
+   >>> my_scoping = dpf.Scoping()
+   >>> op.inputs.scoping.connect(my_scoping)
+   >>> my_abstract_meshed_region = dpf.MeshedRegion()
+   >>> op.inputs.abstract_meshed_region.connect(my_abstract_meshed_region)
+   >>> my_merge_solid_shell = bool()
+   >>> op.inputs.merge_solid_shell.connect(my_merge_solid_shell)
+   >>> my_e_shell_layer = int()
+   >>> op.inputs.e_shell_layer.connect(my_e_shell_layer)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.averaging.elemental_mean_fc(
+   ...     fields_container=my_fields_container,
+   ...     collapse_shell_layers=my_collapse_shell_layers,
+   ...     force_averaging=my_force_averaging,
+   ...     scoping=my_scoping,
+   ...     abstract_meshed_region=my_abstract_meshed_region,
+   ...     merge_solid_shell=my_merge_solid_shell,
+   ...     e_shell_layer=my_e_shell_layer,
+   ... )
+
+   >>> # Get output data
+   >>> result_fields_container = op.outputs.fields_container()
+
+
+
+
+.. py:currentmodule:: elemental_mean_fc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.averaging.elemental_mean_fc import elemental_mean_fc
+
+Property detail
+---------------
+
+.. py:property:: inputs
+   :type: InputsElementalMeanFc
+
+
+   Enables to connect inputs to the operator
+
+   :returns: An instance of InputsElementalMeanFc.
+   :rtype: inputs
+
+.. py:property:: outputs
+   :type: OutputsElementalMeanFc
+
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: An instance of OutputsElementalMeanFc.
+   :rtype: outputs
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server: ansys.dpf.core.server_types.AnyServerType = None) -> ansys.dpf.core.config.Config
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+
+   :returns: A new Config instance equivalent to the default config for this operator.
+   :rtype: config
+
+
+
+
+
