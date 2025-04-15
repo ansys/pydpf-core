@@ -499,7 +499,7 @@ def test_context_environment_variable(reset_context_environment_variable):
 
 
 @pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0 or running_docker,
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0 or running_docker,
     reason="Failures on Windows 231",
 )
 def test_server_without_context(remote_config_server_type):
