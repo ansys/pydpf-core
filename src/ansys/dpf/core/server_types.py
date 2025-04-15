@@ -50,7 +50,7 @@ import ansys.dpf.core as core
 from ansys.dpf.core import __version__, errors, server_context, server_factory
 from ansys.dpf.core._version import min_server_version, server_to_ansys_version
 from ansys.dpf.core.check_version import server_meet_version
-from ansys.dpf.core.server_context import ServerContext
+from ansys.dpf.core.server_context import AvailableServerContexts, ServerContext
 from ansys.dpf.gate import data_processing_grpcapi, load_api
 
 if TYPE_CHECKING:  # pragma: no cover
@@ -132,7 +132,11 @@ def _run_launch_server_process(
         if os.name == "nt":
             executable = "Ans.Dpf.Grpc.bat"
             run_cmd = f"{executable} --address {ip} --port {port}"
-            if context is not None:
+            if context not in (
+                None,
+                AvailableServerContexts.entry,
+                AvailableServerContexts.premium,
+            ):
                 run_cmd += f" --context {int(context.licensing_context_type)}"
         else:
             executable = "./Ans.Dpf.Grpc.sh"  # pragma: no cover
@@ -141,7 +145,11 @@ def _run_launch_server_process(
                 f"--address {ip}",
                 f"--port {port}",
             ]  # pragma: no cover
-            if context is not None:
+            if context not in (
+                None,
+                AvailableServerContexts.entry,
+                AvailableServerContexts.premium,
+            ):
                 run_cmd.append(f"--context {int(context.licensing_context_type)}")
         path_in_install = load_api._get_path_in_install(internal_folder="bin")
         dpf_run_dir = _verify_ansys_path_is_valid(ansys_path, executable, path_in_install)
