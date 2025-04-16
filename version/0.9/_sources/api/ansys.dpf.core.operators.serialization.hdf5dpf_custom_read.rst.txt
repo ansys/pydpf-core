@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.serialization.hdf5dpf_custom_read
+   :inherited-members:

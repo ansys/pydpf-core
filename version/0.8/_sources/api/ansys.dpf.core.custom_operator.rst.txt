@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.custom_operator
+   :inherited-members:

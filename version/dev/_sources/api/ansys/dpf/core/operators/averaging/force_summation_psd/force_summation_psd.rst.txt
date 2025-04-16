@@ -1,0 +1,172 @@
+
+
+
+
+
+
+:class:`force_summation_psd`
+============================
+
+.. py:class:: ansys.dpf.core.operators.averaging.force_summation_psd.force_summation_psd(nodal_scoping=None, elemental_scoping=None, streams=None, data_sources=None, spoint=None, abs_rel_key=None, signif=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Computes the sum of elemental forces contribution on a set of nodes in
+   Global Coordinate System for a PSD analysis. Equivalent to MAPDL
+   FSUM/NFORCE.
+
+
+   :param nodal_scoping: Nodal Scoping. Set of nodes in which elemental contribution forces will be accumulated. Defaults to all nodes.
+   :type nodal_scoping: Scoping, optional
+   :param elemental_scoping: Elemental Scoping. Set of elements contributing to the force calculation. Defaults to all elements.
+   :type elemental_scoping: Scoping, optional
+   :param streams: Streams container for RST and PSD files (optional if using data sources). The operator supports both a single RST file and two separate RST files. See data sources pin specifications for details on how to define the streams for both cases.
+   :type streams: StreamsContainer, optional
+   :param data_sources: Data sources containing RST and PSD files (optional if using a streams container). The operator supports both a single RST file (containing both modal and PSD results) and two separate RST files (one for modal and one for PSD analyses).The data source containing modal results must be defined as an upstream data source.If using a single RST file for PSD and modal analysis, the RST file must be in an upstream data source.If using two separate RST files, only the modal RST must be in an upstream data source.
+   :type data_sources: DataSources
+   :param spoint: Coordinate field of a point for moment summations. Defaults to (0,0,0).
+   :type spoint: Field, optional
+   :param abs_rel_key: Key to select the type of response: 0 for relative response (default) or 1 for absolute response.
+   :type abs_rel_key: Field, optional
+   :param signif: Significance threshold, defaults to 0.0001. Any mode with a significance level above this value will be included in the combination.The significance level is defined as the modal covariance matrix term, divided by the maximum modal covariance matrix term.
+   :type signif: float, optional
+
+   :returns: * **force_accumulation** (*FieldsContainer*) -- Returns the sum of forces for the 1-sigma displacement solution on the scoped nodes/elements.
+             * **moment_accumulation** (*FieldsContainer*) -- Returns the sum of moments for the 1-sigma displacement solution on the scoped nodes/elements.
+             * **forces_on_nodes** (*FieldsContainer*) -- Returns the nodal forces for the 1-sigma displacement solution on the scoped nodes/elements.
+             * **moments_on_nodes** (*FieldsContainer*) -- Returns the nodal moments for the 1-sigma displacement solution on the scoped nodes/elements.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.averaging.force_summation_psd()
+
+   >>> # Make input connections
+   >>> my_nodal_scoping = dpf.Scoping()
+   >>> op.inputs.nodal_scoping.connect(my_nodal_scoping)
+   >>> my_elemental_scoping = dpf.Scoping()
+   >>> op.inputs.elemental_scoping.connect(my_elemental_scoping)
+   >>> my_streams = dpf.StreamsContainer()
+   >>> op.inputs.streams.connect(my_streams)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_spoint = dpf.Field()
+   >>> op.inputs.spoint.connect(my_spoint)
+   >>> my_abs_rel_key = dpf.Field()
+   >>> op.inputs.abs_rel_key.connect(my_abs_rel_key)
+   >>> my_signif = float()
+   >>> op.inputs.signif.connect(my_signif)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.averaging.force_summation_psd(
+   ...     nodal_scoping=my_nodal_scoping,
+   ...     elemental_scoping=my_elemental_scoping,
+   ...     streams=my_streams,
+   ...     data_sources=my_data_sources,
+   ...     spoint=my_spoint,
+   ...     abs_rel_key=my_abs_rel_key,
+   ...     signif=my_signif,
+   ... )
+
+   >>> # Get output data
+   >>> result_force_accumulation = op.outputs.force_accumulation()
+   >>> result_moment_accumulation = op.outputs.moment_accumulation()
+   >>> result_forces_on_nodes = op.outputs.forces_on_nodes()
+   >>> result_moments_on_nodes = op.outputs.moments_on_nodes()
+
+
+
+
+.. py:currentmodule:: force_summation_psd
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.averaging.force_summation_psd import force_summation_psd
+
+Property detail
+---------------
+
+.. py:property:: inputs
+   :type: InputsForceSummationPsd
+
+
+   Enables to connect inputs to the operator
+
+   :returns: An instance of InputsForceSummationPsd.
+   :rtype: inputs
+
+.. py:property:: outputs
+   :type: OutputsForceSummationPsd
+
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: An instance of OutputsForceSummationPsd.
+   :rtype: outputs
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server: ansys.dpf.core.server_types.AnyServerType = None) -> ansys.dpf.core.config.Config
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+
+   :returns: A new Config instance equivalent to the default config for this operator.
+   :rtype: config
+
+
+
+
+

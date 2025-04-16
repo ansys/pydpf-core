@@ -1,0 +1,147 @@
+
+
+
+
+
+
+:class:`InputsAccumulate`
+=========================
+
+.. py:class:: ansys.dpf.core.operators.math.accumulate.InputsAccumulate(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   accumulate operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.accumulate()
+   >>> my_fieldA = dpf.Field()
+   >>> op.inputs.fieldA.connect(my_fieldA)
+   >>> my_weights = dpf.Field()
+   >>> op.inputs.weights.connect(my_weights)
+   >>> my_time_scoping = dpf.Scoping()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+
+
+
+
+.. py:currentmodule:: InputsAccumulate
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fieldA`
+            - Allows to connect fieldA input to the operator.
+          * - :py:attr:`~weights`
+            - Allows to connect weights input to the operator.
+          * - :py:attr:`~time_scoping`
+            - Allows to connect time_scoping input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getattr__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.accumulate import InputsAccumulate
+
+Property detail
+---------------
+
+.. py:property:: fieldA
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect fieldA input to the operator.
+
+   field or fields container with only one field is expected
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.accumulate()
+   >>> op.inputs.fieldA.connect(my_fieldA)
+   >>> # or
+   >>> op.inputs.fieldA(my_fieldA)
+
+.. py:property:: weights
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect weights input to the operator.
+
+   Field containing weights, one weight per entity
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.accumulate()
+   >>> op.inputs.weights.connect(my_weights)
+   >>> # or
+   >>> op.inputs.weights(my_weights)
+
+.. py:property:: time_scoping
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect time_scoping input to the operator.
+
+   time_scoping
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.accumulate()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> # or
+   >>> op.inputs.time_scoping(my_time_scoping)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getattr__(name)
+
+
+
+

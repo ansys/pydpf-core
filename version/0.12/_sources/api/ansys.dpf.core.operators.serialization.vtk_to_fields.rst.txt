@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.serialization.vtk_to_fields
+   :inherited-members:
