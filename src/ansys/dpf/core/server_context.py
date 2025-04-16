@@ -290,7 +290,8 @@ class ServerContext:
 class AvailableServerContexts:
     """Defines available server contexts."""
 
-    no_context = ServerContext(2, "")
+    """Applies an empty plugins xml: no plugins are loaded."""
+    no_context = ServerContext(2, "")  # 2 == ContextType.userDefined. This is not exposed publicly.
     pre_defined_environment = ServerContext(0)
     """DataProcessingCore.xml that is next to DataProcessingCore.dll/libDataProcessingCore.so will
     be taken"""
