@@ -1212,9 +1212,37 @@ def load_api(path):
 		dll.DpfDataTree_getVecDoubleAttribute.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.POINTER(ctypes.c_double)), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.DpfDataTree_getVecDoubleAttribute.restype = None
 
+	if hasattr(dll, "DpfDataTree_getIntAttributeWithCheck"):
+		dll.DpfDataTree_getIntAttributeWithCheck.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_bool), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.DpfDataTree_getIntAttributeWithCheck.restype = None
+
+	if hasattr(dll, "DpfDataTree_getUnsignedIntAttributeWithCheck"):
+		dll.DpfDataTree_getUnsignedIntAttributeWithCheck.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.c_void_p, ctypes.POINTER(ctypes.c_bool), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.DpfDataTree_getUnsignedIntAttributeWithCheck.restype = None
+
+	if hasattr(dll, "DpfDataTree_getDoubleAttributeWithCheck"):
+		dll.DpfDataTree_getDoubleAttributeWithCheck.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_double), ctypes.POINTER(ctypes.c_bool), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.DpfDataTree_getDoubleAttributeWithCheck.restype = None
+
+	if hasattr(dll, "DpfDataTree_getStringAttributeWithCheck"):
+		dll.DpfDataTree_getStringAttributeWithCheck.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.POINTER(ctypes.c_char)), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_bool), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.DpfDataTree_getStringAttributeWithCheck.restype = None
+
+	if hasattr(dll, "DpfDataTree_getVecIntAttributeWithCheck"):
+		dll.DpfDataTree_getVecIntAttributeWithCheck.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.POINTER(ctypes.c_int32)), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_bool), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.DpfDataTree_getVecIntAttributeWithCheck.restype = None
+
+	if hasattr(dll, "DpfDataTree_getVecDoubleAttributeWithCheck"):
+		dll.DpfDataTree_getVecDoubleAttributeWithCheck.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.POINTER(ctypes.c_double)), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_bool), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.DpfDataTree_getVecDoubleAttributeWithCheck.restype = None
+
 	if hasattr(dll, "DpfDataTree_getStringCollectionAttribute"):
 		dll.DpfDataTree_getStringCollectionAttribute.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.DpfDataTree_getStringCollectionAttribute.restype = ctypes.c_void_p
+
+	if hasattr(dll, "DpfDataTree_getStringCollectionAttributeWithCheck"):
+		dll.DpfDataTree_getStringCollectionAttributeWithCheck.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_bool), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.DpfDataTree_getStringCollectionAttributeWithCheck.restype = ctypes.c_void_p
 
 	if hasattr(dll, "DpfDataTree_setIntAttribute"):
 		dll.DpfDataTree_setIntAttribute.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
