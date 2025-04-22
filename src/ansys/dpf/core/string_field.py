@@ -22,20 +22,20 @@
 
 """StringField."""
 
+from typing import List
+
 import numpy as np
-from ansys.dpf.core.common import natures, locations, _get_size_of_list
-from ansys.dpf.core import scoping
-from ansys.dpf.core import server as server_module
-from ansys.dpf.core import errors
+
+from ansys.dpf.core import errors, scoping, server as server_module
+from ansys.dpf.core.common import _get_size_of_list, locations, natures
 from ansys.dpf.core.field_base import _FieldBase
 from ansys.dpf.gate import (
+    dpf_vector,
+    integral_types,
     string_field_abstract_api,
     string_field_capi,
     string_field_grpcapi,
-    dpf_vector,
-    integral_types,
 )
-from typing import List
 
 
 class StringField(_FieldBase):
@@ -201,7 +201,7 @@ class StringField(_FieldBase):
     def get_entity_data(self, index):
         """Return entity data."""
         try:
-            vec = dpf_vector.DPFVectorString(client=self._server.client)
+            vec = dpf_vector.DPFVectorString(owner=self)
             self._api.csstring_field_get_entity_data_for_dpf_vector(
                 self, vec, vec.internal_data, vec.internal_size, index
             )
@@ -213,7 +213,7 @@ class StringField(_FieldBase):
     def get_entity_data_by_id(self, id):
         """Return entity data corresponding to the provided id."""
         try:
-            vec = dpf_vector.DPFVectorString(client=self._server.client)
+            vec = dpf_vector.DPFVectorString(owner=self)
             self._api.csstring_field_get_entity_data_by_id_for_dpf_vector(
                 self, vec, vec.internal_data, vec.internal_size, id
             )
@@ -236,7 +236,7 @@ class StringField(_FieldBase):
 
     def _get_data(self, np_array=True):
         try:
-            vec = dpf_vector.DPFVectorString(client=self._server.client)
+            vec = dpf_vector.DPFVectorString(owner=self)
             self._api.csstring_field_get_data_for_dpf_vector(
                 self, vec, vec.internal_data, vec.internal_size
             )

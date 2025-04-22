@@ -39,8 +39,7 @@ compare simple precision versus double precision.
 from pathlib import Path
 
 from ansys.dpf import core as dpf
-from ansys.dpf.core import examples
-from ansys.dpf.core import operators as ops
+from ansys.dpf.core import examples, operators as ops
 
 ###############################################################################
 # Create the model and get the stresses, displacements, and mesh.

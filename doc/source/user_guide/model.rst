@@ -63,7 +63,7 @@ To understand what is available in the result file, you can print the model
 
 For a comprehensive model example, see :ref:`ref_basic_example`.
 
-For a description of the ``Model`` object, see :ref:`ref_model`.
+For a description of the ``Model`` object, see :py:mod:`Model <ansys.dpf.core.model>`.
 
 
 Model metadata
@@ -125,7 +125,7 @@ This example shows how you get time sets:
     [1.]
 
 
-For a description of the ``Metadata`` object, see :ref:`ref_model`.
+For a description of the ``Metadata`` object, see :py:mod:`Model <ansys.dpf.core.model>`.
 
 Model results
 -------------
@@ -176,11 +176,11 @@ the mesh scoping:
 
 For an example using the ``Result`` object, see :ref:`ref_transient_easy_time_scoping`.
 
-For a description of the ``Model`` object, see :ref:`ref_results`.
+For a description of the ``Model`` object, see :py:mod:`Model <ansys.dpf.core.model>`.
 
 
 
 API reference
 ~~~~~~~~~~~~~
 
-For more information, see :ref:`ref_model` or :ref:`ref_results`.
+For more information, see :py:mod:`Model <ansys.dpf.core.model>` or :py:mod:`Results <ansys.dpf.core.results>`.

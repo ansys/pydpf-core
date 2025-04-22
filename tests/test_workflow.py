@@ -21,16 +21,17 @@
 # SOFTWARE.
 
 from pathlib import Path
-
-import numpy as np
-import pytest
 import platform
 
+import numpy
+import numpy as np
+import pytest
+
+from ansys import dpf
+from ansys.dpf.core import misc
 import ansys.dpf.core.operators as op
 from ansys.dpf.core.workflow_topology import WorkflowTopology
 import conftest
-from ansys import dpf
-from ansys.dpf.core import misc
 
 if misc.module_exists("graphviz"):
     HAS_GRAPHVIZ = True
@@ -62,7 +63,7 @@ def remove_dot_file(request):
     request.addfinalizer(remove_files)
 
 
-@pytest.mark.skipif(not HAS_GRAPHVIZ, reason="Please install pyvista")
+@pytest.mark.skipif(not HAS_GRAPHVIZ, reason="Please install graphviz")
 def test_workflow_view(server_in_process, remove_dot_file):
     pre_wf = dpf.core.Workflow(server=server_in_process)
     pre_op = dpf.core.operators.utility.forward(server=server_in_process)
@@ -133,6 +134,19 @@ def test_connect_list_workflow(velocity_acceleration, server_type):
     wf.set_input_name("time_scoping", op.inputs.time_scoping)
     wf.set_output_name("field", op.outputs.fields_container)
     wf.connect("time_scoping", [1, 2])
+    f_out = wf.get_output("field", dpf.core.types.fields_container)
+    assert f_out.get_available_ids_for_label() == [1, 2]
+
+
+def test_connect_array_workflow(velocity_acceleration, server_type):
+    wf = dpf.core.Workflow(server=server_type)
+    wf.progress_bar = False
+    model = dpf.core.Model(velocity_acceleration, server=server_type)
+    op = model.operator("U")
+    wf.add_operator(op)
+    wf.set_input_name("time_scoping", op, 0)
+    wf.set_output_name("field", op, 0)
+    wf.connect("time_scoping", numpy.array([1, 2], numpy.int32))
     f_out = wf.get_output("field", dpf.core.types.fields_container)
     assert f_out.get_available_ids_for_label() == [1, 2]
 
@@ -681,6 +695,42 @@ def test_connect_with_dict_workflow(cyclic_lin_rst, cyclic_ds, server_type):
     fc = wf2.get_output("u", dpf.core.types.fields_container)
 
 
+def test_workflow_connect_raise_wrong_label(server_type):
+    workflow1 = dpf.core.Workflow()
+    forward_1 = dpf.core.operators.utility.forward()
+    workflow1.set_output_name("output", forward_1.outputs.any)
+
+    workflow2 = dpf.core.Workflow()
+    forward_2 = dpf.core.operators.utility.forward()
+    workflow2.set_input_name("input", forward_2.inputs.any)
+
+    with pytest.raises(
+        ValueError, match="Cannot connect workflow output 'out'. Exposed outputs are:\n"
+    ):
+        workflow2.connect_with(workflow1, output_input_names={"out": "input"}, permissive=False)
+    with pytest.raises(
+        ValueError, match="Cannot connect workflow input 'in'. Exposed inputs are:\n"
+    ):
+        workflow2.connect_with(workflow1, output_input_names={"output": "in"}, permissive=False)
+    workflow2.connect_with(workflow1, output_input_names={"output": "input"}, permissive=False)
+
+
+def test_workflow_connect_with_permissive(server_type):
+    workflow1 = dpf.core.Workflow()
+    forward_1 = dpf.core.operators.utility.forward()
+    workflow1.set_output_name("output", forward_1.outputs.any)
+
+    workflow2 = dpf.core.Workflow()
+    forward_2 = dpf.core.operators.utility.forward()
+    workflow2.set_input_name("input", forward_2.inputs.any)
+
+    workflow2.connect_with(workflow1, output_input_names={"out": "input"})
+
+    workflow2.connect_with(workflow1, output_input_names={"output": "in"})
+
+    workflow2.connect_with(workflow1, output_input_names=("output", "input"))
+
+
 @pytest.mark.xfail(raises=dpf.core.errors.ServerTypeError)
 def test_info_workflow(allkindofcomplexity, server_type):
     model = dpf.core.Model(allkindofcomplexity, server=server_type)
@@ -900,8 +950,8 @@ def test_create_on_other_server_and_connect_workflow(allkindofcomplexity, local_
 
 
 def deep_copy_using_workflow(dpf_entity, server, stream_type=1):
+    from ansys.dpf.core.common import types, types_enum_to_types
     from ansys.dpf.core.operators.serialization import serializer_to_string, string_deserializer
-    from ansys.dpf.core.common import types_enum_to_types, types
 
     entity_server = dpf_entity._server if hasattr(dpf_entity, "_server") else None
     serializer_wf = dpf.core.Workflow(server=entity_server)

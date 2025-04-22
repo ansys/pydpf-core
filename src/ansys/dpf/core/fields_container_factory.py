@@ -26,9 +26,7 @@ fields_container_factory.
 Contains functions to simplify creating a fields container.
 """
 
-from ansys.dpf.core import FieldsContainer, TimeFreqSupport
-from ansys.dpf.core import errors as dpf_errors
-from ansys.dpf.core import fields_factory
+from ansys.dpf.core import FieldsContainer, TimeFreqSupport, errors as dpf_errors, fields_factory
 from ansys.dpf.core.common import locations
 
 

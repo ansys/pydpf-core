@@ -32,8 +32,7 @@ and how to plot and animate them.
 """
 
 from ansys.dpf import core as dpf
-from ansys.dpf.core import animation
-from ansys.dpf.core import examples
+from ansys.dpf.core import animation, examples
 
 ###############################################################################
 # Retrieve mode shapes

@@ -35,17 +35,16 @@ variable.
 ANSYS_DPF_SERVER_CONTEXT=ENTRY and ANSYS_DPF_SERVER_CONTEXT=PREMIUM can be used.
 """
 
+from enum import Enum
 import os
 import warnings
-from enum import Enum
-from ansys.dpf.core import dpf_operator
-from ansys.dpf.core import errors
+
+from ansys.dpf.core import dpf_operator, errors
 
 
 class LicensingContextType(Enum):
     """Enum representing different types of licensing contexts."""
 
-    none = 5
     premium = 1
     """Checks if at least one license increment exists
     and allows operators to block an increment."""
@@ -81,10 +80,6 @@ class LicensingContextType(Enum):
         bool
             True if the licensing contexts are compatible, False otherwise.
         """
-        if (first == LicensingContextType.none and second != LicensingContextType.none) or (
-            first != LicensingContextType.none and second == LicensingContextType.none
-        ):
-            return False
         if int(first) == int(LicensingContextType.entry) and int(second) != int(
             LicensingContextType.entry
         ):
@@ -295,7 +290,8 @@ class ServerContext:
 class AvailableServerContexts:
     """Defines available server contexts."""
 
-    no_context = ServerContext(LicensingContextType.none, "")
+    """Applies an empty plugins xml: no plugins are loaded."""
+    no_context = ServerContext(2, "")  # 2 == ContextType.userDefined. This is not exposed publicly.
     pre_defined_environment = ServerContext(0)
     """DataProcessingCore.xml that is next to DataProcessingCore.dll/libDataProcessingCore.so will
     be taken"""

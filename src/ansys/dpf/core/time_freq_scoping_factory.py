@@ -26,16 +26,14 @@ time_freq_scoping_factory.
 Contains functions to simplify creating time frequency scopings.
 """
 
-from ansys.dpf.core import Scoping
-from ansys.dpf.core import errors as dpf_errors
-from ansys.dpf.core.common import locations
-from ansys.dpf.core.model import Model
-from ansys.dpf.core.time_freq_support import TimeFreqSupport
-from ansys.dpf.core.data_sources import DataSources
-from ansys.dpf.core.operators.metadata import time_freq_provider
-
-from ansys.dpf.core import types
 from typing import Union
+
+from ansys.dpf.core import Scoping, errors as dpf_errors, types
+from ansys.dpf.core.common import locations
+from ansys.dpf.core.data_sources import DataSources
+from ansys.dpf.core.model import Model
+from ansys.dpf.core.operators.metadata import time_freq_provider
+from ansys.dpf.core.time_freq_support import TimeFreqSupport
 
 
 def scoping_by_load_step(load_step: int, server=None):

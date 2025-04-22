@@ -22,13 +22,13 @@
 
 """Common."""
 
+from enum import Enum
 import re
 import sys
-from enum import Enum
 from typing import Dict
 
 from ansys.dpf.core.misc import module_exists
-from ansys.dpf.gate.common import locations, ProgressBarBase  # noqa: F401
+from ansys.dpf.gate.common import ProgressBarBase, locations  # noqa: F401
 from ansys.dpf.gate.dpf_vector import (  # noqa: F401
     get_size_of_list as _get_size_of_list,
 )
@@ -122,27 +122,27 @@ def types_enum_to_types():
         Mapping of enum to the corresponding type.
     """
     from ansys.dpf.core import (
+        Any,
+        collection,
+        custom_type_field,
         cyclic_support,
         data_sources,
+        data_tree,
+        dpf_operator,
         field,
         fields_container,
-        collection,
+        generic_data_container,
+        mesh_info,
         meshed_region,
         meshes_container,
         property_field,
-        string_field,
-        custom_type_field,
         result_info,
         scoping,
         scopings_container,
-        time_freq_support,
-        dpf_operator,
-        data_tree,
-        workflow,
         streams_container,
-        generic_data_container,
-        mesh_info,
-        Any,
+        string_field,
+        time_freq_support,
+        workflow,
     )
     from ansys.dpf.gate import dpf_vector
 
@@ -380,26 +380,26 @@ def type_to_internal_object_keyword():
     global _type_to_internal_object_keyword
     if _type_to_internal_object_keyword is None:
         from ansys.dpf.core import (
+            any,
+            collection,
+            custom_type_field,
             cyclic_support,
             data_sources,
+            data_tree,
+            dpf_operator,
             field,
             fields_container,
+            generic_data_container,
             meshed_region,
             meshes_container,
             property_field,
-            string_field,
-            custom_type_field,
             result_info,
             scoping,
             scopings_container,
-            time_freq_support,
-            dpf_operator,
-            data_tree,
-            workflow,
             streams_container,
-            generic_data_container,
-            any,
-            collection,
+            string_field,
+            time_freq_support,
+            workflow,
         )
 
         _type_to_internal_object_keyword = SubClassSmartDict(
@@ -436,8 +436,8 @@ def type_to_special_dpf_constructors():
     """Return dpf type mapped to special dpf constructors."""
     global _type_to_special_dpf_constructors
     if _type_to_special_dpf_constructors is None:
-        from ansys.dpf.gate.dpf_vector import DPFVectorInt
         from ansys.dpf.core import collection_base
+        from ansys.dpf.gate.dpf_vector import DPFVectorInt
 
         _type_to_special_dpf_constructors = {
             DPFVectorInt: lambda obj, server: collection_base.IntCollection(

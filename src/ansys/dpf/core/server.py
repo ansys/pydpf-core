@@ -26,30 +26,27 @@ Server.
 Contains the directives necessary to start the DPF server.
 """
 
+import copy
 import functools
+import inspect
 import os
+import platform
 import socket
 import sys
-import weakref
-import copy
-import platform
-import inspect
-import warnings
 import traceback
 from typing import Union
+import warnings
+import weakref
 
 from ansys import dpf
-
-from ansys.dpf.core.misc import is_ubuntu, get_ansys_path
-from ansys.dpf.core import errors
-
+from ansys.dpf.core import errors, server_context
+from ansys.dpf.core.misc import get_ansys_path, is_ubuntu
 from ansys.dpf.core.server_factory import (
+    CommunicationProtocols,
     ServerConfig,
     ServerFactory,
-    CommunicationProtocols,
 )
 from ansys.dpf.core.server_types import DPF_DEFAULT_PORT, LOCALHOST, RUNNING_DOCKER, BaseServer
-from ansys.dpf.core import server_context
 
 
 def shutdown_global_server():
@@ -163,7 +160,7 @@ def start_local_server(
     config=None,
     use_pypim_by_default=True,
     context=None,
-):
+) -> BaseServer:
     """Start a new local DPF server at a given port and IP address.
 
     This method requires Windows and ANSYS 2021 R1 or later. If ``as_global=True``, which is
@@ -305,7 +302,7 @@ def connect_to_server(
     ip=LOCALHOST,
     port=DPF_DEFAULT_PORT,
     as_global=True,
-    timeout=5,
+    timeout=10.0,
     config=None,
     context=None,
 ):
@@ -370,6 +367,7 @@ def connect_to_server(
                 as_global=as_global,
                 launch_server=False,
                 context=context,
+                timeout=timeout,
             )
         else:
             server = server_type(as_global=as_global, context=context)

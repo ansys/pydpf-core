@@ -211,10 +211,28 @@ class FieldCAPI(field_abstract_api.FieldAbstractAPI):
 		return res
 
 	@staticmethod
+	def csfield_set_data_with_collection(field, data):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.CSField_SetDataWithCollection(field._internal_obj if field is not None else None, data._internal_obj if data is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def csfield_set_data_pointer(field, size, data):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.CSField_SetDataPointer(field._internal_obj if field is not None else None, utils.to_int32(size), utils.to_int32_ptr(data), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def csfield_set_data_pointer_with_collection(field, data):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.CSField_SetDataPointerWithCollection(field._internal_obj if field is not None else None, data._internal_obj if data is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res

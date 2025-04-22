@@ -29,6 +29,7 @@ collection of such connections within a workflow, respectively.
 """
 
 from typing import Iterator, Optional
+
 from ansys.dpf.core import GenericDataContainersCollection
 from ansys.dpf.core.custom_container_base import CustomContainerBase
 from ansys.dpf.core.dpf_operator import Operator

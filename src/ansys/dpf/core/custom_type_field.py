@@ -26,10 +26,8 @@ import warnings
 
 import numpy as np
 
-from ansys.dpf.core import server as server_module
-from ansys.dpf.core import errors
-from ansys.dpf.core import scoping
-from ansys.dpf.core.common import locations, _get_size_of_list
+from ansys.dpf.core import errors, scoping, server as server_module
+from ansys.dpf.core.common import _get_size_of_list, locations
 from ansys.dpf.core.field_base import _FieldBase
 from ansys.dpf.core.field_definition import FieldDefinition
 from ansys.dpf.core.support import Support
@@ -328,7 +326,7 @@ class CustomTypeField(_FieldBase):
 
         """
         try:
-            vec = dpf_vector.DPFVectorCustomType(self._type, client=self._server.client)
+            vec = dpf_vector.DPFVectorCustomType(self._type, owner=self)
             self._api.cscustom_type_field_get_entity_data_for_dpf_vector(
                 self, vec, vec.internal_data, vec.internal_size, index
             )
@@ -368,7 +366,7 @@ class CustomTypeField(_FieldBase):
 
         """
         try:
-            vec = dpf_vector.DPFVectorCustomType(self._type, client=self._server.client)
+            vec = dpf_vector.DPFVectorCustomType(self._type, owner=self)
             self._api.cscustom_type_field_get_entity_data_by_id_for_dpf_vector(
                 self, vec, vec.internal_data, vec.internal_size, id
             )
@@ -392,7 +390,7 @@ class CustomTypeField(_FieldBase):
 
     def _get_data_pointer(self):
         try:
-            vec = dpf_vector.DPFVectorInt(client=self._server.client)
+            vec = dpf_vector.DPFVectorInt(owner=self)
             self._api.cscustom_type_field_get_data_pointer_for_dpf_vector(
                 self, vec, vec.internal_data, vec.internal_size
             )
@@ -406,7 +404,7 @@ class CustomTypeField(_FieldBase):
 
     def _get_data(self, np_array=True):
         try:
-            vec = dpf_vector.DPFVectorCustomType(self._type, client=self._server.client)
+            vec = dpf_vector.DPFVectorCustomType(self._type, owner=self)
             self._api.cscustom_type_field_get_data_for_dpf_vector(
                 self, vec, vec.internal_data, vec.internal_size
             )

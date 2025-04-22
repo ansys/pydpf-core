@@ -29,6 +29,7 @@ connections, and exposed input/output pins.
 """
 
 from typing import Optional
+
 from ansys.dpf.core import OperatorsCollection
 from ansys.dpf.core.custom_container_base import CustomContainerBase
 from ansys.dpf.core.generic_data_container import GenericDataContainer

@@ -21,7 +21,7 @@ class CollectionGRPCAPI(collection_abstract_api.CollectionAbstractAPI):
 
     @staticmethod
     def init_collection_environment(object):
-        from ansys.grpc.dpf import collection_pb2, collection_pb2_grpc
+        from ansys.grpc.dpf import collection_message_pb2, collection_pb2_grpc
         if not hasattr(object, "_server"):
             server = object
         elif isinstance(object._server, weakref.ref):
@@ -32,7 +32,7 @@ class CollectionGRPCAPI(collection_abstract_api.CollectionAbstractAPI):
             CollectionGRPCAPI.STUBNAME, collection_pb2_grpc.CollectionServiceStub)
 
         object._deleter_func = (
-        _get_stub(server).Delete, lambda obj: obj._internal_obj if isinstance(obj, collection_pb2.Collection) else None)
+        _get_stub(server).Delete, lambda obj: obj._internal_obj if isinstance(obj, collection_message_pb2.Collection) else None)
 
     @staticmethod
     def collection_of_scoping_new_on_client(client):
