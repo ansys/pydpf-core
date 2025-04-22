@@ -65,7 +65,7 @@ of our package background so you can understand how to work with it.
 
        Understand how to represent data in DPF: either from manual input either form result files.
 
-    .. grid-item-card:: Mesh analysis
+    .. grid-item-card:: Mesh exploration
        :link: ref_tutorials_mesh
        :link-type: ref
        :text-align: center
