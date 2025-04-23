@@ -7,7 +7,7 @@ on:
       python_versions:
         required: false
         type: string
-        default: '["3.9"]'
+        default: '["3.10"]'
       ANSYS_VERSION:
         required: false
         type: string
@@ -24,7 +24,7 @@ on:
         description: "Python interpreters to test."
         required: true
         type: string
-        default: '["3.9"]'
+        default: '["3.10"]'
       ANSYS_VERSION:
         description: "ANSYS version to run."
         required: true
@@ -97,7 +97,7 @@ jobs:
       - name: "Install package wheel"
         shell: bash
         run: |
-          pip install dist/${{ steps.wheel.outputs.wheel_name }}[plotting]
+          pip install dist/${{ steps.wheel.outputs.wheel_name }}[graphics]
 
       - name: "Install DPF"
         id: set-server-path

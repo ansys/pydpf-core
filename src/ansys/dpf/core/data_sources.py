@@ -680,6 +680,19 @@ class DataSources:
         """
         self._api.data_sources_register_namespace(self, result_key, namespace)
 
+    @version_requires("9.0")
+    def namespace(self, result_key: str) -> str:
+        """
+        Return the namespace associated to a result_key. The namespace identifies to which operator plugin a call should be delegated to.
+
+        Parameters
+        ----------
+        result_key:
+            Extension of the file, which is used as a key for choosing the correct
+            plugin when a result is requested by an operator.
+        """
+        return self._api.data_sources_get_namespace(self, result_key)
+
     def __str__(self):
         """Describe the entity.
 

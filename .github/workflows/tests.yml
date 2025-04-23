@@ -7,7 +7,7 @@ on:
       python_versions:
         required: false
         type: string
-        default: '["3.9"]'
+        default: '["3.10"]'
       ANSYS_VERSION:
         required: false
         type: string
@@ -41,7 +41,7 @@ on:
         description: "Python interpreters to test."
         required: true
         type: string
-        default: '["3.9", "3.10", "3.11"]'
+        default: '["3.10", "3.11", "3.12"]'
       ANSYS_VERSION:
         description: "ANSYS version"
         required: true
@@ -224,13 +224,13 @@ jobs:
         run: |
           if [ $MODE == 'PIP' ]; then
             if [ ${{ matrix.os }} == 'ubuntu-latest' ]; then
-              echo 'TOX_EXTRA_ARG=--installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" -x testenv.commands_pre+="uv pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"' >> "$GITHUB_OUTPUT"
+              echo 'TOX_EXTRA_ARG=--installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" -x testenv.commands_pre+="uv pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.3.20240907.dev0"' >> "$GITHUB_OUTPUT"
             else
               echo 'TOX_EXTRA_ARG=--installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}"' >> "$GITHUB_OUTPUT"
             fi
           else
             if [ ${{ matrix.os }} == 'ubuntu-latest' ]; then
-              echo 'TOX_EXTRA_ARG=--installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.commands_pre+="uv pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"' >> "$GITHUB_OUTPUT"
+              echo 'TOX_EXTRA_ARG=--installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.commands_pre+="uv pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.3.20240907.dev0"' >> "$GITHUB_OUTPUT"
             else
               echo 'TOX_EXTRA_ARG=--installpkg dist/${{ steps.wheel.outputs.wheel_name }}' >> "$GITHUB_OUTPUT"
             fi
@@ -240,6 +240,15 @@ jobs:
         shell: bash
         run: |
           tox -e pretest
+
+      - name: "Test API test_entry"
+        uses: nick-fields/retry@v3
+        with:
+          timeout_minutes: 10
+          max_attempts: 2
+          shell: bash
+          command: |
+            tox -e test-api_entry,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
 
       - name: "Run compatible tests in parallel"
         uses: nick-fields/retry@v3
@@ -308,4 +317,12 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }} # required
           file: ./.tox/.cov/coverage.xml
           name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ inputs.ANSYS_VERSION }}${{ inputs.test_any == 'true' && '_any' || '' }}.xml
+          flags: ${{ inputs.ANSYS_VERSION }},${{ matrix.os }},${{ matrix.python-version }}${{ inputs.test_any == 'true' && ',any' || '' }}
+
+      - name: "Upload test analytics results to Codecov"
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          name: test_results_${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_${{ inputs.ANSYS_VERSION }}${{ inputs.test_any == 'true' && '_any' || '' }}
           flags: ${{ inputs.ANSYS_VERSION }},${{ matrix.os }},${{ matrix.python-version }}${{ inputs.test_any == 'true' && ',any' || '' }}

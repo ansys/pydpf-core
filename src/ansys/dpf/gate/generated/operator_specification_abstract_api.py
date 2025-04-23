@@ -68,6 +68,10 @@ class OperatorSpecificationAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def operator_specification_is_pin_in_place(specification, binput, numPin):
+		raise NotImplementedError
+
+	@staticmethod
 	def operator_specification_get_properties(specification, prop):
 		raise NotImplementedError
 
@@ -133,6 +137,14 @@ class OperatorSpecificationAbstractAPI:
 
 	@staticmethod
 	def operator_specification_get_pin_derived_class_type_name(specification, binput, numPin):
+		raise NotImplementedError
+
+	@staticmethod
+	def operator_specification_set_version(specification, semver):
+		raise NotImplementedError
+
+	@staticmethod
+	def operator_specification_get_version(specification):
 		raise NotImplementedError
 
 	@staticmethod
