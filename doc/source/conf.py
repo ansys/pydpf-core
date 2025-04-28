@@ -252,6 +252,7 @@ html_theme_options = {
         "own_page_level": "class",
         "type": "python",
         "options": [
+            "inherited-members",
             "members",
             "undoc-members",
             "show-inheritance",
