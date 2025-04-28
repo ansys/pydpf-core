@@ -305,6 +305,9 @@ def test_result_info_add_result(model):
             )
 
 
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0, reason="Available for servers >=8.0"
+)
 def test_scripting_name():
     model = Model(examples.download_all_kinds_of_complexity_modal())
     scripting_names = [res.name for res in model.metadata.result_info]
