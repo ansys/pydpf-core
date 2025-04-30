@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -22,9 +22,10 @@
 
 import numpy as np
 import pytest
-import conftest
+
 from ansys.dpf import core as dpf
 from ansys.dpf.core.check_version import server_meet_version
+import conftest
 
 
 @pytest.mark.skipif(

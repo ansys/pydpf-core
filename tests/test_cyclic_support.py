@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -22,13 +22,13 @@
 
 import gc
 import weakref
-import numpy as np
 
-import conftest
+import numpy as np
 import pytest
 
 from ansys import dpf
 from ansys.dpf import core as dpf
+import conftest
 
 
 def test_cyc_support_from_model(cyclic_lin_rst):

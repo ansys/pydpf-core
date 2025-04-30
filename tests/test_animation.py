@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -21,14 +21,12 @@
 # SOFTWARE.
 
 import os
+from pathlib import Path
 
 import pytest
 
 from ansys.dpf import core as dpf
-from ansys.dpf.core import misc
-from ansys.dpf.core import examples
-from ansys.dpf.core import animation
-
+from ansys.dpf.core import animation, examples, misc
 
 if misc.module_exists("pyvista"):
     HAS_PYVISTA = True
@@ -43,8 +41,8 @@ def remove_gifs(request):
     """Remove GIF once finished."""
 
     def remove_gif():
-        if os.path.exists(os.path.join(os.getcwd(), gif_name)):
-            os.remove(os.path.join(os.getcwd(), gif_name))
+        if Path.cwd().joinpath(gif_name).exists():
+            Path.cwd().joinpath(gif_name).unlink()
 
     request.addfinalizer(remove_gif)
 

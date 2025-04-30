@@ -14,34 +14,7 @@ apps for both data input and data output, including visualization and
 result plots. The following table shows an exhaustive list of supported
 apps by DPF and their related formats:
 
-.. table:: Truth table for "not"
-   :widths: auto
-   :align: center
-
-+--------------------+------------------------+----------------------------------+----------------------------------+
-|     **Solver**     |    **File format**     |       **Server version**         |       **DPF examples**           |
-+====================+========================+==================================+==================================+
-|                    || .rst, .mode           || **1.0** and later               | :ref:`ref_basic_example`         |
-|        MAPDL       || .rfrq, .rdsp          || (*Ansys 2021 R1*)               |                                  |
-+--------------------+------------------------+----------------------------------+----------------------------------+
-|       LS DYNA      |   .d3plot, .binout     || **4.0** and later               | :ref:`examples_lsdyna`           |
-|                    |                        || (*Ansys 2022 R2*)               |                                  |
-+--------------------+------------------------+----------------------------------+----------------------------------+
-|                    || *CFF restart files*   ||                                 | :ref:`ref_fluids_model`          |
-|                    || .cas/dat.h5           ||                                 +----------------------------------+
-|                    |                        || **7.0** and later               | :ref:`ref_fluids_mesh`           |
-|        Fluent      +------------------------+| (*Ansys 2024 R1 pre0*)          +----------------------------------+
-|                    || *Project files*       |                                  | :ref:`ref_fluids_results`        |
-|                    || .flprj                |                                  |                                  |
-+--------------------+------------------------+----------------------------------+----------------------------------+
-|                    || *CFF files*           ||                                 | :ref:`examples_cfx`              |
-|                    || .cas/dat.cff          ||                                 +----------------------------------+
-|                    || .res                  || **7.0** and later               | :ref:`ref_fluids_model`          |
-|          CFX       +------------------------+| (*Ansys 2024 R1 pre0*)          +----------------------------------+
-|                    || *Project files*       |                                  | :ref:`ref_fluids_mesh`           |
-|                    || .flprj                |                                  +----------------------------------+
-|                    ||                       |                                  | :ref:`ref_fluids_results`        |
-+--------------------+------------------------+----------------------------------+----------------------------------+
+.. include:: dpf_ansys_file_support_table.rst
 
 Visualisation is ensured by VTK and leverages `PyVista tools
 <https://docs.pyvista.org>`_.

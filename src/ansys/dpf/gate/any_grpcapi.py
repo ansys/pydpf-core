@@ -34,6 +34,7 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
         from ansys.dpf.gate import dpf_vector
         from ansys.dpf.core import (
             field,
+            fields_container,
             property_field,
             generic_data_container,
             string_field,
@@ -42,6 +43,7 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
             custom_type_field,
             collection_base,
             workflow,
+            dpf_operator,
         )
 
         return [(int, base_pb2.Type.INT),
@@ -49,6 +51,7 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
                 (float, base_pb2.Type.DOUBLE),
                 (bytes, base_pb2.Type.STRING),
                 (field.Field, base_pb2.Type.FIELD),
+                (fields_container.FieldsContainer, base_pb2.Type.COLLECTION, base_pb2.Type.FIELD),
                 (property_field.PropertyField, base_pb2.Type.PROPERTY_FIELD),
                 (string_field.StringField, base_pb2.Type.STRING_FIELD),
                 (custom_type_field.CustomTypeField, base_pb2.Type.CUSTOM_TYPE_FIELD),
@@ -58,6 +61,7 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
                 (workflow.Workflow, base_pb2.Type.WORKFLOW),
                 (collection_base.CollectionBase, base_pb2.Type.COLLECTION, base_pb2.Type.ANY),
                 (dpf_vector.DPFVectorInt, base_pb2.Type.COLLECTION, base_pb2.Type.INT),
+                (dpf_operator.Operator, base_pb2.Type.OPERATOR),
                 ]
 
     @staticmethod
@@ -112,6 +116,10 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
     @staticmethod
     def any_get_as_property_field(any):
         return AnyGRPCAPI._get_as(any).field
+    
+    @staticmethod
+    def any_get_as_fields_container(any):
+        return AnyGRPCAPI._get_as(any).collection
 
     @staticmethod
     def any_get_as_string_field(any):
@@ -144,6 +152,10 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
     @staticmethod
     def any_get_as_workflow(any):
         return AnyGRPCAPI._get_as(any).workflow
+
+    @staticmethod
+    def any_get_as_operator(any):
+        return AnyGRPCAPI._get_as(any).operator
 
     @staticmethod
     def _new_from(any, client=None):
@@ -208,6 +220,10 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
         return AnyGRPCAPI._new_from(any, any._server)
 
     @staticmethod
+    def any_new_from_fields_container(any):
+        return AnyGRPCAPI._new_from(any, any._server)
+
+    @staticmethod
     def any_new_from_string_field(any):
         return AnyGRPCAPI._new_from(any, any._server)
 
@@ -229,4 +245,8 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
 
     @staticmethod
     def any_new_from_workflow(any):
+        return AnyGRPCAPI._new_from(any, any._server)
+
+    @staticmethod
+    def any_new_from_operator(any):
         return AnyGRPCAPI._new_from(any, any._server)

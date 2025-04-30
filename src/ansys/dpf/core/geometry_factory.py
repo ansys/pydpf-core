@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -21,23 +21,20 @@
 # SOFTWARE.
 
 """
-.. _ref_geometry_factory:
+Geometry Factory.
 
-Geometry Factory
-================
 Geometry factory module containing functions to create the different geometries.
-
 """
 
 import numpy as np
 
 from ansys.dpf.core.geometry import (
-    Points,
     Line,
     Plane,
-    normalize_vector,
-    get_plane_local_axis,
+    Points,
     get_local_coords_from_global,
+    get_plane_local_axis,
+    normalize_vector,
 )
 
 
@@ -315,6 +312,8 @@ def create_plane_from_point_and_line(
 ):
     """Create plane from point and line.
 
+    Raises a ValueError if the point is on the line.
+
     Parameters
     ----------
     point : list, array, Points
@@ -365,9 +364,12 @@ def create_plane_from_point_and_line(
 
     # Get center and normal from point and vector
     coords = [line[0], line[1], point]
-    vects = [line, [line[0], point]]
+    normal = get_normal_direction_from_coords(coords)
+    if any(np.isnan(x) for x in normal) or (max(normal) == min(normal) == 0):
+        raise ValueError(
+            "create_plane_from_point_and_line: cannot create a plane from aligned point and line."
+        )
     center = get_center_from_coords(coords)
-    normal = get_cross_product(vects)
     return Plane(center, normal, width, height, n_cells_x, n_cells_y, server)
 
 

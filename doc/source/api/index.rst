@@ -1,10 +1,11 @@
-.. _ref_api_section:
-
-=============
 API reference
 =============
+
+This section describes PyDPF-Core endpoints, their capabilities, and how
+to interact with them programmatically.
+
 .. toctree::
-   :maxdepth: 2
-   :caption: API reference
-   
-   ansys.dpf.core
+   :titlesonly:
+   :maxdepth: 3
+
+   <span class="nf nf-md-package"></span> ansys.dpf.core</api/ansys/dpf/core/index>

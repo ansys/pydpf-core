@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -53,9 +53,10 @@ The cycles to failure result is the (interpolated) negative of the stress result
 The higher the stress result, the lower the number of cycles to failure.
 """
 
+import numpy as np
+
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
-import numpy as np
 
 ###############################################################################
 # The first step is to generate a simple model with high stress

@@ -1,32 +1,34 @@
 # import subprocess
 
-from ansys.dpf import core
-from ansys.dpf.core.operators import build
-import os
 import glob
+import os
 from pathlib import Path
 import shutil
 
-
-local_dir = os.path.dirname(os.path.abspath(__file__))
-TARGET_PATH = os.path.join(local_dir, os.pardir, "src", "ansys", "dpf", "core", "operators")
-files = glob.glob(os.path.join(TARGET_PATH, "*"))
-for f in files:
-    if Path(f).stem == "specification":
-        continue
-    if Path(f).name == "build.py":
-        continue
-    if Path(f).name == "operator.mustache":
-        continue
-    try:
-        if os.path.isdir(f):
-            shutil.rmtree(f)
-        else:
-            os.remove(f)
-    except:
-        pass
+from ansys.dpf import core
+from ansys.dpf.core.operators import build
 
 core.set_default_server_context(core.AvailableServerContexts.premium)
 core.start_local_server(config=core.AvailableServerConfigs.LegacyGrpcServer)
+
+local_dir = Path(__file__).parent
+TARGET_PATH = local_dir.parent / "src" / "ansys" / "dpf" / "core" / "operators"
+files = TARGET_PATH.glob("*")
+for file_path in files:
+    if file_path.stem == "specification":
+        continue
+    if file_path.stem == "translator":
+        continue
+    if file_path.name == "build.py":
+        continue
+    if file_path.name == "operator.mustache":
+        continue
+    try:
+        if file_path.is_dir():
+            shutil.rmtree(file_path)
+        else:
+            file_path.unlink()
+    except:
+        pass
 
 build.build_operators()

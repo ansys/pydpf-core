@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -73,14 +73,15 @@ model.metadata.meshed_region.plot(mode_7_duplicate)
 ###############################################################################
 # Get displacement results on the first sector with a cyclic phase
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# :class:`ansys.dpf.result.cyclic_expanded_displacement` gives access
+# :class:`ansys.dpf.result.displacement` gives access
 # to all cyclic expansion configuration. By default all sectors will be expanded.
 # The cyclic phase (in degree) can be changed with the phi argument.
-u_cyc = dpf.operators.result.cyclic_expanded_displacement(
+u_cyc = dpf.operators.result.displacement(
     streams_container=model.metadata.streams_provider,
     sectors_to_expand=[0],
     time_scoping=[7],
     phi=0.0,
+    read_cyclic=2,
 )
 # # get the mesh expanded on the first sector for consistency between results and mesh
 mesh_provider = model.metadata.mesh_provider
@@ -107,12 +108,13 @@ mesh.plot(mode_7_45[0])
 ###############################################################################
 # Get nodal stress results on the first sector with a cyclic phase
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-s_cyc = dpf.operators.result.cyclic_expanded_stress(
+s_cyc = dpf.operators.result.stress(
     streams_container=model.metadata.streams_provider,
     sectors_to_expand=[0],
     time_scoping=[7],
     phi=45.0,
     requested_location=dpf.locations.nodal,
+    read_cyclic=2,
 )
 
 s_7_45 = s_cyc.outputs.fields_container()
@@ -123,11 +125,12 @@ mesh.plot(s_7_45[0])
 # Get elemental_nodal stress results on the first sector with a cyclic phase
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Elemental nodal is the default result location for stress and strain.
-s_cyc = dpf.operators.result.cyclic_expanded_stress(
+s_cyc = dpf.operators.result.stress(
     streams_container=model.metadata.streams_provider,
     sectors_to_expand=[0],
     time_scoping=[7],
     phi=45.0,
+    read_cyclic=2,
 )
 
 s_7_45 = s_cyc.outputs.fields_container()
@@ -143,10 +146,11 @@ mesh.plot(s_7_45[0])
 # Get nodal stress results expanded
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-s_cyc = dpf.operators.result.cyclic_expanded_stress(
+s_cyc = dpf.operators.result.stress(
     streams_container=model.metadata.streams_provider,
     time_scoping=[7],
     requested_location=dpf.locations.nodal,
+    read_cyclic=2,
 )
 
 mesh_provider = model.metadata.mesh_provider
