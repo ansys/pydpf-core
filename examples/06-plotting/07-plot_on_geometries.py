@@ -81,7 +81,7 @@ points = Points(
 
 ###############################################################################
 # Show points together with the mesh
-points.plot(mesh, cpos=cpos)
+points.plot(mesh, cpos=cpos, point_size=15, color="blue")
 
 ###############################################################################
 # Create line passing through the geometry's diagonal:
@@ -89,7 +89,7 @@ line = Line([[0.03, 0.03, 0.05], [0.0, 0.06, 0.0]], n_points=50)
 
 ###############################################################################
 # Show line with the 3D mesh
-line.plot(mesh, cpos=cpos)
+line.plot(mesh, cpos=cpos, color="black")
 
 ###############################################################################
 # Create vertical plane passing through the mid point:
@@ -104,7 +104,7 @@ plane = Plane(
 
 ###############################################################################
 # Show plane with the 3D mesh
-plane.plot(mesh, cpos=cpos)
+plane.plot(mesh, cpos=cpos, color="red")
 
 ###############################################################################
 # Map displacement field to geometry objects
