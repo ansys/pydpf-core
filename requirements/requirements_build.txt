@@ -2,4 +2,4 @@ black==25.1.0
 build==1.2.2.post1
 chevron==0.14.0
 pypandoc_binary==1.15
-wheel==0.45.1
+wheel==0.46.1
