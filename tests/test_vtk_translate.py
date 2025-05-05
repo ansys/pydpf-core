@@ -270,7 +270,7 @@ def test_vtk_mesh_is_valid_polyhedron():
         [1.0, 0.0, 0.5],
         [0.0, 1.0, 0.5],
     ]
-    grid = pv.UnstructuredGrid(cells_1, cell_types, nodes_2)
+    grid = pv.UnstructuredGrid([len(cells_1), *cells_1], cell_types, nodes_2)
     validity = vtk_mesh_is_valid(grid)
     print(validity)
     assert not validity.valid  # For some reason this element is found to be non-convex
