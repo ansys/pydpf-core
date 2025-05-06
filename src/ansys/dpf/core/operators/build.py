@@ -22,6 +22,7 @@ operator_aliases = {
     "support_provider_cyclic": "mapdl::rst::support_provider_cyclic",
     "NMISC": "mapdl::nmisc",
     "SMISC": "mapdl::smisc",
+    "result_provider": "custom",
 }
 
 def build_docstring(specification_description):

@@ -25,7 +25,7 @@ class contact_fluid_penetration_pressure(Operator):
     Parameters
     ----------
     time_scoping: Scoping or int or float or Field, optional
-        time/freq values (use doubles or field), time/freq set ids (use ints or scoping) or time/freq step ids (use scoping with TimeFreq_steps location) required in output. To specify time/freq values at specific load steps, put a Field (and not a list) in input with a scoping located on "TimeFreq_steps". Linear time freq intrapolation is performed if the values are not in the result files and the data at the max time or freq is taken when time/freqs are higher than available time/freqs in result files.
+        time/freq values (use doubles or field), time/freq set ids (use ints or scoping) or time/freq step ids (use scoping with TimeFreq_steps location) required in output. To specify time/freq values at specific load steps, put a Field (and not a list) in input with a scoping located on "TimeFreq_steps". Linear time freq intrapolation is performed if the values are not in the result files and the data at the max time or freq is taken when time/freqs are higher than available time/freqs in result files. To get all data for all time/freq sets, connect an int with value -1.
     mesh_scoping: ScopingsContainer or Scoping, optional
         nodes or elements scoping required in output. The output fields will be scoped on these node or element IDs. To figure out the ordering of the fields data, look at their scoping IDs as they might not be ordered as the input scoping was. The scoping's location indicates whether nodes or elements are asked for. Using scopings container allows you to split the result fields container into domains
     fields_container: FieldsContainer, optional
@@ -35,7 +35,7 @@ class contact_fluid_penetration_pressure(Operator):
     data_sources: DataSources
         result file path container, used if no streams are set
     bool_rotate_to_global: bool, optional
-        if true the field is rotated to global coordinate system (default true)
+        if true the field is rotated to global coordinate system (default true). Please check your results carefully if 'false' is used for Elemental or ElementalNodal results averaged to the Nodes when adjacent elements do not share the same coordinate system, as results may be incorrect.
     mesh: MeshedRegion or MeshesContainer, optional
         mesh. If cylic expansion is to be done, mesh of the base sector
     requested_location: str, optional
@@ -196,7 +196,7 @@ Nodal/ElementalNodal/Elemental.
                         "vector<double>",
                     ],
                     optional=True,
-                    document=r"""time/freq values (use doubles or field), time/freq set ids (use ints or scoping) or time/freq step ids (use scoping with TimeFreq_steps location) required in output. To specify time/freq values at specific load steps, put a Field (and not a list) in input with a scoping located on "TimeFreq_steps". Linear time freq intrapolation is performed if the values are not in the result files and the data at the max time or freq is taken when time/freqs are higher than available time/freqs in result files.""",
+                    document=r"""time/freq values (use doubles or field), time/freq set ids (use ints or scoping) or time/freq step ids (use scoping with TimeFreq_steps location) required in output. To specify time/freq values at specific load steps, put a Field (and not a list) in input with a scoping located on "TimeFreq_steps". Linear time freq intrapolation is performed if the values are not in the result files and the data at the max time or freq is taken when time/freqs are higher than available time/freqs in result files. To get all data for all time/freq sets, connect an int with value -1.""",
                 ),
                 1: PinSpecification(
                     name="mesh_scoping",
@@ -226,7 +226,7 @@ Nodal/ElementalNodal/Elemental.
                     name="bool_rotate_to_global",
                     type_names=["bool"],
                     optional=True,
-                    document=r"""if true the field is rotated to global coordinate system (default true)""",
+                    document=r"""if true the field is rotated to global coordinate system (default true). Please check your results carefully if 'false' is used for Elemental or ElementalNodal results averaged to the Nodes when adjacent elements do not share the same coordinate system, as results may be incorrect.""",
                 ),
                 7: PinSpecification(
                     name="mesh",
@@ -445,7 +445,7 @@ class InputsContactFluidPenetrationPressure(_Inputs):
     def time_scoping(self) -> Input:
         r"""Allows to connect time_scoping input to the operator.
 
-        time/freq values (use doubles or field), time/freq set ids (use ints or scoping) or time/freq step ids (use scoping with TimeFreq_steps location) required in output. To specify time/freq values at specific load steps, put a Field (and not a list) in input with a scoping located on "TimeFreq_steps". Linear time freq intrapolation is performed if the values are not in the result files and the data at the max time or freq is taken when time/freqs are higher than available time/freqs in result files.
+        time/freq values (use doubles or field), time/freq set ids (use ints or scoping) or time/freq step ids (use scoping with TimeFreq_steps location) required in output. To specify time/freq values at specific load steps, put a Field (and not a list) in input with a scoping located on "TimeFreq_steps". Linear time freq intrapolation is performed if the values are not in the result files and the data at the max time or freq is taken when time/freqs are higher than available time/freqs in result files. To get all data for all time/freq sets, connect an int with value -1.
 
         Returns
         -------
@@ -550,7 +550,7 @@ class InputsContactFluidPenetrationPressure(_Inputs):
     def bool_rotate_to_global(self) -> Input:
         r"""Allows to connect bool_rotate_to_global input to the operator.
 
-        if true the field is rotated to global coordinate system (default true)
+        if true the field is rotated to global coordinate system (default true). Please check your results carefully if 'false' is used for Elemental or ElementalNodal results averaged to the Nodes when adjacent elements do not share the same coordinate system, as results may be incorrect.
 
         Returns
         -------
