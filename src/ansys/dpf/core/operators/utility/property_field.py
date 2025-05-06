@@ -49,7 +49,9 @@ class property_field(Operator):
 
     def __init__(self, input=None, config=None, server=None):
         super().__init__(
-            name="incremental::merge::property_field", config=config, server=server
+            name="incremental::merge::property_fieldmerge::property_field",
+            config=config,
+            server=server,
         )
         self._inputs = InputsPropertyField(self)
         self._outputs = OutputsPropertyField(self)
@@ -100,7 +102,8 @@ class property_field(Operator):
             A new Config instance equivalent to the default config for this operator.
         """
         return Operator.default_config(
-            name="incremental::merge::property_field", server=server
+            name="incremental::merge::property_fieldmerge::property_field",
+            server=server,
         )
 
     @property
