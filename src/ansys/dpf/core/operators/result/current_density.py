@@ -19,6 +19,14 @@ class current_density(Operator):
     r"""Read/compute Current Density by calling the readers defined by the
     datasources.
 
+    **Warning**: There are multiple results named “current density”.
+
+    This operator returns the elemental “Source current density”, also named
+    “JS” in MAPDL and Mechanical.
+
+    To retrieve the result named “current density” in Mechanical or “JC” in
+    MAPDL, use the solver specific operator: ``mapdl::rth::JC``.
+
 
     Parameters
     ----------
@@ -113,6 +121,14 @@ class current_density(Operator):
     def _spec() -> Specification:
         description = r"""Read/compute Current Density by calling the readers defined by the
 datasources.
+
+**Warning**: There are multiple results named “current density”.
+
+This operator returns the elemental “Source current density”, also named
+“JS” in MAPDL and Mechanical.
+
+To retrieve the result named “current density” in Mechanical or “JC” in
+MAPDL, use the solver specific operator: ``mapdl::rth::JC``.
 """
         spec = Specification(
             description=description,
