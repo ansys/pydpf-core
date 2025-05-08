@@ -1,0 +1,97 @@
+
+
+
+
+
+
+:class:`FloatCollection`
+========================
+
+.. py:class:: ansys.dpf.core.collection_base.FloatCollection(list=None, server=None, collection=None)
+
+   Bases: :py:obj:`CollectionBase`\ [\ :py:obj:`float`\ ]
+
+
+   Creates a collection of floats (double64) with a list.
+
+   The collection of integral is the equivalent of an array of
+   data sent server side. It can be used to efficiently stream
+   large data to the server.
+
+   :param list: list to transfer server side
+   :type list: list[float], numpy.array
+
+   .. rubric:: Notes
+
+   Used by default by the ``'Operator'`` and the``'Workflow'`` when a
+   list is connected or returned.
+
+
+
+.. py:currentmodule:: FloatCollection
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~create_subtype`
+            - Create a sub type.
+          * - :py:attr:`~get_integral_entries`
+            - Get integral entries.
+
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~entries_type`
+            - 
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.collection_base import FloatCollection
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: entries_type
+
+
+
+Method detail
+-------------
+
+.. py:method:: create_subtype(obj_by_copy)
+
+   Create a sub type.
+
+
+.. py:method:: get_integral_entries()
+
+   Get integral entries.
+
+
+
+
+

@@ -1,0 +1,129 @@
+
+
+
+
+
+
+:class:`InputsSetProperty`
+==========================
+
+.. py:class:: ansys.dpf.core.operators.utility.set_property.InputsSetProperty(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   set_property operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.set_property()
+   >>> my_field = dpf.Field()
+   >>> op.inputs.field.connect(my_field)
+   >>> my_property_name = str()
+   >>> op.inputs.property_name.connect(my_property_name)
+   >>> my_property_value = str()
+   >>> op.inputs.property_value.connect(my_property_value)
+
+
+
+.. py:currentmodule:: InputsSetProperty
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~field`
+            - Allows to connect field input to the operator.
+          * - :py:attr:`~property_name`
+            - Allows to connect property_name input to the operator.
+          * - :py:attr:`~property_value`
+            - Allows to connect property_value input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.set_property import InputsSetProperty
+
+Property detail
+---------------
+
+.. py:property:: field
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect field input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.set_property()
+   >>> op.inputs.field.connect(my_field)
+   >>> # or
+   >>> op.inputs.field(my_field)
+
+.. py:property:: property_name
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect property_name input to the operator.
+
+   Property to set
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.set_property()
+   >>> op.inputs.property_name.connect(my_property_name)
+   >>> # or
+   >>> op.inputs.property_name(my_property_name)
+
+.. py:property:: property_value
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect property_value input to the operator.
+
+   Property to set
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.set_property()
+   >>> op.inputs.property_value.connect(my_property_value)
+   >>> # or
+   >>> op.inputs.property_value(my_property_value)
+
+
+
+
+
+
