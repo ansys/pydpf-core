@@ -195,8 +195,8 @@ class AvailableResult:
     @property
     def name(self):
         """Result operator."""
-        if hasattr(self, "properties") and "scripting_name" in self._properties.keys():
-            name = self.properties["scripting_name"]
+        if self._properties and "scripting_name" in self._properties.keys():
+            name = self._properties["scripting_name"]
         elif self.operator_name in _result_properties:
             name = _result_properties[self.operator_name]["scripting_name"]
         else:

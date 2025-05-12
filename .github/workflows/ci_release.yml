@@ -73,11 +73,11 @@ jobs:
           name: ${{ steps.wheel.outputs.wheel_name }}
           path: dist/${{ steps.wheel.outputs.wheel_name }}
 
-  tests_3_9:
+  tests_3_10:
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '251' }}
-      python_versions: '["3.9"]'
+      python_versions: '["3.10"]'
       wheel: true
       wheelhouse: true
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
@@ -87,18 +87,18 @@ jobs:
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '251' }}
-      python_versions: '["3.10", "3.11"]'
+      python_versions: '["3.11", "3.12"]'
       DOCSTRING: false
       wheel: false
       wheelhouse: true
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
     secrets: inherit
 
-  tests_any_3_9:
+  tests_any_3_10:
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '251' }}
-      python_versions: '["3.9"]'
+      python_versions: '["3.10"]'
       wheel: true
       wheelhouse: false
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
@@ -109,7 +109,7 @@ jobs:
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '251' }}
-      python_versions: '["3.10", "3.11"]'
+      python_versions: '["3.11", "3.12"]'
       DOCSTRING: false
       wheel: false
       wheelhouse: false
@@ -129,7 +129,7 @@ jobs:
     uses: ./.github/workflows/examples.yml
     with:
       ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '251' }}
-      python_versions: '["3.9", "3.10", "3.11"]'
+      python_versions: '["3.10", "3.11", "3.12"]'
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
     secrets: inherit
 
@@ -138,7 +138,7 @@ jobs:
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: "242"
-      python_versions: '["3.9"]'
+      python_versions: '["3.10"]'
       DOCSTRING: false
     secrets: inherit
 
@@ -147,7 +147,7 @@ jobs:
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: "241"
-      python_versions: '["3.9"]'
+      python_versions: '["3.10"]'
       standalone_suffix: '.sp01'
       DOCSTRING: false
     secrets: inherit
@@ -157,7 +157,7 @@ jobs:
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: "232"
-      python_versions: '["3.9"]'
+      python_versions: '["3.10"]'
       DOCSTRING: false
     secrets: inherit
 
@@ -166,7 +166,7 @@ jobs:
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: "231"
-      python_versions: '["3.9"]'
+      python_versions: '["3.10"]'
       DOCSTRING: false
     secrets: inherit
 
@@ -175,7 +175,7 @@ jobs:
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: "222"
-      python_versions: '["3.9"]'
+      python_versions: '["3.10"]'
       DOCSTRING: false
     secrets: inherit
 
@@ -236,14 +236,14 @@ jobs:
     uses: ./.github/workflows/examples_docker.yml
     with:
       ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '251' }}
-      python_versions: '["3.9", "3.10", "3.11"]'
+      python_versions: '["3.10", "3.11", "3.12"]'
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
     secrets: inherit
 
   draft_release:
     name: "Draft Release"
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
-    needs: [style, tests, tests_3_9, tests_any, tests_any_3_9, docs, examples, retro_232, retro_231, retro_222, docker_tests]
+    needs: [style, tests, tests_3_10, tests_any, tests_any_3_10, docs, examples, retro_232, retro_231, retro_222, docker_tests]
     runs-on: ubuntu-latest
     steps:
       - name: "Download artifacts"
