@@ -25,11 +25,9 @@
 import traceback
 import warnings
 
-from ansys.dpf.gate import cyclic_support_capi, cyclic_support_grpcapi
-
-from ansys.dpf.core import server as server_module
+from ansys.dpf.core import field, property_field, server as server_module
 from ansys.dpf.core.scoping import Scoping
-from ansys.dpf.core import field, property_field
+from ansys.dpf.gate import cyclic_support_capi, cyclic_support_grpcapi
 
 
 class CyclicSupport:

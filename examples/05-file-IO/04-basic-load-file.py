@@ -40,7 +40,6 @@ exported to a CSV file.
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
-
 model = dpf.Model(examples.find_simple_bar())
 mesh = model.metadata.meshed_region
 
@@ -121,7 +120,7 @@ divide.inputs.fieldA.connect(fc_out - server_fc_out)
 divide.inputs.fieldB.connect(fc_out)
 scale = dpf.operators.math.scale()
 scale.inputs.field.connect(divide)
-scale.inputs.ponderation.connect(100.0)
+scale.inputs.weights.connect(100.0)
 rel_error = scale.eval()
 
 ###############################################################################

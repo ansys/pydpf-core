@@ -3,26 +3,34 @@ import copy
 import os
 from datetime import datetime
 from textwrap import wrap
+import time
 
 import black
 import chevron
+
 from ansys.dpf import core as dpf
 from ansys.dpf.core import common
 from ansys.dpf.core.dpf_operator import available_operator_names
 from ansys.dpf.core.outputs import _make_printable_type
 from ansys.dpf.core.mapping_types import map_types_to_python
+from ansys.dpf.core.operators.translator import Markdown2RstTranslator
 
 
-def build_docstring(specification):
+# Operator internal names to call if first name is not available
+# Allows deprecating internal names associated to public Python operator modules
+operator_aliases = {
+    "support_provider_cyclic": "mapdl::rst::support_provider_cyclic",
+    "NMISC": "mapdl::nmisc",
+    "SMISC": "mapdl::smisc",
+    "result_provider": "custom",
+}
+
+def build_docstring(specification_description):
     """Used to generate class docstrings."""
     docstring = ""
-    if specification.description:
-        docstring += "\n".join(
-            wrap(specification.description, subsequent_indent="    ")
-        )
-        docstring += "\n\n"
-    docstring = docstring.rstrip()
-    return docstring.replace('"', "'")
+    if specification_description:
+        docstring += specification_description.replace("\n", "\n    ")
+    return docstring
 
 
 def map_types(cpp_types):
@@ -83,6 +91,9 @@ def build_pin_data(pins, output=False):
         if multiple_types and output:
             printable_type_names = [_make_printable_type(name) for name in type_names]
 
+        document = specification.document
+        document_pin_docstring = document.replace("\n", "\n        ")
+
         pin_data = {
             "id": id,
             "name": pin_name,
@@ -97,14 +108,12 @@ def build_pin_data(pins, output=False):
             "main_type": main_type,
             "built_in_main_type": main_type in built_in_types,
             "optional": specification.optional,
-            "document": "\n".join(
-                wrap(
-                    specification.document.capitalize().lstrip(' '),
-                    subsequent_indent="        ",
-                    width=45,
-                )
-            ),
+            "document": document,
+            "document_pin_docstring": document_pin_docstring,
             "ellipsis": 0 if specification.ellipsis else -1,
+            "has_aliases": len(specification.aliases) > 0,
+            "aliases_list": [dict([("alias", alias)]) for alias in specification.aliases],
+            "aliases": str(specification.aliases),
         }
 
         if specification.ellipsis:
@@ -125,23 +134,21 @@ def build_pin_data(pins, output=False):
 
 
 def build_operator(
-    specification, operator_name, class_name, capital_class_name, category
+    specification, operator_name, class_name, capital_class_name, category, specification_description
 ):
 
     input_pins = []
     if specification.inputs:
         input_pins = build_pin_data(specification.inputs)
+    has_input_aliases = any(len(pin["aliases_list"]) > 0 for pin in input_pins)
 
     output_pins = []
     if specification.outputs:
         output_pins = build_pin_data(specification.outputs, output=True)
     multiple_output_types = any(pin["multiple_types"] for pin in output_pins)
+    has_output_aliases = any(len(pin["aliases_list"]) > 0 for pin in output_pins)
 
-    docstring = build_docstring(specification)
-
-    specification_description = "\n".join(
-        wrap(specification.description, subsequent_indent="            ")
-    )
+    docstring = build_docstring(specification_description)
 
     date_and_time = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
 
@@ -158,6 +165,10 @@ def build_operator(
         "multiple_output_types": multiple_output_types,
         "category": category,
         "date_and_time": date_and_time,
+        "has_input_aliases": has_input_aliases,
+        "has_output_aliases": has_output_aliases,
+        "has_internal_name_alias": operator_name in operator_aliases.keys(),
+        "internal_name_alias": operator_aliases.get(operator_name),
     }
 
     this_path = os.path.dirname(os.path.abspath(__file__))
@@ -172,7 +183,8 @@ def build_operator(
 
 
 def build_operators():
-    print(f"Generating operators for server {dpf.SERVER.version}")
+    print(f"Generating operators for server {dpf.SERVER.version} ({dpf.SERVER.ansys_path})")
+    time_0 = time.time()
 
     this_path = os.path.dirname(os.path.abspath(__file__))
 
@@ -192,6 +204,9 @@ def build_operators():
         "invert", "invert_fc",
     ]
     categories = set()
+
+    translator = Markdown2RstTranslator()
+
     for operator_name in available_operators:
         if succeeded == done + 100:
             done += 100
@@ -226,9 +241,13 @@ def build_operators():
         # Get python class name from scripting name
         capital_class_name = common._snake_to_camel_case(scripting_name)
 
+        # Convert Markdown descriptions to RST
+        specification_description = translator.convert(specification.description)
+
         # Write to operator file
         operator_file = os.path.join(category_path, scripting_name + ".py")
-        with open(operator_file, "wb") as f:
+        with open(operator_file, "w", encoding='utf-8', newline="\u000A") as f:
+            operator_str = scripting_name
             try:
                 operator_str = build_operator(
                     specification,
@@ -236,9 +255,10 @@ def build_operators():
                     scripting_name,
                     capital_class_name,
                     category,
+                    specification_description,
                 )
                 exec(operator_str, globals())
-                f.write(operator_str.encode())
+                f.write(operator_str)
                 succeeded += 1
             except SyntaxError as e:
                 error_message = (
@@ -254,21 +274,22 @@ def build_operators():
 
     # Create __init__.py files
     print(f"Generating __init__.py files...")
-    with open(os.path.join(this_path, "__init__.py"), "wb") as main_init:
+    with open(os.path.join(this_path, "__init__.py"), "w", encoding="utf-8", newline="\u000A") as main_init:
         for category in sorted(categories):
             # Add category to main init file imports
-            main_init.write(f"from . import {category}\n".encode())
+            main_init.write(f"from . import {category}\n")
             # Create category init file
             category_operators = os.listdir(os.path.join(this_path, category.split(".")[0]))
-            with open(os.path.join(this_path, category, "__init__.py"), "wb") as category_init:
-                for category_operator in category_operators:
+            with open(os.path.join(this_path, category, "__init__.py"), "w", encoding="utf-8", newline="\u000A") as category_init:
+                for category_operator in sorted(category_operators):
                     operator_name = category_operator.split(".")[0]
                     category_init.write(
-                        f"from .{operator_name} import {operator_name}\n".encode()
+                        f"from .{operator_name} import {operator_name}\n"
                     )
 
     if succeeded == len(available_operators) - hidden:
         print("Success")
+        print(f"Took {time.time() - time_0}")
         exit(0)
     else:
         print("Terminated with errors")

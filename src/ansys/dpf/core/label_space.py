@@ -22,16 +22,17 @@
 
 """Internal Usage."""
 
-import warnings
 import traceback
 from typing import Dict
+import warnings
+
+from ansys.dpf.core import server as server_module
 from ansys.dpf.gate import (
-    label_space_capi,
-    label_space_grpcapi,
     data_processing_capi,
     data_processing_grpcapi,
+    label_space_capi,
+    label_space_grpcapi,
 )
-from ansys.dpf.core import server as server_module
 
 
 class LabelSpace:

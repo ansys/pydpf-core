@@ -249,5 +249,5 @@ Once the plugin is loaded, you can instantiate the custom operator:
 
 References
 ----------
-For more information, see :ref:`ref_custom_operator` in the **API reference**
+For more information, see :py:mod:`Custom Operator Base <ansys.dpf.core.custom_operator>` in the **API reference**
 and :ref:`python_operators` in **Examples**.

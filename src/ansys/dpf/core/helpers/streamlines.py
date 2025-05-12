@@ -22,8 +22,9 @@
 
 """Streamlines computation specific helpers."""
 
-import numpy as np
 import warnings
+
+import numpy as np
 
 from ansys.dpf.core.common import locations
 from ansys.dpf.core.fields_container import FieldsContainer

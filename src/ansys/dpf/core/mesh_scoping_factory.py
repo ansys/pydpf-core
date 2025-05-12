@@ -31,9 +31,9 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:  # pragma: nocover
-    from ansys.dpf.core.server_types import AnyServerType
-    from ansys.dpf.core.scoping import IdVectorType
     from ansys.dpf.core.model import Model
+    from ansys.dpf.core.scoping import IdVectorType
+    from ansys.dpf.core.server_types import AnyServerType
 
 from ansys.dpf.core import Scoping
 from ansys.dpf.core.common import locations
@@ -120,4 +120,4 @@ def named_selection_scoping(
         A scoping containing the IDs of the entities in the named selection.
         The location depends on the type of entities targeted by the named selection.
     """
-    return model.metadata.named_selection(named_selection_name)
+    return model.metadata.named_selection(named_selection=named_selection_name, server=server)

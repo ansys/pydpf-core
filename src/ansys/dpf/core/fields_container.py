@@ -26,13 +26,20 @@ FieldsContainer.
 Contains classes associated with the DPF FieldsContainer.
 """
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Union
+
 from ansys import dpf
+from ansys.dpf.core import errors as dpf_errors, field
 from ansys.dpf.core.collection_base import CollectionBase
-from ansys.dpf.core import errors as dpf_errors
-from ansys.dpf.core import field
+from ansys.dpf.core.common import shell_layers
+
+if TYPE_CHECKING:  # pragma: no cover
+    from ansys.dpf.core import Operator, Result
 
 
-class FieldsContainer(CollectionBase[field.Field]):
+class FieldsContainer(CollectionBase["field.Field"]):
     """Represents a fields container, which contains fields belonging to a common result.
 
     A fields container is a set of fields ordered by labels and IDs. Each field
@@ -50,7 +57,7 @@ class FieldsContainer(CollectionBase[field.Field]):
 
     Parameters
     ----------
-    fields_container : ansys.grpc.dpf.collection_pb2.Collection, ctypes.c_void_p,
+    fields_container : ansys.grpc.dpf.collection_message_pb2.Collection, ctypes.c_void_p,
     FieldsContainer, optional
         Fields container created from either a collection message or by copying an existing
         fields container. The default is "None``.
@@ -87,8 +94,6 @@ class FieldsContainer(CollectionBase[field.Field]):
     ...     fc.add_field(mscop,dpf.Field(nentities=i+10))
 
     """
-
-    entries_type = field.Field
 
     def __init__(self, fields_container=None, server=None):
         super().__init__(collection=fields_container, server=server)
@@ -333,7 +338,7 @@ class FieldsContainer(CollectionBase[field.Field]):
 
         return super()._get_entry(label_space)
 
-    def __getitem__(self, key) -> field.Field:
+    def __getitem__(self, key) -> "field.Field":
         """Retrieve the field at a requested index.
 
         Parameters
@@ -546,7 +551,14 @@ class FieldsContainer(CollectionBase[field.Field]):
             plt.add_field(field=f, **kwargs)
         plt.show_figure(**kwargs)
 
-    def animate(self, save_as=None, deform_by=None, scale_factor=1.0, **kwargs):
+    def animate(
+        self,
+        save_as: str = None,
+        deform_by: Union[FieldsContainer, Result, Operator] = None,
+        scale_factor: Union[float, Sequence[float]] = 1.0,
+        shell_layer: shell_layers = shell_layers.top,
+        **kwargs,
+    ):
         """Create an animation based on the Fields contained in the FieldsContainer.
 
         This method creates a movie or a gif based on the time ids of a FieldsContainer.
@@ -554,15 +566,24 @@ class FieldsContainer(CollectionBase[field.Field]):
 
         Parameters
         ----------
-        save_as : Path of file to save the animation to. Defaults to None. Can be of any format
+        save_as:
+            Path of file to save the animation to. Defaults to None. Can be of any format
             supported by pyvista.Plotter.write_frame (.gif, .mp4, ...).
-        deform_by : FieldsContainer, Result, Operator, optional
+        deform_by:
             Used to deform the plotted mesh. Must return a FieldsContainer of the same length as
             self, containing 3D vector Fields of distances.
             Defaults to None, which takes self if possible. Set as False to force static animation.
         scale_factor : float, list, optional
             Scale factor to apply when warping the mesh. Defaults to 1.0. Can be a list to make
             scaling frequency-dependent.
+        shell_layer:
+            Enum used to set the shell layer if the field to plot
+            contains shell elements. Defaults to top layer.
+        **kwargs:
+            Additional keyword arguments for the animator.
+            Used by :func:`pyvista.Plotter` (off_screen, cpos, ...),
+            or by :func:`pyvista.Plotter.open_movie`
+            (framerate, quality, ...)
         """
         from ansys.dpf.core.animator import Animator
 
@@ -574,11 +595,17 @@ class FieldsContainer(CollectionBase[field.Field]):
         # Define the field extraction using the fields_container and indices
         extract_field_op = dpf.core.operators.utility.extract_field(self)
         to_render = extract_field_op.outputs.field
+        # Add the operators to the workflow
+        wf.add_operators([extract_field_op, forward_index])
+
+        # Treat multi-component fields by taking their norm
         n_components = self[0].component_count
         if n_components > 1:
             norm_op = dpf.core.operators.math.norm(extract_field_op.outputs.field)
+            wf.add_operator(norm_op)
             to_render = norm_op.outputs.field
 
+        # Get time steps IDs and values
         loop_over = self.get_time_scoping()
         frequencies = self.time_freq_support.time_frequencies
         if frequencies is None:
@@ -589,8 +616,6 @@ class FieldsContainer(CollectionBase[field.Field]):
 
         wf.set_input_name("indices", extract_field_op.inputs.indices)  # Have to do it this way
         wf.connect("indices", forward_index)  # Otherwise not accepted
-        # Add the operators to the workflow
-        wf.add_operators([extract_field_op, forward_index])
 
         deform = True
         # Define whether to deform and what with
@@ -630,6 +655,10 @@ class FieldsContainer(CollectionBase[field.Field]):
                 extract_field_op_2.outputs.field, extract_scale_factor_op.outputs.field
             )
             wf.set_output_name("deform_by", divide_op.outputs.field)
+
+            wf.add_operators(
+                [scale_factor_invert, extract_field_op_2, extract_scale_factor_op, divide_op]
+            )
         else:
             scale_factor = None
         wf.set_output_name("to_render", to_render)
@@ -650,6 +679,7 @@ class FieldsContainer(CollectionBase[field.Field]):
             loop_over=loop_over_field,
             save_as=save_as,
             scale_factor=scale_factor,
+            shell_layer=shell_layer,
             **kwargs,
         )
 
@@ -660,8 +690,7 @@ class FieldsContainer(CollectionBase[field.Field]):
         -------
         add : operators.math.add_fc
         """
-        from ansys.dpf.core import dpf_operator
-        from ansys.dpf.core import operators
+        from ansys.dpf.core import dpf_operator, operators
 
         if hasattr(operators, "math") and hasattr(operators.math, "add_fc"):
             op = operators.math.add_fc(self, fields_b, server=self._server)
@@ -678,8 +707,7 @@ class FieldsContainer(CollectionBase[field.Field]):
         -------
         minus : operators.math.minus_fc
         """
-        from ansys.dpf.core import dpf_operator
-        from ansys.dpf.core import operators
+        from ansys.dpf.core import dpf_operator, operators
 
         if hasattr(operators, "math") and hasattr(operators.math, "minus_fc"):
             op = operators.math.minus_fc(server=self._server)
@@ -693,8 +721,7 @@ class FieldsContainer(CollectionBase[field.Field]):
         """Compute element-wise field[i]^2."""
         if value != 2:
             raise ValueError('DPF only the value is "2" supported')
-        from ansys.dpf.core import dpf_operator
-        from ansys.dpf.core import operators
+        from ansys.dpf.core import dpf_operator, operators
 
         if hasattr(operators, "math") and hasattr(operators.math, "sqr_fc"):
             op = operators.math.sqr_fc(server=self._server)
@@ -711,8 +738,7 @@ class FieldsContainer(CollectionBase[field.Field]):
         -------
         mul : operators.math.generalized_inner_product_fc
         """
-        from ansys.dpf.core import dpf_operator
-        from ansys.dpf.core import operators
+        from ansys.dpf.core import dpf_operator, operators
 
         if hasattr(operators, "math") and hasattr(operators.math, "generalized_inner_product_fc"):
             op = operators.math.generalized_inner_product_fc(server=self._server)

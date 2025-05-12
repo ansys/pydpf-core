@@ -21,23 +21,20 @@
 # SOFTWARE.
 """Provide base APIs for DPF's field concept and means of caching field data."""
 
+from abc import abstractmethod
 import traceback
 import warnings
 
-from abc import abstractmethod
-from ansys.dpf.gate.generated import field_abstract_api
+import numpy as np
 
-from ansys.dpf.core import scoping
-from ansys.dpf.core.common import natures, locations
-from ansys.dpf.core import errors
-from ansys.dpf.core import server as server_module
+from ansys.dpf.core import errors, scoping, server as server_module
 from ansys.dpf.core.cache import _setter
+from ansys.dpf.core.common import locations, natures
 from ansys.dpf.gate import (
     data_processing_capi,
     data_processing_grpcapi,
 )
-
-import numpy as np
+from ansys.dpf.gate.generated import field_abstract_api
 
 
 class _FieldBase:

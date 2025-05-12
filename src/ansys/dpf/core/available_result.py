@@ -26,10 +26,11 @@ AvailableResult.
 Module contains the class representing the results that an operator can request.
 """
 
+from enum import Enum, unique
 from typing import List
 from warnings import warn
-from ansys.dpf.core.common import _remove_spaces, _make_as_function_name, natures
-from enum import Enum, unique
+
+from ansys.dpf.core.common import _make_as_function_name, _remove_spaces, natures
 
 
 @unique
@@ -101,6 +102,8 @@ class Homogeneity(Enum):
     mass_flow_rate = 122
     specific_energy = 123
     specific_entropy = 124
+    force_density = 125
+    magnetic_potential = 126
 
 
 class AvailableResult:
@@ -192,8 +195,8 @@ class AvailableResult:
     @property
     def name(self):
         """Result operator."""
-        if hasattr(self, "properties") and "scripting_name" in self._properties.keys():
-            name = self.properties["scripting_name"]
+        if self._properties and "scripting_name" in self._properties.keys():
+            name = self._properties["scripting_name"]
         elif self.operator_name in _result_properties:
             name = _result_properties[self.operator_name]["scripting_name"]
         else:

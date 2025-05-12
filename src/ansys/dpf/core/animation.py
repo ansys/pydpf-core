@@ -22,8 +22,9 @@
 
 """Module contains the function for modal animation creation."""
 
-import ansys.dpf.core as dpf
 import numpy as np
+
+import ansys.dpf.core as dpf
 
 
 def animate_mode(
@@ -117,14 +118,14 @@ def animate_mode(
     scaling_op.inputs.field.connect(field_mode)
     wf.add_operators([scaling_op])
 
-    wf.set_input_name("ponderation", scaling_op.inputs.ponderation)
+    wf.set_input_name("weights", scaling_op.inputs.weights)
     wf.set_output_name("field", scaling_op.outputs.field)
 
     anim = Animator(workflow=wf, **kwargs)
 
     return anim.animate(
         loop_over=loop_over,
-        input_name="ponderation",
+        input_name="weights",
         output_name="field",
         save_as=save_as,
         mode_number=mode_number,

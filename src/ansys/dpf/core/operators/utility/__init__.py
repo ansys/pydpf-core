@@ -18,15 +18,16 @@ from .extract_sub_sc import extract_sub_sc
 from .extract_time_freq import extract_time_freq
 from .fc_get_attribute import fc_get_attribute
 from .field import field
-from .fields_container import fields_container
-from .fields_container_matrices_label import fields_container_matrices_label
+from .field_clone_to_shell_layer import field_clone_to_shell_layer
 from .field_get_attribute import field_get_attribute
 from .field_to_fc import field_to_fc
+from .fields_container import fields_container
+from .fields_container_matrices_label import fields_container_matrices_label
+from .for_each import for_each
 from .forward import forward
 from .forward_field import forward_field
 from .forward_fields_container import forward_fields_container
 from .forward_meshes_container import forward_meshes_container
-from .for_each import for_each
 from .hdf5dpf_workglow_provider import hdf5dpf_workglow_provider
 from .html_doc import html_doc
 from .incremental_concatenate_as_fc import incremental_concatenate_as_fc
@@ -56,8 +57,8 @@ from .merge_to_field_matrix import merge_to_field_matrix
 from .merge_weighted_fields import merge_weighted_fields
 from .merge_weighted_fields_containers import merge_weighted_fields_containers
 from .mesh import mesh
-from .meshes_container import meshes_container
 from .mesh_to_mc import mesh_to_mc
+from .meshes_container import meshes_container
 from .operator_id import operator_id
 from .overlap_fields import overlap_fields
 from .producer_consumer_for_each import producer_consumer_for_each
@@ -76,4 +77,3 @@ from .strain_from_voigt_fc import strain_from_voigt_fc
 from .txt_file_to_dpf import txt_file_to_dpf
 from .unitary_field import unitary_field
 from .weighted_merge_fields_by_label import weighted_merge_fields_by_label
-from .Workflow_to_PyDPF_Generator import Workflow_to_PyDPF_Generator

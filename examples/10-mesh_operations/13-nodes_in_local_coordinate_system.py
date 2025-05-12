@@ -44,7 +44,6 @@ from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 from ansys.dpf.gate.errors import DPFServerException
 
-
 ###############################################################################
 # Create a model object to establish a connection with an example result file:
 model = dpf.Model(examples.download_hemisphere())
@@ -87,9 +86,9 @@ ncoord_rot_f = dpf.operators.geo.rotate(field=ncoord_f, field_rotation_matrix=ro
 ###############################################################################
 # Transform rotated nodal coordinates field along rotated position vector
 # ``pos_vec_rot``:
-pos_vec_rot_neg_f = dpf.operators.math.scale(field=pos_vec_rot, ponderation=-1.0)
+pos_vec_rot_neg_f = dpf.operators.math.scale(field=pos_vec_rot, weights=-1.0)
 pos_vec_rot_neg = pos_vec_rot_neg_f.outputs.field.get_data().data_as_list
-ncoord_translate = dpf.operators.math.add_constant(field=ncoord_rot_f, ponderation=pos_vec_rot_neg)
+ncoord_translate = dpf.operators.math.add_constant(field=ncoord_rot_f, weights=pos_vec_rot_neg)
 ###############################################################################
 # Get the nodal coordinates field ``ncoord_lcs_f`` in LCS:
 ncoord_lcs_f = ncoord_translate.outputs.field.get_data()

@@ -26,12 +26,11 @@ fields_factory.
 Contains functions to simplify creating fields.
 """
 
-from ansys.dpf.core.common import natures, locations
-from ansys.dpf.core import Field
-from ansys.dpf.core import server as server_module
-from ansys.dpf.gate import field_capi, field_grpcapi
-
 import numpy as np
+
+from ansys.dpf.core import Field, server as server_module
+from ansys.dpf.core.common import locations, natures
+from ansys.dpf.gate import field_capi, field_grpcapi
 
 
 def field_from_array(arr, server=None):

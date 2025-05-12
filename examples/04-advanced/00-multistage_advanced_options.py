@@ -32,8 +32,7 @@ for advanced postprocessing
 """
 
 from ansys.dpf import core as dpf
-from ansys.dpf.core import examples
-from ansys.dpf.core import operators as ops
+from ansys.dpf.core import examples, operators as ops
 
 ###############################################################################
 # Create the model and display the state of the result.
@@ -65,10 +64,11 @@ print(
 
 
 # Create displacement cyclic operator
-UCyc = dpf.operators.result.cyclic_expanded_displacement()
+UCyc = dpf.operators.result.displacement()
 UCyc.inputs.data_sources(model.metadata.data_sources)
 # Select the sectors to expand on the first stage
 UCyc.inputs.sectors_to_expand([0, 1, 2])
+UCyc.inputs.read_cyclic(2)
 # Or select the sectors to expand stage by stage
 sectors_scopings = dpf.ScopingsContainer()
 sectors_scopings.labels = ["stage"]
