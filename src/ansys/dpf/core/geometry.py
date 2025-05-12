@@ -115,7 +115,7 @@ class Points:
         """Visualize Points object. If provided, ``mesh`` will be also plotted."""
         cpos = kwargs.pop("cpos", None)
         pl = DpfPlotter(**kwargs)
-        pl.add_points(self._coordinates.data, render_points_as_spheres=True, point_size=10)
+        pl.add_points(self._coordinates.data, render_points_as_spheres=True, **kwargs)
         if mesh:
             pl.add_mesh(mesh, style="surface", show_edges=True, color="w", opacity=0.3)
         pl.show_figure(show_axes=True, cpos=cpos)
@@ -246,7 +246,7 @@ class Line:
 
         # Plot line object
         pl = DpfPlotter(**kwargs)
-        pl.add_line(self._coordinates.data, width=5)
+        pl.add_line(self._coordinates.data, **kwargs)
         if mesh:
             pl.add_mesh(mesh, style="surface", show_edges=True, color="w", opacity=0.3)
         pl.show_figure(show_axes=True, cpos=cpos)
@@ -448,7 +448,7 @@ class Plane:
 
         # Plot plane object
         pl = DpfPlotter(**kwargs)
-        pl.add_plane(self)
+        pl.add_plane(self, **kwargs)
         if mesh:
             pl.add_mesh(mesh, style="surface", show_edges=True, color="w", opacity=0.3)
         pl.show_figure(show_axes=True, cpos=cpos)
