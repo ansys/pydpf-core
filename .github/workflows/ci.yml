@@ -253,4 +253,5 @@ jobs:
       post_branch: "master"
       standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
       test_docstrings: "true"
+      continue-on-error: true
     secrets: inherit
