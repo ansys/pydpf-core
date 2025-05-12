@@ -235,13 +235,7 @@ class Scoping:
 
             np_array = settings.get_runtime_client_config(self._server).return_arrays
         try:
-            vec = dpf_vector.DPFVectorInt(
-                client=self._server.client,
-                api=self._server.get_api_for_type(
-                    capi=dpf_vector_capi.DpfVectorCAPI,
-                    grpcapi=dpf_vector_abstract_api.DpfVectorAbstractAPI,
-                ),
-            )
+            vec = dpf_vector.DPFVectorInt(owner=self)
             self._api.scoping_get_ids_for_dpf_vector(
                 self, vec, vec.internal_data, vec.internal_size
             )

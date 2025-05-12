@@ -110,7 +110,7 @@ normal_vec_out_field = normal.outputs.field.get_data()
 # using :class:`scale <ansys.dpf.core.operators.math.scale.scale>` operator
 # inwards in the geometry, to get the path direction.
 #
-normal_vec_in_field = ops.math.scale(field=normal_vec_out_field, ponderation=-1.0)
+normal_vec_in_field = ops.math.scale(field=normal_vec_out_field, weights=-1.0)
 normal_vec_in = normal_vec_in_field.outputs.field.get_data().data[0]
 ###############################################################################
 # Get nodal coordinates, they serve as the first point on the line.

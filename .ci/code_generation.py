@@ -17,6 +17,8 @@ files = TARGET_PATH.glob("*")
 for file_path in files:
     if file_path.stem == "specification":
         continue
+    if file_path.stem == "translator":
+        continue
     if file_path.name == "build.py":
         continue
     if file_path.name == "operator.mustache":

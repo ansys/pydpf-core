@@ -40,7 +40,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.9"]
+        python-version: ["3.10"]
         os: ["ubuntu-latest"]
 
     steps:
@@ -79,7 +79,7 @@ jobs:
       - name: "Install package wheel"
         shell: bash
         run: |
-          pip install dist/${{ steps.wheel.outputs.wheel_name }}[plotting]
+          pip install dist/${{ steps.wheel.outputs.wheel_name }}[graphics]
 
       - name: "Install DPF"
         id: set-server-path
@@ -98,7 +98,7 @@ jobs:
         run: python -c "from ansys.dpf import core"
 
       - name: "Prepare Testing Environment"
-        uses: ansys/pydpf-actions/prepare_tests@v2.3
+        uses: ansys/pydpf-actions/prepare_tests@dependencies/bump_pyvista_setup-headless-display-action_to_v4
         with:
           DEBUG: true
 
@@ -229,3 +229,11 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }} # required
           name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ inputs.ANSYS_VERSION }}_docker.xml
           flags: docker,${{ inputs.ANSYS_VERSION }},${{ matrix.os }},${{ matrix.python-version }}
+
+      - name: "Upload test analytics results to Codecov"
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          name: test_results_${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_${{ inputs.ANSYS_VERSION }}${{ inputs.test_any == 'true' && '_any' || '' }}
+          flags: ${{ inputs.ANSYS_VERSION }},${{ matrix.os }},${{ matrix.python-version }}${{ inputs.test_any == 'true' && ',any' || '' }}

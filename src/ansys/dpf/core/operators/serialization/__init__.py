@@ -10,9 +10,9 @@ from .import_symbolic_workflow import import_symbolic_workflow
 from .json_to_data_tree import json_to_data_tree
 from .migrate_file_to_vtk import migrate_file_to_vtk
 from .migrate_to_vtu import migrate_to_vtu
+from .serialize_to_hdf5 import serialize_to_hdf5
 from .serializer import serializer
 from .serializer_to_string import serializer_to_string
-from .serialize_to_hdf5 import serialize_to_hdf5
 from .string_deserializer import string_deserializer
 from .txt_to_data_tree import txt_to_data_tree
 from .vtk_export import vtk_export

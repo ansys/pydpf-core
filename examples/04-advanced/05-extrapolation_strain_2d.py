@@ -167,7 +167,7 @@ divide.inputs.fieldA.connect(strain_ref_nodal_op - fex_nodal_op)
 divide.inputs.fieldB.connect(strain_ref_nodal_op)
 rel_error = dpf.operators.math.scale()
 rel_error.inputs.field.connect(divide)
-rel_error.inputs.ponderation.connect(1.0)
+rel_error.inputs.weights.connect(1.0)
 
 ###############################################################################
 # Plot absolute and relative errors.

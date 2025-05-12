@@ -26,6 +26,8 @@ Check the matching for a client/server pair.
 Used to verify if the server version is a minimum value.
 """
 
+from __future__ import annotations
+
 from functools import wraps
 import sys
 import weakref
@@ -33,14 +35,14 @@ import weakref
 from ansys.dpf.core import errors as dpf_errors
 
 
-def server_meet_version(required_version, server):
+def server_meet_version(required_version, server: BaseServer):
     """Check if a given server version matches with a required version.
 
     Parameters
     ----------
     required_version : str
         Required version to compare with the server version.
-    server : :class:`ansys.dpf.core.server`
+    server : :class:`ansys.dpf.core.server_types.BaseServer`
         DPF server object.
 
     Returns
@@ -48,8 +50,7 @@ def server_meet_version(required_version, server):
     bool
         ``True`` when successful, ``False`` when failed.
     """
-    version = get_server_version(server)
-    return meets_version(version, required_version)
+    return server.meet_version(required_version)
 
 
 def server_meet_version_and_raise(required_version, server, msg=None):

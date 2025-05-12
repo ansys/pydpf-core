@@ -45,7 +45,7 @@ with tempfile.TemporaryDirectory() as tmpdirname:
     # Create the temporary build-opts.cfg
     build_opts_path = Path(tmpdirname) / "build-opts.cfg"
 
-    build_opts_path.write_text(f"[bdist_wheel]\nplat-name={requested_platform}", encoding="utf-8")
+    build_opts_path.write_text(f"[bdist_wheel]\nplat_name={requested_platform}", encoding="utf-8")
     os.environ["DIST_EXTRA_CONFIG"] = str(build_opts_path)
 
     # Move the binaries

@@ -193,7 +193,17 @@ class _PyVistaPlotter:
         import pyvista as pv
 
         active_scalars = None
-        if parse(pv.__version__) >= parse("0.35.2"):
+        if parse(pv.__version__) >= parse("0.42.0"):
+            # Get actors of active renderer
+            actors = list(self._plotter.actors.values())
+            for actor in actors:
+                mapper = actor.mapper if hasattr(actor, "mapper") else None
+                if mapper:
+                    dataset = mapper.dataset
+                    if type(dataset) is pv.core.pointset.UnstructuredGrid:
+                        active_scalars = dataset.active_scalars
+                        break
+        elif parse(pv.__version__) >= parse("0.35.2"):
             for data_set in self._plotter._datasets:
                 if type(data_set) is pv.core.pointset.UnstructuredGrid:
                     active_scalars = data_set.active_scalars

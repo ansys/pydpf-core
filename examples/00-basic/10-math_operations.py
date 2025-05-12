@@ -105,15 +105,15 @@ print(field3.data)
 # ~~~~~~~~~~
 # First we define fields. By default, fields represent 3D vectors
 # so one elementary data is a 3D vector.
-# The optional ponderation field is a field which takes one value per entity,
+# The optional weights field is a field which takes one value per entity,
 # so we need to change its dimensionality (1D).
 num_entities = 3
 input_field = dpf.Field(nentities=num_entities)
-ponderation_field = dpf.Field(num_entities)
-ponderation_field.dimensionality = dpf.Dimensionality([1])
+weights_field = dpf.Field(num_entities)
+weights_field.dimensionality = dpf.Dimensionality([1])
 
 input_field.scoping.ids = range(num_entities)
-ponderation_field.scoping.ids = range(num_entities)
+weights_field.scoping.ids = range(num_entities)
 
 ###############################################################################
 # Fill fields with data.
@@ -121,11 +121,11 @@ ponderation_field.scoping.ids = range(num_entities)
 input_field.data = [-2.0, 2.0, 4.0, -5.0, 0.5, 1.0, 7.0, 3.0, -3.0]
 ###############################################################################
 # Three weights, one per entity.
-ponderation_field.data = [0.5, 2.0, 0.5]
+weights_field.data = [0.5, 2.0, 0.5]
 
 ###############################################################################
 # Retrieve the result.
-acc = dpf.operators.math.accumulate(fieldA=input_field, ponderation=ponderation_field)
+acc = dpf.operators.math.accumulate(fieldA=input_field, weights=weights_field)
 output_field = acc.outputs.field()
 
 # (-2.0 * 0.5) + (-5.0 * 2.0) + (7.0 * 0.5)  = -7.5

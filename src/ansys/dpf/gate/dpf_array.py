@@ -20,7 +20,6 @@ class DPFArray(np.ndarray):
             obj = vec.np_array.view(cls)
         except NotImplementedError as e:
             raise TypeError(e.args)
-        vec.start_checking_modification()
         obj.vec = vec
         return obj
 

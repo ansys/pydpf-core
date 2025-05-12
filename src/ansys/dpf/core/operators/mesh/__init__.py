@@ -11,7 +11,6 @@ from .from_scopings import from_scopings
 from .iso_surfaces import iso_surfaces
 from .make_plane_levelset import make_plane_levelset
 from .make_sphere_levelset import make_sphere_levelset
-from .meshes_provider import meshes_provider
 from .mesh_clip import mesh_clip
 from .mesh_cut import mesh_cut
 from .mesh_extraction import mesh_extraction
@@ -22,6 +21,7 @@ from .mesh_to_graphics import mesh_to_graphics
 from .mesh_to_graphics_edges import mesh_to_graphics_edges
 from .mesh_to_pyvista import mesh_to_pyvista
 from .mesh_to_tetra import mesh_to_tetra
+from .meshes_provider import meshes_provider
 from .node_coordinates import node_coordinates
 from .points_from_coordinates import points_from_coordinates
 from .skin import skin

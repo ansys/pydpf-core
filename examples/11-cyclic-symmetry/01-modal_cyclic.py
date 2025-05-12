@@ -92,11 +92,12 @@ fields = eqv.outputs.fields_container()
 # define stress expansion operator and request stresses at time set = 8
 # request the results averaged on the nodes
 # request results on sectors 1, 3 and 5
-scyc_op = dpf.operators.result.cyclic_expanded_stress(
+scyc_op = dpf.operators.result.stress(
     streams_container=model.metadata.streams_provider,
     time_scoping=[8],
     requested_location=dpf.locations.nodal,
     sectors_to_expand=[1, 3, 5],
+    read_cyclic=2,
 )
 
 # extract Sx (use component selector and select the first component)
@@ -114,11 +115,12 @@ fields = comp_sel.outputs.fields_container()
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # define stress expansion operator and request stresses at time set = 8
-scyc_op = dpf.operators.result.cyclic_expanded_stress(
+scyc_op = dpf.operators.result.stress(
     streams_container=model.metadata.streams_provider,
     time_scoping=[8],
     sectors_to_expand=[1, 3, 5],
     bool_rotate_to_global=False,
+    read_cyclic=2,
 )
 
 # request to elemental averaging operator

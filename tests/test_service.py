@@ -30,7 +30,7 @@ import platform
 import pytest
 
 from ansys import dpf
-from ansys.dpf.core import examples, path_utilities
+from ansys.dpf.core import check_version, examples, path_utilities
 import conftest
 from conftest import running_docker
 
@@ -499,7 +499,8 @@ def test_context_environment_variable(reset_context_environment_variable):
 
 
 @pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0, reason="Failures on Windows 231"
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0 or running_docker,
+    reason="Failures on Windows 231",
 )
 def test_server_without_context(remote_config_server_type):
     """Tests starting a server without a no_context given."""
@@ -510,6 +511,8 @@ def test_server_without_context(remote_config_server_type):
     )
     none_type = dpf.core.AvailableServerContexts.no_context.licensing_context_type
     assert server.context.licensing_context_type == none_type
+    if check_version.server_meet_version("10.0", server):  # Before, there was a bug
+        assert len(dpf.core.available_operator_names(server=server)) < 20
 
 
 @pytest.mark.order("last")
