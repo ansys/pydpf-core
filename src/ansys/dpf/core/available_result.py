@@ -45,7 +45,8 @@ class Homogeneity(Enum):
     electric_charge = 5
     electric_charge_density = 6
     conductivity = 7
-    current = 9
+    current = 8
+    current_density = 9
     density = 10
     displacement = 11
     electric_conductivity = 12
@@ -91,6 +92,8 @@ class Homogeneity(Enum):
     voltage = 52
     volume = 53
     moment_inertia_mass = 55
+    angular_acceleration = 63
+    temperature_difference = 78
     stress_intensity_factor = 92
     thermal_gradient = 95
     resistance = 1000
