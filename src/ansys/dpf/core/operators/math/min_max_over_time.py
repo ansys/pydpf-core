@@ -27,7 +27,8 @@ class min_max_over_time(Operator):
 
     Returns
     -------
-    fields_container: FieldsContainer
+    field_container_1: FieldsContainer
+    field_container_2: FieldsContainer, optional
 
     Examples
     --------
@@ -49,7 +50,8 @@ class min_max_over_time(Operator):
     ... )
 
     >>> # Get output data
-    >>> result_fields_container = op.outputs.fields_container()
+    >>> result_field_container_1 = op.outputs.field_container_1()
+    >>> result_field_container_2 = op.outputs.field_container_2()
     """
 
     def __init__(self, fields_container=None, int32=None, config=None, server=None):
@@ -85,9 +87,15 @@ class min_max_over_time(Operator):
             },
             map_output_pin_spec={
                 0: PinSpecification(
-                    name="fields_container",
+                    name="field_container_1",
                     type_names=["fields_container"],
                     optional=False,
+                    document=r"""""",
+                ),
+                1: PinSpecification(
+                    name="field_container_2",
+                    type_names=["fields_container"],
+                    optional=True,
                     document=r"""""",
                 ),
             },
@@ -213,17 +221,20 @@ class OutputsMinMaxOverTime(_Outputs):
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.math.min_max_over_time()
     >>> # Connect inputs : op.inputs. ...
-    >>> result_fields_container = op.outputs.fields_container()
+    >>> result_field_container_1 = op.outputs.field_container_1()
+    >>> result_field_container_2 = op.outputs.field_container_2()
     """
 
     def __init__(self, op: Operator):
         super().__init__(min_max_over_time._spec().outputs, op)
-        self._fields_container = Output(min_max_over_time._spec().output_pin(0), 0, op)
-        self._outputs.append(self._fields_container)
+        self._field_container_1 = Output(min_max_over_time._spec().output_pin(0), 0, op)
+        self._outputs.append(self._field_container_1)
+        self._field_container_2 = Output(min_max_over_time._spec().output_pin(1), 1, op)
+        self._outputs.append(self._field_container_2)
 
     @property
-    def fields_container(self) -> Output:
-        r"""Allows to get fields_container output of the operator
+    def field_container_1(self) -> Output:
+        r"""Allows to get field_container_1 output of the operator
 
         Returns
         -------
@@ -235,6 +246,24 @@ class OutputsMinMaxOverTime(_Outputs):
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.math.min_max_over_time()
         >>> # Get the output from op.outputs. ...
-        >>> result_fields_container = op.outputs.fields_container()
+        >>> result_field_container_1 = op.outputs.field_container_1()
         """
-        return self._fields_container
+        return self._field_container_1
+
+    @property
+    def field_container_2(self) -> Output:
+        r"""Allows to get field_container_2 output of the operator
+
+        Returns
+        -------
+        output:
+            An Output instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.math.min_max_over_time()
+        >>> # Get the output from op.outputs. ...
+        >>> result_field_container_2 = op.outputs.field_container_2()
+        """
+        return self._field_container_2

@@ -144,6 +144,15 @@ class OperatorSpecificationCAPI(operator_specification_abstract_api.OperatorSpec
 		return res
 
 	@staticmethod
+	def operator_specification_is_pin_in_place(specification, binput, numPin):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Operator_specification_IsPinInPlace(specification._internal_obj if specification is not None else None, binput, utils.to_int32(numPin), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def operator_specification_get_properties(specification, prop):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
