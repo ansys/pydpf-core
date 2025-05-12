@@ -147,6 +147,7 @@ jobs:
         run: pip list
 
       - name: "Test Docstrings"
+        id: docstrings
         uses: ansys/pydpf-actions/test_docstrings@v2.3
         with:
           MODULE: post
@@ -155,8 +156,15 @@ jobs:
         if: inputs.test_docstrings == 'true'
         timeout-minutes: 10
         continue-on-error: true
+        
+      - uses: mainmatter/continue-on-error-comment@v1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          outcome: ${{ steps.docstrings.outcome }}
+          test-id: PyDPF-Post docstring tests on ${{ matrix.os }}
 
       - name: "Test API"
+        id: api
         shell: bash
         working-directory: pydpf-post/tests
         run: |
@@ -165,5 +173,11 @@ jobs:
         timeout-minutes: 60
         continue-on-error: true
 
+      - uses: mainmatter/continue-on-error-comment@v1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          outcome: ${{ steps.api.outcome }}
+          test-id: PyDPF-Post API tests on ${{ matrix.os }}
+          
       - name: "Kill all servers"
         uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
