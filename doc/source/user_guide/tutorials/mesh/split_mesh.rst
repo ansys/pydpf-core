@@ -15,7 +15,7 @@ Split a mesh
 .. |ScopingsContainer| replace:: :class:`ScopingsContainer <ansys.dpf.core.scopings_container.ScopingsContainer>`
 .. |PropertyField| replace:: :class:`PropertyField <ansys.dpf.core.property_field.PropertyField>`
 
-This tutorial shows how to split a mesh on a give property.
+This tutorial shows how to split a mesh on a given property.
 
 There are two approaches to accomplish this goal:
 
