@@ -118,7 +118,7 @@ For more information see the :ref:`ref_tutorials_get_mesh_from_result_file` tuto
 First approach
 --------------
 
-This approach consist of splitting an already existing |MeshedRegion| based on a given property. To accomplish
+This approach consists in splitting an already existing |MeshedRegion| based on a given property. To accomplish
 that goal, you must use the |split_mesh| operator. Currently you can split a mesh by material or eltype.
 
 The split mesh parts are stored in the DPF collection called |MeshesContainer|, where they are ordered by *labels*.
@@ -175,7 +175,7 @@ Here, we split the |MeshedRegion| by material.
 Second approach
 ---------------
 
-This approach consists of splitting the |Scoping| of a given |MeshedRegion| based on a given property and then creating
+This approach consists in splitting the |Scoping| of a given |MeshedRegion| based on a given property and then creating
 a new |MeshedRegion| for each split |Scoping|.
 
 To accomplish this goal you must follow these steps:
