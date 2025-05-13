@@ -136,7 +136,7 @@ Here, we split the |MeshedRegion| by material.
         .. jupyter-execute::
 
             # Split the mesh by material
-            meshes_11 = ops.mesh.split_mesh(mesh=meshed_region_1,property="mat").eval()
+            meshes_11 = ops.mesh.split_mesh(mesh=meshed_region_1, property="mat").eval()
 
             # Print the meshes
             print(meshes_11)
@@ -146,7 +146,7 @@ Here, we split the |MeshedRegion| by material.
         .. jupyter-execute::
 
             # Split the mesh by material
-            meshes_21 = ops.mesh.split_mesh(mesh=meshed_region_2,property="mat").eval()
+            meshes_21 = ops.mesh.split_mesh(mesh=meshed_region_2, property="mat").eval()
 
             # Print the meshes
             print(meshes_21)
@@ -156,7 +156,7 @@ Here, we split the |MeshedRegion| by material.
         .. jupyter-execute::
 
             # Split the mesh by material
-            meshes_31 = ops.mesh.split_mesh(mesh=meshed_region_3,property="mat").eval()
+            meshes_31 = ops.mesh.split_mesh(mesh=meshed_region_3, property="mat").eval()
 
             # Print the meshes
             print(meshes_31)
@@ -166,7 +166,7 @@ Here, we split the |MeshedRegion| by material.
         .. jupyter-execute::
 
             # Split the mesh by material
-            meshes_41 = ops.mesh.split_mesh(mesh=meshed_region_4,property="mat").eval()
+            meshes_41 = ops.mesh.split_mesh(mesh=meshed_region_4, property="mat").eval()
             # Print the meshes
             print(meshes_41)
 
@@ -202,7 +202,7 @@ Here, we split the mesh scoping by material and create a |MeshedRegion| for all 
             # Define the scoping split by material
             split_scoping_1 = ops.scoping.split_on_property_type(mesh=meshed_region_1, label1="mat").eval()
             # Get the split meshes
-            meshes_12 = ops.mesh.from_scopings(scopings_container=split_scoping_1,mesh=meshed_region_1).eval()
+            meshes_12 = ops.mesh.from_scopings(scopings_container=split_scoping_1, mesh=meshed_region_1).eval()
             # Print the meshes
             print(meshes_12)
 
@@ -213,7 +213,7 @@ Here, we split the mesh scoping by material and create a |MeshedRegion| for all 
             # Define the scoping split by material
             split_scoping_2 = ops.scoping.split_on_property_type(mesh=meshed_region_2, label1="mat").eval()
             # Get the split meshes
-            meshes_22 = ops.mesh.from_scopings(scopings_container=split_scoping_2,mesh=meshed_region_2).eval()
+            meshes_22 = ops.mesh.from_scopings(scopings_container=split_scoping_2, mesh=meshed_region_2).eval()
             # Print the meshes
             print(meshes_22)
 
@@ -224,7 +224,7 @@ Here, we split the mesh scoping by material and create a |MeshedRegion| for all 
             # Define the scoping split by material
             split_scoping_3 = ops.scoping.split_on_property_type(mesh=meshed_region_3, label1="mat").eval()
             # Get the split meshes
-            meshes_32 = ops.mesh.from_scopings(scopings_container=split_scoping_3,mesh=meshed_region_3).eval()
+            meshes_32 = ops.mesh.from_scopings(scopings_container=split_scoping_3, mesh=meshed_region_3).eval()
             # Print the meshes
             print(meshes_32)
 
@@ -235,6 +235,6 @@ Here, we split the mesh scoping by material and create a |MeshedRegion| for all 
             # Define the scoping split by material
             split_scoping_4 = ops.scoping.split_on_property_type(mesh=meshed_region_4, label1="mat").eval()
             # Get the split meshes
-            meshes_42 = ops.mesh.from_scopings(scopings_container=split_scoping_4,mesh=meshed_region_4).eval()
+            meshes_42 = ops.mesh.from_scopings(scopings_container=split_scoping_4, mesh=meshed_region_4).eval()
             # Print the meshes
             print(meshes_42)
