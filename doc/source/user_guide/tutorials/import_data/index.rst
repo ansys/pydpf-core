@@ -46,7 +46,7 @@ From result files
        :text-align: center
 
        This tutorial shows how to extract and explore results metadata (analysis type,
-       physics type, unit system ... ) from a result file.
+       physics type, unit system...) from a result file.
 
        +++
        :bdg-mapdl:`MAPDL` :bdg-lsdyna:`LS-DYNA` :bdg-fluent:`FLUENT` :bdg-cfx:`CFX`
