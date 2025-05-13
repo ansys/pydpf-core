@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -68,7 +68,7 @@ field.append([0.0, 0.0, 0.0], 1)
 print(field)
 
 # Instantiate an Entry (not licensed) DPF operator
-op_entry = dpf.operators.math.add_constant(field=field, ponderation=2.0, server=server)
+op_entry = dpf.operators.math.add_constant(field=field, weights=2.0, server=server)
 
 # Instantiate a Premium (licensed) DPF operator
 op_premium = dpf.operators.filter.field_high_pass(field=field, threshold=0.0, server=server)
@@ -104,7 +104,7 @@ print(out)
 # license increment is used, and for what maximum duration.
 
 # Use the LicenseContextManager to block a specific increment for a limited duration
-with dpf.LicenseContextManager(increment_name="preppost", license_timeout_in_seconds=1.0) as lic:
+with dpf.LicenseContextManager(increment_name="preppost", license_timeout_in_seconds=5.0) as lic:
     # Instantiate the licensed operator
     out = op_premium.eval()
     print(out)

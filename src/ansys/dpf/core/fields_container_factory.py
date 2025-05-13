@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -21,15 +21,12 @@
 # SOFTWARE.
 
 """
-fields_container_factory
-========================
+fields_container_factory.
 
 Contains functions to simplify creating a fields container.
 """
 
-from ansys.dpf.core import FieldsContainer, TimeFreqSupport
-from ansys.dpf.core import errors as dpf_errors
-from ansys.dpf.core import fields_factory
+from ansys.dpf.core import FieldsContainer, TimeFreqSupport, errors as dpf_errors, fields_factory
 from ansys.dpf.core.common import locations
 
 

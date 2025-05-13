@@ -116,6 +116,10 @@ class DataProcessingAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def data_processing_deserialize_many(str, strSize, size):
+		raise NotImplementedError
+
+	@staticmethod
 	def data_processing_get_global_config_as_data_tree():
 		raise NotImplementedError
 
@@ -261,5 +265,9 @@ class DataProcessingAbstractAPI:
 
 	@staticmethod
 	def data_processing_create_param_tree_on_client(client):
+		raise NotImplementedError
+
+	@staticmethod
+	def data_processing_create_from_on_client(client, base):
 		raise NotImplementedError
 

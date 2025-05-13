@@ -1,13 +1,20 @@
-import os
-import sys
-from glob import glob
 from datetime import datetime
+from glob import glob
+import os
+from pathlib import Path
+import subprocess
 
+from ansys_sphinx_theme import (
+    ansys_favicon,
+    get_version_match,
+    pyansys_logo_dark_mode,
+    pyansys_logo_light_mode,
+)
 import numpy as np
 import pyvista
+
 from ansys.dpf.core import __version__, server, server_factory
 from ansys.dpf.core.examples import get_example_required_minimum_dpf_version
-from ansys_sphinx_theme import ansys_favicon, get_version_match, pyansys_logo_light_mode, pyansys_logo_dark_mode
 
 # Manage errors
 pyvista.set_error_output_file("errors.txt")
@@ -64,6 +71,28 @@ ignored_pattern += "|11-server_types.py"
 ignored_pattern += "|06-distributed_stress_averaging.py"
 ignored_pattern += r")"
 
+# Autoapi ignore pattern
+autoapi_ignore_list = [
+    "*/log.py",
+    "*/help.py",
+    "*/mapping_types.py",
+    "*/ipconfig.py",
+    "*/field_base.py",
+    "*/cache.py",
+    "*/misc.py",
+    "*/check_version.py",
+    "*/operators/build.py",
+    "*/operators/specification.py",
+    "*/vtk_helper.py",
+    "*/label_space.py",
+    "*/examples/python_plugins/*",
+    "*/examples/examples.py",
+    "*/gate/*",
+    "*/gatebin/*",
+    "*/grpc/*",
+    "*/property_fields_container.py"
+]
+
 # -- General configuration ---------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
@@ -75,17 +104,14 @@ ignored_pattern += r")"
 # ones.
 extensions = [
     "enum_tools.autoenum",
-    "nbsphinx",
     "sphinx.ext.autosectionlabel",
-    "sphinx.ext.autodoc",
     "sphinx.ext.graphviz",
     "sphinx.ext.intersphinx",
     "sphinx.ext.napoleon",
     "sphinx.ext.todo",
-    "sphinx_autodoc_typehints",
     "sphinx_copybutton",
     "sphinx_design",
-    "sphinx_gallery.gen_gallery",
+    "sphinx_jinja",
     'sphinx_reredirects',
 ]
 
@@ -105,9 +131,8 @@ intersphinx_mapping = {
     "pyvista": ("https://docs.pyvista.org/", None),
 }
 
-autosummary_generate = True
+autosummary_generate = False
 
-autodoc_mock_imports = ["ansys.dpf.core.examples.python_plugins"]
 
 # Add any paths that contain templates here, relative to this directory.
 # templates_path = ['_templates']
@@ -142,9 +167,11 @@ from sphinx_gallery.sorting import FileNameSortKey
 
 
 def reset_servers(gallery_conf, fname, when):
-    import psutil
-    from ansys.dpf.core import server
     import gc
+
+    import psutil
+
+    from ansys.dpf.core import server
 
     gc.collect()
     server.shutdown_all_session_servers()
@@ -155,7 +182,7 @@ def reset_servers(gallery_conf, fname, when):
         try:
             # check whether the process name matches
             if proc_name in proc.name():
-                # proc.kill()
+                proc.kill()
                 nb_procs += 1
         except psutil.NoSuchProcess:
             pass
@@ -189,8 +216,6 @@ sphinx_gallery_conf = {
     "reset_modules": (reset_servers,),
 }
 
-autodoc_member_order = "bysource"
-
 
 # -- Options for HTML output -------------------------------------------------
 html_short_title = html_title = "PyDPF-Core"
@@ -201,6 +226,7 @@ html_theme_options = {
         "image_dark": pyansys_logo_dark_mode,
         "image_light": pyansys_logo_light_mode,
     },
+    "logo_link": "https://docs.pyansys.com",
     "github_url": "https://github.com/ansys/pydpf-core",
     "show_prev_next": False,
     "show_breadcrumbs": True,
@@ -213,12 +239,40 @@ html_theme_options = {
     },
     "static_search": {
         "threshold": 0.5,
-        "min_chars_for_search": 2,
+        "limit": 10,
+        "minMatchCharLength": 2,
         "ignoreLocation": True,
     },
+    "ansys_sphinx_theme_autoapi": {
+        "project": project,
+        "output": "api",
+        "directory": "src/ansys",
+        "use_implicit_namespaces": True,
+        "keep_files": True,
+        "own_page_level": "class",
+        "type": "python",
+        "options": [
+            "inherited-members",
+            "members",
+            "undoc-members",
+            "show-inheritance",
+            "show-module-summary",
+            "special-members",
+        ],
+        "class_content": "class",
+        "ignore": autoapi_ignore_list,
+        "add_toctree_entry": True,
+        "member_order": "bysource",
+    }
 }
 
-
+# Configuration for Sphinx autoapi
+suppress_warnings = [
+    "autoapi.python_import_resolution", # TODO: remove suppression of this warning in the future #1967
+    "design.grid",
+    "config.cache",
+    "design.fa-build",
+]
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -322,3 +376,33 @@ epub_title = project
 
 # A list of files that should not be packed into the epub file.
 epub_exclude_files = ["search.html"]
+
+# Common content for every RST file such us links
+rst_epilog = ""
+links_filepath = Path(__file__).parent.absolute() / "links.rst"
+rst_epilog += links_filepath.read_text(encoding="utf-8")
+
+jinja_globals = {
+    "PYDPF_CORE_VERSION": version,
+}
+
+# Get list of tox environments and add to jinja context
+envs = subprocess.run(["tox", "list", "-q"], capture_output=True, text=True).stdout.splitlines()
+envs.remove("default environments:")
+envs.remove("additional environments:")
+envs.remove("")
+
+jinja_contexts = {
+    "toxenvs" : {
+        "envs": envs,
+    }
+}
+
+# Optionally exclude api or example documentation generation.
+BUILD_API = True if os.environ.get("BUILD_API", "true") == "true" else False
+if BUILD_API:
+    extensions.extend(["ansys_sphinx_theme.extension.autoapi"])
+
+BUILD_EXAMPLES = True if os.environ.get("BUILD_EXAMPLES", "true") == "true" else False
+if BUILD_EXAMPLES:
+    extensions.extend(["sphinx_gallery.gen_gallery"])

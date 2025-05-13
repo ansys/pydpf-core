@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -101,7 +101,7 @@ print(field.data)
 min_max_op = dpf.operators.min_max.min_max(field)
 print(min_max_op.outputs.field_max().data)
 
-# Out of conveience, you can simply take the max of the field with:
+# Out of convenience, you can simply take the max of the field with:
 print(field.max().data)
 
 # The above yields a result identical to:
