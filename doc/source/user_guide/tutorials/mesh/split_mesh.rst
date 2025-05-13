@@ -119,7 +119,7 @@ First approach
 --------------
 
 This approach consists in splitting an already existing |MeshedRegion| based on a given property. To accomplish
-that goal, you must use the |split_mesh| operator. Currently you can split a mesh by material or eltype.
+that end, you must use the |split_mesh| operator. Currently you can split a mesh by material or eltype.
 
 The split mesh parts are stored in the DPF collection called |MeshesContainer|, where they are ordered by *labels*.
 When you use the |split_mesh| operator, each split mesh part has two different *labels*:
