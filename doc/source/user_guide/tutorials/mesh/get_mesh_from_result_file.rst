@@ -234,9 +234,9 @@ Get the |MeshedRegion| by instantiating the |mesh_provider| operator with the
 
 Printing the |MeshedRegion| displays the mesh dimensions:
 
-- Number of nodes and elements;
-- Unit;
-- Elements type.
+- Number of nodes and elements
+- Unit
+- Elements type
 
 .. tab-set::
 
