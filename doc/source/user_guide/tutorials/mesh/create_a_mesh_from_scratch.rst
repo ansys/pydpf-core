@@ -6,7 +6,7 @@ Create a mesh from scratch
 
 .. include:: ../../../links_and_refs.rst
 
-This tutorial demonstrates how to build a |MeshedRegion| from the scratch.
+This tutorial demonstrates how to build a |MeshedRegion| from scratch.
 
 The mesh object in DPF is a |MeshedRegion|. You can create your own |MeshedRegion| object and use it
 with DPF operators. The ability to use scripting to create any DPF entity means
