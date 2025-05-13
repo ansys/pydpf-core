@@ -124,8 +124,8 @@ that goal, you must use the |split_mesh| operator. Currently you can split a mes
 The split mesh parts are stored in the DPF collection called |MeshesContainer|, where they are ordered by *labels*.
 When you use the |split_mesh| operator, each split mesh part has two different *labels*:
 
-- A "body" *label*;
-- A *label* with the property used to split the mesh.
+- A "body" *label*
+- A *label* with the property used to split the mesh
 
 Here, we split the |MeshedRegion| by material.
 
