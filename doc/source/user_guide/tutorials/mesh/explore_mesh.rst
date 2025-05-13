@@ -114,7 +114,7 @@ The mesh data includes :
 - Nodes, elements and faces
 - Named selections
 
-When instantiating nodes, elements, faces and named selections you get the corresponding DPF objects:
+The :method:`MeshedRegion.nodes <ansys.dpf.core.meshed_region.MeshedRegion.nodes>`, :method:`MeshedRegion.elements <ansys.dpf.core.meshed_region.MeshedRegion.elements>`, :method:`MeshedRegion.faces <ansys.dpf.core.meshed_region.MeshedRegion.faces>` and :method:`MeshedRegion.named_selections <ansys.dpf.core.meshed_region.MeshedRegion.named_selections>` properties give corresponding DPF objects:
 |Nodes|, |Elements|, |Faces| and |Scoping|.
 
 For more information of other types of data you can get from a mesh, see the API reference of the |MeshedRegion| class.
