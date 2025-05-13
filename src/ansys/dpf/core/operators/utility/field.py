@@ -48,7 +48,9 @@ class field(Operator):
     """
 
     def __init__(self, input=None, config=None, server=None):
-        super().__init__(name="incremental::merge::field", config=config, server=server)
+        super().__init__(
+            name="incremental::merge::fieldmerge::field", config=config, server=server
+        )
         self._inputs = InputsField(self)
         self._outputs = OutputsField(self)
         if input is not None:
@@ -97,7 +99,9 @@ class field(Operator):
         config:
             A new Config instance equivalent to the default config for this operator.
         """
-        return Operator.default_config(name="incremental::merge::field", server=server)
+        return Operator.default_config(
+            name="incremental::merge::fieldmerge::field", server=server
+        )
 
     @property
     def inputs(self) -> InputsField:
