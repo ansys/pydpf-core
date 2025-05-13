@@ -354,6 +354,6 @@ plt.show()
 #   direction (t) and rs stress perpendicular to the tr direction (s).
 #
 #
-# Unfortunately there are no operators for LS-DYNA files that directly  allows you to:
+# Unfortunately there are no operators for LS-DYNA files that directly allows you to:
 # - Rotate results from local coordinate system to global coordinate system;
 # - Extract the rotation matrix between the local and global coordinate systems;
