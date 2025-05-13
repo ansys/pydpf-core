@@ -29,7 +29,7 @@ The OperatorSpecification Provides a documentation for each Operator
 from __future__ import annotations
 
 import abc
-from typing import Union
+from typing import Union, Tuple
 
 from ansys.dpf.core import common, mapping_types, server as server_module
 from ansys.dpf.core.check_version import server_meet_version, version_requires
@@ -37,8 +37,9 @@ from ansys.dpf.gate import (
     integral_types,
     operator_specification_capi,
     operator_specification_grpcapi,
+    semantic_version_capi
 )
-
+import ctypes
 
 class PinSpecification:
     """Documents an input or output pin of an Operator.
@@ -496,6 +497,23 @@ class Specification(SpecificationBase):
                     document=option_doc,
                 )
         return self._config_specification
+    
+    @property
+    def version(self) -> str:
+        semver_obj = lambda: None
+        semver_obj._internal_obj = self._api.operator_specification_get_version(self)
+
+        semver_api = self._server.get_api_for_type(
+            capi=semantic_version_capi.SemanticVersionCAPI, grpcapi=None
+        )
+        
+        major = ctypes.c_uint16(0)
+        minor = ctypes.c_uint16(0)
+        patch = ctypes.c_uint16(0)
+        semver_api.semantic_vesion_get_components(semver_obj, ctypes.byref(major), ctypes.byref(minor), ctypes.byref(patch))
+
+        return f"{major}.{minor}.{patch}"
+
 
 
 class CustomConfigOptionSpec(ConfigOptionSpec):
@@ -866,3 +884,31 @@ class CustomSpecification(Specification):
         for key, value in val.items():
             if value is not None:
                 self._api.operator_specification_set_property(self, key, value)
+
+    @property
+    def version(self) -> str:
+        return super().version
+    
+    @version.setter
+    def version(self, ver_obj: Union[Tuple[int], Tuple[int, int], Tuple[int, int, int]]):
+        major = 0
+        minor = 0
+        patch = 0
+        if isinstance(ver_obj, tuple):
+            if len(ver_obj) > 0 :
+                major = ver_obj[0]
+            if len(ver_obj) > 1:
+                minor = ver_obj[1]
+            if len(ver_obj) > 2:
+                patch = ver_obj[2]
+        
+        semver_api: semantic_version_capi.semantic_version_abstract_api.SemanticVersionAbstractAPI = self._server.get_api_for_type(
+            capi=semantic_version_capi.SemanticVersionCAPI,
+            grpcapi=None
+        )
+
+        # proxy obj
+        semver_obj = lambda: None
+        semver_obj._internal_obj = semver_api.semantic_version_new(major, minor, patch)
+        
+        self._api.operator_specification_set_version(self, semver_obj)
