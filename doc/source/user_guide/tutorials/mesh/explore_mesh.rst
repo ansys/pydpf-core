@@ -243,7 +243,7 @@ corresponding element name.
         .. jupyter-execute::
 
             # Get the element types on the mesh
-            el_types_1 = meshed_region_1.property_field(property_name="eltype")
+            el_types_1 = meshed_region_1.elements.element_types_field
 
             # Print the element types by element
             print(el_types_1)
