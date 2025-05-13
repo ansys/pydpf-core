@@ -110,9 +110,9 @@ Explore the mesh data
 You can access the mesh data by manipulating the |MeshedRegion| object methods.
 The mesh data includes :
 
-- Unit;
-- Nodes, elements and faces;
-- Named selections: .
+- Unit
+- Nodes, elements and faces
+- Named selections
 
 When instantiating nodes, elements, faces and named selections you get the corresponding DPF objects:
 |Nodes|, |Elements|, |Faces| and |Scoping|.
