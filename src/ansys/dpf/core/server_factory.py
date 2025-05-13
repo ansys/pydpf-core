@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -21,27 +21,26 @@
 # SOFTWARE.
 
 """
-Server factory, server configuration and communication protocols
-
+Server factory, server configuration and communication protocols.
 
 Contains the server factory as well as the communication
 protocols and server configurations available.
 """
 
+import io
 import logging
 import os
 import subprocess
 import time
-import io
 
 from ansys.dpf.gate.load_api import (
-    _get_path_in_install,
     _find_outdated_ansys_version,
+    _get_path_in_install,
 )
 
 
 class CommunicationProtocols:
-    """Defines available communication protocols
+    """Defines available communication protocols.
 
     Attributes
     ----------
@@ -61,7 +60,9 @@ DEFAULT_LEGACY = False
 
 
 class DockerConfig:
-    """Intermediate class encapsulating all the configuration options needed to run a docker
+    """Manage DPF Docker configuration and communication.
+
+    Intermediate class encapsulating all the configuration options needed to run a docker
     image of DPF and holding tools to communicate with Docker.
 
     Parameters
@@ -124,6 +125,7 @@ class DockerConfig:
     @property
     def mounted_volumes(self) -> dict:
         """Dictionary of key = local path and value = path of mounted volumes in the Docker Image.
+
         To prevent from uploading result files on the Docker Image
         :func:`ansys.dpc.core.server_factory.RunningDockerConfig.replace_with_mounted_volumes`
         iterates through this dictionary to replace local path instances by their mapped value.
@@ -140,6 +142,14 @@ class DockerConfig:
 
     @property
     def licensing_args(self) -> str:
+        """Generate licensing-related environment variables for the Docker container.
+
+        Returns
+        -------
+        str
+            String containing Docker environment variable settings for licensing,
+            including acceptance of license agreements and licensing file path.
+        """
         la = os.environ.get("ANSYS_DPF_ACCEPT_LA", "N")
         lf = os.environ.get("ANSYSLMD_LICENSE_FILE", None)
         additional_option = " -e ANSYS_DPF_ACCEPT_LA=" + la + " "
@@ -160,7 +170,9 @@ class DockerConfig:
         return self._extra_args
 
     def docker_run_cmd_command(self, docker_server_port: int, local_port: int) -> str:
-        """Creates the docker run command with the ``DockerConfig`` attributes as well
+        """Build the Docker run command using DockerConfig attributes and specified ports.
+
+        Creates the docker run command with the ``DockerConfig`` attributes as well
         as the ``docker_server_port`` and ``local_port`` passed in as parameters.
 
         Parameters
@@ -191,6 +203,16 @@ class DockerConfig:
         )
 
     def __str__(self):
+        """Return a string representation of the DockerConfig object.
+
+        Includes information about whether Docker is used, the Docker image name,
+        mounted volumes, and any extra arguments.
+
+        Returns
+        -------
+        str
+            Formatted string representation of the DockerConfig instance.
+        """
         return (
             "DockerConfig with: \n"
             f"\t- use_docker: {self.use_docker}\n"
@@ -201,8 +223,7 @@ class DockerConfig:
 
     @staticmethod
     def find_port_available_for_docker_bind(port: int) -> int:
-        """Checks for available internal ``docker_server_port`` by looking at the stdout of
-        all running Docker Containers.
+        """Check available internal docker_server_port from the stdout of running Docker containers.
 
         Parameters
         ----------
@@ -234,6 +255,7 @@ class DockerConfig:
 
 class ServerConfig:
     """Provides an instance of ServerConfig object to manage the server type used.
+
     The default parameters can be overwritten using the DPF_SERVER_TYPE environment
     variable. DPF_SERVER_TYPE=INPROCESS, DPF_SERVER_TYPE=GRPC,
     DPF_SERVER_TYPE=LEGACYGRPC can be used.
@@ -283,24 +305,64 @@ class ServerConfig:
             self.protocol = protocol
 
     def __str__(self):
+        """Return a string representation of the ServerConfig instance.
+
+        This method provides a human-readable string summarizing the server configuration,
+        including the protocol and whether it's using legacy gRPC.
+
+        Returns
+        -------
+        str
+            String representation of the ServerConfig instance.
+        """
         text = f"Server configuration: protocol={self.protocol}"
         if self.legacy:
             text += f" (legacy gRPC)"
         return text
 
     def __eq__(self, other: "ServerConfig"):
+        """Check if two ServerConfig instances are equal.
+
+        Compares the current ServerConfig instance with another one to check if they have
+        the same protocol and legacy status.
+
+        Parameters
+        ----------
+        other : ServerConfig
+            The other ServerConfig instance to compare with.
+
+        Returns
+        -------
+        bool
+            True if the instances have the same protocol and legacy status, False otherwise.
+        """
         if isinstance(other, ServerConfig):
             return self.legacy == other.legacy and self.protocol == other.protocol
         return False
 
     def __ne__(self, other):
+        """Check if two ServerConfig instances are not equal.
+
+        Compares the current ServerConfig instance with another one to check if they have
+        different protocol or legacy status.
+
+        Parameters
+        ----------
+        other : ServerConfig
+            The other ServerConfig instance to compare with.
+
+        Returns
+        -------
+        bool
+            True if the instances have different protocol or legacy status, False otherwise.
+        """
         return not self.__eq__(other)
 
 
 def get_default_server_config(
     server_lower_than_or_equal_to_0_3: bool = False, docker_config: DockerConfig = None
 ):
-    """Returns the default configuration depending on the server version.
+    """Return the default configuration depending on the server version.
 
         - if ansys.dpf.core.SERVER_CONFIGURATION is not None, then this variable is taken
         - if server_lower_than_or_equal_to_0_3 is True, then LegacyGrpcServer is taken
@@ -348,7 +410,8 @@ def get_default_server_config(
 
 
 def get_default_remote_server_config():
-    """Returns the default configuration for gRPC communication.
+    """Return the default configuration for gRPC communication.
+
     Follows get_default_server_config
 
     Raises
@@ -362,7 +425,7 @@ def get_default_remote_server_config():
 
 
 class AvailableServerConfigs:
-    """Defines available server configurations
+    """Define available server configurations.
 
     Attributes
     ----------
@@ -393,8 +456,7 @@ class AvailableServerConfigs:
 
 
 class RunningDockerConfig:
-    """Holds all the configuration options and the process information of a running Docker image
-    of a DPF server.
+    """Holds all the configuration options and the process information of a running Docker image of a DPF server.
 
     Parameters
     ----------
@@ -471,6 +533,7 @@ class RunningDockerConfig:
     @property
     def mounted_volumes(self) -> dict:
         """Dictionary of local path to docker path of volumes mounted in the Docker Image.
+
         These paths are checked for when result files are looked for by the server to prevent from
         uploading them.
 
@@ -482,7 +545,7 @@ class RunningDockerConfig:
 
     @property
     def extra_args(self) -> str:
-        """Extra arguments used in the ``docker run`` command
+        """Extra arguments used in the ``docker run`` command.
 
         Returns
         -------
@@ -491,8 +554,7 @@ class RunningDockerConfig:
         return self._docker_config.extra_args
 
     def replace_with_mounted_volumes(self, path: str) -> str:
-        """Replace local path found in the list of mounted
-        volumes by their mounted path in the docker.
+        """Replace local path found in the list of mounted volumes by their mounted path in the docker.
 
         Parameters
         ----------
@@ -511,7 +573,7 @@ class RunningDockerConfig:
         return path
 
     def remove_docker_image(self) -> None:
-        """Stops and Removes the Docker image with its id==server_id"""
+        """Stop and Removes the Docker image with its id==server_id."""
         if not self.use_docker or not self.server_id:
             return
         stop_cmd = f"docker stop {self.server_id}"
@@ -586,13 +648,41 @@ class RunningDockerConfig:
                 docker_process.kill()
 
     def docker_run_cmd_command(self, docker_server_port: int, local_port: int) -> str:
+        """Return a docker run command using DockerConfig attributes and specified ports.
+
+        Creates the docker run command with the ``DockerConfig`` attributes as well
+        as the ``docker_server_port`` and ``local_port`` passed in as parameters.
+
+        Parameters
+        ----------
+        docker_server_port : int
+            Port used inside the Docker Container to run the gRPC server.
+        local_port : int
+            Port exposed outside the Docker container bounded to the internal
+            ``docker_server_port``.
+
+        Returns
+        -------
+        str
+        """
         return self._docker_config.docker_run_cmd_command(docker_server_port, local_port)
 
     def __str__(self):
+        """Return a string representation of the RunningDockerConfig instance.
+
+        This method provides a human-readable string summarizing the docker configuration, and
+        the server id.
+
+        Returns
+        -------
+        str
+            String representation of the RunningDockerConfig instance.
+        """
         return str(self._docker_config) + f"\t- server_id: {self.server_id}\n"
 
 
 def create_default_docker_config() -> DockerConfig:
+    """Return a docker configuration instance."""
     return DockerConfig(
         use_docker="DPF_DOCKER" in os.environ.keys(),
         docker_name=os.environ.get("DPF_DOCKER", ""),
@@ -608,10 +698,11 @@ class ServerFactory:
         ansys_path: str = None,
         docker_config: DockerConfig = None,
     ):
+        """Return server type determined from the server configuration."""
         from ansys.dpf.core.server_types import (
-            LegacyGrpcServer,
             GrpcServer,
             InProcessServer,
+            LegacyGrpcServer,
         )
 
         # dpf.core.SERVER_CONFIGURATION is required to know what type of connection to set
@@ -633,6 +724,7 @@ class ServerFactory:
 
     @staticmethod
     def get_remote_server_type_from_config(config: ServerConfig = None):
+        """Return remote server type determined from the server configuration."""
         if config is None:
             config = get_default_remote_server_config()
         return ServerFactory.get_server_type_from_config(config)

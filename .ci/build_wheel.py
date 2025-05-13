@@ -2,19 +2,22 @@
 # Input can be one of ["any", "win", "manylinux1", "manylinux_2_17"]
 
 import argparse
-import subprocess
-from pathlib import Path
 import os
-import sys
+from pathlib import Path
 import shutil
+import subprocess
+import sys
 import tempfile
-
 
 supported_platforms = {
     "any": "any",
     "win": "win_amd64",
     "manylinux1": "manylinux1_x86_64",
     "manylinux_2_17": "manylinux_2_17_x86_64",
+    # Accommodate tox.ini automatic platform substitutions
+    "linux": "manylinux_2_17_x86_64",
+    "win32": "win_amd64",
+    "darwin": "any",
 }
 
 argParser = argparse.ArgumentParser()
@@ -42,7 +45,7 @@ with tempfile.TemporaryDirectory() as tmpdirname:
     # Create the temporary build-opts.cfg
     build_opts_path = Path(tmpdirname) / "build-opts.cfg"
 
-    build_opts_path.write_text(f"[bdist_wheel]\nplat-name={requested_platform}", encoding="utf-8")
+    build_opts_path.write_text(f"[bdist_wheel]\nplat_name={requested_platform}", encoding="utf-8")
     os.environ["DIST_EXTRA_CONFIG"] = str(build_opts_path)
 
     # Move the binaries

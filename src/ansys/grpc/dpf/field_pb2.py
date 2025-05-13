@@ -17,9 +17,10 @@ import ansys.grpc.dpf.scoping_pb2 as scoping__pb2
 import ansys.grpc.dpf.field_definition_pb2 as field__definition__pb2
 import ansys.grpc.dpf.support_pb2 as support__pb2
 import ansys.grpc.dpf.data_tree_pb2 as data__tree__pb2
+import ansys.grpc.dpf.collection_message_pb2 as collection__message__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0b\x66ield.proto\x12\x16\x61nsys.api.dpf.field.v0\x1a\nbase.proto\x1a\rscoping.proto\x1a\x16\x66ield_definition.proto\x1a\rsupport.proto\x1a\x0f\x64\x61ta_tree.proto\"P\n\x14\x43ustomTypeDefinition\x12\x18\n\x10unitary_datatype\x18\x01 \x01(\t\x12\x1e\n\x16num_bytes_unitary_data\x18\x02 \x01(\x05\"\x95\x01\n\x05\x46ield\x12\x33\n\x02id\x18\x01 \x01(\x0b\x32\'.ansys.api.dpf.base.v0.EntityIdentifier\x12\x10\n\x08\x64\x61tatype\x18\x02 \x01(\t\x12\x45\n\x0f\x63ustom_type_def\x18\x03 \x01(\x0b\x32,.ansys.api.dpf.field.v0.CustomTypeDefinition\"\xc5\x02\n\x0c\x46ieldRequest\x12-\n\x06nature\x18\x01 \x01(\x0e\x32\x1d.ansys.api.dpf.base.v0.Nature\x12\x31\n\x08location\x18\x02 \x01(\x0b\x32\x1f.ansys.api.dpf.base.v0.Location\x12/\n\x04size\x18\x03 \x01(\x0b\x32!.ansys.api.dpf.field.v0.FieldSize\x12\x10\n\x08\x64\x61tatype\x18\x04 \x01(\t\x12I\n\x0e\x64imensionality\x18\x05 \x01(\x0b\x32\x31.ansys.api.dpf.field_definition.v0.Dimensionality\x12\x45\n\x0f\x63ustom_type_def\x18\x06 \x01(\x0b\x32,.ansys.api.dpf.field.v0.CustomTypeDefinition\"\x8d\x01\n\x0e\x41\x64\x64\x44\x61taRequest\x12,\n\x05\x66ield\x18\x01 \x01(\x0b\x32\x1d.ansys.api.dpf.field.v0.Field\x12M\n\x13\x65lemdata_containers\x18\x02 \x01(\x0b\x32\x30.ansys.api.dpf.field.v0.ElementaryDataContainers\"x\n\x14UpdateScopingRequest\x12,\n\x05\x66ield\x18\x01 \x01(\x0b\x32\x1d.ansys.api.dpf.field.v0.Field\x12\x32\n\x07scoping\x18\x02 \x01(\x0b\x32!.ansys.api.dpf.scoping.v0.Scoping\"\x93\x01\n\x1cUpdateFieldDefinitionRequest\x12,\n\x05\x66ield\x18\x01 \x01(\x0b\x32\x1d.ansys.api.dpf.field.v0.Field\x12\x45\n\tfield_def\x18\x02 \x01(\x0b\x32\x32.ansys.api.dpf.field_definition.v0.FieldDefinition\"\x9a\x01\n\x1bUpdateElementaryDataRequest\x12,\n\x05\x66ield\x18\x01 \x01(\x0b\x32\x1d.ansys.api.dpf.field.v0.Field\x12M\n\x13\x65lemdata_containers\x18\x02 \x01(\x0b\x32\x30.ansys.api.dpf.field.v0.ElementaryDataContainers\"\x83\x01\n\x11UpdateSizeRequest\x12,\n\x05\x66ield\x18\x01 \x01(\x0b\x32\x1d.ansys.api.dpf.field.v0.Field\x12/\n\x04size\x18\x02 \x01(\x0b\x32!.ansys.api.dpf.field.v0.FieldSize\x12\x0f\n\x07reserve\x18\x03 \x01(\x08\"Z\n\x1cUpdateDataPointerSizeRequest\x12,\n\x05\x66ield\x18\x01 \x01(\x0b\x32\x1d.ansys.api.dpf.field.v0.Field\x12\x0c\n\x04size\x18\x02 \x01(\x05\"4\n\tFieldSize\x12\x14\n\x0cscoping_size\x18\x01 \x01(\x05\x12\x11\n\tdata_size\x18\x02 \x01(\x05\"\xae\x02\n\x04\x44\x61ta\x12\x39\n\ndatadouble\x18\x02 \x01(\x0b\x32#.ansys.api.dpf.base.v0.DoubleVectorH\x00\x12\x33\n\x07\x64\x61taint\x18\x03 \x01(\x0b\x32 .ansys.api.dpf.base.v0.IntVectorH\x00\x12\x37\n\tdatafloat\x18\x04 \x01(\x0b\x32\".ansys.api.dpf.base.v0.FloatVectorH\x00\x12\x39\n\ndatastring\x18\x01 \x01(\x0b\x32#.ansys.api.dpf.base.v0.StringVectorH\x00\x12\x35\n\x08\x64\x61tabyte\x18\x05 \x01(\x0b\x32!.ansys.api.dpf.base.v0.ByteVectorH\x00\x42\x0b\n\tdatatypes\"q\n\x18\x45lementaryDataContainers\x12\x12\n\nscoping_id\x18\x01 \x01(\x05\x12*\n\x04\x64\x61ta\x18\x02 \x01(\x0b\x32\x1c.ansys.api.dpf.field.v0.Data\x12\x15\n\rscoping_index\x18\x03 \x01(\x05\";\n\x0bListRequest\x12,\n\x05\x66ield\x18\x01 \x01(\x0b\x32\x1d.ansys.api.dpf.field.v0.Field\":\n\nGetRequest\x12,\n\x05\x66ield\x18\x01 \x01(\x0b\x32\x1d.ansys.api.dpf.field.v0.Field\"s\n\x18GetElementaryDataRequest\x12,\n\x05\x66ield\x18\x01 \x01(\x0b\x32\x1d.ansys.api.dpf.field.v0.Field\x12\x0f\n\x05index\x18\x02 \x01(\x05H\x00\x12\x0c\n\x02id\x18\x03 \x01(\x05H\x00\x42\n\n\x08index_id\"\x1d\n\x0cListResponse\x12\r\n\x05\x61rray\x18\x01 \x01(\x0c\"j\n\x19GetElementaryDataResponse\x12M\n\x13\x65lemdata_containers\x18\x01 \x01(\x0b\x32\x30.ansys.api.dpf.field.v0.ElementaryDataContainers\"H\n\x12GetScopingResponse\x12\x32\n\x07scoping\x18\x01 \x01(\x0b\x32!.ansys.api.dpf.scoping.v0.Scoping\"x\n\x1aGetFieldDefinitionResponse\x12L\n\x10\x66ield_definition\x18\x01 \x01(\x0b\x32\x32.ansys.api.dpf.field_definition.v0.FieldDefinition\x12\x0c\n\x04name\x18\x02 \x01(\t\"p\n\x0c\x43ountRequest\x12,\n\x05\x66ield\x18\x01 \x01(\x0b\x32\x1d.ansys.api.dpf.field.v0.Field\x12\x32\n\x06\x65ntity\x18\x02 \x01(\x0e\x32\".ansys.api.dpf.base.v0.CountEntity\"i\n\x0eSupportRequest\x12,\n\x05\x66ield\x18\x01 \x01(\x0b\x32\x1d.ansys.api.dpf.field.v0.Field\x12)\n\x04type\x18\x02 \x01(\x0e\x32\x1b.ansys.api.dpf.base.v0.Type\"A\n\x11PropertiesRequest\x12,\n\x05\x66ield\x18\x01 \x01(\x0b\x32\x1d.ansys.api.dpf.field.v0.Field\"M\n\x12PropertiesResponse\x12\x37\n\tdata_tree\x18\x01 \x01(\x0b\x32$.ansys.api.dpf.data_tree.v0.DataTree\"u\n\x11SetSupportRequest\x12,\n\x05\x66ield\x18\x01 \x01(\x0b\x32\x1d.ansys.api.dpf.field.v0.Field\x12\x32\n\x07support\x18\x02 \x01(\x0b\x32!.ansys.api.dpf.support.v0.Support\"P\n\x11UpdateDataRequest\x12,\n\x05\x66ield\x18\x01 \x01(\x0b\x32\x1d.ansys.api.dpf.field.v0.Field\x12\r\n\x05\x61rray\x18\x02 \x01(\x0c\x32\x8f\x0e\n\x0c\x46ieldService\x12M\n\x06\x43reate\x12$.ansys.api.dpf.field.v0.FieldRequest\x1a\x1d.ansys.api.dpf.field.v0.Field\x12O\n\x07\x41\x64\x64\x44\x61ta\x12&.ansys.api.dpf.field.v0.AddDataRequest\x1a\x1c.ansys.api.dpf.base.v0.Empty\x12W\n\nUpdateData\x12).ansys.api.dpf.field.v0.UpdateDataRequest\x1a\x1c.ansys.api.dpf.base.v0.Empty(\x01\x12^\n\x11UpdateDataPointer\x12).ansys.api.dpf.field.v0.UpdateDataRequest\x1a\x1c.ansys.api.dpf.base.v0.Empty(\x01\x12[\n\rUpdateScoping\x12,.ansys.api.dpf.field.v0.UpdateScopingRequest\x1a\x1c.ansys.api.dpf.base.v0.Empty\x12U\n\nUpdateSize\x12).ansys.api.dpf.field.v0.UpdateSizeRequest\x1a\x1c.ansys.api.dpf.base.v0.Empty\x12k\n\x15UpdateDataPointerSize\x12\x34.ansys.api.dpf.field.v0.UpdateDataPointerSizeRequest\x1a\x1c.ansys.api.dpf.base.v0.Empty\x12k\n\x15UpdateFieldDefinition\x12\x34.ansys.api.dpf.field.v0.UpdateFieldDefinitionRequest\x1a\x1c.ansys.api.dpf.base.v0.Empty\x12i\n\x14UpdateElementaryData\x12\x33.ansys.api.dpf.field.v0.UpdateElementaryDataRequest\x1a\x1c.ansys.api.dpf.base.v0.Empty\x12S\n\x04List\x12#.ansys.api.dpf.field.v0.ListRequest\x1a$.ansys.api.dpf.field.v0.ListResponse0\x01\x12^\n\x0fListDataPointer\x12#.ansys.api.dpf.field.v0.ListRequest\x1a$.ansys.api.dpf.field.v0.ListResponse0\x01\x12\\\n\nGetScoping\x12\".ansys.api.dpf.field.v0.GetRequest\x1a*.ansys.api.dpf.field.v0.GetScopingResponse\x12W\n\nGetSupport\x12&.ansys.api.dpf.field.v0.SupportRequest\x1a!.ansys.api.dpf.support.v0.Support\x12\x66\n\rGetProperties\x12).ansys.api.dpf.field.v0.PropertiesRequest\x1a*.ansys.api.dpf.field.v0.PropertiesResponse\x12U\n\nSetSupport\x12).ansys.api.dpf.field.v0.SetSupportRequest\x1a\x1c.ansys.api.dpf.base.v0.Empty\x12l\n\x12GetFieldDefinition\x12\".ansys.api.dpf.field.v0.GetRequest\x1a\x32.ansys.api.dpf.field.v0.GetFieldDefinitionResponse\x12x\n\x11GetElementaryData\x12\x30.ansys.api.dpf.field.v0.GetElementaryDataRequest\x1a\x31.ansys.api.dpf.field.v0.GetElementaryDataResponse\x12S\n\x05\x43ount\x12$.ansys.api.dpf.field.v0.CountRequest\x1a$.ansys.api.dpf.base.v0.CountResponse\x12\x45\n\x06\x44\x65lete\x12\x1d.ansys.api.dpf.field.v0.Field\x1a\x1c.ansys.api.dpf.base.v0.EmptyB\x19\xaa\x02\x16\x41nsys.Api.Dpf.Field.V0b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0b\x66ield.proto\x12\x16\x61nsys.api.dpf.field.v0\x1a\nbase.proto\x1a\rscoping.proto\x1a\x16\x66ield_definition.proto\x1a\rsupport.proto\x1a\x0f\x64\x61ta_tree.proto\x1a\x18\x63ollection_message.proto\"P\n\x14\x43ustomTypeDefinition\x12\x18\n\x10unitary_datatype\x18\x01 \x01(\t\x12\x1e\n\x16num_bytes_unitary_data\x18\x02 \x01(\x05\"\x95\x01\n\x05\x46ield\x12\x33\n\x02id\x18\x01 \x01(\x0b\x32\'.ansys.api.dpf.base.v0.EntityIdentifier\x12\x10\n\x08\x64\x61tatype\x18\x02 \x01(\t\x12\x45\n\x0f\x63ustom_type_def\x18\x03 \x01(\x0b\x32,.ansys.api.dpf.field.v0.CustomTypeDefinition\"\xc5\x02\n\x0c\x46ieldRequest\x12-\n\x06nature\x18\x01 \x01(\x0e\x32\x1d.ansys.api.dpf.base.v0.Nature\x12\x31\n\x08location\x18\x02 \x01(\x0b\x32\x1f.ansys.api.dpf.base.v0.Location\x12/\n\x04size\x18\x03 \x01(\x0b\x32!.ansys.api.dpf.field.v0.FieldSize\x12\x10\n\x08\x64\x61tatype\x18\x04 \x01(\t\x12I\n\x0e\x64imensionality\x18\x05 \x01(\x0b\x32\x31.ansys.api.dpf.field_definition.v0.Dimensionality\x12\x45\n\x0f\x63ustom_type_def\x18\x06 \x01(\x0b\x32,.ansys.api.dpf.field.v0.CustomTypeDefinition\"\x8d\x01\n\x0e\x41\x64\x64\x44\x61taRequest\x12,\n\x05\x66ield\x18\x01 \x01(\x0b\x32\x1d.ansys.api.dpf.field.v0.Field\x12M\n\x13\x65lemdata_containers\x18\x02 \x01(\x0b\x32\x30.ansys.api.dpf.field.v0.ElementaryDataContainers\"x\n\x14UpdateScopingRequest\x12,\n\x05\x66ield\x18\x01 \x01(\x0b\x32\x1d.ansys.api.dpf.field.v0.Field\x12\x32\n\x07scoping\x18\x02 \x01(\x0b\x32!.ansys.api.dpf.scoping.v0.Scoping\"\x93\x01\n\x1cUpdateFieldDefinitionRequest\x12,\n\x05\x66ield\x18\x01 \x01(\x0b\x32\x1d.ansys.api.dpf.field.v0.Field\x12\x45\n\tfield_def\x18\x02 \x01(\x0b\x32\x32.ansys.api.dpf.field_definition.v0.FieldDefinition\"\x9a\x01\n\x1bUpdateElementaryDataRequest\x12,\n\x05\x66ield\x18\x01 \x01(\x0b\x32\x1d.ansys.api.dpf.field.v0.Field\x12M\n\x13\x65lemdata_containers\x18\x02 \x01(\x0b\x32\x30.ansys.api.dpf.field.v0.ElementaryDataContainers\"\x83\x01\n\x11UpdateSizeRequest\x12,\n\x05\x66ield\x18\x01 \x01(\x0b\x32\x1d.ansys.api.dpf.field.v0.Field\x12/\n\x04size\x18\x02 \x01(\x0b\x32!.ansys.api.dpf.field.v0.FieldSize\x12\x0f\n\x07reserve\x18\x03 \x01(\x08\"Z\n\x1cUpdateDataPointerSizeRequest\x12,\n\x05\x66ield\x18\x01 \x01(\x0b\x32\x1d.ansys.api.dpf.field.v0.Field\x12\x0c\n\x04size\x18\x02 \x01(\x05\"4\n\tFieldSize\x12\x14\n\x0cscoping_size\x18\x01 \x01(\x05\x12\x11\n\tdata_size\x18\x02 \x01(\x05\"\xae\x02\n\x04\x44\x61ta\x12\x39\n\ndatadouble\x18\x02 \x01(\x0b\x32#.ansys.api.dpf.base.v0.DoubleVectorH\x00\x12\x33\n\x07\x64\x61taint\x18\x03 \x01(\x0b\x32 .ansys.api.dpf.base.v0.IntVectorH\x00\x12\x37\n\tdatafloat\x18\x04 \x01(\x0b\x32\".ansys.api.dpf.base.v0.FloatVectorH\x00\x12\x39\n\ndatastring\x18\x01 \x01(\x0b\x32#.ansys.api.dpf.base.v0.StringVectorH\x00\x12\x35\n\x08\x64\x61tabyte\x18\x05 \x01(\x0b\x32!.ansys.api.dpf.base.v0.ByteVectorH\x00\x42\x0b\n\tdatatypes\"q\n\x18\x45lementaryDataContainers\x12\x12\n\nscoping_id\x18\x01 \x01(\x05\x12*\n\x04\x64\x61ta\x18\x02 \x01(\x0b\x32\x1c.ansys.api.dpf.field.v0.Data\x12\x15\n\rscoping_index\x18\x03 \x01(\x05\";\n\x0bListRequest\x12,\n\x05\x66ield\x18\x01 \x01(\x0b\x32\x1d.ansys.api.dpf.field.v0.Field\":\n\nGetRequest\x12,\n\x05\x66ield\x18\x01 \x01(\x0b\x32\x1d.ansys.api.dpf.field.v0.Field\"s\n\x18GetElementaryDataRequest\x12,\n\x05\x66ield\x18\x01 \x01(\x0b\x32\x1d.ansys.api.dpf.field.v0.Field\x12\x0f\n\x05index\x18\x02 \x01(\x05H\x00\x12\x0c\n\x02id\x18\x03 \x01(\x05H\x00\x42\n\n\x08index_id\"\x1d\n\x0cListResponse\x12\r\n\x05\x61rray\x18\x01 \x01(\x0c\"j\n\x19GetElementaryDataResponse\x12M\n\x13\x65lemdata_containers\x18\x01 \x01(\x0b\x32\x30.ansys.api.dpf.field.v0.ElementaryDataContainers\"H\n\x12GetScopingResponse\x12\x32\n\x07scoping\x18\x01 \x01(\x0b\x32!.ansys.api.dpf.scoping.v0.Scoping\"x\n\x1aGetFieldDefinitionResponse\x12L\n\x10\x66ield_definition\x18\x01 \x01(\x0b\x32\x32.ansys.api.dpf.field_definition.v0.FieldDefinition\x12\x0c\n\x04name\x18\x02 \x01(\t\"p\n\x0c\x43ountRequest\x12,\n\x05\x66ield\x18\x01 \x01(\x0b\x32\x1d.ansys.api.dpf.field.v0.Field\x12\x32\n\x06\x65ntity\x18\x02 \x01(\x0e\x32\".ansys.api.dpf.base.v0.CountEntity\"i\n\x0eSupportRequest\x12,\n\x05\x66ield\x18\x01 \x01(\x0b\x32\x1d.ansys.api.dpf.field.v0.Field\x12)\n\x04type\x18\x02 \x01(\x0e\x32\x1b.ansys.api.dpf.base.v0.Type\"A\n\x11PropertiesRequest\x12,\n\x05\x66ield\x18\x01 \x01(\x0b\x32\x1d.ansys.api.dpf.field.v0.Field\"M\n\x12PropertiesResponse\x12\x37\n\tdata_tree\x18\x01 \x01(\x0b\x32$.ansys.api.dpf.data_tree.v0.DataTree\"u\n\x11SetSupportRequest\x12,\n\x05\x66ield\x18\x01 \x01(\x0b\x32\x1d.ansys.api.dpf.field.v0.Field\x12\x32\n\x07support\x18\x02 \x01(\x0b\x32!.ansys.api.dpf.support.v0.Support\"P\n\x11UpdateDataRequest\x12,\n\x05\x66ield\x18\x01 \x01(\x0b\x32\x1d.ansys.api.dpf.field.v0.Field\x12\r\n\x05\x61rray\x18\x02 \x01(\x0c\"\x8b\x03\n\x12SingleFieldAllData\x12\x45\n\x0f\x63ustom_type_def\x18\x01 \x01(\x0b\x32,.ansys.api.dpf.field.v0.CustomTypeDefinition\x12\x32\n\x07scoping\x18\x02 \x01(\x0b\x32!.ansys.api.dpf.scoping.v0.Scoping\x12P\n\x10\x66ield_definition\x18\x03 \x01(\x0b\x32\x36.ansys.api.dpf.field_definition.v0.FieldDefinitionData\x12\x35\n\x04\x64\x61ta\x18\x04 \x01(\x0b\x32\'.ansys.api.dpf.collection.v0.Collection\x12=\n\x0c\x64\x61ta_pointer\x18\x05 \x01(\x0b\x32\'.ansys.api.dpf.collection.v0.Collection\x12\x32\n\x07support\x18\x06 \x01(\x0b\x32!.ansys.api.dpf.support.v0.Support\"W\n\x07\x41llData\x12\x10\n\x08\x64\x61tatype\x18\x01 \x01(\t\x12:\n\x06\x66ields\x18\x02 \x03(\x0b\x32*.ansys.api.dpf.field.v0.SingleFieldAllData\"G\n\x16\x43reateWithDataResponse\x12-\n\x06\x66ields\x18\x01 \x03(\x0b\x32\x1d.ansys.api.dpf.field.v0.Field2\xc4\x0f\n\x0c\x46ieldService\x12M\n\x06\x43reate\x12$.ansys.api.dpf.field.v0.FieldRequest\x1a\x1d.ansys.api.dpf.field.v0.Field\x12\x65\n\x0e\x43reateWithData\x12\x1f.ansys.api.dpf.field.v0.AllData\x1a..ansys.api.dpf.field.v0.CreateWithDataResponse(\x01\x30\x01\x12O\n\x07\x41\x64\x64\x44\x61ta\x12&.ansys.api.dpf.field.v0.AddDataRequest\x1a\x1c.ansys.api.dpf.base.v0.Empty\x12W\n\nUpdateData\x12).ansys.api.dpf.field.v0.UpdateDataRequest\x1a\x1c.ansys.api.dpf.base.v0.Empty(\x01\x12^\n\x11UpdateDataPointer\x12).ansys.api.dpf.field.v0.UpdateDataRequest\x1a\x1c.ansys.api.dpf.base.v0.Empty(\x01\x12[\n\rUpdateScoping\x12,.ansys.api.dpf.field.v0.UpdateScopingRequest\x1a\x1c.ansys.api.dpf.base.v0.Empty\x12U\n\nUpdateSize\x12).ansys.api.dpf.field.v0.UpdateSizeRequest\x1a\x1c.ansys.api.dpf.base.v0.Empty\x12k\n\x15UpdateDataPointerSize\x12\x34.ansys.api.dpf.field.v0.UpdateDataPointerSizeRequest\x1a\x1c.ansys.api.dpf.base.v0.Empty\x12k\n\x15UpdateFieldDefinition\x12\x34.ansys.api.dpf.field.v0.UpdateFieldDefinitionRequest\x1a\x1c.ansys.api.dpf.base.v0.Empty\x12i\n\x14UpdateElementaryData\x12\x33.ansys.api.dpf.field.v0.UpdateElementaryDataRequest\x1a\x1c.ansys.api.dpf.base.v0.Empty\x12S\n\x04List\x12#.ansys.api.dpf.field.v0.ListRequest\x1a$.ansys.api.dpf.field.v0.ListResponse0\x01\x12^\n\x0fListDataPointer\x12#.ansys.api.dpf.field.v0.ListRequest\x1a$.ansys.api.dpf.field.v0.ListResponse0\x01\x12\\\n\nGetScoping\x12\".ansys.api.dpf.field.v0.GetRequest\x1a*.ansys.api.dpf.field.v0.GetScopingResponse\x12W\n\nGetSupport\x12&.ansys.api.dpf.field.v0.SupportRequest\x1a!.ansys.api.dpf.support.v0.Support\x12\x66\n\rGetProperties\x12).ansys.api.dpf.field.v0.PropertiesRequest\x1a*.ansys.api.dpf.field.v0.PropertiesResponse\x12U\n\nSetSupport\x12).ansys.api.dpf.field.v0.SetSupportRequest\x1a\x1c.ansys.api.dpf.base.v0.Empty\x12l\n\x12GetFieldDefinition\x12\".ansys.api.dpf.field.v0.GetRequest\x1a\x32.ansys.api.dpf.field.v0.GetFieldDefinitionResponse\x12x\n\x11GetElementaryData\x12\x30.ansys.api.dpf.field.v0.GetElementaryDataRequest\x1a\x31.ansys.api.dpf.field.v0.GetElementaryDataResponse\x12S\n\x05\x43ount\x12$.ansys.api.dpf.field.v0.CountRequest\x1a$.ansys.api.dpf.base.v0.CountResponse\x12L\n\nGetAllData\x12\x1d.ansys.api.dpf.field.v0.Field\x1a\x1f.ansys.api.dpf.field.v0.AllData\x12\x45\n\x06\x44\x65lete\x12\x1d.ansys.api.dpf.field.v0.Field\x1a\x1c.ansys.api.dpf.base.v0.EmptyB\x19\xaa\x02\x16\x41nsys.Api.Dpf.Field.V0b\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -27,56 +28,62 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'field_pb2', _globals)
 if _descriptor._USE_C_DESCRIPTORS == False:
   _globals['DESCRIPTOR']._options = None
   _globals['DESCRIPTOR']._serialized_options = b'\252\002\026Ansys.Api.Dpf.Field.V0'
-  _globals['_CUSTOMTYPEDEFINITION']._serialized_start=122
-  _globals['_CUSTOMTYPEDEFINITION']._serialized_end=202
-  _globals['_FIELD']._serialized_start=205
-  _globals['_FIELD']._serialized_end=354
-  _globals['_FIELDREQUEST']._serialized_start=357
-  _globals['_FIELDREQUEST']._serialized_end=682
-  _globals['_ADDDATAREQUEST']._serialized_start=685
-  _globals['_ADDDATAREQUEST']._serialized_end=826
-  _globals['_UPDATESCOPINGREQUEST']._serialized_start=828
-  _globals['_UPDATESCOPINGREQUEST']._serialized_end=948
-  _globals['_UPDATEFIELDDEFINITIONREQUEST']._serialized_start=951
-  _globals['_UPDATEFIELDDEFINITIONREQUEST']._serialized_end=1098
-  _globals['_UPDATEELEMENTARYDATAREQUEST']._serialized_start=1101
-  _globals['_UPDATEELEMENTARYDATAREQUEST']._serialized_end=1255
-  _globals['_UPDATESIZEREQUEST']._serialized_start=1258
-  _globals['_UPDATESIZEREQUEST']._serialized_end=1389
-  _globals['_UPDATEDATAPOINTERSIZEREQUEST']._serialized_start=1391
-  _globals['_UPDATEDATAPOINTERSIZEREQUEST']._serialized_end=1481
-  _globals['_FIELDSIZE']._serialized_start=1483
-  _globals['_FIELDSIZE']._serialized_end=1535
-  _globals['_DATA']._serialized_start=1538
-  _globals['_DATA']._serialized_end=1840
-  _globals['_ELEMENTARYDATACONTAINERS']._serialized_start=1842
-  _globals['_ELEMENTARYDATACONTAINERS']._serialized_end=1955
-  _globals['_LISTREQUEST']._serialized_start=1957
-  _globals['_LISTREQUEST']._serialized_end=2016
-  _globals['_GETREQUEST']._serialized_start=2018
-  _globals['_GETREQUEST']._serialized_end=2076
-  _globals['_GETELEMENTARYDATAREQUEST']._serialized_start=2078
-  _globals['_GETELEMENTARYDATAREQUEST']._serialized_end=2193
-  _globals['_LISTRESPONSE']._serialized_start=2195
-  _globals['_LISTRESPONSE']._serialized_end=2224
-  _globals['_GETELEMENTARYDATARESPONSE']._serialized_start=2226
-  _globals['_GETELEMENTARYDATARESPONSE']._serialized_end=2332
-  _globals['_GETSCOPINGRESPONSE']._serialized_start=2334
-  _globals['_GETSCOPINGRESPONSE']._serialized_end=2406
-  _globals['_GETFIELDDEFINITIONRESPONSE']._serialized_start=2408
-  _globals['_GETFIELDDEFINITIONRESPONSE']._serialized_end=2528
-  _globals['_COUNTREQUEST']._serialized_start=2530
-  _globals['_COUNTREQUEST']._serialized_end=2642
-  _globals['_SUPPORTREQUEST']._serialized_start=2644
-  _globals['_SUPPORTREQUEST']._serialized_end=2749
-  _globals['_PROPERTIESREQUEST']._serialized_start=2751
-  _globals['_PROPERTIESREQUEST']._serialized_end=2816
-  _globals['_PROPERTIESRESPONSE']._serialized_start=2818
-  _globals['_PROPERTIESRESPONSE']._serialized_end=2895
-  _globals['_SETSUPPORTREQUEST']._serialized_start=2897
-  _globals['_SETSUPPORTREQUEST']._serialized_end=3014
-  _globals['_UPDATEDATAREQUEST']._serialized_start=3016
-  _globals['_UPDATEDATAREQUEST']._serialized_end=3096
-  _globals['_FIELDSERVICE']._serialized_start=3099
-  _globals['_FIELDSERVICE']._serialized_end=4906
+  _globals['_CUSTOMTYPEDEFINITION']._serialized_start=148
+  _globals['_CUSTOMTYPEDEFINITION']._serialized_end=228
+  _globals['_FIELD']._serialized_start=231
+  _globals['_FIELD']._serialized_end=380
+  _globals['_FIELDREQUEST']._serialized_start=383
+  _globals['_FIELDREQUEST']._serialized_end=708
+  _globals['_ADDDATAREQUEST']._serialized_start=711
+  _globals['_ADDDATAREQUEST']._serialized_end=852
+  _globals['_UPDATESCOPINGREQUEST']._serialized_start=854
+  _globals['_UPDATESCOPINGREQUEST']._serialized_end=974
+  _globals['_UPDATEFIELDDEFINITIONREQUEST']._serialized_start=977
+  _globals['_UPDATEFIELDDEFINITIONREQUEST']._serialized_end=1124
+  _globals['_UPDATEELEMENTARYDATAREQUEST']._serialized_start=1127
+  _globals['_UPDATEELEMENTARYDATAREQUEST']._serialized_end=1281
+  _globals['_UPDATESIZEREQUEST']._serialized_start=1284
+  _globals['_UPDATESIZEREQUEST']._serialized_end=1415
+  _globals['_UPDATEDATAPOINTERSIZEREQUEST']._serialized_start=1417
+  _globals['_UPDATEDATAPOINTERSIZEREQUEST']._serialized_end=1507
+  _globals['_FIELDSIZE']._serialized_start=1509
+  _globals['_FIELDSIZE']._serialized_end=1561
+  _globals['_DATA']._serialized_start=1564
+  _globals['_DATA']._serialized_end=1866
+  _globals['_ELEMENTARYDATACONTAINERS']._serialized_start=1868
+  _globals['_ELEMENTARYDATACONTAINERS']._serialized_end=1981
+  _globals['_LISTREQUEST']._serialized_start=1983
+  _globals['_LISTREQUEST']._serialized_end=2042
+  _globals['_GETREQUEST']._serialized_start=2044
+  _globals['_GETREQUEST']._serialized_end=2102
+  _globals['_GETELEMENTARYDATAREQUEST']._serialized_start=2104
+  _globals['_GETELEMENTARYDATAREQUEST']._serialized_end=2219
+  _globals['_LISTRESPONSE']._serialized_start=2221
+  _globals['_LISTRESPONSE']._serialized_end=2250
+  _globals['_GETELEMENTARYDATARESPONSE']._serialized_start=2252
+  _globals['_GETELEMENTARYDATARESPONSE']._serialized_end=2358
+  _globals['_GETSCOPINGRESPONSE']._serialized_start=2360
+  _globals['_GETSCOPINGRESPONSE']._serialized_end=2432
+  _globals['_GETFIELDDEFINITIONRESPONSE']._serialized_start=2434
+  _globals['_GETFIELDDEFINITIONRESPONSE']._serialized_end=2554
+  _globals['_COUNTREQUEST']._serialized_start=2556
+  _globals['_COUNTREQUEST']._serialized_end=2668
+  _globals['_SUPPORTREQUEST']._serialized_start=2670
+  _globals['_SUPPORTREQUEST']._serialized_end=2775
+  _globals['_PROPERTIESREQUEST']._serialized_start=2777
+  _globals['_PROPERTIESREQUEST']._serialized_end=2842
+  _globals['_PROPERTIESRESPONSE']._serialized_start=2844
+  _globals['_PROPERTIESRESPONSE']._serialized_end=2921
+  _globals['_SETSUPPORTREQUEST']._serialized_start=2923
+  _globals['_SETSUPPORTREQUEST']._serialized_end=3040
+  _globals['_UPDATEDATAREQUEST']._serialized_start=3042
+  _globals['_UPDATEDATAREQUEST']._serialized_end=3122
+  _globals['_SINGLEFIELDALLDATA']._serialized_start=3125
+  _globals['_SINGLEFIELDALLDATA']._serialized_end=3520
+  _globals['_ALLDATA']._serialized_start=3522
+  _globals['_ALLDATA']._serialized_end=3609
+  _globals['_CREATEWITHDATARESPONSE']._serialized_start=3611
+  _globals['_CREATEWITHDATARESPONSE']._serialized_end=3682
+  _globals['_FIELDSERVICE']._serialized_start=3685
+  _globals['_FIELDSERVICE']._serialized_end=5673
 # @@protoc_insertion_point(module_scope)

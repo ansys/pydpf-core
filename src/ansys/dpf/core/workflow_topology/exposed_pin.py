@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -21,7 +21,7 @@
 # SOFTWARE.
 
 """
-ExposedPin
+ExposedPin.
 
 This module contains the `ExposedPin` and `ExposedPinsCollection` classes,
 which represent individual exposed pins and a collection of exposed pins in a workflow,
@@ -30,6 +30,7 @@ for the workflow.
 """
 
 from typing import Iterator, Optional
+
 from ansys.dpf.core import GenericDataContainersCollection
 from ansys.dpf.core.custom_container_base import CustomContainerBase
 from ansys.dpf.core.dpf_operator import Operator

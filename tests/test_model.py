@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -27,9 +27,9 @@ import pytest
 
 from ansys import dpf
 from ansys.dpf.core import examples, misc
+from ansys.dpf.core.check_version import server_meet_version
 from ansys.dpf.core.errors import ServerTypeError
 from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0
-from ansys.dpf.core.check_version import server_meet_version
 
 NO_PLOTTING = True
 

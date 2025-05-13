@@ -294,6 +294,15 @@ class AnyCAPI(any_abstract_api.AnyAbstractAPI):
 		return res
 
 	@staticmethod
+	def any_get_as_support(any):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Any_getAs_Support(any._internal_obj if any is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def any_make_obj_as_any(dpf_object):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()

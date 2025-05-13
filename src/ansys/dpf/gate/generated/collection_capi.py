@@ -45,6 +45,15 @@ class CollectionCAPI(collection_abstract_api.CollectionAbstractAPI):
 		return res
 
 	@staticmethod
+	def collection_of_char_new():
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Collection_OfCharNew(ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def collection_get_data_as_int(collection, size):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
@@ -61,6 +70,17 @@ class CollectionCAPI(collection_abstract_api.CollectionAbstractAPI):
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res
+
+	@staticmethod
+	def collection_get_data_as_char(collection, size):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Collection_GetDataAsChar(collection._internal_obj if collection is not None else None, ctypes.byref(utils.to_int32(size)), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		newres = ctypes.cast(res, ctypes.c_char_p).value.decode("utf-8") if res else None
+		capi.dll.DataProcessing_String_post_event(res, ctypes.byref(errorSize), ctypes.byref(sError))
+		return newres
 
 	@staticmethod
 	def collection_add_int_entry(collection, obj):
@@ -222,6 +242,51 @@ class CollectionCAPI(collection_abstract_api.CollectionAbstractAPI):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.Collection_OfAnyNew(ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def collection_of_scoping_new_with_data(data, num_ids, labels, num_labels, ids):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Collection_OfScopingNewWithData(data, utils.to_int32(num_ids), utils.to_char_ptr_ptr(labels), utils.to_int32(num_labels), utils.to_int32_ptr_ptr(ids), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def collection_of_field_new_with_data(data, num_ids, labels, num_labels, ids):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Collection_OfFieldNewWithData(data, utils.to_int32(num_ids), utils.to_char_ptr_ptr(labels), utils.to_int32(num_labels), utils.to_int32_ptr_ptr(ids), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def collection_of_mesh_new_with_data(data, num_ids, labels, num_labels, ids):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Collection_OfMeshNewWithData(data, utils.to_int32(num_ids), utils.to_char_ptr_ptr(labels), utils.to_int32(num_labels), utils.to_int32_ptr_ptr(ids), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def collection_of_custom_type_field_new_with_data(data, num_ids, labels, num_labels, ids):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Collection_OfCustomTypeFieldNewWithData(data, utils.to_int32(num_ids), utils.to_char_ptr_ptr(labels), utils.to_int32(num_labels), utils.to_int32_ptr_ptr(ids), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def collection_of_any_new_with_data(data, num_ids, labels, num_labels, ids):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Collection_OfAnyNewWithData(data, utils.to_int32(num_ids), utils.to_char_ptr_ptr(labels), utils.to_int32(num_labels), utils.to_int32_ptr_ptr(ids), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res

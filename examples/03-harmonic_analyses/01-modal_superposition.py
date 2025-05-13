@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -37,7 +37,6 @@ reduces the size of the result files.
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
-
 
 ###############################################################################
 # Create data sources

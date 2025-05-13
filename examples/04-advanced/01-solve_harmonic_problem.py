@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -36,7 +36,6 @@ import math
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import operators as ops
-
 
 ###############################################################################
 # Create 2D (x,y) matrix fields for inertia, damping, and stiffness.

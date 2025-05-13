@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -21,38 +21,39 @@
 # SOFTWARE.
 
 """
-Server types
+Server types.
 
 Contains the different kinds of
 servers available for the factory.
 """
 
 from __future__ import annotations
+
 import abc
+from abc import ABC
+import ctypes
 import io
 import os
+from pathlib import Path
 import socket
 import subprocess
 import sys
+from threading import Lock, Thread
 import time
-import warnings
 import traceback
-from threading import Thread, Lock
-from abc import ABC
-import ctypes
 from typing import TYPE_CHECKING, Union
-from pathlib import Path
+import warnings
 
 import psutil
 
 import ansys.dpf.core as core
-from ansys.dpf.core.check_version import server_meet_version
-from ansys.dpf.core import errors, server_factory, __version__
+from ansys.dpf.core import __version__, errors, server_context, server_factory
 from ansys.dpf.core._version import min_server_version, server_to_ansys_version
-from ansys.dpf.core import server_context
-from ansys.dpf.gate import load_api, data_processing_grpcapi
+from ansys.dpf.core.check_version import server_meet_version
+from ansys.dpf.core.server_context import AvailableServerContexts, ServerContext
+from ansys.dpf.gate import data_processing_grpcapi, load_api
 
-if TYPE_CHECKING:
+if TYPE_CHECKING:  # pragma: no cover
     from ansys.dpf.core.server_factory import DockerConfig
 
 import logging
@@ -67,7 +68,7 @@ MAX_PORT = 65535
 
 
 def _get_dll_path(name, ansys_path=None):
-    """Helper function to get the right dll path for Linux or Windows"""
+    """Helper-function to get the right dll path for Linux or Windows."""
     ISPOSIX = os.name == "posix"
     ANSYS_INSTALL = Path(core.misc.get_ansys_path(ansys_path))
     api_path = load_api._get_path_in_install()
@@ -114,7 +115,11 @@ def _verify_ansys_path_is_valid(ansys_path, executable, path_in_install=None):
 
 
 def _run_launch_server_process(
-    ip, port, ansys_path=None, docker_config=server_factory.RunningDockerConfig()
+    ip,
+    port,
+    ansys_path=None,
+    docker_config=server_factory.RunningDockerConfig(),
+    context: ServerContext = None,
 ):
     bShell = False
     if docker_config.use_docker:
@@ -127,6 +132,12 @@ def _run_launch_server_process(
         if os.name == "nt":
             executable = "Ans.Dpf.Grpc.bat"
             run_cmd = f"{executable} --address {ip} --port {port}"
+            if context not in (
+                None,
+                AvailableServerContexts.entry,
+                AvailableServerContexts.premium,
+            ):
+                run_cmd += f" --context {int(context.licensing_context_type)}"
         else:
             executable = "./Ans.Dpf.Grpc.sh"  # pragma: no cover
             run_cmd = [
@@ -134,6 +145,12 @@ def _run_launch_server_process(
                 f"--address {ip}",
                 f"--port {port}",
             ]  # pragma: no cover
+            if context not in (
+                None,
+                AvailableServerContexts.entry,
+                AvailableServerContexts.premium,
+            ):
+                run_cmd.append(f"--context {int(context.licensing_context_type)}")
         path_in_install = load_api._get_path_in_install(internal_folder="bin")
         dpf_run_dir = _verify_ansys_path_is_valid(ansys_path, executable, path_in_install)
 
@@ -204,7 +221,9 @@ def _wait_and_check_server_connection(
         raise RuntimeError(errstr)
 
 
-def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10):
+def launch_dpf(
+    ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10, context: ServerContext = None
+):
     """Launch Ansys DPF.
 
     Parameters
@@ -222,9 +241,10 @@ def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10):
         Maximum number of seconds for the initialization attempt.
         The default is ``10``. Once the specified number of seconds
         passes, the connection fails.
-
+    context : , optional
+        Context to apply to DPF server when launching it.
     """
-    process = _run_launch_server_process(ip, port, ansys_path)
+    process = _run_launch_server_process(ip, port, ansys_path, context=context)
     lines = []
     current_errors = []
     _wait_and_check_server_connection(
@@ -301,6 +321,7 @@ def launch_dpf_on_docker(
 
 
 def launch_remote_dpf(version=None):
+    """Launch a remote dpf server."""
     try:
         import ansys.platform.instancemanagement as pypim
     except ImportError as e:
@@ -328,6 +349,7 @@ def launch_remote_dpf(version=None):
 def _compare_ansys_grpc_dpf_version(right_grpc_module_version_str: str, grpc_module_version: str):
     if right_grpc_module_version_str:
         import re
+
         from packaging.version import parse as parse_version
 
         right_version_first_numbers = re.search(r"\d", right_grpc_module_version_str)
@@ -351,6 +373,7 @@ def _compare_ansys_grpc_dpf_version(right_grpc_module_version_str: str, grpc_mod
 
 
 def check_ansys_grpc_dpf_version(server, timeout):
+    """Check DPF grpc server version."""
     import grpc
     from packaging import version
 
@@ -375,13 +398,18 @@ def check_ansys_grpc_dpf_version(server, timeout):
 
 
 class GhostServer:
+    """Class used to keep in memory the port used by previous servers."""
+
     ip: str
     _port: int
     close_time: float
 
     def __init__(self, ip: str, port: int, close_time: float = None):
         """
-        Internal class used to keep in memory the port used by previous servers.
+        Class used to keep in memory the port used by previous servers.
+
+        To be used internally.
+
         Adds a timeout before reusing ports of shutdown servers.
         """
         self.ip = ip
@@ -398,16 +426,18 @@ class GhostServer:
         return self._port
 
     def __call__(self, *args, **kwargs):
+        """Provide for making the instance callable to simply return the instance itself."""
         return self
 
 
 class BaseServer(abc.ABC):
-    """Abstract class for servers"""
+    """Abstract class for servers."""
 
     @abc.abstractmethod
     def __init__(self):
-        """Base class for all types of servers: grpc, in process..."""
+        """Define the base class for all server types, including grpc, in-process, and others."""
         # TODO: Use _server_id to compare servers for equality?
+        # https://github.com/ansys/pydpf-core/issues/1984, todo was added in this PR
         self._server_id = None
         self._session_instance = None
         self._base_service_instance = None
@@ -430,25 +460,30 @@ class BaseServer(abc.ABC):
             core.SERVER = self
 
     def has_client(self):
+        """Check if server has a connected client."""
         return not (self.client is None)
 
     @property
     @abc.abstractmethod
     def client(self):
+        """Must be implemented by subclasses."""
         pass
 
     @property
     @abc.abstractmethod
     def version(self):
+        """Must be implemented by subclasses."""
         pass
 
     @property
     @abc.abstractmethod
     def available_api_types(self):
+        """Must be implemented by subclasses."""
         pass
 
     @abc.abstractmethod
     def get_api_for_type(self, capi, grpcapi):
+        """Must be implemented by subclasses."""
         pass
 
     @property
@@ -474,8 +509,7 @@ class BaseServer(abc.ABC):
 
     @property
     def session(self):
-        """Allows to plan events call backs from the server:
-        progress bar when workflows are running, logging...
+        """Plan event callbacks from the server, such as progress bars during workflow execution and logging.
 
         Returns
         -------
@@ -498,7 +532,7 @@ class BaseServer(abc.ABC):
     @property
     @abc.abstractmethod
     def os(self):
-        """Get the operating system of the server
+        """Get the operating system of the server.
 
         Returns
         -------
@@ -509,10 +543,12 @@ class BaseServer(abc.ABC):
 
     @property
     def on_docker(self):
+        """Whether the DPF server should be started in a Docker Container by default."""
         return self._docker_config.use_docker
 
     @property
     def docker_config(self):
+        """Return the docker config associated with the server."""
         return self._docker_config
 
     @docker_config.setter
@@ -522,14 +558,16 @@ class BaseServer(abc.ABC):
     @property
     @abc.abstractmethod
     def config(self):
+        """Must be implemented by subclasses."""
         pass
 
     @abc.abstractmethod
     def shutdown(self):
+        """Must be implemented by subclasses."""
         pass
 
     def release(self):
-        """Clears the available Operators and Releases licenses when necessary.
+        """Clear the available Operators and Releases licenses when necessary.
 
         Notes
         -----
@@ -538,7 +576,8 @@ class BaseServer(abc.ABC):
         self._base_service.release_dpf()
 
     def apply_context(self, context):
-        """Defines the settings that will be used to load DPF's plugins.
+        """Define the settings that will be used to load DPF's plugins.
+
         A DPF xml file can be used to list the plugins and set up variables.
 
         Parameters
@@ -556,6 +595,7 @@ class BaseServer(abc.ABC):
     @property
     def context(self):
         """Returns the settings used to load DPF's plugins.
+
         To update the context server side, use
         :func:`ansys.dpf.core.BaseServer.server_types.apply_context`
 
@@ -607,6 +647,7 @@ class BaseServer(abc.ABC):
     @property
     @abc.abstractmethod
     def local_server(self) -> bool:
+        """Must be implemented by subclasses."""
         pass
 
     @local_server.setter
@@ -615,17 +656,27 @@ class BaseServer(abc.ABC):
         pass
 
     def __str__(self):
+        """Return string representation of the instance."""
         return f"DPF Server: {self.info}"
 
     @abc.abstractmethod
     def __eq__(self, other_server):
+        """Must be implemented by subclasses."""
         pass
 
     def __ne__(self, other_server):
-        """Return true, if the servers are not equal"""
+        """Return true, if the servers are not equal."""
         return not self.__eq__(other_server)
 
     def __del__(self):
+        """
+        Clean up resources associated with the instance.
+
+        Raises
+        ------
+        Warning
+            If an exception occurs while attempting to delete resources.
+        """
         try:
             if hasattr(core, "SERVER") and id(core.SERVER) == id(self):
                 core.SERVER = None
@@ -649,7 +700,7 @@ class BaseServer(abc.ABC):
 
 
 class CServer(BaseServer, ABC):
-    """Abstract class for servers going through the DPFClientAPI"""
+    """Abstract class for servers going through the DPFClientAPI."""
 
     def __init__(self, ansys_path=None, load_operators=True):
         super().__init__()
@@ -659,12 +710,22 @@ class CServer(BaseServer, ABC):
 
     @property
     def available_api_types(self):
+        """Return available api type, always c_api."""
         return "c_api"
 
     def get_api_for_type(self, capi, grpcapi):
+        """Return api for type."""
         return capi
 
     def __del__(self):
+        """
+        Clean up resources associated with the instance.
+
+        Raises
+        ------
+        Warning
+            If an exception occurs while attempting to delete resources.
+        """
         try:
             self._del_session()
             if self._own_process:
@@ -675,12 +736,15 @@ class CServer(BaseServer, ABC):
 
 
 class GrpcClient:
+    """Client using the gRPC communication protocol."""
+
     def __init__(self):
         from ansys.dpf.gate import client_capi
 
         client_capi.ClientCAPI.init_client_environment(self)
 
     def set_address(self, address, server):
+        """Set client address."""
         from ansys.dpf.core import misc, settings
 
         if misc.RUNTIME_CLIENT_CONFIG is not None:
@@ -691,6 +755,17 @@ class GrpcClient:
         self._internal_obj = client_capi.ClientCAPI.client_new_full_address(address)
 
     def __del__(self):
+        """
+        Clean up resources associated with the instance.
+
+        This method calls the deleter function to release resources. If an exception
+        occurs during deletion, a warning is issued.
+
+        Raises
+        ------
+        Warning
+            If an exception occurs while attempting to delete resources.
+        """
         try:
             self._deleter_func[0](self._deleter_func[1](self))
         except:
@@ -698,7 +773,7 @@ class GrpcClient:
 
 
 class GrpcServer(CServer):
-    """Server using the gRPC communication protocol"""
+    """Server using the gRPC communication protocol."""
 
     def __init__(
         self,
@@ -711,8 +786,7 @@ class GrpcServer(CServer):
         launch_server: bool = True,
         docker_config: DockerConfig = RUNNING_DOCKER,
         use_pypim: bool = True,
-        num_connection_tryouts: int = 3,
-        context: server_context.AvailableServerContexts = server_context.SERVER_CONTEXT,
+        context: server_context.ServerContext = server_context.SERVER_CONTEXT,
     ):
         # Load DPFClientAPI
         from ansys.dpf.core.misc import is_pypim_configured
@@ -731,6 +805,7 @@ class GrpcServer(CServer):
         address = f"{ip}:{port}"
 
         self._remote_instance = None
+        start_time = time.time()
         if launch_server:
             if (
                 is_pypim_configured()
@@ -753,7 +828,7 @@ class GrpcServer(CServer):
                     timeout=timeout,
                 )
             else:
-                launch_dpf(ansys_path, ip, port, timeout=timeout)
+                launch_dpf(ansys_path, ip, port, timeout=timeout, context=context)
                 self._local_server = True
 
         # store port and ip for later reference
@@ -763,32 +838,36 @@ class GrpcServer(CServer):
         self._input_port = port
         self.live = True
         self._create_shutdown_funcs()
-        self._check_first_call(num_connection_tryouts)
+        self._check_first_call(timeout=timeout - (time.time() - start_time))  # Pass remaining time
         if context:
-            if context == core.AvailableServerContexts.no_context:
-                self._base_service.initialize()
+            try:
+                self._base_service.initialize_with_context(context)
                 self._context = context
-            else:
-                try:
-                    self._base_service.initialize_with_context(context)
-                    self._context = context
-                except errors.DpfVersionNotSupported:
-                    pass
+            except errors.DpfVersionNotSupported:
+                pass
         self.set_as_global(as_global=as_global)
 
-    def _check_first_call(self, num_connection_tryouts):
-        for i in range(num_connection_tryouts):
+    def _check_first_call(self, timeout: float):
+        start_time = time.time()
+        while time.time() - start_time < timeout:
             try:
-                self.version
+                _ = self.version
                 break
             except errors.DPFServerException as e:
-                if ("GOAWAY" not in str(e.args) and "unavailable" not in str(e.args)) or i == (
-                    num_connection_tryouts - 1
-                ):
+                if "GOAWAY" in str(e.args) or "unavailable" in str(e.args):
+                    time.sleep(0.5)
+                else:
                     raise e
 
     @property
     def version(self):
+        """Get the version of the server.
+
+        Returns
+        -------
+        version : str
+            The version of the server in 'major.minor' format.
+        """
         if not self._version:
             from ansys.dpf.gate import data_processing_capi, integral_types
 
@@ -801,6 +880,7 @@ class GrpcServer(CServer):
 
     @property
     def os(self):
+        """Get the operating system on which the server is running."""
         if not self._os:
             from ansys.dpf.gate import data_processing_capi
 
@@ -819,6 +899,7 @@ class GrpcServer(CServer):
         self._shutdown_func = (api.data_processing_release_server, self.client)
 
     def shutdown(self):
+        """Shutdown the server instance."""
         if self.live:
             _ = self.info  # initializing the info variable (giving access to ip and port): this can be required if start_local_server is called afterwards
             if self._remote_instance:
@@ -838,7 +919,7 @@ class GrpcServer(CServer):
             self.live = False
 
     def __eq__(self, other_server):
-        """Return true, if ***** are equals"""
+        """Return true, if ***** are equals."""
         if isinstance(other_server, GrpcServer):
             # """Return true, if the ip and the port are equals"""
             return self.address == other_server.address
@@ -846,6 +927,13 @@ class GrpcServer(CServer):
 
     @property
     def client(self):
+        """Get the client associated with the server.
+
+        Returns
+        -------
+        client : GrpcClient
+            The GrpcClient instance associated with the server.
+        """
         return self._client
 
     @property
@@ -881,6 +969,7 @@ class GrpcServer(CServer):
     @property
     def external_ip(self):
         """Public IP address of the server.
+
         Is the same as  :func:`ansys.dpf.core.GrpcServer.ip` in all cases except
         for servers using a gateway:
         for example, servers running in Docker Images might have an internal
@@ -897,6 +986,7 @@ class GrpcServer(CServer):
     @property
     def external_port(self):
         """Public Port of the server.
+
         Is the same as  :func:`ansys.dpf.core.GrpcServer.port` in all cases except
         for servers using a gateway:
         for example, servers running in Docker Images might have an internal
@@ -912,6 +1002,13 @@ class GrpcServer(CServer):
 
     @property
     def local_server(self):
+        """Get whether the server is running locally.
+
+        Returns
+        -------
+        local_server : bool
+            True if the server is running locally, False otherwise.
+        """
         return self._local_server
 
     @local_server.setter
@@ -920,11 +1017,18 @@ class GrpcServer(CServer):
 
     @property
     def config(self):
+        """Get the server configuration for the gRPC server.
+
+        Returns
+        -------
+        config : AvailableServerConfigs
+            The server configuration for the gRPC server from the AvailableServerConfigs.
+        """
         return server_factory.AvailableServerConfigs.GrpcServer
 
 
 class InProcessServer(CServer):
-    """Server using the InProcess communication protocol"""
+    """Server using the InProcess communication protocol."""
 
     def __init__(
         self,
@@ -951,18 +1055,14 @@ class InProcessServer(CServer):
                 )
             raise e
         if context:
-            if context == core.AvailableServerContexts.no_context:
-                self._base_service.initialize()
-                self._context = context
-            else:
-                try:
-                    self.apply_context(context)
-                except errors.DpfVersionNotSupported:
-                    self._base_service.initialize_with_context(
-                        server_context.AvailableServerContexts.premium
-                    )
-                    self._context = server_context.AvailableServerContexts.premium
-                    pass
+            try:
+                self.apply_context(context)
+            except errors.DpfVersionNotSupported:
+                self._base_service.initialize_with_context(
+                    server_context.AvailableServerContexts.premium
+                )
+                self._context = server_context.AvailableServerContexts.premium
+                pass
         self.set_as_global(as_global=as_global)
         # Update the python os.environment
         if not os.name == "posix":
@@ -973,6 +1073,13 @@ class InProcessServer(CServer):
 
     @property
     def version(self):
+        """Get the version of the InProcess server.
+
+        Returns
+        -------
+        version : str
+            The version of the InProcess server in the format "major.minor".
+        """
         from ansys.dpf.gate import data_processing_capi, integral_types
 
         api = data_processing_capi.DataProcessingCAPI
@@ -984,22 +1091,44 @@ class InProcessServer(CServer):
 
     @property
     def os(self):
+        """Get the operating system of the InProcess server.
+
+        Returns
+        -------
+        os : str
+            The operating system name. For InProcess servers,
+            it typically returns the current OS, e.g., "posix" or "nt".
+        """
         # Since it is InProcess, one could return the current os
         return os.name
 
-    def shutdown(self):
+    def shutdown(self):  # noqa: D102
         pass
 
     def __eq__(self, other_server):
-        """Return true, if the ip and the port are equals"""
+        """Return true, if the ip and the port are equals."""
         return isinstance(other_server, InProcessServer)
 
     @property
     def client(self):
+        """Get the client for the InProcess server.
+
+        Returns
+        -------
+        client : None
+            InProcess servers do not have a client, so this property returns None.
+        """
         return None
 
     @property
     def local_server(self):
+        """Get whether the InProcess server is running locally.
+
+        Returns
+        -------
+        local_server : bool
+            True, as the InProcess server is always local.
+        """
         return True
 
     @local_server.setter
@@ -1009,6 +1138,13 @@ class InProcessServer(CServer):
 
     @property
     def config(self):
+        """Get the server configuration for the InProcess server.
+
+        Returns
+        -------
+        config : AvailableServerConfigs
+            The server configuration for the InProcess server from the AvailableServerConfigs.
+        """
         return server_factory.AvailableServerConfigs.InProcessServer
 
 
@@ -1033,10 +1169,11 @@ def get_system_path() -> str:
 
 class LegacyGrpcServer(BaseServer):
     """Provides an instance of the DPF server using InProcess gRPC.
+
     Kept for backward-compatibility with dpf servers <0.5.0.
 
     Parameters
-    -----------
+    ----------
     ansys_path : str
         Path for the DPF executable.
     ip : str
@@ -1076,7 +1213,7 @@ class LegacyGrpcServer(BaseServer):
         launch_server: bool = True,
         docker_config: DockerConfig = RUNNING_DOCKER,
         use_pypim: bool = True,
-        context: server_context.AvailableServerContexts = server_context.SERVER_CONTEXT,
+        context: server_context.ServerContext = server_context.SERVER_CONTEXT,
     ):
         """Start the DPF server."""
         # Use ansys.grpc.dpf
@@ -1122,7 +1259,7 @@ class LegacyGrpcServer(BaseServer):
                         timeout=timeout,
                     )
                 else:
-                    launch_dpf(ansys_path, ip, port, timeout=timeout)
+                    launch_dpf(ansys_path, ip, port, timeout=timeout, context=context)
                     self._local_server = True
         from ansys.dpf.core import misc, settings
 
@@ -1142,14 +1279,11 @@ class LegacyGrpcServer(BaseServer):
 
         check_ansys_grpc_dpf_version(self, timeout)
         if context:
-            if context == core.AvailableServerContexts.no_context:
+            try:
+                self._base_service.initialize_with_context(context)
                 self._context = context
-            else:
-                try:
-                    self._base_service.initialize_with_context(context)
-                    self._context = context
-                except errors.DpfVersionNotSupported:
-                    pass
+            except errors.DpfVersionNotSupported:
+                pass
         self.set_as_global(as_global=as_global)
 
     def _create_shutdown_funcs(self):
@@ -1159,20 +1293,46 @@ class LegacyGrpcServer(BaseServer):
 
     @property
     def client(self):
+        """Get the client instance for the server.
+
+        This property returns the current instance of the server itself as the client,
+        providing access to the server's functionalities through the `LegacyGrpcServer` instance.
+        """
         return self
 
     @property
     def available_api_types(self):
+        """Get the list of available API types for the server.
+
+        This property returns the list of API types that are available through
+        the current server instance, which are stored in the `_stubs` attribute.
+
+        Returns
+        -------
+        list
+            A list of available API types (stub objects) for the server.
+        """
         return list(self._stubs.values())
 
     def get_api_for_type(self, capi, grpcapi):
+        """Get the API for the given type."""
         return grpcapi
 
     def create_stub_if_necessary(self, stub_name, stub_type):
+        """Create and store a gRPC stub if it doesn't already exist.
+
+        This method checks if the specified stub (by `stub_name`) exists. If not, it creates
+        the stub using the given `stub_type` and stores it in the `_stubs` dictionary.
+        """
         if self.channel and not stub_name in self._stubs:
             self._stubs[stub_name] = stub_type(self.channel)
 
     def get_stub(self, stub_name):
+        """Retrieve the gRPC stub for the given name.
+
+        This method checks if the stub corresponding to `stub_name` exists in the `_stubs`
+        dictionary and returns it. If the stub does not exist, it returns `None`.
+        """
         if not (stub_name in self._stubs.keys()):
             return None
         else:
@@ -1201,6 +1361,7 @@ class LegacyGrpcServer(BaseServer):
     @property
     def external_ip(self):
         """Public IP address of the server.
+
         Is the same as  :func:`ansys.dpf.core.LegacyGrpcServer.ip` in all cases except
         for servers using a gateway:
         for example, servers running in Docker Images might have an internal
@@ -1217,6 +1378,7 @@ class LegacyGrpcServer(BaseServer):
     @property
     def external_port(self):
         """Public Port of the server.
+
         Is the same as  :func:`ansys.dpf.core.LegacyGrpcServer.port` in all cases except
         for servers using a gateway:
         for example, servers running in Docker Images might have an internal
@@ -1242,7 +1404,7 @@ class LegacyGrpcServer(BaseServer):
 
     @property
     def os(self):
-        """Get the operating system of the server
+        """Get the operating system of the server.
 
         Returns
         -------
@@ -1253,12 +1415,20 @@ class LegacyGrpcServer(BaseServer):
 
     @property
     def info(self):
+        """Return information about the server instance."""
         if not self._info_instance:
             self._info_instance = self._base_service.server_info
         return self._info_instance
 
     @property
     def local_server(self):
+        """Get whether the server is running locally.
+
+        Returns
+        -------
+        local_server : bool
+            True if the server is running locally, False otherwise.
+        """
         return self._local_server
 
     @local_server.setter
@@ -1266,6 +1436,7 @@ class LegacyGrpcServer(BaseServer):
         self._local_server = val
 
     def shutdown(self):
+        """Shutdown server instance."""
         if self._own_process and self.live:
             _ = self.info  # initializing the info variable (giving access to ip and port): this can be required if start_local_server is called afterwards
             if self._remote_instance:
@@ -1298,15 +1469,30 @@ class LegacyGrpcServer(BaseServer):
 
     @property
     def config(self):
+        """Get the server configuration for the LegacyGrpcServer server.
+
+        Returns
+        -------
+        config : AvailableServerConfigs
+            The server configuration for the LegacyGrpcServer server from the AvailableServerConfigs.
+        """
         return server_factory.AvailableServerConfigs.LegacyGrpcServer
 
     def __eq__(self, other_server):
-        """Return true, if the ip and the port are equals"""
+        """Return true, if the ip and the port are equals."""
         if isinstance(other_server, LegacyGrpcServer):
             return self.ip == other_server.ip and self.port == other_server.port
         return False
 
     def __del__(self):
+        """
+        Clean up resources associated with the instance.
+
+        Raises
+        ------
+        Warning
+            If an exception occurs while attempting to delete resources.
+        """
         try:
             self._del_session()
             if self._own_process:
@@ -1321,3 +1507,5 @@ class LegacyGrpcServer(BaseServer):
 # DpfServer: TypeAlias = LegacyGrpcServer
 # Python <3.10
 DpfServer = LegacyGrpcServer
+
+AnyServerType = Union[LegacyGrpcServer, InProcessServer, GrpcServer]

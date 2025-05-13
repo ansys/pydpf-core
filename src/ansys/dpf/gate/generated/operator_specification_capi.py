@@ -144,6 +144,15 @@ class OperatorSpecificationCAPI(operator_specification_abstract_api.OperatorSpec
 		return res
 
 	@staticmethod
+	def operator_specification_is_pin_in_place(specification, binput, numPin):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Operator_specification_IsPinInPlace(specification._internal_obj if specification is not None else None, binput, utils.to_int32(numPin), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def operator_specification_get_properties(specification, prop):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
@@ -188,6 +197,24 @@ class OperatorSpecificationCAPI(operator_specification_abstract_api.OperatorSpec
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.Operator_specification_SetPinDerivedClass(specification._internal_obj if specification is not None else None, var1, utils.to_int32(position), utils.to_char_ptr(name), utils.to_char_ptr(description), utils.to_int32(n_types), utils.to_char_ptr_ptr(types), is_optional, is_ellipsis, utils.to_char_ptr(derived_type_name), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def operator_specification_set_pin_aliases(specification, var1, position, n_aliases, aliases):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Operator_specification_SetPinAliases(specification._internal_obj if specification is not None else None, var1, utils.to_int32(position), utils.to_int32(n_aliases), utils.to_char_ptr_ptr(aliases), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def operator_specification_add_pin_alias(specification, var1, position, alias):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Operator_specification_AddPinAlias(specification._internal_obj if specification is not None else None, var1, utils.to_int32(position), utils.to_char_ptr(alias), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res
@@ -286,6 +313,44 @@ class OperatorSpecificationCAPI(operator_specification_abstract_api.OperatorSpec
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.Operator_specification_GetPinDerivedClassTypeName(specification._internal_obj if specification is not None else None, binput, utils.to_int32(numPin), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		newres = ctypes.cast(res, ctypes.c_char_p).value.decode("utf-8") if res else None
+		capi.dll.DataProcessing_String_post_event(res, ctypes.byref(errorSize), ctypes.byref(sError))
+		return newres
+
+	@staticmethod
+	def operator_specification_set_version(specification, semver):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Operator_specification_SetVersion(specification._internal_obj if specification is not None else None, semver._internal_obj if semver is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def operator_specification_get_version(specification):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Operator_specification_GetVersion(specification._internal_obj if specification is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def operator_specification_get_pin_num_aliases(specification, binput, numPin):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Operator_specification_GetPinNumAliases(specification._internal_obj if specification is not None else None, binput, utils.to_int32(numPin), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def operator_specification_get_pin_alias(specification, binput, numPin, numAlias):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Operator_specification_GetPinAlias(specification._internal_obj if specification is not None else None, binput, utils.to_int32(numPin), utils.to_int32(numAlias), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		newres = ctypes.cast(res, ctypes.c_char_p).value.decode("utf-8") if res else None

@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -20,11 +20,14 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+"""Provides for caching evaluated results for faster re-evaluation."""
+
 from typing import NamedTuple
 
 
 def class_handling_cache(cls):
     """Class decorator used to handle cache.
+
     To use it, add a ''_to_cache'' static attribute in the given class.
     This private dictionary should map class getters to their list of setters.
     At initialization, this decorator add a ''_cache'' property to the class.
@@ -53,11 +56,14 @@ def class_handling_cache(cls):
 
 
 class MethodIdentifier(NamedTuple):
+    """Provides for identifying a method."""
+
     method_name: str
     args: list
     kwargs: dict
 
     def __eq__(self, other):
+        """Compare two methods for equality."""
         if isinstance(other, str):
             return self.method_name == other
         else:
@@ -68,6 +74,7 @@ class MethodIdentifier(NamedTuple):
             )
 
     def __hash__(self):
+        """Fetch the hash corresponding to a method."""
         hash = self.method_name.__hash__()
         if self.args:
             hash += self.args.__hash__()
@@ -77,7 +84,8 @@ class MethodIdentifier(NamedTuple):
 
 
 class CacheHandler:
-    """ "Handle cache complexity.
+    """Handle cache complexity.
+
     Is initialized by a class and a dictionary mapping the getters
     which support caching to their setters.
     When the getters of the dictionary are called, their parameters
@@ -112,6 +120,7 @@ class CacheHandler:
         self.cached = {}
 
     def handle(self, object, func, *args, **kwargs):
+        """Recover data which has already been cached."""
         identifier = MethodIdentifier(func.__name__, args, kwargs)
         if identifier in self.cached:
             return self.cached[identifier]
@@ -128,19 +137,19 @@ class CacheHandler:
             return func(object, *args, **kwargs)
 
     def clear(self):
+        """Clear cached data."""
         self.cached = {}
 
 
 def _handle_cache(func):
-    """Calls the cache handler to either recover cached data, either cache the data
-    or clear some cached data if the method is a setter.
+    """Call the cache handler to either recover cached data, either cache the data or clear some cached data if the method is a setter.
 
     .. note::
        The method must be used as a decorator.
     """
 
     def wrapper(self, *args, **kwargs):
-        """Call the original function"""
+        """Call the original function."""
         if hasattr(self, "_cache"):
             return self._cache.handle(self, func, *args, **kwargs)
         else:
@@ -150,15 +159,14 @@ def _handle_cache(func):
 
 
 def _setter(func):
-    """Add a private attribute to the class (``self._is_set = True``)
-    when a method with this decorator is used.
+    """Add a private attribute to the class (``self._is_set = True``) when a method with this decorator is used.
 
     .. note::
        The method must be used as a decorator.
     """
 
     def wrapper(self, *args, **kwargs):
-        """Call the original function"""
+        """Call the original function."""
         if hasattr(self, "_is_set"):
             self._is_set = True
         else:

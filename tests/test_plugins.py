@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -24,9 +24,9 @@ from pathlib import Path
 
 import pytest
 
-from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
+from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0
 
 
 @pytest.fixture()

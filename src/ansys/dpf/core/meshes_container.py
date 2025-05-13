@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -22,24 +22,22 @@
 
 # -*- coding: utf-8 -*-
 """
-MeshesContainer
+MeshesContainer.
 
 Contains classes associated with the DPF MeshesContainer.
 """
 
-from ansys.dpf.core import meshed_region
+from ansys.dpf.core import errors as dpf_errors, meshed_region
 from ansys.dpf.core.collection_base import CollectionBase
 from ansys.dpf.core.plotter import DpfPlotter
-from ansys.dpf.core import errors as dpf_errors
 
 
 class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
-    entries_type = meshed_region.MeshedRegion
     """Represents a meshes container, which contains meshes split on a given space.
 
     Parameters
     ----------
-    meshes_container : ansys.grpc.dpf.collection_pb2.Collection or
+    meshes_container : ansys.grpc.dpf.collection_message_pb2.Collection or
                        ansys.dpf.core.MeshesContainer, optional
         Create a meshes container from a collection message or create a copy from an
         existing meshes container. The default is ``None``.
@@ -48,6 +46,8 @@ class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
         The default is ``None``, in which case an attempt is made to use the
         global server.
     """
+
+    entries_type = meshed_region.MeshedRegion
 
     def __init__(self, meshes_container=None, server=None):
         super().__init__(collection=meshes_container, server=server)
@@ -58,11 +58,11 @@ class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
                 self._internal_obj = self._api.collection_of_mesh_new()
 
     def create_subtype(self, obj_by_copy):
+        """Create a meshed region sub type."""
         return meshed_region.MeshedRegion(mesh=obj_by_copy, server=self._server)
 
     def plot(self, fields_container=None, deform_by=None, scale_factor=1.0, **kwargs):
-        """Plot the meshes container with a specific result if
-        fields_container is specified.
+        """Plot the meshes container with a specific result if fields_container is specified.
 
         Parameters
         ----------
@@ -178,7 +178,7 @@ class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
         return super()._get_entry(label_space_or_index)
 
     def __getitem__(self, key):
-        """Retrieves the mesh at a requested index.
+        """Retrieve the mesh at a requested index.
 
         Parameters
         ----------

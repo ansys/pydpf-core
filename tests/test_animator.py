@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -26,8 +26,7 @@ from pathlib import Path
 import pytest
 
 from ansys.dpf import core as dpf
-from ansys.dpf.core import misc, Workflow
-from ansys.dpf.core import examples
+from ansys.dpf.core import Workflow, examples, misc
 
 if misc.module_exists("pyvista"):
     HAS_PYVISTA = True

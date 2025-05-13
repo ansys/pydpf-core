@@ -27,7 +27,7 @@ concurrency:
 
 env:
   DOCUMENTATION_CNAME: 'dpf.docs.pyansys.com'
-  MAIN_PYTHON_VERSION: '3.9'
+  MAIN_PYTHON_VERSION: '3.10'
 
 jobs:
   debug:
@@ -106,7 +106,7 @@ jobs:
     needs: pick_server_suffix
     with:
       ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '252' }}
-      python_versions: '["3.9"]'
+      python_versions: '["3.10"]'
       wheel: true
       wheelhouse: false
       standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
@@ -117,7 +117,7 @@ jobs:
     needs: pick_server_suffix
     with:
       ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '252' }}
-      python_versions: '["3.9"]'
+      python_versions: '["3.10"]'
       wheel: true
       wheelhouse: false
       standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
@@ -139,7 +139,7 @@ jobs:
     needs: pick_server_suffix
     with:
       ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '252' }}
-      python_versions: '["3.9"]'
+      python_versions: '["3.10"]'
       standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
     secrets: inherit
 
@@ -151,6 +151,7 @@ jobs:
       ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '252' }}
       standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
       event_name: ${{ github.event_name }}
+      python_version: "3.11"
     secrets: inherit
 
   upload-development-docs:
@@ -174,7 +175,7 @@ jobs:
     needs: pick_server_suffix
     with:
       ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '252' }}
-      python_versions: '["3.9"]'
+      python_versions: '["3.10"]'
       standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
     secrets: inherit
 
@@ -184,7 +185,7 @@ jobs:
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: "251"
-      python_versions: '["3.9"]'
+      python_versions: '["3.10"]'
       DOCSTRING: false
       standalone_suffix: ''
     secrets: inherit
@@ -195,7 +196,7 @@ jobs:
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: "242"
-      python_versions: '["3.9"]'
+      python_versions: '["3.10"]'
       DOCSTRING: false
       standalone_suffix: ''
     secrets: inherit
@@ -206,7 +207,7 @@ jobs:
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: "241"
-      python_versions: '["3.9"]'
+      python_versions: '["3.10"]'
       DOCSTRING: false
       standalone_suffix: '.sp01'
     secrets: inherit
@@ -217,7 +218,7 @@ jobs:
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: "232"
-      python_versions: '["3.9"]'
+      python_versions: '["3.10"]'
       DOCSTRING: false
       standalone_suffix: ''
     secrets: inherit
@@ -228,7 +229,7 @@ jobs:
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: "231"
-      python_versions: '["3.9"]'
+      python_versions: '["3.10"]'
       DOCSTRING: false
     secrets: inherit
 
@@ -238,7 +239,7 @@ jobs:
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: "222"
-      python_versions: '["3.9"]'
+      python_versions: '["3.10"]'
       DOCSTRING: false
     secrets: inherit
 

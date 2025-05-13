@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -21,10 +21,11 @@
 # SOFTWARE.
 
 import pytest
-import conftest
+
 from ansys.dpf import core as dpf
-from ansys.dpf.core.elements import element_types
 from ansys.dpf.core import mesh_scoping_factory
+from ansys.dpf.core.elements import element_types
+import conftest
 
 
 @pytest.fixture()
