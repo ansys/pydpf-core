@@ -57,14 +57,11 @@ Here, we create a function that will find this connectivity.
 
 .. jupyter-execute::
 
-    def search_sequence_numpy(arr, seq):
-        """Find a sequence in an array and return its index."""
-        indexes = np.where(np.isclose(arr, seq[0]))
-        for index in np.nditer(indexes[0]):
-            if index % 3 == 0:
-                if np.allclose(arr[index + 1], seq[1]) and np.allclose(arr[index + 2], seq[2]):
-                    return index
-        return -1
+    def search_sequence_numpy(arr, node):
+        """Find the node location in an array of nodes and return its index."""
+        indexes = np.isclose(arr, seq)
+        match = np.all(indexes, axis=1).nonzero()
+        return int(match[0][0])
 
 Add nodes
 ---------
@@ -133,8 +130,7 @@ Add |Elements| to the |MeshedRegion| object.
                 for xx in [x, x + length / float(num_nodes_in_length)]:
                     for yy in [y, y + width / float(num_nodes_in_width)]:
                         for zz in [z, z + depth / float(num_nodes_in_depth)]:
-                            data_index = search_sequence_numpy(my_nodes_coordinates_data_list, [xx, yy, zz])
-                            scoping_index = int(data_index / 3)  # 3components
+                            scoping_index = search_sequence_numpy(my_nodes_coordinates_data, [xx, yy, zz])
                             connectivity.append(scoping_index)
                 # rearrange connectivity
                 tmp = connectivity[2]
