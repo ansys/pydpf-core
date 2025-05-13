@@ -48,7 +48,9 @@ class mesh(Operator):
     """
 
     def __init__(self, input=None, config=None, server=None):
-        super().__init__(name="incremental::merge::mesh", config=config, server=server)
+        super().__init__(
+            name="incremental::merge::meshmerge::mesh", config=config, server=server
+        )
         self._inputs = InputsMesh(self)
         self._outputs = OutputsMesh(self)
         if input is not None:
@@ -97,7 +99,9 @@ class mesh(Operator):
         config:
             A new Config instance equivalent to the default config for this operator.
         """
-        return Operator.default_config(name="incremental::merge::mesh", server=server)
+        return Operator.default_config(
+            name="incremental::merge::meshmerge::mesh", server=server
+        )
 
     @property
     def inputs(self) -> InputsMesh:
