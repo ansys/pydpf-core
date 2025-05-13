@@ -104,13 +104,13 @@ The mesh metadata information is stored in a |PropertyField| or in a |StringFiel
 that describes the mesh composition and their data is mapped to the entity they are defined at.
 The mesh metadata information information can be:
 
-- Properties;
-- Parts;
-- Faces;
-- Bodies;
-- Zones;
-- Number of nodes and elements;
-- Elements types.
+- Properties
+- Parts
+- Faces
+- Bodies
+- Zones
+- Number of nodes and elements
+- Elements types
 
 You can access which metadata information is available for a given result file.
 
