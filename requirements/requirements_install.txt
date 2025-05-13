@@ -1,4 +1,4 @@
-importlib-metadata==8.6.1
+importlib-metadata==8.7.0
 numpy==2.2.4
 packaging==25.0
 psutil==7.0.0
