@@ -68,7 +68,35 @@ class DpfDataTreeAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def dpf_data_tree_get_int_attribute_with_check(data_tree, attribute_name, value, value_found):
+		raise NotImplementedError
+
+	@staticmethod
+	def dpf_data_tree_get_unsigned_int_attribute_with_check(data_tree, attribute_name, value, value_found):
+		raise NotImplementedError
+
+	@staticmethod
+	def dpf_data_tree_get_double_attribute_with_check(data_tree, attribute_name, value, value_found):
+		raise NotImplementedError
+
+	@staticmethod
+	def dpf_data_tree_get_string_attribute_with_check(data_tree, attribute_name, data, size, value_found):
+		raise NotImplementedError
+
+	@staticmethod
+	def dpf_data_tree_get_vec_int_attribute_with_check(data_tree, attribute_name, data, size, value_found):
+		raise NotImplementedError
+
+	@staticmethod
+	def dpf_data_tree_get_vec_double_attribute_with_check(data_tree, attribute_name, data, size, value_found):
+		raise NotImplementedError
+
+	@staticmethod
 	def dpf_data_tree_get_string_collection_attribute(data_tree, attribute_name):
+		raise NotImplementedError
+
+	@staticmethod
+	def dpf_data_tree_get_string_collection_attribute_with_check(data_tree, attribute_name, value_found):
 		raise NotImplementedError
 
 	@staticmethod

@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -22,9 +22,7 @@
 
 import pytest
 
-from ansys.dpf.core import check_version
-from ansys.dpf.core import errors as dpf_errors
-
+from ansys.dpf.core import check_version, errors as dpf_errors
 from ansys.dpf.gate.load_api import _find_outdated_ansys_version
 
 
@@ -112,4 +110,4 @@ def test_version():
     from ansys.dpf.core._version import server_to_ansys_version
 
     assert server_to_ansys_version["1.0"] == "2021R1"
-    assert server_to_ansys_version["2099.9"] == "2099R9"
+    assert server_to_ansys_version["10.0.12"] == "2025R2"

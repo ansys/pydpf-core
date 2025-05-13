@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -74,7 +74,7 @@ field_lc1 = stress_tensor.outputs.fields_container()[0]
 field_lc2 = stress_tensor.outputs.fields_container()[1]
 
 # Scale LC2 to -1.
-stress_tensor_lc2_sc = dpf.operators.math.scale(field=field_lc2, ponderation=-1.0)
+stress_tensor_lc2_sc = dpf.operators.math.scale(field=field_lc2, weights=-1.0)
 
 ###############################################################################
 # Add load cases.

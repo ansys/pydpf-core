@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -23,12 +23,16 @@
 import numpy as np
 import pytest
 
-from ansys.dpf.core import Model
-from ansys.dpf.core import errors as dpf_errors
-from ansys.dpf.core import fields_container_factory
-from ansys.dpf.core import fields_factory
-from ansys.dpf.core import mesh_scoping_factory
-from ansys.dpf.core import time_freq_scoping_factory
+from ansys.dpf.core import (
+    Model,
+    errors as dpf_errors,
+    fields_container_factory,
+    fields_factory,
+    mesh_scoping_factory,
+    server,
+    server_factory,
+    time_freq_scoping_factory,
+)
 from ansys.dpf.core.common import locations
 
 
@@ -297,3 +301,12 @@ def test_named_selection_scoping(model_with_ns):
     scop = mesh_scoping_factory.named_selection_scoping("SELECTION", model)
     assert scop is not None
     assert len(scop.ids) != 0
+
+
+def test_named_selection_scoping_with_deepcopy(model_with_ns):
+    model = Model(model_with_ns)
+    server_2 = server.start_local_server(config=server_factory.AvailableServerConfigs.GrpcServer)
+    scop = mesh_scoping_factory.named_selection_scoping("SELECTION", model, server_2)
+    assert scop is not None
+    assert len(scop.ids) != 0
+    assert scop._server == server_2

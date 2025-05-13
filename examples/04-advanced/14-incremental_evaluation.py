@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -32,7 +32,6 @@ This example shows you how to use the incremental evaluation helper.
 # Import necessary modules
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
-
 
 #######################################################################################
 # Retrieve an example to instantiate a DataSources object

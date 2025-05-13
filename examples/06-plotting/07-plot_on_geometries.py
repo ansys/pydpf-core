@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -36,16 +36,14 @@ objects such as points, lines and planes.
 # ~~~~~~~~~~~~~~~~~~~~~~
 # Import modules and set context as Premium.
 
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
 from ansys.dpf import core as dpf
-from ansys.dpf.core import examples
-from ansys.dpf.core import operators as ops
+from ansys.dpf.core import examples, operators as ops
+from ansys.dpf.core.fields_factory import field_from_array
 from ansys.dpf.core.geometry import Line, Plane, Points
 from ansys.dpf.core.plotter import DpfPlotter
-from ansys.dpf.core.fields_factory import field_from_array
-
 
 ###############################################################################
 # Load model from examples and print information:
@@ -83,7 +81,7 @@ points = Points(
 
 ###############################################################################
 # Show points together with the mesh
-points.plot(mesh, cpos=cpos)
+points.plot(mesh, cpos=cpos, point_size=15, color="blue")
 
 ###############################################################################
 # Create line passing through the geometry's diagonal:
@@ -91,7 +89,7 @@ line = Line([[0.03, 0.03, 0.05], [0.0, 0.06, 0.0]], n_points=50)
 
 ###############################################################################
 # Show line with the 3D mesh
-line.plot(mesh, cpos=cpos)
+line.plot(mesh, cpos=cpos, color="black")
 
 ###############################################################################
 # Create vertical plane passing through the mid point:
@@ -106,7 +104,7 @@ plane = Plane(
 
 ###############################################################################
 # Show plane with the 3D mesh
-plane.plot(mesh, cpos=cpos)
+plane.plot(mesh, cpos=cpos, color="red")
 
 ###############################################################################
 # Map displacement field to geometry objects

@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -53,6 +53,7 @@ To change the default type of server's configuration used by DPF change:
 """
 
 import os
+
 from ansys.dpf import core as dpf
 
 ###############################################################################
