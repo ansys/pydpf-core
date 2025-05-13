@@ -115,30 +115,33 @@ Add |Elements| to the |MeshedRegion| object.
 
 .. jupyter-execute::
 
+    # Add solid elements (linear hexa with eight nodes):
     element_id = 1
-    for i, x in enumerate(
-        [float(i) * length / float(num_nodes_in_length) for i in range(num_nodes_in_length - 1)]
-    ):
-        for j, y in enumerate(
-            [float(i) * width / float(num_nodes_in_width) for i in range(num_nodes_in_width - 1)]
-        ):
-            for k, z in enumerate(
-                [float(i) * depth / float(num_nodes_in_depth) for i in range(num_nodes_in_depth - 1)]
-            ):
+    # Precompute node spacings
+    dx = length / float(num_nodes_in_length)
+    dy = width / float(num_nodes_in_width)
+    dz = depth / float(num_nodes_in_depth)
+    # Generate node coordinates
+    x_coords = [i * dx for i in range(num_nodes_in_length - 1)]
+    y_coords = [j * dy for j in range(num_nodes_in_width - 1)]
+    z_coords = [k * dz for k in range(num_nodes_in_depth - 1)]
+    # Iterate through the grid
+    for x in x_coords:
+        for y in y_coords:
+            for z in z_coords:
                 coord1 = np.array([x, y, z])
                 connectivity = []
-                for xx in [x, x + length / float(num_nodes_in_length)]:
-                    for yy in [y, y + width / float(num_nodes_in_width)]:
-                        for zz in [z, z + depth / float(num_nodes_in_depth)]:
-                            scoping_index = search_sequence_numpy(my_nodes_coordinates_data, [xx, yy, zz])
+                # Generate connectivity for the current element
+                for xx in [x, x + dx]:
+                    for yy in [y, y + dy]:
+                        for zz in [z, z + dz]:
+                            scoping_index = search_sequence_numpy(my_nodes_coordinates_data,
+                                                               [xx, yy, zz])
                             connectivity.append(scoping_index)
-                # rearrange connectivity
-                tmp = connectivity[2]
-                connectivity[2] = connectivity[3]
-                connectivity[3] = tmp
-                tmp = connectivity[6]
-                connectivity[6] = connectivity[7]
-                connectivity[7] = tmp
+                # Rearrange connectivity to maintain element orientation
+                connectivity[2], connectivity[3] = connectivity[3], connectivity[2]
+                connectivity[6], connectivity[7] = connectivity[7], connectivity[6]
+                # Add the solid element
                 my_meshed_region.elements.add_solid_element(element_id, connectivity)
                 element_id += 1
 
