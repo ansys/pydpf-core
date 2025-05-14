@@ -3,10 +3,17 @@
 Contributing
 ############
 
+There are several ways to contribute to PyDPF-Core:
+
+- :ref:`ref_contributing_answer_discussions`
+- :ref:`ref_contributing_post_issues`
+- :ref:`ref_contributing_develop_code`
+- :ref:`ref_contributing_improve_doc`
+
 Overall guidance on contributing to a PyAnsys repository appears in
-`Contribute <https://dev.docs.pyansys.com/how-to/contributing.html>`_
-in the *PyAnsys Developer's Guide*. Ensure that you are thoroughly familiar
-with this guide before attempting to contribute to PyDPF-Core.
+`Contributing <dev_guide_contributing_>`_ in the *PyAnsys Developer's Guide*.
+Ensure that you are thoroughly familiar with this guide before attempting
+to contribute to PyDPF-Core.
 
 .. important::
 
