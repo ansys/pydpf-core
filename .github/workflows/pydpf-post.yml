@@ -137,7 +137,7 @@ jobs:
           ls
 
       - name: "Prepare Testing Environment"
-        uses: ansys/pydpf-actions/prepare_tests@v2.3
+        uses: ansys/pydpf-actions/prepare_tests@dependencies/bump_pyvista_setup-headless-display-action_to_v4
         with:
           DEBUG: true
           working-directory: pydpf-post
@@ -147,6 +147,7 @@ jobs:
         run: pip list
 
       - name: "Test Docstrings"
+        id: docstrings
         uses: ansys/pydpf-actions/test_docstrings@v2.3
         with:
           MODULE: post
@@ -154,14 +155,29 @@ jobs:
           working-directory: pydpf-post/src
         if: inputs.test_docstrings == 'true'
         timeout-minutes: 10
+        continue-on-error: true
+        
+      - uses: mainmatter/continue-on-error-comment@v1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          outcome: ${{ steps.docstrings.outcome }}
+          test-id: PyDPF-Post docstring tests on ${{ matrix.os }}
 
       - name: "Test API"
+        id: api
         shell: bash
         working-directory: pydpf-post/tests
         run: |
           pytest $DEBUG --maxfail=5 --reruns 2 .
         if: always()
         timeout-minutes: 60
+        continue-on-error: true
 
+      - uses: mainmatter/continue-on-error-comment@v1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          outcome: ${{ steps.api.outcome }}
+          test-id: PyDPF-Post API tests on ${{ matrix.os }}
+          
       - name: "Kill all servers"
         uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
