@@ -601,8 +601,8 @@ The following examples are here to better understand this behavior.
 
 Here the only entities with matching IDs between the two fields are:
 
-- The third one of the first field (ID=3)
-- The first one of the second field (ID=3)
+- The third entity in field5 (ID=3)
+- The first entity in field6 (ID=3)
 
 Other entities are thus not taken into account when using an operator that needs two operands.
 
@@ -614,7 +614,10 @@ For example the |add| operator:
     add_scop = dpf.operators.math.add(fieldA=field5, fieldB=field6).eval()
 
     # Print the result
-    # The resulting field only contains data for entity with ID=3.
+    # The resulting field only contains data for entities where a match is found in the other field.
+    # It has the size of the intersection of the two scopings.
+    # Here this means the addition returns a field with data only for the node with ID=3.
+    # This behavior is specific to each operator.
     print(add_scop, "\n")
 
 Or the |generalized_inner_product| operator:
@@ -623,9 +626,11 @@ Or the |generalized_inner_product| operator:
 
     # Use the dot product operator
     dot_scop = dpf.operators.math.generalized_inner_product(fieldA=field5, fieldB=field6).eval()
-    # id 3: (7. * 5.) + (8. * 1.) + (9. * 6.)
+    # ID 3: (7. * 5.) + (8. * 1.) + (9. * 6.)
 
-    # Print the results
-    # We obtain zeros for IDs where have no matches in the two fields.
+    # Print the result
+    # The operator returns zero for entities where no match is found in the other field.
+    # The resulting field is the size of the union of the two scopings.
+    # This behavior is specific to each operator.
     print(dot_scop,"\n")
     print(dot_scop.data,"\n")
