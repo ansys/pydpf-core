@@ -6,6 +6,7 @@ Basic maths
 
 .. include:: ../../../links_and_refs.rst
 .. |math operators| replace:: :mod:`math operators <ansys.dpf.core.operators.math>`
+.. |fields_factory| replace:: :mod:`fields_factory<ansys.dpf.core.fields_factory>`
 .. |fields_container_factory| replace:: :mod:`fields_container_factory<ansys.dpf.core.fields_container_factory>`
 .. |over_time_freq_fields_container| replace:: :func:`over_time_freq_fields_container()<ansys.dpf.core.fields_container_factory.over_time_freq_fields_container>`
 .. |add| replace:: :class:`add<ansys.dpf.core.operators.math.add.add>`
@@ -31,22 +32,40 @@ Basic maths
 
 This tutorial explains how to perform some basic mathematical operations with PyDPF-Core.
 
-DPF uses |Field| and |FieldsContainer| objects to handle data. The |Field| is a homogeneous array and
-a |FieldsContainer| is a labeled collection of |Field|. Thus, when making mathematical operations with the data, you
-manipulate |Field| and |FieldsContainer|.
+DPF exposes data through |Field| objects (or other specialized kinds of field).
+A |Field| is a homogeneous array of floats.
+
+A |FieldsContainer| is a labeled collection of |Field| objects, that most operators can operate on
+to provide a way of treating several fields at once.
+
+Most operators for mathematical operations can take in a |Field| or a |FieldsContainer|.
+
+Most mathematical operators have a separate implementation for handling |FieldsContainer| objects
+as input, and are recognizable by the suffix ``_fc`` appended to their name.
+
+This tutorial first shows in :ref:`ref_basic_maths_create_custom_data` how to create the custom fields and field containers it uses.
+
+It then explains how to use several of the mathematical operators available, first with fields in
+:ref:`ref_basic_maths_fields`, and then with field containers in :ref:`ref_basic_maths_fields_container`.
+
+It also provides a focus on the effect of the scoping of the fields on the result in :ref:`ref_basic_maths_scoping_handling`.
 
 :jupyter-download-script:`Download tutorial as Python script<basic_maths>`
 :jupyter-download-notebook:`Download tutorial as Jupyter notebook<basic_maths>`
 
-Create the Fields and FieldsContainers
---------------------------------------
 
-DPF uses |Field| and |FieldsContainer| objects to handle data. The |Field| is a homogeneous array and
-a |FieldsContainer| is a labeled collection of |Field|.
+.. _ref_basic_maths_create_custom_data :
 
-Here, we use |Field| and |FieldsContainer| created from scratch to facilitate understanding of how the
-mathematical operators work. For more information on creating a |Field| from scratch check
-:ref:`ref_tutorials_data_structures`.
+Create fields and field containers
+----------------------------------
+
+DPF exposes mathematical fields of floats through |Field| and |FieldsContainer| objects.
+The |Field| is a homogeneous array of floats and a |FieldsContainer| is a labeled collection of |Field| objects.
+
+Here, we use fields and field collections created from scratch to facilitate understanding of how the
+mathematical operators work.
+
+For more information on creating a |Field| from scratch check :ref:`ref_tutorials_data_structures`.
 
 .. tab-set::
 
@@ -55,7 +74,7 @@ mathematical operators work. For more information on creating a |Field| from scr
         Create the fields based on:
 
         - A number of entities
-        - A list of IDs and a location, which together define the scoping of the field:
+        - A list of IDs and a location, which together define the scoping of the field
 
         The location defines the type of entity the IDs refer to. It defaults to *nodal*, in which case the scoping is
         understood as a list of node IDs, and the field is a nodal field.
@@ -63,7 +82,7 @@ mathematical operators work. For more information on creating a |Field| from scr
         For a more detailed explanation about the influence of the |Scoping| on the operations,
         see the :ref:`ref_basic_maths_scoping_handling` section of this tutorial.
 
-        Import the necessary DPF modules.
+        First import the necessary DPF modules.
 
         .. jupyter-execute::
 
@@ -74,16 +93,18 @@ mathematical operators work. For more information on creating a |Field| from scr
 
         Create the fields with the |Field| class constructor.
 
+        Helpers are also available in |fields_factory| for easier creation of fields from scratch.
+
         .. jupyter-execute::
 
-            # Create the fields
+            # Create four nodal 3D vector fields of size 2
             num_entities = 2
             field1 = field2 = field3 = field4 = dpf.Field(nentities=num_entities)
 
             # Set the scoping IDs
             field1.scoping.ids = field2.scoping.ids = field3.scoping.ids = field4.scoping.ids = range(num_entities)
 
-            # Set the data for each field
+            # Set the data for each field using flat lists (of size = num_entities * num_components)
             field1.data = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
             field2.data = [7.0, 3.0, 5.0, 8.0, 1.0, 2.0]
             field3.data = [6.0, 5.0, 4.0, 3.0, 2.0, 1.0]
@@ -93,10 +114,10 @@ mathematical operators work. For more information on creating a |Field| from scr
             print("Field 1","\n", field1, "\n"); print("Field 2","\n", field2, "\n");
             print("Field 3","\n", field3, "\n"); print("Field 4","\n", field4, "\n")
 
-    .. tab-item:: FieldsContainers
+    .. tab-item:: Field containers
 
-        Create the field containers using the |fields_container_factory|.  Here, we use the |over_time_freq_fields_container|
-        function that creates a |FieldsContainer| with a *'time'* label.
+        Create the collections of fields (called "field containers") using the |fields_container_factory|.
+        Here, we use the |over_time_freq_fields_container| helper to generate a |FieldsContainer| with *'time'* labels.
 
         .. jupyter-execute::
 
@@ -108,13 +129,14 @@ mathematical operators work. For more information on creating a |Field| from scr
             print("FieldsContainer1","\n", fc1, "\n")
             print("FieldsContainer2","\n", fc2, "\n")
 
-
-To perform mathematical operations, we use operators available in the |math operators| module.
-First create an instance of the operator of interest, then use the ``.eval()`` method to compute
-and retrieve the first output available.
+.. _ref_basic_maths_fields :
 
 Mathematical operations with fields
 -----------------------------------
+
+To perform mathematical operations, we use operators available in the |math operators| module.
+First create an instance of the operator of interest, then use the ``.eval()`` method to compute
+and retrieve the first output.
 
 .. tab-set::
 
@@ -166,7 +188,7 @@ Mathematical operations with fields
         .. jupyter-execute::
 
             # Define the scale factor field
-            scale_vect = dpf.Field(nentities=num_entities, nature=ansys.dpf.core.common.natures.scalar)
+            scale_vect = dpf.Field(nentities=num_entities, nature=dpf.natures.scalar)
             # Set the scale factor field scoping IDs
             scale_vect.scoping.ids = range(num_entities)
             # Set the scale factor field data
@@ -318,8 +340,11 @@ Mathematical operations with fields
             # Print the results
             print("Norm field","\n", norm_field , "\n")
 
-Mathematical operations with FieldsContainer
---------------------------------------------
+
+.. _ref_basic_maths_fields_container :
+
+Mathematical operations with collections of fields
+--------------------------------------------------
 
 .. tab-set::
 
@@ -384,7 +409,7 @@ Mathematical operations with FieldsContainer
         .. jupyter-execute::
 
             # Total sum FieldsContainers scale (accumulate)
-            tot_sum_fc_scale = maths.accumulate_fc(fields_container=fc1, ponderation=scale_vect).eval()
+            tot_sum_fc_scale = maths.accumulate_fc(fields_container=fc1, weights=scale_vect).eval()
             # {time: 1}: field1
             #           -->      vector component 0 = (1.0 * 5.0) + (4.0 * 2.0)
             #                    vector component 1 = (2.0 * 5.0) + (5.0 * 2.0)
