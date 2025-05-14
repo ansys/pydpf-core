@@ -33,6 +33,7 @@ from .cross_product_fc import cross_product_fc
 from .dot import dot
 from .dot_tensor import dot_tensor
 from .entity_extractor import entity_extractor
+from .expansion_psd import expansion_psd
 from .exponential import exponential
 from .exponential_fc import exponential_fc
 from .fft_approx import fft_approx
@@ -51,9 +52,9 @@ from .ln_fc import ln_fc
 from .mac import mac
 from .make_one_on_comp import make_one_on_comp
 from .matrix_inverse import matrix_inverse
+from .min_max_over_time import min_max_over_time
 from .minus import minus
 from .minus_fc import minus_fc
-from .min_max_over_time import min_max_over_time
 from .modal_damping_ratio import modal_damping_ratio
 from .modal_superposition import modal_superposition
 from .modulus import modulus
@@ -76,9 +77,9 @@ from .scale_fc import scale_fc
 from .sin import sin
 from .sin_fc import sin_fc
 from .sqr import sqr
+from .sqr_fc import sqr_fc
 from .sqrt import sqrt
 from .sqrt_fc import sqrt_fc
-from .sqr_fc import sqr_fc
 from .svd import svd
 from .sweeping_phase import sweeping_phase
 from .sweeping_phase_fc import sweeping_phase_fc

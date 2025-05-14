@@ -16,7 +16,7 @@ The first standalone version of DPF Server available is 6.0 (2023 R2).
 
 The sections on this page describe how to install and use a standalone DPF Server.
 
-* For a quick start on using PyDPF, see :ref:`ref_getting_started`.
+* For a brief overview on using PyDPF, see :ref:`ref_getting_started`.
 * For more information on DPF and its use, see :ref:`ref_user_guide`.
 
 
@@ -65,7 +65,7 @@ PyDPF-Core is a Python client API communicating with a **DPF Server**, either
 through the network using gRPC or directly in the same process. PyDPF-Post is a Python
 module for postprocessing based on PyDPF-Core. 
 
-Both PyDPF-Core and PyDPF-Post can be used with DPF Server. Installation instructions
+Both PyDPF-Core and PyDPF-Post can be used with the DPF Server. Installation instructions
 for PyDPF-Core are available in the PyDPF-Core `Getting started <https://dpf.docs.pyansys.com/version/stable/getting_started/install.html>`_.
 Installation instructions for PyDPF-Post are available in the PyDPF-Post `Getting started <https://post.docs.pyansys.com/version/stable/getting_started/install.html>`_.
 
@@ -98,10 +98,10 @@ to use thanks to its ``ansys_path`` argument.
 PyDPF otherwise follows the logic below to automatically detect and choose which locally installed
 version of DPF Server to run:
 
-- it uses the ``ANSYS_DPF_PATH`` environment variable in priority if set and targeting a valid path to a DPF Server installation.
-- it then checks the currently active Python environment for any installed standalone DPF Server, and uses the latest version available.
-- it then checks for ``AWP_ROOTXXX`` environment variables, which are set by the **Ansys installer**, and uses the latest version available.
-- if then raises an error if all of the steps above failed to return a valid path to a DPF Server installation.
+- It uses the ``ANSYS_DPF_PATH`` environment variable in priority if set and targeting a valid path to a DPF Server installation.
+- It then checks the currently active Python environment for any installed standalone DPF Server, and uses the latest version available.
+- It then checks for ``AWP_ROOTXXX`` environment variables, which are set by the **Ansys installer**, and uses the latest version available.
+- It then raises an error if all of the preceding steps failed to return a valid path to a DPF Server installation.
 
 Run DPF Server in a Docker container
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -111,7 +111,8 @@ DPF Server can be run in a Docker container.
    in :ref:`Install DPF Server <target_installing_server>`, download the ``Dockerfile`` file.
 #. Optional: download any other plugin ZIP file as appropriate. For example, to access the ``composites`` plugin for Linux, 
    download ``ansys_dpf_composites_lin_v2025.1.pre0.zip``.
-#. Copy all the ZIP files and ``Dockerfile`` file in a folder and navigate into that folder.
+#. Copy all the ZIP files and the ``Dockerfile`` file into a folder. 
+#. Navigate into the folder used in the previous step.
 #. To build the DPF Docker container, run the following command:
 
 .. code::

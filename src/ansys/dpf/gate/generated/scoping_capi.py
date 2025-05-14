@@ -72,6 +72,15 @@ class ScopingCAPI(scoping_abstract_api.ScopingAbstractAPI):
 		return res
 
 	@staticmethod
+	def scoping_set_ids_with_collection(scoping, ids):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Scoping_SetIdsWithCollection(scoping._internal_obj if scoping is not None else None, ids._internal_obj if ids is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def scoping_get_ids(scoping, size):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()

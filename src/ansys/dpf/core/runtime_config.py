@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -20,14 +20,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""
-RuntimeConfig
+"""RuntimeConfig."""
 
-"""
-
-from ansys.dpf.core.data_tree import DataTree
-from ansys.dpf.core.common import types
 from ansys.dpf.core import misc
+from ansys.dpf.core.common import types
+from ansys.dpf.core.data_tree import DataTree
 
 
 class _RuntimeConfig:
@@ -41,8 +38,9 @@ class _RuntimeConfig:
 
 
 class RuntimeClientConfig(_RuntimeConfig):
-    """Enables to access and set runtime configuration
-    options to gRPC client. Mostly used to configure gRPC streaming and calls options.
+    """Enable accessing and setting runtime configuration options to gRPC client.
+
+    Mostly used to configure gRPC streaming and calls options.
 
     Parameters
     ----------
@@ -67,8 +65,7 @@ class RuntimeClientConfig(_RuntimeConfig):
 
     @property
     def cache_enabled(self):
-        """Whether gRPC requests and responses are intercepted
-        to cache them and retrieve them when appropriate.
+        """Whether gRPC requests and responses are intercepted to cache them and retrieve them when appropriate.
 
         Returns
         -------
@@ -106,8 +103,7 @@ class RuntimeClientConfig(_RuntimeConfig):
 
     @property
     def stream_floats_instead_of_doubles(self):
-        """Sets whether double values (8 bytes) should be converted and streamed as float values
-         (4 bytes) in gRPC streaming calls.
+        """Sets whether double values (8 bytes) should be converted and streamed as float values (4 bytes) in gRPC streaming calls.
 
         Returns
         -------
@@ -126,8 +122,9 @@ class RuntimeClientConfig(_RuntimeConfig):
 
     @property
     def return_arrays(self):
-        """All methods will return :class:`ansys.dpf.core.DPFArray` (instead of lists)
-        when possible. Default is ``True``.
+        """All methods will return :class:`ansys.dpf.core.DPFArray` (instead of lists) when possible.
+
+        Default is ``True``.
         See for example, :func:`ansys.dpf.core.Scoping.ids`.
 
         Returns
@@ -141,12 +138,12 @@ class RuntimeClientConfig(_RuntimeConfig):
         self._data_tree.add(return_arrays=int(value))
 
     def copy_config(self, config):
+        """Add config to data tree."""
         config._data_tree.add(self._data_tree.to_dict())
 
 
 class RuntimeCoreConfig(_RuntimeConfig):
-    """Enables to access and set runtime configuration
-    options to DataProcessingCore.
+    """Enables to access and set runtime configuration options to DataProcessingCore.
 
     Parameters
     ----------
@@ -179,8 +176,7 @@ class RuntimeCoreConfig(_RuntimeConfig):
 
     @property
     def num_threads(self):
-        """Sets the default number of threads to use for all operators,
-        default is omp_get_num_threads.
+        """Sets the default number of threads to use for all operators, default is omp_get_num_threads.
 
         Returns
         -------
@@ -194,8 +190,7 @@ class RuntimeCoreConfig(_RuntimeConfig):
 
     @property
     def license_timeout_in_seconds(self):
-        """Sets the default number of threads to use for all operators,
-        default is omp_get_num_threads.
+        """Sets the default number of threads to use for all operators, default is omp_get_num_threads.
 
         Returns
         -------

@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -20,10 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""
-MeshInfo
-
-"""
+"""MeshInfo."""
 
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core.generic_data_container import GenericDataContainer
@@ -66,7 +63,7 @@ class MeshInfo:
         mesh_info=None,
         server=None,
     ):
-        """Initialize with a MeshInfo message"""
+        """Initialize with a MeshInfo message."""
         # ############################
         # step 1: get server
 
@@ -90,6 +87,14 @@ class MeshInfo:
         self._bodies_map = None
 
     def __str__(self):
+        """
+        Return a string representation of the MeshInfo instance.
+
+        Returns
+        -------
+        str
+            A string representation of the information about a mesh space.
+        """
         txt = "DPF MeshInfo\n"
         txt += "-" * 30 + "\n"
         txt += "with properties:\n"
@@ -101,23 +106,18 @@ class MeshInfo:
 
     @property
     def generic_data_container(self) -> GenericDataContainer:
-        """GenericDataContainer wrapped into the MeshInfo
-        that contains all the relative information of the derived class.
+        """GenericDataContainer wrapped into the MeshInfo that contains all the relative information of the derived class.
 
         Returns
         -------
         :class:`ansys.dpf.core.generic_data_container.GenericDataContainer`
 
         """
-
         return self._generic_data_container
 
     @generic_data_container.setter
     def generic_data_container(self, value: GenericDataContainer):
-        """GenericDataContainer wrapped into the MeshInfo
-        that contains all the relative information of the derived class.
-        """
-
+        """GenericDataContainer wrapped into the MeshInfo that contains all the relative information of the derived class."""
         if not isinstance(value, GenericDataContainer):
             raise ValueError("Input value must be a GenericDataContainer.")
         self._generic_data_container = value
@@ -167,23 +167,23 @@ class MeshInfo:
         prop : Int, String, Float, Field, StringField, GenericDataContainer, Scoping
             object instance.
         """
-
         return self.generic_data_container.set_property(property_name, prop)
 
     @property
     def number_nodes(self):
-        """
+        """Returns number of nodes in the mesh.
+
         Returns
         -------
         number_nodes : int
             Number of nodes of the mesh.
         """
-
         return self.generic_data_container.get_property("num_nodes")
 
     @property
     def number_faces(self):
-        """
+        """Returns number of faces in the mesh.
+
         Returns
         -------
         number_faces : int
@@ -196,13 +196,13 @@ class MeshInfo:
 
     @property
     def number_elements(self):
-        """
+        """Returns number of elements in the mesh.
+
         Returns
         -------
         number_elements : int
             Number of elements of the mesh.
         """
-
         if "num_cells" in self._generic_data_container.get_property_description():
             return self.generic_data_container.get_property("num_cells")
         else:
@@ -210,13 +210,13 @@ class MeshInfo:
 
     @property
     def splittable_by(self):
-        """
+        """Return name of properties according to which the mesh can be split by.
+
         Returns
         -------
         splittable by which entity : StringField
             Name of the properties according to which the mesh can be split by.
         """
-
         if "splittable_by" in self._generic_data_container.get_property_description():
             return self.generic_data_container.get_property("splittable_by")
         else:
@@ -224,13 +224,13 @@ class MeshInfo:
 
     @property
     def available_elem_types(self):
-        """
+        """Returns available mesh element types.
+
         Returns
         -------
         available element types : Scoping
             element type available for the mesh.
         """
-
         if "available_elem_types" in self._generic_data_container.get_property_description():
             return self.generic_data_container.get_property("available_elem_types")
         else:
@@ -238,13 +238,13 @@ class MeshInfo:
 
     @property
     def part_names(self):
-        """
+        """Return part names of the mesh.
+
         Returns
         -------
         part_names : StringField
             part names of the mesh (if it can be split by parts)
         """
-
         if "part_names" in self._generic_data_container.get_property_description():
             return self.generic_data_container.get_property("part_names")
         else:
@@ -275,7 +275,8 @@ class MeshInfo:
 
     @property
     def part_scoping(self):
-        """
+        """Return part scoping of the mesh.
+
         Returns
         -------
         part_scoping : Scoping
@@ -284,7 +285,6 @@ class MeshInfo:
         .. warning:
             Currently unavailable for LegacyGrpc servers.
         """
-
         if "part_scoping" in self._generic_data_container.get_property_description():
             return self.generic_data_container.get_property("part_scoping")
         else:
@@ -292,13 +292,13 @@ class MeshInfo:
 
     @property
     def body_names(self):
-        """
+        """Return body names of the mesh.
+
         Returns
         -------
         body_names : StringField
             body names of the mesh (if it can be split by bodies)
         """
-
         if "body_names" in self._generic_data_container.get_property_description():
             return self.generic_data_container.get_property("body_names")
         else:
@@ -306,13 +306,13 @@ class MeshInfo:
 
     @property
     def body_scoping(self):
-        """
+        """Return body scoping of the mesh.
+
         Returns
         -------
         body_scoping : Scoping
             body Scoping of the mesh (if it can be split by bodies)
         """
-
         if "body_scoping" in self._generic_data_container.get_property_description():
             return self.generic_data_container.get_property("body_scoping")
         else:
@@ -343,7 +343,8 @@ class MeshInfo:
 
     @property
     def zone_names(self):
-        """
+        """Return zone names of the mesh.
+
         Returns
         -------
         zone_names : StringField
@@ -352,7 +353,6 @@ class MeshInfo:
         .. warning:
             Currently unavailable for LegacyGrpc servers.
         """
-
         if "zone_names" in self._generic_data_container.get_property_description():
             return self.generic_data_container.get_property("zone_names")
         else:
@@ -435,7 +435,8 @@ class MeshInfo:
 
     @property
     def zone_scoping(self):
-        """
+        """Return zone scoping of the mesh.
+
         Returns
         -------
         zone_scoping : Scoping
@@ -444,7 +445,6 @@ class MeshInfo:
         .. warning:
             Currently unavailable for LegacyGrpc servers.
         """
-
         if "zone_scoping" in self._generic_data_container.get_property_description():
             return self.generic_data_container.get_property("zone_scoping")
         else:
@@ -452,24 +452,20 @@ class MeshInfo:
 
     @number_nodes.setter
     def number_nodes(self, value):
-        """Set the number of nodes in the mesh"""
-
+        """Set the number of nodes in the mesh."""
         self.generic_data_container.set_property("num_nodes", value)
 
     @number_elements.setter
     def number_elements(self, value):
-        """Set the number of elements in the mesh"""
-
+        """Set the number of elements in the mesh."""
         self.generic_data_container.set_property("num_elements", value)
 
     @splittable_by.setter
     def splittable_by(self, value):
-        """Set name of the properties according to which the mesh can be split by"""
-
+        """Set name of the properties according to which the mesh can be split by."""
         self.generic_data_container.set_property("splittable_by", value)
 
     @available_elem_types.setter
     def available_elem_types(self, value):
-        """Set the available element types"""
-
+        """Set the available element types."""
         self.generic_data_container.set_property("available_elem_types", value)
