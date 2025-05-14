@@ -23,6 +23,7 @@ import numpy as np
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import fields_factory
+import conftest
 
 
 def test_perf_vec_setters(server_type):
@@ -79,6 +80,7 @@ def test_update_empty_dpf_vector_field(server_type):
     assert np.allclose(field.get_entity_data(1), [0])
 
 
+@conftest.raises_for_servers_version_under("5.0")
 def test_update_empty_dpf_vector_string_field(server_type):
     string_field = dpf.StringField(server=server_type)
     string_field.data = ["high", "goodbye", "hello"]
@@ -89,6 +91,7 @@ def test_update_empty_dpf_vector_string_field(server_type):
     assert string_field.get_entity_data(1) == ["goodbye"]
 
 
+@conftest.raises_for_servers_version_under("5.0")
 def test_update_empty_dpf_vector_custom_type_field(server_type):
     field = dpf.CustomTypeField(unitary_type=np.double, server=server_type)
     field.data = np.zeros((100), dtype=np.double)
