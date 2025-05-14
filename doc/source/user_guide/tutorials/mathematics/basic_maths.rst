@@ -183,61 +183,63 @@ Mathematical operations with fields
 
     .. tab-item:: Subtraction
 
-        Here, we use the |minus| operator. It computes the difference between the components of
-        the data vectors of the corresponding entities of the given Fields.
+        Here, we use the |minus| operator. It computes the difference between two fields and on
+        each entity and on each component.
 
         .. jupyter-execute::
 
-            # Subtraction with the Fields
+            # Subtraction of two 3D vector fields
             minus_field = maths.minus(fieldA=field1, fieldB=field2).eval()
             # id 0: [1.-7. 2.-3. 3.-5.]
             # id 1: [4.-8. 5.-1. 6.-2.]
 
             # Print the results
-            print("Subtraction fields","\n", minus_field , "\n")
+            print("Subtraction field","\n", minus_field , "\n")
 
     .. tab-item:: Cross product
 
-        Here, we use the |cross_product| operator. It computes the cross product between two vector Fields.
+        Here, we use the |cross_product| operator.
+        It computes the cross product between two vector fields.
 
         .. jupyter-execute::
 
-            # Define the cross product
-            cross_prod_fields = maths.cross_product(fieldA=field1,fieldB=field2).eval()
+            # Compute the cross product
+            cross_prod_field = maths.cross_product(fieldA=field1, fieldB=field2).eval()
             # id 0: [(2.*5. - 3.*3.)  (3.*7. - 1.*5.)  (1.*3. - 2.*7.)]
             # id 1: [(5.*2. - 6.*1.)  (6.*8. - 4.*2.)  (4.*1. - 5.*8.)]
 
             # Print the results
-            print("Cross product Fields","\n", cross_prod_fields , "\n")
+            print("Cross product field","\n", cross_prod_field , "\n")
 
     .. tab-item:: Dot product
 
         Here, we use:
 
-        - The |generalized_inner_product| operator to compute the inner product between two vector Fields;
-        - The |overall_dot| operator to compute the total sum of the result of the dot product between two vector Fields.
+        - The |generalized_inner_product| operator to compute the inner product between two vector fields at each entity;
+        - The |overall_dot| operator to compute the sum over the entities of the of the inner product between two vector fields.
 
         **'generalized_inner_product' operator**
 
-        This operator computes a general notion of inner product between between two vector Fields. These Fields
-        may be of different dimensionality.
+        This operator computes a general notion of inner product between two vector fields.
+        In Cartesian coordinates it is equivalent to the dot/scalar product.
 
         .. jupyter-execute::
 
             # Define the dot product
-            dot_prod_fields = maths.generalized_inner_product(fieldA=field1, fieldB=field2).eval()
+            dot_prod_field = maths.generalized_inner_product(fieldA=field1, fieldB=field2).eval()
             # id 0: (1. * 7.) + (2. * 3.) + (3. * 5.)
             # id 1: (4. * 8.) + (5. * 1.) + (6. * 2.)
 
             # Print the results
-            print("Dot product Fields","\n", dot_prod_fields , "\n")
+            print("Dot product field","\n", dot_prod_field , "\n")
 
         **'overall_dot' operator**
 
         This operator makes two manipulations to give the result:
 
-        - First, it computes a dot product between the entities of same id of two Fields;
-        - Finally, it adds all the entities data to return a scalar.
+        - First, it computes a dot product between data of corresponding entities for two vector
+        fields, resulting in a scalar field;
+        - Finally, it sums the result obtained previously over all entities to return a scalar.
 
         .. jupyter-execute::
 
@@ -250,18 +252,18 @@ Mathematical operations with fields
 
     .. tab-item:: Division
 
-        Here, we use the |component_wise_divide| operator. It computes the component-wise division between
-        the corresponding entities of two Fields.
+        Here, we use the |component_wise_divide| operator. It computes the component-wise division
+        between corresponding entities of two fields.
 
         .. jupyter-execute::
 
-            # Divide the components of the Fields
+            # Divide a field by another field
             comp_wise_div = maths.component_wise_divide(fieldA=field1, fieldB=field2).eval()
             # id 0: [1./7. 2./3. 3./5.]
             # id 1: [4./8. 5./1. 6./2.]
 
             # Print the results
-            print("Component-wise division Fields","\n", comp_wise_div , "\n")
+            print("Component-wise division field","\n", comp_wise_div , "\n")
 
     .. tab-item:: Power
 
@@ -272,20 +274,20 @@ Mathematical operations with fields
 
         **'sqr' operator**
 
-        This operator computes the data of each component of a |Field| to the power of two.
+        This operator computes the component-wise |Field| data to the power of two.
 
         .. jupyter-execute::
 
-            # Define the power of two
+            # Compute the power of two
             sqr_field = maths.sqr(field=field1).eval()
             # id 0: [(1.^2.) (2.^2.) (3.^2.)]
             # id 1: [(4.^2.) (5.^2.) (6.^2.)]
 
-            print("^2 Fields","\n", sqr_field , "\n")
+            print("^2 field","\n", sqr_field , "\n")
 
         **'pow' operator**
 
-        This operator computes the data of each component of a |Field| to the power of a given factor.
+        This operator computes the data of a |Field| to the power of a given factor.
 
         Here, we use the power of three.
 
@@ -293,13 +295,13 @@ Mathematical operations with fields
 
             # Define the power factor
             pow_factor = 3.0
-            # Define the power of three
+            # Compute the power of three
             pow_field = maths.pow(field=field1, factor=pow_factor).eval()
             # id 0: [(1.^3.) (2.^3.) (3.^3.)]
             # id 1: [(4.^3.) (5.^3.) (6.^3.)]
 
             # Print the results
-            print("Power Fields","\n", pow_field , "\n")
+            print("Power field","\n", pow_field , "\n")
 
     .. tab-item:: Norm
 
@@ -308,13 +310,13 @@ Mathematical operations with fields
 
         .. jupyter-execute::
 
-            # Define the norm
-            norm_field = maths.norm(field=field1).eval()
+            # Compute the L2 norm
+            norm_field = maths.norm(field=field1, scalar_int=2).eval()
             # id 0: [(1.^2.) + (2.^2.) + (3.^2.)] ^1/2
             # id 1: [(4.^2.) + (5.^2.) + (6.^2.)] ^1/2
 
             # Print the results
-            print("Norm Fields","\n", norm_field , "\n")
+            print("Norm field","\n", norm_field , "\n")
 
 Mathematical operations with FieldsContainer
 --------------------------------------------
@@ -325,13 +327,13 @@ Mathematical operations with FieldsContainer
 
         Here, we use:
 
-        - The 'add_fc' operator for component wise addition of each |Field| from a |FieldsContainer|;
+        - The 'add_fc' operator for component-wise addition of each |Field| from a |FieldsContainer|;
         - The 'accumulate_fc' operator to find the total sum of each component for all the entities of each |Field|
           from a |FieldsContainer|
 
         **'add_fc' operator**
 
-        This operator selects all fields with the same label space in the input |FieldsContainer| and add those together.
+        This operator selects all fields with the same label space in the input |FieldsContainer| and adds those together.
 
         .. jupyter-execute::
 
@@ -560,39 +562,49 @@ Mathematical operations with FieldsContainer
 Scoping handling
 ----------------
 
-DPF needs to know the ids of the data on the fields. By providing these integers, we only select
-the data with the same id when using an operator.
+The scoping of a DPF field stores information about which entity the data is associated to.
+A scalar field containing data for three entities is for example linked to a scoping defining three entity IDs.
+The location of the scoping defines the type of entity the IDs refer to.
+This allows DPF to know what each data point of a field is associated to.
 
-Here, we use two different Fields to understand this functioning.
+Operators such as mathematical operators usually perform operations between corresponding entities of fields.
+
+For example, the addition of two scalar fields does not just add the two data arrays,
+which may not be of the same length or may not be ordered the same way.
+Instead it uses the scoping of each field to find corresponding entities, their data in each field,
+and perform the addition on those.
+
+This means that the operation is usually performed for entities in the intersection of the two field scopings.
+
+Some operators provide options to handle data for entities outside of this intersection,
+but most simply ignore the data for these entities not in the intersection of the scopings.
+
+The following examples are here to better understand this behavior.
 
 .. jupyter-execute::
 
-    # Instantiate the Fields
+    # Instantiate two nodal 3D vector fields of length 3
     field5 = dpf.Field(nentities=3)
     field6 = dpf.Field(nentities=3)
 
-    # Define the Fields data
+    # Set the data for each field
     field5.data = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0]
     field6.data = [5.0, 1.0, 6.0, 3.0, 8.0, 9.0, 7.0, 2.0, 4.0]
 
-    # Define the scoping ids
+    # Set the scoping IDs (here node IDs)
     field5.scoping.ids = [1, 2, 3]
     field6.scoping.ids = [3, 4, 5]
 
-    # Print the Fields
+    # Print the fields
     print("Field 5", "\n", field5, "\n")
-    print("Field 6", "\n",field6,"\n")
+    print("Field 6", "\n", field6, "\n")
 
-    # Print the Fields data
-    print("Field 5 data", "\n", field5.data,"\n")
-    print("Field 6 data", "\n", field6.data,"\n")
+Here the only entities with matching IDs between the two fields are:
 
-Here the only entities with matching ids are:
+- The third one of the first field (ID=3)
+- The first one of the second field (ID=3)
 
-- The third one of the first field
-- The first one of the second field.
-
-Other entities elementary data is not taken into account when using an operator that needs two operands.
+Other entities are thus not taken into account when using an operator that needs two operands.
 
 For example the |add| operator:
 
@@ -601,10 +613,9 @@ For example the |add| operator:
     # Use the add operator
     add_scop = dpf.operators.math.add(fieldA=field5, fieldB=field6).eval()
 
-    # Print the results
-    # Only the entity id 3 is changed.
-    print(add_scop,"\n")
-    print(add_scop.data,"\n")
+    # Print the result
+    # The resulting field only contains data for entity with ID=3.
+    print(add_scop, "\n")
 
 Or the |generalized_inner_product| operator:
 
