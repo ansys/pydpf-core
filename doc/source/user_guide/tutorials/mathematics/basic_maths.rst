@@ -29,7 +29,7 @@ Basic maths
 .. |norm| replace:: :class:`norm<ansys.dpf.core.operators.math.norm.norm>`
 .. |norm_fc| replace:: :class:`norm_fc<ansys.dpf.core.operators.math.norm_fc.norm_fc>`
 
-This tutorial explains how to do some basic mathematical operations with PyDPF-Core.
+This tutorial explains how to perform some basic mathematical operations with PyDPF-Core.
 
 DPF uses |Field| and |FieldsContainer| objects to handle data. The |Field| is a homogeneous array and
 a |FieldsContainer| is a labeled collection of |Field|. Thus, when making mathematical operations with the data, you
