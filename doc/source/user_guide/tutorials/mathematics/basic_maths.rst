@@ -44,23 +44,24 @@ Create the Fields and FieldsContainers
 DPF uses |Field| and |FieldsContainer| objects to handle data. The |Field| is a homogeneous array and
 a |FieldsContainer| is a labeled collection of |Field|.
 
-Here, we use |Field| and |FieldsContainer| created from scratch to facilitate the understanding on how the
-mathematical operators works. For more information on creating a |Field| from scratch check
+Here, we use |Field| and |FieldsContainer| created from scratch to facilitate understanding of how the
+mathematical operators work. For more information on creating a |Field| from scratch check
 :ref:`ref_tutorials_data_structures`.
 
 .. tab-set::
 
     .. tab-item:: Fields
 
-        Create the Fields by defining:
+        Create the fields based on:
 
-        - The number of entities
-        - The entities ids and location. Thus, the |Field| scoping
+        - A number of entities
+        - A list of IDs and a location, which together define the scoping of the field:
 
-            - If not specified, the location is *'nodal'* by default.
-            - Each entity (here, the nodes) must have a |Scoping| id. The ids allows DPF to apply an operator on the
-              corresponding entities. For more detailed explanation about the influence of the |Scoping| on the operations,
-              see the :ref:`ref_basic_maths_scoping_handling` section on this tutorial.
+        The location defines the type of entity the IDs refer to. It defaults to *nodal*, in which case the scoping is
+        understood as a list of node IDs, and the field is a nodal field.
+        
+        For a more detailed explanation about the influence of the |Scoping| on the operations,
+        see the :ref:`ref_basic_maths_scoping_handling` section of this tutorial.
 
         Import the necessary DPF modules.
 
@@ -71,48 +72,48 @@ mathematical operators works. For more information on creating a |Field| from sc
             # Import the math operators module
             from ansys.dpf.core.operators import math as maths
 
-        Create the Fields by intanciating the |Field| object.
+        Create the fields with the |Field| class constructor.
 
         .. jupyter-execute::
 
-            # Instantiate the Fields
+            # Create the fields
             num_entities = 2
             field1 = field2 = field3 = field4 = dpf.Field(nentities=num_entities)
 
-            # Define the scoping ids
+            # Set the scoping IDs
             field1.scoping.ids = field2.scoping.ids = field3.scoping.ids = field4.scoping.ids = range(num_entities)
 
-            # Set the data to each Field
+            # Set the data for each field
             field1.data = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
             field2.data = [7.0, 3.0, 5.0, 8.0, 1.0, 2.0]
             field3.data = [6.0, 5.0, 4.0, 3.0, 2.0, 1.0]
             field4.data = [4.0, 1.0, 8.0, 5.0, 7.0, 9.0]
 
-            # Print the Fields
+            # Print the fields
             print("Field 1","\n", field1, "\n"); print("Field 2","\n", field2, "\n");
             print("Field 3","\n", field3, "\n"); print("Field 4","\n", field4, "\n")
 
     .. tab-item:: FieldsContainers
 
-        Create the FieldsContainers using the |fields_container_factory|.  Here, we use the |over_time_freq_fields_container|
+        Create the field containers using the |fields_container_factory|.  Here, we use the |over_time_freq_fields_container|
         function that creates a |FieldsContainer| with a *'time'* label.
 
         .. jupyter-execute::
 
-            # Create the FieldsContainers
+            # Create the field containers
             fc1 = dpf.fields_container_factory.over_time_freq_fields_container(fields=[field1, field2])
             fc2 = dpf.fields_container_factory.over_time_freq_fields_container(fields=[field3, field4])
 
-            # Print the FieldsContainers
+            # Print the field containers
             print("FieldsContainer1","\n", fc1, "\n")
             print("FieldsContainer2","\n", fc2, "\n")
 
 
-To make the mathematics operations, we use the operators available in the |math operators| module.
-Their usage is similar, for each operation you must instantiate the operator and use ``.eval()`` method to compute
-and retrieve the results.
+To perform mathematical operations, we use operators available in the |math operators| module.
+First create an instance of the operator of interest, then use the ``.eval()`` method to compute
+and retrieve the first output available.
 
-Mathematical operations with Fields
+Mathematical operations with fields
 -----------------------------------
 
 .. tab-set::
@@ -121,66 +122,64 @@ Mathematical operations with Fields
 
         Here, we use:
 
-        - The |add| operator for component wise addition
+        - The |add| operator for component-wise addition
         - The |accumulate| operator to find the total sum of each component for all the entities
 
         **'add' operator**
 
-        This operator computes the sum between the data vectors for the corresponding entity id.
+        This operator computes the sum of two fields.
 
         .. jupyter-execute::
 
-            # Add the Fields
+            # Add the fields
             add_field = maths.add(fieldA=field1, fieldB=field2).eval()
             # id 0: [1.+7. 2.+3. 3.+5.]
             # id 1: [4.+8. 5.+1. 6.+2.]
 
             # Print the results
-            print("Addition fields",add_field , "\n")
+            print("Addition field ", add_field , "\n")
 
         **'accumulate' operator**
 
-        This operator sums all the elementary data of a field to produce one elementary data for each vector component.
-        You can give a scale ("ponderation") argument.
+        This operator computes the total sum of elementary data of a field, for each component of the field.
+        You can give a scaling ("weights") argument.
 
-         Mind the |Field| dimension: Our |Field| represents 3D vectors, so one elementary data is a 3D vector.
-         The optional "ponderation" |Field| is a |Field| that attributes the values to be multiplied by each data
-         component of the entities. Thus, we need to change its dimensionality (1D).
+         Mind the |Field| dimension: Our |Field| represents 3D vectors, so each elementary data is a 3D vector.
+         The optional "weights" |Field| attributes a scaling factor for each entity when performing the sum. 
+         We thus need to provide a 1D field.
 
-        Define the total sum (accumulate) of the components of the given |Field|.
+        Compute the component-wise total sum (accumulate) of a given |Field|.
 
         .. jupyter-execute::
 
-            # Find the total sum of the Fields
+            # Compute the total sum of a field
             tot_sum_field = maths.accumulate(fieldA=field1).eval()
-            # vector component 0 = 1.+ 4.
-            # vector component 1 =  2.+ 5.
-            # vector component 2 = 3.+ 6.
+            # vector component 0 = 1. + 4.
+            # vector component 1 = 2. + 5.
+            # vector component 2 = 3. + 6.
 
             # Print the results
             print("Total sum fields","\n", tot_sum_field, "\n")
 
-        Define the total sum (accumulate) of the components of the given |Field| and give a scale factor.
+        Compute the component-wise total sum (accumulate) of a given |Field| using a scale factor field.
 
         .. jupyter-execute::
 
-            # Defines the scale factor Field
-            scale_vect = dpf.Field(num_entities)
-            # Changes the scale factor Field dimensionality
-            scale_vect.dimensionality = dpf.Dimensionality([1])
-            # Defines the scale factor Field scoping ids
+            # Define the scale factor field
+            scale_vect = dpf.Field(nentities=num_entities, nature=ansys.dpf.core.common.natures.scalar)
+            # Set the scale factor field scoping IDs
             scale_vect.scoping.ids = range(num_entities)
-            # Defines the scale factor Field data
+            # Set the scale factor field data
             scale_vect.data = [5., 2.]
 
-            # Find the total sum of the Field and use a scale vector
-            tot_sum_field_scale = maths.accumulate(fieldA=field1, ponderation=scale_vect).eval()
+            # Compute the total sum of the field using a scaling field
+            tot_sum_field_scale = maths.accumulate(fieldA=field1, weights=scale_vect).eval()
             # vector component 0 = (1.0 * 5.0) + (4.0 * 2.0)
             # vector component 1 = (2.0 * 5.0) + (5.0 * 2.0)
             # vector component 2 = (3.0 * 5.0) + (6.0 * 2.0)
 
             # Print the results
-            print("Total sum fields scale","\n", tot_sum_field_scale, "\n")
+            print("Total weighted sum:","\n", tot_sum_field_scale, "\n")
 
     .. tab-item:: Subtraction
 
