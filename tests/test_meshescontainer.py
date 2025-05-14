@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -26,9 +26,9 @@ import weakref
 
 import pytest
 
-import conftest
 from ansys import dpf
 from ansys.dpf.core import MeshesContainer
+import conftest
 
 
 # TO DO: add server type

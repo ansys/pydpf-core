@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -21,7 +21,7 @@
 # SOFTWARE.
 
 """
-DataConnection
+DataConnection.
 
 This module contains the `DataConnection` and `DataConnectionsCollection`
 classes, which represent individual connections between data and operator,
@@ -29,6 +29,7 @@ and a collection of such connections within a workflow, respectively.
 """
 
 from typing import Any, Iterator, Optional
+
 from ansys.dpf.core import GenericDataContainersCollection
 from ansys.dpf.core.custom_container_base import CustomContainerBase
 from ansys.dpf.core.dpf_operator import Operator

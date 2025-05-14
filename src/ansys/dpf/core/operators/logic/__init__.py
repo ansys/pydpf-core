@@ -9,10 +9,16 @@ from .descending_sort_fc import descending_sort_fc
 from .elementary_data_selector import elementary_data_selector
 from .elementary_data_selector_fc import elementary_data_selector_fc
 from .enrich_materials import enrich_materials
+from .identical_anys import identical_anys
 from .identical_fc import identical_fc
 from .identical_fields import identical_fields
+from .identical_generic_data_containers import identical_generic_data_containers
+from .identical_mc import identical_mc
 from .identical_meshes import identical_meshes
+from .identical_pfc import identical_pfc
 from .identical_property_fields import identical_property_fields
+from .identical_sc import identical_sc
+from .identical_scopings import identical_scopings
 from .identical_string_fields import identical_string_fields
 from .included_fields import included_fields
 from .solid_shell_fields import solid_shell_fields

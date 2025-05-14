@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -21,17 +21,17 @@
 # SOFTWARE.
 
 # -*- coding: utf-8 -*-
-import os
 import copy
-import tempfile
+import os
 from pathlib import Path
+import tempfile
 
-import ansys.grpc.dpf
 import numpy as np
 
-import ansys.dpf.core.operators as op
 from ansys.dpf import core
 from ansys.dpf.core import examples
+import ansys.dpf.core.operators as op
+import ansys.grpc.dpf
 
 
 def test_workflowwithgeneratedcode(allkindofcomplexity):
@@ -363,3 +363,203 @@ def test_generated_operator_set_config():
     assert conf.config_option_accepted_types("mutex") == ["bool"]
     assert conf.options["mutex"] == "false"
     assert "multiple threads" in conf.config_option_documentation("mutex")
+
+
+def test_markdown_to_rst():
+    from ansys.dpf.core.operators.translator import Markdown2RstTranslator
+
+    markdown_reference_input = r"""# Headings
+## h2
+### h3
+#### h4
+##### h5
+
+# Text
+This should result in a paragraph
+it's that simple.
+
+*italic*, **bold**
+
+# Lists
+* an *unordered list*
+  * with **some hierarchy**
+    1. and an ordered
+    2. mixed
+    * list
+    * directly
+  * inside
+
+# Code
+## Code block
+```c
+std::string a = 'test';
+```
+```js
+var a = 'test';
+```
+```python
+a: str = 'test'
+```
+## Inline code
+And well `inline code` should also work.
+
+# Quotes
+
+> A Quote
+>
+> With *some text* **blocks inside**
+>
+> * even a list
+> * should be
+> * possible
+
+## Links
+Links such as [link](https://docs.pyansys.com/).
+
+## Images
+![an image](https://docs.pyansys.com/version/dev/_static/pyansys_logo_transparent_white.png)
+
+
+## Separations
+
+---
+
+## Checklists
+
+- [ ] how
+- [ ] about
+  - [ ] a
+  - [x] nice
+- [x] check
+- [ ] list
+
+## Tables
+
+| Left header | middle header | last header |
+|-------------|---------------|-------------|
+| cell 1      | cell **2**    | cell 3      |
+| cell 4      | cell 5        | cell 6      |
+
+
+## LaTeX
+
+$$x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.$$
+"""
+    rst_reference_output = r"""Headings
+========
+
+h2
+--
+
+h3
+~~
+
+h4
+^^
+
+h5
+''
+
+Text
+====
+
+This should result in a paragraph it’s that simple.
+
+*italic*, **bold**
+
+Lists
+=====
+
+- an *unordered list*
+
+  - with **some hierarchy**
+
+    1. and an ordered
+    2. mixed
+
+    - list
+    - directly
+
+  - inside
+
+Code
+====
+
+Code block
+----------
+
+.. code:: c
+
+   std::string a = 'test';
+
+.. code:: js
+
+   var a = 'test';
+
+.. code:: python
+
+   a: str = 'test'
+
+Inline code
+-----------
+
+And well ``inline code`` should also work.
+
+Quotes
+======
+
+   A Quote
+
+   With *some text* **blocks inside**
+
+   - even a list
+   - should be
+   - possible
+
+Links
+-----
+
+Links such as `link <https://docs.pyansys.com/>`__.
+
+Images
+------
+
+.. figure::
+   https://docs.pyansys.com/version/dev/_static/pyansys_logo_transparent_white.png
+   :alt: an image
+
+   an image
+
+Separations
+-----------
+
+--------------
+
+Checklists
+----------
+
+- ☐ how
+- ☐ about
+
+  - ☐ a
+  - ☒ nice
+
+- ☒ check
+- ☐ list
+
+Tables
+------
+
+=========== ============= ===========
+Left header middle header last header
+=========== ============= ===========
+cell 1      cell **2**    cell 3
+cell 4      cell 5        cell 6
+=========== ============= ===========
+
+LaTeX
+-----
+
+.. math:: x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.
+"""
+    assert Markdown2RstTranslator().convert(markdown_reference_input) == rst_reference_output

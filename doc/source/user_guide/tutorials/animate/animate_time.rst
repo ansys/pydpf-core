@@ -128,7 +128,7 @@ Use |animate| with the displacement results.
            :hide-code:
            :hide-output:
 
-           disp_fc.animate(off_screen=True,save_as="source/user_guide/tutorials/animate/animate_disp_1.gif")
+           disp_fc.animate(off_screen=True,save_as="doc/source/user_guide/tutorials/animate/animate_disp_1.gif")
 
         .. image:: animate_disp_1.gif
            :scale: 50 %
@@ -146,7 +146,7 @@ Use |animate| with the displacement results.
            :hide-code:
            :hide-output:
 
-           disp_fc.animate(off_screen=True,save_as="source/user_guide/tutorials/animate/animate_disp_2.gif",
+           disp_fc.animate(off_screen=True,save_as="doc/source/user_guide/tutorials/animate/animate_disp_2.gif",
                              deform_by=False)
 
         .. image:: animate_disp_2.gif
@@ -173,7 +173,7 @@ Use |animate| with the stress results.
            :hide-code:
            :hide-output:
 
-           stress_fc.animate(off_screen=True,save_as="source/user_guide/tutorials/animate/animate_stress_1.gif",
+           stress_fc.animate(off_screen=True,save_as="doc/source/user_guide/tutorials/animate/animate_stress_1.gif",
                                deform_by=disp_fc)
 
         .. image:: animate_stress_1.gif
@@ -192,7 +192,7 @@ Use |animate| with the stress results.
            :hide-code:
            :hide-output:
 
-           stress_fc.animate(off_screen=True,save_as="source/user_guide/tutorials/animate/animate_stress_2.gif")
+           stress_fc.animate(off_screen=True,save_as="doc/source/user_guide/tutorials/animate/animate_stress_2.gif")
 
         .. image:: animate_stress_2.gif
            :scale: 50 %
@@ -220,7 +220,7 @@ Uniform constant scaling
     :hide-code:
     :hide-output:
 
-    disp_fc.animate(off_screen=True,save_as="source/user_guide/tutorials/animate/animate_disp_3.gif",
+    disp_fc.animate(off_screen=True,save_as="doc/source/user_guide/tutorials/animate/animate_disp_3.gif",
                       scale_factor=uniform_scale_factor, text="Uniform scale factor")
 
 .. image:: animate_disp_3.gif
@@ -242,7 +242,7 @@ Varying scaling
     :hide-code:
     :hide-output:
 
-    disp_fc.animate(off_screen=True,save_as="source/user_guide/tutorials/animate/animate_disp_4.gif",
+    disp_fc.animate(off_screen=True,save_as="doc/source/user_guide/tutorials/animate/animate_disp_4.gif",
                       scale_factor=varying_scale_factor, text="Varying scale factor")
 
 .. image:: animate_disp_4.gif
@@ -309,7 +309,7 @@ Fixed camera
    :hide-code:
    :hide-output:
 
-   stress_fc.animate(save_as="source/user_guide/tutorials/animate/animate_disp_5.gif",
+   stress_fc.animate(save_as="doc/source/user_guide/tutorials/animate/animate_disp_5.gif",
                        cpos=cam_pos,
                        off_screen=True)
 
@@ -339,7 +339,7 @@ Moving camera
    :hide-code:
    :hide-output:
 
-   stress_fc.animate(save_as="source/user_guide/tutorials/animate/animate_disp_6.gif",
+   stress_fc.animate(save_as="doc/source/user_guide/tutorials/animate/animate_disp_6.gif",
                        cpos=cpos_list,
                        off_screen=True)
 

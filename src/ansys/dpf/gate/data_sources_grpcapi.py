@@ -176,3 +176,8 @@ class DataSourcesGRPCAPI(data_sources_abstract_api.DataSourcesAbstractAPI):
     def data_sources_get_path(dataSources, key, index):
         response = _get_stub(dataSources._server).List(dataSources._internal_obj)
         return list(response.paths[key].paths)[index]
+
+    @staticmethod
+    def data_sources_get_namespace(dataSources, key):
+        response = _get_stub(dataSources._server).List(dataSources._internal_obj)
+        return response.namespaces[key]

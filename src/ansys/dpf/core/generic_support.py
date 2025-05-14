@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -20,16 +20,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""
-.. _ref_genericsupport:
+"""GenericSupport."""
 
-GenericSupport
-
-"""
-
-from ansys.dpf.gate import generic_support_capi, generic_support_grpcapi
+from ansys.dpf.core import errors, field, property_field, string_field
 from ansys.dpf.core.support import Support
-from ansys.dpf.core import field, property_field, string_field, errors
+from ansys.dpf.gate import generic_support_capi, generic_support_grpcapi
 
 
 class GenericSupport(Support):

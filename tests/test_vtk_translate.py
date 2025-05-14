@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -21,18 +21,20 @@
 # SOFTWARE.
 
 import pytest
-import conftest
+
 import ansys.dpf.core as dpf
 from ansys.dpf.core import errors, misc
 from ansys.dpf.core.vtk_helper import (
-    dpf_mesh_to_vtk,
-    dpf_field_to_vtk,
-    dpf_meshes_to_vtk,
-    dpf_fieldscontainer_to_vtk,
-    dpf_property_field_to_vtk,
     append_field_to_grid,
     append_fieldscontainer_to_grid,
+    dpf_field_to_vtk,
+    dpf_fieldscontainer_to_vtk,
+    dpf_mesh_to_vtk,
+    dpf_meshes_to_vtk,
+    dpf_property_field_to_vtk,
+    vtk_mesh_is_valid,
 )
+import conftest
 
 if misc.module_exists("pyvista"):
     HAS_PYVISTA = True
@@ -96,10 +98,13 @@ def test_dpf_field_to_vtk(simple_rst, fluent_mixing_elbow_steady_state, server_t
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
-def test_dpf_field_to_vtk_errors(simple_rst, server_type):
-    model = dpf.Model(simple_rst, server=server_type)
+def test_dpf_field_to_vtk_errors(server_type):
     # Elemental Field to VTK
-    field = model.results.elemental_volume.on_last_time_freq().eval()[0]
+    field = dpf.fields_factory.create_scalar_field(
+        num_entities=3, location=dpf.locations.elemental, server=server_type
+    )
+    field.scoping.ids = [4, 67, 8]
+    field.data = [0.0, 4.0, 5.0]
     with pytest.raises(ValueError, match="The field does not have a meshed_region."):
         _ = dpf_field_to_vtk(field=field)
 
@@ -226,3 +231,90 @@ def test_append_fields_container_to_grid(simple_rst, server_type):
     assert isinstance(ug, pv.UnstructuredGrid)
     assert "disp {'time': 1}" in ug.point_data.keys()
     assert "volume {'time': 1}" in ug.cell_data.keys()
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_vtk_mesh_is_valid_polyhedron():
+    # Element type is polyhedron
+    cell_types = [pv.CellType.POLYHEDRON]
+
+    # Start with a valid element
+    nodes_1 = [
+        [0.0, 0.0, 0.0],
+        [1.0, 0.0, 0.0],
+        [0.0, 1.0, 0.0],
+        [0.0, 0.0, 0.5],
+        [1.0, 0.0, 0.5],
+        [0.0, 1.0, 0.5],
+    ]
+    cells_1 = [5, 4, 4, 1, 2, 5, 4, 3, 0, 1, 4, 3, 2, 1, 0, 3, 3, 4, 5, 4, 5, 2, 0, 3]
+    grid = pv.UnstructuredGrid([len(cells_1), *cells_1], cell_types, nodes_1)
+    validity = vtk_mesh_is_valid(grid)
+    print(validity)
+    assert validity.valid
+    assert "valid" in validity.msg
+    assert validity.grid.active_scalars_name == "ValidityState"
+    assert len(validity.wrong_number_of_points) == 0
+    assert len(validity.intersecting_edges) == 0
+    assert len(validity.intersecting_faces) == 0
+    assert len(validity.non_contiguous_edges) == 0
+    assert len(validity.non_convex) == 0
+    assert len(validity.inverted_faces) == 0
+
+    # Move one node
+    nodes_2 = [
+        [0.0, 0.0, 0.0],
+        [1.0, 0.0, 0.0],
+        [0.0, 1.0, 0.0],
+        [0.0, -0.05, 0.5],  # Moved one node along Y axis
+        [1.0, 0.0, 0.5],
+        [0.0, 1.0, 0.5],
+    ]
+    grid = pv.UnstructuredGrid([len(cells_1), *cells_1], cell_types, nodes_2)
+    validity = vtk_mesh_is_valid(grid)
+    print(validity)
+    assert not validity.valid  # For some reason this element is found to be non-convex
+    assert len(validity.wrong_number_of_points) == 0
+    assert len(validity.intersecting_edges) == 0
+    assert len(validity.intersecting_faces) == 0
+    assert len(validity.non_contiguous_edges) == 0
+    assert len(validity.non_convex) == 1
+    assert len(validity.inverted_faces) == 0
+
+    # Invert one face
+    cells_2 = [
+        5,
+        4,
+        4,
+        1,
+        2,
+        5,
+        4,
+        3,
+        0,
+        1,
+        4,
+        3,
+        2,
+        1,
+        0,
+        3,
+        5,
+        4,
+        3,  # Inverted face
+        4,
+        5,
+        2,
+        0,
+        3,
+    ]
+    grid = pv.UnstructuredGrid([len(cells_2), *cells_2], cell_types, nodes_1)
+    validity = vtk_mesh_is_valid(grid)
+    print(validity)
+    assert not validity.valid  # Non-convex AND bad face orientation
+    assert len(validity.wrong_number_of_points) == 0
+    assert len(validity.intersecting_edges) == 0
+    assert len(validity.intersecting_faces) == 0
+    assert len(validity.non_contiguous_edges) == 0
+    assert len(validity.non_convex) == 1
+    assert len(validity.inverted_faces) == 1

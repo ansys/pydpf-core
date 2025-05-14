@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -21,15 +21,16 @@
 # SOFTWARE.
 
 """
-Animator
+Animator.
 
 This module contains the DPF animator class.
 
 Contains classes used to animate results based on workflows using PyVista.
 """
 
+from typing import Sequence, Union
+
 import numpy as np
-from typing import Union, Sequence
 
 import ansys.dpf.core as core
 from ansys.dpf.core.helpers.utils import _sort_supported_kwargs
@@ -37,8 +38,7 @@ from ansys.dpf.core.plotter import _PyVistaPlotter
 
 
 class _InternalAnimatorFactory:
-    """
-    Factory for _InternalAnimator based on the backend."""
+    """Factory for _InternalAnimator based on the backend."""
 
     @staticmethod
     def get_animator_class():
@@ -46,7 +46,7 @@ class _InternalAnimatorFactory:
 
 
 class _PyVistaAnimator(_PyVistaPlotter):
-    """This _InternalAnimator class is based on PyVista"""
+    """An InternalAnimator class based on PyVista."""
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -60,6 +60,7 @@ class _PyVistaAnimator(_PyVistaPlotter):
         save_as="",
         mode_number=None,
         scale_factor=1.0,
+        shell_layer=core.shell_layers.top,
         **kwargs,
     ):
         unit = loop_over.unit
@@ -121,6 +122,7 @@ class _PyVistaAnimator(_PyVistaPlotter):
                 field,
                 deform_by=deform,
                 scale_factor_legend=scale_factor[frame],
+                shell_layer=shell_layer,
                 **kwargs,
             )
             kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.add_text, **freq_kwargs)
@@ -190,6 +192,8 @@ class _PyVistaAnimator(_PyVistaPlotter):
 
 
 class Animator:
+    """The DPF animator class."""
+
     def __init__(self, workflow=None, **kwargs):
         """
         Create an Animator object.
@@ -228,6 +232,7 @@ class Animator:
     def workflow(self) -> core.Workflow:
         """
         Workflow used to generate a Field at each frame of the animation.
+
         By default, the "to_render" Field output will be plotted,
         and the "loop_over" input defines what the animation iterates on.
         Optionally, the workflow can also have a "deform_by" Field output,
@@ -264,33 +269,37 @@ class Animator:
         save_as: str = None,
         scale_factor: Union[float, Sequence[float]] = 1.0,
         freq_kwargs: dict = None,
+        shell_layer: core.shell_layers = core.shell_layers.top,
         **kwargs,
     ):
         """
-        Animate the workflow of the Animator, using inputs
+        Animate the workflow of the Animator, using inputs.
 
         Parameters
         ----------
-        loop_over : Field
+        loop_over:
             Field of values to loop over.
             Can for example be a subset of sets of TimeFreqSupport.time_frequencies.
             The unit of the Field will be displayed if present.
-        output_name : str, optional
+        output_name:
             Name of the workflow output to use as Field for each frame's contour.
             Defaults to "to_render".
-        input_name : list of str, optional
+        input_name:
             Name of the workflow inputs to feed loop_over values into.
             Defaults to "loop_over".
-        save_as : str, optional
+        save_as:
             Path of file to save the animation to. Defaults to None. Can be of any format supported
             by pyvista.Plotter.write_frame (.gif, .mp4, ...).
-        scale_factor : float, list, optional
+        scale_factor:
             Scale factor to apply when warping the mesh. Defaults to 1.0. Can be a list to make
             scaling frequency-dependent.
-        freq_kwargs : dict, optional
+        freq_kwargs:
             Dictionary of kwargs given to the :func:`pyvista.Plotter.add_text` method, used to
             format the frequency information. Can also contain a "fmt" key,
             defining the format for the frequency displayed with a string such as ".3e".
+        shell_layer:
+            Enum used to set the shell layer if the field to plot
+            contains shell elements. Defaults to top layer.
         **kwargs : optional
             Additional keyword arguments for the animator.
             Used by :func:`pyvista.Plotter` (off_screen, cpos, ...),
@@ -311,11 +320,22 @@ class Animator:
             save_as=save_as,
             scale_factor=scale_factor,
             freq_kwargs=freq_kwargs,
+            shell_layer=shell_layer,
             **kwargs,
         )
 
 
 def scale_factor_to_fc(scale_factor, fc):
+    """Scale the fields being animated by a factor.
+
+    Parameters
+    ----------
+    scale_factor : int, float, list
+        Scale factor to apply to the animated field.
+    fc : FieldsContainer
+        FieldsContainer containing the fields being animated.
+    """
+
     def int_to_field(value, shape, scoping):
         field = core.fields_factory.field_from_array(np.full(shape=shape, fill_value=value))
         field.scoping = scoping

@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -21,7 +21,7 @@
 # SOFTWARE.
 
 """
-WorkflowTopology
+WorkflowTopology.
 
 This module contains the `WorkflowTopology` class, which represents
 the structure and relationships within a workflow, including its operators,
@@ -29,6 +29,7 @@ connections, and exposed input/output pins.
 """
 
 from typing import Optional
+
 from ansys.dpf.core import OperatorsCollection
 from ansys.dpf.core.custom_container_base import CustomContainerBase
 from ansys.dpf.core.generic_data_container import GenericDataContainer
@@ -38,9 +39,7 @@ from ansys.dpf.core.workflow_topology.operator_connection import OperatorConnect
 
 
 class WorkflowTopology(CustomContainerBase):
-    """
-    Represents the topology of a workflow, including its operators, connections, and exposed input/output pins.
-    """
+    """Represent the workflow topology, including operators, connections, and input/output pins."""
 
     def __init__(self, container: GenericDataContainer) -> None:
         """

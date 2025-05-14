@@ -49,6 +49,11 @@ class BaseServiceStub(object):
                 request_serializer=base__pb2.DeleteRequest.SerializeToString,
                 response_deserializer=base__pb2.Empty.FromString,
                 )
+        self.DeleteStreamed = channel.stream_unary(
+                '/ansys.api.dpf.base.v0.BaseService/DeleteStreamed',
+                request_serializer=base__pb2.DeleteRequest.SerializeToString,
+                response_deserializer=base__pb2.Empty.FromString,
+                )
         self.Serialize = channel.unary_stream(
                 '/ansys.api.dpf.base.v0.BaseService/Serialize',
                 request_serializer=base__pb2.SerializeRequest.SerializeToString,
@@ -130,6 +135,12 @@ class BaseServiceServicer(object):
     def Delete(self, request, context):
         """deletes any sharedObjectBase
         """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def DeleteStreamed(self, request_iterator, context):
+        """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
@@ -218,6 +229,11 @@ def add_BaseServiceServicer_to_server(servicer, server):
             ),
             'Delete': grpc.unary_unary_rpc_method_handler(
                     servicer.Delete,
+                    request_deserializer=base__pb2.DeleteRequest.FromString,
+                    response_serializer=base__pb2.Empty.SerializeToString,
+            ),
+            'DeleteStreamed': grpc.stream_unary_rpc_method_handler(
+                    servicer.DeleteStreamed,
                     request_deserializer=base__pb2.DeleteRequest.FromString,
                     response_serializer=base__pb2.Empty.SerializeToString,
             ),
@@ -380,6 +396,23 @@ class BaseService(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/ansys.api.dpf.base.v0.BaseService/Delete',
+            base__pb2.DeleteRequest.SerializeToString,
+            base__pb2.Empty.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def DeleteStreamed(request_iterator,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.stream_unary(request_iterator, target, '/ansys.api.dpf.base.v0.BaseService/DeleteStreamed',
             base__pb2.DeleteRequest.SerializeToString,
             base__pb2.Empty.FromString,
             options, channel_credentials,
