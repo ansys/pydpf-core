@@ -19,7 +19,6 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
-
 import numpy as np
 
 from ansys.dpf import core as dpf
@@ -58,3 +57,43 @@ def test_perf_vec_getters(server_type):
     for index, chunk in enumerate(chunks):
         d = field.data[chunk]
         d = field.scoping.ids[chunk]
+
+
+def test_update_empty_dpf_vector_prop_field(server_type):
+    prop_field = dpf.PropertyField(server=server_type)
+    prop_field.data = np.zeros((100))
+    prop_field.scoping.ids = list(range(1, 100))
+    assert np.allclose(prop_field.get_entity_data(1), [0])
+    dp = prop_field._data_pointer
+    dp = None
+    assert np.allclose(prop_field.get_entity_data(1), [0])
+
+
+def test_update_empty_dpf_vector_field(server_type):
+    field = dpf.Field(server=server_type)
+    field.data = np.zeros((100), dtype=np.double)
+    field.scoping.ids = list(range(1, 100))
+    assert np.allclose(field.get_entity_data(1), [0])
+    dp = field._data_pointer
+    dp = None
+    assert np.allclose(field.get_entity_data(1), [0])
+
+
+def test_update_empty_dpf_vector_string_field(server_type):
+    string_field = dpf.StringField(server=server_type)
+    string_field.data = ["high", "goodbye", "hello"]
+    string_field.scoping.ids = list(range(1, 3))
+    assert string_field.get_entity_data(1) == ["goodbye"]
+    dp = string_field._data_pointer
+    dp = None
+    assert string_field.get_entity_data(1) == ["goodbye"]
+
+
+def test_update_empty_dpf_vector_custom_type_field(server_type):
+    field = dpf.CustomTypeField(unitary_type=np.double, server=server_type)
+    field.data = np.zeros((100), dtype=np.double)
+    field.scoping.ids = list(range(1, 100))
+    assert np.allclose(field.get_entity_data(1), [0])
+    dp = field._data_pointer
+    dp = None
+    assert np.allclose(field.get_entity_data(1), [0])
