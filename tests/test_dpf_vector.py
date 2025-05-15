@@ -20,6 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 import numpy as np
+import pytest
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import fields_factory
@@ -80,7 +81,10 @@ def test_update_empty_dpf_vector_field(server_type):
     assert np.allclose(field.get_entity_data(1), [0])
 
 
-@conftest.raises_for_servers_version_under("5.0")
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
+    reason="change in memory ownership in server 7.0",
+)
 def test_update_empty_dpf_vector_string_field(server_type):
     string_field = dpf.StringField(server=server_type)
     string_field.data = ["high", "goodbye", "hello"]
