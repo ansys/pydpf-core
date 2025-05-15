@@ -4,7 +4,7 @@
 Plot
 ====
 
-These tutorials demonstrate some different approaches to visualise the data in plots.
+These tutorials demonstrate different ways one can visualize the data in plots using PyDPF-Core.
 
 .. grid:: 1 1 3 3
     :gutter: 2
@@ -16,50 +16,49 @@ These tutorials demonstrate some different approaches to visualise the data in p
        :link-type: ref
        :text-align: center
 
-       This tutorial shows different plotting commands to plot a bare mesh
+       This tutorial shows how to plot a bare mesh.
 
     .. grid-item-card:: Plot a deformed mesh
        :link: ref_tutorials_plot_deformed_mesh
        :link-type: ref
        :text-align: center
 
-       This tutorial shows different plotting commands to plot a bare deformed mesh
+       This tutorial shows how to plot a deformed mesh.
 
     .. grid-item-card:: Plot data on a mesh
        :link: ref_plot_data_on_a_mesh
        :link-type: ref
        :text-align: center
 
-       This tutorial explains how to plot data on its supporting mesh by
-       different approaches.
+       This tutorial shows how to plot data on its supporting mesh.
 
     .. grid-item-card:: Plot data on a deformed mesh
        :link: ref_plot_data_on_deformed_mesh
        :link-type: ref
        :text-align: center
 
-       This tutorial explains how to plot data on its supporting deformed mesh.
+       This tutorial shows how to plot data on its supporting mesh with deformation.
 
     .. grid-item-card:: Plot data on custom path
        :link: ref_plot_data_on_custom_path
        :link-type: ref
        :text-align: center
 
-       This tutorial shows how to plot data on custom path
+       This tutorial shows how to plot data on a custom path.
 
     .. grid-item-card:: Plot data on custom geometry
        :link: ref_plot_data_on_custom_geometry
        :link-type: ref
        :text-align: center
 
-       This tutorial shows how to plot data on custom geometric shapes
+       This tutorial shows how to plot data on custom geometric shapes.
 
     .. grid-item-card:: Plot a graph
        :link: ref_plot_a_graph
        :link-type: ref
        :text-align: center
 
-       This tutorial explains how to plot a graph with data in DPF
+       This tutorial shows how to plot graphs.
 
 .. toctree::
     :maxdepth: 2
