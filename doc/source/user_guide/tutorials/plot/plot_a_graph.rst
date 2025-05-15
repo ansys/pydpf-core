@@ -1,46 +1,59 @@
 .. _ref_plot_a_graph:
 
-====================
-Plot data on a graph
-====================
+=============================
+Plot a graph using matplotlib
+=============================
+
+.. |Examples| replace:: :mod:`Examples<ansys.dpf.core.examples>`
+.. |Field| replace:: :class:`Field<ansys.dpf.core.field.Field>`
+.. |FieldsContainer| replace:: :class:`FieldsContainer<ansys.dpf.core.fields_container.FieldsContainer>`
+.. |MeshedRegion| replace:: :class:`MeshedRegion <ansys.dpf.core.meshed_region.MeshedRegion>`
+.. |DpfPlotter| replace:: :class:`DpfPlotter<ansys.dpf.core.plotter.DpfPlotter>`
+.. |TimeFreqSupport| replace:: :class:`TimeFreqSupport <ansys.dpf.core.time_freq_support.TimeFreqSupport>`
 
 .. |Line| replace:: :class:`Line <ansys.dpf.core.geometry.Line>`
-.. |mapping| replace:: :class:`mapping <ansys.dpf.core.operators.mapping.on_coordinates.on_coordinates>`
+.. |on_coordinates| replace:: :class:`on_coordinates <ansys.dpf.core.operators.mapping.on_coordinates.on_coordinates>`
 .. |Line.path| replace:: :func:`Line.path<ansys.dpf.core.geometry.Line.path>`
 .. |min_max_fc| replace:: :class:`min_max_fc <ansys.dpf.core.operators.min_max.min_max_fc.min_max_fc>`
 
-This tutorial explains how to plot a graph with data in DPF.
+This tutorial explains how to plot a graph with data from DPF using `matplotlib <matplotlib_github>`_.
 
-The current |DpfPlotter| module don't have method to plotting graphs. Thus, you need to import the
-`matplotlib <matplotlib_github_>`_ library to plot a graph with PyDPF-Core.
+The current |DpfPlotter| module does not allow to plot graphs. Instead, you need to import the
+`matplotlib <matplotlib_github>`_ library to plot graphs with PyDPF-Core.
 
 :jupyter-download-script:`Download tutorial as Python script<plot_a_graph>`
 :jupyter-download-notebook:`Download tutorial as Jupyter notebook<plot_a_graph>`
 
-There is a large range of graphs you can plot. Here, we plot:
+There is a large range of graphs you can plot. Here, we showcase:
 
-- :ref:`Results data vs. space position graph <ref_graph_result_space>`
-- :ref:`Results data vs. time graph <ref_graph_result_time>`
+- :ref:`A graph of a result along a path <ref_graph_result_space>`
+- :ref:`A graph of transient data <ref_graph_result_time>`
 
 .. _ref_graph_result_space:
 
-Results data vs. space position
--------------------------------
+Result along a path
+-------------------
 
-In this tutorial, we plot the norm of the displacement results on a |Line|. For more information about how
-this object can be defined, see the :ref:`ref_plot_data_on_custom_geometry` tutorial.
+In this tutorial, we plot the norm of the displacement along a custom path represented by a |Line|.
+For more information about how to create a custom geometric object,
+see the :ref:`ref_plot_data_on_custom_geometry` tutorial.
 
-Define the results data
-^^^^^^^^^^^^^^^^^^^^^^^
+We first need to get the data of interest, then create a custom |Line| geometry for the path.
+We then map the result on the path, and finally create a 2D graph.
 
-First, import a results file. For this tutorial, you can use the one available in the |Examples| module.
-For more information about how to import your own result file in DPF, see
+Extract the data
+^^^^^^^^^^^^^^^^
+
+First, extract the data from a result file or create some from scratch.
+For this tutorial we use a case available in the |Examples| module.
+For more information on how to import your own result file in DPF,
+or on how to create data from user input in PyDPF-Core,see
 the :ref:`ref_tutorials_import_data` tutorials section.
 
 .. jupyter-execute::
 
     # Import the ``ansys.dpf.core`` module
-    from ansys.dpf import core as dpf
+    import ansys.dpf.core as dpf
     # Import the examples module
     from ansys.dpf.core import examples
     # Import the operators module
@@ -51,116 +64,109 @@ the :ref:`ref_tutorials_import_data` tutorials section.
     # Import the ``matplotlib.pyplot`` module
     import matplotlib.pyplot as plt
 
-    # Define the result file path
+    # Download and get the path to an example result file
     result_file_path_1 = examples.find_static_rst()
 
-The results will be mapped over a defined set of coordinates. Thus, we need the spatial support to
-those coordinates: the mesh. The mesh object in DPF is a |MeshedRegion|.
-
-You can obtain a |MeshedRegion| by creating your own from scratch or by getting it from a result file.
-For more information, see the :ref:`ref_tutorials_create_a_mesh_from_scratch` and
-:ref:`ref_tutorials_get_mesh_from_result_file` tutorials.
-
-Here, we extract it from the result file.
-
-.. jupyter-execute::
-
-    # Create the model
+    # Create a model from the result file
     model_1 = dpf.Model(data_sources=result_file_path_1)
 
-    # Extract the mesh
-    meshed_region_1 = model_1.metadata.meshed_region
-
-Extract the results to be plotted on the graph. In this tutorial, we plot the norm of the
-displacement results over time.
+We then extract the result of interest for the graph.
+In this tutorial, we want the norm of the displacement field at the last step.
 
 .. jupyter-execute::
 
-    # Get the displacement results
+    # Get the nodal displacement field at the last simulation step (default)
     disp_results_1 = model_1.results.displacement.eval()
 
-Define the line
+    # Get the norm of the displacement field
+    norm_disp = ops.math.norm(field=disp_results_1).eval()
+
+Define the path
 ^^^^^^^^^^^^^^^
 
-Create a |Line| passing through the mesh diagonal.
+Create a path as a |Line| passing through the diagonal of the mesh.
 
 .. jupyter-execute::
 
-    # Create the Line object
-    line_1 = geo.Line(coordinates=[[0.0, 0.06, 0.0], [0.03, 0.03, 0.03]],
-                       n_points=50
-                       )
+    # Create a discretized line for the path
+    line_1 = geo.Line(coordinates=[[0.0, 0.06, 0.0], [0.03, 0.03, 0.03]], n_points=50)
 
-Map the results to the line
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Map the data on the path
+^^^^^^^^^^^^^^^^^^^^^^^^
 
-Map the displacement results to the |Line| using the |mapping| operator. This operator
-retrieves the results of the entities located in the given coordinates. If the given coordinates don't
-match with any entity coordinate, the operator interpolates the results inside elements with shape functions.
+Map the displacement norm field to the |Line| using the ``on_coordinates`` |on_coordinates| mapping operator.
 
-The displacement results are defined in a *`nodal`* location. Thus, each node has a coordinate in the
-mesh and a corresponding displacement data.
+This operator interpolates field values at given node coordinates, using element shape functions.
 
-The |mapping| operator takes the coordinates stored in a |Field|. Thus, we must create a |Field| with the
-|Line| coordinates.
+It takes as input a |FieldsContainer| of data, a 3D vector |Field| of coordinates to interpolate at,
+and an optional |MeshedRegion| to use for element shape functions if the first |Field| in the data
+provided does not have an associated meshed support.
 
 .. jupyter-execute::
 
-    # Get the coordinates field
-    line_coords_field = line_1.mesh.nodes.coordinates_field
-
-    # Map the line coordinates with the displacement results
-    mapped_disp_line = ops.mapping.on_coordinates(fields_container=disp_results_1,
-                                                  coordinates=line_coords_field,
-                                                  create_support=True,
-                                                  mesh=meshed_region_1
-                                                   ).eval()[0]
+    # Interpolate the displacement norm field at the nodes of the custom path
+    disp_norm_on_path_fc: dpf.FieldsContainer = ops.mapping.on_coordinates(
+        fields_container=disp_results_1,
+        coordinates=line_1.mesh.nodes.coordinates_field,
+    ).eval()
+    # Extract the only field in the collection obtained
+    disp_norm_on_path: dpf.Field = disp_norm_on_path_fc[0]
 
 Plot the graph
 ^^^^^^^^^^^^^^
 
-Plot a graph of the norm of the displacement results along the |Line| length using the
-`matplotlib <matplotlib_github_>`_ library.
+Plot a graph of the norm of the displacement field along the path using the
+`matplotlib <matplotlib_github>`_ library.
 
-To get the |Line| length you can use the |Line.path| method. It gives the 1D line coordinates, based on
-the points where the line was discretized.
+To get the parametric coordinates of the nodes along the line and use them as X-axis,
+you can use the |Line.path| method.
+It gives the 1D array of parametric coordinates of the nodes of the line along the line.
+
+The values in the displacement norm field are in the same order as the parametric
+coordinates because the mapping operator orders output data the same as the input coordinates.
 
 .. jupyter-execute::
 
-    # Define the norm of the displacement results
-    norm_disp = ops.math.norm(field=mapped_disp_line).eval()
+    # Get the field of parametric coordinates along the path for the X-axis
+    line_coordinates = line_1.path
 
-    # Define the point coordinates on the line length
-    line_length_points = line_1.path
+    # Define the curve to plot
+    plt.plot(line_coordinates, disp_norm_on_path.data)
 
-    # Define the plot figure
-    plt.plot(line_length_points, norm_disp.data)
-
-    # Graph formating
-    plt.xlabel("Line length");  plt.ylabel("Displacement norm field"); plt.title("Displacement evolution on the line")
+    # Add titles to the axes and the graph
+    plt.xlabel("Position on path")
+    plt.ylabel("Displacement norm")
+    plt.title("Displacement norm along the path")
 
     # Display the graph
     plt.show()
 
 .. _ref_graph_result_time:
 
-Results data vs. time
----------------------
+Transient data
+--------------
 
-In this tutorial, we plot the displacement results over time for a transient analysis.
-For more information about using PyDPF-Core with a transient analysis, see the :ref:`static_transient_examples` examples.
+In this tutorial, we plot the minimum and maximum displacement norm over time for a transient analysis.
+For more information about using PyDPF-Core with a transient analysis,
+see the :ref:`static_transient_examples` examples.
 
-Define the results data
-^^^^^^^^^^^^^^^^^^^^^^^
+We first need to create data for the Y-axis,
+and then format the time information of the model for the X-axis,
+to finally create a 2D graph using both.
 
-First, import a transient results file. For this tutorial, you can use the one available in the |Examples| module.
-For more information about how to import your own result file in DPF, see
+Prepare data
+^^^^^^^^^^^^
+
+First, extract the data from a transient result file or create some from scratch.
+For this tutorial we use a case available in the |Examples| module.
+For more information on how to import your own result file in DPF,
+or on how to create data from user input in PyDPF-Core,see
 the :ref:`ref_tutorials_import_data` tutorials section.
 
 .. jupyter-execute::
 
     # Import the ``ansys.dpf.core`` module
-    from ansys.dpf import core as dpf
+    import ansys.dpf.core as dpf
     # Import the examples module
     from ansys.dpf.core import examples
     # Import the operators module
@@ -169,78 +175,70 @@ the :ref:`ref_tutorials_import_data` tutorials section.
     # Import the ``matplotlib.pyplot`` module
     import matplotlib.pyplot as plt
 
-    # Define the result file path
+    # Download and get the path to an example transient result file
     result_file_path_2 = examples.download_transient_result()
 
-The results will be mapped over a defined path of coordinates. Thus, we need the spatial support to
-those coordinates: the mesh. The mesh object in DPF is a |MeshedRegion|.
-
-You can obtain a |MeshedRegion| by creating your own from scratch or by getting it from a result file.
-For more information, see the :ref:`ref_tutorials_create_a_mesh_from_scratch` and
-:ref:`ref_tutorials_get_mesh_from_result_file` tutorials.
-
-Here, we extract it from the result file.
-
-.. jupyter-execute::
-
-    # Create the model
+    # Create a model from the result file
     model_2 = dpf.Model(data_sources=result_file_path_2)
 
-    # Extract the mesh
-    meshed_region_2 = model_2.metadata.meshed_region
+We then extract the result of interest for the graph.
+In this tutorial, we want the maximum and minimum displacement norm over the field at each time step.
 
-Extract the results to be plotted on the graph. Here, we plot the maximum and minimum
-displacement results over time.
-
-First extract the displacement results for all the time frequencies.
+First extract the displacement field for every time step.
 
 .. jupyter-execute::
 
-    # Get the displacement results
-    disp_results_2 = model_2.results.displacement.on_all_time_freqs.eval()
+    # Get the displacement at all time steps
+    disp_results_2: dpf.FieldsContainer = model_2.results.displacement.on_all_time_freqs.eval()
 
-Next, define the minimal and maximal displacements for each time step by using the |min_max_fc|
-operator.
+Next, get the minimum and maximum of the norm of the displacement at each time step using the |min_max_fc| operator.
+This operator outputs
 
 .. jupyter-execute::
 
-    # Define the min_max operator and give the normed displacement results
+    # Instantiate the min_max operator and give the output of the norm operator as input
     min_max_op = ops.min_max.min_max_fc(fields_container=ops.math.norm_fc(disp_results_2))
 
-    # Get the max displacement results
-    max_disp = min_max_op.eval(pin=1)
+    # Get the field of maximum values at each time-step
+    max_disp: dpf.Field = min_max_op.outputs.field_max()
 
-    # Get the min displacement results
-    min_disp = min_max_op.eval(pin=0)
+    # Get the field of minimum values at each time-step
+    min_disp: dpf.Field = min_max_op.outputs.field_min()
 
-Define the time data
-^^^^^^^^^^^^^^^^^^^^
+The operator already outputs fields where data points are associated to time-steps.
 
-The results time steps in DPF are given by the |TimeFreqSupport| object. You can extract it
-from the displacement results |Field|.
+Prepare time values
+^^^^^^^^^^^^^^^^^^^
+
+The time or frequency information associated to DPF objects is stored in |TimeFreqSupport| objects.
+
+You can use the |TimeFreqSupport| of a |Field| with location ``time_freq`` to retrieve the time or
+frequency values associated to the entities mentioned in its scoping.
+
+Here the fields are on all time-steps, so we can simply get the list of all time values without filtering.
 
 .. jupyter-execute::
 
-    # Define the time steps
-    time_steps_1 = disp_results_2.time_freq_support.time_frequencies
+    # Get the field of time values
+    time_steps_1: dpf.Field = disp_results_2.time_freq_support.time_frequencies
 
-    # Print the time frequencies
+    # Print the time values
     print(time_steps_1)
 
-The time steps are given in a |Field|. To plot the graph you need to extract the
-|Field| data.
+The time values associated to time steps are given in a |Field|.
+To use it in the graph you need to extract the data of the |Field| as an array.
 
 .. jupyter-execute::
 
-    # Get the time steps data
+    # Get the time values
     time_data = time_steps_1.data
 
 
 Plot the graph
 ^^^^^^^^^^^^^^
 
-Plot a graph of the minimal and maximal displacements over time using the
-`matplotlib <matplotlib_github_>`_ library.
+Plot a graph of the minimum and maximum displacement over time using the
+`matplotlib <matplotlib_github>`_ library.
 
 .. jupyter-execute::
 
@@ -248,8 +246,10 @@ Plot a graph of the minimal and maximal displacements over time using the
     plt.plot(time_data, max_disp.data, "r", label="Max")
     plt.plot(time_data, min_disp.data, "b", label="Min")
 
-    # Graph formating
-    plt.xlabel("Time (s)"); plt.ylabel("Displacement (m)"); plt.legend();
+    # Add axis labels and legend
+    plt.xlabel("Time (s)")
+    plt.ylabel("Displacement (m)")
+    plt.legend()
 
     # Display the graph
     plt.show()
