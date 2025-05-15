@@ -49,7 +49,7 @@ import psutil
 import ansys.dpf.core as core
 from ansys.dpf.core import __version__, errors, server_context, server_factory
 from ansys.dpf.core._version import min_server_version, server_to_ansys_version
-from ansys.dpf.core.check_version import server_meet_version
+from ansys.dpf.core.check_version import get_server_version, meets_version, server_meet_version
 from ansys.dpf.core.server_context import AvailableServerContexts, ServerContext
 from ansys.dpf.gate import data_processing_grpcapi, load_api
 
@@ -444,6 +444,7 @@ class BaseServer(abc.ABC):
         self._context = None
         self._info_instance = None
         self._docker_config = server_factory.RunningDockerConfig()
+        self._server_meet_version = {}
 
     def set_as_global(self, as_global=True):
         """Set the current server as global if necessary.
@@ -642,7 +643,11 @@ class BaseServer(abc.ABC):
         bool
             ``True`` if the server version meets the requirement.
         """
-        return server_meet_version(required_version, self)
+        if required_version not in self._server_meet_version:
+            meet = meets_version(get_server_version(self), required_version)
+            self._server_meet_version[required_version] = meet
+            return meet
+        return self._server_meet_version[required_version]
 
     @property
     @abc.abstractmethod
@@ -1030,6 +1035,8 @@ class GrpcServer(CServer):
 class InProcessServer(CServer):
     """Server using the InProcess communication protocol."""
 
+    _version: str = None
+
     def __init__(
         self,
         ansys_path: Union[str, None] = None,
@@ -1080,14 +1087,16 @@ class InProcessServer(CServer):
         version : str
             The version of the InProcess server in the format "major.minor".
         """
-        from ansys.dpf.gate import data_processing_capi, integral_types
+        if self._version is None:
+            from ansys.dpf.gate import data_processing_capi, integral_types
 
-        api = data_processing_capi.DataProcessingCAPI
-        major = integral_types.MutableInt32()
-        minor = integral_types.MutableInt32()
-        api.data_processing_get_server_version(major, minor)
-        out = str(int(major)) + "." + str(int(minor))
-        return out
+            api = data_processing_capi.DataProcessingCAPI
+            major = integral_types.MutableInt32()
+            minor = integral_types.MutableInt32()
+            api.data_processing_get_server_version(major, minor)
+            out = str(int(major)) + "." + str(int(minor))
+            self._version = out
+        return self._version
 
     @property
     def os(self):

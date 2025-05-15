@@ -33,13 +33,18 @@ class DPFVectorBase:
 
     def __init__(self, owner, api):
         self.dpf_vector_api = api
-        self._modified = False
-        self._check_changes = True
+
+        # The updated version of the DPF vector will always be committed to DPF.
+        # Ideally, this should be set to True only when modified, however this is not possible to do that efficiently.
+        # Consequently, for performance reasons, it's much better to always commit the vector to DPF rather than
+        # verifying whether the vector has changed. See issue #2201.
+        self._modified = True
+
         try:
             self._internal_obj = self.dpf_vector_api.dpf_vector_new_for_object(owner)
             if not server_meet_version("4.1",
                                        owner._server) and owner._server.client is None:  # BUG in 22.2: DpfVector is not holding the data owner and not call to data owner should be done at delete
-                self._check_changes = False
+                self._modified = False
         except ctypes.ArgumentError:
             raise NotImplementedError
 
@@ -52,35 +57,6 @@ class DPFVectorBase:
             Custom int object which can be changed by reference.
         """
         return self._array.internal_size
-
-    def start_checking_modification(self) -> None:
-        """
-        Takes a deep copy of the current data as a numpy array
-        in self._initial_data, if self._check_changes is set to True.
-        In that case, at deletion, the current data is compared to the initial one
-        and the data is updated server side if it has changed.
-
-        Notes
-        -----
-        self._check_changes is set to True by default when a client is added at the class init
-
-        """
-        if self._check_changes:
-            self._initial_data = copy.deepcopy(self.np_array)
-
-    def has_changed(self):
-        """
-        If self._check_changes is set to True, compares the initial data computed in
-        ```start_checking_modification``` to the current one.
-
-        Notes
-        -----
-        self._check_changes is set to True by default when a client is added at the class init
-        """
-        if self._check_changes:
-            if self._modified or not np.allclose(self._initial_data, self.np_array):
-                self._modified = True
-        return self._modified
 
     @property
     def np_array(self) -> np.ndarray:
@@ -103,21 +79,6 @@ class DPFVectorBase:
         """Size of the data array (returns a copy)"""
         return int(self.internal_size)
 
-    def start_checking_modification(self) -> None:
-        """
-        Takes a deep copy of the current data as a numpy array
-        in self._initial_data, if self._check_changes is set to True.
-        In that case, at deletion, the current data is compared to the initial one
-        and the data is updated server side if it has changed.
-
-        Notes
-        -----
-        self._check_changes is set to True by default when a client is added at the class init
-
-        """
-        if self._check_changes:
-            self._initial_data = copy.deepcopy(self.np_array)
-
     def has_changed(self):
         """
         If self._check_changes is set to True, compares the initial data computed in
@@ -127,9 +88,6 @@ class DPFVectorBase:
         -----
         self._check_changes is set to True by default when a client is added at the class init
         """
-        if self._check_changes:
-            if self._modified or not np.allclose(self._initial_data, self.np_array):
-                self._modified = True
         return self._modified
 
     def __del__(self):
