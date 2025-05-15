@@ -16,49 +16,49 @@ These tutorials demonstrate different ways one can visualize the data in plots u
        :link-type: ref
        :text-align: center
 
-       This tutorial shows how to plot a bare mesh.
+       This tutorial shows several ways to plot meshes.
 
     .. grid-item-card:: Plot a deformed mesh
        :link: ref_tutorials_plot_deformed_mesh
        :link-type: ref
        :text-align: center
 
-       This tutorial shows how to plot a deformed mesh.
+       This tutorial shows how to add deformation to mesh plots.
 
     .. grid-item-card:: Plot data on a mesh
        :link: ref_plot_data_on_a_mesh
        :link-type: ref
        :text-align: center
 
-       This tutorial shows how to plot data on its supporting mesh.
+       This tutorial shows how to plot contours on meshes.
 
     .. grid-item-card:: Plot data on a deformed mesh
        :link: ref_plot_data_on_deformed_mesh
        :link-type: ref
        :text-align: center
 
-       This tutorial shows how to plot data on its supporting mesh with deformation.
+       This tutorial shows how to plot contours on meshes with deformation.
 
     .. grid-item-card:: Plot data on custom path
        :link: ref_plot_data_on_custom_path
        :link-type: ref
        :text-align: center
 
-       This tutorial shows how to plot data on a custom path.
+       This tutorial shows how to map and plot data on a custom path.
 
     .. grid-item-card:: Plot data on custom geometry
        :link: ref_plot_data_on_custom_geometry
        :link-type: ref
        :text-align: center
 
-       This tutorial shows how to plot data on custom geometric shapes.
+       This tutorial shows how to map and plot data on custom geometric shapes.
 
     .. grid-item-card:: Plot a graph
        :link: ref_plot_a_graph
        :link-type: ref
        :text-align: center
 
-       This tutorial shows how to plot graphs.
+       This tutorial shows how to plot graphs using matplotlib.
 
 .. toctree::
     :maxdepth: 2
