@@ -1,0 +1,93 @@
+
+
+
+
+
+
+:class:`OutputsNodeCoordinates`
+===============================
+
+.. py:class:: ansys.dpf.core.operators.mesh.node_coordinates.OutputsNodeCoordinates(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   node_coordinates operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.node_coordinates()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_coordinates = op.outputs.coordinates()
+
+
+
+
+
+.. py:currentmodule:: OutputsNodeCoordinates
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~coordinates_as_field`
+            - 
+          * - :py:attr:`~coordinates_as_fields_container`
+            - 
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mesh.node_coordinates import OutputsNodeCoordinates
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: coordinates_as_field
+
+.. py:attribute:: coordinates_as_fields_container
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+
