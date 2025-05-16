@@ -59,7 +59,7 @@ Here, we create a function that will find this connectivity.
 
     def search_sequence_numpy(arr, node):
         """Find the node location in an array of nodes and return its index."""
-        indexes = np.isclose(arr, seq)
+        indexes = np.isclose(arr, node)
         match = np.all(indexes, axis=1).nonzero()
         return int(match[0][0])
 
