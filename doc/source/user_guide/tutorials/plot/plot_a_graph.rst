@@ -79,7 +79,7 @@ In this tutorial, we want the norm of the displacement field at the last step.
     disp_results_1 = model_1.results.displacement.eval()
 
     # Get the norm of the displacement field
-    norm_disp = ops.math.norm(field=disp_results_1).eval()
+    norm_disp = ops.math.norm_fc(fields_container=disp_results_1).eval()
 
 Define the path
 ^^^^^^^^^^^^^^^
@@ -90,6 +90,8 @@ Create a path as a |Line| passing through the diagonal of the mesh.
 
     # Create a discretized line for the path
     line_1 = geo.Line(coordinates=[[0.0, 0.06, 0.0], [0.03, 0.03, 0.03]], n_points=50)
+    # Plot the line on the original mesh
+    line_1.plot(mesh=model_1.metadata.meshed_region)
 
 Map the data on the path
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -106,11 +108,12 @@ provided does not have an associated meshed support.
 
     # Interpolate the displacement norm field at the nodes of the custom path
     disp_norm_on_path_fc: dpf.FieldsContainer = ops.mapping.on_coordinates(
-        fields_container=disp_results_1,
+        fields_container=norm_disp,
         coordinates=line_1.mesh.nodes.coordinates_field,
     ).eval()
     # Extract the only field in the collection obtained
     disp_norm_on_path: dpf.Field = disp_norm_on_path_fc[0]
+    print(disp_norm_on_path)
 
 Plot the graph
 ^^^^^^^^^^^^^^
@@ -158,9 +161,9 @@ Prepare data
 ^^^^^^^^^^^^
 
 First, extract the data from a transient result file or create some from scratch.
-For this tutorial we use a case available in the |Examples| module.
+For this tutorial we use a transient case available in the |Examples| module.
 For more information on how to import your own result file in DPF,
-or on how to create data from user input in PyDPF-Core,see
+or on how to create data from user input in PyDPF-Core, see
 the :ref:`ref_tutorials_import_data` tutorials section.
 
 .. jupyter-execute::
@@ -181,6 +184,9 @@ the :ref:`ref_tutorials_import_data` tutorials section.
     # Create a model from the result file
     model_2 = dpf.Model(data_sources=result_file_path_2)
 
+    # Check the model is transient with its ``TimeFreqSupport``
+    print(model_2.metadata.time_freq_support)
+
 We then extract the result of interest for the graph.
 In this tutorial, we want the maximum and minimum displacement norm over the field at each time step.
 
@@ -192,7 +198,6 @@ First extract the displacement field for every time step.
     disp_results_2: dpf.FieldsContainer = model_2.results.displacement.on_all_time_freqs.eval()
 
 Next, get the minimum and maximum of the norm of the displacement at each time step using the |min_max_fc| operator.
-This operator outputs
 
 .. jupyter-execute::
 
@@ -201,9 +206,11 @@ This operator outputs
 
     # Get the field of maximum values at each time-step
     max_disp: dpf.Field = min_max_op.outputs.field_max()
+    print(max_disp)
 
     # Get the field of minimum values at each time-step
     min_disp: dpf.Field = min_max_op.outputs.field_min()
+    print(min_disp)
 
 The operator already outputs fields where data points are associated to time-steps.
 
@@ -225,13 +232,14 @@ Here the fields are on all time-steps, so we can simply get the list of all time
     # Print the time values
     print(time_steps_1)
 
-The time values associated to time steps are given in a |Field|.
+The time values associated to time-steps are given in a |Field|.
 To use it in the graph you need to extract the data of the |Field| as an array.
 
 .. jupyter-execute::
 
     # Get the time values
     time_data = time_steps_1.data
+    print(time_data)
 
 
 Plot the graph
@@ -240,6 +248,8 @@ Plot the graph
 Plot a graph of the minimum and maximum displacement over time using the
 `matplotlib <matplotlib_github>`_ library.
 
+Use the ``unit`` property of the fields to properly label the axes.
+
 .. jupyter-execute::
 
     # Define the plot figure
@@ -247,8 +257,8 @@ Plot a graph of the minimum and maximum displacement over time using the
     plt.plot(time_data, min_disp.data, "b", label="Min")
 
     # Add axis labels and legend
-    plt.xlabel("Time (s)")
-    plt.ylabel("Displacement (m)")
+    plt.xlabel(f"Time ({time_steps_1.unit})")
+    plt.ylabel(f"Displacement ({max_disp.unit})")
     plt.legend()
 
     # Display the graph
