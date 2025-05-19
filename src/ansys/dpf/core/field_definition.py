@@ -207,6 +207,17 @@ class FieldDefinition:
     def unit(self, value):
         self._api.csfield_definition_set_unit(self, value, None, 0, 0, 0)
 
+    def set_named_dimensionless_unit(self, value):
+        """Set a named dimensionless unit for the field.
+
+        Parameters
+        ----------
+        value : str
+            Units for the field. This unit must be homogeneous to no physical quantity
+        """
+        # 117 corresponds to dimensionless
+        self._api.csfield_definition_set_unit(self, value, None, 117, 0, 0)
+
     @location.setter
     def location(self, value):
         self._api.csfield_definition_set_location(self, value)

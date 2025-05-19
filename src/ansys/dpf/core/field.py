@@ -640,6 +640,29 @@ class Field(_FieldBase):
         fielddef.unit = value
         self.field_definition = fielddef
 
+    def set_named_dimensionless_unit(self, value):
+        """Set a named dimensionless unit for the field.
+
+        Parameters
+        ----------
+        value : str
+            Units for the field. This unit must be homogeneous to no physical quantity
+
+        Examples
+        --------
+        Units for a psychoacoustics field.
+
+        >>> from ansys.dpf import core as dpf
+        >>> my_field = dpf.Field(10)
+        >>> my_field.set_named_dimensionless_unit("sones")
+        >>> print(my_field.unit)
+        sones
+
+        """
+        fielddef = self.field_definition
+        fielddef.set_named_dimensionless_unit(value)
+        self.field_definition = fielddef
+
     @property
     def dimensionality(self):
         """Dimensionality represents the shape of the elementary data contained in the field.

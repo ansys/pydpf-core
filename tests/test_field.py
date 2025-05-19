@@ -32,7 +32,11 @@ from ansys.dpf.core import FieldDefinition, operators as ops
 from ansys.dpf.core.check_version import server_meet_version
 from ansys.dpf.core.common import locations, shell_layers
 import conftest
-from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0, running_docker
+from conftest import (
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
+    running_docker,
+)
 
 
 @pytest.fixture()
@@ -1417,3 +1421,16 @@ def test_deep_copy_big_field_remote(server_type, server_type_remote_process):
 
     out = dpf.core.core._deep_copy(field_a, server_type_remote_process)
     assert np.allclose(out.data, data)
+
+
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0, reason="Available for servers >=10.0"
+)
+def test_set_named_dimensionless_units():
+    data = np.random.random(100)
+    field = dpf.core.field_from_array(data)
+    field.unit = "m"
+    assert field.unit == "m"
+
+    field.set_named_dimensionless_unit("sones")
+    assert field.unit == "sones"
