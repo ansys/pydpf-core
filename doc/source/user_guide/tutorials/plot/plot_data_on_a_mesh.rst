@@ -1,4 +1,4 @@
-.. _ref_plot_data_on_a_mesh:
+.. _ref_tutorials_plot_data_on_a_mesh:
 
 ===================
 Plot data on a mesh

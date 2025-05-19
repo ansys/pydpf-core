@@ -26,7 +26,7 @@ These tutorials demonstrate different ways one can visualize the data in plots u
        This tutorial shows how to add deformation to mesh plots.
 
     .. grid-item-card:: Plot data on a mesh
-       :link: ref_plot_data_on_a_mesh
+       :link: ref_tutorials_plot_data_on_a_mesh
        :link-type: ref
        :text-align: center
 
