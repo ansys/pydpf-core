@@ -1,4 +1,4 @@
-.. _ref_plot_a_graph:
+.. _ref_tutorials_plot_graph:
 
 =============================
 Plot a graph using matplotlib
@@ -36,7 +36,7 @@ Result along a path
 
 In this tutorial, we plot the norm of the displacement along a custom path represented by a |Line|.
 For more information about how to create a custom geometric object,
-see the :ref:`ref_plot_data_on_custom_geometry` tutorial.
+see the :ref:`ref_tutorials_plot_on_custom_geometry` tutorial.
 
 We first need to get the data of interest, then create a custom |Line| geometry for the path.
 We then map the result on the path, and finally create a 2D graph.

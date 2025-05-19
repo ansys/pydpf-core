@@ -18,43 +18,36 @@ These tutorials demonstrate different ways one can visualize the data in plots u
 
        This tutorial shows several ways to plot meshes.
 
-    .. grid-item-card:: Plot a deformed mesh
+    .. grid-item-card:: Plot with mesh deformation
        :link: ref_tutorials_plot_deformed_mesh
        :link-type: ref
        :text-align: center
 
-       This tutorial shows how to add deformation to mesh plots.
+       This tutorial shows how to add deformation to plots.
 
-    .. grid-item-card:: Plot data on a mesh
-       :link: ref_tutorials_plot_data_on_a_mesh
+    .. grid-item-card:: Plot contours
+       :link: ref_tutorials_plot_contour
        :link-type: ref
        :text-align: center
 
-       This tutorial shows how to plot contours on meshes.
-
-    .. grid-item-card:: Plot data on a deformed mesh
-       :link: ref_plot_data_on_deformed_mesh
-       :link-type: ref
-       :text-align: center
-
-       This tutorial shows how to plot contours on meshes with deformation.
+       This tutorial shows how to plot contours.
 
     .. grid-item-card:: Plot data on custom path
-       :link: ref_plot_data_on_custom_path
+       :link: ref_tutorials_plot_on_custom_path
        :link-type: ref
        :text-align: center
 
        This tutorial shows how to map and plot data on a custom path.
 
     .. grid-item-card:: Plot data on custom geometry
-       :link: ref_plot_data_on_custom_geometry
+       :link: ref_tutorials_plot_on_custom_geometry
        :link-type: ref
        :text-align: center
 
        This tutorial shows how to map and plot data on custom geometric shapes.
 
     .. grid-item-card:: Plot a graph
-       :link: ref_plot_a_graph
+       :link: ref_tutorials_plot_graph
        :link-type: ref
        :text-align: center
 
@@ -66,8 +59,7 @@ These tutorials demonstrate different ways one can visualize the data in plots u
 
     plot_mesh.rst
     plot_deformed_mesh.rst
-    plot_data_on_a_mesh.rst
-    plot_data_on_deformed_mesh.rst
+    plot_contour.rst
     plot_data_on_custom_path.rst
     plot_data_on_custom_geometry.rst
     plot_a_graph.rst

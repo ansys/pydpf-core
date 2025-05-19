@@ -113,7 +113,7 @@ To plot the |MeshedRegion| you can use:
             # Display the scene
             plotter_1.show_figure()
 
-You can also plot data contours on a mesh. For more information, see :ref:`ref_tutorials_plot_data_on_a_mesh`
+You can also plot data contours on a mesh. For more information, see :ref:`ref_tutorials_contour`
 
 Plot several meshes
 -------------------
@@ -152,7 +152,7 @@ and colors them based on the property used to split the mesh.
     meshes.plot()
 
 You can also plot data on a collection of meshes.
-For more information, see :ref:`ref_tutorials_plot_data_on_a_mesh`
+For more information, see :ref:`ref_tutorials_contour`
 
 .. rubric:: Footnotes
 

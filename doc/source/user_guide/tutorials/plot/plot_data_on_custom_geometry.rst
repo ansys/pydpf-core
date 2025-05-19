@@ -1,4 +1,4 @@
-.. _ref_plot_data_on_custom_geometry:
+.. _ref_tutorials_plot_on_custom_geometry:
 
 ============================
 Plot data on custom geometry
@@ -305,7 +305,7 @@ Plot the results on the geometry elements
 -----------------------------------------
 
 To plot the results on the path, we use the |DpfPlotter| object. For more information about
-plotting data on a mesh, see the :ref:`ref_tutorials_plot_data_on_a_mesh` tutorial.
+plotting data on a mesh, see the :ref:`ref_tutorials_contour` tutorial.
 
 First, define the |DpfPlotter| object [2]_. Next, add the |MeshedRegion|
 and the |Field| containing the results using the |add_mesh| and |add_field| methods respectively.
