@@ -4,18 +4,18 @@
 Plot a mesh
 ===========
 
-.. |Model.plot| replace:: :func:`Model.plot()<ansys.dpf.core.model.Model.plot>`
-.. |MeshedRegion.plot| replace:: :func:`MeshedRegion.plot() <ansys.dpf.core.meshed_region.MeshedRegion.plot>`
-.. |MeshesContainer.plot| replace:: :func:`MeshesContainer.plot()<ansys.dpf.core.meshes_container.MeshesContainer.plot>`
-.. |add_mesh| replace:: :func:`add_mesh()<ansys.dpf.core.plotter.DpfPlotter.add_mesh>`
-.. |show_figure| replace:: :func:`show_figure()<ansys.dpf.core.plotter.DpfPlotter.show_figure>`
-.. |split_mesh| replace:: :class:`split_mesh <ansys.dpf.core.operators.mesh.split_mesh.split_mesh>`
+.. |Model.plot| replace:: :py:meth:`Model.plot() <ansys.dpf.core.model.Model.plot>`
+.. |MeshedRegion.plot| replace:: :py:meth:`MeshedRegion.plot() <ansys.dpf.core.meshed_region.MeshedRegion.plot>`
+.. |MeshesContainer.plot| replace:: :py:meth:`MeshesContainer.plot() <ansys.dpf.core.meshes_container.MeshesContainer.plot>`
+.. |add_mesh| replace:: :py:meth:`add_mesh() <ansys.dpf.core.plotter.DpfPlotter.add_mesh>`
+.. |show_figure| replace:: :py:meth:`show_figure() <ansys.dpf.core.plotter.DpfPlotter.show_figure>`
+.. |split_mesh| replace:: :py:class:`split_mesh <ansys.dpf.core.operators.mesh.split_mesh.split_mesh>`
 
-.. |Model| replace:: :class:`Model <ansys.dpf.core.model.Model>`
-.. |Examples| replace:: :mod:`Examples<ansys.dpf.core.examples>`
-.. |MeshedRegion| replace:: :class:`MeshedRegion <ansys.dpf.core.meshed_region.MeshedRegion>`
-.. |MeshesContainer| replace:: :class:`MeshesContainer <ansys.dpf.core.meshes_container.MeshesContainer>`
-.. |DpfPlotter| replace:: :class:`DpfPlotter<ansys.dpf.core.plotter.DpfPlotter>`
+.. |Model| replace:: :py:class:`Model <ansys.dpf.core.model.Model>`
+.. |Examples| replace:: :py:mod:`Examples<ansys.dpf.core.examples>`
+.. |MeshedRegion| replace:: :py:class:`MeshedRegion <ansys.dpf.core.meshed_region.MeshedRegion>`
+.. |MeshesContainer| replace:: :py:class:`MeshesContainer <ansys.dpf.core.meshes_container.MeshesContainer>`
+.. |DpfPlotter| replace:: :py:class:`DpfPlotter<ansys.dpf.core.plotter.DpfPlotter>`
 
 This tutorial shows different commands for plotting a mesh without data.
 
@@ -151,7 +151,8 @@ and colors them based on the property used to split the mesh.
     # Plot the collection of meshes
     meshes.plot()
 
-You can also plot data on a collection of meshes. For more information, see :ref:`ref_plot_data_on_a_mesh`
+You can also plot data on a collection of meshes.
+For more information, see :ref:`ref_plot_data_on_a_mesh`
 
 .. rubric:: Footnotes
 
