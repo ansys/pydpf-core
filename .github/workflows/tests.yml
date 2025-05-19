@@ -217,7 +217,7 @@ jobs:
           # sudo apt-get update
           # sudo apt-get install libosmesa6
           # echo "VTK_DEFAULT_OPENGL_WINDOW=vtkOSOpenGLRenderWindow" >> ${GITHUB_ENV}
-          echo "VTK_DEFAULT_OPENGL_WINDOW=vtkEGLRenderWindow" >> ${GITHUB_ENV}
+          # echo "VTK_DEFAULT_OPENGL_WINDOW=vtkEGLRenderWindow" >> ${GITHUB_ENV}
 
       - name: "Test Docstrings"
         if: (inputs.DOCSTRING == 'true') && !((inputs.test_any == 'true') && (matrix.os == 'ubuntu-latest'))
@@ -240,7 +240,7 @@ jobs:
       - name: "Organize test files"
         shell: bash
         run: |
-          tox -e pretest
+          xvfb-run tox -e pretest
 
       - name: "Test API test_entry"
         uses: nick-fields/retry@v3
@@ -249,7 +249,7 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
-            tox -e test-api_entry,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
+            xvfb-run tox -e test-api_entry,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
 
       - name: "Run compatible tests in parallel"
         uses: nick-fields/retry@v3
@@ -258,7 +258,7 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
-            tox run-parallel -m ciparalleltests ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
+            xvfb-run tox run-parallel -m ciparalleltests ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
 
       - name: "Test API test_server"
         uses: nick-fields/retry@v3
@@ -267,7 +267,7 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
-            tox -e test-server,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
+            xvfb-run tox -e test-server,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
 
       - name: "Test API test_remote_workflow"
         uses: nick-fields/retry@v3
@@ -276,12 +276,12 @@ jobs:
           max_attempts: 3
           shell: bash
           command: |
-            tox -e test-remote_workflow,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
+            xvfb-run tox -e test-remote_workflow,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
 
       - name: "Test API test_remote_operator"
         shell: bash
         run: |
-          tox -e test-remote_operator,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
+          xvfb-run tox -e test-remote_operator,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
 
       - name: "Test API test_workflow"
         uses: nick-fields/retry@v3
@@ -290,7 +290,7 @@ jobs:
           max_attempts: 4
           shell: bash
           command: |
-            tox -e test-workflow,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
+            xvfb-run tox -e test-workflow,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
 
       - name: "Test API test_service"
         uses: nick-fields/retry@v3
@@ -299,7 +299,7 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
-            tox -e test-service,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
+            xvfb-run tox -e test-service,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
 
       - name: "Combine coverage results"
         shell: bash
