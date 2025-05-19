@@ -209,6 +209,7 @@ jobs:
         uses: ansys/pydpf-actions/prepare_tests@dependencies/bump_pyvista_setup-headless-display-action_to_v4
         with:
           DEBUG: true
+          
 
       - name: "Setup LibOSMesa on Linux runners"
         if: runner.os == 'Linux'
@@ -216,6 +217,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install libosmesa6
+          echo "VTK_DEFAULT_OPENGL_WINDOW=vtkOSOpenGLRenderWindow" >> ${GITHUB_ENV}
 
       - name: "Test Docstrings"
         if: (inputs.DOCSTRING == 'true') && !((inputs.test_any == 'true') && (matrix.os == 'ubuntu-latest'))
