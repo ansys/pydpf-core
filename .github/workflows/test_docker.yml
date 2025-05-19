@@ -102,6 +102,13 @@ jobs:
         with:
           DEBUG: true
 
+      - name: "Setup LibOSMesa on Linux runners"
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          sudo apt-get update
+          sudo apt-get install libosmesa6
+
       - name: "List installed packages"
         shell: bash
         run: pip list
