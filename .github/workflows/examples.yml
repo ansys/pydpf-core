@@ -128,9 +128,11 @@ jobs:
         if: runner.os == 'Linux'
         shell: bash
         run: |
-          sudo apt-get update
-          sudo apt-get install libosmesa6
-          echo "VTK_DEFAULT_OPENGL_WINDOW=vtkOSOpenGLRenderWindow" >> ${GITHUB_ENV}
+          # sudo apt-get update
+          # sudo apt-get install libosmesa6
+          # echo "VTK_DEFAULT_OPENGL_WINDOW=vtkOSOpenGLRenderWindow" >> ${GITHUB_ENV}
+          echo "VTK_DEFAULT_OPENGL_WINDOW=vtkEGLRenderWindow" >> ${GITHUB_ENV}
+
 
       - name: "List installed packages"
         shell: bash
