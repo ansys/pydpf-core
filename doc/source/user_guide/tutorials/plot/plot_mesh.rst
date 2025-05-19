@@ -48,7 +48,7 @@ For more information see the :ref:`ref_tutorials_get_mesh_from_result_file` tuto
     from ansys.dpf.core import operators as ops
 
     # Download and get the path to an example result file
-    result_file_path_1 = examples.find_multishells_rst()
+    result_file_path_1 = examples.download_piston_rod()
 
     # Create a model from the result file
     model_1 = dpf.Model(data_sources=result_file_path_1)
