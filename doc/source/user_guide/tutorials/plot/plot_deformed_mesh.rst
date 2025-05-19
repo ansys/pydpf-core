@@ -1,8 +1,8 @@
 .. _ref_tutorials_plot_deformed_mesh:
 
-====================
-Plot a deformed mesh
-====================
+==========================
+Plot with mesh deformation
+==========================
 
 .. |Model.plot| replace:: :py:meth:`Model.plot() <ansys.dpf.core.model.Model.plot>`
 .. |MeshedRegion.plot| replace:: :py:meth:`MeshedRegion.plot() <ansys.dpf.core.meshed_region.MeshedRegion.plot>`

@@ -1,4 +1,4 @@
-.. _ref_tutorials_plot_data_on_a_mesh:
+.. _ref_tutorials_plot_contour:
 
 ===================
 Plot data on a mesh
@@ -13,42 +13,56 @@ Plot data on a mesh
 .. |select_component| replace:: :func:`select_component() <ansys.dpf.core.fields_container.FieldsContainer.select_component>`
 .. |stress_op| replace:: :class:`stress <ansys.dpf.core.operators.result.stress.stress>`
 
-This tutorial shows how to plot data on its supporting mesh by different approaches.
+.. |Field| replace:: :class:`Field<ansys.dpf.core.field.Field>`
+.. |FieldsContainer| replace:: :class:`FieldsContainer<ansys.dpf.core.fields_container.FieldsContainer>`
+.. |Model| replace:: :py:class:`Model <ansys.dpf.core.model.Model>`
+.. |Examples| replace:: :py:mod:`Examples<ansys.dpf.core.examples>`
+.. |MeshedRegion| replace:: :py:class:`MeshedRegion <ansys.dpf.core.meshed_region.MeshedRegion>`
+.. |MeshesContainer| replace:: :py:class:`MeshesContainer <ansys.dpf.core.meshes_container.MeshesContainer>`
+.. |DpfPlotter| replace:: :py:class:`DpfPlotter<ansys.dpf.core.plotter.DpfPlotter>`
+
+This tutorial shows different commands for plotting data contours on a mesh.
 
 :jupyter-download-script:`Download tutorial as Python script<plot_data_on_a_mesh>`
 :jupyter-download-notebook:`Download tutorial as Jupyter notebook<plot_data_on_a_mesh>`
 
-Define the data
----------------
+Load data to plot
+-----------------
 
-First, import a results file. For this tutorial, you can use the one available in the |Examples| module.
-For more information about how to import your own result file in DPF, see
+For this tutorial, we use mesh information and data from a case available in the |Examples| module.
+For more information on how to import your own result file in DPF, see
 the :ref:`ref_tutorials_import_data` tutorials section.
 
 .. jupyter-execute::
 
     # Import the ``ansys.dpf.core`` module
-    from ansys.dpf import core as dpf
+    import ansys.dpf.core as dpf
     # Import the examples module
     from ansys.dpf.core import examples
 
     # Define the result file path
-    result_file_path_1 = examples.find_multishells_rst()
+    result_file_path_1 = examples.download_piston_rod()
 
-The |Model| is a helper designed to give shortcuts to access the analysis results
-metadata and to instanciate results providers by opening a |DataSources| or a Streams.
+    # Create a model from the result file
+    model_1 = dpf.Model(data_sources=result_file_path_1)
 
-Printing the model displays the available results.
+Plot a contour on a single mesh
+-------------------------------
+
+Get the mesh
+^^^^^^^^^^^^
+
+Here we simply get the |MeshedRegion| object of the model, but any other |MeshedRegion| works.
 
 .. jupyter-execute::
 
-    # Create the model
-    model_1 = dpf.Model(data_sources=result_file_path_1)
+    # Extract the mesh
+    meshed_region_1 = model_1.metadata.meshed_region
 
-    # Print the model
-    print(model_1)
+Get data to plot
+^^^^^^^^^^^^^^^^
 
-Extract the data to be plotted. For more information about extracting results from a result file,
+Extract data for the contour. For more information about extracting results from a result file,
 see the :ref:`ref_tutorials_import_data` tutorials section.
 
 .. note::
@@ -90,20 +104,8 @@ the index the component as an input. The stress tensor has 6 components per elem
     # Get the stress results for the XX component
     fc_stress_XX = fc_stress.select_component(index=0)
 
-Define the mesh
----------------
-
-The mesh object in DPF is a |MeshedRegion|. Thus, to plot the data on a mesh you need a |MeshedRegion| to be based on.
-Here, we get a |MeshedRegion| from a result file. For more information about how to extract a |MeshedRegion|
-from a result file, see the :ref:`ref_tutorials_get_mesh_from_result_file` tutorial.
-
-.. jupyter-execute::
-
-    # Define the meshed region
-    meshed_region_1 = model_1.metadata.meshed_region
-
-Plot the data on the mesh
--------------------------
+Plot the contour
+^^^^^^^^^^^^^^^^
 
 There are two different approaches to plot the data on the mesh:
 
@@ -214,6 +216,18 @@ To plot the |MeshedRegion| and add the data on top of that you can use:
 
             # Display the plot
             plotter_2.show_figure()
+
+Plot a contour on a collection of meshes
+----------------------------------------
+
+Build a collection of meshes
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Get data to plot on the meshes
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Plot the data contour
+^^^^^^^^^^^^^^^^^^^^^
 
 .. rubric:: Footnotes
 
