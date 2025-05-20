@@ -33,7 +33,7 @@ For more information, see the :ref:`ref_tutorials_create_a_mesh_from_scratch` an
 :ref:`ref_tutorials_get_mesh_from_result_file` tutorials.
 
 PyDPF-Core has a variety of plotting methods for generating 3D plots with Python.
-These methods use VTK and leverage the `PyVista <pyVista_github>`_ library.
+These methods use VTK and leverage the `PyVista <https://github.com/pyvista/pyvista>`_ library.
 
 :jupyter-download-script:`Download tutorial as Python script<plot_deformed_mesh>`
 :jupyter-download-notebook:`Download tutorial as Jupyter notebook<plot_deformed_mesh>`
@@ -167,7 +167,7 @@ To plot the deformed |MeshedRegion| you can use:
             # Display the scene
             plotter_1.show_figure()
 
-You can also plot data contours on a deformed mesh. For more information, see :ref:`ref_plot_data_on_deformed_mesh`
+You can also plot data contours on a deformed mesh. For more information, see :ref:`ref_tutorials_plot_contour`
 
 .. _ref_plot_deformed_mesh_with_meshes_container:
 
@@ -209,32 +209,27 @@ and colors them based on the property used to split the mesh.
     meshes.plot(deform_by=disp_op, scale_factor=scl_fct)
 
 You can also plot data on a collection of deformed meshes.
-For more information, see :ref:`ref_plot_data_on_deformed_mesh`
+For more information, see :ref:`_ref_tutorials_plot_contour`
 
 .. rubric:: Footnotes
 
-.. [1] The default plotter settings display the mesh with edges, lighting and axis widget enabled.
-Nevertheless, as we use the `PyVista <pyVista_github>`_ library to create the plot, you can use additional
-PyVista arguments (available at `pyvista.plot() <pyvista_doc_plot_method>`_), such as:
+.. [1] The |DpfPlotter| displays the mesh with edges, lighting and axis widget enabled by default.
+    You can pass additional PyVista arguments to all plotting methods to change the default behavior
+    (see options for `pyvista.plot() <https://docs.pyvista.org/api/plotting/_autosummary/pyvista.plot.html#pyvista.plot>`_), such as:
 
-.. jupyter-execute::
+    .. jupyter-execute::
 
-    model_1.plot(title= "Mesh",
-                  text= "this is a mesh",  # Adds the given text at the bottom of the plot
-                  off_screen=True,
-                  screenshot="mesh_plot_1.png",  # Save a screenshot to file with the given name
-                  window_size=[450,350]
-                  )
-    # Notes:
-    # - To save a screenshot to file, use "screenshot=figure_name.png" ( as well as "notebook=False" if on a Jupyter notebook).
-    # - The "off_screen" keyword only works when "notebook=False". If "off_screen=True" the plot is not displayed when running the code.
+        model_1.plot(title="Mesh",
+                     text="this is a mesh",  # Adds the given text at the bottom of the plot
+                     off_screen=True,
+                     screenshot="mesh_plot_1.png",  # Save a screenshot to file with the given name
+                     window_size=[450,350])
+        # Notes:
+        # - To save a screenshot to file, use "screenshot=figure_name.png" ( as well as "notebook=False" if on a Jupyter notebook).
+        # - The "off_screen" keyword only works when "notebook=False". If "off_screen=True" the plot is not displayed when running the code.
 
 .. [2] The |DpfPlotter| is currently based on PyVista.
-That means that PyVista must be installed.
-The DPF plotter also passes additional parameters to the PyVista plotter
-(arguments supported by the version of PyVista installed).
-More information about available additional arguments is available at `pyvista.plot() <pyvista_doc_plot_method>`_.
-
-The |DpfPlotter| displays the mesh with edges and lighting
-enabled by default. You can pass additional PyVista arguments to the |DpfPlotter|
-methods to change the default behavior (see options for `pyvista.plot() <pyvista_doc_plot_method>`_).
+    That means that PyVista must be installed.
+    The DPF plotter also passes additional parameters to the PyVista plotter
+    (arguments supported by the version of PyVista installed).
+    More information about available additional arguments is available at `pyvista.plot() <https://docs.pyvista.org/api/plotting/_autosummary/pyvista.plot.html#pyvista.plot>`_.
