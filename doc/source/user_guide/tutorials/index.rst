@@ -50,8 +50,8 @@ of our package background so you can understand how to work with it.
        transform simulation data into output data that can be used to
        visualize and analyze simulation results.
 
-:fa:`book-open-reader` Features usage
-*************************************
+:fa:`book-open-reader` Common topics
+************************************
 
 .. grid:: 1 1 3 3
     :gutter: 2
@@ -65,19 +65,19 @@ of our package background so you can understand how to work with it.
 
        Understand how to represent data in DPF: either from manual input either form result files.
 
-    .. grid-item-card:: Mesh analysis
+    .. grid-item-card:: Mesh exploration
        :link: ref_tutorials_mesh
        :link-type: ref
        :text-align: center
 
        Learn how to explore a mesh in DPF.
 
-    .. grid-item-card:: Transform data with PyDPF-Core
-       :link: ref_tutorials_transform_data
+    .. grid-item-card:: Manipulate data with operators and workflows
+       :link: ref_tutorials_operators_and_workflows
        :link-type: ref
        :text-align: center
 
-       Learn how to transform and operate on data to obtain the desired input.
+       Learn how to use operators to process your data and build workflows.
 
     .. grid-item-card:: Export data from DPF
        :link: ref_tutorials_export_data
@@ -99,6 +99,21 @@ of our package background so you can understand how to work with it.
        :text-align: center
 
        Explore the different approaches to visualise the data in an animation.
+
+    .. grid-item-card:: Mathematical operations
+       :link: ref_tutorials_mathematics
+       :link-type: ref
+       :text-align: center
+
+       Learn how to do mathematical operations using PyDPF-Core and data structures
+
+    .. grid-item-card:: Manipulating physics data
+       :link: ref_tutorials_manipulate_physics_data
+       :link-type: ref
+       :text-align: center
+
+       Learn how to manipulate the physics data associate to a
+       data storage structure. (Unit, homogeneity ...)
 
     .. grid-item-card:: Enriching DPF capabilities
        :link: ref_tutorials_enriching
@@ -127,18 +142,3 @@ of our package background so you can understand how to work with it.
        :text-align: center
 
        Understand how to access the Entry and Premium licensing capabilities
-
-    .. grid-item-card:: Mathematical operations
-       :link: ref_tutorials_mathematics
-       :link-type: ref
-       :text-align: center
-
-       Learn how to do mathematical operations using PyDPF-Core API and data structures
-
-    .. grid-item-card:: Manipulating physics data
-       :link: ref_tutorials_manipulate_physics_data
-       :link-type: ref
-       :text-align: center
-
-       Learn how to manipulate the physics data associate to a
-       data storage structure. (Unit, homogeneity ...)
