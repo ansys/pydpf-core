@@ -13,13 +13,13 @@ Plot a graph using matplotlib
 
 .. |Line| replace:: :class:`Line <ansys.dpf.core.geometry.Line>`
 .. |on_coordinates| replace:: :class:`on_coordinates <ansys.dpf.core.operators.mapping.on_coordinates.on_coordinates>`
-.. |Line.path| replace:: :func:`Line.path<ansys.dpf.core.geometry.Line.path>`
+.. |Line.path| replace:: :py:attr:`Line.path <ansys.dpf.core.geometry.Line.path>`
 .. |min_max_fc| replace:: :class:`min_max_fc <ansys.dpf.core.operators.min_max.min_max_fc.min_max_fc>`
 
-This tutorial explains how to plot a graph with data from DPF using `matplotlib <matplotlib_github>`_.
+This tutorial explains how to plot a graph with data from DPF using `matplotlib <https://github.com/matplotlib/matplotlib>`_.
 
 The current |DpfPlotter| module does not allow to plot graphs. Instead, you need to import the
-`matplotlib <matplotlib_github>`_ library to plot graphs with PyDPF-Core.
+`matplotlib <https://github.com/matplotlib/matplotlib>`_ library to plot graphs with PyDPF-Core.
 
 :jupyter-download-script:`Download tutorial as Python script<plot_a_graph>`
 :jupyter-download-notebook:`Download tutorial as Jupyter notebook<plot_a_graph>`
@@ -96,7 +96,7 @@ Create a path as a |Line| passing through the diagonal of the mesh.
 Map the data on the path
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-Map the displacement norm field to the |Line| using the ``on_coordinates`` |on_coordinates| mapping operator.
+Map the displacement norm field to the |Line| using the |on_coordinates| mapping operator.
 
 This operator interpolates field values at given node coordinates, using element shape functions.
 
@@ -119,10 +119,10 @@ Plot the graph
 ^^^^^^^^^^^^^^
 
 Plot a graph of the norm of the displacement field along the path using the
-`matplotlib <matplotlib_github>`_ library.
+`matplotlib <https://github.com/matplotlib/matplotlib>`_ library.
 
 To get the parametric coordinates of the nodes along the line and use them as X-axis,
-you can use the |Line.path| method.
+you can use the |Line.path| property.
 It gives the 1D array of parametric coordinates of the nodes of the line along the line.
 
 The values in the displacement norm field are in the same order as the parametric
@@ -246,7 +246,7 @@ Plot the graph
 ^^^^^^^^^^^^^^
 
 Plot a graph of the minimum and maximum displacement over time using the
-`matplotlib <matplotlib_github>`_ library.
+`matplotlib <https://github.com/matplotlib/matplotlib>`_ library.
 
 Use the ``unit`` property of the fields to properly label the axes.
 
