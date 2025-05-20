@@ -32,13 +32,6 @@ These tutorials demonstrate different ways one can visualize the data in plots u
 
        This tutorial shows how to plot contours.
 
-    .. grid-item-card:: Plot data on custom geometry
-       :link: ref_tutorials_plot_on_custom_geometry
-       :link-type: ref
-       :text-align: center
-
-       This tutorial shows how to map and plot data on custom geometric shapes.
-
     .. grid-item-card:: Plot a graph
        :link: ref_tutorials_plot_graph
        :link-type: ref
@@ -53,5 +46,4 @@ These tutorials demonstrate different ways one can visualize the data in plots u
     plot_mesh.rst
     plot_deformed_mesh.rst
     plot_contour.rst
-    plot_data_on_custom_geometry.rst
     plot_a_graph.rst
