@@ -192,14 +192,12 @@ jobs:
           - {"version": "232", "standalone-suffix": ""}
           - {"version": "231", "standalone-suffix": ""}
           - {"version": "222", "standalone-suffix": ""}
-    steps:
-      - uses: ./.github/workflows/tests.yml
-        secrets: inherit
-        with:
-          ANSYS_VERSION: ${{ matrix.dpf.version }}
-          python_versions: '["3.10"]'
-          DOCSTRING: false
-          standalone_suffix: ${{ matrix.dpf.standalone-suffix }}
+    uses: ./.github/workflows/tests.yml
+    with:
+      ANSYS_VERSION: ${{ matrix.dpf.version }}
+      python_versions: '["3.10"]'
+      DOCSTRING: false
+      standalone_suffix: ${{ matrix.dpf.standalone-suffix }}
 
   pydpf-post:
     name: "PyDPF-Post"
