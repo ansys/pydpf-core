@@ -179,69 +179,27 @@ jobs:
       standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
     secrets: inherit
 
-  retro_251:
-    name: "retro 251"
+  tests-retro:
+    name: "Test DPF ${{ matrix.dpf.version }} compatibility"
     if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
-    uses: ./.github/workflows/tests.yml
-    with:
-      ANSYS_VERSION: "251"
-      python_versions: '["3.10"]'
-      DOCSTRING: false
-      standalone_suffix: ''
-    secrets: inherit
-
-  retro_242:
-    name: "retro 242"
-    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
-    uses: ./.github/workflows/tests.yml
-    with:
-      ANSYS_VERSION: "242"
-      python_versions: '["3.10"]'
-      DOCSTRING: false
-      standalone_suffix: ''
-    secrets: inherit
-
-  retro_241:
-    name: "retro 241"
-    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
-    uses: ./.github/workflows/tests.yml
-    with:
-      ANSYS_VERSION: "241"
-      python_versions: '["3.10"]'
-      DOCSTRING: false
-      standalone_suffix: '.sp01'
-    secrets: inherit
-
-  retro_232:
-    name: "retro 232"
-    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
-    uses: ./.github/workflows/tests.yml
-    with:
-      ANSYS_VERSION: "232"
-      python_versions: '["3.10"]'
-      DOCSTRING: false
-      standalone_suffix: ''
-    secrets: inherit
-
-  retro_231:
-    name: "retro 231"
-    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
-    uses: ./.github/workflows/tests.yml
-    with:
-      ANSYS_VERSION: "231"
-      python_versions: '["3.10"]'
-      DOCSTRING: false
-    secrets: inherit
-
-  retro_222:
-    name: "retro 222"
-    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
-    uses: ./.github/workflows/tests.yml
-    with:
-      ANSYS_VERSION: "222"
-      python_versions: '["3.10"]'
-      DOCSTRING: false
-    secrets: inherit
+    strategy:
+      fail-fast: false
+      matrix:
+        dpf:
+          - {"version": "251", "standalone-suffix": ""}
+          - {"version": "242", "standalone-suffix": ""}
+          - {"version": "241", "standalone-suffix": ".sp01"}
+          - {"version": "232", "standalone-suffix": ""}
+          - {"version": "231", "standalone-suffix": ""}
+          - {"version": "222", "standalone-suffix": ""}
+    steps:
+      - uses: ./.github/workflows/tests.yml
+        secrets: inherit
+        with:
+          ANSYS_VERSION: ${{ matrix.dpf.version }}
+          python_versions: '["3.10"]'
+          DOCSTRING: false
+          standalone_suffix: ${{ matrix.dpf.standalone-suffix }}
 
   pydpf-post:
     name: "PyDPF-Post"
