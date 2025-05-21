@@ -620,9 +620,15 @@ class Field(_FieldBase):
     def unit(self, value):
         """Change the unit for the field.
 
+        If the value is a single string, then it will be interpreted to a physical meaning (homogeneity).
+
+        If the value is a tuple, then it must contain an homogeneity and a string.
+            If homogeneity is "dimensionless", then the unit string is kept as is.
+            Otherwise, homogeneity is ignored, and unit string is interpreted to a physical meaning.
+
         Parameters
         ----------
-        value : str
+        value : str | tuple(str, str)
             Units for the field.
 
         Examples
@@ -635,32 +641,18 @@ class Field(_FieldBase):
         >>> my_field.unit
         'm'
 
-        """
-        fielddef = self.field_definition
-        fielddef.unit = value
-        self.field_definition = fielddef
 
-    def set_named_dimensionless_unit(self, value):
-        """Set a named dimensionless unit for the field.
-
-        Parameters
-        ----------
-        value : str
-            Units for the field. This unit must be homogeneous to no physical quantity
-
-        Examples
-        --------
-        Units for a psychoacoustics field.
+        Named dimensionless unit.
 
         >>> from ansys.dpf import core as dpf
         >>> my_field = dpf.Field(10)
-        >>> my_field.set_named_dimensionless_unit("sones")
+        >>> my_field.unit = ("dimensionless", "dollars")
         >>> print(my_field.unit)
-        sones
+        'dollars'
 
         """
         fielddef = self.field_definition
-        fielddef.set_named_dimensionless_unit(value)
+        fielddef.unit = value
         self.field_definition = fielddef
 
     @property

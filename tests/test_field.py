@@ -1426,11 +1426,14 @@ def test_deep_copy_big_field_remote(server_type, server_type_remote_process):
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0, reason="Available for servers >=10.0"
 )
-def test_set_named_dimensionless_units():
+def test_set_units():
     data = np.random.random(100)
     field = dpf.core.field_from_array(data)
     field.unit = "m"
     assert field.unit == "m"
 
-    field.set_named_dimensionless_unit("sones")
+    field.unit = ("dimensionless", "sones")
     assert field.unit == "sones"
+
+    with pytest.raises(Exception):
+        field.unit = "sones"
