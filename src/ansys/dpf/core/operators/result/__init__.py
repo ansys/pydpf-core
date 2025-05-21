@@ -59,6 +59,7 @@ from .coordinate_system import coordinate_system
 from .coordinates import coordinates
 from .creep_strain_energy_density import creep_strain_energy_density
 from .current_density import current_density
+from .custom import custom
 from .cyclic_analytic_seqv_max import cyclic_analytic_seqv_max
 from .cyclic_analytic_usum_max import cyclic_analytic_usum_max
 from .cyclic_expansion import cyclic_expansion
@@ -245,7 +246,6 @@ from .read_cms_rbd_file import read_cms_rbd_file
 from .recombine_harmonic_indeces_cyclic import recombine_harmonic_indeces_cyclic
 from .remove_rigid_body_motion import remove_rigid_body_motion
 from .remove_rigid_body_motion_fc import remove_rigid_body_motion_fc
-from .result_provider import result_provider
 from .rigid_transformation import rigid_transformation
 from .rigid_transformation_provider import rigid_transformation_provider
 from .rms_static_pressure import rms_static_pressure

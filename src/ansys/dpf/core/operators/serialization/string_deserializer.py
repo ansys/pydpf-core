@@ -24,8 +24,7 @@ class string_deserializer(Operator):
     ----------
     stream_type: int
         0 for string (default), and 1 for binary
-    serialized_string1: str
-    serialized_string2: str
+    serialized_string: str
 
     Returns
     -------
@@ -44,16 +43,13 @@ class string_deserializer(Operator):
     >>> # Make input connections
     >>> my_stream_type = int()
     >>> op.inputs.stream_type.connect(my_stream_type)
-    >>> my_serialized_string1 = str()
-    >>> op.inputs.serialized_string1.connect(my_serialized_string1)
-    >>> my_serialized_string2 = str()
-    >>> op.inputs.serialized_string2.connect(my_serialized_string2)
+    >>> my_serialized_string = str()
+    >>> op.inputs.serialized_string.connect(my_serialized_string)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.serialization.string_deserializer(
     ...     stream_type=my_stream_type,
-    ...     serialized_string1=my_serialized_string1,
-    ...     serialized_string2=my_serialized_string2,
+    ...     serialized_string=my_serialized_string,
     ... )
 
     >>> # Get output data
@@ -62,22 +58,15 @@ class string_deserializer(Operator):
     """
 
     def __init__(
-        self,
-        stream_type=None,
-        serialized_string1=None,
-        serialized_string2=None,
-        config=None,
-        server=None,
+        self, stream_type=None, serialized_string=None, config=None, server=None
     ):
         super().__init__(name="string_deserializer", config=config, server=server)
         self._inputs = InputsStringDeserializer(self)
         self._outputs = OutputsStringDeserializer(self)
         if stream_type is not None:
             self.inputs.stream_type.connect(stream_type)
-        if serialized_string1 is not None:
-            self.inputs.serialized_string1.connect(serialized_string1)
-        if serialized_string2 is not None:
-            self.inputs.serialized_string2.connect(serialized_string2)
+        if serialized_string is not None:
+            self.inputs.serialized_string.connect(serialized_string)
 
     @staticmethod
     def _spec() -> Specification:
@@ -94,12 +83,6 @@ DPF’s entities.
                     document=r"""0 for string (default), and 1 for binary""",
                 ),
                 0: PinSpecification(
-                    name="serialized_string",
-                    type_names=["string"],
-                    optional=False,
-                    document=r"""""",
-                ),
-                1: PinSpecification(
                     name="serialized_string",
                     type_names=["string"],
                     optional=False,
@@ -177,24 +160,18 @@ class InputsStringDeserializer(_Inputs):
     >>> op = dpf.operators.serialization.string_deserializer()
     >>> my_stream_type = int()
     >>> op.inputs.stream_type.connect(my_stream_type)
-    >>> my_serialized_string1 = str()
-    >>> op.inputs.serialized_string1.connect(my_serialized_string1)
-    >>> my_serialized_string2 = str()
-    >>> op.inputs.serialized_string2.connect(my_serialized_string2)
+    >>> my_serialized_string = str()
+    >>> op.inputs.serialized_string.connect(my_serialized_string)
     """
 
     def __init__(self, op: Operator):
         super().__init__(string_deserializer._spec().inputs, op)
         self._stream_type = Input(string_deserializer._spec().input_pin(-1), -1, op, -1)
         self._inputs.append(self._stream_type)
-        self._serialized_string1 = Input(
-            string_deserializer._spec().input_pin(0), 0, op, 0
+        self._serialized_string = Input(
+            string_deserializer._spec().input_pin(0), 0, op, -1
         )
-        self._inputs.append(self._serialized_string1)
-        self._serialized_string2 = Input(
-            string_deserializer._spec().input_pin(1), 1, op, 1
-        )
-        self._inputs.append(self._serialized_string2)
+        self._inputs.append(self._serialized_string)
 
     @property
     def stream_type(self) -> Input:
@@ -218,8 +195,8 @@ class InputsStringDeserializer(_Inputs):
         return self._stream_type
 
     @property
-    def serialized_string1(self) -> Input:
-        r"""Allows to connect serialized_string1 input to the operator.
+    def serialized_string(self) -> Input:
+        r"""Allows to connect serialized_string input to the operator.
 
         Returns
         -------
@@ -230,30 +207,11 @@ class InputsStringDeserializer(_Inputs):
         --------
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.serialization.string_deserializer()
-        >>> op.inputs.serialized_string1.connect(my_serialized_string1)
+        >>> op.inputs.serialized_string.connect(my_serialized_string)
         >>> # or
-        >>> op.inputs.serialized_string1(my_serialized_string1)
+        >>> op.inputs.serialized_string(my_serialized_string)
         """
-        return self._serialized_string1
-
-    @property
-    def serialized_string2(self) -> Input:
-        r"""Allows to connect serialized_string2 input to the operator.
-
-        Returns
-        -------
-        input:
-            An Input instance for this pin.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.serialization.string_deserializer()
-        >>> op.inputs.serialized_string2.connect(my_serialized_string2)
-        >>> # or
-        >>> op.inputs.serialized_string2(my_serialized_string2)
-        """
-        return self._serialized_string2
+        return self._serialized_string
 
 
 class OutputsStringDeserializer(_Outputs):

@@ -27,8 +27,8 @@ class skin(Operator):
         Nodal scoping to restrict the skin extraction to a set of nodes. If provided, a skin element is added to the skin mesh if all its nodes are in the scoping.
     duplicate_shell: bool, optional
         If input mesh contains shell elements, output mesh shell elements (boolean = 1) are duplicated, one per each orientation, or (boolean = 0) remain unchanged.
-    add_beam_point: bool, optional
-        If input mesh contains beam or point elements, output mesh beam point elements (boolean = 1) are added or (boolean = 0) are ignored. Default: False
+    add_beam: bool, optional
+        If input mesh contains beam elements, output mesh beam elements (boolean = 1) are added or (boolean = 0) are ignored.
 
     Returns
     -------
@@ -55,15 +55,15 @@ class skin(Operator):
     >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
     >>> my_duplicate_shell = bool()
     >>> op.inputs.duplicate_shell.connect(my_duplicate_shell)
-    >>> my_add_beam_point = bool()
-    >>> op.inputs.add_beam_point.connect(my_add_beam_point)
+    >>> my_add_beam = bool()
+    >>> op.inputs.add_beam.connect(my_add_beam)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.mesh.skin(
     ...     mesh=my_mesh,
     ...     mesh_scoping=my_mesh_scoping,
     ...     duplicate_shell=my_duplicate_shell,
-    ...     add_beam_point=my_add_beam_point,
+    ...     add_beam=my_add_beam,
     ... )
 
     >>> # Get output data
@@ -79,10 +79,9 @@ class skin(Operator):
         mesh=None,
         mesh_scoping=None,
         duplicate_shell=None,
-        add_beam_point=None,
+        add_beam=None,
         config=None,
         server=None,
-        add_beam=None,
     ):
         super().__init__(name="meshed_skin_sector", config=config, server=server)
         self._inputs = InputsSkin(self)
@@ -93,15 +92,8 @@ class skin(Operator):
             self.inputs.mesh_scoping.connect(mesh_scoping)
         if duplicate_shell is not None:
             self.inputs.duplicate_shell.connect(duplicate_shell)
-        if add_beam_point is not None:
-            self.inputs.add_beam_point.connect(add_beam_point)
-        elif add_beam is not None:
-            warn(
-                DeprecationWarning(
-                    f'Operator skin: Input name "add_beam" is deprecated in favor of "add_beam_point".'
-                )
-            )
-            self.inputs.add_beam_point.connect(add_beam)
+        if add_beam is not None:
+            self.inputs.add_beam.connect(add_beam)
 
     @staticmethod
     def _spec() -> Specification:
@@ -130,11 +122,10 @@ initial elements are propagated to their facets.
                     document=r"""If input mesh contains shell elements, output mesh shell elements (boolean = 1) are duplicated, one per each orientation, or (boolean = 0) remain unchanged.""",
                 ),
                 3: PinSpecification(
-                    name="add_beam_point",
+                    name="add_beam",
                     type_names=["bool"],
                     optional=True,
-                    document=r"""If input mesh contains beam or point elements, output mesh beam point elements (boolean = 1) are added or (boolean = 0) are ignored. Default: False""",
-                    aliases=["add_beam"],
+                    document=r"""If input mesh contains beam elements, output mesh beam elements (boolean = 1) are added or (boolean = 0) are ignored.""",
                 ),
             },
             map_output_pin_spec={
@@ -230,8 +221,8 @@ class InputsSkin(_Inputs):
     >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
     >>> my_duplicate_shell = bool()
     >>> op.inputs.duplicate_shell.connect(my_duplicate_shell)
-    >>> my_add_beam_point = bool()
-    >>> op.inputs.add_beam_point.connect(my_add_beam_point)
+    >>> my_add_beam = bool()
+    >>> op.inputs.add_beam.connect(my_add_beam)
     """
 
     def __init__(self, op: Operator):
@@ -242,8 +233,8 @@ class InputsSkin(_Inputs):
         self._inputs.append(self._mesh_scoping)
         self._duplicate_shell = Input(skin._spec().input_pin(2), 2, op, -1)
         self._inputs.append(self._duplicate_shell)
-        self._add_beam_point = Input(skin._spec().input_pin(3), 3, op, -1)
-        self._inputs.append(self._add_beam_point)
+        self._add_beam = Input(skin._spec().input_pin(3), 3, op, -1)
+        self._inputs.append(self._add_beam)
 
     @property
     def mesh(self) -> Input:
@@ -307,10 +298,10 @@ class InputsSkin(_Inputs):
         return self._duplicate_shell
 
     @property
-    def add_beam_point(self) -> Input:
-        r"""Allows to connect add_beam_point input to the operator.
+    def add_beam(self) -> Input:
+        r"""Allows to connect add_beam input to the operator.
 
-        If input mesh contains beam or point elements, output mesh beam point elements (boolean = 1) are added or (boolean = 0) are ignored. Default: False
+        If input mesh contains beam elements, output mesh beam elements (boolean = 1) are added or (boolean = 0) are ignored.
 
         Returns
         -------
@@ -321,23 +312,11 @@ class InputsSkin(_Inputs):
         --------
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.mesh.skin()
-        >>> op.inputs.add_beam_point.connect(my_add_beam_point)
+        >>> op.inputs.add_beam.connect(my_add_beam)
         >>> # or
-        >>> op.inputs.add_beam_point(my_add_beam_point)
+        >>> op.inputs.add_beam(my_add_beam)
         """
-        return self._add_beam_point
-
-    def __getattr__(self, name):
-        if name in ["add_beam"]:
-            warn(
-                DeprecationWarning(
-                    f'Operator skin: Input name "{name}" is deprecated in favor of "add_beam_point".'
-                )
-            )
-            return self.add_beam_point
-        raise AttributeError(
-            f"'{self.__class__.__name__}' object has no attribute '{name}'."
-        )
+        return self._add_beam
 
 
 class OutputsSkin(_Outputs):

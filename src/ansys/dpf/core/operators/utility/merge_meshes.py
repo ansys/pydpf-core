@@ -16,7 +16,7 @@ from ansys.dpf.core.server_types import AnyServerType
 
 
 class merge_meshes(Operator):
-    r"""Take a set of meshes and assemble them in a unique one
+    r"""Take a set of mesh and assemble them in a unique one
 
 
     Parameters
@@ -25,9 +25,9 @@ class merge_meshes(Operator):
         If true, merge the elemental Property Fields of the input meshes assuming that there is no repetition in their scoping ids. Default is false.
     should_merge_named_selections: bool, optional
         For certain types of files (such as RST), scoping from names selection does not need to be merged.If this pin is true, the merge occurs. If this pin is false, the merge does not occur. Default is true.
-    meshes1: MeshedRegion or MeshesContainer
+    meshes1: MeshedRegion
         A vector of meshed region to merge or meshed region from pin 0 to ...
-    meshes2: MeshedRegion or MeshesContainer
+    meshes2: MeshedRegion
         A vector of meshed region to merge or meshed region from pin 0 to ...
     merge_method: int, optional
         0: merge by distance, 1: merge by node id (default)
@@ -112,7 +112,7 @@ class merge_meshes(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Take a set of meshes and assemble them in a unique one
+        description = r"""Take a set of mesh and assemble them in a unique one
 """
         spec = Specification(
             description=description,
@@ -131,13 +131,13 @@ class merge_meshes(Operator):
                 ),
                 0: PinSpecification(
                     name="meshes",
-                    type_names=["abstract_meshed_region", "meshes_container"],
+                    type_names=["abstract_meshed_region"],
                     optional=False,
                     document=r"""A vector of meshed region to merge or meshed region from pin 0 to ...""",
                 ),
                 1: PinSpecification(
                     name="meshes",
-                    type_names=["abstract_meshed_region", "meshes_container"],
+                    type_names=["abstract_meshed_region"],
                     optional=False,
                     document=r"""A vector of meshed region to merge or meshed region from pin 0 to ...""",
                 ),

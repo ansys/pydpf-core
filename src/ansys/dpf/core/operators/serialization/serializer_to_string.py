@@ -22,7 +22,7 @@ class serializer_to_string(Operator):
     Parameters
     ----------
     stream_type: int
-        0 for string (default), 1 for binary, 2 for binary with chunked output (the output string will be returned in several chunks to prevent string memory overflows).
+        0 for string (default), and 1 for binary
     any_input1: Any
         any input
     any_input2: Any
@@ -30,10 +30,7 @@ class serializer_to_string(Operator):
 
     Returns
     -------
-    nof_chunks: int
-        Number of chunks when mode passed to input pin(-1) = 2.
-    serialized_string1: str
-    serialized_string2: str
+    serialized_string: str
 
     Examples
     --------
@@ -58,9 +55,7 @@ class serializer_to_string(Operator):
     ... )
 
     >>> # Get output data
-    >>> result_nof_chunks = op.outputs.nof_chunks()
-    >>> result_serialized_string1 = op.outputs.serialized_string1()
-    >>> result_serialized_string2 = op.outputs.serialized_string2()
+    >>> result_serialized_string = op.outputs.serialized_string()
     """
 
     def __init__(
@@ -92,7 +87,7 @@ class serializer_to_string(Operator):
                     name="stream_type",
                     type_names=["int32"],
                     optional=False,
-                    document=r"""0 for string (default), 1 for binary, 2 for binary with chunked output (the output string will be returned in several chunks to prevent string memory overflows).""",
+                    document=r"""0 for string (default), and 1 for binary""",
                 ),
                 1: PinSpecification(
                     name="any_input",
@@ -108,20 +103,8 @@ class serializer_to_string(Operator):
                 ),
             },
             map_output_pin_spec={
-                -1: PinSpecification(
-                    name="nof_chunks",
-                    type_names=["int32"],
-                    optional=False,
-                    document=r"""Number of chunks when mode passed to input pin(-1) = 2.""",
-                ),
                 0: PinSpecification(
-                    name="serialized_string1",
-                    type_names=["string"],
-                    optional=False,
-                    document=r"""""",
-                ),
-                1: PinSpecification(
-                    name="serialized_string2",
+                    name="serialized_string",
                     type_names=["string"],
                     optional=False,
                     document=r"""""",
@@ -205,7 +188,7 @@ class InputsSerializerToString(_Inputs):
     def stream_type(self) -> Input:
         r"""Allows to connect stream_type input to the operator.
 
-        0 for string (default), 1 for binary, 2 for binary with chunked output (the output string will be returned in several chunks to prevent string memory overflows).
+        0 for string (default), and 1 for binary
 
         Returns
         -------
@@ -274,29 +257,19 @@ class OutputsSerializerToString(_Outputs):
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.serialization.serializer_to_string()
     >>> # Connect inputs : op.inputs. ...
-    >>> result_nof_chunks = op.outputs.nof_chunks()
-    >>> result_serialized_string1 = op.outputs.serialized_string1()
-    >>> result_serialized_string2 = op.outputs.serialized_string2()
+    >>> result_serialized_string = op.outputs.serialized_string()
     """
 
     def __init__(self, op: Operator):
         super().__init__(serializer_to_string._spec().outputs, op)
-        self._nof_chunks = Output(serializer_to_string._spec().output_pin(-1), -1, op)
-        self._outputs.append(self._nof_chunks)
-        self._serialized_string1 = Output(
+        self._serialized_string = Output(
             serializer_to_string._spec().output_pin(0), 0, op
         )
-        self._outputs.append(self._serialized_string1)
-        self._serialized_string2 = Output(
-            serializer_to_string._spec().output_pin(1), 1, op
-        )
-        self._outputs.append(self._serialized_string2)
+        self._outputs.append(self._serialized_string)
 
     @property
-    def nof_chunks(self) -> Output:
-        r"""Allows to get nof_chunks output of the operator
-
-        Number of chunks when mode passed to input pin(-1) = 2.
+    def serialized_string(self) -> Output:
+        r"""Allows to get serialized_string output of the operator
 
         Returns
         -------
@@ -308,42 +281,6 @@ class OutputsSerializerToString(_Outputs):
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.serialization.serializer_to_string()
         >>> # Get the output from op.outputs. ...
-        >>> result_nof_chunks = op.outputs.nof_chunks()
+        >>> result_serialized_string = op.outputs.serialized_string()
         """
-        return self._nof_chunks
-
-    @property
-    def serialized_string1(self) -> Output:
-        r"""Allows to get serialized_string1 output of the operator
-
-        Returns
-        -------
-        output:
-            An Output instance for this pin.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.serialization.serializer_to_string()
-        >>> # Get the output from op.outputs. ...
-        >>> result_serialized_string1 = op.outputs.serialized_string1()
-        """
-        return self._serialized_string1
-
-    @property
-    def serialized_string2(self) -> Output:
-        r"""Allows to get serialized_string2 output of the operator
-
-        Returns
-        -------
-        output:
-            An Output instance for this pin.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.serialization.serializer_to_string()
-        >>> # Get the output from op.outputs. ...
-        >>> result_serialized_string2 = op.outputs.serialized_string2()
-        """
-        return self._serialized_string2
+        return self._serialized_string
