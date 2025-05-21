@@ -748,7 +748,7 @@ Norm
 
 Here, we use the |norm| operator to compute the
 `Lp norm <https://en.wikipedia.org/wiki/Norm_(mathematics)#p-norm>`_
-for each component of a |Field|.
+of the elementary data for each entity of a |Field|.
 
 The default *Lp* norm is *Lp=L2*.
 
