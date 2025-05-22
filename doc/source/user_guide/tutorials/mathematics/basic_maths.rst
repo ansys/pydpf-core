@@ -35,13 +35,13 @@ Basic maths
 
 This tutorial explains how to perform some basic mathematical operations with PyDPF-Core.
 
-DPF exposes data through |Field| objects (or other specialized kinds of field).
+DPF exposes data through |Field| objects (or other specialized kinds of fields).
 A |Field| is a homogeneous array of floats.
 
-A |FieldsContainer| is a labeled collection of |Field| objects, that most operators can operate on
-to provide a way of treating several fields at once.
+A |FieldsContainer| is a labeled collection of |Field| objects that most operators can use, 
+allowing you to operate on several fields at once.
 
-To perform mathematical operations, we use operators available in the |math operators| module.
+To perform mathematical operations, use the operators available in the |math operators| module.
 First create an instance of the operator of interest, then use the ``.eval()`` method to compute
 and retrieve the first output.
 
@@ -70,10 +70,10 @@ Create fields and field collections
 DPF exposes mathematical fields of floats through |Field| and |FieldsContainer| objects.
 The |Field| is a homogeneous array of floats and a |FieldsContainer| is a labeled collection of |Field| objects.
 
-Here, we use fields and field collections created from scratch to facilitate understanding of how the
+Here, fields and field collections created from scratch are used to show how the
 mathematical operators work.
 
-For more information on creating a |Field| from scratch check :ref:`ref_tutorials_data_structures`.
+For more information on creating a |Field| from scratch, see :ref:`ref_tutorials_data_structures`.
 
 .. tab-set::
 
@@ -147,7 +147,7 @@ Effect of the scoping
 ---------------------
 
 The scoping of a DPF field stores information about which entity the data is associated to.
-A scalar field containing data for three entities is for example linked to a scoping defining three entity IDs.
+A scalar field containing data for three entities is, for example, linked to a scoping defining three entity IDs.
 The location of the scoping defines the type of entity the IDs refer to.
 This allows DPF to know what each data point of a field is associated to.
 
@@ -163,7 +163,7 @@ This means that the operation is usually performed for entities in the intersect
 Some operators provide options to handle data for entities outside of this intersection,
 but most simply ignore the data for these entities not in the intersection of the scopings.
 
-The following examples are here to better understand this behavior.
+The following examples illustrate this behavior.
 
 .. jupyter-execute::
 
@@ -188,7 +188,7 @@ Here the only entities with matching IDs between the two fields are:
 - The third entity in field5 (ID=3)
 - The first entity in field6 (ID=3)
 
-Other entities are thus not taken into account when using an operator that needs two operands.
+Other entities are not taken into account when using an operator that needs two operands.
 
 For example the |add| operator:
 
@@ -233,13 +233,13 @@ Using the two collections of fields built previously, both have a *time* label w
 
 Operators working with |FieldsContainer| inputs match fields from each collection with the same value for all labels.
 
-In our case, ``field 0`` of ``fc1`` with label space ``{"time": 1}`` gets matched up with ``field 0`` of ``fc2`` also with label space ``{"time": 1}``.
+In this case, ``field 0`` of ``fc1`` with label space ``{"time": 1}`` gets matched up with ``field 0`` of ``fc2`` also with label space ``{"time": 1}``.
 Then ``field 1`` of ``fc1`` with label space ``{"time": 2}`` gets matched up with ``field 1`` of ``fc2`` also with label space ``{"time": 2}``.
 
 Addition
 --------
 
-Here, we use:
+Use:
 
 - the |add| operator to compute the element-wise addition for each component of two fields
 - the |accumulate| operator to compute the overall sum of data for each component of a field
@@ -288,9 +288,9 @@ Overall sum
 This operator computes the total sum of elementary data of a field, for each component of the field.
 You can give a scaling ("weights") argument.
 
- Mind the |Field| dimension: Our |Field| represents 3D vectors, so each elementary data is a 3D vector.
- The optional "weights" |Field| attributes a scaling factor for each entity when performing the sum.
- We thus need to provide a 1D field.
+ Keep in mind the |Field| dimension. The |Field| represents 3D vectors, so each elementary data is a 3D vector.
+ The optional "weights" |Field| attribute is a scaling factor for each entity when performing the sum,
+ so you must provide a 1D field.
 
 Compute the total sum (accumulate) for each component of a given |Field|.
 
@@ -378,7 +378,7 @@ Compute the total sum (accumulate) for each component of a given |Field| using a
 Subtraction
 -----------
 
-Here, we use the |minus| operator to compute the element-wise difference between each component of two fields.
+Use the |minus| operator to compute the element-wise difference between each component of two fields.
 
 .. tab-set::
 
@@ -550,10 +550,10 @@ In Cartesian coordinates it is equivalent to the dot/scalar product.
 Overall dot product
 ^^^^^^^^^^^^^^^^^^^
 
-The |overall_dot| operator makes two manipulations to give the result:
+The |overall_dot| operator creates two manipulations to give the result:
 
-- it first computes a dot product between data of corresponding entities for two vector fields, resulting in a scalar field
-- it then sums the result obtained previously over all entities to return a scalar
+1. it first computes a dot product between data of corresponding entities for two vector fields, resulting in a scalar field
+2. it then sums the result obtained previously over all entities to return a scalar
 
 .. tab-set::
 
@@ -575,7 +575,7 @@ The |overall_dot| operator makes two manipulations to give the result:
 Division
 --------
 
-Here, we use the |component_wise_divide| operator to compute the
+Use the |component_wise_divide| operator to compute the
 `Hadamard division <https://en.wikipedia.org/wiki/Hadamard_product_(matrices)#Analogous_operations>`_
 between each component of two fields.
 
@@ -615,7 +615,7 @@ between each component of two fields.
 Power
 -----
 
-Here we use:
+Use:
 
 - the |pow| operator to compute the element-wise power of each component of a |Field|
 - the |sqr| operator to compute the `Hadamard power <https://en.wikipedia.org/wiki/Hadamard_product_(matrices)#Analogous_operations>`_ of each component of a |Field|
@@ -626,7 +626,7 @@ Here we use:
 
 The |pow| operator computes the element-wise power of each component of a |Field| to a given factor.
 
-Here, we compute the power of three.
+This example computes the power of three.
 
 .. tab-set::
 
@@ -746,7 +746,7 @@ It is a shortcut for the |pow| operator with factor *0.5*.
 Norm
 ----
 
-Here, we use the |norm| operator to compute the
+Use the |norm| operator to compute the
 `Lp norm <https://en.wikipedia.org/wiki/Norm_(mathematics)#p-norm>`_
 of the elementary data for each entity of a |Field|.
 
