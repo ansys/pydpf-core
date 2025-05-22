@@ -14,7 +14,7 @@ on:
         description: "ANSYS version"
         required: false
         type: string
-        default: "252"
+        default: "261"
       standalone_branch_suffix:
         description: 'Suffix of the branch on standalone'
         required: false
@@ -105,7 +105,7 @@ jobs:
     uses: ./.github/workflows/tests.yml
     needs: pick_server_suffix
     with:
-      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '252' }}
+      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '261' }}
       python_versions: '["3.10"]'
       wheel: true
       wheelhouse: false
@@ -116,7 +116,7 @@ jobs:
     uses: ./.github/workflows/tests.yml
     needs: pick_server_suffix
     with:
-      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '252' }}
+      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '261' }}
       python_versions: '["3.10"]'
       wheel: true
       wheelhouse: false
@@ -129,7 +129,7 @@ jobs:
     uses: ./.github/workflows/test_docker.yml
     needs: pick_server_suffix
     with:
-      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '252' }}
+      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '261' }}
       standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
     secrets: inherit
 
@@ -138,7 +138,7 @@ jobs:
     uses: ./.github/workflows/examples_docker.yml
     needs: pick_server_suffix
     with:
-      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '252' }}
+      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '261' }}
       python_versions: '["3.10"]'
       standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
     secrets: inherit
@@ -148,7 +148,7 @@ jobs:
     uses: ./.github/workflows/docs.yml
     needs: pick_server_suffix
     with:
-      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '252' }}
+      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '261' }}
       standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
       event_name: ${{ github.event_name }}
       python_version: "3.11"
@@ -174,9 +174,32 @@ jobs:
     uses: ./.github/workflows/examples.yml
     needs: pick_server_suffix
     with:
-      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '252' }}
+      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '261' }}
       python_versions: '["3.10"]'
       standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
+    secrets: inherit
+
+  pydpf-post:
+    name: "PyDPF-Post"
+    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
+    uses: ./.github/workflows/pydpf-post.yml
+    needs: pick_server_suffix
+    with:
+      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '261' }}
+      post_branch: "master"
+      standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
+      test_docstrings: "true"
+    secrets: inherit
+
+  retro_252:
+    name: "retro 252"
+    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
+    uses: ./.github/workflows/tests.yml
+    with:
+      ANSYS_VERSION: "252"
+      python_versions: '["3.10"]'
+      DOCSTRING: false
+      standalone_suffix: ''
     secrets: inherit
 
   retro_251:
@@ -241,16 +264,4 @@ jobs:
       ANSYS_VERSION: "222"
       python_versions: '["3.10"]'
       DOCSTRING: false
-    secrets: inherit
-
-  pydpf-post:
-    name: "PyDPF-Post"
-    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
-    uses: ./.github/workflows/pydpf-post.yml
-    needs: pick_server_suffix
-    with:
-      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '252' }}
-      post_branch: "master"
-      standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
-      test_docstrings: "true"
     secrets: inherit
