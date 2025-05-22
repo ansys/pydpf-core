@@ -198,6 +198,7 @@ jobs:
       python_versions: '["3.10"]'
       DOCSTRING: false
       standalone_suffix: ${{ matrix.dpf.standalone-suffix }}
+    secrets: inherit
 
   pydpf-post:
     name: "PyDPF-Post"
