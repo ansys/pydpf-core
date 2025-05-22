@@ -102,11 +102,11 @@ jobs:
           path: dist/${{ steps.wheel.outputs.wheel_name }}
 
   tests-latest:
-    name: "Test ${{ matrix.test-any == true && 'any' || 'platform-specific' }} wheel against latest DPF version"
+    name: "Test ${{ matrix.test-any == 'true' && 'any' || 'platform-specific' }} wheel against latest DPF version"
     strategy:
       fail-fast: false
       matrix:
-        test-any: [false, true]
+        test-any: ['false', 'true']
     uses: ./.github/workflows/tests.yml
     needs: pick_server_suffix
     with:
