@@ -767,13 +767,13 @@ def test_beam3():
         "Beam3",
         "beam3",
         "beam",
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
+        2,
+        0,
+        3,
+        False,
+        False,
+        True,
+        False,
     )
 
 
