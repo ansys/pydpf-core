@@ -88,7 +88,7 @@ class DPFVectorBase:
         -----
         self._check_changes is set to True by default when a client is added at the class init
         """
-        return self._modified
+        return self._modified and self.size > 0 # Updating is not necessary for an empty vector. Updating it can cause issue, see #2274
 
     def __del__(self):
         try:
