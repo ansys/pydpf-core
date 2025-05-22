@@ -16,11 +16,10 @@ This tutorial explains how to manipulate DPF client-server architecture
        :link-type: ref
        :text-align: center
 
-       explains how to manipulate DPF client-server architecture
+       This tutorial explains how to manipulate DPF client-server architecture
 
 .. toctree::
     :maxdepth: 2
     :hidden:
 
     server_types.rst
-

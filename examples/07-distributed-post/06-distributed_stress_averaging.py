@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -36,9 +36,7 @@ After remote post-processing, results are merged on the local process.
 # Import dpf module and its examples files
 
 from ansys.dpf import core as dpf
-from ansys.dpf.core import examples
-from ansys.dpf.core import operators as ops
-
+from ansys.dpf.core import examples, operators as ops
 
 ###############################################################################
 # Configure the servers

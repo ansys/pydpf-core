@@ -16,17 +16,15 @@ PyDPF-Core API and data structures.
     :margin: 2
 
     .. grid-item-card:: Basic maths
-       :link: ref_tutorials
+       :link: ref_basic_math
        :link-type: ref
        :text-align: center
 
-       This tutorial demonstrate how to do some basic
+       This tutorial explains how to do some basic
        mathematical operations with PyDPF-Core.
 
 .. toctree::
     :maxdepth: 2
     :hidden:
 
-
-
-
+    basic_maths.rst

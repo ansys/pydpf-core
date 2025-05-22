@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -20,13 +20,14 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import ansys.dpf.core.generic_data_container
+import pytest
+
 from ansys.dpf import core as dpf
+from ansys.dpf.core import examples
+import ansys.dpf.core.generic_data_container
 from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
 )
-import pytest
-from ansys.dpf.core import examples
 
 
 @pytest.mark.skipif(
