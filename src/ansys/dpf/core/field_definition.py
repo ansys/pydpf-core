@@ -22,10 +22,12 @@
 
 """FieldDefinition."""
 
+from argparse import ArgumentError
 import traceback
 import warnings
 
 from ansys.dpf.core import server as server_module
+from ansys.dpf.core.available_result import Homogeneity
 from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.core.common import natures, shell_layers
 from ansys.dpf.core.dimensionality import Dimensionality
@@ -206,15 +208,21 @@ class FieldDefinition:
     @unit.setter
     def unit(self, value):
         # setter with explicit homogeneity: homogeneity is taken into account if it is dimensionless
-        if isinstance(value, tuple):
-            if value[0] == "dimensionless":
-                # 117 corresponds to dimensionless
-                self._api.csfield_definition_set_unit(self, value[1], None, 117, 0, 0)
-            else:
-                self._api.csfield_definition_set_unit(self, value[1], None, 0, 0, 0)
+        if (
+            isinstance(value, tuple)
+            and len(value) == 2
+            and isinstance(value[0], Homogeneity)
+            and isinstance(value[1], str)
+        ):
+            # csfield_definition_set_unit will ignore the homogeneity if it is not dimensionless
+            self._api.csfield_definition_set_unit(self, value[1], None, value[0].value, 0, 0)
         # standard unit setter, using string interpreter
-        else:
+        elif isinstance(value, str):
             self._api.csfield_definition_set_unit(self, value, None, 0, 0, 0)
+        else:
+            raise ArgumentError(
+                None, message="Unit setter supports either string or tuple(Homogeneity, str)"
+            )
 
     @location.setter
     def location(self, value):
