@@ -142,18 +142,3 @@ of our package background so you can understand how to work with it.
        :text-align: center
 
        Understand how to access the Entry and Premium licensing capabilities
-
-    .. grid-item-card:: Mathematical operations
-       :link: ref_tutorials_mathematics
-       :link-type: ref
-       :text-align: center
-
-       Learn how to do mathematical operations using PyDPF-Core API and data structures
-
-    .. grid-item-card:: Manipulating physics data
-       :link: ref_tutorials_mathematics
-       :link-type: ref
-       :text-align: center
-
-       Learn how to manipulate the physics data associate to a
-       data storage structure. (Unit, homogeneity ...)
