@@ -11,7 +11,6 @@ on:
       ANSYS_VERSION:
         required: false
         type: string
-        default: vars.ANSYS_VERSION_DEFAULT
       standalone_suffix:
         description: "Suffix of the branch on standalone"
         required: false
@@ -27,9 +26,8 @@ on:
         default: '["3.10"]'
       ANSYS_VERSION:
         description: "ANSYS version to run."
-        required: true
+        required: false
         type: string
-        default: vars.ANSYS_VERSION_DEFAULT
       standalone_suffix:
         description: "Suffix of the branch on standalone"
         required: false
@@ -105,7 +103,7 @@ jobs:
         with:
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           standalone_suffix: ${{ inputs.standalone_suffix }}
-          ANSYS_VERSION : ${{inputs.ANSYS_VERSION}}
+          ANSYS_VERSION : ${{ github.event.inputs.ansys_version || vars.ANSYS_VERSION_DEFAULT }}
 
       - name: "Check licences of packages"
         uses: ansys/pydpf-actions/check-licenses@v2.3
