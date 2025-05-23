@@ -63,7 +63,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: "Set licensing if necessary"
-        if: ${{ (github.event.inputs.ansys_version || vars.ANSYS_VERSION_DEFAULT) > '231' }}
+        if: ${{ (github.event.inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT) > '231' }}
         shell: bash
         run: |
           echo "ANSYS_DPF_ACCEPT_LA=Y" >> $GITHUB_ENV
@@ -107,7 +107,7 @@ jobs:
         with:
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           standalone_suffix: ${{ inputs.standalone_suffix }}
-          ANSYS_VERSION : ${{ inputs.ansys_version || vars.ANSYS_VERSION_DEFAULT }}
+          ANSYS_VERSION : ${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}
 
       - name: "Check licences of packages"
         uses: ansys/pydpf-actions/check-licenses@v2.3
