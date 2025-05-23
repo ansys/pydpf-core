@@ -133,94 +133,42 @@ jobs:
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
     secrets: inherit
 
-  retro_242:
-    name: "retro 242"
+  tests-retro:
+    name: "Test DPF ${{ matrix.dpf.version }} compatibility"
+    strategy:
+      fail-fast: false
+      matrix:
+        dpf:
+          - {"version": "242", "standalone-suffix": ""}
+          - {"version": "241", "standalone-suffix": ".sp01"}
+          - {"version": "232", "standalone-suffix": ""}
+          - {"version": "231", "standalone-suffix": ""}
+          - {"version": "222", "standalone-suffix": ""}
     uses: ./.github/workflows/tests.yml
     with:
-      ANSYS_VERSION: "242"
+      ANSYS_VERSION: ${{ matrix.dpf.version }}
       python_versions: '["3.10"]'
       DOCSTRING: false
+      standalone_suffix: ${{ matrix.dpf.standalone-suffix }}
     secrets: inherit
 
-  retro_241:
-    name: "retro 241"
-    uses: ./.github/workflows/tests.yml
-    with:
-      ANSYS_VERSION: "241"
-      python_versions: '["3.10"]'
-      standalone_suffix: '.sp01'
-      DOCSTRING: false
-    secrets: inherit
-
-  retro_232:
-    name: "retro 232"
-    uses: ./.github/workflows/tests.yml
-    with:
-      ANSYS_VERSION: "232"
-      python_versions: '["3.10"]'
-      DOCSTRING: false
-    secrets: inherit
-
-  retro_231:
-    name: "retro 231"
-    uses: ./.github/workflows/tests.yml
-    with:
-      ANSYS_VERSION: "231"
-      python_versions: '["3.10"]'
-      DOCSTRING: false
-    secrets: inherit
-
-  retro_222:
-    name: "retro 222"
-    uses: ./.github/workflows/tests.yml
-    with:
-      ANSYS_VERSION: "222"
-      python_versions: '["3.10"]'
-      DOCSTRING: false
-    secrets: inherit
-
-  pydpf-post_251:
-    name: "PyDPF-Post with 251"
+  tests-pydpf-post:
+    name: "Test PyDPF-Post with ${{ matrix.dpf.version}}"
+    strategy:
+      fail-fast: false
+      matrix:
+        dpf:
+          - {"version": "${{ github.event.inputs.ansys_version || '251' }}", "standalone-suffix": "${{ github.event.inputs.standalone_branch_suffix || '' }}", "test_docstrings": "true"}
+          - {"version": "242", "standalone-suffix": "", "test_docstrings": "false"}
+          - {"version": "241", "standalone-suffix": "", "test_docstrings": "false"}
+          - {"version": "232", "standalone-suffix": "", "test_docstrings": "false"}
+          - {"version": "231", "standalone-suffix": "", "test_docstrings": "false"}
+          - {"version": "222", "standalone-suffix": "", "test_docstrings": "false"}
     uses: ./.github/workflows/pydpf-post.yml
     with:
-      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '251' }}
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-      test_docstrings: "true"
-    secrets: inherit
-
-  pydpf-post_242:
-    name: "PyDPF-Post with 242"
-    uses: ./.github/workflows/pydpf-post.yml
-    with:
-      ANSYS_VERSION: "242"
-    secrets: inherit
-
-  pydpf-post_241:
-    name: "PyDPF-Post with 241"
-    uses: ./.github/workflows/pydpf-post.yml
-    with:
-      ANSYS_VERSION: "241"
-    secrets: inherit
-
-  pydpf-post_232:
-    name: "PyDPF-Post with 232"
-    uses: ./.github/workflows/pydpf-post.yml
-    with:
-      ANSYS_VERSION: "232"
-    secrets: inherit
-
-  pydpf-post_231:
-    name: "PyDPF-Post with 231"
-    uses: ./.github/workflows/pydpf-post.yml
-    with:
-      ANSYS_VERSION: "231"
-    secrets: inherit
-
-  pydpf-post_222:
-    name: "PyDPF-Post with 222"
-    uses: ./.github/workflows/pydpf-post.yml
-    with:
-      ANSYS_VERSION: "222"
+      ANSYS_VERSION: ${{ matrix.dpf.version }}
+      standalone_suffix: ${{ matrix.dpf.standalone-suffix }}
+      test_docstrings: ${{ matrix.dpf.test_docstrings }}
     secrets: inherit
 
   docker_tests:
