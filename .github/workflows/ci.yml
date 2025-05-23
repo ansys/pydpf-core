@@ -14,7 +14,6 @@ on:
         description: "ANSYS version"
         required: false
         type: string
-        default: vars.ANSYS_VERSION_DEFAULT
       standalone_branch_suffix:
         description: 'Suffix of the branch on standalone'
         required: false
