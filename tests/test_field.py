@@ -20,6 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+from argparse import ArgumentError
 import copy
 import gc
 
@@ -29,10 +30,16 @@ import pytest
 from ansys import dpf
 from ansys.dpf import core
 from ansys.dpf.core import FieldDefinition, operators as ops
+from ansys.dpf.core.available_result import Homogeneity
 from ansys.dpf.core.check_version import server_meet_version
 from ansys.dpf.core.common import locations, shell_layers
+from ansys.dpf.gate.errors import DPFServerException
 import conftest
-from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0, running_docker
+from conftest import (
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0,
+    running_docker,
+)
 
 
 @pytest.fixture()
@@ -1417,3 +1424,26 @@ def test_deep_copy_big_field_remote(server_type, server_type_remote_process):
 
     out = dpf.core.core._deep_copy(field_a, server_type_remote_process)
     assert np.allclose(out.data, data)
+
+
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0, reason="Available for servers >=11.0"
+)
+def test_set_units():
+    data = np.random.random(100)
+    field = dpf.core.field_from_array(data)
+    # use string setter with recognized string
+    field.unit = "m"
+    assert field.unit == "m"
+
+    # use tuple(Homogeneity, string) setter
+    field.unit = (Homogeneity.dimensionless, "sones")
+    assert field.unit == "sones"
+
+    # use unrecognized string
+    with pytest.raises(DPFServerException):
+        field.unit = "sones"
+
+    # use wrong type of arguments
+    with pytest.raises(ArgumentError):
+        field.unit = 1.0
