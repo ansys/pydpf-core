@@ -37,7 +37,7 @@ from ansys.dpf.gate.errors import DPFServerException
 import conftest
 from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0,
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0,
     running_docker,
 )
 
@@ -1427,7 +1427,7 @@ def test_deep_copy_big_field_remote(server_type, server_type_remote_process):
 
 
 @pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0, reason="Available for servers >=10.0"
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0, reason="Available for servers >=11.0"
 )
 def test_set_units():
     data = np.random.random(100)
