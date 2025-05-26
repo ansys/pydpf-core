@@ -4,6 +4,8 @@
 Documentation
 =============
 
+.. include:: ../../links_and_refs.rst
+
 Overall guidance on contributing to the documentation of a PyAnsys repository appears in
 `Documenting <dev_guide_documenting_>`_ in the *PyAnsys Developer's Guide*.
 

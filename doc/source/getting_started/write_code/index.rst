@@ -4,6 +4,8 @@
 Develop code
 ============
 
+.. include:: ../../links_and_refs.rst
+
 You can help improve PyDPF-Core by fixing a bug. To do it, you must set up the repository
 on your local machine as per the following steps:
 

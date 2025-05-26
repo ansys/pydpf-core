@@ -4,6 +4,8 @@
 Writing tutorials
 =================
 
+.. include:: ../../links_and_refs.rst
+
 You can improve the PyDPF-Core documentation by adding a:
 
 - :ref:`New tutorials section<ref_guidelines_add_new_tutorial_section>`;

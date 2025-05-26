@@ -3,6 +3,8 @@
 Contributing
 ############
 
+.. include:: ../links_and_refs.rst
+
 There are several ways to contribute to PyDPF-Core:
 
 - :ref:`ref_contributing_answer_discussions`
