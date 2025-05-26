@@ -12,7 +12,6 @@ on:
       ANSYS_VERSION:
         required: false
         type: string
-        default: vars.ANSYS_VERSION_DEFAULT
 # Can be called manually
   workflow_dispatch:
     inputs:
@@ -23,9 +22,8 @@ on:
         default: ''
       ANSYS_VERSION:
         description: "ANSYS version to run."
-        required: true
+        required: false
         type: string
-        default: vars.ANSYS_VERSION_DEFAULT
 
 env:
   PACKAGE_NAME: ansys-dpf-core
@@ -87,7 +85,7 @@ jobs:
         with:
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           standalone_suffix: ${{ inputs.standalone_suffix }}
-          ANSYS_VERSION : ${{inputs.ANSYS_VERSION}}
+          ANSYS_VERSION : ${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}
 
       - name: "Check licences of packages"
         uses: ansys/pydpf-actions/check-licenses@v2.3
@@ -219,7 +217,7 @@ jobs:
       - name: "Upload Test Results"
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ inputs.ANSYS_VERSION }}_docker
+          name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}_docker
           path: tests/junit/test-results.xml
         timeout-minutes: 5
 
@@ -227,13 +225,13 @@ jobs:
         uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }} # required
-          name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ inputs.ANSYS_VERSION }}_docker.xml
-          flags: docker,${{ inputs.ANSYS_VERSION }},${{ matrix.os }},${{ matrix.python-version }}
+          name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}_docker.xml
+          flags: docker,${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }},${{ matrix.os }},${{ matrix.python-version }}
 
       - name: "Upload test analytics results to Codecov"
         if: ${{ !cancelled() }}
         uses: codecov/test-results-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          name: test_results_${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_${{ inputs.ANSYS_VERSION }}${{ inputs.test_any == 'true' && '_any' || '' }}
-          flags: ${{ inputs.ANSYS_VERSION }},${{ matrix.os }},${{ matrix.python-version }}${{ inputs.test_any == 'true' && ',any' || '' }}
+          name: test_results_${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}${{ inputs.test_any == 'true' && '_any' || '' }}
+          flags: ${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }},${{ matrix.os }},${{ matrix.python-version }}${{ inputs.test_any == 'true' && ',any' || '' }}

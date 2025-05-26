@@ -14,7 +14,6 @@ on:
         description: "ANSYS version"
         required: false
         type: string
-        default: vars.ANSYS_VERSION_DEFAULT
       standalone_branch_suffix:
         description: 'Suffix of the branch on standalone'
         required: false
@@ -105,7 +104,7 @@ jobs:
     uses: ./.github/workflows/tests.yml
     needs: pick_server_suffix
     with:
-      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || vars.ANSYS_VERSION_DEFAULT }}
+      ANSYS_VERSION: ${{ inputs.ansys_version || vars.ANSYS_VERSION_DEFAULT }}
       python_versions: '["3.10"]'
       wheel: true
       wheelhouse: false
@@ -116,7 +115,7 @@ jobs:
     uses: ./.github/workflows/tests.yml
     needs: pick_server_suffix
     with:
-      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || vars.ANSYS_VERSION_DEFAULT }}
+      ANSYS_VERSION: ${{ inputs.ansys_version || vars.ANSYS_VERSION_DEFAULT }}
       python_versions: '["3.10"]'
       wheel: true
       wheelhouse: false
@@ -129,7 +128,7 @@ jobs:
     uses: ./.github/workflows/test_docker.yml
     needs: pick_server_suffix
     with:
-      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || vars.ANSYS_VERSION_DEFAULT }}
+      ANSYS_VERSION: ${{ inputs.ansys_version || vars.ANSYS_VERSION_DEFAULT }}
       standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
     secrets: inherit
 
@@ -138,7 +137,7 @@ jobs:
     uses: ./.github/workflows/examples_docker.yml
     needs: pick_server_suffix
     with:
-      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || vars.ANSYS_VERSION_DEFAULT }}
+      ANSYS_VERSION: ${{ inputs.ansys_version || vars.ANSYS_VERSION_DEFAULT }}
       python_versions: '["3.10"]'
       standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
     secrets: inherit
@@ -148,7 +147,7 @@ jobs:
     uses: ./.github/workflows/docs.yml
     needs: pick_server_suffix
     with:
-      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || vars.ANSYS_VERSION_DEFAULT }}
+      ANSYS_VERSION: ${{ inputs.ansys_version || vars.ANSYS_VERSION_DEFAULT }}
       standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
       event_name: ${{ github.event_name }}
       python_version: "3.11"
@@ -174,7 +173,7 @@ jobs:
     uses: ./.github/workflows/examples.yml
     needs: pick_server_suffix
     with:
-      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || vars.ANSYS_VERSION_DEFAULT }}
+      ANSYS_VERSION: ${{ inputs.ansys_version || vars.ANSYS_VERSION_DEFAULT }}
       python_versions: '["3.10"]'
       standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
     secrets: inherit
@@ -185,7 +184,7 @@ jobs:
     uses: ./.github/workflows/pydpf-post.yml
     needs: pick_server_suffix
     with:
-      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || vars.ANSYS_VERSION_DEFAULT }}
+      ANSYS_VERSION: ${{ inputs.ansys_version || vars.ANSYS_VERSION_DEFAULT }}
       post_branch: "master"
       standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
       test_docstrings: "true"
