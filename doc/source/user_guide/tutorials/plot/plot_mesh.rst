@@ -4,18 +4,14 @@
 Plot a mesh
 ===========
 
+.. include:: ../../../links_and_refs.rst
+
 .. |Model.plot| replace:: :py:meth:`Model.plot() <ansys.dpf.core.model.Model.plot>`
 .. |MeshedRegion.plot| replace:: :py:meth:`MeshedRegion.plot() <ansys.dpf.core.meshed_region.MeshedRegion.plot>`
 .. |MeshesContainer.plot| replace:: :py:meth:`MeshesContainer.plot() <ansys.dpf.core.meshes_container.MeshesContainer.plot>`
 .. |add_mesh| replace:: :py:meth:`add_mesh() <ansys.dpf.core.plotter.DpfPlotter.add_mesh>`
 .. |show_figure| replace:: :py:meth:`show_figure() <ansys.dpf.core.plotter.DpfPlotter.show_figure>`
 .. |split_mesh| replace:: :py:class:`split_mesh <ansys.dpf.core.operators.mesh.split_mesh.split_mesh>`
-
-.. |Model| replace:: :py:class:`Model <ansys.dpf.core.model.Model>`
-.. |Examples| replace:: :py:mod:`Examples<ansys.dpf.core.examples>`
-.. |MeshedRegion| replace:: :py:class:`MeshedRegion <ansys.dpf.core.meshed_region.MeshedRegion>`
-.. |MeshesContainer| replace:: :py:class:`MeshesContainer <ansys.dpf.core.meshes_container.MeshesContainer>`
-.. |DpfPlotter| replace:: :py:class:`DpfPlotter<ansys.dpf.core.plotter.DpfPlotter>`
 
 This tutorial shows different commands for plotting a mesh without data.
 

@@ -4,6 +4,8 @@
 Plot with mesh deformation
 ==========================
 
+.. include:: ../../../links_and_refs.rst
+
 .. |Model.plot| replace:: :py:meth:`Model.plot() <ansys.dpf.core.model.Model.plot>`
 .. |MeshedRegion.plot| replace:: :py:meth:`MeshedRegion.plot() <ansys.dpf.core.meshed_region.MeshedRegion.plot>`
 .. |MeshesContainer.plot| replace:: :py:meth:`MeshesContainer.plot() <ansys.dpf.core.meshes_container.MeshesContainer.plot>`
@@ -12,16 +14,6 @@ Plot with mesh deformation
 .. |show_figure| replace:: :py:meth:`show_figure()<ansys.dpf.core.plotter.DpfPlotter.show_figure>`
 .. |split_mesh| replace:: :py:class:`split_mesh <ansys.dpf.core.operators.mesh.split_mesh.split_mesh>`
 .. |disp_op| replace:: :py:class:`displacement operator <ansys.dpf.core.operators.result.displacement.displacement>`
-
-.. |Model| replace:: :py:class:`Model <ansys.dpf.core.model.Model>`
-.. |Examples| replace:: :py:mod:`Examples<ansys.dpf.core.examples>`
-.. |MeshedRegion| replace:: :py:class:`MeshedRegion <ansys.dpf.core.meshed_region.MeshedRegion>`
-.. |MeshesContainer| replace:: :py:class:`MeshesContainer <ansys.dpf.core.meshes_container.MeshesContainer>`
-.. |DpfPlotter| replace:: :py:class:`DpfPlotter<ansys.dpf.core.plotter.DpfPlotter>`
-.. |Result| replace:: :py:class:`Result <ansys.dpf.core.results.Result>`
-.. |Operator| replace:: :py:class:`Operator<ansys.dpf.core.dpf_operator.Operator>`
-.. |Field| replace:: :py:class:`Field<ansys.dpf.core.field.Field>`
-.. |FieldsContainer| replace:: :py:class:`FieldsContainer<ansys.dpf.core.fields_container.FieldsContainer>`
 
 This tutorial shows different commands for plotting a deformed mesh without data.
 

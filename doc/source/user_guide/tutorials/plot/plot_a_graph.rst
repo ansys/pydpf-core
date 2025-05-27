@@ -4,12 +4,7 @@
 Plot a graph using matplotlib
 =============================
 
-.. |Examples| replace:: :mod:`Examples<ansys.dpf.core.examples>`
-.. |Field| replace:: :class:`Field<ansys.dpf.core.field.Field>`
-.. |FieldsContainer| replace:: :class:`FieldsContainer<ansys.dpf.core.fields_container.FieldsContainer>`
-.. |MeshedRegion| replace:: :class:`MeshedRegion <ansys.dpf.core.meshed_region.MeshedRegion>`
-.. |DpfPlotter| replace:: :class:`DpfPlotter<ansys.dpf.core.plotter.DpfPlotter>`
-.. |TimeFreqSupport| replace:: :class:`TimeFreqSupport <ansys.dpf.core.time_freq_support.TimeFreqSupport>`
+.. include:: ../../../links_and_refs.rst
 
 .. |Line| replace:: :class:`Line <ansys.dpf.core.geometry.Line>`
 .. |on_coordinates| replace:: :class:`on_coordinates <ansys.dpf.core.operators.mapping.on_coordinates.on_coordinates>`

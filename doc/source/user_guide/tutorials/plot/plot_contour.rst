@@ -4,6 +4,8 @@
 Plot contours
 =============
 
+.. include:: ../../../links_and_refs.rst
+
 .. |Field.plot| replace:: :py:meth:`Field.plot() <ansys.dpf.core.field.Field.plot>`
 .. |MeshedRegion.plot| replace:: :py:meth:`MeshedRegion.plot() <ansys.dpf.core.meshed_region.MeshedRegion.plot>`
 .. |add_mesh| replace:: :py:meth:`add_mesh() <ansys.dpf.core.plotter.DpfPlotter.add_mesh>`
@@ -16,14 +18,6 @@ Plot contours
 .. |FieldsContainer.plot| replace:: :py:meth:`FieldsContainer.plot() <ansys.dpf.core.fields_container.FieldsContainer.plot>`
 .. |split_fields| replace:: :py:class:`split_fields <ansys.dpf.core.operators.mesh.split_fields.split_fields>`
 .. |split_mesh| replace:: :py:class:`split_mesh <ansys.dpf.core.operators.mesh.split_mesh.split_mesh>`
-
-.. |Field| replace:: :py:class:`Field <ansys.dpf.core.field.Field>`
-.. |FieldsContainer| replace:: :py:class:`FieldsContainer <ansys.dpf.core.fields_container.FieldsContainer>`
-.. |Model| replace:: :py:class:`Model <ansys.dpf.core.model.Model>`
-.. |Examples| replace:: :py:mod:`Examples <ansys.dpf.core.examples>`
-.. |MeshedRegion| replace:: :py:class:`MeshedRegion <ansys.dpf.core.meshed_region.MeshedRegion>`
-.. |MeshesContainer| replace:: :py:class:`MeshesContainer <ansys.dpf.core.meshes_container.MeshesContainer>`
-.. |DpfPlotter| replace:: :py:class:`DpfPlotter <ansys.dpf.core.plotter.DpfPlotter>`
 
 This tutorial shows different commands for plotting data contours on meshes.
 
