@@ -31,15 +31,6 @@ of our package background so you can understand how to work with it.
 
        Learn the different data structures used by DPF when handling data
 
-    .. grid-item-card:: PyDPF-Core language
-       :link: ref_tutorials_language_and_usage
-       :link-type: ref
-       :text-align: center
-
-       Check an overview on how to use PyDPF-Core API.
-       Learn the different ways to interact with data by using PyDPF-Core
-       objects and methods.
-
     .. grid-item-card::  Post-processing data basics
        :link: ref_tutorials_processing_basics
        :link-type: ref
