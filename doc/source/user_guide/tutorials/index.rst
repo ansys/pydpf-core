@@ -98,14 +98,6 @@ of our package background so you can understand how to work with it.
 
        Learn how to do mathematical operations using PyDPF-Core and data structures
 
-    .. grid-item-card:: Manipulating physics data
-       :link: ref_tutorials_manipulate_physics_data
-       :link-type: ref
-       :text-align: center
-
-       Learn how to manipulate the physics data associate to a
-       data storage structure. (Unit, homogeneity ...)
-
     .. grid-item-card:: Enriching DPF capabilities
        :link: ref_tutorials_enriching
        :link-type: ref
