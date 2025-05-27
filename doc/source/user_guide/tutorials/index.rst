@@ -16,30 +16,28 @@ section.
 :fa:`person-running` Beginner's guide
 *************************************
 
-New to PyDPF-Core? Check our beginner's tutorials. They offer an overview
-of our package background so you can understand how to work with it.
+New to PyDPF-Core? Check our beginner tutorials. They offer an overview
+of basic features and concepts so you can start coding right away.
 
 .. grid:: 1 1 3 3
     :gutter: 2
     :padding: 2
     :margin: 2
 
-    .. grid-item-card:: PyDPF-Core data structures
+    .. grid-item-card:: Data structures
        :link: ref_tutorials_data_structures
        :link-type: ref
        :text-align: center
 
-       Learn the different data structures used by DPF when handling data
+       Learn about the different data structures available in DPF.
 
-    .. grid-item-card::  Post-processing data basics
+    .. grid-item-card::  Basic post-processing script
        :link: ref_tutorials_processing_basics
        :link-type: ref
        :text-align: center
 
-       Learn the basics on a post-processing procedure
-       using PyDPf-Core based on its usual main steps. The goal is to
-       transform simulation data into output data that can be used to
-       visualize and analyze simulation results.
+       Follow a basic post-processing procedure with data transformation,
+       visualization and analysis using PyDPf-Core.
 
 :fa:`book-open-reader` Common topics
 ************************************
@@ -49,42 +47,42 @@ of our package background so you can understand how to work with it.
     :padding: 2
     :margin: 2
 
-    .. grid-item-card:: Import Data on DPF
+    .. grid-item-card:: Importing data
        :link: ref_tutorials_import_data
        :link-type: ref
        :text-align: center
 
-       Understand how to represent data in DPF: either from manual input either form result files.
+       Learn how to bring data from manual input or result files into PyDPF-Core objects.
 
-    .. grid-item-card:: Mesh exploration
+    .. grid-item-card:: Meshes
        :link: ref_tutorials_mesh
        :link-type: ref
        :text-align: center
 
-       Learn how to explore a mesh in DPF.
+       Learn how to interact with meshes in PyDPF-Core.
 
-    .. grid-item-card:: Manipulate data with operators and workflows
+    .. grid-item-card:: Processing data with operators and workflows
        :link: ref_tutorials_operators_and_workflows
        :link-type: ref
        :text-align: center
 
        Learn how to use operators to process your data and build workflows.
 
-    .. grid-item-card:: Export data from DPF
+    .. grid-item-card:: Exporting data
        :link: ref_tutorials_export_data
        :link-type: ref
        :text-align: center
 
-       Discover the best ways to export data from your manipulations with PyDPF-Core.
+       Discover the best ways to export data using PyDPF-Core.
 
-    .. grid-item-card:: Plot
+    .. grid-item-card:: Plotting
        :link: ref_tutorials_plot
        :link-type: ref
        :text-align: center
 
        Explore the different approaches to visualise the data in plots.
 
-    .. grid-item-card:: Animate
+    .. grid-item-card:: Animations
        :link: ref_tutorials_animate
        :link-type: ref
        :text-align: center
@@ -96,32 +94,32 @@ of our package background so you can understand how to work with it.
        :link-type: ref
        :text-align: center
 
-       Learn how to do mathematical operations using PyDPF-Core and data structures
+       Learn how to perform mathematical operations on data structures.
 
-    .. grid-item-card:: Enriching DPF capabilities
+    .. grid-item-card:: Extend DPF capabilities
        :link: ref_tutorials_enriching
        :link-type: ref
        :text-align: center
 
-       Discover how to enhance DPF capabilities by creating new operator’s libraries.
+       Discover how to extend DPF capabilities with custom operators and plugins.
 
-    .. grid-item-card:: Post-process distributed files
+    .. grid-item-card:: Process distributed files
        :link: ref_tutorials_distributed_files
        :link-type: ref
        :text-align: center
 
-       Learn how to use PyDPF-Core with distributed files.
+       Learn how to use PyDPF-Core with distributed result files.
 
-    .. grid-item-card:: DPF server
+    .. grid-item-card:: Manage local and remote servers
        :link: ref_tutorials_dpf_server
        :link-type: ref
        :text-align: center
 
-       Understand how to manipulate DPF client-server architecture
+       Learn about the DPF client-server architecture and management of local and remote servers.
 
-    .. grid-item-card:: Licensing
+    .. grid-item-card:: Manage licensing
        :link: ref_tutorials_licensing
        :link-type: ref
        :text-align: center
 
-       Understand how to access the Entry and Premium licensing capabilities
+       Learn how to manage licensing in PyDPF-Core.
