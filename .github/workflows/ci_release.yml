@@ -87,7 +87,7 @@ jobs:
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: ${{ inputs.ansys_version || '251' }}
-      python_versions: '["3.11", "3.12"]'
+      python_versions: '["3.11", "3.12", "3.13"]'
       DOCSTRING: false
       wheel: false
       wheelhouse: true
@@ -109,7 +109,7 @@ jobs:
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: ${{ inputs.ansys_version || '251' }}
-      python_versions: '["3.11", "3.12"]'
+      python_versions: '["3.11", "3.12", "3.13"]'
       DOCSTRING: false
       wheel: false
       wheelhouse: false
@@ -129,7 +129,7 @@ jobs:
     uses: ./.github/workflows/examples.yml
     with:
       ANSYS_VERSION: ${{ inputs.ansys_version || '251' }}
-      python_versions: '["3.10", "3.11", "3.12"]'
+      python_versions: '["3.10", "3.11", "3.12", "3.13"]'
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
     secrets: inherit
 
@@ -236,7 +236,7 @@ jobs:
     uses: ./.github/workflows/examples_docker.yml
     with:
       ANSYS_VERSION: ${{ inputs.ansys_version || '251' }}
-      python_versions: '["3.10", "3.11", "3.12"]'
+      python_versions: '["3.10", "3.11", "3.12", "3.13"]'
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
     secrets: inherit
 

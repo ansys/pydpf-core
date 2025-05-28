@@ -207,7 +207,7 @@ jobs:
         uses: ansys/pydpf-actions/prepare_tests@dependencies/bump_pyvista_setup-headless-display-action_to_v4
         with:
           DEBUG: true
-
+          
       - name: "Test Docstrings"
         if: (inputs.DOCSTRING == 'true') && !((inputs.test_any == 'true') && (matrix.os == 'ubuntu-latest'))
         uses: ansys/pydpf-actions/test_docstrings@v2.3
@@ -221,17 +221,9 @@ jobs:
         shell: bash
         run: |
           if [ $MODE == 'PIP' ]; then
-            if [ ${{ matrix.os }} == 'ubuntu-latest' ]; then
-              echo 'TOX_EXTRA_ARG=--installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.deps+="-e dpf-standalone/v${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}" -x testenv.commands_pre+="uv pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.3.20240907.dev0"' >> "$GITHUB_OUTPUT"
-            else
-              echo 'TOX_EXTRA_ARG=--installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.deps+="-e dpf-standalone/v${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}"' >> "$GITHUB_OUTPUT"
-            fi
+            echo 'TOX_EXTRA_ARG=--installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.deps+="-e dpf-standalone/v${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}"' >> "$GITHUB_OUTPUT"
           else
-            if [ ${{ matrix.os }} == 'ubuntu-latest' ]; then
-              echo 'TOX_EXTRA_ARG=--installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.commands_pre+="uv pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.3.20240907.dev0"' >> "$GITHUB_OUTPUT"
-            else
-              echo 'TOX_EXTRA_ARG=--installpkg dist/${{ steps.wheel.outputs.wheel_name }}' >> "$GITHUB_OUTPUT"
-            fi
+            echo 'TOX_EXTRA_ARG=--installpkg dist/${{ steps.wheel.outputs.wheel_name }}' >> "$GITHUB_OUTPUT"
           fi
 
       - name: "Organize test files"
