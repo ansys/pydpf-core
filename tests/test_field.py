@@ -33,11 +33,12 @@ from ansys.dpf.core import FieldDefinition, operators as ops
 from ansys.dpf.core.available_result import Homogeneity
 from ansys.dpf.core.check_version import server_meet_version
 from ansys.dpf.core.common import locations, shell_layers
-from ansys.dpf.gate.errors import DPFServerException
+from ansys.dpf.gate.errors import DPFServerException, DpfVersionNotSupported
 import conftest
 from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0,
+    raises_for_servers_version_under,
     running_docker,
 )
 
@@ -1426,19 +1427,21 @@ def test_deep_copy_big_field_remote(server_type, server_type_remote_process):
     assert np.allclose(out.data, data)
 
 
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0, reason="Available for servers >=11.0"
-)
-def test_set_units():
+def test_set_units(server_type):
     data = np.random.random(100)
     field = dpf.core.field_from_array(data)
     # use string setter with recognized string
     field.unit = "m"
     assert field.unit == "m"
 
-    # use tuple(Homogeneity, string) setter
-    field.unit = (Homogeneity.dimensionless, "sones")
-    assert field.unit == "sones"
+    if server_meet_version("11.0", server_type):
+        # use tuple(Homogeneity, string) setter
+        field.unit = (Homogeneity.dimensionless, "sones")
+        assert field.unit == "sones"
+    else:
+        with pytest.raises(DpfVersionNotSupported):
+            # use tuple(Homogeneity, string) setter
+            field.unit = (Homogeneity.dimensionless, "sones")
 
     # use unrecognized string
     with pytest.raises(DPFServerException):
