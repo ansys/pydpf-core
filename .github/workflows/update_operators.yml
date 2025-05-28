@@ -52,7 +52,7 @@ jobs:
       - name: "Update ansys-grpc-dpf"
         shell: bash
         run: |
-          wheel_file=$(find ./dpf-standalone/${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}/dist -name "ansys_grpc_dpf-*"  -type f)
+          wheel_file=$(find ./dpf-standalone/v${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}/dist -name "ansys_grpc_dpf-*"  -type f)
           echo $wheel_file
           rm -r src/ansys/grpc
           unzip -o $wheel_file "ansys/**/*" -d src/
