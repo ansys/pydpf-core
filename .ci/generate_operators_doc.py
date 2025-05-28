@@ -86,6 +86,7 @@ def fetch_doc_info(server, operator_name):
 
     license = properties.pop("license", "None")
 
+    
     exposure = properties.pop("exposure", "private")
     scripting_info = {
         "category": category,
