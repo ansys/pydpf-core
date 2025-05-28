@@ -49,7 +49,9 @@ class meshes_container(Operator):
 
     def __init__(self, input=None, config=None, server=None):
         super().__init__(
-            name="incremental::merge::meshes_container", config=config, server=server
+            name="incremental::merge::meshes_containermerge::meshes_container",
+            config=config,
+            server=server,
         )
         self._inputs = InputsMeshesContainer(self)
         self._outputs = OutputsMeshesContainer(self)
@@ -100,7 +102,8 @@ class meshes_container(Operator):
             A new Config instance equivalent to the default config for this operator.
         """
         return Operator.default_config(
-            name="incremental::merge::meshes_container", server=server
+            name="incremental::merge::meshes_containermerge::meshes_container",
+            server=server,
         )
 
     @property
