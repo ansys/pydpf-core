@@ -47,5 +47,6 @@
 * [Ramdane Lagha](https://github.com/rlagha)
 * [Revathy Venugopal](https://github.com/Revathyvenugopal162)
 * [Roberto Pastor Muela](https://github.com/RobPasMue)
+* [Sean Ahern](https://github.com/ahernsean)
 * [Theo Meunier](https://github.com/TheoMeunierAnsys)
 * [vsousacosta](https://github.com/vsousacosta)

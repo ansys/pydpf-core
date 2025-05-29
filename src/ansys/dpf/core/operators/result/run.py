@@ -26,6 +26,8 @@ class run(Operator):
     working_dir: str, optional
     number_of_processes: int, optional
         Set the number of MPI processes used for resolution (default is 2)
+    number_of_threads: int, optional
+        Set the number of threads used for resolution (default is 1)
     data_sources: DataSources
         data sources containing the input file.
     server_mode: bool, optional
@@ -54,6 +56,8 @@ class run(Operator):
     >>> op.inputs.working_dir.connect(my_working_dir)
     >>> my_number_of_processes = int()
     >>> op.inputs.number_of_processes.connect(my_number_of_processes)
+    >>> my_number_of_threads = int()
+    >>> op.inputs.number_of_threads.connect(my_number_of_threads)
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
     >>> my_server_mode = bool()
@@ -64,6 +68,7 @@ class run(Operator):
     ...     mapdl_exe_path=my_mapdl_exe_path,
     ...     working_dir=my_working_dir,
     ...     number_of_processes=my_number_of_processes,
+    ...     number_of_threads=my_number_of_threads,
     ...     data_sources=my_data_sources,
     ...     server_mode=my_server_mode,
     ... )
@@ -79,6 +84,7 @@ class run(Operator):
         mapdl_exe_path=None,
         working_dir=None,
         number_of_processes=None,
+        number_of_threads=None,
         data_sources=None,
         server_mode=None,
         config=None,
@@ -93,6 +99,8 @@ class run(Operator):
             self.inputs.working_dir.connect(working_dir)
         if number_of_processes is not None:
             self.inputs.number_of_processes.connect(number_of_processes)
+        if number_of_threads is not None:
+            self.inputs.number_of_threads.connect(number_of_threads)
         if data_sources is not None:
             self.inputs.data_sources.connect(data_sources)
         if server_mode is not None:
@@ -123,6 +131,12 @@ file.
                     type_names=["int32"],
                     optional=True,
                     document=r"""Set the number of MPI processes used for resolution (default is 2)""",
+                ),
+                3: PinSpecification(
+                    name="number_of_threads",
+                    type_names=["int32"],
+                    optional=True,
+                    document=r"""Set the number of threads used for resolution (default is 1)""",
                 ),
                 4: PinSpecification(
                     name="data_sources",
@@ -218,6 +232,8 @@ class InputsRun(_Inputs):
     >>> op.inputs.working_dir.connect(my_working_dir)
     >>> my_number_of_processes = int()
     >>> op.inputs.number_of_processes.connect(my_number_of_processes)
+    >>> my_number_of_threads = int()
+    >>> op.inputs.number_of_threads.connect(my_number_of_threads)
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
     >>> my_server_mode = bool()
@@ -232,6 +248,8 @@ class InputsRun(_Inputs):
         self._inputs.append(self._working_dir)
         self._number_of_processes = Input(run._spec().input_pin(2), 2, op, -1)
         self._inputs.append(self._number_of_processes)
+        self._number_of_threads = Input(run._spec().input_pin(3), 3, op, -1)
+        self._inputs.append(self._number_of_threads)
         self._data_sources = Input(run._spec().input_pin(4), 4, op, -1)
         self._inputs.append(self._data_sources)
         self._server_mode = Input(run._spec().input_pin(5), 5, op, -1)
@@ -295,6 +313,27 @@ class InputsRun(_Inputs):
         >>> op.inputs.number_of_processes(my_number_of_processes)
         """
         return self._number_of_processes
+
+    @property
+    def number_of_threads(self) -> Input:
+        r"""Allows to connect number_of_threads input to the operator.
+
+        Set the number of threads used for resolution (default is 1)
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.run()
+        >>> op.inputs.number_of_threads.connect(my_number_of_threads)
+        >>> # or
+        >>> op.inputs.number_of_threads(my_number_of_threads)
+        """
+        return self._number_of_threads
 
     @property
     def data_sources(self) -> Input:

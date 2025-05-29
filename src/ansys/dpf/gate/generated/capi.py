@@ -3195,12 +3195,12 @@ def load_api(path):
 		dll.Operator_specification_GetPinDerivedClassTypeName.restype = ctypes.POINTER(ctypes.c_char)
 
 	if hasattr(dll, "Operator_specification_SetVersion"):
-		dll.Operator_specification_SetVersion.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.Operator_specification_SetVersion.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Operator_specification_SetVersion.restype = None
 
 	if hasattr(dll, "Operator_specification_GetVersion"):
 		dll.Operator_specification_GetVersion.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
-		dll.Operator_specification_GetVersion.restype = ctypes.c_void_p
+		dll.Operator_specification_GetVersion.restype = ctypes.POINTER(ctypes.c_char)
 
 	if hasattr(dll, "Operator_specification_GetPinNumAliases"):
 		dll.Operator_specification_GetPinNumAliases.argtypes = (ctypes.c_void_p, ctypes.c_bool, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
@@ -3209,6 +3209,10 @@ def load_api(path):
 	if hasattr(dll, "Operator_specification_GetPinAlias"):
 		dll.Operator_specification_GetPinAlias.argtypes = (ctypes.c_void_p, ctypes.c_bool, ctypes.c_int32, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Operator_specification_GetPinAlias.restype = ctypes.POINTER(ctypes.c_char)
+
+	if hasattr(dll, "Operator_specification_SetChangelog"):
+		dll.Operator_specification_SetChangelog.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.Operator_specification_SetChangelog.restype = None
 
 	if hasattr(dll, "Operator_specification_new_on_client"):
 		dll.Operator_specification_new_on_client.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
@@ -3831,25 +3835,6 @@ def load_api(path):
 	if hasattr(dll, "Scoping_getCopy"):
 		dll.Scoping_getCopy.argtypes = (ctypes.c_int32, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Scoping_getCopy.restype = ctypes.c_void_p
-
-	#-------------------------------------------------------------------------------
-	# SemanticVersion
-	#-------------------------------------------------------------------------------
-	if hasattr(dll, "SemanticVersion_new"):
-		dll.SemanticVersion_new.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
-		dll.SemanticVersion_new.restype = ctypes.c_void_p
-
-	if hasattr(dll, "SemanticVersion_getComponents"):
-		dll.SemanticVersion_getComponents.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
-		dll.SemanticVersion_getComponents.restype = None
-
-	if hasattr(dll, "SemanticVersion_eq"):
-		dll.SemanticVersion_eq.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
-		dll.SemanticVersion_eq.restype = ctypes.c_bool
-
-	if hasattr(dll, "SemanticVersion_lt"):
-		dll.SemanticVersion_lt.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
-		dll.SemanticVersion_lt.restype = ctypes.c_bool
 
 	#-------------------------------------------------------------------------------
 	# SerializationStream

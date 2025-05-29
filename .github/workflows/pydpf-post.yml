@@ -10,7 +10,6 @@ on:
       ANSYS_VERSION:
         required: false
         type: string
-        default: "251"
       standalone_suffix:
         description: "Suffix of the branch on standalone"
         required: false
@@ -30,9 +29,8 @@ on:
         type: string
       ANSYS_VERSION:
         description: "ANSYS version"
-        required: true
+        required: false
         type: string
-        default: "251"
       standalone_suffix:
         description: "Suffix of the branch on standalone"
         required: false
@@ -62,7 +60,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: "Set licensing if necessary"
-        if: inputs.ANSYS_VERSION > 231
+        if: ${{ (inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT) > '231' }}
         shell: bash
         run: |
           echo "ANSYS_DPF_ACCEPT_LA=Y" >> $GITHUB_ENV
@@ -106,7 +104,7 @@ jobs:
         with:
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           standalone_suffix: ${{ inputs.standalone_suffix }}
-          ANSYS_VERSION : ${{inputs.ANSYS_VERSION}}
+          ANSYS_VERSION : ${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}
 
       - name: "Check licences of packages"
         uses: ansys/pydpf-actions/check-licenses@v2.3

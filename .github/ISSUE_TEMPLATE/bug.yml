@@ -61,6 +61,8 @@ body:
       label: Which DPF/Ansys version are you using?
       multiple: true
       options:
+       - 'Ansys 2026 R1'
+       - 'Ansys 2025 R2'
        - 'DPF Server 2025.2.pre0'
        - 'Ansys 2025 R1'
        - 'DPF Server 2025.1.pre0'
@@ -87,13 +89,13 @@ body:
       description: Run `python --version` to verify your Python version
       multiple: true
       options:
-       - '3.7'
-       - '3.8'
-       - '3.9'
-       - '3.10'
-       - '3.11'
-       - '3.12'
        - '3.13'
+       - '3.12'
+       - '3.11'
+       - '3.10'
+       - '3.9'
+       - '3.8'
+       - '3.7'
     validations:
       required: true
 
