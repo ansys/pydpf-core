@@ -83,6 +83,15 @@ class PropertyFieldCAPI(property_field_abstract_api.PropertyFieldAbstractAPI):
 		return newres
 
 	@staticmethod
+	def csproperty_field_new(numEntities, data_size):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.CSPropertyField_new(utils.to_int32(numEntities), utils.to_int32(data_size), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def csproperty_field_new_location(numEntities, data_size, location):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()

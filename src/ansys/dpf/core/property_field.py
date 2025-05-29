@@ -91,7 +91,7 @@ class PropertyField(_FieldBase):
             field=property_field,
             server=server,
         )
-        self._field_definition_instance = None
+        self._field_definition_instance = self._load_field_definition()
 
     @property
     def _api(self) -> property_field_abstract_api.PropertyFieldAbstractAPI:
@@ -114,7 +114,7 @@ class PropertyField(_FieldBase):
     @staticmethod
     def _field_create_internal_obj(
         api: property_field_abstract_api.PropertyFieldAbstractAPI,
-        client,
+        server,
         nature,
         nentities,
         location=locations.nodal,
@@ -123,12 +123,21 @@ class PropertyField(_FieldBase):
         with_type=None,
     ):
         dim = dimensionality.Dimensionality([ncomp_n, ncomp_m], nature)
-        if client is not None:
-            return api.csproperty_field_new_on_client(
-                client, nentities, nentities * dim.component_count
-            )
+        client = server.client
+        if meets_version(server.version, "11.0"):
+            if client is not None:
+                return api.csproperty_field_new_location_on_client(
+                    client, nentities, nentities * dim.component_count, location
+                )
+            else:
+                return api.csproperty_field_new_location(nentities, nentities * dim.component_count, location)
         else:
-            return api.csproperty_field_new_location(nentities, nentities * dim.component_count, location)
+            if client is not None:
+                return api.csproperty_field_new_on_client(
+                    client, nentities, nentities * dim.component_count
+                )
+            else:
+                return api.csproperty_field_new(nentities, nentities * dim.component_count)
 
     @version_requires("8.1")
     def _load_field_definition(self):
@@ -152,7 +161,7 @@ class PropertyField(_FieldBase):
 
         Examples
         --------
-        Create a property field and request the location.
+        Create a property field and request the location. ##TODO Important, modify this example! as well as the description
 
         >>> from ansys.dpf import core as dpf
         >>> pfield = dpf.PropertyField()
@@ -164,8 +173,13 @@ class PropertyField(_FieldBase):
         'Nodal'
 
         """
-        location = self.scoping.location
-        return location if location else None
+        if meets_version(self._server.version, "11.0"):
+            if self._field_definition:
+                return self._field_definition.location
+        if self.scoping:
+            return self.scoping.location
+        else:
+            return None
 
     @location.setter
     def location(self, value):

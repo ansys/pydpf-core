@@ -169,7 +169,7 @@ class CustomTypeField(_FieldBase):
     @staticmethod
     def _field_create_internal_obj(
         api,
-        client,
+        server,
         nature,
         nentities,
         location=locations.nodal,
@@ -178,6 +178,7 @@ class CustomTypeField(_FieldBase):
         with_type=None,
     ):
         dpf_type_name = numpy_type_to_dpf[with_type]
+        client = server.client
         if client is not None:
             return api.cscustom_type_field_new_on_client(
                 client, dpf_type_name, with_type.itemsize, nentities, nentities
