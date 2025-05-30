@@ -47,11 +47,6 @@ class PropertyFieldAbstractAPI:
 	def csproperty_field_new_location(numEntities, data_size, location):
 		raise NotImplementedError
 
-	@staticmethod
-	def csproperty_field_new_location(numEntities, data_size, location):
-		raise NotImplementedError
-
-	@staticmethod
 	def csproperty_field_new_with_transformation(numEntities, data_size, wf, input_name, output_name):
 		raise NotImplementedError
 
