@@ -183,7 +183,7 @@ jobs:
   draft_release:
     name: "Draft Release"
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
-    needs: [style, tests, tests_3_10, tests_any, tests_any_3_10, docs, examples, retro_232, retro_231, retro_222, docker_tests]
+    needs: [style, tests, docs, examples, tests-retro, docker_tests]
     runs-on: ubuntu-latest
     steps:
       - name: "Download artifacts"
