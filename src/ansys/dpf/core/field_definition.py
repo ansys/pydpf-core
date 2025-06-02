@@ -245,7 +245,7 @@ class FieldDefinition:
             self._api.csfield_definition_set_unit(self, value, None, 0, 0, 0)
         else:
             raise ValueError(
-                None, message="Unit setter supports either string or tuple(Homogeneity, str)"
+                "Unit setter supports either string or tuple(Homogeneity, str)"
             )
 
     @location.setter
