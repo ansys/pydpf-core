@@ -232,7 +232,7 @@ class Field(_FieldBase):
     @staticmethod
     def _field_create_internal_obj(
         api: field_abstract_api.FieldAbstractAPI,
-        client,
+        server,
         nature,
         nentities,
         location=locations.nodal,
@@ -241,6 +241,7 @@ class Field(_FieldBase):
         with_type=None,
     ):
         dim = dimensionality.Dimensionality([ncomp_n, ncomp_m], nature)
+        client = server.client
 
         if dim.is_1d_dim():
             if client is not None:
