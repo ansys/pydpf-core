@@ -428,3 +428,4 @@ def test_custom_op_changelog(server_type_remote_process, testfiles_dir):
     assert isinstance(changelog, Changelog)
     assert changelog.last_version == Version("1.0.0")
     assert changelog[Version("1.0.0")] == "Major bump"
+    assert op.version == Version("1.0.0")
