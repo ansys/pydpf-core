@@ -933,9 +933,12 @@ class Operator:
         else:
             return Specification(operator_name=self.name, server=self._server)
 
+    @version_requires("11.0")
     @property
     def changelog(self) -> Changelog:
         """Return the changelog of this operator.
+
+        Requires DPF 11.0 (2026 R1) or above.
 
         Returns
         -------
@@ -946,9 +949,14 @@ class Operator:
 
         return Changelog(operator_changelog(operator_name=self.name, server=self._server).eval())
 
+    @version_requires("11.0")
     @property
     def version(self) -> Version:
-        """Return the current version of the operator."""
+        """Return the current version of the operator.
+
+        Requires DPF 11.0 (2026 R1) or above.
+
+        """
         return self.changelog.last_version
 
     def __truediv__(self, inpt):

@@ -27,10 +27,14 @@ from __future__ import annotations
 from packaging.version import Version
 
 import ansys.dpf.core as dpf
+from ansys.dpf.core.check_version import version_requires
 
 
+@version_requires("11.0")
 class Changelog:
     """Changelog of an operator.
+
+    Requires DPF 11.0 (2026 R1) or above.
 
     Parameters
     ----------
