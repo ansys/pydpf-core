@@ -32,7 +32,6 @@ def test_changelog_new(server_type):
     changelog = Changelog(server=server_type)
     assert changelog.last_version == Version("0.0.0")
     assert changelog[changelog.last_version] == "Initial version."
-    print(changelog)
 
 
 @conftest.raises_for_servers_version_under("11.0")
