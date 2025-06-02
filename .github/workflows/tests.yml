@@ -11,7 +11,6 @@ on:
       ANSYS_VERSION:
         required: false
         type: string
-        default: vars.ANSYS_VERSION_DEFAULT
       wheel:
         required: false
         type: string
@@ -44,9 +43,8 @@ on:
         default: '["3.10", "3.11", "3.12"]'
       ANSYS_VERSION:
         description: "ANSYS version"
-        required: true
+        required: false
         type: string
-        default: vars.ANSYS_VERSION_DEFAULT
       wheel:
         description: "Generate a wheel"
         required: false
@@ -103,7 +101,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: "Set licensing if necessary"
-        if: inputs.ANSYS_VERSION > 231
+        if: ${{ (inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT) > '231' }}
         shell: bash
         run: |
           echo "ANSYS_DPF_ACCEPT_LA=Y" >> $GITHUB_ENV
@@ -128,9 +126,9 @@ jobs:
         with:
           path: |
             .tox
-          key: ${{ matrix.os }}-${{ matrix.python-version }}-${{ inputs.ANSYS_VERSION }}-${{ hashFiles('requirements/*', 'pyproject.toml') }}
+          key: ${{ matrix.os }}-${{ matrix.python-version }}-${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}-${{ hashFiles('requirements/*', 'pyproject.toml') }}
           restore-keys: |
-            ${{ matrix.os }}-${{ matrix.python-version }}-${{ inputs.ANSYS_VERSION }}-
+            ${{ matrix.os }}-${{ matrix.python-version }}-${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}-
 
       - name: "Build the wheel"
         shell: bash
@@ -194,7 +192,7 @@ jobs:
         with:
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           standalone_suffix: ${{ inputs.standalone_suffix }}
-          ANSYS_VERSION : ${{inputs.ANSYS_VERSION}}
+          ANSYS_VERSION : ${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}
 
       - name: "Check licences of packages"
         uses: ansys/pydpf-actions/check-licenses@v2.3
@@ -209,7 +207,7 @@ jobs:
         uses: ansys/pydpf-actions/prepare_tests@dependencies/bump_pyvista_setup-headless-display-action_to_v4
         with:
           DEBUG: true
-
+          
       - name: "Test Docstrings"
         if: (inputs.DOCSTRING == 'true') && !((inputs.test_any == 'true') && (matrix.os == 'ubuntu-latest'))
         uses: ansys/pydpf-actions/test_docstrings@v2.3
@@ -223,17 +221,9 @@ jobs:
         shell: bash
         run: |
           if [ $MODE == 'PIP' ]; then
-            if [ ${{ matrix.os }} == 'ubuntu-latest' ]; then
-              echo 'TOX_EXTRA_ARG=--installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}" -x testenv.commands_pre+="uv pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.3.20240907.dev0"' >> "$GITHUB_OUTPUT"
-            else
-              echo 'TOX_EXTRA_ARG=--installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.deps+="-e dpf-standalone/v${{inputs.ANSYS_VERSION}}"' >> "$GITHUB_OUTPUT"
-            fi
+            echo 'TOX_EXTRA_ARG=--installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.deps+="-e dpf-standalone/v${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}"' >> "$GITHUB_OUTPUT"
           else
-            if [ ${{ matrix.os }} == 'ubuntu-latest' ]; then
-              echo 'TOX_EXTRA_ARG=--installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.commands_pre+="uv pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.3.20240907.dev0"' >> "$GITHUB_OUTPUT"
-            else
-              echo 'TOX_EXTRA_ARG=--installpkg dist/${{ steps.wheel.outputs.wheel_name }}' >> "$GITHUB_OUTPUT"
-            fi
+            echo 'TOX_EXTRA_ARG=--installpkg dist/${{ steps.wheel.outputs.wheel_name }}' >> "$GITHUB_OUTPUT"
           fi
 
       - name: "Organize test files"
@@ -308,7 +298,7 @@ jobs:
       - name: "Upload Test Results"
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ inputs.ANSYS_VERSION }}${{ inputs.test_any == 'true' && '_any' || '' }}
+          name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}${{ inputs.test_any == 'true' && '_any' || '' }}
           path: tests/junit/test-results.xml
 
       - name: "Upload coverage to Codecov"
@@ -316,13 +306,13 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }} # required
           file: ./.tox/.cov/coverage.xml
-          name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ inputs.ANSYS_VERSION }}${{ inputs.test_any == 'true' && '_any' || '' }}.xml
-          flags: ${{ inputs.ANSYS_VERSION }},${{ matrix.os }},${{ matrix.python-version }}${{ inputs.test_any == 'true' && ',any' || '' }}
+          name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}${{ inputs.test_any == 'true' && '_any' || '' }}.xml
+          flags: ${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }},${{ matrix.os }},${{ matrix.python-version }}${{ inputs.test_any == 'true' && ',any' || '' }}
 
       - name: "Upload test analytics results to Codecov"
         if: ${{ !cancelled() }}
         uses: codecov/test-results-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          name: test_results_${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_${{ inputs.ANSYS_VERSION }}${{ inputs.test_any == 'true' && '_any' || '' }}
-          flags: ${{ inputs.ANSYS_VERSION }},${{ matrix.os }},${{ matrix.python-version }}${{ inputs.test_any == 'true' && ',any' || '' }}
+          name: test_results_${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}${{ inputs.test_any == 'true' && '_any' || '' }}
+          flags: ${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }},${{ matrix.os }},${{ matrix.python-version }}${{ inputs.test_any == 'true' && ',any' || '' }}

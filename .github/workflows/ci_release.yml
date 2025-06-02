@@ -76,7 +76,7 @@ jobs:
   tests_3_10:
     uses: ./.github/workflows/tests.yml
     with:
-      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '251' }}
+      ANSYS_VERSION: ${{ inputs.ansys_version || '251' }}
       python_versions: '["3.10"]'
       wheel: true
       wheelhouse: true
@@ -86,8 +86,8 @@ jobs:
   tests:
     uses: ./.github/workflows/tests.yml
     with:
-      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '251' }}
-      python_versions: '["3.11", "3.12"]'
+      ANSYS_VERSION: ${{ inputs.ansys_version || '251' }}
+      python_versions: '["3.11", "3.12", "3.13"]'
       DOCSTRING: false
       wheel: false
       wheelhouse: true
@@ -97,7 +97,7 @@ jobs:
   tests_any_3_10:
     uses: ./.github/workflows/tests.yml
     with:
-      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '251' }}
+      ANSYS_VERSION: ${{ inputs.ansys_version || '251' }}
       python_versions: '["3.10"]'
       wheel: true
       wheelhouse: false
@@ -108,8 +108,8 @@ jobs:
   tests_any:
     uses: ./.github/workflows/tests.yml
     with:
-      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '251' }}
-      python_versions: '["3.11", "3.12"]'
+      ANSYS_VERSION: ${{ inputs.ansys_version || '251' }}
+      python_versions: '["3.11", "3.12", "3.13"]'
       DOCSTRING: false
       wheel: false
       wheelhouse: false
@@ -120,7 +120,7 @@ jobs:
   docs:
     uses: ./.github/workflows/docs.yml
     with:
-      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '251' }}
+      ANSYS_VERSION: ${{ inputs.ansys_version || '251' }}
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
       event_name: ${{ github.event_name }}
     secrets: inherit
@@ -128,8 +128,8 @@ jobs:
   examples:
     uses: ./.github/workflows/examples.yml
     with:
-      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '251' }}
-      python_versions: '["3.10", "3.11", "3.12"]'
+      ANSYS_VERSION: ${{ inputs.ansys_version || '251' }}
+      python_versions: '["3.10", "3.11", "3.12", "3.13"]'
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
     secrets: inherit
 
@@ -183,7 +183,7 @@ jobs:
     name: "PyDPF-Post with 251"
     uses: ./.github/workflows/pydpf-post.yml
     with:
-      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '251' }}
+      ANSYS_VERSION: ${{ inputs.ansys_version || '251' }}
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
       test_docstrings: "true"
     secrets: inherit
@@ -227,7 +227,7 @@ jobs:
     name: "Build and Test on Docker"
     uses: ./.github/workflows/test_docker.yml
     with:
-      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '251' }}
+      ANSYS_VERSION: ${{ inputs.ansys_version || '251' }}
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
     secrets: inherit
 
@@ -235,8 +235,8 @@ jobs:
     name: "Run examples on Docker"
     uses: ./.github/workflows/examples_docker.yml
     with:
-      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '251' }}
-      python_versions: '["3.10", "3.11", "3.12"]'
+      ANSYS_VERSION: ${{ inputs.ansys_version || '251' }}
+      python_versions: '["3.10", "3.11", "3.12", "3.13"]'
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
     secrets: inherit
 
