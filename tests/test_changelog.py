@@ -20,7 +20,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 import pytest
-from trame_common.decorators.klass import change
 
 from ansys.dpf.core.changelog import Changelog
 import conftest
