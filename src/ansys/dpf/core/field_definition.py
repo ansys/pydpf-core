@@ -244,9 +244,7 @@ class FieldDefinition:
         elif isinstance(value, str):
             self._api.csfield_definition_set_unit(self, value, None, 0, 0, 0)
         else:
-            raise ValueError(
-                "Unit setter supports either string or tuple(Homogeneity, str)"
-            )
+            raise ValueError("Unit setter supports either string or tuple(Homogeneity, str)")
 
     @location.setter
     def location(self, value):
