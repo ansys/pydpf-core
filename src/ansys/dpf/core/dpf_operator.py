@@ -29,6 +29,7 @@ import traceback
 import warnings
 
 import numpy
+from packaging.version import Version
 
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core.changelog import Changelog
@@ -944,6 +945,11 @@ class Operator:
         from ansys.dpf.core.operators.utility.operator_changelog import operator_changelog
 
         return Changelog(operator_changelog(operator_name=self.name, server=self._server).eval())
+
+    @property
+    def version(self) -> Version:
+        """Return the current version of the operator."""
+        return self.changelog.last_version
 
     def __truediv__(self, inpt):
         """
