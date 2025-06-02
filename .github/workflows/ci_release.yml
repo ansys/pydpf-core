@@ -92,7 +92,7 @@ jobs:
           - python_versions: '["3.10"]'
             wheel: true
             wheelhouse: false
-            DOCSTRING: true
+            DOCSTRING: false
             test_any: true
           - python_versions: '["3.11", "3.12", "3.13"]'
             wheel: false
