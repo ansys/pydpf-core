@@ -24,7 +24,6 @@
 
 from __future__ import annotations
 
-from argparse import ArgumentError
 import traceback
 import warnings
 
@@ -245,7 +244,7 @@ class FieldDefinition:
         elif isinstance(value, str):
             self._api.csfield_definition_set_unit(self, value, None, 0, 0, 0)
         else:
-            raise ArgumentError(
+            raise ValueError(
                 None, message="Unit setter supports either string or tuple(Homogeneity, str)"
             )
 

@@ -20,7 +20,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from argparse import ArgumentError
 import copy
 import gc
 
@@ -1447,5 +1446,5 @@ def test_set_units(server_type):
         field.unit = "sones"
 
     # use wrong type of arguments
-    with pytest.raises(ArgumentError):
+    with pytest.raises(ValueError):
         field.unit = 1.0
