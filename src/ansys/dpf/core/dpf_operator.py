@@ -31,6 +31,7 @@ import warnings
 import numpy
 
 from ansys.dpf.core import server as server_module
+from ansys.dpf.core.changelog import Changelog
 from ansys.dpf.core.check_version import (
     server_meet_version,
     server_meet_version_and_raise,
@@ -930,6 +931,19 @@ class Operator:
             return self._spec
         else:
             return Specification(operator_name=self.name, server=self._server)
+
+    @property
+    def changelog(self) -> Changelog:
+        """Return the changelog of this operator.
+
+        Returns
+        -------
+        changelog:
+            Changelog of the operator.
+        """
+        from ansys.dpf.core.operators.utility.operator_changelog import operator_changelog
+
+        return Changelog(operator_changelog(operator_name=self.name, server=self._server).eval())
 
     def __truediv__(self, inpt):
         """
