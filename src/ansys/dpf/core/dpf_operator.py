@@ -933,8 +933,8 @@ class Operator:
         else:
             return Specification(operator_name=self.name, server=self._server)
 
-    @version_requires("11.0")
     @property
+    @version_requires("11.0")
     def changelog(self) -> Changelog:
         """Return the changelog of this operator.
 
@@ -947,10 +947,13 @@ class Operator:
         """
         from ansys.dpf.core.operators.utility.operator_changelog import operator_changelog
 
-        return Changelog(operator_changelog(operator_name=self.name, server=self._server).eval())
+        return Changelog(
+            gdc=operator_changelog(operator_name=self.name, server=self._server).eval(),
+            server=self._server,
+        )
 
-    @version_requires("11.0")
     @property
+    @version_requires("11.0")
     def version(self) -> Version:
         """Return the current version of the operator.
 

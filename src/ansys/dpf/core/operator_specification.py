@@ -32,6 +32,7 @@ import abc
 from typing import Union
 
 from ansys.dpf.core import common, mapping_types, server as server_module
+from ansys.dpf.core.changelog import Changelog
 from ansys.dpf.core.check_version import server_meet_version, version_requires
 from ansys.dpf.gate import (
     integral_types,
@@ -496,6 +497,15 @@ class Specification(SpecificationBase):
                     document=option_doc,
                 )
         return self._config_specification
+
+    @version_requires("11.0")
+    def set_changelog(self, changelog: Changelog):
+        """Set the changelog for this operator specification.
+
+        Requires DPF 11.0 (2026 R1) or above.
+
+        """
+        self._api.operator_specification_set_changelog(self, changelog.gdc)
 
 
 class CustomConfigOptionSpec(ConfigOptionSpec):

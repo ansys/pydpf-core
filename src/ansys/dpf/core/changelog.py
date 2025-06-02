@@ -30,7 +30,6 @@ import ansys.dpf.core as dpf
 from ansys.dpf.core.check_version import version_requires
 
 
-@version_requires("11.0")
 class Changelog:
     """Changelog of an operator.
 
@@ -55,6 +54,7 @@ class Changelog:
             gdc.set_property(property_name="changes", prop=changes_sf)
             gdc.set_property(property_name="class", prop="Changelog")
         self.gdc = gdc
+        self._server = server
 
     def append(self, version: Version, changes: str):
         """Append a version and associated changes description to the changelog."""
@@ -124,7 +124,7 @@ class Changelog:
         self.append(version=new_version, changes=changes)
         return self
 
-    def expect_version(self, version: Version) -> Changelog:
+    def expect_version(self, version: Version | str) -> Changelog:
         """Check the current latest version of the changelog.
 
         Useful when chaining version bumps to check the resulting version is as expected.
@@ -140,6 +140,8 @@ class Changelog:
         changelog:
             Returns the current changelog to allow for chaining calls to bumps.
         """
+        if isinstance(version, str):
+            version = Version(version)
         if self.last_version != version:
             raise ValueError(
                 f"Last version in the changelog ({self.last_version}) does not match expected version ({version})."

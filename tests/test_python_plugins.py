@@ -28,6 +28,7 @@ import numpy as np
 import pytest
 
 from ansys.dpf import core as dpf
+from ansys.dpf.core.changelog import Changelog
 from ansys.dpf.core.custom_operator import update_virtual_environment_for_custom_operators
 from ansys.dpf.core.errors import DPFServerException
 from ansys.dpf.core.operator_specification import (
@@ -408,3 +409,22 @@ def test_custom_op_with_spec(server_type_remote_process, testfiles_dir):
     outf = op.outputs.field()
     expected = np.ones((3, 3), dtype=np.float64) + 4.0
     assert np.allclose(outf.data, expected)
+
+
+@conftest.raises_for_servers_version_under("11.0")
+def test_custom_op_changelog(server_type_remote_process, testfiles_dir):
+    from packaging.version import Version
+
+    dpf.load_library(
+        dpf.path_utilities.to_server_os(
+            Path(testfiles_dir) / "pythonPlugins", server_type_remote_process
+        ),
+        "py_operator_with_changelog",
+        "load_operators",
+        server=server_type_remote_process,
+    )
+    op = dpf.Operator("custom_add_to_field", server=server_type_remote_process)
+    changelog = op.changelog
+    assert isinstance(changelog, Changelog)
+    assert changelog.last_version == Version("1.0.0")
+    assert changelog[Version("1.0.0")] == "Major bump"
