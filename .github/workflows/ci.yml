@@ -115,6 +115,7 @@ jobs:
       wheelhouse: false
       standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
       test_any: ${{ matrix.test-any }}
+      DOCSTRING: ${{ !matrix.test-any }}
     secrets: inherit
 
   docker_tests:
