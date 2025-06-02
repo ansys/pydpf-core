@@ -34,11 +34,7 @@ from ansys.dpf.core.check_version import server_meet_version
 from ansys.dpf.core.common import locations, shell_layers
 from ansys.dpf.gate.errors import DPFServerException, DpfVersionNotSupported
 import conftest
-from conftest import (
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0,
-    raises_for_servers_version_under,
-    running_docker,
-)
+from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0, running_docker```
 
 
 @pytest.fixture()
