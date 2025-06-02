@@ -411,6 +411,9 @@ def test_custom_op_with_spec(server_type_remote_process, testfiles_dir):
     assert np.allclose(outf.data, expected)
 
 
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Gdc available for servers >=7.0"
+)
 @conftest.raises_for_servers_version_under("11.0")
 def test_custom_op_changelog(server_type_remote_process, testfiles_dir):
     from packaging.version import Version
