@@ -37,7 +37,6 @@ from ansys.dpf.gate.errors import DPFServerException, DpfVersionNotSupported
 import conftest
 from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0,
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0,
     raises_for_servers_version_under,
     running_docker,
 )
