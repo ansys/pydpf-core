@@ -27,6 +27,7 @@ from __future__ import annotations
 from packaging.version import Version
 
 import ansys.dpf.core as dpf
+from ansys.dpf.core.server_types import AnyServerType
 
 
 class Changelog:
@@ -42,7 +43,7 @@ class Changelog:
         The server to create the changelog on. Defaults to the current global server.
     """
 
-    def __init__(self, gdc: dpf.GenericDataContainer = None, server=None):
+    def __init__(self, gdc: dpf.GenericDataContainer = None, server: AnyServerType = None):
         if gdc is None:
             gdc = dpf.GenericDataContainer(server=server)
             versions_sf = dpf.StringField(server=server)
@@ -166,9 +167,21 @@ class Changelog:
         )
         return [Version(version) for version in versions_sf.data_as_list]
 
-    def __getitem__(self, item: Version) -> str:
-        """Return changes description for a specific version in the changelog."""
+    def __getitem__(self, item: Version | int) -> str | [Version, str]:
+        """Return item at the given index or changes description for the given version."""
+        if isinstance(item, int):
+            if item > len(self) - 1:
+                raise IndexError(f"Index {item} out of range for changelog of size {len(self)}.")
+            return self.versions[item], self.changes_for_version(self.versions[item])
         return self.changes_for_version(item)
+
+    def __len__(self):
+        """Return the number of items in the changelog."""
+        return len(self.versions)
+
+    def __contains__(self, item: Version):
+        """Check if version is in the changelog."""
+        return item in self.versions
 
     def changes_for_version(self, version: Version) -> str:
         """Return changes description for a specific version in the changelog."""

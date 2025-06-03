@@ -58,3 +58,13 @@ Version        Changes
 1.1.2          Patch 2
 """
     )
+    assert len(changelog) == 5
+    assert changelog[0] == (Version("0.0.0"), "Initial version.")
+    assert changelog[-1] == (Version("1.1.2"), "Patch 2")
+    for i, v in enumerate(changelog):
+        if i == 2:
+            assert v == (Version("1.1.0"), "Minor bump")
+    with pytest.raises(IndexError):
+        _ = changelog[8]
+    assert Version("0.0.0") in changelog
+    assert Version("1.5.2") not in changelog
