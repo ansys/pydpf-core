@@ -27,7 +27,6 @@ from __future__ import annotations
 from packaging.version import Version
 
 import ansys.dpf.core as dpf
-from ansys.dpf.core.check_version import version_requires
 
 
 class Changelog:
@@ -180,9 +179,9 @@ class Changelog:
             property_name="changes", output_type=dpf.StringField
         )
         versions_list = versions_sf.data_as_list
-        for i in range(len(versions_sf.scoping.ids)):
+        for i, x in enumerate(versions_sf.scoping.ids):
             if Version(versions_list[i]) == version:
-                return changes_sf.get_entity_data_by_id(versions_sf.scoping.ids[i])[0]
+                return changes_sf.get_entity_data_by_id(x)[0]
         raise ValueError(f"Changelog has no version '{version}'.")
 
     def __str__(self):
