@@ -39,9 +39,9 @@ def test_changelog_updates(server_type):
     from packaging.version import Version
 
     changelog = Changelog(server=server_type)
-    changelog.patch_bump("Patch 1").minor_bump("Minor bump 1").major_bump("Major bump").minor_bump(
-        "Minor bump"
-    ).patch_bump("Patch \nbump")
+    changelog.patch_bump("Patch 1").minor_bump("Minor bump 1").patch_bump("Patch 2").major_bump(
+        "Major bump"
+    ).minor_bump("Minor bump").patch_bump("Patch \nbump")
     with pytest.raises(ValueError):
         changelog.expect_version(Version("0.0.0"))
     changelog.expect_version(Version("1.1.1"))
@@ -55,6 +55,7 @@ Version        Changes
 0.0.0          Initial version.
 0.0.1          Patch 1
 0.1.0          Minor bump 1
+0.1.1          Patch 2
 1.0.0          Major bump
 1.1.0          Minor bump
 1.1.1          Patch 
@@ -62,11 +63,11 @@ Version        Changes
 1.1.2          Patch 2
 """
     )
-    assert len(changelog) == 7
+    assert len(changelog) == 8
     assert changelog[0] == (Version("0.0.0"), "Initial version.")
     assert changelog[-1] == (Version("1.1.2"), "Patch 2")
     for i, v in enumerate(changelog):
-        if i == 4:
+        if i == 5:
             assert v == (Version("1.1.0"), "Minor bump")
     with pytest.raises(IndexError):
         _ = changelog[8]
