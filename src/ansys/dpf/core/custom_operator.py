@@ -37,6 +37,7 @@ import warnings
 import zipfile
 
 import numpy
+from packaging.version import Version
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import (
@@ -55,6 +56,8 @@ from ansys.dpf.core._custom_operators_helpers import (
     external_operator_api,
     functions_registry,
 )
+from ansys.dpf.core.changelog import Changelog
+from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.gate import capi, dpf_vector, integral_types, object_handler
 
 
@@ -400,3 +403,39 @@ class CustomOperatorBase:
         This name can then be used to instantiate the Operator.
         """
         pass
+
+    @property
+    @version_requires("11.0")
+    def changelog(self) -> Changelog:
+        """Return the changelog of this operator.
+
+        Requires DPF 11.0 (2026 R1) or above.
+
+        Returns
+        -------
+        changelog:
+            Changelog of the operator.
+        """
+        from ansys.dpf.core.operators.utility.operator_changelog import operator_changelog
+
+        return Changelog(operator_changelog(operator_name=self.name).eval())
+
+    @changelog.setter
+    @version_requires("11.0")
+    def changelog(self, changelog: Changelog):
+        """Set the changelog of this operator.
+
+        Requires DPF 11.0 (2026 R1) or above.
+
+        """
+        self.specification.set_changelog(changelog)
+
+    @property
+    @version_requires("11.0")
+    def version(self) -> Version:
+        """Return the current version of the operator based on its changelog.
+
+        Requires DPF 11.0 (2026 R1) or above.
+
+        """
+        return self.changelog.last_version
