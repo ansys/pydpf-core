@@ -292,7 +292,7 @@ class DataSources:
         >>> my_data_sources.set_domain_result_file_path(path='/tmp/file1.rst', key='rst', domain_id=1)
 
         """
-        path = PurePosixPath(path) if self._server.os == 'posix' else PureWindowsPath(path)
+        path = PurePosixPath(path) if self._server.os == "posix" else PureWindowsPath(path)
         if key:
             self._api.data_sources_set_domain_result_file_path_with_key_utf8(
                 self, str(path), key, domain_id
