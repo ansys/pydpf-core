@@ -159,7 +159,9 @@ class DataSources:
         ['...tmp...file.rst']
 
         """
-        filepath = PurePosixPath(filepath) if self._server.os=='posix' else PureWindowsPath(filepath)
+        filepath = (
+            PurePosixPath(filepath) if self._server.os == "posix" else PureWindowsPath(filepath)
+        )
         extension = filepath.suffix
         # Handle .res files from CFX
         if key == "" and extension == ".res":
@@ -290,7 +292,7 @@ class DataSources:
         >>> my_data_sources.set_domain_result_file_path(path='/tmp/file1.rst', key='rst', domain_id=1)
 
         """
-        path = PurePosixPath(path) if self._server.os=='posix' else PureWindowsPath(path)
+        path = PurePosixPath(path) if self._server.os == 'posix' else PureWindowsPath(path)
         if key:
             self._api.data_sources_set_domain_result_file_path_with_key_utf8(
                 self, str(path), key, domain_id
@@ -341,7 +343,9 @@ class DataSources:
         # The filename needs to be a fully qualified file name
         # if not os.path.dirname(filepath)
 
-        filepath = PurePosixPath(filepath) if self._server.os=='posix' else PureWindowsPath(filepath)
+        filepath = (
+            PurePosixPath(filepath) if self._server.os == "posix" else PureWindowsPath(filepath)
+        )
         if not filepath.parent.name:
             # append local path
             filepath = Path.cwd() / filepath.name
@@ -391,7 +395,9 @@ class DataSources:
 
         """
         # The filename needs to be a fully qualified file name
-        filepath = PurePosixPath(filepath) if self._server.os=='posix' else PureWindowsPath(filepath)
+        filepath = (
+            PurePosixPath(filepath) if self._server.os == "posix" else PureWindowsPath(filepath)
+        )
         if not filepath.parent.name:
             # append local path
             filepath = Path.cwd() / filepath.name
@@ -424,7 +430,9 @@ class DataSources:
             The default is ``""``, in which case the key is found directly.
         """
         # The filename needs to be a fully qualified file name
-        filepath = PurePosixPath(filepath) if self._server.os=='posix' else PureWindowsPath(filepath)
+        filepath = (
+            PurePosixPath(filepath) if self._server.os == "posix" else PureWindowsPath(filepath)
+        )
         if not filepath.parent.name:
             # append local path
             filepath = Path.cwd() / filepath.name
