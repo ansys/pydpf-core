@@ -29,8 +29,10 @@ import traceback
 import warnings
 
 import numpy
+from packaging.version import Version
 
 from ansys.dpf.core import server as server_module
+from ansys.dpf.core.changelog import Changelog
 from ansys.dpf.core.check_version import (
     server_meet_version,
     server_meet_version_and_raise,
@@ -930,6 +932,35 @@ class Operator:
             return self._spec
         else:
             return Specification(operator_name=self.name, server=self._server)
+
+    @property
+    @version_requires("11.0")
+    def changelog(self) -> Changelog:
+        """Return the changelog of this operator.
+
+        Requires DPF 11.0 (2026 R1) or above.
+
+        Returns
+        -------
+        changelog:
+            Changelog of the operator.
+        """
+        from ansys.dpf.core.operators.utility.operator_changelog import operator_changelog
+
+        return Changelog(
+            gdc=operator_changelog(operator_name=self.name, server=self._server).eval(),
+            server=self._server,
+        )
+
+    @property
+    @version_requires("11.0")
+    def version(self) -> Version:
+        """Return the current version of the operator.
+
+        Requires DPF 11.0 (2026 R1) or above.
+
+        """
+        return self.changelog.last_version
 
     def __truediv__(self, inpt):
         """
