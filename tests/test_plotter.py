@@ -1,27 +1,47 @@
-import os
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+from pathlib import Path
 
 import pytest
 
 from ansys import dpf
 from ansys.dpf import core
-from ansys.dpf.core import Model, Operator
-from ansys.dpf.core import errors as dpf_errors
-from ansys.dpf.core import misc
+from ansys.dpf.core import Model, Operator, element_types, errors as dpf_errors, misc
 from ansys.dpf.core.plotter import plot_chart
-from conftest import running_docker, SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0
-from ansys.dpf.core import element_types
+from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0, running_docker
 
 if misc.module_exists("pyvista"):
     HAS_PYVISTA = True
-    from ansys.dpf.core.plotter import DpfPlotter, Plotter
     from pyvista.plotting.renderer import CameraPosition  # noqa: F401
+
+    from ansys.dpf.core.plotter import DpfPlotter, Plotter
 else:
     HAS_PYVISTA = False
 
 
 def remove_picture(picture):
-    if os.path.exists(os.path.join(os.getcwd(), picture)):
-        os.remove(os.path.join(os.getcwd(), picture))
+    if Path.cwd().joinpath(picture).exists():
+        Path.cwd().joinpath(picture).unlink()
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
@@ -31,7 +51,7 @@ def test_plotter_on_model(plate_msup):
     picture = "model_plot.png"
     remove_picture(picture)
     model.plot(off_screen=True, screenshot=picture)
-    assert os.path.exists(os.path.join(os.getcwd(), picture))
+    assert Path.cwd().joinpath(picture).exists()
     remove_picture(picture)
 
 
@@ -133,7 +153,7 @@ def test_plot_fieldscontainer_on_mesh(allkindofcomplexity):
     picture = "mesh_plot.png"
     remove_picture(picture)
     mesh.plot(fc, off_screen=True, screenshot=picture)
-    assert os.path.exists(os.path.join(os.getcwd(), picture))
+    assert Path.cwd().joinpath(picture).exists()
     remove_picture(picture)
 
 
@@ -171,7 +191,7 @@ def test_field_nodal_plot(allkindofcomplexity):
     picture = "field_plot.png"
     remove_picture(picture)
     f.plot(off_screen=True, screenshot=picture)
-    assert os.path.exists(os.path.join(os.getcwd(), picture))
+    assert Path.cwd().joinpath(picture).exists()
     remove_picture(picture)
 
 
@@ -233,7 +253,17 @@ def test_field_shell_plot_scoping_elemental(multishells):
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
-def test_throw_shell_layers(multishells):
+def test_field_plot_raise_empty_mesh(simple_bar):
+    ds = core.DataSources(simple_bar)
+    stream_prov = core.operators.metadata.streams_provider(data_sources=ds)
+    result_op = core.operators.result.displacement(streams_container=stream_prov)
+    field = result_op.outputs.fields_container()[0]
+    with pytest.raises(dpf_errors.EmptyMeshPlottingError):
+        field.plot()
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_plotter_plot_contour_throw_shell_layers(multishells):
     model = core.Model(multishells)
     stress = model.results.stress()
     scoping = core.Scoping()
@@ -247,6 +277,27 @@ def test_throw_shell_layers(multishells):
     f = s[1]
     with pytest.raises(TypeError):
         f.plot(shell_layers="test")
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_dpf_plotter_add_field_throw_shell_layer(multishells):
+    field: core.Field = core.operators.result.stress(
+        data_sources=core.DataSources(multishells),
+        requested_location=core.locations.elemental,
+    ).eval()[1]
+    plt = DpfPlotter()
+    with pytest.raises(TypeError):
+        plt.add_field(field=field, shell_layer="test")
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_dpf_plotter_add_field_change_shell_layer(multishells):
+    field: core.Field = core.operators.result.stress(
+        data_sources=core.DataSources(multishells),
+        requested_location=core.locations.elemental,
+    ).eval()[1]
+    plt = DpfPlotter()
+    plt.add_field(field=field)
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
@@ -350,7 +401,7 @@ def test_plot_meshes_container_1(multishells):
     picture = "meshes_cont_plot.png"
     remove_picture(picture)
     meshes_cont.plot(disp_fc, off_screen=True, screenshot=picture)
-    assert os.path.exists(os.path.join(os.getcwd(), picture))
+    assert Path.cwd().joinpath(picture).exists()
     remove_picture(picture)
 
 
@@ -634,7 +685,7 @@ def test_plot_chart(allkindofcomplexity):
     picture = "plot_chart.png"
     remove_picture(picture)
     plot_chart(new_fields_container, off_screen=True, screenshot=picture)
-    assert os.path.exists(os.path.join(os.getcwd(), picture))
+    assert Path.cwd().joinpath(picture).exists()
     remove_picture(picture)
 
 

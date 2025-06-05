@@ -1,3 +1,25 @@
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """
 .. _ref_compute_and_average:
 
@@ -74,10 +96,8 @@ analysis = examples.download_crankshaft()
 
 
 def compute_von_mises_then_average(analysis):
-
     # Create a model from the results of the simulation and retrieve its mesh
     model = dpf.Model(analysis)
-    mesh = model.metadata.meshed_region
 
     # Apply the stress operator to obtain the stresses in the body
     stress_op = dpf.operators.result.stress()
@@ -99,6 +119,7 @@ def compute_von_mises_then_average(analysis):
     min_max.inputs.field.connect(avg_von_mises)
     max_val = min_max.outputs.field_max()
 
+    avg_von_mises.plot()
     return max_val.data[0]
 
 
@@ -112,10 +133,8 @@ def compute_von_mises_then_average(analysis):
 
 
 def average_then_compute_von_mises(analysis):
-
     # Creating the model from the results of the simulation
     model = dpf.Model(analysis)
-    mesh = model.metadata.meshed_region
 
     # Retrieving the stresses
     stress_op = dpf.operators.result.stress()
@@ -137,6 +156,7 @@ def average_then_compute_von_mises(analysis):
     min_max.inputs.field.connect(avg_von_mises)
     max_val = min_max.outputs.field_max()
 
+    avg_von_mises.plot()
     return max_val.data[0]
 
 
@@ -158,9 +178,7 @@ print("Max stress when Von Mises is computed first: {:.2f} Pa".format(max1))
 print("Max stress when the stress averaging is done first: {:.2f} Pa".format(max2))
 print(
     "The maximum Von Mises stress value is {:.2f}% higher when \
-the averaging is done after the calculations.".format(
-        diff
-    )
+the averaging is done after the calculations.".format(diff)
 )
 
 ###############################################################################

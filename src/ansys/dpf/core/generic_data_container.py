@@ -1,14 +1,33 @@
-"""
-.. _ref_generic_data_container:
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
 
-GenericDataContainer
-====================
-"""
+"""GenericDataContainer."""
+
 from __future__ import annotations
-import traceback
-import warnings
+
 import builtins
-from typing import Union, TYPE_CHECKING
+import traceback
+from typing import TYPE_CHECKING, Union
+import warnings
 
 import numpy as np
 
@@ -16,15 +35,11 @@ from ansys.dpf.core.check_version import server_meet_version
 from ansys.dpf.gate import dpf_vector
 
 if TYPE_CHECKING:  # pragma: no cover
-    from ansys.dpf.core import Field, Scoping, StringField, GenericDataContainer
+    from ansys.dpf.core import Field, GenericDataContainer, Scoping, StringField
 
-from ansys.dpf.core.dpf_operator import _write_output_type_to_type
-
-
-from ansys.dpf.core import server as server_module
-from ansys.dpf.core import errors, types
+from ansys.dpf.core import collection_base, errors, server as server_module, types
 from ansys.dpf.core.any import Any
-from ansys.dpf.core import collection_base
+from ansys.dpf.core.dpf_operator import _write_output_type_to_type
 from ansys.dpf.core.mapping_types import map_types_to_python
 
 
@@ -47,9 +62,9 @@ class GenericDataContainer:
     def __init__(self, generic_data_container=None, server=None):
         # step 1: get server
         self._server = server_module.get_or_create_server(
-            generic_data_container._server if isinstance(
-                generic_data_container, GenericDataContainer
-            ) else server
+            generic_data_container._server
+            if isinstance(generic_data_container, GenericDataContainer)
+            else server
         )
 
         if not self._server.meet_version("7.0"):
@@ -101,9 +116,9 @@ class GenericDataContainer:
         return _description(self._internal_obj, self._server)
 
     def set_property(
-            self,
-            property_name: str,
-            prop: Union[int, float, str, Field, StringField, GenericDataContainer, Scoping]
+        self,
+        property_name: str,
+        prop: Union[int, float, str, Field, StringField, GenericDataContainer, Scoping],
     ):
         """Register given property with the given name.
 
@@ -114,9 +129,10 @@ class GenericDataContainer:
         prop:
             Property object.
         """
-
         self._prop_description_instance = None
-        if not isinstance(prop, (int, float, str, bytes, list, np.ndarray)) and server_meet_version("8.1", self._server):
+        if not isinstance(prop, (int, float, str, bytes, list, np.ndarray)) and server_meet_version(
+            "8.1", self._server
+        ):
             self._api.generic_data_container_set_property_dpf_type(self, property_name, prop)
         else:
             any_dpf = Any.new_from(prop, self._server)
@@ -151,6 +167,7 @@ class GenericDataContainer:
         class_ = getattr(builtins, output_type, None)
         if class_ is None:
             from ansys.dpf import core
+
             if hasattr(dpf_vector, output_type):
                 class_ = getattr(dpf_vector, output_type)
             else:
@@ -159,7 +176,7 @@ class GenericDataContainer:
         return any_dpf.cast(class_)
 
     def get_property_description(self):
-        """Get a dictionary description of properties by name and data type
+        """Get a dictionary description of properties by name and data type.
 
         Returns
         -------
@@ -191,6 +208,7 @@ class GenericDataContainer:
         return self._prop_description_instance
 
     def __del__(self):
+        """Delete the current instance."""
         if self._internal_obj is not None:
             try:
                 self._deleter_func[0](self._deleter_func[1](self))

@@ -1,3 +1,25 @@
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """
 .. _ref_ASME_SecVIII_Div2:
 
@@ -92,7 +114,7 @@ eppleqv = eppleqv_op.outputs.fields_container()
 
 poisson_ratio_correction = 1.3 / 1.5
 eppleqvmech_op = dpf.operators.math.scale_fc(
-    fields_container=eppleqv, ponderation=poisson_ratio_correction
+    fields_container=eppleqv, weights=poisson_ratio_correction
 )
 eppleqvmech = eppleqvmech_op.outputs.fields_container()
 
@@ -112,23 +134,23 @@ s123_op = dpf.operators.math.add_fc(fields_container1=s12, fields_container2=s3)
 s123 = s123_op.outputs.fields_container()
 # SVM_scale=SVM*3
 ratio = 3.0
-seqvs_op = dpf.operators.math.scale_fc(fields_container=seqv, ponderation=ratio)
+seqvs_op = dpf.operators.math.scale_fc(fields_container=seqv, weights=ratio)
 seqvs = seqvs_op.outputs.fields_container()
 # S123/SVM*3
 sratio_op = dpf.operators.math.component_wise_divide(fieldA=s123, fieldB=seqvs)
 sratio = sratio_op.outputs.field()
 # S123/SVM*3-0.33
-sterm_op = dpf.operators.math.add_constant(field=sratio, ponderation=-1 / 3)
+sterm_op = dpf.operators.math.add_constant(field=sratio, weights=-1 / 3)
 sterm = sterm_op.outputs.field()
 # -alfasl/(1+m2)*stressterm
 ratio2 = -alfasl / (1 + m2)
-expt_op = dpf.operators.math.scale(field=sterm, ponderation=ratio2)
+expt_op = dpf.operators.math.scale(field=sterm, weights=ratio2)
 expt = expt_op.outputs.field()
 # exp(-alfasl/(1+m2)*stressterm)
 exp_op = dpf.operators.math.exponential(field=expt)
 exp = exp_op.outputs.field()
 # elu*exp(-alfasl/(1+m2)*stressterm)
-strainlimit_op = dpf.operators.math.scale(field=exp, ponderation=m2)
+strainlimit_op = dpf.operators.math.scale(field=exp, weights=m2)
 strainlimit = strainlimit_op.outputs.field()
 
 ###############################################################################

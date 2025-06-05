@@ -1,20 +1,41 @@
-"""
-.. _ref_inputs:
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
 
-Inputs
-======
-"""
+"""Inputs."""
 
-import weakref
+from enum import Enum
 from textwrap import wrap
-from ansys.dpf.core.mapping_types import map_types_to_python
-from ansys.dpf.core.outputs import _Outputs, Output
+import warnings
+import weakref
+
 from ansys.dpf import core
+from ansys.dpf.core.mapping_types import map_types_to_python
+from ansys.dpf.core.outputs import Output, _Outputs
 
 
 class Input:
     """
     Intermediate class internally instantiated by the :class:`ansys.dpf.core.dpf_operator.Operator`.
+
     Used to connect inputs to the Operator.
 
     Examples
@@ -42,6 +63,7 @@ class Input:
                 self._python_expected_types.append(map_types_to_python[cpp_type])
         if len(self._spec.type_names) == 0:
             self._python_expected_types.append("Any")
+        self.aliases = self._spec.aliases
         docstr = self.__str__()
         self.name = self._spec.name
         if self._count_ellipsis != -1:
@@ -53,7 +75,7 @@ class Input:
 
         Parameters
         ----------
-        inpt : str, int, double, Field, FieldsContainer, Scoping, DataSources, MeshedRegion,
+        inpt : str, int, double, Field, FieldsContainer, Scoping, DataSources, MeshedRegion, Enum,
         Output, Outputs, Operator, os.PathLike
             Input of the operator.
 
@@ -80,6 +102,8 @@ class Input:
                 inpt = inpt.ID
             else:  # Custom UnitSystem
                 inpt = inpt.unit_names
+        elif isinstance(inpt, Enum):
+            inpt = inpt.value
 
         input_type_name = type(inpt).__name__
         if not (input_type_name in self._python_expected_types or ["Outputs", "Output", "Any"]):
@@ -93,7 +117,7 @@ class Input:
             self._python_expected_types, inpt, self._pin, corresponding_pins
         )
         if len(corresponding_pins) > 1:
-            err_str = "Pin connection is ambiguous, specify the pin with:\n"
+            err_str = "Pin connection is ambiguous, specify the input to connect to with:\n"
             for pin in corresponding_pins:
                 err_str += (
                     "   - operator.inputs."
@@ -102,7 +126,9 @@ class Input:
                     + inpt._dict_outputs[pin[1]].name
                     + ")"
                 )
-            raise ValueError(err_str)
+            err_str += "Connecting to first input in the list.\n"
+            warnings.warn(message=err_str)
+            corresponding_pins = [corresponding_pins[0]]
 
         if len(corresponding_pins) == 0:
             err_str = (
@@ -136,6 +162,7 @@ class Input:
         self.__inc_if_ellipsis()
 
     def __call__(self, inpt):
+        """Allow instances to be called like a function."""
         self.connect(inpt)
 
     def _update_doc_str(self, docstr, class_name):
@@ -151,6 +178,7 @@ class Input:
         self.__class__ = child_class
 
     def __str__(self):
+        """Provide detailed string representation of the class."""
         docstr = self._spec.name + " : "
         type_info = self._python_expected_types.copy()
         if self._spec.optional:
@@ -160,6 +188,8 @@ class Input:
             docstr += "\n".join(wrap(self._spec.document.capitalize())) + "\n"
         if self._count_ellipsis >= 0:
             docstr += "is ellipsis\n"
+        if self.aliases:
+            docstr += f"aliases: {self.aliases}\n"
         return docstr
 
     def __inc_if_ellipsis(self):
@@ -194,15 +224,23 @@ class _Inputs:
 
     def connect(self, inpt):
         """Connect any input (an entity or an operator output) to any input pin of this operator.
+
         Searches for the input type corresponding to the output.
+
+        .. deprecated::
+            Deprecated in favor of explicit output-to-input connections.
 
         Parameters
         ----------
-        inpt : str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping,
+        inpt : str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping, Enum,
         ScopingsContainer, MeshedRegion, MeshesContainer, DataSources, CyclicSupport, Outputs, os.PathLike  # noqa: E501
             Input of the operator.
 
         """
+        warnings.warn(
+            message="Use explicit output-to-input connections.", category=DeprecationWarning
+        )
+
         from pathlib import Path
 
         corresponding_pins = []
@@ -218,6 +256,8 @@ class _Inputs:
             inpt = inpt.metadata.data_sources
         elif isinstance(inpt, Path):
             inpt = str(inpt)
+        elif isinstance(inpt, Enum):
+            inpt = inpt.value
 
         input_type_name = type(inpt).__name__
         for input_pin in self._inputs:
@@ -228,12 +268,14 @@ class _Inputs:
                 corresponding_pins,
             )
         if len(corresponding_pins) > 1:
-            err_str = "Pin connection is ambiguous, specify the pin with:\n"
+            err_str = "Pin connection is ambiguous, specify the input to connect to with:\n"
             for pin in corresponding_pins:
                 if isinstance(pin, tuple):
                     pin = pin[0]
                 err_str += "   - operator.inputs." + self._dict_inputs[pin].name + "(input)\n"
-            raise ValueError(err_str)
+            err_str += "Connecting to first input in the list.\n"
+            warnings.warn(message=err_str)
+            corresponding_pins = [corresponding_pins[0]]
 
         if len(corresponding_pins) == 0:
             err_str = "The input should have one of the expected types:\n"
@@ -278,11 +320,15 @@ class _Inputs:
     def __call__(self, inpt):
         self.connect(inpt)
 
+    def __getitem__(self, item) -> Input:
+        return self._inputs[item]
+
 
 # Dynamic class Inputs
 class Inputs(_Inputs):
     """
     Intermediate class internally instantiated by the :class:`ansys.dpf.core.dpf_operator.Operator`.
+
     Used to connect inputs to the Operator by automatically
     checking types to connect correct inputs.
 

@@ -20,11 +20,19 @@ class DataProcessingAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
-	def data_processing_initialize_with_context(context, dataProcessingCore_xml_path):
+	def data_processing_initialize_with_context(context, xml_path):
 		raise NotImplementedError
 
 	@staticmethod
-	def data_processing_apply_context(context, dataProcessingCore_xml_path):
+	def data_processing_initialize_with_context_v2(var1):
+		raise NotImplementedError
+
+	@staticmethod
+	def data_processing_apply_context(context, xml_path):
+		raise NotImplementedError
+
+	@staticmethod
+	def data_processing_apply_context_v2(context_data):
 		raise NotImplementedError
 
 	@staticmethod
@@ -108,6 +116,10 @@ class DataProcessingAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def data_processing_deserialize_many(str, strSize, size):
+		raise NotImplementedError
+
+	@staticmethod
 	def data_processing_get_global_config_as_data_tree():
 		raise NotImplementedError
 
@@ -124,6 +136,30 @@ class DataProcessingAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def data_processing_create_param_tree():
+		raise NotImplementedError
+
+	@staticmethod
+	def data_processing_logging_register_logger(register_logger_params):
+		raise NotImplementedError
+
+	@staticmethod
+	def data_processing_logging_get_logger(get_logger_params):
+		raise NotImplementedError
+
+	@staticmethod
+	def data_processing_logging_log_message(logger_impl, message, log_level):
+		raise NotImplementedError
+
+	@staticmethod
+	def data_processing_logging_flush(logger_impl):
+		raise NotImplementedError
+
+	@staticmethod
+	def data_processing_logging_flush_all():
+		raise NotImplementedError
+
+	@staticmethod
 	def data_processing_initialization_on_client(client):
 		raise NotImplementedError
 
@@ -137,6 +173,10 @@ class DataProcessingAbstractAPI:
 
 	@staticmethod
 	def data_processing_apply_context_on_client(client, context, dataProcessingCore_xml_path):
+		raise NotImplementedError
+
+	@staticmethod
+	def data_processing_apply_context_v2_on_client(client, context_data):
 		raise NotImplementedError
 
 	@staticmethod
@@ -221,5 +261,13 @@ class DataProcessingAbstractAPI:
 
 	@staticmethod
 	def data_processing_process_id_on_client(client):
+		raise NotImplementedError
+
+	@staticmethod
+	def data_processing_create_param_tree_on_client(client):
+		raise NotImplementedError
+
+	@staticmethod
+	def data_processing_create_from_on_client(client, base):
 		raise NotImplementedError
 

@@ -1,25 +1,51 @@
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+import os
+import platform
+import subprocess
+import sys
 import time
 
-import pytest
-import subprocess
-import platform
-import psutil
-import sys
-import os
 import packaging.version
+import psutil
+import pytest
 
 from ansys import dpf
-from ansys.dpf.core import errors, server_types
-from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
-from ansys.dpf.core.server import set_server_configuration, _global_server
-from ansys.dpf.core.server import start_local_server, connect_to_server
-from ansys.dpf.core.server import shutdown_all_session_servers, has_local_server
-from ansys.dpf.core.server import get_or_create_server
-from ansys.dpf.core import server
+from ansys.dpf.core import errors, server, server_types
+from ansys.dpf.core.server import (
+    _global_server,
+    connect_to_server,
+    get_or_create_server,
+    has_local_server,
+    set_server_configuration,
+    shutdown_all_session_servers,
+    start_local_server,
+)
+from ansys.dpf.core.server_factory import CommunicationProtocols, ServerConfig
 from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-    running_docker,
     remove_none_available_config,
+    running_docker,
 )
 
 server_configs, server_configs_names = remove_none_available_config(
@@ -94,6 +120,7 @@ class TestServerConfigs:
     def test_server_env_path_cleanup(self, server_config):
         """Test that running and stopping servers does not pollute the system PATH."""
         from ansys.dpf.core.server_types import get_system_path
+
         path_len_init = len(get_system_path())
         _ = dpf.core.start_local_server(config=server_config)
         assert len(get_system_path()) == path_len_init
@@ -234,17 +261,17 @@ def test_shutting_down_when_deleted():
 
 def test_eq_server_config():
     assert (
-            dpf.core.AvailableServerConfigs.InProcessServer
-            == dpf.core.AvailableServerConfigs.InProcessServer
+        dpf.core.AvailableServerConfigs.InProcessServer
+        == dpf.core.AvailableServerConfigs.InProcessServer
     )
     assert dpf.core.AvailableServerConfigs.GrpcServer == dpf.core.AvailableServerConfigs.GrpcServer
     assert (
-            dpf.core.AvailableServerConfigs.LegacyGrpcServer
-            == dpf.core.AvailableServerConfigs.LegacyGrpcServer
+        dpf.core.AvailableServerConfigs.LegacyGrpcServer
+        == dpf.core.AvailableServerConfigs.LegacyGrpcServer
     )
     assert (
         not dpf.core.AvailableServerConfigs.LegacyGrpcServer
-            == dpf.core.AvailableServerConfigs.InProcessServer
+        == dpf.core.AvailableServerConfigs.InProcessServer
     )
     assert dpf.core.AvailableServerConfigs.LegacyGrpcServer == dpf.core.ServerConfig(
         protocol=dpf.core.server_factory.CommunicationProtocols.gRPC, legacy=True
@@ -325,7 +352,7 @@ def test_check_ansys_grpc_dpf_version_raise():
 
     print(MockServer(remote_server).version)
     with pytest.raises(
-            ValueError, match="Error connecting to DPF LegacyGrpcServer with version 1.0"
+        ValueError, match="Error connecting to DPF LegacyGrpcServer with version 1.0"
     ):
         dpf.core.server_types.check_ansys_grpc_dpf_version(MockServer(remote_server), timeout=2.0)
 
@@ -341,7 +368,7 @@ def test_available_servers():
         vout = str(version).replace(".", "_")
         if packaging.version.parse(version) > packaging.version.parse("2022.1"):
             meth = "start_" + vout + "_server"
-            assert (hasattr(server, meth))
+            assert hasattr(server, meth)
             start = getattr(server, meth)
             srv = start()
             assert srv.local_server

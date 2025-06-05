@@ -68,6 +68,10 @@ class OperatorSpecificationAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def operator_specification_is_pin_in_place(specification, binput, numPin):
+		raise NotImplementedError
+
+	@staticmethod
 	def operator_specification_get_properties(specification, prop):
 		raise NotImplementedError
 
@@ -85,6 +89,14 @@ class OperatorSpecificationAbstractAPI:
 
 	@staticmethod
 	def operator_specification_set_pin_derived_class(specification, var1, position, name, description, n_types, types, is_optional, is_ellipsis, derived_type_name):
+		raise NotImplementedError
+
+	@staticmethod
+	def operator_specification_set_pin_aliases(specification, var1, position, n_aliases, aliases):
+		raise NotImplementedError
+
+	@staticmethod
+	def operator_specification_add_pin_alias(specification, var1, position, alias):
 		raise NotImplementedError
 
 	@staticmethod
@@ -125,6 +137,26 @@ class OperatorSpecificationAbstractAPI:
 
 	@staticmethod
 	def operator_specification_get_pin_derived_class_type_name(specification, binput, numPin):
+		raise NotImplementedError
+
+	@staticmethod
+	def operator_specification_set_version(specification, semver):
+		raise NotImplementedError
+
+	@staticmethod
+	def operator_specification_get_version(specification):
+		raise NotImplementedError
+
+	@staticmethod
+	def operator_specification_get_pin_num_aliases(specification, binput, numPin):
+		raise NotImplementedError
+
+	@staticmethod
+	def operator_specification_get_pin_alias(specification, binput, numPin, numAlias):
+		raise NotImplementedError
+
+	@staticmethod
+	def operator_specification_set_changelog(specification, changelog):
 		raise NotImplementedError
 
 	@staticmethod

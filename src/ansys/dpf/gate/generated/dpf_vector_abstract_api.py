@@ -76,6 +76,18 @@ class DpfVectorAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def dpf_vector_double_extract_sub(init_dpf_vector, init_data, init_size, dpf_vector_to_update, first_index, size, data):
+		raise NotImplementedError
+
+	@staticmethod
+	def dpf_vector_int_extract_sub(init_dpf_vector, init_data, init_size, dpf_vector_to_update, first_index, size, data):
+		raise NotImplementedError
+
+	@staticmethod
+	def dpf_vector_char_extract_sub(init_dpf_vector, init_data, init_size, dpf_vector_to_update, first_index, size, data):
+		raise NotImplementedError
+
+	@staticmethod
 	def dpf_vector_new_for_object(api_to_use):
 		raise NotImplementedError
 

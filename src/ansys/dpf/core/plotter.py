@@ -1,6 +1,28 @@
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """
-Plotter
-=======
+Plotter.
+
 This module contains the DPF plotter class.
 
 Contains classes used to plot a mesh and a fields container using PyVista.
@@ -8,28 +30,30 @@ Contains classes used to plot a mesh and a fields container using PyVista.
 
 from __future__ import annotations
 
-import tempfile
 import os
+from pathlib import Path
 import sys
-import numpy as np
-import warnings
+import tempfile
 from typing import TYPE_CHECKING, List, Union
+import warnings
+
+import numpy as np
 
 from ansys import dpf
 from ansys.dpf import core
-from ansys.dpf.core.common import locations, DefinitionLabels
-from ansys.dpf.core.common import shell_layers as eshell_layers
-from ansys.dpf.core.helpers.streamlines import _sort_supported_kwargs
 from ansys.dpf.core import errors as dpf_errors
+from ansys.dpf.core.common import DefinitionLabels, locations, shell_layers as eshell_layers
+from ansys.dpf.core.helpers.streamlines import _sort_supported_kwargs
 from ansys.dpf.core.nodes import Node, Nodes
 
 if TYPE_CHECKING:  # pragma: no cover
+    from ansys.dpf.core import Operator, Result
+    from ansys.dpf.core.fields_container import FieldsContainer
     from ansys.dpf.core.meshed_region import MeshedRegion
 
 
 class _InternalPlotterFactory:
-    """
-    Factory for _InternalPlotter based on the backend."""
+    """Factory for _InternalPlotter based on the backend."""
 
     @staticmethod
     def get_plotter_class():
@@ -102,7 +126,6 @@ class _PyVistaPlotter:
         self._plotter.add_mesh(plane_plot, **kwargs)
 
     def add_mesh(self, meshed_region, deform_by=None, scale_factor=1.0, as_linear=True, **kwargs):
-
         kwargs = self._set_scalar_bar_title(kwargs)
 
         # Set defaults for PyDPF
@@ -165,13 +188,22 @@ class _PyVistaPlotter:
 
         # Filter kwargs
         kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.add_point_labels, **kwargs)
-        import pyvista as pv
-
         # The scalar data used will be the one of the last field added.
         from packaging.version import parse
+        import pyvista as pv
 
         active_scalars = None
-        if parse(pv.__version__) >= parse("0.35.2"):
+        if parse(pv.__version__) >= parse("0.42.0"):
+            # Get actors of active renderer
+            actors = list(self._plotter.actors.values())
+            for actor in actors:
+                mapper = actor.mapper if hasattr(actor, "mapper") else None
+                if mapper:
+                    dataset = mapper.dataset
+                    if type(dataset) is pv.core.pointset.UnstructuredGrid:
+                        active_scalars = dataset.active_scalars
+                        break
+        elif parse(pv.__version__) >= parse("0.35.2"):
             for data_set in self._plotter._datasets:
                 if type(data_set) is pv.core.pointset.UnstructuredGrid:
                     active_scalars = data_set.active_scalars
@@ -213,6 +245,7 @@ class _PyVistaPlotter:
         scale_factor=1.0,
         scale_factor_legend=None,
         as_linear=True,
+        shell_layer=eshell_layers.top,
         **kwargs,
     ):
         # Get the field name
@@ -255,6 +288,20 @@ class _PyVistaPlotter:
             mesh_location = meshed_region.elements
         else:
             raise ValueError("Only elemental, nodal or faces location are supported for plotting.")
+
+        # Treat multilayered shells
+        if not isinstance(shell_layer, eshell_layers):
+            raise TypeError("shell_layer attribute must be a core.shell_layers instance.")
+        if field.shell_layers in [
+            eshell_layers.topbottom,
+            eshell_layers.topbottommid,
+        ]:
+            change_shell_layer_op = core.operators.utility.change_shell_layers(
+                fields_container=field,
+                e_shell_layer=shell_layer,
+            )
+            field = change_shell_layer_op.get_output(0, core.types.field)
+
         component_count = field.component_count
         if component_count > 1:
             overall_data = np.full((len(mesh_location), component_count), np.nan)
@@ -337,7 +384,6 @@ class _PyVistaPlotter:
             self._plotter.add_mesh(src, **kwargs_in)
 
     def show_figure(self, **kwargs):
-
         text = kwargs.pop("text", None)
         if text is not None:
             self._plotter.add_text(text, position="lower_edge")
@@ -372,8 +418,7 @@ class _PyVistaPlotter:
 
 
 class DpfPlotter:
-    """DpfPlotter class. Can be used in order to plot
-    results over a mesh.
+    """DpfPlotter class. Can be used in order to plot results over a mesh.
 
     The current DpfPlotter is a PyVista based object.
 
@@ -416,7 +461,7 @@ class DpfPlotter:
         """Return a list of labels.
 
         Returns
-        --------
+        -------
         list
             List of Label(s). Each list member or member group
             will share same properties.
@@ -453,12 +498,15 @@ class DpfPlotter:
         )
 
     def add_points(self, points, field=None, **kwargs):
+        """Add points to the plot."""
         self._internal_plotter.add_points(points, field, **kwargs)
 
     def add_line(self, points, field=None, **kwargs):
+        """Add lines to the plot."""
         self._internal_plotter.add_line(points, field, **kwargs)
 
     def add_plane(self, plane, field=None, **kwargs):
+        """Add a plane to the plot."""
         self._internal_plotter.add_plane(plane, field, **kwargs)
 
     def add_mesh(self, meshed_region, deform_by=None, scale_factor=1.0, **kwargs):
@@ -582,6 +630,7 @@ class DpfPlotter:
         label_point_size=20,
         deform_by=None,
         scale_factor=1.0,
+        shell_layer=eshell_layers.top,
         **kwargs,
     ):
         """Add a field containing data to the plotter.
@@ -606,6 +655,9 @@ class DpfPlotter:
             Defaults to None.
         scale_factor : float, optional
             Scaling factor to apply when warping the mesh. Defaults to 1.0.
+        shell_layer: core.shell_layers, optional
+            Enum used to set the shell layer if the field to plot
+            contains shell elements. Defaults to top layer.
         **kwargs : optional
             Additional keyword arguments for the plotter. More information
             are available at :func:`pyvista.plot`.
@@ -632,6 +684,7 @@ class DpfPlotter:
             deform_by=deform_by,
             scale_factor=scale_factor,
             as_linear=True,
+            shell_layer=shell_layer,
             **kwargs,
         )
 
@@ -810,31 +863,32 @@ class Plotter:
 
     def plot_contour(
         self,
-        field_or_fields_container,
-        shell_layers=None,
-        meshed_region=None,
-        deform_by=None,
-        scale_factor=1.0,
+        field_or_fields_container: Union[Field, FieldsContainer],
+        shell_layers: eshell_layers = None,
+        meshed_region: MeshedRegion = None,
+        deform_by: Union[Field, Result, Operator] = None,
+        scale_factor: float = 1.0,
         **kwargs,
     ):
         """Plot the contour result on its mesh support.
 
         You cannot plot a fields container containing results at several
-        time steps.
+        time steps. Use :func:`FieldsContainer.animate` instead.
 
         Parameters
         ----------
-        field_or_fields_container : dpf.core.Field or dpf.core.FieldsContainer
+        field_or_fields_container:
             Field or field container that contains the result to plot.
-        shell_layers : core.shell_layers, optional
+        shell_layers:
             Enum used to set the shell layers if the model to plot
-            contains shell elements.
-        deform_by : Field, Result, Operator, optional
+            contains shell elements. Defaults to the top layer.
+        meshed_region:
+            Mesh to plot the data on.
+        deform_by:
             Used to deform the plotted mesh. Must output a 3D vector field.
-            Defaults to None.
-        scale_factor : float, optional
-            Scaling factor to apply when warping the mesh. Defaults to 1.0.
-        **kwargs : optional
+        scale_factor:
+            Scaling factor to apply when warping the mesh.
+        **kwargs:
             Additional keyword arguments for the plotter. For more information,
             see ``help(pyvista.plot)``.
         """
@@ -871,6 +925,8 @@ class Plotter:
             mesh = meshed_region
         else:
             mesh = self._mesh
+        if mesh.is_empty():
+            raise dpf_errors.EmptyMeshPlottingError
 
         # get mesh scoping
         location = None
@@ -999,7 +1055,7 @@ class Plotter:
         # mesh_provider.inputs.data_sources.connect(self._evaluator._model.metadata.data_sources)
 
         # create a temporary file at the default temp directory
-        path = os.path.join(tempfile.gettempdir(), "dpf_temp_hokflb2j9s.vtk")
+        path = Path(tempfile.gettempdir()) / "dpf_temp_hokflb2j9s.vtk"
 
         vtk_export = dpf.core.Operator("vtk_export")
         vtk_export.inputs.mesh.connect(self._mesh)
@@ -1008,8 +1064,8 @@ class Plotter:
         vtk_export.run()
         grid = pv.read(path)
 
-        if os.path.exists(path):
-            os.remove(path)
+        if path.exists():
+            path.unlink()
 
         names = grid.array_names
         field_name = fields_container[0].name

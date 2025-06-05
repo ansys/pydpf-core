@@ -1,10 +1,31 @@
-"""
-.. _ref_property_fields_container:
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
 
-_MockPropertyFieldsContainer
-============================
+"""
+MockPropertyFieldsContainer.
+
 Contains classes associated with the _MockPropertyFieldsContainer.
 """
+
 from __future__ import annotations
 
 from collections.abc import Sequence
@@ -22,7 +43,7 @@ class _LabelSpaceKV:
     """Class for internal use to associate a label space with a field."""
 
     def __init__(self, _dict: Dict[str, int], _field: dpf.Field):
-        """Constructs an association between a dictionary and a field."""
+        """Construct an association between a dictionary and a field."""
         self._dict = _dict
         self._field = _field
 
@@ -41,7 +62,7 @@ class _LabelSpaceKV:
         self._field = value
 
     def __str__(self):
-        """Returns a string representation of the association."""
+        """Return a string representation of the association."""
         field_str = str(self._field).replace("\n", "\n\t\t\t")
         return f"Label Space: {self._dict} with field\n\t\t\t{field_str}"
 
@@ -54,7 +75,7 @@ class _MockPropertyFieldsContainer(Sequence):
         fields_container: _MockPropertyFieldsContainer = None,
         server: BaseServer = None,
     ):
-        """Constructs a _MockPropertyFieldsContainer."""
+        """Construct a _MockPropertyFieldsContainer."""
         # default constructor
         self._labels = []  # used by Dataframe
         self.scopings = []
@@ -80,7 +101,7 @@ class _MockPropertyFieldsContainer(Sequence):
 
     # Collection
     def __str__(self) -> str:
-        """Returns a string representation of a _MockPropertyFieldsContainer."""
+        """Return a string representation of a _MockPropertyFieldsContainer."""
         txt = f"DPF PropertyFieldsContainer with {len(self)} fields\n"
         for idx, ls in enumerate(self.label_spaces):
             txt += f"\t {idx}: {ls}\n"
@@ -94,14 +115,14 @@ class _MockPropertyFieldsContainer(Sequence):
 
     @labels.setter
     def labels(self, labels: List[str]):
-        """Sets all the label of the _MockPropertyFieldsContainer."""
+        """Set all the label of the _MockPropertyFieldsContainer."""
         if len(self._labels) != 0:
             raise ValueError("labels already set")
         for l in labels:
             self.add_label(l)
 
     def add_label(self, label: str):
-        """Adds a label."""
+        """Add a label."""
         if label not in self._labels:
             self._labels.append(label)
             self.scopings.append([])
@@ -117,14 +138,14 @@ class _MockPropertyFieldsContainer(Sequence):
 
     # used by Dataframe
     def get_label_scoping(self, label="time") -> dpf.Scoping:
-        """Returns a scoping on the fields concerned by the given label."""
+        """Return a scoping on the fields concerned by the given label."""
         if label in self.labels:
             scoping_ids = self.scopings[self.labels.index(label)]
             return dpf.Scoping(ids=scoping_ids, location="")
         raise KeyError(f"label {label} not found")
 
     def add_entry(self, label_space: Dict[str, int], value: dpf.Field):
-        """Adds a PropertyField associated with a dictionary."""
+        """Add a PropertyField associated with a dictionary."""
         new_id = self._new_id()
 
         if hasattr(value, "_server"):
@@ -146,7 +167,7 @@ class _MockPropertyFieldsContainer(Sequence):
         self.add_entry(label_space, field)
 
     def get_entries(self, label_space_or_index: Union[Dict[str, int], int]):
-        """Returns a list of fields from a complete or partial specification of a dictionary."""
+        """Return a list of fields from a complete or partial specification of a dictionary."""
         if isinstance(label_space_or_index, int):
             idx: int = label_space_or_index
             return [self.label_spaces[idx].field]
@@ -175,7 +196,7 @@ class _MockPropertyFieldsContainer(Sequence):
                 raise KeyError(f"Key {bad_key} is not in labels: {self.labels}")
 
     def get_entry(self, label_space_or_index: Union[Dict[str, int], int]):
-        """Returns the field or (first field found) corresponding to the given dictionary."""
+        """Return the field or (first field found) corresponding to the given dictionary."""
         ret = self.get_entries(label_space_or_index)
 
         if len(ret) != 0:
@@ -184,7 +205,7 @@ class _MockPropertyFieldsContainer(Sequence):
         raise ValueError("Could not find corresponding entry")
 
     def _new_id(self) -> int:
-        """Helper method generating a new id when calling add_entry(...)."""
+        """Helper-method generating a new id when calling add_entry(...)."""
         if len(self.ids) == 0:
             self.last_id = 1
             return self.last_id
@@ -194,11 +215,11 @@ class _MockPropertyFieldsContainer(Sequence):
 
     # used by Dataframe
     def get_fields(self, label_space: Dict[str, int]) -> List[dpf.Field]:
-        """Returns the list of fields associated with given label space."""
+        """Return the list of fields associated with given label space."""
         return self.get_entries(label_space)
 
     def get_field(self, label_space_or_index: Union[Dict[str, int], int]) -> dpf.Field:
-        """Retrieves the field at a requested index or label space."""
+        """Retrieve the field at a requested index or label space."""
         return self.get_entry(label_space_or_index)
 
     # used by Dataframe
@@ -214,7 +235,7 @@ class _MockPropertyFieldsContainer(Sequence):
         self.label_spaces[ls_idx].field = field
 
     def rescope(self, scoping: dpf.Scoping):  # Used by post.Dataframe
-        """Helper function to reproduce functionality of rescope_fc Operator."""
+        """Helper-function to reproduce functionality of rescope_fc Operator."""
         copy_fc = _MockPropertyFieldsContainer(self, server=None)
         for idx, label_space in enumerate(copy_fc.label_spaces):
             pfield = PropertyField(location=label_space.field.location)

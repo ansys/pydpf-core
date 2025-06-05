@@ -1,15 +1,39 @@
-import numpy as np
-import pytest
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 import copy
 import gc
+
+import numpy as np
+import pytest
+
 from ansys import dpf
-import conftest
 from ansys.dpf import core
-from ansys.dpf.core import FieldDefinition
-from ansys.dpf.core import operators as ops
-from ansys.dpf.core.common import locations, shell_layers
-from conftest import running_docker, SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0
+from ansys.dpf.core import FieldDefinition, operators as ops
 from ansys.dpf.core.check_version import server_meet_version
+from ansys.dpf.core.common import locations, shell_layers
+import conftest
+from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0, running_docker
+
 
 @pytest.fixture()
 def stress_field(allkindofcomplexity, server_type):
@@ -492,6 +516,34 @@ def test_create_and_update_field_definition(server_type):
         assert fieldDef.location is None
     fieldDef.location = locations.nodal
     assert fieldDef.location == locations.nodal
+
+
+def test_field_definition_quantity_type(server_type):
+    fieldDef = FieldDefinition(server=server_type)
+
+    # Testing the setter
+    qt = "my_quantity_type"
+    fieldDef.add_quantity_type(qt)
+
+    # Testing the getter
+    assert fieldDef.quantity_types[0] == qt
+
+    # Adding a second quantity type
+    qt2 = "another_quantity_type"
+    fieldDef.add_quantity_type(qt2)
+
+    # Testing the getter again
+    assert fieldDef.quantity_types[1] == qt2
+
+    # Testing the getter with an index out of range
+    with pytest.raises(Exception):
+        fieldDef.quantity_types[2]
+
+    # Getting the number of available quantity types
+    assert fieldDef.num_quantity_types() == 2
+
+    # Checking if the field definition is of a given quantity type
+    assert fieldDef.is_of_quantity_type(qt)
 
 
 @conftest.raises_for_servers_version_under("4.0")
@@ -1305,6 +1357,7 @@ def test_field_no_inprocess_localfield(server_in_process, allkindofcomplexity):
 
 
 if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0:
+
     def test_deep_copy_2_field(server_type, server_in_process):
         data = np.random.random(10)
         field_a = dpf.core.field_from_array(data, server=server_type)
@@ -1312,7 +1365,6 @@ if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0:
 
         out = dpf.core.core._deep_copy(field_a, server_in_process)
         assert np.allclose(out.data, data)
-
 
     def test_deep_copy_2_field_remote(server_type, server_type_remote_process):
         data = np.random.random(10)
@@ -1334,7 +1386,6 @@ elif conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0:
         out = dpf.core.core._deep_copy(field_a, server_in_process)
         assert np.allclose(out.data, data)
 
-
     def test_deep_copy_2_field_remote(server_type):
         data = np.random.random(10)
         field_a = dpf.core.field_from_array(data, server=server_type)
@@ -1344,7 +1395,9 @@ elif conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0:
         assert np.allclose(out.data, data)
 
 
-@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0, reason="Available for servers >=8.0")
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0, reason="Available for servers >=8.0"
+)
 def test_deep_copy_big_field(server_type, server_in_process):
     data = np.random.random(100000)
     field_a = dpf.core.field_from_array(data, server=server_type)
@@ -1354,7 +1407,9 @@ def test_deep_copy_big_field(server_type, server_in_process):
     assert np.allclose(out.data, data)
 
 
-@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0, reason="Available for servers >=8.0")
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0, reason="Available for servers >=8.0"
+)
 def test_deep_copy_big_field_remote(server_type, server_type_remote_process):
     data = np.random.random(100000)
     field_a = dpf.core.field_from_array(data, server=server_type)

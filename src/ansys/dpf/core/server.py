@@ -1,35 +1,56 @@
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """
-Server
-======
+Server.
+
 Contains the directives necessary to start the DPF server.
 """
+
+import copy
 import functools
+import inspect
 import os
+import platform
 import socket
 import sys
-import weakref
-import copy
-import platform
-import inspect
-import warnings
 import traceback
 from typing import Union
+import warnings
+import weakref
 
 from ansys import dpf
-
-from ansys.dpf.core.misc import is_ubuntu, get_ansys_path
-from ansys.dpf.core import errors
-
+from ansys.dpf.core import errors, server_context
+from ansys.dpf.core.misc import get_ansys_path, is_ubuntu
 from ansys.dpf.core.server_factory import (
+    CommunicationProtocols,
     ServerConfig,
     ServerFactory,
-    CommunicationProtocols,
 )
 from ansys.dpf.core.server_types import DPF_DEFAULT_PORT, LOCALHOST, RUNNING_DOCKER, BaseServer
-from ansys.dpf.core import server_context
 
 
 def shutdown_global_server():
+    """Shut down the global DPF server."""
     try:
         if dpf.core.SERVER is not None:
             dpf.core.SERVER = None
@@ -50,7 +71,7 @@ def has_local_server():
     return dpf.core.SERVER is not None
 
 
-def _global_server():
+def _global_server() -> BaseServer:
     """Retrieve the global server if it exists.
 
     If the global server has not been specified, check the expected server type in
@@ -80,7 +101,7 @@ def _global_server():
 
 
 def set_server_configuration(server_config: ServerConfig) -> None:
-    """Sets, for the current python session, the default type of DPF server to use.
+    """Set the default type of DPF server to use for the current python session, .
 
     Parameters
     ----------
@@ -128,18 +149,18 @@ def shutdown_all_session_servers():
 
 
 def start_local_server(
-        ip=LOCALHOST,
-        port=DPF_DEFAULT_PORT,
-        ansys_path=None,
-        as_global=True,
-        load_operators=True,
-        use_docker_by_default=True,
-        docker_config=RUNNING_DOCKER,
-        timeout=20.0,
-        config=None,
-        use_pypim_by_default=True,
-        context=None,
-):
+    ip=LOCALHOST,
+    port=DPF_DEFAULT_PORT,
+    ansys_path=None,
+    as_global=True,
+    load_operators=True,
+    use_docker_by_default=True,
+    docker_config=RUNNING_DOCKER,
+    timeout=20.0,
+    config=None,
+    use_pypim_by_default=True,
+    context=None,
+) -> BaseServer:
     """Start a new local DPF server at a given port and IP address.
 
     This method requires Windows and ANSYS 2021 R1 or later. If ``as_global=True``, which is
@@ -228,8 +249,8 @@ def start_local_server(
             )
             server_init_signature = inspect.signature(server_type.__init__)
             if (
-                    "ip" in server_init_signature.parameters.keys()
-                    and "port" in server_init_signature.parameters.keys()
+                "ip" in server_init_signature.parameters.keys()
+                and "port" in server_init_signature.parameters.keys()
             ):
                 server = server_type(
                     ansys_path,
@@ -278,12 +299,12 @@ def start_local_server(
 
 
 def connect_to_server(
-        ip=LOCALHOST,
-        port=DPF_DEFAULT_PORT,
-        as_global=True,
-        timeout=5,
-        config=None,
-        context=None,
+    ip=LOCALHOST,
+    port=DPF_DEFAULT_PORT,
+    as_global=True,
+    timeout=10.0,
+    config=None,
+    context=None,
 ):
     """Connect to an existing DPF server.
 
@@ -315,7 +336,6 @@ def connect_to_server(
 
     Examples
     --------
-
     >>> from ansys.dpf import core as dpf
 
     Create a server.
@@ -338,8 +358,8 @@ def connect_to_server(
     def connect():
         server_init_signature = inspect.signature(server_type.__init__)
         if (
-                "ip" in server_init_signature.parameters.keys()
-                and "port" in server_init_signature.parameters.keys()
+            "ip" in server_init_signature.parameters.keys()
+            and "port" in server_init_signature.parameters.keys()
         ):
             server = server_type(
                 ip=ip,
@@ -347,6 +367,7 @@ def connect_to_server(
                 as_global=as_global,
                 launch_server=False,
                 context=context,
+                timeout=timeout,
             )
         else:
             server = server_type(as_global=as_global, context=context)
@@ -354,7 +375,7 @@ def connect_to_server(
         return server
 
     # Enforce LegacyGrpc when on macOS
-    if platform.system() == 'Darwin':
+    if platform.system() == "Darwin":
         config = dpf.core.AvailableServerConfigs.LegacyGrpcServer
 
     server_type = ServerFactory.get_remote_server_type_from_config(config)
@@ -377,7 +398,7 @@ def connect_to_server(
 
 
 def get_or_create_server(server: BaseServer) -> Union[BaseServer, None]:
-    """Returns the given server or if None, creates a new one.
+    """Return the given server or if None, creates a new one.
 
     Parameters
     ----------
@@ -393,13 +414,12 @@ def get_or_create_server(server: BaseServer) -> Union[BaseServer, None]:
 
 
 def available_servers():
-    """Searches all available installed DPF servers on the current machine.
+    """Search all available installed DPF servers on the current machine.
 
     This method binds new functions to the server module, which helps to choose the appropriate version.
 
     Examples
     --------
-
     >>> from ansys.dpf import core as dpf
     >>> #out = dpf.server.available_servers()
 
@@ -417,6 +437,7 @@ def available_servers():
         See :py:func:`ansys.dpf.core.server.start_local_server` for function doc.
     """
     from ansys.dpf.gate import load_api
+
     unified = load_api._paths_to_dpf_in_unified_installs()
     standalone = load_api._paths_to_dpf_server_library_installs()
 

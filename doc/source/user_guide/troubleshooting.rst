@@ -6,6 +6,8 @@ Troubleshooting
 This page explains how to resolve the most common issues encountered when
 using PyDPF-Core. It also includes suggestions for improving scripts.
 
+.. _user_guide_troubleshooting_server_issues:
+
 Server issues
 -------------
 
@@ -21,7 +23,7 @@ where ``VER`` is the three-digit numeric format for the version, such as ``221``
 
 Connect to the DPF server
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-If an issue appears while using Py-DPF code to connect to an initialized server with the
+If an issue appears while using PyDPF code to connect to an initialized server with the
 :py:meth:`connect_to_server() <ansys.dpf.core.server.connect_to_server>` method, ensure that the
 IP address and port number that are set as parameters are applicable for a DPF server started
 on the network.
@@ -35,8 +37,10 @@ Assume that you are importing the ``PyDPF-Core`` package:
     from ansys.dpf import core as dpf
 
 If an error lists missing modules, see :ref:`ref_compatibility`.
-For ``PyDPF-Core``<0.10.0, the `ansys.grpc.dpf <https://pypi.org/project/ansys-grpc-dpf/>`_ module
+For ``PyDPF-Core``0.10.0, the `ansys.grpc.dpf <https://pypi.org/project/ansys-grpc-dpf/>`_ module
 should always be synchronized with its server version.
+
+.. _user_guide_troubleshooting_model_issues:
 
 Model issues
 ------------
@@ -66,6 +70,8 @@ Then, with result files reproducing this issue, you can prevent the warning from
 However, the preceding code disables the reading and generation of the available results for the model.
 Any static results that are available for the model are used instead.
 
+.. _user_guide_troubleshooting_plotting_issues:
+
 Plotting issues
 ---------------
 
@@ -75,7 +81,7 @@ When trying to plot a result with DPF, the following error might be raised:
 
     ModuleNotFoundError: No module named 'pyvista'
 
-In that case, simply install `PyVista <https://pyvista.org/>`_` with this command:
+In that case, install `PyVista <https://pyvista.org/>`_` with this command:
 
 .. code-block:: default
 
@@ -83,6 +89,8 @@ In that case, simply install `PyVista <https://pyvista.org/>`_` with this comman
 
 Another option is to install PyVista along with PyDPF-Core. For more information, see 
 :ref:`Install with plotting capabilities<target_to_install_with_plotting_capabilities>`
+
+.. _user_guide_troubleshooting_performance_issues:
 
 Performance issues
 ------------------

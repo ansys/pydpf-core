@@ -1,6 +1,33 @@
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+"""Provides for vtk helper functions."""
+
+from dataclasses import dataclass
+from typing import Union
+import warnings
+
 import numpy as np
 import pyvista as pv
-from typing import Union
 from vtk import (
     VTK_HEXAHEDRON,
     VTK_LINE,
@@ -128,8 +155,7 @@ class PyVistaImportError(ModuleNotFoundError):
 
 
 def dpf_mesh_to_vtk_op(mesh, nodes=None, as_linear=True):
-    """Return a pyvista unstructured grid given DPF node and element
-    definitions from operators (server > 6.2)
+    """Return a pyvista unstructured grid given DPF node and element definitions from operators (server > 6.2).
 
     Parameters
     ----------
@@ -169,8 +195,7 @@ def dpf_mesh_to_vtk_op(mesh, nodes=None, as_linear=True):
 
 
 def dpf_mesh_to_vtk_py(mesh, nodes, as_linear):
-    """Return a pyvista unstructured grid given DPF node and element
-    definitions in pure Python (server <= 6.2)
+    """Return a pyvista unstructured grid given DPF node and element definitions in pure Python (server <= 6.2).
 
     Parameters
     ----------
@@ -244,7 +269,7 @@ def dpf_mesh_to_vtk_py(mesh, nodes, as_linear):
                 cells = np.insert(cells, ind, polyhedron)
 
     def compute_offset():
-        """Return the starting point of a cell in the cells array"""
+        """Return the starting point of a cell in the cells array."""
         return insert_ind + np.arange(insert_ind.size)
 
     cells_insert_ind = compute_offset()
@@ -337,9 +362,10 @@ def dpf_mesh_to_vtk_py(mesh, nodes, as_linear):
 
 
 def dpf_mesh_to_vtk(
-        mesh: dpf.MeshedRegion,
-        nodes: Union[dpf.Field, None] = None,
-        as_linear: bool = True,
+    mesh: dpf.MeshedRegion,
+    nodes: Union[dpf.Field, None] = None,
+    as_linear: bool = True,
+    check_validity: bool = False,
 ) -> pv.UnstructuredGrid:
     """Return a pyvista UnstructuredGrid given a pydpf MeshedRegion.
 
@@ -354,8 +380,8 @@ def dpf_mesh_to_vtk(
     as_linear:
         Export quadratic surface elements as linear.
 
-    export_faces:
-        Whether to export face elements along with volume elements for fluid meshes.
+    check_validity:
+        Whether to run the VTK cell validity check on the generated mesh and warn if not valid.
 
     Returns
     -------
@@ -363,21 +389,163 @@ def dpf_mesh_to_vtk(
         UnstructuredGrid corresponding to the DPF mesh.
     """
     try:
-        return dpf_mesh_to_vtk_op(mesh, nodes, as_linear)
+        grid = dpf_mesh_to_vtk_op(mesh, nodes, as_linear)
     except (AttributeError, KeyError, errors.DPFServerException):
-        return dpf_mesh_to_vtk_py(mesh, nodes, as_linear)
+        grid = dpf_mesh_to_vtk_py(mesh, nodes, as_linear)
+    if check_validity:
+        validity = vtk_mesh_is_valid(grid)
+        if not validity.valid:
+            warnings.warn(f"\nVTK mesh validity check\n{validity.msg}")
+    return grid
+
+
+@dataclass
+class VTKMeshValidity:
+    """Dataclass containing the results of a call to vtk_mesh_is_valid.
+
+    valid:
+        Whether the vtk mesh is valid according to the vtkCellValidator.
+    message:
+        Output message.
+    validity_grid:
+        A copy of the original grid, with validity fields.
+    wrong_number_of_points:
+        List of indexes of elements with the wrong number of points.
+    intersecting_edges:
+        List of indexes of elements with intersecting edges.
+    intersecting_faces:
+        List of indexes of elements with intersecting faces.
+    non_contiguous_edges:
+        List of indexes of elements with non-contiguous edges.
+    non_convex:
+        List of indexes of elements with non-convex shape.
+    inverted_faces:
+        List of indexes of elements with inverted faces.
+    """
+
+    valid: bool
+    msg: str
+    grid: pv.UnstructuredGrid
+    wrong_number_of_points: np.ndarray
+    intersecting_edges: np.ndarray
+    intersecting_faces: np.ndarray
+    non_contiguous_edges: np.ndarray
+    non_convex: np.ndarray
+    inverted_faces: np.ndarray
+
+
+def vtk_mesh_is_valid(grid: pv.UnstructuredGrid, verbose: bool = False) -> VTKMeshValidity:
+    """Run a vtk.CellValidator filter on the input grid.
+
+    Parameters
+    ----------
+    grid:
+        A vtk mesh to validate.
+    verbose:
+        Whether to print the complete validation.
+
+    Returns
+    -------
+    validity:
+        A dataclass containing the results of the validator.
+    """
+    from enum import Enum
+
+    from vtkmodules.util.numpy_support import vtk_to_numpy
+    from vtkmodules.vtkFiltersGeneral import vtkCellValidator
+
+    # Prepare the Enum of possible validity states
+    class State(Enum):
+        Valid = 0
+        WrongNumberOfPoints = (1,)
+        IntersectingEdges = (2,)
+        IntersectingFaces = (4,)
+        NoncontiguousEdges = (8,)
+        Nonconvex = (16,)
+        FacesAreOrientedIncorrectly = (32,)
+
+    # Run the cell validator
+    cell_validator = vtkCellValidator()
+    cell_validator.SetInputData(grid)
+    cell_validator.Update()
+    # Get the states for all cells as a numpy array
+    validity_grid = cell_validator.GetUnstructuredGridOutput()
+    cell_states = vtk_to_numpy(validity_grid.GetCellData().GetArray("ValidityState"))
+    # Check for invalid states
+    elem_with_wrong_number_of_nodes = np.where(cell_states & State.WrongNumberOfPoints.value)[0]
+    elem_with_intersecting_edges = np.where(cell_states & State.IntersectingEdges.value)[0]
+    elem_with_intersecting_faces = np.where(cell_states & State.IntersectingFaces.value)[0]
+    elem_with_non_contiguous_edges = np.where(cell_states & State.NoncontiguousEdges.value)[0]
+    elem_with_non_convex_shape = np.where(cell_states & State.Nonconvex.value)[0]
+    elem_with_badly_oriented_faces = np.where(
+        cell_states & State.FacesAreOrientedIncorrectly.value
+    )[0]
+
+    # Build list of number of elements failing each test
+    failing_elements_number = [
+        len(elem_with_wrong_number_of_nodes),
+        len(elem_with_intersecting_edges),
+        len(elem_with_intersecting_faces),
+        len(elem_with_non_contiguous_edges),
+        len(elem_with_non_convex_shape),
+        len(elem_with_badly_oriented_faces),
+    ]
+    # Define whether mesh is valid
+    mesh_is_valid = np.sum(failing_elements_number) == 0
+    # Build output message
+    out_msg = ""
+    if mesh_is_valid:
+        out_msg += "Mesh is valid."
+    else:
+        out_msg += "Mesh is invalid because of (by index):\n"
+        if failing_elements_number[0] > 0:
+            out_msg += (
+                f"  - {failing_elements_number[0]} elements with the wrong number of points:\n"
+            )
+            out_msg += f"      {elem_with_wrong_number_of_nodes}\n"
+        if failing_elements_number[1] > 0:
+            out_msg += f"  - {failing_elements_number[1]} elements with intersecting edges:\n"
+            out_msg += f"      {elem_with_intersecting_edges}\n"
+        if failing_elements_number[2] > 0:
+            out_msg += f"  - {failing_elements_number[2]} elements with intersecting faces:\n"
+            out_msg += f"      {elem_with_intersecting_faces}\n"
+        if failing_elements_number[3] > 0:
+            out_msg += f"  - {failing_elements_number[3]} elements with non contiguous edges:\n"
+            out_msg += f"      {elem_with_non_contiguous_edges}\n"
+        if failing_elements_number[4] > 0:
+            out_msg += f"  - {failing_elements_number[4]} elements with non convex shape:\n"
+            out_msg += f"      {elem_with_non_convex_shape}\n"
+        if failing_elements_number[5] > 0:
+            out_msg += f"  - {failing_elements_number[5]} elements with bad face orientations:\n"
+            out_msg += f"      {elem_with_badly_oriented_faces}\n"
+    if verbose:
+        print(out_msg)
+    validity_grid = pv.UnstructuredGrid(validity_grid)
+    validity_grid.set_active_scalars("ValidityState")
+    return VTKMeshValidity(
+        valid=mesh_is_valid,
+        msg=out_msg,
+        grid=validity_grid,
+        wrong_number_of_points=elem_with_wrong_number_of_nodes,
+        intersecting_edges=elem_with_intersecting_edges,
+        intersecting_faces=elem_with_intersecting_faces,
+        non_contiguous_edges=elem_with_non_contiguous_edges,
+        non_convex=elem_with_non_convex_shape,
+        inverted_faces=elem_with_badly_oriented_faces,
+    )
 
 
 def vtk_update_coordinates(vtk_grid, coordinates_array):
+    """Update coordinates in vtk."""
     from copy import copy
 
     vtk_grid.points = copy(coordinates_array)
 
 
 def dpf_meshes_to_vtk(
-        meshes_container: dpf.MeshesContainer,
-        nodes: Union[dpf.FieldsContainer, None] = None,
-        as_linear: bool = True
+    meshes_container: dpf.MeshesContainer,
+    nodes: Union[dpf.FieldsContainer, None] = None,
+    as_linear: bool = True,
 ) -> pv.UnstructuredGrid:
     """Return a pyvista UnstructuredGrid given a pydpf MeshedRegion.
 
@@ -408,11 +576,11 @@ def dpf_meshes_to_vtk(
 
 
 def dpf_field_to_vtk(
-        field: dpf.Field,
-        meshed_region: Union[dpf.MeshedRegion, None] = None,
-        nodes: Union[dpf.Field, None] = None,
-        as_linear: bool = True,
-        field_name : str = "",
+    field: dpf.Field,
+    meshed_region: Union[dpf.MeshedRegion, None] = None,
+    nodes: Union[dpf.Field, None] = None,
+    as_linear: bool = True,
+    field_name: str = "",
 ) -> pv.UnstructuredGrid:
     """Return a pyvista UnstructuredGrid given a DPF Field.
 
@@ -441,7 +609,10 @@ def dpf_field_to_vtk(
     """
     # Check Field location
     supported_locations = [
-        dpf.locations.nodal, dpf.locations.elemental, dpf.locations.faces, dpf.locations.overall
+        dpf.locations.nodal,
+        dpf.locations.elemental,
+        dpf.locations.faces,
+        dpf.locations.overall,
     ]
     if field.location not in supported_locations:
         raise ValueError(
@@ -472,16 +643,16 @@ def dpf_field_to_vtk(
     grid = append_field_to_grid(
         field=field, meshed_region=meshed_region, grid=grid, field_name=field_name
     )
-    
+
     return grid
 
 
 def dpf_fieldscontainer_to_vtk(
-        fields_container: dpf.FieldsContainer,
-        meshes_container: Union[dpf.MeshesContainer, None] = None,
-        nodes: Union[dpf.Field, None] = None,
-        as_linear: bool = True,
-        field_name: str = "",
+    fields_container: dpf.FieldsContainer,
+    meshes_container: Union[dpf.MeshesContainer, None] = None,
+    nodes: Union[dpf.Field, None] = None,
+    as_linear: bool = True,
+    field_name: str = "",
 ) -> pv.UnstructuredGrid:
     """Return a pyvista UnstructuredGrid given a DPF FieldsContainer.
 
@@ -512,7 +683,10 @@ def dpf_fieldscontainer_to_vtk(
     """
     # Check Field location
     supported_locations = [
-        dpf.locations.nodal, dpf.locations.elemental, dpf.locations.faces, dpf.locations.overall
+        dpf.locations.nodal,
+        dpf.locations.elemental,
+        dpf.locations.faces,
+        dpf.locations.overall,
     ]
     if fields_container[0].location not in supported_locations:
         raise ValueError(
@@ -545,15 +719,16 @@ def dpf_fieldscontainer_to_vtk(
         raise ValueError("The meshed_region of the fields contains no nodes.")
     grid = dpf_mesh_to_vtk(mesh=meshed_region, nodes=nodes, as_linear=as_linear)
     grid = append_fieldscontainer_to_grid(
-        fields_container=fields_container, meshed_region=meshed_region, grid=grid,
-        field_name=field_name
+        fields_container=fields_container,
+        meshed_region=meshed_region,
+        grid=grid,
+        field_name=field_name,
     )
     return grid
 
 
 def _map_field_to_mesh(
-        field: Union[dpf.Field, dpf.PropertyField],
-        meshed_region: dpf.MeshedRegion
+    field: Union[dpf.Field, dpf.PropertyField], meshed_region: dpf.MeshedRegion
 ) -> np.ndarray:
     """Return an NumPy array of 'Field.data' mapped to the mesh on the field's location."""
     location = field.location
@@ -583,11 +758,11 @@ def _map_field_to_mesh(
 
 
 def dpf_property_field_to_vtk(
-        property_field: dpf.PropertyField,
-        meshed_region: dpf.MeshedRegion,
-        nodes: Union[dpf.Field, None] = None,
-        as_linear: bool = True,
-        field_name: str = "",
+    property_field: dpf.PropertyField,
+    meshed_region: dpf.MeshedRegion,
+    nodes: Union[dpf.Field, None] = None,
+    as_linear: bool = True,
+    field_name: str = "",
 ) -> pv.UnstructuredGrid:
     """Return a pyvista UnstructuredGrid given a DPF PropertyField.
 
@@ -619,11 +794,14 @@ def dpf_property_field_to_vtk(
     server_meet_version_and_raise(
         required_version="8.1",
         server=meshed_region._server,
-        msg="Use of dpf_property_field_to_vtk requires DPF 2024.2.pre1 or above."
+        msg="Use of dpf_property_field_to_vtk requires DPF 2024.2.pre1 or above.",
     )
     # Check Field location
     supported_locations = [
-        dpf.locations.nodal, dpf.locations.elemental, dpf.locations.faces, dpf.locations.overall
+        dpf.locations.nodal,
+        dpf.locations.elemental,
+        dpf.locations.faces,
+        dpf.locations.overall,
     ]
     if property_field.location not in supported_locations:
         raise ValueError(
@@ -634,19 +812,19 @@ def dpf_property_field_to_vtk(
     if meshed_region.nodes.n_nodes == 0:
         raise ValueError("The property field does not have a meshed_region.")
     grid = dpf_mesh_to_vtk(mesh=meshed_region, nodes=nodes, as_linear=as_linear)
-    
+
     grid = append_field_to_grid(
         field=property_field, meshed_region=meshed_region, grid=grid, field_name=field_name
     )
-    
+
     return grid
 
 
 def append_field_to_grid(
-        field: Union[dpf.Field, dpf.PropertyField],
-        meshed_region: dpf.MeshedRegion,
-        grid: pv.UnstructuredGrid,
-        field_name: str = "",
+    field: Union[dpf.Field, dpf.PropertyField],
+    meshed_region: dpf.MeshedRegion,
+    grid: pv.UnstructuredGrid,
+    field_name: str = "",
 ) -> pv.UnstructuredGrid:
     """Append field data to a VTK UnstructuredGrid based on a MeshedRegion."""
     # Map Field.data to the VTK mesh
@@ -662,10 +840,10 @@ def append_field_to_grid(
 
 
 def append_fieldscontainer_to_grid(
-        fields_container: dpf.FieldsContainer,
-        meshed_region: dpf.MeshedRegion,
-        grid: pv.UnstructuredGrid,
-        field_name: str = "",
+    fields_container: dpf.FieldsContainer,
+    meshed_region: dpf.MeshedRegion,
+    grid: pv.UnstructuredGrid,
+    field_name: str = "",
 ) -> pv.UnstructuredGrid:
     """Append fields data to a VTK UnstructuredGrid based on a MeshedRegion."""
     for i, field in enumerate(fields_container):
@@ -674,7 +852,9 @@ def append_fieldscontainer_to_grid(
         if not field_name:
             field_name = field.name
         grid = append_field_to_grid(
-            field=field, meshed_region=meshed_region, grid=grid,
-            field_name=field_name+f" {label_space}"
+            field=field,
+            meshed_region=meshed_region,
+            grid=grid,
+            field_name=field_name + f" {label_space}",
         )
     return grid
