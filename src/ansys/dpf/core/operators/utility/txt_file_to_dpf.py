@@ -16,7 +16,7 @@ from ansys.dpf.core.server_types import AnyServerType
 
 
 class txt_file_to_dpf(Operator):
-    r"""Take an input string and parse it into dataProcessing type.
+    r"""Take an input string and parse it into dataProcessing type
 
 
     Parameters
@@ -61,7 +61,7 @@ class txt_file_to_dpf(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Take an input string and parse it into dataProcessing type.
+        description = r"""Take an input string and parse it into dataProcessing type
 """
         spec = Specification(
             description=description,

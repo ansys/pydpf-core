@@ -156,6 +156,10 @@ class OperatorSpecificationAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def operator_specification_set_changelog(specification, changelog):
+		raise NotImplementedError
+
+	@staticmethod
 	def operator_specification_new_on_client(client, op):
 		raise NotImplementedError
 

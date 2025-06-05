@@ -30,6 +30,7 @@ import numpy as np
 
 from ansys import dpf
 from ansys.dpf.core import dimensionality, errors, meshed_region, scoping, time_freq_support
+from ansys.dpf.core.available_result import Homogeneity
 from ansys.dpf.core.common import (
     _get_size_of_list,
     locations,
@@ -617,12 +618,18 @@ class Field(_FieldBase):
             return self.field_definition.unit
 
     @unit.setter
-    def unit(self, value):
+    def unit(self, value: str | tuple[Homogeneity, str]):
         """Change the unit for the field.
+
+        A single string is interpreted as a known physical unit with an associated homogeneity.
+
+        For DPF 11.0 (2026 R1) and above: A tuple of two strings is interpreted as a homogeneity and a unit name.
+            If the homogeneity is :py:attr:`Homogeneity.dimensionless`, then the unit string is kept as a name.
+            Otherwise, the homogeneity is ignored, and the unit string interpreted as a known physical unit with an associated homogeneity.
 
         Parameters
         ----------
-        value : str
+        value:
             Units for the field.
 
         Examples
@@ -635,10 +642,24 @@ class Field(_FieldBase):
         >>> my_field.unit
         'm'
 
+
+        Named dimensionless unit.
+
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core.available_result import Homogeneity
+        >>> my_field = dpf.Field(10)
+        >>> my_field.unit = (Homogeneity.dimensionless, "dollars")
+        >>> print(my_field.unit)
+        'dollars'
+
+        Notes
+        -----
+        Setting a named dimensionless unit requires DPF 11.0 (2026 R1) or above.
+
         """
-        fielddef = self.field_definition
-        fielddef.unit = value
-        self.field_definition = fielddef
+        field_def = self.field_definition
+        field_def.unit = value
+        self.field_definition = field_def
 
     @property
     def dimensionality(self):

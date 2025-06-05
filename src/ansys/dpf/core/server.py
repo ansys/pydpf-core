@@ -160,7 +160,7 @@ def start_local_server(
     config=None,
     use_pypim_by_default=True,
     context=None,
-):
+) -> BaseServer:
     """Start a new local DPF server at a given port and IP address.
 
     This method requires Windows and ANSYS 2021 R1 or later. If ``as_global=True``, which is
