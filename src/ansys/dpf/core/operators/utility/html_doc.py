@@ -51,7 +51,7 @@ class html_doc(Operator):
     """
 
     def __init__(self, output_path=None, exposure_level=None, config=None, server=None):
-        super().__init__(name="html_doc", config=config, server=server)
+        super().__init__(name="html_doc_old", config=config, server=server)
         self._inputs = InputsHtmlDoc(self)
         self._outputs = OutputsHtmlDoc(self)
         if output_path is not None:
@@ -102,7 +102,7 @@ class html_doc(Operator):
         config:
             A new Config instance equivalent to the default config for this operator.
         """
-        return Operator.default_config(name="html_doc", server=server)
+        return Operator.default_config(name="html_doc_old", server=server)
 
     @property
     def inputs(self) -> InputsHtmlDoc:

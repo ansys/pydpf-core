@@ -3094,6 +3094,10 @@ def load_api(path):
 		dll.Operator_specification_IsPinEllipsis.argtypes = (ctypes.c_void_p, ctypes.c_bool, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Operator_specification_IsPinEllipsis.restype = ctypes.c_bool
 
+	if hasattr(dll, "Operator_specification_IsPinInPlace"):
+		dll.Operator_specification_IsPinInPlace.argtypes = (ctypes.c_void_p, ctypes.c_bool, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.Operator_specification_IsPinInPlace.restype = ctypes.c_bool
+
 	if hasattr(dll, "Operator_specification_GetProperties"):
 		dll.Operator_specification_GetProperties.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Operator_specification_GetProperties.restype = ctypes.POINTER(ctypes.c_char)
