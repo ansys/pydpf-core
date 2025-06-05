@@ -123,8 +123,9 @@ jobs:
         with:
           path: |
             doc/build
-          key: doc-build-${{ github.ref_name }}
+          key: doc-build-${{ github.ref_name }}-${{ github.run_id }}
           restore-keys: |
+            doc-build-${{ github.ref_name }}
             doc-build-master
 
       - name: "Build HTML Documentation"
