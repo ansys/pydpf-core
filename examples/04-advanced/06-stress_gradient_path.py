@@ -41,10 +41,8 @@ A path is created of a defined length.
 import matplotlib.pyplot as plt
 
 from ansys.dpf import core as dpf
-from ansys.dpf.core import examples
-from ansys.dpf.core import operators as ops
+from ansys.dpf.core import examples, operators as ops
 from ansys.dpf.core.plotter import DpfPlotter
-
 
 ###############################################################################
 # Open an example and print out the ``Model`` object. The
@@ -112,7 +110,7 @@ normal_vec_out_field = normal.outputs.field.get_data()
 # using :class:`scale <ansys.dpf.core.operators.math.scale.scale>` operator
 # inwards in the geometry, to get the path direction.
 #
-normal_vec_in_field = ops.math.scale(field=normal_vec_out_field, ponderation=-1.0)
+normal_vec_in_field = ops.math.scale(field=normal_vec_out_field, weights=-1.0)
 normal_vec_in = normal_vec_in_field.outputs.field.get_data().data[0]
 ###############################################################################
 # Get nodal coordinates, they serve as the first point on the line.

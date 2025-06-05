@@ -27,10 +27,9 @@ MeshesContainer.
 Contains classes associated with the DPF MeshesContainer.
 """
 
-from ansys.dpf.core import meshed_region
+from ansys.dpf.core import errors as dpf_errors, meshed_region
 from ansys.dpf.core.collection_base import CollectionBase
 from ansys.dpf.core.plotter import DpfPlotter
-from ansys.dpf.core import errors as dpf_errors
 
 
 class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
@@ -38,7 +37,7 @@ class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
 
     Parameters
     ----------
-    meshes_container : ansys.grpc.dpf.collection_pb2.Collection or
+    meshes_container : ansys.grpc.dpf.collection_message_pb2.Collection or
                        ansys.dpf.core.MeshesContainer, optional
         Create a meshes container from a collection message or create a copy from an
         existing meshes container. The default is ``None``.

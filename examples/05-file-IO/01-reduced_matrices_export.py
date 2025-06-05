@@ -36,8 +36,7 @@ export them to HDF5 and CSV files.
 # temporary directory.
 
 from ansys.dpf import core as dpf
-from ansys.dpf.core import examples
-from ansys.dpf.core import operators as ops
+from ansys.dpf.core import examples, operators as ops
 
 ###############################################################################
 # Create the operator and connect data sources.

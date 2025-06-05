@@ -20,20 +20,20 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import copy
 import gc
 import os
+from pathlib import Path
 import shutil
 import types
 import weakref
-from pathlib import Path
 
+import numpy
 import numpy as np
 import pytest
-import copy
 
 from ansys import dpf
-from ansys.dpf.core import errors
-from ansys.dpf.core import operators as ops
+from ansys.dpf.core import errors, operators as ops
 from ansys.dpf.core.common import derived_class_name_to_type, record_derived_class
 from ansys.dpf.core.custom_container_base import CustomContainerBase
 from ansys.dpf.core.misc import get_ansys_path
@@ -89,6 +89,14 @@ def test_connect_list_operator(velocity_acceleration):
     model = dpf.core.Model(velocity_acceleration)
     op = model.operator("U")
     op.connect(0, [1, 2])
+    fcOut = op.get_output(0, dpf.core.types.fields_container)
+    assert fcOut.get_available_ids_for_label() == [1, 2]
+
+
+def test_connect_array_operator(velocity_acceleration):
+    model = dpf.core.Model(velocity_acceleration)
+    op = model.operator("U")
+    op.connect(0, numpy.array([1, 2], numpy.int32))
     fcOut = op.get_output(0, dpf.core.types.fields_container)
     assert fcOut.get_available_ids_for_label() == [1, 2]
 
@@ -548,7 +556,11 @@ def test_inputs_outputs_scopings_container(allkindofcomplexity):
     assert scop.location == dpf.core.locations.elemental
 
     stress = model.results.stress()
-    stress.inputs.connect(op.outputs)
+    with (
+        # pytest.warns(match="Pin connection is ambiguous"),
+        pytest.warns(DeprecationWarning, match="Use explicit"),
+    ):
+        stress.inputs.connect(op.outputs)
     fc = stress.outputs.fields_container()
     assert fc.labels == ["elshape", "time"]
     assert len(fc) == 4
@@ -581,8 +593,17 @@ def test_inputs_outputs_meshes_container(allkindofcomplexity):
     sc = opsc.outputs.mesh_scoping()
 
     stress = model.results.stress()
-    stress.inputs.connect(op.outputs)
-    stress.inputs.connect(opsc.outputs)
+    with (
+        # pytest.warns(match="Pin connection is ambiguous"),
+        pytest.warns(DeprecationWarning, match="Use explicit"),
+    ):
+        stress.inputs.connect(op.outputs)
+
+    with (
+        # pytest.warns(match="Pin connection is ambiguous"),
+        pytest.warns(DeprecationWarning, match="Use explicit"),
+    ):
+        stress.inputs.connect(opsc.outputs)
     fc = stress.outputs.fields_container()
     assert fc.labels == ["body", "elshape", "time"]
     assert len(fc) == 4
@@ -1307,6 +1328,16 @@ def test_generated_operator_config_specification_simple(server_type):
     assert "id" in conf_spec["work_by_index"].document
 
 
+def test_empty_specification(server_type):
+    op = dpf.core.dpf_operator.Operator("chunk_fc", server=server_type)
+    spec = op.specification
+    _ = spec.config_specification
+    _ = spec.properties
+    _ = spec.description
+    _ = spec.inputs
+    _ = spec.outputs
+
+
 def test_operator_exception():
     ds = dpf.core.DataSources(r"dummy/file.rst")
     op = ops.result.displacement(data_sources=ds)
@@ -1502,3 +1533,18 @@ def test_operator_find_outputs_corresponding_pins_any(server_type):
     f1 = ops.utility.forward()
     f2 = ops.utility.forward()
     f2.inputs.any.connect(f1.outputs.any)
+
+
+@conftest.raises_for_servers_version_under("11.0")
+def test_operator_changelog(server_type):
+    from packaging.version import Version
+
+    changelog = dpf.core.operators.math.add(server=server_type).changelog
+    assert changelog[Version("0.0.0")] == "New"
+
+
+@conftest.raises_for_servers_version_under("11.0")
+def test_operator_version(server_type):
+    from packaging.version import Version
+
+    assert isinstance(dpf.core.operators.math.add(server=server_type).version, Version)

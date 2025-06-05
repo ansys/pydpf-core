@@ -23,28 +23,29 @@
 """Contains classes associated with the DPF collection."""
 
 from __future__ import annotations
+
 import abc
-import warnings
 import traceback
+from typing import TYPE_CHECKING, Generic, List, Optional, TypeVar
+import warnings
 
 import numpy as np
 
-from ansys.dpf.core.check_version import version_requires
-from ansys.dpf.core.server_types import BaseServer
-from ansys.dpf.core.scoping import Scoping
-from ansys.dpf.core.label_space import LabelSpace
 from ansys.dpf.core import server as server_module
+from ansys.dpf.core.check_version import version_requires
+from ansys.dpf.core.label_space import LabelSpace
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.server_types import BaseServer
 from ansys.dpf.gate import (
     collection_capi,
     collection_grpcapi,
     data_processing_capi,
     data_processing_grpcapi,
-    dpf_vector,
     dpf_array,
+    dpf_vector,
 )
-from typing import List, Optional, Generic, TypeVar, TYPE_CHECKING
 
-if TYPE_CHECKING:
+if TYPE_CHECKING:  # pragma: no cover
     from ansys.dpf.core.support import Support
 
 from ansys.dpf.gate.integral_types import MutableListInt32
@@ -57,7 +58,7 @@ class CollectionBase(Generic[TYPE]):
 
     Parameters
     ----------
-    collection : ansys.grpc.dpf.collection_pb2.Collection, optional
+    collection : ansys.grpc.dpf.collection_message_pb2.Collection, optional
         Collection to create from the collection message. The default is ``None``.
     server : server.DPFServer, optional
         Server with the channel connected to the remote or local instance. The
@@ -470,9 +471,9 @@ class CollectionBase(Generic[TYPE]):
         """
         from ansys.dpf.core.time_freq_support import TimeFreqSupport
         from ansys.dpf.gate import (
+            object_handler,
             support_capi,
             support_grpcapi,
-            object_handler,
         )
 
         data_api = self._server.get_api_for_type(
@@ -654,7 +655,7 @@ class IntCollection(CollectionBase[int]):
     def get_integral_entries(self):
         """Get integral entries."""
         try:
-            vec = dpf_vector.DPFVectorInt(client=self._server.client)
+            vec = dpf_vector.DPFVectorInt(owner=self)
             self._api.collection_get_data_as_int_for_dpf_vector(
                 self, vec, vec.internal_data, vec.internal_size
             )
@@ -714,7 +715,7 @@ class FloatCollection(CollectionBase[float]):
     def get_integral_entries(self):
         """Get integral entries."""
         try:
-            vec = dpf_vector.DPFVectorDouble(client=self._server.client)
+            vec = dpf_vector.DPFVectorDouble(owner=self)
             self._api.collection_get_data_as_double_for_dpf_vector(
                 self, vec, vec.internal_data, vec.internal_size
             )

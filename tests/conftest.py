@@ -26,20 +26,20 @@ Launch or connect to a persistent local DPF service to be shared in
 pytest as a session fixture
 """
 
-import os
 import functools
+import os
 from pathlib import Path
+import warnings
 
 import psutil
 import pytest
 
-import ansys.dpf.core.server_types
 from ansys.dpf import core
 from ansys.dpf.core import examples
-from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
-from ansys.dpf.core.check_version import meets_version, get_server_version
+from ansys.dpf.core.check_version import get_server_version, meets_version
+from ansys.dpf.core.server_factory import CommunicationProtocols, ServerConfig
+import ansys.dpf.core.server_types
 from ansys.dpf.gate.load_api import _try_use_gatebin
-import warnings
 
 ACCEPTABLE_FAILURE_RATE = 0
 
@@ -329,6 +329,9 @@ def cfx_mixing_elbow():
     return return_ds
 
 
+SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0 = meets_version(
+    get_server_version(core._global_server()), "11.0"
+)
 SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0 = meets_version(
     get_server_version(core._global_server()), "10.0"
 )

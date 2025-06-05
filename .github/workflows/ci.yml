@@ -14,7 +14,6 @@ on:
         description: "ANSYS version"
         required: false
         type: string
-        default: "252"
       standalone_branch_suffix:
         description: 'Suffix of the branch on standalone'
         required: false
@@ -27,7 +26,7 @@ concurrency:
 
 env:
   DOCUMENTATION_CNAME: 'dpf.docs.pyansys.com'
-  MAIN_PYTHON_VERSION: '3.9'
+  MAIN_PYTHON_VERSION: '3.10'
 
 jobs:
   debug:
@@ -101,27 +100,22 @@ jobs:
           name: ${{ steps.wheel.outputs.wheel_name }}
           path: dist/${{ steps.wheel.outputs.wheel_name }}
 
-  tests:
+  tests-latest:
+    name: "Test ${{ matrix.test-any == 'true' && 'any' || 'platform-specific' }} wheel against latest DPF version"
+    strategy:
+      fail-fast: false
+      matrix:
+        test-any: ['false', 'true']
     uses: ./.github/workflows/tests.yml
     needs: pick_server_suffix
     with:
-      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '252' }}
-      python_versions: '["3.9"]'
+      ANSYS_VERSION: ${{ inputs.ansys_version || vars.ANSYS_VERSION_DEFAULT }}
+      python_versions: '["3.10"]'
       wheel: true
       wheelhouse: false
       standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
-    secrets: inherit
-
-  tests_any:
-    uses: ./.github/workflows/tests.yml
-    needs: pick_server_suffix
-    with:
-      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '252' }}
-      python_versions: '["3.9"]'
-      wheel: true
-      wheelhouse: false
-      standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
-      test_any: true
+      test_any: ${{ matrix.test-any }}
+      DOCSTRING: ${{ !matrix.test-any }}
     secrets: inherit
 
   docker_tests:
@@ -129,7 +123,7 @@ jobs:
     uses: ./.github/workflows/test_docker.yml
     needs: pick_server_suffix
     with:
-      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '252' }}
+      ANSYS_VERSION: ${{ inputs.ansys_version || vars.ANSYS_VERSION_DEFAULT }}
       standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
     secrets: inherit
 
@@ -138,8 +132,8 @@ jobs:
     uses: ./.github/workflows/examples_docker.yml
     needs: pick_server_suffix
     with:
-      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '252' }}
-      python_versions: '["3.9"]'
+      ANSYS_VERSION: ${{ inputs.ansys_version || vars.ANSYS_VERSION_DEFAULT }}
+      python_versions: '["3.10"]'
       standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
     secrets: inherit
 
@@ -148,9 +142,10 @@ jobs:
     uses: ./.github/workflows/docs.yml
     needs: pick_server_suffix
     with:
-      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '252' }}
+      ANSYS_VERSION: ${{ inputs.ansys_version || vars.ANSYS_VERSION_DEFAULT }}
       standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
       event_name: ${{ github.event_name }}
+      python_version: "3.11"
     secrets: inherit
 
   upload-development-docs:
@@ -173,73 +168,9 @@ jobs:
     uses: ./.github/workflows/examples.yml
     needs: pick_server_suffix
     with:
-      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '252' }}
-      python_versions: '["3.9"]'
+      ANSYS_VERSION: ${{ inputs.ansys_version || vars.ANSYS_VERSION_DEFAULT }}
+      python_versions: '["3.10"]'
       standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
-    secrets: inherit
-
-  retro_251:
-    name: "retro 251"
-    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
-    uses: ./.github/workflows/tests.yml
-    with:
-      ANSYS_VERSION: "251"
-      python_versions: '["3.9"]'
-      DOCSTRING: false
-      standalone_suffix: ''
-    secrets: inherit
-
-  retro_242:
-    name: "retro 242"
-    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
-    uses: ./.github/workflows/tests.yml
-    with:
-      ANSYS_VERSION: "242"
-      python_versions: '["3.9"]'
-      DOCSTRING: false
-      standalone_suffix: ''
-    secrets: inherit
-
-  retro_241:
-    name: "retro 241"
-    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
-    uses: ./.github/workflows/tests.yml
-    with:
-      ANSYS_VERSION: "241"
-      python_versions: '["3.9"]'
-      DOCSTRING: false
-      standalone_suffix: '.sp01'
-    secrets: inherit
-
-  retro_232:
-    name: "retro 232"
-    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
-    uses: ./.github/workflows/tests.yml
-    with:
-      ANSYS_VERSION: "232"
-      python_versions: '["3.9"]'
-      DOCSTRING: false
-      standalone_suffix: ''
-    secrets: inherit
-
-  retro_231:
-    name: "retro 231"
-    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
-    uses: ./.github/workflows/tests.yml
-    with:
-      ANSYS_VERSION: "231"
-      python_versions: '["3.9"]'
-      DOCSTRING: false
-    secrets: inherit
-
-  retro_222:
-    name: "retro 222"
-    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
-    uses: ./.github/workflows/tests.yml
-    with:
-      ANSYS_VERSION: "222"
-      python_versions: '["3.9"]'
-      DOCSTRING: false
     secrets: inherit
 
   pydpf-post:
@@ -248,8 +179,29 @@ jobs:
     uses: ./.github/workflows/pydpf-post.yml
     needs: pick_server_suffix
     with:
-      ANSYS_VERSION: ${{ github.event.inputs.ansys_version || '252' }}
+      ANSYS_VERSION: ${{ inputs.ansys_version || vars.ANSYS_VERSION_DEFAULT }}
       post_branch: "master"
       standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
       test_docstrings: "true"
+    secrets: inherit
+
+  tests-retro:
+    name: "Test DPF ${{ matrix.dpf.version }} compatibility"
+    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
+    strategy:
+      fail-fast: false
+      matrix:
+        dpf:
+          - {"version": "251", "standalone-suffix": ""}
+          - {"version": "242", "standalone-suffix": ""}
+          - {"version": "241", "standalone-suffix": ".sp01"}
+          - {"version": "232", "standalone-suffix": ""}
+          - {"version": "231", "standalone-suffix": ""}
+          - {"version": "222", "standalone-suffix": ""}
+    uses: ./.github/workflows/tests.yml
+    with:
+      ANSYS_VERSION: ${{ matrix.dpf.version }}
+      python_versions: '["3.10"]'
+      DOCSTRING: false
+      standalone_suffix: ${{ matrix.dpf.standalone-suffix }}
     secrets: inherit

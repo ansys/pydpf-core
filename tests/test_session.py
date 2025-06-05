@@ -21,10 +21,11 @@
 # SOFTWARE.
 
 from pathlib import Path
-import conftest
 import tempfile
+
 from ansys.dpf import core
 from ansys.dpf.core import examples
+import conftest
 
 
 def get_log_file(log_path, server):

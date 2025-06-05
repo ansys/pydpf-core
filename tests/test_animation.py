@@ -26,10 +26,7 @@ from pathlib import Path
 import pytest
 
 from ansys.dpf import core as dpf
-from ansys.dpf.core import misc
-from ansys.dpf.core import examples
-from ansys.dpf.core import animation
-
+from ansys.dpf.core import animation, examples, misc
 
 if misc.module_exists("pyvista"):
     HAS_PYVISTA = True

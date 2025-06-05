@@ -27,15 +27,15 @@ Contains the server factory as well as the communication
 protocols and server configurations available.
 """
 
+import io
 import logging
 import os
 import subprocess
 import time
-import io
 
 from ansys.dpf.gate.load_api import (
-    _get_path_in_install,
     _find_outdated_ansys_version,
+    _get_path_in_install,
 )
 
 
@@ -700,9 +700,9 @@ class ServerFactory:
     ):
         """Return server type determined from the server configuration."""
         from ansys.dpf.core.server_types import (
-            LegacyGrpcServer,
             GrpcServer,
             InProcessServer,
+            LegacyGrpcServer,
         )
 
         # dpf.core.SERVER_CONFIGURATION is required to know what type of connection to set

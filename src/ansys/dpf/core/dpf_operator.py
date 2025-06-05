@@ -22,37 +22,40 @@
 
 """Operator."""
 
+from enum import Enum
 import logging
 import os
 import traceback
 import warnings
 
-from enum import Enum
+import numpy
+from packaging.version import Version
+
+from ansys.dpf.core import server as server_module
+from ansys.dpf.core.changelog import Changelog
 from ansys.dpf.core.check_version import (
-    version_requires,
     server_meet_version,
     server_meet_version_and_raise,
+    version_requires,
 )
+from ansys.dpf.core.common import types, types_enum_to_types
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.errors import DpfVersionNotSupported
 from ansys.dpf.core.inputs import Inputs
-from ansys.dpf.core.mapping_types import types
-from ansys.dpf.core.common import types_enum_to_types
-from ansys.dpf.core.outputs import Output, Outputs, _Outputs
-from ansys.dpf.core import server as server_module
 from ansys.dpf.core.operator_specification import Specification
+from ansys.dpf.core.outputs import Output, Outputs, _Outputs
 from ansys.dpf.core.unit_system import UnitSystem
 from ansys.dpf.gate import (
-    operator_capi,
-    operator_abstract_api,
-    operator_grpcapi,
-    data_processing_capi,
-    data_processing_grpcapi,
     collection_capi,
     collection_grpcapi,
+    data_processing_capi,
+    data_processing_grpcapi,
     dpf_vector,
-    object_handler,
     integral_types,
+    object_handler,
+    operator_abstract_api,
+    operator_capi,
+    operator_grpcapi,
 )
 
 LOG = logging.getLogger(__name__)
@@ -276,17 +279,11 @@ class Operator:
             self._api.operator_connect_operator_output(self, pin, inpt, pin_out)
         elif isinstance(inpt, Output):
             self._api.operator_connect_operator_output(self, pin, inpt._operator, inpt._pin)
-        elif isinstance(inpt, list):
+        elif isinstance(inpt, (list, numpy.ndarray)):
             from ansys.dpf.core import collection
 
-            if server_meet_version("3.0", self._server):
-                inpt = collection.CollectionBase.integral_collection(inpt, self._server)
-                self._api.operator_connect_collection_as_vector(self, pin, inpt)
-            else:
-                if all(isinstance(x, int) for x in inpt):
-                    self._api.operator_connect_vector_int(self, pin, inpt, len(inpt))
-                else:
-                    self._api.operator_connect_vector_double(self, pin, inpt, len(inpt))
+            inpt = collection.CollectionBase.integral_collection(inpt, self._server)
+            self._api.operator_connect_collection_as_vector(self, pin, inpt)
         elif isinstance(inpt, dict):
             from ansys.dpf.core import label_space
 
@@ -362,28 +359,28 @@ class Operator:
     @property
     def _type_to_output_method(self):
         from ansys.dpf.core import (
+            any,
+            collection,
+            collection_base,
+            custom_container_base,
+            custom_type_field,
             cyclic_support,
             data_sources,
+            data_tree,
             field,
             fields_container,
+            generic_data_container,
+            mesh_info,
             meshed_region,
             meshes_container,
             property_field,
-            string_field,
-            custom_type_field,
             result_info,
             scoping,
             scopings_container,
-            time_freq_support,
-            data_tree,
-            workflow,
-            collection,
             streams_container,
-            generic_data_container,
-            mesh_info,
-            collection_base,
-            any,
-            custom_container_base,
+            string_field,
+            time_freq_support,
+            workflow,
         )
 
         out = [
@@ -504,22 +501,22 @@ class Operator:
     @property
     def _type_to_input_method(self):
         from ansys.dpf.core import (
+            any,
+            collection_base,
+            custom_type_field,
             cyclic_support,
             data_sources,
-            field,
-            collection_base,
-            meshed_region,
-            property_field,
-            string_field,
-            custom_type_field,
-            scoping,
-            time_freq_support,
             data_tree,
-            workflow,
-            model,
+            field,
             generic_data_container,
-            any,
+            meshed_region,
+            model,
+            property_field,
+            scoping,
             streams_container,
+            string_field,
+            time_freq_support,
+            workflow,
         )
 
         out = [
@@ -685,7 +682,7 @@ class Operator:
         return self._id
 
     @property
-    def inputs(self):
+    def inputs(self) -> Inputs:
         """Inputs connected to the operator.
 
         Returns
@@ -707,7 +704,7 @@ class Operator:
         return self._inputs
 
     @property
-    def outputs(self):
+    def outputs(self) -> Outputs:
         """Outputs from the operator's evaluation.
 
         Returns
@@ -935,6 +932,35 @@ class Operator:
             return self._spec
         else:
             return Specification(operator_name=self.name, server=self._server)
+
+    @property
+    @version_requires("11.0")
+    def changelog(self) -> Changelog:
+        """Return the changelog of this operator.
+
+        Requires DPF 11.0 (2026 R1) or above.
+
+        Returns
+        -------
+        changelog:
+            Changelog of the operator.
+        """
+        from ansys.dpf.core.operators.utility.operator_changelog import operator_changelog
+
+        return Changelog(
+            gdc=operator_changelog(operator_name=self.name, server=self._server).eval(),
+            server=self._server,
+        )
+
+    @property
+    @version_requires("11.0")
+    def version(self) -> Version:
+        """Return the current version of the operator.
+
+        Requires DPF 11.0 (2026 R1) or above.
+
+        """
+        return self.changelog.last_version
 
     def __truediv__(self, inpt):
         """

@@ -23,18 +23,18 @@
 """PropertyField."""
 
 import numpy as np
-from ansys.dpf.core.check_version import version_requires
-from ansys.dpf.core.common import natures, locations, _get_size_of_list
-from ansys.dpf.core import scoping, dimensionality
+
+from ansys.dpf.core import dimensionality, scoping
+from ansys.dpf.core.check_version import meets_version, version_requires
+from ansys.dpf.core.common import _get_size_of_list, locations, natures
 from ansys.dpf.core.field_base import _FieldBase, _LocalFieldBase
-from ansys.dpf.core.check_version import meets_version
 from ansys.dpf.core.field_definition import FieldDefinition
 from ansys.dpf.gate import (
+    dpf_array,
+    dpf_vector,
     property_field_abstract_api,
     property_field_capi,
     property_field_grpcapi,
-    dpf_array,
-    dpf_vector,
 )
 
 
@@ -223,7 +223,7 @@ class PropertyField(_FieldBase):
     def get_entity_data(self, index):
         """Return the data associated with the entity by index."""
         try:
-            vec = dpf_vector.DPFVectorInt(client=self._server.client)
+            vec = dpf_vector.DPFVectorInt(owner=self)
             self._api.csproperty_field_get_entity_data_for_dpf_vector(
                 self, vec, vec.internal_data, vec.internal_size, index
             )
@@ -239,7 +239,7 @@ class PropertyField(_FieldBase):
     def get_entity_data_by_id(self, id):
         """Return the data associated with entity by id."""
         try:
-            vec = dpf_vector.DPFVectorInt(client=self._server.client)
+            vec = dpf_vector.DPFVectorInt(owner=self)
             self._api.csproperty_field_get_entity_data_by_id_for_dpf_vector(
                 self, vec, vec.internal_data, vec.internal_size, id
             )
@@ -264,7 +264,7 @@ class PropertyField(_FieldBase):
 
     def _get_data_pointer(self):
         try:
-            vec = dpf_vector.DPFVectorInt(client=self._server.client)
+            vec = dpf_vector.DPFVectorInt(owner=self)
             self._api.csproperty_field_get_data_pointer_for_dpf_vector(
                 self, vec, vec.internal_data, vec.internal_size
             )
@@ -278,7 +278,7 @@ class PropertyField(_FieldBase):
 
     def _get_data(self, np_array=True):
         try:
-            vec = dpf_vector.DPFVectorInt(client=self._server.client)
+            vec = dpf_vector.DPFVectorInt(owner=self)
             self._api.csproperty_field_get_data_for_dpf_vector(
                 self, vec, vec.internal_data, vec.internal_size
             )

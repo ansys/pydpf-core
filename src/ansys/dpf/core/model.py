@@ -24,19 +24,25 @@
 Model.
 
 Module contains the Model class to manage file result models.
-
 """
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:  # pragma: nocover
+    from ansys.dpf.core.scoping import Scoping
+    from ansys.dpf.core.server_types import AnyServerType
+
 from ansys import dpf
-from ansys.dpf.core import Operator
-from ansys.dpf.core.common import types
-from ansys.dpf.core.data_sources import DataSources
-from ansys.dpf.core.results import Results, CommonResults
-from ansys.dpf.core.server_types import LOG
-from ansys.dpf.core import misc
-from ansys.dpf.core.errors import protect_source_op_not_found
+from ansys.dpf.core import Operator, misc
 from ansys.dpf.core._model_helpers import DataSourcesOrStreamsConnector
 from ansys.dpf.core.check_version import version_requires
+from ansys.dpf.core.common import types
+from ansys.dpf.core.data_sources import DataSources
+from ansys.dpf.core.errors import protect_source_op_not_found
+from ansys.dpf.core.results import CommonResults, Results
+from ansys.dpf.core.server_types import LOG
 
 
 class Model:
@@ -587,19 +593,23 @@ class Metadata:
         """
         return self.meshed_region.available_named_selections
 
-    def named_selection(self, named_selection):
+    def named_selection(self, named_selection: str, server: AnyServerType = None) -> Scoping:
         """Scoping containing the list of nodes or elements in the named selection.
 
         Parameters
         ----------
-        named_selection : str
-            name of the named selection
+        named_selection:
+            Name of the named selection.
+        server:
+            Server on which to create the scoping if different from the server of the model.
 
         Returns
         -------
-        named_selection : :class:`ansys.dpf.core.scoping.Scoping`
+        named_selection:
+            A scoping containing the IDs of the entities in the named selection.
+            The location depends on the type of entities targeted by the named selection.
         """
-        return self.meshed_region.named_selection(named_selection)
+        return self.meshed_region.named_selection(named_selection=named_selection, server=server)
 
     def _build_connector(self):
         return DataSourcesOrStreamsConnector(self)

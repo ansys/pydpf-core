@@ -20,24 +20,28 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import pytest
 import os
 from pathlib import Path
 import platform
+
 import numpy as np
-from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0
+import pytest
+
 from ansys.dpf import core as dpf
-import conftest
+from ansys.dpf.core.changelog import Changelog
 from ansys.dpf.core.custom_operator import update_virtual_environment_for_custom_operators
 from ansys.dpf.core.errors import DPFServerException
 from ansys.dpf.core.operator_specification import (
-    CustomSpecification,
-    SpecificationProperties,
     CustomConfigOptionSpec,
+    CustomSpecification,
     PinSpecification,
+    SpecificationProperties,
 )
+import conftest
 from conftest import (
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0,
 )
 
 if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
@@ -406,3 +410,25 @@ def test_custom_op_with_spec(server_type_remote_process, testfiles_dir):
     outf = op.outputs.field()
     expected = np.ones((3, 3), dtype=np.float64) + 4.0
     assert np.allclose(outf.data, expected)
+
+
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0, reason="Available for servers >=11.0"
+)
+def test_custom_op_changelog(server_type_remote_process, testfiles_dir):
+    from packaging.version import Version
+
+    dpf.load_library(
+        dpf.path_utilities.to_server_os(
+            Path(testfiles_dir) / "pythonPlugins", server_type_remote_process
+        ),
+        "py_operator_with_changelog",
+        "load_operators",
+        server=server_type_remote_process,
+    )
+    op = dpf.Operator("custom_add_to_field", server=server_type_remote_process)
+    changelog = op.changelog
+    assert isinstance(changelog, Changelog)
+    assert changelog.last_version == Version("1.0.0")
+    assert changelog[Version("1.0.0")] == "Major bump"
+    assert op.version == Version("1.0.0")
