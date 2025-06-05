@@ -70,7 +70,7 @@ class _PyVistaAnimator(_PyVistaPlotter):
             scale_factor = [False] * len(indices)
         type_scale = type(scale_factor)
         if type_scale in [int, float]:
-            scale_factor = [scale_factor] * len(indices)
+            scale_factor = [float(scale_factor)] * len(indices)
         elif type_scale == list:
             pass
         # elif type_scale in [core.field.Field, core.fields_container.FieldsContainer]:
@@ -121,6 +121,7 @@ class _PyVistaAnimator(_PyVistaPlotter):
             self.add_field(
                 field,
                 deform_by=deform,
+                scale_factor=scale_factor[frame],
                 scale_factor_legend=scale_factor[frame],
                 shell_layer=shell_layer,
                 **kwargs,
