@@ -117,18 +117,20 @@ jobs:
         run: |
           choco install pandoc
 
+      - name: "Restore doc build cache"
+        id: cache-doc-build-restore
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            doc/build
+          key: doc-build-${{ github.ref_name }}
+          restore-keys: |
+            doc-build-master
+
       - name: "Build HTML Documentation"
         shell: bash
         run: |
           tox -e doc-html --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv:doc-html.setenv+='VIRTUALENV_SYSTEM_SITE_PACKAGES=true'
-
-      - name: "Retrieve package version"
-        shell: bash
-        run: |
-          echo "VERSION=$(python -c "from ansys.dpf.${{env.MODULE}} import __version__; print(__version__)")" >> GITHUB_OUTPUT
-          echo "${{env.PACKAGE_NAME}} version is: $(python -c "from ansys.dpf.${{env.MODULE}} import __version__; print(__version__)")"
-        id: version
-        if: always()
 
       - name: "Upload Documentation Build log"
         uses: actions/upload-artifact@v4
@@ -136,6 +138,14 @@ jobs:
           name: doc-${{env.PACKAGE_NAME}}-log
           path: doc/*.txt
         if: always()
+
+      - name: "Save doc-build cache"
+        id: cache-doc-build-save
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            doc/build
+          key: ${{ steps.cache-doc-build-restore.outputs.cache-primary-key }}
 
       - name: "Zip HTML Documentation"
         shell: pwsh
