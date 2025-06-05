@@ -96,7 +96,7 @@ def animate_mode(
 
     # Get fields
     available_mode_numbers = fields_container.get_available_ids_for_label("time")
-    
+
     if not mode_number in available_mode_numbers:
         raise ValueError(f"The mode {mode_number} data is not available in field container.")
     fields_mode = fields_container.get_fields({"time": mode_number})
