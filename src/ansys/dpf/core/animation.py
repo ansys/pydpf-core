@@ -97,16 +97,12 @@ def animate_mode(
     # Get fields
     available_mode_numbers = fields_container.get_available_ids_for_label("time")
     
-
     if not mode_number in available_mode_numbers:
-        raise ValueError(
-            f"The mode {mode_number} data is not available in field container."
-        )
+        raise ValueError(f"The mode {mode_number} data is not available in field container.")
     fields_mode = fields_container.get_fields({"time": mode_number})
     mode_frequencies_field = fields_container.time_freq_support.time_frequencies
     mode_frequencies = mode_frequencies_field.data
     mode_frequency = mode_frequencies[available_mode_numbers.index(mode_number)]
-
 
     # Merge fields if needed
     if len(fields_mode) > 1:
@@ -142,7 +138,7 @@ def animate_mode(
         output_name="field",
         save_as=save_as,
         mode_number=mode_number,
-        mode_frequency = mode_frequency,
+        mode_frequency=mode_frequency,
         clim=[0, max_data],
         scale_factor=deform_scale_factor,
         **kwargs,

@@ -59,7 +59,7 @@ class _PyVistaAnimator(_PyVistaPlotter):
         input_name="loop_over",
         save_as="",
         mode_number=None,
-        mode_frequency = None,
+        mode_frequency=None,
         scale_factor=1.0,
         shell_layer=core.shell_layers.top,
         **kwargs,
