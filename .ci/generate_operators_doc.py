@@ -4,6 +4,7 @@ from pathlib import Path
 from jinja2 import Template
 
 from ansys.dpf import core as dpf
+from ansys.dpf.core.changelog import Changelog
 from ansys.dpf.core.core import load_library
 from ansys.dpf.core.dpf_operator import available_operator_names
 
@@ -80,13 +81,24 @@ def fetch_doc_info(server, operator_name):
 
     user_name = properties.pop("user_name", operator_name)
 
+    # Retrieve version and changelog using the Changelog class
+    if hasattr(spec, "changelog") and isinstance(spec.changelog, dpf.GenericDataContainer):
+        changelog_gdc = spec.changelog
+        changelog = Changelog(gdc=changelog_gdc, server=server)
+        last_version = changelog.last_version
+        changelog_entries = [
+            f"Version {str(version)}: {changelog[version]}" for version in changelog.versions
+        ]
+    else:
+        last_version = "0.0.0"
+        changelog_entries = [f"Version {last_version}: Initial release."]
+
     op_friendly_name = user_name
     if category:
         op_friendly_name = category + ":" + op_friendly_name
 
     license = properties.pop("license", "None")
 
-    
     exposure = properties.pop("exposure", "private")
     scripting_info = {
         "category": category,
@@ -95,7 +107,10 @@ def fetch_doc_info(server, operator_name):
         "full_name": full_name,
         "internal_name": operator_name,
         "license": license,
+        "version": str(last_version),  # Include last version in scripting_info
+        "changelog": changelog_entries,  # Include all changelog entries
     }
+
     return {
         "operator_name": op_friendly_name,
         "operator_description": spec.description,
@@ -148,6 +163,8 @@ def generate_operator_doc(server, operator_name, include_private):
 
 
 def generate_toc_tree(docs_path):
+    # Target the operator-specifications folder for iteration
+    operator_specs_path = docs_path / "operator-specifications"
     data = []
     for folder in docs_path.iterdir():
         if folder.is_dir():  # Ensure 'folder' is a directory
@@ -164,13 +181,14 @@ def generate_toc_tree(docs_path):
             data.append({"category": category, "operators": operators})
 
     # Render the Jinja2 template
-    template_path = docs_path / "toc_template.j2"
+    template_path = operator_specs_path / "toc_template.j2"
     with Path.open(template_path, "r") as template_file:
         template = Template(template_file.read())
     output = template.render(data=data)  # Pass 'data' as a named argument
 
-    # Write the rendered output to toc.md
-    with Path.open(docs_path / "toc.yml", "w") as file:
+    # Write the rendered output to toc.yml at the operators_doc level
+    toc_path = docs_path / "toc.yml"
+    with Path.open(toc_path / "toc.yml", "w") as file:
         file.write(output)
 
 
