@@ -816,7 +816,9 @@ class Operator:
                 if output._pin == pin:
                     return output()
 
-    def _find_outputs_corresponding_pins(self, type_names, inpt, pin, corresponding_pins):
+    def _find_outputs_corresponding_pins(
+        self, type_names, inpt, pin, corresponding_pins, input_type_name
+    ):
         from ansys.dpf.core.results import Result
 
         for python_name in type_names:
@@ -827,7 +829,7 @@ class Operator:
                 python_name = "bool"
 
             # Type match
-            if type(inpt).__name__ == python_name:
+            if input_type_name == python_name:
                 corresponding_pins.append(pin)
             # if the inpt has multiple potential outputs, find which ones can match
             elif isinstance(inpt, (_Outputs, Operator, Result)):
