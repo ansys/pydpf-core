@@ -106,6 +106,8 @@ class Input:
             inpt = inpt.value
 
         input_type_name = type(inpt).__name__
+        if input_type_name == "list":
+            input_type_name = f"list[{type(inpt[0]).__name__}]"
         if not (input_type_name in self._python_expected_types or ["Outputs", "Output", "Any"]):
             for types in self._python_expected_types:
                 print(types, end=" ")
@@ -114,7 +116,7 @@ class Input:
 
         corresponding_pins = []
         self._operator()._find_outputs_corresponding_pins(
-            self._python_expected_types, inpt, self._pin, corresponding_pins
+            self._python_expected_types, inpt, self._pin, corresponding_pins, input_type_name
         )
         if len(corresponding_pins) > 1:
             err_str = "Pin connection is ambiguous, specify the input to connect to with:\n"
@@ -132,7 +134,7 @@ class Input:
 
         if len(corresponding_pins) == 0:
             err_str = (
-                f"The input operator for the {self._spec.name} pin must be "
+                f"The input for the {self._spec.name} pin is of type {input_type_name} but must be "
                 "one of the following types:\n"
             )
             err_str += "\n".join([f"- {py_type}" for py_type in self._python_expected_types])
@@ -260,12 +262,15 @@ class _Inputs:
             inpt = inpt.value
 
         input_type_name = type(inpt).__name__
+        if input_type_name == "list":
+            input_type_name = f"list[{type(inpt[0]).__name__}]"
         for input_pin in self._inputs:
             self._operator()._find_outputs_corresponding_pins(
                 input_pin._python_expected_types,
                 inpt,
                 input_pin._pin,
                 corresponding_pins,
+                input_type_name,
             )
         if len(corresponding_pins) > 1:
             err_str = "Pin connection is ambiguous, specify the input to connect to with:\n"
