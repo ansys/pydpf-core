@@ -1454,7 +1454,7 @@ def test_set_units(server_type):
 
 
 def test_field_header(strain_field):
-    if server_meet_version("11.0", server_type):
+    if server_meet_version("11.0", strain_field._server):
         header = strain_field.header
         assert header.has("version")
         assert header.get_as("version", core.types.int) == 0
