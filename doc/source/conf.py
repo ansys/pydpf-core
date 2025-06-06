@@ -56,6 +56,7 @@ server_instance = server.start_local_server(
 server_version = server_instance.version
 server.shutdown_all_session_servers()
 print(f"DPF version: {server_version}")
+print(f"DPF install: {server_instance.ansys_path}")
 
 # Build ignore pattern
 ignored_pattern = r"(ignore"
