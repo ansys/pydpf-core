@@ -123,10 +123,13 @@ jobs:
         with:
           path: |
             doc/build
-          key: doc-build-${{ github.ref_name }}-${{ github.run_id }}
+          # Cache key is composed of branch name, ansys version, hash of requirements_doc,
+          # and run_id to work around immutability
+          # We should also track version of pandoc, of graphviz, of packages installed by headless-display, and even of pydpf-core?
+          key: doc-build-${{ github.ref_name }}-DPF_${{inputs.ANSYS_VERSION}}${{inputs.standalone_suffix}}-${{hashfiles('requirements/requirements_docs.txt')}}-${{ github.run_id }}
           restore-keys: |
-            doc-build-${{ github.ref_name }}
-            doc-build-master
+            doc-build-${{ github.ref_name }}-DPF_${{inputs.ANSYS_VERSION}}${{inputs.standalone_suffix}}-${{hashfiles('requirements/requirements_docs.txt')}}
+            doc-build-master-DPF_${{inputs.ANSYS_VERSION}}${{inputs.standalone_suffix}}-${{hashfiles('requirements/requirements_docs.txt')}}
 
       - name: "Build HTML Documentation"
         shell: bash
