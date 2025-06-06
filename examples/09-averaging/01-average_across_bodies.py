@@ -73,7 +73,7 @@ meshes.plot(text="Body meshes")
 ###############################################################################
 # Averaging across bodies with DPF
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# # To compare the results of averaging across bodies and not averaging,
+# To compare the results of averaging across bodies and not averaging,
 # define two workflows.
 # The variable of interest is the Von Mises stress field, which is
 # calculated by applying the ``eqv_fc`` operator on the
