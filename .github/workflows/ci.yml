@@ -2,7 +2,7 @@ name: CI
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
+    types: [opened, synchronize, reopened, ready_for_review, closed]
     branches-ignore:
       - '*no-ci*'
   push:
@@ -31,6 +31,7 @@ env:
 jobs:
   debug:
     runs-on: ubuntu-latest
+    if: github.event.action != 'closed'
     steps:
     - name: Show the Github context for the triggered event
       run: echo "$GITHUB_CONTEXT"
@@ -39,6 +40,7 @@ jobs:
 
   pick_server_suffix:
     runs-on: ubuntu-latest
+    if: github.event.action != 'closed'
     outputs:
       suffix: ${{ steps.step1.outputs.suffix }}
     steps:
@@ -69,6 +71,7 @@ jobs:
   style:
     name: "Style Check"
     runs-on: ubuntu-latest
+    if: github.event.action != 'closed'
     steps:
       - uses: ansys/actions/code-style@v8
         with:
@@ -77,6 +80,7 @@ jobs:
   build_linux1:
     name: "Build linux1 wheel"
     runs-on: ubuntu-latest
+    if: github.event.action != 'closed'
     steps:
       - uses: actions/checkout@v4
 
@@ -107,6 +111,7 @@ jobs:
       matrix:
         test-any: ['false', 'true']
     uses: ./.github/workflows/tests.yml
+    if: github.event.action != 'closed'
     needs: pick_server_suffix
     with:
       ANSYS_VERSION: ${{ inputs.ansys_version || vars.ANSYS_VERSION_DEFAULT }}
@@ -121,6 +126,7 @@ jobs:
   docker_tests:
     name: "Build and Test on Docker"
     uses: ./.github/workflows/test_docker.yml
+    if: github.event.action != 'closed'
     needs: pick_server_suffix
     with:
       ANSYS_VERSION: ${{ inputs.ansys_version || vars.ANSYS_VERSION_DEFAULT }}
@@ -130,6 +136,7 @@ jobs:
   docker_examples:
     name: "Run examples on Docker"
     uses: ./.github/workflows/examples_docker.yml
+    if: github.event.action != 'closed'
     needs: pick_server_suffix
     with:
       ANSYS_VERSION: ${{ inputs.ansys_version || vars.ANSYS_VERSION_DEFAULT }}
@@ -138,7 +145,7 @@ jobs:
     secrets: inherit
 
   docs:
-    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
+    if: github.event.action != 'closed' && (startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft)
     uses: ./.github/workflows/docs.yml
     needs: pick_server_suffix
     with:
@@ -148,9 +155,25 @@ jobs:
       python_version: "3.11"
     secrets: inherit
 
+  doc-deploy-pr:
+    name: "Deploy PR documentation"
+    runs-on: ubuntu-latest
+    needs: docs
+    if: always() && (needs.docs.result == 'success' || needs.docs.result == 'skipped')
+    steps:
+      - uses: ansys/actions/doc-deploy-pr@v10
+        with:
+          cname: ${{ env.DOCUMENTATION_CNAME }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          doc-artifact-name: HTML-doc-ansys-dpf-core.zip
+          decompress-artifact: true
+          bot-user: ${{ secrets.PYANSYS_CI_BOT_USERNAME }}
+          bot-email: ${{ secrets.PYANSYS_CI_BOT_EMAIL }}
+          maximum-pr-doc-deployments: 10
+
   upload-development-docs:
     runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/master' && github.event_name == 'push' }}
+    if: ${{ github.event.action != 'closed' && (github.ref == 'refs/heads/master' && github.event_name == 'push') }}
     needs: [docs]
     steps:
       - name: "Upload development documentation"
@@ -164,7 +187,7 @@ jobs:
           bot-email: ${{ secrets.PYANSYS_CI_BOT_EMAIL }}
 
   examples:
-    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
+    if: github.event.action != 'closed' && (startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft)
     uses: ./.github/workflows/examples.yml
     needs: pick_server_suffix
     with:
@@ -175,7 +198,7 @@ jobs:
 
   pydpf-post:
     name: "PyDPF-Post"
-    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
+    if: github.event.action != 'closed' && (startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft)
     uses: ./.github/workflows/pydpf-post.yml
     needs: pick_server_suffix
     with:
@@ -187,7 +210,7 @@ jobs:
 
   tests-retro:
     name: "Test DPF ${{ matrix.dpf.version }} compatibility"
-    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
+    if: github.event.action != 'closed' && (startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft)
     strategy:
       fail-fast: false
       matrix:
