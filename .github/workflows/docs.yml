@@ -123,6 +123,7 @@ jobs:
         with:
           path: |
             doc/build
+            doc/source/examples
           # Cache key is composed of branch name, ansys version, hash of requirements_doc,
           # and run_id to work around immutability
           # We should also track version of pandoc, of graphviz, of packages installed by headless-display, and even of pydpf-core?
@@ -149,6 +150,7 @@ jobs:
         with:
           path: |
             doc/build
+            doc/source/examples
           key: ${{ steps.cache-doc-build-restore.outputs.cache-primary-key }}
 
       - name: "Zip HTML Documentation"
