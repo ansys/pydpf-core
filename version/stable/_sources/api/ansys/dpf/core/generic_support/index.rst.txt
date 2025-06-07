@@ -1,0 +1,78 @@
+
+
+
+
+
+
+The ``generic_support.py`` module
+=================================
+
+.. py:module:: ansys.dpf.core.generic_support
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+
+
+.. py:currentmodule:: generic_support
+.. tab-set::
+
+
+
+
+    .. tab-item:: Classes
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.generic_support.GenericSupport`
+            - Can support a location or label to describe its domain with its scope and properties.
+
+
+
+
+
+
+
+
+
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-cod-symbol_class"></span> GenericSupport</api/ansys/dpf/core/generic_support/GenericSupport>
+
+
+
+
+
+
+
+
+
+Description
+-----------
+
+GenericSupport.
+
+
+
+
+
+
+
+
