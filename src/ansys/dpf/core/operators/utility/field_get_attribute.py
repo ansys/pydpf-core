@@ -25,11 +25,11 @@ class field_get_attribute(Operator):
     ----------
     field: Field
     property_name: str
-        Accepted inputs are: 'time_freq_support' and 'scoping'.
+        Accepted inputs are: 'time_freq_support', 'scoping' and 'header'.
 
     Returns
     -------
-    property: TimeFreqSupport or Scoping
+    property: TimeFreqSupport or Scoping or DataTree
         Property value.
 
     Examples
@@ -82,13 +82,13 @@ input.
                     name="property_name",
                     type_names=["string"],
                     optional=False,
-                    document=r"""Accepted inputs are: 'time_freq_support' and 'scoping'.""",
+                    document=r"""Accepted inputs are: 'time_freq_support', 'scoping' and 'header'.""",
                 ),
             },
             map_output_pin_spec={
                 0: PinSpecification(
                     name="property",
-                    type_names=["time_freq_support", "scoping"],
+                    type_names=["time_freq_support", "scoping", "abstract_data_tree"],
                     optional=False,
                     document=r"""Property value.""",
                 ),
@@ -184,7 +184,7 @@ class InputsFieldGetAttribute(_Inputs):
     def property_name(self) -> Input:
         r"""Allows to connect property_name input to the operator.
 
-        Accepted inputs are: 'time_freq_support' and 'scoping'.
+        Accepted inputs are: 'time_freq_support', 'scoping' and 'header'.
 
         Returns
         -------
@@ -232,3 +232,11 @@ class OutputsFieldGetAttribute(_Outputs):
             op,
         )
         self._outputs.append(self.property_as_scoping)
+        self.property_as_data_tree = Output(
+            _modify_output_spec_with_one_type(
+                field_get_attribute._spec().output_pin(0), "data_tree"
+            ),
+            0,
+            op,
+        )
+        self._outputs.append(self.property_as_data_tree)
