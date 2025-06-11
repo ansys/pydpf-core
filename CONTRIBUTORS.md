@@ -6,8 +6,8 @@
 
 ## Individual Contributors
 
-* [Alex Kaszynski](https://github.com/akaszynski)
 * [Alex Kaszynski](https://github.com/ansys-akaszyns)
+* [Alex Kaszynski](https://github.com/akaszynski)
 * [Alexandre Bouthéon](https://github.com/a-bouth)
 * [anslpa](https://github.com/anslpa)
 * [Antoine Karcher](https://github.com/ansys-akarcher)
@@ -24,6 +24,7 @@
 * [Guillem Barroso](https://github.com/GuillemBarroso)
 * [guptadivya1501](https://github.com/guptadivya1501)
 * [hoangxuyenle](https://github.com/hoangxuyenle)
+* [Hélène Lachambre](https://github.com/anshlachamb)
 * [Jamil HAJJAR](https://github.com/ansjhajjar)
 * [janvonrickenbach](https://github.com/janvonrickenbach)
 * [Jean-Francois Thuong](https://github.com/jfthuong)
@@ -32,6 +33,7 @@
 * [Jorge Martínez](https://github.com/jorgepiloto)
 * [Jose Armando Henriquez Roa](https://github.com/jose-henriquez-roa)
 * [jose-henriquezroa](https://github.com/jose-henriquezroa)
+* [Joshua Fairchild](https://github.com/joshuafairch)
 * [jviqueg](https://github.com/jviqueg)
 * [Kathy Pippert](https://github.com/PipKat)
 * [kmahajan-cadfem](https://github.com/kmahajan-cadfem)
@@ -44,6 +46,7 @@
 * [Paul P](https://github.com/TheGoldfish01)
 * [Pierre Lulé](https://github.com/plule-ansys)
 * [Rafael Canton](https://github.com/rafacanton)
+* [Rajesh Meena](https://github.com/MeenaBytes)
 * [Ramdane Lagha](https://github.com/rlagha)
 * [Revathy Venugopal](https://github.com/Revathyvenugopal162)
 * [Roberto Pastor Muela](https://github.com/RobPasMue)
