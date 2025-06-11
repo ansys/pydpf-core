@@ -31,7 +31,7 @@ import numpy as np
 from ansys import dpf
 from ansys.dpf.core import dimensionality, errors, meshed_region, scoping, time_freq_support
 from ansys.dpf.core.available_result import Homogeneity
-from ansys.dpf.core.check_version import server_meet_version_and_raise
+from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.core.common import (
     _get_size_of_list,
     locations,
@@ -807,6 +807,7 @@ class Field(_FieldBase):
         self._set_support(support=value, support_type="MESHED_REGION")
 
     @property
+    @version_requires("11.0")
     def header(self) -> DataTree:
         """Field Header, which stores metadata of the Field.
 
@@ -815,11 +816,6 @@ class Field(_FieldBase):
         :class:`ansys.dpf.core.data_tree.DataTree`
 
         """
-        server_meet_version_and_raise(
-            required_version="11.0",
-            server=self._server,
-            msg="Getting a Field Header requires DPF 11.0 (2026 R1) or above.",
-        )
         from ansys.dpf.core import dpf_operator
 
         op = dpf_operator.Operator("field::get_attribute", server=self._server)
