@@ -1219,7 +1219,9 @@ class element_types(Enum):
             ),
             element_types.Edge2: ElementDescriptor(element_types.Edge2, "Edge2", "edge2", "beam"),
             element_types.Edge3: ElementDescriptor(element_types.Edge3, "Edge3", "edge3", "beam"),
-            element_types.Beam3: ElementDescriptor(element_types.Beam3, "Beam3", "beam3", "beam"),
+            element_types.Beam3: ElementDescriptor(
+                element_types.Beam3, "Beam3", "beam3", "beam", 2, 0, 3, False, False, True, False
+            ),
             element_types.Beam4: ElementDescriptor(element_types.Beam4, "Beam4", "beam4", "beam"),
             element_types.GeneralPlaceholder: ElementDescriptor(
                 element_types.GeneralPlaceholder,
