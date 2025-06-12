@@ -28,6 +28,3 @@ PyDPF-Core API and data structures.
     :hidden:
 
     basic_maths.rst
-
-
-
