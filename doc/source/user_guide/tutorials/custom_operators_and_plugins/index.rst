@@ -2,37 +2,37 @@
 
 Custom Operators and Plugins
 ----------------------------
-The available DPF capabilities loaded in a DPF application can be enhanced
-by creating new operator’s libraries. DPF offers multiple development APIs
-depending on your environment.
+You can enhance and customize your DPF installation by creating new operators and libraries of operators, called 'plugins'.
 
-These tutorials demonstrate how to develop those plugins for PyDPF-Core (CPython based)
+DPF offers multiple development APIs depending on your environment.
+
+The following tutorials demonstrate how to develop such plugins using PyDPF-Core (CPython based) and how to use them.
 
 .. grid:: 1 1 3 3
     :gutter: 2
     :padding: 2
     :margin: 2
 
-    .. grid-item-card:: Create custom operators and plugins
-       :link: user_guide_custom_operators
+    .. grid-item-card:: Create a DPF plugin with a single operator
+       :link: tutorials_custom_operators_and_plugins_custom_operator
        :link-type: ref
        :text-align: center
 
-       This tutorial shows how to create, load and use a basic operator plugin, which is for a single custom operator
+       This tutorial shows how to create, load, and use a custom plugin containing a single custom operator.
 
-    .. grid-item-card:: Create a plug-in package with multiple operators
+    .. grid-item-card:: Create a DPF plugin with multiple operators
        :link: tutorials_others_custom_plug_ins_packages
        :link-type: ref
        :text-align: center
 
-       This tutorial shows how to create, load and use a custom plug-in package with multiple operators or with complex routines
+       This tutorial shows how to create, load, and use a custom plugin with multiple operators or with complex routines.
 
-    .. grid-item-card:: Create a plug-in package that has third-party dependencies
+    .. grid-item-card:: Create a custom DPF plugin with third-party dependencies using Python
        :link: tutorials_others_custom_plug_ins_packages_third_deps
        :link-type: ref
        :text-align: center
 
-       This tutorial shows how to create a Python plug-in package with third-party dependencies
+       This tutorial shows how to create a Python plug-in package with third-party dependencies.
 
 .. toctree::
     :maxdepth: 2

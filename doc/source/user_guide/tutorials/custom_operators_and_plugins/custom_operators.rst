@@ -1,4 +1,4 @@
-.. _user_guide_custom_operators:
+.. _tutorials_custom_operators_and_plugins_custom_operator:
 
 ================
 Custom operators
