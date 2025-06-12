@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -46,9 +46,7 @@ of a postprocessing workflow can be different when averaging and when not.
 # Import the necessary modules
 
 from ansys.dpf import core as dpf
-from ansys.dpf.core import operators as ops
-from ansys.dpf.core import examples
-
+from ansys.dpf.core import examples, operators as ops
 
 ###############################################################################
 # Load the simulation results from an RST file and create a model of it.
@@ -75,7 +73,7 @@ meshes.plot(text="Body meshes")
 ###############################################################################
 # Averaging across bodies with DPF
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# # To compare the results of averaging across bodies and not averaging,
+# To compare the results of averaging across bodies and not averaging,
 # define two workflows.
 # The variable of interest is the Von Mises stress field, which is
 # calculated by applying the ``eqv_fc`` operator on the
@@ -93,7 +91,7 @@ meshes.plot(text="Body meshes")
 #       ds [label="data_src", shape=box, style=filled, fillcolor=cadetblue2];
 #       stress [label="stress"];
 #       scp [label="split_on_property_type"];
-#       eln_to_n ["elemental_nodal_to_nodal_fc"];
+#       eln_to_n [label="elemental_nodal_to_nodal_fc"];
 #       vm [label="eqv_fc"];
 #       avg [label="weighted_merge_fields_by_label"];
 #       subgraph cluster_1 {

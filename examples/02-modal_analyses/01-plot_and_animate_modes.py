@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -32,8 +32,7 @@ and how to plot and animate them.
 """
 
 from ansys.dpf import core as dpf
-from ansys.dpf.core import animation
-from ansys.dpf.core import examples
+from ansys.dpf.core import animation, examples
 
 ###############################################################################
 # Retrieve mode shapes
@@ -73,4 +72,6 @@ for freq_set in freq_scoping:
 # To suppress window pop-up, set the `off_screen` argument to True.
 # ~~~~~~~~~~~~~~~~~~~~
 
-animation.animate_mode(disp, mode_number=1, save_as="tmp.gif", off_screen=True)
+animation.animate_mode(
+    disp, mode_number=1, save_as="tmp.gif", off_screen=True, deform_scale_factor=10.0
+)

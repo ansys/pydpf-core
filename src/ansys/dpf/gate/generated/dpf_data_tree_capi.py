@@ -144,10 +144,73 @@ class DpfDataTreeCAPI(dpf_data_tree_abstract_api.DpfDataTreeAbstractAPI):
 		return res
 
 	@staticmethod
+	def dpf_data_tree_get_int_attribute_with_check(data_tree, attribute_name, value, value_found):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.DpfDataTree_getIntAttributeWithCheck(data_tree._internal_obj if data_tree is not None else None, utils.to_char_ptr(attribute_name), utils.to_int32_ptr(value), value_found, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def dpf_data_tree_get_unsigned_int_attribute_with_check(data_tree, attribute_name, value, value_found):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.DpfDataTree_getUnsignedIntAttributeWithCheck(data_tree._internal_obj if data_tree is not None else None, utils.to_char_ptr(attribute_name), value, value_found, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def dpf_data_tree_get_double_attribute_with_check(data_tree, attribute_name, value, value_found):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.DpfDataTree_getDoubleAttributeWithCheck(data_tree._internal_obj if data_tree is not None else None, utils.to_char_ptr(attribute_name), utils.to_double_ptr(value), value_found, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def dpf_data_tree_get_string_attribute_with_check(data_tree, attribute_name, data, size, value_found):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.DpfDataTree_getStringAttributeWithCheck(data_tree._internal_obj if data_tree is not None else None, utils.to_char_ptr(attribute_name), utils.to_char_ptr_ptr(data), utils.to_int32_ptr(size), value_found, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def dpf_data_tree_get_vec_int_attribute_with_check(data_tree, attribute_name, data, size, value_found):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.DpfDataTree_getVecIntAttributeWithCheck(data_tree._internal_obj if data_tree is not None else None, utils.to_char_ptr(attribute_name), utils.to_int32_ptr_ptr(data), utils.to_int32_ptr(size), value_found, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def dpf_data_tree_get_vec_double_attribute_with_check(data_tree, attribute_name, data, size, value_found):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.DpfDataTree_getVecDoubleAttributeWithCheck(data_tree._internal_obj if data_tree is not None else None, utils.to_char_ptr(attribute_name), utils.to_double_ptr_ptr(data), utils.to_int32_ptr(size), value_found, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def dpf_data_tree_get_string_collection_attribute(data_tree, attribute_name):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.DpfDataTree_getStringCollectionAttribute(data_tree._internal_obj if data_tree is not None else None, utils.to_char_ptr(attribute_name), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def dpf_data_tree_get_string_collection_attribute_with_check(data_tree, attribute_name, value_found):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.DpfDataTree_getStringCollectionAttributeWithCheck(data_tree._internal_obj if data_tree is not None else None, utils.to_char_ptr(attribute_name), value_found, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res

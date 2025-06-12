@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -36,6 +36,7 @@ This example provides an overview of the LS-DYNA results providers.
 """
 
 import matplotlib.pyplot as plt
+
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
@@ -183,12 +184,12 @@ FX = FC.select_component(0)
 FY = FC.select_component(1)
 FZ = FC.select_component(2)
 
-plt.plot(t_vals, FX.get_field({"interface": 19, "idtype": 0}).data, label="FX, slave")
-plt.plot(t_vals, FX.get_field({"interface": 19, "idtype": 1}).data, label="FX, master")
-plt.plot(t_vals, FY.get_field({"interface": 19, "idtype": 0}).data, label="FY, slave")
-plt.plot(t_vals, FY.get_field({"interface": 19, "idtype": 1}).data, label="FY, master")
-plt.plot(t_vals, FZ.get_field({"interface": 19, "idtype": 0}).data, label="FZ, slave")
-plt.plot(t_vals, FZ.get_field({"interface": 19, "idtype": 1}).data, label="FZ, master")
+plt.plot(t_vals, FX.get_field({"interface": 19, "idtype": 0}).data, label="FX, master")
+plt.plot(t_vals, FX.get_field({"interface": 19, "idtype": 1}).data, label="FX, slave")
+plt.plot(t_vals, FY.get_field({"interface": 19, "idtype": 0}).data, label="FY, master")
+plt.plot(t_vals, FY.get_field({"interface": 19, "idtype": 1}).data, label="FY, slave")
+plt.plot(t_vals, FZ.get_field({"interface": 19, "idtype": 0}).data, label="FZ, master")
+plt.plot(t_vals, FZ.get_field({"interface": 19, "idtype": 1}).data, label="FZ, slave")
 plt.xlabel("Time ({:s})".format(t_field.unit))
 plt.xlim([0, 10])
 plt.ylabel("Contact Force ({:s})".format(FX.get_field({"interface": 19, "idtype": 0}).unit))

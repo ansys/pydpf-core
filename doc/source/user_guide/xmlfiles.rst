@@ -111,7 +111,7 @@ element, for example, would only be used with a debug version of the
 The element names for plugins, such as ``<native>`` and ``<fem_utils>``, are used as 
 **keys** when loading plugins. Each plugin must have a unique key.
 
-The element for each plug-in has child elements:
+The element for each plugin has child elements:
 
 - ``<Path>``: Contains the location of the plugin to load. The normal mechanism
   that the operating system uses to find a DLL or SO file is used. The DLL

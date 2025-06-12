@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -21,22 +21,19 @@
 # SOFTWARE.
 
 """
-time_freq_scoping_factory
-=========================
+time_freq_scoping_factory.
 
 Contains functions to simplify creating time frequency scopings.
 """
 
-from ansys.dpf.core import Scoping
-from ansys.dpf.core import errors as dpf_errors
-from ansys.dpf.core.common import locations
-from ansys.dpf.core.model import Model
-from ansys.dpf.core.time_freq_support import TimeFreqSupport
-from ansys.dpf.core.data_sources import DataSources
-from ansys.dpf.core.operators.metadata import time_freq_provider
-
-from ansys.dpf.core import types
 from typing import Union
+
+from ansys.dpf.core import Scoping, errors as dpf_errors, types
+from ansys.dpf.core.common import locations
+from ansys.dpf.core.data_sources import DataSources
+from ansys.dpf.core.model import Model
+from ansys.dpf.core.operators.metadata import time_freq_provider
+from ansys.dpf.core.time_freq_support import TimeFreqSupport
 
 
 def scoping_by_load_step(load_step: int, server=None):
@@ -188,12 +185,15 @@ def scoping_by_step_and_substep_from_model(load_step_id, subset_id, model, serve
     Returns
     -------
     scoping : Scoping
-        Scoping based on a given step/substep of a model's time_freq_support."""
+        Scoping based on a given step/substep of a model's time_freq_support.
+    """
     return scoping_by_step_and_substep(load_step_id, subset_id, model.metadata.time_freq_support)
 
 
 def scoping_on_all_time_freqs(obj: Union[TimeFreqSupport, Model, DataSources]):
-    """Create a specific :class:`ansys.dpf.core.Scoping` with all time or
+    """Create a Scoping with all time or frequency sets.
+
+    Create a specific :class:`ansys.dpf.core.Scoping` with all time or
     frequency sets of a :class:`ansys.dpf.core.TimeFreqSupport` or a class:`ansys.dpf.core.Model`
 
     Parameters

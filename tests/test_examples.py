@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -22,14 +22,12 @@
 
 """Verify all examples can be accessed or downloaded"""
 
-import os.path
+from pathlib import Path
 
 import pytest
 
 from ansys.dpf import core as dpf
-from ansys.dpf.core import Model
-from ansys.dpf.core import DataSources
-from ansys.dpf.core import examples
+from ansys.dpf.core import DataSources, Model, examples
 
 
 def test_download_all_kinds_of_complexity_modal():
@@ -152,12 +150,12 @@ def test_find_examples(example, server_type_remote_process):
 
 
 def test_delete_downloaded_files():
-    path = examples.download_multi_stage_cyclic_result(return_local_path=True)
-    assert os.path.exists(path)
+    path = Path(examples.download_multi_stage_cyclic_result(return_local_path=True))
+    assert path.exists()
     examples.delete_downloads(verbose=False)
-    assert not os.path.exists(path)
-    path = examples.download_multi_stage_cyclic_result(return_local_path=True)
-    assert os.path.exists(path)
+    assert not path.exists()
+    path = Path(examples.download_multi_stage_cyclic_result(return_local_path=True))
+    assert path.exists()
 
 
 def test_get_example_required_minimum_dpf_version(tmp_path):
@@ -194,3 +192,15 @@ from ansys.dpf import core as dpf
     p = tmp_path / "test_example_version_1.py"
     p.write_text(example_header)
     assert examples.get_example_required_minimum_dpf_version(p) == "0.0"
+
+
+def test_download_easy_statistics():
+    assert Path(examples.download_easy_statistics(return_local_path=True)).exists()
+
+
+def test_download_average_filter_plugin():
+    assert Path(examples.download_average_filter_plugin(return_local_path=True)).exists()
+
+
+def test_download_gltf_plugin():
+    assert Path(examples.download_gltf_plugin(return_local_path=True)).exists()

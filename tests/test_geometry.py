@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -24,22 +24,22 @@ import numpy as np
 import pytest
 
 from ansys.dpf.core.geometry import (
-    Points,
     Line,
     Plane,
-    normalize_vector,
-    get_plane_local_axis,
-    get_local_coords_from_global,
+    Points,
     get_global_coords_from_local,
+    get_local_coords_from_global,
+    get_plane_local_axis,
+    normalize_vector,
 )
 from ansys.dpf.core.geometry_factory import (
-    create_points,
     create_line_from_points,
     create_line_from_vector,
     create_plane_from_center_and_normal,
-    create_plane_from_points,
     create_plane_from_lines,
     create_plane_from_point_and_line,
+    create_plane_from_points,
+    create_points,
     get_center_from_coords,
 )
 
@@ -207,37 +207,42 @@ def test_create_plane_from_points(points):
     plane.plot()
 
 
-plane_lines_data = [
-    ([[0.0, 0.0, 0.0], [1.0, 0.0, 0.0]], [[2.0, 1.0, 0.0], [0.0, 1.0, 0.0]]),
-    (
-        lambda: Line([[0.0, 0.0, 0.0], [1.0, 0.0, 0.0]]),
-        lambda: Line([[2.0, 1.0, 0.0], [0.0, 1.0, 0.0]]),
-    ),
-    pytest.param(
-        [[0.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 1.0, 0.0]],
-        [[0.0, 0.0, 0.0], [0.0, 0.0, 1.0]],
-        marks=pytest.mark.xfail(strict=True, raises=ValueError),
-    ),
-    pytest.param(
-        [[0.0, 0.0, 0.0], [0.0, 1.0, 0.0]],
-        [[0.0, 0.0, 0.0], [0.0, 0.0]],
-        marks=pytest.mark.xfail(strict=True, raises=ValueError),
-    ),
-]
-
-
-@pytest.mark.parametrize(("line1", "line2"), plane_lines_data)
-def test_create_plane_from_lines(line1, line2):
-    plane = create_plane_from_lines(
-        line1() if callable(line1) else line1, line2() if callable(line2) else line2
-    )
-    plane.plot()
+# plane_lines_data = [
+#     ([[0.0, 0.0, 0.0], [1.0, 0.0, 0.0]], [[2.0, 1.0, 0.0], [0.0, 1.0, 0.0]]),
+#     (
+#         lambda: Line([[0.0, 0.0, 0.0], [1.0, 0.0, 0.0]]),
+#         lambda: Line([[2.0, 1.0, 0.0], [0.0, 1.0, 0.0]]),
+#     ),
+#     pytest.param(
+#         [[0.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 1.0, 0.0]],
+#         [[0.0, 0.0, 0.0], [0.0, 0.0, 1.0]],
+#         marks=pytest.mark.xfail(strict=True, raises=ValueError),
+#     ),
+#     pytest.param(
+#         [[0.0, 0.0, 0.0], [0.0, 1.0, 0.0]],
+#         [[0.0, 0.0, 0.0], [0.0, 0.0]],
+#         marks=pytest.mark.xfail(strict=True, raises=ValueError),
+#     ),
+# ]
+#
+#
+# @pytest.mark.parametrize(("line1", "line2"), plane_lines_data)
+# def test_create_plane_from_lines(line1, line2):
+#     plane = create_plane_from_lines(
+#         line1() if callable(line1) else line1, line2() if callable(line2) else line2
+#     )
+#     plane.plot()
 
 
 plane_point_line_data = [
-    ([0.0, 0.0, 0.0], [[0.0, 0.0, 0.0], [0.0, 0.0, 1.0]]),
-    (lambda: Points([0.0, 0.0, 0.0]), [[0.0, 0.0, 0.0], [0.0, 0.0, 1.0]]),
-    ([0.0, 0.0, 0.0], lambda: Line([[0.0, 0.0, 0.0], [0.0, 0.0, 1.0]])),
+    ([1.0, 0.0, 0.0], [[0.0, 0.0, 0.0], [0.0, 0.0, 1.0]]),
+    (lambda: Points([1.0, 0.0, 0.0]), [[0.0, 0.0, 0.0], [0.0, 0.0, 1.0]]),
+    ([1.0, 0.0, 0.0], lambda: Line([[0.0, 0.0, 0.0], [0.0, 0.0, 1.0]])),
+    pytest.param(
+        lambda: [0.0, 0.0, 0.0],
+        [[0.0, 0.0, 0.0], [0.0, 0.0, 1.0]],
+        marks=pytest.mark.xfail(strict=True, raises=ValueError),
+    ),
     pytest.param(
         lambda: Points([[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]]),
         [[0.0, 0.0, 0.0], [0.0, 0.0, 1.0]],

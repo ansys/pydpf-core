@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -20,18 +20,21 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import numpy as np
-import pytest
 import copy
 import gc
+
+import numpy as np
+import pytest
+
 from ansys import dpf
-import conftest
 from ansys.dpf import core
-from ansys.dpf.core import FieldDefinition
-from ansys.dpf.core import operators as ops
-from ansys.dpf.core.common import locations, shell_layers
-from conftest import running_docker, SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0
+from ansys.dpf.core import FieldDefinition, operators as ops
+from ansys.dpf.core.available_result import Homogeneity
 from ansys.dpf.core.check_version import server_meet_version
+from ansys.dpf.core.common import locations, shell_layers
+from ansys.dpf.gate.errors import DPFServerException, DpfVersionNotSupported
+import conftest
+from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0, running_docker
 
 
 @pytest.fixture()
@@ -515,6 +518,34 @@ def test_create_and_update_field_definition(server_type):
         assert fieldDef.location is None
     fieldDef.location = locations.nodal
     assert fieldDef.location == locations.nodal
+
+
+def test_field_definition_quantity_type(server_type):
+    fieldDef = FieldDefinition(server=server_type)
+
+    # Testing the setter
+    qt = "my_quantity_type"
+    fieldDef.add_quantity_type(qt)
+
+    # Testing the getter
+    assert fieldDef.quantity_types[0] == qt
+
+    # Adding a second quantity type
+    qt2 = "another_quantity_type"
+    fieldDef.add_quantity_type(qt2)
+
+    # Testing the getter again
+    assert fieldDef.quantity_types[1] == qt2
+
+    # Testing the getter with an index out of range
+    with pytest.raises(Exception):
+        fieldDef.quantity_types[2]
+
+    # Getting the number of available quantity types
+    assert fieldDef.num_quantity_types() == 2
+
+    # Checking if the field definition is of a given quantity type
+    assert fieldDef.is_of_quantity_type(qt)
 
 
 @conftest.raises_for_servers_version_under("4.0")
@@ -1388,3 +1419,28 @@ def test_deep_copy_big_field_remote(server_type, server_type_remote_process):
 
     out = dpf.core.core._deep_copy(field_a, server_type_remote_process)
     assert np.allclose(out.data, data)
+
+
+def test_set_units(server_type):
+    data = np.random.random(100)
+    field = dpf.core.field_from_array(data)
+    # use string setter with recognized string
+    field.unit = "m"
+    assert field.unit == "m"
+
+    if server_meet_version("11.0", server_type):
+        # use tuple(Homogeneity, string) setter
+        field.unit = (Homogeneity.dimensionless, "sones")
+        assert field.unit == "sones"
+    else:
+        with pytest.raises(DpfVersionNotSupported):
+            # use tuple(Homogeneity, string) setter
+            field.unit = (Homogeneity.dimensionless, "sones")
+
+    # use unrecognized string
+    with pytest.raises(DPFServerException):
+        field.unit = "sones"
+
+    # use wrong type of arguments
+    with pytest.raises(ValueError):
+        field.unit = 1.0

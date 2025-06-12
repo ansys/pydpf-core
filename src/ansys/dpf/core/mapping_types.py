@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -19,24 +19,32 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
+"""Provides utilities for mapping and transforming data types between Python and C++ representations."""
 
-import sys
+from enum import Enum  # noqa: F401  # pylint: disable=W0611
 import inspect
+from pathlib import Path  # noqa: F401  # pylint: disable=W0611
+import sys
 
-## to do : change that one the module is done
-from ansys.dpf.core.meshed_region import *  # noqa: F401, F403
-from ansys.dpf.core.available_result import *  # noqa: F401, F403
-from ansys.dpf.core.data_sources import *  # noqa: F401, F403
-from ansys.dpf.core.field import *  # noqa: F401, F403
-from ansys.dpf.core.fields_container import *  # noqa: F401, F403
-from ansys.dpf.core.scoping import *  # noqa: F401, F403
-from ansys.dpf.core.time_freq_support import *  # noqa: F401, F403
+# Import types to map to cpp (camel case to snake case)
+from ansys.dpf.core.available_result import (  # noqa: F401  # pylint: disable=W0611
+    AvailableResult,
+    Homogeneity,
+)
+from ansys.dpf.core.collection_base import CollectionBase  # noqa: F401  # pylint: disable=W0611
 from ansys.dpf.core.common import (
-    _smart_dict_camel,
     _camel_to_snake_case,
+    _smart_dict_camel,
     _snake_to_camel_case,
 )
-
+from ansys.dpf.core.data_sources import DataSources  # noqa: F401  # pylint: disable=W0611
+from ansys.dpf.core.dpf_array import DPFArray  # noqa: F401  # pylint: disable=W0611
+from ansys.dpf.core.field import Field, FieldDefinition  # noqa: F401  # pylint: disable=W0611
+from ansys.dpf.core.fields_container import FieldsContainer  # noqa: F401  # pylint: disable=W0611
+from ansys.dpf.core.meshed_region import MeshedRegion  # noqa: F401  # pylint: disable=W0611
+from ansys.dpf.core.scoping import Scoping  # noqa: F401  # pylint: disable=W0611
+from ansys.dpf.core.support import Support  # noqa: F401  # pylint: disable=W0611
+from ansys.dpf.core.time_freq_support import TimeFreqSupport  # noqa: F401  # pylint: disable=W0611
 
 map_types_to_cpp = _smart_dict_camel()
 for classes in inspect.getmembers(sys.modules[__name__], inspect.isclass):
@@ -63,5 +71,8 @@ class _smart_dict_snake(dict):
 map_types_to_python = _smart_dict_snake()
 for k, v in map_types_to_cpp.items():
     map_types_to_python[v] = k
-map_types_to_python["vector<double>"] = "list"
+map_types_to_python["vector<bool>"] = "list[bool]"
+map_types_to_python["vector<int32>"] = "list[int]"
+map_types_to_python["vector<double>"] = "list[float]"
+map_types_to_python["vector<string>"] = "list[str]"
 map_types_to_python["b"] = "bool"

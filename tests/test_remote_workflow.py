@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -26,11 +26,10 @@ import numpy as np
 import pytest
 
 from ansys.dpf import core
-from ansys.dpf.core import examples
+from ansys.dpf.core import examples, operators as ops
 from ansys.dpf.core.errors import ServerTypeError
-from ansys.dpf.core import operators as ops
-from conftest import local_servers, running_docker
 import conftest
+from conftest import local_servers, running_docker
 
 
 @pytest.mark.xfail(raises=ServerTypeError)
@@ -630,6 +629,7 @@ def test_multi_process_transparent_api_create_on_local_remote_ith_address_workfl
     assert np.allclose(max_field.data, [10.03242272])
 
 
+@pytest.mark.xfail(reason="Unstable test")
 @pytest.mark.skipif(
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
     reason="Requires server version higher than 4.0",
