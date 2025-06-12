@@ -1,6 +1,6 @@
 from ansys.dpf import core as dpf
 from ansys.dpf.core.changelog import Changelog
-from ansys.dpf.core.custom_operator import CustomOperatorBase, record_operator  # noqa: F401
+from ansys.dpf.core.custom_operator import CustomOperatorBase
 from ansys.dpf.core.operator_specification import CustomSpecification, SpecificationProperties, \
     PinSpecification
 
@@ -28,12 +28,12 @@ class CustomOperator(CustomOperatorBase):
         spec.description = "What the Operator does. You can use MarkDown and LaTeX in descriptions."
         # Define the inputs of the operator if any
         spec.inputs = {
-            0: PinSpecification(name="name_of_input_0", type_names=[dpf.Field, dpf.FieldsContainer],
+            0: PinSpecification(name="input_0", type_names=[dpf.Field, dpf.FieldsContainer],
                                 document="Describe input pin 0."),
         }
         # Define the outputs of the operator if any
         spec.outputs = {
-            0: PinSpecification(name="name_of_output_0", type_names=[dpf.Field], document="Describe output pin 0."),
+            0: PinSpecification(name="output_0", type_names=[dpf.Field], document="Describe output pin 0."),
         }
         # Define the properties of the operator if any
         spec.properties = SpecificationProperties(
@@ -73,7 +73,7 @@ class CustomOperator(CustomOperatorBase):
         # # If the input is optional, set its default value
         # # If the input is not optional and empty, raise an error
         if field is None:
-            raise ValueError("my_custom_operator: mandatory input name_of_input_0 is empty or of an unsupported type.")
+            raise ValueError("my_custom_operator: mandatory input 'input_0' is empty or of an unsupported type.")
 
         # Perform some operations on the data
         field.name = "new_field_name"
@@ -83,3 +83,8 @@ class CustomOperator(CustomOperatorBase):
 
         # And declare the operator run a success
         self.set_succeeded()
+
+
+def load_operators(*args):
+    from ansys.dpf.core.custom_operator import record_operator
+    record_operator(operator_type=CustomOperator, *args)

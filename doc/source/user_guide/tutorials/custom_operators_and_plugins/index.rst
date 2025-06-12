@@ -28,6 +28,8 @@ For more information, see :ref:`ref_user_guide_operators`.
 
 The following tutorials demonstrate how to develop such plugins using PyDPF-Core (CPython based) and how to use them.
 
+For comprehensive examples on writing operator plugins, see :ref:`python_operators`.
+
 .. grid:: 1 1 3 3
     :gutter: 2
     :padding: 2
