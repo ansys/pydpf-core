@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2024 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -59,9 +59,8 @@ file at the given path.
 
 import os
 
-from ansys.dpf.core import examples
 from ansys.dpf import core as dpf
-
+from ansys.dpf.core import examples
 
 print("\033[1m gltf_plugin")
 file_list = [
