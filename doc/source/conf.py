@@ -130,7 +130,7 @@ typehints_defaults = "comma"
 typehints_use_signature = True
 simplify_optional_unions = False
 suppress_warnings = ['autosectionlabel.*']
-
+autosectionlabel_prefix_document = True
 # Intersphinx mapping
 intersphinx_mapping = {
     "pyvista": ("https://docs.pyvista.org/", None),
