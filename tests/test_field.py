@@ -44,6 +44,13 @@ def stress_field(allkindofcomplexity, server_type):
     return stress.outputs.fields_container()[0]
 
 
+@pytest.fixture()
+def strain_field(allkindofcomplexity, server_type):
+    model = dpf.core.Model(allkindofcomplexity, server=server_type)
+    strain = model.results.elastic_strain()
+    return strain.outputs.fields_container()[0]
+
+
 def test_create_field(server_type):
     field = dpf.core.Field(server=server_type)
     assert field._internal_obj is not None
@@ -1444,3 +1451,17 @@ def test_set_units(server_type):
     # use wrong type of arguments
     with pytest.raises(ValueError):
         field.unit = 1.0
+
+
+def test_field_header(strain_field):
+    if server_meet_version("11.0", strain_field._server):
+        header = strain_field.header
+        assert header.has("version")
+        assert header.get_as("version", core.types.int) == 0
+        assert header.has("effnu")
+        assert header.get_as("effnu", core.types.double) == pytest.approx(0.33)
+        assert header.has("strain")
+        assert header.get_as("strain", core.types.int) == 1
+    else:
+        with pytest.raises(DpfVersionNotSupported):
+            header = strain_field.header
