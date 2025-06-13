@@ -1,0 +1,199 @@
+
+
+
+
+
+
+:class:`GenericSupport`
+=======================
+
+
+.. py:class:: ansys.dpf.core.generic_support.GenericSupport(name: str = '', generic_support=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.support.Support`
+
+
+   Can support a location or label to describe its domain with its scope and properties.
+
+   :param generic_support:
+   :type generic_support: ctypes.c_void_p, ansys.grpc.dpf.tgeneric_support_pb2.GenericSupport
+   :param server: Server with the channel connected to the remote or local instance.
+                  The default is ``None``, in which case an attempt is made to use the
+                  global server.
+   :type server: ansys.dpf.core.server, optional
+
+   .. rubric:: Examples
+
+   Create a generic support.
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import GenericSupport
+   >>> support = GenericSupport("phase")
+   >>> field = dpf.Field(location="phase", nature=dpf.natures.scalar)
+   >>> support.set_support_of_property("viscosity", field)
+   >>> field = dpf.StringField()
+   >>> support.set_support_of_property("names", field)
+   >>> field = dpf.PropertyField(location="phase", nature=dpf.natures.scalar)
+   >>> support.set_support_of_property("type", field)
+   >>> support.available_field_supported_properties()
+   ['viscosity']
+   >>> support.available_string_field_supported_properties()
+   ['names']
+   >>> support.available_prop_field_supported_properties()
+   ['type']
+   >>> field = support.field_support_by_property("viscosity")
+
+   .. rubric:: Notes
+
+   Class available with server's version starting at 5.0 (Ansys 2023R1).
+
+
+
+
+.. py:currentmodule:: GenericSupport
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~set_support_of_property`
+            - Support a Property by Field data.
+          * - :py:attr:`~field_support_by_property`
+            - Return a Field supporting (describing) a given property.
+          * - :py:attr:`~prop_field_support_by_property`
+            - Return a PropertyField supporting (describing) a given property.
+          * - :py:attr:`~string_field_support_by_property`
+            - Return a StringField supporting (describing) a given property.
+          * - :py:attr:`~available_field_supported_properties`
+            - Return the list of property names supported by a Field.
+          * - :py:attr:`~available_prop_field_supported_properties`
+            - Return the list of property names supported by a PropertyField.
+          * - :py:attr:`~available_string_field_supported_properties`
+            - Return the list of property names supported by a StringField.
+
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__del__`
+            - Clean up resources associated with the instance.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.generic_support import GenericSupport
+
+
+
+Method detail
+-------------
+
+.. py:method:: set_support_of_property(property_name: str, field_support) -> None
+
+   Support a Property by Field data.
+
+   :param property_name: Name of the Property.
+   :type property_name: str
+   :param field_support: Data supporting this property.
+   :type field_support: Field, PropertyField, StringField
+
+
+.. py:method:: field_support_by_property(property_name: str)
+
+   Return a Field supporting (describing) a given property.
+
+   :rtype: Field
+
+   .. rubric:: Notes
+
+   Available with server's version starting at 5.0.
+
+
+.. py:method:: prop_field_support_by_property(property_name: str)
+
+   Return a PropertyField supporting (describing) a given property.
+
+   :rtype: PropertyField
+
+   .. rubric:: Notes
+
+   Available with server's version starting at 5.0.
+
+
+.. py:method:: string_field_support_by_property(property_name: str)
+
+   Return a StringField supporting (describing) a given property.
+
+   :rtype: StringField
+
+   .. rubric:: Notes
+
+   Available with server's version starting at 5.0.
+
+
+.. py:method:: available_field_supported_properties()
+
+   Return the list of property names supported by a Field.
+
+   :rtype: list
+
+   .. rubric:: Notes
+
+   Available with server's version starting at 5.0.
+
+
+.. py:method:: available_prop_field_supported_properties()
+
+   Return the list of property names supported by a PropertyField.
+
+   :rtype: list
+
+   .. rubric:: Notes
+
+   Available with server's version starting at 5.0.
+
+
+.. py:method:: available_string_field_supported_properties()
+
+   Return the list of property names supported by a StringField.
+
+   :rtype: list
+
+   .. rubric:: Notes
+
+   Available with server's version starting at 5.0.
+
+
+.. py:method:: __del__()
+
+   Clean up resources associated with the instance.
+
+   This method calls the deleter function to release resources. If an exception
+   occurs during deletion, a warning is issued.
+
+   :raises Warning: If an exception occurs while attempting to delete resources.
+
+
+
+
+
