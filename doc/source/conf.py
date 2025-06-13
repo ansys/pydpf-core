@@ -129,7 +129,6 @@ redirects = {
 typehints_defaults = "comma"
 typehints_use_signature = True
 simplify_optional_unions = False
-suppress_warnings = ['autosectionlabel.*']
 autosectionlabel_prefix_document = True
 # Intersphinx mapping
 intersphinx_mapping = {
@@ -251,6 +250,9 @@ suppress_warnings = [
     "design.grid",
     "config.cache",
     "design.fa-build",
+    "autosectionlabel.*",
+    "ref.python",
+    "toc.not_included"
 ]
 
 # Add any paths that contain custom static files (such as style sheets) here,
