@@ -87,4 +87,4 @@ class CustomOperator(CustomOperatorBase):
 
 def load_operators(*args):
     from ansys.dpf.core.custom_operator import record_operator
-    record_operator(operator_type=CustomOperator, *args)
+    record_operator(CustomOperator, *args)

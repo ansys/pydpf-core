@@ -103,6 +103,7 @@ First, start a server in gRPC mode, which is the only server type supported for 
 
 .. jupyter-execute::
 
+    import os
     import ansys.dpf.core as dpf
 
     # Python plugins are not supported in process.
@@ -118,7 +119,7 @@ With the server and custom plugin ready, use the :func:`load_library() <ansys.dp
 .. jupyter-execute::
 
     dpf.load_library(
-        filename=r".",  # Look into the current directory
+        filename=os.getcwd(),  # Look into the current directory
         name="py_custom_operator_example",  # Look for a Python file named 'custom_operator_example.py'
         symbol="load_operators",  # Look for the entry-point where operators are recorded
         server=server,  # Load the plugin on the server previously started
