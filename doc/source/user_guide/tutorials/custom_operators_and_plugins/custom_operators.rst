@@ -45,6 +45,7 @@ First, create the custom operator class, with necessary imports and a first prop
     :end-at: return "my_custom_operator"
 
 Next, set the `specification` property of your operator with:
+
 - a description of what the operator does
 - a dictionary for each input and output pin. This dictionary includes the name, a list of supported types, a description,
   and whether it is optional and/or ellipsis (meaning that the specification is valid for pins going from pin
