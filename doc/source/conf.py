@@ -222,38 +222,28 @@ html_theme_options = {
         "minMatchCharLength": 2,
         "ignoreLocation": True,
     },
-    # "ansys_sphinx_theme_autoapi": {
-    #     "project": project,
-    #     "output": "api",
-    #     "directory": "src/ansys",
-    #     "use_implicit_namespaces": True,
-    #     "keep_files": True,
-    #     "own_page_level": "class",
-    #     "type": "python",
-    #     "options": [
-    #         "inherited-members",
-    #         "members",
-    #         "undoc-members",
-    #         "show-inheritance",
-    #         "show-module-summary",
-    #         "special-members",
-    #     ],
-    #     "class_content": "class",
-    #     "ignore": autoapi_ignore_list,
-    #     "add_toctree_entry": True,
-    #     "member_order": "bysource",
-    # }
+    "ansys_sphinx_theme_autoapi": {
+        "project": project,
+        "output": "api",
+        "directory": "src/ansys",
+        "use_implicit_namespaces": True,
+        "keep_files": True,
+        "own_page_level": "class",
+        "type": "python",
+        "options": [
+            "inherited-members",
+            "members",
+            "undoc-members",
+            "show-inheritance",
+            "show-module-summary",
+            "special-members",
+        ],
+        "class_content": "class",
+        "ignore": autoapi_ignore_list,
+        "add_toctree_entry": True,
+        "member_order": "bysource",
+    }
 }
-
-autoapi_dirs = ["../../src/ansys"]
-autoapi_ignore = autoapi_ignore_list
-autoapi_type = "python"
-autoapi_keep_files = True
-autoapi_own_page_level = "class"
-autoapi_python_use_implicit_namespaces = True
-autoapi_member_order = "bysource"
-autoapi_root = "api"
-autoapi_python_class_content = "class"
 
 # Configuration for Sphinx autoapi
 suppress_warnings = [
@@ -390,8 +380,7 @@ jinja_contexts = {
 # Optionally exclude api or example documentation generation.
 BUILD_API = True if os.environ.get("BUILD_API", "true") == "true" else False
 if BUILD_API:
-    # extensions.extend(["ansys_sphinx_theme.extension.autoapi"])
-    extensions.extend(["autoapi.extension"])
+    extensions.extend(["ansys_sphinx_theme.extension.autoapi"])
 
 BUILD_EXAMPLES = True if os.environ.get("BUILD_EXAMPLES", "true") == "true" else False
 if BUILD_EXAMPLES:
