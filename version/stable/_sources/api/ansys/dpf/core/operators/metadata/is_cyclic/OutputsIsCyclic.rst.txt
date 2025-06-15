@@ -1,0 +1,105 @@
+
+
+
+
+
+
+:class:`OutputsIsCyclic`
+========================
+
+.. py:class:: ansys.dpf.core.operators.metadata.is_cyclic.OutputsIsCyclic(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   is_cyclic operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.is_cyclic()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_file_path = op.outputs.file_path()
+
+
+
+
+
+.. py:currentmodule:: OutputsIsCyclic
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~file_path`
+            - Allows to get file_path output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.metadata.is_cyclic import OutputsIsCyclic
+
+Property detail
+---------------
+
+.. py:property:: file_path
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get file_path output of the operator
+
+   returns 'single_stage' or 'multi_stage' or an empty string for non cyclic model
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.is_cyclic()
+   >>> # Get the output from op.outputs. ...
+   >>> result_file_path = op.outputs.file_path()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

@@ -1,0 +1,78 @@
+
+
+
+
+
+
+The ``dimensionality.py`` module
+================================
+
+.. py:module:: ansys.dpf.core.dimensionality
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+
+
+.. py:currentmodule:: dimensionality
+.. tab-set::
+
+
+
+
+    .. tab-item:: Classes
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.dimensionality.Dimensionality`
+            - Represents the dimensionality of a field.
+
+
+
+
+
+
+
+
+
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-cod-symbol_class"></span> Dimensionality</api/ansys/dpf/core/dimensionality/Dimensionality>
+
+
+
+
+
+
+
+
+
+Description
+-----------
+
+Dimensionality.
+
+
+
+
+
+
+
+
