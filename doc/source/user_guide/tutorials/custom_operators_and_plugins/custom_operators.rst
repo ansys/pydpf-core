@@ -136,7 +136,7 @@ Once the plugin is loaded, you can instantiate the custom operator based on its 
 
 .. jupyter-execute::
 
-    my_custom_op = dpf.Operator(name="my_custom_operator") # as returned by the ``name`` property
+    my_custom_op = dpf.Operator(name="my_custom_operator", server=server) # as returned by the ``name`` property
     print(my_custom_op)
 
 Finally, run it as any other operator.
@@ -144,7 +144,7 @@ Finally, run it as any other operator.
 .. jupyter-execute::
 
     # Create a bogus field to use as input
-    in_field = dpf.Field()
+    in_field = dpf.Field(server=server)
     # Give it a name
     in_field.name = "initial name"
     print(in_field)
