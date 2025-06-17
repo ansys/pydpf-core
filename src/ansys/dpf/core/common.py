@@ -28,10 +28,15 @@ import sys
 from typing import Dict
 
 from ansys.dpf.core.misc import module_exists
-from ansys.dpf.gate.common import ProgressBarBase, locations  # noqa: F401
+from ansys.dpf.gate.common import (
+    ProgressBarBase,  # noqa: F401
+    locations as locations_gate,
+)
 from ansys.dpf.gate.dpf_vector import (  # noqa: F401
     get_size_of_list as _get_size_of_list,
 )
+
+locations = locations_gate
 
 
 def _camel_to_snake_case(name):
