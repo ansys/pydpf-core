@@ -36,7 +36,43 @@ from ansys.dpf.gate.dpf_vector import (  # noqa: F401
     get_size_of_list as _get_size_of_list,
 )
 
-locations = locations_gate
+
+class locations(locations_gate, Enum):
+    """Contains strings for scoping and field locations.
+
+    Attributes
+    ----------
+    none = "none"
+
+    elemental = "Elemental"
+        data is one per element
+
+    elemental_nodal = "ElementalNodal"
+        one per node per element
+
+    nodal = "Nodal"
+        one per node
+
+    time_freq = "TimeFreq_sets"
+        one per time set
+
+    overall = "overall"
+        applies everywhere
+
+    time_freq_step = "TimeFreq_steps"
+        one per time step
+
+    faces = "Faces"
+        one per face
+
+    zone = "zone"
+        one per zone
+
+    elemental_and_faces = "ElementalAndFaces"
+        data available in elements and faces of the model
+    """
+
+    pass
 
 
 def _camel_to_snake_case(name):
