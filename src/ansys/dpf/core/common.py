@@ -30,14 +30,13 @@ from typing import Dict
 from ansys.dpf.core.misc import module_exists
 from ansys.dpf.gate.common import (
     ProgressBarBase,  # noqa: F401
-    locations as locations_gate,
 )
 from ansys.dpf.gate.dpf_vector import (  # noqa: F401
     get_size_of_list as _get_size_of_list,
 )
 
 
-class locations(locations_gate, Enum):
+class locations(Enum):
     """Contains strings for scoping and field locations.
 
     Attributes
@@ -72,7 +71,34 @@ class locations(locations_gate, Enum):
         data available in elements and faces of the model
     """
 
-    pass
+    none = "none"
+
+    # data is one per element
+    elemental = "Elemental"
+
+    # one per node per element
+    elemental_nodal = "ElementalNodal"
+
+    # one per node
+    nodal = "Nodal"
+
+    # one per time set
+    time_freq = "TimeFreq_sets"
+
+    # applies everywhere
+    overall = "overall"
+
+    # one per time step
+    time_freq_step = "TimeFreq_steps"
+
+    # one per face
+    faces = "Faces"
+
+    # one per zone
+    zone = "zone"
+
+    # data available in elements and faces of the model
+    elemental_and_faces = "ElementalAndFaces"
 
 
 def _camel_to_snake_case(name):
