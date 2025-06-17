@@ -22,10 +22,17 @@
 
 """Nodes."""
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 import numpy as np
 
 from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.core.common import locations, nodal_properties
+
+if TYPE_CHECKING:
+    from ansys.dpf.core.scoping import Scoping
 
 
 class Node:
@@ -194,13 +201,13 @@ class Nodes:
         return Node(self._mesh, nodeid, nodeindex, node_coordinates)
 
     @property
-    def scoping(self):
+    def scoping(self) -> Scoping:
         """
         Scoping of the nodes.
 
         Returns
         -------
-        scoping : Scoping
+        scoping:
             Scoping of the nodes.
 
         Examples
