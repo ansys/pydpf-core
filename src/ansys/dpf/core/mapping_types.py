@@ -71,5 +71,8 @@ class _smart_dict_snake(dict):
 map_types_to_python = _smart_dict_snake()
 for k, v in map_types_to_cpp.items():
     map_types_to_python[v] = k
-map_types_to_python["vector<double>"] = "list"
+map_types_to_python["vector<bool>"] = "list[bool]"
+map_types_to_python["vector<int32>"] = "list[int]"
+map_types_to_python["vector<double>"] = "list[float]"
+map_types_to_python["vector<string>"] = "list[str]"
 map_types_to_python["b"] = "bool"

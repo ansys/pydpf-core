@@ -1,6 +1,6 @@
 ansys-sphinx-theme[autoapi]@git+https://github.com/ansys/ansys-sphinx-theme.git
 enum-tools[sphinx]==0.13.0
-graphviz==0.20.1
+graphviz==0.21
 imageio==2.37.0
 imageio-ffmpeg==0.6.0
 pypandoc==1.15
