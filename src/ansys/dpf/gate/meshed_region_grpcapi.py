@@ -51,7 +51,7 @@ class MeshedRegionGRPCAPI(meshed_region_abstract_api.MeshedRegionAbstractAPI):
     @staticmethod
     def meshed_region_get_shared_nodes_scoping(meshedRegion):
         from ansys.grpc.dpf import meshed_region_pb2
-        from ansys.dpf.core.common import locations
+        from ansys.dpf.gate.common import locations
         request = meshed_region_pb2.GetScopingRequest(mesh=meshedRegion._internal_obj)
         request.loc.location = locations.nodal
         return _get_stub(meshedRegion._server).GetScoping(request)
@@ -59,7 +59,7 @@ class MeshedRegionGRPCAPI(meshed_region_abstract_api.MeshedRegionAbstractAPI):
     @staticmethod
     def meshed_region_get_shared_elements_scoping(meshedRegion):
         from ansys.grpc.dpf import meshed_region_pb2
-        from ansys.dpf.core.common import locations
+        from ansys.dpf.gate.common import locations
         request = meshed_region_pb2.GetScopingRequest(mesh=meshedRegion._internal_obj)
         request.loc.location = locations.elemental
         return _get_stub(meshedRegion._server).GetScoping(request)
@@ -67,7 +67,7 @@ class MeshedRegionGRPCAPI(meshed_region_abstract_api.MeshedRegionAbstractAPI):
     @staticmethod
     def meshed_region_get_shared_faces_scoping(meshedRegion):
         from ansys.grpc.dpf import meshed_region_pb2
-        from ansys.dpf.core.common import locations
+        from ansys.dpf.gate.common import locations
         request = meshed_region_pb2.GetScopingRequest(mesh=meshedRegion._internal_obj)
         request.loc.location = locations.elemental_nodal
         return _get_stub(meshedRegion._server).GetScoping(request)

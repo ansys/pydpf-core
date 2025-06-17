@@ -36,7 +36,7 @@ from ansys.dpf.gate.dpf_vector import (  # noqa: F401
 )
 
 
-class locations(Enum):
+class locations:
     """Contains strings for scoping and field locations.
 
     Attributes

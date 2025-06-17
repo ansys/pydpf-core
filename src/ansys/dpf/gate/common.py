@@ -1,5 +1,6 @@
 import abc
 
+from ansys.dpf.core.common import locations  # noqa: F401
 
 elemental_property_type_dict = {
     "eltype": "ELEMENT_TYPE",
