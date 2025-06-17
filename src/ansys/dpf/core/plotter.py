@@ -48,6 +48,7 @@ from ansys.dpf.core.nodes import Node, Nodes
 
 if TYPE_CHECKING:  # pragma: no cover
     from ansys.dpf.core import Operator, Result
+    from ansys.dpf.core.field import Field
     from ansys.dpf.core.fields_container import FieldsContainer
     from ansys.dpf.core.meshed_region import MeshedRegion
 
