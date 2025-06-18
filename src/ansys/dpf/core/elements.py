@@ -35,7 +35,7 @@ from ansys.dpf.core.common import elemental_properties, locations
 from ansys.dpf.core.element_descriptor import ElementDescriptor
 from ansys.dpf.gate import integral_types
 
-if TYPE_CHECKING:
+if TYPE_CHECKING:  # pragma: no cover
     from ansys.dpf.core.scoping import Scoping
 
 

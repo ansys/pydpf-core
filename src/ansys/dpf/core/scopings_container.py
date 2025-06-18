@@ -35,7 +35,7 @@ from typing import TYPE_CHECKING
 from ansys.dpf.core import scoping
 from ansys.dpf.core.collection_base import CollectionBase
 
-if TYPE_CHECKING:
+if TYPE_CHECKING:  # pragma: no cover
     from ansys.dpf.core import MeshedRegion, MeshesContainer
 
 

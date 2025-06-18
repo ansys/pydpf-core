@@ -31,7 +31,7 @@ import numpy as np
 from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.core.common import locations, nodal_properties
 
-if TYPE_CHECKING:
+if TYPE_CHECKING:  # pragma: no cover
     from ansys.dpf.core.scoping import Scoping
 
 
