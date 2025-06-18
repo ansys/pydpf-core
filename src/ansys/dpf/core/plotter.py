@@ -30,13 +30,11 @@ Contains classes used to plot a mesh and a fields container using PyVista.
 
 from __future__ import annotations
 
-import os
 from pathlib import Path
 import sys
 import tempfile
 from typing import TYPE_CHECKING, List, Union
 import warnings
-from xml.etree.ElementInclude import include
 
 import numpy as np
 
