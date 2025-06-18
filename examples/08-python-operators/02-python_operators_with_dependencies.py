@@ -59,9 +59,6 @@ file at the given path.
 
 import os
 
-from ansys.dpf import core as dpf
-from ansys.dpf.core import examples
-
 print("\033[1m gltf_plugin")
 file_list = [
     "gltf_plugin/__init__.py",
@@ -72,7 +69,6 @@ file_list = [
     "gltf_plugin/texture.png",
     "gltf_plugin.xml",
 ]
-import os
 
 folder_root = os.path.join(os.getcwd().rsplit("pydpf-core", 1)[0], "pydpf-core")
 source_path_in_repo = r"doc\source\examples\07-python-operators\plugins"
@@ -268,8 +264,6 @@ new_operator = dpf.Operator("gltf_export")
 ###############################################################################
 # Use the custom operator
 # -----------------------
-
-import os
 
 model = dpf.Model(dpf.upload_file_in_tmp_folder(examples.find_static_rst()))
 
