@@ -812,6 +812,10 @@ def test_plot_polyhedron():
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="This test requires pyvista")
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
+    reason="Polyhedrons are supported starting server version 5.0",
+)
 def test_plotter_add_scoping(fluent_mixing_elbow_steady_state):
     mesh: core.MeshedRegion = core.operators.mesh.mesh_provider(
         data_sources=fluent_mixing_elbow_steady_state()
@@ -831,6 +835,10 @@ def test_plotter_add_scoping(fluent_mixing_elbow_steady_state):
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="This test requires pyvista")
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
+    reason="Polyhedrons are supported starting server version 5.0",
+)
 def test_scoping_plot(fluent_mixing_elbow_steady_state):
     mesh: core.MeshedRegion = core.operators.mesh.mesh_provider(
         data_sources=fluent_mixing_elbow_steady_state()
@@ -844,6 +852,10 @@ def test_scoping_plot(fluent_mixing_elbow_steady_state):
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="This test requires pyvista")
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
+    reason="Polyhedrons are supported starting server version 5.0",
+)
 def test_scopings_container_plot(fluent_mixing_elbow_steady_state):
     mesh: core.MeshedRegion = core.operators.mesh.mesh_provider(
         data_sources=fluent_mixing_elbow_steady_state()
