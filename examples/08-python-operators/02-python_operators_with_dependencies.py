@@ -57,7 +57,7 @@ file at the given path.
 # Download the ``gltf_plugin`` plug-in package that has already been
 # created for you.
 
-import os
+from pathlib import Path
 
 print("\033[1m gltf_plugin")
 file_list = [
@@ -70,25 +70,23 @@ file_list = [
     "gltf_plugin.xml",
 ]
 
-folder_root = os.path.join(os.getcwd().rsplit("pydpf-core", 1)[0], "pydpf-core")
+folder_root = Path(str(Path.cwd()).rsplit("pydpf-core", 1)[0]) / "pydpf-core"
 source_path_in_repo = r"doc\source\examples\07-python-operators\plugins"
-operator_folder = os.path.join(folder_root, source_path_in_repo)
+operator_folder = Path(folder_root) / Path(source_path_in_repo)
 print(operator_folder)
 plugin_path = None
 
 for file in file_list:
-    operator_file_path = os.path.join(operator_folder, file)
+    operator_file_path = Path(operator_folder) / Path(file)
 
     print(f"\033[1m {file}\n \033[0m")
-    if (
-        os.path.splitext(file)[1] == ".py" or os.path.splitext(file)[1] == ".xml"
-    ) and file != "gltf_plugin/gltf_export.py":
-        with open(operator_file_path, "r") as f:
+    if (Path(file).suffix in [".py", ".xml"]) and file != "gltf_plugin/gltf_export.py":
+        with Path(operator_file_path).open(mode="r") as f:
             for line in f.readlines():
                 print("\t\t\t" + line)
         print("\n\n")
         if plugin_path is None:
-            plugin_path = os.path.dirname(operator_file_path)
+            plugin_path = Path(operator_file_path).parent
 
 # %%
 # To add third-party modules as dependencies to a plug-in package, you must
@@ -109,7 +107,7 @@ for file in file_list:
 # To simplify this step, you can add a requirements file in the plug-in package:
 #
 print("\033[1m gltf_plugin/requirements.txt: \n \033[0m")
-with open(os.path.join(plugin_path, "requirements.txt"), "r") as f:
+with (Path(plugin_path) / "requirements.txt").open(mode="r") as f:
     for line in f.readlines():
         print("\t\t\t" + line)
 
@@ -143,18 +141,17 @@ with open(os.path.join(plugin_path, "requirements.txt"), "r") as f:
 #
 #    create_sites_for_python_operators.sh -pluginpath /path/to/plugin -zippath /path/to/plugin/assets/linx64.zip # noqa: E501
 
+import os
 
-if os.name == "nt" and not os.path.exists(
-    os.path.join(plugin_path, "assets", "gltf_sites_winx64.zip")
-):
-    cmd_file = os.path.join(
-        folder_root,
-        "doc",
-        "source",
-        "user_guide",
-        "tutorials",
-        "custom_operators_and_plugins",
-        "create_sites_for_python_operators.ps1",
+if os.name == "nt" and not (Path(plugin_path) / "assets" / "gltf_sites_winx64.zip").exists():
+    cmd_file = (
+        Path(folder_root)
+        / "doc"
+        / "source"
+        / "user_guide"
+        / "tutorials"
+        / "custom_operators_and_plugins"
+        / "create_sites_for_python_operators.ps1"
     )
     args = [
         "powershell",
@@ -162,7 +159,7 @@ if os.name == "nt" and not os.path.exists(
         "-pluginpath",
         plugin_path,
         "-zippath",
-        os.path.join(plugin_path, "assets", "gltf_sites_winx64.zip"),
+        Path(plugin_path) / "assets" / "gltf_sites_winx64.zip",
     ]
     print(args)
     import subprocess
@@ -178,22 +175,20 @@ if os.name == "nt" and not os.path.exists(
         )
     else:
         print("Installing pygltf in a virtual environment succeeded")
-elif os.name == "posix" and not os.path.exists(
-    os.path.join(plugin_path, "assets", "gltf_sites_linx64.zip")
-):
-    cmd_file = os.path.join(
-        folder_root,
-        "doc",
-        "source",
-        "user_guide",
-        "tutorials",
-        "custom_operators_and_plugins",
-        "create_sites_for_python_operators.sh",
+elif os.name == "posix" and not (Path(plugin_path) / "assets" / "gltf_sites_linx64.zip").exists():
+    cmd_file = (
+        Path(folder_root)
+        / "doc"
+        / "source"
+        / "user_guide"
+        / "tutorials"
+        / "custom_operators_and_plugins"
+        / "create_sites_for_python_operators.sh"
     )
     run_cmd = f"{cmd_file}"
     args = (
         f' -pluginpath "{plugin_path}" '
-        f"-zippath \"{os.path.join(plugin_path, 'assets', 'gltf_sites_linx64.zip')}\""
+        f"-zippath \"{Path(plugin_path)/'assets'/'gltf_sites_linx64.zip'}\""
     )
     print(run_cmd + args)
     os.system(f"chmod u=rwx,o=x {cmd_file}")
@@ -221,7 +216,9 @@ dpf.start_local_server(config=dpf.AvailableServerConfigs.GrpcServer)
 
 tmp = dpf.make_tmp_dir_server()
 dpf.upload_files_in_folder(dpf.path_utilities.join(tmp, "plugins", "gltf_plugin"), plugin_path)
-dpf.upload_file(plugin_path + ".xml", dpf.path_utilities.join(tmp, "plugins", "gltf_plugin.xml"))
+dpf.upload_file(
+    str(plugin_path) + ".xml", dpf.path_utilities.join(tmp, "plugins", "gltf_plugin.xml")
+)
 
 dpf.load_library(
     dpf.path_utilities.join(tmp, "plugins", "gltf_plugin"),
@@ -273,14 +270,14 @@ skin_mesh = dpf.operators.mesh.tri_mesh_skin(mesh=mesh)
 displacement = model.results.displacement()
 displacement.inputs.mesh_scoping(skin_mesh)
 displacement.inputs.mesh(skin_mesh)
-new_operator.inputs.path(os.path.join(tmp, "out"))
+new_operator.inputs.path(Path(tmp) / "out")
 new_operator.inputs.mesh(skin_mesh)
 new_operator.inputs.field(displacement.outputs.fields_container()[0])
 new_operator.run()
 
 print("operator ran successfully")
 
-dpf.download_file(os.path.join(tmp, "out.glb"), os.path.join(os.getcwd(), "out.glb"))
+dpf.download_file(Path(tmp) / "out.glb", Path.cwd() / "out.glb")
 
 # %%
 # You can download :download:`output <images/thumb/out.glb>` from the ``gltf`` operator.
