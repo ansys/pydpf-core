@@ -813,8 +813,8 @@ def test_plot_polyhedron():
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="This test requires pyvista")
 @pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
-    reason="Polyhedrons are supported starting server version 5.0",
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
+    reason="cff::cas::meshes_provider requires DPF 24R1",
 )
 def test_plotter_add_scoping(fluent_mixing_elbow_steady_state):
     mesh: core.MeshedRegion = core.operators.mesh.mesh_provider(
@@ -836,8 +836,8 @@ def test_plotter_add_scoping(fluent_mixing_elbow_steady_state):
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="This test requires pyvista")
 @pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
-    reason="Polyhedrons are supported starting server version 5.0",
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
+    reason="cff::cas::meshes_provider requires DPF 24R1",
 )
 def test_scoping_plot(fluent_mixing_elbow_steady_state):
     mesh: core.MeshedRegion = core.operators.mesh.mesh_provider(
@@ -853,8 +853,8 @@ def test_scoping_plot(fluent_mixing_elbow_steady_state):
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="This test requires pyvista")
 @pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
-    reason="Polyhedrons are supported starting server version 5.0",
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
+    reason="cff::cas::meshes_provider requires DPF 24R1",
 )
 def test_scopings_container_plot(fluent_mixing_elbow_steady_state):
     mesh: core.MeshedRegion = core.operators.mesh.mesh_provider(
