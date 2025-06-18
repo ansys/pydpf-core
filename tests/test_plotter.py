@@ -825,6 +825,10 @@ def test_plotter_add_scoping(fluent_mixing_elbow_steady_state):
     plt.add_scoping(element_scoping, mesh, color="green")
     plt.show_figure()
 
+    face_scoping = core.Scoping(location=core.locations.faces, ids=mesh.faces.scoping.ids[0:100])
+    with pytest.raises(NotImplementedError):
+        plt.add_scoping(face_scoping, mesh)
+
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="This test requires pyvista")
 def test_scoping_plot(fluent_mixing_elbow_steady_state):
@@ -840,7 +844,7 @@ def test_scoping_plot(fluent_mixing_elbow_steady_state):
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="This test requires pyvista")
-def test_scopingscontainer_plot(fluent_mixing_elbow_steady_state):
+def test_scopings_container_plot(fluent_mixing_elbow_steady_state):
     mesh: core.MeshedRegion = core.operators.mesh.mesh_provider(
         data_sources=fluent_mixing_elbow_steady_state()
     ).eval()
