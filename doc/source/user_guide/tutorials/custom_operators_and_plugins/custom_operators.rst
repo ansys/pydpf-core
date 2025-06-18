@@ -37,11 +37,11 @@ Create a custom operator
 To create a custom DPF operator using PyDPF-Core, define a custom operator class inheriting from
 the :class:`CustomOperatorBase <ansys.dpf.core.custom_operator.CustomOperatorBase>` class in a dedicated Python file.
 
-The following are sections of a file named `custom_operator_example.py`.
+The following are sections of a file named `custom_operator_example.py` available under ``ansys.dpf.core.examples.python_plugins``:
 
-First, create the custom operator class, with necessary imports and a first property to define the operator scripting name:
+First declare the custom operator class, with necessary imports and a first property to define the operator scripting name:
 
-.. literalinclude:: custom_operator_example.py
+.. literalinclude:: /../../src/ansys/dpf/core/examples/python_plugins/custom_operator_example.py
     :end-at: return "my_custom_operator"
 
 Next, set the `specification` property of your operator with:
@@ -55,13 +55,13 @@ Next, set the `specification` property of your operator with:
   when running the operator. Set it equal to ``any_dpf_supported_increments`` to allow any license
   currently accepted by DPF (see :ref:`here<target_to_ansys_license_increments_list>`)
 
-.. literalinclude:: custom_operator_example.py
+.. literalinclude:: /../../src/ansys/dpf/core/examples/python_plugins/custom_operator_example.py
     :start-after: return "my_custom_operator"
     :end-at: return spec
 
 Next, implement the operator behavior in its `run` method:
 
-.. literalinclude:: custom_operator_example.py
+.. literalinclude:: /../../src/ansys/dpf/core/examples/python_plugins/custom_operator_example.py
     :start-after: return spec
     :end-at: self.set_succeeded()
 
@@ -89,7 +89,7 @@ You can transform this single Python file into a DPF Python plugin very easily b
 ``load_operators(*args)`` function with a call to the
 :func:`record_operator() <ansys.dpf.core.custom_operator.record_operator>` method at the end of the file.
 
-.. literalinclude:: custom_operator_example.py
+.. literalinclude:: /../../src/ansys/dpf/core/examples/python_plugins/custom_operator_example.py
     :start-at: def load_operators(*args):
 
 PS: You can declare several custom operator classes in the same file, with as many calls to
@@ -104,12 +104,10 @@ First, start a server in gRPC mode, which is the only server type supported for 
 
 .. jupyter-execute::
 
-    import os
     import ansys.dpf.core as dpf
 
     # Python plugins are not supported in process.
-    server = dpf.start_local_server(config=dpf.AvailableServerConfigs.GrpcServer)
-
+    server = dpf.start_local_server(config=dpf.AvailableServerConfigs.GrpcServer, as_global=False)
 
 With the server and custom plugin ready, use the :func:`load_library() <ansys.dpf.core.core.load_library>` method in a PyDPF-Core script to load it.
 
@@ -119,13 +117,22 @@ With the server and custom plugin ready, use the :func:`load_library() <ansys.dp
 
 .. jupyter-execute::
 
+    # Get the path to the example plugin
+    from pathlib import Path
+    from ansys.dpf.core.examples.python_plugins import custom_operator_example
+    custom_operator_folder = Path(custom_operator_example.__file__).parent
+
+    # Load it on the server
     dpf.load_library(
-        filename=os.getcwd(),  # Look into the current directory
+        filename=custom_operator_folder,  # Path to the plugin directory
         name="py_custom_operator_example",  # Look for a Python file named 'custom_operator_example.py'
         symbol="load_operators",  # Look for the entry-point where operators are recorded
         server=server,  # Load the plugin on the server previously started
         generate_operators=False,  # Do not generate the Python module for this operator
     )
+
+    # You can verify the operator is now in the list of available operators on the server
+    assert "my_custom_operator" in dpf.dpf_operator.available_operator_names(server=server)
 
 .. _tutorials_custom_operators_and_plugins_custom_operator_use_the_custom_operator:
 
