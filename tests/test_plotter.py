@@ -809,3 +809,47 @@ def test_plot_polyhedron():
 
     # Plot the MeshedRegion
     mesh.plot()
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="This test requires pyvista")
+def test_plotter_add_scoping(fluent_mixing_elbow_steady_state):
+    mesh: core.MeshedRegion = core.operators.mesh.mesh_provider(
+        data_sources=fluent_mixing_elbow_steady_state()
+    ).eval()
+    node_scoping = core.Scoping(location=core.locations.nodal, ids=mesh.nodes.scoping.ids[0:100])
+    element_scoping = core.Scoping(
+        location=core.locations.elemental, ids=mesh.elements.scoping.ids[0:100]
+    )
+    plt = DpfPlotter()
+    plt.add_scoping(node_scoping, mesh, show_mesh=True, color="red")
+    plt.add_scoping(element_scoping, mesh, color="green")
+    plt.show_figure()
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="This test requires pyvista")
+def test_scoping_plot(fluent_mixing_elbow_steady_state):
+    mesh: core.MeshedRegion = core.operators.mesh.mesh_provider(
+        data_sources=fluent_mixing_elbow_steady_state()
+    ).eval()
+    node_scoping = core.Scoping(location=core.locations.nodal, ids=mesh.nodes.scoping.ids[0:100])
+    node_scoping.plot(mesh=mesh, color="red")
+    element_scoping = core.Scoping(
+        location=core.locations.elemental, ids=mesh.elements.scoping.ids[0:100]
+    )
+    element_scoping.plot(mesh=mesh, color="green")
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="This test requires pyvista")
+def test_scopingscontainer_plot(fluent_mixing_elbow_steady_state):
+    mesh: core.MeshedRegion = core.operators.mesh.mesh_provider(
+        data_sources=fluent_mixing_elbow_steady_state()
+    ).eval()
+    node_scoping_1 = core.Scoping(location=core.locations.nodal, ids=mesh.nodes.scoping.ids[0:100])
+    node_scoping_2 = core.Scoping(
+        location=core.locations.nodal, ids=mesh.nodes.scoping.ids[300:400]
+    )
+    node_sc = core.ScopingsContainer()
+    node_sc.add_label(label="scoping", default_value=1)
+    node_sc.add_scoping(label_space={"scoping": 1}, scoping=node_scoping_1)
+    node_sc.add_scoping(label_space={"scoping": 2}, scoping=node_scoping_2)
+    node_sc.plot(mesh=mesh, show_mesh=True)
