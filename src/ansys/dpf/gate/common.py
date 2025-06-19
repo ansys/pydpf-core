@@ -1,5 +1,13 @@
 import abc
 
+def __getattr__(name):
+    if name == "locations":
+        from ansys.dpf.core.common import locations
+        import warnings
+        warnings.warn(message="Use ansys.dpf.core.common.locations", category=DeprecationWarning)
+        return locations
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+
 elemental_property_type_dict = {
     "eltype": "ELEMENT_TYPE",
     "elshape": "ELEMENT_SHAPE",
