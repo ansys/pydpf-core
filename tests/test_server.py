@@ -44,6 +44,7 @@ from ansys.dpf.core.server import (
 from ansys.dpf.core.server_factory import CommunicationProtocols, ServerConfig
 from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+    raises_for_servers_version_under,
     remove_none_available_config,
     running_docker,
 )
@@ -172,6 +173,7 @@ class TestServer:
         assert has_local_server()
         client = server.client
 
+    @raises_for_servers_version_under("7.0")
     def test_server_plugins(self, server_config):
         server_plugins = start_local_server(config=server_config).plugins
         assert isinstance(server_plugins, dict)
