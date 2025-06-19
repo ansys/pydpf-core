@@ -117,11 +117,6 @@ class TestServerConfigs:
         assert has_local_server()
         shutdown_all_session_servers()
 
-    def test_server_plugins(self, server_config):
-        server_plugins = start_local_server(config=server_config).plugins
-        assert isinstance(server_plugins, dict)
-        assert "native" in server_plugins.keys()
-
     def test_server_env_path_cleanup(self, server_config):
         """Test that running and stopping servers does not pollute the system PATH."""
         from ansys.dpf.core.server_types import get_system_path
@@ -176,6 +171,11 @@ class TestServer:
         server = get_or_create_server(None)
         assert has_local_server()
         client = server.client
+
+    def test_server_plugins(self, server_config):
+        server_plugins = start_local_server(config=server_config).plugins
+        assert isinstance(server_plugins, dict)
+        assert "native" in server_plugins.keys()
 
 
 @pytest.mark.skipif(
