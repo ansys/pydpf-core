@@ -477,6 +477,11 @@ class BaseServer(abc.ABC):
         pass
 
     @property
+    def plugins(self) -> dict:
+        """Return the list of plugins loaded on the server."""
+        return core.settings.get_runtime_core_config(self)._data_tree.to_dict()["loaded_plugins"]
+
+    @property
     @abc.abstractmethod
     def available_api_types(self):
         """Must be implemented by subclasses."""
