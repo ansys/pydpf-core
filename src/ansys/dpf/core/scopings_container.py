@@ -30,7 +30,6 @@ Contains classes associated to the DPF ScopingsContainer
 
 from __future__ import annotations
 
-from argparse import ArgumentError
 from typing import TYPE_CHECKING
 
 import ansys.dpf.core as dpf
