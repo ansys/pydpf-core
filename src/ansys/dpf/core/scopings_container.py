@@ -30,8 +30,10 @@ Contains classes associated to the DPF ScopingsContainer
 
 from __future__ import annotations
 
+from argparse import ArgumentError
 from typing import TYPE_CHECKING
 
+import ansys.dpf.core as dpf
 from ansys.dpf.core import scoping
 from ansys.dpf.core.collection_base import CollectionBase
 
@@ -146,7 +148,7 @@ class ScopingsContainer(CollectionBase[scoping.Scoping]):
         ----------
         mesh:
             Mesh or meshes to use to translate the scopings into mesh entities.
-            Associates each scoping to a mesh using labels if ``mesh`` is a collection of meshes.
+            Associates each scoping to a mesh using labels if ``mesh`` is a MeshesContainer.
         show_mesh:
             Whether to also show the mesh with low opacity.
         colors:
@@ -190,11 +192,25 @@ class ScopingsContainer(CollectionBase[scoping.Scoping]):
         )
         plt = DpfPlotter(**kwargs)
         for i, scoping_i in enumerate(self):
+            if isinstance(mesh, dpf.MeshedRegion):
+                show_mesh_i = show_mesh if i == 0 else False
+                mesh_i = mesh
+            elif isinstance(mesh, dpf.MeshesContainer):
+                show_mesh_i = True
+                mesh_i = mesh.get_mesh(label_space_or_index=self.get_label_space(index=i))
+                if mesh_i is None:
+                    raise ValueError(
+                        f"ScopingsContainer.plot: could not associate a mesh to the scoping for label '{self.get_label_space(index=i)}'."
+                    )
+            else:
+                raise ValueError(
+                    f"ScopingsContainer.plot: type '{type(mesh)}' is not a valid type for argument 'mesh'."
+                )
             plt.add_scoping(
                 scoping=scoping_i,
-                mesh=mesh,
+                mesh=mesh_i,
                 color=next(colors_cycle),
-                show_mesh=show_mesh if i == 0 else False,
+                show_mesh=show_mesh_i,
                 **kwargs,
             )
         return plt.show_figure(**kwargs)
