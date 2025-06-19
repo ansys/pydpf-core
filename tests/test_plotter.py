@@ -28,7 +28,11 @@ from ansys import dpf
 from ansys.dpf import core
 from ansys.dpf.core import Model, Operator, element_types, errors as dpf_errors, misc
 from ansys.dpf.core.plotter import plot_chart
-from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0, running_docker
+from conftest import (
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
+    running_docker,
+)
 
 if misc.module_exists("pyvista"):
     HAS_PYVISTA = True
@@ -812,6 +816,10 @@ def test_plot_polyhedron():
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="This test requires pyvista")
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
+    reason="cff::cas::meshes_provider requires DPF 24R1",
+)
 def test_plotter_add_scoping(fluent_mixing_elbow_steady_state):
     mesh: core.MeshedRegion = core.operators.mesh.mesh_provider(
         data_sources=fluent_mixing_elbow_steady_state()
@@ -831,6 +839,10 @@ def test_plotter_add_scoping(fluent_mixing_elbow_steady_state):
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="This test requires pyvista")
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
+    reason="cff::cas::meshes_provider requires DPF 24R1",
+)
 def test_scoping_plot(fluent_mixing_elbow_steady_state):
     mesh: core.MeshedRegion = core.operators.mesh.mesh_provider(
         data_sources=fluent_mixing_elbow_steady_state()
@@ -844,6 +856,10 @@ def test_scoping_plot(fluent_mixing_elbow_steady_state):
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="This test requires pyvista")
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
+    reason="cff::cas::meshes_provider requires DPF 24R1",
+)
 def test_scopings_container_plot(fluent_mixing_elbow_steady_state):
     mesh: core.MeshedRegion = core.operators.mesh.mesh_provider(
         data_sources=fluent_mixing_elbow_steady_state()
