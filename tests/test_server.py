@@ -180,6 +180,16 @@ class TestServer:
         assert "native" in server_plugins.keys()
 
 
+@raises_for_servers_version_under("7.0")
+def test_server_plugins(remote_config_server_type, testfiles_dir):
+    from pathlib import Path
+
+    context = dpf.core.AvailableServerContexts.no_context
+    context.xml_path = Path(testfiles_dir) / "DpfCustomDefinedTest.xml"
+    server_plugins = start_local_server(config=remote_config_server_type, context=context).plugins
+    assert sorted(list(server_plugins.keys())) == ["grpc", "native"]
+
+
 @pytest.mark.skipif(
     os.name == "posix" or running_docker,
     reason="lin issue: 2 processes can be run with same port",

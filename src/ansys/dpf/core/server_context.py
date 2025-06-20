@@ -281,7 +281,7 @@ class ServerContext:
 
         >>> import ansys.dpf.core as dpf
         >>> # Create a custom server context
-        >>> custom_server_context = dpf.AvailableServerContexts.custom_defined
+        >>> custom_server_context = dpf.AvailableServerContexts.no_context
         >>> # Set the XML path
         >>> custom_server_context.xml_path = r'\path\to\file'
         >>> # Start a DPF server using this context
