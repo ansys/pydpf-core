@@ -126,7 +126,8 @@ jobs:
         with:
           path: |
             .tox
-            !**/ansys/dpf/core/examples/result_files/**/*
+            !.tox/*/*/site-packages/ansys/dpf/**/*
+            !.tox/*/*/site-packages/ansys/grpc/dpf/**/*
           key: ${{ matrix.os }}-${{ matrix.python-version }}-${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}-${{ hashFiles('requirements/*', 'pyproject.toml') }}
           restore-keys: |
             ${{ matrix.os }}-${{ matrix.python-version }}-${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}-
