@@ -1,0 +1,2491 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <meta property="og:site_name" content="PyAnsys" />
+    <title>Basic maths &#8212; PyDPF-Core</title>
+  
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/ansys-sphinx-theme.css?v=fbf3eb5d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles\ansys-sphinx-theme.css?v=fbf3eb5d" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://www.nerdfonts.com/assets/css/webfont.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=605cfb02" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+
+  <!-- Include desired assets -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  
+
+  
+    <link href="../../../_static/css/breadcrumbs.css" rel="stylesheet" />
+  
+    <script src="../../../_static/documentation_options.js?v=8c207667"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/thebelab-helper.js"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/tutorials/mathematics/basic_maths';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://dpf.docs.pyansys.com/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="icon" href="../../../_static/ansys-favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Manipulate Physics data" href="../manipulate_physics_data/index.html" />
+    <link rel="prev" title="Mathematics" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.13.9.dev0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="https://docs.pyansys.com">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/pyansys_logo_transparent_black.png" class="logo__image only-light" alt="PyDPF-Core - Home"/>
+    <img src="../../../_static/pyansys_logo_transparent_white.png" class="logo__image only-dark pst-js-only" alt="PyDPF-Core - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../operator_reference.html">
+    Operators
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<div class="search-bar pst-js-only" id="search-bar">
+  <form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="search" class="form-control" name="q" placeholder="Search the docs ..."
+      aria-label="Search the docs ..." autocomplete="off" autocorrect="off"
+      autocapitalize="off" spellcheck="false" />
+    <span class="search-button__kbd-shortcut">
+      <kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd>
+    </span>
+  </form>
+  <div id="static-search-results" class="static-search-results" style="display:none;" tabindex="0"></div>
+</div>
+        </div>
+      
+      
+        <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<div class="search-bar pst-js-only" id="search-bar">
+  <form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="search" class="form-control" name="q" placeholder="Search the docs ..."
+      aria-label="Search the docs ..." autocomplete="off" autocorrect="off"
+      autocapitalize="off" spellcheck="false" />
+    <span class="search-button__kbd-shortcut">
+      <kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd>
+    </span>
+  </form>
+  <div id="static-search-results" class="static-search-results" style="display:none;" tabindex="0"></div>
+</div>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+  
+    <div id="announcement_msg"></div>
+<script>
+  fetch("announcement.html")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(
+      (text) => (document.getElementById("announcement_msg").innerHTML = text),
+    )
+    .catch((error) => console.error(`Fetch problem: ${error.message}`));
+</script>
+  
+
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../operator_reference.html">
+    Operators
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../data_structures/index.html">DPF data structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../language_and_usage/index.html">PyDPF-Core language and usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../post_processing_basics/index.html">Processing data basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../import_data/index.html">Import Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mesh/index.html">Mesh</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../operators_and_workflows/index.html">Process data with operators and workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../export_data/index.html">Export data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plot/index.html">Plot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../animate/index.html">Animate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../custom_operators_and_plugins/index.html">Custom Operators and Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distributed_files/index.html">Post-process distributed files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dpf_server/index.html">DPF server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../licensing/index.html">Licensing</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Mathematics</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Basic maths</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../manipulate_physics_data/index.html">Manipulate Physics data</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/concepts.html">Terms and concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/waysofusing.html">DPF capabilities and scripting languages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/stepbystep.html">DPF usage</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Troubleshooting</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting.html">Troubleshooting</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+         
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="https://docs.pyansys.com/" class="nav-link">PyAnsys</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a
+        href="../../../index.html"
+        class="nav-link"
+        aria-label="Home"
+      >
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="../../index.html" class="nav-link">User guide</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="index.html" class="nav-link">Mathematics</a>
+    </li>
+      
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Basic maths</span></li>
+    
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="basic-maths">
+<span id="ref-basic-math"></span><h1>Basic maths<a class="headerlink" href="#basic-maths" title="Link to this heading">#</a></h1>
+<span class="target" id="ref-links-and-refs"></span><p>This tutorial explains how to perform some basic mathematical operations with PyDPF-Core.</p>
+<p>DPF exposes data through <a class="reference internal" href="../../../api/ansys/dpf/core/field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a> objects (or other specialized kinds of fields).
+A <a class="reference internal" href="../../../api/ansys/dpf/core/field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a> is a homogeneous array of floats.</p>
+<p>A <a class="reference internal" href="../../../api/ansys/dpf/core/fields_container/FieldsContainer.html#ansys.dpf.core.fields_container.FieldsContainer" title="ansys.dpf.core.fields_container.FieldsContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">FieldsContainer</span></code></a> is a labeled collection of <a class="reference internal" href="../../../api/ansys/dpf/core/field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a> objects that most operators can use,
+allowing you to operate on several fields at once.</p>
+<p>To perform mathematical operations, use the operators available in the <a class="reference internal" href="../../../api/ansys/dpf/core/operators/math/index.html#module-ansys.dpf.core.operators.math" title="ansys.dpf.core.operators.math"><code class="xref py py-mod docutils literal notranslate"><span class="pre">math</span> <span class="pre">operators</span></code></a> module.
+First create an instance of the operator of interest, then use the <code class="docutils literal notranslate"><span class="pre">.eval()</span></code> method to compute
+and retrieve the first output.</p>
+<p>Most operators for mathematical operations can take in a <a class="reference internal" href="../../../api/ansys/dpf/core/field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a> or a <a class="reference internal" href="../../../api/ansys/dpf/core/fields_container/FieldsContainer.html#ansys.dpf.core.fields_container.FieldsContainer" title="ansys.dpf.core.fields_container.FieldsContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">FieldsContainer</span></code></a>.</p>
+<p>Most mathematical operators have a separate implementation for handling <a class="reference internal" href="../../../api/ansys/dpf/core/fields_container/FieldsContainer.html#ansys.dpf.core.fields_container.FieldsContainer" title="ansys.dpf.core.fields_container.FieldsContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">FieldsContainer</span></code></a> objects
+as input, and are recognizable by the suffix <code class="docutils literal notranslate"><span class="pre">_fc</span></code> appended to their name.</p>
+<p>This tutorial first shows in <a class="reference internal" href="#ref-basic-maths-create-custom-data"><span class="std std-ref">Create fields and field collections</span></a> how to create the custom fields and field containers it uses.</p>
+<p>It then provides a focus on the effect of the scoping of the fields on the result in <a class="reference internal" href="#ref-basic-maths-scoping-handling"><span class="std std-ref">Effect of the scoping</span></a>,
+as well as a focus on the treatment of collections in <a class="reference internal" href="#ref-basic-maths-handling-of-collections"><span class="std std-ref">Handling of collections</span></a>.</p>
+<p>It then explains how to use several of the mathematical operators available, both with fields and with field containers.</p>
+<p><a class="reference download internal" download="" href="../../../_downloads/859bf8416a79d06a9ba52f36a8fa36fb/basic_maths.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">tutorial</span> <span class="pre">as</span> <span class="pre">Python</span> <span class="pre">script</span></code></a>
+<a class="reference download internal" download="" href="../../../_downloads/ed6d455170c194ffa5dea71b804054b2/basic_maths.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">tutorial</span> <span class="pre">as</span> <span class="pre">Jupyter</span> <span class="pre">notebook</span></code></a></p>
+<section id="create-fields-and-field-collections">
+<span id="ref-basic-maths-create-custom-data"></span><h2>Create fields and field collections<a class="headerlink" href="#create-fields-and-field-collections" title="Link to this heading">#</a></h2>
+<p>DPF exposes mathematical fields of floats through <a class="reference internal" href="../../../api/ansys/dpf/core/field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a> and <a class="reference internal" href="../../../api/ansys/dpf/core/fields_container/FieldsContainer.html#ansys.dpf.core.fields_container.FieldsContainer" title="ansys.dpf.core.fields_container.FieldsContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">FieldsContainer</span></code></a> objects.
+The <a class="reference internal" href="../../../api/ansys/dpf/core/field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a> is a homogeneous array of floats and a <a class="reference internal" href="../../../api/ansys/dpf/core/fields_container/FieldsContainer.html#ansys.dpf.core.fields_container.FieldsContainer" title="ansys.dpf.core.fields_container.FieldsContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">FieldsContainer</span></code></a> is a labeled collection of <a class="reference internal" href="../../../api/ansys/dpf/core/field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a> objects.</p>
+<p>Here, fields and field collections created from scratch are used to show how the
+mathematical operators work.</p>
+<p>For more information on creating a <a class="reference internal" href="../../../api/ansys/dpf/core/field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a> from scratch, see <a class="reference internal" href="../data_structures/index.html#ref-tutorials-data-structures"><span class="std std-ref">DPF data structures</span></a>.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-0">
+Fields</label><div class="sd-tab-content docutils">
+<p>Create the fields based on:</p>
+<ul class="simple">
+<li><p>A number of entities</p></li>
+<li><p>A list of IDs and a location, which together define the scoping of the field</p></li>
+</ul>
+<p>The location defines the type of entity the IDs refer to. It defaults to <em>nodal</em>, in which case the scoping is
+understood as a list of node IDs, and the field is a nodal field.</p>
+<p>For a more detailed explanation about the influence of the <a class="reference internal" href="../../../api/ansys/dpf/core/scoping/Scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><code class="xref py py-class docutils literal notranslate"><span class="pre">Scoping</span></code></a> on the operations,
+see the <a class="reference internal" href="#ref-basic-maths-scoping-handling"><span class="std std-ref">Effect of the scoping</span></a> section of this tutorial.</p>
+<p>First import the necessary DPF modules.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import the ``ansys.dpf.core`` module</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="c1"># Import the math operators module</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core.operators</span><span class="w"> </span><span class="kn">import</span> <span class="n">math</span> <span class="k">as</span> <span class="n">maths</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+<p>Create the fields with the <a class="reference internal" href="../../../api/ansys/dpf/core/field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a> class constructor.</p>
+<p>Helpers are also available in <a class="reference internal" href="../../../api/ansys/dpf/core/fields_factory/index.html#module-ansys.dpf.core.fields_factory" title="ansys.dpf.core.fields_factory"><code class="xref py py-mod docutils literal notranslate"><span class="pre">fields_factory</span></code></a> for easier creation of fields from scratch.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create four nodal 3D vector fields of size 2</span>
+<span class="n">num_entities</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">field1</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">nentities</span><span class="o">=</span><span class="n">num_entities</span><span class="p">)</span>
+<span class="n">field2</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">nentities</span><span class="o">=</span><span class="n">num_entities</span><span class="p">)</span>
+<span class="n">field3</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">nentities</span><span class="o">=</span><span class="n">num_entities</span><span class="p">)</span>
+<span class="n">field4</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">nentities</span><span class="o">=</span><span class="n">num_entities</span><span class="p">)</span>
+
+<span class="c1"># Set the scoping IDs</span>
+<span class="n">field1</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span> <span class="o">=</span> <span class="n">field2</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span> <span class="o">=</span> <span class="n">field3</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span> <span class="o">=</span> <span class="n">field4</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_entities</span><span class="p">)</span>
+
+<span class="c1"># Set the data for each field using flat lists (of size = num_entities * num_components)</span>
+<span class="n">field1</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">]</span>
+<span class="n">field2</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="mf">7.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">]</span>
+<span class="n">field3</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="mf">6.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]</span>
+<span class="n">field4</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">]</span>
+
+<span class="c1"># Print the fields</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Field 1&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">field1</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">);</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Field 2&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">field2</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">);</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Field 3&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">field3</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">);</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Field 4&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">field4</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Field 1 
+ DPF  Field
+  Location: Nodal
+  Unit: 
+  2 entities 
+  Data: 3 components and 2 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  0                     1.000000e+00   2.000000e+00   3.000000e+00   
+                        
+  1                     4.000000e+00   5.000000e+00   6.000000e+00   
+                        
+
+ 
+
+Field 2 
+ DPF  Field
+  Location: Nodal
+  Unit: 
+  2 entities 
+  Data: 3 components and 2 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  0                     7.000000e+00   3.000000e+00   5.000000e+00   
+                        
+  1                     8.000000e+00   1.000000e+00   2.000000e+00   
+                        
+
+ 
+
+Field 3 
+ DPF  Field
+  Location: Nodal
+  Unit: 
+  2 entities 
+  Data: 3 components and 2 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  0                     6.000000e+00   5.000000e+00   4.000000e+00   
+                        
+  1                     3.000000e+00   2.000000e+00   1.000000e+00   
+                        
+
+ 
+
+Field 4 
+ DPF  Field
+  Location: Nodal
+  Unit: 
+  2 entities 
+  Data: 3 components and 2 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  0                     4.000000e+00   1.000000e+00   8.000000e+00   
+                        
+  1                     5.000000e+00   7.000000e+00   9.000000e+00   
+                        
+
+ 
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-1">
+Field containers</label><div class="sd-tab-content docutils">
+<p>Create the collections of fields (called “field containers”) using the <a class="reference internal" href="../../../api/ansys/dpf/core/fields_container_factory/index.html#module-ansys.dpf.core.fields_container_factory" title="ansys.dpf.core.fields_container_factory"><code class="xref py py-mod docutils literal notranslate"><span class="pre">fields_container_factory</span></code></a>.
+Here, we use the <code class="xref py py-func docutils literal notranslate"><span class="pre">over_time_freq_fields_container()</span></code> helper to generate a <a class="reference internal" href="../../../api/ansys/dpf/core/fields_container/FieldsContainer.html#ansys.dpf.core.fields_container.FieldsContainer" title="ansys.dpf.core.fields_container.FieldsContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">FieldsContainer</span></code></a> with <em>‘time’</em> labels.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create the field containers</span>
+<span class="n">fc1</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">fields_container_factory</span><span class="o">.</span><span class="n">over_time_freq_fields_container</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="n">field1</span><span class="p">,</span> <span class="n">field2</span><span class="p">])</span>
+<span class="n">fc2</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">fields_container_factory</span><span class="o">.</span><span class="n">over_time_freq_fields_container</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="n">field3</span><span class="p">,</span> <span class="n">field4</span><span class="p">])</span>
+
+<span class="c1"># Print the field containers</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;FieldsContainer1&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fc1</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;FieldsContainer2&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fc2</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>FieldsContainer1 
+ DPF  Fields Container
+  with 2 field(s)
+  defined on labels: time 
+
+  with:
+  - field 0 {time:  1} with Nodal location, 3 components and 2 entities.
+  - field 1 {time:  2} with Nodal location, 3 components and 2 entities.
+ 
+
+FieldsContainer2 
+ DPF  Fields Container
+  with 2 field(s)
+  defined on labels: time 
+
+  with:
+  - field 0 {time:  1} with Nodal location, 3 components and 2 entities.
+  - field 1 {time:  2} with Nodal location, 3 components and 2 entities.
+ 
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="effect-of-the-scoping">
+<span id="ref-basic-maths-scoping-handling"></span><h2>Effect of the scoping<a class="headerlink" href="#effect-of-the-scoping" title="Link to this heading">#</a></h2>
+<p>The scoping of a DPF field stores information about which entity the data is associated to.
+A scalar field containing data for three entities is, for example, linked to a scoping defining three entity IDs.
+The location of the scoping defines the type of entity the IDs refer to.
+This allows DPF to know what each data point of a field is associated to.</p>
+<p>Operators such as mathematical operators usually perform operations between corresponding entities of fields.</p>
+<p>For example, the addition of two scalar fields does not just add the two data arrays,
+which may not be of the same length or may not be ordered the same way.
+Instead it uses the scoping of each field to find corresponding entities, their data in each field,
+and perform the addition on those.</p>
+<p>This means that the operation is usually performed for entities in the intersection of the two field scopings.</p>
+<p>Some operators provide options to handle data for entities outside of this intersection,
+but most simply ignore the data for these entities not in the intersection of the scopings.</p>
+<p>The following examples illustrate this behavior.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Instantiate two nodal 3D vector fields of length 3</span>
+<span class="n">field5</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">nentities</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">field6</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">nentities</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="c1"># Set the data for each field</span>
+<span class="n">field5</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">]</span>
+<span class="n">field6</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="mf">5.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">]</span>
+
+<span class="c1"># Set the scoping IDs (here node IDs)</span>
+<span class="n">field5</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="n">field6</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+
+<span class="c1"># Print the fields</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Field 5&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">field5</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Field 6&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">field6</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Field 5 
+ DPF  Field
+  Location: Nodal
+  Unit: 
+  3 entities 
+  Data: 3 components and 3 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  1                     1.000000e+00   2.000000e+00   3.000000e+00   
+                        
+  2                     4.000000e+00   5.000000e+00   6.000000e+00   
+                        
+  3                     7.000000e+00   8.000000e+00   9.000000e+00   
+                        
+
+ 
+
+Field 6 
+ DPF  Field
+  Location: Nodal
+  Unit: 
+  3 entities 
+  Data: 3 components and 3 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  3                     5.000000e+00   1.000000e+00   6.000000e+00   
+                        
+  4                     3.000000e+00   8.000000e+00   9.000000e+00   
+                        
+  5                     7.000000e+00   2.000000e+00   4.000000e+00   
+                        
+
+ 
+
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here the only entities with matching IDs between the two fields are:</p>
+<ul class="simple">
+<li><p>The third entity in field5 (ID=3)</p></li>
+<li><p>The first entity in field6 (ID=3)</p></li>
+</ul>
+<p>Other entities are not taken into account when using an operator that needs two operands.</p>
+<p>For example the <a class="reference internal" href="../../../api/ansys/dpf/core/operators/math/add/add.html#ansys.dpf.core.operators.math.add.add" title="ansys.dpf.core.operators.math.add.add"><code class="xref py py-class docutils literal notranslate"><span class="pre">add</span></code></a> operator:</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use the add operator</span>
+<span class="n">add_scop</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fieldA</span><span class="o">=</span><span class="n">field5</span><span class="p">,</span> <span class="n">fieldB</span><span class="o">=</span><span class="n">field6</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+
+<span class="c1"># Print the result</span>
+<span class="c1"># The resulting field only contains data for entities where a match is found in the other field.</span>
+<span class="c1"># It has the size of the intersection of the two scopings.</span>
+<span class="c1"># Here this means the addition returns a field with data only for the node with ID=3.</span>
+<span class="c1"># This behavior is specific to each operator.</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">add_scop</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>DPF  Field
+  Location: Nodal
+  Unit: 
+  5 entities 
+  Data: 3 components and 5 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  1                     1.000000e+00   2.000000e+00   3.000000e+00   
+                        
+  2                     4.000000e+00   5.000000e+00   6.000000e+00   
+                        
+  3                     1.200000e+01   9.000000e+00   1.500000e+01   
+                        
+  ...
+
+ 
+
+</pre></div>
+</div>
+</div>
+</div>
+<p>Or the <a class="reference internal" href="../../../api/ansys/dpf/core/operators/math/generalized_inner_product/generalized_inner_product.html#ansys.dpf.core.operators.math.generalized_inner_product.generalized_inner_product" title="ansys.dpf.core.operators.math.generalized_inner_product.generalized_inner_product"><code class="xref py py-class docutils literal notranslate"><span class="pre">generalized_inner_product</span></code></a> operator:</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use the dot product operator</span>
+<span class="n">dot_scop</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">generalized_inner_product</span><span class="p">(</span><span class="n">fieldA</span><span class="o">=</span><span class="n">field5</span><span class="p">,</span> <span class="n">fieldB</span><span class="o">=</span><span class="n">field6</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="c1"># ID 3: (7. * 5.) + (8. * 1.) + (9. * 6.)</span>
+
+<span class="c1"># Print the result</span>
+<span class="c1"># The operator returns zero for entities where no match is found in the other field.</span>
+<span class="c1"># The resulting field is the size of the union of the two scopings.</span>
+<span class="c1"># This behavior is specific to each operator.</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">dot_scop</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">dot_scop</span><span class="o">.</span><span class="n">data</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>DPF  Field
+  Location: Nodal
+  Unit: 
+  5 entities 
+  Data: 1 components and 5 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  1                     0.000000e+00   
+                        
+  2                     0.000000e+00   
+                        
+  3                     9.700000e+01   
+                        
+  ...
+
+ 
+
+[ 0.  0. 97.  0.  0.] 
+
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="handling-of-collections">
+<span id="ref-basic-maths-handling-of-collections"></span><h2>Handling of collections<a class="headerlink" href="#handling-of-collections" title="Link to this heading">#</a></h2>
+<p>Most mathematical operators have a separate implementation for handling <a class="reference internal" href="../../../api/ansys/dpf/core/fields_container/FieldsContainer.html#ansys.dpf.core.fields_container.FieldsContainer" title="ansys.dpf.core.fields_container.FieldsContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">FieldsContainer</span></code></a> objects
+as input, and are recognizable by the suffix <code class="docutils literal notranslate"><span class="pre">_fc</span></code> appended to their name.</p>
+<p>These operator operate on fields with the same label space.</p>
+<p>Using the two collections of fields built previously, both have a <em>time</em> label with an associated value for each field.</p>
+<p>Operators working with <a class="reference internal" href="../../../api/ansys/dpf/core/fields_container/FieldsContainer.html#ansys.dpf.core.fields_container.FieldsContainer" title="ansys.dpf.core.fields_container.FieldsContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">FieldsContainer</span></code></a> inputs match fields from each collection with the same value for all labels.</p>
+<p>In this case, <code class="docutils literal notranslate"><span class="pre">field</span> <span class="pre">0</span></code> of <code class="docutils literal notranslate"><span class="pre">fc1</span></code> with label space <code class="docutils literal notranslate"><span class="pre">{&quot;time&quot;:</span> <span class="pre">1}</span></code> gets matched up with <code class="docutils literal notranslate"><span class="pre">field</span> <span class="pre">0</span></code> of <code class="docutils literal notranslate"><span class="pre">fc2</span></code> also with label space <code class="docutils literal notranslate"><span class="pre">{&quot;time&quot;:</span> <span class="pre">1}</span></code>.
+Then <code class="docutils literal notranslate"><span class="pre">field</span> <span class="pre">1</span></code> of <code class="docutils literal notranslate"><span class="pre">fc1</span></code> with label space <code class="docutils literal notranslate"><span class="pre">{&quot;time&quot;:</span> <span class="pre">2}</span></code> gets matched up with <code class="docutils literal notranslate"><span class="pre">field</span> <span class="pre">1</span></code> of <code class="docutils literal notranslate"><span class="pre">fc2</span></code> also with label space <code class="docutils literal notranslate"><span class="pre">{&quot;time&quot;:</span> <span class="pre">2}</span></code>.</p>
+</section>
+<section id="addition">
+<h2>Addition<a class="headerlink" href="#addition" title="Link to this heading">#</a></h2>
+<p>Use:</p>
+<ul class="simple">
+<li><p>the <a class="reference internal" href="../../../api/ansys/dpf/core/operators/math/add/add.html#ansys.dpf.core.operators.math.add.add" title="ansys.dpf.core.operators.math.add.add"><code class="xref py py-class docutils literal notranslate"><span class="pre">add</span></code></a> operator to compute the element-wise addition for each component of two fields</p></li>
+<li><p>the <a class="reference internal" href="../../../api/ansys/dpf/core/operators/math/accumulate/accumulate.html#ansys.dpf.core.operators.math.accumulate.accumulate" title="ansys.dpf.core.operators.math.accumulate.accumulate"><code class="xref py py-class docutils literal notranslate"><span class="pre">accumulate</span></code></a> operator to compute the overall sum of data for each component of a field</p></li>
+</ul>
+<section id="element-wise-addition">
+<h3>Element-wise addition<a class="headerlink" href="#element-wise-addition" title="Link to this heading">#</a></h3>
+<p>This operator computes the element-wise sum of two fields for each component.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-2" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-2">
+<em>add</em></label><div class="sd-tab-content docutils">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add the fields</span>
+<span class="n">add_field</span> <span class="o">=</span> <span class="n">maths</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fieldA</span><span class="o">=</span><span class="n">field1</span><span class="p">,</span> <span class="n">fieldB</span><span class="o">=</span><span class="n">field2</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="c1"># id 0: [1.+7. 2.+3. 3.+5.] = [ 8.  5.  8.]</span>
+<span class="c1"># id 1: [4.+8. 5.+1. 6.+2.] = [12.  6.  8.]</span>
+
+<span class="c1"># Print the results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Addition field &quot;</span><span class="p">,</span> <span class="n">add_field</span> <span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Addition field  DPF  Field
+  Location: Nodal
+  Unit: 
+  2 entities 
+  Data: 3 components and 2 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  0                     8.000000e+00   5.000000e+00   8.000000e+00   
+                        
+  1                     1.200000e+01   6.000000e+00   8.000000e+00   
+                        
+
+ 
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<input id="sd-tab-item-3" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-3">
+<em>add_fc</em></label><div class="sd-tab-content docutils">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add the two field collections</span>
+<span class="n">add_fc</span> <span class="o">=</span> <span class="n">maths</span><span class="o">.</span><span class="n">add_fc</span><span class="p">(</span><span class="n">fields_container1</span><span class="o">=</span><span class="n">fc1</span><span class="p">,</span> <span class="n">fields_container2</span><span class="o">=</span><span class="n">fc2</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="c1"># {time: 1}: field1 + field3</span>
+<span class="c1">#           --&gt;      id 0: [1.+6. 2.+5. 3.+4.] = [7. 7. 7.]</span>
+<span class="c1">#                    id 1: [4.+3. 5.+2. 6.+1.] = [7. 7. 7.]</span>
+<span class="c1">#</span>
+<span class="c1"># {time: 2}: field2 + field4</span>
+<span class="c1">#           --&gt;      id 0: [7.+4. 3.+1. 5.+8.] = [11. 4. 13.]</span>
+<span class="c1">#                    id 1: [8.+5. 1.+7. 2.+9.] = [13. 8. 11.]</span>
+
+<span class="c1"># Print the results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Addition FieldsContainers&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">add_fc</span> <span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">add_fc</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">}),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">add_fc</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span><span class="mi">2</span><span class="p">}),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Addition FieldsContainers 
+ DPF  Fields Container
+  with 2 field(s)
+  defined on labels: time 
+
+  with:
+  - field 0 {time:  1} with Nodal location, 3 components and 2 entities.
+  - field 1 {time:  2} with Nodal location, 3 components and 2 entities.
+ 
+
+DPF  Field
+  Location: Nodal
+  Unit: 
+  2 entities 
+  Data: 3 components and 2 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  0                     7.000000e+00   7.000000e+00   7.000000e+00   
+                        
+  1                     7.000000e+00   7.000000e+00   7.000000e+00   
+                        
+
+ 
+
+DPF  Field
+  Location: Nodal
+  Unit: 
+  2 entities 
+  Data: 3 components and 2 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  0                     1.100000e+01   4.000000e+00   1.300000e+01   
+                        
+  1                     1.300000e+01   8.000000e+00   1.100000e+01   
+                        
+
+ 
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="overall-sum">
+<h3>Overall sum<a class="headerlink" href="#overall-sum" title="Link to this heading">#</a></h3>
+<p>This operator computes the total sum of elementary data of a field, for each component of the field.
+You can give a scaling (“weights”) argument.</p>
+<blockquote>
+<div><p>Keep in mind the <a class="reference internal" href="../../../api/ansys/dpf/core/field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a> dimension. The <a class="reference internal" href="../../../api/ansys/dpf/core/field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a> represents 3D vectors, so each elementary data is a 3D vector.
+The optional “weights” <a class="reference internal" href="../../../api/ansys/dpf/core/field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a> attribute is a scaling factor for each entity when performing the sum,
+so you must provide a 1D field.</p>
+</div></blockquote>
+<p>Compute the total sum (accumulate) for each component of a given <a class="reference internal" href="../../../api/ansys/dpf/core/field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a>.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-4" name="sd-tab-set-2" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-4">
+<em>accumulate</em></label><div class="sd-tab-content docutils">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute the total sum of a field</span>
+<span class="n">tot_sum_field</span> <span class="o">=</span> <span class="n">maths</span><span class="o">.</span><span class="n">accumulate</span><span class="p">(</span><span class="n">fieldA</span><span class="o">=</span><span class="n">field1</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="c1"># vector component 0 = 1. + 4. = 5.</span>
+<span class="c1"># vector component 1 = 2. + 5. = 7.</span>
+<span class="c1"># vector component 2 = 3. + 6. = 9.</span>
+
+<span class="c1"># Print the results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total sum fields&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">tot_sum_field</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Total sum fields 
+ DPF  Field
+  Location: overall
+  Unit: 
+  1 entities 
+  Data: 3 components and 1 elementary data 
+
+  overall
+  IDs                   data
+  ------------          ----------
+  0                     5.000000e+00   7.000000e+00   9.000000e+00   
+                        
+
+ 
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<input id="sd-tab-item-5" name="sd-tab-set-2" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-5">
+<em>accumulate_fc</em></label><div class="sd-tab-content docutils">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Find the total sum of the two field collections</span>
+<span class="n">tot_sum_fc</span> <span class="o">=</span> <span class="n">maths</span><span class="o">.</span><span class="n">accumulate_fc</span><span class="p">(</span><span class="n">fields_container</span><span class="o">=</span><span class="n">fc1</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="c1"># {time: 1}: field1</span>
+<span class="c1">#           --&gt;      vector component 0 = 1.+ 4. = 5.</span>
+<span class="c1">#                    vector component 1 = 2.+ 5. = 7.</span>
+<span class="c1">#                    vector component 2 = 3.+ 6. = 9.</span>
+<span class="c1">#</span>
+<span class="c1"># {time: 2}: field2</span>
+<span class="c1">#           --&gt;      vector component 0 = 7.+ 8. = 15.</span>
+<span class="c1">#                    vector component 1 = 3.+ 1. = 4.</span>
+<span class="c1">#                    vector component 2 = 5.+ 2. = 7.</span>
+
+<span class="c1"># Print the results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total sum FieldsContainers&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">tot_sum_fc</span> <span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tot_sum_fc</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">}),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tot_sum_fc</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span><span class="mi">2</span><span class="p">}),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Total sum FieldsContainers 
+ DPF  Fields Container
+  with 2 field(s)
+  defined on labels: time 
+
+  with:
+  - field 0 {time:  1} with overall location, 3 components and 1 entities.
+  - field 1 {time:  2} with overall location, 3 components and 1 entities.
+ 
+
+DPF  Field
+  Location: overall
+  Unit: 
+  1 entities 
+  Data: 3 components and 1 elementary data 
+
+  overall
+  IDs                   data
+  ------------          ----------
+  0                     5.000000e+00   7.000000e+00   9.000000e+00   
+                        
+
+ 
+
+DPF  Field
+  Location: overall
+  Unit: 
+  1 entities 
+  Data: 3 components and 1 elementary data 
+
+  overall
+  IDs                   data
+  ------------          ----------
+  0                     1.500000e+01   4.000000e+00   7.000000e+00   
+                        
+
+ 
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Compute the total sum (accumulate) for each component of a given <a class="reference internal" href="../../../api/ansys/dpf/core/field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a> using a scale factor field.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-6" name="sd-tab-set-3" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-6">
+<em>accumulate</em></label><div class="sd-tab-content docutils">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the scale factor field</span>
+<span class="n">scale_vect</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">nentities</span><span class="o">=</span><span class="n">num_entities</span><span class="p">,</span> <span class="n">nature</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">natures</span><span class="o">.</span><span class="n">scalar</span><span class="p">)</span>
+<span class="c1"># Set the scale factor field scoping IDs</span>
+<span class="n">scale_vect</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_entities</span><span class="p">)</span>
+<span class="c1"># Set the scale factor field data</span>
+<span class="n">scale_vect</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="mf">5.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">]</span>
+
+<span class="c1"># Compute the total sum of the field using a scaling field</span>
+<span class="n">tot_sum_field_scale</span> <span class="o">=</span> <span class="n">maths</span><span class="o">.</span><span class="n">accumulate</span><span class="p">(</span><span class="n">fieldA</span><span class="o">=</span><span class="n">field1</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">scale_vect</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="c1"># vector component 0 = (1.0 * 5.0) + (4.0 * 2.0) = 13.</span>
+<span class="c1"># vector component 1 = (2.0 * 5.0) + (5.0 * 2.0) = 20.</span>
+<span class="c1"># vector component 2 = (3.0 * 5.0) + (6.0 * 2.0) = 27.</span>
+
+<span class="c1"># Print the results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total weighted sum:&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">tot_sum_field_scale</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Total weighted sum: 
+ DPF  Field
+  Location: overall
+  Unit: 
+  1 entities 
+  Data: 3 components and 1 elementary data 
+
+  overall
+  IDs                   data
+  ------------          ----------
+  0                     1.300000e+01   2.000000e+01   2.700000e+01   
+                        
+
+ 
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<input id="sd-tab-item-7" name="sd-tab-set-3" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-7">
+<em>accumulate_fc</em></label><div class="sd-tab-content docutils">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Total scaled sum of the two field collections (accumulate)</span>
+<span class="n">tot_sum_fc_scale</span> <span class="o">=</span> <span class="n">maths</span><span class="o">.</span><span class="n">accumulate_fc</span><span class="p">(</span><span class="n">fields_container</span><span class="o">=</span><span class="n">fc1</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">scale_vect</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="c1"># {time: 1}: field1</span>
+<span class="c1">#           --&gt;      vector component 0 = (1.0 * 5.0) + (4.0 * 2.0) = 13.</span>
+<span class="c1">#                    vector component 1 = (2.0 * 5.0) + (5.0 * 2.0) = 20.</span>
+<span class="c1">#                    vector component 2 = (3.0 * 5.0) + (6.0 * 2.0) = 27.</span>
+<span class="c1">#</span>
+<span class="c1"># {time: 2}: field2</span>
+<span class="c1">#           --&gt;      vector component 0 = (7.0 * 5.0) + (8.0 * 2.0) = 51.</span>
+<span class="c1">#                    vector component 1 = (3.0 * 5.0) + (1.0 * 2.0) = 17.</span>
+<span class="c1">#                    vector component 2 = (5.0 * 5.0) + (2.0 * 2.0) = 29.</span>
+
+<span class="c1"># Print the results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total sum FieldsContainers scale&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">tot_sum_fc_scale</span> <span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tot_sum_fc_scale</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">}),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tot_sum_fc_scale</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span><span class="mi">2</span><span class="p">}),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Total sum FieldsContainers scale 
+ DPF  Fields Container
+  with 2 field(s)
+  defined on labels: time 
+
+  with:
+  - field 0 {time:  1} with overall location, 3 components and 1 entities.
+  - field 1 {time:  2} with overall location, 3 components and 1 entities.
+ 
+
+DPF  Field
+  Location: overall
+  Unit: 
+  1 entities 
+  Data: 3 components and 1 elementary data 
+
+  overall
+  IDs                   data
+  ------------          ----------
+  0                     1.300000e+01   2.000000e+01   2.700000e+01   
+                        
+
+ 
+
+DPF  Field
+  Location: overall
+  Unit: 
+  1 entities 
+  Data: 3 components and 1 elementary data 
+
+  overall
+  IDs                   data
+  ------------          ----------
+  0                     5.100000e+01   1.700000e+01   2.900000e+01   
+                        
+
+ 
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="subtraction">
+<h2>Subtraction<a class="headerlink" href="#subtraction" title="Link to this heading">#</a></h2>
+<p>Use the <a class="reference internal" href="../../../api/ansys/dpf/core/operators/math/minus/minus.html#ansys.dpf.core.operators.math.minus.minus" title="ansys.dpf.core.operators.math.minus.minus"><code class="xref py py-class docutils literal notranslate"><span class="pre">minus</span></code></a> operator to compute the element-wise difference between each component of two fields.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-8" name="sd-tab-set-4" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-8">
+<em>minus</em></label><div class="sd-tab-content docutils">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Subtraction of two 3D vector fields</span>
+<span class="n">minus_field</span> <span class="o">=</span> <span class="n">maths</span><span class="o">.</span><span class="n">minus</span><span class="p">(</span><span class="n">fieldA</span><span class="o">=</span><span class="n">field1</span><span class="p">,</span> <span class="n">fieldB</span><span class="o">=</span><span class="n">field2</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="c1"># id 0: [1.-7. 2.-3. 3.-5.] = [-6. -1. -2.]</span>
+<span class="c1"># id 1: [4.-8. 5.-1. 6.-2.] = [-4. 4. 4.]</span>
+
+<span class="c1"># Print the results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Subtraction field&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">minus_field</span> <span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Subtraction field 
+ DPF  Field
+  Location: Nodal
+  Unit: 
+  2 entities 
+  Data: 3 components and 2 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  0                     -6.000000e+00  -1.000000e+00  -2.000000e+00  
+                        
+  1                     -4.000000e+00  4.000000e+00   4.000000e+00   
+                        
+
+ 
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<input id="sd-tab-item-9" name="sd-tab-set-4" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-9">
+<em>minus_fc</em></label><div class="sd-tab-content docutils">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Subtraction of two field collections</span>
+<span class="n">minus_fc</span> <span class="o">=</span> <span class="n">maths</span><span class="o">.</span><span class="n">minus_fc</span><span class="p">(</span>
+    <span class="n">field_or_fields_container_A</span><span class="o">=</span><span class="n">fc1</span><span class="p">,</span>
+    <span class="n">field_or_fields_container_B</span><span class="o">=</span><span class="n">fc2</span>
+<span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="c1"># {time: 1}: field1 - field3</span>
+<span class="c1">#           --&gt;      id 0: [1.-6. 2.-5. 3.-4.] = [-5. -3. -1.]</span>
+<span class="c1">#                    id 1: [4.-3. 5.-2. 6.-1.] = [1. 3. 5.]</span>
+<span class="c1">#</span>
+<span class="c1"># {time: 2}: field2 - field4</span>
+<span class="c1">#           --&gt;      id 0: [7.-4. 3.-1. 5.-8.] = [3. 2. -3.]</span>
+<span class="c1">#                    id 1: [8.-5. 1.-7. 2.-9.] = [3. -6. -7.]</span>
+
+<span class="c1"># Print the results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Subtraction field collection&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">minus_fc</span> <span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">minus_fc</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">}),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">minus_fc</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span><span class="mi">2</span><span class="p">}),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Subtraction field collection 
+ DPF  Fields Container
+  with 2 field(s)
+  defined on labels: time 
+
+  with:
+  - field 0 {time:  1} with Nodal location, 3 components and 2 entities.
+  - field 1 {time:  2} with Nodal location, 3 components and 2 entities.
+ 
+
+DPF  Field
+  Location: Nodal
+  Unit: 
+  2 entities 
+  Data: 3 components and 2 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  0                     -5.000000e+00  -3.000000e+00  -1.000000e+00  
+                        
+  1                     1.000000e+00   3.000000e+00   5.000000e+00   
+                        
+
+ 
+
+DPF  Field
+  Location: Nodal
+  Unit: 
+  2 entities 
+  Data: 3 components and 2 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  0                     3.000000e+00   2.000000e+00   -3.000000e+00  
+                        
+  1                     3.000000e+00   -6.000000e+00  -7.000000e+00  
+                        
+
+ 
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="element-wise-product">
+<h2>Element-wise product<a class="headerlink" href="#element-wise-product" title="Link to this heading">#</a></h2>
+<p>Use the <a class="reference internal" href="../../../api/ansys/dpf/core/operators/math/component_wise_product/component_wise_product.html#ansys.dpf.core.operators.math.component_wise_product.component_wise_product" title="ansys.dpf.core.operators.math.component_wise_product.component_wise_product"><code class="xref py py-class docutils literal notranslate"><span class="pre">component_wise_product</span></code></a> operator to compute the element-wise product between each component of two fields.
+Also known as the <a class="reference external" href="https://en.wikipedia.org/wiki/Hadamard_product_(matrices)">Hadamard product</a>, the <em>entrywise product</em> or <em>Schur product</em>.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-10" name="sd-tab-set-5" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-10">
+<em>component_wise_product</em></label><div class="sd-tab-content docutils">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute the Hadamard product of two fields</span>
+<span class="n">element_prod_field</span> <span class="o">=</span> <span class="n">maths</span><span class="o">.</span><span class="n">component_wise_product</span><span class="p">(</span><span class="n">fieldA</span><span class="o">=</span><span class="n">field1</span><span class="p">,</span> <span class="n">fieldB</span><span class="o">=</span><span class="n">field2</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="c1"># id 0: [1.*7. 2.*3. 3.*5.] = [7. 6. 15.]</span>
+<span class="c1"># id 1: [4.*8. 5.*1. 6.*2.] = [32. 5. 12.]</span>
+
+<span class="c1"># Print the results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Element-wise product field&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">element_prod_field</span> <span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Element-wise product field 
+ DPF  Field
+  Location: Nodal
+  Unit: 
+  2 entities 
+  Data: 3 components and 2 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  0                     7.000000e+00   6.000000e+00   1.500000e+01   
+                        
+  1                     3.200000e+01   5.000000e+00   1.200000e+01   
+                        
+
+ 
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<input id="sd-tab-item-11" name="sd-tab-set-5" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-11">
+<em>component_wise_product_fc</em></label><div class="sd-tab-content docutils">
+<p>The current implementation of <a class="reference internal" href="../../../api/ansys/dpf/core/operators/math/component_wise_product_fc/component_wise_product_fc.html#ansys.dpf.core.operators.math.component_wise_product_fc.component_wise_product_fc" title="ansys.dpf.core.operators.math.component_wise_product_fc.component_wise_product_fc"><code class="xref py py-class docutils literal notranslate"><span class="pre">component_wise_product_fc</span></code></a> only performs the Hadamard product
+for each field in a collection with a distinct unique field.</p>
+<p>The element-wise product between two field collections is not implemented.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Cross product of each field in a collection and a single unique field</span>
+<span class="n">element_prod_fc</span> <span class="o">=</span> <span class="n">maths</span><span class="o">.</span><span class="n">component_wise_product_fc</span><span class="p">(</span><span class="n">fields_container</span><span class="o">=</span><span class="n">fc1</span><span class="p">,</span> <span class="n">fieldB</span><span class="o">=</span><span class="n">field3</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="c1"># {time: 1}: field1 and field3</span>
+<span class="c1">#           --&gt;      id 0: [1.*6. 2.*5. 3.*4.] = [6. 10. 12.]</span>
+<span class="c1">#                    id 1: [4.*3. 5.*2. 6.*1.] = [12. 10. 6.]</span>
+<span class="c1">#</span>
+<span class="c1"># {time: 2}: field2 and field3</span>
+<span class="c1">#           --&gt;      id 0: [7.*6. 3.*5. 5.*4.] = [42. 15. 20.]</span>
+<span class="c1">#                    id 1: [8.*3. 1.*2. 2.*1.] = [24. 2. 2.]</span>
+
+<span class="c1"># Print the results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Element product FieldsContainer&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">element_prod_fc</span> <span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">element_prod_fc</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">}),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">element_prod_fc</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span><span class="mi">2</span><span class="p">}),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Element product FieldsContainer 
+ DPF  Fields Container
+  with 2 field(s)
+  defined on labels: time 
+
+  with:
+  - field 0 {time:  1} with Nodal location, 3 components and 2 entities.
+  - field 1 {time:  2} with Nodal location, 3 components and 2 entities.
+ 
+
+DPF  Field
+  Location: Nodal
+  Unit: 
+  2 entities 
+  Data: 3 components and 2 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  0                     6.000000e+00   1.000000e+01   1.200000e+01   
+                        
+  1                     1.200000e+01   1.000000e+01   6.000000e+00   
+                        
+
+ 
+
+DPF  Field
+  Location: Nodal
+  Unit: 
+  2 entities 
+  Data: 3 components and 2 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  0                     4.200000e+01   1.500000e+01   2.000000e+01   
+                        
+  1                     2.400000e+01   2.000000e+00   2.000000e+00   
+                        
+
+ 
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="cross-product">
+<h2>Cross product<a class="headerlink" href="#cross-product" title="Link to this heading">#</a></h2>
+<p>Use the <a class="reference internal" href="../../../api/ansys/dpf/core/operators/math/cross_product/cross_product.html#ansys.dpf.core.operators.math.cross_product.cross_product" title="ansys.dpf.core.operators.math.cross_product.cross_product"><code class="xref py py-class docutils literal notranslate"><span class="pre">cross_product</span></code></a> operator to compute the <a class="reference external" href="https://en.wikipedia.org/wiki/Cross_product">cross product</a> between two vector fields.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-12" name="sd-tab-set-6" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-12">
+<em>cross_product</em></label><div class="sd-tab-content docutils">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute the cross product</span>
+<span class="n">cross_prod_field</span> <span class="o">=</span> <span class="n">maths</span><span class="o">.</span><span class="n">cross_product</span><span class="p">(</span><span class="n">fieldA</span><span class="o">=</span><span class="n">field1</span><span class="p">,</span> <span class="n">fieldB</span><span class="o">=</span><span class="n">field2</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="c1"># id 0: [(2.*5. - 3.*3.)  (3.*7. - 1.*5.)  (1.*3. - 2.*7.)] = [1. 16. -11.]</span>
+<span class="c1"># id 1: [(5.*2. - 6.*1.)  (6.*8. - 4.*2.)  (4.*1. - 5.*8.)] = [4. 40. -36.]</span>
+
+<span class="c1"># Print the results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Cross product field&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">cross_prod_field</span> <span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Cross product field 
+ DPF  Field
+  Location: Nodal
+  Unit: 
+  2 entities 
+  Data: 3 components and 2 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  0                     1.000000e+00   1.600000e+01   -1.100000e+01  
+                        
+  1                     4.000000e+00   4.000000e+01   -3.600000e+01  
+                        
+
+ 
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<input id="sd-tab-item-13" name="sd-tab-set-6" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-13">
+<em>cross_product_fc</em></label><div class="sd-tab-content docutils">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Cross product of two field collections</span>
+<span class="n">cross_prod_fc</span> <span class="o">=</span> <span class="n">maths</span><span class="o">.</span><span class="n">cross_product_fc</span><span class="p">(</span><span class="n">field_or_fields_container_A</span><span class="o">=</span><span class="n">fc1</span><span class="p">,</span><span class="n">field_or_fields_container_B</span><span class="o">=</span><span class="n">fc2</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="c1"># {time: 1}: field1 X field3</span>
+<span class="c1">#           --&gt;      id 0: [(2.*4. - 3.*5.)  (3.*6. - 1.*4.)  (1.*5. - 2.*6.)] = [-7. 14. -7.]</span>
+<span class="c1">#                    id 1: [(5.*1. - 6.*2.)  (6.*3. - 4.*1.)  (4.*2. - 5.*3.)] = [-7. 14. -7.]</span>
+<span class="c1">#</span>
+<span class="c1"># {time: 2}: field2 X field4</span>
+<span class="c1">#           --&gt;      id 0: [(3.*8. - 5.*1.)  (5.*4. - 7.*8.)  (7.*1. - 3.*4.)] = [19. -36. -5]</span>
+<span class="c1">#                    id 1: [(1.*9. - 2.*7.)  (2.*5. - 8.*9.)  (8.*7. - 1.*5.)] = [-5. -62. 51.]</span>
+
+<span class="c1"># Print the results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Cross product FieldsContainer&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">cross_prod_fc</span> <span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cross_prod_fc</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">}),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cross_prod_fc</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span><span class="mi">2</span><span class="p">}),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Cross product FieldsContainer 
+ DPF  Fields Container
+  with 2 field(s)
+  defined on labels: time 
+
+  with:
+  - field 0 {time:  1} with Nodal location, 3 components and 2 entities.
+  - field 1 {time:  2} with Nodal location, 3 components and 2 entities.
+ 
+
+DPF  Field
+  Location: Nodal
+  Unit: 
+  2 entities 
+  Data: 3 components and 2 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  0                     -7.000000e+00  1.400000e+01   -7.000000e+00  
+                        
+  1                     -7.000000e+00  1.400000e+01   -7.000000e+00  
+                        
+
+ 
+
+DPF  Field
+  Location: Nodal
+  Unit: 
+  2 entities 
+  Data: 3 components and 2 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  0                     1.900000e+01   -3.600000e+01  -5.000000e+00  
+                        
+  1                     -5.000000e+00  -6.200000e+01  5.100000e+01   
+                        
+
+ 
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="dot-product">
+<h2>Dot product<a class="headerlink" href="#dot-product" title="Link to this heading">#</a></h2>
+<p>Here, DPF provides two operations:</p>
+<ul class="simple">
+<li><p>Use the <a class="reference internal" href="../../../api/ansys/dpf/core/operators/math/generalized_inner_product/generalized_inner_product.html#ansys.dpf.core.operators.math.generalized_inner_product.generalized_inner_product" title="ansys.dpf.core.operators.math.generalized_inner_product.generalized_inner_product"><code class="xref py py-class docutils literal notranslate"><span class="pre">generalized_inner_product</span></code></a> operator to compute the <a class="reference external" href="https://en.wikipedia.org/wiki/Dot_product">inner product</a> (also known as <em>dot product</em> or <em>scalar product</em>) between vector data of entities in two fields</p></li>
+<li><p>Use the <a class="reference internal" href="../../../api/ansys/dpf/core/operators/math/overall_dot/overall_dot.html#ansys.dpf.core.operators.math.overall_dot.overall_dot" title="ansys.dpf.core.operators.math.overall_dot.overall_dot"><code class="xref py py-class docutils literal notranslate"><span class="pre">overall_dot</span></code></a> operator to compute the sum over all entities of the inner product of two vector fields</p></li>
+</ul>
+<section id="id2">
+<h3>Inner product<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<p>The <a class="reference internal" href="../../../api/ansys/dpf/core/operators/math/generalized_inner_product/generalized_inner_product.html#ansys.dpf.core.operators.math.generalized_inner_product.generalized_inner_product" title="ansys.dpf.core.operators.math.generalized_inner_product.generalized_inner_product"><code class="xref py py-class docutils literal notranslate"><span class="pre">generalized_inner_product</span></code></a> operator computes a general notion of inner product between two vector fields.
+In Cartesian coordinates it is equivalent to the dot/scalar product.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-14" name="sd-tab-set-7" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-14">
+<em>generalized_inner_product</em></label><div class="sd-tab-content docutils">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generalized inner product of two fields</span>
+<span class="n">dot_prod_field</span> <span class="o">=</span> <span class="n">maths</span><span class="o">.</span><span class="n">generalized_inner_product</span><span class="p">(</span><span class="n">fieldA</span><span class="o">=</span><span class="n">field1</span><span class="p">,</span> <span class="n">fieldB</span><span class="o">=</span><span class="n">field2</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="c1"># id 0: (1. * 7.) + (2. * 3.) + (3. * 5.) = 28.</span>
+<span class="c1"># id 1: (4. * 8.) + (5. * 1.) + (6. * 2.) = 49.</span>
+
+<span class="c1"># Print the results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Dot product field&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">dot_prod_field</span> <span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Dot product field 
+ DPF  Field
+  Location: Nodal
+  Unit: 
+  2 entities 
+  Data: 1 components and 2 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  0                     2.800000e+01   
+                        
+  1                     4.900000e+01   
+                        
+
+ 
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<input id="sd-tab-item-15" name="sd-tab-set-7" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-15">
+<em>generalized_inner_product_fc</em></label><div class="sd-tab-content docutils">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generalized inner product of two field collections</span>
+<span class="n">dot_prod_fc</span> <span class="o">=</span> <span class="n">maths</span><span class="o">.</span><span class="n">generalized_inner_product_fc</span><span class="p">(</span><span class="n">field_or_fields_container_A</span><span class="o">=</span><span class="n">fc1</span><span class="p">,</span> <span class="n">field_or_fields_container_B</span><span class="o">=</span><span class="n">fc2</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="c1"># {time: 1}: field1 X field3</span>
+<span class="c1">#           --&gt;      id 0: (1. * 6.) + (2. * 5.) + (3. * 4.) = 28.</span>
+<span class="c1">#                    id 1: (4. * 3.) + (5. * 2.) + (6. * 1.) = 28.</span>
+<span class="c1">#</span>
+<span class="c1"># {time: 2}: field2 X field4</span>
+<span class="c1">#           --&gt;      id 0: (7. * 4.) + (3. * 1.) + (5. * 8.) = 71.</span>
+<span class="c1">#                    id 1: (8. * 5.) + (1. * 7.) + (2. * 9.) = 65.</span>
+
+<span class="c1"># Print the results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Dot product FieldsContainer&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">dot_prod_fc</span> <span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">dot_prod_fc</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">}),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">dot_prod_fc</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span><span class="mi">2</span><span class="p">}),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Dot product FieldsContainer 
+ DPF  Fields Container
+  with 2 field(s)
+  defined on labels: time 
+
+  with:
+  - field 0 {time:  1} with Nodal location, 1 components and 2 entities.
+  - field 1 {time:  2} with Nodal location, 1 components and 2 entities.
+ 
+
+DPF  Field
+  Location: Nodal
+  Unit: 
+  2 entities 
+  Data: 1 components and 2 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  0                     2.800000e+01   
+                        
+  1                     2.800000e+01   
+                        
+
+ 
+
+DPF  Field
+  Location: Nodal
+  Unit: 
+  2 entities 
+  Data: 1 components and 2 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  0                     7.100000e+01   
+                        
+  1                     6.500000e+01   
+                        
+
+ 
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="overall-dot-product">
+<h3>Overall dot product<a class="headerlink" href="#overall-dot-product" title="Link to this heading">#</a></h3>
+<p>The <a class="reference internal" href="../../../api/ansys/dpf/core/operators/math/overall_dot/overall_dot.html#ansys.dpf.core.operators.math.overall_dot.overall_dot" title="ansys.dpf.core.operators.math.overall_dot.overall_dot"><code class="xref py py-class docutils literal notranslate"><span class="pre">overall_dot</span></code></a> operator creates two manipulations to give the result:</p>
+<ol class="arabic simple">
+<li><p>it first computes a dot product between data of corresponding entities for two vector fields, resulting in a scalar field</p></li>
+<li><p>it then sums the result obtained previously over all entities to return a scalar</p></li>
+</ol>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-16" name="sd-tab-set-8" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-16">
+<em>overall_dot</em></label><div class="sd-tab-content docutils">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Overall dot product of two fields</span>
+<span class="n">overall_dot</span> <span class="o">=</span> <span class="n">maths</span><span class="o">.</span><span class="n">overall_dot</span><span class="p">(</span><span class="n">fieldA</span><span class="o">=</span><span class="n">field1</span><span class="p">,</span> <span class="n">fieldB</span><span class="o">=</span><span class="n">field2</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="c1"># id 1: (1. * 7.) + (2. * 3.) + (3. * 5.) + (4. * 8.) + (5. * 1.) + (6. * 2.) = 77.</span>
+
+<span class="c1"># Print the results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Overall dot&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">overall_dot</span> <span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Overall dot 
+ DPF  Field
+  Location: overall
+  Unit: 
+  1 entities 
+  Data: 1 components and 1 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  1                     7.700000e+01   
+                        
+
+ 
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<input id="sd-tab-item-17" name="sd-tab-set-8" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-17">
+<em>overall_dot_fc</em></label><div class="sd-tab-content docutils">
+<p>The <code class="docutils literal notranslate"><span class="pre">overall_dot_fc</span></code> operator is not available.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="division">
+<h2>Division<a class="headerlink" href="#division" title="Link to this heading">#</a></h2>
+<p>Use the <a class="reference internal" href="../../../api/ansys/dpf/core/operators/math/component_wise_divide/component_wise_divide.html#ansys.dpf.core.operators.math.component_wise_divide.component_wise_divide" title="ansys.dpf.core.operators.math.component_wise_divide.component_wise_divide"><code class="xref py py-class docutils literal notranslate"><span class="pre">component_wise_divide</span></code></a> operator to compute the
+<a class="reference external" href="https://en.wikipedia.org/wiki/Hadamard_product_(matrices)#Analogous_operations">Hadamard division</a>
+between each component of two fields.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-18" name="sd-tab-set-9" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-18">
+<em>component_wise_divide</em></label><div class="sd-tab-content docutils">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Divide a field by another field</span>
+<span class="n">comp_wise_div</span> <span class="o">=</span> <span class="n">maths</span><span class="o">.</span><span class="n">component_wise_divide</span><span class="p">(</span><span class="n">fieldA</span><span class="o">=</span><span class="n">field1</span><span class="p">,</span> <span class="n">fieldB</span><span class="o">=</span><span class="n">field2</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="c1"># id 0: [1./7. 2./3. 3./5.] = [0.143 0.667 0.6]</span>
+<span class="c1"># id 1: [4./8. 5./1. 6./2.] = [0.5 5. 3.]</span>
+
+<span class="c1"># Print the results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Component-wise division field&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">comp_wise_div</span> <span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Component-wise division field 
+ DPF  Field
+  Location: Nodal
+  Unit: 
+  2 entities 
+  Data: 3 components and 2 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  0                     1.428571e-01   6.666667e-01   6.000000e-01   
+                        
+  1                     5.000000e-01   5.000000e+00   3.000000e+00   
+                        
+
+ 
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<input id="sd-tab-item-19" name="sd-tab-set-9" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-19">
+<em>component_wise_divide_fc</em></label><div class="sd-tab-content docutils">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Component-wise division between two field collections</span>
+<span class="n">comp_wise_div_fc</span> <span class="o">=</span> <span class="n">maths</span><span class="o">.</span><span class="n">component_wise_divide_fc</span><span class="p">(</span><span class="n">fields_containerA</span><span class="o">=</span><span class="n">fc1</span><span class="p">,</span> <span class="n">fields_containerB</span><span class="o">=</span><span class="n">fc2</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="c1"># {time: 1}: field1 - field3</span>
+<span class="c1">#           --&gt;      id 0: [1./6. 2./5. 3./4.] = [0.167 0.4 0.75]</span>
+<span class="c1">#                    id 1: [4./3. 5./2. 6./1.] = [1.333 2.5 6.]</span>
+<span class="c1">#</span>
+<span class="c1"># {time: 2}: field2 - field4</span>
+<span class="c1">#           --&gt;      id 0: [7./4. 3./1. 5./8.] = [1.75 3. 0.625]</span>
+<span class="c1">#                    id 1: [8./5. 1./7. 2./9.] = [1.6 0.143 0.222]</span>
+
+<span class="c1"># Print the results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Component-wise division FieldsContainer&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">comp_wise_div_fc</span> <span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">comp_wise_div_fc</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">}),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">comp_wise_div_fc</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span><span class="mi">2</span><span class="p">}),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Component-wise division FieldsContainer 
+ DPF  Fields Container
+  with 2 field(s)
+  defined on labels: time 
+
+  with:
+  - field 0 {time:  1} with Nodal location, 3 components and 2 entities.
+  - field 1 {time:  2} with Nodal location, 3 components and 2 entities.
+ 
+
+DPF  Field
+  Location: Nodal
+  Unit: 
+  2 entities 
+  Data: 3 components and 2 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  0                     1.666667e-01   4.000000e-01   7.500000e-01   
+                        
+  1                     1.333333e+00   2.500000e+00   6.000000e+00   
+                        
+
+ 
+
+DPF  Field
+  Location: Nodal
+  Unit: 
+  2 entities 
+  Data: 3 components and 2 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  0                     1.750000e+00   3.000000e+00   6.250000e-01   
+                        
+  1                     1.600000e+00   1.428571e-01   2.222222e-01   
+                        
+
+ 
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="power">
+<h2>Power<a class="headerlink" href="#power" title="Link to this heading">#</a></h2>
+<p>Use:</p>
+<ul class="simple">
+<li><p>the <a class="reference internal" href="../../../api/ansys/dpf/core/operators/math/pow/pow.html#ansys.dpf.core.operators.math.pow.pow" title="ansys.dpf.core.operators.math.pow.pow"><code class="xref py py-class docutils literal notranslate"><span class="pre">pow</span></code></a> operator to compute the element-wise power of each component of a <a class="reference internal" href="../../../api/ansys/dpf/core/field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a></p></li>
+<li><p>the <a class="reference internal" href="../../../api/ansys/dpf/core/operators/math/sqr/sqr.html#ansys.dpf.core.operators.math.sqr.sqr" title="ansys.dpf.core.operators.math.sqr.sqr"><code class="xref py py-class docutils literal notranslate"><span class="pre">sqr</span></code></a> operator to compute the <a class="reference external" href="https://en.wikipedia.org/wiki/Hadamard_product_(matrices)#Analogous_operations">Hadamard power</a> of each component of a <a class="reference internal" href="../../../api/ansys/dpf/core/field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a></p></li>
+<li><p>the <a class="reference internal" href="../../../api/ansys/dpf/core/operators/math/sqrt/sqrt.html#ansys.dpf.core.operators.math.sqrt.sqrt" title="ansys.dpf.core.operators.math.sqrt.sqrt"><code class="xref py py-class docutils literal notranslate"><span class="pre">sqr</span></code></a> operator to compute the <a class="reference external" href="https://en.wikipedia.org/wiki/Hadamard_product_(matrices)#Analogous_operations">Hadamard root</a> of each component of a <a class="reference internal" href="../../../api/ansys/dpf/core/field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a></p></li>
+</ul>
+<section id="pow-operator">
+<h3><em>pow</em> operator<a class="headerlink" href="#pow-operator" title="Link to this heading">#</a></h3>
+<p>The <a class="reference internal" href="../../../api/ansys/dpf/core/operators/math/pow/pow.html#ansys.dpf.core.operators.math.pow.pow" title="ansys.dpf.core.operators.math.pow.pow"><code class="xref py py-class docutils literal notranslate"><span class="pre">pow</span></code></a> operator computes the element-wise power of each component of a <a class="reference internal" href="../../../api/ansys/dpf/core/field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a> to a given factor.</p>
+<p>This example computes the power of three.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-20" name="sd-tab-set-10" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-20">
+<em>pow</em></label><div class="sd-tab-content docutils">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the power factor</span>
+<span class="n">pow_factor</span> <span class="o">=</span> <span class="mf">3.0</span>
+<span class="c1"># Compute the power of three of a field</span>
+<span class="n">pow_field</span> <span class="o">=</span> <span class="n">maths</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">field1</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="n">pow_factor</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="c1"># id 0: [(1.^3.) (2.^3.) (3.^3.)] = [1. 8. 27.]</span>
+<span class="c1"># id 1: [(4.^3.) (5.^3.) (6.^3.)] = [64. 125. 216.]</span>
+
+<span class="c1"># Print the results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Power field&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">pow_field</span> <span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Power field 
+ DPF  Field
+  Location: Nodal
+  Unit: 
+  2 entities 
+  Data: 3 components and 2 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  0                     1.000000e+00   8.000000e+00   2.700000e+01   
+                        
+  1                     6.400000e+01   1.250000e+02   2.160000e+02   
+                        
+
+ 
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<input id="sd-tab-item-21" name="sd-tab-set-10" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-21">
+<em>pow_fc</em></label><div class="sd-tab-content docutils">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute the power of three of a field collection</span>
+<span class="n">pow_fc</span> <span class="o">=</span> <span class="n">maths</span><span class="o">.</span><span class="n">pow_fc</span><span class="p">(</span><span class="n">fields_container</span><span class="o">=</span><span class="n">fc1</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="n">pow_factor</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="c1"># {time: 1}: field1</span>
+<span class="c1">#           --&gt;      id 0: [(1.^3.) (2.^3.) (3.^3.)] = [1. 8. 27.]</span>
+<span class="c1">#                    id 1: [(4.^3.) (5.^3.) (6.^3.)] = [64. 125. 216.]</span>
+<span class="c1">#</span>
+<span class="c1"># {time: 2}: field2</span>
+<span class="c1">#           --&gt;      id 0: [(7.^3.) (3.^3.) (5.^3.)] = [343. 27. 125.]</span>
+<span class="c1">#                    id 1: [(8.^3.) (1.^3.) (2.^3.)] = [512. 1. 8.]</span>
+
+<span class="c1"># Print the results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Power FieldsContainer&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">pow_fc</span> <span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pow_fc</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">}),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pow_fc</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span><span class="mi">2</span><span class="p">}),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Power FieldsContainer 
+ DPF  Fields Container
+  with 2 field(s)
+  defined on labels: time 
+
+  with:
+  - field 0 {time:  1} with Nodal location, 3 components and 2 entities.
+  - field 1 {time:  2} with Nodal location, 3 components and 2 entities.
+ 
+
+DPF  Field
+  Location: Nodal
+  Unit: 
+  2 entities 
+  Data: 3 components and 2 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  0                     1.000000e+00   8.000000e+00   2.700000e+01   
+                        
+  1                     6.400000e+01   1.250000e+02   2.160000e+02   
+                        
+
+ 
+
+DPF  Field
+  Location: Nodal
+  Unit: 
+  2 entities 
+  Data: 3 components and 2 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  0                     3.430000e+02   2.700000e+01   1.250000e+02   
+                        
+  1                     5.120000e+02   1.000000e+00   8.000000e+00   
+                        
+
+ 
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="sqr-operator">
+<h3><em>sqr</em> operator<a class="headerlink" href="#sqr-operator" title="Link to this heading">#</a></h3>
+<p>The <a class="reference internal" href="../../../api/ansys/dpf/core/operators/math/sqr/sqr.html#ansys.dpf.core.operators.math.sqr.sqr" title="ansys.dpf.core.operators.math.sqr.sqr"><code class="xref py py-class docutils literal notranslate"><span class="pre">sqr</span></code></a> operator computes the element-wise power of two
+(<a class="reference external" href="https://en.wikipedia.org/wiki/Hadamard_product_(matrices)#Analogous_operations">Hadamard power</a>)
+for each component of a <a class="reference internal" href="../../../api/ansys/dpf/core/field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a>.
+It is a shortcut for the <a class="reference internal" href="../../../api/ansys/dpf/core/operators/math/pow/pow.html#ansys.dpf.core.operators.math.pow.pow" title="ansys.dpf.core.operators.math.pow.pow"><code class="xref py py-class docutils literal notranslate"><span class="pre">pow</span></code></a> operator with factor 2.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-22" name="sd-tab-set-11" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-22">
+<em>sqr</em></label><div class="sd-tab-content docutils">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute the power of two of a field</span>
+<span class="n">sqr_field</span> <span class="o">=</span> <span class="n">maths</span><span class="o">.</span><span class="n">sqr</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">field1</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="c1"># id 0: [(1.^2.) (2.^2.) (3.^2.)] = [1. 4. 9.]</span>
+<span class="c1"># id 1: [(4.^2.) (5.^2.) (6.^2.)] = [16. 25. 36.]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;^2 field&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">sqr_field</span> <span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>^2 field 
+ DPF  Field
+  Location: Nodal
+  Unit: 
+  2 entities 
+  Data: 3 components and 2 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  0                     1.000000e+00   4.000000e+00   9.000000e+00   
+                        
+  1                     1.600000e+01   2.500000e+01   3.600000e+01   
+                        
+
+ 
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<input id="sd-tab-item-23" name="sd-tab-set-11" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-23">
+<em>sqr_fc</em></label><div class="sd-tab-content docutils">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute the power of two of a field collection</span>
+<span class="n">sqr_fc</span> <span class="o">=</span> <span class="n">maths</span><span class="o">.</span><span class="n">sqr_fc</span><span class="p">(</span><span class="n">fields_container</span><span class="o">=</span><span class="n">fc1</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="c1"># {time: 1}: field1</span>
+<span class="c1">#           --&gt;      id 0: [(1.^2.) (2.^2.) (3.^2.)] = [1. 4. 9.]</span>
+<span class="c1">#                    id 1: [(4.^2.) (5.^2.) (6.^2.)] = [16. 25. 36.]</span>
+<span class="c1">#</span>
+<span class="c1"># {time: 2}: field2</span>
+<span class="c1">#           --&gt;      id 0: [(7.^2.) (3.^2.) (5.^2.)] = [49. 9. 25.]</span>
+<span class="c1">#                    id 1: [(8.^2.) (1.^2.) (2.^2.)] = [64. 1. 4.]</span>
+
+<span class="c1"># Print the results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;^2 FieldsContainer&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">sqr_fc</span> <span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sqr_fc</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">}),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sqr_fc</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span><span class="mi">2</span><span class="p">}),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>^2 FieldsContainer 
+ DPF  Fields Container
+  with 2 field(s)
+  defined on labels: time 
+
+  with:
+  - field 0 {time:  1} with Nodal location, 3 components and 2 entities.
+  - field 1 {time:  2} with Nodal location, 3 components and 2 entities.
+ 
+
+DPF  Field
+  Location: Nodal
+  Unit: 
+  2 entities 
+  Data: 3 components and 2 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  0                     1.000000e+00   4.000000e+00   9.000000e+00   
+                        
+  1                     1.600000e+01   2.500000e+01   3.600000e+01   
+                        
+
+ 
+
+DPF  Field
+  Location: Nodal
+  Unit: 
+  2 entities 
+  Data: 3 components and 2 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  0                     4.900000e+01   9.000000e+00   2.500000e+01   
+                        
+  1                     6.400000e+01   1.000000e+00   4.000000e+00   
+                        
+
+ 
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="sqrt-operator">
+<h3><em>sqrt</em> operator<a class="headerlink" href="#sqrt-operator" title="Link to this heading">#</a></h3>
+<p>The <a class="reference internal" href="../../../api/ansys/dpf/core/operators/math/sqrt/sqrt.html#ansys.dpf.core.operators.math.sqrt.sqrt" title="ansys.dpf.core.operators.math.sqrt.sqrt"><code class="xref py py-class docutils literal notranslate"><span class="pre">sqr</span></code></a> operator computes the element-wise square-root
+(<a class="reference external" href="https://en.wikipedia.org/wiki/Hadamard_product_(matrices)#Analogous_operations">Hadamard root</a>)
+for each component of a <a class="reference internal" href="../../../api/ansys/dpf/core/field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a>.
+It is a shortcut for the <a class="reference internal" href="../../../api/ansys/dpf/core/operators/math/pow/pow.html#ansys.dpf.core.operators.math.pow.pow" title="ansys.dpf.core.operators.math.pow.pow"><code class="xref py py-class docutils literal notranslate"><span class="pre">pow</span></code></a> operator with factor <em>0.5</em>.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-24" name="sd-tab-set-12" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-24">
+<em>sqrt</em></label><div class="sd-tab-content docutils">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute the square-root of a field</span>
+<span class="n">sqrt_field</span> <span class="o">=</span> <span class="n">maths</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">field1</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="c1"># id 0: [(1.^0.5) (2.^0.5) (3.^0.5)] = [1. 1.414 1.732]</span>
+<span class="c1"># id 1: [(4.^0.5) (5.^0.5) (6.^0.5)] = [2. 2.236 2.449]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;^0.5 field&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">sqrt_field</span> <span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>^0.5 field 
+ DPF  Field
+  Location: Nodal
+  Unit: 
+  2 entities 
+  Data: 3 components and 2 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  0                     1.000000e+00   1.414214e+00   1.732051e+00   
+                        
+  1                     2.000000e+00   2.236068e+00   2.449490e+00   
+                        
+
+ 
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<input id="sd-tab-item-25" name="sd-tab-set-12" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-25">
+<em>sqrt_fc</em></label><div class="sd-tab-content docutils">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute the square-root of a field collection</span>
+<span class="n">sqrt_fc</span> <span class="o">=</span> <span class="n">maths</span><span class="o">.</span><span class="n">sqrt_fc</span><span class="p">(</span><span class="n">fields_container</span><span class="o">=</span><span class="n">fc1</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="c1"># {time: 1}: field1</span>
+<span class="c1">#           --&gt;      id 0: [(1.^.5) (2.^.5) (3.^.5)] = [1. 1.414 1.732]</span>
+<span class="c1">#                    id 1: [(4.^.5) (5.^.5) (6.^.5)] = [2. 2.236 2.449]</span>
+<span class="c1">#</span>
+<span class="c1"># {time: 2}: field2</span>
+<span class="c1">#           --&gt;      id 0: [(7.^.5) (3.^.5) (5.^.5)] = [2.645 1.732 2.236]</span>
+<span class="c1">#                    id 1: [(8.^.5) (1.^.5) (2.^.5)] = [2.828 1. 1.414]</span>
+
+<span class="c1"># Print the results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Sqrt FieldsContainer&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">sqrt_fc</span> <span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sqrt_fc</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">}),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sqrt_fc</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span><span class="mi">2</span><span class="p">}),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Sqrt FieldsContainer 
+ DPF  Fields Container
+  with 2 field(s)
+  defined on labels: time 
+
+  with:
+  - field 0 {time:  1} with Nodal location, 3 components and 2 entities.
+  - field 1 {time:  2} with Nodal location, 3 components and 2 entities.
+ 
+
+DPF  Field
+  Location: Nodal
+  Unit: 
+  2 entities 
+  Data: 3 components and 2 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  0                     1.000000e+00   1.414214e+00   1.732051e+00   
+                        
+  1                     2.000000e+00   2.236068e+00   2.449490e+00   
+                        
+
+ 
+
+DPF  Field
+  Location: Nodal
+  Unit: 
+  2 entities 
+  Data: 3 components and 2 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  0                     2.645751e+00   1.732051e+00   2.236068e+00   
+                        
+  1                     2.828427e+00   1.000000e+00   1.414214e+00   
+                        
+
+ 
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="norm">
+<h2>Norm<a class="headerlink" href="#norm" title="Link to this heading">#</a></h2>
+<p>Use the <a class="reference internal" href="../../../api/ansys/dpf/core/operators/math/norm/norm.html#ansys.dpf.core.operators.math.norm.norm" title="ansys.dpf.core.operators.math.norm.norm"><code class="xref py py-class docutils literal notranslate"><span class="pre">norm</span></code></a> operator to compute the
+<a class="reference external" href="https://en.wikipedia.org/wiki/Norm_(mathematics)#p-norm">Lp norm</a>
+of the elementary data for each entity of a <a class="reference internal" href="../../../api/ansys/dpf/core/field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a>.</p>
+<p>The default <em>Lp</em> norm is <em>Lp=L2</em>.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-26" name="sd-tab-set-13" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-26">
+<em>norm</em></label><div class="sd-tab-content docutils">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute the L2 norm of a field</span>
+<span class="n">norm_field</span> <span class="o">=</span> <span class="n">maths</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">field1</span><span class="p">,</span> <span class="n">scalar_int</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="c1"># id 0: [(1.^2.) + (2.^2.) + (3.^2.)] ^1/2 = 3.742</span>
+<span class="c1"># id 1: [(4.^2.) + (5.^2.) + (6.^2.)] ^1/2 = 8.775</span>
+
+<span class="c1"># Print the results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Norm field&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">norm_field</span> <span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Norm field 
+ DPF  Field
+  Location: Nodal
+  Unit: 
+  2 entities 
+  Data: 1 components and 2 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  0                     3.741657e+00   
+                        
+  1                     8.774964e+00   
+                        
+
+ 
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<input id="sd-tab-item-27" name="sd-tab-set-13" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-27">
+<em>norm_fc</em></label><div class="sd-tab-content docutils">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the L2 norm of a field collection</span>
+<span class="n">norm_fc</span> <span class="o">=</span> <span class="n">maths</span><span class="o">.</span><span class="n">norm_fc</span><span class="p">(</span><span class="n">fields_container</span><span class="o">=</span><span class="n">fc1</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="c1"># {time: 1}: field1</span>
+<span class="c1">#           --&gt;      id 0: [(1.^2.) + (2.^2.) + (3.^2.)] ^1/2 = 3.742</span>
+<span class="c1">#                    id 1: [(4.^2.) + (5.^2.) + (6.^2.)] ^1/2 = 8.775</span>
+<span class="c1">#</span>
+<span class="c1"># {time: 2}: field2</span>
+<span class="c1">#           --&gt;      id 0: [(7.^2.) + (3.^2.) + (5.^2.)] ^1/2 = 9.110</span>
+<span class="c1">#                    id 1: [(8.^2.) + (1.^2.) + (2.^2.)] ^1/2 = 8.307</span>
+
+<span class="c1"># Print the results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Norm FieldsContainer&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">norm_fc</span> <span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">norm_fc</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">}),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">norm_fc</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span><span class="mi">2</span><span class="p">}),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Norm FieldsContainer 
+ DPF  Fields Container
+  with 2 field(s)
+  defined on labels: time 
+
+  with:
+  - field 0 {time:  1} with Nodal location, 1 components and 2 entities.
+  - field 1 {time:  2} with Nodal location, 1 components and 2 entities.
+ 
+
+DPF  Field
+  Location: Nodal
+  Unit: 
+  2 entities 
+  Data: 1 components and 2 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  0                     3.741657e+00   
+                        
+  1                     8.774964e+00   
+                        
+
+ 
+
+DPF  Field
+  Location: Nodal
+  Unit: 
+  2 entities 
+  Data: 1 components and 2 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  0                     9.110434e+00   
+                        
+  1                     8.306624e+00   
+                        
+
+ 
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-fields-and-field-collections">Create fields and field collections</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#effect-of-the-scoping">Effect of the scoping</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#handling-of-collections">Handling of collections</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#addition">Addition</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#element-wise-addition">Element-wise addition</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#overall-sum">Overall sum</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#subtraction">Subtraction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#element-wise-product">Element-wise product</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-product">Cross product</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dot-product">Dot product</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Inner product</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#overall-dot-product">Overall dot product</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#division">Division</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#power">Power</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pow-operator"><em>pow</em> operator</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sqr-operator"><em>sqr</em> operator</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sqrt-operator"><em>sqrt</em> operator</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#norm">Norm</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+<!-- If there is no fix edit button function, use the PyData edit-this-button-->
+</div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/user_guide/tutorials/mathematics/basic_maths.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+
+  <!-- Include desired assets -->
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.7/require.min.js"></script>
+
+<script>
+// Passing the search options to the search.js file
+const SEARCH_OPTIONS = JSON.parse('{"ignoreLocation": true, "keys": ["title", "text"], "limit": 10, "minMatchCharLength": 2, "threshold": 0.5}');
+const SEARCH_FILE = "../../../_static/search.json";
+</script>
+
+
+<script src="../../../_static/js/search.js"></script>
+  
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright (c) 2025 ANSYS, Inc. All rights reserved.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the
+  <a href="https://sphinxdocs.ansys.com/version/stable/index.html"
+    >Ansys Sphinx Theme</a
+  >
+  1.4.4. <br />Last updated on
+  <span id="ast_build_date"></span>
+</p>
+<script>
+  var options = { day: "numeric", month: "long", year: "numeric" };
+  var ast_lastModifiedDate = new Date(document.lastModified);
+  var ast_build_date = ast_lastModifiedDate.toLocaleDateString("en-US", options);
+  document.getElementById("ast_build_date").innerHTML = ast_build_date;
+</script></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

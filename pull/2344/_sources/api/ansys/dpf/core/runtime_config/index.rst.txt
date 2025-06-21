@@ -1,0 +1,85 @@
+
+
+
+
+
+
+The ``runtime_config.py`` module
+================================
+
+.. py:module:: ansys.dpf.core.runtime_config
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+
+
+
+
+.. py:currentmodule:: runtime_config
+.. tab-set::
+
+
+
+
+    .. tab-item:: Classes
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.runtime_config.RuntimeClientConfig`
+            - Enable accessing and setting runtime configuration options to gRPC client.
+
+
+          * - :py:obj:`~ansys.dpf.core.runtime_config.RuntimeCoreConfig`
+            - Enables to access and set runtime configuration options to DataProcessingCore.
+
+
+
+
+
+
+
+
+
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-cod-symbol_class"></span> RuntimeClientConfig</api/ansys/dpf/core/runtime_config/RuntimeClientConfig>
+    <span class="nf nf-cod-symbol_class"></span> RuntimeCoreConfig</api/ansys/dpf/core/runtime_config/RuntimeCoreConfig>
+
+
+
+
+
+
+
+
+
+Description
+-----------
+
+RuntimeConfig.
+
+
+
+
+
+
+
+

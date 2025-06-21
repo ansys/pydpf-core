@@ -1,0 +1,261 @@
+
+
+
+
+
+
+:class:`InputsComputeInvariantTermsMotion`
+==========================================
+
+
+.. py:class:: ansys.dpf.core.operators.result.compute_invariant_terms_motion.InputsComputeInvariantTermsMotion(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   compute_invariant_terms_motion operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_invariant_terms_motion()
+   >>> my_rom_matrices = dpf.FieldsContainer()
+   >>> op.inputs.rom_matrices.connect(my_rom_matrices)
+   >>> my_mode_shapes = dpf.FieldsContainer()
+   >>> op.inputs.mode_shapes.connect(my_mode_shapes)
+   >>> my_lumped_mass = dpf.FieldsContainer()
+   >>> op.inputs.lumped_mass.connect(my_lumped_mass)
+   >>> my_model_data = dpf.FieldsContainer()
+   >>> op.inputs.model_data.connect(my_model_data)
+   >>> my_field_coordinates = dpf.Field()
+   >>> op.inputs.field_coordinates.connect(my_field_coordinates)
+   >>> my_nod = dpf.()
+   >>> op.inputs.nod.connect(my_nod)
+
+
+
+
+
+
+.. py:currentmodule:: InputsComputeInvariantTermsMotion
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~rom_matrices`
+            - Allows to connect rom_matrices input to the operator.
+          * - :py:attr:`~mode_shapes`
+            - Allows to connect mode_shapes input to the operator.
+          * - :py:attr:`~lumped_mass`
+            - Allows to connect lumped_mass input to the operator.
+          * - :py:attr:`~model_data`
+            - Allows to connect model_data input to the operator.
+          * - :py:attr:`~field_coordinates`
+            - Allows to connect field_coordinates input to the operator.
+          * - :py:attr:`~nod`
+            - Allows to connect nod input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.compute_invariant_terms_motion import InputsComputeInvariantTermsMotion
+
+Property detail
+---------------
+
+.. py:property:: rom_matrices
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect rom_matrices input to the operator.
+
+   FieldsContainers containing the reduced matrices
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_invariant_terms_motion()
+   >>> op.inputs.rom_matrices.connect(my_rom_matrices)
+   >>> # or
+   >>> op.inputs.rom_matrices(my_rom_matrices)
+
+.. py:property:: mode_shapes
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect mode_shapes input to the operator.
+
+   FieldsContainers containing the mode shapes, which are CST and NOR for the cms method
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_invariant_terms_motion()
+   >>> op.inputs.mode_shapes.connect(my_mode_shapes)
+   >>> # or
+   >>> op.inputs.mode_shapes(my_mode_shapes)
+
+.. py:property:: lumped_mass
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect lumped_mass input to the operator.
+
+   FieldsContainers containing the lumped mass
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_invariant_terms_motion()
+   >>> op.inputs.lumped_mass.connect(my_lumped_mass)
+   >>> # or
+   >>> op.inputs.lumped_mass(my_lumped_mass)
+
+.. py:property:: model_data
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect model_data input to the operator.
+
+   data describing the finite element model
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_invariant_terms_motion()
+   >>> op.inputs.model_data.connect(my_model_data)
+   >>> # or
+   >>> op.inputs.model_data(my_model_data)
+
+.. py:property:: field_coordinates
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect field_coordinates input to the operator.
+
+   coordinates of all nodes
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_invariant_terms_motion()
+   >>> op.inputs.field_coordinates.connect(my_field_coordinates)
+   >>> # or
+   >>> op.inputs.field_coordinates(my_field_coordinates)
+
+.. py:property:: nod
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect nod input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_invariant_terms_motion()
+   >>> op.inputs.nod.connect(my_nod)
+   >>> # or
+   >>> op.inputs.nod(my_nod)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+   :param inpt:
+   :type inpt: str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping, Enum,
+   :param ScopingsContainer: Input of the operator.
+   :type ScopingsContainer: E501
+   :param MeshedRegion: Input of the operator.
+   :type MeshedRegion: E501
+   :param MeshesContainer: Input of the operator.
+   :type MeshesContainer: E501
+   :param DataSources: Input of the operator.
+   :type DataSources: E501
+   :param CyclicSupport: Input of the operator.
+   :type CyclicSupport: E501
+   :param Outputs: Input of the operator.
+   :type Outputs: E501
+   :param os.PathLike  # noqa: Input of the operator.
+   :type os.PathLike  # noqa: E501
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+
