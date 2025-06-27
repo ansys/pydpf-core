@@ -17,9 +17,119 @@ from ansys.dpf.core.server_types import AnyServerType
 
 class plastic_strain(Operator):
     r"""Read/compute element nodal component plastic strains by calling the
-    readers defined by the datasources. Regarding the requested location and
-    the input mesh scoping, the result location can be
-    Nodal/ElementalNodal/Elemental.
+    readers defined by the datasources. - The ‘requested_location’ and
+    ‘mesh_scoping’ inputs are processed to infer if scoping transposition or
+    result averaging is needed, with the resulting output fields having
+    ‘Nodal’, ‘ElementalNodal’ or ‘Elemental’ location. - Once the need for
+    averaging has been detected, the behavior of the combined connection of
+    the ‘split_shells’ and ‘shell_layer’ pins is:
+
+    +-------------------+-------------------+-------------+---------------+
+    | Averaging is      | ‘split_shells’    | ‘s          | Expected      |
+    | needed            |                   | hell_layer’ | output        |
+    +===================+===================+=============+===============+
+    | No                | Not               | Not         | Location as   |
+    |                   | connected/false   | connected   | in the result |
+    |                   |                   |             | file. Fields  |
+    |                   |                   |             | with all      |
+    |                   |                   |             | element       |
+    |                   |                   |             | shapes        |
+    |                   |                   |             | combined. All |
+    |                   |                   |             | shell layers  |
+    |                   |                   |             | present.      |
+    +-------------------+-------------------+-------------+---------------+
+    | No                | true              | Not         | Location as   |
+    |                   |                   | connected   | in the result |
+    |                   |                   |             | file. Fields  |
+    |                   |                   |             | split         |
+    |                   |                   |             | according to  |
+    |                   |                   |             | element       |
+    |                   |                   |             | shapes. All   |
+    |                   |                   |             | shell layers  |
+    |                   |                   |             | present.      |
+    +-------------------+-------------------+-------------+---------------+
+    | No                | true              | Connected   | Location as   |
+    |                   |                   |             | in the result |
+    |                   |                   |             | file. Fields  |
+    |                   |                   |             | split         |
+    |                   |                   |             | according to  |
+    |                   |                   |             | element       |
+    |                   |                   |             | shapes. Only  |
+    |                   |                   |             | the requested |
+    |                   |                   |             | shell layer   |
+    |                   |                   |             | present.      |
+    +-------------------+-------------------+-------------+---------------+
+    | No                | Not               | Connected   | Location as   |
+    |                   | connected/false   |             | in the result |
+    |                   |                   |             | file. Fields  |
+    |                   |                   |             | with all      |
+    |                   |                   |             | element       |
+    |                   |                   |             | shapes        |
+    |                   |                   |             | combined.     |
+    |                   |                   |             | Only the      |
+    |                   |                   |             | requested     |
+    |                   |                   |             | shell layer   |
+    |                   |                   |             | present.      |
+    +-------------------+-------------------+-------------+---------------+
+    | Yes               | Not               | Not         | Location as   |
+    |                   | connected/true    | connected   | requested.    |
+    |                   |                   |             | Fields split  |
+    |                   |                   |             | according to  |
+    |                   |                   |             | element       |
+    |                   |                   |             | shapes. All   |
+    |                   |                   |             | shell layers  |
+    |                   |                   |             | present.      |
+    +-------------------+-------------------+-------------+---------------+
+    | Yes               | false             | Not         | Location as   |
+    |                   |                   | connected   | requested.    |
+    |                   |                   |             | Fields with   |
+    |                   |                   |             | all element   |
+    |                   |                   |             | shapes        |
+    |                   |                   |             | combined. All |
+    |                   |                   |             | shell layers  |
+    |                   |                   |             | present.      |
+    +-------------------+-------------------+-------------+---------------+
+    | Yes               | false             | Connected   | Location as   |
+    |                   |                   |             | requested.    |
+    |                   |                   |             | Fields with   |
+    |                   |                   |             | all element   |
+    |                   |                   |             | shapes        |
+    |                   |                   |             | combined.     |
+    |                   |                   |             | Only the      |
+    |                   |                   |             | requested     |
+    |                   |                   |             | shell layer   |
+    |                   |                   |             | present.      |
+    +-------------------+-------------------+-------------+---------------+
+    | Yes               | Not               | Connected   | Location as   |
+    |                   | connected/true    |             | requested.    |
+    |                   |                   |             | Fields split  |
+    |                   |                   |             | according to  |
+    |                   |                   |             | element       |
+    |                   |                   |             | shapes. Only  |
+    |                   |                   |             | the requested |
+    |                   |                   |             | shell layer   |
+    |                   |                   |             | present.      |
+    +-------------------+-------------------+-------------+---------------+
+
+    - The available ‘elshape’ values are:
+
+    ======= ======================================================
+    elshape Related elements
+    ======= ======================================================
+    1       Shell (generic)
+    2       Solid
+    3       Beam
+    4       Skin
+    5       Contact
+    6       Load
+    7       Point
+    8       Shell with 1 result across thickness (membrane)
+    9       Shell with 2 results across thickness (top/bottom)
+    10      Shell with 3 results across thickness (top/bottom/mid)
+    11      Gasket
+    12      Multi-Point Constraint
+    13      Pretension
+    ======= ======================================================
 
 
     Parameters
@@ -43,9 +153,9 @@ class plastic_strain(Operator):
     read_beams: bool, optional
         elemental nodal beam results are read if this pin is set to true (default is false)
     split_shells: bool, optional
-        This pin forces elemental nodal shell and solid results to be split if this pin is set to true. If set to false (default), a specific shell layer is still needed to merge the fields. Merge is possible only if a shell layer is provided.
+        If true, this pin forces the results to be split by element shape, indicated by the presence of the 'elshape' label in the output. If false, the results for all elements shapes are combined. Default value: false if no averaging is needed and true if averaging is needed.
     shell_layer: int, optional
-        If the requested_location pin is not connected, and if split_shells pin is set to true, we choose one of the shell layer for shell element. If split_shells pin is set to false (default value) and a specific shell layer is provided, results will be merged on this specific shell layer.
+        If connected, this pin allows to extract the result only on the selected shell layer(s). The available values are: 0: Top, 1: Bottom, 2: TopBottom, 3: Mid, 4: TopBottomMid.
 
     Returns
     -------
@@ -146,9 +256,119 @@ class plastic_strain(Operator):
     @staticmethod
     def _spec() -> Specification:
         description = r"""Read/compute element nodal component plastic strains by calling the
-readers defined by the datasources. Regarding the requested location and
-the input mesh scoping, the result location can be
-Nodal/ElementalNodal/Elemental.
+readers defined by the datasources. - The ‘requested_location’ and
+‘mesh_scoping’ inputs are processed to infer if scoping transposition or
+result averaging is needed, with the resulting output fields having
+‘Nodal’, ‘ElementalNodal’ or ‘Elemental’ location. - Once the need for
+averaging has been detected, the behavior of the combined connection of
+the ‘split_shells’ and ‘shell_layer’ pins is:
+
++-------------------+-------------------+-------------+---------------+
+| Averaging is      | ‘split_shells’    | ‘s          | Expected      |
+| needed            |                   | hell_layer’ | output        |
++===================+===================+=============+===============+
+| No                | Not               | Not         | Location as   |
+|                   | connected/false   | connected   | in the result |
+|                   |                   |             | file. Fields  |
+|                   |                   |             | with all      |
+|                   |                   |             | element       |
+|                   |                   |             | shapes        |
+|                   |                   |             | combined. All |
+|                   |                   |             | shell layers  |
+|                   |                   |             | present.      |
++-------------------+-------------------+-------------+---------------+
+| No                | true              | Not         | Location as   |
+|                   |                   | connected   | in the result |
+|                   |                   |             | file. Fields  |
+|                   |                   |             | split         |
+|                   |                   |             | according to  |
+|                   |                   |             | element       |
+|                   |                   |             | shapes. All   |
+|                   |                   |             | shell layers  |
+|                   |                   |             | present.      |
++-------------------+-------------------+-------------+---------------+
+| No                | true              | Connected   | Location as   |
+|                   |                   |             | in the result |
+|                   |                   |             | file. Fields  |
+|                   |                   |             | split         |
+|                   |                   |             | according to  |
+|                   |                   |             | element       |
+|                   |                   |             | shapes. Only  |
+|                   |                   |             | the requested |
+|                   |                   |             | shell layer   |
+|                   |                   |             | present.      |
++-------------------+-------------------+-------------+---------------+
+| No                | Not               | Connected   | Location as   |
+|                   | connected/false   |             | in the result |
+|                   |                   |             | file. Fields  |
+|                   |                   |             | with all      |
+|                   |                   |             | element       |
+|                   |                   |             | shapes        |
+|                   |                   |             | combined.     |
+|                   |                   |             | Only the      |
+|                   |                   |             | requested     |
+|                   |                   |             | shell layer   |
+|                   |                   |             | present.      |
++-------------------+-------------------+-------------+---------------+
+| Yes               | Not               | Not         | Location as   |
+|                   | connected/true    | connected   | requested.    |
+|                   |                   |             | Fields split  |
+|                   |                   |             | according to  |
+|                   |                   |             | element       |
+|                   |                   |             | shapes. All   |
+|                   |                   |             | shell layers  |
+|                   |                   |             | present.      |
++-------------------+-------------------+-------------+---------------+
+| Yes               | false             | Not         | Location as   |
+|                   |                   | connected   | requested.    |
+|                   |                   |             | Fields with   |
+|                   |                   |             | all element   |
+|                   |                   |             | shapes        |
+|                   |                   |             | combined. All |
+|                   |                   |             | shell layers  |
+|                   |                   |             | present.      |
++-------------------+-------------------+-------------+---------------+
+| Yes               | false             | Connected   | Location as   |
+|                   |                   |             | requested.    |
+|                   |                   |             | Fields with   |
+|                   |                   |             | all element   |
+|                   |                   |             | shapes        |
+|                   |                   |             | combined.     |
+|                   |                   |             | Only the      |
+|                   |                   |             | requested     |
+|                   |                   |             | shell layer   |
+|                   |                   |             | present.      |
++-------------------+-------------------+-------------+---------------+
+| Yes               | Not               | Connected   | Location as   |
+|                   | connected/true    |             | requested.    |
+|                   |                   |             | Fields split  |
+|                   |                   |             | according to  |
+|                   |                   |             | element       |
+|                   |                   |             | shapes. Only  |
+|                   |                   |             | the requested |
+|                   |                   |             | shell layer   |
+|                   |                   |             | present.      |
++-------------------+-------------------+-------------+---------------+
+
+- The available ‘elshape’ values are:
+
+======= ======================================================
+elshape Related elements
+======= ======================================================
+1       Shell (generic)
+2       Solid
+3       Beam
+4       Skin
+5       Contact
+6       Load
+7       Point
+8       Shell with 1 result across thickness (membrane)
+9       Shell with 2 results across thickness (top/bottom)
+10      Shell with 3 results across thickness (top/bottom/mid)
+11      Gasket
+12      Multi-Point Constraint
+13      Pretension
+======= ======================================================
 """
         spec = Specification(
             description=description,
@@ -218,13 +438,13 @@ Nodal/ElementalNodal/Elemental.
                     name="split_shells",
                     type_names=["bool"],
                     optional=True,
-                    document=r"""This pin forces elemental nodal shell and solid results to be split if this pin is set to true. If set to false (default), a specific shell layer is still needed to merge the fields. Merge is possible only if a shell layer is provided.""",
+                    document=r"""If true, this pin forces the results to be split by element shape, indicated by the presence of the 'elshape' label in the output. If false, the results for all elements shapes are combined. Default value: false if no averaging is needed and true if averaging is needed.""",
                 ),
                 27: PinSpecification(
                     name="shell_layer",
                     type_names=["int32"],
                     optional=True,
-                    document=r"""If the requested_location pin is not connected, and if split_shells pin is set to true, we choose one of the shell layer for shell element. If split_shells pin is set to false (default value) and a specific shell layer is provided, results will be merged on this specific shell layer.""",
+                    document=r"""If connected, this pin allows to extract the result only on the selected shell layer(s). The available values are: 0: Top, 1: Bottom, 2: TopBottom, 3: Mid, 4: TopBottomMid.""",
                 ),
             },
             map_output_pin_spec={
@@ -534,7 +754,7 @@ class InputsPlasticStrain(_Inputs):
     def split_shells(self) -> Input:
         r"""Allows to connect split_shells input to the operator.
 
-        This pin forces elemental nodal shell and solid results to be split if this pin is set to true. If set to false (default), a specific shell layer is still needed to merge the fields. Merge is possible only if a shell layer is provided.
+        If true, this pin forces the results to be split by element shape, indicated by the presence of the 'elshape' label in the output. If false, the results for all elements shapes are combined. Default value: false if no averaging is needed and true if averaging is needed.
 
         Returns
         -------
@@ -555,7 +775,7 @@ class InputsPlasticStrain(_Inputs):
     def shell_layer(self) -> Input:
         r"""Allows to connect shell_layer input to the operator.
 
-        If the requested_location pin is not connected, and if split_shells pin is set to true, we choose one of the shell layer for shell element. If split_shells pin is set to false (default value) and a specific shell layer is provided, results will be merged on this specific shell layer.
+        If connected, this pin allows to extract the result only on the selected shell layer(s). The available values are: 0: Top, 1: Bottom, 2: TopBottom, 3: Mid, 4: TopBottomMid.
 
         Returns
         -------
