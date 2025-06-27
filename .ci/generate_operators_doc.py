@@ -11,6 +11,7 @@ from ansys.dpf.core.changelog import Changelog
 
 def initialize_server(ansys_path=None, include_composites=False, include_sound=False):
     server = dpf.start_local_server(ansys_path=ansys_path)
+    print(server.plugins())
     print(f"Ansys Path: {server.ansys_path}")
     print(f"Server Info: {server.info}")
     print(f"Server Context: {server.context}")
@@ -194,7 +195,7 @@ def generate_toc_tree(docs_path):
 
     # Write the rendered output to toc.yml at the operators_doc level
     toc_path = docs_path / "toc.yml"
-    with Path.open(toc_path / "toc.yml", "w") as file:
+    with Path.open(toc_path, "w") as file:
         file.write(output)
 
 
