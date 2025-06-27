@@ -11,7 +11,7 @@ from ansys.dpf.core.dpf_operator import available_operator_names
 
 def initialize_server(ansys_path=None, include_composites=False, include_sound=False):
     server = dpf.start_local_server(ansys_path=ansys_path)
-    print(server.plugins())
+    print(server.plugins)
     print(f"Ansys Path: {server.ansys_path}")
     print(f"Server Info: {server.info}")
     print(f"Server Context: {server.context}")
