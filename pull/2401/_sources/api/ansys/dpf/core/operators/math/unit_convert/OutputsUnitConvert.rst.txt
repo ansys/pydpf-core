@@ -1,0 +1,102 @@
+
+
+
+
+
+
+:class:`OutputsUnitConvert`
+===========================
+
+
+.. py:class:: ansys.dpf.core.operators.math.unit_convert.OutputsUnitConvert(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   unit_convert operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.unit_convert()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_converted_entity = op.outputs.converted_entity()
+
+
+
+
+
+.. py:currentmodule:: OutputsUnitConvert
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~converted_entity_as_field`
+            - 
+          * - :py:attr:`~converted_entity_as_fields_container`
+            - 
+          * - :py:attr:`~converted_entity_as_meshed_region`
+            - 
+          * - :py:attr:`~converted_entity_as_meshes_container`
+            - 
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.unit_convert import OutputsUnitConvert
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: converted_entity_as_field
+
+.. py:attribute:: converted_entity_as_fields_container
+
+.. py:attribute:: converted_entity_as_meshed_region
+
+.. py:attribute:: converted_entity_as_meshes_container
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

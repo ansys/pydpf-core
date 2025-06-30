@@ -1,0 +1,1490 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../../../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <meta property="og:site_name" content="PyAnsys" />
+    <title>InputsGasketInelasticClosureXz &#8212; PyDPF-Core</title>
+  
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../../../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../../_static/styles/ansys-sphinx-theme.css?v=fbf3eb5d" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../../_static/styles\ansys-sphinx-theme.css?v=fbf3eb5d" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://www.nerdfonts.com/assets/css/webfont.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../../_static/custom.css?v=2be88464" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../../../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+
+  <!-- Include desired assets -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  
+
+  
+    <link href="../../../../../../../_static/css/breadcrumbs.css" rel="stylesheet" />
+  
+    <script src="../../../../../../../_static/documentation_options.js?v=8c207667"></script>
+    <script src="../../../../../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../../../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="../../../../../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/ansys/dpf/core/operators/result/gasket_inelastic_closure_XZ/InputsGasketInelasticClosureXz';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://dpf.docs.pyansys.com/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="icon" href="../../../../../../../_static/ansys-favicon.png"/>
+    <link rel="index" title="Index" href="../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../search.html" />
+    <link rel="next" title="OutputsGasketInelasticClosureXz" href="OutputsGasketInelasticClosureXz.html" />
+    <link rel="prev" title="gasket_inelastic_closure_XZ" href="gasket_inelastic_closure_XZ.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.13.9.dev0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="https://docs.pyansys.com">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../../../../_static/pyansys_logo_transparent_black.png" class="logo__image only-light" alt="PyDPF-Core - Home"/>
+    <img src="../../../../../../../_static/pyansys_logo_transparent_white.png" class="logo__image only-dark pst-js-only" alt="PyDPF-Core - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../../../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../../../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../../../../../index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../../../operator_reference.html">
+    Operators
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<div class="search-bar pst-js-only" id="search-bar">
+  <form class="bd-search d-flex align-items-center" action="../../../../../../../search.html" method="get">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="search" class="form-control" name="q" placeholder="Search the docs ..."
+      aria-label="Search the docs ..." autocomplete="off" autocorrect="off"
+      autocapitalize="off" spellcheck="false" />
+    <span class="search-button__kbd-shortcut">
+      <kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd>
+    </span>
+  </form>
+  <div id="static-search-results" class="static-search-results" style="display:none;" tabindex="0"></div>
+</div>
+        </div>
+      
+      
+        <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<div class="search-bar pst-js-only" id="search-bar">
+  <form class="bd-search d-flex align-items-center" action="../../../../../../../search.html" method="get">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="search" class="form-control" name="q" placeholder="Search the docs ..."
+      aria-label="Search the docs ..." autocomplete="off" autocorrect="off"
+      autocapitalize="off" spellcheck="false" />
+    <span class="search-button__kbd-shortcut">
+      <kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd>
+    </span>
+  </form>
+  <div id="static-search-results" class="static-search-results" style="display:none;" tabindex="0"></div>
+</div>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+  
+    <div id="announcement_msg"></div>
+<script>
+  fetch("announcement.html")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(
+      (text) => (document.getElementById("announcement_msg").innerHTML = text),
+    )
+    .catch((error) => console.error(`Fetch problem: ${error.message}`));
+</script>
+  
+
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../../../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../../../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../../../../../index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../../../operator_reference.html">
+    Operators
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../../index.html"><span class="nf nf-md-package"></span> ansys.dpf.core</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/index.html"> <span class="nf nf-md-package"></span> examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../helpers/index.html"> <span class="nf nf-md-package"></span> helpers</a></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="../../index.html"> <span class="nf nf-md-package"></span> operators</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../averaging/index.html"> <span class="nf nf-md-package"></span> averaging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../compression/index.html"> <span class="nf nf-md-package"></span> compression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../filter/index.html"> <span class="nf nf-md-package"></span> filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../geo/index.html"> <span class="nf nf-md-package"></span> geo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../invariant/index.html"> <span class="nf nf-md-package"></span> invariant</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../logic/index.html"> <span class="nf nf-md-package"></span> logic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../mapping/index.html"> <span class="nf nf-md-package"></span> mapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../math/index.html"> <span class="nf nf-md-package"></span> math</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../mesh/index.html"> <span class="nf nf-md-package"></span> mesh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../metadata/index.html"> <span class="nf nf-md-package"></span> metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../min_max/index.html"> <span class="nf nf-md-package"></span> min_max</a></li>
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="../index.html"> <span class="nf nf-md-package"></span> result</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../acceleration/index.html"> <span class="nf nf-fa-file"></span> acceleration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../acceleration_X/index.html"> <span class="nf nf-fa-file"></span> acceleration_X</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../acceleration_Y/index.html"> <span class="nf nf-fa-file"></span> acceleration_Y</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../acceleration_Z/index.html"> <span class="nf nf-fa-file"></span> acceleration_Z</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../accu_eqv_creep_strain/index.html"> <span class="nf nf-fa-file"></span> accu_eqv_creep_strain</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../accu_eqv_plastic_strain/index.html"> <span class="nf nf-fa-file"></span> accu_eqv_plastic_strain</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../add_rigid_body_motion/index.html"> <span class="nf nf-fa-file"></span> add_rigid_body_motion</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../add_rigid_body_motion_fc/index.html"> <span class="nf nf-fa-file"></span> add_rigid_body_motion_fc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../artificial_hourglass_energy/index.html"> <span class="nf nf-fa-file"></span> artificial_hourglass_energy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../beam_axial_force/index.html"> <span class="nf nf-fa-file"></span> beam_axial_force</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../beam_axial_plastic_strain/index.html"> <span class="nf nf-fa-file"></span> beam_axial_plastic_strain</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../beam_axial_stress/index.html"> <span class="nf nf-fa-file"></span> beam_axial_stress</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../beam_axial_total_strain/index.html"> <span class="nf nf-fa-file"></span> beam_axial_total_strain</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../beam_rs_shear_stress/index.html"> <span class="nf nf-fa-file"></span> beam_rs_shear_stress</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../beam_s_bending_moment/index.html"> <span class="nf nf-fa-file"></span> beam_s_bending_moment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../beam_s_shear_force/index.html"> <span class="nf nf-fa-file"></span> beam_s_shear_force</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../beam_t_bending_moment/index.html"> <span class="nf nf-fa-file"></span> beam_t_bending_moment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../beam_t_shear_force/index.html"> <span class="nf nf-fa-file"></span> beam_t_shear_force</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../beam_torsional_moment/index.html"> <span class="nf nf-fa-file"></span> beam_torsional_moment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../beam_tr_shear_stress/index.html"> <span class="nf nf-fa-file"></span> beam_tr_shear_stress</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../cgns_result_provider/index.html"> <span class="nf nf-fa-file"></span> cgns_result_provider</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../cms_dst_table_provider/index.html"> <span class="nf nf-fa-file"></span> cms_dst_table_provider</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../cms_matrices_provider/index.html"> <span class="nf nf-fa-file"></span> cms_matrices_provider</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../cms_subfile_info_provider/index.html"> <span class="nf nf-fa-file"></span> cms_subfile_info_provider</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../co_energy/index.html"> <span class="nf nf-fa-file"></span> co_energy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../compute_invariant_terms_motion/index.html"> <span class="nf nf-fa-file"></span> compute_invariant_terms_motion</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../compute_invariant_terms_rbd/index.html"> <span class="nf nf-fa-file"></span> compute_invariant_terms_rbd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../compute_stress/index.html"> <span class="nf nf-fa-file"></span> compute_stress</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../compute_stress_1/index.html"> <span class="nf nf-fa-file"></span> compute_stress_1</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../compute_stress_2/index.html"> <span class="nf nf-fa-file"></span> compute_stress_2</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../compute_stress_3/index.html"> <span class="nf nf-fa-file"></span> compute_stress_3</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../compute_stress_X/index.html"> <span class="nf nf-fa-file"></span> compute_stress_X</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../compute_stress_XY/index.html"> <span class="nf nf-fa-file"></span> compute_stress_XY</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../compute_stress_XZ/index.html"> <span class="nf nf-fa-file"></span> compute_stress_XZ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../compute_stress_Y/index.html"> <span class="nf nf-fa-file"></span> compute_stress_Y</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../compute_stress_YZ/index.html"> <span class="nf nf-fa-file"></span> compute_stress_YZ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../compute_stress_Z/index.html"> <span class="nf nf-fa-file"></span> compute_stress_Z</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../compute_stress_von_mises/index.html"> <span class="nf nf-fa-file"></span> compute_stress_von_mises</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../compute_total_strain/index.html"> <span class="nf nf-fa-file"></span> compute_total_strain</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../compute_total_strain_1/index.html"> <span class="nf nf-fa-file"></span> compute_total_strain_1</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../compute_total_strain_2/index.html"> <span class="nf nf-fa-file"></span> compute_total_strain_2</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../compute_total_strain_3/index.html"> <span class="nf nf-fa-file"></span> compute_total_strain_3</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../compute_total_strain_X/index.html"> <span class="nf nf-fa-file"></span> compute_total_strain_X</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../compute_total_strain_XY/index.html"> <span class="nf nf-fa-file"></span> compute_total_strain_XY</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../compute_total_strain_XZ/index.html"> <span class="nf nf-fa-file"></span> compute_total_strain_XZ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../compute_total_strain_Y/index.html"> <span class="nf nf-fa-file"></span> compute_total_strain_Y</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../compute_total_strain_YZ/index.html"> <span class="nf nf-fa-file"></span> compute_total_strain_YZ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../compute_total_strain_Z/index.html"> <span class="nf nf-fa-file"></span> compute_total_strain_Z</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../contact_fluid_penetration_pressure/index.html"> <span class="nf nf-fa-file"></span> contact_fluid_penetration_pressure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../contact_friction_stress/index.html"> <span class="nf nf-fa-file"></span> contact_friction_stress</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../contact_gap_distance/index.html"> <span class="nf nf-fa-file"></span> contact_gap_distance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../contact_penetration/index.html"> <span class="nf nf-fa-file"></span> contact_penetration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../contact_pressure/index.html"> <span class="nf nf-fa-file"></span> contact_pressure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../contact_sliding_distance/index.html"> <span class="nf nf-fa-file"></span> contact_sliding_distance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../contact_status/index.html"> <span class="nf nf-fa-file"></span> contact_status</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../contact_surface_heat_flux/index.html"> <span class="nf nf-fa-file"></span> contact_surface_heat_flux</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../contact_total_stress/index.html"> <span class="nf nf-fa-file"></span> contact_total_stress</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../coordinate_system/index.html"> <span class="nf nf-fa-file"></span> coordinate_system</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../coordinates/index.html"> <span class="nf nf-fa-file"></span> coordinates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../creep_strain/index.html"> <span class="nf nf-fa-file"></span> creep_strain</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../creep_strain_X/index.html"> <span class="nf nf-fa-file"></span> creep_strain_X</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../creep_strain_XY/index.html"> <span class="nf nf-fa-file"></span> creep_strain_XY</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../creep_strain_XZ/index.html"> <span class="nf nf-fa-file"></span> creep_strain_XZ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../creep_strain_Y/index.html"> <span class="nf nf-fa-file"></span> creep_strain_Y</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../creep_strain_YZ/index.html"> <span class="nf nf-fa-file"></span> creep_strain_YZ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../creep_strain_Z/index.html"> <span class="nf nf-fa-file"></span> creep_strain_Z</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../creep_strain_energy_density/index.html"> <span class="nf nf-fa-file"></span> creep_strain_energy_density</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../creep_strain_eqv/index.html"> <span class="nf nf-fa-file"></span> creep_strain_eqv</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../creep_strain_intensity/index.html"> <span class="nf nf-fa-file"></span> creep_strain_intensity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../creep_strain_max_shear/index.html"> <span class="nf nf-fa-file"></span> creep_strain_max_shear</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../creep_strain_principal_1/index.html"> <span class="nf nf-fa-file"></span> creep_strain_principal_1</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../creep_strain_principal_2/index.html"> <span class="nf nf-fa-file"></span> creep_strain_principal_2</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../creep_strain_principal_3/index.html"> <span class="nf nf-fa-file"></span> creep_strain_principal_3</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../current_density/index.html"> <span class="nf nf-fa-file"></span> current_density</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../cyclic_analytic_seqv_max/index.html"> <span class="nf nf-fa-file"></span> cyclic_analytic_seqv_max</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../cyclic_analytic_usum_max/index.html"> <span class="nf nf-fa-file"></span> cyclic_analytic_usum_max</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../cyclic_expansion/index.html"> <span class="nf nf-fa-file"></span> cyclic_expansion</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../density/index.html"> <span class="nf nf-fa-file"></span> density</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../displacement/index.html"> <span class="nf nf-fa-file"></span> displacement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../displacement_X/index.html"> <span class="nf nf-fa-file"></span> displacement_X</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../displacement_Y/index.html"> <span class="nf nf-fa-file"></span> displacement_Y</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../displacement_Z/index.html"> <span class="nf nf-fa-file"></span> displacement_Z</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../div_lighthill_tensor/index.html"> <span class="nf nf-fa-file"></span> div_lighthill_tensor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../dynamic_viscosity/index.html"> <span class="nf nf-fa-file"></span> dynamic_viscosity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../elastic_strain/index.html"> <span class="nf nf-fa-file"></span> elastic_strain</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../elastic_strain_X/index.html"> <span class="nf nf-fa-file"></span> elastic_strain_X</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../elastic_strain_XY/index.html"> <span class="nf nf-fa-file"></span> elastic_strain_XY</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../elastic_strain_XZ/index.html"> <span class="nf nf-fa-file"></span> elastic_strain_XZ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../elastic_strain_Y/index.html"> <span class="nf nf-fa-file"></span> elastic_strain_Y</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../elastic_strain_YZ/index.html"> <span class="nf nf-fa-file"></span> elastic_strain_YZ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../elastic_strain_Z/index.html"> <span class="nf nf-fa-file"></span> elastic_strain_Z</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../elastic_strain_energy_density/index.html"> <span class="nf nf-fa-file"></span> elastic_strain_energy_density</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../elastic_strain_eqv/index.html"> <span class="nf nf-fa-file"></span> elastic_strain_eqv</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../elastic_strain_intensity/index.html"> <span class="nf nf-fa-file"></span> elastic_strain_intensity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../elastic_strain_max_shear/index.html"> <span class="nf nf-fa-file"></span> elastic_strain_max_shear</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../elastic_strain_principal_1/index.html"> <span class="nf nf-fa-file"></span> elastic_strain_principal_1</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../elastic_strain_principal_2/index.html"> <span class="nf nf-fa-file"></span> elastic_strain_principal_2</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../elastic_strain_principal_3/index.html"> <span class="nf nf-fa-file"></span> elastic_strain_principal_3</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../elastic_strain_rotation_by_euler_nodes/index.html"> <span class="nf nf-fa-file"></span> elastic_strain_rotation_by_euler_nodes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../electric_field/index.html"> <span class="nf nf-fa-file"></span> electric_field</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../electric_field_X/index.html"> <span class="nf nf-fa-file"></span> electric_field_X</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../electric_field_Y/index.html"> <span class="nf nf-fa-file"></span> electric_field_Y</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../electric_field_Z/index.html"> <span class="nf nf-fa-file"></span> electric_field_Z</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../electric_flux_density/index.html"> <span class="nf nf-fa-file"></span> electric_flux_density</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../electric_flux_density_X/index.html"> <span class="nf nf-fa-file"></span> electric_flux_density_X</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../electric_flux_density_Y/index.html"> <span class="nf nf-fa-file"></span> electric_flux_density_Y</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../electric_flux_density_Z/index.html"> <span class="nf nf-fa-file"></span> electric_flux_density_Z</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../electric_potential/index.html"> <span class="nf nf-fa-file"></span> electric_potential</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../element_centroids/index.html"> <span class="nf nf-fa-file"></span> element_centroids</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../element_nodal_forces/index.html"> <span class="nf nf-fa-file"></span> element_nodal_forces</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../element_orientations/index.html"> <span class="nf nf-fa-file"></span> element_orientations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../element_orientations_X/index.html"> <span class="nf nf-fa-file"></span> element_orientations_X</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../element_orientations_Y/index.html"> <span class="nf nf-fa-file"></span> element_orientations_Y</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../element_orientations_Z/index.html"> <span class="nf nf-fa-file"></span> element_orientations_Z</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../elemental_heat_generation/index.html"> <span class="nf nf-fa-file"></span> elemental_heat_generation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../elemental_mass/index.html"> <span class="nf nf-fa-file"></span> elemental_mass</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../elemental_volume/index.html"> <span class="nf nf-fa-file"></span> elemental_volume</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../enf_rotation_by_euler_nodes/index.html"> <span class="nf nf-fa-file"></span> enf_rotation_by_euler_nodes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../enthalpy/index.html"> <span class="nf nf-fa-file"></span> enthalpy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../entropy/index.html"> <span class="nf nf-fa-file"></span> entropy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../epsilon/index.html"> <span class="nf nf-fa-file"></span> epsilon</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../equivalent_mass/index.html"> <span class="nf nf-fa-file"></span> equivalent_mass</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../equivalent_radiated_power/index.html"> <span class="nf nf-fa-file"></span> equivalent_radiated_power</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../eqv_stress_parameter/index.html"> <span class="nf nf-fa-file"></span> eqv_stress_parameter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../erp_radiation_efficiency/index.html"> <span class="nf nf-fa-file"></span> erp_radiation_efficiency</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../euler_load_buckling/index.html"> <span class="nf nf-fa-file"></span> euler_load_buckling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../euler_nodes/index.html"> <span class="nf nf-fa-file"></span> euler_nodes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../gasket_deformation/index.html"> <span class="nf nf-fa-file"></span> gasket_deformation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../gasket_deformation_X/index.html"> <span class="nf nf-fa-file"></span> gasket_deformation_X</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../gasket_deformation_XY/index.html"> <span class="nf nf-fa-file"></span> gasket_deformation_XY</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../gasket_deformation_XZ/index.html"> <span class="nf nf-fa-file"></span> gasket_deformation_XZ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../gasket_inelastic_closure/index.html"> <span class="nf nf-fa-file"></span> gasket_inelastic_closure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../gasket_inelastic_closure_X/index.html"> <span class="nf nf-fa-file"></span> gasket_inelastic_closure_X</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../gasket_inelastic_closure_XY/index.html"> <span class="nf nf-fa-file"></span> gasket_inelastic_closure_XY</a></li>
+<li class="toctree-l4 current active"><a class="reference internal" href="index.html"> <span class="nf nf-fa-file"></span> gasket_inelastic_closure_XZ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../gasket_stress/index.html"> <span class="nf nf-fa-file"></span> gasket_stress</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../gasket_stress_X/index.html"> <span class="nf nf-fa-file"></span> gasket_stress_X</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../gasket_stress_XY/index.html"> <span class="nf nf-fa-file"></span> gasket_stress_XY</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../gasket_stress_XZ/index.html"> <span class="nf nf-fa-file"></span> gasket_stress_XZ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../gasket_thermal_closure/index.html"> <span class="nf nf-fa-file"></span> gasket_thermal_closure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../gasket_thermal_closure_X/index.html"> <span class="nf nf-fa-file"></span> gasket_thermal_closure_X</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../gasket_thermal_closure_XY/index.html"> <span class="nf nf-fa-file"></span> gasket_thermal_closure_XY</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../gasket_thermal_closure_XZ/index.html"> <span class="nf nf-fa-file"></span> gasket_thermal_closure_XZ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../global_added_mass/index.html"> <span class="nf nf-fa-file"></span> global_added_mass</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../global_added_mass_pct/index.html"> <span class="nf nf-fa-file"></span> global_added_mass_pct</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../global_center_mass/index.html"> <span class="nf nf-fa-file"></span> global_center_mass</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../global_energy_ratio/index.html"> <span class="nf nf-fa-file"></span> global_energy_ratio</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../global_energy_ratio_wo_eroded/index.html"> <span class="nf nf-fa-file"></span> global_energy_ratio_wo_eroded</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../global_eroded_hourglass_energy/index.html"> <span class="nf nf-fa-file"></span> global_eroded_hourglass_energy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../global_eroded_internal_energy/index.html"> <span class="nf nf-fa-file"></span> global_eroded_internal_energy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../global_eroded_kinetic_energy/index.html"> <span class="nf nf-fa-file"></span> global_eroded_kinetic_energy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../global_external_work/index.html"> <span class="nf nf-fa-file"></span> global_external_work</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../global_hourglass_energy/index.html"> <span class="nf nf-fa-file"></span> global_hourglass_energy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../global_internal_energy/index.html"> <span class="nf nf-fa-file"></span> global_internal_energy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../global_joint_internal_energy/index.html"> <span class="nf nf-fa-file"></span> global_joint_internal_energy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../global_kinetic_energy/index.html"> <span class="nf nf-fa-file"></span> global_kinetic_energy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../global_rigid_body_stopper_energy/index.html"> <span class="nf nf-fa-file"></span> global_rigid_body_stopper_energy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../global_sliding_interface_energy/index.html"> <span class="nf nf-fa-file"></span> global_sliding_interface_energy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../global_spring_damper_energy/index.html"> <span class="nf nf-fa-file"></span> global_spring_damper_energy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../global_system_damping_energy/index.html"> <span class="nf nf-fa-file"></span> global_system_damping_energy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../global_time_step/index.html"> <span class="nf nf-fa-file"></span> global_time_step</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../global_to_nodal/index.html"> <span class="nf nf-fa-file"></span> global_to_nodal</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../global_total_energy/index.html"> <span class="nf nf-fa-file"></span> global_total_energy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../global_total_mass/index.html"> <span class="nf nf-fa-file"></span> global_total_mass</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../global_velocity/index.html"> <span class="nf nf-fa-file"></span> global_velocity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../heat_flux/index.html"> <span class="nf nf-fa-file"></span> heat_flux</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../heat_flux_X/index.html"> <span class="nf nf-fa-file"></span> heat_flux_X</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../heat_flux_Y/index.html"> <span class="nf nf-fa-file"></span> heat_flux_Y</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../heat_flux_Z/index.html"> <span class="nf nf-fa-file"></span> heat_flux_Z</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../hydrostatic_pressure/index.html"> <span class="nf nf-fa-file"></span> hydrostatic_pressure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../incremental_energy/index.html"> <span class="nf nf-fa-file"></span> incremental_energy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../initial_coordinates/index.html"> <span class="nf nf-fa-file"></span> initial_coordinates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../interface_contact_area/index.html"> <span class="nf nf-fa-file"></span> interface_contact_area</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../interface_contact_force/index.html"> <span class="nf nf-fa-file"></span> interface_contact_force</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../interface_contact_mass/index.html"> <span class="nf nf-fa-file"></span> interface_contact_mass</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../interface_contact_moment/index.html"> <span class="nf nf-fa-file"></span> interface_contact_moment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../interface_resultant_contact_force/index.html"> <span class="nf nf-fa-file"></span> interface_resultant_contact_force</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../joint_force_reaction/index.html"> <span class="nf nf-fa-file"></span> joint_force_reaction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../joint_moment_reaction/index.html"> <span class="nf nf-fa-file"></span> joint_moment_reaction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../joint_relative_acceleration/index.html"> <span class="nf nf-fa-file"></span> joint_relative_acceleration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../joint_relative_angular_acceleration/index.html"> <span class="nf nf-fa-file"></span> joint_relative_angular_acceleration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../joint_relative_angular_velocity/index.html"> <span class="nf nf-fa-file"></span> joint_relative_angular_velocity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../joint_relative_displacement/index.html"> <span class="nf nf-fa-file"></span> joint_relative_displacement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../joint_relative_rotation/index.html"> <span class="nf nf-fa-file"></span> joint_relative_rotation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../joint_relative_velocity/index.html"> <span class="nf nf-fa-file"></span> joint_relative_velocity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../kinetic_energy/index.html"> <span class="nf nf-fa-file"></span> kinetic_energy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../mach_number/index.html"> <span class="nf nf-fa-file"></span> mach_number</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../magnetic_field/index.html"> <span class="nf nf-fa-file"></span> magnetic_field</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../magnetic_field_X/index.html"> <span class="nf nf-fa-file"></span> magnetic_field_X</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../magnetic_field_Y/index.html"> <span class="nf nf-fa-file"></span> magnetic_field_Y</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../magnetic_field_Z/index.html"> <span class="nf nf-fa-file"></span> magnetic_field_Z</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../magnetic_flux_density/index.html"> <span class="nf nf-fa-file"></span> magnetic_flux_density</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../magnetic_flux_density_X/index.html"> <span class="nf nf-fa-file"></span> magnetic_flux_density_X</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../magnetic_flux_density_Y/index.html"> <span class="nf nf-fa-file"></span> magnetic_flux_density_Y</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../magnetic_flux_density_Z/index.html"> <span class="nf nf-fa-file"></span> magnetic_flux_density_Z</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../magnetic_scalar_potential/index.html"> <span class="nf nf-fa-file"></span> magnetic_scalar_potential</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../magnetic_vector_potential/index.html"> <span class="nf nf-fa-file"></span> magnetic_vector_potential</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../mapdl_material_properties/index.html"> <span class="nf nf-fa-file"></span> mapdl_material_properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../mapdl_section/index.html"> <span class="nf nf-fa-file"></span> mapdl_section</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../mapdl_split_on_facet_indices/index.html"> <span class="nf nf-fa-file"></span> mapdl_split_on_facet_indices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../mapdl_split_to_acmo_facet_indices/index.html"> <span class="nf nf-fa-file"></span> mapdl_split_to_acmo_facet_indices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../mass_flow_rate/index.html"> <span class="nf nf-fa-file"></span> mass_flow_rate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../mass_fraction/index.html"> <span class="nf nf-fa-file"></span> mass_fraction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../material_property_of_element/index.html"> <span class="nf nf-fa-file"></span> material_property_of_element</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../mean_static_pressure/index.html"> <span class="nf nf-fa-file"></span> mean_static_pressure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../mean_temperature/index.html"> <span class="nf nf-fa-file"></span> mean_temperature</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../mean_velocity/index.html"> <span class="nf nf-fa-file"></span> mean_velocity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../members_in_bending_not_certified/index.html"> <span class="nf nf-fa-file"></span> members_in_bending_not_certified</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../members_in_compression_not_certified/index.html"> <span class="nf nf-fa-file"></span> members_in_compression_not_certified</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../members_in_linear_compression_bending_not_certified/index.html"> <span class="nf nf-fa-file"></span> members_in_linear_compression_bending_not_certified</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../migrate_to_h5dpf/index.html"> <span class="nf nf-fa-file"></span> migrate_to_h5dpf</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modal_basis/index.html"> <span class="nf nf-fa-file"></span> modal_basis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../nmisc/index.html"> <span class="nf nf-fa-file"></span> nmisc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../nodal_force/index.html"> <span class="nf nf-fa-file"></span> nodal_force</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../nodal_moment/index.html"> <span class="nf nf-fa-file"></span> nodal_moment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../nodal_to_global/index.html"> <span class="nf nf-fa-file"></span> nodal_to_global</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../normal_contact_force/index.html"> <span class="nf nf-fa-file"></span> normal_contact_force</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../normal_contact_moment/index.html"> <span class="nf nf-fa-file"></span> normal_contact_moment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../num_surface_status_changes/index.html"> <span class="nf nf-fa-file"></span> num_surface_status_changes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../omega/index.html"> <span class="nf nf-fa-file"></span> omega</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../part_added_mass/index.html"> <span class="nf nf-fa-file"></span> part_added_mass</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../part_eroded_internal_energy/index.html"> <span class="nf nf-fa-file"></span> part_eroded_internal_energy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../part_eroded_kinetic_energy/index.html"> <span class="nf nf-fa-file"></span> part_eroded_kinetic_energy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../part_hourglass_energy/index.html"> <span class="nf nf-fa-file"></span> part_hourglass_energy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../part_internal_energy/index.html"> <span class="nf nf-fa-file"></span> part_internal_energy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../part_kinetic_energy/index.html"> <span class="nf nf-fa-file"></span> part_kinetic_energy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../part_momentum/index.html"> <span class="nf nf-fa-file"></span> part_momentum</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../part_rigid_body_velocity/index.html"> <span class="nf nf-fa-file"></span> part_rigid_body_velocity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../plastic_state_variable/index.html"> <span class="nf nf-fa-file"></span> plastic_state_variable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../plastic_strain/index.html"> <span class="nf nf-fa-file"></span> plastic_strain</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../plastic_strain_X/index.html"> <span class="nf nf-fa-file"></span> plastic_strain_X</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../plastic_strain_XY/index.html"> <span class="nf nf-fa-file"></span> plastic_strain_XY</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../plastic_strain_XZ/index.html"> <span class="nf nf-fa-file"></span> plastic_strain_XZ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../plastic_strain_Y/index.html"> <span class="nf nf-fa-file"></span> plastic_strain_Y</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../plastic_strain_YZ/index.html"> <span class="nf nf-fa-file"></span> plastic_strain_YZ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../plastic_strain_Z/index.html"> <span class="nf nf-fa-file"></span> plastic_strain_Z</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../plastic_strain_energy_density/index.html"> <span class="nf nf-fa-file"></span> plastic_strain_energy_density</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../plastic_strain_eqv/index.html"> <span class="nf nf-fa-file"></span> plastic_strain_eqv</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../plastic_strain_intensity/index.html"> <span class="nf nf-fa-file"></span> plastic_strain_intensity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../plastic_strain_max_shear/index.html"> <span class="nf nf-fa-file"></span> plastic_strain_max_shear</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../plastic_strain_principal_1/index.html"> <span class="nf nf-fa-file"></span> plastic_strain_principal_1</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../plastic_strain_principal_2/index.html"> <span class="nf nf-fa-file"></span> plastic_strain_principal_2</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../plastic_strain_principal_3/index.html"> <span class="nf nf-fa-file"></span> plastic_strain_principal_3</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../plastic_strain_rotation_by_euler_nodes/index.html"> <span class="nf nf-fa-file"></span> plastic_strain_rotation_by_euler_nodes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../poynting_vector/index.html"> <span class="nf nf-fa-file"></span> poynting_vector</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../poynting_vector_surface/index.html"> <span class="nf nf-fa-file"></span> poynting_vector_surface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pres_to_field/index.html"> <span class="nf nf-fa-file"></span> pres_to_field</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pressure/index.html"> <span class="nf nf-fa-file"></span> pressure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pretension/index.html"> <span class="nf nf-fa-file"></span> pretension</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../prns_to_field/index.html"> <span class="nf nf-fa-file"></span> prns_to_field</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../raw_displacement/index.html"> <span class="nf nf-fa-file"></span> raw_displacement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../raw_reaction_force/index.html"> <span class="nf nf-fa-file"></span> raw_reaction_force</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reaction_force/index.html"> <span class="nf nf-fa-file"></span> reaction_force</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reaction_force_X/index.html"> <span class="nf nf-fa-file"></span> reaction_force_X</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reaction_force_Y/index.html"> <span class="nf nf-fa-file"></span> reaction_force_Y</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reaction_force_Z/index.html"> <span class="nf nf-fa-file"></span> reaction_force_Z</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../read_cms_rbd_file/index.html"> <span class="nf nf-fa-file"></span> read_cms_rbd_file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../recombine_harmonic_indeces_cyclic/index.html"> <span class="nf nf-fa-file"></span> recombine_harmonic_indeces_cyclic</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../remove_rigid_body_motion/index.html"> <span class="nf nf-fa-file"></span> remove_rigid_body_motion</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../remove_rigid_body_motion_fc/index.html"> <span class="nf nf-fa-file"></span> remove_rigid_body_motion_fc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../result_provider/index.html"> <span class="nf nf-fa-file"></span> result_provider</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../rigid_transformation/index.html"> <span class="nf nf-fa-file"></span> rigid_transformation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../rigid_transformation_provider/index.html"> <span class="nf nf-fa-file"></span> rigid_transformation_provider</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../rms_static_pressure/index.html"> <span class="nf nf-fa-file"></span> rms_static_pressure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../rms_temperature/index.html"> <span class="nf nf-fa-file"></span> rms_temperature</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../rms_velocity/index.html"> <span class="nf nf-fa-file"></span> rms_velocity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../rom_data_provider/index.html"> <span class="nf nf-fa-file"></span> rom_data_provider</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../run/index.html"> <span class="nf nf-fa-file"></span> run</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../smisc/index.html"> <span class="nf nf-fa-file"></span> smisc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../specific_heat/index.html"> <span class="nf nf-fa-file"></span> specific_heat</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../spectrum_data/index.html"> <span class="nf nf-fa-file"></span> spectrum_data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../state_variable/index.html"> <span class="nf nf-fa-file"></span> state_variable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../static_pressure/index.html"> <span class="nf nf-fa-file"></span> static_pressure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../stiffness_matrix_energy/index.html"> <span class="nf nf-fa-file"></span> stiffness_matrix_energy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../strain_eqv_as_mechanical/index.html"> <span class="nf nf-fa-file"></span> strain_eqv_as_mechanical</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../strain_eqv_as_mechanical_workflow/index.html"> <span class="nf nf-fa-file"></span> strain_eqv_as_mechanical_workflow</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../stress/index.html"> <span class="nf nf-fa-file"></span> stress</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../stress_X/index.html"> <span class="nf nf-fa-file"></span> stress_X</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../stress_XY/index.html"> <span class="nf nf-fa-file"></span> stress_XY</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../stress_XZ/index.html"> <span class="nf nf-fa-file"></span> stress_XZ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../stress_Y/index.html"> <span class="nf nf-fa-file"></span> stress_Y</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../stress_YZ/index.html"> <span class="nf nf-fa-file"></span> stress_YZ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../stress_Z/index.html"> <span class="nf nf-fa-file"></span> stress_Z</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../stress_eqv_as_mechanical/index.html"> <span class="nf nf-fa-file"></span> stress_eqv_as_mechanical</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../stress_eqv_as_mechanical_workflow/index.html"> <span class="nf nf-fa-file"></span> stress_eqv_as_mechanical_workflow</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../stress_intensity/index.html"> <span class="nf nf-fa-file"></span> stress_intensity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../stress_max_shear/index.html"> <span class="nf nf-fa-file"></span> stress_max_shear</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../stress_principal_1/index.html"> <span class="nf nf-fa-file"></span> stress_principal_1</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../stress_principal_2/index.html"> <span class="nf nf-fa-file"></span> stress_principal_2</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../stress_principal_3/index.html"> <span class="nf nf-fa-file"></span> stress_principal_3</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../stress_ratio/index.html"> <span class="nf nf-fa-file"></span> stress_ratio</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../stress_rotation_by_euler_nodes/index.html"> <span class="nf nf-fa-file"></span> stress_rotation_by_euler_nodes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../stress_von_mises/index.html"> <span class="nf nf-fa-file"></span> stress_von_mises</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../structural_temperature/index.html"> <span class="nf nf-fa-file"></span> structural_temperature</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../superficial_velocity/index.html"> <span class="nf nf-fa-file"></span> superficial_velocity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../surface_heat_rate/index.html"> <span class="nf nf-fa-file"></span> surface_heat_rate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../swelling_strains/index.html"> <span class="nf nf-fa-file"></span> swelling_strains</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../tangential_contact_force/index.html"> <span class="nf nf-fa-file"></span> tangential_contact_force</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../tangential_contact_moment/index.html"> <span class="nf nf-fa-file"></span> tangential_contact_moment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../temperature/index.html"> <span class="nf nf-fa-file"></span> temperature</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../temperature_grad/index.html"> <span class="nf nf-fa-file"></span> temperature_grad</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../temperature_grad_X/index.html"> <span class="nf nf-fa-file"></span> temperature_grad_X</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../temperature_grad_Y/index.html"> <span class="nf nf-fa-file"></span> temperature_grad_Y</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../temperature_grad_Z/index.html"> <span class="nf nf-fa-file"></span> temperature_grad_Z</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../thermal_conductivity/index.html"> <span class="nf nf-fa-file"></span> thermal_conductivity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../thermal_dissipation_energy/index.html"> <span class="nf nf-fa-file"></span> thermal_dissipation_energy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../thermal_strain/index.html"> <span class="nf nf-fa-file"></span> thermal_strain</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../thermal_strain_X/index.html"> <span class="nf nf-fa-file"></span> thermal_strain_X</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../thermal_strain_XY/index.html"> <span class="nf nf-fa-file"></span> thermal_strain_XY</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../thermal_strain_XZ/index.html"> <span class="nf nf-fa-file"></span> thermal_strain_XZ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../thermal_strain_Y/index.html"> <span class="nf nf-fa-file"></span> thermal_strain_Y</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../thermal_strain_YZ/index.html"> <span class="nf nf-fa-file"></span> thermal_strain_YZ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../thermal_strain_Z/index.html"> <span class="nf nf-fa-file"></span> thermal_strain_Z</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../thermal_strain_principal_1/index.html"> <span class="nf nf-fa-file"></span> thermal_strain_principal_1</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../thermal_strain_principal_2/index.html"> <span class="nf nf-fa-file"></span> thermal_strain_principal_2</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../thermal_strain_principal_3/index.html"> <span class="nf nf-fa-file"></span> thermal_strain_principal_3</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../thermal_strains_eqv/index.html"> <span class="nf nf-fa-file"></span> thermal_strains_eqv</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../thickness/index.html"> <span class="nf nf-fa-file"></span> thickness</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../torque/index.html"> <span class="nf nf-fa-file"></span> torque</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../total_contact_force/index.html"> <span class="nf nf-fa-file"></span> total_contact_force</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../total_contact_moment/index.html"> <span class="nf nf-fa-file"></span> total_contact_moment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../total_mass/index.html"> <span class="nf nf-fa-file"></span> total_mass</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../total_pressure/index.html"> <span class="nf nf-fa-file"></span> total_pressure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../total_strain/index.html"> <span class="nf nf-fa-file"></span> total_strain</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../total_temperature/index.html"> <span class="nf nf-fa-file"></span> total_temperature</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../transform_invariant_terms_rbd/index.html"> <span class="nf nf-fa-file"></span> transform_invariant_terms_rbd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../transient_rayleigh_integration/index.html"> <span class="nf nf-fa-file"></span> transient_rayleigh_integration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../turbulent_kinetic_energy/index.html"> <span class="nf nf-fa-file"></span> turbulent_kinetic_energy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../turbulent_viscosity/index.html"> <span class="nf nf-fa-file"></span> turbulent_viscosity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../velocity/index.html"> <span class="nf nf-fa-file"></span> velocity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../velocity_X/index.html"> <span class="nf nf-fa-file"></span> velocity_X</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../velocity_Y/index.html"> <span class="nf nf-fa-file"></span> velocity_Y</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../velocity_Z/index.html"> <span class="nf nf-fa-file"></span> velocity_Z</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../volume_fraction/index.html"> <span class="nf nf-fa-file"></span> volume_fraction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../wall_shear_stress/index.html"> <span class="nf nf-fa-file"></span> wall_shear_stress</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../workflow_energy_per_component/index.html"> <span class="nf nf-fa-file"></span> workflow_energy_per_component</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../workflow_energy_per_harmonic/index.html"> <span class="nf nf-fa-file"></span> workflow_energy_per_harmonic</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../write_cms_rbd_file/index.html"> <span class="nf nf-fa-file"></span> write_cms_rbd_file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../write_motion_dfmf_file/index.html"> <span class="nf nf-fa-file"></span> write_motion_dfmf_file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../y_plus/index.html"> <span class="nf nf-fa-file"></span> y_plus</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../../scoping/index.html"> <span class="nf nf-md-package"></span> scoping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../serialization/index.html"> <span class="nf nf-md-package"></span> serialization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../server/index.html"> <span class="nf nf-md-package"></span> server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utility/index.html"> <span class="nf nf-md-package"></span> utility</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../translator/index.html"> <span class="nf nf-fa-file"></span> translator</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../workflow_topology/index.html"> <span class="nf nf-md-package"></span> workflow_topology</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../animation/index.html"> <span class="nf nf-fa-file"></span> animation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../animator/index.html"> <span class="nf nf-fa-file"></span> animator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../any/index.html"> <span class="nf nf-fa-file"></span> any</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../available_result/index.html"> <span class="nf nf-fa-file"></span> available_result</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog/index.html"> <span class="nf nf-fa-file"></span> changelog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../collection/index.html"> <span class="nf nf-fa-file"></span> collection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../collection_base/index.html"> <span class="nf nf-fa-file"></span> collection_base</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../common/index.html"> <span class="nf nf-fa-file"></span> common</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../config/index.html"> <span class="nf nf-fa-file"></span> config</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../core/index.html"> <span class="nf nf-fa-file"></span> core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../custom_container_base/index.html"> <span class="nf nf-fa-file"></span> custom_container_base</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../custom_fields_container/index.html"> <span class="nf nf-fa-file"></span> custom_fields_container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../custom_operator/index.html"> <span class="nf nf-fa-file"></span> custom_operator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../custom_type_field/index.html"> <span class="nf nf-fa-file"></span> custom_type_field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cyclic_support/index.html"> <span class="nf nf-fa-file"></span> cyclic_support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../data_sources/index.html"> <span class="nf nf-fa-file"></span> data_sources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../data_tree/index.html"> <span class="nf nf-fa-file"></span> data_tree</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../dimensionality/index.html"> <span class="nf nf-fa-file"></span> dimensionality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../dpf_array/index.html"> <span class="nf nf-fa-file"></span> dpf_array</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../dpf_operator/index.html"> <span class="nf nf-fa-file"></span> dpf_operator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../element_descriptor/index.html"> <span class="nf nf-fa-file"></span> element_descriptor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../elements/index.html"> <span class="nf nf-fa-file"></span> elements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../errors/index.html"> <span class="nf nf-fa-file"></span> errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../faces/index.html"> <span class="nf nf-fa-file"></span> faces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../field/index.html"> <span class="nf nf-fa-file"></span> field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../field_definition/index.html"> <span class="nf nf-fa-file"></span> field_definition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../fields_container/index.html"> <span class="nf nf-fa-file"></span> fields_container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../fields_container_factory/index.html"> <span class="nf nf-fa-file"></span> fields_container_factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../fields_factory/index.html"> <span class="nf nf-fa-file"></span> fields_factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../generic_data_container/index.html"> <span class="nf nf-fa-file"></span> generic_data_container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../generic_support/index.html"> <span class="nf nf-fa-file"></span> generic_support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../geometry/index.html"> <span class="nf nf-fa-file"></span> geometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../geometry_factory/index.html"> <span class="nf nf-fa-file"></span> geometry_factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../incremental/index.html"> <span class="nf nf-fa-file"></span> incremental</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../inputs/index.html"> <span class="nf nf-fa-file"></span> inputs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../mesh_info/index.html"> <span class="nf nf-fa-file"></span> mesh_info</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../mesh_scoping_factory/index.html"> <span class="nf nf-fa-file"></span> mesh_scoping_factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../meshed_region/index.html"> <span class="nf nf-fa-file"></span> meshed_region</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../meshes_container/index.html"> <span class="nf nf-fa-file"></span> meshes_container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../model/index.html"> <span class="nf nf-fa-file"></span> model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../nodes/index.html"> <span class="nf nf-fa-file"></span> nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../operator_specification/index.html"> <span class="nf nf-fa-file"></span> operator_specification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../outputs/index.html"> <span class="nf nf-fa-file"></span> outputs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../path_utilities/index.html"> <span class="nf nf-fa-file"></span> path_utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../plotter/index.html"> <span class="nf nf-fa-file"></span> plotter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../plugins/index.html"> <span class="nf nf-fa-file"></span> plugins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../property_field/index.html"> <span class="nf nf-fa-file"></span> property_field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../result_info/index.html"> <span class="nf nf-fa-file"></span> result_info</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../results/index.html"> <span class="nf nf-fa-file"></span> results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../runtime_config/index.html"> <span class="nf nf-fa-file"></span> runtime_config</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../scoping/index.html"> <span class="nf nf-fa-file"></span> scoping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../scopings_container/index.html"> <span class="nf nf-fa-file"></span> scopings_container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../server/index.html"> <span class="nf nf-fa-file"></span> server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../server_context/index.html"> <span class="nf nf-fa-file"></span> server_context</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../server_factory/index.html"> <span class="nf nf-fa-file"></span> server_factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../server_types/index.html"> <span class="nf nf-fa-file"></span> server_types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../session/index.html"> <span class="nf nf-fa-file"></span> session</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../settings/index.html"> <span class="nf nf-fa-file"></span> settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../streams_container/index.html"> <span class="nf nf-fa-file"></span> streams_container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../string_field/index.html"> <span class="nf nf-fa-file"></span> string_field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../support/index.html"> <span class="nf nf-fa-file"></span> support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../time_freq_scoping_factory/index.html"> <span class="nf nf-fa-file"></span> time_freq_scoping_factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../time_freq_support/index.html"> <span class="nf nf-fa-file"></span> time_freq_support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../unit_system/index.html"> <span class="nf nf-fa-file"></span> unit_system</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../workflow/index.html"> <span class="nf nf-fa-file"></span> workflow</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+         
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="https://docs.pyansys.com/" class="nav-link">PyAnsys</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a
+        href="../../../../../../../index.html"
+        class="nav-link"
+        aria-label="Home"
+      >
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="../../../../../../index.html" class="nav-link">API reference</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="../../../index.html" class="nav-link">The <code class="docutils literal notranslate"><span class="pre">ansys.dpf.core</span></code> library</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="../../index.html" class="nav-link">The <code class="docutils literal notranslate"><span class="pre">operators</span></code> package</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="../index.html" class="nav-link">The <code class="docutils literal notranslate"><span class="pre">result</span></code> package</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="index.html" class="nav-link">The <code class="docutils literal notranslate"><span class="pre">gasket_inelastic_closure_XZ.py</span></code> module</a>
+    </li>
+      
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis"><code class="xref py py-class docutils literal notranslate"><span class="pre">InputsGasketInelasticClosureXz</span></code></span></li>
+    
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="inputsgasketinelasticclosurexz">
+<h1><code class="xref py py-class docutils literal notranslate"><span class="pre">InputsGasketInelasticClosureXz</span></code><a class="headerlink" href="#inputsgasketinelasticclosurexz" title="Link to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.result.gasket_inelastic_closure_XZ.InputsGasketInelasticClosureXz">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.operators.result.gasket_inelastic_closure_XZ.</span></span><span class="sig-name descname"><span class="pre">InputsGasketInelasticClosureXz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">op</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../../dpf_operator/Operator.html#ansys.dpf.core.dpf_operator.Operator" title="ansys.dpf.core.dpf_operator.Operator"><span class="pre">ansys.dpf.core.dpf_operator.Operator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.result.gasket_inelastic_closure_XZ.InputsGasketInelasticClosureXz" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">ansys.dpf.core.inputs._Inputs</span></code></p>
+<p>Intermediate class used to connect user inputs to
+gasket_inelastic_closure_XZ operator.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">>>> </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">gasket_inelastic_closure_XZ</span><span class="p">()</span>
+<span class="gp">>>> </span><span class="n">my_time_scoping</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Scoping</span><span class="p">()</span>
+<span class="gp">>>> </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">time_scoping</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_time_scoping</span><span class="p">)</span>
+<span class="gp">>>> </span><span class="n">my_mesh_scoping</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">ScopingsContainer</span><span class="p">()</span>
+<span class="gp">>>> </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mesh_scoping</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_mesh_scoping</span><span class="p">)</span>
+<span class="gp">>>> </span><span class="n">my_fields_container</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">FieldsContainer</span><span class="p">()</span>
+<span class="gp">>>> </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">fields_container</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_fields_container</span><span class="p">)</span>
+<span class="gp">>>> </span><span class="n">my_streams_container</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">StreamsContainer</span><span class="p">()</span>
+<span class="gp">>>> </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">streams_container</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_streams_container</span><span class="p">)</span>
+<span class="gp">>>> </span><span class="n">my_data_sources</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">()</span>
+<span class="gp">>>> </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">data_sources</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_data_sources</span><span class="p">)</span>
+<span class="gp">>>> </span><span class="n">my_bool_rotate_to_global</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">()</span>
+<span class="gp">>>> </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">bool_rotate_to_global</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_bool_rotate_to_global</span><span class="p">)</span>
+<span class="gp">>>> </span><span class="n">my_mesh</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">MeshedRegion</span><span class="p">()</span>
+<span class="gp">>>> </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_mesh</span><span class="p">)</span>
+<span class="gp">>>> </span><span class="n">my_requested_location</span> <span class="o">=</span> <span class="nb">str</span><span class="p">()</span>
+<span class="gp">>>> </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">requested_location</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_requested_location</span><span class="p">)</span>
+<span class="gp">>>> </span><span class="n">my_read_cyclic</span> <span class="o">=</span> <span class="nb">int</span><span class="p">()</span>
+<span class="gp">>>> </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">read_cyclic</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_read_cyclic</span><span class="p">)</span>
+<span class="gp">>>> </span><span class="n">my_read_beams</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">()</span>
+<span class="gp">>>> </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">read_beams</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_read_beams</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-0">
+Methods</label><div class="sd-tab-content docutils">
+<div class="pst-scrollable-table-container"><table class="table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#InputsGasketInelasticClosureXz.connect" title="InputsGasketInelasticClosureXz.connect"><code class="xref py py-attr docutils literal notranslate"><span class="pre">connect</span></code></a></p></td>
+<td><p>Connect any input (an entity or an operator output) to any input pin of this operator.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-1">
+Properties</label><div class="sd-tab-content docutils">
+<div class="pst-scrollable-table-container"><table class="table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#InputsGasketInelasticClosureXz.time_scoping" title="InputsGasketInelasticClosureXz.time_scoping"><code class="xref py py-attr docutils literal notranslate"><span class="pre">time_scoping</span></code></a></p></td>
+<td><p>Allows to connect time_scoping input to the operator.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#InputsGasketInelasticClosureXz.mesh_scoping" title="InputsGasketInelasticClosureXz.mesh_scoping"><code class="xref py py-attr docutils literal notranslate"><span class="pre">mesh_scoping</span></code></a></p></td>
+<td><p>Allows to connect mesh_scoping input to the operator.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#InputsGasketInelasticClosureXz.fields_container" title="InputsGasketInelasticClosureXz.fields_container"><code class="xref py py-attr docutils literal notranslate"><span class="pre">fields_container</span></code></a></p></td>
+<td><p>Allows to connect fields_container input to the operator.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#InputsGasketInelasticClosureXz.streams_container" title="InputsGasketInelasticClosureXz.streams_container"><code class="xref py py-attr docutils literal notranslate"><span class="pre">streams_container</span></code></a></p></td>
+<td><p>Allows to connect streams_container input to the operator.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#InputsGasketInelasticClosureXz.data_sources" title="InputsGasketInelasticClosureXz.data_sources"><code class="xref py py-attr docutils literal notranslate"><span class="pre">data_sources</span></code></a></p></td>
+<td><p>Allows to connect data_sources input to the operator.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#InputsGasketInelasticClosureXz.bool_rotate_to_global" title="InputsGasketInelasticClosureXz.bool_rotate_to_global"><code class="xref py py-attr docutils literal notranslate"><span class="pre">bool_rotate_to_global</span></code></a></p></td>
+<td><p>Allows to connect bool_rotate_to_global input to the operator.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#InputsGasketInelasticClosureXz.mesh" title="InputsGasketInelasticClosureXz.mesh"><code class="xref py py-attr docutils literal notranslate"><span class="pre">mesh</span></code></a></p></td>
+<td><p>Allows to connect mesh input to the operator.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#InputsGasketInelasticClosureXz.requested_location" title="InputsGasketInelasticClosureXz.requested_location"><code class="xref py py-attr docutils literal notranslate"><span class="pre">requested_location</span></code></a></p></td>
+<td><p>Allows to connect requested_location input to the operator.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#InputsGasketInelasticClosureXz.read_cyclic" title="InputsGasketInelasticClosureXz.read_cyclic"><code class="xref py py-attr docutils literal notranslate"><span class="pre">read_cyclic</span></code></a></p></td>
+<td><p>Allows to connect read_cyclic input to the operator.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#InputsGasketInelasticClosureXz.read_beams" title="InputsGasketInelasticClosureXz.read_beams"><code class="xref py py-attr docutils literal notranslate"><span class="pre">read_beams</span></code></a></p></td>
+<td><p>Allows to connect read_beams input to the operator.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<input id="sd-tab-item-2" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-2">
+Special methods</label><div class="sd-tab-content docutils">
+<div class="pst-scrollable-table-container"><table class="table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#InputsGasketInelasticClosureXz.__str__" title="InputsGasketInelasticClosureXz.__str__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">__str__</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#InputsGasketInelasticClosureXz.__call__" title="InputsGasketInelasticClosureXz.__call__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">__call__</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#InputsGasketInelasticClosureXz.__getitem__" title="InputsGasketInelasticClosureXz.__getitem__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">__getitem__</span></code></a></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="import-detail">
+<h2>Import detail<a class="headerlink" href="#import-detail" title="Link to this heading">#</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core.operators.result.gasket_inelastic_closure_XZ</span><span class="w"> </span><span class="kn">import</span> <span class="n">InputsGasketInelasticClosureXz</span>
+</pre></div>
+</div>
+</section>
+<section id="property-detail">
+<h2>Property detail<a class="headerlink" href="#property-detail" title="Link to this heading">#</a></h2>
+<dl class="py property">
+<dt class="sig sig-object py" id="InputsGasketInelasticClosureXz.time_scoping">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">InputsGasketInelasticClosureXz.</span></span><span class="sig-name descname"><span class="pre">time_scoping</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../../../inputs/Input.html#ansys.dpf.core.inputs.Input" title="ansys.dpf.core.inputs.Input"><span class="pre">ansys.dpf.core.inputs.Input</span></a></em><a class="headerlink" href="#InputsGasketInelasticClosureXz.time_scoping" title="Link to this definition">#</a></dt>
+<dd><p>Allows to connect time_scoping input to the operator.</p>
+<p>time/freq values (use doubles or field), time/freq set ids (use ints or scoping) or time/freq step ids (use scoping with TimeFreq_steps location) required in output. To specify time/freq values at specific load steps, put a Field (and not a list) in input with a scoping located on “TimeFreq_steps”. Linear time freq intrapolation is performed if the values are not in the result files and the data at the max time or freq is taken when time/freqs are higher than available time/freqs in result files. To get all data for all time/freq sets, connect an int with value -1.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>An Input instance for this pin.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>input</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">>>> </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">gasket_inelastic_closure_XZ</span><span class="p">()</span>
+<span class="gp">>>> </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">time_scoping</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_time_scoping</span><span class="p">)</span>
+<span class="gp">>>> </span><span class="c1"># or</span>
+<span class="gp">>>> </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">time_scoping</span><span class="p">(</span><span class="n">my_time_scoping</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="InputsGasketInelasticClosureXz.mesh_scoping">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">InputsGasketInelasticClosureXz.</span></span><span class="sig-name descname"><span class="pre">mesh_scoping</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../../../inputs/Input.html#ansys.dpf.core.inputs.Input" title="ansys.dpf.core.inputs.Input"><span class="pre">ansys.dpf.core.inputs.Input</span></a></em><a class="headerlink" href="#InputsGasketInelasticClosureXz.mesh_scoping" title="Link to this definition">#</a></dt>
+<dd><p>Allows to connect mesh_scoping input to the operator.</p>
+<p>nodes or elements scoping required in output. The output fields will be scoped on these node or element IDs. To figure out the ordering of the fields data, look at their scoping IDs as they might not be ordered as the input scoping was. The scoping’s location indicates whether nodes or elements are asked for. Using scopings container allows you to split the result fields container into domains</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>An Input instance for this pin.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>input</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">>>> </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">gasket_inelastic_closure_XZ</span><span class="p">()</span>
+<span class="gp">>>> </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mesh_scoping</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_mesh_scoping</span><span class="p">)</span>
+<span class="gp">>>> </span><span class="c1"># or</span>
+<span class="gp">>>> </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mesh_scoping</span><span class="p">(</span><span class="n">my_mesh_scoping</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="InputsGasketInelasticClosureXz.fields_container">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">InputsGasketInelasticClosureXz.</span></span><span class="sig-name descname"><span class="pre">fields_container</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../../../inputs/Input.html#ansys.dpf.core.inputs.Input" title="ansys.dpf.core.inputs.Input"><span class="pre">ansys.dpf.core.inputs.Input</span></a></em><a class="headerlink" href="#InputsGasketInelasticClosureXz.fields_container" title="Link to this definition">#</a></dt>
+<dd><p>Allows to connect fields_container input to the operator.</p>
+<p>FieldsContainer already allocated modified inplace</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>An Input instance for this pin.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>input</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">>>> </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">gasket_inelastic_closure_XZ</span><span class="p">()</span>
+<span class="gp">>>> </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">fields_container</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_fields_container</span><span class="p">)</span>
+<span class="gp">>>> </span><span class="c1"># or</span>
+<span class="gp">>>> </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">(</span><span class="n">my_fields_container</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="InputsGasketInelasticClosureXz.streams_container">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">InputsGasketInelasticClosureXz.</span></span><span class="sig-name descname"><span class="pre">streams_container</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../../../inputs/Input.html#ansys.dpf.core.inputs.Input" title="ansys.dpf.core.inputs.Input"><span class="pre">ansys.dpf.core.inputs.Input</span></a></em><a class="headerlink" href="#InputsGasketInelasticClosureXz.streams_container" title="Link to this definition">#</a></dt>
+<dd><p>Allows to connect streams_container input to the operator.</p>
+<p>result file container allowed to be kept open to cache data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>An Input instance for this pin.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>input</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">>>> </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">gasket_inelastic_closure_XZ</span><span class="p">()</span>
+<span class="gp">>>> </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">streams_container</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_streams_container</span><span class="p">)</span>
+<span class="gp">>>> </span><span class="c1"># or</span>
+<span class="gp">>>> </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">streams_container</span><span class="p">(</span><span class="n">my_streams_container</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="InputsGasketInelasticClosureXz.data_sources">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">InputsGasketInelasticClosureXz.</span></span><span class="sig-name descname"><span class="pre">data_sources</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../../../inputs/Input.html#ansys.dpf.core.inputs.Input" title="ansys.dpf.core.inputs.Input"><span class="pre">ansys.dpf.core.inputs.Input</span></a></em><a class="headerlink" href="#InputsGasketInelasticClosureXz.data_sources" title="Link to this definition">#</a></dt>
+<dd><p>Allows to connect data_sources input to the operator.</p>
+<p>result file path container, used if no streams are set</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>An Input instance for this pin.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>input</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">>>> </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">gasket_inelastic_closure_XZ</span><span class="p">()</span>
+<span class="gp">>>> </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">data_sources</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_data_sources</span><span class="p">)</span>
+<span class="gp">>>> </span><span class="c1"># or</span>
+<span class="gp">>>> </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">data_sources</span><span class="p">(</span><span class="n">my_data_sources</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="InputsGasketInelasticClosureXz.bool_rotate_to_global">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">InputsGasketInelasticClosureXz.</span></span><span class="sig-name descname"><span class="pre">bool_rotate_to_global</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../../../inputs/Input.html#ansys.dpf.core.inputs.Input" title="ansys.dpf.core.inputs.Input"><span class="pre">ansys.dpf.core.inputs.Input</span></a></em><a class="headerlink" href="#InputsGasketInelasticClosureXz.bool_rotate_to_global" title="Link to this definition">#</a></dt>
+<dd><p>Allows to connect bool_rotate_to_global input to the operator.</p>
+<p>if true the field is rotated to global coordinate system (default true)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>An Input instance for this pin.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>input</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">>>> </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">gasket_inelastic_closure_XZ</span><span class="p">()</span>
+<span class="gp">>>> </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">bool_rotate_to_global</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_bool_rotate_to_global</span><span class="p">)</span>
+<span class="gp">>>> </span><span class="c1"># or</span>
+<span class="gp">>>> </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">bool_rotate_to_global</span><span class="p">(</span><span class="n">my_bool_rotate_to_global</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="InputsGasketInelasticClosureXz.mesh">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">InputsGasketInelasticClosureXz.</span></span><span class="sig-name descname"><span class="pre">mesh</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../../../inputs/Input.html#ansys.dpf.core.inputs.Input" title="ansys.dpf.core.inputs.Input"><span class="pre">ansys.dpf.core.inputs.Input</span></a></em><a class="headerlink" href="#InputsGasketInelasticClosureXz.mesh" title="Link to this definition">#</a></dt>
+<dd><p>Allows to connect mesh input to the operator.</p>
+<p>prevents from reading the mesh in the result files</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>An Input instance for this pin.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>input</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">>>> </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">gasket_inelastic_closure_XZ</span><span class="p">()</span>
+<span class="gp">>>> </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_mesh</span><span class="p">)</span>
+<span class="gp">>>> </span><span class="c1"># or</span>
+<span class="gp">>>> </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mesh</span><span class="p">(</span><span class="n">my_mesh</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="InputsGasketInelasticClosureXz.requested_location">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">InputsGasketInelasticClosureXz.</span></span><span class="sig-name descname"><span class="pre">requested_location</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../../../inputs/Input.html#ansys.dpf.core.inputs.Input" title="ansys.dpf.core.inputs.Input"><span class="pre">ansys.dpf.core.inputs.Input</span></a></em><a class="headerlink" href="#InputsGasketInelasticClosureXz.requested_location" title="Link to this definition">#</a></dt>
+<dd><p>Allows to connect requested_location input to the operator.</p>
+<p>requested location, default is Nodal</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>An Input instance for this pin.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>input</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">>>> </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">gasket_inelastic_closure_XZ</span><span class="p">()</span>
+<span class="gp">>>> </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">requested_location</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_requested_location</span><span class="p">)</span>
+<span class="gp">>>> </span><span class="c1"># or</span>
+<span class="gp">>>> </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">requested_location</span><span class="p">(</span><span class="n">my_requested_location</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="InputsGasketInelasticClosureXz.read_cyclic">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">InputsGasketInelasticClosureXz.</span></span><span class="sig-name descname"><span class="pre">read_cyclic</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../../../inputs/Input.html#ansys.dpf.core.inputs.Input" title="ansys.dpf.core.inputs.Input"><span class="pre">ansys.dpf.core.inputs.Input</span></a></em><a class="headerlink" href="#InputsGasketInelasticClosureXz.read_cyclic" title="Link to this definition">#</a></dt>
+<dd><p>Allows to connect read_cyclic input to the operator.</p>
+<p>if 0 cyclic symmetry is ignored, if 1 cyclic sector is read, if 2 cyclic expansion is done, if 3 cyclic expansion is done and stages are merged (default is 1)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>An Input instance for this pin.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>input</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">>>> </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">gasket_inelastic_closure_XZ</span><span class="p">()</span>
+<span class="gp">>>> </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">read_cyclic</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_read_cyclic</span><span class="p">)</span>
+<span class="gp">>>> </span><span class="c1"># or</span>
+<span class="gp">>>> </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">read_cyclic</span><span class="p">(</span><span class="n">my_read_cyclic</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="InputsGasketInelasticClosureXz.read_beams">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">InputsGasketInelasticClosureXz.</span></span><span class="sig-name descname"><span class="pre">read_beams</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../../../inputs/Input.html#ansys.dpf.core.inputs.Input" title="ansys.dpf.core.inputs.Input"><span class="pre">ansys.dpf.core.inputs.Input</span></a></em><a class="headerlink" href="#InputsGasketInelasticClosureXz.read_beams" title="Link to this definition">#</a></dt>
+<dd><p>Allows to connect read_beams input to the operator.</p>
+<p>elemental nodal beam results are read if this pin is set to true (default is false)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>An Input instance for this pin.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>input</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">>>> </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">gasket_inelastic_closure_XZ</span><span class="p">()</span>
+<span class="gp">>>> </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">read_beams</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_read_beams</span><span class="p">)</span>
+<span class="gp">>>> </span><span class="c1"># or</span>
+<span class="gp">>>> </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">read_beams</span><span class="p">(</span><span class="n">my_read_beams</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+<section id="method-detail">
+<h2>Method detail<a class="headerlink" href="#method-detail" title="Link to this heading">#</a></h2>
+<dl class="py method">
+<dt class="sig sig-object py" id="InputsGasketInelasticClosureXz.__str__">
+<span class="sig-prename descclassname"><span class="pre">InputsGasketInelasticClosureXz.</span></span><span class="sig-name descname"><span class="pre">__str__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#InputsGasketInelasticClosureXz.__str__" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="InputsGasketInelasticClosureXz.connect">
+<span class="sig-prename descclassname"><span class="pre">InputsGasketInelasticClosureXz.</span></span><span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inpt</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#InputsGasketInelasticClosureXz.connect" title="Link to this definition">#</a></dt>
+<dd><p>Connect any input (an entity or an operator output) to any input pin of this operator.</p>
+<p>Searches for the input type corresponding to the output.</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version Deprecated: </span>in favor of explicit output-to-input connections.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inpt</strong> (<em>str</em><em>, </em><em>int</em><em>, </em><em>double</em><em>, </em><em>bool</em><em>, </em><em>list</em><em>[</em><em>int</em><em>]</em><em>, </em><em>list</em><em>[</em><em>float</em><em>]</em><em>, </em><a class="reference internal" href="../../../field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><em>Field</em></a><em>, </em><a class="reference internal" href="../../../fields_container/FieldsContainer.html#ansys.dpf.core.fields_container.FieldsContainer" title="ansys.dpf.core.fields_container.FieldsContainer"><em>FieldsContainer</em></a><em>, </em><a class="reference internal" href="../../../scoping/Scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><em>Scoping</em></a><em>, </em><em>Enum</em><em>,</em>)</p></li>
+<li><p><strong>ScopingsContainer</strong> (<em>E501</em>) – Input of the operator.</p></li>
+<li><p><strong>MeshedRegion</strong> (<em>E501</em>) – Input of the operator.</p></li>
+<li><p><strong>MeshesContainer</strong> (<em>E501</em>) – Input of the operator.</p></li>
+<li><p><strong>DataSources</strong> (<em>E501</em>) – Input of the operator.</p></li>
+<li><p><strong>CyclicSupport</strong> (<em>E501</em>) – Input of the operator.</p></li>
+<li><p><strong>Outputs</strong> (<em>E501</em>) – Input of the operator.</p></li>
+<li><p><strong>noqa</strong> (<em>os.PathLike  #</em>) – Input of the operator.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="InputsGasketInelasticClosureXz.__call__">
+<span class="sig-prename descclassname"><span class="pre">InputsGasketInelasticClosureXz.</span></span><span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inpt</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#InputsGasketInelasticClosureXz.__call__" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="InputsGasketInelasticClosureXz.__getitem__">
+<span class="sig-prename descclassname"><span class="pre">InputsGasketInelasticClosureXz.</span></span><span class="sig-name descname"><span class="pre">__getitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../../../inputs/Input.html#ansys.dpf.core.inputs.Input" title="ansys.dpf.core.inputs.Input"><span class="pre">Input</span></a></span></span><a class="headerlink" href="#InputsGasketInelasticClosureXz.__getitem__" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.operators.result.gasket_inelastic_closure_XZ.InputsGasketInelasticClosureXz"><code class="docutils literal notranslate"><span class="pre">ansys.dpf.core.operators.result.gasket_inelastic_closure_XZ.InputsGasketInelasticClosureXz</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-detail">Import detail</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#property-detail">Property detail</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#InputsGasketInelasticClosureXz.time_scoping"><code class="docutils literal notranslate"><span class="pre">time_scoping</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#InputsGasketInelasticClosureXz.mesh_scoping"><code class="docutils literal notranslate"><span class="pre">mesh_scoping</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#InputsGasketInelasticClosureXz.fields_container"><code class="docutils literal notranslate"><span class="pre">fields_container</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#InputsGasketInelasticClosureXz.streams_container"><code class="docutils literal notranslate"><span class="pre">streams_container</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#InputsGasketInelasticClosureXz.data_sources"><code class="docutils literal notranslate"><span class="pre">data_sources</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#InputsGasketInelasticClosureXz.bool_rotate_to_global"><code class="docutils literal notranslate"><span class="pre">bool_rotate_to_global</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#InputsGasketInelasticClosureXz.mesh"><code class="docutils literal notranslate"><span class="pre">mesh</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#InputsGasketInelasticClosureXz.requested_location"><code class="docutils literal notranslate"><span class="pre">requested_location</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#InputsGasketInelasticClosureXz.read_cyclic"><code class="docutils literal notranslate"><span class="pre">read_cyclic</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#InputsGasketInelasticClosureXz.read_beams"><code class="docutils literal notranslate"><span class="pre">read_beams</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#method-detail">Method detail</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#InputsGasketInelasticClosureXz.__str__"><code class="docutils literal notranslate"><span class="pre">__str__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#InputsGasketInelasticClosureXz.connect"><code class="docutils literal notranslate"><span class="pre">connect()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#InputsGasketInelasticClosureXz.__call__"><code class="docutils literal notranslate"><span class="pre">__call__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#InputsGasketInelasticClosureXz.__getitem__"><code class="docutils literal notranslate"><span class="pre">__getitem__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+<!-- If there is no fix edit button function, use the PyData edit-this-button-->
+</div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <ul class="this-page-menu">
+      <li><a href="../../../../../../../_sources/api/ansys/dpf/core/operators/result/gasket_inelastic_closure_XZ/InputsGasketInelasticClosureXz.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+
+  <!-- Include desired assets -->
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.7/require.min.js"></script>
+
+<script>
+// Passing the search options to the search.js file
+const SEARCH_OPTIONS = JSON.parse('{"ignoreLocation": true, "keys": ["title", "text"], "limit": 10, "minMatchCharLength": 2, "threshold": 0.5}');
+const SEARCH_FILE = "../../../../../../../_static/search.json";
+</script>
+
+
+<script src="../../../../../../../_static/js/search.js"></script>
+  
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright (c) 2025 ANSYS, Inc. All rights reserved.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the
+  <a href="https://sphinxdocs.ansys.com/version/stable/index.html"
+    >Ansys Sphinx Theme</a
+  >
+  1.4.4. <br />Last updated on
+  <span id="ast_build_date"></span>
+</p>
+<script>
+  var options = { day: "numeric", month: "long", year: "numeric" };
+  var ast_lastModifiedDate = new Date(document.lastModified);
+  var ast_build_date = ast_lastModifiedDate.toLocaleDateString("en-US", options);
+  document.getElementById("ast_build_date").innerHTML = ast_build_date;
+</script></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

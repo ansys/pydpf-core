@@ -1,0 +1,299 @@
+
+
+
+
+
+
+:class:`Scoping`
+================
+
+
+.. py:class:: ansys.dpf.core.scoping.Scoping(scoping: Union[ansys.grpc.dpf.scoping_pb2.Scoping, ctypes.c_void_p] = None, server: ansys.dpf.core.server_types.AnyServerType = None, ids: IdVectorType = None, location: ansys.dpf.core.common.locations = None)
+
+   Represents a scoping, which is a subset of a model support.
+
+   :param scoping: gRPC message or pointer for an existing scoping on the server.
+   :param server: Server with channel connected to the remote or local instance.
+                  The default is ``None``, in which case an attempt is made to use the
+                  global server.
+   :param ids: List of entity IDs.
+   :param location: Location for this scoping. Defines the type of entities the IDs correspond to.
+                    For example, if location is :py:attr:`locations.nodal`,
+                    then the scoping is a list of node IDs.
+
+   .. rubric:: Examples
+
+   Create a scoping for mesh entities.
+
+   >>> from ansys.dpf import core as dpf
+   >>> # 1. using the mesh_scoping_factory
+   >>> from ansys.dpf.core import mesh_scoping_factory
+   >>> # a. scoping with elemental location that targets the elements with id 2, 7 and 11
+   >>> my_elemental_scoping = mesh_scoping_factory.elemental_scoping([2, 7, 11])
+   >>> # b. scoping with nodal location that targets the elements with id 4 to 6
+   >>> my_nodal_scoping = mesh_scoping_factory.nodal_scoping(range(4, 7))
+   >>> #2. using the Scoping class directly
+   >>> # a. scoping with elemental location that targets the elements with id 2, 7 and 11
+   >>> my_elemental_scoping = dpf.Scoping(location=dpf.locations.elemental, ids=[2, 7, 11])
+   >>> # b. scoping with nodal  location that targets the elements with id 4 to 6
+   >>> my_nodal_scoping = dpf.Scoping(ids=range(4, 7))
+   >>> # 3. create a time_freq scoping that targets the second load step
+   >>> from ansys.dpf.core import time_freq_scoping_factory
+   >>> # a. using the time_freq_scoping_factory
+   >>> my_load_step_scoping = time_freq_scoping_factory.scoping_by_load_step(2)
+   >>> # b. using the Scoping class directly
+   >>> my_load_step_scoping = dpf.Scoping(location=dpf.locations.time_freq_step, ids=[2])
+
+
+
+
+
+
+
+
+
+.. py:currentmodule:: Scoping
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~get_ids`
+            - Return the list of entity IDs in the scoping as a list or as a numpy.ndarray.
+          * - :py:attr:`~set_id`
+            - Set the ID of the entity at index in the scoping.
+          * - :py:attr:`~id`
+            - Retrieve the entity ID at a given index.
+          * - :py:attr:`~index`
+            - Retrieve the index for a given entity ID.
+          * - :py:attr:`~deep_copy`
+            - Create a deep copy of the scoping's data on a given server.
+          * - :py:attr:`~as_local_scoping`
+            - Create a deep copy of the scoping that can be accessed and modified locally.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~ids`
+            - Retrieve the entity IDs in the scoping.
+          * - :py:attr:`~location`
+            - Location of the scoping as a string.
+          * - :py:attr:`~size`
+            - Length of the list of IDs.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__len__`
+            - Return the number of scoping ids.
+          * - :py:attr:`~__del__`
+            - Clean up resources associated with the instance.
+          * - :py:attr:`~__iter__`
+            - Return an iterator over the scoping ids.
+          * - :py:attr:`~__getitem__`
+            - Retrieve the ID at a requested index.
+          * - :py:attr:`~__setitem__`
+            - Set the ID at a given index.
+          * - :py:attr:`~__str__`
+            - Describe the entity.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.scoping import Scoping
+
+Property detail
+---------------
+
+.. py:property:: ids
+   :type: Union[ansys.dpf.gate.dpf_array.DPFArray, list[int]]
+
+
+   Retrieve the entity IDs in the scoping.
+
+   :returns: List of IDs in the scoping.
+             By default, a mutable DPFArray is returned.
+             To change the return type to a list for the complete python session, see
+             :func:`ansys.dpf.core.settings.get_runtime_client_config` and
+             :func:`ansys.dpf.core.runtime_config.RuntimeClientConfig.return_arrays`.
+             To get the list of IDs from a scoping as a Python list without changing a default
+             configuration, use :func:`ansys.dpf.core.scoping.Scoping.get_ids` instead.
+   :rtype: ids
+
+.. py:property:: location
+   :type: str
+
+
+   Location of the scoping as a string.
+
+   This defines the type of entity the IDs correspond to (such as node ID, element ID, face ID, and so on).
+
+   :returns: The location of the scoping.
+             One of the values of :class:`~ansys.dpf.core.common.locations`.
+   :rtype: location
+
+.. py:property:: size
+   :type: int
+
+
+   Length of the list of IDs.
+
+   :returns: Size of the scoping.
+   :rtype: size
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: get_ids(np_array: bool = False) -> Union[list[int], ansys.dpf.gate.dpf_array.DPFArray]
+
+   Return the list of entity IDs in the scoping as a list or as a numpy.ndarray.
+
+   :param np_array: Whether to return the list of IDs as a numpy array.
+
+   :returns: List of entity IDs in the scoping.
+   :rtype: ids
+
+
+.. py:method:: set_id(index: int, scopingid: int)
+
+   Set the ID of the entity at index in the scoping.
+
+   :param index: Index in the scoping.
+   :param scopingid: ID of the entity.
+
+
+.. py:method:: id(index: int) -> int
+
+   Retrieve the entity ID at a given index.
+
+   :param index: Index of the entity in the scoping.
+
+   :returns: ID of the entity at index in the scoping.
+   :rtype: entity_id
+
+
+.. py:method:: index(id: int) -> int
+
+   Retrieve the index for a given entity ID.
+
+   :param id: Entity ID at the index in the scoping.
+
+   :returns: Index in the scoping for the entity ID.
+   :rtype: index
+
+
+.. py:method:: __len__()
+
+   Return the number of scoping ids.
+
+   :returns: The number of scoping ids.
+   :rtype: int
+
+
+.. py:method:: __del__()
+
+   Clean up resources associated with the instance.
+
+   This method calls the deleter function to release resources. If an exception
+   occurs during deletion, a warning is issued.
+
+   :raises Warning: If an exception occurs while attempting to delete resources.
+
+
+.. py:method:: __iter__()
+
+   Return an iterator over the scoping ids.
+
+
+.. py:method:: __getitem__(key)
+
+   Retrieve the ID at a requested index.
+
+
+.. py:method:: __setitem__(index, id)
+
+   Set the ID at a given index.
+
+
+.. py:method:: __str__()
+
+   Describe the entity.
+
+   :returns: **description**
+   :rtype: str
+
+
+.. py:method:: deep_copy(server=None)
+
+   Create a deep copy of the scoping's data on a given server.
+
+   This method is useful for passiong data from one server instance to another.
+
+   :param server: Server with the channel connected to the remote or local instance.
+                  The default is ``None``, in which case an attempt is made to use the
+                  global server.
+   :type server: ansys.dpf.core.server, optional
+
+   :returns: **scoping_copy**
+   :rtype: Scoping
+
+
+.. py:method:: as_local_scoping()
+
+   Create a deep copy of the scoping that can be accessed and modified locally.
+
+   This method allows you to access and modify the local copy of the scoping
+   without sending a request to the server. It should be used in a ``with``
+   statement so that the local field is released and the data is sent to
+   the server in one action. If it is not used in a ``with`` statement,
+   :func:`<release_data> Scoping.release_data()` should be used to update the scoping.
+
+   .. warning::
+
+      If this `as_local_scoping` method is not used as a context manager in a
+      ``with`` statement or if the method `release_data()` is not called,
+      the data will not be updated.
+
+   :returns: **local_scoping**
+   :rtype: Scoping
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> num_entities = 3
+   >>> scoping_to_local = dpf.Scoping()
+   >>> with scoping_to_local.as_local_scoping() as scoping:
+   ...     for i in range(0,num_entities):
+   ...         scoping[i] = i+1
+
+
+
+
+

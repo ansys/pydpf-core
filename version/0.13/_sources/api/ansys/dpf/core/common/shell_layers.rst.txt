@@ -1,0 +1,108 @@
+
+
+
+
+
+
+:class:`shell_layers`
+=====================
+
+.. py:class:: ansys.dpf.core.common.shell_layers(*args, **kwds)
+
+   Bases: :py:obj:`enum.Enum`
+
+
+   Contains data identifying shell layers.
+
+   The ``'shell_layers'`` enum contains the available order of
+   shell layers (or lack of shell layers) that defines how the
+   field's data is ordered.
+
+
+
+.. py:currentmodule:: shell_layers
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~notset`
+            - 
+          * - :py:attr:`~top`
+            - 
+          * - :py:attr:`~bottom`
+            - 
+          * - :py:attr:`~topbottom`
+            - 
+          * - :py:attr:`~mid`
+            - 
+          * - :py:attr:`~topbottommid`
+            - 
+          * - :py:attr:`~nonelayer`
+            - 
+          * - :py:attr:`~layerindependent`
+            - 
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.common import shell_layers
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: notset
+   :value: -1
+
+
+.. py:attribute:: top
+   :value: 0
+
+
+.. py:attribute:: bottom
+   :value: 1
+
+
+.. py:attribute:: topbottom
+   :value: 2
+
+
+.. py:attribute:: mid
+   :value: 3
+
+
+.. py:attribute:: topbottommid
+   :value: 4
+
+
+.. py:attribute:: nonelayer
+   :value: 5
+
+
+.. py:attribute:: layerindependent
+   :value: 6
+
+
+
+
+
+
