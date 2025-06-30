@@ -22,11 +22,14 @@
 
 """FieldDefinition."""
 
+from __future__ import annotations
+
 import traceback
 import warnings
 
 from ansys.dpf.core import server as server_module
-from ansys.dpf.core.check_version import version_requires
+from ansys.dpf.core.available_result import Homogeneity
+from ansys.dpf.core.check_version import server_meet_version_and_raise, version_requires
 from ansys.dpf.core.common import natures, shell_layers
 from ansys.dpf.core.dimensionality import Dimensionality
 from ansys.dpf.gate import (
@@ -204,8 +207,44 @@ class FieldDefinition:
         return is_of_quantity_type
 
     @unit.setter
-    def unit(self, value):
-        self._api.csfield_definition_set_unit(self, value, None, 0, 0, 0)
+    def unit(self, value: str | tuple[Homogeneity, str]):
+        """Change the unit for the field definition.
+
+        A single string is interpreted as a known physical unit with an associated homogeneity.
+
+        For DPF 11.0 (2026 R1) and above: A tuple of two strings is interpreted as a homogeneity and a unit name.
+            If the homogeneity is :py:attr:`Homogeneity.dimensionless`, then the unit string is kept as a name.
+            Otherwise, the homogeneity is ignored, and the unit string interpreted as a known physical unit with an associated homogeneity.
+
+        Parameters
+        ----------
+        value:
+            Units for the field.
+
+        Notes
+        -----
+        Setting a named dimensionless unit requires DPF 11.0 (2026 R1) or above.
+
+        """
+        # setter with explicit homogeneity: homogeneity is taken into account if it is dimensionless
+        if (
+            isinstance(value, tuple)
+            and len(value) == 2
+            and isinstance(value[0], Homogeneity)
+            and isinstance(value[1], str)
+        ):
+            server_meet_version_and_raise(
+                required_version="11.0",
+                server=self._server,
+                msg="Setting a named dimensionless unit requires DPF 11.0 (2026 R1) or above.",
+            )
+            # csfield_definition_set_unit will ignore the homogeneity if it is not dimensionless
+            self._api.csfield_definition_set_unit(self, value[1], None, value[0].value, 0, 0)
+        # standard unit setter, using string interpreter
+        elif isinstance(value, str):
+            self._api.csfield_definition_set_unit(self, value, None, 0, 0, 0)
+        else:
+            raise ValueError("Unit setter supports either string or tuple(Homogeneity, str)")
 
     @location.setter
     def location(self, value):

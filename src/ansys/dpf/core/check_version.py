@@ -30,47 +30,49 @@ from __future__ import annotations
 
 from functools import wraps
 import sys
+from typing import TYPE_CHECKING
 import weakref
 
 from ansys.dpf.core import errors as dpf_errors
 
+if TYPE_CHECKING:  # pragma: nocover
+    from ansys.dpf.core.server_types import AnyServerType
 
-def server_meet_version(required_version, server: BaseServer):
+
+def server_meet_version(required_version: str, server: AnyServerType) -> bool:
     """Check if a given server version matches with a required version.
 
     Parameters
     ----------
-    required_version : str
+    required_version:
         Required version to compare with the server version.
-    server : :class:`ansys.dpf.core.server_types.BaseServer`
+    server:
         DPF server object.
 
-    Returns
-    -------
-    bool
-        ``True`` when successful, ``False`` when failed.
     """
     return server.meet_version(required_version)
 
 
-def server_meet_version_and_raise(required_version, server, msg=None):
+def server_meet_version_and_raise(
+    required_version: str, server: AnyServerType, msg: str = None
+) -> bool:
     """Check if a given server version matches with a required version and raise an exception if it does not match.
 
     Parameters
     ----------
-    required_version : str
+    required_version:
         Required version to compare with the server version.
-    server : :class:`dpf.core.server_types.BaseServer`
+    server:
         DPF server object.
-    msg : str, optional
+    msg:
         Message contained in the raised exception if the versions do
         not match. The default is ``None``, in which case the default message
         is used.
 
     Raises
     ------
-    dpf_errors : errors
-        errors.DpfVersionNotSupported is raised if the versions do not match.
+    dpf_errors: errors.DpfVersionNotSupported
+        En error is raised if the versions do not match.
 
     Returns
     -------
@@ -86,14 +88,14 @@ def server_meet_version_and_raise(required_version, server, msg=None):
     return True
 
 
-def meets_version(version, meets):
+def meets_version(version: str, meets: str) -> bool:
     """Check if a version string meets a minimum version.
 
     Parameters
     ----------
-    version : str
+    version:
         Version string to check. For example, ``"1.32.1"``.
-    meets : str
+    meets:
         Required version for comparison. For example, ``"1.32.2"``.
 
     Returns
@@ -106,13 +108,13 @@ def meets_version(version, meets):
     return parse(version) >= parse(meets)
 
 
-def get_server_version(server=None):
+def get_server_version(server: AnyServerType = None) -> str:
     """Retrieve the server version as a string.
 
     Parameters
     ----------
-    server : :class:`ansys.dpf.core.server`, optional
-        DPF server object. The default is ``None``.
+    server:
+        DPF server object. Default is to ``ansys.dpf.core.SERVER``.
 
     Returns
     -------
@@ -128,11 +130,17 @@ def get_server_version(server=None):
     return version
 
 
-def version_requires(min_version):
+def version_requires(min_version: str):
     """Check that the method being called matches a certain server version.
 
     .. note::
        The method must be used as a decorator.
+
+    Parameters
+    ----------
+    min_version:
+        Version string to check. For example, ``"1.32.1"``.
+
     """
 
     def decorator(func):
@@ -143,10 +151,15 @@ def version_requires(min_version):
         @wraps(func)
         def wrapper(self, *args, **kwargs):
             """Call the original function."""
-            if isinstance(self._server, weakref.ref):
-                server = self._server()
-            else:
-                server = self._server
+            from ansys.dpf.core.server_types import AnyServerType
+
+            if hasattr(self, "_server"):
+                if isinstance(self._server, weakref.ref):
+                    server = self._server()
+                else:
+                    server = self._server
+            elif isinstance(self, AnyServerType):
+                server = self
             func_name = func.__name__
 
             # particular cases

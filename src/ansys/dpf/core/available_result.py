@@ -312,7 +312,7 @@ _result_properties = {
     "ENF": {"location": "ElementalNodal", "scripting_name": "element_nodal_forces"},
     "EPEL": {"location": "ElementalNodal", "scripting_name": "elastic_strain"},
     "EPPL": {"location": "ElementalNodal", "scripting_name": "plastic_strain"},
-    "ECR": {"location": "ElementalNodal", "scripting_name": "creep_strain"},
+    "EPCR": {"location": "ElementalNodal", "scripting_name": "creep_strain"},
     "BFE": {"location": "ElementalNodal", "scripting_name": "structural_temperature"},
     "ETH": {"location": "ElementalNodal", "scripting_name": "thermal_strain"},
     "ETH_SWL": {"location": "ElementalNodal", "scripting_name": "swelling_strains"},

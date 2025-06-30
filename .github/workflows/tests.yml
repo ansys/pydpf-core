@@ -190,7 +190,7 @@ jobs:
         id: set-server-path
         uses: ansys/pydpf-actions/install-dpf-server@v2.3
         with:
-          dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
+          dpf-standalone-TOKEN: ${{secrets.PYANSYS_CI_BOT_TOKEN}}
           standalone_suffix: ${{ inputs.standalone_suffix }}
           ANSYS_VERSION : ${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}
 
@@ -209,7 +209,7 @@ jobs:
           DEBUG: true
           
       - name: "Test Docstrings"
-        if: (inputs.DOCSTRING == 'true') && !((inputs.test_any == 'true') && (matrix.os == 'ubuntu-latest'))
+        if: (inputs.DOCSTRING == 'true')
         uses: ansys/pydpf-actions/test_docstrings@v2.3
         with:
           MODULE: ${{env.MODULE}}

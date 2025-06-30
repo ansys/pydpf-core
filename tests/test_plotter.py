@@ -28,7 +28,11 @@ from ansys import dpf
 from ansys.dpf import core
 from ansys.dpf.core import Model, Operator, element_types, errors as dpf_errors, misc
 from ansys.dpf.core.plotter import plot_chart
-from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0, running_docker
+from conftest import (
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
+    running_docker,
+)
 
 if misc.module_exists("pyvista"):
     HAS_PYVISTA = True
@@ -809,3 +813,80 @@ def test_plot_polyhedron():
 
     # Plot the MeshedRegion
     mesh.plot()
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="This test requires pyvista")
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
+    reason="cff::cas::meshes_provider requires DPF 24R1",
+)
+def test_plotter_add_scoping(fluent_mixing_elbow_steady_state):
+    mesh: core.MeshedRegion = core.operators.mesh.mesh_provider(
+        data_sources=fluent_mixing_elbow_steady_state()
+    ).eval()
+    node_scoping = core.Scoping(location=core.locations.nodal, ids=mesh.nodes.scoping.ids[0:100])
+    element_scoping = core.Scoping(
+        location=core.locations.elemental, ids=mesh.elements.scoping.ids[0:100]
+    )
+    plt = DpfPlotter()
+    plt.add_scoping(node_scoping, mesh, show_mesh=True, color="red")
+    plt.add_scoping(element_scoping, mesh, color="green")
+    plt.show_figure()
+
+    face_scoping = core.Scoping(location=core.locations.faces, ids=mesh.faces.scoping.ids[0:100])
+    with pytest.raises(NotImplementedError):
+        plt.add_scoping(face_scoping, mesh)
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="This test requires pyvista")
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
+    reason="cff::cas::meshes_provider requires DPF 24R1",
+)
+def test_scoping_plot(fluent_mixing_elbow_steady_state):
+    mesh: core.MeshedRegion = core.operators.mesh.mesh_provider(
+        data_sources=fluent_mixing_elbow_steady_state()
+    ).eval()
+    node_scoping = core.Scoping(location=core.locations.nodal, ids=mesh.nodes.scoping.ids[0:100])
+    node_scoping.plot(mesh=mesh, color="red")
+    element_scoping = core.Scoping(
+        location=core.locations.elemental, ids=mesh.elements.scoping.ids[0:100]
+    )
+    element_scoping.plot(mesh=mesh, color="green")
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="This test requires pyvista")
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
+    reason="cff::cas::meshes_provider requires DPF 24R1",
+)
+def test_scopings_container_plot(fluent_mixing_elbow_steady_state):
+    mesh: core.MeshedRegion = core.operators.mesh.mesh_provider(
+        data_sources=fluent_mixing_elbow_steady_state()
+    ).eval()
+    node_scoping_1 = core.Scoping(location=core.locations.nodal, ids=mesh.nodes.scoping.ids[0:100])
+    node_scoping_2 = core.Scoping(
+        location=core.locations.nodal, ids=mesh.nodes.scoping.ids[300:400]
+    )
+    node_sc = core.ScopingsContainer()
+    node_sc.add_label(label="scoping", default_value=1)
+    node_sc.add_scoping(label_space={"scoping": 1}, scoping=node_scoping_1)
+    node_sc.add_scoping(label_space={"scoping": 2}, scoping=node_scoping_2)
+    node_sc.plot(mesh=mesh, show_mesh=True)
+
+    meshes: core.MeshesContainer = core.operators.mesh.meshes_provider(
+        data_sources=fluent_mixing_elbow_steady_state()
+    ).eval()
+
+    with pytest.raises(ValueError, match="could not associate a mesh to the scoping for label"):
+        node_sc.plot(mesh=meshes)
+
+    label_space = {"time": 1, "zone": 4}
+    node_scoping_3 = core.Scoping(
+        location=core.locations.nodal, ids=meshes.get_mesh(label_space).nodes.scoping.ids[0:100]
+    )
+    node_sc_2 = core.ScopingsContainer()
+    node_sc_2.add_label(label="time", default_value=1)
+    node_sc_2.add_label(label="zone")
+    node_sc_2.add_scoping(label_space=label_space, scoping=node_scoping_3)
+    node_sc_2.plot(mesh=meshes)

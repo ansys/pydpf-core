@@ -365,3 +365,9 @@ def test_scoping_dont_start_server(server_type):
     assert not dpf.core.server.has_local_server()
     assert np.allclose(scop.ids, ids)
     dpf.core.SERVER = s
+
+
+def test_locations_redirect_retro_compatibility(server_type):
+    from ansys.dpf.gate.common import locations
+
+    _ = locations.faces

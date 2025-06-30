@@ -49,7 +49,7 @@ import psutil
 import ansys.dpf.core as core
 from ansys.dpf.core import __version__, errors, server_context, server_factory
 from ansys.dpf.core._version import min_server_version, server_to_ansys_version
-from ansys.dpf.core.check_version import get_server_version, meets_version, server_meet_version
+from ansys.dpf.core.check_version import get_server_version, meets_version, version_requires
 from ansys.dpf.core.server_context import AvailableServerContexts, ServerContext
 from ansys.dpf.gate import data_processing_grpcapi, load_api
 
@@ -475,6 +475,12 @@ class BaseServer(abc.ABC):
     def version(self):
         """Must be implemented by subclasses."""
         pass
+
+    @property
+    @version_requires("7.0")
+    def plugins(self) -> dict:
+        """Return the list of plugins loaded on the server."""
+        return core.settings.get_runtime_core_config(self)._data_tree.to_dict()["loaded_plugins"]
 
     @property
     @abc.abstractmethod

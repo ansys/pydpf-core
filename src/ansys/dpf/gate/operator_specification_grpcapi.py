@@ -169,3 +169,7 @@ class OperatorSpecificationGRPCAPI(
     def operator_specification_get_config_description(specification, numOption):
         option = specification._internal_obj.config_spec.config_options_spec[numOption]
         return option.document
+
+    @staticmethod
+    def operator_specification_set_changelog(specification, changelog):
+        specification._internal_obj.changelog = changelog

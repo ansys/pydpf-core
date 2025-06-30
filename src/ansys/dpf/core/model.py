@@ -429,11 +429,11 @@ class Metadata:
         return self._stream_provider
 
     def _set_data_sources(self, var_inp):
-        from pathlib import Path
+        from pathlib import PurePath
 
         if isinstance(var_inp, dpf.core.DataSources):
             self._data_sources = var_inp
-        elif isinstance(var_inp, (str, Path)):
+        elif isinstance(var_inp, (str, PurePath)):
             self._data_sources = DataSources(var_inp, server=self._server)
         else:
             self._data_sources = DataSources(server=self._server)

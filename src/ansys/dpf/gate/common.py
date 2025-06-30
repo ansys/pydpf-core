@@ -1,70 +1,12 @@
 import abc
 
-
-class locations:
-    """Contains strings for scoping and field locations.
-
-    Attributes
-    -----------
-    none = "none"
-
-    elemental = "Elemental"
-        data is one per element
-
-    elemental_nodal = "ElementalNodal"
-        one per node per element
-
-    nodal = "Nodal"
-        one per node
-
-    time_freq = "TimeFreq_sets"
-        one per time set
-
-    overall = "overall"
-        applies everywhere
-
-    time_freq_step = "TimeFreq_steps"
-        one per time step
-
-    faces = "Faces"
-        one per face
-
-    zone = "zone"
-        one per zone
-
-    elemental_and_faces = "ElementalAndFaces"
-        data available in elements and faces of the model
-    """
-
-    none = "none"
-
-    # data is one per element
-    elemental = "Elemental"
-
-    # one per node per element
-    elemental_nodal = "ElementalNodal"
-
-    # one per node
-    nodal = "Nodal"
-
-    # one per time set
-    time_freq = "TimeFreq_sets"
-
-    # applies everywhere
-    overall = "overall"
-
-    # one per time step
-    time_freq_step = "TimeFreq_steps"
-
-    # one per face
-    faces = "Faces"
-
-    # one per zone
-    zone = "zone"
-
-    # data available in elements and faces of the model
-    elemental_and_faces = "ElementalAndFaces"
-
+def __getattr__(name):
+    if name == "locations":
+        from ansys.dpf.core.common import locations
+        import warnings
+        warnings.warn(message="Use ansys.dpf.core.common.locations", category=DeprecationWarning)
+        return locations
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
 
 elemental_property_type_dict = {
     "eltype": "ELEMENT_TYPE",

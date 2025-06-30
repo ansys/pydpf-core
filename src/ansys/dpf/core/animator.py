@@ -59,6 +59,7 @@ class _PyVistaAnimator(_PyVistaPlotter):
         input_name="loop_over",
         save_as="",
         mode_number=None,
+        mode_frequency=None,
         scale_factor=1.0,
         shell_layer=core.shell_layers.top,
         **kwargs,
@@ -70,7 +71,7 @@ class _PyVistaAnimator(_PyVistaPlotter):
             scale_factor = [False] * len(indices)
         type_scale = type(scale_factor)
         if type_scale in [int, float]:
-            scale_factor = [scale_factor] * len(indices)
+            scale_factor = [float(scale_factor)] * len(indices)
         elif type_scale == list:
             pass
         # elif type_scale in [core.field.Field, core.fields_container.FieldsContainer]:
@@ -121,6 +122,7 @@ class _PyVistaAnimator(_PyVistaPlotter):
             self.add_field(
                 field,
                 deform_by=deform,
+                scale_factor=scale_factor[frame],
                 scale_factor_legend=scale_factor[frame],
                 shell_layer=shell_layer,
                 **kwargs,
@@ -132,9 +134,9 @@ class _PyVistaAnimator(_PyVistaPlotter):
                     str_template.format(indices[frame], unit, freq_fmt), **kwargs_in
                 )
             else:
-                str_template = "frq={0:{2}} {1}"
+                str_template = "mode={3}\nfrq={0:{2}} {1}"
                 self._plotter.add_text(
-                    str_template.format(mode_number, unit, freq_fmt), **kwargs_in
+                    str_template.format(mode_frequency, unit, freq_fmt, mode_number), **kwargs_in
                 )
 
             if cpos:
