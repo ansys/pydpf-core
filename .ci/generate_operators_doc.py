@@ -171,7 +171,7 @@ def generate_operator_doc(server, operator_name, include_private):
 
 def generate_toc_tree(docs_path):
     # Target the operator-specifications folder for iteration
-    operator_specs_path = docs_path / "operator-specifications"
+    # operator_specs_path = docs_path / "operator-specifications"
     data = []
     for folder in docs_path.iterdir():
         if folder.is_dir():  # Ensure 'folder' is a directory
@@ -188,14 +188,14 @@ def generate_toc_tree(docs_path):
             data.append({"category": category, "operators": operators})
 
     # Render the Jinja2 template
-    template_path = operator_specs_path / "toc_template.j2"
+    template_path = docs_path / "toc_template.j2"
     with Path.open(template_path, "r") as template_file:
         template = Template(template_file.read())
     output = template.render(data=data)  # Pass 'data' as a named argument
 
     # Write the rendered output to toc.yml at the operators_doc level
-    toc_path = docs_path / "toc.yml"
-    with Path.open(toc_path, "w") as file:
+    # toc_path = docs_path / "toc.yml"
+    with Path.open(docs_path / "toc.yml", "w") as file:
         file.write(output)
 
 
@@ -221,7 +221,7 @@ def main():
     for operator_name in operators:
         generate_operator_doc(server, operator_name, args.include_private)
 
-    docs_path = Path(__file__).parent.parent / "doc" / "source" / "operators_doc" 
+    docs_path = Path(__file__).parent.parent / "doc" / "source" / "operators_doc" / "operator-specifications"
     print(docs_path)
     generate_toc_tree(docs_path)
 
