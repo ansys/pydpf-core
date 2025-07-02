@@ -192,7 +192,19 @@ jobs:
         with:
           dpf-standalone-TOKEN: ${{secrets.PYANSYS_CI_BOT_TOKEN}}
           standalone_suffix: ${{ inputs.standalone_suffix }}
-          ANSYS_VERSION : ${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}
+          ANSYS_VERSION : ${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}      
+          
+      - name: "Debug Operator"
+        shell: bash
+        run: |
+            echo "who am i"
+            whoami
+            ls -al dpf-standalone/v252
+            ldd dpf-standalone/v252/ansys/dpf/server_2025_2_pre0/dpf/bin/linx64/libmapdlOperatorsCore.so
+            echo "!!!!!!!!!!!!!!!!!"
+            ldd dpf-standalone/v252/ansys/dpf/server_2025_2_pre0/aisol/dll/linx64/libDataProcessingCore.so
+            echo "do ls!!!!!"
+            ls -al dpf-standalone/v252/ansys/dpf/server_2025_2_pre0/aisol/dll/linx64/
 
       - name: "Check licences of packages"
         uses: ansys/pydpf-actions/check-licenses@v2.3
