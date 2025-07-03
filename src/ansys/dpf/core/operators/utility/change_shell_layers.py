@@ -30,7 +30,7 @@ class change_shell_layers(Operator):
     ----------
     fields_container: FieldsContainer or Field
     e_shell_layer: int
-        0: Top, 1: Bottom, 2: BottomTop, 3: Mid, 4: BottomTopMid.
+        0: Top, 1: Bottom, 2: TopBottom, 3: Mid, 4: TopBottomMid.
     mesh: MeshedRegion or MeshesContainer, optional
         Mesh support of the input fields_container, in case it does not have one defined. If the fields_container contains mixed shell/solid results, the mesh is required (either by connecting this pin or in the support).
     merge: bool, optional
@@ -113,7 +113,7 @@ the result.
                     name="e_shell_layer",
                     type_names=["int32", "enum dataProcessing::EShellLayers"],
                     optional=False,
-                    document=r"""0: Top, 1: Bottom, 2: BottomTop, 3: Mid, 4: BottomTopMid.""",
+                    document=r"""0: Top, 1: Bottom, 2: TopBottom, 3: Mid, 4: TopBottomMid.""",
                 ),
                 2: PinSpecification(
                     name="mesh",
@@ -237,7 +237,7 @@ class InputsChangeShellLayers(_Inputs):
     def e_shell_layer(self) -> Input:
         r"""Allows to connect e_shell_layer input to the operator.
 
-        0: Top, 1: Bottom, 2: BottomTop, 3: Mid, 4: BottomTopMid.
+        0: Top, 1: Bottom, 2: TopBottom, 3: Mid, 4: TopBottomMid.
 
         Returns
         -------
