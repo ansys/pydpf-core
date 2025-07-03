@@ -7,11 +7,10 @@ on:
       python_versions:
         required: false
         type: string
-        default: '["3.9"]'
+        default: '["3.10"]'
       ANSYS_VERSION:
         required: false
         type: string
-        default: "251"
       standalone_suffix:
         description: "Suffix of the branch on standalone"
         required: false
@@ -24,12 +23,11 @@ on:
         description: "Python interpreters to test."
         required: true
         type: string
-        default: '["3.9"]'
+        default: '["3.10"]'
       ANSYS_VERSION:
         description: "ANSYS version to run."
-        required: true
+        required: false
         type: string
-        default: "251"
       standalone_suffix:
         description: "Suffix of the branch on standalone"
         required: false
@@ -97,15 +95,15 @@ jobs:
       - name: "Install package wheel"
         shell: bash
         run: |
-          pip install dist/${{ steps.wheel.outputs.wheel_name }}[plotting]
+          pip install dist/${{ steps.wheel.outputs.wheel_name }}[graphics]
 
       - name: "Install DPF"
         id: set-server-path
         uses: ansys/pydpf-actions/install-dpf-docker@v2.3
         with:
-          dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
+          dpf-standalone-TOKEN: ${{secrets.PYANSYS_CI_BOT_TOKEN}}
           standalone_suffix: ${{ inputs.standalone_suffix }}
-          ANSYS_VERSION : ${{inputs.ANSYS_VERSION}}
+          ANSYS_VERSION : ${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}
 
       - name: "Check licences of packages"
         uses: ansys/pydpf-actions/check-licenses@v2.3
@@ -116,7 +114,7 @@ jobs:
         run: python -c "from ansys.dpf import core"
 
       - name: "Prepare Testing Environment"
-        uses: ansys/pydpf-actions/prepare_tests@v2.3
+        uses: ansys/pydpf-actions/prepare_tests@dependencies/bump_pyvista_setup-headless-display-action_to_v4
         with:
           DEBUG: true
 

@@ -25,6 +25,7 @@
 from __future__ import annotations
 
 from enum import Enum
+from typing import TYPE_CHECKING
 
 import numpy as np
 
@@ -33,6 +34,9 @@ from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.core.common import elemental_properties, locations
 from ansys.dpf.core.element_descriptor import ElementDescriptor
 from ansys.dpf.gate import integral_types
+
+if TYPE_CHECKING:  # pragma: no cover
+    from ansys.dpf.core.scoping import Scoping
 
 
 class Element:
@@ -492,7 +496,7 @@ class Elements:
         return Element(self._mesh, elementid, elementindex, nodesOut)
 
     @property
-    def scoping(self) -> scoping.Scoping:
+    def scoping(self) -> Scoping:
         """
         Scoping of the elements.
 
@@ -1219,7 +1223,9 @@ class element_types(Enum):
             ),
             element_types.Edge2: ElementDescriptor(element_types.Edge2, "Edge2", "edge2", "beam"),
             element_types.Edge3: ElementDescriptor(element_types.Edge3, "Edge3", "edge3", "beam"),
-            element_types.Beam3: ElementDescriptor(element_types.Beam3, "Beam3", "beam3", "beam"),
+            element_types.Beam3: ElementDescriptor(
+                element_types.Beam3, "Beam3", "beam3", "beam", 2, 0, 3, False, False, True, False
+            ),
             element_types.Beam4: ElementDescriptor(element_types.Beam4, "Beam4", "beam4", "beam"),
             element_types.GeneralPlaceholder: ElementDescriptor(
                 element_types.GeneralPlaceholder,

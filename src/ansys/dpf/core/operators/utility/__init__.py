@@ -7,6 +7,7 @@ from .bind_support_fc import bind_support_fc
 from .change_location import change_location
 from .change_shell_layers import change_shell_layers
 from .compute_time_scoping import compute_time_scoping
+from .customtypefield_get_attribute import customtypefield_get_attribute
 from .default_value import default_value
 from .delegate_to_operator import delegate_to_operator
 from .ds_get_attribute import ds_get_attribute
@@ -18,6 +19,7 @@ from .extract_sub_sc import extract_sub_sc
 from .extract_time_freq import extract_time_freq
 from .fc_get_attribute import fc_get_attribute
 from .field import field
+from .field_clone_to_shell_layer import field_clone_to_shell_layer
 from .field_get_attribute import field_get_attribute
 from .field_to_fc import field_to_fc
 from .fields_container import fields_container
@@ -58,10 +60,12 @@ from .merge_weighted_fields_containers import merge_weighted_fields_containers
 from .mesh import mesh
 from .mesh_to_mc import mesh_to_mc
 from .meshes_container import meshes_container
+from .operator_changelog import operator_changelog
 from .operator_id import operator_id
 from .overlap_fields import overlap_fields
 from .producer_consumer_for_each import producer_consumer_for_each
 from .property_field import property_field
+from .propertyfield_get_attribute import propertyfield_get_attribute
 from .python_generator import python_generator
 from .remote_operator_instantiate import remote_operator_instantiate
 from .remote_workflow_instantiate import remote_workflow_instantiate

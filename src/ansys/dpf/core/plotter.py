@@ -30,7 +30,6 @@ Contains classes used to plot a mesh and a fields container using PyVista.
 
 from __future__ import annotations
 
-import os
 from pathlib import Path
 import sys
 import tempfile
@@ -48,6 +47,7 @@ from ansys.dpf.core.nodes import Node, Nodes
 
 if TYPE_CHECKING:  # pragma: no cover
     from ansys.dpf.core import Operator, Result
+    from ansys.dpf.core.field import Field
     from ansys.dpf.core.fields_container import FieldsContainer
     from ansys.dpf.core.meshed_region import MeshedRegion
 
@@ -193,7 +193,17 @@ class _PyVistaPlotter:
         import pyvista as pv
 
         active_scalars = None
-        if parse(pv.__version__) >= parse("0.35.2"):
+        if parse(pv.__version__) >= parse("0.42.0"):
+            # Get actors of active renderer
+            actors = list(self._plotter.actors.values())
+            for actor in actors:
+                mapper = actor.mapper if hasattr(actor, "mapper") else None
+                if mapper:
+                    dataset = mapper.dataset
+                    if type(dataset) is pv.core.pointset.UnstructuredGrid:
+                        active_scalars = dataset.active_scalars
+                        break
+        elif parse(pv.__version__) >= parse("0.35.2"):
             for data_set in self._plotter._datasets:
                 if type(data_set) is pv.core.pointset.UnstructuredGrid:
                     active_scalars = data_set.active_scalars
@@ -222,6 +232,37 @@ class _PyVistaPlotter:
                     self._plotter.add_point_labels(grid_point, [value], **kwargs_in)
                 )
         return label_actors
+
+    def add_scoping(
+        self,
+        scoping: dpf.core.Scoping,
+        mesh: dpf.core.MeshedRegion,
+        show_mesh: bool = False,
+        **kwargs,
+    ):
+        # Add the mesh to the scene with low opacity
+        if show_mesh:
+            self._plotter.add_mesh(mesh=mesh.grid, opacity=0.3)
+
+        scoping_mesh = None
+
+        # If the scoping is nodal, use the add_points_label method
+        if scoping.location == locations.nodal:
+            node_indexes = np.where(np.isin(mesh.nodes.scoping.ids, scoping.ids))[0]
+            # grid_points = [mesh.grid.points[node_index] for node_index in node_indexes]
+            scoping_mesh = mesh.grid.extract_points(ind=node_indexes, include_cells=False)
+        # If the scoping is elemental, extract their edges and use active scalars to color them
+        if scoping.location == locations.elemental:
+            element_indexes = np.where(np.isin(mesh.elements.scoping.ids, scoping.ids))[0]
+            scoping_mesh = mesh.grid.extract_cells(ind=element_indexes)
+
+        # If the scoping is faces, extract their edges and use active scalars to color them
+        if scoping.location == locations.faces:
+            raise NotImplementedError("Cannot plot a face scoping.")
+
+        # Filter kwargs
+        kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.add_mesh, **kwargs)
+        self._plotter.add_mesh(mesh=scoping_mesh, **kwargs_in)
 
     def add_field(
         self,
@@ -676,6 +717,55 @@ class DpfPlotter:
             as_linear=True,
             shell_layer=shell_layer,
             **kwargs,
+        )
+
+    def add_scoping(
+        self,
+        scoping: dpf.core.Scoping,
+        mesh: dpf.core.MeshedRegion,
+        show_mesh: bool = False,
+        **kwargs,
+    ):
+        """Add a scoping to the plotter.
+
+        A mesh is required to translate the scoping into entities to plot.
+        Tou can plot the mesh along with the scoping entities using ``show_mesh``.
+
+        Parameters
+        ----------
+        scoping:
+            Scoping with a mesh-based location and IDs of entities to plot.
+        mesh:
+            ``MeshedRegion`` to plot the field on.
+        show_mesh:
+            Whether to show the mesh along with the scoping entities.
+        **kwargs : optional
+            Additional keyword arguments for the plotter. More information
+            are available at :func:`pyvista.plot`.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.download_cfx_mixing_elbow())
+        >>> mesh = model.metadata.meshed_region
+        >>> node_scoping = dpf.Scoping(
+        ...    location=dpf.locations.nodal,
+        ...    ids=mesh.nodes.scoping.ids[0:100]
+        ...)
+        >>> element_scoping = dpf.Scoping(
+        ...    location=dpf.locations.elemental,
+        ...    ids=mesh.elements.scoping.ids[0:100]
+        ...)
+        >>> from ansys.dpf.core.plotter import DpfPlotter
+        >>> plt = DpfPlotter()
+        >>> plt.add_scoping(node_scoping, mesh, show_mesh=True, color="red")
+        >>> plt.add_scoping(element_scoping, mesh, color="green")
+        >>> plt.show_figure()
+
+        """
+        self._internal_plotter.add_scoping(
+            scoping=scoping, mesh=mesh, show_mesh=show_mesh, **kwargs
         )
 
     def show_figure(self, **kwargs):

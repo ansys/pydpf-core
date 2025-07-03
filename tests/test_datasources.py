@@ -25,6 +25,7 @@ import weakref
 import pytest
 
 from ansys import dpf
+from ansys.dpf.core import examples
 import conftest
 
 skip_always = pytest.mark.skipif(True, reason="Investigate why this is failing")
@@ -173,3 +174,14 @@ def test_register_namespace(allkindofcomplexity, server_type):
     with pytest.raises(Exception):
         op = dpf.core.operators.result.displacement(data_sources=data_sources, server=server_type)
         assert op.eval() is not None
+
+
+@conftest.raises_for_servers_version_under("9.0")
+def test_namespace(allkindofcomplexity, server_type):
+    data_sources = dpf.core.DataSources(allkindofcomplexity, server=server_type)
+    assert data_sources.namespace(data_sources.result_key) == "mapdl"
+
+    cas_h5_file = examples.download_fluent_axial_comp(server=server_type)["cas"][0]
+    data_sources = dpf.core.DataSources(server=server_type)
+    data_sources.set_result_file_path(cas_h5_file)
+    assert data_sources.namespace(data_sources.result_key) == "cff"

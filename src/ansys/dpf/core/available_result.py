@@ -45,7 +45,8 @@ class Homogeneity(Enum):
     electric_charge = 5
     electric_charge_density = 6
     conductivity = 7
-    current = 9
+    current = 8
+    current_density = 9
     density = 10
     displacement = 11
     electric_conductivity = 12
@@ -91,6 +92,8 @@ class Homogeneity(Enum):
     voltage = 52
     volume = 53
     moment_inertia_mass = 55
+    angular_acceleration = 63
+    temperature_difference = 78
     stress_intensity_factor = 92
     thermal_gradient = 95
     resistance = 1000
@@ -195,8 +198,8 @@ class AvailableResult:
     @property
     def name(self):
         """Result operator."""
-        if hasattr(self, "properties") and "scripting_name" in self._properties.keys():
-            name = self.properties["scripting_name"]
+        if self._properties and "scripting_name" in self._properties.keys():
+            name = self._properties["scripting_name"]
         elif self.operator_name in _result_properties:
             name = _result_properties[self.operator_name]["scripting_name"]
         else:
@@ -309,7 +312,7 @@ _result_properties = {
     "ENF": {"location": "ElementalNodal", "scripting_name": "element_nodal_forces"},
     "EPEL": {"location": "ElementalNodal", "scripting_name": "elastic_strain"},
     "EPPL": {"location": "ElementalNodal", "scripting_name": "plastic_strain"},
-    "ECR": {"location": "ElementalNodal", "scripting_name": "creep_strain"},
+    "EPCR": {"location": "ElementalNodal", "scripting_name": "creep_strain"},
     "BFE": {"location": "ElementalNodal", "scripting_name": "structural_temperature"},
     "ETH": {"location": "ElementalNodal", "scripting_name": "thermal_strain"},
     "ETH_SWL": {"location": "ElementalNodal", "scripting_name": "swelling_strains"},

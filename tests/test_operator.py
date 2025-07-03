@@ -1533,3 +1533,18 @@ def test_operator_find_outputs_corresponding_pins_any(server_type):
     f1 = ops.utility.forward()
     f2 = ops.utility.forward()
     f2.inputs.any.connect(f1.outputs.any)
+
+
+@conftest.raises_for_servers_version_under("11.0")
+def test_operator_changelog(server_type):
+    from packaging.version import Version
+
+    changelog = dpf.core.operators.math.add(server=server_type).changelog
+    assert changelog[Version("0.0.0")] == "New"
+
+
+@conftest.raises_for_servers_version_under("11.0")
+def test_operator_version(server_type):
+    from packaging.version import Version
+
+    assert isinstance(dpf.core.operators.math.add(server=server_type).version, Version)
