@@ -37,6 +37,7 @@ from typing import TYPE_CHECKING, List, Union
 import warnings
 
 import numpy as np
+from trame_common.decorators.klass import change
 
 from ansys import dpf
 from ansys.dpf import core
@@ -1073,7 +1074,7 @@ class Plotter:
             )
 
         # pre-loop: check if shell layers for each field, if yes, set the shell layers
-        changeOp = core.Operator("change_shellLayers")
+        changeOp = core.operators.utility.change_shell_layers()
         for field in fields_container:
             shell_layer_check = field.shell_layers
             if shell_layer_check in [
@@ -1082,11 +1083,12 @@ class Plotter:
             ]:
                 if (
                     location == locations.elemental_nodal
-                ):  # change_shell_layers does not support elemental_nodal, so we temporarily switch to nodal
-                    fields_container = dpf.core.operators.averaging.to_nodal_fc(
+                ):  # change_shell_layers does not support elemental_nodal, so we temporarily switch to elemental
+                    fields_container = dpf.core.operators.averaging.to_elemental_fc(
                         fields_container=fields_container
                     ).eval()
                 changeOp.inputs.fields_container.connect(fields_container)
+                changeOp.inputs.merge.connect(location == locations.elemental_nodal)
                 sl = eshell_layers.top
                 if shell_layers is not None:
                     if not isinstance(shell_layers, eshell_layers):
