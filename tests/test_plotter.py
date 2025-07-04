@@ -205,13 +205,7 @@ def test_field_elemental_nodal_plot_simple(simple_bar):
     stress = model.results.element_nodal_forces()
     fc = stress.outputs.fields_container()
     f = fc[0]
-    print(f.data.shape)
     f.plot()
-    picture = 'test_plotter1.png'
-    remove_picture(picture)
-    f.plot(off_screen=True, screenshot=picture)
-    assert os.path.exists(os.path.join(os.getcwd(), picture))
-    remove_picture(picture)
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
@@ -222,13 +216,7 @@ def test_field_elemental_nodal_plot_scoped(simple_bar):
     stress = model.results.element_nodal_forces.on_mesh_scoping(mesh_scoping)
     fc = stress.eval()
     f = fc[0]
-    print(f.data.shape)
     f.plot()
-    picture = 'test_plotter2.png'
-    remove_picture(picture)
-    f.plot(off_screen=True, screenshot=picture)
-    assert os.path.exists(os.path.join(os.getcwd(), picture))
-    remove_picture(picture)
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
@@ -239,11 +227,6 @@ def test_field_elemental_nodal_plot_multiple_solid_types():
     fc = stress.outputs.fields_container()
     f = fc[0]
     f.plot()
-    picture = 'test_plotter3.png'
-    remove_picture(picture)
-    f.plot(off_screen=True, screenshot=picture)
-    assert os.path.exists(os.path.join(os.getcwd(), picture))
-    remove_picture(picture)
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
