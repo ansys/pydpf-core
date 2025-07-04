@@ -677,7 +677,7 @@ class Elements:
 
         Examples
         --------
-        Return the indices that map a field to an elements collection.
+        Return the indices that map a field to an Elements collection.
 
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
@@ -689,7 +689,7 @@ class Elements:
 
         """
         if external_scope.location in ["Nodal", "NodalElemental"]:
-            raise ValueError('Input scope location must be "Nodal"')
+            raise ValueError('Input scope location must be "Elemental"')
         arr = np.array(list(map(self.mapping_id_to_index.get, external_scope.ids)))
         mask = arr != None
         ind = arr[mask].astype(np.int32)

@@ -317,8 +317,14 @@ class _PyVistaPlotter:
                 show_min = False
         elif location == locations.overall:
             mesh_location = meshed_region.elements
+        elif location == locations.elemental_nodal:
+            mesh_location = meshed_region.elements
+            # If ElementalNodal, first extend results to mid-nodes
+            field = dpf.core.operators.averaging.extend_to_mid_nodes(field=field).eval()
         else:
-            raise ValueError("Only elemental, nodal or faces location are supported for plotting.")
+            raise ValueError(
+                "Only elemental, elemental nodal, nodal, faces, or overall location are supported for plotting."
+            )
 
         # Treat multilayered shells
         if not isinstance(shell_layer, eshell_layers):
@@ -333,13 +339,27 @@ class _PyVistaPlotter:
             )
             field = change_shell_layer_op.get_output(0, core.types.field)
 
+        location_data_len = meshed_region.location_data_len(location)
         component_count = field.component_count
         if component_count > 1:
-            overall_data = np.full((len(mesh_location), component_count), np.nan)
+            overall_data = np.full((location_data_len, component_count), np.nan)
         else:
-            overall_data = np.full(len(mesh_location), np.nan)
+            overall_data = np.full(location_data_len, np.nan)
         if location != locations.overall:
             ind, mask = mesh_location.map_scoping(field.scoping)
+
+            # Rework ind and mask to take into account n_nodes per element if ElementalNodal
+            if location == locations.elemental_nodal:
+                n_nodes_list = meshed_region.get_elemental_nodal_size_list().astype(np.int32)
+                first_index = np.insert(np.cumsum(n_nodes_list)[:-1], 0, 0).astype(np.int32)
+                mask_2 = np.asarray(
+                    [mask_i for i, mask_i in enumerate(mask) for _ in range(n_nodes_list[ind[i]])]
+                )
+                ind_2 = np.asarray(
+                    [first_index[ind_i] + j for ind_i in ind for j in range(n_nodes_list[ind_i])]
+                )
+                mask = mask_2
+                ind = ind_2
             overall_data[ind] = field.data[mask]
         else:
             overall_data[:] = field.data[0]
@@ -348,12 +368,22 @@ class _PyVistaPlotter:
         # Have to remove any active scalar field from the pre-existing grid object,
         # otherwise we get two scalar bars when calling several plot_contour on the same mesh
         # but not for the same field. The PyVista UnstructuredGrid keeps memory of it.
-        if not deform_by:
-            grid = meshed_region.grid
-        else:
+        if location == locations.elemental_nodal:
+            as_linear = False
+        if deform_by:
             grid = meshed_region._as_vtk(
-                meshed_region.deform_by(deform_by, scale_factor), as_linear
+                meshed_region.deform_by(deform_by, scale_factor), as_linear=as_linear
             )
+        else:
+            if as_linear != meshed_region.as_linear:
+                grid = meshed_region._as_vtk(
+                    meshed_region.nodes.coordinates_field, as_linear=as_linear
+                )
+                meshed_region.as_linear = as_linear
+            else:
+                grid = meshed_region.grid
+        if location == locations.elemental_nodal:
+            grid = grid.shrink(1.0)
         grid.set_active_scalars(None)
         self._plotter.add_mesh(grid, scalars=overall_data, **kwargs_in)
 
@@ -1022,14 +1052,25 @@ class Plotter:
                 unit = field.unit
                 break
 
+        # If ElementalNodal, first extend results to mid-nodes
+        if location == locations.elemental_nodal:
+            fields_container = dpf.core.operators.averaging.extend_to_mid_nodes_fc(
+                fields_container=fields_container
+            ).eval()
+
+        location_data_len = mesh.location_data_len(location)
         if location == locations.nodal:
             mesh_location = mesh.nodes
         elif location == locations.elemental:
             mesh_location = mesh.elements
         elif location == locations.faces:
             mesh_location = mesh.faces
+        elif location == locations.elemental_nodal:
+            mesh_location = mesh.elements
         else:
-            raise ValueError("Only elemental, nodal or faces location are supported for plotting.")
+            raise ValueError(
+                "Only elemental, elemental nodal, nodal or faces location are supported for plotting."
+            )
 
         # pre-loop: check if shell layers for each field, if yes, set the shell layers
         changeOp = core.Operator("change_shellLayers")
@@ -1039,6 +1080,12 @@ class Plotter:
                 eshell_layers.topbottom,
                 eshell_layers.topbottommid,
             ]:
+                if (
+                    location == locations.elemental_nodal
+                ):  # change_shell_layers does not support elemental_nodal, so we temporarily switch to nodal
+                    fields_container = dpf.core.operators.averaging.to_nodal_fc(
+                        fields_container=fields_container
+                    ).eval()
                 changeOp.inputs.fields_container.connect(fields_container)
                 sl = eshell_layers.top
                 if shell_layers is not None:
@@ -1049,16 +1096,36 @@ class Plotter:
                     sl = shell_layers
                 changeOp.inputs.e_shell_layer.connect(sl.value)  # top layers taken
                 fields_container = changeOp.get_output(0, core.types.fields_container)
+                if location == locations.elemental_nodal:
+                    fields_container = dpf.core.operators.averaging.to_elemental_nodal_fc(
+                        fields_container=fields_container
+                    ).eval()
                 break
 
         # Merge field data into a single array
         if component_count > 1:
-            overall_data = np.full((len(mesh_location), component_count), np.nan)
+            overall_data = np.full((location_data_len, component_count), np.nan)
         else:
-            overall_data = np.full(len(mesh_location), np.nan)
+            overall_data = np.full(location_data_len, np.nan)
+
+        # field._data_pointer gives the first index of each entity data
+        # (should be of size nb_elements)
 
         for field in fields_container:
             ind, mask = mesh_location.map_scoping(field.scoping)
+            if location == locations.elemental_nodal:
+                # Rework ind and mask to take into account n_nodes per element
+                # entity_index_map = field._data_pointer
+                n_nodes_list = mesh.get_elemental_nodal_size_list().astype(np.int32)
+                first_index = np.insert(np.cumsum(n_nodes_list)[:-1], 0, 0).astype(np.int32)
+                mask_2 = np.asarray(
+                    [mask_i for i, mask_i in enumerate(mask) for _ in range(n_nodes_list[ind[i]])]
+                )
+                ind_2 = np.asarray(
+                    [first_index[ind_i] + j for ind_i in ind for j in range(n_nodes_list[ind_i])]
+                )
+                mask = mask_2
+                ind = ind_2
             overall_data[ind] = field.data[mask]
 
         # create the plotter and add the meshes
@@ -1087,6 +1154,8 @@ class Plotter:
             bound_method=self._internal_plotter._plotter.add_mesh, **kwargs
         )
         as_linear = True
+        if location == locations.elemental_nodal:
+            as_linear = False
         if deform_by:
             grid = mesh._as_vtk(mesh.deform_by(deform_by, scale_factor), as_linear=as_linear)
             self._internal_plotter.add_scale_factor_legend(scale_factor, **kwargs)
@@ -1096,6 +1165,8 @@ class Plotter:
                 mesh.as_linear = as_linear
             else:
                 grid = mesh.grid
+        if location == locations.elemental_nodal:
+            grid = grid.shrink(1.0)
         grid.clear_data()
         self._internal_plotter._plotter.add_mesh(grid, scalars=overall_data, **kwargs_in)
 
