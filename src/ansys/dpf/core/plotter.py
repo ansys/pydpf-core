@@ -1072,8 +1072,12 @@ class Plotter:
                 eshell_layers.topbottom,
                 eshell_layers.topbottommid,
             ]:
-                if location == locations.elemental_nodal:
-                    raise TypeError("Trying to plot ElementalNodal values for shells.")
+                if (
+                    location == locations.elemental_nodal
+                ):  # change_shell_layers does not support elemental_nodal, so we temporarily switch to nodal
+                    fields_container = dpf.core.operators.averaging.to_nodal_fc(
+                        fields_container=fields_container
+                    ).eval()
                 changeOp.inputs.fields_container.connect(fields_container)
                 sl = eshell_layers.top
                 if shell_layers is not None:
@@ -1084,6 +1088,10 @@ class Plotter:
                     sl = shell_layers
                 changeOp.inputs.e_shell_layer.connect(sl.value)  # top layers taken
                 fields_container = changeOp.get_output(0, core.types.fields_container)
+                if location == locations.elemental_nodal:
+                    fields_container = dpf.core.operators.averaging.to_elemental_nodal_fc(
+                        fields_container=fields_container
+                    ).eval()
                 break
 
         # Merge field data into a single array

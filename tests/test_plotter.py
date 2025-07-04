@@ -211,8 +211,9 @@ def test_field_elemental_nodal_plot_simple(simple_bar):
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_field_elemental_nodal_plot_scoped(simple_bar):
     model = Model(simple_bar)
-    mesh_scoping = dpf.core.mesh_scoping_factory.elemental_scoping(element_ids=list(range(1501,
-                                                                                          3001)))
+    mesh_scoping = dpf.core.mesh_scoping_factory.elemental_scoping(
+        element_ids=list(range(1501, 3001))
+    )
     stress = model.results.element_nodal_forces.on_mesh_scoping(mesh_scoping)
     fc = stress.eval()
     f = fc[0]
@@ -222,7 +223,19 @@ def test_field_elemental_nodal_plot_scoped(simple_bar):
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_field_elemental_nodal_plot_multiple_solid_types():
     from ansys.dpf.core import examples
+
     model = dpf.core.Model(examples.download_hemisphere())
+    stress = model.results.stress()
+    fc = stress.outputs.fields_container()
+    f = fc[0]
+    f.plot()
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_field_elemental_nodal_plot_shells():
+    from ansys.dpf.core import examples
+
+    model = dpf.core.Model(examples.download_pontoon())
     stress = model.results.stress()
     fc = stress.outputs.fields_container()
     f = fc[0]
