@@ -348,6 +348,54 @@ def test_dpf_plotter_add_field_change_shell_layer(multishells):
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_field_elemental_nodal_plot_simple(simple_bar):
+    field: core.Field = core.operators.result.element_nodal_forces(
+        data_sources=core.DataSources(simple_bar),
+    ).eval()[0]
+    plt = DpfPlotter()
+    plt.add_field(field=field)
+    plt.show_figure()
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_field_elemental_nodal_plot_scoped(simple_bar):
+    mesh_scoping = dpf.core.mesh_scoping_factory.elemental_scoping(
+        element_ids=list(range(1501, 3001))
+    )
+    field: core.Field = core.operators.result.element_nodal_forces(
+        data_sources=core.DataSources(simple_bar),
+        mesh_scoping=mesh_scoping,
+    ).eval()[0]
+    plt = DpfPlotter()
+    plt.add_field(field=field)
+    plt.show_figure()
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_dpf_plotter_add_field_elemental_nodal_multiple_solids():
+    from ansys.dpf.core import examples
+
+    field: core.Field = core.operators.result.stress(
+        data_sources=core.DataSources(examples.download_hemisphere()),
+    ).eval()[0]
+    plt = DpfPlotter()
+    plt.add_field(field=field)
+    plt.show_figure()
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_dpf_plotter_add_field_elemental_nodal_shells():
+    from ansys.dpf.core import examples
+
+    field: core.Field = core.operators.result.stress(
+        data_sources=core.DataSources(examples.download_pontoon()),
+    ).eval()[0]
+    plt = DpfPlotter()
+    plt.add_field(field=field)
+    plt.show_figure()
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_plot_fieldscontainer_on_mesh_scoping(multishells):
     model = core.Model(multishells)
     mesh = model.metadata.meshed_region

@@ -357,7 +357,7 @@ class _PyVistaPlotter:
                 )
                 ind_2 = np.asarray(
                     [first_index[ind_i] + j for ind_i in ind for j in range(n_nodes_list[ind_i])]
-                )  # OK
+                )
                 mask = mask_2
                 ind = ind_2
             overall_data[ind] = field.data[mask]
@@ -368,12 +368,20 @@ class _PyVistaPlotter:
         # Have to remove any active scalar field from the pre-existing grid object,
         # otherwise we get two scalar bars when calling several plot_contour on the same mesh
         # but not for the same field. The PyVista UnstructuredGrid keeps memory of it.
-        if not deform_by:
-            grid = meshed_region.grid
-        else:
+        if location == locations.elemental_nodal:
+            as_linear = False
+        if deform_by:
             grid = meshed_region._as_vtk(
-                meshed_region.deform_by(deform_by, scale_factor), as_linear
+                meshed_region.deform_by(deform_by, scale_factor), as_linear=as_linear
             )
+        else:
+            if as_linear != meshed_region.as_linear:
+                grid = meshed_region._as_vtk(
+                    meshed_region.nodes.coordinates_field, as_linear=as_linear
+                )
+                meshed_region.as_linear = as_linear
+            else:
+                grid = meshed_region.grid
         if location == locations.elemental_nodal:
             grid = grid.shrink(1.0)
         grid.set_active_scalars(None)
@@ -1108,14 +1116,14 @@ class Plotter:
             if location == locations.elemental_nodal:
                 # Rework ind and mask to take into account n_nodes per element
                 # entity_index_map = field._data_pointer
-                n_nodes_list = mesh.get_elemental_nodal_size_list().astype(np.int32)  # OK
+                n_nodes_list = mesh.get_elemental_nodal_size_list().astype(np.int32)
                 first_index = np.insert(np.cumsum(n_nodes_list)[:-1], 0, 0).astype(np.int32)
                 mask_2 = np.asarray(
                     [mask_i for i, mask_i in enumerate(mask) for _ in range(n_nodes_list[ind[i]])]
                 )
                 ind_2 = np.asarray(
                     [first_index[ind_i] + j for ind_i in ind for j in range(n_nodes_list[ind_i])]
-                )  # OK
+                )
                 mask = mask_2
                 ind = ind_2
             overall_data[ind] = field.data[mask]
