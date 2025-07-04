@@ -244,17 +244,21 @@ def test_field_elemental_nodal_plot_shells():
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_field_elemental_nodal_plot_multi_shells(multishells):
-    import pyvista as pv
-
-    pv.OFF_SCREEN = False
-    fc = core.operators.result.stress(
-        data_sources=core.DataSources(multishells), requested_location=core.locations.elemental
-    ).eval()
-    print(fc)
     fc = core.operators.result.stress(data_sources=core.DataSources(multishells)).eval()
-    print(fc)
+    from ansys.dpf.core.plotter import Plotter
+
     field = fc[0]
+    plt = Plotter(field.meshed_region)
+    plt.plot_contour(fc)
     field.plot()
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_dpf_plotter_add_field_elemental_nodal_multi_shells(multishells):
+    fc: core.FieldsContainer = core.operators.result.stress(
+        data_sources=core.DataSources(multishells),
+    ).eval()
+    fc.plot()
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
@@ -408,68 +412,6 @@ def test_dpf_plotter_add_field_elemental_nodal_shells():
     plt = DpfPlotter()
     plt.add_field(field=field)
     plt.show_figure()
-
-
-@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
-def test_dpf_plotter_add_field_elemental_nodal_multi_shells(multishells):
-    import pyvista as pv
-
-    pv.OFF_SCREEN = False
-    fc: core.FieldsContainer = core.operators.result.stress(
-        data_sources=core.DataSources(multishells),
-        requested_location=core.locations.elemental,
-        split_shells=False,  # no effect
-    ).eval()
-    print(fc)
-    fc.plot()
-    # fc[0].plot()
-    # fc[1].plot()
-    # fc: core.FieldsContainer = core.operators.result.stress(
-    #     data_sources=core.DataSources(multishells)
-    # ).eval()
-    # print(fc)
-    # fc.plot()
-    # # field = fc[0]
-    # # plt = DpfPlotter()
-    # # plt.add_field(field=field)
-    # # plt.show_figure()
-
-
-@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
-def test_plot_fieldscontainer(multishells):
-    import numpy as np
-    import pyvista as pv
-
-    pv.OFF_SCREEN = False
-    fc = core.FieldsContainer()
-    f1 = core.fields_factory.create_scalar_field(num_entities=1, location=core.locations.elemental)
-    f1.append(data=[2.0], scopingid=1)
-    f2 = core.fields_factory.create_scalar_field(num_entities=1, location=core.locations.elemental)
-    f2.append(data=[4.0], scopingid=2)
-    fc.add_label(label="id", default_value=0)
-    fc.add_field({"id": 1}, f1)
-    fc.add_field({"id": 2}, f2)
-
-    mesh = core.meshed_region.MeshedRegion(num_nodes=6, num_elements=2)
-    arr = np.array(
-        [
-            [0.0, 0.0, 0.0],
-            [1.0, 0.0, 0.0],
-            [1.0, 1.0, 0.0],
-            [0.0, 1.0, 0.0],
-            [0.0, 2.0, 0.0],
-            [1.0, 2.0, 0.0],
-        ]
-    )
-    coord = core.field_from_array(arr)
-    mesh.set_coordinates_field(coordinates_field=coord)
-    mesh.elements.add_shell_element(id=1, connectivity=[0, 1, 2, 3])
-    mesh.elements.add_shell_element(id=2, connectivity=[2, 3, 4, 5])
-    f1.meshed_region = mesh
-    f2.meshed_region = mesh
-    f1.plot()
-    f2.plot()
-    fc.plot()
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")

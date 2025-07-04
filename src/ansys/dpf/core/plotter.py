@@ -37,7 +37,6 @@ from typing import TYPE_CHECKING, List, Union
 import warnings
 
 import numpy as np
-from trame_common.decorators.klass import change
 
 from ansys import dpf
 from ansys.dpf import core
@@ -1007,7 +1006,6 @@ class Plotter:
             import warnings
 
             warnings.simplefilter("ignore")
-
         if isinstance(field_or_fields_container, (dpf.core.Field, dpf.core.FieldsContainer)):
             fields_container = None
             if isinstance(field_or_fields_container, dpf.core.Field):
@@ -1075,34 +1073,48 @@ class Plotter:
 
         # pre-loop: check if shell layers for each field, if yes, set the shell layers
         changeOp = core.operators.utility.change_shell_layers()
-        for field in fields_container:
-            shell_layer_check = field.shell_layers
-            if shell_layer_check in [
-                eshell_layers.topbottom,
-                eshell_layers.topbottommid,
-            ]:
-                if (
-                    location == locations.elemental_nodal
-                ):  # change_shell_layers does not support elemental_nodal, so we temporarily switch to elemental
-                    fields_container = dpf.core.operators.averaging.to_elemental_fc(
-                        fields_container=fields_container
-                    ).eval()
-                changeOp.inputs.fields_container.connect(fields_container)
-                changeOp.inputs.merge.connect(location == locations.elemental_nodal)
-                sl = eshell_layers.top
-                if shell_layers is not None:
-                    if not isinstance(shell_layers, eshell_layers):
-                        raise TypeError(
-                            "shell_layer attribute must be a core.shell_layers instance."
-                        )
-                    sl = shell_layers
-                changeOp.inputs.e_shell_layer.connect(sl.value)  # top layers taken
-                fields_container = changeOp.get_output(0, core.types.fields_container)
-                if location == locations.elemental_nodal:
-                    fields_container = dpf.core.operators.averaging.to_elemental_nodal_fc(
-                        fields_container=fields_container
-                    ).eval()
-                break
+        if location == locations.elemental_nodal:
+            # change_shell_layers does not support elemental_nodal when given a fields_container
+            new_fields_container = dpf.core.FieldsContainer()
+            [new_fields_container.add_label(l) for l in fields_container.labels]
+            for i, field in enumerate(fields_container):
+                label_space_i = fields_container.get_label_space(i)
+                shell_layer_check = field.shell_layers
+                if shell_layer_check in [
+                    eshell_layers.topbottom,
+                    eshell_layers.topbottommid,
+                ]:
+                    changeOp.inputs.fields_container.connect(field)
+                    changeOp.inputs.merge.connect(True)
+                    sl = eshell_layers.top
+                    if shell_layers is not None:
+                        if not isinstance(shell_layers, eshell_layers):
+                            raise TypeError(
+                                "shell_layer attribute must be a core.shell_layers instance."
+                            )
+                        sl = shell_layers
+                    changeOp.inputs.e_shell_layer.connect(sl.value)  # top layers taken
+                    field = changeOp.get_output(0, core.types.field)
+                new_fields_container.add_field(label_space=label_space_i, field=field)
+            fields_container = new_fields_container
+        else:
+            for field in fields_container:
+                shell_layer_check = field.shell_layers
+                if shell_layer_check in [
+                    eshell_layers.topbottom,
+                    eshell_layers.topbottommid,
+                ]:
+                    changeOp.inputs.fields_container.connect(fields_container)
+                    sl = eshell_layers.top
+                    if shell_layers is not None:
+                        if not isinstance(shell_layers, eshell_layers):
+                            raise TypeError(
+                                "shell_layer attribute must be a core.shell_layers instance."
+                            )
+                        sl = shell_layers
+                    changeOp.inputs.e_shell_layer.connect(sl.value)  # top layers taken
+                    fields_container = changeOp.get_output(0, core.types.fields_container)
+                    break
 
         # Merge field data into a single array
         if component_count > 1:
