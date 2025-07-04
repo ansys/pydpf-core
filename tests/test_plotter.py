@@ -169,6 +169,42 @@ def test_fields_container_plot(allkindofcomplexity):
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_fields_container_plot_same_mesh(multishells):
+    import numpy as np
+    import pyvista as pv
+
+    fc = core.FieldsContainer()
+    f1 = core.fields_factory.create_scalar_field(num_entities=1, location=core.locations.elemental)
+    f1.append(data=[2.0], scopingid=1)
+    f2 = core.fields_factory.create_scalar_field(num_entities=1, location=core.locations.elemental)
+    f2.append(data=[4.0], scopingid=2)
+    fc.add_label(label="id", default_value=0)
+    fc.add_field({"id": 1}, f1)
+    fc.add_field({"id": 2}, f2)
+
+    mesh = core.meshed_region.MeshedRegion(num_nodes=6, num_elements=2)
+    arr = np.array(
+        [
+            [0.0, 0.0, 0.0],
+            [1.0, 0.0, 0.0],
+            [1.0, 1.0, 0.0],
+            [0.0, 1.0, 0.0],
+            [0.0, 2.0, 0.0],
+            [1.0, 2.0, 0.0],
+        ]
+    )
+    coord = core.field_from_array(arr)
+    mesh.set_coordinates_field(coordinates_field=coord)
+    mesh.elements.add_shell_element(id=1, connectivity=[0, 1, 2, 3])
+    mesh.elements.add_shell_element(id=2, connectivity=[2, 3, 4, 5])
+    f1.meshed_region = mesh
+    f2.meshed_region = mesh
+    plt: pv.Plotter = fc.plot()[-1]
+    assert len(plt.meshes) == 1
+    assert np.allclose(plt.meshes[0].active_scalars, [2.0, 4.0])
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_field_elemental_plot(allkindofcomplexity):
     model = Model(allkindofcomplexity)
     mesh = model.metadata.meshed_region
