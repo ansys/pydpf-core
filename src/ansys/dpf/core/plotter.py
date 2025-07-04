@@ -325,7 +325,7 @@ class _PyVistaPlotter:
             ).eval()
         else:
             raise ValueError(
-                "Only elemental, elemental nodal, nodal or faces location are supported for plotting."
+                "Only elemental, elemental nodal, nodal, faces, or overall location are supported for plotting."
             )
 
         # Treat multilayered shells
