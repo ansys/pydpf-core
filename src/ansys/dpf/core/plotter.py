@@ -1150,11 +1150,9 @@ class Plotter:
             else:
                 grid = mesh.grid
         if location == locations.elemental_nodal:
-            grid = grid.shrink(1.0)  # 20282 points, 3011 cells
+            grid = grid.shrink(1.0)
         grid.clear_data()
-        self._internal_plotter._plotter.add_mesh(
-            grid, scalars=overall_data, **kwargs_in
-        )  # overall_data: (51047, 6)
+        self._internal_plotter._plotter.add_mesh(grid, scalars=overall_data, **kwargs_in)
 
         background = kwargs.pop("background", None)
         if background is not None:
