@@ -44,6 +44,7 @@ from ansys.dpf.core.server import (
 from ansys.dpf.core.server_factory import CommunicationProtocols, ServerConfig
 from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
     raises_for_servers_version_under,
     remove_none_available_config,
     running_docker,
@@ -187,7 +188,33 @@ def test_server_plugins(remote_config_server_type, testfiles_dir):
     context = dpf.core.AvailableServerContexts.no_context
     context.xml_path = Path(testfiles_dir) / "DpfCustomDefinedTest.xml"
     server_plugins = start_local_server(config=remote_config_server_type, context=context).plugins
-    assert sorted(list(server_plugins.keys())) == ["grpc", "native"]
+    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0:
+        ref = ["grpc", "native"]
+    else:  # Use of custom xml not working for DPF < 25R2
+        ref = [
+            "cff",
+            "cgns",
+            "compression",
+            "fem_utils",
+            "flow_diagram",
+            "grpc",
+            "hdf5",
+            "live_post",
+            "lsDyna",
+            "mapdl_plugin",
+            "math",
+            "mechanical",
+            "mechanical_results",
+            "mesh_operators",
+            "multiphysics_mapper",
+            "native",
+            "point_cloud_search",
+            "prime",
+            "python_loader",
+            "rbd",
+            "vtk",
+        ]
+    assert sorted(list(server_plugins.keys())) == ref
 
 
 @pytest.mark.skipif(
