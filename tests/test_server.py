@@ -181,16 +181,15 @@ class TestServer:
         assert "native" in server_plugins.keys()
 
 
-@raises_for_servers_version_under("7.0")
+@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0, reason="not working properly before 25R2")
 def test_server_context_custom_xml(remote_config_server_type, testfiles_dir):
     from pathlib import Path
 
     context = dpf.core.AvailableServerContexts.no_context
     context.xml_path = Path(testfiles_dir) / "DpfCustomDefinedTest.xml"
     server_plugins = start_local_server(config=remote_config_server_type, context=context).plugins
-    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0:
-        ref = ["grpc", "native"]
-    elif running_docker:  # Use of custom xml not working either on Docker
+    ref = ["grpc", "native"]
+    if running_docker:  # Use of custom xml not working either on Docker
         ref = [
             "cff",
             "cngs",
@@ -206,30 +205,6 @@ def test_server_context_custom_xml(remote_config_server_type, testfiles_dir):
             "mechanical_results",
             "mesh_plugin",
             "native",
-            "vtk",
-        ]
-    else:  # Use of custom xml not working for DPF < 25R2
-        ref = [
-            "cff",
-            "cgns",
-            "compression",
-            "fem_utils",
-            "flow_diagram",
-            "grpc",
-            "hdf5",
-            "live_post",
-            "lsDyna",
-            "mapdl_plugin",
-            "math",
-            "mechanical",
-            "mechanical_results",
-            "mesh_operators",
-            "multiphysics_mapper",
-            "native",
-            "point_cloud_search",
-            "prime",
-            "python_loader",
-            "rbd",
             "vtk",
         ]
     assert sorted(list(server_plugins.keys())) == ref
