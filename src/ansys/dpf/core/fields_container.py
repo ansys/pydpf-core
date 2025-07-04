@@ -547,8 +547,12 @@ class FieldsContainer(CollectionBase["field.Field"]):
         if label_space is None:
             label_space = {}
         fields = self.get_fields(label_space=label_space)
-        for f in fields:
-            plt.add_field(field=f, **kwargs)
+        # Fields with same support will override each other so we first merge them
+        merge_op = dpf.core.operators.utility.merge_fields()
+        for i, f in enumerate(fields):
+            merge_op.connect(i, f)
+        merged_field = merge_op.eval()
+        plt.add_field(field=merged_field, **kwargs)
         plt.show_figure(**kwargs)
 
     def animate(
