@@ -1,0 +1,343 @@
+
+
+
+
+
+
+:class:`PropertyField`
+======================
+
+
+.. py:class:: ansys.dpf.core.property_field.PropertyField(nentities=0, nature=natures.scalar, location=locations.nodal, property_field=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.field_base._FieldBase`
+
+
+   Describes field properties such as connectivity.
+
+   This class is a field with integer values instead of double values.
+
+   :param nentities: Number of entities that the property field is to contain. The
+                     default is ``0``.
+   :type nentities: int
+   :param nature: Nature of the property field, such as scalar or vector.
+   :type nature: core.natures
+   :param location: Location of the property field. Options are in :class:`ansys.dpf.core.locations`.
+                    The default is :class:`ansys.dpf.core.locations.nodal`.
+   :type location: str, optional
+   :param property field: Field message generated from a gRPC stub, or returned by DPF's C clients.
+   :type property field: Field, ansys.grpc.dpf.field_pb2.Field, ctypes.c_void_p, optional
+   :param server: Server with the channel connected to the remote or local instance. The
+                  default is ``None``, in which case an attempt is made to use the global
+                  server.
+   :type server: server.DPFServer, optional
+
+   :returns: **property_field**
+   :rtype: PropertyField
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> pfield = dpf.PropertyField()
+   >>> list_ids = [1, 2, 4, 6, 7]
+   >>> scop = dpf.Scoping(ids = list_ids, location = dpf.locations.nodal)
+   >>> pfield.scoping = scop
+   >>> list_data = [20, 30, 50, 70, 80]
+   >>> pfield.data = list_data
+
+
+
+
+
+
+
+
+.. py:currentmodule:: PropertyField
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~get_entity_data`
+            - Return the data associated with the entity by index.
+          * - :py:attr:`~get_entity_data_by_id`
+            - Return the data associated with entity by id.
+          * - :py:attr:`~append`
+            - Append data to the property field.
+          * - :py:attr:`~as_local_field`
+            - Create a deep copy of the field locally.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~location`
+            - Location of the property field.
+          * - :py:attr:`~component_count`
+            - Return the number of components.
+          * - :py:attr:`~elementary_data_count`
+            - Return the number of elementary data.
+          * - :py:attr:`~size`
+            - Return the data size.
+          * - :py:attr:`~name`
+            - Name of the property field.
+          * - :py:attr:`~shape`
+            - Numpy-like shape of the field.
+          * - :py:attr:`~elementary_data_shape`
+            - Numpy-like shape of the field.
+          * - :py:attr:`~ndim`
+            - 
+          * - :py:attr:`~scoping`
+            - Scoping specifying where the data is.
+          * - :py:attr:`~data`
+            - Data in the field as an array.
+          * - :py:attr:`~data_as_list`
+            - Data in the field as a Python list.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - Describe the entity.
+          * - :py:attr:`~__len__`
+            - 
+          * - :py:attr:`~__del__`
+            - 
+          * - :py:attr:`~__enter__`
+            - 
+          * - :py:attr:`~__exit__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.property_field import PropertyField
+
+Property detail
+---------------
+
+.. py:property:: location
+
+   Location of the property field.
+
+   A property field contains a scoping, which is the location that is read.
+   To update location, directly update the scoping location.
+
+   :returns: **location** -- Location string, can be found in :class:`ansys.dpf.core.locations`: ie.
+             ``dpf.locations.nodal`` or ``dpf.locations.elemental``.
+   :rtype: str
+
+   .. rubric:: Examples
+
+   Create a property field and request the location.
+
+   >>> from ansys.dpf import core as dpf
+   >>> pfield = dpf.PropertyField()
+   >>> list_ids = [1, 2, 4, 6, 7]
+   >>> scop = dpf.Scoping(ids = list_ids, location = dpf.locations.nodal)
+   >>> pfield.scoping = scop
+   >>> pfield.scoping.location = dpf.locations.nodal
+   >>> pfield.location
+   'Nodal'
+
+.. py:property:: component_count
+
+   Return the number of components.
+
+.. py:property:: elementary_data_count
+
+   Return the number of elementary data.
+
+.. py:property:: size
+
+   Return the data size.
+
+.. py:property:: name
+
+   Name of the property field.
+
+   ..note:
+       Available starting with DPF 2024.2.pre1.
+
+.. py:property:: shape
+
+   Numpy-like shape of the field.
+
+   :rtype: tuple
+
+   .. rubric:: Examples
+
+   Shape of a stress field.
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.download_transient_result())
+   >>> s_op =model.results.stress()
+   >>> s_fc = s_op.outputs.fields_container()
+   >>> field = s_fc[0]
+   >>> field.shape
+   (5720, 6)
+
+.. py:property:: elementary_data_shape
+
+   Numpy-like shape of the field.
+
+.. py:property:: ndim
+
+.. py:property:: scoping
+
+   Scoping specifying where the data is.
+
+   Each entity data is on a given scoping ID.
+
+   :returns: **scoping**
+   :rtype: :class:`ansys.dpf.core.scoping.Scoping`
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> transient = examples.download_transient_result()
+   >>> model = dpf.Model(transient)
+   >>> stress_op = model.results.stress()
+   >>> fields_container = stress_op.outputs.fields_container()
+   >>> scoping = fields_container[0].scoping
+   >>> scoping.location
+   'Elemental'
+   >>> scoping.id(3)
+   586
+   >>> #The fourth elementary data of the field corresponds to
+   >>> #the element id number 586 in the mesh
+
+.. py:property:: data
+
+   Data in the field as an array.
+
+   :returns: Data in the field.
+   :rtype: numpy.ndarray
+
+   .. rubric:: Notes
+
+   Print a progress bar.
+
+.. py:property:: data_as_list
+
+   Data in the field as a Python list.
+
+   :returns: List of the data in the field.
+   :rtype: List
+
+   .. rubric:: Notes
+
+   Print a progress bar.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> transient = examples.download_transient_result()
+   >>> model = dpf.Model(transient)
+   >>> disp = model.results.displacement()
+   >>> fields_container = disp.outputs.fields_container()
+   >>> field = fields_container[0]
+   >>> # field.data_as_list
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: get_entity_data(index)
+
+   Return the data associated with the entity by index.
+
+
+.. py:method:: get_entity_data_by_id(id)
+
+   Return the data associated with entity by id.
+
+
+.. py:method:: append(data, scopingid)
+
+   Append data to the property field.
+
+   This method appends data to the property field for a specific scoping ID.
+
+
+.. py:method:: as_local_field()
+
+   Create a deep copy of the field locally.
+
+   This copy can then be accessed and modified locally, without a request
+   being sent to the server. This method should be used in a ``with``
+   statement so that the local field is released and the data is sent to
+   the server in one action. If it's not used in a ``with`` statement, the
+   method ``release_data()`` should be used to actually update the field.
+
+   .. warning::
+      If this ``as_local_field`` method is not used as a context manager in a
+      `with` statement or if the method ``release_data()`` is not called,
+      the data will not actually be updated.
+
+   :returns: **local_field**
+   :rtype: PropertyField
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> num_entities = 5
+   >>> field_to_local = dpf.PropertyField(num_entities, dpf.natures.scalar)
+   >>> with field_to_local.as_local_field() as f:
+   ...     for i in range(1,num_entities+1):
+   ...         f.append(list(range(i,i+3)),i)
+   ...         print(f.get_entity_data(i-1))
+   [1 2 3]
+   [2 3 4]
+   [3 4 5]
+   [4 5 6]
+   [5 6 7]
+
+
+.. py:method:: __str__()
+
+   Describe the entity.
+
+   :returns: Description of the entity.
+   :rtype: str
+
+
+.. py:method:: __len__()
+
+.. py:method:: __del__()
+
+.. py:method:: __enter__()
+
+.. py:method:: __exit__(exc_type, exc_value, tb)
+
+
+
+
