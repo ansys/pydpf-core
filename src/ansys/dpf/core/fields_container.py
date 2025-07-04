@@ -549,7 +549,7 @@ class FieldsContainer(CollectionBase["field.Field"]):
         fields = self.get_fields(label_space=label_space)
         for f in fields:
             plt.add_field(field=f, **kwargs)
-        plt.show_figure(**kwargs)
+        return plt.show_figure(**kwargs)
 
     def animate(
         self,
