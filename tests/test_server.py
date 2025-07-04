@@ -182,7 +182,7 @@ class TestServer:
 
 
 @raises_for_servers_version_under("7.0")
-def test_server_plugins(remote_config_server_type, testfiles_dir):
+def test_server_context_custom_xml(remote_config_server_type, testfiles_dir):
     from pathlib import Path
 
     context = dpf.core.AvailableServerContexts.no_context
