@@ -190,6 +190,24 @@ def test_server_plugins(remote_config_server_type, testfiles_dir):
     server_plugins = start_local_server(config=remote_config_server_type, context=context).plugins
     if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0:
         ref = ["grpc", "native"]
+    elif running_docker:  # Use of custom xml not working either on Docker
+        ref = [
+            "cff",
+            "cngs",
+            "compression",
+            "documentation",
+            "fem_utils",
+            "grpc",
+            "hdf5",
+            "live_post",
+            "lsDyna",
+            "mapdl_plugin",
+            "math",
+            "mechanical_results",
+            "mesh_plugin",
+            "native",
+            "vtk",
+        ]
     else:  # Use of custom xml not working for DPF < 25R2
         ref = [
             "cff",
