@@ -181,7 +181,9 @@ class TestServer:
         assert "native" in server_plugins.keys()
 
 
-@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0, reason="not working properly before 25R2")
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0, reason="not working properly before 25R2"
+)
 def test_server_context_custom_xml(remote_config_server_type, testfiles_dir):
     from pathlib import Path
 
