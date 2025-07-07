@@ -1,8 +1,0 @@
-- name: Introduction
-  href: index.md
-{% for category in data -%}
-- name: {{ category.category }}
-  items:{% for operator in category.operators %}
-  - name: {{ operator.operator_name }}
-    href: {{ operator.file_path }}{% endfor %}
-{% endfor %}
