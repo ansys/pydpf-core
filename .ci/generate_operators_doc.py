@@ -4,9 +4,9 @@ from pathlib import Path
 from jinja2 import Template
 
 from ansys.dpf import core as dpf
+from ansys.dpf.core.changelog import Changelog
 from ansys.dpf.core.core import load_library
 from ansys.dpf.core.dpf_operator import available_operator_names
-from ansys.dpf.core.changelog import Changelog
 
 
 def initialize_server(ansys_path=None, include_composites=False, include_sound=False):
@@ -88,15 +88,11 @@ def fetch_doc_info(server, operator_name):
         changelog = Changelog(gdc=changelog_gdc, server=server)
         last_version = changelog.last_version
         changelog_entries = [
-            f"Version {str(version)}: {changelog[version]}"
-            for version in changelog.versions
+            f"Version {str(version)}: {changelog[version]}" for version in changelog.versions
         ]
     else:
         last_version = "0.0.0"
-        changelog_entries = [
-            f"Version {last_version}: Initial release."
-        ]
-
+        changelog_entries = [f"Version {last_version}: Initial release."]
 
     op_friendly_name = user_name
     if category:
@@ -104,7 +100,6 @@ def fetch_doc_info(server, operator_name):
 
     license = properties.pop("license", "None")
 
-    
     exposure = properties.pop("exposure", "private")
     scripting_info = {
         "category": category,
@@ -114,9 +109,8 @@ def fetch_doc_info(server, operator_name):
         "internal_name": operator_name,
         "license": license,
         "version": str(last_version),  # Include last version in scripting_info
-        "changelog": changelog_entries, # Include all changelog entries
+        "changelog": changelog_entries,  # Include all changelog entries
     }
-
 
     return {
         "operator_name": op_friendly_name,
@@ -221,7 +215,13 @@ def main():
     for operator_name in operators:
         generate_operator_doc(server, operator_name, args.include_private)
 
-    docs_path = Path(__file__).parent.parent / "doc" / "source" / "operators_doc" / "operator-specifications"
+    docs_path = (
+        Path(__file__).parent.parent
+        / "doc"
+        / "source"
+        / "operators_doc"
+        / "operator-specifications"
+    )
     print(docs_path)
     generate_toc_tree(docs_path)
 
