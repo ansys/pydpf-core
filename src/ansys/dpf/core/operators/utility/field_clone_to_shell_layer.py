@@ -27,7 +27,7 @@ class field_clone_to_shell_layer(Operator):
     ----------
     field: Field
     shell_layer: int
-        0: Top, 1: Bottom, 2: TopBottom, 3: Mid, 4: TopBottomMid.
+        0: Top, 1: Bottom, 2: BottomTop, 3: Mid, 4: BottomTopMid.
     duplicate_scoping: bool, optional
         If true, a new scoping is computed for the output Field. If false, the input Field scoping is used. Default is false.
 
@@ -102,7 +102,7 @@ be shared or not based on the optional pin 2.
                     name="shell_layer",
                     type_names=["int32", "enum dataProcessing::EShellLayers"],
                     optional=False,
-                    document=r"""0: Top, 1: Bottom, 2: TopBottom, 3: Mid, 4: TopBottomMid.""",
+                    document=r"""0: Top, 1: Bottom, 2: BottomTop, 3: Mid, 4: BottomTopMid.""",
                 ),
                 2: PinSpecification(
                     name="duplicate_scoping",
@@ -220,7 +220,7 @@ class InputsFieldCloneToShellLayer(_Inputs):
     def shell_layer(self) -> Input:
         r"""Allows to connect shell_layer input to the operator.
 
-        0: Top, 1: Bottom, 2: TopBottom, 3: Mid, 4: TopBottomMid.
+        0: Top, 1: Bottom, 2: BottomTop, 3: Mid, 4: BottomTopMid.
 
         Returns
         -------

@@ -125,7 +125,6 @@ from .eqv_stress_parameter import eqv_stress_parameter
 from .erp_radiation_efficiency import erp_radiation_efficiency
 from .euler_load_buckling import euler_load_buckling
 from .euler_nodes import euler_nodes
-from .fluid_velocity import fluid_velocity
 from .gasket_deformation import gasket_deformation
 from .gasket_deformation_X import gasket_deformation_X
 from .gasket_deformation_XY import gasket_deformation_XY

@@ -6,8 +6,8 @@
 
 ## Individual Contributors
 
-* [Alex Kaszynski](https://github.com/ansys-akaszyns)
 * [Alex Kaszynski](https://github.com/akaszynski)
+* [Alex Kaszynski](https://github.com/ansys-akaszyns)
 * [Alexandre Bouthéon](https://github.com/a-bouth)
 * [anslpa](https://github.com/anslpa)
 * [Antoine Karcher](https://github.com/ansys-akarcher)

@@ -39,7 +39,7 @@ class elemental_nodal_to_nodal_fc(Operator):
     merge_solid_shell: bool, optional
         For shell/solid mixed fields, group in the same field all solids and shells (false by default). If this pin is true, a shell_layer needs to be specified.
     shell_layer: int, optional
-        0: Top, 1: Bottom, 2: TopBottom, 3: Mid, 4: TopBottomMid. If merge_solid_shell is true, this pin needs to be specified to a value that extracts only one layer (Top, Bottom or Mid).
+        0: Top, 1: Bottom, 2: BottomTop, 3: Mid, 4: BottomTopMid. If merge_solid_shell is true, this pin needs to be specified to a value that extracts only one layer (Top, Bottom or Mid).
 
     Returns
     -------
@@ -182,7 +182,7 @@ merge_solid_shell input.
                     name="shell_layer",
                     type_names=["int32"],
                     optional=True,
-                    document=r"""0: Top, 1: Bottom, 2: TopBottom, 3: Mid, 4: TopBottomMid. If merge_solid_shell is true, this pin needs to be specified to a value that extracts only one layer (Top, Bottom or Mid).""",
+                    document=r"""0: Top, 1: Bottom, 2: BottomTop, 3: Mid, 4: BottomTopMid. If merge_solid_shell is true, this pin needs to be specified to a value that extracts only one layer (Top, Bottom or Mid).""",
                 ),
             },
             map_output_pin_spec={
@@ -458,7 +458,7 @@ class InputsElementalNodalToNodalFc(_Inputs):
     def shell_layer(self) -> Input:
         r"""Allows to connect shell_layer input to the operator.
 
-        0: Top, 1: Bottom, 2: TopBottom, 3: Mid, 4: TopBottomMid. If merge_solid_shell is true, this pin needs to be specified to a value that extracts only one layer (Top, Bottom or Mid).
+        0: Top, 1: Bottom, 2: BottomTop, 3: Mid, 4: BottomTopMid. If merge_solid_shell is true, this pin needs to be specified to a value that extracts only one layer (Top, Bottom or Mid).
 
         Returns
         -------

@@ -24,7 +24,6 @@ import pytest
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import fields_factory
-from ansys.dpf.gate.dpf_vector import DPFVectorCustomType
 import conftest
 
 
@@ -105,8 +104,3 @@ def test_update_empty_dpf_vector_custom_type_field(server_type):
     dp = field._data_pointer
     dp = None
     assert np.allclose(field.get_entity_data(1), [0])
-
-
-def test_invalid_unitary_type_dpf_vector_custom_type(server_type):
-    with pytest.raises(ValueError, match="DPFVectorCustomType: invalid unitary_type"):
-        DPFVectorCustomType(unitary_type=np.complex128)

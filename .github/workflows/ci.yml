@@ -215,7 +215,6 @@ jobs:
       fail-fast: false
       matrix:
         dpf:
-          - {"version": "252", "standalone-suffix": ""}
           - {"version": "251", "standalone-suffix": ""}
           - {"version": "242", "standalone-suffix": ""}
           - {"version": "241", "standalone-suffix": ".sp01"}

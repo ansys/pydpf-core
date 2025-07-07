@@ -41,7 +41,7 @@ class elemental_mean_fc(Operator):
     merge_solid_shell: bool, optional
         For shell/solid mixed fields, group in the same field all solids and shells (false by default). This pin only has an effect when collapse_shell_layers is false and a value for e_shell_layer is provided.
     e_shell_layer: int, optional
-        0: Top, 1: Bottom, 2: TopBottom, 3: Mid, 4: TopBottomMid. This pin only has an effect when collapse_shell_layers is false.
+        0: Top, 1: Bottom, 2: BottomTop, 3: Mid, 4: BottomTopMid. This pin only has an effect when collapse_shell_layers is false.
 
     Returns
     -------
@@ -170,7 +170,7 @@ layers are collapsed and shells and solid fields are always merged.
                     name="e_shell_layer",
                     type_names=["int32"],
                     optional=True,
-                    document=r"""0: Top, 1: Bottom, 2: TopBottom, 3: Mid, 4: TopBottomMid. This pin only has an effect when collapse_shell_layers is false.""",
+                    document=r"""0: Top, 1: Bottom, 2: BottomTop, 3: Mid, 4: BottomTopMid. This pin only has an effect when collapse_shell_layers is false.""",
                 ),
             },
             map_output_pin_spec={
@@ -405,7 +405,7 @@ class InputsElementalMeanFc(_Inputs):
     def e_shell_layer(self) -> Input:
         r"""Allows to connect e_shell_layer input to the operator.
 
-        0: Top, 1: Bottom, 2: TopBottom, 3: Mid, 4: TopBottomMid. This pin only has an effect when collapse_shell_layers is false.
+        0: Top, 1: Bottom, 2: BottomTop, 3: Mid, 4: BottomTopMid. This pin only has an effect when collapse_shell_layers is false.
 
         Returns
         -------
