@@ -1,0 +1,24 @@
+- name: Core concepts
+  items:
+  - name: DPF overview
+    href: core-concepts/dpf.md
+  - name: Data containers
+    href: core-concepts/data-containers.md
+  - name: Operator
+    href: core-concepts/operator.md
+- name: Getting started
+  items:
+  - name: Using data containers
+    href: getting-started/using-data-containers.md
+  - name: Using operators
+    href: getting-started/using-operators.md
+  - name: Workflow examples
+    href: getting-started/workflow-examples.md
+- name: Operator specification
+  items:
+  {% for category in data -%}
+  - name: {{ category.category }}
+    items:{% for operator in category.operators %}
+    - name: {{ operator.operator_name }}
+      href: operator-specifications/{{ operator.file_path }}{% endfor %}
+  {% endfor %}
