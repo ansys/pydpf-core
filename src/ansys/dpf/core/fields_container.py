@@ -553,7 +553,7 @@ class FieldsContainer(CollectionBase["field.Field"]):
             merge_op.connect(i, f)
         merged_field = merge_op.eval()
         plt.add_field(field=merged_field, **kwargs)
-        plt.show_figure(**kwargs)
+        return plt.show_figure(**kwargs)
 
     def animate(
         self,
