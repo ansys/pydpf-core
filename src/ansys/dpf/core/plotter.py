@@ -465,7 +465,7 @@ class _PyVistaPlotter:
 
         # Show depending on return_cpos option
         kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.show, **kwargs)
-        return self._plotter.show(**kwargs_in)
+        return self._plotter.show(**kwargs_in), self._plotter
 
     @staticmethod
     def _set_scalar_bar_title(kwargs):
@@ -1196,7 +1196,7 @@ class Plotter:
         kwargs_in = _sort_supported_kwargs(
             bound_method=self._internal_plotter._plotter.show, **kwargs
         )
-        return self._internal_plotter._plotter.show(**kwargs_in)
+        return self._internal_plotter._plotter.show(**kwargs_in), self._internal_plotter._plotter
 
     def _plot_contour_using_vtk_file(self, fields_container, notebook=None):
         """Plot the contour result on its mesh support.
