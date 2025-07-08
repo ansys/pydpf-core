@@ -1077,7 +1077,8 @@ class Plotter:
         if location == locations.elemental_nodal:
             # change_shell_layers does not support elemental_nodal when given a fields_container
             new_fields_container = dpf.core.FieldsContainer()
-            [new_fields_container.add_label(l) for l in fields_container.labels]
+            for l in fields_container.labels:
+                new_fields_container.add_label(l)
             for i, field in enumerate(fields_container):
                 label_space_i = fields_container.get_label_space(i)
                 shell_layer_check = field.shell_layers

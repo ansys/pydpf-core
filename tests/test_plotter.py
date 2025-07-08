@@ -367,7 +367,7 @@ def test_dpf_plotter_add_field_change_shell_layer(multishells):
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
-def test_field_elemental_nodal_plot_simple(simple_bar):
+def test_dpf_plotter_add_field_elemental_nodal_plot_simple(simple_bar):
     field: core.Field = core.operators.result.element_nodal_forces(
         data_sources=core.DataSources(simple_bar),
     ).eval()[0]
@@ -377,7 +377,7 @@ def test_field_elemental_nodal_plot_simple(simple_bar):
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
-def test_field_elemental_nodal_plot_scoped(simple_bar):
+def test_dpf_plotter_add_field_elemental_nodal_plot_scoped(simple_bar):
     mesh_scoping = dpf.core.mesh_scoping_factory.elemental_scoping(
         element_ids=list(range(1501, 3001))
     )
