@@ -147,6 +147,7 @@ class _PyVistaPlotter:
                 grid = meshed_region._as_vtk(
                     meshed_region.nodes.coordinates_field, as_linear=as_linear
                 )
+                meshed_region._full_grid = grid
                 meshed_region.as_linear = as_linear
             else:
                 grid = meshed_region.grid
