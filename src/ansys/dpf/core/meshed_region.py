@@ -744,7 +744,7 @@ class MeshedRegion:
         elif location == locations.elemental_nodal:
             return np.sum(self.get_elemental_nodal_size_list())
         elif location == locations.overall:
-            return 1
+            return len(self.elements)
         else:
             raise TypeError(f"Location {location} is not recognized.")
 
