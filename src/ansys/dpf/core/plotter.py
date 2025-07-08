@@ -1012,8 +1012,8 @@ class Plotter:
                 fields_container = dpf.core.FieldsContainer(
                     server=field_or_fields_container._server
                 )
-                fields_container.add_label(DefinitionLabels.time)
-                fields_container.add_field({DefinitionLabels.time: 1}, field_or_fields_container)
+                fields_container.add_label("id")
+                fields_container.add_field({"id": 1}, field_or_fields_container)
             elif isinstance(field_or_fields_container, dpf.core.FieldsContainer):
                 fields_container = field_or_fields_container
         else:
@@ -1176,6 +1176,7 @@ class Plotter:
         else:
             if as_linear != mesh.as_linear:
                 grid = mesh._as_vtk(mesh.nodes.coordinates_field, as_linear=as_linear)
+                mesh._full_grid = grid
                 mesh.as_linear = as_linear
             else:
                 grid = mesh.grid
