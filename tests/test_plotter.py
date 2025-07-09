@@ -31,6 +31,7 @@ from ansys.dpf.core.plotter import plot_chart
 from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
     running_docker,
 )
 
@@ -243,6 +244,7 @@ def test_field_elemental_nodal_plot_shells():
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0, reason="Old bug before 25R2")
 def test_field_elemental_nodal_plot_multi_shells(multishells):
     fc = core.operators.result.stress(data_sources=core.DataSources(multishells)).eval()
     from ansys.dpf.core.plotter import Plotter
