@@ -643,8 +643,6 @@ class Result:
         'Faces'
 
         """
-        from ansys.dpf.core import locations
-
         if isinstance(region_scoping, list):
             if region_location is None:
                 raise ValueError(
