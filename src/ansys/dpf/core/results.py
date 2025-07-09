@@ -605,7 +605,7 @@ class Result:
         self._mesh_scoping = mesh_scoping
         return self
 
-    def on_region_scoping(self, region_scoping: Scoping|list[int], region_location = None):
+    def on_region_scoping(self, region_scoping: Scoping | list[int], region_location=None):
         """Set the region scoping to a given region scoping.
 
         Parameters
@@ -644,6 +644,7 @@ class Result:
 
         """
         from ansys.dpf.core import locations
+
         if isinstance(region_scoping, list):
             if region_location is None:
                 raise ValueError(
