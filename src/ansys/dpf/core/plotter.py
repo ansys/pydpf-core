@@ -147,6 +147,7 @@ class _PyVistaPlotter:
                 grid = meshed_region._as_vtk(
                     meshed_region.nodes.coordinates_field, as_linear=as_linear
                 )
+                meshed_region._full_grid = grid
                 meshed_region.as_linear = as_linear
             else:
                 grid = meshed_region.grid
@@ -317,8 +318,14 @@ class _PyVistaPlotter:
                 show_min = False
         elif location == locations.overall:
             mesh_location = meshed_region.elements
+        elif location == locations.elemental_nodal:
+            mesh_location = meshed_region.elements
+            # If ElementalNodal, first extend results to mid-nodes
+            field = dpf.core.operators.averaging.extend_to_mid_nodes(field=field).eval()
         else:
-            raise ValueError("Only elemental, nodal or faces location are supported for plotting.")
+            raise ValueError(
+                "Only elemental, elemental nodal, nodal, faces, or overall location are supported for plotting."
+            )
 
         # Treat multilayered shells
         if not isinstance(shell_layer, eshell_layers):
@@ -333,13 +340,27 @@ class _PyVistaPlotter:
             )
             field = change_shell_layer_op.get_output(0, core.types.field)
 
+        location_data_len = meshed_region.location_data_len(location)
         component_count = field.component_count
         if component_count > 1:
-            overall_data = np.full((len(mesh_location), component_count), np.nan)
+            overall_data = np.full((location_data_len, component_count), np.nan)
         else:
-            overall_data = np.full(len(mesh_location), np.nan)
+            overall_data = np.full(location_data_len, np.nan)
         if location != locations.overall:
             ind, mask = mesh_location.map_scoping(field.scoping)
+
+            # Rework ind and mask to take into account n_nodes per element if ElementalNodal
+            if location == locations.elemental_nodal:
+                n_nodes_list = meshed_region.get_elemental_nodal_size_list().astype(np.int32)
+                first_index = np.insert(np.cumsum(n_nodes_list)[:-1], 0, 0).astype(np.int32)
+                mask_2 = np.asarray(
+                    [mask_i for i, mask_i in enumerate(mask) for _ in range(n_nodes_list[ind[i]])]
+                )
+                ind_2 = np.asarray(
+                    [first_index[ind_i] + j for ind_i in ind for j in range(n_nodes_list[ind_i])]
+                )
+                mask = mask_2
+                ind = ind_2
             overall_data[ind] = field.data[mask]
         else:
             overall_data[:] = field.data[0]
@@ -348,12 +369,22 @@ class _PyVistaPlotter:
         # Have to remove any active scalar field from the pre-existing grid object,
         # otherwise we get two scalar bars when calling several plot_contour on the same mesh
         # but not for the same field. The PyVista UnstructuredGrid keeps memory of it.
-        if not deform_by:
-            grid = meshed_region.grid
-        else:
+        if location == locations.elemental_nodal:
+            as_linear = False
+        if deform_by:
             grid = meshed_region._as_vtk(
-                meshed_region.deform_by(deform_by, scale_factor), as_linear
+                meshed_region.deform_by(deform_by, scale_factor), as_linear=as_linear
             )
+        else:
+            if as_linear != meshed_region.as_linear:
+                grid = meshed_region._as_vtk(
+                    meshed_region.nodes.coordinates_field, as_linear=as_linear
+                )
+                meshed_region.as_linear = as_linear
+            else:
+                grid = meshed_region.grid
+        if location == locations.elemental_nodal:
+            grid = grid.shrink(1.0)
         grid.set_active_scalars(None)
         self._plotter.add_mesh(grid, scalars=overall_data, **kwargs_in)
 
@@ -976,15 +1007,14 @@ class Plotter:
             import warnings
 
             warnings.simplefilter("ignore")
-
         if isinstance(field_or_fields_container, (dpf.core.Field, dpf.core.FieldsContainer)):
             fields_container = None
             if isinstance(field_or_fields_container, dpf.core.Field):
                 fields_container = dpf.core.FieldsContainer(
                     server=field_or_fields_container._server
                 )
-                fields_container.add_label(DefinitionLabels.time)
-                fields_container.add_field({DefinitionLabels.time: 1}, field_or_fields_container)
+                fields_container.add_label("id")
+                fields_container.add_field({"id": 1}, field_or_fields_container)
             elif isinstance(field_or_fields_container, dpf.core.FieldsContainer):
                 fields_container = field_or_fields_container
         else:
@@ -1022,43 +1052,96 @@ class Plotter:
                 unit = field.unit
                 break
 
+        # If ElementalNodal, first extend results to mid-nodes
+        if location == locations.elemental_nodal:
+            fields_container = dpf.core.operators.averaging.extend_to_mid_nodes_fc(
+                fields_container=fields_container
+            ).eval()
+
+        location_data_len = mesh.location_data_len(location)
         if location == locations.nodal:
             mesh_location = mesh.nodes
         elif location == locations.elemental:
             mesh_location = mesh.elements
         elif location == locations.faces:
             mesh_location = mesh.faces
+        elif location == locations.elemental_nodal:
+            mesh_location = mesh.elements
         else:
-            raise ValueError("Only elemental, nodal or faces location are supported for plotting.")
+            raise ValueError(
+                "Only elemental, elemental nodal, nodal or faces location are supported for plotting."
+            )
 
         # pre-loop: check if shell layers for each field, if yes, set the shell layers
-        changeOp = core.Operator("change_shellLayers")
-        for field in fields_container:
-            shell_layer_check = field.shell_layers
-            if shell_layer_check in [
-                eshell_layers.topbottom,
-                eshell_layers.topbottommid,
-            ]:
-                changeOp.inputs.fields_container.connect(fields_container)
-                sl = eshell_layers.top
-                if shell_layers is not None:
-                    if not isinstance(shell_layers, eshell_layers):
-                        raise TypeError(
-                            "shell_layer attribute must be a core.shell_layers instance."
-                        )
-                    sl = shell_layers
-                changeOp.inputs.e_shell_layer.connect(sl.value)  # top layers taken
-                fields_container = changeOp.get_output(0, core.types.fields_container)
-                break
+        changeOp = core.operators.utility.change_shell_layers()
+        if location == locations.elemental_nodal:
+            # change_shell_layers does not support elemental_nodal when given a fields_container
+            new_fields_container = dpf.core.FieldsContainer()
+            for l in fields_container.labels:
+                new_fields_container.add_label(l)
+            for i, field in enumerate(fields_container):
+                label_space_i = fields_container.get_label_space(i)
+                shell_layer_check = field.shell_layers
+                if shell_layer_check in [
+                    eshell_layers.topbottom,
+                    eshell_layers.topbottommid,
+                ]:
+                    changeOp.inputs.fields_container.connect(field)
+                    changeOp.inputs.merge.connect(True)
+                    sl = eshell_layers.top
+                    if shell_layers is not None:
+                        if not isinstance(shell_layers, eshell_layers):
+                            raise TypeError(
+                                "shell_layer attribute must be a core.shell_layers instance."
+                            )
+                        sl = shell_layers
+                    changeOp.inputs.e_shell_layer.connect(sl.value)  # top layers taken
+                    field = changeOp.get_output(0, core.types.field)
+                new_fields_container.add_field(label_space=label_space_i, field=field)
+            fields_container = new_fields_container
+        else:
+            for field in fields_container:
+                shell_layer_check = field.shell_layers
+                if shell_layer_check in [
+                    eshell_layers.topbottom,
+                    eshell_layers.topbottommid,
+                ]:
+                    changeOp.inputs.fields_container.connect(fields_container)
+                    sl = eshell_layers.top
+                    if shell_layers is not None:
+                        if not isinstance(shell_layers, eshell_layers):
+                            raise TypeError(
+                                "shell_layer attribute must be a core.shell_layers instance."
+                            )
+                        sl = shell_layers
+                    changeOp.inputs.e_shell_layer.connect(sl.value)  # top layers taken
+                    fields_container = changeOp.get_output(0, core.types.fields_container)
+                    break
 
         # Merge field data into a single array
         if component_count > 1:
-            overall_data = np.full((len(mesh_location), component_count), np.nan)
+            overall_data = np.full((location_data_len, component_count), np.nan)
         else:
-            overall_data = np.full(len(mesh_location), np.nan)
+            overall_data = np.full(location_data_len, np.nan)
+
+        # field._data_pointer gives the first index of each entity data
+        # (should be of size nb_elements)
 
         for field in fields_container:
             ind, mask = mesh_location.map_scoping(field.scoping)
+            if location == locations.elemental_nodal:
+                # Rework ind and mask to take into account n_nodes per element
+                # entity_index_map = field._data_pointer
+                n_nodes_list = mesh.get_elemental_nodal_size_list().astype(np.int32)
+                first_index = np.insert(np.cumsum(n_nodes_list)[:-1], 0, 0).astype(np.int32)
+                mask_2 = np.asarray(
+                    [mask_i for i, mask_i in enumerate(mask) for _ in range(n_nodes_list[ind[i]])]
+                )
+                ind_2 = np.asarray(
+                    [first_index[ind_i] + j for ind_i in ind for j in range(n_nodes_list[ind_i])]
+                )
+                mask = mask_2
+                ind = ind_2
             overall_data[ind] = field.data[mask]
 
         # create the plotter and add the meshes
@@ -1087,15 +1170,20 @@ class Plotter:
             bound_method=self._internal_plotter._plotter.add_mesh, **kwargs
         )
         as_linear = True
+        if location == locations.elemental_nodal:
+            as_linear = False
         if deform_by:
             grid = mesh._as_vtk(mesh.deform_by(deform_by, scale_factor), as_linear=as_linear)
             self._internal_plotter.add_scale_factor_legend(scale_factor, **kwargs)
         else:
             if as_linear != mesh.as_linear:
                 grid = mesh._as_vtk(mesh.nodes.coordinates_field, as_linear=as_linear)
+                mesh._full_grid = grid
                 mesh.as_linear = as_linear
             else:
                 grid = mesh.grid
+        if location == locations.elemental_nodal:
+            grid = grid.shrink(1.0)
         grid.clear_data()
         self._internal_plotter._plotter.add_mesh(grid, scalars=overall_data, **kwargs_in)
 
