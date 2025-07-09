@@ -52,9 +52,8 @@ model.plot(
 # - The "off_screen" keyword only works when "notebook=False" to prevent the GUI from appearing.
 
 
-# Plot a field on its supporting mesh (field location must be Elemental or Nodal)
+# Plot a field on its supporting mesh
 stress = model.results.stress()
-stress.inputs.requested_location.connect(dpf.locations.nodal)
 fc = stress.outputs.fields_container()
 field = fc[0]
 field.plot(notebook=False, shell_layers=None, show_axes=True, title="Field", text="Field plot")

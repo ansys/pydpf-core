@@ -31,6 +31,7 @@ from ansys.dpf.core.plotter import plot_chart
 from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
     running_docker,
 )
 
@@ -129,7 +130,7 @@ def test_plotter_on_fields_container_elemental(allkindofcomplexity):
     avg_op.inputs.fields_container.connect(stress.outputs.fields_container)
     fc = avg_op.outputs.fields_container()
     pl = Plotter(model.metadata.meshed_region)
-    cpos = pl.plot_contour(fc)
+    _ = pl.plot_contour(fc)
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
@@ -141,7 +142,7 @@ def test_plotter_on_fields_container_nodal(allkindofcomplexity):
     avg_op.inputs.fields_container.connect(stress.outputs.fields_container)
     fc = avg_op.outputs.fields_container()
     pl = Plotter(model.metadata.meshed_region)
-    cpos = pl.plot_contour(fc)
+    _ = pl.plot_contour(fc)
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
@@ -166,6 +167,39 @@ def test_fields_container_plot(allkindofcomplexity):
     model = dpf.core.Model(allkindofcomplexity)
     disp_fc = model.results.displacement().outputs.fields_container()
     disp_fc.plot()
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_fields_container_plot_same_mesh(multishells):
+    import numpy as np
+
+    fc = core.FieldsContainer()
+    f1 = core.fields_factory.create_scalar_field(num_entities=1, location=core.locations.elemental)
+    f1.append(data=[2.0], scopingid=1)
+    f2 = core.fields_factory.create_scalar_field(num_entities=1, location=core.locations.elemental)
+    f2.append(data=[4.0], scopingid=2)
+    fc.add_label(label="id", default_value=0)
+    fc.add_field({"id": 1}, f1)
+    fc.add_field({"id": 2}, f2)
+
+    mesh = core.meshed_region.MeshedRegion(num_nodes=6, num_elements=2)
+    arr = np.array(
+        [
+            [0.0, 0.0, 0.0],
+            [1.0, 0.0, 0.0],
+            [1.0, 1.0, 0.0],
+            [0.0, 1.0, 0.0],
+            [0.0, 2.0, 0.0],
+            [1.0, 2.0, 0.0],
+        ]
+    )
+    coord = core.field_from_array(arr)
+    mesh.set_coordinates_field(coordinates_field=coord)
+    mesh.elements.add_shell_element(id=1, connectivity=[0, 1, 2, 3])
+    mesh.elements.add_shell_element(id=2, connectivity=[2, 3, 4, 5])
+    f1.meshed_region = mesh
+    f2.meshed_region = mesh
+    fc.plot()
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
@@ -197,6 +231,70 @@ def test_field_nodal_plot(allkindofcomplexity):
     f.plot(off_screen=True, screenshot=picture)
     assert Path.cwd().joinpath(picture).exists()
     remove_picture(picture)
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_field_elemental_nodal_plot_simple(simple_bar):
+    model = Model(simple_bar)
+    stress = model.results.element_nodal_forces()
+    fc = stress.outputs.fields_container()
+    f = fc[0]
+    f.plot()
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_field_elemental_nodal_plot_scoped(simple_bar):
+    model = Model(simple_bar)
+    mesh_scoping = dpf.core.mesh_scoping_factory.elemental_scoping(
+        element_ids=list(range(1501, 3001))
+    )
+    stress = model.results.element_nodal_forces.on_mesh_scoping(mesh_scoping)
+    fc = stress.eval()
+    f = fc[0]
+    f.plot()
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_field_elemental_nodal_plot_multiple_solid_types():
+    from ansys.dpf.core import examples
+
+    model = dpf.core.Model(examples.download_hemisphere())
+    stress = model.results.stress()
+    fc = stress.outputs.fields_container()
+    f = fc[0]
+    f.plot()
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_field_elemental_nodal_plot_shells():
+    from ansys.dpf.core import examples
+
+    model = dpf.core.Model(examples.download_pontoon())
+    stress = model.results.stress()
+    fc = stress.outputs.fields_container()
+    f = fc[0]
+    f.plot()
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0, reason="Old bug before 25R2")
+def test_field_elemental_nodal_plot_multi_shells(multishells):
+    fc = core.operators.result.stress(data_sources=core.DataSources(multishells)).eval()
+    from ansys.dpf.core.plotter import Plotter
+
+    field = fc[0]
+    plt = Plotter(field.meshed_region)
+    plt.plot_contour(fc)
+    field.plot()
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0, reason="Old bug before 25R2")
+def test_dpf_plotter_add_field_elemental_nodal_multi_shells(multishells):
+    fc: core.FieldsContainer = core.operators.result.stress(
+        data_sources=core.DataSources(multishells),
+    ).eval()
+    fc.plot()
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
@@ -302,6 +400,54 @@ def test_dpf_plotter_add_field_change_shell_layer(multishells):
     ).eval()[1]
     plt = DpfPlotter()
     plt.add_field(field=field)
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_dpf_plotter_add_field_elemental_nodal_plot_simple(simple_bar):
+    field: core.Field = core.operators.result.element_nodal_forces(
+        data_sources=core.DataSources(simple_bar),
+    ).eval()[0]
+    plt = DpfPlotter()
+    plt.add_field(field=field)
+    plt.show_figure()
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_dpf_plotter_add_field_elemental_nodal_plot_scoped(simple_bar):
+    mesh_scoping = dpf.core.mesh_scoping_factory.elemental_scoping(
+        element_ids=list(range(1501, 3001))
+    )
+    field: core.Field = core.operators.result.element_nodal_forces(
+        data_sources=core.DataSources(simple_bar),
+        mesh_scoping=mesh_scoping,
+    ).eval()[0]
+    plt = DpfPlotter()
+    plt.add_field(field=field)
+    plt.show_figure()
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_dpf_plotter_add_field_elemental_nodal_multiple_solids():
+    from ansys.dpf.core import examples
+
+    field: core.Field = core.operators.result.stress(
+        data_sources=core.DataSources(examples.download_hemisphere()),
+    ).eval()[0]
+    plt = DpfPlotter()
+    plt.add_field(field=field)
+    plt.show_figure()
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_dpf_plotter_add_field_elemental_nodal_shells():
+    from ansys.dpf.core import examples
+
+    field: core.Field = core.operators.result.stress(
+        data_sources=core.DataSources(examples.download_pontoon()),
+    ).eval()[0]
+    plt = DpfPlotter()
+    plt.add_field(field=field)
+    plt.show_figure()
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
