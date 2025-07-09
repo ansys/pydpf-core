@@ -1,12 +1,38 @@
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 import numpy as np
 import pytest
 
-from ansys.dpf.core import Model
-from ansys.dpf.core import errors as dpf_errors
-from ansys.dpf.core import fields_container_factory
-from ansys.dpf.core import fields_factory
-from ansys.dpf.core import mesh_scoping_factory
-from ansys.dpf.core import time_freq_scoping_factory
+from ansys.dpf.core import (
+    Model,
+    errors as dpf_errors,
+    fields_container_factory,
+    fields_factory,
+    mesh_scoping_factory,
+    server,
+    server_factory,
+    time_freq_scoping_factory,
+)
 from ansys.dpf.core.common import locations
 
 
@@ -275,3 +301,12 @@ def test_named_selection_scoping(model_with_ns):
     scop = mesh_scoping_factory.named_selection_scoping("SELECTION", model)
     assert scop is not None
     assert len(scop.ids) != 0
+
+
+def test_named_selection_scoping_with_deepcopy(model_with_ns):
+    model = Model(model_with_ns)
+    server_2 = server.start_local_server(config=server_factory.AvailableServerConfigs.GrpcServer)
+    scop = mesh_scoping_factory.named_selection_scoping("SELECTION", model, server_2)
+    assert scop is not None
+    assert len(scop.ids) != 0
+    assert scop._server == server_2

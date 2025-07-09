@@ -24,11 +24,19 @@ class CollectionAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def collection_of_char_new():
+		raise NotImplementedError
+
+	@staticmethod
 	def collection_get_data_as_int(collection, size):
 		raise NotImplementedError
 
 	@staticmethod
 	def collection_get_data_as_double(collection, size):
+		raise NotImplementedError
+
+	@staticmethod
+	def collection_get_data_as_char(collection, size):
 		raise NotImplementedError
 
 	@staticmethod
@@ -100,6 +108,30 @@ class CollectionAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def collection_of_any_new():
+		raise NotImplementedError
+
+	@staticmethod
+	def collection_of_scoping_new_with_data(data, num_ids, labels, num_labels, ids):
+		raise NotImplementedError
+
+	@staticmethod
+	def collection_of_field_new_with_data(data, num_ids, labels, num_labels, ids):
+		raise NotImplementedError
+
+	@staticmethod
+	def collection_of_mesh_new_with_data(data, num_ids, labels, num_labels, ids):
+		raise NotImplementedError
+
+	@staticmethod
+	def collection_of_custom_type_field_new_with_data(data, num_ids, labels, num_labels, ids):
+		raise NotImplementedError
+
+	@staticmethod
+	def collection_of_any_new_with_data(data, num_ids, labels, num_labels, ids):
+		raise NotImplementedError
+
+	@staticmethod
 	def collection_get_num_labels(collection):
 		raise NotImplementedError
 
@@ -120,6 +152,10 @@ class CollectionAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def collection_push_back_entry(collection, labelspace, obj):
+		raise NotImplementedError
+
+	@staticmethod
 	def collection_set_entry_by_index(collection, index, obj):
 		raise NotImplementedError
 
@@ -133,6 +169,10 @@ class CollectionAbstractAPI:
 
 	@staticmethod
 	def collection_get_obj_label_space_by_index(collection, index):
+		raise NotImplementedError
+
+	@staticmethod
+	def collection_get_objs_for_label_space(collection, space, size):
 		raise NotImplementedError
 
 	@staticmethod
@@ -208,6 +248,10 @@ class CollectionAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def collection_of_any_new_on_client(client):
+		raise NotImplementedError
+
+	@staticmethod
 	def collection_of_scoping_get_copy(id, client):
 		raise NotImplementedError
 
@@ -217,6 +261,10 @@ class CollectionAbstractAPI:
 
 	@staticmethod
 	def collection_of_mesh_get_copy(id, client):
+		raise NotImplementedError
+
+	@staticmethod
+	def collection_of_any_get_copy(id, client):
 		raise NotImplementedError
 
 	@staticmethod

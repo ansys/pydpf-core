@@ -1,7 +1,12 @@
 import os
+import subprocess  # nosec B404
+import sys
+
 import packaging.version
-import pkg_resources
-import importlib
+try:
+    import importlib.metadata as importlib_metadata
+except ImportError:  # Python < 3.10 (backport)
+    import importlib_metadata as importlib_metadata
 from ansys.dpf.gate.generated import capi
 from ansys.dpf.gate import utils, errors
 from ansys.dpf.gate._version import __ansys_version__
@@ -62,34 +67,44 @@ def _pythonize_awp_version(version):
 
 
 def _find_latest_ansys_versions():
-    path_per_version = {}
-
-    path_per_version = _paths_to_dpf_in_unified_installs(path_per_version)
-
-    path_per_version = _paths_to_dpf_server_library_installs(path_per_version)
-
+    # Find the latest version of ansys_dpf_server installed in the current Python environment
+    path_per_version = _paths_to_dpf_server_library_installs()
+    if len(path_per_version) > 0:
+        return path_per_version[sorted(path_per_version)[-1]]
+    # If none was found, find the path to the latest local ANSYS install
+    path_per_version = _paths_to_dpf_in_unified_installs()
     if len(path_per_version) > 0:
         return path_per_version[sorted(path_per_version)[-1]]
 
 
-def _paths_to_dpf_server_library_installs(path_per_version: dict) -> dict:
-    installed_packages = pkg_resources.working_set
-    for i in installed_packages:
-        if "ansys-dpf-server" in i.key:
-            file_name = pkg_resources.to_filename(i.project_name.replace("ansys-dpf-", ""))
-            try:
-                module = importlib.import_module("ansys.dpf." + file_name)
-                path_per_version[
-                    packaging.version.parse(module.__version__)
-                ] = module.__path__[0]
-            except ModuleNotFoundError:
-                pass
-            except AttributeError:
-                pass
+def _paths_to_dpf_server_library_installs() -> dict:
+    path_per_version = {}
+    for d in importlib_metadata.distributions():
+        distribution_name = d.metadata["Name"]
+        if "ansys-dpf-server" in distribution_name:
+            # Cannot use the distribution.files() as those only list the files in the site-packages,
+            # which for editable installations does not necessarily give the actual location of the
+            # source files. It may rely on a Finder, which has to run.
+            # The most robust way of resolving the location is to let the import machinery do its
+            # job, using importlib.import_module. We do not want however to actually import the
+            # server libraries found, which is why we do it in a subprocess.
+            package_path = subprocess.check_output(  # nosec B603
+                args=[
+                    sys.executable,
+                    "-c",
+                    f"""import importlib 
+print(importlib.import_module('ansys.dpf.server{distribution_name[16:]}'.replace('-', '_')).__path__[0])""",
+                ],
+                text=True,
+            ).rstrip()
+            path_per_version[
+                packaging.version.parse(d.version)
+            ] = package_path
     return path_per_version
 
 
-def _paths_to_dpf_in_unified_installs(path_per_version: dict) -> dict:
+def _paths_to_dpf_in_unified_installs() -> dict:
+    path_per_version = {}
     awp_versions = [key[-3:] for key in os.environ.keys() if "AWP_ROOT" in key]
     for awp_version in awp_versions:
         if not awp_version.isnumeric():

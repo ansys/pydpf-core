@@ -1,19 +1,47 @@
-import pytest
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 import os
+from pathlib import Path
 import platform
+
 import numpy as np
-from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0
+import pytest
+
 from ansys.dpf import core as dpf
-import conftest
+from ansys.dpf.core.changelog import Changelog
+from ansys.dpf.core.custom_operator import update_virtual_environment_for_custom_operators
 from ansys.dpf.core.errors import DPFServerException
 from ansys.dpf.core.operator_specification import (
-    CustomSpecification,
-    SpecificationProperties,
     CustomConfigOptionSpec,
+    CustomSpecification,
     PinSpecification,
+    SpecificationProperties,
 )
+import conftest
 from conftest import (
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0,
 )
 
 if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
@@ -26,11 +54,14 @@ if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
 if platform.system() == "Linux":
     pytest.skip("Known failures for the Ubuntu-latest GitHub pipelines", allow_module_level=True)
 
+update_virtual_environment_for_custom_operators(restore_original=True)
+update_virtual_environment_for_custom_operators()
+
 
 @pytest.fixture(scope="module")
 def load_all_types_plugin(testfiles_dir):
     return dpf.load_library(
-        dpf.path_utilities.to_server_os(os.path.join(testfiles_dir, "pythonPlugins", "all_types")),
+        dpf.path_utilities.to_server_os(Path(testfiles_dir) / "pythonPlugins" / "all_types"),
         "py_test_types",
         "load_operators",
     )
@@ -39,7 +70,7 @@ def load_all_types_plugin(testfiles_dir):
 def load_all_types_plugin_with_serv(my_server, testfiles_dir):
     return dpf.load_library(
         dpf.path_utilities.to_server_os(
-            os.path.join(testfiles_dir, "pythonPlugins", "all_types"), my_server
+            Path(testfiles_dir) / "pythonPlugins" / "all_types", my_server
         ),
         "py_test_types",
         "load_operators",
@@ -200,11 +231,23 @@ def test_data_tree(server_type_remote_process, testfiles_dir):
     assert dt.get_as("name") == "Paul"
 
 
+@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Requires DPF 7.0")
+def test_generic_data_container(server_clayer_remote_process, testfiles_dir):
+    load_all_types_plugin_with_serv(server_clayer_remote_process, testfiles_dir)
+    gdc = dpf.GenericDataContainer(server=server_clayer_remote_process)
+    gdc.set_property(property_name="n", prop=1)
+    op = dpf.Operator("custom_forward_generic_data_container", server=server_clayer_remote_process)
+    op.connect(0, gdc)
+    gdc2: dpf.GenericDataContainer = op.get_output(0, dpf.types.generic_data_container)
+    assert gdc2 is not None
+    assert gdc2.get_property("n") == 1
+
+
 @conftest.raises_for_servers_version_under("4.0")
 def test_syntax_error(server_type_remote_process, testfiles_dir):
     dpf.load_library(
         dpf.path_utilities.to_server_os(
-            os.path.join(testfiles_dir, "pythonPlugins", "syntax_error_plugin"),
+            Path(testfiles_dir) / "pythonPlugins" / "syntax_error_plugin",
             server_type_remote_process,
         ),
         "py_raising",
@@ -343,7 +386,7 @@ def test_create_properties_specification(server_in_process):
 def test_custom_op_with_spec(server_type_remote_process, testfiles_dir):
     dpf.load_library(
         dpf.path_utilities.to_server_os(
-            os.path.join(testfiles_dir, "pythonPlugins"), server_type_remote_process
+            Path(testfiles_dir) / "pythonPlugins", server_type_remote_process
         ),
         "py_operator_with_spec",
         "load_operators",
@@ -367,3 +410,25 @@ def test_custom_op_with_spec(server_type_remote_process, testfiles_dir):
     outf = op.outputs.field()
     expected = np.ones((3, 3), dtype=np.float64) + 4.0
     assert np.allclose(outf.data, expected)
+
+
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0, reason="Available for servers >=11.0"
+)
+def test_custom_op_changelog(server_type_remote_process, testfiles_dir):
+    from packaging.version import Version
+
+    dpf.load_library(
+        dpf.path_utilities.to_server_os(
+            Path(testfiles_dir) / "pythonPlugins", server_type_remote_process
+        ),
+        "py_operator_with_changelog",
+        "load_operators",
+        server=server_type_remote_process,
+    )
+    op = dpf.Operator("custom_add_to_field", server=server_type_remote_process)
+    changelog = op.changelog
+    assert isinstance(changelog, Changelog)
+    assert changelog.last_version == Version("1.0.0")
+    assert changelog[Version("1.0.0")] == "Major bump"
+    assert op.version == Version("1.0.0")

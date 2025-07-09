@@ -1,16 +1,36 @@
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """
-fields_factory
-==============
+fields_factory.
 
 Contains functions to simplify creating fields.
 """
 
-from ansys.dpf.core.common import natures, locations
-from ansys.dpf.core import Field
-from ansys.dpf.core import server as server_module
-from ansys.dpf.gate import field_capi, field_grpcapi
-
 import numpy as np
+
+from ansys.dpf.core import Field, server as server_module
+from ansys.dpf.core.common import locations, natures
+from ansys.dpf.gate import field_capi, field_grpcapi
 
 
 def field_from_array(arr, server=None):
@@ -101,12 +121,12 @@ def create_matrix_field(num_entities, num_lines, num_col, location=locations.nod
 
     """
     return _create_field(
-        server,
-        natures.matrix,
-        num_entities,
-        location,
-        num_col,
-        num_lines,
+        server=server,
+        nature=natures.matrix,
+        nentities=num_entities,
+        location=location,
+        ncomp_m=num_col,
+        ncomp_n=num_lines,
     )
 
 
@@ -257,8 +277,7 @@ def create_vector_field(num_entities, num_comp, location=locations.nodal, server
 def create_overall_field(
     value, nature, num_entities, num_comp, location=locations.overall, server=None
 ):
-    """Create a specific `:class:`ansys.dpf.core.Field` with entities that have an
-    overall location.
+    """Create a specific `:class:`ansys.dpf.core.Field` with entities that have an overall location.
 
     Regarding the nature of the entity contained in the field, we set the same value
     for all elements.

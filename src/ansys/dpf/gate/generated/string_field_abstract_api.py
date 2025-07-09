@@ -40,6 +40,34 @@ class StringFieldAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def string_field_get_entity_data_for_dpf_vector(dpf_object, out, data, size, EntityIndex):
+		raise NotImplementedError
+
+	@staticmethod
+	def string_field_get_entity_data_by_id_for_dpf_vector(dpf_object, vec, data, size, EntityId):
+		raise NotImplementedError
+
+	@staticmethod
+	def csstring_field_get_data_for_dpf_vector_with_size(field, out, data, sizes, size):
+		raise NotImplementedError
+
+	@staticmethod
+	def csstring_field_get_entity_data_for_dpf_vector_with_size(dpf_object, out, data, sizes, size, EntityIndex):
+		raise NotImplementedError
+
+	@staticmethod
+	def csstring_field_get_entity_data_by_id_for_dpf_vector_with_size(dpf_object, vec, data, sizes, size, EntityId):
+		raise NotImplementedError
+
+	@staticmethod
+	def string_field_get_entity_data_for_dpf_vector_with_size(dpf_object, out, data, sizes, size, EntityIndex):
+		raise NotImplementedError
+
+	@staticmethod
+	def string_field_get_entity_data_by_id_for_dpf_vector_with_size(dpf_object, vec, data, sizes, size, EntityId):
+		raise NotImplementedError
+
+	@staticmethod
 	def csstring_field_get_cscoping(field):
 		raise NotImplementedError
 
@@ -52,11 +80,31 @@ class StringFieldAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def csstring_field_set_data_with_size(field, size, data, sizes):
+		raise NotImplementedError
+
+	@staticmethod
 	def csstring_field_set_cscoping(field, scoping):
 		raise NotImplementedError
 
 	@staticmethod
+	def csstring_field_set_data_pointer(field, size, data):
+		raise NotImplementedError
+
+	@staticmethod
 	def csstring_field_push_back(field, EntityId, size, data):
+		raise NotImplementedError
+
+	@staticmethod
+	def string_field_push_back(field, EntityId, size, data):
+		raise NotImplementedError
+
+	@staticmethod
+	def csstring_field_push_back_with_size(field, EntityId, size, data, sizes):
+		raise NotImplementedError
+
+	@staticmethod
+	def string_field_push_back_with_size(field, EntityId, size, data, sizes):
 		raise NotImplementedError
 
 	@staticmethod
@@ -65,6 +113,10 @@ class StringFieldAbstractAPI:
 
 	@staticmethod
 	def csstring_field_reserve(field, dataSize, scopingSize):
+		raise NotImplementedError
+
+	@staticmethod
+	def string_field_fast_access_ptr(field):
 		raise NotImplementedError
 
 	@staticmethod

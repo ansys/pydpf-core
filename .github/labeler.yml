@@ -1,5 +1,5 @@
 documentation:
-- docs/source/**/*
+- doc/source/**/*
 - examples/**/*
 maintenance:
 - .flake8

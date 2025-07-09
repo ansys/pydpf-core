@@ -96,6 +96,14 @@ class PropertyFieldAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def csproperty_field_set_data_with_collection(field, data):
+		raise NotImplementedError
+
+	@staticmethod
+	def csproperty_field_set_data_pointer_with_collection(field, data):
+		raise NotImplementedError
+
+	@staticmethod
 	def csproperty_field_set_data_pointer(field, size, data):
 		raise NotImplementedError
 
@@ -145,6 +153,22 @@ class PropertyFieldAbstractAPI:
 
 	@staticmethod
 	def csproperty_field_get_entity_index(field, id):
+		raise NotImplementedError
+
+	@staticmethod
+	def csproperty_field_get_shared_field_definition(field):
+		raise NotImplementedError
+
+	@staticmethod
+	def csproperty_field_set_field_definition(field, field_definition):
+		raise NotImplementedError
+
+	@staticmethod
+	def csproperty_field_get_name(field):
+		raise NotImplementedError
+
+	@staticmethod
+	def csproperty_field_set_name(field, name):
 		raise NotImplementedError
 
 	@staticmethod

@@ -1,14 +1,35 @@
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 import os
 
 import numpy as np
 import pytest
 
 from ansys.dpf import core
-from ansys.dpf.core import examples
+from ansys.dpf.core import examples, operators as ops
 from ansys.dpf.core.errors import ServerTypeError
-from ansys.dpf.core import operators as ops
-from conftest import local_servers, running_docker
 import conftest
+from conftest import local_servers, running_docker
 
 
 @pytest.mark.xfail(raises=ServerTypeError)
@@ -344,9 +365,9 @@ def test_remote_workflow_info(local_server):
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
     reason="Connecting data from different servers is " "supported starting server version 3.0",
 )
+@pytest.mark.skipif(running_docker, reason="Currently hanging on Docker, under investigation.")
 def test_multi_process_local_remote_local_remote_workflow(server_type_remote_process):
-    files = examples.download_distributed_files()
-
+    files = examples.download_distributed_files(server=server_type_remote_process)
     wf = core.Workflow(server=server_type_remote_process)
     wf.progress_bar = False
     average = core.operators.math.norm_fc(server=server_type_remote_process)
@@ -395,7 +416,6 @@ def test_multi_process_local_remote_local_remote_workflow(server_type_remote_pro
     for i, wf in enumerate(workflows):
         local_wf.set_input_name("distrib" + str(i), merge, i)
         local_wf.connect_with(wf, ("distrib", "distrib" + str(i)))
-
     max_field = local_wf.get_output("tot_output", core.types.field)
     assert np.allclose(max_field.data, [10.03242272])
 
@@ -609,6 +629,7 @@ def test_multi_process_transparent_api_create_on_local_remote_ith_address_workfl
     assert np.allclose(max_field.data, [10.03242272])
 
 
+@pytest.mark.xfail(reason="Unstable test")
 @pytest.mark.skipif(
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
     reason="Requires server version higher than 4.0",

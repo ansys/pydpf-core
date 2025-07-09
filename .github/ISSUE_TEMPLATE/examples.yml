@@ -1,7 +1,7 @@
 name: 🎓 Adding an example
 description: Proposing a new example for the library
 title: "Example proposal: ..."
-labels: ["example"]
+labels: ["examples"]
 assignees: [""]
 
 body:

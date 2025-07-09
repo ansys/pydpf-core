@@ -21,6 +21,11 @@ class FieldServiceStub(object):
                 request_serializer=field__pb2.FieldRequest.SerializeToString,
                 response_deserializer=field__pb2.Field.FromString,
                 )
+        self.CreateWithData = channel.stream_stream(
+                '/ansys.api.dpf.field.v0.FieldService/CreateWithData',
+                request_serializer=field__pb2.AllData.SerializeToString,
+                response_deserializer=field__pb2.CreateWithDataResponse.FromString,
+                )
         self.AddData = channel.unary_unary(
                 '/ansys.api.dpf.field.v0.FieldService/AddData',
                 request_serializer=field__pb2.AddDataRequest.SerializeToString,
@@ -44,6 +49,11 @@ class FieldServiceStub(object):
         self.UpdateSize = channel.unary_unary(
                 '/ansys.api.dpf.field.v0.FieldService/UpdateSize',
                 request_serializer=field__pb2.UpdateSizeRequest.SerializeToString,
+                response_deserializer=base__pb2.Empty.FromString,
+                )
+        self.UpdateDataPointerSize = channel.unary_unary(
+                '/ansys.api.dpf.field.v0.FieldService/UpdateDataPointerSize',
+                request_serializer=field__pb2.UpdateDataPointerSizeRequest.SerializeToString,
                 response_deserializer=base__pb2.Empty.FromString,
                 )
         self.UpdateFieldDefinition = channel.unary_unary(
@@ -76,6 +86,11 @@ class FieldServiceStub(object):
                 request_serializer=field__pb2.SupportRequest.SerializeToString,
                 response_deserializer=support__pb2.Support.FromString,
                 )
+        self.GetProperties = channel.unary_unary(
+                '/ansys.api.dpf.field.v0.FieldService/GetProperties',
+                request_serializer=field__pb2.PropertiesRequest.SerializeToString,
+                response_deserializer=field__pb2.PropertiesResponse.FromString,
+                )
         self.SetSupport = channel.unary_unary(
                 '/ansys.api.dpf.field.v0.FieldService/SetSupport',
                 request_serializer=field__pb2.SetSupportRequest.SerializeToString,
@@ -96,6 +111,11 @@ class FieldServiceStub(object):
                 request_serializer=field__pb2.CountRequest.SerializeToString,
                 response_deserializer=base__pb2.CountResponse.FromString,
                 )
+        self.GetAllData = channel.unary_unary(
+                '/ansys.api.dpf.field.v0.FieldService/GetAllData',
+                request_serializer=field__pb2.Field.SerializeToString,
+                response_deserializer=field__pb2.AllData.FromString,
+                )
         self.Delete = channel.unary_unary(
                 '/ansys.api.dpf.field.v0.FieldService/Delete',
                 request_serializer=field__pb2.Field.SerializeToString,
@@ -107,6 +127,12 @@ class FieldServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def Create(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def CreateWithData(self, request_iterator, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -143,6 +169,12 @@ class FieldServiceServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def UpdateSize(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def UpdateDataPointerSize(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -186,6 +218,12 @@ class FieldServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def GetProperties(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
     def SetSupport(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -210,6 +248,12 @@ class FieldServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def GetAllData(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
     def Delete(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -223,6 +267,11 @@ def add_FieldServiceServicer_to_server(servicer, server):
                     servicer.Create,
                     request_deserializer=field__pb2.FieldRequest.FromString,
                     response_serializer=field__pb2.Field.SerializeToString,
+            ),
+            'CreateWithData': grpc.stream_stream_rpc_method_handler(
+                    servicer.CreateWithData,
+                    request_deserializer=field__pb2.AllData.FromString,
+                    response_serializer=field__pb2.CreateWithDataResponse.SerializeToString,
             ),
             'AddData': grpc.unary_unary_rpc_method_handler(
                     servicer.AddData,
@@ -247,6 +296,11 @@ def add_FieldServiceServicer_to_server(servicer, server):
             'UpdateSize': grpc.unary_unary_rpc_method_handler(
                     servicer.UpdateSize,
                     request_deserializer=field__pb2.UpdateSizeRequest.FromString,
+                    response_serializer=base__pb2.Empty.SerializeToString,
+            ),
+            'UpdateDataPointerSize': grpc.unary_unary_rpc_method_handler(
+                    servicer.UpdateDataPointerSize,
+                    request_deserializer=field__pb2.UpdateDataPointerSizeRequest.FromString,
                     response_serializer=base__pb2.Empty.SerializeToString,
             ),
             'UpdateFieldDefinition': grpc.unary_unary_rpc_method_handler(
@@ -279,6 +333,11 @@ def add_FieldServiceServicer_to_server(servicer, server):
                     request_deserializer=field__pb2.SupportRequest.FromString,
                     response_serializer=support__pb2.Support.SerializeToString,
             ),
+            'GetProperties': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetProperties,
+                    request_deserializer=field__pb2.PropertiesRequest.FromString,
+                    response_serializer=field__pb2.PropertiesResponse.SerializeToString,
+            ),
             'SetSupport': grpc.unary_unary_rpc_method_handler(
                     servicer.SetSupport,
                     request_deserializer=field__pb2.SetSupportRequest.FromString,
@@ -298,6 +357,11 @@ def add_FieldServiceServicer_to_server(servicer, server):
                     servicer.Count,
                     request_deserializer=field__pb2.CountRequest.FromString,
                     response_serializer=base__pb2.CountResponse.SerializeToString,
+            ),
+            'GetAllData': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetAllData,
+                    request_deserializer=field__pb2.Field.FromString,
+                    response_serializer=field__pb2.AllData.SerializeToString,
             ),
             'Delete': grpc.unary_unary_rpc_method_handler(
                     servicer.Delete,
@@ -328,6 +392,23 @@ class FieldService(object):
         return grpc.experimental.unary_unary(request, target, '/ansys.api.dpf.field.v0.FieldService/Create',
             field__pb2.FieldRequest.SerializeToString,
             field__pb2.Field.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def CreateWithData(request_iterator,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.stream_stream(request_iterator, target, '/ansys.api.dpf.field.v0.FieldService/CreateWithData',
+            field__pb2.AllData.SerializeToString,
+            field__pb2.CreateWithDataResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -412,6 +493,23 @@ class FieldService(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/ansys.api.dpf.field.v0.FieldService/UpdateSize',
             field__pb2.UpdateSizeRequest.SerializeToString,
+            base__pb2.Empty.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def UpdateDataPointerSize(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/ansys.api.dpf.field.v0.FieldService/UpdateDataPointerSize',
+            field__pb2.UpdateDataPointerSizeRequest.SerializeToString,
             base__pb2.Empty.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
@@ -519,6 +617,23 @@ class FieldService(object):
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
+    def GetProperties(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/ansys.api.dpf.field.v0.FieldService/GetProperties',
+            field__pb2.PropertiesRequest.SerializeToString,
+            field__pb2.PropertiesResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
     def SetSupport(request,
             target,
             options=(),
@@ -583,6 +698,23 @@ class FieldService(object):
         return grpc.experimental.unary_unary(request, target, '/ansys.api.dpf.field.v0.FieldService/Count',
             field__pb2.CountRequest.SerializeToString,
             base__pb2.CountResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetAllData(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/ansys.api.dpf.field.v0.FieldService/GetAllData',
+            field__pb2.Field.SerializeToString,
+            field__pb2.AllData.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 

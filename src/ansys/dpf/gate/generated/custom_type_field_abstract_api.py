@@ -52,6 +52,10 @@ class CustomTypeFieldAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def cscustom_type_field_get_property_data_tree(field):
+		raise NotImplementedError
+
+	@staticmethod
 	def cscustom_type_field_set_data(field, size, data):
 		raise NotImplementedError
 
@@ -68,7 +72,19 @@ class CustomTypeFieldAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def cscustom_type_field_set_data_with_collection(field, data):
+		raise NotImplementedError
+
+	@staticmethod
+	def cscustom_type_field_set_data_pointer_with_collection(field, data):
+		raise NotImplementedError
+
+	@staticmethod
 	def cscustom_type_field_resize(field, dataSize, scopingSize):
+		raise NotImplementedError
+
+	@staticmethod
+	def cscustom_type_field_resize_data_pointer(field, dataSize):
 		raise NotImplementedError
 
 	@staticmethod

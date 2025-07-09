@@ -1,5 +1,6 @@
 from ansys.dpf.gate.generated import operator_abstract_api
-from ansys.dpf.gate import errors
+from ansys.dpf.gate import errors, grpc_stream_helpers
+import numpy as np
 # -------------------------------------------------------------------------------
 # Operator
 # -------------------------------------------------------------------------------
@@ -10,6 +11,10 @@ def _get_stub(server):
     server.create_stub_if_necessary(OperatorGRPCAPI.STUBNAME,
                                              operator_pb2_grpc.OperatorServiceStub)
     return server.get_stub(OperatorGRPCAPI.STUBNAME)
+
+
+def _set_array_to_request(request, bytes):
+    request.array.array = bytes
 
 
 @errors.protect_grpc_class
@@ -47,6 +52,10 @@ class OperatorGRPCAPI(operator_abstract_api.OperatorAbstractAPI):
         return OperatorGRPCAPI.get_list(op).config
 
     @staticmethod
+    def operator_name(op):
+        return OperatorGRPCAPI.get_list(op).op_name
+
+    @staticmethod
     def update_init(op, pin):
         from ansys.grpc.dpf import operator_pb2
         request = operator_pb2.UpdateRequest()
@@ -81,6 +90,26 @@ class OperatorGRPCAPI(operator_abstract_api.OperatorAbstractAPI):
         request = OperatorGRPCAPI.update_init(op, pin)
         request.str = value
         OperatorGRPCAPI.update(op, request)
+
+    @staticmethod
+    def operator_connect_string_with_size(op, pin, value, size):
+        if op._server.meet_version("8.0"):
+            from ansys.grpc.dpf import operator_pb2, base_pb2
+            request = operator_pb2.ArrayUpdateRequest()
+            request.op.CopyFrom(op._internal_obj)
+            request.pin = pin
+            request.type = base_pb2.Type.Value("STRING")
+            metadata = [("size_bytes", f"{size.val.value}")]
+            _get_stub(op._server).UpdateStreamed(
+                grpc_stream_helpers._data_chunk_yielder(
+                    request,
+                    value,
+                    set_array=_set_array_to_request
+                ),
+                metadata=metadata)
+        else:
+            OperatorGRPCAPI.operator_connect_string(op, pin, value)
+
 
     @staticmethod
     def operator_connect_scoping(op, pin, scoping):
@@ -182,6 +211,12 @@ class OperatorGRPCAPI(operator_abstract_api.OperatorAbstractAPI):
         OperatorGRPCAPI.update(op, request)
 
     @staticmethod
+    def operator_connect_any(op, pin, ptr):
+        request = OperatorGRPCAPI.update_init(op, pin)
+        request.as_any.CopyFrom(ptr._internal_obj)
+        OperatorGRPCAPI.update(op, request)
+
+    @staticmethod
     def operator_connect_generic_data_container(op, pin, ptr):
         request = OperatorGRPCAPI.update_init(op, pin)
         request.generic_data_container.CopyFrom(ptr._internal_obj)
@@ -241,10 +276,16 @@ class OperatorGRPCAPI(operator_abstract_api.OperatorAbstractAPI):
             return response.data_sources
         elif response.HasField("cyc_support"):
             return response.cyc_support
-        elif hasattr(response,"workflow") and response.HasField("workflow"):
+        elif hasattr(response, "workflow") and response.HasField("workflow"):
             return response.workflow
-        elif hasattr(response,"data_tree") and response.HasField("data_tree"):
+        elif hasattr(response, "data_tree") and response.HasField("data_tree"):
             return response.data_tree
+        elif hasattr(response, "any") and response.HasField("any"):
+            return response.any
+        elif hasattr(response, "generic_data_container") and response.HasField("generic_data_container"):
+            return response.generic_data_container
+        else:
+            raise KeyError(response)
 
     @staticmethod
     def operator_getoutput_fields_container(op, iOutput):
@@ -308,6 +349,23 @@ class OperatorGRPCAPI(operator_abstract_api.OperatorAbstractAPI):
         stype = "string"
         subtype = ""
         return OperatorGRPCAPI.get_output_finish(op, request, stype, subtype)
+
+    @staticmethod
+    def operator_getoutput_string_with_size(op, iOutput, size):
+        if op._server.meet_version("8.0"):
+            from ansys.grpc.dpf import operator_pb2
+            request = operator_pb2.OperatorEvaluationRequest()
+            request.op.CopyFrom(op._internal_obj)
+            request.pin = iOutput
+            service = _get_stub(op._server).GetStreamed(request)
+            dtype = np.byte
+            out = grpc_stream_helpers._data_get_chunk_(dtype, service, True, get_array=lambda chunk: chunk.array.array)
+            size.val = out.size
+            return bytes(out)
+        else:
+            out = OperatorGRPCAPI.operator_getoutput_string(op, iOutput, size)
+            size.val = out.size
+            return out
 
     @staticmethod
     def operator_getoutput_int(op, iOutput):
@@ -418,6 +476,13 @@ class OperatorGRPCAPI(operator_abstract_api.OperatorAbstractAPI):
     def operator_getoutput_generic_data_container(op, iOutput):
         request = OperatorGRPCAPI.get_output_init(op, iOutput)
         stype = "generic_data_container"
+        subtype = ""
+        return OperatorGRPCAPI.get_output_finish(op, request, stype, subtype)
+
+    @staticmethod
+    def operator_getoutput_as_any(op, iOutput):
+        request = OperatorGRPCAPI.get_output_init(op, iOutput)
+        stype = "any"
         subtype = ""
         return OperatorGRPCAPI.get_output_finish(op, request, stype, subtype)
 

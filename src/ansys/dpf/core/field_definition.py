@@ -1,15 +1,37 @@
-"""
-FieldDefinition
-================
-"""
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+"""FieldDefinition."""
+
+from __future__ import annotations
 
 import traceback
 import warnings
 
-from ansys.dpf.core.common import natures, shell_layers
-from ansys.dpf.core.check_version import version_requires
-from ansys.dpf.core.dimensionality import Dimensionality
 from ansys.dpf.core import server as server_module
+from ansys.dpf.core.available_result import Homogeneity
+from ansys.dpf.core.check_version import server_meet_version_and_raise, version_requires
+from ansys.dpf.core.common import natures, shell_layers
+from ansys.dpf.core.dimensionality import Dimensionality
 from ansys.dpf.gate import (
     field_definition_capi,
     field_definition_grpcapi,
@@ -32,7 +54,9 @@ class FieldDefinition:
 
     def __init__(self, field_definition=None, server=None):
         # step 1: get server
-        self._server = server_module.get_or_create_server(server)
+        self._server = server_module.get_or_create_server(
+            field_definition._server if isinstance(field_definition, FieldDefinition) else server
+        )
 
         # step 2: get api
         self._api = self._server.get_api_for_type(
@@ -117,7 +141,7 @@ class FieldDefinition:
 
     @property
     def dimensionality(self):
-        """Dimensionality
+        """Dimensionality.
 
         Returns
         -------
@@ -129,9 +153,98 @@ class FieldDefinition:
         self._api.csfield_definition_fill_dimensionality(self, dim, nature, dim.internal_size)
         return Dimensionality(dim.tolist(), natures(int(nature)))
 
+    @property
+    def quantity_types(self):
+        """Getter for Quantity Types.
+
+        Returns
+        -------
+        str
+            All quantity types of the elementary data for this FieldDefinition.
+        """
+        quantity_types = []
+        for i in range(self.num_quantity_types()):
+            qt = self._api.csfield_definition_get_quantity_type(self, i)
+            quantity_types.append(str(qt))
+
+        return quantity_types
+
+    def add_quantity_type(self, quantity_type_to_add):
+        """Add a new Quantity Type.
+
+        Parameters
+        ----------
+        quantity_type_to_add: str
+            Quantity type to add
+        """
+        self._api.csfield_definition_set_quantity_type(self, quantity_type_to_add)
+
+    def num_quantity_types(self):
+        """Return number of available quantity types.
+
+        Returns
+        -------
+        num_quantity_types : int
+            Number of quantity types
+        """
+        num_quantity_types = self._api.csfield_definition_get_num_available_quantity_types(self)
+        return num_quantity_types
+
+    def is_of_quantity_type(self, quantity_type):
+        """Check if the field definition is of a given quantity type.
+
+        Parameters
+        ----------
+        quantity_type: str
+            Quantity type to check
+
+        Returns
+        -------
+        is_of_quantity_type : bool
+            True if the field definition is of the given quantity type
+        """
+        is_of_quantity_type = self._api.csfield_definition_is_of_quantity_type(self, quantity_type)
+        return is_of_quantity_type
+
     @unit.setter
-    def unit(self, value):
-        self._api.csfield_definition_set_unit(self, value, None, 0, 0, 0)
+    def unit(self, value: str | tuple[Homogeneity, str]):
+        """Change the unit for the field definition.
+
+        A single string is interpreted as a known physical unit with an associated homogeneity.
+
+        For DPF 11.0 (2026 R1) and above: A tuple of two strings is interpreted as a homogeneity and a unit name.
+            If the homogeneity is :py:attr:`Homogeneity.dimensionless`, then the unit string is kept as a name.
+            Otherwise, the homogeneity is ignored, and the unit string interpreted as a known physical unit with an associated homogeneity.
+
+        Parameters
+        ----------
+        value:
+            Units for the field.
+
+        Notes
+        -----
+        Setting a named dimensionless unit requires DPF 11.0 (2026 R1) or above.
+
+        """
+        # setter with explicit homogeneity: homogeneity is taken into account if it is dimensionless
+        if (
+            isinstance(value, tuple)
+            and len(value) == 2
+            and isinstance(value[0], Homogeneity)
+            and isinstance(value[1], str)
+        ):
+            server_meet_version_and_raise(
+                required_version="11.0",
+                server=self._server,
+                msg="Setting a named dimensionless unit requires DPF 11.0 (2026 R1) or above.",
+            )
+            # csfield_definition_set_unit will ignore the homogeneity if it is not dimensionless
+            self._api.csfield_definition_set_unit(self, value[1], None, value[0].value, 0, 0)
+        # standard unit setter, using string interpreter
+        elif isinstance(value, str):
+            self._api.csfield_definition_set_unit(self, value, None, 0, 0, 0)
+        else:
+            raise ValueError("Unit setter supports either string or tuple(Homogeneity, str)")
 
     @location.setter
     def location(self, value):
@@ -157,7 +270,8 @@ class FieldDefinition:
         )
 
     def deep_copy(self, server=None):
-        """Creates a deep copy of the field_definition's data on a given server.
+        """Create a deep copy of the field_definition's data on a given server.
+
         This can be useful to pass data from one server instance to another.
 
         Parameters
@@ -176,6 +290,7 @@ class FieldDefinition:
         return out
 
     def __del__(self):
+        """Delete the current instance."""
         try:
             self._deleter_func[0](self._deleter_func[1](self))
         except:

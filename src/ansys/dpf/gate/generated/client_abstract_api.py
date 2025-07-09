@@ -27,3 +27,15 @@ class ClientAbstractAPI:
 	def client_get_protocol_name(client):
 		raise NotImplementedError
 
+	@staticmethod
+	def client_has_local_server(client):
+		raise NotImplementedError
+
+	@staticmethod
+	def client_set_local_server(client, server_streams):
+		raise NotImplementedError
+
+	@staticmethod
+	def client_get_local_server(client):
+		raise NotImplementedError
+

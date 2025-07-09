@@ -1,15 +1,89 @@
-import numpy as np
-import pytest
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+from pathlib import Path
 import platform
 
-import ansys.dpf.core.operators as op
-import conftest
+import numpy
+import numpy as np
+import pytest
+
 from ansys import dpf
+from ansys.dpf.core import misc
+import ansys.dpf.core.operators as op
+from ansys.dpf.core.workflow_topology import WorkflowTopology
+import conftest
+
+if misc.module_exists("graphviz"):
+    HAS_GRAPHVIZ = True
+else:
+    HAS_GRAPHVIZ = False
 
 
 def test_create_workflow(server_type):
     wf = dpf.core.Workflow(server=server_type)
     assert wf._internal_obj
+
+
+@pytest.fixture()
+def remove_dot_file(request):
+    """Cleanup a testing directory once we are finished."""
+
+    dot_path = Path.cwd() / "test.dot"
+    png_path = Path.cwd() / "test.png"
+    png_path1 = Path.cwd() / "test1.png"
+
+    def remove_files():
+        if dot_path.exists():
+            dot_path.unlink()
+        if png_path.exists():
+            png_path.unlink()
+        if png_path1.exists():
+            png_path1.unlink()
+
+    request.addfinalizer(remove_files)
+
+
+@pytest.mark.skipif(not HAS_GRAPHVIZ, reason="Please install graphviz")
+def test_workflow_view(server_in_process, remove_dot_file):
+    pre_wf = dpf.core.Workflow(server=server_in_process)
+    pre_op = dpf.core.operators.utility.forward(server=server_in_process)
+    pre_wf.add_operator(pre_op)
+    pre_wf.set_input_name("prewf_input", pre_op.inputs.any)
+    pre_wf.set_output_name("prewf_output", pre_op.outputs.any)
+
+    wf = dpf.core.Workflow(server=server_in_process)
+    forward_op = dpf.core.operators.utility.forward(server=server_in_process)
+    wf.add_operator(forward_op)
+    wf.set_input_name("wf_input", forward_op.inputs.any)
+    wf.set_output_name("wf_output", forward_op.outputs.any)
+
+    wf.connect_with(pre_wf, {"prewf_output": "wf_input"})
+    wf.view(off_screen=True, title="test1")
+    assert not Path("test1.dot").exists()
+    assert Path("test1.png").exists()
+    wf.view(off_screen=True, save_as="test.png", keep_dot_file=True)
+    assert Path("test.dot").exists()
+    assert Path("test.png").exists()
 
 
 def test_connect_field_workflow(server_type):
@@ -60,6 +134,19 @@ def test_connect_list_workflow(velocity_acceleration, server_type):
     wf.set_input_name("time_scoping", op.inputs.time_scoping)
     wf.set_output_name("field", op.outputs.fields_container)
     wf.connect("time_scoping", [1, 2])
+    f_out = wf.get_output("field", dpf.core.types.fields_container)
+    assert f_out.get_available_ids_for_label() == [1, 2]
+
+
+def test_connect_array_workflow(velocity_acceleration, server_type):
+    wf = dpf.core.Workflow(server=server_type)
+    wf.progress_bar = False
+    model = dpf.core.Model(velocity_acceleration, server=server_type)
+    op = model.operator("U")
+    wf.add_operator(op)
+    wf.set_input_name("time_scoping", op, 0)
+    wf.set_output_name("field", op, 0)
+    wf.connect("time_scoping", numpy.array([1, 2], numpy.int32))
     f_out = wf.get_output("field", dpf.core.types.fields_container)
     assert f_out.get_available_ids_for_label() == [1, 2]
 
@@ -608,6 +695,42 @@ def test_connect_with_dict_workflow(cyclic_lin_rst, cyclic_ds, server_type):
     fc = wf2.get_output("u", dpf.core.types.fields_container)
 
 
+def test_workflow_connect_raise_wrong_label(server_type):
+    workflow1 = dpf.core.Workflow()
+    forward_1 = dpf.core.operators.utility.forward()
+    workflow1.set_output_name("output", forward_1.outputs.any)
+
+    workflow2 = dpf.core.Workflow()
+    forward_2 = dpf.core.operators.utility.forward()
+    workflow2.set_input_name("input", forward_2.inputs.any)
+
+    with pytest.raises(
+        ValueError, match="Cannot connect workflow output 'out'. Exposed outputs are:\n"
+    ):
+        workflow2.connect_with(workflow1, output_input_names={"out": "input"}, permissive=False)
+    with pytest.raises(
+        ValueError, match="Cannot connect workflow input 'in'. Exposed inputs are:\n"
+    ):
+        workflow2.connect_with(workflow1, output_input_names={"output": "in"}, permissive=False)
+    workflow2.connect_with(workflow1, output_input_names={"output": "input"}, permissive=False)
+
+
+def test_workflow_connect_with_permissive(server_type):
+    workflow1 = dpf.core.Workflow()
+    forward_1 = dpf.core.operators.utility.forward()
+    workflow1.set_output_name("output", forward_1.outputs.any)
+
+    workflow2 = dpf.core.Workflow()
+    forward_2 = dpf.core.operators.utility.forward()
+    workflow2.set_input_name("input", forward_2.inputs.any)
+
+    workflow2.connect_with(workflow1, output_input_names={"out": "input"})
+
+    workflow2.connect_with(workflow1, output_input_names={"output": "in"})
+
+    workflow2.connect_with(workflow1, output_input_names=("output", "input"))
+
+
 @pytest.mark.xfail(raises=dpf.core.errors.ServerTypeError)
 def test_info_workflow(allkindofcomplexity, server_type):
     model = dpf.core.Model(allkindofcomplexity, server=server_type)
@@ -824,6 +947,158 @@ def test_create_on_other_server_and_connect_workflow(allkindofcomplexity, local_
     new_workflow.connect("data_sources", dpf.core.DataSources(allkindofcomplexity))
     max = new_workflow.get_output("max", dpf.core.types.field)
     assert np.allclose(max.data, [[8.50619058e04, 1.04659292e01, 3.73620870e05]])
+
+
+def deep_copy_using_workflow(dpf_entity, server, stream_type=1):
+    from ansys.dpf.core.common import types, types_enum_to_types
+    from ansys.dpf.core.operators.serialization import serializer_to_string, string_deserializer
+
+    entity_server = dpf_entity._server if hasattr(dpf_entity, "_server") else None
+    serializer_wf = dpf.core.Workflow(server=entity_server)
+    serializer = serializer_to_string(server=entity_server)
+    serializer.connect(1, dpf_entity)
+    serializer.connect(-1, stream_type)  # binary
+    serializer_wf.set_output_name("out", serializer, 0)
+    if stream_type == 1:
+        out = serializer_wf.get_output("out", types.bytes)
+    else:
+        out = serializer_wf.get_output("out", types.string)
+    deserializer_wf = dpf.core.Workflow(server=server)
+    deserializer = string_deserializer(server=server)
+    deserializer_wf.set_input_name("in", 0, deserializer)
+    deserializer_wf.connect("in", out)
+    deserializer.connect(-1, stream_type)  # binary
+    type_map = types_enum_to_types()
+    output_type = list(type_map.keys())[list(type_map.values()).index(dpf_entity.__class__)]
+    return deserializer.get_output(1, output_type)
+
+
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0, reason="Available for servers >=8.0"
+)
+def test_connect_get_output_big_strings(server_type, server_in_process):
+    data = np.random.random(100000)
+    field_a = dpf.core.field_from_array(data, server=server_type)
+    assert np.allclose(field_a.data, data)
+
+    out = deep_copy_using_workflow(field_a, server_in_process)
+    assert np.allclose(out.data, data)
+
+
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0, reason="Available for servers >=8.0"
+)
+def test_connect_get_output_big_strings(server_type, server_type_remote_process):
+    data = np.random.random(100000)
+    field_a = dpf.core.field_from_array(data, server=server_type)
+    assert np.allclose(field_a.data, data)
+
+    out = deep_copy_using_workflow(field_a, server_type_remote_process)
+    assert np.allclose(out.data, data)
+
+
+@conftest.raises_for_servers_version_under("8.0")
+def test_connect_get_non_ascii_string(server_type):
+    str = "\N{GREEK CAPITAL LETTER DELTA}"
+    str_out = deep_copy_using_workflow(str, server_type)
+    assert str == str_out
+
+
+def test_connect_get_non_ascii_string_str(server_type):
+    str = "\N{GREEK CAPITAL LETTER DELTA}"
+    str_out = deep_copy_using_workflow(str, server_type, 0)
+    assert str == str_out
+
+
+def test_output_any(server_type):
+    inpt = dpf.core.Field(nentities=3, server=server_type)
+    data = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    scop = dpf.core.Scoping(server=server_type)
+    scop.ids = [1, 2, 3]
+    inpt.data = data
+    inpt.scoping = scop
+
+    fwd = dpf.core.Operator("forward", server=server_type)
+    fwd.connect(0, inpt)
+
+    wf = dpf.core.Workflow(server=server_type)
+    wf.add_operator(fwd)
+    wf.set_output_name("field", fwd, 0)
+
+    output_field = wf.get_output("field", dpf.core.types.any).cast(dpf.core.Field)
+    assert isinstance(output_field, dpf.core.Field)
+    assert output_field.data.size == 9
+    assert output_field.scoping.size == 3
+
+
+@pytest.mark.skipif(
+    condition=not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
+    reason="Input of Any requires DPF 7.0 or above.",
+)
+def test_input_any(server_type):
+    field = dpf.core.Field(nentities=3, server=server_type)
+    data = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    scop = dpf.core.Scoping(server=server_type)
+    scop.ids = [1, 2, 3]
+    field.data = data
+    field.scoping = scop
+
+    inpt = dpf.core.Any.new_from(field)
+    fwd = dpf.core.Operator(name="forward", server=server_type)
+
+    wf = dpf.core.Workflow(server=server_type)
+    wf.add_operator(fwd)
+    wf.set_input_name("in", fwd, 0)
+    wf.set_output_name("out", fwd, 0)
+
+    wf.connect(pin_name="in", inpt=inpt)
+    output = wf.get_output(pin_name="out", output_type=dpf.core.types.field)
+    assert isinstance(output, dpf.core.Field)
+
+
+@pytest.mark.skipif(
+    condition=not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
+    reason="Input/output of Streams requires DPF 6.0 or above.",
+)
+def test_workflow_input_output_streams(server_in_process, simple_bar):
+    data_source = dpf.core.DataSources(simple_bar, server=server_in_process)
+    streams_op = dpf.core.operators.metadata.streams_provider(server=server_in_process)
+    streams_op.inputs.data_sources.connect(data_source)
+    wf_1 = dpf.core.Workflow(server=server_in_process)
+    wf_1.add_operator(streams_op)
+    wf_1.set_output_name("output_streams", streams_op.outputs.streams_container)
+
+    streams = wf_1.get_output("output_streams", dpf.core.types.streams_container)
+
+    time_provider = dpf.core.operators.metadata.time_freq_provider(server=server_in_process)
+
+    wf_2 = dpf.core.Workflow(server=server_in_process)
+    wf_2.add_operator(time_provider)
+    wf_2.set_input_name("input_streams", time_provider.inputs.streams_container)
+    wf_2.set_output_name("output_tfs", time_provider.outputs.time_freq_support)
+    wf_2.connect("input_streams", streams)
+    times = wf_2.get_output("output_tfs", dpf.core.types.time_freq_support)
+    assert times
+
+
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
+    reason="Operator `workflow_to_workflow_topology` does not exist below 10.0",
+)
+def test_workflow_get_output_derived_class(server_type):
+    workflow = dpf.core.Workflow(server=server_type)
+
+    workflow_to_workflow_topology_op = dpf.core.Operator(
+        "workflow_to_workflow_topology", server=server_type
+    )
+    dpf_workflow_wrapper = dpf.core.Workflow(server=server_type)
+    dpf_workflow_wrapper.add_operator(workflow_to_workflow_topology_op)
+    dpf_workflow_wrapper.set_input_name("input", workflow_to_workflow_topology_op, 0)
+    dpf_workflow_wrapper.set_output_name("output", workflow_to_workflow_topology_op, 0)
+    dpf_workflow_wrapper.connect("input", workflow)
+
+    workflow_topology = dpf_workflow_wrapper.get_output("output", WorkflowTopology)
+    assert workflow_topology
 
 
 def main():

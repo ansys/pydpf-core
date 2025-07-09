@@ -36,6 +36,26 @@ def to_int32(to_replace):
     else:
         return to_replace
 
+def to_uint64_ptr(to_replace):
+    if to_replace is None:
+        return None
+    elif isinstance(to_replace, np.ndarray):
+        return to_replace.ctypes.data_as(ctypes.POINTER(ctypes.c_uint64))
+    elif isinstance(to_replace, integral_types.MutableUInt64):
+        return to_replace.val
+    elif isinstance(to_replace, (int, np.int64)):
+        return ctypes.pointer(ctypes.c_uint64(to_replace))
+    else:
+        return (ctypes.c_uint64 * len(to_replace))(*to_replace)
+
+def to_uint64(to_replace):
+    if isinstance(to_replace, int):
+        return ctypes.c_uint64(to_replace)
+    elif isinstance(to_replace, integral_types.MutableUInt64):
+        return to_replace.val
+    else:
+        return to_replace
+
 
 def to_int32_ptr_ptr(to_replace):
     if to_replace is None:
@@ -77,7 +97,9 @@ def to_char_ptr(to_replace):
         return to_replace.val
     elif isinstance(to_replace, integral_types.MutableListChar):
         return to_replace.val
-    return ctypes.create_string_buffer(to_replace.encode('utf-8'))
+    elif isinstance(to_replace, bytes):
+        return ctypes.create_string_buffer(to_replace)
+    return ctypes.create_string_buffer(to_replace.encode())
 
 
 def to_char_ptr_ptr(to_replace):

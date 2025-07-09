@@ -75,3 +75,11 @@ class PropertyFieldGRPCAPI(property_field_abstract_api.PropertyFieldAbstractAPI)
     @staticmethod
     def csproperty_field_elementary_data_size(field):
         return api_to_call.csfield_get_number_of_components(field)
+
+    @staticmethod
+    def csproperty_field_get_shared_field_definition(field):
+        return api_to_call.csfield_get_shared_field_definition(field)
+
+    @staticmethod
+    def csproperty_field_set_field_definition(field, field_definition):
+        api_to_call.csfield_set_field_definition(field, field_definition)

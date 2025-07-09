@@ -101,6 +101,15 @@ class AnyCAPI(any_abstract_api.AnyAbstractAPI):
 		return res
 
 	@staticmethod
+	def any_get_as_any_collection(any):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Any_getAs_AnyCollection(any._internal_obj if any is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def any_get_as_string(any):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
@@ -108,6 +117,17 @@ class AnyCAPI(any_abstract_api.AnyAbstractAPI):
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		newres = ctypes.cast(res, ctypes.c_char_p).value.decode("utf-8") if res else None
+		capi.dll.DataProcessing_String_post_event(res, ctypes.byref(errorSize), ctypes.byref(sError))
+		return newres
+
+	@staticmethod
+	def any_get_as_string_with_size(any, size):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Any_getAs_String_with_size(any._internal_obj if any is not None else None, utils.to_uint64_ptr(size), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		newres = ctypes.string_at(res, size.val.value)
 		capi.dll.DataProcessing_String_post_event(res, ctypes.byref(errorSize), ctypes.byref(sError))
 		return newres
 
@@ -265,6 +285,24 @@ class AnyCAPI(any_abstract_api.AnyAbstractAPI):
 		return res
 
 	@staticmethod
+	def any_get_as_custom_type_field(any):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Any_getAs_CustomTypeField(any._internal_obj if any is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def any_get_as_support(any):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Any_getAs_Support(any._internal_obj if any is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def any_make_obj_as_any(dpf_object):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
@@ -287,6 +325,15 @@ class AnyCAPI(any_abstract_api.AnyAbstractAPI):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.Any_newFrom_String(utils.to_char_ptr(any), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def any_new_from_string_with_size(any, size):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Any_newFrom_String_with_size(utils.to_char_ptr(any), utils.to_uint64(size), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res
@@ -490,6 +537,24 @@ class AnyCAPI(any_abstract_api.AnyAbstractAPI):
 		return res
 
 	@staticmethod
+	def any_new_from_custom_type_field(any):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Any_newFrom_CustomTypeField(any._internal_obj if any is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def any_new_from_any_collection(any):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Any_newFrom_AnyCollection(any._internal_obj if any is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def any_new_from_int_on_client(client, value):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
@@ -508,10 +573,28 @@ class AnyCAPI(any_abstract_api.AnyAbstractAPI):
 		return res
 
 	@staticmethod
+	def any_new_from_string_with_size_on_client(client, any, size):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Any_newFrom_String_with_size_on_client(client._internal_obj if client is not None else None, utils.to_char_ptr(any), utils.to_uint64(size), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def any_new_from_double_on_client(client, any):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.Any_newFrom_Double_on_client(client._internal_obj if client is not None else None, ctypes.c_double(any) if isinstance(any, float) else any, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def any_get_copy(id, client):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Any_getCopy(utils.to_int32(id), client._internal_obj if client is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res

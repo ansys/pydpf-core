@@ -1,6 +1,7 @@
 from ansys.dpf.gate.generated import workflow_abstract_api
 from ansys.dpf.gate.operator_grpcapi import OperatorGRPCAPI
-from ansys.dpf.gate import errors
+from ansys.dpf.gate import errors, grpc_stream_helpers
+import numpy as np
 
 #-------------------------------------------------------------------------------
 # Workflow
@@ -8,6 +9,9 @@ from ansys.dpf.gate import errors
 
 def _get_stub(server):
     return server.get_stub(WorkflowGRPCAPI.STUBNAME)
+
+def _set_array_to_request(request, bytes):
+    request.array.array = bytes
 
 
 @errors.protect_grpc_class
@@ -71,6 +75,25 @@ class WorkflowGRPCAPI(workflow_abstract_api.WorkflowAbstractAPI):
         request = WorkflowGRPCAPI._connect_init(wf, pin_name)
         request.str = value
         _get_stub(wf._server).UpdateConnection(request)
+
+    @staticmethod
+    def work_flow_connect_string_with_size(wf, pin_name, value, size):
+        if wf._server.meet_version("8.0"):
+            from ansys.grpc.dpf import workflow_pb2, base_pb2
+            request = workflow_pb2.ArrayUpdateConnectionRequest()
+            request.wf.CopyFrom(wf._internal_obj)
+            request.pin_name = pin_name
+            request.type = base_pb2.Type.Value("STRING")
+            metadata = [("size_bytes", f"{size.val.value}")]
+            _get_stub(wf._server).UpdateConnectionStreamed(
+                grpc_stream_helpers._data_chunk_yielder(
+                    request,
+                    value,
+                    set_array=_set_array_to_request
+                ),
+                metadata=metadata)
+        else:
+            WorkflowGRPCAPI.work_flow_connect_string(wf, pin_name, value)
 
     @staticmethod
     def work_flow_connect_scoping(wf, pin_name, scoping):
@@ -167,6 +190,12 @@ class WorkflowGRPCAPI(workflow_abstract_api.WorkflowAbstractAPI):
     def work_flow_connect_data_tree(wf, pin_name, dataTree):
         request = WorkflowGRPCAPI._connect_init(wf, pin_name)
         request.data_tree.CopyFrom(dataTree._internal_obj)
+        _get_stub(wf._server).UpdateConnection(request)
+
+    @staticmethod
+    def work_flow_connect_any(wf, pin_name, ptr):
+        request = WorkflowGRPCAPI._connect_init(wf, pin_name)
+        request.as_any.CopyFrom(ptr._internal_obj)
         _get_stub(wf._server).UpdateConnection(request)
 
     @staticmethod
@@ -317,10 +346,33 @@ class WorkflowGRPCAPI(workflow_abstract_api.WorkflowAbstractAPI):
         return WorkflowGRPCAPI.get_output_finish(wf, request, stype)
 
     @staticmethod
+    def work_flow_getoutput_as_any(wf, pin_name):
+        request = WorkflowGRPCAPI.get_output_init(wf, pin_name)
+        stype = "any"
+        return WorkflowGRPCAPI.get_output_finish(wf, request, stype)
+
+    @staticmethod
     def work_flow_getoutput_string(wf, pin_name):
         request = WorkflowGRPCAPI.get_output_init(wf, pin_name)
         stype = "string"
         return WorkflowGRPCAPI.get_output_finish(wf, request, stype)
+
+    @staticmethod
+    def work_flow_getoutput_string_with_size(wf, pin_name, size):
+        if wf._server.meet_version("8.0"):
+            from ansys.grpc.dpf import workflow_pb2
+            request = workflow_pb2.WorkflowEvaluationRequest()
+            request.wf.CopyFrom(wf._internal_obj)
+            request.pin_name = pin_name
+            service = _get_stub(wf._server).GetStreamed(request)
+            dtype = np.byte
+            out = grpc_stream_helpers._data_get_chunk_(dtype, service, True, get_array=lambda chunk: chunk.array.array)
+            size.val = out.size
+            return bytes(out)
+        else:
+            out = WorkflowGRPCAPI.work_flow_getoutput_string(wf, pin_name)
+            size.val = out.size
+            return out
 
     @staticmethod
     def work_flow_getoutput_int(wf, pin_name):

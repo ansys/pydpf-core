@@ -1,28 +1,48 @@
-"""
-Core
-====
-"""
-import os
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+"""Core."""
+
 import logging
+import os
+from pathlib import Path
 import warnings
 import weakref
 
-from ansys.dpf.core import errors, misc
-from ansys.dpf.core import server as server_module
-from ansys.dpf.core.check_version import version_requires
+from ansys.dpf.core import errors, misc, server as server_module
+from ansys.dpf.core.check_version import server_meet_version, version_requires
 from ansys.dpf.core.runtime_config import (
     RuntimeClientConfig,
     RuntimeCoreConfig,
 )
 from ansys.dpf.gate import (
-    data_processing_capi,
-    data_processing_grpcapi,
-    tmp_dir_capi,
-    tmp_dir_grpcapi,
     collection_capi,
     collection_grpcapi,
+    data_processing_capi,
+    data_processing_grpcapi,
     integral_types,
     object_handler,
+    tmp_dir_capi,
+    tmp_dir_grpcapi,
 )
 
 try:
@@ -43,6 +63,7 @@ else:
 
 def load_library(filename, name="", symbol="LoadOperators", server=None, generate_operators=False):
     """Dynamically load an operators library for dpf.core.
+
     Code containing this library's operators is generated in
     ansys.dpf.core.operators
 
@@ -76,8 +97,7 @@ def load_library(filename, name="", symbol="LoadOperators", server=None, generat
 
 
 def upload_file_in_tmp_folder(file_path, new_file_name=None, server=None):
-    """Upload a file from the client to the server in a temporary folder
-    deleted when the server is shutdown
+    """Upload a file from the client to a temporary server folder deleted on server shutdown.
 
     Parameters
     ----------
@@ -109,8 +129,7 @@ def upload_file_in_tmp_folder(file_path, new_file_name=None, server=None):
 def upload_files_in_folder(
     to_server_folder_path, client_folder_path, specific_extension=None, server=None
 ):
-    """Upload all the files from a folder of the client
-    to the target server folder path.
+    """Upload all the files from a folder of the client to the target server folder path.
 
     Parameters
     ----------
@@ -140,7 +159,7 @@ def upload_files_in_folder(
 
 
 def download_file(server_file_path, to_client_file_path, server=None):
-    """Download a file from the server to the target client file path
+    """Download a file from the server to the target client file path.
 
     Parameters
     ----------
@@ -166,8 +185,7 @@ def download_file(server_file_path, to_client_file_path, server=None):
 def download_files_in_folder(
     server_folder_path, to_client_folder_path, specific_extension=None, server=None
 ):
-    """Download all the files from a folder of the server
-    to the target client folder path
+    """Download all the files from a folder of the server to the target client folder path.
 
     Parameters
     ----------
@@ -197,7 +215,7 @@ def download_files_in_folder(
 
 
 def upload_file(file_path, to_server_file_path, server=None):
-    """Upload a file from the client to the target server file path
+    """Upload a file from the client to the target server file path.
 
     Parameters
     ----------
@@ -221,8 +239,8 @@ def upload_file(file_path, to_server_file_path, server=None):
 
 
 def make_tmp_dir_server(server=None):
-    """Create a temporary folder server side. Only one temporary folder can be created
-    by server instance.
+    """Create a temporary folder server side. Only one temporary folder can be created by server instance.
+
     The folder will be deleted when the server is stopped.
 
     Parameters
@@ -241,7 +259,7 @@ def make_tmp_dir_server(server=None):
 
 
 def _description(dpf_entity_message, server=None):
-    """Ask the server to describe the entity in input
+    """Ask the server to describe the entity in input.
 
     Parameters
     ----------
@@ -264,7 +282,7 @@ def _description(dpf_entity_message, server=None):
 
 
 def _deep_copy(dpf_entity, server=None):
-    """Returns a copy of the entity in the requested server
+    """Return a copy of the entity in the requested server.
 
     Parameters
     ----------
@@ -281,13 +299,21 @@ def _deep_copy(dpf_entity, server=None):
        deep_copy of dpf_entity: core.Operator, core.Workflow, core.Scoping,
                                 core.Field, core.FieldsContainer, core.MeshedRegion...
     """
+    from ansys.dpf.core.common import types, types_enum_to_types
     from ansys.dpf.core.operators.serialization import serializer_to_string, string_deserializer
-    from ansys.dpf.core.common import types_enum_to_types
 
-    serializer = serializer_to_string(server=server)
+    entity_server = dpf_entity._server if hasattr(dpf_entity, "_server") else None
+    serializer = serializer_to_string(server=entity_server)
     serializer.connect(1, dpf_entity)
     deserializer = string_deserializer(server=server)
-    deserializer.connect(0, serializer, 0)
+    stream_type = 1 if server_meet_version("8.0", serializer._server) else 0
+    serializer.connect(-1, stream_type)
+    if stream_type == 1:
+        out = serializer.get_output(0, types.bytes)
+    else:
+        out = serializer.outputs.serialized_string  # Required for retro with 241
+    deserializer.connect(-1, stream_type)
+    deserializer.connect(0, out)
     type_map = types_enum_to_types()
     output_type = list(type_map.keys())[list(type_map.values()).index(dpf_entity.__class__)]
     return deserializer.get_output(1, output_type)
@@ -295,6 +321,7 @@ def _deep_copy(dpf_entity, server=None):
 
 class BaseService:
     """The Base Service class allows to make generic requests to dpf's server.
+
     For example, information about the server can be requested,
     uploading/downloading file from and to the server can be done,
     new operators plugins can be loaded...
@@ -324,7 +351,7 @@ class BaseService:
     """
 
     def __init__(self, server=None, load_operators=True, timeout=5):
-        """Initialize base service"""
+        """Initialize base service."""
         # step 1: get server
         if server is None:
             server = server_module.get_or_create_server(server)
@@ -344,8 +371,8 @@ class BaseService:
         self._api.init_data_processing_environment(self)  # creates stub when gRPC
 
     def make_tmp_dir_server(self):
-        """Create a temporary folder server side. Only one temporary folder can be created
-        by server instance.
+        """Create a temporary folder server side. Only one temporary folder can be created by server instance.
+
         The folder will be deleted when the server is stopped.
 
         Returns
@@ -360,6 +387,7 @@ class BaseService:
 
     def load_library(self, file_path, name="", symbol="LoadOperators", generate_operators=False):
         """Dynamically load an operators library for dpf.core.
+
         Code containing this library's operators is generated in
         ansys.dpf.core.operators
 
@@ -398,7 +426,7 @@ class BaseService:
             )
         if generate_operators:
             # TODO: fix code generation upload posix
-            import os
+            # https://github.com/ansys/pydpf-core/issues/1984, todo was added in this PR
 
             def __generate_code(TARGET_PATH, filename, name, symbol):
                 from ansys.dpf.core.dpf_operator import Operator
@@ -413,8 +441,8 @@ class BaseService:
                 except Exception as e:
                     warnings.warn("Unable to generate the python code with error: " + str(e.args))
 
-            local_dir = os.path.dirname(os.path.abspath(__file__))
-            LOCAL_PATH = os.path.join(local_dir, "operators")
+            local_dir = Path(__file__).parent
+            LOCAL_PATH = local_dir / "operators"
             if not self._server().local_server:
                 if self._server().os != "posix" or (not self._server().os and os.name != "posix"):
                     # send local generated code
@@ -437,7 +465,8 @@ class BaseService:
 
     @version_requires("6.0")
     def apply_context(self, context):
-        """Defines the settings that will be used to load DPF's plugins.
+        """Define the settings that will be used to load DPF's plugins.
+
         A DPF xml file can be used to list the plugins and set up variables.
 
         Parameters
@@ -463,7 +492,8 @@ class BaseService:
             )
 
     def initialize_with_context(self, context):
-        """Defines the settings that will be used to initialize DPF.
+        """Define the settings that will be used to initialize DPF.
+
         A DPF xml file can be used to list the plugins and set up variables.
 
         Parameters
@@ -491,9 +521,16 @@ class BaseService:
                 int(context.licensing_context_type), context.xml_path
             )
 
+    def initialize(self):
+        """Initialize a DPF server without a context."""
+        if self._server().has_client():
+            self._api.data_processing_initialization_on_client(self._server().client)
+        else:
+            self._api.data_processing_initialization()
+
     @version_requires("6.0")
     def release_dpf(self):
-        """Clears the available Operators and Releases licenses when necessary.
+        """Clear the available Operators and release licenses when necessary.
 
         Notes
         -----
@@ -506,6 +543,13 @@ class BaseService:
 
     @version_requires("4.0")
     def get_runtime_core_config(self):
+        """Determine runtime configuration.
+
+        Returns
+        -------
+        RuntimeCoreConfig
+            Runtime configuration options in DataProcessingCore
+        """
         if self._server().has_client():
             data_tree_tmp = self._api.data_processing_get_global_config_as_data_tree_on_client(
                 self._server().client
@@ -517,8 +561,7 @@ class BaseService:
 
     @property
     def server_info(self):
-        """Send the request for server information and keep
-        the info into a dictionary
+        """Send the request for server information and keep the info into a dictionary.
 
         Returns
         -------
@@ -573,7 +616,7 @@ class BaseService:
         return out
 
     def _description(self, dpf_entity_message):
-        """Ask the server to describe the entity in input
+        """Ask the server to describe the entity in input.
 
         Parameters
         ----------
@@ -591,7 +634,17 @@ class BaseService:
             server=self._server(),
         )
         data.get_ownership()
-        return self._api.data_processing_description_string(data=data)
+        try:
+            if server_meet_version("8.1", self._server()):
+                size = integral_types.MutableUInt64(0)
+                out = self._api.data_processing_description_string_with_size(data, size)
+                if out is not None and not isinstance(out, str):
+                    return out.decode("utf-8")
+            else:
+                return self._api.data_processing_description_string(data=data)
+        except Exception as e:
+            warnings.warn(str(e.args))
+            return ""
 
     def _get_separator(self, path):
         s1 = len(path.split("\\"))
@@ -605,7 +658,7 @@ class BaseService:
         return separator
 
     def download_file(self, server_file_path, to_client_file_path):
-        """Download a file from the server to the target client file path
+        """Download a file from the server to the target client file path.
 
         Parameters
         ----------
@@ -638,8 +691,7 @@ class BaseService:
     def download_files_in_folder(
         self, server_folder_path, to_client_folder_path, specific_extension=None
     ):
-        """Download all the files from a folder of the server
-        to the target client folder path
+        """Download all the files from a folder of the server to the target client folder path.
 
         Parameters
         ----------
@@ -692,8 +744,7 @@ class BaseService:
     def upload_files_in_folder(
         self, to_server_folder_path, client_folder_path, specific_extension=None
     ):
-        """Upload all the files from a folder of the client
-        to the target server folder path.
+        """Upload all the files from a folder of the client to the target server folder path.
 
         Parameters
         ----------
@@ -714,23 +765,24 @@ class BaseService:
         """
         server_paths = []
         for root, subdirectories, files in os.walk(client_folder_path):
+            root = Path(root)
             for subdirectory in subdirectories:
-                subdir = os.path.join(root, subdirectory)
-                for filename in os.listdir(subdir):
-                    f = os.path.join(subdir, filename)
+                subdir = root / subdirectory
+                for filename in subdir.iterdir():
+                    f = subdir / filename
                     server_paths = self._upload_and_get_server_path(
                         specific_extension,
-                        f,
-                        filename,
+                        str(f),
+                        filename.name,
                         server_paths,
                         str(to_server_folder_path),
                         subdirectory,
                     )
             for file in files:
-                f = os.path.join(root, file)
+                f = root / file
                 server_paths = self._upload_and_get_server_path(
                     specific_extension,
-                    f,
+                    str(f),
                     file,
                     server_paths,
                     str(to_server_folder_path),
@@ -773,7 +825,7 @@ class BaseService:
         return server_paths
 
     def upload_file(self, file_path, to_server_file_path):
-        """Upload a file from the client to the target server file path
+        """Upload a file from the client to the target server file path.
 
         Parameters
         ----------
@@ -788,7 +840,8 @@ class BaseService:
            server_file_path : str
                path generated server side
         """
-        if os.stat(file_path).st_size == 0:
+        file_path = Path(file_path)
+        if file_path.stat().st_size == 0:
             raise ValueError(file_path + " is empty")
         if not self._server().has_client():
             txt = """
@@ -803,8 +856,7 @@ class BaseService:
         )
 
     def upload_file_in_tmp_folder(self, file_path, new_file_name=None):
-        """Upload a file from the client to the server in a temporary folder
-        deleted when the server is shutdown
+        """Upload a file from the client to a temporary server folder deleted on shutdown.
 
         Parameters
         ----------
@@ -820,11 +872,12 @@ class BaseService:
            server_file_path : str
                path generated server side
         """
+        file_path = Path(file_path)
         if new_file_name:
             file_name = new_file_name
         else:
-            file_name = os.path.basename(file_path)
-        if os.stat(file_path).st_size == 0:
+            file_name = Path(file_path).name
+        if file_path.stat().st_size == 0:
             raise ValueError(file_path + " is empty")
         if not self._server().has_client():
             txt = """
@@ -845,7 +898,7 @@ class BaseService:
     # @version_requires("4.0")
     def _release_server(self):
         """
-        Release the reference taken by this client on the server
+        Release the reference taken by this client on the server.
 
         Notes
         -----

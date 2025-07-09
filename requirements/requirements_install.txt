@@ -1,5 +1,5 @@
-importlib-metadata==6.8.0
-numpy==1.25.2
-packaging==23.1
-psutil==5.9.5
-tqdm==4.66.1
+importlib-metadata==8.7.0
+numpy==2.2.4
+packaging==25.0
+psutil==7.0.0
+tqdm==4.67.1
