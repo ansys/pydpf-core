@@ -130,7 +130,7 @@ def generate_operator_doc(server, operator_name, include_private):
         return
     script_path = Path(__file__)
     root_dir = script_path.parent.parent
-    template_dir = Path(root_dir) / "doc" / "source" / "operators_doc"
+    template_dir = Path(root_dir) / "doc" / "source" / "operators_doc" / "operator-specifications"
     category_dir = Path(template_dir) / category
     if not category_dir.exists() and category is not None:
         category_dir.mkdir()
