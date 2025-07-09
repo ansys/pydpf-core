@@ -195,7 +195,13 @@ def main():
     for operator_name in operators:
         generate_operator_doc(server, operator_name, args.include_private)
 
-    docs_path = Path(__file__).parent.parent / "doc" / "source" / "operators_doc"
+    docs_path = (
+        Path(__file__).parent.parent
+        / "doc"
+        / "source"
+        / "operators_doc"
+        / "operator-specifications"
+    )
     print(docs_path)
     generate_toc_tree(docs_path)
 
