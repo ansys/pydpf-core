@@ -1,3 +1,25 @@
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """
 .. _plot_on_geometries:
 
@@ -14,16 +36,14 @@ objects such as points, lines and planes.
 # ~~~~~~~~~~~~~~~~~~~~~~
 # Import modules and set context as Premium.
 
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
 from ansys.dpf import core as dpf
-from ansys.dpf.core import examples
-from ansys.dpf.core import operators as ops
+from ansys.dpf.core import examples, operators as ops
+from ansys.dpf.core.fields_factory import field_from_array
 from ansys.dpf.core.geometry import Line, Plane, Points
 from ansys.dpf.core.plotter import DpfPlotter
-from ansys.dpf.core.fields_factory import field_from_array
-
 
 ###############################################################################
 # Load model from examples and print information:
@@ -61,7 +81,7 @@ points = Points(
 
 ###############################################################################
 # Show points together with the mesh
-points.plot(mesh, cpos=cpos)
+points.plot(mesh, cpos=cpos, point_size=15, color="blue")
 
 ###############################################################################
 # Create line passing through the geometry's diagonal:
@@ -69,7 +89,7 @@ line = Line([[0.03, 0.03, 0.05], [0.0, 0.06, 0.0]], n_points=50)
 
 ###############################################################################
 # Show line with the 3D mesh
-line.plot(mesh, cpos=cpos)
+line.plot(mesh, cpos=cpos, color="black")
 
 ###############################################################################
 # Create vertical plane passing through the mid point:
@@ -84,7 +104,7 @@ plane = Plane(
 
 ###############################################################################
 # Show plane with the 3D mesh
-plane.plot(mesh, cpos=cpos)
+plane.plot(mesh, cpos=cpos, color="red")
 
 ###############################################################################
 # Map displacement field to geometry objects

@@ -1,18 +1,40 @@
-"""
-PropertyField
-=============
-"""
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+"""PropertyField."""
 
 import numpy as np
-from ansys.dpf.core.common import natures, locations, _get_size_of_list
-from ansys.dpf.core import scoping, dimensionality
+
+from ansys.dpf.core import dimensionality, scoping
+from ansys.dpf.core.check_version import meets_version, version_requires
+from ansys.dpf.core.common import _get_size_of_list, locations, natures
 from ansys.dpf.core.field_base import _FieldBase, _LocalFieldBase
+from ansys.dpf.core.field_definition import FieldDefinition
 from ansys.dpf.gate import (
+    dpf_array,
+    dpf_vector,
     property_field_abstract_api,
     property_field_capi,
     property_field_grpcapi,
-    dpf_array,
-    dpf_vector,
 )
 
 
@@ -69,6 +91,7 @@ class PropertyField(_FieldBase):
             field=property_field,
             server=server,
         )
+        self._field_definition_instance = None
 
     @property
     def _api(self) -> property_field_abstract_api.PropertyFieldAbstractAPI:
@@ -78,6 +101,12 @@ class PropertyField(_FieldBase):
                 grpcapi=property_field_grpcapi.PropertyFieldGRPCAPI,
             )
         return self._api_instance
+
+    @property
+    def _field_definition(self):
+        if self._field_definition_instance is None and meets_version(self._server.version, "8.1"):
+            self._field_definition_instance = self._load_field_definition()
+        return self._field_definition_instance
 
     def _init_api_env(self):
         self._api.init_property_field_environment(self)
@@ -100,6 +129,13 @@ class PropertyField(_FieldBase):
             )
         else:
             return api.csproperty_field_new(nentities, nentities * dim.component_count)
+
+    @version_requires("8.1")
+    def _load_field_definition(self):
+        """Attempt to load the field definition for this field."""
+        # try:
+        out = self._api.csproperty_field_get_shared_field_definition(self)
+        return FieldDefinition(out, self._server)
 
     @property
     def location(self):
@@ -163,14 +199,17 @@ class PropertyField(_FieldBase):
 
     @property
     def component_count(self):
+        """Return the number of components."""
         return self._api.csproperty_field_elementary_data_size(self)
 
     @property
     def elementary_data_count(self):
+        """Return the number of elementary data."""
         return self._api.csproperty_field_get_number_elementary_data(self)
 
     @property
     def size(self):
+        """Return the data size."""
         return self._api.csproperty_field_get_data_size(self)
 
     def _set_scoping(self, scoping):
@@ -182,8 +221,9 @@ class PropertyField(_FieldBase):
         )
 
     def get_entity_data(self, index):
+        """Return the data associated with the entity by index."""
         try:
-            vec = dpf_vector.DPFVectorInt(client=self._server.client)
+            vec = dpf_vector.DPFVectorInt(owner=self)
             self._api.csproperty_field_get_entity_data_for_dpf_vector(
                 self, vec, vec.internal_data, vec.internal_size, index
             )
@@ -197,8 +237,9 @@ class PropertyField(_FieldBase):
         return data
 
     def get_entity_data_by_id(self, id):
+        """Return the data associated with entity by id."""
         try:
-            vec = dpf_vector.DPFVectorInt(client=self._server.client)
+            vec = dpf_vector.DPFVectorInt(owner=self)
             self._api.csproperty_field_get_entity_data_by_id_for_dpf_vector(
                 self, vec, vec.internal_data, vec.internal_size, id
             )
@@ -214,11 +255,16 @@ class PropertyField(_FieldBase):
         return data
 
     def append(self, data, scopingid):
+        """
+        Append data to the property field.
+
+        This method appends data to the property field for a specific scoping ID.
+        """
         self._api.csproperty_field_push_back(self, scopingid, _get_size_of_list(data), data)
 
     def _get_data_pointer(self):
         try:
-            vec = dpf_vector.DPFVectorInt(client=self._server.client)
+            vec = dpf_vector.DPFVectorInt(owner=self)
             self._api.csproperty_field_get_data_pointer_for_dpf_vector(
                 self, vec, vec.internal_data, vec.internal_size
             )
@@ -232,7 +278,7 @@ class PropertyField(_FieldBase):
 
     def _get_data(self, np_array=True):
         try:
-            vec = dpf_vector.DPFVectorInt(client=self._server.client)
+            vec = dpf_vector.DPFVectorInt(owner=self)
             self._api.csproperty_field_get_data_for_dpf_vector(
                 self, vec, vec.internal_data, vec.internal_size
             )
@@ -298,6 +344,35 @@ class PropertyField(_FieldBase):
 
         """
         return _LocalPropertyField(self)
+
+    @property
+    @version_requires("8.1")
+    def name(self):
+        """Name of the property field.
+
+        ..note:
+            Available starting with DPF 2024.2.pre1.
+        """
+        if self._field_definition:
+            return self._field_definition.name
+
+    @name.setter
+    @version_requires("8.1")
+    def name(self, value):
+        """Change the name of the property field.
+
+        Parameters
+        ----------
+        value : str
+            Name of the property field.
+
+        ..note:
+            Available starting with DPF 2024.2.pre1.
+        """
+        if self._field_definition:
+            self._field_definition._api.csfield_definition_set_name(
+                self._field_definition, name=value
+            )
 
 
 class _LocalPropertyField(_LocalFieldBase, PropertyField):

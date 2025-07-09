@@ -1,12 +1,38 @@
-"""Module containing the different geometry objects."""
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+"""
+Geometry.
+
+Module containing the different geometry objects.
+
+"""
+
+import numpy as np
 
 from ansys.dpf import core as dpf
-
 from ansys.dpf.core import Field
 from ansys.dpf.core.fields_factory import field_from_array
 from ansys.dpf.core.plotter import DpfPlotter
-
-import numpy as np
 
 
 def normalize_vector(vector):
@@ -54,9 +80,11 @@ class Points:
         self._server = server
 
     def __getitem__(self, value):
+        """Retrieve coordinates data corresponding to a given value."""
         return self.coordinates.data[value]
 
     def __len__(self):
+        """Retrieve the number of points."""
         return self.n_points
 
     def __str__(self):
@@ -87,7 +115,7 @@ class Points:
         """Visualize Points object. If provided, ``mesh`` will be also plotted."""
         cpos = kwargs.pop("cpos", None)
         pl = DpfPlotter(**kwargs)
-        pl.add_points(self._coordinates.data, render_points_as_spheres=True, point_size=10)
+        pl.add_points(self._coordinates.data, render_points_as_spheres=True, **kwargs)
         if mesh:
             pl.add_mesh(mesh, style="surface", show_edges=True, color="w", opacity=0.3)
         pl.show_figure(show_axes=True, cpos=cpos)
@@ -126,7 +154,7 @@ class Line:
     def __init__(self, coordinates, n_points=100, server=None):
         """Initialize line object from two 3D points and discretize."""
         if not isinstance(coordinates, Field):
-            coordinates = np.asarray(coordinates, dtype=np.number)
+            coordinates = np.asarray(coordinates, dtype=np.float64)
             coordinates = field_from_array(coordinates)
         if not len(coordinates.data) == 2:
             raise ValueError("Only two points must be introduced to define a line")
@@ -218,7 +246,7 @@ class Line:
 
         # Plot line object
         pl = DpfPlotter(**kwargs)
-        pl.add_line(self._coordinates.data, width=5)
+        pl.add_line(self._coordinates.data, **kwargs)
         if mesh:
             pl.add_mesh(mesh, style="surface", show_edges=True, color="w", opacity=0.3)
         pl.show_figure(show_axes=True, cpos=cpos)
@@ -358,7 +386,6 @@ class Plane:
 
     def _discretize(self):
         """Discretize plane with a certain size and number of cells per direction."""
-
         # Get plane axis (local) from reference axis (global) and plane's normal
         self._axes_plane = get_plane_local_axis(self._normal_dir)
 
@@ -401,7 +428,7 @@ class Plane:
         self._mesh = mesh
 
     def _get_direction_from_vect(self, vect):
-        """Normal direction to the plane."""
+        """Get normal direction to the plane."""
         direction = [x - y for x, y in zip(vect[1], vect[0])]
         return normalize_vector(direction)
 
@@ -421,13 +448,14 @@ class Plane:
 
         # Plot plane object
         pl = DpfPlotter(**kwargs)
-        pl.add_plane(self)
+        pl.add_plane(self, **kwargs)
         if mesh:
             pl.add_mesh(mesh, style="surface", show_edges=True, color="w", opacity=0.3)
         pl.show_figure(show_axes=True, cpos=cpos)
 
 
 def get_plane_local_axis(normal_dir):
+    """Determine local axis of the plane."""
     axis_ref = [np.array([1, 0, 0]), np.array([0, 1, 0]), np.array([0, 0, 1])]
     if np.allclose(abs(normal_dir), [1.0, 0.0, 0.0]):
         plane_x = np.cross(axis_ref[1], normal_dir)
@@ -444,8 +472,10 @@ def get_plane_local_axis(normal_dir):
 
 
 def get_global_coords_from_local(local_coords, axes_plane, center):
+    """Determine global coordinates from local coordinates."""
     return np.dot(local_coords, axes_plane) + center
 
 
 def get_local_coords_from_global(global_coords, axes_plane, center):
+    """Determine local coordinates from global coordinates."""
     return np.dot(axes_plane, (global_coords - np.array(center)))

@@ -1,3 +1,25 @@
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """
 .. _ref_multi_stage_cyclic_advanced:
 
@@ -8,9 +30,9 @@ This example shows how to expand on selected sectors the mesh and results
 from a multi-stage cyclic analysis. It also shows how to use the cyclic support
 for advanced postprocessing
 """
+
 from ansys.dpf import core as dpf
-from ansys.dpf.core import examples
-from ansys.dpf.core import operators as ops
+from ansys.dpf.core import examples, operators as ops
 
 ###############################################################################
 # Create the model and display the state of the result.
@@ -42,10 +64,11 @@ print(
 
 
 # Create displacement cyclic operator
-UCyc = dpf.operators.result.cyclic_expanded_displacement()
+UCyc = dpf.operators.result.displacement()
 UCyc.inputs.data_sources(model.metadata.data_sources)
 # Select the sectors to expand on the first stage
 UCyc.inputs.sectors_to_expand([0, 1, 2])
+UCyc.inputs.read_cyclic(2)
 # Or select the sectors to expand stage by stage
 sectors_scopings = dpf.ScopingsContainer()
 sectors_scopings.labels = ["stage"]

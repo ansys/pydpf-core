@@ -27,10 +27,28 @@ class ExternalOperatorCAPI(external_operator_abstract_api.ExternalOperatorAbstra
 		return res
 
 	@staticmethod
+	def external_operator_record_with_derivative(operator_main, func, operator_deriv, deriv_callback, operator_identifier, spec):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.ExternalOperator_record_with_derivative(utils.to_void_ptr(operator_main), func, utils.to_void_ptr(operator_deriv), deriv_callback, utils.to_char_ptr(operator_identifier), spec._internal_obj if spec is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def external_operator_record_with_abstract_core(operator_main, func, operator_identifier, spec, core):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.ExternalOperator_recordWithAbstractCore(utils.to_void_ptr(operator_main), func, utils.to_char_ptr(operator_identifier), spec._internal_obj if spec is not None else None, core, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def external_operator_record_with_abstract_core_with_derivative(operator_main, func, operator_deriv, deriv_callback, operator_identifier, spec, core):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.ExternalOperator_recordWithAbstractCore_with_derivative(utils.to_void_ptr(operator_main), func, utils.to_void_ptr(operator_deriv), deriv_callback, utils.to_char_ptr(operator_identifier), spec._internal_obj if spec is not None else None, core, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res
@@ -45,10 +63,28 @@ class ExternalOperatorCAPI(external_operator_abstract_api.ExternalOperatorAbstra
 		return res
 
 	@staticmethod
+	def external_operator_record_internal_with_abstract_core_with_derivative(operator_main, func, operator_deriv, deriv_callback, operator_identifier, spec, core, policy):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.ExternalOperator_recordInternalWithAbstractCore_with_derivative(utils.to_void_ptr(operator_main), func, utils.to_void_ptr(operator_deriv), deriv_callback, utils.to_char_ptr(operator_identifier), spec._internal_obj if spec is not None else None, core, policy, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def external_operator_record_with_abstract_core_and_wrapper(operator_main, func, operator_identifier, spec, core, wrapper):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.ExternalOperator_recordWithAbstractCoreAndWrapper(utils.to_void_ptr(operator_main), func, utils.to_char_ptr(operator_identifier), spec._internal_obj if spec is not None else None, core, wrapper, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def external_operator_record_with_abstract_core_and_wrapper_with_derivative(operator_main, func, operator_deriv, deriv_callback, operator_identifier, spec, core, wrapper):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.ExternalOperator_recordWithAbstractCoreAndWrapper_with_derivative(utils.to_void_ptr(operator_main), func, utils.to_void_ptr(operator_deriv), deriv_callback, utils.to_char_ptr(operator_identifier), spec._internal_obj if spec is not None else None, core, wrapper, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res
@@ -672,6 +708,69 @@ class ExternalOperatorCAPI(external_operator_abstract_api.ExternalOperatorAbstra
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.ExternalOperator_getOperatorConfig(operator_data, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def external_operator_get_derivative_of_input(deriv_data, input_pin, out_pin):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.ExternalOperator_getDerivativeOfInput(deriv_data, utils.to_int32(input_pin), utils.to_int32_ptr(out_pin), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def external_operator_forward_input(deriv_data, input_pin_from_base, input_pin_from_op, op):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.ExternalOperator_forwardInput(deriv_data, utils.to_int32(input_pin_from_base), utils.to_int32(input_pin_from_op), op._internal_obj if op is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def external_operator_set_derivative(deriv_data, derivative):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.ExternalOperator_setDerivative(deriv_data, derivative._internal_obj if derivative is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def external_operator_forward_output(deriv_data, output_pin_from_base, input_pin_from_op, op):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.ExternalOperator_forwardOutput(deriv_data, utils.to_int32(output_pin_from_base), utils.to_int32(input_pin_from_op), op._internal_obj if op is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def external_operator_assert_instantiate(deriv_data, op_name):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.ExternalOperator_assertInstantiate(deriv_data, utils.to_char_ptr(op_name), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def external_operator_connect_to_upstream_derivative(deriv_data, current_op, out_pin, ancestor_pin):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.ExternalOperator_connectToUpstreamDerivative(deriv_data, current_op._internal_obj if current_op is not None else None, utils.to_int32(out_pin), utils.to_int32(ancestor_pin), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def external_operator_map_down_stream_derivative(deriv_data, in_pin, current_op):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.ExternalOperator_mapDownStreamDerivative(deriv_data, utils.to_int32(in_pin), current_op._internal_obj if current_op is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res

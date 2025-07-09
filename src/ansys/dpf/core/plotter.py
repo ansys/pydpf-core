@@ -1,6 +1,28 @@
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """
-Plotter
-=======
+Plotter.
+
 This module contains the DPF plotter class.
 
 Contains classes used to plot a mesh and a fields container using PyVista.
@@ -8,28 +30,30 @@ Contains classes used to plot a mesh and a fields container using PyVista.
 
 from __future__ import annotations
 
-import tempfile
-import os
+from pathlib import Path
 import sys
-import numpy as np
-import warnings
+import tempfile
 from typing import TYPE_CHECKING, List, Union
+import warnings
+
+import numpy as np
 
 from ansys import dpf
 from ansys.dpf import core
-from ansys.dpf.core.common import locations, DefinitionLabels
-from ansys.dpf.core.common import shell_layers as eshell_layers
-from ansys.dpf.core.helpers.streamlines import _sort_supported_kwargs
 from ansys.dpf.core import errors as dpf_errors
+from ansys.dpf.core.common import DefinitionLabels, locations, shell_layers as eshell_layers
+from ansys.dpf.core.helpers.streamlines import _sort_supported_kwargs
 from ansys.dpf.core.nodes import Node, Nodes
 
 if TYPE_CHECKING:  # pragma: no cover
+    from ansys.dpf.core import Operator, Result
+    from ansys.dpf.core.field import Field
+    from ansys.dpf.core.fields_container import FieldsContainer
     from ansys.dpf.core.meshed_region import MeshedRegion
 
 
 class _InternalPlotterFactory:
-    """
-    Factory for _InternalPlotter based on the backend."""
+    """Factory for _InternalPlotter based on the backend."""
 
     @staticmethod
     def get_plotter_class():
@@ -52,6 +76,8 @@ class _PyVistaPlotter:
         kwargs_in = _sort_supported_kwargs(bound_method=pv.Plotter.__init__, **kwargs)
         # Initiate pyvista Plotter
         self._plotter = pv.Plotter(**kwargs_in)
+        if kwargs.pop("parallel_projection", False):
+            self._plotter.parallel_projection = True
 
     def add_scale_factor_legend(self, scale_factor, **kwargs):
         kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.add_text, **kwargs)
@@ -100,7 +126,6 @@ class _PyVistaPlotter:
         self._plotter.add_mesh(plane_plot, **kwargs)
 
     def add_mesh(self, meshed_region, deform_by=None, scale_factor=1.0, as_linear=True, **kwargs):
-
         kwargs = self._set_scalar_bar_title(kwargs)
 
         # Set defaults for PyDPF
@@ -122,6 +147,7 @@ class _PyVistaPlotter:
                 grid = meshed_region._as_vtk(
                     meshed_region.nodes.coordinates_field, as_linear=as_linear
                 )
+                meshed_region._full_grid = grid
                 meshed_region.as_linear = as_linear
             else:
                 grid = meshed_region.grid
@@ -163,13 +189,22 @@ class _PyVistaPlotter:
 
         # Filter kwargs
         kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.add_point_labels, **kwargs)
-        import pyvista as pv
-
         # The scalar data used will be the one of the last field added.
         from packaging.version import parse
+        import pyvista as pv
 
         active_scalars = None
-        if parse(pv.__version__) >= parse("0.35.2"):
+        if parse(pv.__version__) >= parse("0.42.0"):
+            # Get actors of active renderer
+            actors = list(self._plotter.actors.values())
+            for actor in actors:
+                mapper = actor.mapper if hasattr(actor, "mapper") else None
+                if mapper:
+                    dataset = mapper.dataset
+                    if type(dataset) is pv.core.pointset.UnstructuredGrid:
+                        active_scalars = dataset.active_scalars
+                        break
+        elif parse(pv.__version__) >= parse("0.35.2"):
             for data_set in self._plotter._datasets:
                 if type(data_set) is pv.core.pointset.UnstructuredGrid:
                     active_scalars = data_set.active_scalars
@@ -199,6 +234,37 @@ class _PyVistaPlotter:
                 )
         return label_actors
 
+    def add_scoping(
+        self,
+        scoping: dpf.core.Scoping,
+        mesh: dpf.core.MeshedRegion,
+        show_mesh: bool = False,
+        **kwargs,
+    ):
+        # Add the mesh to the scene with low opacity
+        if show_mesh:
+            self._plotter.add_mesh(mesh=mesh.grid, opacity=0.3)
+
+        scoping_mesh = None
+
+        # If the scoping is nodal, use the add_points_label method
+        if scoping.location == locations.nodal:
+            node_indexes = np.where(np.isin(mesh.nodes.scoping.ids, scoping.ids))[0]
+            # grid_points = [mesh.grid.points[node_index] for node_index in node_indexes]
+            scoping_mesh = mesh.grid.extract_points(ind=node_indexes, include_cells=False)
+        # If the scoping is elemental, extract their edges and use active scalars to color them
+        if scoping.location == locations.elemental:
+            element_indexes = np.where(np.isin(mesh.elements.scoping.ids, scoping.ids))[0]
+            scoping_mesh = mesh.grid.extract_cells(ind=element_indexes)
+
+        # If the scoping is faces, extract their edges and use active scalars to color them
+        if scoping.location == locations.faces:
+            raise NotImplementedError("Cannot plot a face scoping.")
+
+        # Filter kwargs
+        kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.add_mesh, **kwargs)
+        self._plotter.add_mesh(mesh=scoping_mesh, **kwargs_in)
+
     def add_field(
         self,
         field,
@@ -211,6 +277,7 @@ class _PyVistaPlotter:
         scale_factor=1.0,
         scale_factor_legend=None,
         as_linear=True,
+        shell_layer=eshell_layers.top,
         **kwargs,
     ):
         # Get the field name
@@ -251,15 +318,49 @@ class _PyVistaPlotter:
                 show_min = False
         elif location == locations.overall:
             mesh_location = meshed_region.elements
+        elif location == locations.elemental_nodal:
+            mesh_location = meshed_region.elements
+            # If ElementalNodal, first extend results to mid-nodes
+            field = dpf.core.operators.averaging.extend_to_mid_nodes(field=field).eval()
         else:
-            raise ValueError("Only elemental, nodal or faces location are supported for plotting.")
+            raise ValueError(
+                "Only elemental, elemental nodal, nodal, faces, or overall location are supported for plotting."
+            )
+
+        # Treat multilayered shells
+        if not isinstance(shell_layer, eshell_layers):
+            raise TypeError("shell_layer attribute must be a core.shell_layers instance.")
+        if field.shell_layers in [
+            eshell_layers.topbottom,
+            eshell_layers.topbottommid,
+        ]:
+            change_shell_layer_op = core.operators.utility.change_shell_layers(
+                fields_container=field,
+                e_shell_layer=shell_layer,
+            )
+            field = change_shell_layer_op.get_output(0, core.types.field)
+
+        location_data_len = meshed_region.location_data_len(location)
         component_count = field.component_count
         if component_count > 1:
-            overall_data = np.full((len(mesh_location), component_count), np.nan)
+            overall_data = np.full((location_data_len, component_count), np.nan)
         else:
-            overall_data = np.full(len(mesh_location), np.nan)
+            overall_data = np.full(location_data_len, np.nan)
         if location != locations.overall:
             ind, mask = mesh_location.map_scoping(field.scoping)
+
+            # Rework ind and mask to take into account n_nodes per element if ElementalNodal
+            if location == locations.elemental_nodal:
+                n_nodes_list = meshed_region.get_elemental_nodal_size_list().astype(np.int32)
+                first_index = np.insert(np.cumsum(n_nodes_list)[:-1], 0, 0).astype(np.int32)
+                mask_2 = np.asarray(
+                    [mask_i for i, mask_i in enumerate(mask) for _ in range(n_nodes_list[ind[i]])]
+                )
+                ind_2 = np.asarray(
+                    [first_index[ind_i] + j for ind_i in ind for j in range(n_nodes_list[ind_i])]
+                )
+                mask = mask_2
+                ind = ind_2
             overall_data[ind] = field.data[mask]
         else:
             overall_data[:] = field.data[0]
@@ -268,12 +369,22 @@ class _PyVistaPlotter:
         # Have to remove any active scalar field from the pre-existing grid object,
         # otherwise we get two scalar bars when calling several plot_contour on the same mesh
         # but not for the same field. The PyVista UnstructuredGrid keeps memory of it.
-        if not deform_by:
-            grid = meshed_region.grid
-        else:
+        if location == locations.elemental_nodal:
+            as_linear = False
+        if deform_by:
             grid = meshed_region._as_vtk(
-                meshed_region.deform_by(deform_by, scale_factor), as_linear
+                meshed_region.deform_by(deform_by, scale_factor), as_linear=as_linear
             )
+        else:
+            if as_linear != meshed_region.as_linear:
+                grid = meshed_region._as_vtk(
+                    meshed_region.nodes.coordinates_field, as_linear=as_linear
+                )
+                meshed_region.as_linear = as_linear
+            else:
+                grid = meshed_region.grid
+        if location == locations.elemental_nodal:
+            grid = grid.shrink(1.0)
         grid.set_active_scalars(None)
         self._plotter.add_mesh(grid, scalars=overall_data, **kwargs_in)
 
@@ -335,7 +446,6 @@ class _PyVistaPlotter:
             self._plotter.add_mesh(src, **kwargs_in)
 
     def show_figure(self, **kwargs):
-
         text = kwargs.pop("text", None)
         if text is not None:
             self._plotter.add_text(text, position="lower_edge")
@@ -356,7 +466,7 @@ class _PyVistaPlotter:
 
         # Show depending on return_cpos option
         kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.show, **kwargs)
-        return self._plotter.show(**kwargs_in)
+        return self._plotter.show(**kwargs_in), self._plotter
 
     @staticmethod
     def _set_scalar_bar_title(kwargs):
@@ -370,8 +480,7 @@ class _PyVistaPlotter:
 
 
 class DpfPlotter:
-    """DpfPlotter class. Can be used in order to plot
-    results over a mesh.
+    """DpfPlotter class. Can be used in order to plot results over a mesh.
 
     The current DpfPlotter is a PyVista based object.
 
@@ -414,7 +523,7 @@ class DpfPlotter:
         """Return a list of labels.
 
         Returns
-        --------
+        -------
         list
             List of Label(s). Each list member or member group
             will share same properties.
@@ -451,12 +560,15 @@ class DpfPlotter:
         )
 
     def add_points(self, points, field=None, **kwargs):
+        """Add points to the plot."""
         self._internal_plotter.add_points(points, field, **kwargs)
 
     def add_line(self, points, field=None, **kwargs):
+        """Add lines to the plot."""
         self._internal_plotter.add_line(points, field, **kwargs)
 
     def add_plane(self, plane, field=None, **kwargs):
+        """Add a plane to the plot."""
         self._internal_plotter.add_plane(plane, field, **kwargs)
 
     def add_mesh(self, meshed_region, deform_by=None, scale_factor=1.0, **kwargs):
@@ -580,6 +692,7 @@ class DpfPlotter:
         label_point_size=20,
         deform_by=None,
         scale_factor=1.0,
+        shell_layer=eshell_layers.top,
         **kwargs,
     ):
         """Add a field containing data to the plotter.
@@ -604,6 +717,9 @@ class DpfPlotter:
             Defaults to None.
         scale_factor : float, optional
             Scaling factor to apply when warping the mesh. Defaults to 1.0.
+        shell_layer: core.shell_layers, optional
+            Enum used to set the shell layer if the field to plot
+            contains shell elements. Defaults to top layer.
         **kwargs : optional
             Additional keyword arguments for the plotter. More information
             are available at :func:`pyvista.plot`.
@@ -630,7 +746,57 @@ class DpfPlotter:
             deform_by=deform_by,
             scale_factor=scale_factor,
             as_linear=True,
+            shell_layer=shell_layer,
             **kwargs,
+        )
+
+    def add_scoping(
+        self,
+        scoping: dpf.core.Scoping,
+        mesh: dpf.core.MeshedRegion,
+        show_mesh: bool = False,
+        **kwargs,
+    ):
+        """Add a scoping to the plotter.
+
+        A mesh is required to translate the scoping into entities to plot.
+        Tou can plot the mesh along with the scoping entities using ``show_mesh``.
+
+        Parameters
+        ----------
+        scoping:
+            Scoping with a mesh-based location and IDs of entities to plot.
+        mesh:
+            ``MeshedRegion`` to plot the field on.
+        show_mesh:
+            Whether to show the mesh along with the scoping entities.
+        **kwargs : optional
+            Additional keyword arguments for the plotter. More information
+            are available at :func:`pyvista.plot`.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.download_cfx_mixing_elbow())
+        >>> mesh = model.metadata.meshed_region
+        >>> node_scoping = dpf.Scoping(
+        ...    location=dpf.locations.nodal,
+        ...    ids=mesh.nodes.scoping.ids[0:100]
+        ...)
+        >>> element_scoping = dpf.Scoping(
+        ...    location=dpf.locations.elemental,
+        ...    ids=mesh.elements.scoping.ids[0:100]
+        ...)
+        >>> from ansys.dpf.core.plotter import DpfPlotter
+        >>> plt = DpfPlotter()
+        >>> plt.add_scoping(node_scoping, mesh, show_mesh=True, color="red")
+        >>> plt.add_scoping(element_scoping, mesh, color="green")
+        >>> plt.show_figure()
+
+        """
+        self._internal_plotter.add_scoping(
+            scoping=scoping, mesh=mesh, show_mesh=show_mesh, **kwargs
         )
 
     def show_figure(self, **kwargs):
@@ -808,31 +974,32 @@ class Plotter:
 
     def plot_contour(
         self,
-        field_or_fields_container,
-        shell_layers=None,
-        meshed_region=None,
-        deform_by=None,
-        scale_factor=1.0,
+        field_or_fields_container: Union[Field, FieldsContainer],
+        shell_layers: eshell_layers = None,
+        meshed_region: MeshedRegion = None,
+        deform_by: Union[Field, Result, Operator] = None,
+        scale_factor: float = 1.0,
         **kwargs,
     ):
         """Plot the contour result on its mesh support.
 
         You cannot plot a fields container containing results at several
-        time steps.
+        time steps. Use :func:`FieldsContainer.animate` instead.
 
         Parameters
         ----------
-        field_or_fields_container : dpf.core.Field or dpf.core.FieldsContainer
+        field_or_fields_container:
             Field or field container that contains the result to plot.
-        shell_layers : core.shell_layers, optional
+        shell_layers:
             Enum used to set the shell layers if the model to plot
-            contains shell elements.
-        deform_by : Field, Result, Operator, optional
+            contains shell elements. Defaults to the top layer.
+        meshed_region:
+            Mesh to plot the data on.
+        deform_by:
             Used to deform the plotted mesh. Must output a 3D vector field.
-            Defaults to None.
-        scale_factor : float, optional
-            Scaling factor to apply when warping the mesh. Defaults to 1.0.
-        **kwargs : optional
+        scale_factor:
+            Scaling factor to apply when warping the mesh.
+        **kwargs:
             Additional keyword arguments for the plotter. For more information,
             see ``help(pyvista.plot)``.
         """
@@ -840,15 +1007,14 @@ class Plotter:
             import warnings
 
             warnings.simplefilter("ignore")
-
         if isinstance(field_or_fields_container, (dpf.core.Field, dpf.core.FieldsContainer)):
             fields_container = None
             if isinstance(field_or_fields_container, dpf.core.Field):
                 fields_container = dpf.core.FieldsContainer(
                     server=field_or_fields_container._server
                 )
-                fields_container.add_label(DefinitionLabels.time)
-                fields_container.add_field({DefinitionLabels.time: 1}, field_or_fields_container)
+                fields_container.add_label("id")
+                fields_container.add_field({"id": 1}, field_or_fields_container)
             elif isinstance(field_or_fields_container, dpf.core.FieldsContainer):
                 fields_container = field_or_fields_container
         else:
@@ -869,6 +1035,8 @@ class Plotter:
             mesh = meshed_region
         else:
             mesh = self._mesh
+        if mesh.is_empty():
+            raise dpf_errors.EmptyMeshPlottingError
 
         # get mesh scoping
         location = None
@@ -884,43 +1052,96 @@ class Plotter:
                 unit = field.unit
                 break
 
+        # If ElementalNodal, first extend results to mid-nodes
+        if location == locations.elemental_nodal:
+            fields_container = dpf.core.operators.averaging.extend_to_mid_nodes_fc(
+                fields_container=fields_container
+            ).eval()
+
+        location_data_len = mesh.location_data_len(location)
         if location == locations.nodal:
             mesh_location = mesh.nodes
         elif location == locations.elemental:
             mesh_location = mesh.elements
         elif location == locations.faces:
             mesh_location = mesh.faces
+        elif location == locations.elemental_nodal:
+            mesh_location = mesh.elements
         else:
-            raise ValueError("Only elemental, nodal or faces location are supported for plotting.")
+            raise ValueError(
+                "Only elemental, elemental nodal, nodal or faces location are supported for plotting."
+            )
 
         # pre-loop: check if shell layers for each field, if yes, set the shell layers
-        changeOp = core.Operator("change_shellLayers")
-        for field in fields_container:
-            shell_layer_check = field.shell_layers
-            if shell_layer_check in [
-                eshell_layers.topbottom,
-                eshell_layers.topbottommid,
-            ]:
-                changeOp.inputs.fields_container.connect(fields_container)
-                sl = eshell_layers.top
-                if shell_layers is not None:
-                    if not isinstance(shell_layers, eshell_layers):
-                        raise TypeError(
-                            "shell_layer attribute must be a core.shell_layers instance."
-                        )
-                    sl = shell_layers
-                changeOp.inputs.e_shell_layer.connect(sl.value)  # top layers taken
-                fields_container = changeOp.get_output(0, core.types.fields_container)
-                break
+        changeOp = core.operators.utility.change_shell_layers()
+        if location == locations.elemental_nodal:
+            # change_shell_layers does not support elemental_nodal when given a fields_container
+            new_fields_container = dpf.core.FieldsContainer()
+            for l in fields_container.labels:
+                new_fields_container.add_label(l)
+            for i, field in enumerate(fields_container):
+                label_space_i = fields_container.get_label_space(i)
+                shell_layer_check = field.shell_layers
+                if shell_layer_check in [
+                    eshell_layers.topbottom,
+                    eshell_layers.topbottommid,
+                ]:
+                    changeOp.inputs.fields_container.connect(field)
+                    changeOp.inputs.merge.connect(True)
+                    sl = eshell_layers.top
+                    if shell_layers is not None:
+                        if not isinstance(shell_layers, eshell_layers):
+                            raise TypeError(
+                                "shell_layer attribute must be a core.shell_layers instance."
+                            )
+                        sl = shell_layers
+                    changeOp.inputs.e_shell_layer.connect(sl.value)  # top layers taken
+                    field = changeOp.get_output(0, core.types.field)
+                new_fields_container.add_field(label_space=label_space_i, field=field)
+            fields_container = new_fields_container
+        else:
+            for field in fields_container:
+                shell_layer_check = field.shell_layers
+                if shell_layer_check in [
+                    eshell_layers.topbottom,
+                    eshell_layers.topbottommid,
+                ]:
+                    changeOp.inputs.fields_container.connect(fields_container)
+                    sl = eshell_layers.top
+                    if shell_layers is not None:
+                        if not isinstance(shell_layers, eshell_layers):
+                            raise TypeError(
+                                "shell_layer attribute must be a core.shell_layers instance."
+                            )
+                        sl = shell_layers
+                    changeOp.inputs.e_shell_layer.connect(sl.value)  # top layers taken
+                    fields_container = changeOp.get_output(0, core.types.fields_container)
+                    break
 
         # Merge field data into a single array
         if component_count > 1:
-            overall_data = np.full((len(mesh_location), component_count), np.nan)
+            overall_data = np.full((location_data_len, component_count), np.nan)
         else:
-            overall_data = np.full(len(mesh_location), np.nan)
+            overall_data = np.full(location_data_len, np.nan)
+
+        # field._data_pointer gives the first index of each entity data
+        # (should be of size nb_elements)
 
         for field in fields_container:
             ind, mask = mesh_location.map_scoping(field.scoping)
+            if location == locations.elemental_nodal:
+                # Rework ind and mask to take into account n_nodes per element
+                # entity_index_map = field._data_pointer
+                n_nodes_list = mesh.get_elemental_nodal_size_list().astype(np.int32)
+                first_index = np.insert(np.cumsum(n_nodes_list)[:-1], 0, 0).astype(np.int32)
+                mask_2 = np.asarray(
+                    [mask_i for i, mask_i in enumerate(mask) for _ in range(n_nodes_list[ind[i]])]
+                )
+                ind_2 = np.asarray(
+                    [first_index[ind_i] + j for ind_i in ind for j in range(n_nodes_list[ind_i])]
+                )
+                mask = mask_2
+                ind = ind_2
             overall_data[ind] = field.data[mask]
 
         # create the plotter and add the meshes
@@ -949,15 +1170,20 @@ class Plotter:
             bound_method=self._internal_plotter._plotter.add_mesh, **kwargs
         )
         as_linear = True
+        if location == locations.elemental_nodal:
+            as_linear = False
         if deform_by:
             grid = mesh._as_vtk(mesh.deform_by(deform_by, scale_factor), as_linear=as_linear)
             self._internal_plotter.add_scale_factor_legend(scale_factor, **kwargs)
         else:
             if as_linear != mesh.as_linear:
                 grid = mesh._as_vtk(mesh.nodes.coordinates_field, as_linear=as_linear)
+                mesh._full_grid = grid
                 mesh.as_linear = as_linear
             else:
                 grid = mesh.grid
+        if location == locations.elemental_nodal:
+            grid = grid.shrink(1.0)
         grid.clear_data()
         self._internal_plotter._plotter.add_mesh(grid, scalars=overall_data, **kwargs_in)
 
@@ -973,7 +1199,7 @@ class Plotter:
         kwargs_in = _sort_supported_kwargs(
             bound_method=self._internal_plotter._plotter.show, **kwargs
         )
-        return self._internal_plotter._plotter.show(**kwargs_in)
+        return self._internal_plotter._plotter.show(**kwargs_in), self._internal_plotter._plotter
 
     def _plot_contour_using_vtk_file(self, fields_container, notebook=None):
         """Plot the contour result on its mesh support.
@@ -997,7 +1223,7 @@ class Plotter:
         # mesh_provider.inputs.data_sources.connect(self._evaluator._model.metadata.data_sources)
 
         # create a temporary file at the default temp directory
-        path = os.path.join(tempfile.gettempdir(), "dpf_temp_hokflb2j9s.vtk")
+        path = Path(tempfile.gettempdir()) / "dpf_temp_hokflb2j9s.vtk"
 
         vtk_export = dpf.core.Operator("vtk_export")
         vtk_export.inputs.mesh.connect(self._mesh)
@@ -1006,8 +1232,8 @@ class Plotter:
         vtk_export.run()
         grid = pv.read(path)
 
-        if os.path.exists(path):
-            os.remove(path)
+        if path.exists():
+            path.unlink()
 
         names = grid.array_names
         field_name = fields_container[0].name
@@ -1015,6 +1241,6 @@ class Plotter:
             if field_name in n:
                 field_name = n  # default: will plot the last time_step
         val = grid.get_array(field_name)
-        plotter.add_mesh(grid, scalars=val, stitle=field_name, show_edges=True)
+        plotter.add_mesh(grid, scalars=val, scalar_bar_args={"title": field_name}, show_edges=True)
         plotter.add_axes()
         plotter.show()

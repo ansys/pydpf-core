@@ -1,8 +1,11 @@
 import os
-import pkg_resources
 
-from ansys.dpf.core._version import __version__
+try:
+    import importlib.metadata as importlib_metadata
+except ImportError:  # Python < 3.10 (backport)
+    import importlib_metadata as importlib_metadata
 
+__version__ = importlib_metadata.version("ansys-dpf-core")
 
 # Setup data directory
 USER_DATA_PATH = None
@@ -21,7 +24,7 @@ try:
 except:  # pragma: no cover
     pass
 
-installed = [d.project_name for d in pkg_resources.working_set]
+installed = [d.metadata["Name"] for d in importlib_metadata.distributions()]
 check_for = ["ansys-dpf-gatebin", "ansys-dpf-gate", "ansys-grpc-dpf"]
 if any([c in installed for c in check_for]):
     raise ImportError(f"Error during import of ansys-dpf-core:\n"
@@ -57,6 +60,7 @@ from ansys.dpf.core.common import (
     config_options
     )
 from ansys.dpf.core import help
+from ansys.dpf.core import plugins
 from ansys.dpf.core.core import (
     BaseService,
     load_library,
@@ -106,12 +110,14 @@ from ansys.dpf.core.dpf_operator import available_operator_names
 
 from ansys.dpf.core.collection import CollectionFactory as _CollectionFactory
 from ansys.dpf.core.collection import Collection as _Collection
+from ansys.dpf.core.label_space import LabelSpace
 
 
 # register classes for collection types:
 CustomTypeFieldsCollection:type = _CollectionFactory(CustomTypeField)
 GenericDataContainersCollection:type = _CollectionFactory(GenericDataContainer)
 StringFieldsCollection:type = _CollectionFactory(StringField)
+OperatorsCollection: type = _CollectionFactory(Operator)
 AnyCollection:type = _Collection
 
 # for matplotlib

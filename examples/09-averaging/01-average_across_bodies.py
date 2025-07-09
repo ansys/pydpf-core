@@ -1,3 +1,25 @@
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """
 .. _ref_average_across_bodies:
 
@@ -24,9 +46,7 @@ of a postprocessing workflow can be different when averaging and when not.
 # Import the necessary modules
 
 from ansys.dpf import core as dpf
-from ansys.dpf.core import operators as ops
-from ansys.dpf.core import examples
-
+from ansys.dpf.core import examples, operators as ops
 
 ###############################################################################
 # Load the simulation results from an RST file and create a model of it.
@@ -53,7 +73,7 @@ meshes.plot(text="Body meshes")
 ###############################################################################
 # Averaging across bodies with DPF
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# # To compare the results of averaging across bodies and not averaging,
+# To compare the results of averaging across bodies and not averaging,
 # define two workflows.
 # The variable of interest is the Von Mises stress field, which is
 # calculated by applying the ``eqv_fc`` operator on the
@@ -71,7 +91,7 @@ meshes.plot(text="Body meshes")
 #       ds [label="data_src", shape=box, style=filled, fillcolor=cadetblue2];
 #       stress [label="stress"];
 #       scp [label="split_on_property_type"];
-#       eln_to_n ["elemental_nodal_to_nodal_fc"];
+#       eln_to_n [label="elemental_nodal_to_nodal_fc"];
 #       vm [label="eqv_fc"];
 #       avg [label="weighted_merge_fields_by_label"];
 #       subgraph cluster_1 {
@@ -259,9 +279,7 @@ print("Max stress when averaging across bodies is activated: {:.2f} Pa".format(m
 print("Max stress when averaging across bodies is deactivated: {:.2f} Pa".format(max_non_avg))
 print(
     "The maximum stress value when averaging across bodies is PERFORMED \
-is {:.2f}% LOWER than when it is NOT PERFORMED".format(
-        diff
-    )
+is {:.2f}% LOWER than when it is NOT PERFORMED".format(diff)
 )
 
 ###############################################################################

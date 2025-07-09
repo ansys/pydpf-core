@@ -22,10 +22,10 @@ formats, such as CSV, HDF5, and VTK files.
 
 The latest version of DPF supports Ansys solver results files for:
 
-- Mechanical APDL (`.rst`, `.mode`, `.rfrq`, `.rdsp`)
+- Mechanical APDL (`.rst`, `.mode`, `.rfrq`, `.rdsp`, `.rth`)
 - LS-DYNA (`.d3plot`, `.binout`)
 - Fluent (`.cas/dat.h5`, `.flprj`)
-- CFX (`.cad/dat.cff`, `.flprj`)
+- CFX (`.cas/dat.cff`, `.flprj`, `.res`)
 
 For more information on file support, see the [main page](https://dpf.docs.pyansys.com/version/stable/index.html)
 in the PyDPF-Core documentation.
@@ -39,7 +39,7 @@ The data in DPF is defined based on physics-agnostic mathematical quantities
 described in self-sufficient entities called **fields**. This allows DPF to be 
 a modular and easy-to-use tool with a large range of capabilities.
 
-![DPF flow](https://github.com/ansys/pydpf-core/raw/main/docs/source/images/drawings/dpf-flow.png "DPF flow")
+![DPF flow](https://github.com/ansys/pydpf-core/raw/main/doc/source/images/drawings/dpf-flow.png "DPF flow")
 
 The ``ansys.dpf.core`` package provides a Python interface to DPF, enabling
 rapid postprocessing of a variety of Ansys file formats and physics solutions
@@ -70,7 +70,7 @@ To reach the project support team, email [pyansys.core@ansys.com](mailto:pyansys
 
 PyDPF-Core requires DPF to be available. You can either have a compatible Ansys version installed
 or install the standalone ``ansys-dpf-server`` server package. For more information, see
-[Getting Started with DPF Server](https://dpf.docs.pyansys.com/version/stable/user_guide/getting_started_with_dpf_server.html)
+[Getting Started with DPF Server](https://dpf.docs.pyansys.com/version/stable/getting_started/dpf_server.html)
 in the PyDPF-Core documentation.
 
 For the compatibility between PyDPF-Core and Ansys, see
@@ -88,7 +88,7 @@ PyDPF-Core plotting capabilities require `PyVista <https://pyvista.org/>`_ to be
 To install PyDPF-Core with its optional plotting functionalities, use this command:
 
 ```con
-   pip install ansys-dpf-core[plotting]
+   pip install ansys-dpf-core[graphics]
 ```
 
 For more information on PyDPF-Core plotting capabilities, see [Plot](https://dpf.docs.pyansys.com/version/stable/user_guide/plotting.html) in the PyDPF-Core documentation.

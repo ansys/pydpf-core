@@ -52,6 +52,10 @@ class OperatorGRPCAPI(operator_abstract_api.OperatorAbstractAPI):
         return OperatorGRPCAPI.get_list(op).config
 
     @staticmethod
+    def operator_name(op):
+        return OperatorGRPCAPI.get_list(op).op_name
+
+    @staticmethod
     def update_init(op, pin):
         from ansys.grpc.dpf import operator_pb2
         request = operator_pb2.UpdateRequest()
@@ -204,6 +208,12 @@ class OperatorGRPCAPI(operator_abstract_api.OperatorAbstractAPI):
     def operator_connect_label_space(op, pin, ptr):
         request = OperatorGRPCAPI.update_init(op, pin)
         request.label_space.CopyFrom(ptr._internal_obj)
+        OperatorGRPCAPI.update(op, request)
+
+    @staticmethod
+    def operator_connect_any(op, pin, ptr):
+        request = OperatorGRPCAPI.update_init(op, pin)
+        request.as_any.CopyFrom(ptr._internal_obj)
         OperatorGRPCAPI.update(op, request)
 
     @staticmethod

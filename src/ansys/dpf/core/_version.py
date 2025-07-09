@@ -1,36 +1,44 @@
-"""Version for ansys-dpf-core"""
-# major, minor, patch
-version_info = 0, 11, 1, "dev0"
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
 
-# Nice string for the version
-__version__ = ".".join(map(str, version_info))
+"""Version for ansys-dpf-core."""
+
+from packaging.version import parse as parse_version
 
 # Minimal DPF server version supported
 min_server_version = "4.0"
 
 
 class ServerToAnsysVersion:
-    legacy_version_map = {
-        "1.0": "2021R1",
-        "2.0": "2021R2",
-        "3.0": "2022R1",
-        "4.0": "2022R2",
-        "5.0": "2023R1",
-        "6.0": "2023R2",
-        "6.1": "2023R2",
-        "6.2": "2023R2",
-        "7.0": "2024R1",
-        "7.1": "2024R1",
-        "8.0": "2024R2",
-        "8.1": "2024R2",
-    }
-
     def __getitem__(self, item):
-        if len(item) == 3:
-            return self.legacy_version_map[item]
-        else:
-            split = item.split(".")
-            return split[0] + "R" + split[1]
+        version = parse_version(item)
+        # The current DPF versioning scheme is MAJOR.MINOR.PATCH
+        # Compute release version equivalent (YEAR+'R'+REVISION)
+        # The revision is 'R1' for any odd major DPF version, 'R2' for even major versions.
+        ansys_revision = 2 - version.major % 2
+        # The year is 2021 for DPF 1.0, and bumped every two releases.
+        ansys_year = 2020 + version.major // 2 + version.major % 2
+        # Return the corresponding Ansys release
+        return f"{ansys_year}R{ansys_revision}"
 
 
 server_to_ansys_version = ServerToAnsysVersion()
