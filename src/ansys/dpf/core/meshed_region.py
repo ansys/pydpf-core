@@ -33,6 +33,8 @@ if TYPE_CHECKING:  # pragma: nocover
 import traceback
 import warnings
 
+import numpy as np
+
 from ansys.dpf.core import field, property_field, scoping, server as server_module
 from ansys.dpf.core.cache import class_handling_cache
 from ansys.dpf.core.check_version import meets_version, server_meet_version, version_requires
@@ -713,3 +715,48 @@ class MeshedRegion:
         no_elements = self.elements.n_elements == 0
         no_nodes = self.nodes.n_nodes == 0
         return no_nodes and no_faces and no_elements
+
+    def location_data_len(self, location: locations) -> int:
+        """Return the data length for a given mesh location.
+
+        Accepted mesh locations are nodal, elemental, faces, and elemental_nodal.
+
+        Parameters
+        ----------
+        location:
+            The mesh location to compute data length for.
+            Can be nodal, elemental, faces, or elemental_nodal.
+
+        Returns
+        -------
+        data_size:
+            If location is nodal, return the number of nodes.
+            If location is elemental, return the number of elements.
+            If location is faces, return the number of faces.
+            If location is elemental nodal, return the sum of the number of nodes per element.
+        """
+        if location == locations.nodal:
+            return len(self.nodes)
+        elif location == locations.elemental:
+            return len(self.elements)
+        elif location == locations.faces:
+            return len(self.faces)
+        elif location == locations.elemental_nodal:
+            return np.sum(self.get_elemental_nodal_size_list())
+        elif location == locations.overall:
+            return len(self.elements)
+        else:
+            raise TypeError(f"Location {location} is not recognized.")
+
+    def get_elemental_nodal_size_list(self) -> np.ndarray:
+        """Return the array of number of nodes per element in the mesh."""
+        # Get the field of element types
+        element_types_field = self.elements.element_types_field
+        # get the number of nodes for each possible element type
+        size_map = dict(
+            [(e_type.value, element_types.descriptor(e_type).n_nodes) for e_type in element_types]
+        )
+        keys = list(size_map.keys())
+        sort_idx = np.argsort(keys)
+        idx = np.searchsorted(keys, element_types_field.data, sorter=sort_idx)
+        return np.asarray(list(size_map.values()))[sort_idx][idx]
