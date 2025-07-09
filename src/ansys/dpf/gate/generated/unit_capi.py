@@ -63,6 +63,51 @@ class UnitCAPI(unit_abstract_api.UnitAbstractAPI):
 		return res
 
 	@staticmethod
+	def unit_multiply_s(optional_output, a, b):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Unit_multiply_s(utils.to_char_ptr(optional_output), utils.to_char_ptr(a), utils.to_char_ptr(b), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def unit_divide_s(optional_output, a, b):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Unit_divide_s(utils.to_char_ptr(optional_output), utils.to_char_ptr(a), utils.to_char_ptr(b), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def unit_invert_s(optional_output, a):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Unit_invert_s(utils.to_char_ptr(optional_output), utils.to_char_ptr(a), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def unit_simplify_s(optional_output, a):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Unit_simplify_s(utils.to_char_ptr(optional_output), utils.to_char_ptr(a), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def unit_pow_s(optional_output, a, pow_value):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Unit_pow_s(utils.to_char_ptr(optional_output), utils.to_char_ptr(a), ctypes.c_double(pow_value) if isinstance(pow_value, float) else pow_value, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def unit_get_homogeneity_for_object(api_to_use, pre_allocated_char_64, symbol):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
@@ -103,6 +148,51 @@ class UnitCAPI(unit_abstract_api.UnitAbstractAPI):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.Unit_getSymbol_for_object(api_to_use._internal_obj if api_to_use is not None else None, utils.to_char_ptr(pre_allocated_char_64), utils.to_char_ptr(homogeneity), utils.to_int32(unit_system_id), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def unit_multiply_s_for_object(api_to_use, optional_output, a, b):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Unit_multiply_s_for_object(api_to_use._internal_obj if api_to_use is not None else None, utils.to_char_ptr(optional_output), utils.to_char_ptr(a), utils.to_char_ptr(b), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def unit_divide_s_for_object(api_to_use, optional_output, a, b):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Unit_divide_s_for_object(api_to_use._internal_obj if api_to_use is not None else None, utils.to_char_ptr(optional_output), utils.to_char_ptr(a), utils.to_char_ptr(b), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def unit_invert_s_for_object(api_to_use, optional_output, a):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Unit_invert_s_for_object(api_to_use._internal_obj if api_to_use is not None else None, utils.to_char_ptr(optional_output), utils.to_char_ptr(a), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def unit_simplify_s_for_object(api_to_use, optional_output, a):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Unit_simplify_s_for_object(api_to_use._internal_obj if api_to_use is not None else None, utils.to_char_ptr(optional_output), utils.to_char_ptr(a), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def unit_pow_s_for_object(api_to_use, optional_output, a, pow_value):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Unit_pow_s_for_object(api_to_use._internal_obj if api_to_use is not None else None, utils.to_char_ptr(optional_output), utils.to_char_ptr(a), ctypes.c_double(pow_value) if isinstance(pow_value, float) else pow_value, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res

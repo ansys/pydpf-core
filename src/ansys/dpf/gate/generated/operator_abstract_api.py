@@ -56,6 +56,10 @@ class OperatorAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def operator_connect_dpf_type(op, iPin, value):
+		raise NotImplementedError
+
+	@staticmethod
 	def operator_connect_int(op, iPin, value):
 		raise NotImplementedError
 

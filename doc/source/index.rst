@@ -14,33 +14,7 @@ apps for both data input and data output, including visualization and
 result plots. The following table shows an exhaustive list of supported
 apps by DPF and their related formats:
 
-.. table:: Truth table for "not"
-   :widths: auto
-   :align: center
-
-+--------------------+------------------------+----------------------------------+----------------------------------+
-|     **Solver**     |    **File format**     |       **Server version**         |       **DPF examples**           |
-+====================+========================+==================================+==================================+
-|                    || .rst, .mode           || **1.0** and later               | :ref:`ref_basic_example`         |
-|        MAPDL       || .rfrq, .rdsp          || (*Ansys 2021 R1*)               |                                  |
-+--------------------+------------------------+----------------------------------+----------------------------------+
-|       LS DYNA      |   .d3plot, .binout     || **4.0** and later               | :ref:`lsdyna_operators`          |
-|                    |                        || (*Ansys 2022 R2*)               |                                  |
-+--------------------+------------------------+----------------------------------+----------------------------------+
-|                    || *CFF restart files*   ||                                 | :ref:`ref_fluids_model`          |
-|                    || .cas/dat.h5           ||                                 +----------------------------------+
-|                    |                        || **7.0** and later               | :ref:`ref_fluids_mesh`           |
-|        Fluent      +------------------------+| (*Ansys 2024 R1 pre0*)          +----------------------------------+
-|                    || *Project files*       |                                  | :ref:`ref_fluids_results`        |
-|                    || .flprj                |                                  |                                  |
-+--------------------+------------------------+----------------------------------+----------------------------------+
-|                    || *CFF files*           ||                                 | :ref:`ref_fluids_model`          |
-|                    || .cas/dat.cff          ||                                 +----------------------------------+
-|                    |                        || **7.0** and later               | :ref:`ref_fluids_mesh`           |
-|          CFX       +------------------------+| (*Ansys 2024 R1 pre0*)          +----------------------------------+
-|                    || *Project files*       |                                  | :ref:`ref_fluids_results`        |
-|                    || .flprj                |                                  |                                  |
-+--------------------+------------------------+----------------------------------+----------------------------------+
+.. include:: dpf_ansys_file_support_table.rst
 
 Visualisation is ensured by VTK and leverages `PyVista tools
 <https://docs.pyvista.org>`_.
@@ -112,7 +86,9 @@ Accessing and enriching DPF capabilities
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Most of the DPF capabilities can be accessed using the operators.
-For more information, see :ref:`_ref_dpf_operators_reference`.
+For more information, see :ref:`ref_dpf_operators_reference`.
+
+DPF also follows a licensing strategy detailed in :ref:`ref_licensing`.
 
 The following sections are summaries. For more information, see :ref:`user_guide_waysofusing`.
 
@@ -126,13 +102,13 @@ the **Ansys installer** and **DPF Server**.
   on getting a licensed copy of Ansys, visit the `Ansys website <https://www.ansys.com/>`_.
 
 - The DPF Server package is independent of the Ansys installer. For more information, see
-  :ref:`ref_getting_started_with_dpf_server`.
+  :ref:`ref_dpf_server`.
 
 **Accessing capabilities with scripting**
 
 - C++ documentation:
 
-  - On the `Developer Documentation <https://developer.ansys.com/docs>`_page of the Ansys Developer portal,
+  - On the `Developer Documentation <https://developer.ansys.com/docs>`_ page of the Ansys Developer portal,
     see **Data Processing Framework (DPF)**.
 
 - PyDPF documentation:
@@ -190,5 +166,3 @@ To reach the project support team, email `pyansys.core@ansys.com <pyansys.core@a
    examples/index
    api/index
    operator_reference
-   concepts/index
-   contributing

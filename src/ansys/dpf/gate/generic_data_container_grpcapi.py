@@ -42,6 +42,15 @@ class GenericDataContainerGRPCAPI(generic_data_container_abstract_api.GenericDat
 		return _get_stub(container._server).SetProperty(request)
 
 	@staticmethod
+	def generic_data_container_set_property_dpf_type(container, name, any):
+		from ansys.grpc.dpf import generic_data_container_pb2
+		request = generic_data_container_pb2.SetPropertyRequest()
+		request.gdc.CopyFrom(container._internal_obj)
+		request.property_name.extend([name])
+		request.any.add().id.CopyFrom(any._internal_obj.id)
+		return _get_stub(container._server).SetProperty(request)
+
+	@staticmethod
 	def generic_data_container_new_on_client(client):
 		from ansys.grpc.dpf import generic_data_container_pb2, base_pb2
 		return _get_stub(client).Create(base_pb2.Empty())

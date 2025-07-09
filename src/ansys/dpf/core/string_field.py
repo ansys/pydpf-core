@@ -1,22 +1,41 @@
-"""
-StringField
-===========
-"""
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+"""StringField."""
+
+from typing import List
 
 import numpy as np
-from ansys.dpf.core.common import natures, locations, _get_size_of_list
-from ansys.dpf.core import scoping
-from ansys.dpf.core import server as server_module
-from ansys.dpf.core import errors
+
+from ansys.dpf.core import errors, scoping, server as server_module
+from ansys.dpf.core.common import _get_size_of_list, locations, natures
 from ansys.dpf.core.field_base import _FieldBase
 from ansys.dpf.gate import (
+    dpf_vector,
+    integral_types,
     string_field_abstract_api,
     string_field_capi,
     string_field_grpcapi,
-    dpf_vector,
-    integral_types,
 )
-from typing import List
 
 
 class StringField(_FieldBase):
@@ -57,7 +76,9 @@ class StringField(_FieldBase):
         string_field=None,
         server=None,
     ):
-        self._server = server_module.get_or_create_server(server)
+        self._server = server_module.get_or_create_server(
+            string_field._server if isinstance(string_field, StringField) else server
+        )
         if string_field is None and not self._server.meet_version("5.0"):
             raise errors.DpfVersionNotSupported("5.0")
         super().__init__(
@@ -156,14 +177,17 @@ class StringField(_FieldBase):
 
     @property
     def component_count(self):
+        """Return the number of component, always 1."""
         return 1
 
     @property
     def elementary_data_count(self):
+        """Return elementary data count."""
         return self._api.csstring_field_get_data_size(self)
 
     @property
     def size(self):
+        """Return elementary data size."""
         return self._api.csstring_field_get_data_size(self)
 
     def _set_scoping(self, scoping):
@@ -175,8 +199,9 @@ class StringField(_FieldBase):
         )
 
     def get_entity_data(self, index):
+        """Return entity data."""
         try:
-            vec = dpf_vector.DPFVectorString(client=self._server.client)
+            vec = dpf_vector.DPFVectorString(owner=self)
             self._api.csstring_field_get_entity_data_for_dpf_vector(
                 self, vec, vec.internal_data, vec.internal_size, index
             )
@@ -186,8 +211,9 @@ class StringField(_FieldBase):
             return data
 
     def get_entity_data_by_id(self, id):
+        """Return entity data corresponding to the provided id."""
         try:
-            vec = dpf_vector.DPFVectorString(client=self._server.client)
+            vec = dpf_vector.DPFVectorString(owner=self)
             self._api.csstring_field_get_entity_data_by_id_for_dpf_vector(
                 self, vec, vec.internal_data, vec.internal_size, id
             )
@@ -200,12 +226,17 @@ class StringField(_FieldBase):
             return data
 
     def append(self, data: List[str], scopingid: int):
+        """
+        Append data to the string field.
+
+        This method appends data to the string field for a specific scoping ID.
+        """
         string_list = integral_types.MutableListString(data)
         self._api.csstring_field_push_back(self, scopingid, _get_size_of_list(data), string_list)
 
     def _get_data(self, np_array=True):
         try:
-            vec = dpf_vector.DPFVectorString(client=self._server.client)
+            vec = dpf_vector.DPFVectorString(owner=self)
             self._api.csstring_field_get_data_for_dpf_vector(
                 self, vec, vec.internal_data, vec.internal_size
             )

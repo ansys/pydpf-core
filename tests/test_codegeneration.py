@@ -1,14 +1,37 @@
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 # -*- coding: utf-8 -*-
-import os
 import copy
+import os
+from pathlib import Path
 import tempfile
 
-import ansys.grpc.dpf
 import numpy as np
 
-import ansys.dpf.core.operators as op
 from ansys.dpf import core
 from ansys.dpf.core import examples
+import ansys.dpf.core.operators as op
+import ansys.grpc.dpf
 
 
 def test_workflowwithgeneratedcode(allkindofcomplexity):
@@ -131,7 +154,7 @@ def test_operator_any_input(allkindofcomplexity):
     serialization.inputs.any_input3.connect(u.outputs)
 
     # create a temporary file at the default temp directory
-    path = os.path.join(tempfile.gettempdir(), "dpf_temp_ser.txt")
+    path = str(Path(tempfile.gettempdir()) / "dpf_temp_ser.txt")
     if not core.SERVER.local_server:
         core.upload_file_in_tmp_folder(examples.find_static_rst(return_local_path=True))
         path = core.path_utilities.join(core.make_tmp_dir_server(), "dpf_temp_ser.txt")
@@ -149,8 +172,9 @@ def test_operator_any_input(allkindofcomplexity):
 
     assert hasattr(fc, "outputs") == False
 
-    if os.path.exists(path):
-        os.remove(path)
+    path = Path(path)
+    if path.exists():
+        path.unlink()
 
 
 def test_create_op_with_inputs(plate_msup):
@@ -339,3 +363,203 @@ def test_generated_operator_set_config():
     assert conf.config_option_accepted_types("mutex") == ["bool"]
     assert conf.options["mutex"] == "false"
     assert "multiple threads" in conf.config_option_documentation("mutex")
+
+
+def test_markdown_to_rst():
+    from ansys.dpf.core.operators.translator import Markdown2RstTranslator
+
+    markdown_reference_input = r"""# Headings
+## h2
+### h3
+#### h4
+##### h5
+
+# Text
+This should result in a paragraph
+it's that simple.
+
+*italic*, **bold**
+
+# Lists
+* an *unordered list*
+  * with **some hierarchy**
+    1. and an ordered
+    2. mixed
+    * list
+    * directly
+  * inside
+
+# Code
+## Code block
+```c
+std::string a = 'test';
+```
+```js
+var a = 'test';
+```
+```python
+a: str = 'test'
+```
+## Inline code
+And well `inline code` should also work.
+
+# Quotes
+
+> A Quote
+>
+> With *some text* **blocks inside**
+>
+> * even a list
+> * should be
+> * possible
+
+## Links
+Links such as [link](https://docs.pyansys.com/).
+
+## Images
+![an image](https://docs.pyansys.com/version/dev/_static/pyansys_logo_transparent_white.png)
+
+
+## Separations
+
+---
+
+## Checklists
+
+- [ ] how
+- [ ] about
+  - [ ] a
+  - [x] nice
+- [x] check
+- [ ] list
+
+## Tables
+
+| Left header | middle header | last header |
+|-------------|---------------|-------------|
+| cell 1      | cell **2**    | cell 3      |
+| cell 4      | cell 5        | cell 6      |
+
+
+## LaTeX
+
+$$x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.$$
+"""
+    rst_reference_output = r"""Headings
+========
+
+h2
+--
+
+h3
+~~
+
+h4
+^^
+
+h5
+''
+
+Text
+====
+
+This should result in a paragraph it’s that simple.
+
+*italic*, **bold**
+
+Lists
+=====
+
+- an *unordered list*
+
+  - with **some hierarchy**
+
+    1. and an ordered
+    2. mixed
+
+    - list
+    - directly
+
+  - inside
+
+Code
+====
+
+Code block
+----------
+
+.. code:: c
+
+   std::string a = 'test';
+
+.. code:: js
+
+   var a = 'test';
+
+.. code:: python
+
+   a: str = 'test'
+
+Inline code
+-----------
+
+And well ``inline code`` should also work.
+
+Quotes
+======
+
+   A Quote
+
+   With *some text* **blocks inside**
+
+   - even a list
+   - should be
+   - possible
+
+Links
+-----
+
+Links such as `link <https://docs.pyansys.com/>`__.
+
+Images
+------
+
+.. figure::
+   https://docs.pyansys.com/version/dev/_static/pyansys_logo_transparent_white.png
+   :alt: an image
+
+   an image
+
+Separations
+-----------
+
+--------------
+
+Checklists
+----------
+
+- ☐ how
+- ☐ about
+
+  - ☐ a
+  - ☒ nice
+
+- ☒ check
+- ☐ list
+
+Tables
+------
+
+=========== ============= ===========
+Left header middle header last header
+=========== ============= ===========
+cell 1      cell **2**    cell 3
+cell 4      cell 5        cell 6
+=========== ============= ===========
+
+LaTeX
+-----
+
+.. math:: x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.
+"""
+    assert Markdown2RstTranslator().convert(markdown_reference_input) == rst_reference_output

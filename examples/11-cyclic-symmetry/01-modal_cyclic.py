@@ -1,3 +1,25 @@
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 # noqa: D400
 """
 .. _ref_basic_cyclic:
@@ -70,17 +92,18 @@ fields = eqv.outputs.fields_container()
 # define stress expansion operator and request stresses at time set = 8
 # request the results averaged on the nodes
 # request results on sectors 1, 3 and 5
-scyc_op = dpf.operators.result.cyclic_expanded_stress(
+scyc_op = dpf.operators.result.stress(
     streams_container=model.metadata.streams_provider,
     time_scoping=[8],
     requested_location=dpf.locations.nodal,
     sectors_to_expand=[1, 3, 5],
+    read_cyclic=2,
 )
 
 # extract Sx (use component selector and select the first component)
 comp_sel = dpf.operators.logic.component_selector_fc(scyc_op, 0)
 
-# expand the displacements and get the resuls
+# expand the displacements and get the results
 fields = comp_sel.outputs.fields_container()
 
 # plot the expanded result on the expanded mesh
@@ -92,11 +115,12 @@ fields = comp_sel.outputs.fields_container()
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # define stress expansion operator and request stresses at time set = 8
-scyc_op = dpf.operators.result.cyclic_expanded_stress(
+scyc_op = dpf.operators.result.stress(
     streams_container=model.metadata.streams_provider,
     time_scoping=[8],
     sectors_to_expand=[1, 3, 5],
     bool_rotate_to_global=False,
+    read_cyclic=2,
 )
 
 # request to elemental averaging operator
@@ -105,7 +129,7 @@ to_elemental = dpf.operators.averaging.to_elemental_fc(scyc_op)
 # extract Sy (use component selector and select the component 1)
 comp_sel = dpf.operators.logic.component_selector_fc(to_elemental, 1)
 
-# expand the displacements and get the resuls
+# expand the displacements and get the results
 fields = comp_sel.outputs.fields_container()
 
 # # plot the expanded result on the expanded mesh

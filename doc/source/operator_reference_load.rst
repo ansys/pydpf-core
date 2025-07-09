@@ -13,8 +13,8 @@ Loading operators.
       src="_static/dpf_operators.html#CPython"
       style="
         position: fixed;
-        top: 50px;
-        bottom: 0px;
+        top: 55px;
+        bottom: 10px;
         right: 0px;
         width: 100%;
         border: none;

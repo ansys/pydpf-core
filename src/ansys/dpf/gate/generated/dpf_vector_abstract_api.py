@@ -28,7 +28,19 @@ class DpfVectorAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def dpf_vector_char_ptr_free_with_size(dpf_vector, data, sizes, size, modified):
+		raise NotImplementedError
+
+	@staticmethod
+	def dpf_vector_char_ptr_free_for_next_usage_with_size(dpf_vector, data, sizes, size, modified):
+		raise NotImplementedError
+
+	@staticmethod
 	def dpf_vector_char_ptr_free(dpf_vector, data, size, modified):
+		raise NotImplementedError
+
+	@staticmethod
+	def dpf_vector_char_ptr_free_for_next_usage(dpf_vector, data, size, modified):
 		raise NotImplementedError
 
 	@staticmethod
@@ -48,6 +60,10 @@ class DpfVectorAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def dpf_vector_char_ptr_commit_with_size(dpf_vector, data, sizes, size, modified):
+		raise NotImplementedError
+
+	@staticmethod
 	def dpf_vector_delete(dpf_vector):
 		raise NotImplementedError
 
@@ -57,6 +73,18 @@ class DpfVectorAbstractAPI:
 
 	@staticmethod
 	def dpf_vector_duplicate_dpf_vector(dpf_vector):
+		raise NotImplementedError
+
+	@staticmethod
+	def dpf_vector_double_extract_sub(init_dpf_vector, init_data, init_size, dpf_vector_to_update, first_index, size, data):
+		raise NotImplementedError
+
+	@staticmethod
+	def dpf_vector_int_extract_sub(init_dpf_vector, init_data, init_size, dpf_vector_to_update, first_index, size, data):
+		raise NotImplementedError
+
+	@staticmethod
+	def dpf_vector_char_extract_sub(init_dpf_vector, init_data, init_size, dpf_vector_to_update, first_index, size, data):
 		raise NotImplementedError
 
 	@staticmethod

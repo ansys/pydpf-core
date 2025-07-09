@@ -193,6 +193,12 @@ class WorkflowGRPCAPI(workflow_abstract_api.WorkflowAbstractAPI):
         _get_stub(wf._server).UpdateConnection(request)
 
     @staticmethod
+    def work_flow_connect_any(wf, pin_name, ptr):
+        request = WorkflowGRPCAPI._connect_init(wf, pin_name)
+        request.as_any.CopyFrom(ptr._internal_obj)
+        _get_stub(wf._server).UpdateConnection(request)
+
+    @staticmethod
     def work_flow_connect_generic_data_container(wf, pin_name, container):
         request = WorkflowGRPCAPI._connect_init(wf, pin_name)
         request.generic_data_container.CopyFrom(container._internal_obj)
@@ -337,6 +343,12 @@ class WorkflowGRPCAPI(workflow_abstract_api.WorkflowAbstractAPI):
     def work_flow_getoutput_data_tree(wf, pin_name):
         request = WorkflowGRPCAPI.get_output_init(wf, pin_name)
         stype = "data_tree"
+        return WorkflowGRPCAPI.get_output_finish(wf, request, stype)
+
+    @staticmethod
+    def work_flow_getoutput_as_any(wf, pin_name):
+        request = WorkflowGRPCAPI.get_output_init(wf, pin_name)
+        stype = "any"
         return WorkflowGRPCAPI.get_output_finish(wf, request, stype)
 
     @staticmethod

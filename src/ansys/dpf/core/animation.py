@@ -1,5 +1,30 @@
-import ansys.dpf.core as dpf
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+"""Module contains the function for modal animation creation."""
+
 import numpy as np
+
+import ansys.dpf.core as dpf
 
 
 def animate_mode(
@@ -12,8 +37,7 @@ def animate_mode(
     **kwargs,
 ):
     # other option: instead of `type` use `min_factor` and `max_factor`.
-
-    """Creates a modal animation based on Fields contained in the FieldsContainer.
+    """Create a modal animation based on Fields contained in the FieldsContainer.
 
     This method creates a movie or a gif based on the time ids of a ``FieldsContainer``.
     For kwargs see pyvista.Plotter.open_movie/add_text/show.
@@ -71,7 +95,14 @@ def animate_mode(
         )
 
     # Get fields
+    available_mode_numbers = fields_container.get_available_ids_for_label("time")
+
+    if not mode_number in available_mode_numbers:
+        raise ValueError(f"The mode {mode_number} data is not available in field container.")
     fields_mode = fields_container.get_fields({"time": mode_number})
+    mode_frequencies_field = fields_container.time_freq_support.time_frequencies
+    mode_frequencies = mode_frequencies_field.data
+    mode_frequency = mode_frequencies[available_mode_numbers.index(mode_number)]
 
     # Merge fields if needed
     if len(fields_mode) > 1:
@@ -84,6 +115,7 @@ def animate_mode(
 
     max_data = float(np.max(field_mode.data))
     loop_over = dpf.fields_factory.field_from_array(scale_factor_per_frame)
+    loop_over.unit = mode_frequencies_field.unit
 
     # Create workflow
     wf = dpf.Workflow()
@@ -94,17 +126,20 @@ def animate_mode(
     scaling_op.inputs.field.connect(field_mode)
     wf.add_operators([scaling_op])
 
-    wf.set_input_name("ponderation", scaling_op.inputs.ponderation)
+    wf.set_input_name("weights", scaling_op.inputs.weights)
     wf.set_output_name("field", scaling_op.outputs.field)
+    wf.set_output_name("deform_by", scaling_op.outputs.field)
 
     anim = Animator(workflow=wf, **kwargs)
 
     return anim.animate(
         loop_over=loop_over,
-        input_name="ponderation",
+        input_name="weights",
         output_name="field",
         save_as=save_as,
         mode_number=mode_number,
+        mode_frequency=mode_frequency,
         clim=[0, max_data],
+        scale_factor=deform_scale_factor,
         **kwargs,
     )

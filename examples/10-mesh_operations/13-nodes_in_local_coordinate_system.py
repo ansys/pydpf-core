@@ -1,3 +1,25 @@
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 # noqa: D400
 """
 .. _ref_nodes_in_local_coordinate_system:
@@ -16,10 +38,11 @@ the GCS, a transformation is required after the rotation to get the correct coor
 The script below demonstrates the methodology using PyDPF.
 
 """
+
 # Import necessary modules
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
-
+from ansys.dpf.gate.errors import DPFServerException
 
 ###############################################################################
 # Create a model object to establish a connection with an example result file:
@@ -32,7 +55,14 @@ ncoord_f = model.metadata.meshed_region.nodes.coordinates_field
 ###############################################################################
 # Get the rotation matrix of the LCS ID 12.
 # The first 9 values in the ``cs`` output is the rotation matrix.
-cs = model.operator(r"mapdl::rst::CS")
+try:
+    # Starting with DPF 2025.1.pre1
+    cs = dpf.operators.result.coordinate_system()
+    cs.inputs.data_sources.connect(model)
+except (KeyError, DPFServerException) as e:
+    # For previous DPF versions
+    cs = model.operator(r"mapdl::rst::CS")
+
 cs.inputs.cs_id.connect(12)
 cs_rot_mat = cs.outputs.field.get_data().data.T[0:9]
 
@@ -56,9 +86,9 @@ ncoord_rot_f = dpf.operators.geo.rotate(field=ncoord_f, field_rotation_matrix=ro
 ###############################################################################
 # Transform rotated nodal coordinates field along rotated position vector
 # ``pos_vec_rot``:
-pos_vec_rot_neg_f = dpf.operators.math.scale(field=pos_vec_rot, ponderation=-1.0)
+pos_vec_rot_neg_f = dpf.operators.math.scale(field=pos_vec_rot, weights=-1.0)
 pos_vec_rot_neg = pos_vec_rot_neg_f.outputs.field.get_data().data_as_list
-ncoord_translate = dpf.operators.math.add_constant(field=ncoord_rot_f, ponderation=pos_vec_rot_neg)
+ncoord_translate = dpf.operators.math.add_constant(field=ncoord_rot_f, weights=pos_vec_rot_neg)
 ###############################################################################
 # Get the nodal coordinates field ``ncoord_lcs_f`` in LCS:
 ncoord_lcs_f = ncoord_translate.outputs.field.get_data()
