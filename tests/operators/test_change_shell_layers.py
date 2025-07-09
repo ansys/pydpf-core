@@ -32,8 +32,10 @@ from ansys.dpf.core.check_version import get_server_version, meets_version
 
 
 @pytest.mark.skipif(
-    (not meets_version(get_server_version(dpf.SERVER), meets="9.0")) and os.name == "posix"
-)  # Failure under investigation on Ubuntu for DPF 24R2 and older (Issue #2424)
+    condition=(not meets_version(get_server_version(dpf.SERVER), meets="9.0"))
+    and os.name == "posix",
+    reason="Failure under investigation on Ubuntu for DPF 24R2 and older (Issue #2424)",
+)
 def test_operator_change_shell_layers_connect_enum(server_type):
     model = dpf.Model(
         examples.download_all_kinds_of_complexity_modal(server=server_type), server=server_type
