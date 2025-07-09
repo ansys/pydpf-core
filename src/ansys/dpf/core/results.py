@@ -527,13 +527,16 @@ class Result:
         self._mesh_scoping = mesh_scoping
         return self
 
-    def on_region_scoping(self, region_scoping):
-        """Set the mesh scoping to a given mesh scoping.
+    def on_region_scoping(self, region_scoping: Scoping|list[int], region_location = None):
+        """Set the region scoping to a given region scoping.
 
         Parameters
         ----------
-        region_scoping : Scoping, list[int]
-            Scoping identifying a list of regions (part IDs, zone IDs...)
+        region_scoping:
+            Scoping identifying a list of regions (part IDs or zone IDs).
+        region_location:
+            Location for the scoping if 'region_scoping' is a list of IDs.
+            Either `locations.zone` or `locations.part`.
 
         Returns
         -------
@@ -547,15 +550,15 @@ class Result:
         >>> from ansys.dpf.core import examples
         >>> model = dpf.Model(examples.download_fluent_mixing_elbow_steady_state())
         >>> disp = model.results.displacement
-        >>> fc = disp.on_region_scoping([1,2,3]).eval()
+        >>> fc = disp.on_region_scoping(region_scoping=[1,2,3], region_location=dpf.locations.zone).eval()
         >>> len(fc[0].scoping)
         3
 
         Use a scoping to specify a list of entity IDs with their locations.
 
         >>> stress = model.results.stress
-        >>> scop = dpf.Scoping(ids=[3,4,5], location= dpf.locations.zone)
-        >>> fc = stress.on_mesh_scoping(scop).eval()
+        >>> scop = dpf.Scoping(ids=[3,4,5], location=dpf.locations.zone)
+        >>> fc = stress.on_region_scoping(scop).eval()
         >>> len(fc[0].scoping)
         3
         >>> fc[0].location
@@ -564,9 +567,13 @@ class Result:
         """
         from ansys.dpf.core import locations
         if isinstance(region_scoping, list):
+            if region_location is None:
+                raise ValueError(
+                    "Result.on_region_scoping: argument 'region_location' is required if 'region_scoping' is a list of IDs."
+                )
             region_scoping = Scoping(
                 ids=region_scoping,
-                location=locations.zone,
+                location=region_location,
                 server=self._server,
             )
 
