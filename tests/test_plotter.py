@@ -256,6 +256,7 @@ def test_field_elemental_nodal_plot_multi_shells(multishells):
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0, reason="Old bug before 25R2")
 def test_dpf_plotter_add_field_elemental_nodal_multi_shells(multishells):
     fc: core.FieldsContainer = core.operators.result.stress(
         data_sources=core.DataSources(multishells),
