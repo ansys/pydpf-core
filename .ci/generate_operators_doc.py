@@ -1,4 +1,5 @@
 import argparse
+
 from pathlib import Path
 
 from jinja2 import Template
@@ -149,9 +150,8 @@ def generate_operator_doc(server, operator_name, include_private):
     root_dir = script_path.parent.parent
     template_dir = Path(root_dir) / "doc" / "source" / "operators_doc" / "operator-specifications"
     category_dir = Path(template_dir) / category
-    if not category_dir.exists() and category is not None:
-        category_dir.mkdir()
     if category is not None:
+        category_dir.mkdir(parents=True, exist_ok=True)  # Ensure all parent directories are created
         file_dir = category_dir
     else:
         file_dir = template_dir

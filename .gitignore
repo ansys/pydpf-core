@@ -71,8 +71,8 @@ doc/_build/
 
 # Operators documentation
 doc/source/operators_doc/**/*
-!doc/source/operators_doc/operator_doc_template.md
-!doc/source/operators_doc/toc_template.j2
+!doc/source/operators_doc/operator-specifications/operator_doc_template.md
+!doc/source/operators_doc/operator-specifications/toc_template.j2
 
 # PyBuilder
 .pybuilder/
