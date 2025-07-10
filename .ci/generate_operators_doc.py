@@ -36,7 +36,7 @@ def initialize_server(ansys_path=None, include_composites=False, include_sound=F
     return server
 
 
-def fetch_doc_info(server, operator_name):
+def fetch_doc_info(server, operator_name, router_dt):
     spec = dpf.Operator.operator_specification(op_name=operator_name, server=server)
     input_info = []
     output_info = []
@@ -105,6 +105,20 @@ def fetch_doc_info(server, operator_name):
     license = properties.pop("license", "None")
 
     exposure = properties.pop("exposure", "private")
+
+    router_map = router_dt.get_as("router_map").to_dict()
+    supported_file_types = router_map[operator_name] if operator_name in router_map.keys() else None
+    show_supported_file_types = False
+    namespace_map = {}
+    if supported_file_types:
+        namespace_ext_map = router_dt.get_as("namespace_ext_map").to_dict()
+        for file_type in supported_file_types:
+            namespace = namespace_ext_map[file_type]
+            if namespace not in namespace_map.keys():
+                namespace_map[namespace] = []
+            namespace_map[namespace].append(file_type)
+        show_supported_file_types = True
+
     scripting_info = {
         "category": category,
         "plugin": plugin,
@@ -124,6 +138,8 @@ def fetch_doc_info(server, operator_name):
         "configurations": configurations_info,
         "scripting_info": scripting_info,
         "exposure": exposure,
+        "show_supported_file_types": show_supported_file_types,
+        "namespace_map": namespace_map,
     }
 
 
@@ -137,8 +153,8 @@ def get_plugin_operators(server, plugin_name):
     return plugin_operators
 
 
-def generate_operator_doc(server, operator_name, include_private):
-    operator_info = fetch_doc_info(server, operator_name)
+def generate_operator_doc(server, operator_name, include_private, router_dt: dpf.DataTree):
+    operator_info = fetch_doc_info(server, operator_name, router_dt)
     scripting_name = operator_info["scripting_info"]["scripting_name"]
     category = operator_info["scripting_info"]["category"]
     if scripting_name:
@@ -211,12 +227,13 @@ def main():
     desired_plugin = args.plugin
 
     server = initialize_server(args.ansys_path, args.include_composites, args.include_sound)
+    router_dt = dpf.Operator(name="info::router_discovery").eval()
     if desired_plugin is None:
         operators = available_operator_names(server)
     else:
         operators = get_plugin_operators(server, desired_plugin)
     for operator_name in operators:
-        generate_operator_doc(server, operator_name, args.include_private)
+        generate_operator_doc(server, operator_name, args.include_private, router_dt)
 
     docs_path = (
         Path(__file__).parent.parent
