@@ -29,6 +29,10 @@ def initialize_server(ansys_path=None, include_composites=False, include_sound=F
     if include_sound:
         print("Loading Acoustics Plugin")
         load_library(Path(server.ansys_path) / "Acoustics" / "SAS" / "ads" / "dpf_sound.dll")
+
+    router_plugin_path = r"D:\ANSYSDev\Sandbox\DPF\Ans.Dpf.Documentation\out\build\standalone\src\Ans.Dpf.Documentation\Ans.Dpf.Router.dll"
+    load_library(filename=router_plugin_path, server=server, name="router")
+
     return server
 
 
