@@ -36,7 +36,7 @@ def initialize_server(ansys_path=None, include_composites=False, include_sound=F
     return server
 
 
-def fetch_doc_info(server, operator_name, router_dt):
+def fetch_doc_info(server, operator_name: str, router_dt: dpf.DataTree):
     spec = dpf.Operator.operator_specification(op_name=operator_name, server=server)
     input_info = []
     output_info = []
@@ -106,12 +106,16 @@ def fetch_doc_info(server, operator_name, router_dt):
 
     exposure = properties.pop("exposure", "private")
 
-    router_map = router_dt.get_as("router_map").to_dict()
-    supported_file_types = router_map[operator_name] if operator_name in router_map.keys() else None
+    router_map = router_dt.get_as(name="router_map", type_to_return=dpf.types.data_tree).to_dict()
+    supported_file_types = (
+        router_map[operator_name].split(";") if operator_name in router_map.keys() else None
+    )
     show_supported_file_types = False
     namespace_map = {}
     if supported_file_types:
-        namespace_ext_map = router_dt.get_as("namespace_ext_map").to_dict()
+        namespace_ext_map = router_dt.get_as(
+            name="namespace_ext_map", type_to_return=dpf.types.data_tree
+        ).to_dict()
         for file_type in supported_file_types:
             namespace = namespace_ext_map[file_type]
             if namespace not in namespace_map.keys():

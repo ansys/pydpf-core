@@ -12,6 +12,16 @@ license: {{ scripting_info.license }}
 
 {{ operator_description }}
 
+{%- if show_supported_file_types %}
+
+## Supported file types
+
+{%- for namespace, extensions in namespace_map|dictsort %}
+- {{namespace}}: {{extensions}}
+{%- endfor %}
+
+{%- endif %}
+
 ## Inputs
 
 | Input | Name | Expected type(s) | Description |
