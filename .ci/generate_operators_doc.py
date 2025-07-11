@@ -1,5 +1,6 @@
 import argparse
 from pathlib import Path
+from pprint import pprint
 
 from jinja2 import Template
 
@@ -9,9 +10,10 @@ from ansys.dpf.core.core import load_library
 from ansys.dpf.core.dpf_operator import available_operator_names
 
 
-def initialize_server(ansys_path=None, include_composites=False, include_sound=False):
+def initialize_server(
+    ansys_path: str = None, include_composites: bool = False, include_sound=False
+):
     server = dpf.start_local_server(ansys_path=ansys_path)
-    print(server.plugins)
     print(f"Ansys Path: {server.ansys_path}")
     print(f"Server Info: {server.info}")
     print(f"Server Context: {server.context}")
@@ -20,19 +22,23 @@ def initialize_server(ansys_path=None, include_composites=False, include_sound=F
     if include_composites:
         print("Loading Composites Plugin")
         load_library(
-            Path(server.ansys_path)
+            filename=Path(server.ansys_path)
             / "dpf"
             / "plugins"
             / "dpf_composites"
-            / "composite_operators.dll"
+            / "composite_operators.dll",
+            name="composites",
         )
     if include_sound:
         print("Loading Acoustics Plugin")
-        load_library(Path(server.ansys_path) / "Acoustics" / "SAS" / "ads" / "dpf_sound.dll")
+        load_library(
+            filename=Path(server.ansys_path) / "Acoustics" / "SAS" / "ads" / "dpf_sound.dll",
+            name="sound",
+        )
 
     router_plugin_path = r"D:\ANSYSDev\Sandbox\DPF\Ans.Dpf.Documentation\out\build\standalone\src\Ans.Dpf.Documentation\Ans.Dpf.Router.dll"
     load_library(filename=router_plugin_path, server=server, name="router")
-
+    pprint(server.plugins)
     return server
 
 
@@ -230,7 +236,9 @@ def main():
     args = parser.parse_args()
     desired_plugin = args.plugin
 
-    server = initialize_server(args.ansys_path, args.include_composites, args.include_sound)
+    server = initialize_server(
+        ansys_path=args.ansys_path, include_composites=True, include_sound=True
+    )
     router_dt = dpf.Operator(name="info::router_discovery").eval()
     if desired_plugin is None:
         operators = available_operator_names(server)
