@@ -1,0 +1,98 @@
+
+
+
+
+
+
+The ``meshed_region.py`` module
+===============================
+
+.. py:module:: ansys.dpf.core.meshed_region
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+
+
+.. py:currentmodule:: meshed_region
+.. tab-set::
+
+
+
+
+    .. tab-item:: Classes
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.meshed_region.MeshedRegion`
+            - Represents a mesh from DPF.
+
+
+
+
+
+    .. tab-item:: Functions
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~update_grid`
+            - Decorate mesh setters to centralize the update logic of pyvista objects.
+
+
+
+
+
+
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-cod-symbol_class"></span> MeshedRegion</api/ansys/dpf/core/meshed_region/MeshedRegion>
+
+
+
+
+
+
+
+
+
+Description
+-----------
+
+MeshedRegion.
+
+
+
+
+
+
+
+Module detail
+-------------
+
+.. py:function:: update_grid(func)
+
+   Decorate mesh setters to centralize the update logic of pyvista objects.
+
+
+
+

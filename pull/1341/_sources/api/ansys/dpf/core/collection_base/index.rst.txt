@@ -1,0 +1,123 @@
+
+
+
+
+
+
+The ``collection_base.py`` module
+=================================
+
+.. py:module:: ansys.dpf.core.collection_base
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.. py:currentmodule:: collection_base
+.. tab-set::
+
+
+
+
+    .. tab-item:: Classes
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.collection_base.CollectionBase`
+            - Represents a collection of entries ordered by labels and IDs.
+
+
+          * - :py:obj:`~ansys.dpf.core.collection_base.IntegralCollection`
+            - Creates a collection of integral type with a list.
+
+
+          * - :py:obj:`~ansys.dpf.core.collection_base.IntCollection`
+            - Creates a collection of integers with a list.
+
+
+          * - :py:obj:`~ansys.dpf.core.collection_base.FloatCollection`
+            - Creates a collection of floats (double64) with a list.
+
+
+          * - :py:obj:`~ansys.dpf.core.collection_base.StringCollection`
+            - Creates a collection of strings with a list.
+
+
+
+
+
+
+
+    .. tab-item:: Constants
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~TYPE`
+            - 
+
+
+
+
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-cod-symbol_class"></span> CollectionBase</api/ansys/dpf/core/collection_base/CollectionBase>
+    <span class="nf nf-cod-symbol_class"></span> IntegralCollection</api/ansys/dpf/core/collection_base/IntegralCollection>
+    <span class="nf nf-cod-symbol_class"></span> IntCollection</api/ansys/dpf/core/collection_base/IntCollection>
+    <span class="nf nf-cod-symbol_class"></span> FloatCollection</api/ansys/dpf/core/collection_base/FloatCollection>
+    <span class="nf nf-cod-symbol_class"></span> StringCollection</api/ansys/dpf/core/collection_base/StringCollection>
+
+
+
+
+
+
+
+
+
+Description
+-----------
+
+Contains classes associated with the DPF collection.
+
+
+
+
+
+
+
+Module detail
+-------------
+
+.. py:data:: TYPE
+
+
+
