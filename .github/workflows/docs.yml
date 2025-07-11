@@ -122,7 +122,6 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: |
-            doc/build
             doc/source/examples
           # Cache key is composed of branch name, ansys version, hash of requirements_doc,
           # and run_id to work around immutability
