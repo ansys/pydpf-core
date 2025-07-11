@@ -45,6 +45,7 @@ model.plot(
     title="Model",
     text="Model plot off",
     parallel_projection=True,
+    zoom=2.0,
 )
 
 # Notes:
