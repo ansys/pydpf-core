@@ -27,6 +27,8 @@ MeshesContainer.
 Contains classes associated with the DPF MeshesContainer.
 """
 
+from __future__ import annotations
+
 from ansys.dpf.core import errors as dpf_errors, meshed_region
 from ansys.dpf.core.collection_base import CollectionBase
 from ansys.dpf.core.plotter import DpfPlotter
@@ -159,14 +161,14 @@ class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
         """
         return super()._get_entries(label_space)
 
-    def get_mesh(self, label_space_or_index):
+    def get_mesh(self, label_space_or_index: int | dict[str, int]):
         """Retrieve the mesh at a requested index or label space.
 
         Raises an exception if the request returns more than one mesh.
 
         Parameters
         ----------
-        label_space_or_index : dict[str,int] , int
+        label_space_or_index:
             Scoping of the requested mesh, such as ``{"time": 1, "complex": 0}``
             or the index of the mesh.
 
