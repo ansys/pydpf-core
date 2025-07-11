@@ -16,8 +16,9 @@ license: {{ scripting_info.license }}
 
 ## Supported file types
 
+This operator supports the following file types (result keys), listed by namespace:
 {%- for namespace, extensions in namespace_map|dictsort %}
-- {{namespace}}: {{extensions}}
+- <strong>{{namespace}}</strong>: {{extensions|sort|join(", ")}}
 {%- endfor %}
 
 {%- endif %}
