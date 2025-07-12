@@ -17,13 +17,19 @@ from ansys.dpf.core.server_types import AnyServerType
 
 
 class extract_scoping(Operator):
-    r"""Takes a field or a fields container and extracts its scoping or scopings
-    container.
+    r"""Takes a field type object, mesh or a collection of them and extracts its
+    scoping or scopings container.
 
 
     Parameters
     ----------
-    field_or_fields_container: Field or FieldsContainer, optional
+    field_or_fields_container: Field or FieldsContainer or PropertyField or
+        PropertyFieldsContainer or CustomTypeField or
+        CustomTypeFieldsContainer or StringField or Scoping
+        or ScopingsContainer or MeshedRegion or
+        MeshesContainer, optional
+    requested_location: int, optional
+        If input 0 is a mesh or a meshes_container, the operator returns the nodes scoping, possible locations are: Nodal(default) or Elemental
 
     Returns
     -------
@@ -39,36 +45,65 @@ class extract_scoping(Operator):
     >>> # Make input connections
     >>> my_field_or_fields_container = dpf.Field()
     >>> op.inputs.field_or_fields_container.connect(my_field_or_fields_container)
+    >>> my_requested_location = int()
+    >>> op.inputs.requested_location.connect(my_requested_location)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.utility.extract_scoping(
     ...     field_or_fields_container=my_field_or_fields_container,
+    ...     requested_location=my_requested_location,
     ... )
 
     >>> # Get output data
     >>> result_mesh_scoping = op.outputs.mesh_scoping()
     """
 
-    def __init__(self, field_or_fields_container=None, config=None, server=None):
+    def __init__(
+        self,
+        field_or_fields_container=None,
+        requested_location=None,
+        config=None,
+        server=None,
+    ):
         super().__init__(name="extract_scoping", config=config, server=server)
         self._inputs = InputsExtractScoping(self)
         self._outputs = OutputsExtractScoping(self)
         if field_or_fields_container is not None:
             self.inputs.field_or_fields_container.connect(field_or_fields_container)
+        if requested_location is not None:
+            self.inputs.requested_location.connect(requested_location)
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Takes a field or a fields container and extracts its scoping or scopings
-container.
+        description = r"""Takes a field type object, mesh or a collection of them and extracts its
+scoping or scopings container.
 """
         spec = Specification(
             description=description,
             map_input_pin_spec={
                 0: PinSpecification(
                     name="field_or_fields_container",
-                    type_names=["field", "fields_container"],
+                    type_names=[
+                        "field",
+                        "fields_container",
+                        "property_field",
+                        "property_fields_container",
+                        "custom_type_field",
+                        "custom_type_fields_container",
+                        "string_field",
+                        "scoping",
+                        "scopings_container",
+                        "meshed_region",
+                        "meshes_container",
+                    ],
                     optional=True,
                     document=r"""""",
+                ),
+                1: PinSpecification(
+                    name="requested_location",
+                    type_names=["int32"],
+                    optional=True,
+                    document=r"""If input 0 is a mesh or a meshes_container, the operator returns the nodes scoping, possible locations are: Nodal(default) or Elemental""",
                 ),
             },
             map_output_pin_spec={
@@ -136,6 +171,8 @@ class InputsExtractScoping(_Inputs):
     >>> op = dpf.operators.utility.extract_scoping()
     >>> my_field_or_fields_container = dpf.Field()
     >>> op.inputs.field_or_fields_container.connect(my_field_or_fields_container)
+    >>> my_requested_location = int()
+    >>> op.inputs.requested_location.connect(my_requested_location)
     """
 
     def __init__(self, op: Operator):
@@ -144,6 +181,10 @@ class InputsExtractScoping(_Inputs):
             extract_scoping._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._field_or_fields_container)
+        self._requested_location = Input(
+            extract_scoping._spec().input_pin(1), 1, op, -1
+        )
+        self._inputs.append(self._requested_location)
 
     @property
     def field_or_fields_container(self) -> Input:
@@ -163,6 +204,27 @@ class InputsExtractScoping(_Inputs):
         >>> op.inputs.field_or_fields_container(my_field_or_fields_container)
         """
         return self._field_or_fields_container
+
+    @property
+    def requested_location(self) -> Input:
+        r"""Allows to connect requested_location input to the operator.
+
+        If input 0 is a mesh or a meshes_container, the operator returns the nodes scoping, possible locations are: Nodal(default) or Elemental
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.utility.extract_scoping()
+        >>> op.inputs.requested_location.connect(my_requested_location)
+        >>> # or
+        >>> op.inputs.requested_location(my_requested_location)
+        """
+        return self._requested_location
 
 
 class OutputsExtractScoping(_Outputs):
