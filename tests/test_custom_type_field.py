@@ -21,6 +21,7 @@
 # SOFTWARE.
 
 import numpy as np
+import pytest
 
 from ansys import dpf
 from ansys.dpf import core
@@ -281,6 +282,9 @@ def test_check_types_custom_type_field(server_type):
     pfield3 = core.CustomTypeField(np.float32, server=server_type)
     pfield4 = core.CustomTypeField(np.float64, server=server_type)
     pfield5 = core.CustomTypeField(np.int8, server=server_type)
+
+    with pytest.raises(ValueError, match="CustomTypeField: invalid unitary_type"):
+        _ = core.CustomTypeField(np.complex128, server=server_type)
 
     forward = dpf.core.operators.utility.forward(server=server_type)
     forward.connect(0, pfield)

@@ -164,6 +164,13 @@ class DPFVectorDouble(DPFVectorBase):
 class DPFVectorCustomType(DPFVectorBase):
     def __init__(self, unitary_type, owner=None, api=dpf_vector_capi.DpfVectorCAPI):
         self.type = unitary_type
+        try:
+            # Check the type can be converted to a ctype
+            np.ctypeslib.as_ctypes_type(self.type)
+        except NotImplementedError as e:
+            raise ValueError(
+                f"DPFVectorCustomType: invalid unitary_type {self.type} (numpy: NotImplementedError: {e})."
+            )
         super().__init__(owner, api)
         self._array = MutableListChar()
 
