@@ -29,6 +29,7 @@ Module contains the Model class to manage file result models.
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
+import warnings
 
 if TYPE_CHECKING:  # pragma: nocover
     from ansys.dpf.core.scoping import Scoping
@@ -323,7 +324,8 @@ class Metadata:
             self._stream_provider.inputs.connect(self._data_sources)
         try:
             self._stream_provider.run()
-        except:
+        except Exception as e:
+            warnings.warn(f"Could not initialize the stream provider:\n{e}")
             self._stream_provider = None
 
     def release_streams(self):
