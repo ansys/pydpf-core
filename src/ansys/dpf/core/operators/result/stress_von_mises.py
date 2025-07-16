@@ -17,7 +17,9 @@ from ansys.dpf.core.server_types import AnyServerType
 
 class stress_von_mises(Operator):
     r"""Reads/computes element nodal component stresses, average it on nodes (by
-    default) and computes its invariants.
+    default) and computes its invariants. This operation is independent of
+    the coordinate system unless averaging across elements is requested, in
+    which case a rotation to the global coordinate system is performed.
 
 
     Parameters
@@ -33,7 +35,7 @@ class stress_von_mises(Operator):
     data_sources: DataSources
         result file path container, used if no streams are set
     bool_rotate_to_global: bool, optional
-        if true the field is rotated to global coordinate system (default true)
+        This pin is removed for versions >25.2. An error is raised if connected.
     mesh: MeshedRegion or MeshesContainer, optional
         prevents from reading the mesh in the result files
     requested_location: str, optional
@@ -135,7 +137,9 @@ class stress_von_mises(Operator):
     @staticmethod
     def _spec() -> Specification:
         description = r"""Reads/computes element nodal component stresses, average it on nodes (by
-default) and computes its invariants.
+default) and computes its invariants. This operation is independent of
+the coordinate system unless averaging across elements is requested, in
+which case a rotation to the global coordinate system is performed.
 """
         spec = Specification(
             description=description,
@@ -181,7 +185,7 @@ default) and computes its invariants.
                     name="bool_rotate_to_global",
                     type_names=["bool"],
                     optional=True,
-                    document=r"""if true the field is rotated to global coordinate system (default true)""",
+                    document=r"""This pin is removed for versions >25.2. An error is raised if connected.""",
                 ),
                 7: PinSpecification(
                     name="mesh",
@@ -431,7 +435,7 @@ class InputsStressVonMises(_Inputs):
     def bool_rotate_to_global(self) -> Input:
         r"""Allows to connect bool_rotate_to_global input to the operator.
 
-        if true the field is rotated to global coordinate system (default true)
+        This pin is removed for versions >25.2. An error is raised if connected.
 
         Returns
         -------
