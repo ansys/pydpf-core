@@ -72,7 +72,6 @@ def test_get_resultinfo_no_model(velocity_acceleration, server_type):
             "co_energy",
             "incremental_energy",
             "elastic_strain",
-            "element_euler_angles",
             "structural_temperature",
         ]
         if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0:
@@ -109,7 +108,6 @@ def test_get_resultinfo(model):
             "co_energy",
             "incremental_energy",
             "elastic_strain",
-            "element_euler_angles",
             "structural_temperature",
         ]
         if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0:
