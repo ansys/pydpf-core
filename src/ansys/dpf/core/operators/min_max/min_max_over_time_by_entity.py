@@ -16,8 +16,13 @@ from ansys.dpf.core.server_types import AnyServerType
 
 
 class min_max_over_time_by_entity(Operator):
-    r"""Evaluates minimum, maximum over time/frequency and returns those min max
-    as well as the time/freq where they occurred
+    r"""| For each entity and component, evaluates minimum and maximum over
+      time/frequency.
+    | Input pin 4 ``compute_amplitude`` is only effective when given
+      ``fields_container`` contains the ``complex`` label.
+    | if given input ``fields_container`` has a ``time_freq_support``,
+      output pins 2 and 3 ``fields_container`` contains time/freq indices of
+      the minimum and maximum values.
 
 
     Parameters
@@ -32,8 +37,8 @@ class min_max_over_time_by_entity(Operator):
     -------
     min: FieldsContainer
     max: FieldsContainer
-    time_freq_of_min: FieldsContainer
-    time_freq_of_max: FieldsContainer
+    time_freq_of_min: FieldsContainer, optional
+    time_freq_of_max: FieldsContainer, optional
 
     Examples
     --------
@@ -86,8 +91,13 @@ class min_max_over_time_by_entity(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Evaluates minimum, maximum over time/frequency and returns those min max
-as well as the time/freq where they occurred
+        description = r"""| For each entity and component, evaluates minimum and maximum over
+  time/frequency.
+| Input pin 4 ``compute_amplitude`` is only effective when given
+  ``fields_container`` contains the ``complex`` label.
+| if given input ``fields_container`` has a ``time_freq_support``,
+  output pins 2 and 3 ``fields_container`` contains time/freq indices of
+  the minimum and maximum values.
 """
         spec = Specification(
             description=description,
@@ -127,13 +137,13 @@ as well as the time/freq where they occurred
                 2: PinSpecification(
                     name="time_freq_of_min",
                     type_names=["fields_container"],
-                    optional=False,
+                    optional=True,
                     document=r"""""",
                 ),
                 3: PinSpecification(
                     name="time_freq_of_max",
                     type_names=["fields_container"],
-                    optional=False,
+                    optional=True,
                     document=r"""""",
                 ),
             },
