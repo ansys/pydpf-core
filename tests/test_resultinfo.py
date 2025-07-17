@@ -58,9 +58,23 @@ def test_get_resultinfo_no_model(velocity_acceleration, server_type):
         available_results_names = []
         for result in res.available_results:
             available_results_names.append(result.name)
-        expected_results = ["displacement", "velocity", "acceleration", "reaction_force", "stress", "elemental_volume", "stiffness_matrix_energy",
-"artificial_hourglass_energy", "thermal_dissipation_energy", "kinetic_energy", "co_energy", "incremental_energy", "elastic_strain",
-"element_euler_angles", "structural_temperature"]            
+        expected_results = [
+            "displacement",
+            "velocity",
+            "acceleration",
+            "reaction_force",
+            "stress",
+            "elemental_volume",
+            "stiffness_matrix_energy",
+            "artificial_hourglass_energy",
+            "thermal_dissipation_energy",
+            "kinetic_energy",
+            "co_energy",
+            "incremental_energy",
+            "elastic_strain",
+            "element_euler_angles",
+            "structural_temperature",
+        ]
         for result in expected_results:
             assert result in available_results_names
 
@@ -77,12 +91,26 @@ def test_get_resultinfo(model):
         available_results_names = []
         for result in res.available_results:
             available_results_names.append(result.name)
-        expected_results = ["displacement", "velocity", "acceleration", "reaction_force", "stress", "elemental_volume", "stiffness_matrix_energy",
-"artificial_hourglass_energy", "thermal_dissipation_energy", "kinetic_energy", "co_energy", "incremental_energy", "elastic_strain",
-"element_euler_angles", "structural_temperature"]            
+        expected_results = [
+            "displacement",
+            "velocity",
+            "acceleration",
+            "reaction_force",
+            "stress",
+            "elemental_volume",
+            "stiffness_matrix_energy",
+            "artificial_hourglass_energy",
+            "thermal_dissipation_energy",
+            "kinetic_energy",
+            "co_energy",
+            "incremental_energy",
+            "elastic_strain",
+            "element_euler_angles",
+            "structural_temperature",
+        ]
         for result in expected_results:
             assert result in available_results_names
-            
+
     assert "m, kg, N, s, V, A" in res.unit_system
     assert res.physics_type == mechanical
     assert "Static analysis" in str(res)
