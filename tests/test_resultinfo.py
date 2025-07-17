@@ -31,6 +31,7 @@ from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_1,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0,
 )
 
 if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0:
@@ -74,7 +75,7 @@ def test_get_resultinfo_no_model(velocity_acceleration, server_type):
             "elastic_strain",
             "structural_temperature",
         ]
-        if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0:
+        if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0:
             expected_results.append("element_orientations")
         else:
             expected_results.append("element_euler_angles")
@@ -110,7 +111,7 @@ def test_get_resultinfo(model):
             "elastic_strain",
             "structural_temperature",
         ]
-        if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0:
+        if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0:
             expected_results.append("element_orientations")
         else:
             expected_results.append("element_euler_angles")
