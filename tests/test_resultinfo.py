@@ -75,6 +75,10 @@ def test_get_resultinfo_no_model(velocity_acceleration, server_type):
             "element_euler_angles",
             "structural_temperature",
         ]
+        if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0:
+            expected_results.append("element_orientations")
+        else:
+            expected_results.append("element_euler_angles")
         for result in expected_results:
             assert result in available_results_names
 
@@ -108,6 +112,10 @@ def test_get_resultinfo(model):
             "element_euler_angles",
             "structural_temperature",
         ]
+        if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0:
+            expected_results.append("element_orientations")
+        else:
+            expected_results.append("element_euler_angles")
         for result in expected_results:
             assert result in available_results_names
 
