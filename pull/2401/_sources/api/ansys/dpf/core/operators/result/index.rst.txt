@@ -1,0 +1,1764 @@
+
+
+
+
+
+
+The ``result`` package
+==========================
+
+.. py:module:: ansys.dpf.core.operators.result
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+.. py:currentmodule:: result
+.. tab-set::
+
+
+    .. tab-item:: Submodules
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.acceleration`
+            - acceleration
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.acceleration_X`
+            - acceleration_X
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.acceleration_Y`
+            - acceleration_Y
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.acceleration_Z`
+            - acceleration_Z
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.accu_eqv_creep_strain`
+            - accu_eqv_creep_strain
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.accu_eqv_plastic_strain`
+            - accu_eqv_plastic_strain
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.add_rigid_body_motion`
+            - add_rigid_body_motion
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.add_rigid_body_motion_fc`
+            - add_rigid_body_motion_fc
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.artificial_hourglass_energy`
+            - artificial_hourglass_energy
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.beam_axial_force`
+            - beam_axial_force
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.beam_axial_plastic_strain`
+            - beam_axial_plastic_strain
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.beam_axial_stress`
+            - beam_axial_stress
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.beam_axial_total_strain`
+            - beam_axial_total_strain
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.beam_rs_shear_stress`
+            - beam_rs_shear_stress
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.beam_s_bending_moment`
+            - beam_s_bending_moment
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.beam_s_shear_force`
+            - beam_s_shear_force
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.beam_t_bending_moment`
+            - beam_t_bending_moment
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.beam_t_shear_force`
+            - beam_t_shear_force
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.beam_torsional_moment`
+            - beam_torsional_moment
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.beam_tr_shear_stress`
+            - beam_tr_shear_stress
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.cgns_result_provider`
+            - cgns_result_provider
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.cms_dst_table_provider`
+            - cms_dst_table_provider
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.cms_matrices_provider`
+            - cms_matrices_provider
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.cms_subfile_info_provider`
+            - cms_subfile_info_provider
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.co_energy`
+            - co_energy
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.compute_invariant_terms_motion`
+            - compute_invariant_terms_motion
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.compute_invariant_terms_rbd`
+            - compute_invariant_terms_rbd
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.compute_stress`
+            - compute_stress
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.compute_stress_1`
+            - compute_stress_1
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.compute_stress_2`
+            - compute_stress_2
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.compute_stress_3`
+            - compute_stress_3
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.compute_stress_X`
+            - compute_stress_X
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.compute_stress_XY`
+            - compute_stress_XY
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.compute_stress_XZ`
+            - compute_stress_XZ
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.compute_stress_Y`
+            - compute_stress_Y
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.compute_stress_YZ`
+            - compute_stress_YZ
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.compute_stress_Z`
+            - compute_stress_Z
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.compute_stress_von_mises`
+            - compute_stress_von_mises
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.compute_total_strain`
+            - compute_total_strain
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.compute_total_strain_1`
+            - compute_total_strain_1
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.compute_total_strain_2`
+            - compute_total_strain_2
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.compute_total_strain_3`
+            - compute_total_strain_3
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.compute_total_strain_X`
+            - compute_total_strain_X
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.compute_total_strain_XY`
+            - compute_total_strain_XY
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.compute_total_strain_XZ`
+            - compute_total_strain_XZ
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.compute_total_strain_Y`
+            - compute_total_strain_Y
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.compute_total_strain_YZ`
+            - compute_total_strain_YZ
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.compute_total_strain_Z`
+            - compute_total_strain_Z
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.contact_fluid_penetration_pressure`
+            - contact_fluid_penetration_pressure
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.contact_friction_stress`
+            - contact_friction_stress
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.contact_gap_distance`
+            - contact_gap_distance
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.contact_penetration`
+            - contact_penetration
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.contact_pressure`
+            - contact_pressure
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.contact_sliding_distance`
+            - contact_sliding_distance
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.contact_status`
+            - contact_status
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.contact_surface_heat_flux`
+            - contact_surface_heat_flux
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.contact_total_stress`
+            - contact_total_stress
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.coordinate_system`
+            - coordinate_system
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.coordinates`
+            - coordinates
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.creep_strain`
+            - creep_strain
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.creep_strain_X`
+            - creep_strain_X
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.creep_strain_XY`
+            - creep_strain_XY
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.creep_strain_XZ`
+            - creep_strain_XZ
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.creep_strain_Y`
+            - creep_strain_Y
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.creep_strain_YZ`
+            - creep_strain_YZ
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.creep_strain_Z`
+            - creep_strain_Z
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.creep_strain_energy_density`
+            - creep_strain_energy_density
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.creep_strain_eqv`
+            - creep_strain_eqv
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.creep_strain_intensity`
+            - creep_strain_intensity
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.creep_strain_max_shear`
+            - creep_strain_max_shear
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.creep_strain_principal_1`
+            - creep_strain_principal_1
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.creep_strain_principal_2`
+            - creep_strain_principal_2
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.creep_strain_principal_3`
+            - creep_strain_principal_3
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.current_density`
+            - current_density
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.cyclic_analytic_seqv_max`
+            - cyclic_analytic_seqv_max
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.cyclic_analytic_usum_max`
+            - cyclic_analytic_usum_max
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.cyclic_expansion`
+            - cyclic_expansion
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.density`
+            - density
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.displacement`
+            - displacement
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.displacement_X`
+            - displacement_X
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.displacement_Y`
+            - displacement_Y
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.displacement_Z`
+            - displacement_Z
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.div_lighthill_tensor`
+            - div_lighthill_tensor
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.dynamic_viscosity`
+            - dynamic_viscosity
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.elastic_strain`
+            - elastic_strain
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.elastic_strain_X`
+            - elastic_strain_X
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.elastic_strain_XY`
+            - elastic_strain_XY
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.elastic_strain_XZ`
+            - elastic_strain_XZ
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.elastic_strain_Y`
+            - elastic_strain_Y
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.elastic_strain_YZ`
+            - elastic_strain_YZ
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.elastic_strain_Z`
+            - elastic_strain_Z
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.elastic_strain_energy_density`
+            - elastic_strain_energy_density
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.elastic_strain_eqv`
+            - elastic_strain_eqv
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.elastic_strain_intensity`
+            - elastic_strain_intensity
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.elastic_strain_max_shear`
+            - elastic_strain_max_shear
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.elastic_strain_principal_1`
+            - elastic_strain_principal_1
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.elastic_strain_principal_2`
+            - elastic_strain_principal_2
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.elastic_strain_principal_3`
+            - elastic_strain_principal_3
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.elastic_strain_rotation_by_euler_nodes`
+            - elastic_strain_rotation_by_euler_nodes
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.electric_field`
+            - electric_field
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.electric_field_X`
+            - electric_field_X
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.electric_field_Y`
+            - electric_field_Y
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.electric_field_Z`
+            - electric_field_Z
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.electric_flux_density`
+            - electric_flux_density
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.electric_flux_density_X`
+            - electric_flux_density_X
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.electric_flux_density_Y`
+            - electric_flux_density_Y
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.electric_flux_density_Z`
+            - electric_flux_density_Z
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.electric_potential`
+            - electric_potential
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.element_centroids`
+            - element_centroids
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.element_nodal_forces`
+            - element_nodal_forces
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.element_orientations`
+            - element_orientations
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.element_orientations_X`
+            - element_orientations_X
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.element_orientations_Y`
+            - element_orientations_Y
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.element_orientations_Z`
+            - element_orientations_Z
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.elemental_heat_generation`
+            - elemental_heat_generation
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.elemental_mass`
+            - elemental_mass
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.elemental_volume`
+            - elemental_volume
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.enf_rotation_by_euler_nodes`
+            - enf_rotation_by_euler_nodes
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.enthalpy`
+            - enthalpy
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.entropy`
+            - entropy
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.epsilon`
+            - epsilon
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.equivalent_mass`
+            - equivalent_mass
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.equivalent_radiated_power`
+            - equivalent_radiated_power
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.eqv_stress_parameter`
+            - eqv_stress_parameter
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.erp_radiation_efficiency`
+            - erp_radiation_efficiency
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.euler_load_buckling`
+            - euler_load_buckling
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.euler_nodes`
+            - euler_nodes
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.gasket_deformation`
+            - gasket_deformation
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.gasket_deformation_X`
+            - gasket_deformation_X
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.gasket_deformation_XY`
+            - gasket_deformation_XY
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.gasket_deformation_XZ`
+            - gasket_deformation_XZ
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.gasket_inelastic_closure`
+            - gasket_inelastic_closure
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.gasket_inelastic_closure_X`
+            - gasket_inelastic_closure_X
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.gasket_inelastic_closure_XY`
+            - gasket_inelastic_closure_XY
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.gasket_inelastic_closure_XZ`
+            - gasket_inelastic_closure_XZ
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.gasket_stress`
+            - gasket_stress
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.gasket_stress_X`
+            - gasket_stress_X
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.gasket_stress_XY`
+            - gasket_stress_XY
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.gasket_stress_XZ`
+            - gasket_stress_XZ
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.gasket_thermal_closure`
+            - gasket_thermal_closure
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.gasket_thermal_closure_X`
+            - gasket_thermal_closure_X
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.gasket_thermal_closure_XY`
+            - gasket_thermal_closure_XY
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.gasket_thermal_closure_XZ`
+            - gasket_thermal_closure_XZ
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.global_added_mass`
+            - global_added_mass
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.global_added_mass_pct`
+            - global_added_mass_pct
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.global_center_mass`
+            - global_center_mass
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.global_energy_ratio`
+            - global_energy_ratio
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.global_energy_ratio_wo_eroded`
+            - global_energy_ratio_wo_eroded
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.global_eroded_hourglass_energy`
+            - global_eroded_hourglass_energy
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.global_eroded_internal_energy`
+            - global_eroded_internal_energy
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.global_eroded_kinetic_energy`
+            - global_eroded_kinetic_energy
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.global_external_work`
+            - global_external_work
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.global_hourglass_energy`
+            - global_hourglass_energy
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.global_internal_energy`
+            - global_internal_energy
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.global_joint_internal_energy`
+            - global_joint_internal_energy
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.global_kinetic_energy`
+            - global_kinetic_energy
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.global_rigid_body_stopper_energy`
+            - global_rigid_body_stopper_energy
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.global_sliding_interface_energy`
+            - global_sliding_interface_energy
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.global_spring_damper_energy`
+            - global_spring_damper_energy
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.global_system_damping_energy`
+            - global_system_damping_energy
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.global_time_step`
+            - global_time_step
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.global_to_nodal`
+            - global_to_nodal
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.global_total_energy`
+            - global_total_energy
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.global_total_mass`
+            - global_total_mass
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.global_velocity`
+            - global_velocity
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.heat_flux`
+            - heat_flux
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.heat_flux_X`
+            - heat_flux_X
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.heat_flux_Y`
+            - heat_flux_Y
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.heat_flux_Z`
+            - heat_flux_Z
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.hydrostatic_pressure`
+            - hydrostatic_pressure
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.incremental_energy`
+            - incremental_energy
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.initial_coordinates`
+            - initial_coordinates
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.interface_contact_area`
+            - interface_contact_area
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.interface_contact_force`
+            - interface_contact_force
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.interface_contact_mass`
+            - interface_contact_mass
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.interface_contact_moment`
+            - interface_contact_moment
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.interface_resultant_contact_force`
+            - interface_resultant_contact_force
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.joint_force_reaction`
+            - joint_force_reaction
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.joint_moment_reaction`
+            - joint_moment_reaction
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.joint_relative_acceleration`
+            - joint_relative_acceleration
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.joint_relative_angular_acceleration`
+            - joint_relative_angular_acceleration
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.joint_relative_angular_velocity`
+            - joint_relative_angular_velocity
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.joint_relative_displacement`
+            - joint_relative_displacement
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.joint_relative_rotation`
+            - joint_relative_rotation
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.joint_relative_velocity`
+            - joint_relative_velocity
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.kinetic_energy`
+            - kinetic_energy
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.mach_number`
+            - mach_number
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.magnetic_field`
+            - magnetic_field
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.magnetic_field_X`
+            - magnetic_field_X
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.magnetic_field_Y`
+            - magnetic_field_Y
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.magnetic_field_Z`
+            - magnetic_field_Z
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.magnetic_flux_density`
+            - magnetic_flux_density
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.magnetic_flux_density_X`
+            - magnetic_flux_density_X
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.magnetic_flux_density_Y`
+            - magnetic_flux_density_Y
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.magnetic_flux_density_Z`
+            - magnetic_flux_density_Z
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.magnetic_scalar_potential`
+            - magnetic_scalar_potential
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.magnetic_vector_potential`
+            - magnetic_vector_potential
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.mapdl_material_properties`
+            - mapdl_material_properties
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.mapdl_section`
+            - mapdl_section
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.mapdl_split_on_facet_indices`
+            - mapdl_split_on_facet_indices
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.mapdl_split_to_acmo_facet_indices`
+            - mapdl_split_to_acmo_facet_indices
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.mass_flow_rate`
+            - mass_flow_rate
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.mass_fraction`
+            - mass_fraction
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.material_property_of_element`
+            - material_property_of_element
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.mean_static_pressure`
+            - mean_static_pressure
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.mean_temperature`
+            - mean_temperature
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.mean_velocity`
+            - mean_velocity
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.members_in_bending_not_certified`
+            - members_in_bending_not_certified
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.members_in_compression_not_certified`
+            - members_in_compression_not_certified
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.members_in_linear_compression_bending_not_certified`
+            - members_in_linear_compression_bending_not_certified
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.migrate_to_h5dpf`
+            - migrate_to_h5dpf
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.modal_basis`
+            - modal_basis
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.nmisc`
+            - nmisc
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.nodal_force`
+            - nodal_force
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.nodal_moment`
+            - nodal_moment
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.nodal_to_global`
+            - nodal_to_global
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.normal_contact_force`
+            - normal_contact_force
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.normal_contact_moment`
+            - normal_contact_moment
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.num_surface_status_changes`
+            - num_surface_status_changes
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.omega`
+            - omega
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.part_added_mass`
+            - part_added_mass
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.part_eroded_internal_energy`
+            - part_eroded_internal_energy
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.part_eroded_kinetic_energy`
+            - part_eroded_kinetic_energy
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.part_hourglass_energy`
+            - part_hourglass_energy
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.part_internal_energy`
+            - part_internal_energy
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.part_kinetic_energy`
+            - part_kinetic_energy
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.part_momentum`
+            - part_momentum
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.part_rigid_body_velocity`
+            - part_rigid_body_velocity
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.plastic_state_variable`
+            - plastic_state_variable
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.plastic_strain`
+            - plastic_strain
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.plastic_strain_X`
+            - plastic_strain_X
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.plastic_strain_XY`
+            - plastic_strain_XY
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.plastic_strain_XZ`
+            - plastic_strain_XZ
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.plastic_strain_Y`
+            - plastic_strain_Y
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.plastic_strain_YZ`
+            - plastic_strain_YZ
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.plastic_strain_Z`
+            - plastic_strain_Z
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.plastic_strain_energy_density`
+            - plastic_strain_energy_density
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.plastic_strain_eqv`
+            - plastic_strain_eqv
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.plastic_strain_intensity`
+            - plastic_strain_intensity
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.plastic_strain_max_shear`
+            - plastic_strain_max_shear
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.plastic_strain_principal_1`
+            - plastic_strain_principal_1
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.plastic_strain_principal_2`
+            - plastic_strain_principal_2
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.plastic_strain_principal_3`
+            - plastic_strain_principal_3
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.plastic_strain_rotation_by_euler_nodes`
+            - plastic_strain_rotation_by_euler_nodes
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.poynting_vector`
+            - poynting_vector
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.poynting_vector_surface`
+            - poynting_vector_surface
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.pres_to_field`
+            - pres_to_field
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.pressure`
+            - pressure
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.pretension`
+            - pretension
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.prns_to_field`
+            - prns_to_field
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.raw_displacement`
+            - raw_displacement
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.raw_reaction_force`
+            - raw_reaction_force
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.reaction_force`
+            - reaction_force
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.reaction_force_X`
+            - reaction_force_X
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.reaction_force_Y`
+            - reaction_force_Y
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.reaction_force_Z`
+            - reaction_force_Z
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.read_cms_rbd_file`
+            - read_cms_rbd_file
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.recombine_harmonic_indeces_cyclic`
+            - recombine_harmonic_indeces_cyclic
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.remove_rigid_body_motion`
+            - remove_rigid_body_motion
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.remove_rigid_body_motion_fc`
+            - remove_rigid_body_motion_fc
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.result_provider`
+            - result_provider
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.rigid_transformation`
+            - rigid_transformation
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.rigid_transformation_provider`
+            - rigid_transformation_provider
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.rms_static_pressure`
+            - rms_static_pressure
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.rms_temperature`
+            - rms_temperature
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.rms_velocity`
+            - rms_velocity
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.rom_data_provider`
+            - rom_data_provider
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.run`
+            - run
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.smisc`
+            - smisc
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.specific_heat`
+            - specific_heat
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.spectrum_data`
+            - spectrum_data
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.state_variable`
+            - state_variable
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.static_pressure`
+            - static_pressure
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.stiffness_matrix_energy`
+            - stiffness_matrix_energy
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.strain_eqv_as_mechanical`
+            - strain_eqv_as_mechanical
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.strain_eqv_as_mechanical_workflow`
+            - strain_eqv_as_mechanical_workflow
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.stress`
+            - stress
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.stress_X`
+            - stress_X
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.stress_XY`
+            - stress_XY
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.stress_XZ`
+            - stress_XZ
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.stress_Y`
+            - stress_Y
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.stress_YZ`
+            - stress_YZ
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.stress_Z`
+            - stress_Z
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.stress_eqv_as_mechanical`
+            - stress_eqv_as_mechanical
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.stress_eqv_as_mechanical_workflow`
+            - stress_eqv_as_mechanical_workflow
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.stress_intensity`
+            - stress_intensity
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.stress_max_shear`
+            - stress_max_shear
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.stress_principal_1`
+            - stress_principal_1
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.stress_principal_2`
+            - stress_principal_2
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.stress_principal_3`
+            - stress_principal_3
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.stress_ratio`
+            - stress_ratio
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.stress_rotation_by_euler_nodes`
+            - stress_rotation_by_euler_nodes
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.stress_von_mises`
+            - stress_von_mises
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.structural_temperature`
+            - structural_temperature
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.superficial_velocity`
+            - superficial_velocity
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.surface_heat_rate`
+            - surface_heat_rate
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.swelling_strains`
+            - swelling_strains
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.tangential_contact_force`
+            - tangential_contact_force
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.tangential_contact_moment`
+            - tangential_contact_moment
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.temperature`
+            - temperature
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.temperature_grad`
+            - temperature_grad
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.temperature_grad_X`
+            - temperature_grad_X
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.temperature_grad_Y`
+            - temperature_grad_Y
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.temperature_grad_Z`
+            - temperature_grad_Z
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.thermal_conductivity`
+            - thermal_conductivity
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.thermal_dissipation_energy`
+            - thermal_dissipation_energy
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.thermal_strain`
+            - thermal_strain
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.thermal_strain_X`
+            - thermal_strain_X
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.thermal_strain_XY`
+            - thermal_strain_XY
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.thermal_strain_XZ`
+            - thermal_strain_XZ
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.thermal_strain_Y`
+            - thermal_strain_Y
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.thermal_strain_YZ`
+            - thermal_strain_YZ
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.thermal_strain_Z`
+            - thermal_strain_Z
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.thermal_strain_principal_1`
+            - thermal_strain_principal_1
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.thermal_strain_principal_2`
+            - thermal_strain_principal_2
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.thermal_strain_principal_3`
+            - thermal_strain_principal_3
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.thermal_strains_eqv`
+            - thermal_strains_eqv
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.thickness`
+            - thickness
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.torque`
+            - torque
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.total_contact_force`
+            - total_contact_force
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.total_contact_moment`
+            - total_contact_moment
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.total_mass`
+            - total_mass
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.total_pressure`
+            - total_pressure
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.total_strain`
+            - total_strain
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.total_temperature`
+            - total_temperature
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.transform_invariant_terms_rbd`
+            - transform_invariant_terms_rbd
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.transient_rayleigh_integration`
+            - transient_rayleigh_integration
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.turbulent_kinetic_energy`
+            - turbulent_kinetic_energy
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.turbulent_viscosity`
+            - turbulent_viscosity
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.velocity`
+            - velocity
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.velocity_X`
+            - velocity_X
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.velocity_Y`
+            - velocity_Y
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.velocity_Z`
+            - velocity_Z
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.volume_fraction`
+            - volume_fraction
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.wall_shear_stress`
+            - wall_shear_stress
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.workflow_energy_per_component`
+            - workflow_energy_per_component
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.workflow_energy_per_harmonic`
+            - workflow_energy_per_harmonic
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.write_cms_rbd_file`
+            - write_cms_rbd_file
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.write_motion_dfmf_file`
+            - write_motion_dfmf_file
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result.y_plus`
+            - y_plus
+
+
+
+
+
+
+
+
+
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-fa-file"></span> acceleration</api/ansys/dpf/core/operators/result/acceleration/index>
+    <span class="nf nf-fa-file"></span> acceleration_X</api/ansys/dpf/core/operators/result/acceleration_X/index>
+    <span class="nf nf-fa-file"></span> acceleration_Y</api/ansys/dpf/core/operators/result/acceleration_Y/index>
+    <span class="nf nf-fa-file"></span> acceleration_Z</api/ansys/dpf/core/operators/result/acceleration_Z/index>
+    <span class="nf nf-fa-file"></span> accu_eqv_creep_strain</api/ansys/dpf/core/operators/result/accu_eqv_creep_strain/index>
+    <span class="nf nf-fa-file"></span> accu_eqv_plastic_strain</api/ansys/dpf/core/operators/result/accu_eqv_plastic_strain/index>
+    <span class="nf nf-fa-file"></span> add_rigid_body_motion</api/ansys/dpf/core/operators/result/add_rigid_body_motion/index>
+    <span class="nf nf-fa-file"></span> add_rigid_body_motion_fc</api/ansys/dpf/core/operators/result/add_rigid_body_motion_fc/index>
+    <span class="nf nf-fa-file"></span> artificial_hourglass_energy</api/ansys/dpf/core/operators/result/artificial_hourglass_energy/index>
+    <span class="nf nf-fa-file"></span> beam_axial_force</api/ansys/dpf/core/operators/result/beam_axial_force/index>
+    <span class="nf nf-fa-file"></span> beam_axial_plastic_strain</api/ansys/dpf/core/operators/result/beam_axial_plastic_strain/index>
+    <span class="nf nf-fa-file"></span> beam_axial_stress</api/ansys/dpf/core/operators/result/beam_axial_stress/index>
+    <span class="nf nf-fa-file"></span> beam_axial_total_strain</api/ansys/dpf/core/operators/result/beam_axial_total_strain/index>
+    <span class="nf nf-fa-file"></span> beam_rs_shear_stress</api/ansys/dpf/core/operators/result/beam_rs_shear_stress/index>
+    <span class="nf nf-fa-file"></span> beam_s_bending_moment</api/ansys/dpf/core/operators/result/beam_s_bending_moment/index>
+    <span class="nf nf-fa-file"></span> beam_s_shear_force</api/ansys/dpf/core/operators/result/beam_s_shear_force/index>
+    <span class="nf nf-fa-file"></span> beam_t_bending_moment</api/ansys/dpf/core/operators/result/beam_t_bending_moment/index>
+    <span class="nf nf-fa-file"></span> beam_t_shear_force</api/ansys/dpf/core/operators/result/beam_t_shear_force/index>
+    <span class="nf nf-fa-file"></span> beam_torsional_moment</api/ansys/dpf/core/operators/result/beam_torsional_moment/index>
+    <span class="nf nf-fa-file"></span> beam_tr_shear_stress</api/ansys/dpf/core/operators/result/beam_tr_shear_stress/index>
+    <span class="nf nf-fa-file"></span> cgns_result_provider</api/ansys/dpf/core/operators/result/cgns_result_provider/index>
+    <span class="nf nf-fa-file"></span> cms_dst_table_provider</api/ansys/dpf/core/operators/result/cms_dst_table_provider/index>
+    <span class="nf nf-fa-file"></span> cms_matrices_provider</api/ansys/dpf/core/operators/result/cms_matrices_provider/index>
+    <span class="nf nf-fa-file"></span> cms_subfile_info_provider</api/ansys/dpf/core/operators/result/cms_subfile_info_provider/index>
+    <span class="nf nf-fa-file"></span> co_energy</api/ansys/dpf/core/operators/result/co_energy/index>
+    <span class="nf nf-fa-file"></span> compute_invariant_terms_motion</api/ansys/dpf/core/operators/result/compute_invariant_terms_motion/index>
+    <span class="nf nf-fa-file"></span> compute_invariant_terms_rbd</api/ansys/dpf/core/operators/result/compute_invariant_terms_rbd/index>
+    <span class="nf nf-fa-file"></span> compute_stress</api/ansys/dpf/core/operators/result/compute_stress/index>
+    <span class="nf nf-fa-file"></span> compute_stress_1</api/ansys/dpf/core/operators/result/compute_stress_1/index>
+    <span class="nf nf-fa-file"></span> compute_stress_2</api/ansys/dpf/core/operators/result/compute_stress_2/index>
+    <span class="nf nf-fa-file"></span> compute_stress_3</api/ansys/dpf/core/operators/result/compute_stress_3/index>
+    <span class="nf nf-fa-file"></span> compute_stress_X</api/ansys/dpf/core/operators/result/compute_stress_X/index>
+    <span class="nf nf-fa-file"></span> compute_stress_XY</api/ansys/dpf/core/operators/result/compute_stress_XY/index>
+    <span class="nf nf-fa-file"></span> compute_stress_XZ</api/ansys/dpf/core/operators/result/compute_stress_XZ/index>
+    <span class="nf nf-fa-file"></span> compute_stress_Y</api/ansys/dpf/core/operators/result/compute_stress_Y/index>
+    <span class="nf nf-fa-file"></span> compute_stress_YZ</api/ansys/dpf/core/operators/result/compute_stress_YZ/index>
+    <span class="nf nf-fa-file"></span> compute_stress_Z</api/ansys/dpf/core/operators/result/compute_stress_Z/index>
+    <span class="nf nf-fa-file"></span> compute_stress_von_mises</api/ansys/dpf/core/operators/result/compute_stress_von_mises/index>
+    <span class="nf nf-fa-file"></span> compute_total_strain</api/ansys/dpf/core/operators/result/compute_total_strain/index>
+    <span class="nf nf-fa-file"></span> compute_total_strain_1</api/ansys/dpf/core/operators/result/compute_total_strain_1/index>
+    <span class="nf nf-fa-file"></span> compute_total_strain_2</api/ansys/dpf/core/operators/result/compute_total_strain_2/index>
+    <span class="nf nf-fa-file"></span> compute_total_strain_3</api/ansys/dpf/core/operators/result/compute_total_strain_3/index>
+    <span class="nf nf-fa-file"></span> compute_total_strain_X</api/ansys/dpf/core/operators/result/compute_total_strain_X/index>
+    <span class="nf nf-fa-file"></span> compute_total_strain_XY</api/ansys/dpf/core/operators/result/compute_total_strain_XY/index>
+    <span class="nf nf-fa-file"></span> compute_total_strain_XZ</api/ansys/dpf/core/operators/result/compute_total_strain_XZ/index>
+    <span class="nf nf-fa-file"></span> compute_total_strain_Y</api/ansys/dpf/core/operators/result/compute_total_strain_Y/index>
+    <span class="nf nf-fa-file"></span> compute_total_strain_YZ</api/ansys/dpf/core/operators/result/compute_total_strain_YZ/index>
+    <span class="nf nf-fa-file"></span> compute_total_strain_Z</api/ansys/dpf/core/operators/result/compute_total_strain_Z/index>
+    <span class="nf nf-fa-file"></span> contact_fluid_penetration_pressure</api/ansys/dpf/core/operators/result/contact_fluid_penetration_pressure/index>
+    <span class="nf nf-fa-file"></span> contact_friction_stress</api/ansys/dpf/core/operators/result/contact_friction_stress/index>
+    <span class="nf nf-fa-file"></span> contact_gap_distance</api/ansys/dpf/core/operators/result/contact_gap_distance/index>
+    <span class="nf nf-fa-file"></span> contact_penetration</api/ansys/dpf/core/operators/result/contact_penetration/index>
+    <span class="nf nf-fa-file"></span> contact_pressure</api/ansys/dpf/core/operators/result/contact_pressure/index>
+    <span class="nf nf-fa-file"></span> contact_sliding_distance</api/ansys/dpf/core/operators/result/contact_sliding_distance/index>
+    <span class="nf nf-fa-file"></span> contact_status</api/ansys/dpf/core/operators/result/contact_status/index>
+    <span class="nf nf-fa-file"></span> contact_surface_heat_flux</api/ansys/dpf/core/operators/result/contact_surface_heat_flux/index>
+    <span class="nf nf-fa-file"></span> contact_total_stress</api/ansys/dpf/core/operators/result/contact_total_stress/index>
+    <span class="nf nf-fa-file"></span> coordinate_system</api/ansys/dpf/core/operators/result/coordinate_system/index>
+    <span class="nf nf-fa-file"></span> coordinates</api/ansys/dpf/core/operators/result/coordinates/index>
+    <span class="nf nf-fa-file"></span> creep_strain</api/ansys/dpf/core/operators/result/creep_strain/index>
+    <span class="nf nf-fa-file"></span> creep_strain_X</api/ansys/dpf/core/operators/result/creep_strain_X/index>
+    <span class="nf nf-fa-file"></span> creep_strain_XY</api/ansys/dpf/core/operators/result/creep_strain_XY/index>
+    <span class="nf nf-fa-file"></span> creep_strain_XZ</api/ansys/dpf/core/operators/result/creep_strain_XZ/index>
+    <span class="nf nf-fa-file"></span> creep_strain_Y</api/ansys/dpf/core/operators/result/creep_strain_Y/index>
+    <span class="nf nf-fa-file"></span> creep_strain_YZ</api/ansys/dpf/core/operators/result/creep_strain_YZ/index>
+    <span class="nf nf-fa-file"></span> creep_strain_Z</api/ansys/dpf/core/operators/result/creep_strain_Z/index>
+    <span class="nf nf-fa-file"></span> creep_strain_energy_density</api/ansys/dpf/core/operators/result/creep_strain_energy_density/index>
+    <span class="nf nf-fa-file"></span> creep_strain_eqv</api/ansys/dpf/core/operators/result/creep_strain_eqv/index>
+    <span class="nf nf-fa-file"></span> creep_strain_intensity</api/ansys/dpf/core/operators/result/creep_strain_intensity/index>
+    <span class="nf nf-fa-file"></span> creep_strain_max_shear</api/ansys/dpf/core/operators/result/creep_strain_max_shear/index>
+    <span class="nf nf-fa-file"></span> creep_strain_principal_1</api/ansys/dpf/core/operators/result/creep_strain_principal_1/index>
+    <span class="nf nf-fa-file"></span> creep_strain_principal_2</api/ansys/dpf/core/operators/result/creep_strain_principal_2/index>
+    <span class="nf nf-fa-file"></span> creep_strain_principal_3</api/ansys/dpf/core/operators/result/creep_strain_principal_3/index>
+    <span class="nf nf-fa-file"></span> current_density</api/ansys/dpf/core/operators/result/current_density/index>
+    <span class="nf nf-fa-file"></span> cyclic_analytic_seqv_max</api/ansys/dpf/core/operators/result/cyclic_analytic_seqv_max/index>
+    <span class="nf nf-fa-file"></span> cyclic_analytic_usum_max</api/ansys/dpf/core/operators/result/cyclic_analytic_usum_max/index>
+    <span class="nf nf-fa-file"></span> cyclic_expansion</api/ansys/dpf/core/operators/result/cyclic_expansion/index>
+    <span class="nf nf-fa-file"></span> density</api/ansys/dpf/core/operators/result/density/index>
+    <span class="nf nf-fa-file"></span> displacement</api/ansys/dpf/core/operators/result/displacement/index>
+    <span class="nf nf-fa-file"></span> displacement_X</api/ansys/dpf/core/operators/result/displacement_X/index>
+    <span class="nf nf-fa-file"></span> displacement_Y</api/ansys/dpf/core/operators/result/displacement_Y/index>
+    <span class="nf nf-fa-file"></span> displacement_Z</api/ansys/dpf/core/operators/result/displacement_Z/index>
+    <span class="nf nf-fa-file"></span> div_lighthill_tensor</api/ansys/dpf/core/operators/result/div_lighthill_tensor/index>
+    <span class="nf nf-fa-file"></span> dynamic_viscosity</api/ansys/dpf/core/operators/result/dynamic_viscosity/index>
+    <span class="nf nf-fa-file"></span> elastic_strain</api/ansys/dpf/core/operators/result/elastic_strain/index>
+    <span class="nf nf-fa-file"></span> elastic_strain_X</api/ansys/dpf/core/operators/result/elastic_strain_X/index>
+    <span class="nf nf-fa-file"></span> elastic_strain_XY</api/ansys/dpf/core/operators/result/elastic_strain_XY/index>
+    <span class="nf nf-fa-file"></span> elastic_strain_XZ</api/ansys/dpf/core/operators/result/elastic_strain_XZ/index>
+    <span class="nf nf-fa-file"></span> elastic_strain_Y</api/ansys/dpf/core/operators/result/elastic_strain_Y/index>
+    <span class="nf nf-fa-file"></span> elastic_strain_YZ</api/ansys/dpf/core/operators/result/elastic_strain_YZ/index>
+    <span class="nf nf-fa-file"></span> elastic_strain_Z</api/ansys/dpf/core/operators/result/elastic_strain_Z/index>
+    <span class="nf nf-fa-file"></span> elastic_strain_energy_density</api/ansys/dpf/core/operators/result/elastic_strain_energy_density/index>
+    <span class="nf nf-fa-file"></span> elastic_strain_eqv</api/ansys/dpf/core/operators/result/elastic_strain_eqv/index>
+    <span class="nf nf-fa-file"></span> elastic_strain_intensity</api/ansys/dpf/core/operators/result/elastic_strain_intensity/index>
+    <span class="nf nf-fa-file"></span> elastic_strain_max_shear</api/ansys/dpf/core/operators/result/elastic_strain_max_shear/index>
+    <span class="nf nf-fa-file"></span> elastic_strain_principal_1</api/ansys/dpf/core/operators/result/elastic_strain_principal_1/index>
+    <span class="nf nf-fa-file"></span> elastic_strain_principal_2</api/ansys/dpf/core/operators/result/elastic_strain_principal_2/index>
+    <span class="nf nf-fa-file"></span> elastic_strain_principal_3</api/ansys/dpf/core/operators/result/elastic_strain_principal_3/index>
+    <span class="nf nf-fa-file"></span> elastic_strain_rotation_by_euler_nodes</api/ansys/dpf/core/operators/result/elastic_strain_rotation_by_euler_nodes/index>
+    <span class="nf nf-fa-file"></span> electric_field</api/ansys/dpf/core/operators/result/electric_field/index>
+    <span class="nf nf-fa-file"></span> electric_field_X</api/ansys/dpf/core/operators/result/electric_field_X/index>
+    <span class="nf nf-fa-file"></span> electric_field_Y</api/ansys/dpf/core/operators/result/electric_field_Y/index>
+    <span class="nf nf-fa-file"></span> electric_field_Z</api/ansys/dpf/core/operators/result/electric_field_Z/index>
+    <span class="nf nf-fa-file"></span> electric_flux_density</api/ansys/dpf/core/operators/result/electric_flux_density/index>
+    <span class="nf nf-fa-file"></span> electric_flux_density_X</api/ansys/dpf/core/operators/result/electric_flux_density_X/index>
+    <span class="nf nf-fa-file"></span> electric_flux_density_Y</api/ansys/dpf/core/operators/result/electric_flux_density_Y/index>
+    <span class="nf nf-fa-file"></span> electric_flux_density_Z</api/ansys/dpf/core/operators/result/electric_flux_density_Z/index>
+    <span class="nf nf-fa-file"></span> electric_potential</api/ansys/dpf/core/operators/result/electric_potential/index>
+    <span class="nf nf-fa-file"></span> element_centroids</api/ansys/dpf/core/operators/result/element_centroids/index>
+    <span class="nf nf-fa-file"></span> element_nodal_forces</api/ansys/dpf/core/operators/result/element_nodal_forces/index>
+    <span class="nf nf-fa-file"></span> element_orientations</api/ansys/dpf/core/operators/result/element_orientations/index>
+    <span class="nf nf-fa-file"></span> element_orientations_X</api/ansys/dpf/core/operators/result/element_orientations_X/index>
+    <span class="nf nf-fa-file"></span> element_orientations_Y</api/ansys/dpf/core/operators/result/element_orientations_Y/index>
+    <span class="nf nf-fa-file"></span> element_orientations_Z</api/ansys/dpf/core/operators/result/element_orientations_Z/index>
+    <span class="nf nf-fa-file"></span> elemental_heat_generation</api/ansys/dpf/core/operators/result/elemental_heat_generation/index>
+    <span class="nf nf-fa-file"></span> elemental_mass</api/ansys/dpf/core/operators/result/elemental_mass/index>
+    <span class="nf nf-fa-file"></span> elemental_volume</api/ansys/dpf/core/operators/result/elemental_volume/index>
+    <span class="nf nf-fa-file"></span> enf_rotation_by_euler_nodes</api/ansys/dpf/core/operators/result/enf_rotation_by_euler_nodes/index>
+    <span class="nf nf-fa-file"></span> enthalpy</api/ansys/dpf/core/operators/result/enthalpy/index>
+    <span class="nf nf-fa-file"></span> entropy</api/ansys/dpf/core/operators/result/entropy/index>
+    <span class="nf nf-fa-file"></span> epsilon</api/ansys/dpf/core/operators/result/epsilon/index>
+    <span class="nf nf-fa-file"></span> equivalent_mass</api/ansys/dpf/core/operators/result/equivalent_mass/index>
+    <span class="nf nf-fa-file"></span> equivalent_radiated_power</api/ansys/dpf/core/operators/result/equivalent_radiated_power/index>
+    <span class="nf nf-fa-file"></span> eqv_stress_parameter</api/ansys/dpf/core/operators/result/eqv_stress_parameter/index>
+    <span class="nf nf-fa-file"></span> erp_radiation_efficiency</api/ansys/dpf/core/operators/result/erp_radiation_efficiency/index>
+    <span class="nf nf-fa-file"></span> euler_load_buckling</api/ansys/dpf/core/operators/result/euler_load_buckling/index>
+    <span class="nf nf-fa-file"></span> euler_nodes</api/ansys/dpf/core/operators/result/euler_nodes/index>
+    <span class="nf nf-fa-file"></span> gasket_deformation</api/ansys/dpf/core/operators/result/gasket_deformation/index>
+    <span class="nf nf-fa-file"></span> gasket_deformation_X</api/ansys/dpf/core/operators/result/gasket_deformation_X/index>
+    <span class="nf nf-fa-file"></span> gasket_deformation_XY</api/ansys/dpf/core/operators/result/gasket_deformation_XY/index>
+    <span class="nf nf-fa-file"></span> gasket_deformation_XZ</api/ansys/dpf/core/operators/result/gasket_deformation_XZ/index>
+    <span class="nf nf-fa-file"></span> gasket_inelastic_closure</api/ansys/dpf/core/operators/result/gasket_inelastic_closure/index>
+    <span class="nf nf-fa-file"></span> gasket_inelastic_closure_X</api/ansys/dpf/core/operators/result/gasket_inelastic_closure_X/index>
+    <span class="nf nf-fa-file"></span> gasket_inelastic_closure_XY</api/ansys/dpf/core/operators/result/gasket_inelastic_closure_XY/index>
+    <span class="nf nf-fa-file"></span> gasket_inelastic_closure_XZ</api/ansys/dpf/core/operators/result/gasket_inelastic_closure_XZ/index>
+    <span class="nf nf-fa-file"></span> gasket_stress</api/ansys/dpf/core/operators/result/gasket_stress/index>
+    <span class="nf nf-fa-file"></span> gasket_stress_X</api/ansys/dpf/core/operators/result/gasket_stress_X/index>
+    <span class="nf nf-fa-file"></span> gasket_stress_XY</api/ansys/dpf/core/operators/result/gasket_stress_XY/index>
+    <span class="nf nf-fa-file"></span> gasket_stress_XZ</api/ansys/dpf/core/operators/result/gasket_stress_XZ/index>
+    <span class="nf nf-fa-file"></span> gasket_thermal_closure</api/ansys/dpf/core/operators/result/gasket_thermal_closure/index>
+    <span class="nf nf-fa-file"></span> gasket_thermal_closure_X</api/ansys/dpf/core/operators/result/gasket_thermal_closure_X/index>
+    <span class="nf nf-fa-file"></span> gasket_thermal_closure_XY</api/ansys/dpf/core/operators/result/gasket_thermal_closure_XY/index>
+    <span class="nf nf-fa-file"></span> gasket_thermal_closure_XZ</api/ansys/dpf/core/operators/result/gasket_thermal_closure_XZ/index>
+    <span class="nf nf-fa-file"></span> global_added_mass</api/ansys/dpf/core/operators/result/global_added_mass/index>
+    <span class="nf nf-fa-file"></span> global_added_mass_pct</api/ansys/dpf/core/operators/result/global_added_mass_pct/index>
+    <span class="nf nf-fa-file"></span> global_center_mass</api/ansys/dpf/core/operators/result/global_center_mass/index>
+    <span class="nf nf-fa-file"></span> global_energy_ratio</api/ansys/dpf/core/operators/result/global_energy_ratio/index>
+    <span class="nf nf-fa-file"></span> global_energy_ratio_wo_eroded</api/ansys/dpf/core/operators/result/global_energy_ratio_wo_eroded/index>
+    <span class="nf nf-fa-file"></span> global_eroded_hourglass_energy</api/ansys/dpf/core/operators/result/global_eroded_hourglass_energy/index>
+    <span class="nf nf-fa-file"></span> global_eroded_internal_energy</api/ansys/dpf/core/operators/result/global_eroded_internal_energy/index>
+    <span class="nf nf-fa-file"></span> global_eroded_kinetic_energy</api/ansys/dpf/core/operators/result/global_eroded_kinetic_energy/index>
+    <span class="nf nf-fa-file"></span> global_external_work</api/ansys/dpf/core/operators/result/global_external_work/index>
+    <span class="nf nf-fa-file"></span> global_hourglass_energy</api/ansys/dpf/core/operators/result/global_hourglass_energy/index>
+    <span class="nf nf-fa-file"></span> global_internal_energy</api/ansys/dpf/core/operators/result/global_internal_energy/index>
+    <span class="nf nf-fa-file"></span> global_joint_internal_energy</api/ansys/dpf/core/operators/result/global_joint_internal_energy/index>
+    <span class="nf nf-fa-file"></span> global_kinetic_energy</api/ansys/dpf/core/operators/result/global_kinetic_energy/index>
+    <span class="nf nf-fa-file"></span> global_rigid_body_stopper_energy</api/ansys/dpf/core/operators/result/global_rigid_body_stopper_energy/index>
+    <span class="nf nf-fa-file"></span> global_sliding_interface_energy</api/ansys/dpf/core/operators/result/global_sliding_interface_energy/index>
+    <span class="nf nf-fa-file"></span> global_spring_damper_energy</api/ansys/dpf/core/operators/result/global_spring_damper_energy/index>
+    <span class="nf nf-fa-file"></span> global_system_damping_energy</api/ansys/dpf/core/operators/result/global_system_damping_energy/index>
+    <span class="nf nf-fa-file"></span> global_time_step</api/ansys/dpf/core/operators/result/global_time_step/index>
+    <span class="nf nf-fa-file"></span> global_to_nodal</api/ansys/dpf/core/operators/result/global_to_nodal/index>
+    <span class="nf nf-fa-file"></span> global_total_energy</api/ansys/dpf/core/operators/result/global_total_energy/index>
+    <span class="nf nf-fa-file"></span> global_total_mass</api/ansys/dpf/core/operators/result/global_total_mass/index>
+    <span class="nf nf-fa-file"></span> global_velocity</api/ansys/dpf/core/operators/result/global_velocity/index>
+    <span class="nf nf-fa-file"></span> heat_flux</api/ansys/dpf/core/operators/result/heat_flux/index>
+    <span class="nf nf-fa-file"></span> heat_flux_X</api/ansys/dpf/core/operators/result/heat_flux_X/index>
+    <span class="nf nf-fa-file"></span> heat_flux_Y</api/ansys/dpf/core/operators/result/heat_flux_Y/index>
+    <span class="nf nf-fa-file"></span> heat_flux_Z</api/ansys/dpf/core/operators/result/heat_flux_Z/index>
+    <span class="nf nf-fa-file"></span> hydrostatic_pressure</api/ansys/dpf/core/operators/result/hydrostatic_pressure/index>
+    <span class="nf nf-fa-file"></span> incremental_energy</api/ansys/dpf/core/operators/result/incremental_energy/index>
+    <span class="nf nf-fa-file"></span> initial_coordinates</api/ansys/dpf/core/operators/result/initial_coordinates/index>
+    <span class="nf nf-fa-file"></span> interface_contact_area</api/ansys/dpf/core/operators/result/interface_contact_area/index>
+    <span class="nf nf-fa-file"></span> interface_contact_force</api/ansys/dpf/core/operators/result/interface_contact_force/index>
+    <span class="nf nf-fa-file"></span> interface_contact_mass</api/ansys/dpf/core/operators/result/interface_contact_mass/index>
+    <span class="nf nf-fa-file"></span> interface_contact_moment</api/ansys/dpf/core/operators/result/interface_contact_moment/index>
+    <span class="nf nf-fa-file"></span> interface_resultant_contact_force</api/ansys/dpf/core/operators/result/interface_resultant_contact_force/index>
+    <span class="nf nf-fa-file"></span> joint_force_reaction</api/ansys/dpf/core/operators/result/joint_force_reaction/index>
+    <span class="nf nf-fa-file"></span> joint_moment_reaction</api/ansys/dpf/core/operators/result/joint_moment_reaction/index>
+    <span class="nf nf-fa-file"></span> joint_relative_acceleration</api/ansys/dpf/core/operators/result/joint_relative_acceleration/index>
+    <span class="nf nf-fa-file"></span> joint_relative_angular_acceleration</api/ansys/dpf/core/operators/result/joint_relative_angular_acceleration/index>
+    <span class="nf nf-fa-file"></span> joint_relative_angular_velocity</api/ansys/dpf/core/operators/result/joint_relative_angular_velocity/index>
+    <span class="nf nf-fa-file"></span> joint_relative_displacement</api/ansys/dpf/core/operators/result/joint_relative_displacement/index>
+    <span class="nf nf-fa-file"></span> joint_relative_rotation</api/ansys/dpf/core/operators/result/joint_relative_rotation/index>
+    <span class="nf nf-fa-file"></span> joint_relative_velocity</api/ansys/dpf/core/operators/result/joint_relative_velocity/index>
+    <span class="nf nf-fa-file"></span> kinetic_energy</api/ansys/dpf/core/operators/result/kinetic_energy/index>
+    <span class="nf nf-fa-file"></span> mach_number</api/ansys/dpf/core/operators/result/mach_number/index>
+    <span class="nf nf-fa-file"></span> magnetic_field</api/ansys/dpf/core/operators/result/magnetic_field/index>
+    <span class="nf nf-fa-file"></span> magnetic_field_X</api/ansys/dpf/core/operators/result/magnetic_field_X/index>
+    <span class="nf nf-fa-file"></span> magnetic_field_Y</api/ansys/dpf/core/operators/result/magnetic_field_Y/index>
+    <span class="nf nf-fa-file"></span> magnetic_field_Z</api/ansys/dpf/core/operators/result/magnetic_field_Z/index>
+    <span class="nf nf-fa-file"></span> magnetic_flux_density</api/ansys/dpf/core/operators/result/magnetic_flux_density/index>
+    <span class="nf nf-fa-file"></span> magnetic_flux_density_X</api/ansys/dpf/core/operators/result/magnetic_flux_density_X/index>
+    <span class="nf nf-fa-file"></span> magnetic_flux_density_Y</api/ansys/dpf/core/operators/result/magnetic_flux_density_Y/index>
+    <span class="nf nf-fa-file"></span> magnetic_flux_density_Z</api/ansys/dpf/core/operators/result/magnetic_flux_density_Z/index>
+    <span class="nf nf-fa-file"></span> magnetic_scalar_potential</api/ansys/dpf/core/operators/result/magnetic_scalar_potential/index>
+    <span class="nf nf-fa-file"></span> magnetic_vector_potential</api/ansys/dpf/core/operators/result/magnetic_vector_potential/index>
+    <span class="nf nf-fa-file"></span> mapdl_material_properties</api/ansys/dpf/core/operators/result/mapdl_material_properties/index>
+    <span class="nf nf-fa-file"></span> mapdl_section</api/ansys/dpf/core/operators/result/mapdl_section/index>
+    <span class="nf nf-fa-file"></span> mapdl_split_on_facet_indices</api/ansys/dpf/core/operators/result/mapdl_split_on_facet_indices/index>
+    <span class="nf nf-fa-file"></span> mapdl_split_to_acmo_facet_indices</api/ansys/dpf/core/operators/result/mapdl_split_to_acmo_facet_indices/index>
+    <span class="nf nf-fa-file"></span> mass_flow_rate</api/ansys/dpf/core/operators/result/mass_flow_rate/index>
+    <span class="nf nf-fa-file"></span> mass_fraction</api/ansys/dpf/core/operators/result/mass_fraction/index>
+    <span class="nf nf-fa-file"></span> material_property_of_element</api/ansys/dpf/core/operators/result/material_property_of_element/index>
+    <span class="nf nf-fa-file"></span> mean_static_pressure</api/ansys/dpf/core/operators/result/mean_static_pressure/index>
+    <span class="nf nf-fa-file"></span> mean_temperature</api/ansys/dpf/core/operators/result/mean_temperature/index>
+    <span class="nf nf-fa-file"></span> mean_velocity</api/ansys/dpf/core/operators/result/mean_velocity/index>
+    <span class="nf nf-fa-file"></span> members_in_bending_not_certified</api/ansys/dpf/core/operators/result/members_in_bending_not_certified/index>
+    <span class="nf nf-fa-file"></span> members_in_compression_not_certified</api/ansys/dpf/core/operators/result/members_in_compression_not_certified/index>
+    <span class="nf nf-fa-file"></span> members_in_linear_compression_bending_not_certified</api/ansys/dpf/core/operators/result/members_in_linear_compression_bending_not_certified/index>
+    <span class="nf nf-fa-file"></span> migrate_to_h5dpf</api/ansys/dpf/core/operators/result/migrate_to_h5dpf/index>
+    <span class="nf nf-fa-file"></span> modal_basis</api/ansys/dpf/core/operators/result/modal_basis/index>
+    <span class="nf nf-fa-file"></span> nmisc</api/ansys/dpf/core/operators/result/nmisc/index>
+    <span class="nf nf-fa-file"></span> nodal_force</api/ansys/dpf/core/operators/result/nodal_force/index>
+    <span class="nf nf-fa-file"></span> nodal_moment</api/ansys/dpf/core/operators/result/nodal_moment/index>
+    <span class="nf nf-fa-file"></span> nodal_to_global</api/ansys/dpf/core/operators/result/nodal_to_global/index>
+    <span class="nf nf-fa-file"></span> normal_contact_force</api/ansys/dpf/core/operators/result/normal_contact_force/index>
+    <span class="nf nf-fa-file"></span> normal_contact_moment</api/ansys/dpf/core/operators/result/normal_contact_moment/index>
+    <span class="nf nf-fa-file"></span> num_surface_status_changes</api/ansys/dpf/core/operators/result/num_surface_status_changes/index>
+    <span class="nf nf-fa-file"></span> omega</api/ansys/dpf/core/operators/result/omega/index>
+    <span class="nf nf-fa-file"></span> part_added_mass</api/ansys/dpf/core/operators/result/part_added_mass/index>
+    <span class="nf nf-fa-file"></span> part_eroded_internal_energy</api/ansys/dpf/core/operators/result/part_eroded_internal_energy/index>
+    <span class="nf nf-fa-file"></span> part_eroded_kinetic_energy</api/ansys/dpf/core/operators/result/part_eroded_kinetic_energy/index>
+    <span class="nf nf-fa-file"></span> part_hourglass_energy</api/ansys/dpf/core/operators/result/part_hourglass_energy/index>
+    <span class="nf nf-fa-file"></span> part_internal_energy</api/ansys/dpf/core/operators/result/part_internal_energy/index>
+    <span class="nf nf-fa-file"></span> part_kinetic_energy</api/ansys/dpf/core/operators/result/part_kinetic_energy/index>
+    <span class="nf nf-fa-file"></span> part_momentum</api/ansys/dpf/core/operators/result/part_momentum/index>
+    <span class="nf nf-fa-file"></span> part_rigid_body_velocity</api/ansys/dpf/core/operators/result/part_rigid_body_velocity/index>
+    <span class="nf nf-fa-file"></span> plastic_state_variable</api/ansys/dpf/core/operators/result/plastic_state_variable/index>
+    <span class="nf nf-fa-file"></span> plastic_strain</api/ansys/dpf/core/operators/result/plastic_strain/index>
+    <span class="nf nf-fa-file"></span> plastic_strain_X</api/ansys/dpf/core/operators/result/plastic_strain_X/index>
+    <span class="nf nf-fa-file"></span> plastic_strain_XY</api/ansys/dpf/core/operators/result/plastic_strain_XY/index>
+    <span class="nf nf-fa-file"></span> plastic_strain_XZ</api/ansys/dpf/core/operators/result/plastic_strain_XZ/index>
+    <span class="nf nf-fa-file"></span> plastic_strain_Y</api/ansys/dpf/core/operators/result/plastic_strain_Y/index>
+    <span class="nf nf-fa-file"></span> plastic_strain_YZ</api/ansys/dpf/core/operators/result/plastic_strain_YZ/index>
+    <span class="nf nf-fa-file"></span> plastic_strain_Z</api/ansys/dpf/core/operators/result/plastic_strain_Z/index>
+    <span class="nf nf-fa-file"></span> plastic_strain_energy_density</api/ansys/dpf/core/operators/result/plastic_strain_energy_density/index>
+    <span class="nf nf-fa-file"></span> plastic_strain_eqv</api/ansys/dpf/core/operators/result/plastic_strain_eqv/index>
+    <span class="nf nf-fa-file"></span> plastic_strain_intensity</api/ansys/dpf/core/operators/result/plastic_strain_intensity/index>
+    <span class="nf nf-fa-file"></span> plastic_strain_max_shear</api/ansys/dpf/core/operators/result/plastic_strain_max_shear/index>
+    <span class="nf nf-fa-file"></span> plastic_strain_principal_1</api/ansys/dpf/core/operators/result/plastic_strain_principal_1/index>
+    <span class="nf nf-fa-file"></span> plastic_strain_principal_2</api/ansys/dpf/core/operators/result/plastic_strain_principal_2/index>
+    <span class="nf nf-fa-file"></span> plastic_strain_principal_3</api/ansys/dpf/core/operators/result/plastic_strain_principal_3/index>
+    <span class="nf nf-fa-file"></span> plastic_strain_rotation_by_euler_nodes</api/ansys/dpf/core/operators/result/plastic_strain_rotation_by_euler_nodes/index>
+    <span class="nf nf-fa-file"></span> poynting_vector</api/ansys/dpf/core/operators/result/poynting_vector/index>
+    <span class="nf nf-fa-file"></span> poynting_vector_surface</api/ansys/dpf/core/operators/result/poynting_vector_surface/index>
+    <span class="nf nf-fa-file"></span> pres_to_field</api/ansys/dpf/core/operators/result/pres_to_field/index>
+    <span class="nf nf-fa-file"></span> pressure</api/ansys/dpf/core/operators/result/pressure/index>
+    <span class="nf nf-fa-file"></span> pretension</api/ansys/dpf/core/operators/result/pretension/index>
+    <span class="nf nf-fa-file"></span> prns_to_field</api/ansys/dpf/core/operators/result/prns_to_field/index>
+    <span class="nf nf-fa-file"></span> raw_displacement</api/ansys/dpf/core/operators/result/raw_displacement/index>
+    <span class="nf nf-fa-file"></span> raw_reaction_force</api/ansys/dpf/core/operators/result/raw_reaction_force/index>
+    <span class="nf nf-fa-file"></span> reaction_force</api/ansys/dpf/core/operators/result/reaction_force/index>
+    <span class="nf nf-fa-file"></span> reaction_force_X</api/ansys/dpf/core/operators/result/reaction_force_X/index>
+    <span class="nf nf-fa-file"></span> reaction_force_Y</api/ansys/dpf/core/operators/result/reaction_force_Y/index>
+    <span class="nf nf-fa-file"></span> reaction_force_Z</api/ansys/dpf/core/operators/result/reaction_force_Z/index>
+    <span class="nf nf-fa-file"></span> read_cms_rbd_file</api/ansys/dpf/core/operators/result/read_cms_rbd_file/index>
+    <span class="nf nf-fa-file"></span> recombine_harmonic_indeces_cyclic</api/ansys/dpf/core/operators/result/recombine_harmonic_indeces_cyclic/index>
+    <span class="nf nf-fa-file"></span> remove_rigid_body_motion</api/ansys/dpf/core/operators/result/remove_rigid_body_motion/index>
+    <span class="nf nf-fa-file"></span> remove_rigid_body_motion_fc</api/ansys/dpf/core/operators/result/remove_rigid_body_motion_fc/index>
+    <span class="nf nf-fa-file"></span> result_provider</api/ansys/dpf/core/operators/result/result_provider/index>
+    <span class="nf nf-fa-file"></span> rigid_transformation</api/ansys/dpf/core/operators/result/rigid_transformation/index>
+    <span class="nf nf-fa-file"></span> rigid_transformation_provider</api/ansys/dpf/core/operators/result/rigid_transformation_provider/index>
+    <span class="nf nf-fa-file"></span> rms_static_pressure</api/ansys/dpf/core/operators/result/rms_static_pressure/index>
+    <span class="nf nf-fa-file"></span> rms_temperature</api/ansys/dpf/core/operators/result/rms_temperature/index>
+    <span class="nf nf-fa-file"></span> rms_velocity</api/ansys/dpf/core/operators/result/rms_velocity/index>
+    <span class="nf nf-fa-file"></span> rom_data_provider</api/ansys/dpf/core/operators/result/rom_data_provider/index>
+    <span class="nf nf-fa-file"></span> run</api/ansys/dpf/core/operators/result/run/index>
+    <span class="nf nf-fa-file"></span> smisc</api/ansys/dpf/core/operators/result/smisc/index>
+    <span class="nf nf-fa-file"></span> specific_heat</api/ansys/dpf/core/operators/result/specific_heat/index>
+    <span class="nf nf-fa-file"></span> spectrum_data</api/ansys/dpf/core/operators/result/spectrum_data/index>
+    <span class="nf nf-fa-file"></span> state_variable</api/ansys/dpf/core/operators/result/state_variable/index>
+    <span class="nf nf-fa-file"></span> static_pressure</api/ansys/dpf/core/operators/result/static_pressure/index>
+    <span class="nf nf-fa-file"></span> stiffness_matrix_energy</api/ansys/dpf/core/operators/result/stiffness_matrix_energy/index>
+    <span class="nf nf-fa-file"></span> strain_eqv_as_mechanical</api/ansys/dpf/core/operators/result/strain_eqv_as_mechanical/index>
+    <span class="nf nf-fa-file"></span> strain_eqv_as_mechanical_workflow</api/ansys/dpf/core/operators/result/strain_eqv_as_mechanical_workflow/index>
+    <span class="nf nf-fa-file"></span> stress</api/ansys/dpf/core/operators/result/stress/index>
+    <span class="nf nf-fa-file"></span> stress_X</api/ansys/dpf/core/operators/result/stress_X/index>
+    <span class="nf nf-fa-file"></span> stress_XY</api/ansys/dpf/core/operators/result/stress_XY/index>
+    <span class="nf nf-fa-file"></span> stress_XZ</api/ansys/dpf/core/operators/result/stress_XZ/index>
+    <span class="nf nf-fa-file"></span> stress_Y</api/ansys/dpf/core/operators/result/stress_Y/index>
+    <span class="nf nf-fa-file"></span> stress_YZ</api/ansys/dpf/core/operators/result/stress_YZ/index>
+    <span class="nf nf-fa-file"></span> stress_Z</api/ansys/dpf/core/operators/result/stress_Z/index>
+    <span class="nf nf-fa-file"></span> stress_eqv_as_mechanical</api/ansys/dpf/core/operators/result/stress_eqv_as_mechanical/index>
+    <span class="nf nf-fa-file"></span> stress_eqv_as_mechanical_workflow</api/ansys/dpf/core/operators/result/stress_eqv_as_mechanical_workflow/index>
+    <span class="nf nf-fa-file"></span> stress_intensity</api/ansys/dpf/core/operators/result/stress_intensity/index>
+    <span class="nf nf-fa-file"></span> stress_max_shear</api/ansys/dpf/core/operators/result/stress_max_shear/index>
+    <span class="nf nf-fa-file"></span> stress_principal_1</api/ansys/dpf/core/operators/result/stress_principal_1/index>
+    <span class="nf nf-fa-file"></span> stress_principal_2</api/ansys/dpf/core/operators/result/stress_principal_2/index>
+    <span class="nf nf-fa-file"></span> stress_principal_3</api/ansys/dpf/core/operators/result/stress_principal_3/index>
+    <span class="nf nf-fa-file"></span> stress_ratio</api/ansys/dpf/core/operators/result/stress_ratio/index>
+    <span class="nf nf-fa-file"></span> stress_rotation_by_euler_nodes</api/ansys/dpf/core/operators/result/stress_rotation_by_euler_nodes/index>
+    <span class="nf nf-fa-file"></span> stress_von_mises</api/ansys/dpf/core/operators/result/stress_von_mises/index>
+    <span class="nf nf-fa-file"></span> structural_temperature</api/ansys/dpf/core/operators/result/structural_temperature/index>
+    <span class="nf nf-fa-file"></span> superficial_velocity</api/ansys/dpf/core/operators/result/superficial_velocity/index>
+    <span class="nf nf-fa-file"></span> surface_heat_rate</api/ansys/dpf/core/operators/result/surface_heat_rate/index>
+    <span class="nf nf-fa-file"></span> swelling_strains</api/ansys/dpf/core/operators/result/swelling_strains/index>
+    <span class="nf nf-fa-file"></span> tangential_contact_force</api/ansys/dpf/core/operators/result/tangential_contact_force/index>
+    <span class="nf nf-fa-file"></span> tangential_contact_moment</api/ansys/dpf/core/operators/result/tangential_contact_moment/index>
+    <span class="nf nf-fa-file"></span> temperature</api/ansys/dpf/core/operators/result/temperature/index>
+    <span class="nf nf-fa-file"></span> temperature_grad</api/ansys/dpf/core/operators/result/temperature_grad/index>
+    <span class="nf nf-fa-file"></span> temperature_grad_X</api/ansys/dpf/core/operators/result/temperature_grad_X/index>
+    <span class="nf nf-fa-file"></span> temperature_grad_Y</api/ansys/dpf/core/operators/result/temperature_grad_Y/index>
+    <span class="nf nf-fa-file"></span> temperature_grad_Z</api/ansys/dpf/core/operators/result/temperature_grad_Z/index>
+    <span class="nf nf-fa-file"></span> thermal_conductivity</api/ansys/dpf/core/operators/result/thermal_conductivity/index>
+    <span class="nf nf-fa-file"></span> thermal_dissipation_energy</api/ansys/dpf/core/operators/result/thermal_dissipation_energy/index>
+    <span class="nf nf-fa-file"></span> thermal_strain</api/ansys/dpf/core/operators/result/thermal_strain/index>
+    <span class="nf nf-fa-file"></span> thermal_strain_X</api/ansys/dpf/core/operators/result/thermal_strain_X/index>
+    <span class="nf nf-fa-file"></span> thermal_strain_XY</api/ansys/dpf/core/operators/result/thermal_strain_XY/index>
+    <span class="nf nf-fa-file"></span> thermal_strain_XZ</api/ansys/dpf/core/operators/result/thermal_strain_XZ/index>
+    <span class="nf nf-fa-file"></span> thermal_strain_Y</api/ansys/dpf/core/operators/result/thermal_strain_Y/index>
+    <span class="nf nf-fa-file"></span> thermal_strain_YZ</api/ansys/dpf/core/operators/result/thermal_strain_YZ/index>
+    <span class="nf nf-fa-file"></span> thermal_strain_Z</api/ansys/dpf/core/operators/result/thermal_strain_Z/index>
+    <span class="nf nf-fa-file"></span> thermal_strain_principal_1</api/ansys/dpf/core/operators/result/thermal_strain_principal_1/index>
+    <span class="nf nf-fa-file"></span> thermal_strain_principal_2</api/ansys/dpf/core/operators/result/thermal_strain_principal_2/index>
+    <span class="nf nf-fa-file"></span> thermal_strain_principal_3</api/ansys/dpf/core/operators/result/thermal_strain_principal_3/index>
+    <span class="nf nf-fa-file"></span> thermal_strains_eqv</api/ansys/dpf/core/operators/result/thermal_strains_eqv/index>
+    <span class="nf nf-fa-file"></span> thickness</api/ansys/dpf/core/operators/result/thickness/index>
+    <span class="nf nf-fa-file"></span> torque</api/ansys/dpf/core/operators/result/torque/index>
+    <span class="nf nf-fa-file"></span> total_contact_force</api/ansys/dpf/core/operators/result/total_contact_force/index>
+    <span class="nf nf-fa-file"></span> total_contact_moment</api/ansys/dpf/core/operators/result/total_contact_moment/index>
+    <span class="nf nf-fa-file"></span> total_mass</api/ansys/dpf/core/operators/result/total_mass/index>
+    <span class="nf nf-fa-file"></span> total_pressure</api/ansys/dpf/core/operators/result/total_pressure/index>
+    <span class="nf nf-fa-file"></span> total_strain</api/ansys/dpf/core/operators/result/total_strain/index>
+    <span class="nf nf-fa-file"></span> total_temperature</api/ansys/dpf/core/operators/result/total_temperature/index>
+    <span class="nf nf-fa-file"></span> transform_invariant_terms_rbd</api/ansys/dpf/core/operators/result/transform_invariant_terms_rbd/index>
+    <span class="nf nf-fa-file"></span> transient_rayleigh_integration</api/ansys/dpf/core/operators/result/transient_rayleigh_integration/index>
+    <span class="nf nf-fa-file"></span> turbulent_kinetic_energy</api/ansys/dpf/core/operators/result/turbulent_kinetic_energy/index>
+    <span class="nf nf-fa-file"></span> turbulent_viscosity</api/ansys/dpf/core/operators/result/turbulent_viscosity/index>
+    <span class="nf nf-fa-file"></span> velocity</api/ansys/dpf/core/operators/result/velocity/index>
+    <span class="nf nf-fa-file"></span> velocity_X</api/ansys/dpf/core/operators/result/velocity_X/index>
+    <span class="nf nf-fa-file"></span> velocity_Y</api/ansys/dpf/core/operators/result/velocity_Y/index>
+    <span class="nf nf-fa-file"></span> velocity_Z</api/ansys/dpf/core/operators/result/velocity_Z/index>
+    <span class="nf nf-fa-file"></span> volume_fraction</api/ansys/dpf/core/operators/result/volume_fraction/index>
+    <span class="nf nf-fa-file"></span> wall_shear_stress</api/ansys/dpf/core/operators/result/wall_shear_stress/index>
+    <span class="nf nf-fa-file"></span> workflow_energy_per_component</api/ansys/dpf/core/operators/result/workflow_energy_per_component/index>
+    <span class="nf nf-fa-file"></span> workflow_energy_per_harmonic</api/ansys/dpf/core/operators/result/workflow_energy_per_harmonic/index>
+    <span class="nf nf-fa-file"></span> write_cms_rbd_file</api/ansys/dpf/core/operators/result/write_cms_rbd_file/index>
+    <span class="nf nf-fa-file"></span> write_motion_dfmf_file</api/ansys/dpf/core/operators/result/write_motion_dfmf_file/index>
+    <span class="nf nf-fa-file"></span> y_plus</api/ansys/dpf/core/operators/result/y_plus/index>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

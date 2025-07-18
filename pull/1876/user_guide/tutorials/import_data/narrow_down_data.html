@@ -1,0 +1,1344 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <meta property="og:site_name" content="PyAnsys" />
+    <title>Narrow down data &#8212; PyDPF-Core</title>
+  
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/ansys-sphinx-theme.css?v=fbf3eb5d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles\ansys-sphinx-theme.css?v=fbf3eb5d" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://www.nerdfonts.com/assets/css/webfont.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=605cfb02" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+
+  <!-- Include desired assets -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  
+
+  
+    <link href="../../../_static/css/breadcrumbs.css" rel="stylesheet" />
+  
+    <script src="../../../_static/documentation_options.js?v=8c207667"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/thebelab-helper.js"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/tutorials/import_data/narrow_down_data';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://dpf.docs.pyansys.com/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="icon" href="../../../_static/ansys-favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Mesh" href="../mesh/index.html" />
+    <link rel="prev" title="Extract and explore results data" href="extract_and_explore_results_data.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.13.9.dev0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="https://docs.pyansys.com">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/pyansys_logo_transparent_black.png" class="logo__image only-light" alt="PyDPF-Core - Home"/>
+    <img src="../../../_static/pyansys_logo_transparent_white.png" class="logo__image only-dark pst-js-only" alt="PyDPF-Core - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../operator_reference.html">
+    Operators
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<div class="search-bar pst-js-only" id="search-bar">
+  <form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="search" class="form-control" name="q" placeholder="Search the docs ..."
+      aria-label="Search the docs ..." autocomplete="off" autocorrect="off"
+      autocapitalize="off" spellcheck="false" />
+    <span class="search-button__kbd-shortcut">
+      <kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd>
+    </span>
+  </form>
+  <div id="static-search-results" class="static-search-results" style="display:none;" tabindex="0"></div>
+</div>
+        </div>
+      
+      
+        <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<div class="search-bar pst-js-only" id="search-bar">
+  <form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="search" class="form-control" name="q" placeholder="Search the docs ..."
+      aria-label="Search the docs ..." autocomplete="off" autocorrect="off"
+      autocapitalize="off" spellcheck="false" />
+    <span class="search-button__kbd-shortcut">
+      <kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd>
+    </span>
+  </form>
+  <div id="static-search-results" class="static-search-results" style="display:none;" tabindex="0"></div>
+</div>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+  
+    <div id="announcement_msg"></div>
+<script>
+  fetch("announcement.html")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(
+      (text) => (document.getElementById("announcement_msg").innerHTML = text),
+    )
+    .catch((error) => console.error(`Fetch problem: ${error.message}`));
+</script>
+  
+
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../operator_reference.html">
+    Operators
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../data_structures/index.html">DPF data structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../language_and_usage/index.html">PyDPF-Core language and usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../post_processing_basics/index.html">Processing data basics</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Import Data</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="load_custom_data.html">Load custom data in DPF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="import_result_file.html">Import a result file in DPF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="extract_and_explore_results_metadata.html">Extract and explore results metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="extract_and_explore_results_data.html">Extract and explore results data</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Narrow down data</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../mesh/index.html">Mesh</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../operators_and_workflows/index.html">Process data with operators and workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../export_data/index.html">Export data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plot/index.html">Plot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../animate/index.html">Animate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../enriching_dpf_capabilities/index.html">Enriching DPF capabilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distributed_files/index.html">Post-process distributed files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dpf_server/index.html">DPF server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../licensing/index.html">Licensing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mathematics/index.html">Mathematics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../manipulate_physics_data/index.html">Manipulate Physics data</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/concepts.html">Terms and concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/waysofusing.html">DPF capabilities and scripting languages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/stepbystep.html">DPF usage</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Troubleshooting</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting.html">Troubleshooting</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+         
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="https://docs.pyansys.com/" class="nav-link">PyAnsys</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a
+        href="../../../index.html"
+        class="nav-link"
+        aria-label="Home"
+      >
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="../../index.html" class="nav-link">User guide</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="index.html" class="nav-link">Import Data</a>
+    </li>
+      
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Narrow down data</span></li>
+    
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="narrow-down-data">
+<span id="reft-tutorials-narrow-down-data"></span><h1>Narrow down data<a class="headerlink" href="#narrow-down-data" title="Link to this heading">#</a></h1>
+<p><span class="sd-sphinx-override sd-badge sd-bg-mapdl sd-bg-text-mapdl">MAPDL</span> <span class="sd-sphinx-override sd-badge sd-bg-lsdyna sd-bg-text-lsdyna">LS-DYNA</span> <span class="sd-sphinx-override sd-badge sd-bg-fluent sd-bg-text-fluent">FLUENT</span> <span class="sd-sphinx-override sd-badge sd-bg-cfx sd-bg-text-cfx">CFX</span></p>
+<span class="target" id="ref-links-and-refs"></span><p>This tutorial explains how to scope your results over time and mesh domains.</p>
+<p><a class="reference download internal" download="" href="../../../_downloads/c3551da6a784bb92717695a764ffadb2/narrow_down_data.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">tutorial</span> <span class="pre">as</span> <span class="pre">Python</span> <span class="pre">script</span></code></a>
+<a class="reference download internal" download="" href="../../../_downloads/e6565929bf751b6315f9171181b92353/narrow_down_data.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">tutorial</span> <span class="pre">as</span> <span class="pre">Jupyter</span> <span class="pre">notebook</span></code></a></p>
+<section id="understanding-the-scope">
+<h2>Understanding the scope<a class="headerlink" href="#understanding-the-scope" title="Link to this heading">#</a></h2>
+<p>To begin the workflow set up, you need to establish the <code class="docutils literal notranslate"><span class="pre">scoping</span></code>, that is
+a spatial and/or temporal subset of the simulation data.</p>
+<p>The data in DPF is represented by a <a class="reference internal" href="../../../api/ansys/dpf/core/field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a>. Thus, narrow down your results means scoping your <a class="reference internal" href="../../../api/ansys/dpf/core/field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a>.
+To do so in DPF, you use the <a class="reference internal" href="../../../api/ansys/dpf/core/scoping/Scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><code class="xref py py-class docutils literal notranslate"><span class="pre">Scoping</span></code></a> object. You can retrieve all the time steps available for
+a result, but you can also filter them.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Scoping is important because when DPF-Core returns the <a class="reference internal" href="../../../api/ansys/dpf/core/field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a> object, what Python actually has
+is a client-side representation of the <a class="reference internal" href="../../../api/ansys/dpf/core/field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a>, not the entirety of the <a class="reference internal" href="../../../api/ansys/dpf/core/field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a> itself. This means
+that all the data of the field is stored within the DPF service. This is important
+because when building your workflows, the most efficient way of interacting with result data
+is to minimize the exchange of data between Python and DPF, either by using operators
+or by accessing exclusively the data that is needed. For more information on the DPF data storage
+structures see <a class="reference internal" href="../data_structures/index.html#ref-tutorials-data-structures"><span class="std std-ref">DPF data structures</span></a>.</p>
+</div>
+<p>In conclusion, the essence of a scoping is to specify a set of time or mesh entities by defining a range of IDs:</p>
+<img alt="../../../_images/scoping-eg.png" class="align-center" src="../../../_images/scoping-eg.png" />
+</section>
+<section id="create-a-scoping-object-from-scratch">
+<h2>Create a <a class="reference internal" href="../../../api/ansys/dpf/core/scoping/Scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><code class="xref py py-class docutils literal notranslate"><span class="pre">Scoping</span></code></a> object from scratch<a class="headerlink" href="#create-a-scoping-object-from-scratch" title="Link to this heading">#</a></h2>
+<p>First, import the necessary PyDPF-Core modules.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import the ``ansys.dpf.core`` module</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+<p>Then, use the available APIs to create a <a class="reference internal" href="../../../api/ansys/dpf/core/scoping/Scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><code class="xref py py-class docutils literal notranslate"><span class="pre">Scoping</span></code></a> object. It can be created by:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#ref-create-scoping-instance-object"><span class="std std-ref">Instantiating the Scoping class</span></a>;</p></li>
+<li><p><a class="reference internal" href="#ref-create-scoping-scoping-factory"><span class="std std-ref">Using the scoping factory</span></a>.</p></li>
+</ul>
+<section id="instanciate-a-scoping">
+<span id="ref-create-scoping-instance-object"></span><h3>Instanciate a <a class="reference internal" href="../../../api/ansys/dpf/core/scoping/Scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><code class="xref py py-class docutils literal notranslate"><span class="pre">Scoping</span></code></a><a class="headerlink" href="#instanciate-a-scoping" title="Link to this heading">#</a></h3>
+<p>Create a time and a mesh <a class="reference internal" href="../../../api/ansys/dpf/core/scoping/Scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><code class="xref py py-class docutils literal notranslate"><span class="pre">Scoping</span></code></a> by instantiating the <a class="reference internal" href="../../../api/ansys/dpf/core/scoping/Scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><code class="xref py py-class docutils literal notranslate"><span class="pre">Scoping</span></code></a> object. Use the <em>‘ids’</em> and <em>‘location’</em> arguments
+and give the entities ids and <a class="reference internal" href="../../../api/ansys/dpf/core/common/locations.html#ansys.dpf.core.common.locations" title="ansys.dpf.core.common.locations"><code class="xref py py-class docutils literal notranslate"><span class="pre">location</span></code></a> of interest.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-0">
+Time scoping</label><div class="sd-tab-content docutils">
+<p>A time location in DPF is a <a class="reference internal" href="../../../api/ansys/dpf/core/time_freq_support/TimeFreqSupport.html#ansys.dpf.core.time_freq_support.TimeFreqSupport" title="ansys.dpf.core.time_freq_support.TimeFreqSupport"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeFreqSupport</span></code></a> object. Thus, we chose a <em>‘time_freq’</em> <a class="reference internal" href="../../../api/ansys/dpf/core/common/locations.html#ansys.dpf.core.common.locations" title="ansys.dpf.core.common.locations"><code class="xref py py-class docutils literal notranslate"><span class="pre">location</span></code></a> and target
+a set of time by their ids.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define a time list that targets the times ids 14, 15, 16, 17</span>
+<span class="n">time_list_1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">14</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">17</span><span class="p">]</span>
+
+<span class="c1"># Create the time Scoping object</span>
+<span class="n">time_scoping_1</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Scoping</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="n">time_list_1</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">time_freq</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-1">
+Mesh scoping</label><div class="sd-tab-content docutils">
+<p>Here, we chose a nodal <a class="reference internal" href="../../../api/ansys/dpf/core/common/locations.html#ansys.dpf.core.common.locations" title="ansys.dpf.core.common.locations"><code class="xref py py-class docutils literal notranslate"><span class="pre">location</span></code></a> and target a set of nodes by their ids.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define a nodes list that targets the nodes with the ids 103, 204, 334, 1802</span>
+<span class="n">nodes_ids_1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">103</span><span class="p">,</span> <span class="mi">204</span><span class="p">,</span> <span class="mi">334</span><span class="p">,</span> <span class="mi">1802</span><span class="p">]</span>
+
+<span class="c1">#  Create the mesh Scoping object</span>
+<span class="n">mesh_scoping_1</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Scoping</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="n">nodes_ids_1</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">nodal</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="use-the-scoping-factory-module">
+<span id="ref-create-scoping-scoping-factory"></span><h3>Use the scoping factory module<a class="headerlink" href="#use-the-scoping-factory-module" title="Link to this heading">#</a></h3>
+<p>Create a <a class="reference internal" href="../../../api/ansys/dpf/core/scoping/Scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><code class="xref py py-class docutils literal notranslate"><span class="pre">Scoping</span></code></a> object by using the <a class="reference internal" href="../../../api/ansys/dpf/core/time_freq_scoping_factory/index.html#module-ansys.dpf.core.time_freq_scoping_factory" title="ansys.dpf.core.time_freq_scoping_factory"><code class="xref py py-mod docutils literal notranslate"><span class="pre">time_freq_scoping_factory</span></code></a> module for a temporal <a class="reference internal" href="../../../api/ansys/dpf/core/scoping/Scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><code class="xref py py-class docutils literal notranslate"><span class="pre">Scoping</span></code></a>
+and the <a class="reference internal" href="../../../api/ansys/dpf/core/mesh_scoping_factory/index.html#module-ansys.dpf.core.mesh_scoping_factory" title="ansys.dpf.core.mesh_scoping_factory"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mesh_scoping_factory</span></code></a> module for a spatial <a class="reference internal" href="../../../api/ansys/dpf/core/scoping/Scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><code class="xref py py-class docutils literal notranslate"><span class="pre">Scoping</span></code></a>.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-2" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-2">
+Time scoping</label><div class="sd-tab-content docutils">
+<p>Here, we use the <code class="xref py py-func docutils literal notranslate"><span class="pre">scoping_by_sets()</span></code> function so we can have different time steps in the <a class="reference internal" href="../../../api/ansys/dpf/core/scoping/Scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><code class="xref py py-class docutils literal notranslate"><span class="pre">Scoping</span></code></a>. This function
+gives a <a class="reference internal" href="../../../api/ansys/dpf/core/scoping/Scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><code class="xref py py-class docutils literal notranslate"><span class="pre">Scoping</span></code></a> on a <em>‘time_freq’</em> <a class="reference internal" href="../../../api/ansys/dpf/core/common/locations.html#ansys.dpf.core.common.locations" title="ansys.dpf.core.common.locations"><code class="xref py py-class docutils literal notranslate"><span class="pre">location</span></code></a>.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define a time list that targets the times ids 14, 15, 16, 17</span>
+<span class="n">time_list_2</span> <span class="o">=</span> <span class="p">[</span><span class="mi">14</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">17</span><span class="p">]</span>
+
+<span class="c1"># Create the time Scoping object</span>
+<span class="n">time_scoping_2</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">time_freq_scoping_factory</span><span class="o">.</span><span class="n">scoping_by_sets</span><span class="p">(</span><span class="n">cumulative_sets</span><span class="o">=</span><span class="n">time_list_2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+<input id="sd-tab-item-3" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-3">
+Mesh scoping</label><div class="sd-tab-content docutils">
+<p>Here, we use the <code class="xref py py-func docutils literal notranslate"><span class="pre">nodal_scoping()</span></code> function so we have a mesh <a class="reference internal" href="../../../api/ansys/dpf/core/scoping/Scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><code class="xref py py-class docutils literal notranslate"><span class="pre">Scoping</span></code></a> in a nodal <a class="reference internal" href="../../../api/ansys/dpf/core/common/locations.html#ansys.dpf.core.common.locations" title="ansys.dpf.core.common.locations"><code class="xref py py-class docutils literal notranslate"><span class="pre">location</span></code></a>.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define a nodes list that targets the nodes with the ids 103, 204, 334, 1802</span>
+<span class="n">nodes_ids_2</span> <span class="o">=</span> <span class="p">[</span><span class="mi">103</span><span class="p">,</span> <span class="mi">204</span><span class="p">,</span> <span class="mi">334</span><span class="p">,</span> <span class="mi">1802</span><span class="p">]</span>
+
+<span class="c1"># Create the mesh Scoping object</span>
+<span class="n">mesh_scoping_2</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">mesh_scoping_factory</span><span class="o">.</span><span class="n">nodal_scoping</span><span class="p">(</span><span class="n">node_ids</span><span class="o">=</span><span class="n">nodes_ids_2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="extract-a-scoping">
+<h2>Extract a <a class="reference internal" href="../../../api/ansys/dpf/core/scoping/Scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><code class="xref py py-class docutils literal notranslate"><span class="pre">Scoping</span></code></a><a class="headerlink" href="#extract-a-scoping" title="Link to this heading">#</a></h2>
+<p>You can extract <a class="reference internal" href="../../../api/ansys/dpf/core/scoping/Scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><code class="xref py py-class docutils literal notranslate"><span class="pre">Scoping</span></code></a> from some DPF objects. They are:</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-4" name="sd-tab-set-2" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-4">
+Time scoping</label><div class="sd-tab-content docutils">
+<ul class="simple">
+<li><p>A <a class="reference internal" href="../../../api/ansys/dpf/core/model/Model.html#ansys.dpf.core.model.Model" title="ansys.dpf.core.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a>;</p></li>
+<li><p>A <a class="reference internal" href="../../../api/ansys/dpf/core/fields_container/FieldsContainer.html#ansys.dpf.core.fields_container.FieldsContainer" title="ansys.dpf.core.fields_container.FieldsContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">FieldsContainer</span></code></a> ;</p></li>
+<li><p>A <a class="reference internal" href="../../../api/ansys/dpf/core/field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a>.</p></li>
+</ul>
+</div>
+<input id="sd-tab-item-5" name="sd-tab-set-2" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-5">
+Mesh scoping</label><div class="sd-tab-content docutils">
+<ul class="simple">
+<li><p>A <a class="reference internal" href="../../../api/ansys/dpf/core/meshed_region/MeshedRegion.html#ansys.dpf.core.meshed_region.MeshedRegion" title="ansys.dpf.core.meshed_region.MeshedRegion"><code class="xref py py-class docutils literal notranslate"><span class="pre">MeshedRegion</span></code></a>;</p></li>
+<li><p>A <a class="reference internal" href="../../../api/ansys/dpf/core/fields_container/FieldsContainer.html#ansys.dpf.core.fields_container.FieldsContainer" title="ansys.dpf.core.fields_container.FieldsContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">FieldsContainer</span></code></a> ;</p></li>
+<li><p>A <a class="reference internal" href="../../../api/ansys/dpf/core/field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a>.</p></li>
+</ul>
+</div>
+</div>
+<section id="define-the-objects">
+<h3>Define the objects<a class="headerlink" href="#define-the-objects" title="Link to this heading">#</a></h3>
+<p>First, import a result file and create a <a class="reference internal" href="../../../api/ansys/dpf/core/model/Model.html#ansys.dpf.core.model.Model" title="ansys.dpf.core.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a>. For this tutorial, you can use one available in the <a class="reference internal" href="../../../api/ansys/dpf/core/examples/index.html#module-ansys.dpf.core.examples" title="ansys.dpf.core.examples"><code class="xref py py-mod docutils literal notranslate"><span class="pre">Examples</span></code></a> module.
+For more information about how to import your own result file in DPF, see the <a class="reference internal" href="import_result_file.html#ref-tutorials-import-result-file"><span class="std std-ref">Import a result file in DPF</span></a>
+tutorial.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import the examples module</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">examples</span>
+<span class="c1"># Import the operators module</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">operators</span> <span class="k">as</span> <span class="n">ops</span>
+
+<span class="c1"># Define the result file path</span>
+<span class="n">result_file_path_1</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">download_transient_result</span><span class="p">()</span>
+<span class="c1"># Create the DataSources object</span>
+<span class="n">ds_1</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">(</span><span class="n">result_path</span><span class="o">=</span><span class="n">result_file_path_1</span><span class="p">)</span>
+<span class="c1"># Create the model</span>
+<span class="n">model_1</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">data_sources</span><span class="o">=</span><span class="n">ds_1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+<p>From this result file we extract:</p>
+<ul class="simple">
+<li><p>The mesh (in DPF a mesh is the <a class="reference internal" href="../../../api/ansys/dpf/core/meshed_region/MeshedRegion.html#ansys.dpf.core.meshed_region.MeshedRegion" title="ansys.dpf.core.meshed_region.MeshedRegion"><code class="xref py py-class docutils literal notranslate"><span class="pre">MeshedRegion</span></code></a> object);</p></li>
+<li><p>The displacement results. The displacement <a class="reference internal" href="../../../api/ansys/dpf/core/results/Result.html#ansys.dpf.core.results.Result" title="ansys.dpf.core.results.Result"><code class="xref py py-class docutils literal notranslate"><span class="pre">Result</span></code></a> object gives a <a class="reference internal" href="../../../api/ansys/dpf/core/fields_container/FieldsContainer.html#ansys.dpf.core.fields_container.FieldsContainer" title="ansys.dpf.core.fields_container.FieldsContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">FieldsContainer</span></code></a> when evaluated. Additionally,
+we can get a <a class="reference internal" href="../../../api/ansys/dpf/core/field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a> from this <a class="reference internal" href="../../../api/ansys/dpf/core/fields_container/FieldsContainer.html#ansys.dpf.core.fields_container.FieldsContainer" title="ansys.dpf.core.fields_container.FieldsContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">FieldsContainer</span></code></a>.</p></li>
+</ul>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the MeshedRegion</span>
+<span class="n">meshed_region_1</span> <span class="o">=</span> <span class="n">model_1</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span>
+
+<span class="c1"># Get a FieldsContainer with the displacement results</span>
+<span class="n">disp_fc</span> <span class="o">=</span> <span class="n">model_1</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="o">.</span><span class="n">on_all_time_freqs</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+
+<span class="c1"># Get a Field from the FieldsContainer</span>
+<span class="n">disp_field</span> <span class="o">=</span> <span class="n">disp_fc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</section>
+<section id="extract-the-time-scoping">
+<h3>Extract the time <a class="reference internal" href="../../../api/ansys/dpf/core/scoping/Scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><code class="xref py py-class docutils literal notranslate"><span class="pre">Scoping</span></code></a><a class="headerlink" href="#extract-the-time-scoping" title="Link to this heading">#</a></h3>
+<p>Extract the time <a class="reference internal" href="../../../api/ansys/dpf/core/scoping/Scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><code class="xref py py-class docutils literal notranslate"><span class="pre">Scoping</span></code></a> is extracting the scoping of the time frequencies from the <a class="reference internal" href="../../../api/ansys/dpf/core/time_freq_support/TimeFreqSupport.html#ansys.dpf.core.time_freq_support.TimeFreqSupport" title="ansys.dpf.core.time_freq_support.TimeFreqSupport"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeFreqSupport</span></code></a>
+of the DPF object.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-6" name="sd-tab-set-3" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-6">
+From the Model</label><div class="sd-tab-content docutils">
+<p>You can extract the <a class="reference internal" href="../../../api/ansys/dpf/core/time_freq_support/TimeFreqSupport.html#ansys.dpf.core.time_freq_support.TimeFreqSupport" title="ansys.dpf.core.time_freq_support.TimeFreqSupport"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeFreqSupport</span></code></a> available for the results by accessing the <a class="reference internal" href="../../../api/ansys/dpf/core/model/Model.html#ansys.dpf.core.model.Model" title="ansys.dpf.core.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a> <a class="reference internal" href="../../../api/ansys/dpf/core/model/Metadata.html#ansys.dpf.core.model.Metadata" title="ansys.dpf.core.model.Metadata"><code class="xref py py-class docutils literal notranslate"><span class="pre">Metadata</span></code></a>.
+Thus, you must use the <code class="xref py py-func docutils literal notranslate"><span class="pre">Model.metadata</span></code> method. From the <a class="reference internal" href="../../../api/ansys/dpf/core/model/Metadata.html#ansys.dpf.core.model.Metadata" title="ansys.dpf.core.model.Metadata"><code class="xref py py-class docutils literal notranslate"><span class="pre">Metadata</span></code></a>, you can get the <a class="reference internal" href="../../../api/ansys/dpf/core/time_freq_support/TimeFreqSupport.html#ansys.dpf.core.time_freq_support.TimeFreqSupport" title="ansys.dpf.core.time_freq_support.TimeFreqSupport"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeFreqSupport</span></code></a>
+by using the <code class="xref py py-func docutils literal notranslate"><span class="pre">Metadata.time_freq_support</span></code> method.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Extract the TimeFreq support</span>
+<span class="n">tfs_1</span> <span class="o">=</span> <span class="n">model_1</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">time_freq_support</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+<p>To extract the time frequencies you use the <code class="xref py py-func docutils literal notranslate"><span class="pre">TimeFreqSupport.time_frequencies</span></code> method. The time
+frequencies are given in a Field. Thus, to get the time <a class="reference internal" href="../../../api/ansys/dpf/core/scoping/Scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><code class="xref py py-class docutils literal notranslate"><span class="pre">Scoping</span></code></a> you need to use the <code class="xref py py-func docutils literal notranslate"><span class="pre">Field.scoping</span></code> method.
+For this approach, the time frequencies are given in a <em>‘TimeFreq_sets’</em> location.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Extract the time frequencies</span>
+<span class="n">t_freqs_1</span> <span class="o">=</span> <span class="n">tfs_1</span><span class="o">.</span><span class="n">time_frequencies</span>
+
+<span class="c1"># Extract the time scoping</span>
+<span class="n">time_scop_1</span> <span class="o">=</span> <span class="n">t_freqs_1</span><span class="o">.</span><span class="n">scoping</span>
+
+<span class="c1">#Print the time scoping</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">time_scop_1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>DPF  Scoping: 
+  with TimeFreq_steps location and 1 entity
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<input id="sd-tab-item-7" name="sd-tab-set-3" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-7">
+From the FieldsContainer</label><div class="sd-tab-content docutils">
+<p>You can extract the <a class="reference internal" href="../../../api/ansys/dpf/core/time_freq_support/TimeFreqSupport.html#ansys.dpf.core.time_freq_support.TimeFreqSupport" title="ansys.dpf.core.time_freq_support.TimeFreqSupport"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeFreqSupport</span></code></a> of each <a class="reference internal" href="../../../api/ansys/dpf/core/field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a> in the <a class="reference internal" href="../../../api/ansys/dpf/core/fields_container/FieldsContainer.html#ansys.dpf.core.fields_container.FieldsContainer" title="ansys.dpf.core.fields_container.FieldsContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">FieldsContainer</span></code></a> by using the
+<code class="xref py py-func docutils literal notranslate"><span class="pre">FieldsContainer.time_freq_support</span></code> method.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Extract the TimeFreq support</span>
+<span class="n">tfs_2</span> <span class="o">=</span> <span class="n">disp_fc</span><span class="o">.</span><span class="n">time_freq_support</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+<p>To extract the time frequencies you use the <code class="xref py py-func docutils literal notranslate"><span class="pre">TimeFreqSupport.time_frequencies</span></code> method. The time
+frequencies are given in a Field. Thus, to get the time <a class="reference internal" href="../../../api/ansys/dpf/core/scoping/Scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><code class="xref py py-class docutils literal notranslate"><span class="pre">Scoping</span></code></a> you need to use the <code class="xref py py-func docutils literal notranslate"><span class="pre">Field.scoping</span></code> method.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Extract the time frequencies</span>
+<span class="n">t_freqs_2</span> <span class="o">=</span> <span class="n">tfs_2</span><span class="o">.</span><span class="n">time_frequencies</span>
+
+<span class="c1"># Extract the time scoping</span>
+<span class="n">time_scop_2</span> <span class="o">=</span> <span class="n">t_freqs_2</span><span class="o">.</span><span class="n">scoping</span>
+
+<span class="c1">#Print the time scoping</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">time_scop_2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>DPF  Scoping: 
+  with TimeFreq_steps location and 1 entity
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<input id="sd-tab-item-8" name="sd-tab-set-3" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-8">
+From the Field</label><div class="sd-tab-content docutils">
+<p>You can extract the <a class="reference internal" href="../../../api/ansys/dpf/core/time_freq_support/TimeFreqSupport.html#ansys.dpf.core.time_freq_support.TimeFreqSupport" title="ansys.dpf.core.time_freq_support.TimeFreqSupport"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeFreqSupport</span></code></a> of a <a class="reference internal" href="../../../api/ansys/dpf/core/field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a> by using the <code class="xref py py-func docutils literal notranslate"><span class="pre">Field.time_freq_support</span></code> method.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Extract the TimeFreq support</span>
+<span class="n">tfs_3</span> <span class="o">=</span> <span class="n">disp_field</span><span class="o">.</span><span class="n">time_freq_support</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+<p>To extract the time frequencies you use the <code class="xref py py-func docutils literal notranslate"><span class="pre">TimeFreqSupport.time_frequencies</span></code> method. The time
+frequencies are given in a Field. Thus, to get the time <a class="reference internal" href="../../../api/ansys/dpf/core/scoping/Scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><code class="xref py py-class docutils literal notranslate"><span class="pre">Scoping</span></code></a> you need to use the <code class="xref py py-func docutils literal notranslate"><span class="pre">Field.scoping</span></code> method.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Extract the time frequencies</span>
+<span class="n">t_freqs_3</span> <span class="o">=</span> <span class="n">tfs_1</span><span class="o">.</span><span class="n">time_frequencies</span>
+
+<span class="c1"># Extract the time scoping</span>
+<span class="n">time_scop_3</span> <span class="o">=</span> <span class="n">t_freqs_3</span><span class="o">.</span><span class="n">scoping</span>
+
+<span class="c1">#Print the time scoping</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">time_scop_3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>DPF  Scoping: 
+  with TimeFreq_steps location and 1 entity
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="extract-the-mesh-scoping">
+<h3>Extract the mesh <a class="reference internal" href="../../../api/ansys/dpf/core/scoping/Scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><code class="xref py py-class docutils literal notranslate"><span class="pre">Scoping</span></code></a><a class="headerlink" href="#extract-the-mesh-scoping" title="Link to this heading">#</a></h3>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-9" name="sd-tab-set-4" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-9">
+From the MeshedRegion</label><div class="sd-tab-content docutils">
+<p>You can extract the mesh <a class="reference internal" href="../../../api/ansys/dpf/core/scoping/Scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><code class="xref py py-class docutils literal notranslate"><span class="pre">Scoping</span></code></a> from a <a class="reference internal" href="../../../api/ansys/dpf/core/meshed_region/MeshedRegion.html#ansys.dpf.core.meshed_region.MeshedRegion" title="ansys.dpf.core.meshed_region.MeshedRegion"><code class="xref py py-class docutils literal notranslate"><span class="pre">MeshedRegion</span></code></a> using:</p>
+<ul class="simple">
+<li><p>The <a class="reference internal" href="../../../api/ansys/dpf/core/operators/scoping/from_mesh/from_mesh.html#ansys.dpf.core.operators.scoping.from_mesh.from_mesh" title="ansys.dpf.core.operators.scoping.from_mesh.from_mesh"><code class="xref py py-class docutils literal notranslate"><span class="pre">from_mesh</span></code></a> operator;</p></li>
+<li><p>The <a class="reference internal" href="../../../api/ansys/dpf/core/elements/Elements.html#ansys.dpf.core.elements.Elements" title="ansys.dpf.core.elements.Elements"><code class="xref py py-class docutils literal notranslate"><span class="pre">Elements</span></code></a> object;</p></li>
+<li><p>The <a class="reference internal" href="../../../api/ansys/dpf/core/nodes/Nodes.html#ansys.dpf.core.nodes.Nodes" title="ansys.dpf.core.nodes.Nodes"><code class="xref py py-class docutils literal notranslate"><span class="pre">Nodes</span></code></a> object.</p></li>
+</ul>
+<p><strong>Use the from_mesh operator</strong></p>
+<p>Extract the mesh <a class="reference internal" href="../../../api/ansys/dpf/core/scoping/Scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><code class="xref py py-class docutils literal notranslate"><span class="pre">Scoping</span></code></a> from the <a class="reference internal" href="../../../api/ansys/dpf/core/meshed_region/MeshedRegion.html#ansys.dpf.core.meshed_region.MeshedRegion" title="ansys.dpf.core.meshed_region.MeshedRegion"><code class="xref py py-class docutils literal notranslate"><span class="pre">MeshedRegion</span></code></a> using the <a class="reference internal" href="../../../api/ansys/dpf/core/operators/scoping/from_mesh/from_mesh.html#ansys.dpf.core.operators.scoping.from_mesh.from_mesh" title="ansys.dpf.core.operators.scoping.from_mesh.from_mesh"><code class="xref py py-class docutils literal notranslate"><span class="pre">from_mesh</span></code></a> operator. It gets the
+<a class="reference internal" href="../../../api/ansys/dpf/core/scoping/Scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><code class="xref py py-class docutils literal notranslate"><span class="pre">Scoping</span></code></a> for the entire mesh with a <em>‘nodal’</em> location. You can also get an <em>‘elemental’</em> location
+by using the <em>‘requested_location’</em> argument.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Extract the mesh scoping</span>
+<span class="n">mesh_scoping_3</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">from_mesh</span><span class="p">(</span><span class="n">mesh</span><span class="o">=</span><span class="n">meshed_region_1</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+
+<span class="c1"># Print the mesh Scoping</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Scoping from mesh&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">mesh_scoping_3</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Scoping from mesh 
+ DPF  Scoping: 
+  with Nodal location and 3820 entities
+ 
+
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Use the Elements object</strong></p>
+<p>You can obtain the <a class="reference internal" href="../../../api/ansys/dpf/core/elements/Elements.html#ansys.dpf.core.elements.Elements" title="ansys.dpf.core.elements.Elements"><code class="xref py py-class docutils literal notranslate"><span class="pre">Elements</span></code></a> object from a given <a class="reference internal" href="../../../api/ansys/dpf/core/meshed_region/MeshedRegion.html#ansys.dpf.core.meshed_region.MeshedRegion" title="ansys.dpf.core.meshed_region.MeshedRegion"><code class="xref py py-class docutils literal notranslate"><span class="pre">MeshedRegion</span></code></a> by using the <code class="xref py py-func docutils literal notranslate"><span class="pre">MeshedRegion.elements</span></code>
+method. You can extract the mesh <a class="reference internal" href="../../../api/ansys/dpf/core/scoping/Scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><code class="xref py py-class docutils literal notranslate"><span class="pre">Scoping</span></code></a> from the <a class="reference internal" href="../../../api/ansys/dpf/core/elements/Elements.html#ansys.dpf.core.elements.Elements" title="ansys.dpf.core.elements.Elements"><code class="xref py py-class docutils literal notranslate"><span class="pre">Elements</span></code></a> object by using the <code class="xref py py-func docutils literal notranslate"><span class="pre">Elements.scoping</span></code> method.
+It gets the <a class="reference internal" href="../../../api/ansys/dpf/core/scoping/Scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><code class="xref py py-class docutils literal notranslate"><span class="pre">Scoping</span></code></a> for the entire mesh with a <em>‘elemental’</em> location.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Extract the mesh scoping</span>
+<span class="n">mesh_scoping_4</span> <span class="o">=</span> <span class="n">meshed_region_1</span><span class="o">.</span><span class="n">elements</span><span class="o">.</span><span class="n">scoping</span>
+
+<span class="c1"># Print the mesh Scoping</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Scoping from mesh&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">mesh_scoping_4</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Scoping from mesh 
+ DPF  Scoping: 
+  with Elemental location and 789 entities
+ 
+
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Use the Nodes object</strong></p>
+<p>You can obtain the <a class="reference internal" href="../../../api/ansys/dpf/core/nodes/Nodes.html#ansys.dpf.core.nodes.Nodes" title="ansys.dpf.core.nodes.Nodes"><code class="xref py py-class docutils literal notranslate"><span class="pre">Nodes</span></code></a> object from a given <a class="reference internal" href="../../../api/ansys/dpf/core/meshed_region/MeshedRegion.html#ansys.dpf.core.meshed_region.MeshedRegion" title="ansys.dpf.core.meshed_region.MeshedRegion"><code class="xref py py-class docutils literal notranslate"><span class="pre">MeshedRegion</span></code></a> by using the <code class="xref py py-func docutils literal notranslate"><span class="pre">MeshedRegion.nodes</span></code>
+method. You can extract the mesh <a class="reference internal" href="../../../api/ansys/dpf/core/scoping/Scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><code class="xref py py-class docutils literal notranslate"><span class="pre">Scoping</span></code></a> from the <a class="reference internal" href="../../../api/ansys/dpf/core/nodes/Nodes.html#ansys.dpf.core.nodes.Nodes" title="ansys.dpf.core.nodes.Nodes"><code class="xref py py-class docutils literal notranslate"><span class="pre">Nodes</span></code></a> object by using the <code class="xref py py-func docutils literal notranslate"><span class="pre">Nodes.scoping</span></code> method.
+It gets the <a class="reference internal" href="../../../api/ansys/dpf/core/scoping/Scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><code class="xref py py-class docutils literal notranslate"><span class="pre">Scoping</span></code></a> for the entire mesh with a <em>‘nodal’</em> location.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Extract the mesh scoping</span>
+<span class="n">mesh_scoping_5</span> <span class="o">=</span> <span class="n">meshed_region_1</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">scoping</span>
+
+<span class="c1"># Print the mesh Scoping</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Scoping from mesh&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">mesh_scoping_5</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Scoping from mesh 
+ DPF  Scoping: 
+  with Nodal location and 3820 entities
+ 
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<input id="sd-tab-item-10" name="sd-tab-set-4" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-10">
+From the FieldsContainer</label><div class="sd-tab-content docutils">
+<p>Extract the mesh Scoping from the <a class="reference internal" href="../../../api/ansys/dpf/core/fields_container/FieldsContainer.html#ansys.dpf.core.fields_container.FieldsContainer" title="ansys.dpf.core.fields_container.FieldsContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">FieldsContainer</span></code></a> using the <a class="reference internal" href="../../../api/ansys/dpf/core/operators/utility/extract_scoping/extract_scoping.html#ansys.dpf.core.operators.utility.extract_scoping.extract_scoping" title="ansys.dpf.core.operators.utility.extract_scoping.extract_scoping"><code class="xref py py-class docutils literal notranslate"><span class="pre">extract_scoping</span></code></a> operator. This operator gets the mesh
+<a class="reference internal" href="../../../api/ansys/dpf/core/scoping/Scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><code class="xref py py-class docutils literal notranslate"><span class="pre">Scoping</span></code></a> for each <a class="reference internal" href="../../../api/ansys/dpf/core/field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a> in the <a class="reference internal" href="../../../api/ansys/dpf/core/fields_container/FieldsContainer.html#ansys.dpf.core.fields_container.FieldsContainer" title="ansys.dpf.core.fields_container.FieldsContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">FieldsContainer</span></code></a>. Thus, you must specify the output as a <a class="reference internal" href="../../../api/ansys/dpf/core/scopings_container/ScopingsContainer.html#ansys.dpf.core.scopings_container.ScopingsContainer" title="ansys.dpf.core.scopings_container.ScopingsContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">ScopingsContainer</span></code></a>.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the extract_scoping operator</span>
+<span class="n">extract_scop_fc_op</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">extract_scoping</span><span class="p">(</span><span class="n">field_or_fields_container</span><span class="o">=</span><span class="n">disp_fc</span><span class="p">)</span>
+
+<span class="c1"># Get the mesh Scopings from the operators output</span>
+<span class="n">mesh_scoping_6</span> <span class="o">=</span> <span class="n">extract_scop_fc_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">mesh_scoping_as_scopings_container</span><span class="p">()</span>
+
+<span class="c1"># Print the mesh Scopings</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Scoping from FieldsContainer&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">mesh_scoping_6</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Scoping from FieldsContainer 
+ DPF  Scopings Container
+  with 35 scoping(s)
+  defined on labels: time 
+
+  with:
+  - scoping 0 {time:  1, } located on Nodal 3820 entities.
+  - scoping 1 {time:  2, } located on Nodal 3820 entities.
+  - scoping 2 {time:  3, } located on Nodal 3820 entities.
+  - scoping 3 {time:  4, } located on Nodal 3820 entities.
+  - scoping 4 {time:  5, } located on Nodal 3820 entities.
+  - scoping 5 {time:  6, } located on Nodal 3820 entities.
+  - scoping 6 {time:  7, } located on Nodal 3820 entities.
+  - scoping 7 {time:  8, } located on Nodal 3820 entities.
+  - scoping 8 {time:  9, } located on Nodal 3820 entities.
+  - scoping 9 {time:  10, } located on Nodal 3820 entities.
+  - scoping 10 {time:  11, } located on Nodal 3820 entities.
+  - scoping 11 {time:  12, } located on Nodal 3820 entities.
+  - scoping 12 {time:  13, } located on Nodal 3820 entities.
+  - scoping 13 {time:  14, } located on Nodal 3820 entities.
+  - scoping 14 {time:  15, } located on Nodal 3820 entities.
+  - scoping 15 {time:  16, } located on Nodal 3820 entities.
+  - scoping 16 {time:  17, } located on Nodal 3820 entities.
+  - scoping 17 {time:  18, } located on Nodal 3820 entities.
+  - scoping 18 {time:  19, } located on Nodal 3820 entities.
+  - scoping 19 {time:  20, } located on Nodal 3820 entities.
+  - scoping 20 {time:  21, } located on Nodal 3820 entities.
+  - scoping 21 {time:  22, } located on Nodal 3820 entities.
+  - scoping 22 {time:  23, } located on Nodal 3820 entities.
+  - scoping 23 {time:  24, } located on Nodal 3820 entities.
+  - scoping 24 {time:  25, } located on Nodal 3820 entities.
+  - scoping 25 {time:  26, } located on Nodal 3820 entities.
+  - scoping 26 {time:  27, } located on Nodal 3820 entities.
+  - scoping 27 {time:  28, } located on Nodal 3820 entities.
+  - scoping 28 {time:  29, } located on Nodal 3820 entities.
+  - scoping 29 {time:  30, } located on Nodal 3820 entities.
+  - scoping 30 {time:  31, } located on Nodal 3820 entities.
+  - scoping 31 {time:  32, } located on Nodal 3820 entities.
+  - scoping 32 {time:  33, } located on Nodal 3820 entities.
+  - scoping 33 {time:  34, } located on Nodal 3820 entities.
+  - scoping 34 {time:  35, } located on Nodal 3820 entities.
+ 
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<input id="sd-tab-item-11" name="sd-tab-set-4" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-11">
+From the Field</label><div class="sd-tab-content docutils">
+<p>You can extract the mesh <a class="reference internal" href="../../../api/ansys/dpf/core/scoping/Scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><code class="xref py py-class docutils literal notranslate"><span class="pre">Scoping</span></code></a> from a <a class="reference internal" href="../../../api/ansys/dpf/core/field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a> using:</p>
+<ul class="simple">
+<li><p>The <a class="reference internal" href="../../../api/ansys/dpf/core/operators/utility/extract_scoping/extract_scoping.html#ansys.dpf.core.operators.utility.extract_scoping.extract_scoping" title="ansys.dpf.core.operators.utility.extract_scoping.extract_scoping"><code class="xref py py-class docutils literal notranslate"><span class="pre">extract_scoping</span></code></a> operator;</p></li>
+<li><p>The <code class="xref py py-func docutils literal notranslate"><span class="pre">Field.scoping</span></code> method.</p></li>
+</ul>
+<p><strong>Use the extract_scoping operator</strong></p>
+<p>This operator gets the mesh <a class="reference internal" href="../../../api/ansys/dpf/core/scoping/Scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><code class="xref py py-class docutils literal notranslate"><span class="pre">Scoping</span></code></a> from the result <a class="reference internal" href="../../../api/ansys/dpf/core/field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a>. This means it gets the <a class="reference internal" href="../../../api/ansys/dpf/core/scoping/Scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><code class="xref py py-class docutils literal notranslate"><span class="pre">Scoping</span></code></a>
+where the result is defined at.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Extract the mesh scoping</span>
+<span class="n">mesh_scoping_7</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">extract_scoping</span><span class="p">(</span><span class="n">field_or_fields_container</span><span class="o">=</span><span class="n">disp_field</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+
+<span class="c1"># Print the mesh Scoping</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Scoping from Field &quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">mesh_scoping_7</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Scoping from Field  
+ DPF  Scoping: 
+  with Nodal location and 3820 entities
+ 
+
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Use the Field.scoping method</strong></p>
+<p>This method gets the mesh <a class="reference internal" href="../../../api/ansys/dpf/core/scoping/Scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><code class="xref py py-class docutils literal notranslate"><span class="pre">Scoping</span></code></a> from the result <a class="reference internal" href="../../../api/ansys/dpf/core/field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a>. This means it gets the <a class="reference internal" href="../../../api/ansys/dpf/core/scoping/Scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><code class="xref py py-class docutils literal notranslate"><span class="pre">Scoping</span></code></a>
+where the result is defined at.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Extract the mesh scoping</span>
+<span class="n">mesh_scoping_8</span> <span class="o">=</span> <span class="n">disp_field</span>
+
+<span class="c1"># Print the mesh Scoping</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Scoping from Field&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">mesh_scoping_8</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Scoping from Field 
+ DPF displacement_0.s Field
+  Location: Nodal
+  Unit: m
+  3820 entities 
+  Data: 3 components and 3820 elementary data 
+
+  Nodal
+  IDs                   data(m)
+  ------------          ----------
+  525                   0.000000e+00   0.000000e+00   0.000000e+00   
+                        
+  534                   0.000000e+00   0.000000e+00   0.000000e+00   
+                        
+  533                   0.000000e+00   0.000000e+00   0.000000e+00   
+                        
+  ...
+
+ 
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="use-a-scoping">
+<h2>Use a <a class="reference internal" href="../../../api/ansys/dpf/core/scoping/Scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><code class="xref py py-class docutils literal notranslate"><span class="pre">Scoping</span></code></a><a class="headerlink" href="#use-a-scoping" title="Link to this heading">#</a></h2>
+<p>The <a class="reference internal" href="../../../api/ansys/dpf/core/scoping/Scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><code class="xref py py-class docutils literal notranslate"><span class="pre">Scoping</span></code></a> object can be used :</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#ref-use-scoping-when-extracting"><span class="std std-ref">When extracting a result</span></a>;</p></li>
+<li><p><a class="reference internal" href="#ref-use-scoping-after-extracting"><span class="std std-ref">After extracting a result</span></a>.</p></li>
+</ul>
+<section id="extract-and-scope-the-results">
+<span id="ref-use-scoping-when-extracting"></span><h3>Extract and scope the results<a class="headerlink" href="#extract-and-scope-the-results" title="Link to this heading">#</a></h3>
+<p>You can extract and scope a result using the <code class="xref py py-func docutils literal notranslate"><span class="pre">Model.results</span></code> method or the <a class="reference internal" href="../../../api/ansys/dpf/core/operators/result/index.html#module-ansys.dpf.core.operators.result" title="ansys.dpf.core.operators.result"><code class="xref py py-mod docutils literal notranslate"><span class="pre">result</span></code></a> operator inputs.
+Those two approaches handle <a class="reference internal" href="../../../api/ansys/dpf/core/results/Result.html#ansys.dpf.core.results.Result" title="ansys.dpf.core.results.Result"><code class="xref py py-class docutils literal notranslate"><span class="pre">Result</span></code></a> objects. Thus, to scope the results when extracting them you use
+the <em>‘time_scoping’</em> and <em>‘mesh_scoping’</em> arguments and give the Scopings of interest.</p>
+<p>Here, we extract and scope the displacement results.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Extract and scope the result using the Model.results method</span>
+<span class="n">disp_model</span> <span class="o">=</span> <span class="n">model_1</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="p">(</span><span class="n">time_scoping</span><span class="o">=</span><span class="n">time_scoping_1</span><span class="p">,</span> <span class="n">mesh_scoping</span><span class="o">=</span><span class="n">mesh_scoping_1</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+
+<span class="c1"># Extract and scope the results using the result.displacement operator</span>
+<span class="n">disp_op</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">displacement</span><span class="p">(</span><span class="n">data_sources</span><span class="o">=</span><span class="n">ds_1</span><span class="p">,</span> <span class="n">time_scoping</span><span class="o">=</span><span class="n">time_scoping_1</span><span class="p">,</span> <span class="n">mesh_scoping</span><span class="o">=</span><span class="n">mesh_scoping_1</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+
+<span class="c1"># Print the displacement results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Displacement from Model.results &quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">disp_model</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Displacement from result.displacement operator&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">disp_op</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Displacement from Model.results  
+ DPF displacement(s)Fields Container
+  with 4 field(s)
+  defined on labels: time 
+
+  with:
+  - field 0 {time:  14} with Nodal location, 3 components and 4 entities.
+  - field 1 {time:  15} with Nodal location, 3 components and 4 entities.
+  - field 2 {time:  16} with Nodal location, 3 components and 4 entities.
+  - field 3 {time:  17} with Nodal location, 3 components and 4 entities.
+ 
+
+Displacement from result.displacement operator 
+ DPF displacement(s)Fields Container
+  with 4 field(s)
+  defined on labels: time 
+
+  with:
+  - field 0 {time:  14} with Nodal location, 3 components and 4 entities.
+  - field 1 {time:  15} with Nodal location, 3 components and 4 entities.
+  - field 2 {time:  16} with Nodal location, 3 components and 4 entities.
+  - field 3 {time:  17} with Nodal location, 3 components and 4 entities.
+ 
+
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="extract-and-rescope-the-results">
+<span id="ref-use-scoping-after-extracting"></span><h3>Extract and rescope the results<a class="headerlink" href="#extract-and-rescope-the-results" title="Link to this heading">#</a></h3>
+<p>The mesh <a class="reference internal" href="../../../api/ansys/dpf/core/scoping/Scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><code class="xref py py-class docutils literal notranslate"><span class="pre">Scoping</span></code></a> can be changed after the result extraction or manipulation by using the
+<a class="reference internal" href="../../../api/ansys/dpf/core/operators/scoping/rescope/rescope.html#ansys.dpf.core.operators.scoping.rescope.rescope" title="ansys.dpf.core.operators.scoping.rescope.rescope"><code class="xref py py-class docutils literal notranslate"><span class="pre">rescope</span></code></a> operator. It takes a <a class="reference internal" href="../../../api/ansys/dpf/core/field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a> or <a class="reference internal" href="../../../api/ansys/dpf/core/fields_container/FieldsContainer.html#ansys.dpf.core.fields_container.FieldsContainer" title="ansys.dpf.core.fields_container.FieldsContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">FieldsContainer</span></code></a> that contains the results data
+and rescope them.</p>
+<p>Here, we rescope the displacement results.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Extract the results for the entire mesh</span>
+<span class="n">disp_all_mesh</span> <span class="o">=</span> <span class="n">model_1</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+
+<span class="c1"># Rescope the displacement results to get the data only for a specific set of nodes</span>
+<span class="n">disp_rescope</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">rescope</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="n">disp_all_mesh</span><span class="p">,</span> <span class="n">mesh_scoping</span><span class="o">=</span><span class="n">mesh_scoping_1</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+
+<span class="c1"># Print the displacement results for the entire mesh</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Displacement results for the entire mesh&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">disp_all_mesh</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Print the displacement results for the specific set of nodes</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Displacement results rescoped &quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">disp_rescope</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Displacement results for the entire mesh 
+ DPF displacement(s)Fields Container
+  with 1 field(s)
+  defined on labels: time 
+
+  with:
+  - field 0 {time:  35} with Nodal location, 3 components and 3820 entities.
+ 
+
+Displacement results rescoped  
+ DPF displacement(s)Fields Container
+  with 1 field(s)
+  defined on labels: time 
+
+  with:
+  - field 0 {time:  35} with Nodal location, 3 components and 4 entities.
+ 
+
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-the-scope">Understanding the scope</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-scoping-object-from-scratch">Create a <code class="xref py py-class docutils literal notranslate"><span class="pre">Scoping</span></code> object from scratch</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#instanciate-a-scoping">Instanciate a <code class="xref py py-class docutils literal notranslate"><span class="pre">Scoping</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-the-scoping-factory-module">Use the scoping factory module</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extract-a-scoping">Extract a <code class="xref py py-class docutils literal notranslate"><span class="pre">Scoping</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#define-the-objects">Define the objects</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#extract-the-time-scoping">Extract the time <code class="xref py py-class docutils literal notranslate"><span class="pre">Scoping</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#extract-the-mesh-scoping">Extract the mesh <code class="xref py py-class docutils literal notranslate"><span class="pre">Scoping</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-a-scoping">Use a <code class="xref py py-class docutils literal notranslate"><span class="pre">Scoping</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#extract-and-scope-the-results">Extract and scope the results</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#extract-and-rescope-the-results">Extract and rescope the results</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+<!-- If there is no fix edit button function, use the PyData edit-this-button-->
+</div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/user_guide/tutorials/import_data/narrow_down_data.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+
+  <!-- Include desired assets -->
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.7/require.min.js"></script>
+
+<script>
+// Passing the search options to the search.js file
+const SEARCH_OPTIONS = JSON.parse('{"ignoreLocation": true, "keys": ["title", "text"], "limit": 10, "minMatchCharLength": 2, "threshold": 0.5}');
+const SEARCH_FILE = "../../../_static/search.json";
+</script>
+
+
+<script src="../../../_static/js/search.js"></script>
+  
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright (c) 2025 ANSYS, Inc. All rights reserved.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the
+  <a href="https://sphinxdocs.ansys.com/version/stable/index.html"
+    >Ansys Sphinx Theme</a
+  >
+  1.4.4. <br />Last updated on
+  <span id="ast_build_date"></span>
+</p>
+<script>
+  var options = { day: "numeric", month: "long", year: "numeric" };
+  var ast_lastModifiedDate = new Date(document.lastModified);
+  var ast_build_date = ast_lastModifiedDate.toLocaleDateString("en-US", options);
+  document.getElementById("ast_build_date").innerHTML = ast_build_date;
+</script></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

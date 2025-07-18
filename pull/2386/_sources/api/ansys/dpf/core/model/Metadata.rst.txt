@@ -1,0 +1,247 @@
+
+
+
+
+
+
+:class:`Metadata`
+=================
+
+
+.. py:class:: ansys.dpf.core.model.Metadata(data_sources, server)
+
+   Contains the metadata of a data source.
+
+   :param data_sources:
+   :type data_sources: DataSources
+   :param server: Server with the channel connected to the remote or local instance.
+   :type server: server.DPFServer
+
+
+
+.. py:currentmodule:: Metadata
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~release_streams`
+            - Release the streams if any.
+          * - :py:attr:`~named_selection`
+            - Scoping containing the list of nodes or elements in the named selection.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~time_freq_support`
+            - Time frequency support.
+          * - :py:attr:`~data_sources`
+            - Data sources instance.
+          * - :py:attr:`~streams_provider`
+            - Streams provider operator connected to the data sources.
+          * - :py:attr:`~meshed_region`
+            - Meshed region instance.
+          * - :py:attr:`~mesh_provider`
+            - Mesh provider operator.
+          * - :py:attr:`~result_info`
+            - Result Info instance.
+          * - :py:attr:`~mesh_info`
+            - Mesh Info instance.
+          * - :py:attr:`~meshes_container`
+            - Meshes container instance.
+          * - :py:attr:`~meshes_provider`
+            - Meshes provider operator.
+          * - :py:attr:`~available_named_selections`
+            - List of available named selections.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.model import Metadata
+
+Property detail
+---------------
+
+.. py:property:: time_freq_support
+
+   Time frequency support.
+
+   :returns: Time frequency support.
+   :rtype: ansys.dpf.core.time_freq_support.TimeFreqSupport
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf.core import Model
+   >>> from ansys.dpf.core import examples
+   >>> transient = examples.download_transient_result()
+   >>> model = Model(transient)
+
+   Get the number of sets from the result file.
+
+   >>> tf = model.metadata.time_freq_support
+   >>> tf.n_sets
+   35
+
+   Get the time values for the active result.
+
+   >>> tf.time_frequencies.data
+   DPFArray([0.        , 0.019975  , 0.039975  , 0.059975  , 0.079975  ,
+          0.099975  , 0.119975  , 0.139975  , 0.159975  , 0.179975  ,
+          0.199975  , 0.218975  , 0.238975  , 0.258975  , 0.278975  ,
+          0.298975  , 0.318975  , 0.338975  , 0.358975  , 0.378975  ,
+          0.398975  , 0.417975  , 0.437975  , 0.457975  , 0.477975  ,
+          0.497975  , 0.517975  , 0.53754972, 0.55725277, 0.57711786,
+          0.59702054, 0.61694639, 0.63683347, 0.65673452, 0.67662783]...
+
+.. py:property:: data_sources
+
+   Data sources instance.
+
+   This data source can be connected to other operators.
+
+   :returns: **data_sources**
+   :rtype: DataSources
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> transient = examples.download_transient_result()
+   >>> model = dpf.Model(transient)
+
+   Connect the model data sources to the 'U' operator.
+
+   >>> ds = model.metadata.data_sources
+   >>> op = dpf.operators.result.displacement()
+   >>> op.inputs.data_sources.connect(ds)
+
+.. py:property:: streams_provider
+
+   Streams provider operator connected to the data sources.
+
+   This streams provider can be connected to other operators.
+
+   :returns: **streams_provider**
+   :rtype: :class:`ansys.dpf.core.operators.metadata.streams_provider`
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> transient = examples.download_transient_result()
+   >>> model = dpf.Model(transient)
+
+   Connect the model data sources to the ``U`` operator.
+
+   >>> streams = model.metadata.streams_provider
+   >>> op = dpf.operators.result.displacement()
+   >>> op.inputs.streams_container.connect(streams)
+
+.. py:property:: meshed_region
+
+   Meshed region instance.
+
+   :returns: **mesh** -- Mesh
+   :rtype: :class:`ansys.dpf.core.meshed_region.MeshedRegion`
+
+.. py:property:: mesh_provider
+
+   Mesh provider operator.
+
+   This operator reads a mesh from the result file. The underlying
+   operator symbol is the class:`ansys.dpf.core.operators.mesh.mesh_provider`
+   operator.
+
+   :returns: **mesh_provider** -- Mesh provider operator.
+   :rtype: :class:`ansys.dpf.core.operators.mesh.mesh_provider`
+
+.. py:property:: result_info
+
+   Result Info instance.
+
+   :returns: **result_info**
+   :rtype: :class:`ansys.dpf.core.result_info.ResultInfo`
+
+.. py:property:: mesh_info
+
+   Mesh Info instance.
+
+   :returns: **mesh_info**
+   :rtype: :class:`ansys.dpf.core.mesh_info.MeshInfo`
+
+.. py:property:: meshes_container
+
+   Meshes container instance.
+
+   :returns: **meshes** -- Meshes
+   :rtype: ansys.dpf.core.MeshesContainer
+
+.. py:property:: meshes_provider
+
+   Meshes provider operator.
+
+   This operator reads a meshes container (with potentially time or space varying meshes)
+   from the result files.
+
+   :returns: **meshes_provider** -- Meshes provider operator.
+   :rtype: ansys.dpf.core.Operator
+
+   .. rubric:: Notes
+
+   Underlying operator symbol is
+   "meshes_provider" operator
+
+.. py:property:: available_named_selections
+
+   List of available named selections.
+
+   :returns: **named_selections**
+   :rtype: list str
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: release_streams()
+
+   Release the streams if any.
+
+
+.. py:method:: named_selection(named_selection: str, server: ansys.dpf.core.server_types.AnyServerType = None) -> ansys.dpf.core.scoping.Scoping
+
+   Scoping containing the list of nodes or elements in the named selection.
+
+   :param named_selection: Name of the named selection.
+   :param server: Server on which to create the scoping if different from the server of the model.
+
+   :returns: A scoping containing the IDs of the entities in the named selection.
+             The location depends on the type of entities targeted by the named selection.
+   :rtype: named_selection
+
+
+
+
+
