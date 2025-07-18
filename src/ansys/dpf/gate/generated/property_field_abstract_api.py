@@ -44,6 +44,10 @@ class PropertyFieldAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def csproperty_field_new_location(numEntities, data_size, location):
+		raise NotImplementedError
+
+	@staticmethod
 	def csproperty_field_new_with_transformation(numEntities, data_size, wf, input_name, output_name):
 		raise NotImplementedError
 
@@ -120,6 +124,10 @@ class PropertyFieldAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def csproperty_field_set_location(field, location):
+		raise NotImplementedError
+
+	@staticmethod
 	def csproperty_field_resize(field, dataSize, scopingSize):
 		raise NotImplementedError
 
@@ -181,6 +189,10 @@ class PropertyFieldAbstractAPI:
 
 	@staticmethod
 	def csproperty_field_new_on_client(client, numEntities, data_size):
+		raise NotImplementedError
+
+	@staticmethod
+	def csproperty_field_new_location_on_client(client, numEntities, data_size, location):
 		raise NotImplementedError
 
 	@staticmethod
