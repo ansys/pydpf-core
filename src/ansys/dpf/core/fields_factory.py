@@ -365,7 +365,7 @@ def _create_field(server, nature, nentities, location=locations.nodal, ncomp_n=0
     api.init_field_environment(server)
     internal_obj = Field._field_create_internal_obj(
         api=api,
-        client=server.client,
+        server=server,
         nature=nature,
         nentities=nentities,
         location=location,
