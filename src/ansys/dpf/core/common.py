@@ -69,6 +69,9 @@ class locations:
 
     elemental_and_faces = "ElementalAndFaces"
         data available in elements and faces of the model
+
+    modal = "Modal"
+        relative to modes
     """
 
     none = "none"
@@ -99,6 +102,9 @@ class locations:
 
     # data available in elements and faces of the model
     elemental_and_faces = "ElementalAndFaces"
+
+    # data available at modes
+    modal = "Modal"
 
 
 def _camel_to_snake_case(name):
