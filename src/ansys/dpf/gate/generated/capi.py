@@ -3373,6 +3373,14 @@ def load_api(path):
 		dll.CSPropertyField_SetFieldDefinition.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.CSPropertyField_SetFieldDefinition.restype = None
 
+	if hasattr(dll, "CSPropertyField_GetSupport"):
+		dll.CSPropertyField_GetSupport.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.CSPropertyField_GetSupport.restype = ctypes.c_void_p
+
+	if hasattr(dll, "CSPropertyField_SetSupport"):
+		dll.CSPropertyField_SetSupport.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.CSPropertyField_SetSupport.restype = None
+
 	if hasattr(dll, "CSPropertyField_GetName"):
 		dll.CSPropertyField_GetName.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.CSPropertyField_GetName.restype = ctypes.POINTER(ctypes.c_char)
