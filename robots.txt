@@ -8,6 +8,5 @@ Disallow: /version/0.8
 Disallow: /version/0.7
 Disallow: /version/0.6
 Disallow: /version/0.5
-Disallow: /pull/
 
 Sitemap: https://dpf.docs.pyansys.com/sitemap.xml
