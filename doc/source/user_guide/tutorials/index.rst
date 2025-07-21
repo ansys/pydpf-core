@@ -135,12 +135,12 @@ of our package background so you can understand how to work with it.
        Learn how to manipulate the physics data associate to a
        data storage structure. (Unit, homogeneity ...)
 
-    .. grid-item-card:: Enriching DPF capabilities
+    .. grid-item-card:: Custom Python operator and plugin
        :link: ref_tutorials_enriching
        :link-type: ref
        :text-align: center
 
-       Discover how to enhance DPF capabilities by creating new operator’s libraries.
+       Discover how to enhance DPF capabilities by creating your own operators and plugins.
 
     .. grid-item-card:: Post-process distributed files
        :link: ref_tutorials_distributed_files
