@@ -1,20 +1,33 @@
 Contributing as a documentarian
 ###############################
 
+.. note::
+
+    Overall guidance on contributing to the documentation of a PyAnsys repository appears in
+    `Documenting`_ in the *PyAnsys Developer's Guide*.
+
+    You must also follow the `Documentation style`_ guide to
+    ensure that all the documentation looks the same across the project.
+
+To contribute on the documentation you must start by setting up the PyDPF-Core repository
+by following the steps in :ref:`contributing_as_a_developer` section.
+
+In this page you can check how to :
+
 .. grid:: 1 2 3 3
     :padding: 2 2 2 2
 
+    .. grid-item-card:: :fa:`th` Structure the documentation
+        :link: structure-documentation
+        :link-type: ref
+
+        How the documentation is structured and where to locate files.
+
     .. grid-item-card:: :fa:`pencil` Write documentation
-        :link: write-documentation
+        :link: write-product-use-documentation
         :link-type: ref
 
-        Explain how to get started, use, and contribute to the project.
-
-    .. grid-item-card:: :fa:`laptop-code` Add a new example
-        :link: write-examples
-        :link-type: ref
-
-        Showcase the capabilities of PyDPF-Core by adding a new example. 
+        Explains and showcase the use of PyDPF-Core.
 
     .. grid-item-card:: :fa:`book` Build the documentation
         :link: build-documentation
@@ -22,16 +35,13 @@ Contributing as a documentarian
 
         Render the documentation to see your changes reflected.
 
-.. _write-documentation:
+.. _structure-documentation:
 
-Write documentation
-===================
+Structure the documentation
+===========================
 
 The documentation generator used in PyDPF-Core is `Sphinx`_. Most of the documents
-are written in `reStructuredText`_. Some parts of the documentation, like the
-:ref:`examples <Examples>`, use a mix of `reStructuredText`_ and Python, thanks to `Sphinx-Gallery`_.
-If you are interested in writing examples, see the :ref:`writing examples <write-examples>` 
-section.
+are written in `reStructuredText`_.
 
 The documentation is located in the ``doc/source`` directory. The landing page
 is declared in the ``doc/source/index.rst`` file. The rest of the files contain
@@ -42,7 +52,7 @@ files.
 The layout of the ``doc/source`` directory is reflected in the slug of the
 online documentation. For example, the
 ``doc/source/getting_started/contribute/documentarian.rst`` renders as
-``https://dpf.docs.pyansys.com/getting_started/contribute/documentarian.html``. 
+``https://dpf.docs.pyansys.com/getting_started/contribute/documentarian.html``.
 
 Thus, if you create a new file, it important to follow these rules:
 
@@ -70,38 +80,75 @@ A table of contents can be declared using a directive like this:
 The path to the file is relative to the directory where the table of contents
 is declared.
 
-.. _write-examples:
+.. _write-product-use-documentation:
 
-Write a new example
+Write documentation
 ===================
 
-The :ref:`examples <Examples>` section of the documentation showcases different
-capabilities of PyDPF-Core. Each example (grouped into folders of related examples)
-is a standalone Python script. Despite being ``*.py`` files, they are written in a mix
-of `reStructuredText`_ and Python. This is possible thanks to the `Sphinx-Gallery`_
-Sphinx extension.
+Our documentation tries to follow a structure principle that respects four different functions of the documentation.
+Each of them fulfills a different need for people working with our tool at different times, in different circumstances.
 
-Documentarians writing new examples are encouraged to familiarize themselves with
-`structuring Python scripts for Sphinx-Gallery <https://sphinx-gallery.github.io/stable/syntax.html>`_.
-Once the ``.py`` file for a new example is properly set up, Sphinx-Gallery automatically
-generates `Sphinx`_ `reStructuredText`_ files from it. The rendering of the resulting reST will provide
-users with ``.ipynb`` (Jupyter notebook) and ``.py`` files of each example, which users can download.
+Here is an overview of how our documentation is organized to help you know where you should include your contributions.
+Each section has their own guidelines that must be followed when creating new content.
+To check these specific guidelines click on the correspondent card below.
 
-Finally, here are some tips for writing examples:
+.. grid:: 1 1 2 2
+    :gutter: 2
+    :padding: 2
+    :margin: 2
 
-- Start the example with an explanation of the main topic. Try to use as many relevant
-  keywords as possible in this section to optimize for Search Engine Optimization.
+    .. grid-item-card:: **TUTORIALS**
+       :link: ref_guidelines_tutorials
+       :link-type: ref
+       :class-title: sd-text-center sd-bg-light
+       :class-header: sd-text-center
 
-- Include an explanation with each code cell. The explanations should
-  be included before, not after, the corresponding code.
+       Learning oriented
+       ^^^^^^^^^^^^^^^^^
 
-- The examples are built with the documentation. As part of the build process,
-  screenshots of rendered graphics are inserted in the document. You do not need
-  to include the screenshots yourself.
+       **Function:**  Teach how to get started and use PYDPF-core step by step
 
-- When creating a new folder where more than one related example will be included, ensure
-  a ``README.txt`` file is also included. This file should contain reST to be used as the header
-  for the index page corresponding to the subsection for these examples in the generated documentation.
+       They are designed to teach how to perform a task and understand the underlying concepts,
+       providing detailed explanations at each stage. The task is built around the application of specific features.
+
+    .. grid-item-card:: **EXAMPLES**
+       :link: ref_guidelines_examples
+       :link-type: ref
+       :class-title: sd-text-center sd-bg-light
+       :class-header: sd-text-center
+
+       Use-cases oriented
+       ^^^^^^^^^^^^^^^^^^
+
+       **Function:**  Show how to solve specifics key problems
+
+       They showcase specific key problems and use-cases. They are more advanced than
+       tutorials as they present end-to-end engineering workflows and assume basic knowledge of PyDPF-Core.
+
+    .. grid-item-card:: **CONCEPTS**
+       :class-title: sd-text-center sd-bg-light
+       :class-header: sd-text-center
+
+       Understanding oriented
+       ^^^^^^^^^^^^^^^^^^^^^^
+
+       **Function:**  Provide useful theoretical explanations for PyDPF-Core
+
+       They discuss and explain key DPF principles and concepts, enabling the reader to understand the spirit of the underlying tool.
+
+
+    .. grid-item-card:: **API REFERENCE**
+       :class-title: sd-text-center sd-bg-light
+       :class-header: sd-text-center
+
+       Informing oriented
+       ^^^^^^^^^^^^^^^^^^
+
+       **Function:** Describe PyDPF-Core APIs
+
+       They contain technical reference on how PyDPF-Core works and how to use it but assume basic
+       understanding of key DPF concepts. It is generated automatically along the documentation and
+       is based on the source code.
 
 .. _build-documentation:
 
