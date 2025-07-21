@@ -5,12 +5,7 @@ Contributing
 
 .. include:: ../links_and_refs.rst
 
-There are several ways to contribute to PyDPF-Core:
-
-- :ref:`ref_contributing_answer_discussions`
-- :ref:`ref_contributing_post_issues`
-- :ref:`ref_contributing_develop_code`
-- :ref:`ref_contributing_improve_doc`
+There are several ways to contribute to PyDPF-Core.
 
 Overall guidance on contributing to a PyAnsys repository appears in
 `Contributing <dev_guide_contributing_>`_ in the *PyAnsys Developer's Guide*.
