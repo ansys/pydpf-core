@@ -1,0 +1,78 @@
+
+
+
+
+
+
+The ``support.py`` module
+=========================
+
+.. py:module:: ansys.dpf.core.support
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+
+
+.. py:currentmodule:: support
+.. tab-set::
+
+
+
+
+    .. tab-item:: Classes
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.support.Support`
+            - Base class for support (supporting Field's location, Scoping's location, Collection's labels...).
+
+
+
+
+
+
+
+
+
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-cod-symbol_class"></span> Support</api/ansys/dpf/core/support/Support>
+
+
+
+
+
+
+
+
+
+Description
+-----------
+
+Support.
+
+
+
+
+
+
+
+

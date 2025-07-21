@@ -1,0 +1,355 @@
+
+
+
+
+
+
+:class:`InputsHdf5DpfGenerateResultFile`
+========================================
+
+
+.. py:class:: ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.InputsHdf5DpfGenerateResultFile(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   hdf5dpf_generate_result_file operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
+   >>> my_append_mode = bool()
+   >>> op.inputs.append_mode.connect(my_append_mode)
+   >>> my_dataset_size_compression_threshold = int()
+   >>> op.inputs.dataset_size_compression_threshold.connect(my_dataset_size_compression_threshold)
+   >>> my_h5_native_compression = int()
+   >>> op.inputs.h5_native_compression.connect(my_h5_native_compression)
+   >>> my_export_floats = bool()
+   >>> op.inputs.export_floats.connect(my_export_floats)
+   >>> my_filename = str()
+   >>> op.inputs.filename.connect(my_filename)
+   >>> my_mesh_provider_out = dpf.MeshedRegion()
+   >>> op.inputs.mesh_provider_out.connect(my_mesh_provider_out)
+   >>> my_time_freq_support_out = dpf.TimeFreqSupport()
+   >>> op.inputs.time_freq_support_out.connect(my_time_freq_support_out)
+   >>> my_ansys_unit_system_id = int()
+   >>> op.inputs.ansys_unit_system_id.connect(my_ansys_unit_system_id)
+   >>> my_input_name1 = str()
+   >>> op.inputs.input_name1.connect(my_input_name1)
+   >>> my_input_name2 = str()
+   >>> op.inputs.input_name2.connect(my_input_name2)
+
+
+
+
+
+
+.. py:currentmodule:: InputsHdf5DpfGenerateResultFile
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~append_mode`
+            - Allows to connect append_mode input to the operator.
+          * - :py:attr:`~dataset_size_compression_threshold`
+            - Allows to connect dataset_size_compression_threshold input to the operator.
+          * - :py:attr:`~h5_native_compression`
+            - Allows to connect h5_native_compression input to the operator.
+          * - :py:attr:`~export_floats`
+            - Allows to connect export_floats input to the operator.
+          * - :py:attr:`~filename`
+            - Allows to connect filename input to the operator.
+          * - :py:attr:`~mesh_provider_out`
+            - Allows to connect mesh_provider_out input to the operator.
+          * - :py:attr:`~time_freq_support_out`
+            - Allows to connect time_freq_support_out input to the operator.
+          * - :py:attr:`~ansys_unit_system_id`
+            - Allows to connect ansys_unit_system_id input to the operator.
+          * - :py:attr:`~input_name1`
+            - Allows to connect input_name1 input to the operator.
+          * - :py:attr:`~input_name2`
+            - Allows to connect input_name2 input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file import InputsHdf5DpfGenerateResultFile
+
+Property detail
+---------------
+
+.. py:property:: append_mode
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect append_mode input to the operator.
+
+   Experimental: Allow appending chunked data to the file. This disables fields container content deduplication.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
+   >>> op.inputs.append_mode.connect(my_append_mode)
+   >>> # or
+   >>> op.inputs.append_mode(my_append_mode)
+
+.. py:property:: dataset_size_compression_threshold
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect dataset_size_compression_threshold input to the operator.
+
+   Integer value that defines the minimum dataset size (in bytes) to use h5 native compression Applicable for arrays of floats, doubles and integers.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
+   >>> op.inputs.dataset_size_compression_threshold.connect(my_dataset_size_compression_threshold)
+   >>> # or
+   >>> op.inputs.dataset_size_compression_threshold(my_dataset_size_compression_threshold)
+
+.. py:property:: h5_native_compression
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect h5_native_compression input to the operator.
+
+   Integer value / DataTree that defines the h5 native compression used For Integer Input {0: No Compression (default); 1-9: GZIP Compression : 9 provides maximum compression but at the slowest speed.}For DataTree Input {type: None / GZIP / ZSTD; level: GZIP (1-9) / ZSTD (1-20); num_threads: ZSTD (>0)}
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
+   >>> op.inputs.h5_native_compression.connect(my_h5_native_compression)
+   >>> # or
+   >>> op.inputs.h5_native_compression(my_h5_native_compression)
+
+.. py:property:: export_floats
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect export_floats input to the operator.
+
+   converts double to float to reduce file size (default is true)
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
+   >>> op.inputs.export_floats.connect(my_export_floats)
+   >>> # or
+   >>> op.inputs.export_floats(my_export_floats)
+
+.. py:property:: filename
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect filename input to the operator.
+
+   name of the output file that will be generated (utf8).
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
+   >>> op.inputs.filename.connect(my_filename)
+   >>> # or
+   >>> op.inputs.filename(my_filename)
+
+.. py:property:: mesh_provider_out
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect mesh_provider_out input to the operator.
+
+   defines the MeshedRegion that is exported and provided by MeshProvider.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
+   >>> op.inputs.mesh_provider_out.connect(my_mesh_provider_out)
+   >>> # or
+   >>> op.inputs.mesh_provider_out(my_mesh_provider_out)
+
+.. py:property:: time_freq_support_out
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect time_freq_support_out input to the operator.
+
+   defines the TimeFreqSupport that is exported and provided by TimeFreqSupportProvider.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
+   >>> op.inputs.time_freq_support_out.connect(my_time_freq_support_out)
+   >>> # or
+   >>> op.inputs.time_freq_support_out(my_time_freq_support_out)
+
+.. py:property:: ansys_unit_system_id
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect ansys_unit_system_id input to the operator.
+
+   defines the unit system the results are exported with. A Result info can be input to also export Physics Type and Analysis Type.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
+   >>> op.inputs.ansys_unit_system_id.connect(my_ansys_unit_system_id)
+   >>> # or
+   >>> op.inputs.ansys_unit_system_id(my_ansys_unit_system_id)
+
+.. py:property:: input_name1
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect input_name1 input to the operator.
+
+   Set of even and odd pins to serialize results. Odd pins (4, 6, 8...) are strings, and they represent the names of the results to be serialized. Even pins (5, 7, 9...) are DPF types, and they represent the results to be serialized. They should go in pairs (for each result name, there should be a result) and connected sequentially.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
+   >>> op.inputs.input_name1.connect(my_input_name1)
+   >>> # or
+   >>> op.inputs.input_name1(my_input_name1)
+
+.. py:property:: input_name2
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect input_name2 input to the operator.
+
+   Set of even and odd pins to serialize results. Odd pins (4, 6, 8...) are strings, and they represent the names of the results to be serialized. Even pins (5, 7, 9...) are DPF types, and they represent the results to be serialized. They should go in pairs (for each result name, there should be a result) and connected sequentially.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
+   >>> op.inputs.input_name2.connect(my_input_name2)
+   >>> # or
+   >>> op.inputs.input_name2(my_input_name2)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+   :param inpt:
+   :type inpt: str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping, Enum,
+   :param ScopingsContainer: Input of the operator.
+   :type ScopingsContainer: E501
+   :param MeshedRegion: Input of the operator.
+   :type MeshedRegion: E501
+   :param MeshesContainer: Input of the operator.
+   :type MeshesContainer: E501
+   :param DataSources: Input of the operator.
+   :type DataSources: E501
+   :param CyclicSupport: Input of the operator.
+   :type CyclicSupport: E501
+   :param Outputs: Input of the operator.
+   :type Outputs: E501
+   :param os.PathLike  # noqa: Input of the operator.
+   :type os.PathLike  # noqa: E501
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

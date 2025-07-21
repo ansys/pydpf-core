@@ -1,0 +1,104 @@
+
+
+
+
+
+
+:class:`OutputsImportSymbolicWorkflow`
+======================================
+
+
+.. py:class:: ansys.dpf.core.operators.serialization.import_symbolic_workflow.OutputsImportSymbolicWorkflow(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   import_symbolic_workflow operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.import_symbolic_workflow()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_workflow = op.outputs.workflow()
+
+
+
+
+
+.. py:currentmodule:: OutputsImportSymbolicWorkflow
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~workflow`
+            - Allows to get workflow output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.serialization.import_symbolic_workflow import OutputsImportSymbolicWorkflow
+
+Property detail
+---------------
+
+.. py:property:: workflow
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get workflow output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.import_symbolic_workflow()
+   >>> # Get the output from op.outputs. ...
+   >>> result_workflow = op.outputs.workflow()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

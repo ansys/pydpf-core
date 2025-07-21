@@ -1,0 +1,104 @@
+
+
+
+
+
+
+The ``path_utilities.py`` module
+================================
+
+.. py:module:: ansys.dpf.core.path_utilities
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+.. py:currentmodule:: path_utilities
+.. tab-set::
+
+
+
+
+
+
+
+    .. tab-item:: Functions
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~join`
+            - Join two strings to form a path, following the server architecture.
+
+
+          * - :py:obj:`~to_server_os`
+            - Return path to the server depending on the os.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Description
+-----------
+
+path_utilities.
+
+Offer tools similar to os.path but taking the os of the
+server into account to create path.
+
+
+
+
+
+
+
+Module detail
+-------------
+
+.. py:function:: join(*args, **kwargs)
+
+   Join two strings to form a path, following the server architecture.
+
+   Using a server version below 3.0, please ensure that the
+   python client and the server's os are similar before
+   using this method.
+
+   :param args: Path to join and optionally a server.
+   :type args: str, os.PathLike, LegacyGrpcServer
+   :param kwargs: server=.
+   :type kwargs: LegacyGrpcServer
+   :param server: Specific server to use.
+   :type server: Server
+
+   :returns: **concatenated_file_path** -- left_path + right_path concatenated into a single string value.
+   :rtype: str
+
+
+.. py:function:: to_server_os(path, server=None)
+
+   Return path to the server depending on the os.
+
+
+
+

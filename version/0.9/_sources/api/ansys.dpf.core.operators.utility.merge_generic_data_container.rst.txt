@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.utility.merge_generic_data_container
+   :inherited-members:

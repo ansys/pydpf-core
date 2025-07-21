@@ -1,0 +1,439 @@
+
+
+
+
+
+
+:class:`MeshedRegion`
+=====================
+
+
+.. py:class:: ansys.dpf.core.meshed_region.MeshedRegion(num_nodes=None, num_elements=None, mesh=None, server=None)
+
+   Represents a mesh from DPF.
+
+   :param num_nodes: Number of nodes to reserve for mesh creation. The default is ``None``.
+   :type num_nodes: int, optional
+   :param num_elements: Number of elements to reserve for mesh creation. The default is ``None``.
+   :type num_elements: int, optional
+   :param mesh: The default is ``None``.
+   :type mesh: ansys.grpc.dpf.meshed_region_pb2.MeshedRegion
+   :param server: Server with the channel connected to the remote or local instance.
+                  The default is ``None``, in which case an attempt is made to use the
+                  global server.
+   :type server: ansys.dpf.core.server, optional
+
+   .. rubric:: Examples
+
+   Extract a meshed region from a model.
+
+   >>> import ansys.dpf.core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.find_static_rst())
+   >>> meshed_region = model.metadata.meshed_region
+
+   Create a meshed region from scratch (line with 3 beam elements).
+
+   >>> import ansys.dpf.core as dpf
+   >>> meshed_region = dpf.MeshedRegion(num_nodes=4,num_elements=3)
+   >>> i=0
+   >>> for node in meshed_region.nodes.add_nodes(4):
+   ...     node.id = i+1
+   ...     node.coordinates = [float(i), float(i), 0.0]
+   ...     i=i+1
+   >>> i=0
+   >>> for element in meshed_region.elements.add_elements(3):
+   ...     element.id=i+1
+   ...     element.connectivity = [i, i+1]
+   ...     element.is_beam=True #or is_solid, is_beam, is_point
+   ...     i=i+1
+   >>> meshed_region.elements.add_beam_element(id=4,connectivity=[3,0])
+
+
+
+
+
+.. py:currentmodule:: MeshedRegion
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~property_field`
+            - Property field getter. It can be coordinates (field), element types (property field)...
+          * - :py:attr:`~set_property_field`
+            - Property field setter. It can be coordinates (field), element types (property field)...
+          * - :py:attr:`~set_coordinates_field`
+            - Coordinates field setter.
+          * - :py:attr:`~named_selection`
+            - Scoping containing the list of nodes or elements in the named selection.
+          * - :py:attr:`~set_named_selection_scoping`
+            - Named selection scoping setter.
+          * - :py:attr:`~deform_by`
+            - Deforms the mesh according to a 3D vector field and an additional scale factor.
+          * - :py:attr:`~plot`
+            - Plot the field or fields container on the mesh.
+          * - :py:attr:`~deep_copy`
+            - Create a deep copy of the meshed region's data on a given server.
+          * - :py:attr:`~field_of_properties`
+            - Return the ``Field`` or ``PropertyField`` associated to a given property of the mesh.
+          * - :py:attr:`~is_empty`
+            - Whether the mesh is empty.
+          * - :py:attr:`~location_data_len`
+            - Return the data length for a given mesh location.
+          * - :py:attr:`~get_elemental_nodal_size_list`
+            - Return the array of number of nodes per element in the mesh.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~elements`
+            - All elemental properties of the mesh, such as connectivity and element types.
+          * - :py:attr:`~faces`
+            - All face properties of the mesh, such as faces_nodes_connectivity and face types.
+          * - :py:attr:`~nodes`
+            - All nodal properties of the mesh, such as node coordinates and nodal connectivity.
+          * - :py:attr:`~unit`
+            - Unit of the meshed region.
+          * - :py:attr:`~available_property_fields`
+            - Returns a list of available property fields.
+          * - :py:attr:`~available_named_selections`
+            - List of available named selections.
+          * - :py:attr:`~grid`
+            - Unstructured grid in VTK format from PyVista.
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~as_linear`
+            - 
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__del__`
+            - Delete this instance of the meshed region.
+          * - :py:attr:`~__str__`
+            - Return string representation of the meshed region.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.meshed_region import MeshedRegion
+
+Property detail
+---------------
+
+.. py:property:: elements
+
+   All elemental properties of the mesh, such as connectivity and element types.
+
+   :returns: **elements** -- Elements belonging to the meshed region.
+   :rtype: Elements
+
+   .. rubric:: Examples
+
+   >>> import ansys.dpf.core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.find_static_rst())
+   >>> meshed_region = model.metadata.meshed_region
+   >>> elements = meshed_region.elements
+   >>> print(elements)
+   DPF Elements object with 8 elements
+
+.. py:property:: faces
+
+   All face properties of the mesh, such as faces_nodes_connectivity and face types.
+
+   :returns: **faces** -- Faces belonging to the meshed region.
+   :rtype: Faces
+
+   .. rubric:: Examples
+
+   >>> import ansys.dpf.core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.find_static_rst())
+   >>> meshed_region = model.metadata.meshed_region
+   >>> faces = meshed_region.faces
+   >>> print(faces)
+   DPF Faces object with 0 faces
+
+.. py:property:: nodes
+
+   All nodal properties of the mesh, such as node coordinates and nodal connectivity.
+
+   :returns: **nodes** -- Nodes belonging to the meshed region
+   :rtype: Nodes
+
+   .. rubric:: Examples
+
+   >>> import ansys.dpf.core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.find_static_rst())
+   >>> meshed_region = model.metadata.meshed_region
+   >>> nodes = meshed_region.nodes
+   >>> nodes.n_nodes
+   81
+
+.. py:property:: unit
+
+   Unit of the meshed region.
+
+   This unit is the same as the unit of the coordinates of the meshed region.
+
+   :returns: **unit**
+   :rtype: str
+
+.. py:property:: available_property_fields
+
+   Returns a list of available property fields.
+
+   :returns: **available_property_fields**
+   :rtype: list str
+
+.. py:property:: available_named_selections
+
+   List of available named selections.
+
+   :returns: **named_selections**
+   :rtype: list str
+
+.. py:property:: grid
+
+   Unstructured grid in VTK format from PyVista.
+
+   :returns: UnstructuredGrid of the mesh.
+   :rtype: pyvista.UnstructuredGrid
+
+   .. rubric:: Examples
+
+   >>> import ansys.dpf.core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.find_static_rst())
+   >>> meshed_region = model.metadata.meshed_region
+   >>> grid = meshed_region.grid
+
+   Plot this grid directly.
+
+   >>> grid.plot()
+
+   Extract the surface mesh of this grid
+
+   >>> mesh = grid.extract_surface()
+
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: as_linear
+   :value: None
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __del__()
+
+   Delete this instance of the meshed region.
+
+
+.. py:method:: __str__()
+
+   Return string representation of the meshed region.
+
+
+.. py:method:: property_field(property_name)
+
+   Property field getter. It can be coordinates (field), element types (property field)...
+
+   :returns: **field_or_property_field**
+   :rtype: core.Field or core.PropertyField
+
+
+.. py:method:: set_property_field(property_name, value)
+
+   Property field setter. It can be coordinates (field), element types (property field)...
+
+   :param property_name: property name of the field to set
+   :type property_name: str
+   :param value:
+   :type value: PropertyField or Field
+
+
+.. py:method:: set_coordinates_field(coordinates_field)
+
+   Coordinates field setter.
+
+   :param coordinates_field:
+   :type coordinates_field: PropertyField or Field
+
+
+.. py:method:: named_selection(named_selection: str, server: ansys.dpf.core.server_types.AnyServerType = None) -> ansys.dpf.core.scoping.Scoping
+
+   Scoping containing the list of nodes or elements in the named selection.
+
+   :param named_selection: Name of the named selection.
+   :param server: Server on which to create the scoping if different from the server of the model.
+
+   :returns: A scoping containing the IDs of the entities in the named selection.
+             The location depends on the type of entities targeted by the named selection.
+   :rtype: named_selection
+
+
+.. py:method:: set_named_selection_scoping(named_selection_name, scoping)
+
+   Named selection scoping setter.
+
+   :param named_selection_name: named selection name
+   :type named_selection_name: str
+   :param scoping:
+   :type scoping: Scoping
+
+
+.. py:method:: deform_by(deform_by, scale_factor=1.0)
+
+   Deforms the mesh according to a 3D vector field and an additional scale factor.
+
+   :param deform_by: Used to deform the plotted mesh. Must output a unique 3D vector field.
+                     Defaults to None.
+   :type deform_by: Field, FieldsContainer, Result, Operator
+   :param scale_factor: Used to scale the mesh deformation. Defaults to 1.0. Can be a scalar Field
+                        (or a FieldsContainer with only one Field) to get a spatially non-homogeneous scaling.
+   :type scale_factor: float, Field, FieldsContainer, optional
+
+
+.. py:method:: plot(field_or_fields_container=None, shell_layers=None, deform_by=None, scale_factor=1.0, **kwargs)
+
+   Plot the field or fields container on the mesh.
+
+   :param field_or_fields_container: Field or fields container to plot. The default is ``None``.
+   :type field_or_fields_container: dpf.core.Field or dpf.core.FieldsContainer
+   :param shell_layers: Enum used to set the shell layers if the model to plot contains shell elements.
+   :type shell_layers: core.shell_layers, optional
+   :param deform_by: Used to deform the plotted mesh. Must output a 3D vector field.
+                     Defaults to None.
+   :type deform_by: Field, Result, Operator, optional
+   :param scale_factor: Scaling factor to apply when warping the mesh. Defaults to 1.0.
+   :type scale_factor: float, optional
+   :param \*\*kwargs: Additional keyword arguments for the plotter. For additional keyword
+                      arguments, see ``help(pyvista.plot)``.
+   :type \*\*kwargs: optional
+
+   .. rubric:: Examples
+
+   Plot the displacement field from an example file.
+
+   >>> import ansys.dpf.core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.find_static_rst())
+   >>> disp = model.results.displacement()
+   >>> field = disp.outputs.fields_container()[0]
+   >>> model.metadata.meshed_region.plot(field)
+
+
+.. py:method:: deep_copy(server=None)
+
+   Create a deep copy of the meshed region's data on a given server.
+
+   This method is useful for passing data from one server instance to another.
+
+   :param server: Server with the channel connected to the remote or local instance.
+                  The default is ``None``, in which case an attempt is made to use the
+                  global server.
+   :type server: ansys.dpf.core.server, optional
+
+   :returns: **mesh_copy**
+   :rtype: MeshedRegion
+
+   .. rubric:: Examples
+
+   >>> import ansys.dpf.core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.find_static_rst())
+   >>> meshed_region = model.metadata.meshed_region
+   >>> other_server = dpf.start_local_server(as_global=False)
+   >>> deep_copy = meshed_region.deep_copy(server=other_server)
+
+
+.. py:method:: field_of_properties(property_name)
+
+   Return the ``Field`` or ``PropertyField`` associated to a given property of the mesh.
+
+   :param property_name: Name of the property.
+   :type property_name: str, common.elemental_properties, common.nodal_properties
+
+   :returns: **properties**
+   :rtype: Field, PropertyField
+
+   .. rubric:: Examples
+
+   >>> import ansys.dpf.core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.find_static_rst())
+   >>> meshed_region = model.metadata.meshed_region
+   >>> connectivity = meshed_region.field_of_properties(
+   ...     dpf.common.elemental_properties.connectivity)
+   >>> coordinates = meshed_region.field_of_properties(dpf.common.nodal_properties.coordinates)
+
+
+.. py:method:: is_empty() -> bool
+
+   Whether the mesh is empty.
+
+   A mesh is considered empty when it has zero element, zero face, and zero node.
+
+
+.. py:method:: location_data_len(location: ansys.dpf.core.common.locations) -> int
+
+   Return the data length for a given mesh location.
+
+   Accepted mesh locations are nodal, elemental, faces, and elemental_nodal.
+
+   :param location: The mesh location to compute data length for.
+                    Can be nodal, elemental, faces, or elemental_nodal.
+
+   :returns: If location is nodal, return the number of nodes.
+             If location is elemental, return the number of elements.
+             If location is faces, return the number of faces.
+             If location is elemental nodal, return the sum of the number of nodes per element.
+   :rtype: data_size
+
+
+.. py:method:: get_elemental_nodal_size_list() -> numpy.ndarray
+
+   Return the array of number of nodes per element in the mesh.
+
+
+
+
+

@@ -1,0 +1,213 @@
+
+
+
+
+
+
+:class:`InputsExportSymbolicWorkflow`
+=====================================
+
+
+.. py:class:: ansys.dpf.core.operators.serialization.export_symbolic_workflow.InputsExportSymbolicWorkflow(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   export_symbolic_workflow operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.export_symbolic_workflow()
+   >>> my_workflow = dpf.Workflow()
+   >>> op.inputs.workflow.connect(my_workflow)
+   >>> my_path = str()
+   >>> op.inputs.path.connect(my_path)
+   >>> my_format = int()
+   >>> op.inputs.format.connect(my_format)
+   >>> my_options = int()
+   >>> op.inputs.options.connect(my_options)
+
+
+
+
+
+
+.. py:currentmodule:: InputsExportSymbolicWorkflow
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~workflow`
+            - Allows to connect workflow input to the operator.
+          * - :py:attr:`~path`
+            - Allows to connect path input to the operator.
+          * - :py:attr:`~format`
+            - Allows to connect format input to the operator.
+          * - :py:attr:`~options`
+            - Allows to connect options input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.serialization.export_symbolic_workflow import InputsExportSymbolicWorkflow
+
+Property detail
+---------------
+
+.. py:property:: workflow
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect workflow input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.export_symbolic_workflow()
+   >>> op.inputs.workflow.connect(my_workflow)
+   >>> # or
+   >>> op.inputs.workflow(my_workflow)
+
+.. py:property:: path
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect path input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.export_symbolic_workflow()
+   >>> op.inputs.path.connect(my_path)
+   >>> # or
+   >>> op.inputs.path(my_path)
+
+.. py:property:: format
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect format input to the operator.
+
+   0 is ASCII format and 1 is binary, default is 0.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.export_symbolic_workflow()
+   >>> op.inputs.format.connect(my_format)
+   >>> # or
+   >>> op.inputs.format(my_format)
+
+.. py:property:: options
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect options input to the operator.
+
+   1 copies connections with its data, 2 forwards named inputs and outputs names, 7 copies connections of named inputs and ouputs with their data. default is 7.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.export_symbolic_workflow()
+   >>> op.inputs.options.connect(my_options)
+   >>> # or
+   >>> op.inputs.options(my_options)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+   :param inpt:
+   :type inpt: str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping, Enum,
+   :param ScopingsContainer: Input of the operator.
+   :type ScopingsContainer: E501
+   :param MeshedRegion: Input of the operator.
+   :type MeshedRegion: E501
+   :param MeshesContainer: Input of the operator.
+   :type MeshesContainer: E501
+   :param DataSources: Input of the operator.
+   :type DataSources: E501
+   :param CyclicSupport: Input of the operator.
+   :type CyclicSupport: E501
+   :param Outputs: Input of the operator.
+   :type Outputs: E501
+   :param os.PathLike  # noqa: Input of the operator.
+   :type os.PathLike  # noqa: E501
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

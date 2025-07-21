@@ -1,0 +1,171 @@
+
+
+
+
+
+
+:class:`Session`
+================
+
+
+.. py:class:: ansys.dpf.core.session.Session(server=None)
+
+   Create a class to manage server sessions and handle events like progress and logging.
+
+   A class used to create a user session on the server, it allows to plan events
+   call backs from the server: progress bar when workflows are running, logging...
+   A session is started every time a ``'DpfServer'`` is created.
+
+   .. rubric:: Notes
+
+   Class available with server's version starting at 3.0.
+
+
+
+
+.. py:currentmodule:: Session
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~add_workflow`
+            - Add a workflow to the session. It allows to follow the workflow's events while it's running.
+          * - :py:attr:`~add_operator`
+            - Create a workflow made of the input operator and all its ancestors to the session.
+          * - :py:attr:`~handle_events_with_file_logger`
+            - Add an event handler of type ``file_logger`` server side.
+          * - :py:attr:`~start_emitting_rpc_log`
+            - Add a signal emitter to the session. This emitter will catch all incoming rpc calls.
+          * - :py:attr:`~listen_to_progress`
+            - Start a progress bar and updates it every time an operator is finished.
+          * - :py:attr:`~add_progress_system`
+            - Ask the session to start recording progress events.
+          * - :py:attr:`~flush_workflows`
+            - Remove the handle on the workflow by the ``session``.
+          * - :py:attr:`~delete`
+            - Clean up resources associated with the instance.
+
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__del__`
+            - Clean up resources associated with the instance.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.session import Session
+
+
+
+Method detail
+-------------
+
+.. py:method:: add_workflow(workflow, identifier)
+
+   Add a workflow to the session. It allows to follow the workflow's events while it's running.
+
+   This method is automatically called when a workflow's output
+   is requested.
+
+   :param workflow:
+   :type workflow: Workflow
+   :param identifier: name given to the workflow
+   :type identifier: str
+
+
+.. py:method:: add_operator(operator, pin, identifier)
+
+   Create a workflow made of the input operator and all its ancestors to the session.
+
+   It allows to follow the workflow's events while it's running.
+   This method is automatically called when an operator's output
+   is requested and the property :func:`ansys.dpf.core.dpf_operator.Operator.progress_bar`
+   is set to ``'True'``.
+
+   :param operator:
+   :type operator: Operator
+   :param pin: output pin number requested
+   :type pin: int
+   :param identifier: name given to the workflow
+   :type identifier: str
+
+
+.. py:method:: handle_events_with_file_logger(file_path, verbosity_level=1)
+
+   Add an event handler of type ``file_logger`` server side.
+
+   Events will then be caught and forwarded to the file stream.
+
+   :param file_path:
+   :type file_path: str
+   :param verbosity_level: 0, 1 or 2
+   :type verbosity_level: int
+
+
+.. py:method:: start_emitting_rpc_log()
+
+   Add a signal emitter to the session. This emitter will catch all incoming rpc calls.
+
+   Adding a handler will enable the logging (
+   use :func:`Session.handle_events_with_file_logger()`).
+
+
+
+.. py:method:: listen_to_progress()
+
+   Start a progress bar and updates it every time an operator is finished.
+
+
+.. py:method:: add_progress_system()
+
+   Ask the session to start recording progress events.
+
+   Called when the session is started.
+
+
+.. py:method:: flush_workflows()
+
+   Remove the handle on the workflow by the ``session``.
+
+
+.. py:method:: delete()
+
+   Clean up resources associated with the instance.
+
+   This method calls the deleter function to release resources. If an exception
+   occurs during deletion, a warning is issued.
+
+   :raises Warning: If an exception occurs while attempting to delete resources.
+
+
+.. py:method:: __del__()
+
+   Clean up resources associated with the instance.
+
+
+
+
+

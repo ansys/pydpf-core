@@ -1,0 +1,166 @@
+
+
+
+
+
+
+:class:`InputsWorkflowToPydpf`
+==============================
+
+.. py:class:: ansys.dpf.core.operators.serialization.workflow_to_pydpf.InputsWorkflowToPydpf(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   workflow_to_pydpf operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.workflow_to_pydpf()
+   >>> my_workflow = dpf.Workflow()
+   >>> op.inputs.workflow.connect(my_workflow)
+   >>> my_output_path = str()
+   >>> op.inputs.output_path.connect(my_output_path)
+
+
+
+
+
+
+.. py:currentmodule:: InputsWorkflowToPydpf
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~workflow`
+            - Allows to connect workflow input to the operator.
+          * - :py:attr:`~output_path`
+            - Allows to connect output_path input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.serialization.workflow_to_pydpf import InputsWorkflowToPydpf
+
+Property detail
+---------------
+
+.. py:property:: workflow
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect workflow input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.workflow_to_pydpf()
+   >>> op.inputs.workflow.connect(my_workflow)
+   >>> # or
+   >>> op.inputs.workflow(my_workflow)
+
+.. py:property:: output_path
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect output_path input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.workflow_to_pydpf()
+   >>> op.inputs.output_path.connect(my_output_path)
+   >>> # or
+   >>> op.inputs.output_path(my_output_path)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+   :param inpt:
+   :type inpt: str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping, Enum,
+   :param ScopingsContainer: Input of the operator.
+   :type ScopingsContainer: E501
+   :param MeshedRegion: Input of the operator.
+   :type MeshedRegion: E501
+   :param MeshesContainer: Input of the operator.
+   :type MeshesContainer: E501
+   :param DataSources: Input of the operator.
+   :type DataSources: E501
+   :param CyclicSupport: Input of the operator.
+   :type CyclicSupport: E501
+   :param Outputs: Input of the operator.
+   :type Outputs: E501
+   :param os.PathLike  # noqa: Input of the operator.
+   :type os.PathLike  # noqa: E501
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

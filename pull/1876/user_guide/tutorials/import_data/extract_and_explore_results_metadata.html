@@ -1,0 +1,879 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <meta property="og:site_name" content="PyAnsys" />
+    <title>Extract and explore results metadata &#8212; PyDPF-Core</title>
+  
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/ansys-sphinx-theme.css?v=fbf3eb5d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles\ansys-sphinx-theme.css?v=fbf3eb5d" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://www.nerdfonts.com/assets/css/webfont.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=605cfb02" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+
+  <!-- Include desired assets -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  
+
+  
+    <link href="../../../_static/css/breadcrumbs.css" rel="stylesheet" />
+  
+    <script src="../../../_static/documentation_options.js?v=8c207667"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/thebelab-helper.js"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/tutorials/import_data/extract_and_explore_results_metadata';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://dpf.docs.pyansys.com/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="icon" href="../../../_static/ansys-favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Extract and explore results data" href="extract_and_explore_results_data.html" />
+    <link rel="prev" title="Import a result file in DPF" href="import_result_file.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.13.9.dev0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="https://docs.pyansys.com">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/pyansys_logo_transparent_black.png" class="logo__image only-light" alt="PyDPF-Core - Home"/>
+    <img src="../../../_static/pyansys_logo_transparent_white.png" class="logo__image only-dark pst-js-only" alt="PyDPF-Core - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../operator_reference.html">
+    Operators
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<div class="search-bar pst-js-only" id="search-bar">
+  <form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="search" class="form-control" name="q" placeholder="Search the docs ..."
+      aria-label="Search the docs ..." autocomplete="off" autocorrect="off"
+      autocapitalize="off" spellcheck="false" />
+    <span class="search-button__kbd-shortcut">
+      <kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd>
+    </span>
+  </form>
+  <div id="static-search-results" class="static-search-results" style="display:none;" tabindex="0"></div>
+</div>
+        </div>
+      
+      
+        <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<div class="search-bar pst-js-only" id="search-bar">
+  <form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="search" class="form-control" name="q" placeholder="Search the docs ..."
+      aria-label="Search the docs ..." autocomplete="off" autocorrect="off"
+      autocapitalize="off" spellcheck="false" />
+    <span class="search-button__kbd-shortcut">
+      <kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd>
+    </span>
+  </form>
+  <div id="static-search-results" class="static-search-results" style="display:none;" tabindex="0"></div>
+</div>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+  
+    <div id="announcement_msg"></div>
+<script>
+  fetch("announcement.html")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(
+      (text) => (document.getElementById("announcement_msg").innerHTML = text),
+    )
+    .catch((error) => console.error(`Fetch problem: ${error.message}`));
+</script>
+  
+
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../operator_reference.html">
+    Operators
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../data_structures/index.html">DPF data structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../language_and_usage/index.html">PyDPF-Core language and usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../post_processing_basics/index.html">Processing data basics</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Import Data</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="load_custom_data.html">Load custom data in DPF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="import_result_file.html">Import a result file in DPF</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Extract and explore results metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="extract_and_explore_results_data.html">Extract and explore results data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="narrow_down_data.html">Narrow down data</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../mesh/index.html">Mesh</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../operators_and_workflows/index.html">Process data with operators and workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../export_data/index.html">Export data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plot/index.html">Plot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../animate/index.html">Animate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../enriching_dpf_capabilities/index.html">Enriching DPF capabilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distributed_files/index.html">Post-process distributed files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dpf_server/index.html">DPF server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../licensing/index.html">Licensing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mathematics/index.html">Mathematics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../manipulate_physics_data/index.html">Manipulate Physics data</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/concepts.html">Terms and concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/waysofusing.html">DPF capabilities and scripting languages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/stepbystep.html">DPF usage</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Troubleshooting</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting.html">Troubleshooting</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+         
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="https://docs.pyansys.com/" class="nav-link">PyAnsys</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a
+        href="../../../index.html"
+        class="nav-link"
+        aria-label="Home"
+      >
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="../../index.html" class="nav-link">User guide</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="index.html" class="nav-link">Import Data</a>
+    </li>
+      
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Extract and explore results metadata</span></li>
+    
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="extract-and-explore-results-metadata">
+<span id="ref-tutorials-extract-and-explore-results-metadata"></span><h1>Extract and explore results metadata<a class="headerlink" href="#extract-and-explore-results-metadata" title="Link to this heading">#</a></h1>
+<p><span class="sd-sphinx-override sd-badge sd-bg-mapdl sd-bg-text-mapdl">MAPDL</span> <span class="sd-sphinx-override sd-badge sd-bg-lsdyna sd-bg-text-lsdyna">LS-DYNA</span> <span class="sd-sphinx-override sd-badge sd-bg-fluent sd-bg-text-fluent">FLUENT</span> <span class="sd-sphinx-override sd-badge sd-bg-cfx sd-bg-text-cfx">CFX</span></p>
+<span class="target" id="ref-links-and-refs"></span><p>This tutorial shows how to extract and explore results metadata from a result file.</p>
+<p><a class="reference download internal" download="" href="../../../_downloads/6645c0e3d49807f18f4f77deec2e2a0e/extract_and_explore_results_metadata.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">tutorial</span> <span class="pre">as</span> <span class="pre">Python</span> <span class="pre">script</span></code></a>
+<a class="reference download internal" download="" href="../../../_downloads/939e89bd76d57f8e88fca6d9bd6cf3fb/extract_and_explore_results_metadata.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">tutorial</span> <span class="pre">as</span> <span class="pre">Jupyter</span> <span class="pre">notebook</span></code></a></p>
+<section id="get-the-result-file">
+<h2>Get the result file<a class="headerlink" href="#get-the-result-file" title="Link to this heading">#</a></h2>
+<p>First, import a result file. For this tutorial, you can use one available in the <a class="reference internal" href="../../../api/ansys/dpf/core/examples/index.html#module-ansys.dpf.core.examples" title="ansys.dpf.core.examples"><code class="xref py py-mod docutils literal notranslate"><span class="pre">Examples</span></code></a> module.
+For more information about how to import your own result file in DPF, see the <a class="reference internal" href="import_result_file.html#ref-tutorials-import-result-file"><span class="std std-ref">Import a result file in DPF</span></a>
+tutorial.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import the ``ansys.dpf.core`` module</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="c1"># Import the examples module</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">examples</span>
+<span class="c1"># Import the operators module</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">operators</span> <span class="k">as</span> <span class="n">ops</span>
+
+<span class="c1"># Define the result file path</span>
+<span class="n">result_file_path_1</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">download_transient_result</span><span class="p">()</span>
+<span class="c1"># Create the model</span>
+<span class="n">model_1</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">data_sources</span><span class="o">=</span><span class="n">result_file_path_1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</section>
+<section id="explore-the-results-general-metadata">
+<h2>Explore the results general metadata<a class="headerlink" href="#explore-the-results-general-metadata" title="Link to this heading">#</a></h2>
+<p>You can explore the general results metadata, before extracting the results, by using
+the <a class="reference internal" href="../../../api/ansys/dpf/core/result_info/ResultInfo.html#ansys.dpf.core.result_info.ResultInfo" title="ansys.dpf.core.result_info.ResultInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">ResultInfo</span></code></a> object and its methods. This metadata includes:</p>
+<ul class="simple">
+<li><p>Analysis type;</p></li>
+<li><p>Physics type;</p></li>
+<li><p>Number of results;</p></li>
+<li><p>Unit system;</p></li>
+<li><p>Solver version, date and time;</p></li>
+<li><p>Job name;</p></li>
+</ul>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the ResultInfo object</span>
+<span class="n">result_info_1</span> <span class="o">=</span> <span class="n">model_1</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">result_info</span>
+
+<span class="c1"># Get the analysis type</span>
+<span class="n">analysis_type</span> <span class="o">=</span> <span class="n">result_info_1</span><span class="o">.</span><span class="n">analysis_type</span>
+<span class="c1"># Print the analysis type</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Analysis type: &quot;</span><span class="p">,</span><span class="n">analysis_type</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Get the physics type</span>
+<span class="n">physics_type</span> <span class="o">=</span> <span class="n">result_info_1</span><span class="o">.</span><span class="n">physics_type</span>
+<span class="c1"># Print the physics type</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Physics type: &quot;</span><span class="p">,</span><span class="n">physics_type</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Get the number of available results</span>
+<span class="n">number_of_results</span> <span class="o">=</span> <span class="n">result_info_1</span><span class="o">.</span><span class="n">n_results</span>
+<span class="c1"># Print the number of available results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of available results: &quot;</span><span class="p">,</span><span class="n">number_of_results</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Get the unit system</span>
+<span class="n">unit_system</span> <span class="o">=</span> <span class="n">result_info_1</span><span class="o">.</span><span class="n">unit_system</span>
+<span class="c1"># Print the unit system</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Unit system: &quot;</span><span class="p">,</span><span class="n">unit_system</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Get the solver version, data and time</span>
+<span class="n">solver_version</span> <span class="o">=</span> <span class="n">result_info_1</span><span class="o">.</span><span class="n">solver_version</span>
+<span class="n">solver_date</span> <span class="o">=</span> <span class="n">result_info_1</span><span class="o">.</span><span class="n">solver_date</span>
+<span class="n">solver_time</span> <span class="o">=</span> <span class="n">result_info_1</span><span class="o">.</span><span class="n">solver_time</span>
+
+<span class="c1"># Print the solver version, data and time</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Solver version: &quot;</span><span class="p">,</span><span class="n">solver_version</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Solver date: &quot;</span><span class="p">,</span> <span class="n">solver_date</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Solver time: &quot;</span><span class="p">,</span><span class="n">solver_time</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Get the job name</span>
+<span class="n">job_name</span> <span class="o">=</span> <span class="n">result_info_1</span><span class="o">.</span><span class="n">job_name</span>
+<span class="c1"># Print the job name</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Job name: &quot;</span><span class="p">,</span><span class="n">job_name</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Analysis type:  static 
+
+Physics type:  mechanical 
+
+Number of available results:  18 
+
+Unit system:  MKS: m, kg, N, s, V, A, degC 
+
+Solver version:  17.0 
+
+Solver date:  20150331 
+
+Solver time:  93417 
+
+Job name:  cp55 
+
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="explore-a-result-metadata">
+<h2>Explore a result metadata<a class="headerlink" href="#explore-a-result-metadata" title="Link to this heading">#</a></h2>
+<p>When you extract a result from a result file DPF stores it in a <a class="reference internal" href="../../../api/ansys/dpf/core/field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a>.
+Thus, this <a class="reference internal" href="../../../api/ansys/dpf/core/field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a> contains the metadata for the result associated with it.
+This metadata includes:</p>
+<ul class="simple">
+<li><p>Location;</p></li>
+<li><p>Scoping (type and quantity of entities);</p></li>
+<li><p>Elementary data count (number of entities, how many data vectors we have);</p></li>
+<li><p>Components count (vectors dimension, here we have a displacement so we expect to have 3 components (X, Y and Z));</p></li>
+<li><p>Shape of the data stored (tuple with the elementary data count and the components count);</p></li>
+<li><p>Fields size (length of the data entire vector (equal to the number of elementary data times the number of components));</p></li>
+<li><p>Units of the data.</p></li>
+</ul>
+<p>Here we will explore the metadata of the displacement results.</p>
+<p>Start by extracting the displacement results.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Extract the displacement results</span>
+<span class="n">disp_results</span> <span class="o">=</span> <span class="n">model_1</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+
+<span class="c1"># Get the displacement field</span>
+<span class="n">disp_field</span> <span class="o">=</span> <span class="n">disp_results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+<p>Explore the displacement results metadata:</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the location of the displacement data</span>
+<span class="n">location</span> <span class="o">=</span> <span class="n">disp_field</span><span class="o">.</span><span class="n">location</span>
+<span class="c1"># Print the location</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Location: &quot;</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># Get the displacement Field scoping</span>
+<span class="n">scoping</span> <span class="o">=</span> <span class="n">disp_field</span><span class="o">.</span><span class="n">scoping</span>
+<span class="c1"># Print the Field scoping</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Scoping: &quot;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span><span class="n">scoping</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># Get the displacement Field scoping ids</span>
+<span class="n">scoping_ids</span> <span class="o">=</span> <span class="n">disp_field</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span>  <span class="c1"># Available entities ids</span>
+<span class="c1"># Print the Field scoping ids</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Scoping ids: &quot;</span><span class="p">,</span> <span class="n">scoping_ids</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># Get the displacement Field elementary data count</span>
+<span class="n">elementary_data_count</span> <span class="o">=</span> <span class="n">disp_field</span><span class="o">.</span><span class="n">elementary_data_count</span>
+<span class="c1"># Print the elementary data count</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Elementary data count: &quot;</span><span class="p">,</span> <span class="n">elementary_data_count</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># Get the displacement Field components count</span>
+<span class="n">components_count</span> <span class="o">=</span> <span class="n">disp_field</span><span class="o">.</span><span class="n">component_count</span>
+<span class="c1"># Print the components count</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Components count: &quot;</span><span class="p">,</span> <span class="n">components_count</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># Get the displacement Field size</span>
+<span class="n">field_size</span> <span class="o">=</span> <span class="n">disp_field</span><span class="o">.</span><span class="n">size</span>
+<span class="c1"># Print the Field size</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Size: &quot;</span><span class="p">,</span> <span class="n">field_size</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># Get the displacement Field shape</span>
+<span class="n">shape</span> <span class="o">=</span> <span class="n">disp_field</span><span class="o">.</span><span class="n">shape</span>
+<span class="c1"># Print the Field shape</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Shape: &quot;</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># Get the displacement Field unit</span>
+<span class="n">unit</span> <span class="o">=</span> <span class="n">disp_field</span><span class="o">.</span><span class="n">unit</span>
+<span class="c1"># Print the displacement Field unit</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Unit: &quot;</span><span class="p">,</span> <span class="n">unit</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Location:  Nodal 
+
+Scoping:  
+ DPF  Scoping: 
+  with Nodal location and 3820 entities
+ 
+
+Scoping ids:  [ 525  534  533 ... 3469 3817 3825] 
+
+Elementary data count:  3820 
+
+Components count:  3 
+
+Size:  11460 
+
+Shape:  (3820, 3) 
+
+Unit:  m 
+
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#get-the-result-file">Get the result file</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#explore-the-results-general-metadata">Explore the results general metadata</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#explore-a-result-metadata">Explore a result metadata</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+<!-- If there is no fix edit button function, use the PyData edit-this-button-->
+</div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/user_guide/tutorials/import_data/extract_and_explore_results_metadata.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+
+  <!-- Include desired assets -->
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.7/require.min.js"></script>
+
+<script>
+// Passing the search options to the search.js file
+const SEARCH_OPTIONS = JSON.parse('{"ignoreLocation": true, "keys": ["title", "text"], "limit": 10, "minMatchCharLength": 2, "threshold": 0.5}');
+const SEARCH_FILE = "../../../_static/search.json";
+</script>
+
+
+<script src="../../../_static/js/search.js"></script>
+  
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright (c) 2025 ANSYS, Inc. All rights reserved.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the
+  <a href="https://sphinxdocs.ansys.com/version/stable/index.html"
+    >Ansys Sphinx Theme</a
+  >
+  1.4.4. <br />Last updated on
+  <span id="ast_build_date"></span>
+</p>
+<script>
+  var options = { day: "numeric", month: "long", year: "numeric" };
+  var ast_lastModifiedDate = new Date(document.lastModified);
+  var ast_build_date = ast_lastModifiedDate.toLocaleDateString("en-US", options);
+  document.getElementById("ast_build_date").innerHTML = ast_build_date;
+</script></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

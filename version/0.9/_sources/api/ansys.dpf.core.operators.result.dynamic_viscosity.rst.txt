@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.dynamic_viscosity
+   :inherited-members:

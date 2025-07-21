@@ -1,0 +1,63 @@
+
+
+.. _sphx_glr_examples_02-modal_analyses:
+
+.. _modal_examples:
+
+Modal analysis examples
+=======================
+These examples show how to use DPF to extract and manipulate
+results from modal analyses.
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="The ansys.dpf.core.results.Result class which instances are created by the ansys.dpf.core.model...">
+
+.. only:: html
+
+  .. image:: /examples/02-modal_analyses/images/thumb/sphx_glr_00-compare_modes_thumb.png
+    :alt: Use Result Helpers to compare mode shapes for solids and then shells
+
+  :ref:`sphx_glr_examples_02-modal_analyses_00-compare_modes.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Use Result Helpers to compare mode shapes for solids and then shells</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to extract mode shapes from a modal analysis result and how to plot and ...">
+
+.. only:: html
+
+  .. image:: /examples/02-modal_analyses/images/thumb/sphx_glr_01-plot_and_animate_modes_thumb.png
+    :alt: Plot and animate mode shapes with DPF
+
+  :ref:`sphx_glr_examples_02-modal_analyses_01-plot_and_animate_modes.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Plot and animate mode shapes with DPF</div>
+    </div>
+
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /examples/02-modal_analyses/00-compare_modes
+   /examples/02-modal_analyses/01-plot_and_animate_modes
+

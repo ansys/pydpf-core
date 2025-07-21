@@ -1,0 +1,126 @@
+
+
+
+
+
+
+:class:`OutputsPretension`
+==========================
+
+.. py:class:: ansys.dpf.core.operators.result.pretension.OutputsPretension(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   pretension operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.pretension()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_adjustment = op.outputs.adjustment()
+   >>> result_tension_force = op.outputs.tension_force()
+
+
+
+
+
+.. py:currentmodule:: OutputsPretension
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~adjustment`
+            - Allows to get adjustment output of the operator
+          * - :py:attr:`~tension_force`
+            - Allows to get tension_force output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.pretension import OutputsPretension
+
+Property detail
+---------------
+
+.. py:property:: adjustment
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get adjustment output of the operator
+
+   Adjustment
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.pretension()
+   >>> # Get the output from op.outputs. ...
+   >>> result_adjustment = op.outputs.adjustment()
+
+.. py:property:: tension_force
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get tension_force output of the operator
+
+   Tension Force
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.pretension()
+   >>> # Get the output from op.outputs. ...
+   >>> result_tension_force = op.outputs.tension_force()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

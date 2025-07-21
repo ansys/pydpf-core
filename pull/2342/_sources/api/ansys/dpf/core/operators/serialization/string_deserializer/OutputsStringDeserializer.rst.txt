@@ -1,0 +1,127 @@
+
+
+
+
+
+
+:class:`OutputsStringDeserializer`
+==================================
+
+
+.. py:class:: ansys.dpf.core.operators.serialization.string_deserializer.OutputsStringDeserializer(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   string_deserializer operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.string_deserializer()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_any_output1 = op.outputs.any_output1()
+   >>> result_any_output2 = op.outputs.any_output2()
+
+
+
+
+
+.. py:currentmodule:: OutputsStringDeserializer
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~any_output1`
+            - Allows to get any_output1 output of the operator
+          * - :py:attr:`~any_output2`
+            - Allows to get any_output2 output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.serialization.string_deserializer import OutputsStringDeserializer
+
+Property detail
+---------------
+
+.. py:property:: any_output1
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get any_output1 output of the operator
+
+   number and types of outputs corresponding of the inputs used in the serialization
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.string_deserializer()
+   >>> # Get the output from op.outputs. ...
+   >>> result_any_output1 = op.outputs.any_output1()
+
+.. py:property:: any_output2
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get any_output2 output of the operator
+
+   number and types of outputs corresponding of the inputs used in the serialization
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.string_deserializer()
+   >>> # Get the output from op.outputs. ...
+   >>> result_any_output2 = op.outputs.any_output2()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

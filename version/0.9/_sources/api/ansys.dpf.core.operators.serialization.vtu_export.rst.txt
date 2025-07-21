@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.serialization.vtu_export
+   :inherited-members:

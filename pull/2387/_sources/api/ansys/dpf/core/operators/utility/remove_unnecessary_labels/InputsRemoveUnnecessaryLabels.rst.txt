@@ -1,0 +1,194 @@
+
+
+
+
+
+
+:class:`InputsRemoveUnnecessaryLabels`
+======================================
+
+
+.. py:class:: ansys.dpf.core.operators.utility.remove_unnecessary_labels.InputsRemoveUnnecessaryLabels(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   remove_unnecessary_labels operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.remove_unnecessary_labels()
+   >>> my_permissive = bool()
+   >>> op.inputs.permissive.connect(my_permissive)
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_label_to_remove = str()
+   >>> op.inputs.label_to_remove.connect(my_label_to_remove)
+
+
+
+
+
+
+.. py:currentmodule:: InputsRemoveUnnecessaryLabels
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~permissive`
+            - Allows to connect permissive input to the operator.
+          * - :py:attr:`~fields_container`
+            - Allows to connect fields_container input to the operator.
+          * - :py:attr:`~label_to_remove`
+            - Allows to connect label_to_remove input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.remove_unnecessary_labels import InputsRemoveUnnecessaryLabels
+
+Property detail
+---------------
+
+.. py:property:: permissive
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect permissive input to the operator.
+
+   If true, the operator does not throw an error if the label to be removed has more than one entry.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.remove_unnecessary_labels()
+   >>> op.inputs.permissive.connect(my_permissive)
+   >>> # or
+   >>> op.inputs.permissive(my_permissive)
+
+.. py:property:: fields_container
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect fields_container input to the operator.
+
+   Fields Container with the label to be removed.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.remove_unnecessary_labels()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> # or
+   >>> op.inputs.fields_container(my_fields_container)
+
+.. py:property:: label_to_remove
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect label_to_remove input to the operator.
+
+   Label to be removed from the fields container.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.remove_unnecessary_labels()
+   >>> op.inputs.label_to_remove.connect(my_label_to_remove)
+   >>> # or
+   >>> op.inputs.label_to_remove(my_label_to_remove)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+   :param inpt:
+   :type inpt: str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping, Enum,
+   :param ScopingsContainer: Input of the operator.
+   :type ScopingsContainer: E501
+   :param MeshedRegion: Input of the operator.
+   :type MeshedRegion: E501
+   :param MeshesContainer: Input of the operator.
+   :type MeshesContainer: E501
+   :param DataSources: Input of the operator.
+   :type DataSources: E501
+   :param CyclicSupport: Input of the operator.
+   :type CyclicSupport: E501
+   :param Outputs: Input of the operator.
+   :type Outputs: E501
+   :param os.PathLike  # noqa: Input of the operator.
+   :type os.PathLike  # noqa: E501
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

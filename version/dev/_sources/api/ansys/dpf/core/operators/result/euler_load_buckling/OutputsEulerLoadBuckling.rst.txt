@@ -1,0 +1,148 @@
+
+
+
+
+
+
+:class:`OutputsEulerLoadBuckling`
+=================================
+
+
+.. py:class:: ansys.dpf.core.operators.result.euler_load_buckling.OutputsEulerLoadBuckling(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   euler_load_buckling operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.euler_load_buckling()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_field_euler_critical_load = op.outputs.field_euler_critical_load()
+   >>> result_field_euler_critical_load_yy = op.outputs.field_euler_critical_load_yy()
+   >>> result_field_euler_critical_load_zz = op.outputs.field_euler_critical_load_zz()
+
+
+
+
+
+.. py:currentmodule:: OutputsEulerLoadBuckling
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~field_euler_critical_load`
+            - Allows to get field_euler_critical_load output of the operator
+          * - :py:attr:`~field_euler_critical_load_yy`
+            - Allows to get field_euler_critical_load_yy output of the operator
+          * - :py:attr:`~field_euler_critical_load_zz`
+            - Allows to get field_euler_critical_load_zz output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.euler_load_buckling import OutputsEulerLoadBuckling
+
+Property detail
+---------------
+
+.. py:property:: field_euler_critical_load
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get field_euler_critical_load output of the operator
+
+   This field contains Euler's Critical Load about the principle axis of the cross section having the least moment of inertia.
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.euler_load_buckling()
+   >>> # Get the output from op.outputs. ...
+   >>> result_field_euler_critical_load = op.outputs.field_euler_critical_load()
+
+.. py:property:: field_euler_critical_load_yy
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get field_euler_critical_load_yy output of the operator
+
+   This field contains Euler's Critical Load on axis y.
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.euler_load_buckling()
+   >>> # Get the output from op.outputs. ...
+   >>> result_field_euler_critical_load_yy = op.outputs.field_euler_critical_load_yy()
+
+.. py:property:: field_euler_critical_load_zz
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get field_euler_critical_load_zz output of the operator
+
+   This field contains Euler's Critical Load on axis z.
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.euler_load_buckling()
+   >>> # Get the output from op.outputs. ...
+   >>> result_field_euler_critical_load_zz = op.outputs.field_euler_critical_load_zz()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

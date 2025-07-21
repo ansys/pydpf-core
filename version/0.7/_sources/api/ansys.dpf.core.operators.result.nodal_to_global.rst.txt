@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.nodal_to_global
+   :inherited-members:

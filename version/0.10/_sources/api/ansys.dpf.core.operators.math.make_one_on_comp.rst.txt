@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.math.make_one_on_comp
+   :inherited-members:
