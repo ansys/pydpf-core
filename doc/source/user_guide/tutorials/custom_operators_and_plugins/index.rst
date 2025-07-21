@@ -43,23 +43,34 @@ For comprehensive examples on writing operator plugins, see :ref:`python_operato
        This tutorial shows how to create, load, and use a custom plugin containing a single custom operator.
 
     .. grid-item-card:: Create a DPF plugin with multiple operators
-       :link: tutorials_others_custom_plug_ins_packages
-       :link-type: ref
        :text-align: center
+       :class-card: sd-bg-light
+       :class-header: sd-bg-light
+
+       Coming soon
+       ^^^
+
 
        This tutorial shows how to create, load, and use a custom plugin with multiple operators or with complex routines.
 
     .. grid-item-card:: Create a custom DPF plugin with third-party dependencies using Python
-       :link: tutorials_others_custom_plug_ins_packages_third_deps
-       :link-type: ref
        :text-align: center
+       :class-card: sd-bg-light
+       :class-header: sd-bg-light
+
+       Coming soon
+       ^^^
 
        This tutorial shows how to create a Python plug-in package with third-party dependencies.
 
     .. grid-item-card:: Update PyDPF-Core in the DPF installation
-        :link: tutorials_custom_operators_update_pydpf_core
-        :link-type: ref
         :text-align: center
+        :class-card: sd-bg-light
+        :class-header: sd-bg-light
+
+        Coming soon
+        ^^^
+
 
         This tutorial shows how to update PyDPF-Core in your DPF installation.
 
