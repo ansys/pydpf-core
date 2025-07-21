@@ -1,0 +1,135 @@
+
+
+
+
+
+
+:class:`RuntimeClientConfig`
+============================
+
+.. py:class:: ansys.dpf.core.runtime_config.RuntimeClientConfig(data_tree, server=None)
+
+   Bases: :py:obj:`_RuntimeConfig`
+
+
+   Enable accessing and setting runtime configuration options to gRPC client.
+
+   Mostly used to configure gRPC streaming and calls options.
+
+   :param data_tree: DataTree pointer describing the existing parameters configuration
+                     of DataprocessingCore.
+   :type data_tree: ctypes.cvoid_p
+   :param server: Server with channel connected to the remote or local instance.
+                  The default is ``None``, in which case an attempt is made to use the
+                  global server.
+   :type server: BaseServer, optional
+
+   .. rubric:: Notes
+
+   Available from 4.0 server version.
+
+
+
+.. py:currentmodule:: RuntimeClientConfig
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~copy_config`
+            - Add config to data tree.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~cache_enabled`
+            - Whether gRPC requests and responses are intercepted to cache them and retrieve them when appropriate.
+          * - :py:attr:`~streaming_buffer_size`
+            - Sets the chunk size (in bytes) used in gRPC streaming calls.
+          * - :py:attr:`~stream_floats_instead_of_doubles`
+            - Sets whether double values (8 bytes) should be converted and streamed as float values (4 bytes) in gRPC streaming calls.
+          * - :py:attr:`~return_arrays`
+            - All methods will return :class:`ansys.dpf.core.DPFArray` (instead of lists) when possible.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.runtime_config import RuntimeClientConfig
+
+Property detail
+---------------
+
+.. py:property:: cache_enabled
+
+   Whether gRPC requests and responses are intercepted to cache them and retrieve them when appropriate.
+
+   :rtype: bool
+
+   .. rubric:: Notes
+
+   Can only be used for a gRPC communication.
+
+.. py:property:: streaming_buffer_size
+
+   Sets the chunk size (in bytes) used in gRPC streaming calls.
+
+   :rtype: int
+
+   .. rubric:: Notes
+
+   Can only be used for a gRPC communication.
+
+.. py:property:: stream_floats_instead_of_doubles
+
+   Sets whether double values (8 bytes) should be converted and streamed as float values (4 bytes) in gRPC streaming calls.
+
+   :rtype: bool
+
+   .. rubric:: Notes
+
+   Can only be used for a gRPC communication.
+
+.. py:property:: return_arrays
+
+   All methods will return :class:`ansys.dpf.core.DPFArray` (instead of lists) when possible.
+
+   Default is ``True``.
+   See for example, :func:`ansys.dpf.core.Scoping.ids`.
+
+   :rtype: bool
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: copy_config(config)
+
+   Add config to data tree.
+
+
+
+
+

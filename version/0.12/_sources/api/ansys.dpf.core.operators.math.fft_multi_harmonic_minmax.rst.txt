@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.math.fft_multi_harmonic_minmax
+   :inherited-members:

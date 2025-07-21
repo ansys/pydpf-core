@@ -1,0 +1,326 @@
+
+
+
+
+
+
+:class:`CServer`
+================
+
+.. py:class:: ansys.dpf.core.server_types.CServer(ansys_path=None, load_operators=True)
+
+   Bases: :py:obj:`BaseServer`, :py:obj:`abc.ABC`
+
+
+   Abstract class for servers going through the DPFClientAPI.
+
+
+
+
+
+
+
+
+.. py:currentmodule:: CServer
+
+Overview
+--------
+
+.. tab-set::
+
+   .. tab-item:: Abstract methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~shutdown`
+            - Must be implemented by subclasses.
+          * - :py:attr:`~__eq__`
+            - Must be implemented by subclasses.
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~get_api_for_type`
+            - Return api for type.
+          * - :py:attr:`~set_as_global`
+            - Set the current server as global if necessary.
+          * - :py:attr:`~has_client`
+            - Check if server has a connected client.
+          * - :py:attr:`~release`
+            - Clear the available Operators and Releases licenses when necessary.
+          * - :py:attr:`~apply_context`
+            - Define the settings that will be used to load DPF's plugins.
+          * - :py:attr:`~check_version`
+            - Check if the server version matches with a required version.
+          * - :py:attr:`~meet_version`
+            - Check if the server version matches with a required version.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~available_api_types`
+            - Return available api type, always c_api.
+          * - :py:attr:`~client`
+            - Must be implemented by subclasses.
+          * - :py:attr:`~version`
+            - Must be implemented by subclasses.
+          * - :py:attr:`~info`
+            - Server information.
+          * - :py:attr:`~session`
+            - Plan event callbacks from the server, such as progress bars during workflow execution and logging.
+          * - :py:attr:`~os`
+            - Get the operating system of the server.
+          * - :py:attr:`~on_docker`
+            - Whether the DPF server should be started in a Docker Container by default.
+          * - :py:attr:`~docker_config`
+            - Return the docker config associated with the server.
+          * - :py:attr:`~config`
+            - Must be implemented by subclasses.
+          * - :py:attr:`~context`
+            - Returns the settings used to load DPF's plugins.
+          * - :py:attr:`~local_server`
+            - Must be implemented by subclasses.
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~ansys_path`
+            - 
+          * - :py:attr:`~__slots__`
+            - 
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__del__`
+            - Clean up resources associated with the instance.
+          * - :py:attr:`~__str__`
+            - Return string representation of the instance.
+          * - :py:attr:`~__ne__`
+            - Return true, if the servers are not equal.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.server_types import CServer
+
+Property detail
+---------------
+
+.. py:property:: available_api_types
+
+   Return available api type, always c_api.
+
+.. py:property:: client
+   :abstractmethod:
+
+
+   Must be implemented by subclasses.
+
+.. py:property:: version
+   :abstractmethod:
+
+
+   Must be implemented by subclasses.
+
+.. py:property:: info
+
+   Server information.
+
+   :returns: **info** -- Dictionary with server information, including ``"server_ip"``,
+             ``"server_port"``, ``"server_process_id"``, ``"server_version"`` , ``"os"``
+             and ``"path"`` keys.
+   :rtype: dictionary
+
+.. py:property:: session
+
+   Plan event callbacks from the server, such as progress bars during workflow execution and logging.
+
+   :rtype: ansys.dpf.core.session.Session
+
+.. py:property:: os
+   :abstractmethod:
+
+
+   Get the operating system of the server.
+
+   :returns: **os** -- "nt" or "posix"
+   :rtype: str
+
+.. py:property:: on_docker
+
+   Whether the DPF server should be started in a Docker Container by default.
+
+.. py:property:: docker_config
+
+   Return the docker config associated with the server.
+
+.. py:property:: config
+   :abstractmethod:
+
+
+   Must be implemented by subclasses.
+
+.. py:property:: context
+
+   Returns the settings used to load DPF's plugins.
+
+   To update the context server side, use
+   :func:`ansys.dpf.core.BaseServer.server_types.apply_context`
+
+   :rtype: ServerContext
+
+.. py:property:: local_server
+   :type: bool
+
+   :abstractmethod:
+
+
+   Must be implemented by subclasses.
+
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: ansys_path
+   :value: None
+
+
+.. py:attribute:: __slots__
+   :value: ()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: get_api_for_type(capi, grpcapi)
+
+   Return api for type.
+
+
+.. py:method:: __del__()
+
+   Clean up resources associated with the instance.
+
+   :raises Warning: If an exception occurs while attempting to delete resources.
+
+
+.. py:method:: set_as_global(as_global=True)
+
+   Set the current server as global if necessary.
+
+   :param as_global: Global variable that stores the IP address and port for the DPF
+                     module. All DPF objects created in this Python session will
+                     use this IP and port. The default is ``True``.
+   :type as_global: bool, optional
+
+
+.. py:method:: has_client()
+
+   Check if server has a connected client.
+
+
+.. py:method:: shutdown()
+   :abstractmethod:
+
+
+   Must be implemented by subclasses.
+
+
+.. py:method:: release()
+
+   Clear the available Operators and Releases licenses when necessary.
+
+   .. rubric:: Notes
+
+   Available with server's version starting at 6.0 (Ansys 2023R2).
+
+
+.. py:method:: apply_context(context)
+
+   Define the settings that will be used to load DPF's plugins.
+
+   A DPF xml file can be used to list the plugins and set up variables.
+
+   :param context: The context allows to choose which capabilities are available server side.
+   :type context: ServerContext
+
+   .. rubric:: Notes
+
+   Available with server's version starting at 6.0 (Ansys 2023R2).
+
+
+.. py:method:: check_version(required_version, msg=None)
+
+   Check if the server version matches with a required version.
+
+   :param required_version: Required version to compare with the server version.
+   :type required_version: str
+   :param msg: Message for the raised exception if version requirements do not match.
+   :type msg: str, optional
+
+   :raises dpf_errors : errors: errors.DpfVersionNotSupported is raised if failure.
+
+   :returns: ``True`` if the server version meets the requirement.
+   :rtype: bool
+
+
+.. py:method:: meet_version(required_version)
+
+   Check if the server version matches with a required version.
+
+   :param required_version: Required version to compare with the server version.
+   :type required_version: str
+
+   :returns: ``True`` if the server version meets the requirement.
+   :rtype: bool
+
+
+.. py:method:: __str__()
+
+   Return string representation of the instance.
+
+
+.. py:method:: __eq__(other_server)
+   :abstractmethod:
+
+
+   Must be implemented by subclasses.
+
+
+.. py:method:: __ne__(other_server)
+
+   Return true, if the servers are not equal.
+
+
+
+
+

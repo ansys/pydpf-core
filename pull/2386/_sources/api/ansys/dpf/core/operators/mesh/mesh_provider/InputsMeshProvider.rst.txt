@@ -1,0 +1,266 @@
+
+
+
+
+
+
+:class:`InputsMeshProvider`
+===========================
+
+
+.. py:class:: ansys.dpf.core.operators.mesh.mesh_provider.InputsMeshProvider(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   mesh_provider operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.mesh_provider()
+   >>> my_time_scoping = int()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> my_streams_container = dpf.StreamsContainer()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_read_cyclic = int()
+   >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+   >>> my_region_scoping = dpf.Scoping()
+   >>> op.inputs.region_scoping.connect(my_region_scoping)
+   >>> my_laziness = dpf.DataTree()
+   >>> op.inputs.laziness.connect(my_laziness)
+
+
+
+
+
+
+.. py:currentmodule:: InputsMeshProvider
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~time_scoping`
+            - Allows to connect time_scoping input to the operator.
+          * - :py:attr:`~streams_container`
+            - Allows to connect streams_container input to the operator.
+          * - :py:attr:`~data_sources`
+            - Allows to connect data_sources input to the operator.
+          * - :py:attr:`~read_cyclic`
+            - Allows to connect read_cyclic input to the operator.
+          * - :py:attr:`~region_scoping`
+            - Allows to connect region_scoping input to the operator.
+          * - :py:attr:`~laziness`
+            - Allows to connect laziness input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mesh.mesh_provider import InputsMeshProvider
+
+Property detail
+---------------
+
+.. py:property:: time_scoping
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect time_scoping input to the operator.
+
+   Optional time/frequency set ID of the mesh, supported for adaptative meshes.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.mesh_provider()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> # or
+   >>> op.inputs.time_scoping(my_time_scoping)
+
+.. py:property:: streams_container
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect streams_container input to the operator.
+
+   result file container allowed to be kept open to cache data
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.mesh_provider()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> # or
+   >>> op.inputs.streams_container(my_streams_container)
+
+.. py:property:: data_sources
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect data_sources input to the operator.
+
+   result file path container, used if no streams are set
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.mesh_provider()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> # or
+   >>> op.inputs.data_sources(my_data_sources)
+
+.. py:property:: read_cyclic
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect read_cyclic input to the operator.
+
+   If 1, cyclic symmetry is ignored. If 2, cyclic expansion is done (default is 1).
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.mesh_provider()
+   >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+   >>> # or
+   >>> op.inputs.read_cyclic(my_read_cyclic)
+
+.. py:property:: region_scoping
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect region_scoping input to the operator.
+
+   region id (integer) or vector of region ids with one entity (vector) or region scoping with one id (scoping) (region corresponds to zone for Fluid results or part for LSDyna results).
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.mesh_provider()
+   >>> op.inputs.region_scoping.connect(my_region_scoping)
+   >>> # or
+   >>> op.inputs.region_scoping(my_region_scoping)
+
+.. py:property:: laziness
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect laziness input to the operator.
+
+   configurate whether lazy evaluation can be performed and to what extent. Supported attributes are:
+   - "num_named_selections"->num named selection to read (-1 is all, int32, default si -1), careful: the other named selections will not be available, use mesh_property_provider Operator to read them.
+   - all mesh property fields "mat", "named_selection", "apdl_element_type", "section"-> if set to 1 these properties will not be read and a workflow will be bounded to the properties to be evaluated on demand, with 0 they are read (default is 0).
+   - "all_available_properties" option set to 0 will return all possible properties
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.mesh_provider()
+   >>> op.inputs.laziness.connect(my_laziness)
+   >>> # or
+   >>> op.inputs.laziness(my_laziness)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+   :param inpt:
+   :type inpt: str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping, Enum,
+   :param ScopingsContainer: Input of the operator.
+   :type ScopingsContainer: E501
+   :param MeshedRegion: Input of the operator.
+   :type MeshedRegion: E501
+   :param MeshesContainer: Input of the operator.
+   :type MeshesContainer: E501
+   :param DataSources: Input of the operator.
+   :type DataSources: E501
+   :param CyclicSupport: Input of the operator.
+   :type CyclicSupport: E501
+   :param Outputs: Input of the operator.
+   :type Outputs: E501
+   :param os.PathLike  # noqa: Input of the operator.
+   :type os.PathLike  # noqa: E501
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

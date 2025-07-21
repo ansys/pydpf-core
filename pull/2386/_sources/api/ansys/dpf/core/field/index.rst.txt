@@ -1,0 +1,78 @@
+
+
+
+
+
+
+The ``field.py`` module
+=======================
+
+.. py:module:: ansys.dpf.core.field
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+
+
+.. py:currentmodule:: field
+.. tab-set::
+
+
+
+
+    .. tab-item:: Classes
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.field.Field`
+            - Represents the main simulation data container.
+
+
+
+
+
+
+
+
+
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-cod-symbol_class"></span> Field</api/ansys/dpf/core/field/Field>
+
+
+
+
+
+
+
+
+
+Description
+-----------
+
+Field.
+
+
+
+
+
+
+
+

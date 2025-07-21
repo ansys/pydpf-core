@@ -1,0 +1,355 @@
+
+
+
+
+
+
+:class:`InputsMigrateToH5Dpf`
+=============================
+
+
+.. py:class:: ansys.dpf.core.operators.result.migrate_to_h5dpf.InputsMigrateToH5Dpf(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   migrate_to_h5dpf operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.migrate_to_h5dpf()
+   >>> my_dataset_size_compression_threshold = int()
+   >>> op.inputs.dataset_size_compression_threshold.connect(my_dataset_size_compression_threshold)
+   >>> my_h5_native_compression = int()
+   >>> op.inputs.h5_native_compression.connect(my_h5_native_compression)
+   >>> my_export_floats = bool()
+   >>> op.inputs.export_floats.connect(my_export_floats)
+   >>> my_filename = str()
+   >>> op.inputs.filename.connect(my_filename)
+   >>> my_comma_separated_list_of_results = str()
+   >>> op.inputs.comma_separated_list_of_results.connect(my_comma_separated_list_of_results)
+   >>> my_all_time_sets = bool()
+   >>> op.inputs.all_time_sets.connect(my_all_time_sets)
+   >>> my_streams_container = dpf.StreamsContainer()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_compression_workflow = dpf.Workflow()
+   >>> op.inputs.compression_workflow.connect(my_compression_workflow)
+   >>> my_filtering_workflow = dpf.Workflow()
+   >>> op.inputs.filtering_workflow.connect(my_filtering_workflow)
+
+
+
+
+
+
+.. py:currentmodule:: InputsMigrateToH5Dpf
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~dataset_size_compression_threshold`
+            - Allows to connect dataset_size_compression_threshold input to the operator.
+          * - :py:attr:`~h5_native_compression`
+            - Allows to connect h5_native_compression input to the operator.
+          * - :py:attr:`~export_floats`
+            - Allows to connect export_floats input to the operator.
+          * - :py:attr:`~filename`
+            - Allows to connect filename input to the operator.
+          * - :py:attr:`~comma_separated_list_of_results`
+            - Allows to connect comma_separated_list_of_results input to the operator.
+          * - :py:attr:`~all_time_sets`
+            - Allows to connect all_time_sets input to the operator.
+          * - :py:attr:`~streams_container`
+            - Allows to connect streams_container input to the operator.
+          * - :py:attr:`~data_sources`
+            - Allows to connect data_sources input to the operator.
+          * - :py:attr:`~compression_workflow`
+            - Allows to connect compression_workflow input to the operator.
+          * - :py:attr:`~filtering_workflow`
+            - Allows to connect filtering_workflow input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.migrate_to_h5dpf import InputsMigrateToH5Dpf
+
+Property detail
+---------------
+
+.. py:property:: dataset_size_compression_threshold
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect dataset_size_compression_threshold input to the operator.
+
+   Integer value that defines the minimum dataset size (in bytes) to use h5 native compression Applicable for arrays of floats, doubles and integers.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.migrate_to_h5dpf()
+   >>> op.inputs.dataset_size_compression_threshold.connect(my_dataset_size_compression_threshold)
+   >>> # or
+   >>> op.inputs.dataset_size_compression_threshold(my_dataset_size_compression_threshold)
+
+.. py:property:: h5_native_compression
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect h5_native_compression input to the operator.
+
+   Integer value / DataTree that defines the h5 native compression used For Integer Input {0: No Compression (default); 1-9: GZIP Compression : 9 provides maximum compression but at the slowest speed.}For DataTree Input {type: None / GZIP / ZSTD; level: GZIP (1-9) / ZSTD (1-20); num_threads: ZSTD (>0)}
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.migrate_to_h5dpf()
+   >>> op.inputs.h5_native_compression.connect(my_h5_native_compression)
+   >>> # or
+   >>> op.inputs.h5_native_compression(my_h5_native_compression)
+
+.. py:property:: export_floats
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect export_floats input to the operator.
+
+   Converts double to float to reduce file size (default is true).If False, nodal results are exported as double precision and elemental results as single precision.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.migrate_to_h5dpf()
+   >>> op.inputs.export_floats.connect(my_export_floats)
+   >>> # or
+   >>> op.inputs.export_floats(my_export_floats)
+
+.. py:property:: filename
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect filename input to the operator.
+
+   filename of the migrated file
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.migrate_to_h5dpf()
+   >>> op.inputs.filename.connect(my_filename)
+   >>> # or
+   >>> op.inputs.filename(my_filename)
+
+.. py:property:: comma_separated_list_of_results
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect comma_separated_list_of_results input to the operator.
+
+   list of results (source operator names) separated by semicolons that will be stored. (Example: U;S;EPEL). If empty, all available results will be converted.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.migrate_to_h5dpf()
+   >>> op.inputs.comma_separated_list_of_results.connect(my_comma_separated_list_of_results)
+   >>> # or
+   >>> op.inputs.comma_separated_list_of_results(my_comma_separated_list_of_results)
+
+.. py:property:: all_time_sets
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect all_time_sets input to the operator.
+
+   Deprecated. Please use filtering workflows instead to select time scoping. Default is false.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.migrate_to_h5dpf()
+   >>> op.inputs.all_time_sets.connect(my_all_time_sets)
+   >>> # or
+   >>> op.inputs.all_time_sets(my_all_time_sets)
+
+.. py:property:: streams_container
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect streams_container input to the operator.
+
+   streams (result file container) (optional)
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.migrate_to_h5dpf()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> # or
+   >>> op.inputs.streams_container(my_streams_container)
+
+.. py:property:: data_sources
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect data_sources input to the operator.
+
+   if the stream is null then we need to get the file path from the data sources
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.migrate_to_h5dpf()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> # or
+   >>> op.inputs.data_sources(my_data_sources)
+
+.. py:property:: compression_workflow
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect compression_workflow input to the operator.
+
+   BETA Option: Applies input compression workflow.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.migrate_to_h5dpf()
+   >>> op.inputs.compression_workflow.connect(my_compression_workflow)
+   >>> # or
+   >>> op.inputs.compression_workflow(my_compression_workflow)
+
+.. py:property:: filtering_workflow
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect filtering_workflow input to the operator.
+
+   Applies input filtering workflow.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.migrate_to_h5dpf()
+   >>> op.inputs.filtering_workflow.connect(my_filtering_workflow)
+   >>> # or
+   >>> op.inputs.filtering_workflow(my_filtering_workflow)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+   :param inpt:
+   :type inpt: str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping, Enum,
+   :param ScopingsContainer: Input of the operator.
+   :type ScopingsContainer: E501
+   :param MeshedRegion: Input of the operator.
+   :type MeshedRegion: E501
+   :param MeshesContainer: Input of the operator.
+   :type MeshesContainer: E501
+   :param DataSources: Input of the operator.
+   :type DataSources: E501
+   :param CyclicSupport: Input of the operator.
+   :type CyclicSupport: E501
+   :param Outputs: Input of the operator.
+   :type Outputs: E501
+   :param os.PathLike  # noqa: Input of the operator.
+   :type os.PathLike  # noqa: E501
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

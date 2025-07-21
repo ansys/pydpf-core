@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.cms_subfile_info_provider
+   :inherited-members:

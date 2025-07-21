@@ -1,0 +1,80 @@
+
+
+
+
+
+
+:class:`Outputs`
+================
+
+
+.. py:class:: ansys.dpf.core.outputs.Outputs(dict_outputs, operator)
+
+   Bases: :py:obj:`_Outputs`
+
+
+   Intermediate class internally instantiated by the :class:`ansys.dpf.core.dpf_operator.Operator`.
+
+   Used to list the available :class:`ansys.dpf.core.outputs.Output` s of the Operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> data_src = dpf.DataSources(examples.find_msup_transient())
+   >>> disp_op = dpf.operators.result.displacement()
+   >>> disp_op.inputs.data_sources(data_src)
+   >>> isinstance(disp_op.outputs, dpf.inputs._Outputs)
+   True
+   >>> fc = disp_op.outputs.fields_container()
+
+
+
+
+
+.. py:currentmodule:: Outputs
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.outputs import Outputs
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

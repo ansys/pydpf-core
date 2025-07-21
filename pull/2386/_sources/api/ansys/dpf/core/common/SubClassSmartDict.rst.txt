@@ -1,0 +1,65 @@
+
+
+
+
+
+
+:class:`SubClassSmartDict`
+==========================
+
+
+.. py:class:: ansys.dpf.core.common.SubClassSmartDict
+
+   Bases: :py:obj:`dict`
+
+
+   Return the superclass name for a key if not found initially.
+
+
+
+
+.. py:currentmodule:: SubClassSmartDict
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - If found returns the item of key == ìtem`, else returns item with key matching `issubclass(item, key)`.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.common import SubClassSmartDict
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(item)
+
+   If found returns the item of key == ìtem`, else returns item with key matching `issubclass(item, key)`.
+
+
+
+
+

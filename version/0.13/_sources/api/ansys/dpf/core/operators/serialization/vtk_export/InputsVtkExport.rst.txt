@@ -1,0 +1,239 @@
+
+
+
+
+
+
+:class:`InputsVtkExport`
+========================
+
+.. py:class:: ansys.dpf.core.operators.serialization.vtk_export.InputsVtkExport(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   vtk_export operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.vtk_export()
+   >>> my_export_type = int()
+   >>> op.inputs.export_type.connect(my_export_type)
+   >>> my_file_path = str()
+   >>> op.inputs.file_path.connect(my_file_path)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_fields1 = dpf.FieldsContainer()
+   >>> op.inputs.fields1.connect(my_fields1)
+   >>> my_fields2 = dpf.FieldsContainer()
+   >>> op.inputs.fields2.connect(my_fields2)
+
+
+
+
+
+
+.. py:currentmodule:: InputsVtkExport
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~export_type`
+            - Allows to connect export_type input to the operator.
+          * - :py:attr:`~file_path`
+            - Allows to connect file_path input to the operator.
+          * - :py:attr:`~mesh`
+            - Allows to connect mesh input to the operator.
+          * - :py:attr:`~fields1`
+            - Allows to connect fields1 input to the operator.
+          * - :py:attr:`~fields2`
+            - Allows to connect fields2 input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.serialization.vtk_export import InputsVtkExport
+
+Property detail
+---------------
+
+.. py:property:: export_type
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect export_type input to the operator.
+
+   Either export volume elements in the mesh with their fields with value 0 or faces elements in the mesh with their fields with value 1 (default is 0)
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.vtk_export()
+   >>> op.inputs.export_type.connect(my_export_type)
+   >>> # or
+   >>> op.inputs.export_type(my_export_type)
+
+.. py:property:: file_path
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect file_path input to the operator.
+
+   path with vtk extension were the export occurs
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.vtk_export()
+   >>> op.inputs.file_path.connect(my_file_path)
+   >>> # or
+   >>> op.inputs.file_path(my_file_path)
+
+.. py:property:: mesh
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect mesh input to the operator.
+
+   necessary if the first field or fields container don't have a mesh in their support
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.vtk_export()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> # or
+   >>> op.inputs.mesh(my_mesh)
+
+.. py:property:: fields1
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect fields1 input to the operator.
+
+   fields exported
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.vtk_export()
+   >>> op.inputs.fields1.connect(my_fields1)
+   >>> # or
+   >>> op.inputs.fields1(my_fields1)
+
+.. py:property:: fields2
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect fields2 input to the operator.
+
+   fields exported
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.vtk_export()
+   >>> op.inputs.fields2.connect(my_fields2)
+   >>> # or
+   >>> op.inputs.fields2(my_fields2)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+   :param inpt:
+   :type inpt: str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping, Enum,
+   :param ScopingsContainer: Input of the operator.
+   :type ScopingsContainer: E501
+   :param MeshedRegion: Input of the operator.
+   :type MeshedRegion: E501
+   :param MeshesContainer: Input of the operator.
+   :type MeshesContainer: E501
+   :param DataSources: Input of the operator.
+   :type DataSources: E501
+   :param CyclicSupport: Input of the operator.
+   :type CyclicSupport: E501
+   :param Outputs: Input of the operator.
+   :type Outputs: E501
+   :param os.PathLike  # noqa: Input of the operator.
+   :type os.PathLike  # noqa: E501
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

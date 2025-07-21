@@ -1,0 +1,116 @@
+
+
+
+
+
+
+:class:`DataConnection`
+=======================
+
+
+.. py:class:: ansys.dpf.core.workflow_topology.data_connection.DataConnection(container: ansys.dpf.core.generic_data_container.GenericDataContainer)
+
+   Bases: :py:obj:`ansys.dpf.core.custom_container_base.CustomContainerBase`
+
+
+   Represents a connection between a data and an operator in a workflow.
+
+   This class provides access to the source data and target operator, as well as its pin ID.
+
+
+
+
+.. py:currentmodule:: DataConnection
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~source_data`
+            - Retrieve the source data of the connection.
+          * - :py:attr:`~target_operator`
+            - Retrieve the target operator of the connection.
+          * - :py:attr:`~target_pin_id`
+            - Retrieve the pin ID of the target operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - Return a string representation of the data connection.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.workflow_topology.data_connection import DataConnection
+
+Property detail
+---------------
+
+.. py:property:: source_data
+   :type: Any
+
+
+   Retrieve the source data of the connection.
+
+   :returns: The data serving as the source of this connection.
+   :rtype: Any
+
+.. py:property:: target_operator
+   :type: ansys.dpf.core.dpf_operator.Operator
+
+
+   Retrieve the target operator of the connection.
+
+   :returns: The operator serving as the target of this connection.
+   :rtype: Operator
+
+.. py:property:: target_pin_id
+   :type: int
+
+
+   Retrieve the pin ID of the target operator.
+
+   :returns: The pin ID of the target operator.
+   :rtype: int
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__() -> str
+
+   Return a string representation of the data connection.
+
+   This includes the source data and target operator, with its pin ID.
+
+   :returns: String representation of the data connection.
+   :rtype: str
+
+
+
+
+

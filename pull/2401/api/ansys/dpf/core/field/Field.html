@@ -1,0 +1,1547 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <meta property="og:site_name" content="PyAnsys" />
+    <title>Field &#8212; PyDPF-Core</title>
+  
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/ansys-sphinx-theme.css?v=fbf3eb5d" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/styles\ansys-sphinx-theme.css?v=fbf3eb5d" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://www.nerdfonts.com/assets/css/webfont.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/custom.css?v=2be88464" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+
+  <!-- Include desired assets -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  
+
+  
+    <link href="../../../../../_static/css/breadcrumbs.css" rel="stylesheet" />
+  
+    <script src="../../../../../_static/documentation_options.js?v=8c207667"></script>
+    <script src="../../../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/ansys/dpf/core/field/Field';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://dpf.docs.pyansys.com/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="icon" href="../../../../../_static/ansys-favicon.png"/>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+    <link rel="next" title="The field_definition.py module" href="../field_definition/index.html" />
+    <link rel="prev" title="The field.py module" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.13.9.dev0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="https://docs.pyansys.com">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../../_static/pyansys_logo_transparent_black.png" class="logo__image only-light" alt="PyDPF-Core - Home"/>
+    <img src="../../../../../_static/pyansys_logo_transparent_white.png" class="logo__image only-dark pst-js-only" alt="PyDPF-Core - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../../../index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../operator_reference.html">
+    Operators
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<div class="search-bar pst-js-only" id="search-bar">
+  <form class="bd-search d-flex align-items-center" action="../../../../../search.html" method="get">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="search" class="form-control" name="q" placeholder="Search the docs ..."
+      aria-label="Search the docs ..." autocomplete="off" autocorrect="off"
+      autocapitalize="off" spellcheck="false" />
+    <span class="search-button__kbd-shortcut">
+      <kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd>
+    </span>
+  </form>
+  <div id="static-search-results" class="static-search-results" style="display:none;" tabindex="0"></div>
+</div>
+        </div>
+      
+      
+        <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<div class="search-bar pst-js-only" id="search-bar">
+  <form class="bd-search d-flex align-items-center" action="../../../../../search.html" method="get">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="search" class="form-control" name="q" placeholder="Search the docs ..."
+      aria-label="Search the docs ..." autocomplete="off" autocorrect="off"
+      autocapitalize="off" spellcheck="false" />
+    <span class="search-button__kbd-shortcut">
+      <kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd>
+    </span>
+  </form>
+  <div id="static-search-results" class="static-search-results" style="display:none;" tabindex="0"></div>
+</div>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+  
+    <div id="announcement_msg"></div>
+<script>
+  fetch("announcement.html")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(
+      (text) => (document.getElementById("announcement_msg").innerHTML = text),
+    )
+    .catch((error) => console.error(`Fetch problem: ${error.message}`));
+</script>
+  
+
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../../../index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../operator_reference.html">
+    Operators
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html"><span class="nf nf-md-package"></span> ansys.dpf.core</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../examples/index.html"> <span class="nf nf-md-package"></span> examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/index.html"> <span class="nf nf-md-package"></span> helpers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../operators/index.html"> <span class="nf nf-md-package"></span> operators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflow_topology/index.html"> <span class="nf nf-md-package"></span> workflow_topology</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../animation/index.html"> <span class="nf nf-fa-file"></span> animation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../animator/index.html"> <span class="nf nf-fa-file"></span> animator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../any/index.html"> <span class="nf nf-fa-file"></span> any</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../available_result/index.html"> <span class="nf nf-fa-file"></span> available_result</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog/index.html"> <span class="nf nf-fa-file"></span> changelog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../collection/index.html"> <span class="nf nf-fa-file"></span> collection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../collection_base/index.html"> <span class="nf nf-fa-file"></span> collection_base</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../common/index.html"> <span class="nf nf-fa-file"></span> common</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../config/index.html"> <span class="nf nf-fa-file"></span> config</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../core/index.html"> <span class="nf nf-fa-file"></span> core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../custom_container_base/index.html"> <span class="nf nf-fa-file"></span> custom_container_base</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../custom_fields_container/index.html"> <span class="nf nf-fa-file"></span> custom_fields_container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../custom_operator/index.html"> <span class="nf nf-fa-file"></span> custom_operator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../custom_type_field/index.html"> <span class="nf nf-fa-file"></span> custom_type_field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cyclic_support/index.html"> <span class="nf nf-fa-file"></span> cyclic_support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../data_sources/index.html"> <span class="nf nf-fa-file"></span> data_sources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../data_tree/index.html"> <span class="nf nf-fa-file"></span> data_tree</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dimensionality/index.html"> <span class="nf nf-fa-file"></span> dimensionality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dpf_array/index.html"> <span class="nf nf-fa-file"></span> dpf_array</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dpf_operator/index.html"> <span class="nf nf-fa-file"></span> dpf_operator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../element_descriptor/index.html"> <span class="nf nf-fa-file"></span> element_descriptor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../elements/index.html"> <span class="nf nf-fa-file"></span> elements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../errors/index.html"> <span class="nf nf-fa-file"></span> errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faces/index.html"> <span class="nf nf-fa-file"></span> faces</a></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="index.html"> <span class="nf nf-fa-file"></span> field</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 current active"><a class="current reference internal" href="#"> <span class="nf nf-cod-symbol_class"></span> Field</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../field_definition/index.html"> <span class="nf nf-fa-file"></span> field_definition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fields_container/index.html"> <span class="nf nf-fa-file"></span> fields_container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fields_container_factory/index.html"> <span class="nf nf-fa-file"></span> fields_container_factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fields_factory/index.html"> <span class="nf nf-fa-file"></span> fields_factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generic_data_container/index.html"> <span class="nf nf-fa-file"></span> generic_data_container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generic_support/index.html"> <span class="nf nf-fa-file"></span> generic_support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../geometry/index.html"> <span class="nf nf-fa-file"></span> geometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../geometry_factory/index.html"> <span class="nf nf-fa-file"></span> geometry_factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../incremental/index.html"> <span class="nf nf-fa-file"></span> incremental</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../inputs/index.html"> <span class="nf nf-fa-file"></span> inputs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mesh_info/index.html"> <span class="nf nf-fa-file"></span> mesh_info</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mesh_scoping_factory/index.html"> <span class="nf nf-fa-file"></span> mesh_scoping_factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../meshed_region/index.html"> <span class="nf nf-fa-file"></span> meshed_region</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../meshes_container/index.html"> <span class="nf nf-fa-file"></span> meshes_container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../model/index.html"> <span class="nf nf-fa-file"></span> model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nodes/index.html"> <span class="nf nf-fa-file"></span> nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../operator_specification/index.html"> <span class="nf nf-fa-file"></span> operator_specification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../outputs/index.html"> <span class="nf nf-fa-file"></span> outputs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../path_utilities/index.html"> <span class="nf nf-fa-file"></span> path_utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../plotter/index.html"> <span class="nf nf-fa-file"></span> plotter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../plugins/index.html"> <span class="nf nf-fa-file"></span> plugins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../property_field/index.html"> <span class="nf nf-fa-file"></span> property_field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../result_info/index.html"> <span class="nf nf-fa-file"></span> result_info</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../results/index.html"> <span class="nf nf-fa-file"></span> results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../runtime_config/index.html"> <span class="nf nf-fa-file"></span> runtime_config</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../scoping/index.html"> <span class="nf nf-fa-file"></span> scoping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../scopings_container/index.html"> <span class="nf nf-fa-file"></span> scopings_container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../server/index.html"> <span class="nf nf-fa-file"></span> server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../server_context/index.html"> <span class="nf nf-fa-file"></span> server_context</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../server_factory/index.html"> <span class="nf nf-fa-file"></span> server_factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../server_types/index.html"> <span class="nf nf-fa-file"></span> server_types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../session/index.html"> <span class="nf nf-fa-file"></span> session</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../settings/index.html"> <span class="nf nf-fa-file"></span> settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../streams_container/index.html"> <span class="nf nf-fa-file"></span> streams_container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../string_field/index.html"> <span class="nf nf-fa-file"></span> string_field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../support/index.html"> <span class="nf nf-fa-file"></span> support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../time_freq_scoping_factory/index.html"> <span class="nf nf-fa-file"></span> time_freq_scoping_factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../time_freq_support/index.html"> <span class="nf nf-fa-file"></span> time_freq_support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit_system/index.html"> <span class="nf nf-fa-file"></span> unit_system</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflow/index.html"> <span class="nf nf-fa-file"></span> workflow</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+         
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="https://docs.pyansys.com/" class="nav-link">PyAnsys</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a
+        href="../../../../../index.html"
+        class="nav-link"
+        aria-label="Home"
+      >
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="../../../../index.html" class="nav-link">API reference</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="../index.html" class="nav-link">The <code class="docutils literal notranslate"><span class="pre">ansys.dpf.core</span></code> library</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="index.html" class="nav-link">The <code class="docutils literal notranslate"><span class="pre">field.py</span></code> module</a>
+    </li>
+      
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></span></li>
+    
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="field">
+<h1><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code><a class="headerlink" href="#field" title="Link to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="ansys.dpf.core.field.Field">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.field.</span></span><span class="sig-name descname"><span class="pre">Field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nentities</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nature</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">natures.vector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">locations.nodal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.field.Field" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">ansys.dpf.core.field_base._FieldBase</span></code></p>
+<p>Represents the main simulation data container.</p>
+<p>This can be evaluated data from the <code class="xref py py-class docutils literal notranslate"><span class="pre">Operator</span></code> class
+or created by a factory and directly by an instance of this class.</p>
+<p>A field’s data is always associated to its scoping (entities
+associated to each value) and support (subset of the model where the
+data is), making the field a self-describing piece of data.</p>
+<p>The field’s scoping defines the order of the data, for example: the first ID in the
+<code class="docutils literal notranslate"><span class="pre">scoping</span></code> identifies to which entity the first <code class="docutils literal notranslate"><span class="pre">entity</span> <span class="pre">data</span></code> belongs.</p>
+<p>The minimum requirement for a well defined field is for it to have a dimensionality
+(scalar, three components vector, six components symmetrical matrix, and so on), a location
+(“Nodal”, “Elemental”, “ElementalNodal”, “TimeFreq”), a data vector, and a scoping with IDs.
+You can also set the number of shell layers. If the field has one elementary data by entity
+(elementary data size equals the number of components for “Nodal” or “Elemental” field for example),
+then the data vector can be set directly. If a more complex field is required
+(“ElementalNodal” field for example), the data can be set entity by entity.</p>
+<p>For more information, see <a class="reference external" href="https://dpf.docs.pyansys.com/version/stable/user_guide/fields_container.html">Fields container and fields</a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nentities</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of entities reserved. The default is <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p></li>
+<li><p><strong>nature</strong> (<a class="reference internal" href="../common/natures.html#ansys.dpf.core.common.natures" title="ansys.dpf.core.common.natures"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.common.natures</span></code></a>, optional) – Nature of the field.</p></li>
+<li><p><strong>location</strong> (<em>str</em><em>, </em><em>optional</em>) – <p>Location of the field.  Options are in <a class="reference internal" href="../common/locations.html#ansys.dpf.core.common.locations" title="ansys.dpf.core.common.locations"><code class="xref py py-class docutils literal notranslate"><span class="pre">locations</span></code></a></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">dpf.locations.nodal</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dpf.locations.elemental</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dpf.locations.elemental_nodal</span></code></p></li>
+<li><p>…</p></li>
+</ul>
+</p></li>
+<li><p><strong>field</strong> (<a class="reference internal" href="#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><em>Field</em></a><em>, </em><em>ansys.grpc.dpf.field_pb2.Field</em><em>, </em><em>ctypes.c_void_p</em><em>, </em><em>optional</em>) – Field message generated from a gRPC stub, or returned by DPF’s C clients.</p></li>
+<li><p><strong>server</strong> (<a class="reference internal" href="../server/index.html#module-ansys.dpf.core.server" title="ansys.dpf.core.server"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.server</span></code></a>, optional) – Server with the channel connected to the remote or local instance. The
+default is <code class="docutils literal notranslate"><span class="pre">None</span></code>, in which case an attempt is made to use the global
+server.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Create a field from scratch.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">locations</span>
+<span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">>>> </span><span class="n">field_with_classic_api</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Field</span><span class="p">()</span>
+<span class="gp">>>> </span><span class="n">field_with_classic_api</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="n">locations</span><span class="o">.</span><span class="n">nodal</span>
+</pre></div>
+</div>
+<p>Create a symmetrical matrix elemental field from scratch.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">>>> </span><span class="n">num_entities</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="gp">>>> </span><span class="n">my_field</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">num_entities</span><span class="p">,</span> <span class="n">dpf</span><span class="o">.</span><span class="n">natures</span><span class="o">.</span><span class="n">symmatrix</span><span class="p">,</span> <span class="n">locations</span><span class="o">.</span><span class="n">elemental</span><span class="p">)</span>
+<span class="gp">>>> </span><span class="n">my_scoping</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Scoping</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="n">locations</span><span class="o">.</span><span class="n">elemental</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="gp">>>> </span><span class="n">my_field</span><span class="o">.</span><span class="n">scoping</span> <span class="o">=</span> <span class="n">my_scoping</span>
+</pre></div>
+</div>
+<p>Add all the data at once.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">>>> </span><span class="n">my_data</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">]</span>
+<span class="gp">>>> </span><span class="n">my_field</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">my_data</span>
+</pre></div>
+</div>
+<p>Add data entity by entity.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">>>> </span><span class="n">my_elem_data</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">]</span>
+<span class="gp">>>> </span><span class="n">my_field</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">my_elem_data</span><span class="p">,</span> <span class="n">scopingid</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">>>> </span><span class="n">my_field</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">my_elem_data</span><span class="p">,</span> <span class="n">scopingid</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Create a nodal scalar field using the fields factory.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">fields_factory</span>
+<span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">>>> </span><span class="n">my_scalar_field</span> <span class="o">=</span> <span class="n">fields_factory</span><span class="o">.</span><span class="n">create_scalar_field</span><span class="p">(</span><span class="n">num_entities</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="n">locations</span><span class="o">.</span><span class="n">nodal</span><span class="p">)</span>
+<span class="gp">>>> </span><span class="n">my_scalar_field</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Extract a displacement field from a transient result file.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">examples</span>
+<span class="gp">>>> </span><span class="n">transient</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">download_transient_result</span><span class="p">()</span>
+<span class="gp">>>> </span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">transient</span><span class="p">)</span>
+<span class="gp">>>> </span><span class="n">disp</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="p">()</span>
+<span class="gp">>>> </span><span class="n">fields_container</span> <span class="o">=</span> <span class="n">disp</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+<span class="gp">>>> </span><span class="n">field</span> <span class="o">=</span> <span class="n">fields_container</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="gp">>>> </span><span class="nb">len</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>
+<span class="go">11460</span>
+<span class="gp">>>> </span><span class="n">field</span><span class="o">.</span><span class="n">component_count</span>
+<span class="go">3</span>
+<span class="gp">>>> </span><span class="n">field</span><span class="o">.</span><span class="n">elementary_data_count</span>
+<span class="go">3820</span>
+</pre></div>
+</div>
+<p>Create a displacement field.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">>>> </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">>>> </span><span class="n">my_field</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">dpf</span><span class="o">.</span><span class="n">natures</span><span class="o">.</span><span class="n">vector</span><span class="p">,</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">nodal</span><span class="p">)</span>
+<span class="gp">>>> </span><span class="n">my_field</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
+<span class="gp">>>> </span><span class="n">my_field</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Set data.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">examples</span>
+<span class="gp">>>> </span><span class="n">transient</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">download_transient_result</span><span class="p">()</span>
+<span class="gp">>>> </span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">transient</span><span class="p">)</span>
+<span class="gp">>>> </span><span class="n">disp</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="p">()</span>
+<span class="gp">>>> </span><span class="n">fields_container</span> <span class="o">=</span> <span class="n">disp</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+<span class="gp">>>> </span><span class="n">field</span> <span class="o">=</span> <span class="n">fields_container</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="gp">>>> </span><span class="n">field</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="go">DPFArray([-0.00672665, -0.03213735,  0.00016716]...</span>
+</pre></div>
+</div>
+<p>Accessing data with a custom order.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">examples</span>
+<span class="gp">>>> </span><span class="n">transient</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">download_transient_result</span><span class="p">()</span>
+<span class="gp">>>> </span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">transient</span><span class="p">)</span>
+<span class="gp">>>> </span><span class="n">ids_order</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+<span class="gp">>>> </span><span class="n">stress</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">stress</span><span class="p">(</span><span class="n">mesh_scoping</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">Scoping</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">ids</span><span class="o">=</span><span class="n">ids_order</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">nodal</span><span class="p">))</span>
+<span class="gp">>>> </span><span class="n">fields_container</span> <span class="o">=</span> <span class="n">stress</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+<span class="gp">>>> </span><span class="n">field</span> <span class="o">=</span> <span class="n">fields_container</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="gp">>>> </span><span class="n">field</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span>
+<span class="go">DPFArray([3, 2]...</span>
+<span class="gp">>>> </span><span class="n">field</span><span class="o">.</span><span class="n">data</span>
+<span class="go">DPFArray([[  3755059.33333333,  -2398534.3515625 , -27519072.33333333,</span>
+<span class="go">             2194748.65625   ,   8306637.58333333,   2018637.03125   ],</span>
+<span class="go">          [  2796852.09375   ,   -992492.62304688,  22519752.625     ,</span>
+<span class="go">            -1049027.46875   ,  10846776.1875    ,   4119072.3125    ]]...</span>
+<span class="gp">>>> </span><span class="n">field</span><span class="o">.</span><span class="n">get_entity_data_by_id</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">DPFArray([[ 2796852.09375   ,  -992492.62304688, 22519752.625     ,</span>
+<span class="go">           -1049027.46875   , 10846776.1875    ,  4119072.3125    ]]...</span>
+<span class="gp">>>> </span><span class="n">field</span><span class="o">.</span><span class="n">get_entity_data_by_id</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">DPFArray([[  3755059.33333333,  -2398534.3515625 , -27519072.33333333,</span>
+<span class="go">             2194748.65625   ,   8306637.58333333,   2018637.03125   ]]...</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-0">
+Methods</label><div class="sd-tab-content docutils">
+<div class="pst-scrollable-table-container"><table class="table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Field.as_local_field" title="Field.as_local_field"><code class="xref py py-attr docutils literal notranslate"><span class="pre">as_local_field</span></code></a></p></td>
+<td><p>Create a deep copy of the field that can be accessed and modified locally.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Field.get_entity_data" title="Field.get_entity_data"><code class="xref py py-attr docutils literal notranslate"><span class="pre">get_entity_data</span></code></a></p></td>
+<td><p>Retrieve entity data by index.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Field.get_entity_data_by_id" title="Field.get_entity_data_by_id"><code class="xref py py-attr docutils literal notranslate"><span class="pre">get_entity_data_by_id</span></code></a></p></td>
+<td><p>Retrieve entity data by id.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Field.append" title="Field.append"><code class="xref py py-attr docutils literal notranslate"><span class="pre">append</span></code></a></p></td>
+<td><p>Append data to the Field.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Field.to_nodal" title="Field.to_nodal"><code class="xref py py-attr docutils literal notranslate"><span class="pre">to_nodal</span></code></a></p></td>
+<td><p>Convert the field to one with a <code class="docutils literal notranslate"><span class="pre">Nodal</span></code> location.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Field.plot" title="Field.plot"><code class="xref py py-attr docutils literal notranslate"><span class="pre">plot</span></code></a></p></td>
+<td><p>Plot the field or fields container on the mesh support if it exists.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Field.resize" title="Field.resize"><code class="xref py py-attr docutils literal notranslate"><span class="pre">resize</span></code></a></p></td>
+<td><p>Allocate memory.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Field.min" title="Field.min"><code class="xref py py-attr docutils literal notranslate"><span class="pre">min</span></code></a></p></td>
+<td><p>Retrieve the component-wise minimum over this field.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Field.max" title="Field.max"><code class="xref py py-attr docutils literal notranslate"><span class="pre">max</span></code></a></p></td>
+<td><p>Retrieve the component-wise maximum over this field.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Field.deep_copy" title="Field.deep_copy"><code class="xref py py-attr docutils literal notranslate"><span class="pre">deep_copy</span></code></a></p></td>
+<td><p>Create a deep copy of the field’s data on a given server.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-1">
+Properties</label><div class="sd-tab-content docutils">
+<div class="pst-scrollable-table-container"><table class="table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Field.location" title="Field.location"><code class="xref py py-attr docutils literal notranslate"><span class="pre">location</span></code></a></p></td>
+<td><p>Field location.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Field.component_count" title="Field.component_count"><code class="xref py py-attr docutils literal notranslate"><span class="pre">component_count</span></code></a></p></td>
+<td><p>Number of components.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Field.elementary_data_count" title="Field.elementary_data_count"><code class="xref py py-attr docutils literal notranslate"><span class="pre">elementary_data_count</span></code></a></p></td>
+<td><p>Number of elementary data.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Field.size" title="Field.size"><code class="xref py py-attr docutils literal notranslate"><span class="pre">size</span></code></a></p></td>
+<td><p>Size of data.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Field.shell_layers" title="Field.shell_layers"><code class="xref py py-attr docutils literal notranslate"><span class="pre">shell_layers</span></code></a></p></td>
+<td><p>Order of the shell layers.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Field.unit" title="Field.unit"><code class="xref py py-attr docutils literal notranslate"><span class="pre">unit</span></code></a></p></td>
+<td><p>Units for the field.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Field.dimensionality" title="Field.dimensionality"><code class="xref py py-attr docutils literal notranslate"><span class="pre">dimensionality</span></code></a></p></td>
+<td><p>Dimensionality represents the shape of the elementary data contained in the field.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Field.name" title="Field.name"><code class="xref py py-attr docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
+<td><p>Name of the field.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Field.field_definition" title="Field.field_definition"><code class="xref py py-attr docutils literal notranslate"><span class="pre">field_definition</span></code></a></p></td>
+<td><p>Field information, including its location, unit, dimensionality, and shell layers.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Field.time_freq_support" title="Field.time_freq_support"><code class="xref py py-attr docutils literal notranslate"><span class="pre">time_freq_support</span></code></a></p></td>
+<td><p>Time frequency support of the field.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Field.meshed_region" title="Field.meshed_region"><code class="xref py py-attr docutils literal notranslate"><span class="pre">meshed_region</span></code></a></p></td>
+<td><p>Meshed region of the field.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Field.shape" title="Field.shape"><code class="xref py py-attr docutils literal notranslate"><span class="pre">shape</span></code></a></p></td>
+<td><p>Numpy-like shape of the field.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Field.elementary_data_shape" title="Field.elementary_data_shape"><code class="xref py py-attr docutils literal notranslate"><span class="pre">elementary_data_shape</span></code></a></p></td>
+<td><p>Numpy-like shape of the field.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Field.ndim" title="Field.ndim"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ndim</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Field.scoping" title="Field.scoping"><code class="xref py py-attr docutils literal notranslate"><span class="pre">scoping</span></code></a></p></td>
+<td><p>Scoping specifying where the data is.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Field.data" title="Field.data"><code class="xref py py-attr docutils literal notranslate"><span class="pre">data</span></code></a></p></td>
+<td><p>Data in the field as an array.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Field.data_as_list" title="Field.data_as_list"><code class="xref py py-attr docutils literal notranslate"><span class="pre">data_as_list</span></code></a></p></td>
+<td><p>Data in the field as a Python list.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<input id="sd-tab-item-2" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-2">
+Special methods</label><div class="sd-tab-content docutils">
+<div class="pst-scrollable-table-container"><table class="table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Field.__add__" title="Field.__add__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">__add__</span></code></a></p></td>
+<td><p>Add two fields.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Field.__pow__" title="Field.__pow__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">__pow__</span></code></a></p></td>
+<td><p>Compute element-wise field[i]^2.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Field.__mul__" title="Field.__mul__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">__mul__</span></code></a></p></td>
+<td><p>Multiplies two fields.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Field.__sub__" title="Field.__sub__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">__sub__</span></code></a></p></td>
+<td><p>Subtract two fields.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Field.__str__" title="Field.__str__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">__str__</span></code></a></p></td>
+<td><p>Describe the entity.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Field.__len__" title="Field.__len__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">__len__</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Field.__del__" title="Field.__del__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">__del__</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Field.__enter__" title="Field.__enter__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">__enter__</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Field.__exit__" title="Field.__exit__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">__exit__</span></code></a></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="import-detail">
+<h2>Import detail<a class="headerlink" href="#import-detail" title="Link to this heading">#</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core.field</span><span class="w"> </span><span class="kn">import</span> <span class="n">Field</span>
+</pre></div>
+</div>
+</section>
+<section id="property-detail">
+<h2>Property detail<a class="headerlink" href="#property-detail" title="Link to this heading">#</a></h2>
+<dl class="py property">
+<dt class="sig sig-object py" id="Field.location">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Field.</span></span><span class="sig-name descname"><span class="pre">location</span></span><a class="headerlink" href="#Field.location" title="Link to this definition">#</a></dt>
+<dd><p>Field location.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Location string, Options are in <a class="reference internal" href="../common/locations.html#ansys.dpf.core.common.locations" title="ansys.dpf.core.common.locations"><code class="xref py py-class docutils literal notranslate"><span class="pre">locations</span></code></a>.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Location for a stress field evaluated at nodes.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">examples</span>
+<span class="gp">>>> </span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">download_transient_result</span><span class="p">())</span>
+<span class="gp">>>> </span><span class="n">s_op</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">stress</span><span class="p">()</span>
+<span class="gp">>>> </span><span class="n">s_fc</span> <span class="o">=</span> <span class="n">s_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+<span class="gp">>>> </span><span class="n">field</span> <span class="o">=</span> <span class="n">s_fc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="gp">>>> </span><span class="n">field</span><span class="o">.</span><span class="n">location</span>
+<span class="go">&#39;ElementalNodal&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="Field.component_count">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Field.</span></span><span class="sig-name descname"><span class="pre">component_count</span></span><a class="headerlink" href="#Field.component_count" title="Link to this definition">#</a></dt>
+<dd><p>Number of components.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="Field.elementary_data_count">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Field.</span></span><span class="sig-name descname"><span class="pre">elementary_data_count</span></span><a class="headerlink" href="#Field.elementary_data_count" title="Link to this definition">#</a></dt>
+<dd><p>Number of elementary data.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="Field.size">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Field.</span></span><span class="sig-name descname"><span class="pre">size</span></span><a class="headerlink" href="#Field.size" title="Link to this definition">#</a></dt>
+<dd><p>Size of data.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="Field.shell_layers">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Field.</span></span><span class="sig-name descname"><span class="pre">shell_layers</span></span><a class="headerlink" href="#Field.shell_layers" title="Link to this definition">#</a></dt>
+<dd><p>Order of the shell layers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="../common/shell_layers.html#ansys.dpf.core.common.shell_layers" title="ansys.dpf.core.common.shell_layers"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.common.shell_layers</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="Field.unit">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Field.</span></span><span class="sig-name descname"><span class="pre">unit</span></span><a class="headerlink" href="#Field.unit" title="Link to this definition">#</a></dt>
+<dd><p>Units for the field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Units for the field.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Units for a displacement field.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">>>> </span><span class="n">my_field</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">dpf</span><span class="o">.</span><span class="n">natures</span><span class="o">.</span><span class="n">vector</span><span class="p">,</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">nodal</span><span class="p">)</span>
+<span class="gp">>>> </span><span class="n">my_field</span><span class="o">.</span><span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;m&quot;</span>
+<span class="gp">>>> </span><span class="n">my_field</span><span class="o">.</span><span class="n">unit</span>
+<span class="go">&#39;m&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="Field.dimensionality">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Field.</span></span><span class="sig-name descname"><span class="pre">dimensionality</span></span><a class="headerlink" href="#Field.dimensionality" title="Link to this definition">#</a></dt>
+<dd><p>Dimensionality represents the shape of the elementary data contained in the field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dimensionality</strong> – Nature and size of the elementary data.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="../dimensionality/Dimensionality.html#ansys.dpf.core.dimensionality.Dimensionality" title="ansys.dpf.core.dimensionality.Dimensionality"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.dimensionality.Dimensionality</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="Field.name">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Field.</span></span><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#Field.name" title="Link to this definition">#</a></dt>
+<dd><p>Name of the field.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="Field.field_definition">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Field.</span></span><span class="sig-name descname"><span class="pre">field_definition</span></span><a class="headerlink" href="#Field.field_definition" title="Link to this definition">#</a></dt>
+<dd><p>Field information, including its location, unit, dimensionality, and shell layers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="../field_definition/FieldDefinition.html#ansys.dpf.core.field_definition.FieldDefinition" title="ansys.dpf.core.field_definition.FieldDefinition"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.field_definition.FieldDefinition</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="Field.time_freq_support">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Field.</span></span><span class="sig-name descname"><span class="pre">time_freq_support</span></span><a class="headerlink" href="#Field.time_freq_support" title="Link to this definition">#</a></dt>
+<dd><p>Time frequency support of the field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="../time_freq_support/TimeFreqSupport.html#ansys.dpf.core.time_freq_support.TimeFreqSupport" title="ansys.dpf.core.time_freq_support.TimeFreqSupport"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.time_freq_support.TimeFreqSupport</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="Field.meshed_region">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Field.</span></span><span class="sig-name descname"><span class="pre">meshed_region</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../meshed_region/MeshedRegion.html#ansys.dpf.core.meshed_region.MeshedRegion" title="ansys.dpf.core.meshed_region.MeshedRegion"><span class="pre">ansys.dpf.core.meshed_region.MeshedRegion</span></a></em><a class="headerlink" href="#Field.meshed_region" title="Link to this definition">#</a></dt>
+<dd><p>Meshed region of the field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="../meshed_region/MeshedRegion.html#ansys.dpf.core.meshed_region.MeshedRegion" title="ansys.dpf.core.meshed_region.MeshedRegion"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.meshed_region.MeshedRegion</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="Field.shape">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Field.</span></span><span class="sig-name descname"><span class="pre">shape</span></span><a class="headerlink" href="#Field.shape" title="Link to this definition">#</a></dt>
+<dd><p>Numpy-like shape of the field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Shape of a stress field.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">examples</span>
+<span class="gp">>>> </span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">download_transient_result</span><span class="p">())</span>
+<span class="gp">>>> </span><span class="n">s_op</span> <span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">stress</span><span class="p">()</span>
+<span class="gp">>>> </span><span class="n">s_fc</span> <span class="o">=</span> <span class="n">s_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+<span class="gp">>>> </span><span class="n">field</span> <span class="o">=</span> <span class="n">s_fc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="gp">>>> </span><span class="n">field</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(5720, 6)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="Field.elementary_data_shape">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Field.</span></span><span class="sig-name descname"><span class="pre">elementary_data_shape</span></span><a class="headerlink" href="#Field.elementary_data_shape" title="Link to this definition">#</a></dt>
+<dd><p>Numpy-like shape of the field.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="Field.ndim">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Field.</span></span><span class="sig-name descname"><span class="pre">ndim</span></span><a class="headerlink" href="#Field.ndim" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="Field.scoping">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Field.</span></span><span class="sig-name descname"><span class="pre">scoping</span></span><a class="headerlink" href="#Field.scoping" title="Link to this definition">#</a></dt>
+<dd><p>Scoping specifying where the data is.</p>
+<p>Each entity data is on a given scoping ID.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>scoping</strong></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="../scoping/Scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.scoping.Scoping</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">examples</span>
+<span class="gp">>>> </span><span class="n">transient</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">download_transient_result</span><span class="p">()</span>
+<span class="gp">>>> </span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">transient</span><span class="p">)</span>
+<span class="gp">>>> </span><span class="n">stress_op</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">stress</span><span class="p">()</span>
+<span class="gp">>>> </span><span class="n">fields_container</span> <span class="o">=</span> <span class="n">stress_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+<span class="gp">>>> </span><span class="n">scoping</span> <span class="o">=</span> <span class="n">fields_container</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scoping</span>
+<span class="gp">>>> </span><span class="n">scoping</span><span class="o">.</span><span class="n">location</span>
+<span class="go">&#39;Elemental&#39;</span>
+<span class="gp">>>> </span><span class="n">scoping</span><span class="o">.</span><span class="n">id</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">586</span>
+<span class="gp">>>> </span><span class="c1">#The fourth elementary data of the field corresponds to</span>
+<span class="gp">>>> </span><span class="c1">#the element id number 586 in the mesh</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="Field.data">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Field.</span></span><span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#Field.data" title="Link to this definition">#</a></dt>
+<dd><p>Data in the field as an array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Data in the field.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>numpy.ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Print a progress bar.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="Field.data_as_list">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Field.</span></span><span class="sig-name descname"><span class="pre">data_as_list</span></span><a class="headerlink" href="#Field.data_as_list" title="Link to this definition">#</a></dt>
+<dd><p>Data in the field as a Python list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of the data in the field.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>List</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Print a progress bar.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">examples</span>
+<span class="gp">>>> </span><span class="n">transient</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">download_transient_result</span><span class="p">()</span>
+<span class="gp">>>> </span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">transient</span><span class="p">)</span>
+<span class="gp">>>> </span><span class="n">disp</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="p">()</span>
+<span class="gp">>>> </span><span class="n">fields_container</span> <span class="o">=</span> <span class="n">disp</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+<span class="gp">>>> </span><span class="n">field</span> <span class="o">=</span> <span class="n">fields_container</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="gp">>>> </span><span class="c1"># field.data_as_list</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+<section id="method-detail">
+<h2>Method detail<a class="headerlink" href="#method-detail" title="Link to this heading">#</a></h2>
+<dl class="py method">
+<dt class="sig sig-object py" id="Field.as_local_field">
+<span class="sig-prename descclassname"><span class="pre">Field.</span></span><span class="sig-name descname"><span class="pre">as_local_field</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Field.as_local_field" title="Link to this definition">#</a></dt>
+<dd><p>Create a deep copy of the field that can be accessed and modified locally.</p>
+<p>This method allows you to access and modify the local copy of the field
+without sending a request to the server. It should be used in a <code class="docutils literal notranslate"><span class="pre">with</span></code>
+statement so that the local field is released and the data is sent to
+the server in one action. If it is not used in a <code class="docutils literal notranslate"><span class="pre">with</span></code> statement,
+<code class="xref py py-func docutils literal notranslate"><span class="pre"><release_data></span> <span class="pre">Field.release_data()</span></code> should be used to update the field.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>If this <cite>as_local_field</cite> method is not used as a context manager in a
+<code class="docutils literal notranslate"><span class="pre">with</span></code> statement or if the method <cite>release_data()</cite> is not called,
+the data will not be updated.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>local_field</strong></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field">Field</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">>>> </span><span class="n">num_entities</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="gp">>>> </span><span class="n">field_to_local</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">fields_factory</span><span class="o">.</span><span class="n">create_3d_vector_field</span><span class="p">(</span><span class="n">num_entities</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">elemental_nodal</span><span class="p">)</span>
+<span class="gp">>>> </span><span class="k">with</span> <span class="n">field_to_local</span><span class="o">.</span><span class="n">as_local_field</span><span class="p">()</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">num_entities</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="n">f</span><span class="o">.</span><span class="n">append</span><span class="p">([[</span><span class="mf">0.1</span><span class="o">*</span><span class="n">i</span><span class="p">,</span><span class="mf">0.2</span><span class="o">*</span><span class="n">i</span><span class="p">,</span> <span class="mf">0.3</span><span class="o">*</span><span class="n">i</span><span class="p">],[</span><span class="mf">0.1</span><span class="o">*</span><span class="n">i</span><span class="p">,</span><span class="mf">0.2</span><span class="o">*</span><span class="n">i</span><span class="p">,</span> <span class="mf">0.3</span><span class="o">*</span><span class="n">i</span><span class="p">]],</span><span class="n">i</span><span class="p">)</span>
+<span class="gp">... </span>        <span class="n">f</span><span class="o">.</span><span class="n">get_entity_data</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">),[[</span><span class="mf">0.1</span><span class="o">*</span><span class="n">i</span><span class="p">,</span><span class="mf">0.2</span><span class="o">*</span><span class="n">i</span><span class="p">,</span> <span class="mf">0.3</span><span class="o">*</span><span class="n">i</span><span class="p">],[</span><span class="mf">0.1</span><span class="o">*</span><span class="n">i</span><span class="p">,</span><span class="mf">0.2</span><span class="o">*</span><span class="n">i</span><span class="p">,</span> <span class="mf">0.3</span><span class="o">*</span><span class="n">i</span><span class="p">]]</span>
+<span class="go">(DPFArray([[0.1, 0.2, 0.3],</span>
+<span class="go">          [0.1, 0.2, 0.3]]), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3]])</span>
+<span class="go">(DPFArray([[0.2, 0.4, 0.6],</span>
+<span class="go">          [0.2, 0.4, 0.6]]), [[0.2, 0.4, 0.6], [0.2, 0.4, 0.6]])</span>
+<span class="go">(DPFArray([[0.3, 0.6, 0.9],</span>
+<span class="go">          [0.3, 0.6, 0.9]]), [[0.30000000000000004, 0.6000000000000001, 0.8999999999999999], [0.30000000000000004, 0.6000000000000001, 0.8999999999999999]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Field.get_entity_data">
+<span class="sig-prename descclassname"><span class="pre">Field.</span></span><span class="sig-name descname"><span class="pre">get_entity_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ansys.dpf.gate.dpf_array.DPFArray</span></span></span><a class="headerlink" href="#Field.get_entity_data" title="Link to this definition">#</a></dt>
+<dd><p>Retrieve entity data by index.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Field.get_entity_data_by_id">
+<span class="sig-prename descclassname"><span class="pre">Field.</span></span><span class="sig-name descname"><span class="pre">get_entity_data_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ansys.dpf.gate.dpf_array.DPFArray</span></span></span><a class="headerlink" href="#Field.get_entity_data_by_id" title="Link to this definition">#</a></dt>
+<dd><p>Retrieve entity data by id.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Field.append">
+<span class="sig-prename descclassname"><span class="pre">Field.</span></span><span class="sig-name descname"><span class="pre">append</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scopingid</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Field.append" title="Link to this definition">#</a></dt>
+<dd><p>Append data to the Field.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Field.to_nodal">
+<span class="sig-prename descclassname"><span class="pre">Field.</span></span><span class="sig-name descname"><span class="pre">to_nodal</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Field.to_nodal" title="Link to this definition">#</a></dt>
+<dd><p>Convert the field to one with a <code class="docutils literal notranslate"><span class="pre">Nodal</span></code> location.</p>
+<p>This method is valid only when the field’s current location is
+<code class="docutils literal notranslate"><span class="pre">ElementalNodal</span></code> or <code class="docutils literal notranslate"><span class="pre">Elemental</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>nodal_field</strong> – with <code class="docutils literal notranslate"><span class="pre">location=='Nodal'</span></code>.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field">Field</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Field.plot">
+<span class="sig-prename descclassname"><span class="pre">Field.</span></span><span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shell_layers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../common/shell_layers.html#ansys.dpf.core.common.shell_layers" title="ansys.dpf.core.common.shell_layers"><span class="pre">ansys.dpf.core.common.shell_layers</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deform_by</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><span class="pre">Field</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../results/Result.html#ansys.dpf.core.results.Result" title="ansys.dpf.core.results.Result"><span class="pre">ansys.dpf.core.results.Result</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../dpf_operator/Operator.html#ansys.dpf.core.dpf_operator.Operator" title="ansys.dpf.core.dpf_operator.Operator"><span class="pre">ansys.dpf.core.dpf_operator.Operator</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale_factor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meshed_region</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../meshed_region/MeshedRegion.html#ansys.dpf.core.meshed_region.MeshedRegion" title="ansys.dpf.core.meshed_region.MeshedRegion"><span class="pre">ansys.dpf.core.meshed_region.MeshedRegion</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Field.plot" title="Link to this definition">#</a></dt>
+<dd><p>Plot the field or fields container on the mesh support if it exists.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This method is primarily added out of convenience as plotting
+directly from the field can be slower than extracting the
+meshed region and plotting the field on top of that.  It is
+more efficient to plot with:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">examples</span>
+<span class="gp">>>> </span><span class="n">transient</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">download_transient_result</span><span class="p">()</span>
+<span class="gp">>>> </span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">transient</span><span class="p">)</span>
+<span class="gp">>>> </span><span class="n">mesh</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span>
+<span class="gp">>>> </span><span class="n">disp</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="p">()</span>
+<span class="gp">>>> </span><span class="n">fields_container</span> <span class="o">=</span> <span class="n">disp</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+<span class="gp">>>> </span><span class="n">field</span> <span class="o">=</span> <span class="n">fields_container</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="gp">>>> </span><span class="n">mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>shell_layers</strong> – Enum used to set the shell layers if the model to plot
+contains shell elements. Defaults to the top layer.</p></li>
+<li><p><strong>deform_by</strong> – Used to deform the plotted mesh. Must output a 3D vector field.</p></li>
+<li><p><strong>scale_factor</strong> – Scaling factor to apply when warping the mesh.</p></li>
+<li><p><strong>meshed_region</strong> – Mesh to plot the field on.</p></li>
+<li><p><strong>**kwargs</strong> – Additional keyword arguments for the plotter. For additional keyword
+arguments, see <code class="docutils literal notranslate"><span class="pre">help(pyvista.plot)</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Field.resize">
+<span class="sig-prename descclassname"><span class="pre">Field.</span></span><span class="sig-name descname"><span class="pre">resize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nentities</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">datasize</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Field.resize" title="Link to this definition">#</a></dt>
+<dd><p>Allocate memory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nentities</strong> (<em>int</em>) – Number of IDs in the scoping.</p></li>
+<li><p><strong>datasize</strong> (<em>int</em>) – Size of the data vector.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Field.__add__">
+<span class="sig-prename descclassname"><span class="pre">Field.</span></span><span class="sig-name descname"><span class="pre">__add__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field_b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Field.__add__" title="Link to this definition">#</a></dt>
+<dd><p>Add two fields.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="../operators/math/add/add.html#ansys.dpf.core.operators.math.add.add" title="ansys.dpf.core.operators.math.add.add"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.operators.math.add.add</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Field.__pow__">
+<span class="sig-prename descclassname"><span class="pre">Field.</span></span><span class="sig-name descname"><span class="pre">__pow__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Field.__pow__" title="Link to this definition">#</a></dt>
+<dd><p>Compute element-wise field[i]^2.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Field.__mul__">
+<span class="sig-prename descclassname"><span class="pre">Field.</span></span><span class="sig-name descname"><span class="pre">__mul__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Field.__mul__" title="Link to this definition">#</a></dt>
+<dd><p>Multiplies two fields.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="../operators/math/generalized_inner_product/generalized_inner_product.html#ansys.dpf.core.operators.math.generalized_inner_product.generalized_inner_product" title="ansys.dpf.core.operators.math.generalized_inner_product.generalized_inner_product"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.operators.math.generalized_inner_product.generalized_inner_product</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Field.__sub__">
+<span class="sig-prename descclassname"><span class="pre">Field.</span></span><span class="sig-name descname"><span class="pre">__sub__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fields_b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Field.__sub__" title="Link to this definition">#</a></dt>
+<dd><p>Subtract two fields.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="../operators/math/minus/minus.html#ansys.dpf.core.operators.math.minus.minus" title="ansys.dpf.core.operators.math.minus.minus"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.operators.math.minus.minus</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Field.min">
+<span class="sig-prename descclassname"><span class="pre">Field.</span></span><span class="sig-name descname"><span class="pre">min</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Field.min" title="Link to this definition">#</a></dt>
+<dd><p>Retrieve the component-wise minimum over this field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>min</strong> – Component-wise minimum field.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field">Field</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Field.max">
+<span class="sig-prename descclassname"><span class="pre">Field.</span></span><span class="sig-name descname"><span class="pre">max</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Field.max" title="Link to this definition">#</a></dt>
+<dd><p>Retrieve the component-wise maximum over this field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>max</strong> – Component-wise maximum field.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field">Field</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Field.deep_copy">
+<span class="sig-prename descclassname"><span class="pre">Field.</span></span><span class="sig-name descname"><span class="pre">deep_copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Field.deep_copy" title="Link to this definition">#</a></dt>
+<dd><p>Create a deep copy of the field’s data on a given server.</p>
+<p>This method can be useful for passing data from one server instance to another.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>server</strong> (<a class="reference internal" href="../server/index.html#module-ansys.dpf.core.server" title="ansys.dpf.core.server"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.server</span></code></a>, optional) – Server with the channel connected to the remote or local instance. The
+default is <code class="docutils literal notranslate"><span class="pre">None</span></code>, in which case an attempt is made to use the global
+server.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>field_copy</strong></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field">Field</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">examples</span>
+<span class="gp">>>> </span><span class="n">transient</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">download_transient_result</span><span class="p">()</span>
+<span class="gp">>>> </span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">transient</span><span class="p">)</span>
+<span class="gp">>>> </span><span class="n">disp</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="p">()</span>
+<span class="gp">>>> </span><span class="n">fields_container</span> <span class="o">=</span> <span class="n">disp</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+<span class="gp">>>> </span><span class="n">field</span> <span class="o">=</span> <span class="n">fields_container</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="gp">>>> </span><span class="n">other_server</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">start_local_server</span><span class="p">(</span><span class="n">as_global</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">>>> </span><span class="n">deep_copy</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">deep_copy</span><span class="p">(</span><span class="n">server</span><span class="o">=</span><span class="n">other_server</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Field.__str__">
+<span class="sig-prename descclassname"><span class="pre">Field.</span></span><span class="sig-name descname"><span class="pre">__str__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Field.__str__" title="Link to this definition">#</a></dt>
+<dd><p>Describe the entity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Description of the entity.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Field.__len__">
+<span class="sig-prename descclassname"><span class="pre">Field.</span></span><span class="sig-name descname"><span class="pre">__len__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Field.__len__" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Field.__del__">
+<span class="sig-prename descclassname"><span class="pre">Field.</span></span><span class="sig-name descname"><span class="pre">__del__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Field.__del__" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Field.__enter__">
+<span class="sig-prename descclassname"><span class="pre">Field.</span></span><span class="sig-name descname"><span class="pre">__enter__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Field.__enter__" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Field.__exit__">
+<span class="sig-prename descclassname"><span class="pre">Field.</span></span><span class="sig-name descname"><span class="pre">__exit__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exc_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exc_value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tb</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Field.__exit__" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.field.Field"><code class="docutils literal notranslate"><span class="pre">ansys.dpf.core.field.Field</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-detail">Import detail</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#property-detail">Property detail</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Field.location"><code class="docutils literal notranslate"><span class="pre">location</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Field.component_count"><code class="docutils literal notranslate"><span class="pre">component_count</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Field.elementary_data_count"><code class="docutils literal notranslate"><span class="pre">elementary_data_count</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Field.size"><code class="docutils literal notranslate"><span class="pre">size</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Field.shell_layers"><code class="docutils literal notranslate"><span class="pre">shell_layers</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Field.unit"><code class="docutils literal notranslate"><span class="pre">unit</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Field.dimensionality"><code class="docutils literal notranslate"><span class="pre">dimensionality</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Field.name"><code class="docutils literal notranslate"><span class="pre">name</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Field.field_definition"><code class="docutils literal notranslate"><span class="pre">field_definition</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Field.time_freq_support"><code class="docutils literal notranslate"><span class="pre">time_freq_support</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Field.meshed_region"><code class="docutils literal notranslate"><span class="pre">meshed_region</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Field.shape"><code class="docutils literal notranslate"><span class="pre">shape</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Field.elementary_data_shape"><code class="docutils literal notranslate"><span class="pre">elementary_data_shape</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Field.ndim"><code class="docutils literal notranslate"><span class="pre">ndim</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Field.scoping"><code class="docutils literal notranslate"><span class="pre">scoping</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Field.data"><code class="docutils literal notranslate"><span class="pre">data</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Field.data_as_list"><code class="docutils literal notranslate"><span class="pre">data_as_list</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#method-detail">Method detail</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Field.as_local_field"><code class="docutils literal notranslate"><span class="pre">as_local_field()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Field.get_entity_data"><code class="docutils literal notranslate"><span class="pre">get_entity_data()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Field.get_entity_data_by_id"><code class="docutils literal notranslate"><span class="pre">get_entity_data_by_id()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Field.append"><code class="docutils literal notranslate"><span class="pre">append()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Field.to_nodal"><code class="docutils literal notranslate"><span class="pre">to_nodal()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Field.plot"><code class="docutils literal notranslate"><span class="pre">plot()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Field.resize"><code class="docutils literal notranslate"><span class="pre">resize()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Field.__add__"><code class="docutils literal notranslate"><span class="pre">__add__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Field.__pow__"><code class="docutils literal notranslate"><span class="pre">__pow__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Field.__mul__"><code class="docutils literal notranslate"><span class="pre">__mul__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Field.__sub__"><code class="docutils literal notranslate"><span class="pre">__sub__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Field.min"><code class="docutils literal notranslate"><span class="pre">min()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Field.max"><code class="docutils literal notranslate"><span class="pre">max()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Field.deep_copy"><code class="docutils literal notranslate"><span class="pre">deep_copy()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Field.__str__"><code class="docutils literal notranslate"><span class="pre">__str__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Field.__len__"><code class="docutils literal notranslate"><span class="pre">__len__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Field.__del__"><code class="docutils literal notranslate"><span class="pre">__del__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Field.__enter__"><code class="docutils literal notranslate"><span class="pre">__enter__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Field.__exit__"><code class="docutils literal notranslate"><span class="pre">__exit__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+<!-- If there is no fix edit button function, use the PyData edit-this-button-->
+</div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <ul class="this-page-menu">
+      <li><a href="../../../../../_sources/api/ansys/dpf/core/field/Field.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+
+  <!-- Include desired assets -->
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.7/require.min.js"></script>
+
+<script>
+// Passing the search options to the search.js file
+const SEARCH_OPTIONS = JSON.parse('{"ignoreLocation": true, "keys": ["title", "text"], "limit": 10, "minMatchCharLength": 2, "threshold": 0.5}');
+const SEARCH_FILE = "../../../../../_static/search.json";
+</script>
+
+
+<script src="../../../../../_static/js/search.js"></script>
+  
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright (c) 2025 ANSYS, Inc. All rights reserved.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the
+  <a href="https://sphinxdocs.ansys.com/version/stable/index.html"
+    >Ansys Sphinx Theme</a
+  >
+  1.4.4. <br />Last updated on
+  <span id="ast_build_date"></span>
+</p>
+<script>
+  var options = { day: "numeric", month: "long", year: "numeric" };
+  var ast_lastModifiedDate = new Date(document.lastModified);
+  var ast_build_date = ast_lastModifiedDate.toLocaleDateString("en-US", options);
+  document.getElementById("ast_build_date").innerHTML = ast_build_date;
+</script></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

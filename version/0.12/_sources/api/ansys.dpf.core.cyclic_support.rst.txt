@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.cyclic_support
+   :inherited-members:

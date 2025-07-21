@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.contact_fluid_penetration_pressure
+   :inherited-members:

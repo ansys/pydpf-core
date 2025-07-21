@@ -1,0 +1,169 @@
+
+
+
+
+
+
+:class:`InputsIntsToScoping`
+============================
+
+
+.. py:class:: ansys.dpf.core.operators.utility.ints_to_scoping.InputsIntsToScoping(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   ints_to_scoping operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.ints_to_scoping()
+   >>> my_int_or_vector_int = int()
+   >>> op.inputs.int_or_vector_int.connect(my_int_or_vector_int)
+   >>> my_location = str()
+   >>> op.inputs.location.connect(my_location)
+
+
+
+
+
+
+.. py:currentmodule:: InputsIntsToScoping
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~int_or_vector_int`
+            - Allows to connect int_or_vector_int input to the operator.
+          * - :py:attr:`~location`
+            - Allows to connect location input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.ints_to_scoping import InputsIntsToScoping
+
+Property detail
+---------------
+
+.. py:property:: int_or_vector_int
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect int_or_vector_int input to the operator.
+
+   int or vector of int
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.ints_to_scoping()
+   >>> op.inputs.int_or_vector_int.connect(my_int_or_vector_int)
+   >>> # or
+   >>> op.inputs.int_or_vector_int(my_int_or_vector_int)
+
+.. py:property:: location
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect location input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.ints_to_scoping()
+   >>> op.inputs.location.connect(my_location)
+   >>> # or
+   >>> op.inputs.location(my_location)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+   :param inpt:
+   :type inpt: str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping, Enum,
+   :param ScopingsContainer: Input of the operator.
+   :type ScopingsContainer: E501
+   :param MeshedRegion: Input of the operator.
+   :type MeshedRegion: E501
+   :param MeshesContainer: Input of the operator.
+   :type MeshesContainer: E501
+   :param DataSources: Input of the operator.
+   :type DataSources: E501
+   :param CyclicSupport: Input of the operator.
+   :type CyclicSupport: E501
+   :param Outputs: Input of the operator.
+   :type Outputs: E501
+   :param os.PathLike  # noqa: Input of the operator.
+   :type os.PathLike  # noqa: E501
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

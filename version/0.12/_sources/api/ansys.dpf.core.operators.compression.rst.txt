@@ -1,0 +1,16 @@
+ansys.dpf.core.operators.compression namespace
+==============================================
+
+.. py:module:: ansys.dpf.core.operators.compression
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   ansys.dpf.core.operators.compression.apply_svd
+   ansys.dpf.core.operators.compression.apply_zfp
+   ansys.dpf.core.operators.compression.kmeans_clustering
+   ansys.dpf.core.operators.compression.zfp_decompress
+   ansys.dpf.core.operators.compression.zfp_on_results_workflow

@@ -1,0 +1,135 @@
+
+
+
+
+
+
+:class:`WorkflowTopology`
+=========================
+
+.. py:class:: ansys.dpf.core.workflow_topology.workflow_topology.WorkflowTopology(container: ansys.dpf.core.generic_data_container.GenericDataContainer)
+
+   Bases: :py:obj:`ansys.dpf.core.custom_container_base.CustomContainerBase`
+
+
+   Represent the workflow topology, including operators, connections, and input/output pins.
+
+
+
+
+.. py:currentmodule:: WorkflowTopology
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~operators`
+            - Retrieve the operators in the workflow.
+          * - :py:attr:`~operator_connections`
+            - Retrieve the operator connections in the workflow.
+          * - :py:attr:`~data_connections`
+            - Retrieve the data connections in the workflow.
+          * - :py:attr:`~exposed_inputs`
+            - Retrieve the exposed inputs in the workflow.
+          * - :py:attr:`~exposed_outputs`
+            - Retrieve the exposed outputs in the workflow.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - Return a string representation of the workflow topology.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.workflow_topology.workflow_topology import WorkflowTopology
+
+Property detail
+---------------
+
+.. py:property:: operators
+   :type: ansys.dpf.core.OperatorsCollection
+
+
+   Retrieve the operators in the workflow.
+
+   :returns: A collection of all the operators in the workflow.
+   :rtype: OperatorsCollection
+
+.. py:property:: operator_connections
+   :type: ansys.dpf.core.workflow_topology.operator_connection.OperatorConnectionsCollection
+
+
+   Retrieve the operator connections in the workflow.
+
+   :returns: A collection of all the operator connections in the workflow.
+   :rtype: OperatorConnectionsCollection
+
+.. py:property:: data_connections
+   :type: ansys.dpf.core.workflow_topology.data_connection.DataConnectionsCollection
+
+
+   Retrieve the data connections in the workflow.
+
+   :returns: A collection of all the data connections in the workflow.
+   :rtype: OperatorConnectionsCollection
+
+.. py:property:: exposed_inputs
+   :type: ansys.dpf.core.workflow_topology.exposed_pin.ExposedPinsCollection
+
+
+   Retrieve the exposed inputs in the workflow.
+
+   :returns: A collection of all the exposed inputs in the workflow.
+   :rtype: ExposedPinsCollection
+
+.. py:property:: exposed_outputs
+   :type: ansys.dpf.core.workflow_topology.exposed_pin.ExposedPinsCollection
+
+
+   Retrieve the exposed outputs in the workflow.
+
+   :returns: A collection of all the exposed outputs in the workflow.
+   :rtype: ExposedPinsCollection
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__() -> str
+
+   Return a string representation of the workflow topology.
+
+   The string provides details about the workflow's operators, connections, and exposed pins.
+
+   :returns: String representation of the workflow topology.
+   :rtype: str
+
+
+
+
+

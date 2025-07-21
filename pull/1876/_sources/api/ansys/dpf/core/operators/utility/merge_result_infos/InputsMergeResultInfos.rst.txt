@@ -1,0 +1,171 @@
+
+
+
+
+
+
+:class:`InputsMergeResultInfos`
+===============================
+
+
+.. py:class:: ansys.dpf.core.operators.utility.merge_result_infos.InputsMergeResultInfos(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   merge_result_infos operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_result_infos()
+   >>> my_result_infos1 = dpf.ResultInfo()
+   >>> op.inputs.result_infos1.connect(my_result_infos1)
+   >>> my_result_infos2 = dpf.ResultInfo()
+   >>> op.inputs.result_infos2.connect(my_result_infos2)
+
+
+
+
+
+
+.. py:currentmodule:: InputsMergeResultInfos
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~result_infos1`
+            - Allows to connect result_infos1 input to the operator.
+          * - :py:attr:`~result_infos2`
+            - Allows to connect result_infos2 input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.merge_result_infos import InputsMergeResultInfos
+
+Property detail
+---------------
+
+.. py:property:: result_infos1
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect result_infos1 input to the operator.
+
+   A vector of result info containers to merge or result infos from pin 0 to ...
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_result_infos()
+   >>> op.inputs.result_infos1.connect(my_result_infos1)
+   >>> # or
+   >>> op.inputs.result_infos1(my_result_infos1)
+
+.. py:property:: result_infos2
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect result_infos2 input to the operator.
+
+   A vector of result info containers to merge or result infos from pin 0 to ...
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_result_infos()
+   >>> op.inputs.result_infos2.connect(my_result_infos2)
+   >>> # or
+   >>> op.inputs.result_infos2(my_result_infos2)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+   :param inpt:
+   :type inpt: str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping, Enum,
+   :param ScopingsContainer: Input of the operator.
+   :type ScopingsContainer: E501
+   :param MeshedRegion: Input of the operator.
+   :type MeshedRegion: E501
+   :param MeshesContainer: Input of the operator.
+   :type MeshesContainer: E501
+   :param DataSources: Input of the operator.
+   :type DataSources: E501
+   :param CyclicSupport: Input of the operator.
+   :type CyclicSupport: E501
+   :param Outputs: Input of the operator.
+   :type Outputs: E501
+   :param os.PathLike  # noqa: Input of the operator.
+   :type os.PathLike  # noqa: E501
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

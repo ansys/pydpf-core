@@ -1,0 +1,867 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <meta property="og:site_name" content="PyAnsys" />
+    <title>Create a mesh from scratch &#8212; PyDPF-Core</title>
+  
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/ansys-sphinx-theme.css?v=fbf3eb5d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles\ansys-sphinx-theme.css?v=fbf3eb5d" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://www.nerdfonts.com/assets/css/webfont.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=605cfb02" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+
+  <!-- Include desired assets -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  
+
+  
+    <link href="../../../_static/css/breadcrumbs.css" rel="stylesheet" />
+  
+    <script src="../../../_static/documentation_options.js?v=8c207667"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/thebelab-helper.js"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/tutorials/mesh/create_a_mesh_from_scratch';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://dpf.docs.pyansys.com/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="icon" href="../../../_static/ansys-favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Get a mesh from a result file" href="get_mesh_from_result_file.html" />
+    <link rel="prev" title="Mesh" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.13.9.dev0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="https://docs.pyansys.com">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/pyansys_logo_transparent_black.png" class="logo__image only-light" alt="PyDPF-Core - Home"/>
+    <img src="../../../_static/pyansys_logo_transparent_white.png" class="logo__image only-dark pst-js-only" alt="PyDPF-Core - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../operator_reference.html">
+    Operators
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<div class="search-bar pst-js-only" id="search-bar">
+  <form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="search" class="form-control" name="q" placeholder="Search the docs ..."
+      aria-label="Search the docs ..." autocomplete="off" autocorrect="off"
+      autocapitalize="off" spellcheck="false" />
+    <span class="search-button__kbd-shortcut">
+      <kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd>
+    </span>
+  </form>
+  <div id="static-search-results" class="static-search-results" style="display:none;" tabindex="0"></div>
+</div>
+        </div>
+      
+      
+        <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<div class="search-bar pst-js-only" id="search-bar">
+  <form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="search" class="form-control" name="q" placeholder="Search the docs ..."
+      aria-label="Search the docs ..." autocomplete="off" autocorrect="off"
+      autocapitalize="off" spellcheck="false" />
+    <span class="search-button__kbd-shortcut">
+      <kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd>
+    </span>
+  </form>
+  <div id="static-search-results" class="static-search-results" style="display:none;" tabindex="0"></div>
+</div>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+  
+    <div id="announcement_msg"></div>
+<script>
+  fetch("announcement.html")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(
+      (text) => (document.getElementById("announcement_msg").innerHTML = text),
+    )
+    .catch((error) => console.error(`Fetch problem: ${error.message}`));
+</script>
+  
+
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../operator_reference.html">
+    Operators
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../data_structures/index.html">DPF data structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../language_and_usage/index.html">PyDPF-Core language and usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../post_processing_basics/index.html">Processing data basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../import_data/index.html">Import Data</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Mesh</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Create a mesh from scratch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="get_mesh_from_result_file.html">Get a mesh from a result file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="explore_mesh_metadata.html">Explore a mesh metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="explore_mesh.html">Explore a mesh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="extract_mesh_in_split_parts.html">Extract a mesh in split parts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="split_mesh.html">Split a mesh</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../operators_and_workflows/index.html">Process data with operators and workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../export_data/index.html">Export data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plot/index.html">Plot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../animate/index.html">Animate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../enriching_dpf_capabilities/index.html">Enriching DPF capabilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distributed_files/index.html">Post-process distributed files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dpf_server/index.html">DPF server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../licensing/index.html">Licensing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mathematics/index.html">Mathematics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../manipulate_physics_data/index.html">Manipulate Physics data</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/concepts.html">Terms and concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/waysofusing.html">DPF capabilities and scripting languages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/stepbystep.html">DPF usage</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Troubleshooting</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting.html">Troubleshooting</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+         
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="https://docs.pyansys.com/" class="nav-link">PyAnsys</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a
+        href="../../../index.html"
+        class="nav-link"
+        aria-label="Home"
+      >
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="../../index.html" class="nav-link">User guide</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="index.html" class="nav-link">Mesh</a>
+    </li>
+      
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Create a mesh from scratch</span></li>
+    
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="create-a-mesh-from-scratch">
+<span id="ref-tutorials-create-a-mesh-from-scratch"></span><h1>Create a mesh from scratch<a class="headerlink" href="#create-a-mesh-from-scratch" title="Link to this heading">#</a></h1>
+<span class="target" id="ref-links-and-refs"></span><p>This tutorial demonstrates how to build a <a class="reference internal" href="../../../api/ansys/dpf/core/meshed_region/MeshedRegion.html#ansys.dpf.core.meshed_region.MeshedRegion" title="ansys.dpf.core.meshed_region.MeshedRegion"><code class="xref py py-class docutils literal notranslate"><span class="pre">MeshedRegion</span></code></a> from scratch.</p>
+<p>The mesh object in DPF is a <a class="reference internal" href="../../../api/ansys/dpf/core/meshed_region/MeshedRegion.html#ansys.dpf.core.meshed_region.MeshedRegion" title="ansys.dpf.core.meshed_region.MeshedRegion"><code class="xref py py-class docutils literal notranslate"><span class="pre">MeshedRegion</span></code></a>. You can create your own <a class="reference internal" href="../../../api/ansys/dpf/core/meshed_region/MeshedRegion.html#ansys.dpf.core.meshed_region.MeshedRegion" title="ansys.dpf.core.meshed_region.MeshedRegion"><code class="xref py py-class docutils literal notranslate"><span class="pre">MeshedRegion</span></code></a> object and use it
+with DPF operators. The ability to use scripting to create any DPF entity means
+that you are not dependent on result files and can connect the DPF environment
+with any Python tool.</p>
+<p>In this tutorial, we create a parallel piped mesh made of linear hexa elements.</p>
+<p><a class="reference download internal" download="" href="../../../_downloads/85bd9918d13b24c79b1482be22833276/create_a_mesh_from_scratch.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">tutorial</span> <span class="pre">as</span> <span class="pre">Python</span> <span class="pre">script</span></code></a>
+<a class="reference download internal" download="" href="../../../_downloads/d2325a7d9a9474f17624e0cfba9044a5/create_a_mesh_from_scratch.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">tutorial</span> <span class="pre">as</span> <span class="pre">Jupyter</span> <span class="pre">notebook</span></code></a></p>
+<section id="import-the-necessary-modules">
+<h2>Import the necessary modules<a class="headerlink" href="#import-the-necessary-modules" title="Link to this heading">#</a></h2>
+<p>Import the <code class="docutils literal notranslate"><span class="pre">ansys.dpf.core</span></code> module, including the operators module and the numpy library.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import the numpy library</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="c1"># Import the ``ansys.dpf.core`` module</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="c1"># Import the operators module</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">operators</span> <span class="k">as</span> <span class="n">ops</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</section>
+<section id="define-the-mesh-dimensions">
+<h2>Define the mesh dimensions<a class="headerlink" href="#define-the-mesh-dimensions" title="Link to this heading">#</a></h2>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the mesh dimensions</span>
+<span class="n">length</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">width</span> <span class="o">=</span> <span class="mf">0.05</span>
+<span class="n">depth</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">num_nodes_in_length</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">num_nodes_in_width</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">num_nodes_in_depth</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="c1"># Create a MeshedRegion object</span>
+<span class="n">my_meshed_region</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">MeshedRegion</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</section>
+<section id="define-the-connectivity-function">
+<h2>Define the connectivity function<a class="headerlink" href="#define-the-connectivity-function" title="Link to this heading">#</a></h2>
+<p>To create a mesh you must define the nodes connectivity. This means to define
+the nodes ids connected to each element.</p>
+<p>Here, we create a function that will find this connectivity.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">search_sequence_numpy</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Find the node location in an array of nodes and return its index.&quot;&quot;&quot;</span>
+    <span class="n">indexes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">node</span><span class="p">)</span>
+    <span class="n">match</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">indexes</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">nonzero</span><span class="p">()</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">match</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</section>
+<section id="add-nodes">
+<h2>Add nodes<a class="headerlink" href="#add-nodes" title="Link to this heading">#</a></h2>
+<p>Add <a class="reference internal" href="../../../api/ansys/dpf/core/nodes/Nodes.html#ansys.dpf.core.nodes.Nodes" title="ansys.dpf.core.nodes.Nodes"><code class="xref py py-class docutils literal notranslate"><span class="pre">Nodes</span></code></a> to the <a class="reference internal" href="../../../api/ansys/dpf/core/meshed_region/MeshedRegion.html#ansys.dpf.core.meshed_region.MeshedRegion" title="ansys.dpf.core.meshed_region.MeshedRegion"><code class="xref py py-class docutils literal notranslate"><span class="pre">MeshedRegion</span></code></a> object.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">node_id</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
+    <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="n">length</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">num_nodes_in_length</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_nodes_in_length</span><span class="p">)]</span>
+<span class="p">):</span>
+    <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
+        <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="n">width</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">num_nodes_in_width</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_nodes_in_width</span><span class="p">)]</span>
+    <span class="p">):</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">z</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
+            <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="n">depth</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">num_nodes_in_depth</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_nodes_in_depth</span><span class="p">)]</span>
+        <span class="p">):</span>
+            <span class="n">my_meshed_region</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">node_id</span><span class="p">,</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">])</span>
+            <span class="n">node_id</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+<p>Get the nodes coordinates field.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_nodes_coordinates</span> <span class="o">=</span> <span class="n">my_meshed_region</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">coordinates_field</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</section>
+<section id="set-the-mesh-properties">
+<h2>Set the mesh properties<a class="headerlink" href="#set-the-mesh-properties" title="Link to this heading">#</a></h2>
+<p>Set the mesh unit.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_meshed_region</span><span class="o">.</span><span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;mm&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+<p>Set the nodes coordinates.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the nodes coordinates data</span>
+<span class="n">my_nodes_coordinates_data</span> <span class="o">=</span> <span class="n">my_nodes_coordinates</span><span class="o">.</span><span class="n">data</span>
+<span class="c1"># As we use the connectivity function we need to get the data as a list</span>
+<span class="n">my_nodes_coordinates_data_list</span> <span class="o">=</span> <span class="n">my_nodes_coordinates</span><span class="o">.</span><span class="n">data_as_list</span>
+<span class="c1"># Set the nodes scoping</span>
+<span class="n">my_coordinates_scoping</span> <span class="o">=</span> <span class="n">my_nodes_coordinates</span><span class="o">.</span><span class="n">scoping</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</section>
+<section id="add-elements">
+<h2>Add elements<a class="headerlink" href="#add-elements" title="Link to this heading">#</a></h2>
+<p>Add <a class="reference internal" href="../../../api/ansys/dpf/core/elements/Elements.html#ansys.dpf.core.elements.Elements" title="ansys.dpf.core.elements.Elements"><code class="xref py py-class docutils literal notranslate"><span class="pre">Elements</span></code></a> to the <a class="reference internal" href="../../../api/ansys/dpf/core/meshed_region/MeshedRegion.html#ansys.dpf.core.meshed_region.MeshedRegion" title="ansys.dpf.core.meshed_region.MeshedRegion"><code class="xref py py-class docutils literal notranslate"><span class="pre">MeshedRegion</span></code></a> object.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add solid elements (linear hexa with eight nodes):</span>
+<span class="n">element_id</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="c1"># Precompute node spacings</span>
+<span class="n">dx</span> <span class="o">=</span> <span class="n">length</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">num_nodes_in_length</span><span class="p">)</span>
+<span class="n">dy</span> <span class="o">=</span> <span class="n">width</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">num_nodes_in_width</span><span class="p">)</span>
+<span class="n">dz</span> <span class="o">=</span> <span class="n">depth</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">num_nodes_in_depth</span><span class="p">)</span>
+<span class="c1"># Generate node coordinates</span>
+<span class="n">x_coords</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="n">dx</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_nodes_in_length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)]</span>
+<span class="n">y_coords</span> <span class="o">=</span> <span class="p">[</span><span class="n">j</span> <span class="o">*</span> <span class="n">dy</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_nodes_in_width</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)]</span>
+<span class="n">z_coords</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="o">*</span> <span class="n">dz</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_nodes_in_depth</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)]</span>
+<span class="c1"># Iterate through the grid</span>
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">x_coords</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">y_coords</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">z</span> <span class="ow">in</span> <span class="n">z_coords</span><span class="p">:</span>
+            <span class="n">coord1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">])</span>
+            <span class="n">connectivity</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="c1"># Generate connectivity for the current element</span>
+            <span class="k">for</span> <span class="n">xx</span> <span class="ow">in</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span> <span class="o">+</span> <span class="n">dx</span><span class="p">]:</span>
+                <span class="k">for</span> <span class="n">yy</span> <span class="ow">in</span> <span class="p">[</span><span class="n">y</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">dy</span><span class="p">]:</span>
+                    <span class="k">for</span> <span class="n">zz</span> <span class="ow">in</span> <span class="p">[</span><span class="n">z</span><span class="p">,</span> <span class="n">z</span> <span class="o">+</span> <span class="n">dz</span><span class="p">]:</span>
+                        <span class="n">scoping_index</span> <span class="o">=</span> <span class="n">search_sequence_numpy</span><span class="p">(</span><span class="n">my_nodes_coordinates_data</span><span class="p">,</span>
+                                                           <span class="p">[</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">zz</span><span class="p">])</span>
+                        <span class="n">connectivity</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">scoping_index</span><span class="p">)</span>
+            <span class="c1"># Rearrange connectivity to maintain element orientation</span>
+            <span class="n">connectivity</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">connectivity</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">connectivity</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">connectivity</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">connectivity</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">connectivity</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span> <span class="o">=</span> <span class="n">connectivity</span><span class="p">[</span><span class="mi">7</span><span class="p">],</span> <span class="n">connectivity</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span>
+            <span class="c1"># Add the solid element</span>
+            <span class="n">my_meshed_region</span><span class="o">.</span><span class="n">elements</span><span class="o">.</span><span class="n">add_solid_element</span><span class="p">(</span><span class="n">element_id</span><span class="p">,</span> <span class="n">connectivity</span><span class="p">)</span>
+            <span class="n">element_id</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</section>
+<section id="plot-the-mesh">
+<h2>Plot the mesh<a class="headerlink" href="#plot-the-mesh" title="Link to this heading">#</a></h2>
+<p>You can check the mesh we just created with a plot. For more information on how to plot a mesh see
+the <span class="xref std std-ref">ref_tutorials_plotting_meshes</span> tutorial.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the mesh</span>
+<span class="n">my_meshed_region</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../_images/create_a_mesh_from_scratch_8_0.png" src="../../../_images/create_a_mesh_from_scratch_8_0.png" />
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>(None, &lt;pyvista.plotting.plotter.Plotter at 0x1e8c1625750&gt;)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-the-necessary-modules">Import the necessary modules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#define-the-mesh-dimensions">Define the mesh dimensions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#define-the-connectivity-function">Define the connectivity function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#add-nodes">Add nodes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#set-the-mesh-properties">Set the mesh properties</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#add-elements">Add elements</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-the-mesh">Plot the mesh</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+<!-- If there is no fix edit button function, use the PyData edit-this-button-->
+</div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/user_guide/tutorials/mesh/create_a_mesh_from_scratch.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+
+  <!-- Include desired assets -->
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.7/require.min.js"></script>
+
+<script>
+// Passing the search options to the search.js file
+const SEARCH_OPTIONS = JSON.parse('{"ignoreLocation": true, "keys": ["title", "text"], "limit": 10, "minMatchCharLength": 2, "threshold": 0.5}');
+const SEARCH_FILE = "../../../_static/search.json";
+</script>
+
+
+<script src="../../../_static/js/search.js"></script>
+  
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright (c) 2025 ANSYS, Inc. All rights reserved.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the
+  <a href="https://sphinxdocs.ansys.com/version/stable/index.html"
+    >Ansys Sphinx Theme</a
+  >
+  1.4.4. <br />Last updated on
+  <span id="ast_build_date"></span>
+</p>
+<script>
+  var options = { day: "numeric", month: "long", year: "numeric" };
+  var ast_lastModifiedDate = new Date(document.lastModified);
+  var ast_build_date = ast_lastModifiedDate.toLocaleDateString("en-US", options);
+  document.getElementById("ast_build_date").innerHTML = ast_build_date;
+</script></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

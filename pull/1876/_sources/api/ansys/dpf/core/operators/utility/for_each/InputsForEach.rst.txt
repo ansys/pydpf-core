@@ -1,0 +1,232 @@
+
+
+
+
+
+
+:class:`InputsForEach`
+======================
+
+
+.. py:class:: ansys.dpf.core.operators.utility.for_each.InputsForEach(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   for_each operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.for_each()
+   >>> my_iterable = dpf.()
+   >>> op.inputs.iterable.connect(my_iterable)
+   >>> my_iterable_values = dpf.()
+   >>> op.inputs.iterable_values.connect(my_iterable_values)
+   >>> my_pin_index = int()
+   >>> op.inputs.pin_index.connect(my_pin_index)
+   >>> my_forward1 = dpf.()
+   >>> op.inputs.forward1.connect(my_forward1)
+   >>> my_forward2 = dpf.()
+   >>> op.inputs.forward2.connect(my_forward2)
+
+
+
+
+
+
+.. py:currentmodule:: InputsForEach
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~iterable`
+            - Allows to connect iterable input to the operator.
+          * - :py:attr:`~iterable_values`
+            - Allows to connect iterable_values input to the operator.
+          * - :py:attr:`~pin_index`
+            - Allows to connect pin_index input to the operator.
+          * - :py:attr:`~forward1`
+            - Allows to connect forward1 input to the operator.
+          * - :py:attr:`~forward2`
+            - Allows to connect forward2 input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.for_each import InputsForEach
+
+Property detail
+---------------
+
+.. py:property:: iterable
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect iterable input to the operator.
+
+   Either the result of the make_iterable_info operator, or the operator that must be incremented.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.for_each()
+   >>> op.inputs.iterable.connect(my_iterable)
+   >>> # or
+   >>> op.inputs.iterable(my_iterable)
+
+.. py:property:: iterable_values
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect iterable_values input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.for_each()
+   >>> op.inputs.iterable_values.connect(my_iterable_values)
+   >>> # or
+   >>> op.inputs.iterable_values(my_iterable_values)
+
+.. py:property:: pin_index
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect pin_index input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.for_each()
+   >>> op.inputs.pin_index.connect(my_pin_index)
+   >>> # or
+   >>> op.inputs.pin_index(my_pin_index)
+
+.. py:property:: forward1
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect forward1 input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.for_each()
+   >>> op.inputs.forward1.connect(my_forward1)
+   >>> # or
+   >>> op.inputs.forward1(my_forward1)
+
+.. py:property:: forward2
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect forward2 input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.for_each()
+   >>> op.inputs.forward2.connect(my_forward2)
+   >>> # or
+   >>> op.inputs.forward2(my_forward2)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+   :param inpt:
+   :type inpt: str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping, Enum,
+   :param ScopingsContainer: Input of the operator.
+   :type ScopingsContainer: E501
+   :param MeshedRegion: Input of the operator.
+   :type MeshedRegion: E501
+   :param MeshesContainer: Input of the operator.
+   :type MeshesContainer: E501
+   :param DataSources: Input of the operator.
+   :type DataSources: E501
+   :param CyclicSupport: Input of the operator.
+   :type CyclicSupport: E501
+   :param Outputs: Input of the operator.
+   :type Outputs: E501
+   :param os.PathLike  # noqa: Input of the operator.
+   :type os.PathLike  # noqa: E501
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+
