@@ -229,3 +229,39 @@ jobs:
       DOCSTRING: false
       standalone_suffix: ${{ matrix.dpf.standalone-suffix }}
     secrets: inherit
+
+  sync-main-with-master:
+    name: "Sync main with master"
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Install Git and clone project"
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: "Verify that main is the default branch"
+        shell: bash
+        run: |
+          head_branch=$(git remote show origin | grep "HEAD branch:")
+          main_branch=${head_branch#*: }
+          
+          if [[ $main_branch != "main" ]]; then
+            echo "The default branch is not 'main'. It is set to '$main_branch'."
+            echo "Please set 'main' as the default branch in the repository settings."
+            exit 1
+          fi
+
+      - name: "Configure git username and email"
+        shell: bash
+        run: |
+          git config --global user.name "${{ secrets.PYANSYS_CI_BOT_USERNAME }}"
+          git config --global user.email "${{ secrets.PYANSYS_CI_BOT_EMAIL }}"
+
+      - name: "Sync main to master"
+        shell: bash
+        run: |
+          git checkout master
+          git reset --hard main
+          git push
