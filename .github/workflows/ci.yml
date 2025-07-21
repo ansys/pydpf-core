@@ -2,7 +2,7 @@ name: CI
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened, ready_for_review, closed]
+    types: [opened, synchronize, reopened, ready_for_review, closed, labeled]
     branches-ignore:
       - '*no-ci*'
   push:
@@ -159,7 +159,10 @@ jobs:
     name: "Deploy PR documentation"
     runs-on: ubuntu-latest
     needs: docs
-    if: always() && (needs.docs.result == 'success' || needs.docs.result == 'skipped')
+    if: |
+      always() &&
+      (needs.docs.result == 'success' || needs.docs.result == 'skipped') &&
+      contains(github.event.pull_request.labels.*.name, 'deploy-pr-doc')
     steps:
       - uses: ansys/actions/doc-deploy-pr@v10
         with:

@@ -1,0 +1,3 @@
+- name: 'deploy-pr-doc'
+  description: Deploy pull request documentation
+  color: 00ff00
