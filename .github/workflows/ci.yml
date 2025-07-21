@@ -161,6 +161,7 @@ jobs:
     needs: docs
     if: |
       always() &&
+      github.event.pull_request.draft != true &&
       (needs.docs.result == 'success' || needs.docs.result == 'skipped') &&
       contains(github.event.pull_request.labels.*.name, 'deploy-pr-doc')
     steps:
