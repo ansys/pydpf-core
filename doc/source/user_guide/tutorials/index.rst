@@ -35,6 +35,11 @@ of our package background so you can understand how to work with it.
        :link: ref_tutorials_language_and_usage
        :link-type: ref
        :text-align: center
+       :class-card: sd-bg-light
+       :class-header: sd-bg-light
+
+       Coming soon
+       ^^^
 
        Check an overview on how to use PyDPF-Core API.
        Learn the different ways to interact with data by using PyDPF-Core
@@ -76,6 +81,11 @@ of our package background so you can understand how to work with it.
        :link: ref_tutorials_operators_and_workflows
        :link-type: ref
        :text-align: center
+       :class-card: sd-bg-light
+       :class-header: sd-bg-light
+
+       Coming soon
+       ^^^
 
        Learn how to use operators to process your data and build workflows.
 
@@ -83,6 +93,11 @@ of our package background so you can understand how to work with it.
        :link: ref_tutorials_export_data
        :link-type: ref
        :text-align: center
+       :class-card: sd-bg-light
+       :class-header: sd-bg-light
+
+       Coming soon
+       ^^^
 
        Discover the best ways to export data from your manipulations with PyDPF-Core.
 
@@ -111,6 +126,11 @@ of our package background so you can understand how to work with it.
        :link: ref_tutorials_manipulate_physics_data
        :link-type: ref
        :text-align: center
+       :class-card: sd-bg-light
+       :class-header: sd-bg-light
+
+       Coming soon
+       ^^^
 
        Learn how to manipulate the physics data associate to a
        data storage structure. (Unit, homogeneity ...)
@@ -126,6 +146,11 @@ of our package background so you can understand how to work with it.
        :link: ref_tutorials_distributed_files
        :link-type: ref
        :text-align: center
+       :class-card: sd-bg-light
+       :class-header: sd-bg-light
+
+       Coming soon
+       ^^^
 
        Learn how to use PyDPF-Core with distributed files.
 
@@ -133,6 +158,11 @@ of our package background so you can understand how to work with it.
        :link: ref_tutorials_dpf_server
        :link-type: ref
        :text-align: center
+       :class-card: sd-bg-light
+       :class-header: sd-bg-light
+
+       Coming soon
+       ^^^
 
        Understand how to manipulate DPF client-server architecture
 
@@ -140,5 +170,10 @@ of our package background so you can understand how to work with it.
        :link: ref_tutorials_licensing
        :link-type: ref
        :text-align: center
+       :class-card: sd-bg-light
+       :class-header: sd-bg-light
+
+       Coming soon
+       ^^^
 
        Understand how to access the Entry and Premium licensing capabilities
