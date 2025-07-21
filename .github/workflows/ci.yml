@@ -7,7 +7,7 @@ on:
       - '*no-ci*'
   push:
     branches:
-      - master
+      - main
   workflow_dispatch:
     inputs:
       ansys_version:
@@ -145,7 +145,7 @@ jobs:
     secrets: inherit
 
   docs:
-    if: github.event.action != 'closed' && (startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft)
+    if: github.event.action != 'closed' && (startsWith(github.head_ref, 'main') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft)
     uses: ./.github/workflows/docs.yml
     needs: pick_server_suffix
     with:
@@ -173,7 +173,7 @@ jobs:
 
   upload-development-docs:
     runs-on: ubuntu-latest
-    if: ${{ github.event.action != 'closed' && (github.ref == 'refs/heads/master' && github.event_name == 'push') }}
+    if: ${{ github.event.action != 'closed' && (github.ref == 'refs/heads/main' && github.event_name == 'push') }}
     needs: [docs]
     steps:
       - name: "Upload development documentation"
@@ -187,7 +187,7 @@ jobs:
           bot-email: ${{ secrets.PYANSYS_CI_BOT_EMAIL }}
 
   examples:
-    if: github.event.action != 'closed' && (startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft)
+    if: github.event.action != 'closed' && (startsWith(github.head_ref, 'main') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft)
     uses: ./.github/workflows/examples.yml
     needs: pick_server_suffix
     with:
@@ -198,19 +198,19 @@ jobs:
 
   pydpf-post:
     name: "PyDPF-Post"
-    if: github.event.action != 'closed' && (startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft)
+    if: github.event.action != 'closed' && (startsWith(github.head_ref, 'main') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft)
     uses: ./.github/workflows/pydpf-post.yml
     needs: pick_server_suffix
     with:
       ANSYS_VERSION: ${{ inputs.ansys_version || vars.ANSYS_VERSION_DEFAULT }}
-      post_branch: "master"
+      post_branch: "main"
       standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
       test_docstrings: "true"
     secrets: inherit
 
   tests-retro:
     name: "Test DPF ${{ matrix.dpf.version }} compatibility"
-    if: github.event.action != 'closed' && (startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft)
+    if: github.event.action != 'closed' && (startsWith(github.head_ref, 'main') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft)
     strategy:
       fail-fast: false
       matrix:
