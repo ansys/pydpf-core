@@ -66,7 +66,7 @@ Troubleshooting
     tutorials/export_data/index.rst
     tutorials/plot/index.rst
     tutorials/animate/index.rst
-    tutorials/enriching_dpf_capabilities/index.rst
+    tutorials/custom_operators_and_plugins/index.rst
     tutorials/distributed_files/index.rst
     tutorials/dpf_server/index.rst
     tutorials/licensing/index.rst
