@@ -17,7 +17,7 @@ jobs:
     steps:
 
     # Label based on modified files
-    - name: Label based on changed files
+    - name: "Label based on changed files"
       uses: actions/labeler@v4
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
