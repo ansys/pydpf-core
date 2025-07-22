@@ -1,3 +1,5 @@
+.. _contributing_documentation:
+
 Contributing as a documentarian
 ###############################
 
@@ -209,3 +211,10 @@ are modified.
     .. code-block:: text
 
         python -m tox -e doc-html -x testenv:doc-html.setenv+="BUILD_API=false" -x testenv:doc-html.setenv+="BUILD_EXAMPLES=false"
+
+.. toctree::
+    :hidden:
+    :maxdepth: 3
+
+    guidelines_tutorials
+    guidelines_examples

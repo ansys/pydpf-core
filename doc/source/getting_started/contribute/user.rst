@@ -1,3 +1,5 @@
+.. _contributing_as_a_user:
+
 Contributing as a user
 ######################
 

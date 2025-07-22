@@ -23,27 +23,26 @@ The following contribution information is specific to PyDPF-Core. Start by selec
     :padding: 2 2 2 2
 
     .. grid-item-card:: :fa:`user` User
-        :link: contribute/user
-        :link-type: doc
+        :link: contributing_as_a_user
+        :link-type: ref
 
         Report bugs, suggesting features, and ask questions.
 
     .. grid-item-card:: :fa:`book` Documentarian
-        :link: contribute/documentarian
-        :link-type: doc
+        :link: contributing_documentation
+        :link-type: ref
 
         Improve the documentation and write new guides.
 
     .. grid-item-card:: :fa:`laptop-code` Developer
-        :link: contribute/developer
-        :link-type: doc
+        :link: contributing_as_a_developer
+        :link-type: ref
 
         Fix bugs, add new features, and improve the codebase.
 
 .. toctree::
     :hidden:
     :maxdepth: 3
-    :caption: Contribute
 
     User<contribute/user>
     Documentarian<contribute/documentarian>
