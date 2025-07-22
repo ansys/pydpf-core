@@ -79,7 +79,4 @@ For comprehensive examples on writing operator plugins, see :ref:`python_operato
     :hidden:
 
     custom_operators.rst
-    custom_plug_in_package.rst
-    custom_plug_in_package_third_deps.rst
-    update_pydpf_core.rst
 

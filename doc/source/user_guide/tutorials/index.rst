@@ -130,7 +130,7 @@ of our package background so you can understand how to work with it.
        data storage structure. (Unit, homogeneity ...)
 
     .. grid-item-card:: Custom Python operator and plugin
-       :link: ref_tutorials_enriching
+       :link: ref_tutorials_custom_operators_and_plugins
        :link-type: ref
        :text-align: center
 
