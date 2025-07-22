@@ -51,6 +51,7 @@
 * [Rajesh Meena](https://github.com/MeenaBytes)
 * [Ramdane Lagha](https://github.com/rlagha)
 * [Revathy Venugopal](https://github.com/Revathyvenugopal162)
+* [Ricardo Peixoto Coelho](https://github.com/ricardopeixotocoelho)
 * [Roberto Pastor Muela](https://github.com/RobPasMue)
 * [Sean Ahern](https://github.com/ahernsean)
 * [Theo Meunier](https://github.com/TheoMeunierAnsys)
