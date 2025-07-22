@@ -91,7 +91,10 @@ class PropertyField(_FieldBase):
             field=property_field,
             server=server,
         )
-        self._field_definition_instance = self._load_field_definition()
+        if meets_version(server.version, "11.0"):
+            self._field_definition_instance = self._load_field_definition()
+        else:
+            self._field_definition_instance = None
 
     @property
     def _api(self) -> property_field_abstract_api.PropertyFieldAbstractAPI:
@@ -130,7 +133,9 @@ class PropertyField(_FieldBase):
                     client, nentities, nentities * dim.component_count, location
                 )
             else:
-                return api.csproperty_field_new_location(nentities, nentities * dim.component_count, location)
+                return api.csproperty_field_new_location(
+                    nentities, nentities * dim.component_count, location
+                )
         else:
             if client is not None:
                 return api.csproperty_field_new_on_client(
