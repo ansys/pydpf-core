@@ -4,7 +4,7 @@
 Writing examples
 =================
 
-The documentation generator used in PyDPF-Core is `Sphinx`_. Most of the documents
+The documentation generator used for PyDPF-Core is `Sphinx`_. Most of the documents
 are written in `reStructuredText`_. Some parts of the documentation, like the
 :ref:`examples <Examples>`, use a mix of `reStructuredText`_ and Python, thanks to `Sphinx-Gallery`_.
 
@@ -18,7 +18,7 @@ Documentarians writing new examples are encouraged to familiarize themselves wit
 `structuring Python scripts for Sphinx-Gallery <https://sphinx-gallery.github.io/stable/syntax.html>`_.
 Once the ``.py`` file for a new example is properly set up, Sphinx-Gallery automatically
 generates `Sphinx`_ `reStructuredText`_ files from it. The rendering of the resulting reST will provide
-users with ``.ipynb`` (Jupyter notebook) and ``.py`` files of each example, which users can download.
+users with ``.ipynb`` (Jupyter notebook) and ``.py`` files for each example, which users can download.
 
 Finally, here are some tips for writing examples:
 
@@ -32,6 +32,6 @@ Finally, here are some tips for writing examples:
   screenshots of rendered graphics are inserted in the document. You do not need
   to include the screenshots yourself.
 
-- When creating a new folder where more than one related example will be included, ensure
+- When creating a new example folder, ensure
   a ``README.txt`` file is also included. This file should contain reST to be used as the header
   for the index page corresponding to the subsection for these examples in the generated documentation.
