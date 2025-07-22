@@ -78,8 +78,6 @@ of our package background so you can understand how to work with it.
        Learn how to explore a mesh in DPF.
 
     .. grid-item-card:: Manipulate data with operators and workflows
-       :link: ref_tutorials_operators_and_workflows
-       :link-type: ref
        :text-align: center
        :class-card: sd-bg-light
        :class-header: sd-bg-light
@@ -90,8 +88,6 @@ of our package background so you can understand how to work with it.
        Learn how to use operators to process your data and build workflows.
 
     .. grid-item-card:: Export data from DPF
-       :link: ref_tutorials_export_data
-       :link-type: ref
        :text-align: center
        :class-card: sd-bg-light
        :class-header: sd-bg-light
@@ -123,8 +119,6 @@ of our package background so you can understand how to work with it.
        Learn how to do mathematical operations using PyDPF-Core and data structures
 
     .. grid-item-card:: Manipulating physics data
-       :link: ref_tutorials_manipulate_physics_data
-       :link-type: ref
        :text-align: center
        :class-card: sd-bg-light
        :class-header: sd-bg-light
@@ -143,8 +137,6 @@ of our package background so you can understand how to work with it.
        Discover how to enhance DPF capabilities by creating your own operators and plugins.
 
     .. grid-item-card:: Post-process distributed files
-       :link: ref_tutorials_distributed_files
-       :link-type: ref
        :text-align: center
        :class-card: sd-bg-light
        :class-header: sd-bg-light
@@ -155,8 +147,6 @@ of our package background so you can understand how to work with it.
        Learn how to use PyDPF-Core with distributed files.
 
     .. grid-item-card:: DPF server
-       :link: ref_tutorials_dpf_server
-       :link-type: ref
        :text-align: center
        :class-card: sd-bg-light
        :class-header: sd-bg-light
@@ -167,8 +157,6 @@ of our package background so you can understand how to work with it.
        Understand how to manipulate DPF client-server architecture
 
     .. grid-item-card:: Licensing
-       :link: ref_tutorials_licensing
-       :link-type: ref
        :text-align: center
        :class-card: sd-bg-light
        :class-header: sd-bg-light
