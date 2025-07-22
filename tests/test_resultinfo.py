@@ -51,10 +51,33 @@ def test_get_resultinfo_no_model(velocity_acceleration, server_type):
     op.connect(4, dataSource)
     res = op.get_output(0, dpf.core.types.result_info)
     assert res.analysis_type == "static"
+
     if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_1:
         assert res.n_results == 14
     else:
-        assert res.n_results == 15
+        available_results_names = []
+        for result in res.available_results:
+            available_results_names.append(result.name)
+        expected_results = [
+            "displacement",
+            "velocity",
+            "acceleration",
+            "reaction_force",
+            "stress",
+            "elemental_volume",
+            "stiffness_matrix_energy",
+            "artificial_hourglass_energy",
+            "thermal_dissipation_energy",
+            "kinetic_energy",
+            "co_energy",
+            "incremental_energy",
+            "elastic_strain",
+            "element_orientations",
+            "structural_temperature",
+        ]
+        for result in expected_results:
+            assert result in available_results_names
+
     assert "m, kg, N, s, V, A" in res.unit_system
     assert res.physics_type == mechanical
 
@@ -65,7 +88,29 @@ def test_get_resultinfo(model):
     if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_1:
         assert res.n_results == 14
     else:
-        assert res.n_results == 15
+        available_results_names = []
+        for result in res.available_results:
+            available_results_names.append(result.name)
+        expected_results = [
+            "displacement",
+            "velocity",
+            "acceleration",
+            "reaction_force",
+            "stress",
+            "elemental_volume",
+            "stiffness_matrix_energy",
+            "artificial_hourglass_energy",
+            "thermal_dissipation_energy",
+            "kinetic_energy",
+            "co_energy",
+            "incremental_energy",
+            "elastic_strain",
+            "element_orientations",
+            "structural_temperature",
+        ]
+        for result in expected_results:
+            assert result in available_results_names
+
     assert "m, kg, N, s, V, A" in res.unit_system
     assert res.physics_type == mechanical
     assert "Static analysis" in str(res)

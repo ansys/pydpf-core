@@ -33,6 +33,8 @@ You also need to understand the structure of the ``doc`` directory on the PyDPF-
 
 Tutorials are located in the ``doc/source/user_guide`` directory.
 
+----
+
 .. _ref_guidelines_add_new_tutorial_section:
 
 =============================
@@ -92,6 +94,8 @@ For example:
         tutorials/section_z/index.rst
         tutorials/new_section/index.rst
 
+----
+
 .. _ref_guidelines_add_new_tutorial:
 
 =====================
@@ -142,7 +146,7 @@ Structure
 
 The tutorial is divided in two main parts:
 
-- :ref:`Preamble<ref_guidelines_tutorial_header>`
+- :ref:`Header<ref_guidelines_tutorial_header>`
 - :ref:`Content<ref_guidelines_tutorial_content>`
 
 .. _ref_guidelines_tutorial_header:
@@ -198,7 +202,7 @@ A well-organized tutorial breaks down complex tasks into manageable steps, prese
 to avoid overwhelming the user. It combines concise explanations with actionable instructions, ensuring users
 can follow along easily while building their understanding.
 
-Thus, the sections of the content are the steps themselves. These steps are generally similar to:
+Thus, the sections of the content are the steps themselves. These steps are generally similar to
 
 #. A first step where you get some data and create DPF objects based on the data;
 #. One or more steps where you manipulate the data or the DPF objects;
@@ -213,7 +217,7 @@ The steps to achieve this task are:
 #. Extract the mesh;
 #. Plot the mesh.
 
-To create those section, underline it with the appropriate characters (here: ``-``).
+To create those section, underline it with the appropriate headline characters (here: ``-``).
 
 .. code-block::
 

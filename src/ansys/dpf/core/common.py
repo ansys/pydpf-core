@@ -28,10 +28,83 @@ import sys
 from typing import Dict
 
 from ansys.dpf.core.misc import module_exists
-from ansys.dpf.gate.common import ProgressBarBase, locations  # noqa: F401
+from ansys.dpf.gate.common import (
+    ProgressBarBase,  # noqa: F401
+)
 from ansys.dpf.gate.dpf_vector import (  # noqa: F401
     get_size_of_list as _get_size_of_list,
 )
+
+
+class locations:
+    """Contains strings for scoping and field locations.
+
+    Attributes
+    ----------
+    none = "none"
+
+    elemental = "Elemental"
+        data is one per element
+
+    elemental_nodal = "ElementalNodal"
+        one per node per element
+
+    nodal = "Nodal"
+        one per node
+
+    time_freq = "TimeFreq_sets"
+        one per time set
+
+    overall = "overall"
+        applies everywhere
+
+    time_freq_step = "TimeFreq_steps"
+        one per time step
+
+    faces = "Faces"
+        one per face
+
+    zone = "zone"
+        one per zone
+
+    elemental_and_faces = "ElementalAndFaces"
+        data available in elements and faces of the model
+
+    modal = "Modal"
+        relative to modes
+    """
+
+    none = "none"
+
+    # data is one per element
+    elemental = "Elemental"
+
+    # one per node per element
+    elemental_nodal = "ElementalNodal"
+
+    # one per node
+    nodal = "Nodal"
+
+    # one per time set
+    time_freq = "TimeFreq_sets"
+
+    # applies everywhere
+    overall = "overall"
+
+    # one per time step
+    time_freq_step = "TimeFreq_steps"
+
+    # one per face
+    faces = "Faces"
+
+    # one per zone
+    zone = "zone"
+
+    # data available in elements and faces of the model
+    elemental_and_faces = "ElementalAndFaces"
+
+    # data available at modes
+    modal = "Modal"
 
 
 def _camel_to_snake_case(name):

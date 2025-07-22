@@ -6,10 +6,11 @@
 
 ## Individual Contributors
 
-* [Alex Kaszynski](https://github.com/ansys-akaszyns)
 * [Alex Kaszynski](https://github.com/akaszynski)
+* [Alex Kaszynski](https://github.com/ansys-akaszyns)
 * [Alexandre Bouthéon](https://github.com/a-bouth)
 * [anslpa](https://github.com/anslpa)
+* [AnsMelanie](https://github.com/AnsMelanie)
 * [Antoine Karcher](https://github.com/ansys-akarcher)
 * [Arthur Woimbée](https://github.com/awoimbee)
 * [Ayush Kumar](https://github.com/ayush-kumar-423)
@@ -38,6 +39,7 @@
 * [Kathy Pippert](https://github.com/PipKat)
 * [kmahajan-cadfem](https://github.com/kmahajan-cadfem)
 * [Luisa Felix Salles](https://github.com/luisaFelixSalles)
+* [Marshall Hanmer](https://github.com/ansMHanmer)
 * [Mattéo Baussart](https://github.com/Matteo-Baussart-ANSYS)
 * [Maxime Rey](https://github.com/MaxJPRey)
 * [MichaelNale](https://github.com/MichaelNale)
@@ -49,6 +51,7 @@
 * [Rajesh Meena](https://github.com/MeenaBytes)
 * [Ramdane Lagha](https://github.com/rlagha)
 * [Revathy Venugopal](https://github.com/Revathyvenugopal162)
+* [Ricardo Peixoto Coelho](https://github.com/ricardopeixotocoelho)
 * [Roberto Pastor Muela](https://github.com/RobPasMue)
 * [Sean Ahern](https://github.com/ahernsean)
 * [Theo Meunier](https://github.com/TheoMeunierAnsys)
