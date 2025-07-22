@@ -196,7 +196,7 @@ Answer questions
 Another great way to contribute is to help others by answering their questions.
 Maintain a positive and constructive attitude while answering questions.
 
-If you don't know the answer, you can still help by pointing the person in the right
+If you do not know the answer, you can still help by pointing the person in the right
 direction.
 
 To discover how you can help see the `PyDPF-Core discussions`_.

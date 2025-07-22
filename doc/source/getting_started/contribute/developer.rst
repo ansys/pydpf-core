@@ -154,7 +154,7 @@ during execution to ensure tests run as expected without errors, therefore, PyDP
 supports different markers to account for this. These markers are associated with a
 dedicated `Tox`_ environment.
 
-To also allow flexibity required during development, different DPF Server installation
+To also allow flexibility required during development, a specific DPF Server installation
 can also be used as explained in the subsections that follow.
 
 Unified DPF Server installation or specific DPF Server installation using ANSYS_DPF_PATH environment variable

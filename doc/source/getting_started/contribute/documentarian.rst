@@ -29,7 +29,7 @@ In this page you can check how to :
         :link: write-product-use-documentation
         :link-type: ref
 
-        Explains and showcase the use of PyDPF-Core.
+        Explains and showcases the use of PyDPF-Core.
 
     .. grid-item-card:: :fa:`book` Build the documentation
         :link: build-documentation
@@ -110,8 +110,8 @@ To check these specific guidelines click on the correspondent card below.
 
        **Function:**  Teach how to get started and use PYDPF-core step by step
 
-       They are designed to teach how to perform a task and understand the underlying concepts,
-       providing detailed explanations at each stage. The task is built around the application of specific features.
+       Teach how to perform a task and showcase the underlying concepts,
+       providing detailed explanations at each stage. A tutorial is centered around a given feature.
 
     .. grid-item-card:: **EXAMPLES**
        :link: ref_guidelines_examples
@@ -124,7 +124,7 @@ To check these specific guidelines click on the correspondent card below.
 
        **Function:**  Show how to solve specifics key problems
 
-       They showcase specific key problems and use-cases. They are more advanced than
+       Showcase a specific key problem or use-case with a complete PyDPF script. They are more advanced than
        tutorials as they present end-to-end engineering workflows and assume basic knowledge of PyDPF-Core.
 
     .. grid-item-card:: **CONCEPTS**
@@ -136,7 +136,7 @@ To check these specific guidelines click on the correspondent card below.
 
        **Function:**  Provide useful theoretical explanations for PyDPF-Core
 
-       They discuss and explain key DPF principles and concepts, enabling the reader to understand the spirit of the underlying tool.
+       Discuss and explain key DPF principles and concepts, for the reader to understand the spirit of the underlying tool.
 
 
     .. grid-item-card:: **API REFERENCE**
@@ -148,7 +148,7 @@ To check these specific guidelines click on the correspondent card below.
 
        **Function:** Describe PyDPF-Core APIs
 
-       They contain technical reference on how PyDPF-Core works and how to use it but assume basic
+       Provides technical reference on how PyDPF-Core works and how to use it but assume basic
        understanding of key DPF concepts. It is generated automatically along the documentation and
        is based on the source code.
 
