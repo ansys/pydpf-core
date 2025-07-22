@@ -28,22 +28,22 @@ The following contribution information is specific to PyDPF-Core. Start by selec
 
         Report bugs, suggesting features, and ask questions.
 
-    .. grid-item-card:: :fa:`book` Documentarian
-        :link: contributing_documentation
-        :link-type: ref
-
-        Improve the documentation and write new guides.
-
     .. grid-item-card:: :fa:`laptop-code` Developer
         :link: contributing_as_a_developer
         :link-type: ref
 
         Fix bugs, add new features, and improve the codebase.
 
+    .. grid-item-card:: :fa:`book` Documentation
+        :link: contributing_documentation
+        :link-type: ref
+
+        Improve the documentation and write new guides.
+
 .. toctree::
     :hidden:
     :maxdepth: 3
 
     User<contribute/user>
-    Documentarian<contribute/documentarian>
     Developer<contribute/developer>
+    Documentation<contribute/documentarian>

@@ -1,7 +1,7 @@
 .. _contributing_documentation:
 
-Contributing as a documentarian
-###############################
+Contributing to the documentation
+#################################
 
 .. note::
 
