@@ -23,7 +23,8 @@ With support for custom operators, PyDPF-Core becomes a development tool offerin
 The only prerequisite for creating custom operators is to be familiar with native operators.
 For more information, see :ref:`ref_user_guide_operators`.
 
-.. note:
+.. note::
+
     You can create custom operators in CPython using PyDPF-Core for use with DPF in Ansys 2023 R1 and later.
 
 The following tutorials demonstrate how to develop such plugins using PyDPF-Core (CPython based) and how to use them.

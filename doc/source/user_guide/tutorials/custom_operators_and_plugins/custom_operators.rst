@@ -4,12 +4,14 @@
 Custom operators
 ================
 
-.. note:
-    This tutorial requires DPF 11.0 or above.
+.. note::
+
+    This tutorial requires DPF 18.0 or above.
 
 This tutorial shows the basics of creating a custom operator in Python and loading it ont a server for use.
 
-.. note:
+.. note::
+
     You can create custom operators in CPython using PyDPF-Core for use with DPF in Ansys 2023 R1 and later.
 
 It first presents how to :ref:`create a custom DPF operator<tutorials_custom_operators_and_plugins_custom_operator_create_custom_operator>`
@@ -22,7 +24,8 @@ The next step is to :ref:`load the plugin on the server<tutorials_custom_operato
 
 The final step is to instantiate the custom operator from the client API and :ref:`use it<tutorials_custom_operators_and_plugins_custom_operator_use_the_custom_operator>`.
 
-.. note:
+.. note::
+
     In this tutorial the DPF client API used is PyDPF-Core but, once recorded on the server,
     you can call the operators of the plugin using any of the DPF client APIs
     (C++, CPython, IronPython), as you would any other operator.
