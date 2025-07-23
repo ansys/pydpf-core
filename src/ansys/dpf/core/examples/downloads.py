@@ -38,7 +38,7 @@ EXAMPLE_REPO = "https://github.com/ansys/example-data/raw/master/"
 
 GITHUB_SOURCE_URL = (
     "https://github.com/ansys/pydpf-core/raw/"
-    "master/doc/source/examples/07-python-operators/plugins/"
+    "main/doc/source/examples/07-python-operators/plugins/"
 )
 
 
