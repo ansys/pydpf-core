@@ -164,6 +164,14 @@ class PropertyFieldAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def csproperty_field_get_support(field):
+		raise NotImplementedError
+
+	@staticmethod
+	def csproperty_field_set_support(field, support):
+		raise NotImplementedError
+
+	@staticmethod
 	def csproperty_field_get_name(field):
 		raise NotImplementedError
 

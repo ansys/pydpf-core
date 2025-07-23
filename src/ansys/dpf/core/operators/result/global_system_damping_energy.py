@@ -27,7 +27,7 @@ class global_system_damping_energy(Operator):
     data_sources: DataSources
         result file path container, used if no streams are set
     unit_system: int or str or UnitSystem, optional
-        Unit System ID (int), semicolon-separated list of base unit strings (str) or UnitSystem instance
+        (LSDyna) Unit System ID (int), semicolon-separated list of base unit strings (str) or UnitSystem instance
 
     Returns
     -------
@@ -105,7 +105,7 @@ defined by the datasources.
                         "class dataProcessing::unit::CUnitSystem",
                     ],
                     optional=True,
-                    document=r"""Unit System ID (int), semicolon-separated list of base unit strings (str) or UnitSystem instance""",
+                    document=r"""(LSDyna) Unit System ID (int), semicolon-separated list of base unit strings (str) or UnitSystem instance""",
                 ),
             },
             map_output_pin_spec={
@@ -240,7 +240,7 @@ class InputsGlobalSystemDampingEnergy(_Inputs):
     def unit_system(self) -> Input:
         r"""Allows to connect unit_system input to the operator.
 
-        Unit System ID (int), semicolon-separated list of base unit strings (str) or UnitSystem instance
+        (LSDyna) Unit System ID (int), semicolon-separated list of base unit strings (str) or UnitSystem instance
 
         Returns
         -------
