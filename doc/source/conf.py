@@ -19,6 +19,7 @@ from ansys.dpf.core.examples import get_example_required_minimum_dpf_version
 
 # Make sphinx_utilities modules importable
 sys.path.append(os.path.join(os.path.dirname(__file__), "../sphinx_utilities"))
+from version_filtering import get_tutorial_version_requirements
 
 # Manage errors
 pyvista.set_error_output_file("errors.txt")
@@ -63,23 +64,6 @@ print("".rjust(40, '*'))
 print(f"Doc built for DPF server version {server_version} at:\n{server_instance.ansys_path}")
 print("".rjust(40, '*'))
 
-def get_tutorial_version_requirements(tutorial_path: str) -> str:
-    note_flag = r".. note::"
-    version_flag = "This tutorial requires DPF"
-    previous_line_is_note = False
-    minimum_version = "0.0"
-    tutorial_path = Path(tutorial_path)
-    with tutorial_path.open(mode="rt", encoding="utf-8") as tuto:
-        for line in tuto:
-            if (version_flag in line) and previous_line_is_note:
-                minimum_version = line.strip(version_flag).split()[0]
-                break
-            if note_flag in line:
-                previous_line_is_note = True
-            else:
-                previous_line_is_note = False
-    return minimum_version
-
 # Build ignore pattern
 ignored_pattern = r"(ignore"
 for example in sorted(glob(r"../../examples/**/*.py")):
@@ -100,6 +84,8 @@ for tutorial_file in glob(r"user_guide/tutorials/**/*.rst"):
     if float(server_version) - float(minimum_version_str) < -0.05:
         print(f"Tutorial {Path(tutorial_file).name} skipped as it requires DPF {minimum_version_str}.")
         exclude_patterns.append(tutorial_file)
+
+print(f"{exclude_patterns=}")
 
 # Autoapi ignore pattern
 autoapi_ignore_list = [
