@@ -77,15 +77,13 @@ ignored_pattern += "|06-distributed_stress_averaging.py"
 ignored_pattern += r")"
 
 exclude_patterns = []
-for tutorial_file in glob(r"user_guide/tutorials/**/*.rst"):
+for tutorial_file in glob(str(Path("user_guide")/"tutorials"/"**"/"*.rst")):
     if Path(tutorial_file).name == "index.rst":
         continue
     minimum_version_str = get_tutorial_version_requirements(tutorial_file)
     if float(server_version) - float(minimum_version_str) < -0.05:
         print(f"Tutorial {Path(tutorial_file).name} skipped as it requires DPF {minimum_version_str}.")
-        exclude_patterns.append(Path(tutorial_file).name)
-
-print(f"{exclude_patterns=}")
+        exclude_patterns.append(tutorial_file)
 
 # Autoapi ignore pattern
 autoapi_ignore_list = [
