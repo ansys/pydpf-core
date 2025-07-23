@@ -127,7 +127,6 @@ extensions = [
     "sphinx_design",
     "sphinx_jinja",
     'sphinx_reredirects',
-    "ansys_sphinx_theme.extension.autoapi",
     "jupyter_sphinx",
 ]
 
@@ -420,3 +419,5 @@ if BUILD_API:
 BUILD_EXAMPLES = True if os.environ.get("BUILD_EXAMPLES", "true") == "true" else False
 if BUILD_EXAMPLES:
     extensions.extend(["sphinx_gallery.gen_gallery"])
+
+print(f"{extensions=}")
