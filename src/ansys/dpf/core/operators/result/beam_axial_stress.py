@@ -16,7 +16,7 @@ from ansys.dpf.core.server_types import AnyServerType
 
 
 class beam_axial_stress(Operator):
-    r"""Read Beam Axial Stress (LSDyna) by calling the readers defined by the
+    r"""Read Beam X Axial Stress by calling the readers defined by the
     datasources.
 
 
@@ -33,7 +33,7 @@ class beam_axial_stress(Operator):
     integration_point: int, optional
         integration point where the result will be read from. Default value: 0 (first integration point).
     unit_system: int or str or UnitSystem, optional
-        Unit System ID (int), semicolon-separated list of base unit strings (str) or UnitSystem instance
+        (LSDyna) Unit System ID (int), semicolon-separated list of base unit strings (str) or UnitSystem instance
 
     Returns
     -------
@@ -103,7 +103,7 @@ class beam_axial_stress(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Read Beam Axial Stress (LSDyna) by calling the readers defined by the
+        description = r"""Read Beam X Axial Stress by calling the readers defined by the
 datasources.
 """
         spec = Specification(
@@ -154,7 +154,7 @@ datasources.
                         "class dataProcessing::unit::CUnitSystem",
                     ],
                     optional=True,
-                    document=r"""Unit System ID (int), semicolon-separated list of base unit strings (str) or UnitSystem instance""",
+                    document=r"""(LSDyna) Unit System ID (int), semicolon-separated list of base unit strings (str) or UnitSystem instance""",
                 ),
             },
             map_output_pin_spec={
@@ -362,7 +362,7 @@ class InputsBeamAxialStress(_Inputs):
     def unit_system(self) -> Input:
         r"""Allows to connect unit_system input to the operator.
 
-        Unit System ID (int), semicolon-separated list of base unit strings (str) or UnitSystem instance
+        (LSDyna) Unit System ID (int), semicolon-separated list of base unit strings (str) or UnitSystem instance
 
         Returns
         -------

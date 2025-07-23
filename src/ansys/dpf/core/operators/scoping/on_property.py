@@ -27,6 +27,7 @@ class on_property(Operator):
     property_name: str
         ex "mapdl_element_type", "mapdl_element_type_id", "apdl_type_index", "mapdl_type_id", "material", "apdl_section_id", "apdl_real_id", "apdl_esys_id", "shell_axi", "volume_axi"...
     property_id: int
+        property_id or vector of property ids
     streams_container: StreamsContainer, optional
     data_sources: DataSources
     inclusive: int, optional
@@ -121,9 +122,9 @@ and a property number.
                 ),
                 2: PinSpecification(
                     name="property_id",
-                    type_names=["int32"],
+                    type_names=["vector<string>", "int32"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""property_id or vector of property ids""",
                 ),
                 3: PinSpecification(
                     name="streams_container",
@@ -281,6 +282,8 @@ class InputsOnProperty(_Inputs):
     @property
     def property_id(self) -> Input:
         r"""Allows to connect property_id input to the operator.
+
+        property_id or vector of property ids
 
         Returns
         -------
