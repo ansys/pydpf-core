@@ -83,7 +83,7 @@ for tutorial_file in glob(r"user_guide/tutorials/**/*.rst"):
     minimum_version_str = get_tutorial_version_requirements(tutorial_file)
     if float(server_version) - float(minimum_version_str) < -0.05:
         print(f"Tutorial {Path(tutorial_file).name} skipped as it requires DPF {minimum_version_str}.")
-        exclude_patterns.append(tutorial_file)
+        exclude_patterns.append(Path(tutorial_file).name)
 
 print(f"{exclude_patterns=}")
 
