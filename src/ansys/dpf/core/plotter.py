@@ -76,8 +76,6 @@ class _PyVistaPlotter:
         kwargs_in = _sort_supported_kwargs(bound_method=pv.Plotter.__init__, **kwargs)
         # Initiate pyvista Plotter
         self._plotter = pv.Plotter(**kwargs_in)
-        if kwargs.pop("parallel_projection", False):
-            self._plotter.parallel_projection = True
 
     def add_scale_factor_legend(self, scale_factor, **kwargs):
         kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.add_text, **kwargs)
@@ -459,10 +457,17 @@ class _PyVistaPlotter:
         if show_axes:
             self._plotter.add_axes()
 
+        if kwargs.pop("parallel_projection", False):
+            self._plotter.parallel_projection = True
+
         # Set cpos
         cpos = kwargs.pop("cpos", None)
         if cpos is not None:
             self._plotter.camera_position = cpos
+
+        zoom = kwargs.pop("zoom", None)
+        if zoom is not None:
+            self._plotter.camera.zoom(zoom)
 
         # Show depending on return_cpos option
         kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.show, **kwargs)
@@ -1191,9 +1196,16 @@ class Plotter:
         if background is not None:
             self._internal_plotter._plotter.set_background(background)
 
+        if kwargs.pop("parallel_projection", False):
+            self._internal_plotter._plotter.parallel_projection = True
+
         cpos = kwargs.pop("cpos", None)
         if cpos is not None:
             self._internal_plotter._plotter.camera_position = cpos
+
+        zoom = kwargs.pop("zoom", None)
+        if zoom is not None:
+            self._internal_plotter._plotter.camera.zoom(zoom)
 
         # show result
         kwargs_in = _sort_supported_kwargs(
