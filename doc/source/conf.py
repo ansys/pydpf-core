@@ -65,8 +65,8 @@ def get_tutorial_version_requirements(tutorial_path: str) -> str:
     previous_line_is_note = False
     minimum_version = "0.0"
     tutorial_path = Path(tutorial_path)
-    with tutorial_path.open("r") as f:
-        for line in f:
+    with tutorial_path.open(mode="rt", encoding="utf-8") as tuto:
+        for line in tuto:
             if (version_flag in line) and previous_line_is_note:
                 minimum_version = line.strip(version_flag).split()[0]
                 break
