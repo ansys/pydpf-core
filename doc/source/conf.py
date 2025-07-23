@@ -55,12 +55,29 @@ server_instance = server.start_local_server(
 )
 server_version = server_instance.version
 server.shutdown_all_session_servers()
-print(f"DPF version: {server_version}")
+print("".rjust(40, '*'))
+print(f"Doc built for DPF server version {server_version} at:\n{server_instance.ansys_path}")
+print("".rjust(40, '*'))
+
+def get_tutorial_version_requirements(tutorial_path: str) -> str:
+    note_flag = r".. note::"
+    version_flag = "This tutorial requires DPF"
+    previous_line_is_note = False
+    minimum_version = "0.0"
+    tutorial_path = Path(tutorial_path)
+    with tutorial_path.open("r") as f:
+        for line in f:
+            if (version_flag in line) and previous_line_is_note:
+                minimum_version = line.strip(version_flag).split()[0]
+                break
+            if note_flag in line:
+                previous_line_is_note = True
+            else:
+                previous_line_is_note = False
+    return minimum_version
 
 # Build ignore pattern
 ignored_pattern = r"(ignore"
-header_flag = "\"\"\""
-note_flag = r".. note::"
 for example in glob(r"../../examples/**/*.py"):
     minimum_version_str = get_example_required_minimum_dpf_version(example)
     if float(server_version) - float(minimum_version_str) < -0.05:
@@ -70,6 +87,15 @@ for example in glob(r"../../examples/**/*.py"):
 ignored_pattern += "|11-server_types.py"
 ignored_pattern += "|06-distributed_stress_averaging.py"
 ignored_pattern += r")"
+
+exclude_patterns = []
+for tutorial_file in glob(r"user_guide/tutorials/**/*.rst"):
+    if Path(tutorial_file).name == "index.rst":
+        continue
+    minimum_version_str = get_tutorial_version_requirements(tutorial_file)
+    if float(server_version) - float(minimum_version_str) < -0.05:
+        print(f"Tutorial {Path(tutorial_file).name} skipped as it requires DPF {minimum_version_str}.")
+        exclude_patterns.append(tutorial_file)
 
 # Autoapi ignore pattern
 autoapi_ignore_list = [
@@ -159,7 +185,7 @@ language = "en"
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = ["links_and_refs.rst"]
+exclude_patterns.extend(["links_and_refs.rst"])
 
 # make rst_epilog a variable, so you can add other epilog parts to it
 rst_epilog = ""
