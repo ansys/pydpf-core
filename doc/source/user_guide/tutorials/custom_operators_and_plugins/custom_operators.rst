@@ -4,6 +4,9 @@
 Custom operators
 ================
 
+.. note:
+    This tutorial requires DPF 11.0 or above.
+
 This tutorial shows the basics of creating a custom operator in Python and loading it ont a server for use.
 
 .. note:

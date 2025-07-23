@@ -40,6 +40,9 @@ For comprehensive examples on writing operator plugins, see :ref:`python_operato
        :link-type: ref
        :text-align: center
 
+       This tutorial requires DPF 11.0 or above.
+       ^^^
+
        This tutorial shows how to create, load, and use a custom plugin containing a single custom operator.
 
     .. grid-item-card:: Create a DPF plugin with multiple operators
