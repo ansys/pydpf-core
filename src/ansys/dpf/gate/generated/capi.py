@@ -3253,6 +3253,10 @@ def load_api(path):
 		dll.CSPropertyField_new.argtypes = (ctypes.c_int32, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.CSPropertyField_new.restype = ctypes.c_void_p
 
+	if hasattr(dll, "CSPropertyField_new_location"):
+		dll.CSPropertyField_new_location.argtypes = (ctypes.c_int32, ctypes.c_int32, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.CSPropertyField_new_location.restype = ctypes.c_void_p
+
 	if hasattr(dll, "CSPropertyField_newWithTransformation"):
 		dll.CSPropertyField_newWithTransformation.argtypes = (ctypes.c_int32, ctypes.c_int32, ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.CSPropertyField_newWithTransformation.restype = ctypes.c_void_p
@@ -3329,6 +3333,10 @@ def load_api(path):
 		dll.CSPropertyField_SetEntityData.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.c_int32, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.CSPropertyField_SetEntityData.restype = None
 
+	if hasattr(dll, "CSPropertyField_SetLocation"):
+		dll.CSPropertyField_SetLocation.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.CSPropertyField_SetLocation.restype = None
+
 	if hasattr(dll, "CSPropertyField_Resize"):
 		dll.CSPropertyField_Resize.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.CSPropertyField_Resize.restype = None
@@ -3400,6 +3408,10 @@ def load_api(path):
 	if hasattr(dll, "CSPropertyField_new_on_client"):
 		dll.CSPropertyField_new_on_client.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.CSPropertyField_new_on_client.restype = ctypes.c_void_p
+
+	if hasattr(dll, "CSPropertyField_new_location_on_client"):
+		dll.CSPropertyField_new_location_on_client.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.c_int32, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.CSPropertyField_new_location_on_client.restype = ctypes.c_void_p
 
 	if hasattr(dll, "CSPropertyField_getCopy"):
 		dll.CSPropertyField_getCopy.argtypes = (ctypes.c_int32, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
