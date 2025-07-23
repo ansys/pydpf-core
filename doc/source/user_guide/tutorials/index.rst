@@ -32,8 +32,6 @@ of our package background so you can understand how to work with it.
        Learn the different data structures used by DPF when handling data
 
     .. grid-item-card:: PyDPF-Core language
-       :link: ref_tutorials_language_and_usage
-       :link-type: ref
        :text-align: center
        :class-card: sd-bg-light
        :class-header: sd-bg-light
