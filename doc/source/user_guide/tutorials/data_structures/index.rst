@@ -20,13 +20,12 @@ These tutorials explains how these structures work and how you can manipulate da
     :padding: 2
     :margin: 2
 
-    .. grid-item-card:: DPF raw data storage structures
+    .. grid-item-card:: Data arrays - Fields
        :link: ref_tutorials
        :link-type: ref
        :text-align: center
 
-       This tutorial shows how to create and work with some DPF data arrays:
-       Field, StringField and PropertyField
+       This tutorial shows how to create and work with data arrays in PyDPF-Core.
 
 
     .. grid-item-card:: DPF collections
@@ -40,3 +39,5 @@ These tutorials explains how these structures work and how you can manipulate da
 .. toctree::
     :maxdepth: 2
     :hidden:
+
+    data_arrays.rst
