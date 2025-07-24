@@ -25,33 +25,34 @@ of our package background so you can understand how to work with it.
     :margin: 2
 
     .. grid-item-card:: PyDPF-Core data structures
-       :link: ref_tutorials_data_structures
-       :link-type: ref
-       :text-align: center
+        :link: ref_tutorials_data_structures
+        :link-type: ref
+        :text-align: center
 
-       Learn the different data structures used by DPF when handling data
+        Learn the different data structures used by DPF when handling data
 
     .. grid-item-card:: PyDPF-Core language
-       :text-align: center
-       :class-card: sd-bg-light
-       :class-header: sd-bg-light
+        :text-align: center
+        :class-card: sd-bg-light
+        :class-header: sd-bg-light sd-text-dark
+        :class-footer: sd-bg-light sd-text-dark
 
-       Coming soon
-       ^^^
+        Check an overview on how to use PyDPF-Core API.
+        Learn the different ways to interact with data by using PyDPF-Core
+        objects and methods.
 
-       Check an overview on how to use PyDPF-Core API.
-       Learn the different ways to interact with data by using PyDPF-Core
-       objects and methods.
+        +++
+        Coming soon
 
     .. grid-item-card::  Post-processing data basics
-       :link: ref_tutorials_processing_basics
-       :link-type: ref
-       :text-align: center
+        :link: ref_tutorials_processing_basics
+        :link-type: ref
+        :text-align: center
 
-       Learn the basics on a post-processing procedure
-       using PyDPf-Core based on its usual main steps. The goal is to
-       transform simulation data into output data that can be used to
-       visualize and analyze simulation results.
+        Learn the basics on a post-processing procedure
+        using PyDPf-Core based on its usual main steps. The goal is to
+        transform simulation data into output data that can be used to
+        visualize and analyze simulation results.
 
 :fa:`book-open-reader` Common topics
 ************************************
@@ -62,104 +63,110 @@ of our package background so you can understand how to work with it.
     :margin: 2
 
     .. grid-item-card:: Import Data on DPF
-       :link: ref_tutorials_import_data
-       :link-type: ref
-       :text-align: center
+        :link: ref_tutorials_import_data
+        :link-type: ref
+        :text-align: center
 
-       Understand how to represent data in DPF: either from manual input either form result files.
+        Understand how to represent data in DPF: either from manual input either form result files.
 
     .. grid-item-card:: Mesh exploration
-       :link: ref_tutorials_mesh
-       :link-type: ref
-       :text-align: center
+        :link: ref_tutorials_mesh
+        :link-type: ref
+        :text-align: center
 
-       Learn how to explore a mesh in DPF.
+        Learn how to explore a mesh in DPF.
 
     .. grid-item-card:: Manipulate data with operators and workflows
-       :text-align: center
-       :class-card: sd-bg-light
-       :class-header: sd-bg-light
+        :text-align: center
+        :class-card: sd-bg-light
+        :class-header: sd-bg-light sd-text-dark
+        :class-footer: sd-bg-light sd-text-dark
 
-       Coming soon
-       ^^^
+        Learn how to use operators to process your data and build workflows.
 
-       Learn how to use operators to process your data and build workflows.
+        +++
+        Coming soon
 
     .. grid-item-card:: Export data from DPF
-       :text-align: center
-       :class-card: sd-bg-light
-       :class-header: sd-bg-light
+        :text-align: center
+        :class-card: sd-bg-light
+        :class-header: sd-bg-light sd-text-dark
+        :class-footer: sd-bg-light sd-text-dark
 
-       Coming soon
-       ^^^
+        Discover the best ways to export data from your manipulations with PyDPF-Core.
 
-       Discover the best ways to export data from your manipulations with PyDPF-Core.
+        +++
+        Coming soon
 
     .. grid-item-card:: Plot
-       :link: ref_tutorials_plot
-       :link-type: ref
-       :text-align: center
+        :link: ref_tutorials_plot
+        :link-type: ref
+        :text-align: center
 
-       Explore the different approaches to visualise the data in plots.
+        Explore the different approaches to visualise the data in plots.
 
     .. grid-item-card:: Animate
-       :link: ref_tutorials_animate
-       :link-type: ref
-       :text-align: center
+        :link: ref_tutorials_animate
+        :link-type: ref
+        :text-align: center
 
-       Explore the different approaches to visualise the data in an animation.
+        Explore the different approaches to visualise the data in an animation.
 
     .. grid-item-card:: Mathematical operations
-       :link: ref_tutorials_mathematics
-       :link-type: ref
-       :text-align: center
+        :link: ref_tutorials_mathematics
+        :link-type: ref
+        :text-align: center
 
-       Learn how to do mathematical operations using PyDPF-Core and data structures
+        Learn how to do mathematical operations using PyDPF-Core and data structures
 
     .. grid-item-card:: Manipulating physics data
-       :text-align: center
-       :class-card: sd-bg-light
-       :class-header: sd-bg-light
+        :text-align: center
+        :class-card: sd-bg-light
+        :class-header: sd-bg-light sd-text-dark
+        :class-footer: sd-bg-light sd-text-dark
 
-       Coming soon
-       ^^^
+        Learn how to manipulate the physics data associate to a
+        data storage structure. (Unit, homogeneity ...)
 
-       Learn how to manipulate the physics data associate to a
-       data storage structure. (Unit, homogeneity ...)
+        +++
+        Coming soon
 
     .. grid-item-card:: Custom Python operator and plugin
-       :link: ref_tutorials_custom_operators_and_plugins
-       :link-type: ref
-       :text-align: center
+        :link: ref_tutorials_custom_operators_and_plugins
+        :link-type: ref
+        :text-align: center
 
-       Discover how to enhance DPF capabilities by creating your own operators and plugins.
+        Discover how to enhance DPF capabilities by creating your own operators and plugins.
 
     .. grid-item-card:: Post-process distributed files
-       :text-align: center
-       :class-card: sd-bg-light
-       :class-header: sd-bg-light
+        :text-align: center
+        :class-card: sd-bg-light
+        :class-header: sd-bg-light sd-text-dark
+        :class-footer: sd-bg-light sd-text-dark
 
-       Coming soon
-       ^^^
+        Learn how to use PyDPF-Core with distributed files.
 
-       Learn how to use PyDPF-Core with distributed files.
+        +++
+        Coming soon
 
     .. grid-item-card:: DPF server
-       :text-align: center
-       :class-card: sd-bg-light
-       :class-header: sd-bg-light
+        :text-align: center
+        :class-card: sd-bg-light
+        :class-header: sd-bg-light sd-text-dark
+        :class-footer: sd-bg-light sd-text-dark
 
-       Coming soon
-       ^^^
+        Understand how to manipulate DPF client-server architecture
 
-       Understand how to manipulate DPF client-server architecture
+        +++
+        Coming soon
 
     .. grid-item-card:: Licensing
-       :text-align: center
-       :class-card: sd-bg-light
-       :class-header: sd-bg-light
+        :text-align: center
+        :class-card: sd-bg-light
+        :class-header: sd-bg-light sd-text-dark
+        :class-footer: sd-bg-light sd-text-dark
 
-       Coming soon
-       ^^^
+        Understand how to access the Entry and Premium licensing capabilities
 
-       Understand how to access the Entry and Premium licensing capabilities
+        +++
+        Coming soon

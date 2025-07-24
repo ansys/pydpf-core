@@ -19,6 +19,7 @@ from ansys.dpf.core.examples import get_example_required_minimum_dpf_version
 
 # Make sphinx_utilities modules importable
 sys.path.append(os.path.join(os.path.dirname(__file__), "../sphinx_utilities"))
+from version_filtering import get_tutorial_version_requirements
 
 # Manage errors
 pyvista.set_error_output_file("errors.txt")
@@ -59,13 +60,12 @@ server_instance = server.start_local_server(
 )
 server_version = server_instance.version
 server.shutdown_all_session_servers()
-print(f"DPF version: {server_version}")
-print(f"DPF install: {server_instance.ansys_path}")
+print("".rjust(40, '*'))
+print(f"Doc built for DPF server version {server_version} at:\n{server_instance.ansys_path}")
+print("".rjust(40, '*'))
 
 # Build ignore pattern
 ignored_pattern = r"(ignore"
-header_flag = "\"\"\""
-note_flag = r".. note::"
 for example in sorted(glob(r"../../examples/**/*.py")):
     minimum_version_str = get_example_required_minimum_dpf_version(example)
     if float(server_version) - float(minimum_version_str) < -0.05:
@@ -75,6 +75,15 @@ for example in sorted(glob(r"../../examples/**/*.py")):
 ignored_pattern += "|11-server_types.py"
 ignored_pattern += "|06-distributed_stress_averaging.py"
 ignored_pattern += r")"
+
+exclude_patterns = []
+for tutorial_file in glob(str(Path("user_guide")/"tutorials"/"**"/"*.rst")):
+    if Path(tutorial_file).name == "index.rst":
+        continue
+    minimum_version_str = get_tutorial_version_requirements(tutorial_file)
+    if float(server_version) - float(minimum_version_str) < -0.05:
+        print(f"Tutorial {Path(tutorial_file).name} skipped as it requires DPF {minimum_version_str}.")
+        exclude_patterns.append(tutorial_file.replace("\\", "/"))
 
 # Autoapi ignore pattern
 autoapi_ignore_list = [
@@ -118,7 +127,6 @@ extensions = [
     "sphinx_design",
     "sphinx_jinja",
     'sphinx_reredirects',
-    "ansys_sphinx_theme.extension.autoapi",
     "jupyter_sphinx",
 ]
 
@@ -163,7 +171,7 @@ language = "en"
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = ["links_and_refs.rst"]
+exclude_patterns.extend(["links_and_refs.rst"])
 
 # make rst_epilog a variable, so you can add other epilog parts to it
 rst_epilog = ""
@@ -411,3 +419,5 @@ if BUILD_API:
 BUILD_EXAMPLES = True if os.environ.get("BUILD_EXAMPLES", "true") == "true" else False
 if BUILD_EXAMPLES:
     extensions.extend(["sphinx_gallery.gen_gallery"])
+
+print(f"{extensions=}")

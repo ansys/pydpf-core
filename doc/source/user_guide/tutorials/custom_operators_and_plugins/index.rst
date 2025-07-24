@@ -23,7 +23,8 @@ With support for custom operators, PyDPF-Core becomes a development tool offerin
 The only prerequisite for creating custom operators is to be familiar with native operators.
 For more information, see :ref:`ref_user_guide_operators`.
 
-.. note:
+.. note::
+
     You can create custom operators in CPython using PyDPF-Core for use with DPF in Ansys 2023 R1 and later.
 
 The following tutorials demonstrate how to develop such plugins using PyDPF-Core (CPython based) and how to use them.
@@ -36,43 +37,47 @@ For comprehensive examples on writing operator plugins, see :ref:`python_operato
     :margin: 2
 
     .. grid-item-card:: Create a DPF plugin with a single operator
-       :link: tutorials_custom_operators_and_plugins_custom_operator
-       :link-type: ref
-       :text-align: center
+        :link: tutorials_custom_operators_and_plugins_custom_operator
+        :link-type: ref
+        :text-align: center
+        :class-header: sd-bg-light sd-text-dark
+        :class-footer: sd-bg-light sd-text-dark
 
-       This tutorial shows how to create, load, and use a custom plugin containing a single custom operator.
+        This tutorial shows how to create, load, and use a custom plugin containing a single custom operator.
+
+        +++
+        Requires DPF 11.0 or above
 
     .. grid-item-card:: Create a DPF plugin with multiple operators
-       :text-align: center
-       :class-card: sd-bg-light
-       :class-header: sd-bg-light
+        :text-align: center
+        :class-header: sd-bg-light sd-text-dark
+        :class-footer: sd-bg-light sd-text-dark
 
-       Coming soon
-       ^^^
+        This tutorial shows how to create, load, and use a custom plugin with multiple operators or with complex routines.
 
-
-       This tutorial shows how to create, load, and use a custom plugin with multiple operators or with complex routines.
+        +++
+        Coming soon
 
     .. grid-item-card:: Create a custom DPF plugin with third-party dependencies using Python
-       :text-align: center
-       :class-card: sd-bg-light
-       :class-header: sd-bg-light
+        :text-align: center
+        :class-header: sd-bg-light sd-text-dark
+        :class-footer: sd-bg-light sd-text-dark
 
-       Coming soon
-       ^^^
+        This tutorial shows how to create a Python plug-in package with third-party dependencies.
 
-       This tutorial shows how to create a Python plug-in package with third-party dependencies.
+        +++
+        Coming soon
 
     .. grid-item-card:: Update PyDPF-Core in the DPF installation
         :text-align: center
         :class-card: sd-bg-light
-        :class-header: sd-bg-light
-
-        Coming soon
-        ^^^
-
+        :class-header: sd-bg-light sd-text-dark
+        :class-footer: sd-bg-light sd-text-dark
 
         This tutorial shows how to update PyDPF-Core in your DPF installation.
+
+        +++
+        Coming soon
 
 .. toctree::
     :maxdepth: 2
