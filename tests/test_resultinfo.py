@@ -31,6 +31,7 @@ from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_1,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0,
 )
 
 if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0:
@@ -206,13 +207,33 @@ Available qualifier labels:"""  # noqa: E501
 )
 def test_print_result_info_with_qualifiers(cfx_heating_coil, server_type):
     model = Model(cfx_heating_coil(server=server_type), server=server_type)
-    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0:
+    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0:
         ref = """Static analysis
 Unit system: Custom: m, kg, N, s, V, A, K
 Physics Type: Fluid
 Available results:
      -  specific_heat: Nodal Specific Heat
      -  epsilon: Nodal Epsilon        
+     -  aspect_ratio: Nodal Aspect Ratio
+     -  static_enthalpy_beta: Nodal Static Enthalpy Beta
+     -  velocity_u_beta: Nodal Velocity U Beta
+     -  velocity_v_beta: Nodal Velocity V Beta
+     -  velocity_w_beta: Nodal Velocity W Beta
+     -  courant_number: Nodal Courant Number
+     -  volume_of_finite_volumes: Nodal Volume Of Finite Volumes
+     -  volume_porosity: Nodal Volume Porosity
+     -  static_enthalpy_gradient: Nodal Static Enthalpy Gradient
+     -  pressure_gradient: Nodal Pressure Gradient
+     -  velocity_u_gradient: Nodal Velocity U Gradient
+     -  velocity_v_gradient: Nodal Velocity V Gradient
+     -  velocity_w_gradient: Nodal Velocity W Gradient
+     -  mesh_expansion_factor: Nodal Mesh Expansion Factor
+     -  orthogonality_angle: Nodal Orthogonality Angle
+     -  absolute_pressure: Nodal Absolute Pressure
+     -  specific_heat_capacity_at_constant_volume: Nodal Specific Heat Capacity At Constant Volume
+     -  specific_volume: Nodal Specific Volume
+     -  shear_strain_rate: Nodal Shear Strain Rate
+     -  turbulence_eddy_frequency: Nodal Turbulence Eddy Frequency
      -  enthalpy: Nodal Enthalpy      
      -  turbulent_kinetic_energy: Nodal Turbulent Kinetic Energy
      -  thermal_conductivity: Nodal Thermal Conductivity
@@ -228,7 +249,7 @@ Available results:
 Available qualifier labels:"""  # noqa
     else:
         ref = """Static analysis
-Unit system: SI: m, kg, N, s, V, A, K
+Unit system: ...
 Physics Type: Fluid
 Available results:
      -  specific_heat: Nodal Specific Heat
