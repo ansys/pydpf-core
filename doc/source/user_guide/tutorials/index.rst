@@ -31,19 +31,6 @@ of basic features and concepts so you can start coding right away.
 
         Learn about the different data structures available in DPF.
 
-    .. grid-item-card:: PyDPF-Core language
-        :text-align: center
-        :class-card: sd-bg-light
-        :class-header: sd-bg-light sd-text-dark
-        :class-footer: sd-bg-light sd-text-dark
-
-        Check an overview on how to use PyDPF-Core API.
-        Learn the different ways to interact with data by using PyDPF-Core
-        objects and methods.
-
-        +++
-        Coming soon
-
     .. grid-item-card::  Post-processing data basics
         :link: ref_tutorials_processing_basics
         :link-type: ref
@@ -116,18 +103,6 @@ of basic features and concepts so you can start coding right away.
         :text-align: center
 
         Learn how to perform mathematical operations on data structures.
-
-    .. grid-item-card:: Manipulating physics data
-        :text-align: center
-        :class-card: sd-bg-light
-        :class-header: sd-bg-light sd-text-dark
-        :class-footer: sd-bg-light sd-text-dark
-
-        Learn how to manipulate the physics data associate to a
-        data storage structure. (Unit, homogeneity ...)
-
-        +++
-        Coming soon
 
     .. grid-item-card:: Custom Python operator and plugin
         :link: ref_tutorials_custom_operators_and_plugins
