@@ -16,7 +16,7 @@ from ansys.dpf.core.server_types import AnyServerType
 
 
 class beam_axial_force(Operator):
-    r"""Read Beam Axial Force (LSDyna) by calling the readers defined by the
+    r"""Read Beam X Axial Force by calling the readers defined by the
     datasources.
 
 
@@ -31,7 +31,7 @@ class beam_axial_force(Operator):
     data_sources: DataSources
         result file path container, used if no streams are set
     unit_system: int or str or UnitSystem, optional
-        Unit System ID (int), semicolon-separated list of base unit strings (str) or UnitSystem instance
+        (LSDyna) Unit System ID (int), semicolon-separated list of base unit strings (str) or UnitSystem instance
 
     Returns
     -------
@@ -95,7 +95,7 @@ class beam_axial_force(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Read Beam Axial Force (LSDyna) by calling the readers defined by the
+        description = r"""Read Beam X Axial Force by calling the readers defined by the
 datasources.
 """
         spec = Specification(
@@ -140,7 +140,7 @@ datasources.
                         "class dataProcessing::unit::CUnitSystem",
                     ],
                     optional=True,
-                    document=r"""Unit System ID (int), semicolon-separated list of base unit strings (str) or UnitSystem instance""",
+                    document=r"""(LSDyna) Unit System ID (int), semicolon-separated list of base unit strings (str) or UnitSystem instance""",
                 ),
             },
             map_output_pin_spec={
@@ -321,7 +321,7 @@ class InputsBeamAxialForce(_Inputs):
     def unit_system(self) -> Input:
         r"""Allows to connect unit_system input to the operator.
 
-        Unit System ID (int), semicolon-separated list of base unit strings (str) or UnitSystem instance
+        (LSDyna) Unit System ID (int), semicolon-separated list of base unit strings (str) or UnitSystem instance
 
         Returns
         -------
