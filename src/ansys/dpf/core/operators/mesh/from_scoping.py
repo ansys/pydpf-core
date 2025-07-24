@@ -17,11 +17,11 @@ from ansys.dpf.core.server_types import AnyServerType
 
 class from_scoping(Operator):
     r"""Extracts a meshed region from another meshed region based on a scoping.
-    Regarding the property fields of the meshed region: the ‘Elemental’,
-    ‘Face’, and ‘Nodal’ property fields are scoped to the elements, faces or
-    nodes of the output mesh, the ‘Global’ property fields are transferred
-    from the input mesh to the output mesh without changes, and the rest of
-    the property fields are not present in the output mesh.
+    Regarding the property fields whose scoping location is ‘Elemental’,
+    ‘Faces’, and ‘Nodal’, they are scoped to the elements, faces or nodes of
+    the output mesh. The ones whose scoping location is ‘Global’ are
+    transferred from the input mesh to the output mesh without changes, and
+    the rest of the property fields are not present in the output mesh.
 
 
     Parameters
@@ -91,11 +91,11 @@ class from_scoping(Operator):
     @staticmethod
     def _spec() -> Specification:
         description = r"""Extracts a meshed region from another meshed region based on a scoping.
-Regarding the property fields of the meshed region: the ‘Elemental’,
-‘Face’, and ‘Nodal’ property fields are scoped to the elements, faces or
-nodes of the output mesh, the ‘Global’ property fields are transferred
-from the input mesh to the output mesh without changes, and the rest of
-the property fields are not present in the output mesh.
+Regarding the property fields whose scoping location is ‘Elemental’,
+‘Faces’, and ‘Nodal’, they are scoped to the elements, faces or nodes of
+the output mesh. The ones whose scoping location is ‘Global’ are
+transferred from the input mesh to the output mesh without changes, and
+the rest of the property fields are not present in the output mesh.
 """
         spec = Specification(
             description=description,
