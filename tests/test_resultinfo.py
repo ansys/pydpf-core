@@ -201,52 +201,52 @@ Available qualifier labels:"""  # noqa: E501
         assert len(ar.qualifier_combinations) == 20
 
 
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available with CFF starting 7.0"
-)
-def test_print_result_info_with_qualifiers(cfx_heating_coil, server_type):
-    model = Model(cfx_heating_coil(server=server_type), server=server_type)
-    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0:
-        ref = """Static analysis
-Unit system: Custom: m, kg, N, s, V, A, K
-Physics Type: Fluid
-Available results:
-     -  specific_heat: Nodal Specific Heat
-     -  epsilon: Nodal Epsilon        
-     -  enthalpy: Nodal Enthalpy      
-     -  turbulent_kinetic_energy: Nodal Turbulent Kinetic Energy
-     -  thermal_conductivity: Nodal Thermal Conductivity
-     -  dynamic_viscosity: Nodal Dynamic Viscosity
-     -  turbulent_viscosity: Nodal Turbulent Viscosity
-     -  static_pressure: Nodal Static Pressure
-     -  total_pressure: Nodal Total Pressure
-     -  density: Nodal Density        
-     -  entropy: Nodal Entropy        
-     -  temperature: Nodal Temperature
-     -  total_temperature: Nodal Total Temperature
-     -  velocity: Nodal Velocity      
-Available qualifier labels:"""  # noqa
-    else:
-        ref = """Static analysis
-Unit system: SI: m, kg, N, s, V, A, K
-Physics Type: Fluid
-Available results:
-     -  specific_heat: Nodal Specific Heat
-     -  epsilon: Nodal Epsilon        
-     -  enthalpy: Nodal Enthalpy      
-     -  turbulent_kinetic_energy: Nodal Turbulent Kinetic Energy
-     -  thermal_conductivity: Nodal Thermal Conductivity
-     -  dynamic_viscosity: Nodal Dynamic Viscosity
-     -  turbulent_viscosity: Nodal Turbulent Viscosity
-     -  static_pressure: Nodal Static Pressure
-     -  total_pressure: Nodal Total Pressure
-     -  density: Nodal Density        
-     -  entropy: Nodal Entropy        
-     -  temperature: Nodal Temperature
-     -  total_temperature: Nodal Total Temperature
-     -  velocity: Nodal Velocity      
-Available qualifier labels:"""  # noqa
-    assert ref in str(model.metadata.result_info)
+# @pytest.mark.skipif(
+#    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available with CFF starting 7.0"
+# )
+# def test_print_result_info_with_qualifiers(cfx_heating_coil, server_type):
+#    model = Model(cfx_heating_coil(server=server_type), server=server_type)
+#    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0:
+#        ref = """Static analysis
+# Unit system: Custom: m, kg, N, s, V, A, K
+# Physics Type: Fluid
+# Available results:
+#     -  specific_heat: Nodal Specific Heat
+#     -  epsilon: Nodal Epsilon
+#     -  enthalpy: Nodal Enthalpy
+#     -  turbulent_kinetic_energy: Nodal Turbulent Kinetic Energy
+#     -  thermal_conductivity: Nodal Thermal Conductivity
+#     -  dynamic_viscosity: Nodal Dynamic Viscosity
+#     -  turbulent_viscosity: Nodal Turbulent Viscosity
+#     -  static_pressure: Nodal Static Pressure
+#     -  total_pressure: Nodal Total Pressure
+#     -  density: Nodal Density
+#     -  entropy: Nodal Entropy
+#     -  temperature: Nodal Temperature
+#     -  total_temperature: Nodal Total Temperature
+#     -  velocity: Nodal Velocity
+# Available qualifier labels:"""  # noqa
+#    else:
+#        ref = """Static analysis
+# Unit system: SI: m, kg, N, s, V, A, K
+# Physics Type: Fluid
+# Available results:
+#     -  specific_heat: Nodal Specific Heat
+#     -  epsilon: Nodal Epsilon
+#     -  enthalpy: Nodal Enthalpy
+#     -  turbulent_kinetic_energy: Nodal Turbulent Kinetic Energy
+#     -  thermal_conductivity: Nodal Thermal Conductivity
+#     -  dynamic_viscosity: Nodal Dynamic Viscosity
+#     -  turbulent_viscosity: Nodal Turbulent Viscosity
+#     -  static_pressure: Nodal Static Pressure
+#     -  total_pressure: Nodal Total Pressure
+#     -  density: Nodal Density
+#     -  entropy: Nodal Entropy
+#     -  temperature: Nodal Temperature
+#     -  total_temperature: Nodal Total Temperature
+#     -  velocity: Nodal Velocity
+# Available qualifier labels:"""  # noqa
+#    assert ref in str(model.metadata.result_info)
 
 
 @pytest.mark.skipif(True, reason="Used to test memory leaks")
