@@ -35,7 +35,7 @@ The objective of this simple example is to show how routines for DPF can
 be wrapped in Python plugins.
 
 .. note::
-    This example requires DPF 4.0 (Ansys 2022R2) or above.
+    This example requires DPF 5.0 (Ansys 2023R1) or above.
     For more information, see :ref:`ref_compatibility`.
 
 """
