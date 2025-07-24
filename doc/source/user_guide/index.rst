@@ -58,20 +58,15 @@ Troubleshooting
     :caption: Tutorials
 
     tutorials/data_structures/index.rst
-    tutorials/language_and_usage/index.rst
     tutorials/post_processing_basics/index.rst
     tutorials/import_data/index.rst
     tutorials/mesh/index.rst
-    tutorials/operators_and_workflows/index.rst
-    tutorials/export_data/index.rst
     tutorials/plot/index.rst
     tutorials/animate/index.rst
-    tutorials/enriching_dpf_capabilities/index.rst
-    tutorials/distributed_files/index.rst
-    tutorials/dpf_server/index.rst
-    tutorials/licensing/index.rst
     tutorials/mathematics/index.rst
-    tutorials/manipulate_physics_data/index.rst
+    tutorials/custom_operators_and_plugins/index.rst
+
+
 
 .. toctree::
    :maxdepth: 2

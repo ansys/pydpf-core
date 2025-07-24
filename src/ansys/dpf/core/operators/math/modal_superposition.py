@@ -17,7 +17,7 @@ from ansys.dpf.core.server_types import AnyServerType
 
 class modal_superposition(Operator):
     r"""Computes the solution in the time/frequency space from a modal solution
-    by multiplying a modal basis (in 0) by the solution in this modal space
+    by multiplying a modal basis (in 0)by the solution in this modal space
     (coefficients for each mode for each time/frequency) (in 1).
 
 
@@ -27,6 +27,8 @@ class modal_superposition(Operator):
         One field by mode with each field representing a mode shape on nodes or elements.
     solution_in_modal_space: FieldsContainer
         One field by time/frequency with each field having a ponderating coefficient for each mode of the modal_basis pin.
+    incremental_fc: FieldsContainer, optional
+        If a non-empty fields container is introduced, it is modified, and sent to the output, to add the contribution of the requested expansion. The label spaces produced from the multiplication must be the same as the incremental ones.
     time_scoping: Scoping, optional
         Compute the result on a subset of the time frequency domain defined in the solution_in_modal_space fields container.
     mesh_scoping: Scoping or ScopingsContainer, optional
@@ -48,6 +50,8 @@ class modal_superposition(Operator):
     >>> op.inputs.modal_basis.connect(my_modal_basis)
     >>> my_solution_in_modal_space = dpf.FieldsContainer()
     >>> op.inputs.solution_in_modal_space.connect(my_solution_in_modal_space)
+    >>> my_incremental_fc = dpf.FieldsContainer()
+    >>> op.inputs.incremental_fc.connect(my_incremental_fc)
     >>> my_time_scoping = dpf.Scoping()
     >>> op.inputs.time_scoping.connect(my_time_scoping)
     >>> my_mesh_scoping = dpf.Scoping()
@@ -57,6 +61,7 @@ class modal_superposition(Operator):
     >>> op = dpf.operators.math.modal_superposition(
     ...     modal_basis=my_modal_basis,
     ...     solution_in_modal_space=my_solution_in_modal_space,
+    ...     incremental_fc=my_incremental_fc,
     ...     time_scoping=my_time_scoping,
     ...     mesh_scoping=my_mesh_scoping,
     ... )
@@ -69,6 +74,7 @@ class modal_superposition(Operator):
         self,
         modal_basis=None,
         solution_in_modal_space=None,
+        incremental_fc=None,
         time_scoping=None,
         mesh_scoping=None,
         config=None,
@@ -83,6 +89,8 @@ class modal_superposition(Operator):
             self.inputs.modal_basis.connect(modal_basis)
         if solution_in_modal_space is not None:
             self.inputs.solution_in_modal_space.connect(solution_in_modal_space)
+        if incremental_fc is not None:
+            self.inputs.incremental_fc.connect(incremental_fc)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:
@@ -91,7 +99,7 @@ class modal_superposition(Operator):
     @staticmethod
     def _spec() -> Specification:
         description = r"""Computes the solution in the time/frequency space from a modal solution
-by multiplying a modal basis (in 0) by the solution in this modal space
+by multiplying a modal basis (in 0)by the solution in this modal space
 (coefficients for each mode for each time/frequency) (in 1).
 """
         spec = Specification(
@@ -108,6 +116,12 @@ by multiplying a modal basis (in 0) by the solution in this modal space
                     type_names=["fields_container"],
                     optional=False,
                     document=r"""One field by time/frequency with each field having a ponderating coefficient for each mode of the modal_basis pin.""",
+                ),
+                2: PinSpecification(
+                    name="incremental_fc",
+                    type_names=["fields_container"],
+                    optional=True,
+                    document=r"""If a non-empty fields container is introduced, it is modified, and sent to the output, to add the contribution of the requested expansion. The label spaces produced from the multiplication must be the same as the incremental ones.""",
                 ),
                 3: PinSpecification(
                     name="time_scoping",
@@ -191,6 +205,8 @@ class InputsModalSuperposition(_Inputs):
     >>> op.inputs.modal_basis.connect(my_modal_basis)
     >>> my_solution_in_modal_space = dpf.FieldsContainer()
     >>> op.inputs.solution_in_modal_space.connect(my_solution_in_modal_space)
+    >>> my_incremental_fc = dpf.FieldsContainer()
+    >>> op.inputs.incremental_fc.connect(my_incremental_fc)
     >>> my_time_scoping = dpf.Scoping()
     >>> op.inputs.time_scoping.connect(my_time_scoping)
     >>> my_mesh_scoping = dpf.Scoping()
@@ -205,6 +221,10 @@ class InputsModalSuperposition(_Inputs):
             modal_superposition._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._solution_in_modal_space)
+        self._incremental_fc = Input(
+            modal_superposition._spec().input_pin(2), 2, op, -1
+        )
+        self._inputs.append(self._incremental_fc)
         self._time_scoping = Input(modal_superposition._spec().input_pin(3), 3, op, -1)
         self._inputs.append(self._time_scoping)
         self._mesh_scoping = Input(modal_superposition._spec().input_pin(4), 4, op, -1)
@@ -251,6 +271,27 @@ class InputsModalSuperposition(_Inputs):
         >>> op.inputs.solution_in_modal_space(my_solution_in_modal_space)
         """
         return self._solution_in_modal_space
+
+    @property
+    def incremental_fc(self) -> Input:
+        r"""Allows to connect incremental_fc input to the operator.
+
+        If a non-empty fields container is introduced, it is modified, and sent to the output, to add the contribution of the requested expansion. The label spaces produced from the multiplication must be the same as the incremental ones.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.math.modal_superposition()
+        >>> op.inputs.incremental_fc.connect(my_incremental_fc)
+        >>> # or
+        >>> op.inputs.incremental_fc(my_incremental_fc)
+        """
+        return self._incremental_fc
 
     @property
     def time_scoping(self) -> Input:

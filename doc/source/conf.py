@@ -1,6 +1,7 @@
 from datetime import datetime
 from glob import glob
 import os
+import sys
 from pathlib import Path
 import subprocess
 
@@ -15,6 +16,10 @@ import pyvista
 
 from ansys.dpf.core import __version__, server, server_factory
 from ansys.dpf.core.examples import get_example_required_minimum_dpf_version
+
+# Make sphinx_utilities modules importable
+sys.path.append(os.path.join(os.path.dirname(__file__), "../sphinx_utilities"))
+from version_filtering import get_tutorial_version_requirements
 
 # Manage errors
 pyvista.set_error_output_file("errors.txt")
@@ -55,13 +60,13 @@ server_instance = server.start_local_server(
 )
 server_version = server_instance.version
 server.shutdown_all_session_servers()
-print(f"DPF version: {server_version}")
+print("".rjust(40, '*'))
+print(f"Doc built for DPF server version {server_version} at:\n{server_instance.ansys_path}")
+print("".rjust(40, '*'))
 
 # Build ignore pattern
 ignored_pattern = r"(ignore"
-header_flag = "\"\"\""
-note_flag = r".. note::"
-for example in glob(r"../../examples/**/*.py"):
+for example in sorted(glob(r"../../examples/**/*.py")):
     minimum_version_str = get_example_required_minimum_dpf_version(example)
     if float(server_version) - float(minimum_version_str) < -0.05:
         example_name = example.split(os.path.sep)[-1]
@@ -70,6 +75,15 @@ for example in glob(r"../../examples/**/*.py"):
 ignored_pattern += "|11-server_types.py"
 ignored_pattern += "|06-distributed_stress_averaging.py"
 ignored_pattern += r")"
+
+exclude_patterns = []
+for tutorial_file in glob(str(Path("user_guide")/"tutorials"/"**"/"*.rst")):
+    if Path(tutorial_file).name == "index.rst":
+        continue
+    minimum_version_str = get_tutorial_version_requirements(tutorial_file)
+    if float(server_version) - float(minimum_version_str) < -0.05:
+        print(f"Tutorial {Path(tutorial_file).name} skipped as it requires DPF {minimum_version_str}.")
+        exclude_patterns.append(tutorial_file.replace("\\", "/"))
 
 # Autoapi ignore pattern
 autoapi_ignore_list = [
@@ -113,7 +127,6 @@ extensions = [
     "sphinx_design",
     "sphinx_jinja",
     'sphinx_reredirects',
-    "ansys_sphinx_theme.extension.autoapi",
     "jupyter_sphinx",
 ]
 
@@ -126,8 +139,7 @@ redirects = {
 typehints_defaults = "comma"
 typehints_use_signature = True
 simplify_optional_unions = False
-suppress_warnings = ['autosectionlabel.*']
-
+autosectionlabel_prefix_document = True
 # Intersphinx mapping
 intersphinx_mapping = {
     "pyvista": ("https://docs.pyvista.org/", None),
@@ -135,6 +147,7 @@ intersphinx_mapping = {
 
 autosummary_generate = False
 
+autodoc_mock_imports = ["ansys.dpf.core.examples.python_plugins"]
 
 # Add any paths that contain templates here, relative to this directory.
 # templates_path = ['_templates']
@@ -158,7 +171,7 @@ language = "en"
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = ["links_and_refs.rst"]
+exclude_patterns.extend(["links_and_refs.rst"])
 
 # make rst_epilog a variable, so you can add other epilog parts to it
 rst_epilog = ""
@@ -172,32 +185,6 @@ pygments_style = None
 
 
 # -- Sphinx Gallery Options
-from sphinx_gallery.sorting import FileNameSortKey
-
-
-def reset_servers(gallery_conf, fname, when):
-    import gc
-
-    import psutil
-
-    from ansys.dpf.core import server
-
-    gc.collect()
-    server.shutdown_all_session_servers()
-
-    proc_name = "Ans.Dpf.Grpc"
-    nb_procs = 0
-    for proc in psutil.process_iter():
-        try:
-            # check whether the process name matches
-            if proc_name in proc.name():
-                proc.kill()
-                nb_procs += 1
-        except psutil.NoSuchProcess:
-            pass
-    print(f"Counted {nb_procs} {proc_name} processes {when} example {fname}.")
-
-
 sphinx_gallery_conf = {
     # convert rst to md for ipynb
     "pypandoc": True,
@@ -214,7 +201,7 @@ sphinx_gallery_conf = {
     # Remove the "Download all examples" button from the top level gallery
     "download_all_examples": False,
     # Sort gallery example by file name instead of number of lines (default)
-    "within_subsection_order": FileNameSortKey,
+    "within_subsection_order": "FileNameSortKey",
     # directory where function granular galleries are stored
     "backreferences_dir": None,
     "image_scrapers": ("pyvista", "matplotlib"),
@@ -222,7 +209,7 @@ sphinx_gallery_conf = {
     #                         "from pyvista import set_plot_theme\n"
     #                         "set_plot_theme('document')"),
     "reset_modules_order": 'both',
-    "reset_modules": (reset_servers,),
+    "reset_modules": ("reset_servers.reset_servers",),
 }
 
 
@@ -281,6 +268,9 @@ suppress_warnings = [
     "design.grid",
     "config.cache",
     "design.fa-build",
+    "autosectionlabel.*",
+    "ref.python",
+    "toc.not_included"
 ]
 
 # Add any paths that contain custom static files (such as style sheets) here,
@@ -429,3 +419,5 @@ if BUILD_API:
 BUILD_EXAMPLES = True if os.environ.get("BUILD_EXAMPLES", "true") == "true" else False
 if BUILD_EXAMPLES:
     extensions.extend(["sphinx_gallery.gen_gallery"])
+
+print(f"{extensions=}")

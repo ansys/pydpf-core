@@ -72,4 +72,6 @@ for freq_set in freq_scoping:
 # To suppress window pop-up, set the `off_screen` argument to True.
 # ~~~~~~~~~~~~~~~~~~~~
 
-animation.animate_mode(disp, mode_number=1, save_as="tmp.gif", off_screen=True)
+animation.animate_mode(
+    disp, mode_number=1, save_as="tmp.gif", off_screen=True, deform_scale_factor=10.0
+)

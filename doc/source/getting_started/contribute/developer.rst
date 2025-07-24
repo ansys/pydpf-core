@@ -1,27 +1,14 @@
+.. _contributing_as_a_developer:
+
 Contributing as a developer
 ###########################
 
-.. grid:: 1 2 3 3
-    :padding: 2 2 2 2
+You can contribute to PyDPF-Core by fixing bugs, adding new features, and improving the codebase.
+To do so, you must set up the repository on your local machine by following the steps below:
 
-    .. grid-item-card:: :fa:`download` Clone the repository
-        :link: clone-the-repository
-        :link-type: ref
-
-        Download your own copy in your local machine.
-
-    .. grid-item-card:: :fa:`download` Install for developers
-        :link: install-for-developers
-        :link-type: ref
-
-        Install the project in editable mode.
-
-    .. grid-item-card:: :fa:`vial-circle-check` Run the tests
-        :link: run-tests
-        :link-type: ref
-
-        Verify your changes by testing the project.
-
+- :ref:`clone-the-repository`
+- :ref:`install-for-developers`
+- :ref:`run-tests`
 
 .. _clone-the-repository:
 
@@ -44,8 +31,12 @@ Installing PyDPF-Core in development mode allows you to perform changes to the c
 and see the changes reflected in your environment without having to reinstall
 the library every time you make a change.
 
+To do so, follow the steps below.
+
 Virtual environment
 -------------------
+
+First, set up a new virtual environment.
 
 Start by navigating to the project's root directory by running:
 
@@ -117,7 +108,9 @@ Install Tox
 Once the project is installed, you can install `Tox`_. This is a cross-platform
 automation tool. The main advantage of Tox is that it eases routine tasks like project
 testing, documentation generation, and wheel building in separate and isolated Python
-virtual environments. To install Tox, run:
+virtual environments.
+
+To install Tox, run:
 
 .. code-block:: text
 
@@ -154,10 +147,14 @@ Run the tests
 =============
 
 Once you have made your changes, you can run the tests to verify that your
-modifications did not break the project. PyDPF-Core tests are organized into groups and require additional steps
+modifications did not break the project.
+
+PyDPF-Core tests are organized into groups and require additional steps
 during execution to ensure tests run as expected without errors, therefore, PyDPF-Core tox configuration
 supports different markers to account for this. These markers are associated with a
-dedicated `Tox`_ environment. To also allow flexibity required during development, different DPF Server installation
+dedicated `Tox`_ environment.
+
+To also allow flexibility required during development, a specific DPF Server installation
 can also be used as explained in the subsections that follow.
 
 Unified DPF Server installation or specific DPF Server installation using ANSYS_DPF_PATH environment variable

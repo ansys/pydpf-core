@@ -234,7 +234,7 @@ Varying scaling
     :hide-output:
 
     # Define a varying scale factor
-    varying_scale_factor = [i for i in range(len(disp_fc))]
+    varying_scale_factor = [float(i) for i in range(len(disp_fc))]
     # Animate the displacements
     disp_fc.animate(scale_factor=varying_scale_factor)
 
