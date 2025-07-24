@@ -155,8 +155,8 @@ class PropertyField(_FieldBase):
     def location(self):
         """Location of the property field.
 
-        A property field contains a scoping, which is the location that is read.
-        To update location, directly update the scoping location.
+        The property field location is the one contained in its field definition.
+        To update location, just update the property field location.
 
         Returns
         -------
@@ -166,14 +166,11 @@ class PropertyField(_FieldBase):
 
         Examples
         --------
-        Create a property field and request the location. ##TODO Important, modify this example! as well as the description
+        Create a property field and request the location.
 
         >>> from ansys.dpf import core as dpf
         >>> pfield = dpf.PropertyField()
-        >>> list_ids = [1, 2, 4, 6, 7]
-        >>> scop = dpf.Scoping(ids = list_ids, location = dpf.locations.nodal)
-        >>> pfield.scoping = scop
-        >>> pfield.scoping.location = dpf.locations.nodal
+        >>> pfield.location = dpf.locations.nodal
         >>> pfield.location
         'Nodal'
 
@@ -181,7 +178,7 @@ class PropertyField(_FieldBase):
         if meets_version(self._server.version, "11.0"):
             if self._field_definition:
                 return self._field_definition.location
-        if self.scoping:
+        elif self.scoping:
             return self.scoping.location
         else:
             return None
@@ -200,14 +197,32 @@ class PropertyField(_FieldBase):
         --------
         >>> from ansys.dpf import core as dpf
         >>> pfield = dpf.PropertyField()
-        >>> scop = dpf.Scoping(ids = list_ids, location = dpf.locations.nodal)
-        >>> pfield.scoping = scop
+        >>> list_ids = [1, 2, 4, 6, 7]
         >>> pfield.location = 'Nodal'
         >>> pfield.location
         'Nodal'
 
         """
-        self.scoping.location = value
+        if meets_version(self._server.version, "11.0"):
+            if self._field_definition:
+                self._field_definition.location = value
+            else:
+                raise Exception(
+                    "Property field location is based on field definition, and field definition is not defined"
+                )
+        elif self.scoping:
+            self.scoping.location = value
+        else:
+            raise Exception(
+                "Property field location before v11.0 was based on scoping, and scoping is not defined"
+            )
+
+        if self.scoping:
+            self.scoping.location = value
+        else:
+            raise Exception(
+                "Property field location is based on scoping, and scoping is not defined"
+            )
 
     @property
     def component_count(self):
