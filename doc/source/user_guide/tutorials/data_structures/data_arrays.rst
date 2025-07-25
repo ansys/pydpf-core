@@ -21,6 +21,9 @@ The data containers can be:
 
 This tutorial presents how to define and manipulate DPF data arrays specifically.
 
+Introduction
+------------
+
 A data array in DPF usually represents a mathematical field, hence the base name ``Field``.
 
 Different types of ``Field`` store different data types:
@@ -46,16 +49,12 @@ A ``Field`` is always associated to:
       If the ``location`` relates to mesh entities such as nodes or elements, the ``support`` of the ``Field`` is an object holding data
       related to the mesh, called a ``MeshedRegion``.
 
-    - a ``dimensionality``, which gives the shape of the data array based on the number of components and dimensions.
-    Indeed, a DPF ``Field`` can not only store data for a single 3D vector field,
-    but also store data for a multi-component quantity.
+    - a ``dimensionality``, which gives the structure of the data based on the number of components and dimensions.
+    Indeed, a DPF ``Field`` can store data for a 3D vector field, a scalar field, a matrix field,
+    but also store data for a multi-component field (for example, a symmetrical matrix field for each component of the stress field).
 
+    - a ``data`` array, which holds the actual data in a vector, accessed according to the ``dimensionality``.
 
-A field is also defined by its dimensionality, it can for example, describe
-a displacement vector or norm, stresses and strains tensors, stresses and strains
-equivalent, min max over time of any result...  The data is stored as a vector of
-double values and each elementary entity has a number of components (thanks to the
-dimensionality, a displacement will have 3 components, a symmetrical stress matrix 6...).
 
 Define the studied results
 --------------------------
