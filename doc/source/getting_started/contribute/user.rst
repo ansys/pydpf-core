@@ -1,3 +1,5 @@
+.. _contributing_as_a_user:
+
 Contributing as a user
 ######################
 
@@ -6,7 +8,9 @@ new features, testing in-development features, starting discussions, answering
 questions, and sharing their work with the community.
 
 .. grid:: 1 2 3 3
-    :padding: 2 2 2 2
+    :gutter: 2
+    :padding: 2
+    :margin: 2
 
     .. grid-item-card:: :fa:`bug` Report bugs
         :link: report-bugs
@@ -15,46 +19,42 @@ questions, and sharing their work with the community.
         Found a bug? Report it here.
 
     .. grid-item-card:: :fa:`lightbulb` Request a new feature
-        :padding: 2 2 2 2
         :link: request-a-new-feature
         :link-type: ref
 
         Got an idea for a new feature? Share it!
 
     .. grid-item-card:: :fa:`vial-circle-check` Test a new feature
-        :padding: 2 2 2 2
         :link: test-a-new-feature
         :link-type: ref
 
         Anxious to try out a new feature? Here's how you can do it.
 
     .. grid-item-card:: :fa:`comments` Start a discussion
-        :padding: 2 2 2 2
         :link: start-a-discussion
         :link-type: ref
 
         Want to discuss something? Start a discussion here.
 
     .. grid-item-card:: :fa:`comment-dots` Answer questions
-        :padding: 2 2 2 2
         :link: answer-questions
         :link-type: ref
 
         Help others by answering their questions.
 
     .. grid-item-card:: :fa:`bullhorn` Share your work
-        :padding: 2 2 2 2
         :link: share-your-work
         :link-type: ref
 
         Share your work with the community.
 
     .. grid-item-card:: :fa:`book` View documentation
-        :padding: 2 2 2 2
         :link: view-documentation
         :link-type: ref
 
         View project documentation.
+
+----
 
 .. _report-bugs:
 
@@ -64,9 +64,9 @@ Report bugs
 If you encounter a bug or an issue while using the project, please report it.
 Your feedback helps to identify problems.
 
-- Search the `PyDPF-Core issues`_ to see if the issue has already been reported.
+- First, search the `PyDPF-Core issues`_ to see if the issue has already been reported.
 
-- Create a new issue if it hasn’t been reported.
+- If it hasn’t been reported, create a new issue in `PyDPF-Core issues`_ using the ``🐞 bug`` template:
 
   - Include a clear description of the problem.
   - Provide steps to reproduce the issue.
@@ -78,35 +78,40 @@ Your feedback helps to identify problems.
 Request a new feature
 =====================
 
-Do you have an idea for a new feature or an improvement? Your suggestions are
-welcome. You can request a new feature by creating an issue in the `PyDPF-Core issues`_
-board.
+Do you have an idea for a new feature or an improvement? Your suggestions are welcome.
+
+You can request a new feature by creating an issue in the `PyDPF-Core issues`_
+board using the ``💡 New feature`` template.
 
 .. _test-a-new-feature:
-
 Test a new feature
 ==================
 
-It is possible to test a new feature before it is officially released. To do
-so, you can install PyDPF-Core from the source code by following the steps below.
+It is possible to test a new feature before it is officially released.
+
+To do so, you can install PyDPF-Core from the source code by following the steps below.
 
 Clone the repository
 --------------------
 
-Clone and install the latest version of PyDPF-Core by running this code:
+Clone the latest version of PyDPF-Core by running this code:
 
 .. code-block:: bash
 
     git clone https://github.com/ansys/pydpf-core
 
-Install for users
------------------
+Install PyDPF-Core for users
+----------------------------
 
 Installing the latest version of PyDPF-Core allows you to test latest features as
 they are being developed without having to wait for releases.
 
+To do so, by following the steps below.
+
 Virtual environment
 ~~~~~~~~~~~~~~~~~~~
+
+First, set up a new virtual environment.
 
 Start by navigating to the project's root directory by running:
 
@@ -179,8 +184,9 @@ Start a discussion
 
 Complex topics may require a discussion. Whether you want to know how to use
 PyDPF-Core for solving your specific problem or you have a suggestion for a new
-feature, a discussion is a good place to start. You can open a new discussion
-in the `PyDPF-Core discussions`_ section.
+feature, a discussion is a good place to start.
+
+You can open a new discussion in the `PyDPF-Core discussions`_ section.
 
 .. _answer-questions:
 
@@ -188,9 +194,12 @@ Answer questions
 ================
 
 Another great way to contribute is to help others by answering their questions.
-Maintain a positive and constructive attitude while answering questions. If you
-don't know the answer, you can still help by pointing the person in the right
+Maintain a positive and constructive attitude while answering questions.
+
+If you do not know the answer, you can still help by pointing the person in the right
 direction.
+
+To discover how you can help see the `PyDPF-Core discussions`_.
 
 .. _share-your-work:
 
@@ -198,7 +207,9 @@ Share your work
 ===============
 
 If you have used PyDPF-Core to create something interesting, share it with the rest
-of the community. You can share your work in the `PyDPF-Core discussions`_. Include
+of the community.
+
+You can share your work in the `PyDPF-Core discussions`_. Include
 a brief description of your work and any relevant links that others may find
 useful.
 
