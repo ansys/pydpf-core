@@ -1,0 +1,649 @@
+
+
+
+
+
+
+:class:`Field`
+==============
+
+.. py:class:: ansys.dpf.core.field.Field(nentities=0, nature=natures.vector, location=locations.nodal, field=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.field_base._FieldBase`
+
+
+   Represents the main simulation data container.
+
+   This can be evaluated data from the :class:`Operator <ansys.dpf.core.Operator>` class
+   or created by a factory and directly by an instance of this class.
+
+   A field's data is always associated to its scoping (entities
+   associated to each value) and support (subset of the model where the
+   data is), making the field a self-describing piece of data.
+
+   The field's scoping defines the order of the data, for example: the first ID in the
+   ``scoping`` identifies to which entity the first ``entity data`` belongs.
+
+   The minimum requirement for a well defined field is for it to have a dimensionality
+   (scalar, three components vector, six components symmetrical matrix, and so on), a location
+   ("Nodal", "Elemental", "ElementalNodal", "TimeFreq"), a data vector, and a scoping with IDs.
+   You can also set the number of shell layers. If the field has one elementary data by entity
+   (elementary data size equals the number of components for "Nodal" or "Elemental" field for example),
+   then the data vector can be set directly. If a more complex field is required
+   ("ElementalNodal" field for example), the data can be set entity by entity.
+
+   For more information, see `Fields container and fields
+   <https://dpf.docs.pyansys.com/version/stable/user_guide/fields_container.html>`_.
+
+
+   :param nentities: Number of entities reserved. The default is ``0``.
+   :type nentities: int, optional
+   :param nature: Nature of the field.
+   :type nature: :class:`ansys.dpf.core.common.natures`, optional
+   :param location: Location of the field.  Options are in :class:`locations <ansys.dpf.core.common.locations>`
+
+                    - ``dpf.locations.nodal``
+                    - ``dpf.locations.elemental``
+                    - ``dpf.locations.elemental_nodal``
+                    - ...
+   :type location: str, optional
+   :param field: Field message generated from a gRPC stub, or returned by DPF's C clients.
+   :type field: Field, ansys.grpc.dpf.field_pb2.Field, ctypes.c_void_p, optional
+   :param server: Server with the channel connected to the remote or local instance. The
+                  default is ``None``, in which case an attempt is made to use the global
+                  server.
+   :type server: :class:`ansys.dpf.core.server`, optional
+
+   .. rubric:: Examples
+
+   Create a field from scratch.
+
+   >>> from ansys.dpf.core import locations
+   >>> from ansys.dpf import core as dpf
+   >>> field_with_classic_api = dpf.Field()
+   >>> field_with_classic_api.location = locations.nodal
+
+   Create a symmetrical matrix elemental field from scratch.
+
+   >>> from ansys.dpf import core as dpf
+   >>> num_entities = 2
+   >>> my_field = dpf.Field(num_entities, dpf.natures.symmatrix, locations.elemental)
+   >>> my_scoping = dpf.Scoping(location=locations.elemental, ids=[1, 2])
+   >>> my_field.scoping = my_scoping
+
+   Add all the data at once.
+
+   >>> from ansys.dpf import core as dpf
+   >>> my_data = [1.0,1.0,1.0,0.0,0.0,0.0,1.0,1.0,1.0,0.0,0.0,0.0]
+   >>> my_field.data = my_data
+
+   Add data entity by entity.
+
+   >>> from ansys.dpf import core as dpf
+   >>> my_elem_data = [1.0,1.0,1.0,0.0,0.0,0.0]
+   >>> my_field.append(my_elem_data, scopingid=1)
+   >>> my_field.append(my_elem_data, scopingid=2)
+
+   Create a nodal scalar field using the fields factory.
+
+   >>> from ansys.dpf.core import fields_factory
+   >>> from ansys.dpf import core as dpf
+   >>> my_scalar_field = fields_factory.create_scalar_field(num_entities=2, location=locations.nodal)
+   >>> my_scalar_field.data = [1.0, 3.0]
+
+   Extract a displacement field from a transient result file.
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> transient = examples.download_transient_result()
+   >>> model = dpf.Model(transient)
+   >>> disp = model.results.displacement()
+   >>> fields_container = disp.outputs.fields_container()
+   >>> field = fields_container[0]
+   >>> len(field)
+   11460
+   >>> field.component_count
+   3
+   >>> field.elementary_data_count
+   3820
+
+   Create a displacement field.
+
+   >>> from ansys.dpf import core as dpf
+   >>> import numpy as np
+   >>> my_field = dpf.Field(10, dpf.natures.vector,dpf.locations.nodal)
+   >>> my_field.data = np.zeros(30)
+   >>> my_field.scoping.ids = range(1,11)
+
+   Set data.
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> transient = examples.download_transient_result()
+   >>> model = dpf.Model(transient)
+   >>> disp = model.results.displacement()
+   >>> fields_container = disp.outputs.fields_container()
+   >>> field = fields_container[0]
+   >>> field.data[2]
+   DPFArray([-0.00672665, -0.03213735,  0.00016716]...
+
+   Accessing data with a custom order.
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> transient = examples.download_transient_result()
+   >>> model = dpf.Model(transient)
+   >>> ids_order = [2,3]
+   >>> stress = model.results.stress(mesh_scoping=dpf.Scoping(
+   ...     ids=ids_order, location=dpf.locations.nodal))
+   >>> fields_container = stress.outputs.fields_container()
+   >>> field = fields_container[0]
+   >>> field.scoping.ids
+   DPFArray([3, 2]...
+   >>> field.data
+   DPFArray([[  3755059.33333333,  -2398534.3515625 , -27519072.33333333,
+                2194748.65625   ,   8306637.58333333,   2018637.03125   ],
+             [  2796852.09375   ,   -992492.62304688,  22519752.625     ,
+               -1049027.46875   ,  10846776.1875    ,   4119072.3125    ]]...
+   >>> field.get_entity_data_by_id(2)
+   DPFArray([[ 2796852.09375   ,  -992492.62304688, 22519752.625     ,
+              -1049027.46875   , 10846776.1875    ,  4119072.3125    ]]...
+   >>> field.get_entity_data_by_id(3)
+   DPFArray([[  3755059.33333333,  -2398534.3515625 , -27519072.33333333,
+                2194748.65625   ,   8306637.58333333,   2018637.03125   ]]...
+
+
+
+
+
+
+
+
+
+
+
+
+.. py:currentmodule:: Field
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~as_local_field`
+            - Create a deep copy of the field that can be accessed and modified locally.
+          * - :py:attr:`~get_entity_data`
+            - Retrieve entity data by index.
+          * - :py:attr:`~get_entity_data_by_id`
+            - Retrieve entity data by id.
+          * - :py:attr:`~append`
+            - Append data to the Field.
+          * - :py:attr:`~to_nodal`
+            - Convert the field to one with a ``Nodal`` location.
+          * - :py:attr:`~plot`
+            - Plot the field or fields container on the mesh support if it exists.
+          * - :py:attr:`~resize`
+            - Allocate memory.
+          * - :py:attr:`~min`
+            - Retrieve the component-wise minimum over this field.
+          * - :py:attr:`~max`
+            - Retrieve the component-wise maximum over this field.
+          * - :py:attr:`~deep_copy`
+            - Create a deep copy of the field's data on a given server.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~location`
+            - Field location.
+          * - :py:attr:`~component_count`
+            - Number of components.
+          * - :py:attr:`~elementary_data_count`
+            - Number of elementary data.
+          * - :py:attr:`~size`
+            - Size of data.
+          * - :py:attr:`~shell_layers`
+            - Order of the shell layers.
+          * - :py:attr:`~unit`
+            - Units for the field.
+          * - :py:attr:`~dimensionality`
+            - Dimensionality represents the shape of the elementary data contained in the field.
+          * - :py:attr:`~name`
+            - Name of the field.
+          * - :py:attr:`~field_definition`
+            - Field information, including its location, unit, dimensionality, and shell layers.
+          * - :py:attr:`~time_freq_support`
+            - Time frequency support of the field.
+          * - :py:attr:`~meshed_region`
+            - Meshed region of the field.
+          * - :py:attr:`~shape`
+            - Numpy-like shape of the field.
+          * - :py:attr:`~elementary_data_shape`
+            - Numpy-like shape of the field.
+          * - :py:attr:`~ndim`
+            - 
+          * - :py:attr:`~scoping`
+            - Scoping specifying where the data is.
+          * - :py:attr:`~data`
+            - Data in the field as an array.
+          * - :py:attr:`~data_as_list`
+            - Data in the field as a Python list.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__add__`
+            - Add two fields.
+          * - :py:attr:`~__pow__`
+            - Compute element-wise field[i]^2.
+          * - :py:attr:`~__mul__`
+            - Multiplies two fields.
+          * - :py:attr:`~__sub__`
+            - Subtract two fields.
+          * - :py:attr:`~__str__`
+            - Describe the entity.
+          * - :py:attr:`~__len__`
+            - 
+          * - :py:attr:`~__del__`
+            - 
+          * - :py:attr:`~__enter__`
+            - 
+          * - :py:attr:`~__exit__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.field import Field
+
+Property detail
+---------------
+
+.. py:property:: location
+
+   Field location.
+
+   :returns: Location string, Options are in :class:`locations <ansys.dpf.core.common.locations>`.
+   :rtype: str
+
+   .. rubric:: Examples
+
+   Location for a stress field evaluated at nodes.
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.download_transient_result())
+   >>> s_op = model.results.stress()
+   >>> s_fc = s_op.outputs.fields_container()
+   >>> field = s_fc[0]
+   >>> field.location
+   'ElementalNodal'
+
+.. py:property:: component_count
+
+   Number of components.
+
+.. py:property:: elementary_data_count
+
+   Number of elementary data.
+
+.. py:property:: size
+
+   Size of data.
+
+.. py:property:: shell_layers
+
+   Order of the shell layers.
+
+   :rtype: :class:`ansys.dpf.core.common.shell_layers`
+
+.. py:property:: unit
+
+   Units for the field.
+
+   :returns: Units for the field.
+   :rtype: str
+
+   .. rubric:: Examples
+
+   Units for a displacement field.
+
+   >>> from ansys.dpf import core as dpf
+   >>> my_field = dpf.Field(10, dpf.natures.vector,dpf.locations.nodal)
+   >>> my_field.unit = "m"
+   >>> my_field.unit
+   'm'
+
+.. py:property:: dimensionality
+
+   Dimensionality represents the shape of the elementary data contained in the field.
+
+   :returns: **dimensionality** -- Nature and size of the elementary data.
+   :rtype: :class:`ansys.dpf.core.dimensionality.Dimensionality`
+
+.. py:property:: name
+
+   Name of the field.
+
+.. py:property:: field_definition
+
+   Field information, including its location, unit, dimensionality, and shell layers.
+
+   :rtype: :class:`ansys.dpf.core.field_definition.FieldDefinition`
+
+.. py:property:: time_freq_support
+
+   Time frequency support of the field.
+
+   :rtype: :class:`ansys.dpf.core.time_freq_support.TimeFreqSupport`
+
+.. py:property:: meshed_region
+   :type: ansys.dpf.core.meshed_region.MeshedRegion
+
+
+   Meshed region of the field.
+
+   :rtype: :class:`ansys.dpf.core.meshed_region.MeshedRegion`
+
+.. py:property:: shape
+
+   Numpy-like shape of the field.
+
+   :rtype: tuple
+
+   .. rubric:: Examples
+
+   Shape of a stress field.
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.download_transient_result())
+   >>> s_op =model.results.stress()
+   >>> s_fc = s_op.outputs.fields_container()
+   >>> field = s_fc[0]
+   >>> field.shape
+   (5720, 6)
+
+.. py:property:: elementary_data_shape
+
+   Numpy-like shape of the field.
+
+.. py:property:: ndim
+
+.. py:property:: scoping
+
+   Scoping specifying where the data is.
+
+   Each entity data is on a given scoping ID.
+
+   :returns: **scoping**
+   :rtype: :class:`ansys.dpf.core.scoping.Scoping`
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> transient = examples.download_transient_result()
+   >>> model = dpf.Model(transient)
+   >>> stress_op = model.results.stress()
+   >>> fields_container = stress_op.outputs.fields_container()
+   >>> scoping = fields_container[0].scoping
+   >>> scoping.location
+   'Elemental'
+   >>> scoping.id(3)
+   586
+   >>> #The fourth elementary data of the field corresponds to
+   >>> #the element id number 586 in the mesh
+
+.. py:property:: data
+
+   Data in the field as an array.
+
+   :returns: Data in the field.
+   :rtype: numpy.ndarray
+
+   .. rubric:: Notes
+
+   Print a progress bar.
+
+.. py:property:: data_as_list
+
+   Data in the field as a Python list.
+
+   :returns: List of the data in the field.
+   :rtype: List
+
+   .. rubric:: Notes
+
+   Print a progress bar.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> transient = examples.download_transient_result()
+   >>> model = dpf.Model(transient)
+   >>> disp = model.results.displacement()
+   >>> fields_container = disp.outputs.fields_container()
+   >>> field = fields_container[0]
+   >>> # field.data_as_list
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: as_local_field()
+
+   Create a deep copy of the field that can be accessed and modified locally.
+
+   This method allows you to access and modify the local copy of the field
+   without sending a request to the server. It should be used in a ``with``
+   statement so that the local field is released and the data is sent to
+   the server in one action. If it is not used in a ``with`` statement,
+   :func:`<release_data> Field.release_data()` should be used to update the field.
+
+   .. warning::
+
+      If this `as_local_field` method is not used as a context manager in a
+      ``with`` statement or if the method `release_data()` is not called,
+      the data will not be updated.
+
+   :returns: **local_field**
+   :rtype: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> num_entities = 3
+   >>> field_to_local = dpf.fields_factory.create_3d_vector_field(num_entities, location=dpf.locations.elemental_nodal)
+   >>> with field_to_local.as_local_field() as f:
+   ...     for i in range(1,num_entities+1):
+   ...         f.append([[0.1*i,0.2*i, 0.3*i],[0.1*i,0.2*i, 0.3*i]],i)
+   ...         f.get_entity_data(i-1),[[0.1*i,0.2*i, 0.3*i],[0.1*i,0.2*i, 0.3*i]]
+   (DPFArray([[0.1, 0.2, 0.3],
+             [0.1, 0.2, 0.3]]), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3]])
+   (DPFArray([[0.2, 0.4, 0.6],
+             [0.2, 0.4, 0.6]]), [[0.2, 0.4, 0.6], [0.2, 0.4, 0.6]])
+   (DPFArray([[0.3, 0.6, 0.9],
+             [0.3, 0.6, 0.9]]), [[0.30000000000000004, 0.6000000000000001, 0.8999999999999999], [0.30000000000000004, 0.6000000000000001, 0.8999999999999999]])
+
+
+.. py:method:: get_entity_data(index: int) -> ansys.dpf.gate.dpf_array.DPFArray
+
+   Retrieve entity data by index.
+
+
+.. py:method:: get_entity_data_by_id(id: int) -> ansys.dpf.gate.dpf_array.DPFArray
+
+   Retrieve entity data by id.
+
+
+.. py:method:: append(data, scopingid)
+
+   Append data to the Field.
+
+
+.. py:method:: to_nodal()
+
+   Convert the field to one with a ``Nodal`` location.
+
+   This method is valid only when the field's current location is
+   ``ElementalNodal`` or ``Elemental``.
+
+   :returns: **nodal_field** -- with ``location=='Nodal'``.
+   :rtype: Field
+
+
+.. py:method:: plot(shell_layers: ansys.dpf.core.common.shell_layers = None, deform_by: Union[Field, ansys.dpf.core.results.Result, ansys.dpf.core.dpf_operator.Operator] = None, scale_factor: float = 1.0, meshed_region: ansys.dpf.core.meshed_region.MeshedRegion = None, **kwargs)
+
+   Plot the field or fields container on the mesh support if it exists.
+
+   .. warning::
+
+      This method is primarily added out of convenience as plotting
+      directly from the field can be slower than extracting the
+      meshed region and plotting the field on top of that.  It is
+      more efficient to plot with:
+
+      >>> from ansys.dpf import core as dpf
+      >>> from ansys.dpf.core import examples
+      >>> transient = examples.download_transient_result()
+      >>> model = dpf.Model(transient)
+      >>> mesh = model.metadata.meshed_region
+      >>> disp = model.results.displacement()
+      >>> fields_container = disp.outputs.fields_container()
+      >>> field = fields_container[0]
+      >>> mesh.plot(field)
+
+   :param shell_layers: Enum used to set the shell layers if the model to plot
+                        contains shell elements. Defaults to the top layer.
+   :param deform_by: Used to deform the plotted mesh. Must output a 3D vector field.
+   :param scale_factor: Scaling factor to apply when warping the mesh.
+   :param meshed_region: Mesh to plot the field on.
+   :param \*\*kwargs: Additional keyword arguments for the plotter. For additional keyword
+                      arguments, see ``help(pyvista.plot)``.
+
+
+.. py:method:: resize(nentities, datasize)
+
+   Allocate memory.
+
+   :param nentities: Number of IDs in the scoping.
+   :type nentities: int
+   :param datasize: Size of the data vector.
+   :type datasize: int
+
+
+.. py:method:: __add__(field_b)
+
+   Add two fields.
+
+   :rtype: :class:`ansys.dpf.core.operators.math.add.add`
+
+
+.. py:method:: __pow__(value)
+
+   Compute element-wise field[i]^2.
+
+
+.. py:method:: __mul__(value)
+
+   Multiplies two fields.
+
+   :rtype: :class:`ansys.dpf.core.operators.math.generalized_inner_product.generalized_inner_product`
+
+
+.. py:method:: __sub__(fields_b)
+
+   Subtract two fields.
+
+   :rtype: :class:`ansys.dpf.core.operators.math.minus.minus`
+
+
+.. py:method:: min()
+
+   Retrieve the component-wise minimum over this field.
+
+   :returns: **min** -- Component-wise minimum field.
+   :rtype: Field
+
+
+.. py:method:: max()
+
+   Retrieve the component-wise maximum over this field.
+
+   :returns: **max** -- Component-wise maximum field.
+   :rtype: Field
+
+
+.. py:method:: deep_copy(server=None)
+
+   Create a deep copy of the field's data on a given server.
+
+   This method can be useful for passing data from one server instance to another.
+
+   :param server: Server with the channel connected to the remote or local instance. The
+                  default is ``None``, in which case an attempt is made to use the global
+                  server.
+   :type server: :class:`ansys.dpf.core.server`, optional
+
+   :returns: **field_copy**
+   :rtype: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> transient = examples.download_transient_result()
+   >>> model = dpf.Model(transient)
+   >>> disp = model.results.displacement()
+   >>> fields_container = disp.outputs.fields_container()
+   >>> field = fields_container[0]
+   >>> other_server = dpf.start_local_server(as_global=False)
+   >>> deep_copy = field.deep_copy(server=other_server)
+
+
+.. py:method:: __str__()
+
+   Describe the entity.
+
+   :returns: Description of the entity.
+   :rtype: str
+
+
+.. py:method:: __len__()
+
+.. py:method:: __del__()
+
+.. py:method:: __enter__()
+
+.. py:method:: __exit__(exc_type, exc_value, tb)
+
+
+
+

@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.math.fft_gradient_eval
+   :inherited-members:
