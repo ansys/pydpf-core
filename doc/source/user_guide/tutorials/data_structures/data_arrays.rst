@@ -9,35 +9,47 @@ Data Arrays
 .. |StringField| replace:: :class:`StringField <ansys.dpf.core.string_field.StringField>`
 .. |CustomTypeField| replace:: :class:`CustomTypeField <ansys.dpf.core.custom_type_field.CustomTypeField>`
 
-When DPF employ operators to manipulate the data, it uses data containers to
-store and return it. Therefore, it is important to be aware of how the data is
-structured in those containers.
+To process your data with DPF, you must format it according to the DPF data model.
+You can achieve this either by using DPF data readers on result files, or by using the data to build DPF data storage containers.
+
+It is important to be aware of how the data is structured in those containers to understand how to create them and how operators process them.
 
 The data containers can be:
 
-    - **Raw data storage structures**: Data arrays (a ``Field`` for example) or Data Maps (a ``DataTree`` for example)
-    - **Collections**: a group of same labeled objects from one DPF raw data storage structure (a ``FieldsContainer`` for example, that is a group of ``Fields`` with the same label)
+    - **Raw data storage structures**: data arrays (such as a ``Field``) or data maps (such as a ``DataTree``)
+    - **Collections**: homogeneous groups of labeled raw data storage structures (such as a ``FieldsContainer`` for a group of labeled fields)
 
-This tutorial presents how some DPF data arrays are defined and manipulated. The main difference between
-them is the data type they contain:
+This tutorial presents how to define and manipulate DPF data arrays specifically.
 
-    - |Field| :  float;
-    - |StringField|: string.
-    - |PropertyField|: int;
-    - |CustomTypeField|: custom type (numpy.dtype)
+A data array in DPF usually represents a mathematical field, hence the base name ``Field``.
 
-Therefore, the first one is typically found when manipulating the results. The two following are
-typically found when analysing the mesh and its properties.
+Different types of ``Field`` store different data types:
 
-Their data is always associated to:
+    - a |Field| stores float values
+    - a |StringField| stores string values
+    - a |PropertyField| stores integer values
+    - a |CustomTypeField| stores values of a custom type (among valid numpy.dtype)
 
-    - A ``location``: What typology of the finite element method was used to give the results. There are different spatial ``locations`` that can be found at: :class:`locations <ansys.dpf.core.common.locations>` but the most used are : ``Nodal``, ``Elemental`` and ``Elemental Nodal``.
+A ``Field`` is always associated to:
 
-    - The ``support``: The simulation basis functions are integrated over a calculus domain, the support of the analysis. This domain is a physical component, usually represented by: a mesh, geometrical component, time or frequency values.
+    - a ``location``, which defines the type entity the data applies to.
+      You can check the :class:`locations <ansys.dpf.core.common.locations>` list to know what is available.
+      Locations related to mesh entities include: ``nodal``, ``elemental``, or ``elemental_nodal``, ``zone``, ``faces``.
+      Locations related to time, frequency, or mode are ``modal``, ``time_freq``, and ``time_freq_step``.
 
-When defining an operator, you must narrow down which parts of the initial data
-are relevant for the goals of the analysis. Thus, you must define the data container
-scoping.
+    - a ``scoping``, which is the list of entity IDs each data point in the ``Field`` relates to.
+      For example, the ``scoping`` of a ``nodal`` ``Field`` represents a list of node IDs.
+      It can represent a subset of the ``support`` of the field.
+      The data in a ``Field`` is ordered the same way as the IDs in its ``scoping``.
+
+    - a ``support``, which is a data container holding information about the model for the type of entity the ``location`` targets.
+      If the ``location`` relates to mesh entities such as nodes or elements, the ``support`` of the ``Field`` is an object holding data
+      related to the mesh, called a ``MeshedRegion``.
+
+    - a ``dimensionality``, which gives the shape of the data array based on the number of components and dimensions.
+    Indeed, a DPF ``Field`` can not only store data for a single 3D vector field,
+    but also store data for a multi-component quantity.
+
 
 A field is also defined by its dimensionality, it can for example, describe
 a displacement vector or norm, stresses and strains tensors, stresses and strains
