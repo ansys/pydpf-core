@@ -543,6 +543,7 @@ class Field(_FieldBase):
         >>> fields_container = disp.outputs.fields_container()
         >>> field = fields_container[0]
         >>> mesh.plot(field)
+        (None, <pyvista.plotting.plotter.Plotter ...>)
 
         Parameters
         ----------

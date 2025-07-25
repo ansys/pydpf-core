@@ -23,7 +23,6 @@
 """Example of a custom DPF operator in Python."""
 
 from ansys.dpf import core as dpf
-from ansys.dpf.core.changelog import Changelog
 from ansys.dpf.core.custom_operator import CustomOperatorBase
 from ansys.dpf.core.operator_specification import (
     CustomSpecification,
@@ -75,14 +74,25 @@ class CustomOperator(CustomOperatorBase):
             category="my_category",  # Optional, defaults to 'other'
             license="any_dpf_supported_increments",  # Optional, defaults to None
         )
-        # Set the changelog of the operator to track changes
-        spec.set_changelog(
-            Changelog()
-            .patch_bump("Describe a patch bump.")
-            .major_bump("Describe a major bump.")
-            .minor_bump("Describe a minor bump.")
-            .expect_version("1.1.0")  # Checks the resulting version is as expected
-        )
+
+        # Operator changelog and versioning is only available after DPF 2025R2
+        try:
+            from ansys.dpf.core.changelog import Changelog
+
+            # Set the changelog of the operator to track changes
+            spec.set_changelog(
+                Changelog()
+                .patch_bump("Describe a patch bump.")
+                .major_bump("Describe a major bump.")
+                .minor_bump("Describe a minor bump.")
+                .expect_version("1.1.0")  # Checks the resulting version is as expected
+            )
+        except ModuleNotFoundError as e:
+            if "ansys.dpf.core.changelog" in e.msg:
+                pass
+            else:
+                raise e
+
         return spec
 
     def run(self):

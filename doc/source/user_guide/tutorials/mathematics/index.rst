@@ -19,9 +19,15 @@ PyDPF-Core API and data structures.
        :link: ref_basic_math
        :link-type: ref
        :text-align: center
-
+       :class-card: sd-bg-light
+       :class-header: sd-bg-light sd-text-dark
+       :class-footer: sd-bg-light sd-text-dark
+       
        This tutorial explains how to do some basic
        mathematical operations with PyDPF-Core.
+       
+       +++
+       Requires DPF 9.1 or above (2025 R1).
 
 .. toctree::
     :maxdepth: 2

@@ -18,7 +18,6 @@ Narrow down data
 .. |extract_scoping| replace:: :class:`extract_scoping <ansys.dpf.core.operators.utility.extract_scoping.extract_scoping>`
 .. |scoping_by_sets| replace:: :func:`scoping_by_sets() <ansys.dpf.core.time_freq_scoping_factory.scoping_by_sets>`
 .. |nodal_scoping| replace:: :func:`nodal_scoping() <ansys.dpf.core.mesh_scoping_factory.nodal_scoping>`
-.. |ScopingsContainer| replace:: :class:`ScopingsContainer <ansys.dpf.core.scopings_container.ScopingsContainer>`
 .. |MeshedRegion.elements| replace:: :func:`MeshedRegion.elements<ansys.dpf.core.meshed_region.MeshedRegion.elements>`
 .. |MeshedRegion.nodes| replace:: :func:`MeshedRegion.nodes<ansys.dpf.core.meshed_region.MeshedRegion.nodes>`
 .. |Elements.scoping| replace:: :func:`Elements.scoping<ansys.dpf.core.elements.Elements.scoping>`
