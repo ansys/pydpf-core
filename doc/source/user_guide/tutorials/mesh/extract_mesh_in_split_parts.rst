@@ -7,7 +7,7 @@ Extract a mesh in split parts
 :bdg-fluent:`Fluent` :bdg-cfx:`CFX`
 
 .. include:: ../../../links_and_refs.rst
-.. |MeshesContainer| replace:: :class:`MeshesContainer <ansys.dpf.core.meshes_container.MeshesContainer>`
+
 .. |meshes_provider| replace:: :class:`meshes_provider <ansys.dpf.core.operators.mesh.meshes_provider.meshes_provider>`
 
 This tutorial shows how to extract meshes split on a given space or time from a result file.

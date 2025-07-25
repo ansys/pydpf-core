@@ -8,12 +8,9 @@ Split a mesh
 
 .. include:: ../../../links_and_refs.rst
 
-.. |MeshesContainer| replace:: :class:`MeshesContainer <ansys.dpf.core.meshes_container.MeshesContainer>`
 .. |split_mesh| replace:: :class:`split_mesh <ansys.dpf.core.operators.mesh.split_mesh.split_mesh>`
 .. |split_on_property_type| replace:: :class:`split_on_property_type <ansys.dpf.core.operators.scoping.split_on_property_type.split_on_property_type>`
 .. |from_scopings| replace:: :class:`from_scopings <ansys.dpf.core.operators.mesh.from_scopings.from_scopings>`
-.. |ScopingsContainer| replace:: :class:`ScopingsContainer <ansys.dpf.core.scopings_container.ScopingsContainer>`
-.. |PropertyField| replace:: :class:`PropertyField <ansys.dpf.core.property_field.PropertyField>`
 
 This tutorial shows how to split a mesh on a given property.
 

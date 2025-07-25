@@ -65,3 +65,5 @@
 .. |Result| replace:: :class:`Result <ansys.dpf.core.results.Result>`
 .. |Operator| replace:: :class:`Operator<ansys.dpf.core.dpf_operator.Operator>`
 .. |TimeFreqSupport| replace:: :class:`TimeFreqSupport <ansys.dpf.core.time_freq_support.TimeFreqSupport>`
+.. |PropertyField| replace:: :class:`PropertyField <ansys.dpf.core.property_field.PropertyField>`
+.. |StringField| replace:: :class:`StringField <ansys.dpf.core.string_field.StringField>`

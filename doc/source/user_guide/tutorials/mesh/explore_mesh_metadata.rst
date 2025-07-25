@@ -7,8 +7,6 @@ Explore a mesh metadata
 :bdg-lsdyna:`LSDYNA` :bdg-fluent:`Fluent` :bdg-cfx:`CFX`
 
 .. include:: ../../../links_and_refs.rst
-.. |PropertyField| replace:: :class:`PropertyField <ansys.dpf.core.property_field.PropertyField>`
-.. |StringField| replace:: :class:`StringField <ansys.dpf.core.string_field.StringField>`
 
 This tutorial explains how to read a mesh metadata (data about the elements, nodes, faces, region, zone ...)
 before extracting the mesh from a result file.
