@@ -48,8 +48,8 @@ be used to visualize and analyze simulation results:
 
 .. _tutorials_main_steps_1:
 
-1- Importing and opening results files
-**************************************
+1- Import and open results files
+********************************
 
 First, import the DPF-Core module as ``dpf`` and import the included examples file
 
