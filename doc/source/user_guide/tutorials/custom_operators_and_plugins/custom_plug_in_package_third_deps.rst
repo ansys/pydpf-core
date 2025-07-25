@@ -144,7 +144,7 @@ Use the :func:`load_library() <ansys.dpf.core.core.load_library>` method to load
     "load_operators")
 
 Use the custom operators
---------------------
+------------------------
 
 Once the plugin is loaded, you can instantiate the custom operator:
 

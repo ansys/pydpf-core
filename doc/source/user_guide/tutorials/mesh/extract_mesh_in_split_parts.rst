@@ -7,7 +7,7 @@ Extract a mesh in split parts
 :bdg-fluent:`Fluent` :bdg-cfx:`CFX`
 
 .. include:: ../../../links_and_refs.rst
-.. |MeshesContainer| replace:: :class:`MeshesContainer <ansys.dpf.core.meshes_container.MeshesContainer>`
+
 .. |meshes_provider| replace:: :class:`meshes_provider <ansys.dpf.core.operators.mesh.meshes_provider.meshes_provider>`
 
 This tutorial shows how to extract meshes split on a given space or time from a result file.
@@ -90,7 +90,7 @@ The split meshes are given in a |MeshesContainer| and can be spatially or tempor
             print(meshes_41)
 
 Scope the mesh regions to be extracted in split regions
------------------------------------------------------
+-------------------------------------------------------
 
 A region corresponds to a zone for Fluid and CFX results. You can specify the mesh regions you want to get by giving
 the zones ids to the ``region_scoping`` argument.
