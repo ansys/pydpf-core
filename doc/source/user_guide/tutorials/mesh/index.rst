@@ -1,8 +1,8 @@
 .. _ref_tutorials_mesh:
 
-================
-Mesh exploration
-================
+======
+Meshes
+======
 
 The mesh in DPF is represented by the :class:`MeshedRegion <ansys.dpf.core.meshed_region.MeshedRegion>` entity.
 
