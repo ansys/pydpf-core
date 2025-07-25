@@ -132,248 +132,203 @@ You can obtain a |PropertyField| from a |MeshInfo| by requesting the element typ
 
 The field is located on elements since it stores the element type ID for each element.
 
-Creates fields from scratch
----------------------------
+Create fields from scratch
+--------------------------
 
 You can also create a |Field|, |StringField| or |PropertyField| from scratch based on your data.
 
-The :mod:`fields_factory <ansys.dpf.core.fields_factory>` module provides helpers to create a |Field|.
+Create a |Field| from scratch
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Using the class constructors
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+First create a 3D vector field defined for two nodes.
 
-.. tab-set::
+.. jupyter-execute::
 
-    .. tab-item:: Field
-
-        .. code-block:: python
-
-            # Create the Field object with 2 entities
-            num_entities = 2
-            my_field = dpf.Field(nentities=num_entities)
-            # By default, the field contains 3d vectors
-            # So with 2 entities we need 6 data values
-            my_field.data = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
-            # Assign a location
-            my_field.location = dpf.locations.nodal
-            # Define the scoping
-            my_field.scoping.ids = range(num_entities)
-            # Define the units (only for the Field object)
-            my_field.unit = "m"
-
-            print(my_field)
-
-        .. rst-class:: sphx-glr-script-out
-
-         .. exec_code::
-            :hide_code:
-
-            from ansys.dpf import core as dpf
-            num_entities = 2
-            my_field = dpf.Field(nentities=num_entities)
-            my_field.data = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
-            my_field.location = dpf.locations.nodal
-            my_field.scoping.ids = range(num_entities)
-            my_field.unit = "m"
-            print(my_field)
-
-    .. tab-item:: StringField
-
-        .. code-block:: python
-
-            # Create the Field object with 2 entities
-            num_entities = 2
-            my_StringField = dpf.StringField(nentities=num_entities)
-            # By default, the field contains 3d vectors
-            # So with 2 entities we need 6 data values
-            my_StringField.data = ["string_1", "string_2"]
-            # Assign a location
-            my_StringField.location = dpf.locations.nodal
-            # Define the scoping
-            my_StringField.scoping.ids = range(num_entities)
-
-            print(my_field)
-
-        .. rst-class:: sphx-glr-script-out
-
-         .. exec_code::
-            :hide_code:
-
-            from ansys.dpf import core as dpf
-            num_entities = 2
-            my_StringField = dpf.StringField(nentities=num_entities)
-            my_StringField.data = ["string_1", "string_2"]
-            my_StringField.location = dpf.locations.nodal
-            my_StringField.scoping.ids = range(num_entities)
-            print(my_StringField)
-
-    .. tab-item:: PropertyField
-
-        .. code-block:: python
-
-            # Create the Field object with 2 entities
-            num_entities = 2
-            my_PropertyField = dpf.PropertyField(nentities=num_entities)
-            # By default, the field contains 3d vectors
-            # So with 2 entities we need 6 data values
-            my_PropertyField.data = [12, 25]
-            # Define the scoping
-            my_PropertyField.scoping.ids = range(num_entities)
-            # Assign a location
-            my_PropertyField.location = dpf.locations.nodal
-
-            print(my_PropertyField)
-
-        .. rst-class:: sphx-glr-script-out
-
-         .. exec_code::
-            :hide_code:
-
-            from ansys.dpf import core as dpf
-            num_entities = 2
-            my_PropertyField = dpf.PropertyField(nentities=num_entities)
-            my_PropertyField.data = [12, 25]
-            my_PropertyField.scoping.ids = range(num_entities)
-            my_PropertyField.location = dpf.locations.nodal
-            print(my_PropertyField)
-
-
-**2) Evaluated data**
-
-.. tab-set::
-
-    .. tab-item:: Field
-
-        .. code-block:: python
-
-            # Create the displacement operator
-            # Here we use [0] because the displacement operator gives an FieldsContainer as an output
-            my_disp_field = my_model.results.displacement.eval()[0]
-            # Print the evaluated results output
-            print(my_disp_field)
-
-        .. rst-class:: sphx-glr-script-out
-
-         .. exec_code::
-            :hide_code:
-
-            from ansys.dpf import core as dpf
-            from ansys.dpf.core import examples
-            my_model = dpf.Model(examples.download_transient_result())
-            my_disp = my_model.results.displacement()
-            print(my_disp.eval())
-
-    .. tab-item:: StringField
-
-        .. code-block:: python
-
-            # Usually the StringField can be found at the mesh_info
-            # Get the mesh_info by tht models metadata
-            my_mesh_info = my_model_2.metadata.mesh_info
-            print(my_mesh_info)
-
-        .. rst-class:: sphx-glr-script-out
-
-         .. exec_code::
-            :hide_code:
-
-            from ansys.dpf import core as dpf
-            from ansys.dpf.core import examples
-            my_data_sources = dpf.DataSources(result_path=examples.download_fluent_axial_comp()["flprj"])
-            my_model_2 = dpf.Model(data_sources=my_data_sources)
-            my_mesh_info = my_model_2.metadata.mesh_info
-            print(my_mesh_info)
-
-        .. code-block:: python
-
-            # We can get the face_zone_names property for example
-            my_string_field = my_mesh_info.get_property(property_name="face_zone_names")
-            print(my_string_field)
-
-        .. rst-class:: sphx-glr-script-out
-
-         .. exec_code::
-            :hide_code:
-
-            from ansys.dpf import core as dpf
-            from ansys.dpf.core import examples
-            my_data_sources = dpf.DataSources(result_path=examples.download_fluent_axial_comp()["flprj"])
-            my_model_2 = dpf.Model(data_sources=my_data_sources)
-            my_mesh_info = my_model_2.metadata.mesh_info
-            my_string_field = my_mesh_info.get_property(property_name="face_zone_names")
-            print(my_string_field)
-
-    .. tab-item:: PropertyField
-
-        .. code-block:: python
-
-            # Usually the StringField can be found at the mesh_info
-            # Get the mesh_info by tht models metadata
-            my_mesh_info = my_model_2.metadata.mesh_info
-            print(my_mesh_info)
-
-        .. rst-class:: sphx-glr-script-out
-
-         .. exec_code::
-            :hide_code:
-
-            from ansys.dpf import core as dpf
-            from ansys.dpf.core import examples
-            my_data_sources = dpf.DataSources(result_path=examples.download_fluent_axial_comp()["flprj"])
-            my_model_2 = dpf.Model(data_sources=my_data_sources)
-            my_mesh_info = my_model_2.metadata.mesh_info
-            print(my_mesh_info)
-
-        .. code-block:: python
-
-            # We can get the body_face_topology property for example
-            my_property_field = my_mesh_info.get_property(property_name="body_face_topology")
-            print(my_property_field)
-
-        .. rst-class:: sphx-glr-script-out
-
-         .. exec_code::
-            :hide_code:
-
-            from ansys.dpf import core as dpf
-            from ansys.dpf.core import examples
-            my_data_sources = dpf.DataSources(result_path=examples.download_fluent_axial_comp()["flprj"])
-            my_model_2 = dpf.Model(data_sources=my_data_sources)
-            my_mesh_info = my_model_2.metadata.mesh_info
-            my_property_field = my_mesh_info.get_property(property_name="body_face_topology")
-            print(my_property_field)
-
-**3) With the fields_factory module**
-
-.. code-block:: python
-
-    # Define a field with entities that are scalar.
-    my_field = dpf.fields_factory.create_scalar_field(num_entities=2)
-    # This is a “reserve” mechanism, at the beginning you have 0 entities.
-    # This means that you need to append data to grow the size of your field.
-    # Gives 2 vectors in the same id
-    my_field.append(data=[1.0, 2.0, 3.0, 4.0, 5.0, 6.0], scopingid=0)
-
-    # Gives 2 vectors in different ids
-    my_field.append(data=[1.0, 2.0, 3.0], scopingid=1)
-    my_field.append(data=[4.0, 5.0, 6.0], scopingid=2)
-
+    # Create a 3D vector field ready to hold data for two entities
+    # The constructor creates 3D vector fields by default
+    my_field = dpf.Field(nentities=2)
+    # Set the data values as a flat vector
+    my_field.data = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
+    # Associate the data to nodes
+    my_field.location = dpf.locations.nodal
+    # Set the IDs of the nodes the data applies to
+    my_field.scoping.ids = [1, 2]
+    # Define the unit (only available for the Field type)
+    my_field.unit = "m"
+    # Print the field
     print(my_field)
 
-.. rst-class:: sphx-glr-script-out
+Now create a 3x3 symmetric matrix field defined for a single element.
 
- .. exec_code::
-    :hide_code:
+.. jupyter-execute::
 
-    from ansys.dpf import core as dpf
-    my_field = dpf.fields_factory.create_scalar_field(num_entities=2)
-    my_field.append(data=[1.0, 2.0, 3.0, 4.0, 5.0, 6.0], scopingid=0)
-    my_field.append(data=[1.0, 2.0, 3.0], scopingid=1)
-    my_field.append(data=[ 4.0, 5.0, 6.0], scopingid=2)
+    # Set the nature to symmatrix
+    my_field = dpf.Field(nentities=1, nature=dpf.natures.symmatrix)
+    # The symmatrix dimensions defaults to 3x3
+    # Set the data values as a flat vector
+    my_field.data = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
+    # Associate the data to elements
+    my_field.location = dpf.locations.elemental
+    # Set the IDs of the nodes the data applies to
+    my_field.scoping.ids = [1]
+    # Define the unit (only available for the Field type)
+    my_field.unit = "Pa"
+    # Print the field
     print(my_field)
 
-Accessing fields metadata
-~~~~~~~~~~~~~~~~~~~~~~~~~
+Now create a 2x3 matrix field defined for a single fluid element face.
+
+.. jupyter-execute::
+
+    # Set the nature to matrix and the location to elemental
+    my_field = dpf.Field(nentities=1, nature=dpf.natures.matrix)
+    # Set the matrix dimensions to 2x3
+    my_field.dimensionality = [2, 3]
+    # Set the data values as a flat vector
+    my_field.data = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
+    # Associate the data to faces
+    my_field.location = dpf.locations.faces
+    # Set the IDs of the face the data applies to
+    my_field.scoping.ids = [1]
+    # Define the unit (only available for the Field type)
+    my_field.unit = "mm"
+    # Print the field
+    print(my_field)
+
+Create a |Field| from scratch with the fields_factory
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The :mod:`fields_factory <ansys.dpf.core.fields_factory>` module provides helpers to create a |Field|:
+
+- Use :func:`create_scalar_field <ansys.dpf.core.fields_factory.create_scalar_field>` to create a scalar field:
+
+.. jupyter-execute::
+
+    # Create a scalar field ready to hold data for two entities
+    # The field is nodal by default
+    my_field = dpf.fields_factory.create_scalar_field(num_entities=2)
+    my_field.data = [1.0, 2.0]
+    my_field.scoping.ids = [1, 2]
+    # Print the field
+    print(my_field)
+
+- Use :func:`create_vector_field <ansys.dpf.core.fields_factory.create_vector_field>` to create a generic vector field:
+
+.. jupyter-execute::
+
+    # Create a 2D vector field ready to hold data for two entities
+    # The field is nodal by default
+    my_field = dpf.fields_factory.create_vector_field(num_entities=2, num_comp=2)
+    my_field.data = [1.0, 2.0, 3.0, 4.0]
+    my_field.scoping.ids = [1, 2]
+    # Print the field
+    print(my_field)
+
+- Use :func:`create_3d_vector_field <ansys.dpf.core.fields_factory.create_3d_vector_field>` to create a 3D vector field:
+
+.. jupyter-execute::
+
+    # Create a 3D vector field ready to hold data for two entities
+    # The field is nodal by default
+    my_field = dpf.fields_factory.create_3d_vector_field(num_entities=2)
+    my_field.data = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
+    my_field.scoping.ids = [1, 2]
+    # Print the field
+    print(my_field)
+
+- Use :func:`create_matrix_field <ansys.dpf.core.fields_factory.create_matrix_field>` to create a generic matrix field:
+
+.. jupyter-execute::
+
+    # Create a 2x3 matrix field ready to hold data for two entities
+    # The field is nodal by default
+    my_field = dpf.fields_factory.create_matrix_field(num_entities=2, num_lines=2, num_col=3)
+    my_field.data = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
+    my_field.scoping.ids = [1, 2]
+    # Print the field
+    print(my_field)
+
+- Use :func:`create_tensor_field <ansys.dpf.core.fields_factory.create_tensor_field>` to create a 3x3 matrix field:
+
+.. jupyter-execute::
+
+    # Create a 3x3 matrix field ready to hold data for two entities
+    # The field is nodal by default
+    my_field = dpf.fields_factory.create_tensor_field(num_entities=2)
+    my_field.data = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0]
+    my_field.scoping.ids = [1, 2]
+    # Print the field
+    print(my_field)
+
+- Use :func:`create_overall_field <ansys.dpf.core.fields_factory.create_overall_field>` to create a field with a single value for the whole support:
+
+.. jupyter-execute::
+
+    # Create a field storing a value applied to every node in the support
+    my_field = dpf.fields_factory.create_overall_field(value=1.0)
+    # Print the field
+    print(my_field)
+
+- Use :func:`field_from_array <ansys.dpf.core.fields_factory.field_from_array>` to create a scalar, 3D vector, or symmetric matrix field directly from a numpy array or a Python list
+
+.. jupyter-execute::
+
+    # Create a scalar field from a 1D array or a list
+    arr = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
+    my_field = dpf.fields_factory.field_from_array(arr=arr)
+    # Print the field
+    print(my_field)
+
+.. jupyter-execute::
+    # Create a 3D vector field from an array or a list
+    arr = [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]]
+    my_field = dpf.fields_factory.field_from_array(arr=arr)
+    # Print the field
+    print(my_field)
+
+.. jupyter-execute::
+    # Create a symmetric matrix field from an array or a list
+    arr = [[1.0, 2.0, 3.0, 4.0, 5.0, 6.0]]
+    my_field = dpf.fields_factory.field_from_array(arr=arr)
+    # Print the field
+    print(my_field)
+
+Create a |StringField| from scratch
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. jupyter-execute::
+
+    # Create a string field with data for two elements
+    my_string_field = dpf.StringField(nentities=2)
+    # Set the string values
+    my_string_field.data = ["string_1", "string_2"]
+    # Set the location
+    my_string_field.location = dpf.locations.elemental
+    # Set the element IDs
+    my_string_field.scoping.ids = [1, 2]
+    # Print the string field
+    print(my_string_field)
+
+
+Create a |PropertyField| from scratch
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. jupyter-execute::
+
+    # Create a property field with data for two modes
+    my_property_field = dpf.PropertyField(nentities=2)
+    # Set the data values
+    my_property_field.data = [12, 25]
+    # Set the location
+    my_property_field.location = dpf.locations.modes
+    # Set the element IDs
+    my_property_field.scoping.ids = [1, 2]
+    # Print the property field
+    print(my_property_field)
+
+
+Access the field metadata
+-------------------------
 
 A field contains the metadata for the result it is associated with. The metadata
 includes the location, the scoping, the shape of the data stored, number of components,
@@ -568,8 +523,8 @@ and units of the data.
             print("shape", '\n', my_shape, '\n')
             print("We have a Field with 24 face ids (consistent with the number of faces) and each face has one id", '\n')
 
-Accessing fields data
-~~~~~~~~~~~~~~~~~~~~~
+Access the field data
+---------------------
 
 When DPF-Core returns the |Field| class object,
 what Python actually has is a client-side representation of the field,
