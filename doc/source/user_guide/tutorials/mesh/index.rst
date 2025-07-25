@@ -35,13 +35,16 @@ These tutorials explains how to explore different attributes of a given mesh wit
        :link: ref_tutorials_explore_mesh_metadata
        :link-type: ref
        :text-align: center
+       :class-card: sd-bg-light
+       :class-header: sd-bg-light sd-text-dark
+       :class-footer: sd-bg-light sd-text-dark
 
        This tutorial explains how to explore a mesh metadata before
        extracting the mesh from a result file.
 
        +++
        :bdg-lsdyna:`LSDYNA` :bdg-fluent:`Fluent` :bdg-cfx:`CFX`
-
+       Requires DPF 9.1 or above (2025 R1).
 
     .. grid-item-card:: Explore a mesh
        :link: ref_tutorials_explore_mesh
