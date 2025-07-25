@@ -50,6 +50,7 @@ from ansys.dpf.gate import (
 from ansys.dpf.gate.errors import DPFServerException
 
 if TYPE_CHECKING:  # pragma: nocover
+    from ansys.dpf.core.dimensionality import Dimensionality
     from ansys.dpf.core.dpf_operator import Operator
     from ansys.dpf.core.meshed_region import MeshedRegion
     from ansys.dpf.core.results import Result
@@ -675,7 +676,7 @@ class Field(_FieldBase):
             return self.field_definition.dimensionality
 
     @dimensionality.setter
-    def dimensionality(self, value):
+    def dimensionality(self, value: Dimensionality):
         fielddef = self.field_definition
         fielddef.dimensionality = value
         self.field_definition = fielddef
