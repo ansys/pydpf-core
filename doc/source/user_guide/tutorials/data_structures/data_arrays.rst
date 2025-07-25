@@ -886,58 +886,14 @@ a field's data can be recovered locally before sending a large number of request
         for i in range(1,100):
             f.get_entity_data_by_id(i)
 
-Operate on field data
-~~~~~~~~~~~~~~~~~~~~~
+Note on the field data
+~~~~~~~~~~~~~~~~~~~~~~
 
-Oftentimes, you do not need to directly act on the data of an array within
-Python. For example, if you want to know the maximum of the data, you can
-use the ``array.max()`` method to compute the maximum of the array with the
-``numpy`` package.
+It is important when interacting with remote data to remember that any PyDPF request for the
+``Field.data`` downloads the whole array to your local machine.
 
-However, this requires sending the entire array to Python and then computing
-the maximum there.
+This is particularly inefficient within scripts handling a large amount of data where the request
+is made to perform an action locally which could have been made remotely with a DPF operator.
 
-Rather than copying the array over and computing the maximum in Python, you can
-instead compute the maximum directly from the field itself.
-
-Here we the ``min_max`` operator (through a fields helper) to compute
-the maximum of the displacement field and return a field with only the max values:
-
-.. code-block:: python
-
-    # Returns the maximum value for each component
-    # So with displacement results we expect having a field with :
-    # - 3 elementary data (one for each dimension)
-    # - 1 component (each entity will have a value for one dimension (X, Y or Z))
-    my_max = my_disp_field.max()
-    print(my_max)
-
-.. rst-class:: sphx-glr-script-out
-
- .. exec_code::
-    :hide_code:
-
-    from ansys.dpf import core as dpf
-    from ansys.dpf.core import examples
-    my_model = dpf.Model(examples.download_transient_result())
-    my_disp_field = my_model.results.displacement.eval()[0]
-    print(my_disp_field.max())
-
-You can for example get the element or node ID of the maximum value.
-
-.. code-block:: python
-
-    my_disp_field.max()
-    print(my_disp_field.scoping.ids)
-
-.. rst-class:: sphx-glr-script-out
-
- .. exec_code::
-    :hide_code:
-
-    from ansys.dpf import core as dpf
-    from ansys.dpf.core import examples
-    my_model = dpf.Model(examples.download_transient_result())
-    my_disp_field = my_model.results.displacement.eval()[0]
-    my_disp_field.max()
-    print(my_disp_field.scoping.ids)
+For example, if you want to know the entity-wise maximum of the field, you should prefer the
+``min_max.min_max_by_entity`` operator to the ``array.max()`` method from ``numpy``.
