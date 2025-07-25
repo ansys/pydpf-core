@@ -5,6 +5,7 @@ Data Arrays
 ===========
 
 .. |Field| replace::  :class:`Field <ansys.dpf.core.field.Field>`
+.. |MeshInfo| replace::  :class:`MeshInfo <ansys.dpf.core.mesh_info.MeshInfo>`
 .. |PropertyField| replace:: :class:`PropertyField <ansys.dpf.core.property_field.PropertyField>`
 .. |StringField| replace:: :class:`StringField <ansys.dpf.core.string_field.StringField>`
 .. |CustomTypeField| replace:: :class:`CustomTypeField <ansys.dpf.core.custom_type_field.CustomTypeField>`
@@ -56,86 +57,80 @@ A ``Field`` is always associated to:
     - a ``data`` array, which holds the actual data in a vector, accessed according to the ``dimensionality``.
 
 
-Define the studied results
---------------------------
+Create fields based on result files
+-----------------------------------
 
-In this tutorial we are going to use the result file from a transient analysis for the
-|Field| and a fluid analysis for the |PropertyField| and |StringField|.
+In this tutorial we are going to use the result file from a fluid analysis to showcase the
+|Field|, |PropertyField|, and |StringField|.
 
-Create the ``model`` object. The :class:`Model <ansys.dpf.core.model.Model>`
-class helps to organize access methods for the result by keeping track of the
-operators and data sources used by the result file.
+The :class:`Model <ansys.dpf.core.model.Model>` class creates and evaluates common readers for the files it is given,
+such as a mesh provider, a result info provider, and a streams provider.
+It provides dynamically built methods to extract the results available in the files, as well as many shortcuts
+to facilitate exploration of the available data.
 
-.. tab-set::
+.. jupyter-execute::
 
-    .. tab-item:: Field
+    # Import the ansys.dpf.core module as ``dpf``
+    from ansys.dpf import core as dpf
+    # Import the examples module
+    from ansys.dpf.core import examples
+    # Create a data source targeting the example file
+    my_data_sources = dpf.DataSources(result_path=examples.download_fluent_axial_comp()["flprj"])
+    # Create a model from the data source
+    my_model = dpf.Model(data_sources=my_data_sources)
+    # Print information available for the analysis
+    print(my_model)
 
-        .. code-block:: python
+The |MeshInfo| class stores information relative to the |MeshedRegion| of the analysis.
+It stores some of its data as fields of strings or fields of integers, which we extract next.
 
-            # Import the DPF-Core module as ``dpf``
-            from ansys.dpf import core as dpf
-            # Import the included examples file.
-            from ansys.dpf.core import examples
-            my_data_sources = dpf.DataSources(result_path=examples.download_transient_result())
-            my_model = dpf.Model(data_sources=my_data_sources)
-            print(my_model)
+.. jupyter-execute::
 
-        .. rst-class:: sphx-glr-script-out
+    # Get the mesh metadata
+    my_mesh_info = my_model.metadata.mesh_info
+    print(my_mesh_info)
 
-         .. exec_code::
-            :hide_code:
+Extract a |Field|
+~~~~~~~~~~~~~~~~~
 
-            from ansys.dpf import core as dpf
-            from ansys.dpf.core import examples
-            my_data_sources = dpf.DataSources(result_path=examples.download_transient_result())
-            my_model = dpf.Model(data_sources=my_data_sources)
-            print(my_model)
+You can obtain a |Field| from a model by requesting a result.
 
-    .. tab-item:: StringField
+.. jupyter-execute::
 
-        .. code-block:: python
+    # Request the collection of displacement result fields from the model and take the first one.
+    my_disp_field = my_model.results.displacement.eval()[0]
+    # Print the field
+    print(my_disp_field)
 
-            # Import the DPF-Core module as ``dpf``
-            from ansys.dpf import core as dpf
-            # Import the included examples file.
-            from ansys.dpf.core import examples
-            my_data_sources = dpf.DataSources(result_path=examples.download_fluent_axial_comp()["flprj"])
-            my_model_2 = dpf.Model(data_sources=my_data_sources)
-            print(my_model_2)
+The field is located on nodes since it stores the displacement at each node.
 
-        .. rst-class:: sphx-glr-script-out
+Extract a |StringField|
+~~~~~~~~~~~~~~~~~~~~~~~
 
-         .. exec_code::
-            :hide_code:
+You can obtain a |StringField| from a |MeshInfo| by requesting the names of the zones in the model.
 
-            from ansys.dpf import core as dpf
-            from ansys.dpf.core import examples
-            my_data_sources = dpf.DataSources(result_path=examples.download_fluent_axial_comp()["flprj"])
-            my_model_2 = dpf.Model(data_sources=my_data_sources)
-            print(my_model_2)
+.. jupyter-execute::
 
-    .. tab-item:: PropertyField
+    # Request the name of the face zones in the fluid analysis
+    my_string_field = my_mesh_info.get_property(property_name="face_zone_names")
+    # Print the field of strings
+    print(my_string_field)
 
-        .. code-block:: python
+The field is located on zones since it stores the name of each zone.
 
-            # Import the DPF-Core module as ``dpf``
-            from ansys.dpf import core as dpf
-            # Import the included examples file.
-            from ansys.dpf.core import examples
-            my_data_sources = dpf.DataSources(result_path=examples.download_fluent_axial_comp()["flprj"])
-            my_model_2 = dpf.Model(data_sources=my_data_sources)
-            print(my_model_2)
+Extract a |PropertyField|
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        .. rst-class:: sphx-glr-script-out
+You can obtain a |PropertyField| from a |MeshInfo| by requesting the element types in the mesh.
 
-         .. exec_code::
-            :hide_code:
+.. jupyter-execute::
 
-            from ansys.dpf import core as dpf
-            from ansys.dpf.core import examples
-            my_data_sources = dpf.DataSources(result_path=examples.download_fluent_axial_comp()["flprj"])
-            my_model_2 = dpf.Model(data_sources=my_data_sources)
-            print(my_model_2)
+    # We can get the body_face_topology property for example
+    my_property_field = my_mesh_info.get_property(property_name="element_types")
+    # Print the field of integers
+    print(my_property_field)
+
+The field is located on elements since it stores the element type ID for each element.
 
 Creates fields from scratch
 ---------------------------
