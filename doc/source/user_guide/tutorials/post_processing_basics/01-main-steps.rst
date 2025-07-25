@@ -68,8 +68,10 @@ data inputs for DPF and define their locations.
    my_data_sources = dpf.DataSources(result_path=examples.find_simple_bar())
 
 
-The model is a helper designed to give shortcuts to access the analysis results
-metadata, by opening a DataSources or a Streams, and to instanciate results provider for it.
+The :class:`Model <ansys.dpf.core.model.Model>` class creates and evaluates common readers for the files it is given,
+such as a mesh provider, a result info provider, and a streams provider.
+It provides dynamically built methods to extract the results available in the files, as well as many shortcuts
+to facilitate exploration of the available data.
 
 Printing the model displays:
 
