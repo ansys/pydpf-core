@@ -3,7 +3,7 @@
 Postprocessing main steps
 -------------------------
 
-There are five main steps to transform simulation data into output data that can
+There are four main steps to transform simulation data into output data that can
 be used to visualize and analyze simulation results:
 
 .. grid::
@@ -38,13 +38,6 @@ be used to visualize and analyze simulation results:
        :text-align: center
 
        Visualize the data
-
-    .. grid-item-card:: 5
-       :link: tutorials_main_steps_5
-       :link-type: ref
-       :text-align: center
-
-       Export data
 
 .. _tutorials_main_steps_1:
 
@@ -194,8 +187,3 @@ Plot the transformed displacement results
     :hide-code:
 
     my_model.metadata.meshed_region.plot(field_or_fields_container=my_displacements)
-
-.. _tutorials_main_steps_5:
-
-5- Extract the data
-*******************
