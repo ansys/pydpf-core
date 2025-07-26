@@ -27,6 +27,7 @@ class workflow_energy_per_harmonic(Operator):
         Master scoping. All harmonics will be intersected with this scoping.
     energy_type: int, optional
         Type of energy to be processed: (0: Strain + Kinetic energy (default), 1: Strain energy, 2: Kinetic energy)
+    stream: Stream
     data_sources: DataSources
 
     Returns
@@ -48,6 +49,8 @@ class workflow_energy_per_harmonic(Operator):
     >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
     >>> my_energy_type = int()
     >>> op.inputs.energy_type.connect(my_energy_type)
+    >>> my_stream = dpf.Stream()
+    >>> op.inputs.stream.connect(my_stream)
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
 
@@ -56,6 +59,7 @@ class workflow_energy_per_harmonic(Operator):
     ...     time_scoping=my_time_scoping,
     ...     mesh_scoping=my_mesh_scoping,
     ...     energy_type=my_energy_type,
+    ...     stream=my_stream,
     ...     data_sources=my_data_sources,
     ... )
 
@@ -69,6 +73,7 @@ class workflow_energy_per_harmonic(Operator):
         time_scoping=None,
         mesh_scoping=None,
         energy_type=None,
+        stream=None,
         data_sources=None,
         config=None,
         server=None,
@@ -84,6 +89,8 @@ class workflow_energy_per_harmonic(Operator):
             self.inputs.mesh_scoping.connect(mesh_scoping)
         if energy_type is not None:
             self.inputs.energy_type.connect(energy_type)
+        if stream is not None:
+            self.inputs.stream.connect(stream)
         if data_sources is not None:
             self.inputs.data_sources.connect(data_sources)
 
@@ -112,6 +119,12 @@ multiharmonic model.
                     type_names=["int32"],
                     optional=True,
                     document=r"""Type of energy to be processed: (0: Strain + Kinetic energy (default), 1: Strain energy, 2: Kinetic energy)""",
+                ),
+                3: PinSpecification(
+                    name="stream",
+                    type_names=["stream"],
+                    optional=False,
+                    document=r"""""",
                 ),
                 4: PinSpecification(
                     name="data_sources",
@@ -197,6 +210,8 @@ class InputsWorkflowEnergyPerHarmonic(_Inputs):
     >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
     >>> my_energy_type = int()
     >>> op.inputs.energy_type.connect(my_energy_type)
+    >>> my_stream = dpf.Stream()
+    >>> op.inputs.stream.connect(my_stream)
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
     """
@@ -215,6 +230,10 @@ class InputsWorkflowEnergyPerHarmonic(_Inputs):
             workflow_energy_per_harmonic._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._energy_type)
+        self._stream = Input(
+            workflow_energy_per_harmonic._spec().input_pin(3), 3, op, -1
+        )
+        self._inputs.append(self._stream)
         self._data_sources = Input(
             workflow_energy_per_harmonic._spec().input_pin(4), 4, op, -1
         )
@@ -280,6 +299,25 @@ class InputsWorkflowEnergyPerHarmonic(_Inputs):
         >>> op.inputs.energy_type(my_energy_type)
         """
         return self._energy_type
+
+    @property
+    def stream(self) -> Input:
+        r"""Allows to connect stream input to the operator.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.workflow_energy_per_harmonic()
+        >>> op.inputs.stream.connect(my_stream)
+        >>> # or
+        >>> op.inputs.stream(my_stream)
+        """
+        return self._stream
 
     @property
     def data_sources(self) -> Input:
