@@ -21,7 +21,7 @@ These tutorials explains how these structures work and how you can manipulate da
     :margin: 2
 
     .. grid-item-card:: Data arrays - Fields
-       :link: ref_tutorials
+       :link: ref_tutorials_data_arrays
        :link-type: ref
        :text-align: center
 
