@@ -164,10 +164,8 @@ class PropertyField(_FieldBase):
         'Nodal'
 
         """
-        if self.scoping:
-            return self.scoping.location
-        else:
-            return None
+        location = self.scoping.location
+        return location if location else None
 
     @location.setter
     def location(self, value):
