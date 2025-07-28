@@ -278,8 +278,10 @@ inputs for PyDPF-Core APIs.
 Use a |Model|
 -------------
 
-The |Model| is a helper designed to give shortcuts to access the analysis results
-metadata and to instanciate results providers by opening a |DataSources| or a Streams.
+The :class:`Model <ansys.dpf.core.model.Model>` class creates and evaluates common readers for the files it is given,
+such as a mesh provider, a result info provider, and a streams provider.
+It provides dynamically built methods to extract the results available in the files, as well as many shortcuts
+to facilitate exploration of the available data.
 
 To create a |Model| you can provide to the *'data_sources'* argument.:
 

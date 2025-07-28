@@ -143,10 +143,8 @@ class StringField(_FieldBase):
         'Nodal'
 
         """
-        if self.scoping:
-            return self.scoping.location
-        else:
-            return None
+        location = self.scoping.location
+        return location if location else None
 
     @location.setter
     def location(self, value):
@@ -168,12 +166,7 @@ class StringField(_FieldBase):
         'Nodal'
 
         """
-        if self.scoping:
-            self.scoping.location = value
-        else:
-            raise Exception(
-                "Property field location is based on scoping, and scoping is not defined"
-            )
+        self.scoping.location = value
 
     @property
     def component_count(self):

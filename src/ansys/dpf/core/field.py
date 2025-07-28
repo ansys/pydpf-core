@@ -50,6 +50,7 @@ from ansys.dpf.gate import (
 from ansys.dpf.gate.errors import DPFServerException
 
 if TYPE_CHECKING:  # pragma: nocover
+    from ansys.dpf.core.dimensionality import Dimensionality
     from ansys.dpf.core.dpf_operator import Operator
     from ansys.dpf.core.meshed_region import MeshedRegion
     from ansys.dpf.core.results import Result
@@ -442,7 +443,7 @@ class Field(_FieldBase):
             data.shape = (data.size // n_comp, n_comp)
         return data
 
-    def append(self, data, scopingid):
+    def append(self, data: float | list[float] | np.ndarray[np.float64], scopingid: int):
         """Append data to the Field."""
         if isinstance(data, list):
             if isinstance(data[0], list):
@@ -520,7 +521,7 @@ class Field(_FieldBase):
     def plot(
         self,
         shell_layers: eshell_layers = None,
-        deform_by: Union[Field, Result, Operator] = None,
+        deform_by: Field | Result | Operator = None,
         scale_factor: float = 1.0,
         meshed_region: MeshedRegion = None,
         **kwargs,
@@ -675,7 +676,7 @@ class Field(_FieldBase):
             return self.field_definition.dimensionality
 
     @dimensionality.setter
-    def dimensionality(self, value):
+    def dimensionality(self, value: Dimensionality):
         fielddef = self.field_definition
         fielddef.dimensionality = value
         self.field_definition = fielddef

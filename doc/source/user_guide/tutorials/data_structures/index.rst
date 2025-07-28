@@ -20,23 +20,29 @@ These tutorials explains how these structures work and how you can manipulate da
     :padding: 2
     :margin: 2
 
-    .. grid-item-card:: DPF raw data storage structures
-       :link: ref_tutorials
+    .. grid-item-card:: Data arrays - Fields
+       :link: ref_tutorials_data_arrays
        :link-type: ref
        :text-align: center
 
-       This tutorial shows how to create and work with some DPF data arrays:
-       Field, StringField and PropertyField
+       This tutorial shows how to create and work with data arrays in PyDPF-Core.
 
 
     .. grid-item-card:: DPF collections
        :link: ref_tutorials_language_and_usage
        :link-type: ref
        :text-align: center
+       :class-header: sd-bg-light sd-text-dark
+       :class-footer: sd-bg-light sd-text-dark
 
        This tutorial shows how to create and work with some DPF collections:
-       FieldsContainer, MeshesContainer and ScopingContainer
+       FieldsContainer, MeshesContainer and ScopingsContainer
+
+       +++
+       Coming soon
 
 .. toctree::
     :maxdepth: 2
     :hidden:
+
+    data_arrays.rst
