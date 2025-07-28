@@ -122,6 +122,15 @@ def test_cast_scoping_any(server_type):
     assert entity.location == new_entity.location
 
 
+@conftest.raises_for_servers_version_under("7.0")
+def test_cast_data_sources_any(server_type):
+    entity = dpf.DataSources(server=server_type, location="test")
+    any_dpf = dpf.Any.new_from(entity)
+    new_entity = any_dpf.cast()
+
+    assert entity.location == new_entity.location
+
+
 @pytest.mark.skipif(
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
     reason="for_each not implemented below 8.0. Failing for gRPC CLayer below 10.0 for any.whl",
