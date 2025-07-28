@@ -41,6 +41,7 @@ from ansys.dpf.core.check_version import (
     server_meet_version_and_raise,
     version_requires,
 )
+from ansys.dpf.core.server_types import BaseServer
 from ansys.dpf.gate import (
     data_processing_capi,
     data_processing_grpcapi,
@@ -624,13 +625,15 @@ class Workflow:
         return self._api.work_flow_record_instance(self, identifier, transfer_ownership)
 
     @staticmethod
-    def get_recorded_workflow(id, server=None):
+    def get_recorded_workflow(id: int, server: BaseServer | None = None) -> Workflow:
         """Retrieve a workflow registered (with workflow.record()).
 
         Parameters
         ----------
         id : int
             ID given by the method "record".
+        server: server.BaseServer
+            Server from which to get the recorded workflow.
 
         Returns
         -------
@@ -659,12 +662,12 @@ class Workflow:
         return wf
 
     @property
-    def info(self):
+    def info(self) -> dict[str, list[str]]:
         """Dictionary with the operator names and the exposed input and output names.
 
         Returns
         -------
-        info : dictionarry str->list str
+        info : dictionary str->list str
             Dictionary with ``"operator_names"``, ``"input_names"``, and ``"output_names"`` key.
         """
         return {
@@ -674,7 +677,7 @@ class Workflow:
         }
 
     @property
-    def operator_names(self):
+    def operator_names(self) -> list[str]:
         """List of the names of operators added in the workflow.
 
         Returns
@@ -688,7 +691,7 @@ class Workflow:
         return out
 
     @property
-    def input_names(self):
+    def input_names(self) -> list[str]:
         """List of the input names exposed in the workflow with set_input_name.
 
         Returns
@@ -702,7 +705,7 @@ class Workflow:
         return out
 
     @property
-    def output_names(self):
+    def output_names(self) -> list[str]:
         """List of the output names exposed in the workflow with set_output_name.
 
         Returns
