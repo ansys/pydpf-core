@@ -205,6 +205,11 @@ class Any:
                 self._api.any_new_from_operator,
                 self._api.any_get_as_operator,
             )
+        elif issubclass(obj, Any):
+            return (
+                lambda x: x,
+                lambda x: x,
+            )
 
     @staticmethod
     def new_from(obj, server=None):
@@ -307,6 +312,7 @@ class Any:
                 or self._internal_type is str
                 or self._internal_type is float
                 or self._internal_type is bytes
+                or self._internal_type is Any
             ):
                 obj = internal_obj
             else:

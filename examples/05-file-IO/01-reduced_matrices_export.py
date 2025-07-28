@@ -29,6 +29,10 @@ Get reduced matrices and make export
 This example shows how to get reduced matrices and
 export them to HDF5 and CSV files.
 
+.. note::
+    This example requires DPF 6.0 (DPF 2023 R2) or above.
+    For more information, see :ref:`ref_compatibility`.
+
 """
 
 ###############################################################################

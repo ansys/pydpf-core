@@ -172,3 +172,15 @@ def test_set_int_vec_generic_data_container(server_type):
     gdc.set_property("nparray", np.array([1, 2, 3], dtype=np.int32))
     assert np.allclose(gdc.get_property("vec"), [1, 2, 3])
     assert np.allclose(gdc.get_property("nparray"), [1, 2, 3])
+
+
+@conftest.raises_for_servers_version_under("7.0")
+def test_set_get_any_generic_data_container(server_type):
+    gdc = dpf.GenericDataContainer(server=server_type)
+    entity = dpf.DataTree(server=server_type)
+    entity.add(name="john")
+    gdc.set_property("persons", entity)
+    new_entity = gdc.get_property("persons", output_type=dpf.Any)
+    assert isinstance(new_entity, dpf.Any)
+    new_entity = new_entity.cast(dpf.DataTree)
+    assert new_entity.get_as("name") == "john"
