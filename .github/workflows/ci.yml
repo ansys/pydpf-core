@@ -200,6 +200,7 @@ jobs:
     if: |
       github.event.action != 'closed' &&
       (github.event.action != 'labeled' || github.event.label.name == 'deploy-pr-doc') &&
+      (startsWith(github.head_ref, 'main') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft)
     uses: ./.github/workflows/examples.yml
     needs: pick_server_suffix
     with:
