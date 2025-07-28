@@ -443,7 +443,7 @@ class Field(_FieldBase):
             data.shape = (data.size // n_comp, n_comp)
         return data
 
-    def append(self, data, scopingid):
+    def append(self, data: float | list[float] | np.ndarray[np.float64], scopingid: int):
         """Append data to the Field."""
         if isinstance(data, list):
             if isinstance(data[0], list):
@@ -521,7 +521,7 @@ class Field(_FieldBase):
     def plot(
         self,
         shell_layers: eshell_layers = None,
-        deform_by: Union[Field, Result, Operator] = None,
+        deform_by: Field | Result | Operator = None,
         scale_factor: float = 1.0,
         meshed_region: MeshedRegion = None,
         **kwargs,
