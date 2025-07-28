@@ -12,7 +12,8 @@ Data Arrays
 .. |CustomTypeField| replace:: :class:`CustomTypeField <ansys.dpf.core.custom_type_field.CustomTypeField>`
 
 To process your data with DPF, you must format it according to the DPF data model.
-You can achieve this either by using DPF data readers on result files, or by using the data to build DPF data storage containers.
+You can achieve this either by using DPF data readers on result files, or by using 
+data to build DPF data storage containers.
 
 It is important to be aware of how the data is structured in those containers to understand how to create them and how operators process them.
 
