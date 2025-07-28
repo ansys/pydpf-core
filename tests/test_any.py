@@ -124,11 +124,11 @@ def test_cast_scoping_any(server_type):
 
 @conftest.raises_for_servers_version_under("7.0")
 def test_cast_data_sources_any(server_type):
-    entity = dpf.DataSources(server=server_type, location="test")
+    entity = dpf.DataSources(server=server_type, result_path="test.pth")
     any_dpf = dpf.Any.new_from(entity)
     new_entity = any_dpf.cast()
 
-    assert entity.location == new_entity.location
+    assert entity.result_files[0] == new_entity.result_files[0]
 
 
 @pytest.mark.skipif(
