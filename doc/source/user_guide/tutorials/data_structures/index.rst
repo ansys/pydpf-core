@@ -32,8 +32,8 @@ These tutorials explains how these structures work and how you can manipulate da
        :link: ref_tutorials_language_and_usage
        :link-type: ref
        :text-align: center
-        :class-header: sd-bg-light sd-text-dark
-        :class-footer: sd-bg-light sd-text-dark
+       :class-header: sd-bg-light sd-text-dark
+       :class-footer: sd-bg-light sd-text-dark
 
        This tutorial shows how to create and work with some DPF collections:
        FieldsContainer, MeshesContainer and ScopingsContainer
