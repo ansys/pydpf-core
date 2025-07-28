@@ -6,6 +6,7 @@ Data Arrays
 
 .. |Field| replace::  :class:`Field <ansys.dpf.core.field.Field>`
 .. |MeshInfo| replace::  :class:`MeshInfo <ansys.dpf.core.mesh_info.MeshInfo>`
+.. |MeshedRegion| replace::  :class:`MeshedRegion <ansys.dpf.core.meshed_region.MeshedRegion>`
 .. |PropertyField| replace:: :class:`PropertyField <ansys.dpf.core.property_field.PropertyField>`
 .. |StringField| replace:: :class:`StringField <ansys.dpf.core.string_field.StringField>`
 .. |CustomTypeField| replace:: :class:`CustomTypeField <ansys.dpf.core.custom_type_field.CustomTypeField>`
@@ -51,8 +52,8 @@ A ``Field`` is always associated to:
       related to the mesh, called a ``MeshedRegion``.
 
     - a ``dimensionality``, which gives the structure of the data based on the number of components and dimensions.
-    Indeed, a DPF ``Field`` can store data for a 3D vector field, a scalar field, a matrix field,
-    but also store data for a multi-component field (for example, a symmetrical matrix field for each component of the stress field).
+      Indeed, a DPF ``Field`` can store data for a 3D vector field, a scalar field, a matrix field,
+      but also store data for a multi-component field (for example, a symmetrical matrix field for each component of the stress field).
 
     - a ``data`` array, which holds the actual data in a vector, accessed according to the ``dimensionality``.
 
@@ -90,113 +91,143 @@ It stores some of its data as fields of strings or fields of integers, which we 
     my_mesh_info = my_model.metadata.mesh_info
     print(my_mesh_info)
 
-Extract a |Field|
-~~~~~~~~~~~~~~~~~
+.. tab-set::
 
-You can obtain a |Field| from a model by requesting a result.
+    .. tab-item:: Field
 
-.. jupyter-execute::
+        You can obtain a |Field| from a model by requesting a result.
 
-    # Request the collection of displacement result fields from the model and take the first one.
-    my_disp_field = my_model.results.displacement.eval()[0]
-    # Print the field
-    print(my_disp_field)
+        .. jupyter-execute::
 
-The field is located on nodes since it stores the displacement at each node.
+            # Request the collection of temperature result fields from the model and take the first one.
+            my_temp_field = my_model.results.temperature.eval()[0]
+            # Print the field
+            print(my_temp_field)
 
-Extract a |StringField|
-~~~~~~~~~~~~~~~~~~~~~~~
+        The field is located on nodes since it stores the displacement at each node.
 
-You can obtain a |StringField| from a |MeshInfo| by requesting the names of the zones in the model.
+    .. tab-item:: StringField
 
-.. jupyter-execute::
+        You can obtain a |StringField| from a |MeshInfo| by requesting the names of the zones in the model.
 
-    # Request the name of the face zones in the fluid analysis
-    my_string_field = my_mesh_info.get_property(property_name="face_zone_names")
-    # Print the field of strings
-    print(my_string_field)
+        .. jupyter-execute::
 
-The field is located on zones since it stores the name of each zone.
+            # Request the name of the face zones in the fluid analysis
+            my_string_field = my_mesh_info.get_property(property_name="face_zone_names")
+            # Print the field of strings
+            print(my_string_field)
 
-Extract a |PropertyField|
-~~~~~~~~~~~~~~~~~~~~~~~~~
+        The field is located on zones since it stores the name of each zone.
 
-You can obtain a |PropertyField| from a |MeshInfo| by requesting the element types in the mesh.
+    .. tab-item:: PropertyField
 
-.. jupyter-execute::
+        You can obtain a |PropertyField| from a |MeshInfo| by requesting the element types in the mesh.
 
-    # We can get the body_face_topology property for example
-    my_property_field = my_mesh_info.get_property(property_name="element_types")
-    # Print the field of integers
-    print(my_property_field)
+        .. jupyter-execute::
 
-The field is located on elements since it stores the element type ID for each element.
+            # Get the body_face_topology property field
+            my_property_field = my_mesh_info.get_property(property_name="body_face_topology")
+            # Print the field of integers
+            print(my_property_field)
+
+        The field is located on elements since it stores the element type ID for each element.
 
 Create fields from scratch
 --------------------------
 
 You can also create a |Field|, |StringField| or |PropertyField| from scratch based on your data.
 
-Create a |Field| from scratch
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. tab-set::
 
-First create a 3D vector field defined for two nodes.
+    .. tab-item:: Field
 
-.. jupyter-execute::
+        First create a 3D vector field defined for two nodes.
 
-    # Create a 3D vector field ready to hold data for two entities
-    # The constructor creates 3D vector fields by default
-    my_field = dpf.Field(nentities=2)
-    # Set the data values as a flat vector
-    my_field.data = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
-    # Associate the data to nodes
-    my_field.location = dpf.locations.nodal
-    # Set the IDs of the nodes the data applies to
-    my_field.scoping.ids = [1, 2]
-    # Define the unit (only available for the Field type)
-    my_field.unit = "m"
-    # Print the field
-    print(my_field)
+        .. jupyter-execute::
 
-Now create a 3x3 symmetric matrix field defined for a single element.
+            # Create a 3D vector field ready to hold data for two entities
+            # The constructor creates 3D vector fields by default
+            my_field = dpf.Field(nentities=2)
+            # Set the data values as a flat vector
+            my_field.data = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
+            # Associate the data to nodes
+            my_field.location = dpf.locations.nodal
+            # Set the IDs of the nodes the data applies to
+            my_field.scoping.ids = [1, 2]
+            # Define the unit (only available for the Field type)
+            my_field.unit = "m"
+            # Print the field
+            print(my_field)
 
-.. jupyter-execute::
+        Now create a 3x3 symmetric matrix field defined for a single element.
 
-    # Set the nature to symmatrix
-    my_field = dpf.Field(nentities=1, nature=dpf.natures.symmatrix)
-    # The symmatrix dimensions defaults to 3x3
-    # Set the data values as a flat vector
-    my_field.data = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
-    # Associate the data to elements
-    my_field.location = dpf.locations.elemental
-    # Set the IDs of the nodes the data applies to
-    my_field.scoping.ids = [1]
-    # Define the unit (only available for the Field type)
-    my_field.unit = "Pa"
-    # Print the field
-    print(my_field)
+        .. jupyter-execute::
 
-Now create a 2x3 matrix field defined for a single fluid element face.
+            # Set the nature to symmatrix
+            my_field = dpf.Field(nentities=1, nature=dpf.natures.symmatrix)
+            # The symmatrix dimensions defaults to 3x3
+            # Set the data values as a flat vector
+            my_field.data = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
+            # Associate the data to elements
+            my_field.location = dpf.locations.elemental
+            # Set the IDs of the nodes the data applies to
+            my_field.scoping.ids = [1]
+            # Define the unit (only available for the Field type)
+            my_field.unit = "Pa"
+            # Print the field
+            print(my_field)
 
-.. jupyter-execute::
+        Now create a 2x3 matrix field defined for a single fluid element face.
 
-    # Set the nature to matrix and the location to elemental
-    my_field = dpf.Field(nentities=1, nature=dpf.natures.matrix)
-    # Set the matrix dimensions to 2x3
-    my_field.dimensionality = [2, 3]
-    # Set the data values as a flat vector
-    my_field.data = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
-    # Associate the data to faces
-    my_field.location = dpf.locations.faces
-    # Set the IDs of the face the data applies to
-    my_field.scoping.ids = [1]
-    # Define the unit (only available for the Field type)
-    my_field.unit = "mm"
-    # Print the field
-    print(my_field)
+        .. jupyter-execute::
 
-Create a |Field| from scratch with the fields_factory
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            # Set the nature to matrix and the location to elemental
+            my_field = dpf.Field(nentities=1, nature=dpf.natures.matrix)
+            # Set the matrix dimensions to 2x3
+            my_field.dimensionality = dpf.Dimensionality(dim_vec=[2, 3], nature=dpf.natures.matrix)
+            # Set the data values as a flat vector
+            my_field.data = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
+            # Associate the data to faces
+            my_field.location = dpf.locations.faces
+            # Set the IDs of the face the data applies to
+            my_field.scoping.ids = [1]
+            # Define the unit (only available for the Field type)
+            my_field.unit = "mm"
+            # Print the field
+            print(my_field)
+
+    .. tab-item:: StringField
+
+        .. jupyter-execute::
+
+            # Create a string field with data for two elements
+            my_string_field = dpf.StringField(nentities=2)
+            # Set the string values
+            my_string_field.data = ["string_1", "string_2"]
+            # Set the location
+            my_string_field.location = dpf.locations.elemental
+            # Set the element IDs
+            my_string_field.scoping.ids = [1, 2]
+            # Print the string field
+            print(my_string_field)
+
+    .. tab-item:: PropertyField
+
+        .. jupyter-execute::
+
+            # Create a property field with data for two modes
+            my_property_field = dpf.PropertyField(nentities=2)
+            # Set the data values
+            my_property_field.data = [12, 25]
+            # Set the location
+            my_property_field.location = dpf.locations.modal
+            # Set the element IDs
+            my_property_field.scoping.ids = [1, 2]
+            # Print the property field
+            print(my_property_field)
+
+Create a |Field| with the fields_factory
+----------------------------------------
 
 The :mod:`fields_factory <ansys.dpf.core.fields_factory>` module provides helpers to create a |Field|:
 
@@ -280,6 +311,7 @@ The :mod:`fields_factory <ansys.dpf.core.fields_factory>` module provides helper
     print(my_field)
 
 .. jupyter-execute::
+
     # Create a 3D vector field from an array or a list
     arr = [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]]
     my_field = dpf.fields_factory.field_from_array(arr=arr)
@@ -287,123 +319,64 @@ The :mod:`fields_factory <ansys.dpf.core.fields_factory>` module provides helper
     print(my_field)
 
 .. jupyter-execute::
+
     # Create a symmetric matrix field from an array or a list
     arr = [[1.0, 2.0, 3.0, 4.0, 5.0, 6.0]]
     my_field = dpf.fields_factory.field_from_array(arr=arr)
     # Print the field
     print(my_field)
 
-Create a |StringField| from scratch
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. jupyter-execute::
-
-    # Create a string field with data for two elements
-    my_string_field = dpf.StringField(nentities=2)
-    # Set the string values
-    my_string_field.data = ["string_1", "string_2"]
-    # Set the location
-    my_string_field.location = dpf.locations.elemental
-    # Set the element IDs
-    my_string_field.scoping.ids = [1, 2]
-    # Print the string field
-    print(my_string_field)
-
-
-Create a |PropertyField| from scratch
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. jupyter-execute::
-
-    # Create a property field with data for two modes
-    my_property_field = dpf.PropertyField(nentities=2)
-    # Set the data values
-    my_property_field.data = [12, 25]
-    # Set the location
-    my_property_field.location = dpf.locations.modes
-    # Set the element IDs
-    my_property_field.scoping.ids = [1, 2]
-    # Print the property field
-    print(my_property_field)
-
 
 Access the field metadata
 -------------------------
 
-A field contains the metadata for the result it is associated with. The metadata
-includes the location, the scoping, the shape of the data stored, number of components,
-and units of the data.
+The metadata associated to a field includes its name, its location, its scoping,
+the shape of the data stored, its number of components, and its unit.
 
 .. tab-set::
 
     .. tab-item:: Field
 
-        .. code-block:: python
+        .. jupyter-execute::
 
             # Location of the fields data
-            my_location = my_disp_field.location
+            my_location = my_temp_field.location
             print("location", '\n', my_location,'\n')
 
             # Fields scoping
-            my_scoping = my_disp_field.scoping  # Location entities type and number
+            my_scoping = my_temp_field.scoping  # Location entities type and number
             print("scoping", '\n',my_scoping, '\n')
 
-            my_scoping_ids = my_disp_field.scoping.ids  # Available ids of locations components
+            my_scoping_ids = my_temp_field.scoping.ids  # Available ids of locations components
             print("scoping.ids", '\n', my_scoping_ids, '\n')
 
             # Elementary data count
             # Number of the location entities (how many data vectors we have)
-            my_elementary_data_count = my_disp_field.elementary_data_count
+            my_elementary_data_count = my_temp_field.elementary_data_count
             print("elementary_data_count", '\n', my_elementary_data_count, '\n')
 
             # Components count
             # Vectors dimension, here we have a displacement so we expect to have 3 components (X, Y and Z)
-            my_components_count = my_disp_field.component_count
+            my_components_count = my_temp_field.component_count
             print("components_count", '\n', my_components_count, '\n')
 
             # Size
             # Length of the data entire vector (equal to the number of elementary data times the number of components.)
-            my_field_size = my_disp_field.size
+            my_field_size = my_temp_field.size
             print("size", '\n', my_field_size, '\n')
 
             # Fields shape
             # Gives a tuple with the elementary data count and the components count
-            my_shape = my_disp_field.shape
+            my_shape = my_temp_field.shape
             print("shape", '\n', my_shape, '\n')
 
             # Units
-            my_unit = my_disp_field.unit
-            print("unit", '\n', my_unit, '\n')
-
-        .. rst-class:: sphx-glr-script-out
-
-         .. exec_code::
-            :hide_code:
-
-            from ansys.dpf import core as dpf
-            from ansys.dpf.core import examples
-            my_model = dpf.Model(examples.download_transient_result())
-            my_disp_field = my_model.results.displacement.eval()[0]
-            my_location = my_disp_field.location
-            print("location", '\n', my_location,'\n')
-            my_scoping = my_disp_field.scoping
-            print("scoping", '\n',my_scoping, '\n')
-            print("We have a location entity of type 'Nodal' (consistent with the output of the `location` helper) and 3820 nodes", '\n')
-            my_scoping_ids = my_disp_field.scoping.ids
-            print("scoping.ids", '\n', my_scoping_ids, '\n')
-            my_components_count = my_disp_field.component_count
-            print("components_count", '\n', my_components_count, '\n')
-            my_elementary_data_count = my_disp_field.elementary_data_count
-            print("elementary_data_count", '\n', my_elementary_data_count, '\n')
-            my_shape = my_disp_field.shape
-            print("shape", '\n', my_shape, '\n')
-            print("We have a Field with 3820 data vectors (consistent with the number of nodes) and each vector has 3 components (consistent with a displacement vector dimension)", '\n')
-            my_unit = my_disp_field.unit
+            my_unit = my_temp_field.unit
             print("unit", '\n', my_unit, '\n')
 
     .. tab-item:: StringField
 
-        .. code-block:: python
+        .. jupyter-execute::
 
             # Location of the fields data
             my_location = my_string_field.location
@@ -436,35 +409,9 @@ and units of the data.
             my_shape = my_string_field.shape
             print("shape", '\n', my_shape, '\n')
 
-        .. rst-class:: sphx-glr-script-out
-
-         .. exec_code::
-            :hide_code:
-
-            from ansys.dpf import core as dpf
-            from ansys.dpf.core import examples
-            my_data_sources = dpf.DataSources(result_path=examples.download_fluent_axial_comp()["flprj"])
-            my_model_2 = dpf.Model(data_sources=my_data_sources)
-            my_mesh_info = my_model_2.metadata.mesh_info
-            my_string_field = my_mesh_info.get_property(property_name="face_zone_names")
-            my_location = my_string_field.location
-            print("location", '\n', my_location,'\n')
-            my_scoping = my_string_field.scoping
-            print("scoping", '\n',my_scoping, '\n')
-            print("We have a location entity of type 'Zone' (consistent with the output of the `location` helper) and 24 zones", '\n')
-            my_scoping_ids = my_string_field.scoping.ids
-            print("scoping.ids", '\n', my_scoping_ids, '\n')
-            my_components_count = my_string_field.component_count
-            print("components_count", '\n', my_components_count, '\n')
-            my_elementary_data_count = my_string_field.elementary_data_count
-            print("elementary_data_count", '\n', my_elementary_data_count, '\n')
-            my_shape = my_string_field.shape
-            print("shape", '\n', my_shape, '\n')
-            print("We have a StringField with 24 names (consistent with the number of zones) and each zone has one name", '\n')
-
     .. tab-item:: PropertyField
 
-        .. code-block:: python
+        .. jupyter-execute::
 
             # Location of the fields data
             my_location = my_property_field.location
@@ -497,45 +444,28 @@ and units of the data.
             my_shape = my_property_field.shape
             print("shape", '\n', my_shape, '\n')
 
-        .. rst-class:: sphx-glr-script-out
-
-         .. exec_code::
-            :hide_code:
-
-            from ansys.dpf import core as dpf
-            from ansys.dpf.core import examples
-            my_data_sources = dpf.DataSources(result_path=examples.download_fluent_axial_comp()["flprj"])
-            my_model_2 = dpf.Model(data_sources=my_data_sources)
-            my_mesh_info = my_model_2.metadata.mesh_info
-            my_property_field = my_mesh_info.get_property(property_name="body_face_topology")
-            my_location = my_property_field.location
-            print("location", '\n', my_location,'\n')
-            my_scoping = my_property_field.scoping
-            print("scoping", '\n',my_scoping, '\n')
-            print("We have a location entity of type 'Body' (consistent with the output of the `location` helper) and  2 bodies", '\n')
-            my_scoping_ids = my_property_field.scoping.ids
-            print("scoping.ids", '\n', my_scoping_ids, '\n')
-            my_components_count = my_property_field.component_count
-            print("components_count", '\n', my_components_count, '\n')
-            my_elementary_data_count = my_property_field.elementary_data_count
-            print("elementary_data_count", '\n', my_elementary_data_count, '\n')
-            my_shape = my_property_field.shape
-            print("shape", '\n', my_shape, '\n')
-            print("We have a Field with 24 face ids (consistent with the number of faces) and each face has one id", '\n')
-
 Access the field data
 ---------------------
 
-When DPF-Core returns the |Field| class object,
-what Python actually has is a client-side representation of the field,
-not the entirety of the field itself. This means that all the data of
-the field is stored within the DPF service. This is important because
-when building your postprocessing workflows, the most efficient way of
-interacting with result data is to minimize the exchange of data between
-Python and DPF, either by using operators or by accessing only the data
-that is needed.
+A |Field| object is a client-side representation of the field server-side.
+When a remote DPF server is used, the data of the field is also stored remotely.
 
-**1) Helpers**
+To build efficient remote postprocessing workflows, the amount of data exchanged between the client and the remote server has to be minimal.
+
+This is managed with operators and a completely remote workflow, requesting only the initial data needed to build the workflow, and the output of the workflow.
+
+It is for example important when interacting with remote data to remember that any PyDPF request for the
+``Field.data`` downloads the whole array to your local machine.
+
+This is particularly inefficient within scripts handling a large amount of data where the request
+is made to perform an action locally which could have been made remotely with a DPF operator.
+
+For example, if you want to know the entity-wise maximum of the field, you should prefer the
+``min_max.min_max_by_entity`` operator to the ``array.max()`` method from ``numpy``.
+
+
+Get the complete array
+^^^^^^^^^^^^^^^^^^^^^^
 
 The field's ``data`` is ordered with respect to its ``scoping ids`` (as shown above).
 To access the entire data in the field as an array (``numpy`` array``):
@@ -544,84 +474,33 @@ To access the entire data in the field as an array (``numpy`` array``):
 
     .. tab-item:: Field
 
-        .. code-block:: python
+        .. jupyter-execute::
 
-            my_data_array = my_disp_field.data
-            print(my_data_array)
-
-        .. rst-class:: sphx-glr-script-out
-
-         .. exec_code::
-            :hide_code:
-
-            from ansys.dpf import core as dpf
-            from ansys.dpf.core import examples
-            my_model = dpf.Model(examples.download_transient_result())
-            my_disp_field = my_model.results.displacement.eval()[0]
-            my_data_array = my_disp_field.data
+            my_data_array = my_temp_field.data
             print(my_data_array)
 
         Note that this array is a genuine, local, numpy array (overloaded by the DPFArray).
 
-        .. code-block:: python
+        .. jupyter-execute::
 
-            print(type(my_data_array))
-
-        .. rst-class:: sphx-glr-script-out
-
-         .. exec_code::
-            :hide_code:
-
-            from ansys.dpf import core as dpf
-            from ansys.dpf.core import examples
-            my_model = dpf.Model(examples.download_transient_result())
-            my_disp_field = my_model.results.displacement.eval()[0]
-            my_data_array = my_disp_field.data
             print(type(my_data_array))
 
     .. tab-item:: StringField
 
-        .. code-block:: python
+        .. jupyter-execute::
 
-            my_data_array = my_string_field.data
-            print(my_data_array)
-
-        .. rst-class:: sphx-glr-script-out
-
-         .. exec_code::
-            :hide_code:
-
-            from ansys.dpf import core as dpf
-            from ansys.dpf.core import examples
-            my_data_sources = dpf.DataSources(result_path=examples.download_fluent_axial_comp()["flprj"])
-            my_model_2 = dpf.Model(data_sources=my_data_sources)
-            my_mesh_info = my_model_2.metadata.mesh_info
-            my_string_field = my_mesh_info.get_property(property_name="face_zone_names")
             my_data_array = my_string_field.data
             print(my_data_array)
 
     .. tab-item:: PropertyField
 
-        .. code-block:: python
+        .. jupyter-execute::
 
             my_data_array = my_property_field.data
             print(my_data_array)
 
-        .. rst-class:: sphx-glr-script-out
-
-         .. exec_code::
-            :hide_code:
-
-            from ansys.dpf import core as dpf
-            from ansys.dpf.core import examples
-            my_data_sources = dpf.DataSources(result_path=examples.download_fluent_axial_comp()["flprj"])
-            my_model_2 = dpf.Model(data_sources=my_data_sources)
-            my_mesh_info = my_model_2.metadata.mesh_info
-            my_property_field = my_mesh_info.get_property(property_name="body_face_topology")
-            my_data_array = my_property_field.data
-            print(my_data_array)
-
-**2) Functions**
+Get data for a single entity
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 If you need to access an individual node or element, request it
 using either the :func:`get_entity_data()<ansys.dpf.core.field.Field.get_entity_data>` or
@@ -631,77 +510,32 @@ using either the :func:`get_entity_data()<ansys.dpf.core.field.Field.get_entity_
 
     .. tab-item:: Field
 
-        .. code-block:: python
+        .. jupyter-execute::
 
             # Get the data from the third element in the field
-            my_disp_field.get_entity_data(index=3)
+            my_temp_field.get_entity_data(index=3)
 
-        .. rst-class:: sphx-glr-script-out
-
-         .. exec_code::
-            :hide_code:
-
-            from ansys.dpf import core as dpf
-            from ansys.dpf.core import examples
-            my_model = dpf.Model(examples.download_transient_result())
-            my_disp_field = my_model.results.displacement.eval()[0]
-            print(my_disp_field.get_entity_data(index=3))
-
-        .. code-block:: python
+        .. jupyter-execute::
 
             # Get the data from the element with id 533
-            my_disp_field.get_entity_data_by_id(id=533)
-
-        .. rst-class:: sphx-glr-script-out
-
-         .. exec_code::
-            :hide_code:
-
-            from ansys.dpf import core as dpf
-            from ansys.dpf.core import examples
-            my_model = dpf.Model(examples.download_transient_result())
-            my_disp_field = my_model.results.displacement.eval()[0]
-            print(my_disp_field.get_entity_data_by_id(id=533))
+            my_temp_field.get_entity_data_by_id(id=533)
 
         Note that this would correspond to an index of 2 within the
         field. Be aware that scoping IDs are not sequential. You would
         get the index of element 2 in the field with:
 
-        .. code-block:: python
+        .. jupyter-execute::
 
             # Get index of the element with id 533
-            my_disp_field.scoping.index(id=533)
-
-        .. rst-class:: sphx-glr-script-out
-
-         .. exec_code::
-            :hide_code:
-
-            from ansys.dpf import core as dpf
-            from ansys.dpf.core import examples
-            my_model = dpf.Model(examples.download_transient_result())
-            my_disp_field = my_model.results.displacement.eval()[0]
-            print(my_disp_field.scoping.index(id=533))
+            my_temp_field.scoping.index(id=533)
 
 While these methods are acceptable when requesting data for a few elements
 or nodes, they should not be used when looping over the entire array. For efficiency,
 a field's data can be recovered locally before sending a large number of requests:
 
-.. code-block:: python
+.. jupyter-execute::
 
     # Create a deep copy of the field that can be accessed and modified locally.
-    with my_disp_field.as_local_field() as f:
+    with my_temp_field.as_local_field() as f:
         for i in range(1,100):
             f.get_entity_data_by_id(i)
-
-Note on the field data
-~~~~~~~~~~~~~~~~~~~~~~
-
-It is important when interacting with remote data to remember that any PyDPF request for the
-``Field.data`` downloads the whole array to your local machine.
-
-This is particularly inefficient within scripts handling a large amount of data where the request
-is made to perform an action locally which could have been made remotely with a DPF operator.
-
-For example, if you want to know the entity-wise maximum of the field, you should prefer the
-``min_max.min_max_by_entity`` operator to the ``array.max()`` method from ``numpy``.
