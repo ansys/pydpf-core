@@ -27,6 +27,7 @@ class workflow_energy_per_component(Operator):
         When the input is a scoping, it is treated as the master scoping. All named selections will intersect with it. When the input is a scopings container, named selections will not be needed.
     energy_type: int, optional
         Type of energy to be processed: (0: Strain + Kinetic energy (default), 1: Strain energy, 2: Kinetic energy, 3: All energy types)
+    streams_container: StreamsContainer
     data_sources: DataSources
     named_selection1: str, optional
         Named Selections. Intersection of all  Named Selections with the master scoping will be done.
@@ -58,6 +59,8 @@ class workflow_energy_per_component(Operator):
     >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
     >>> my_energy_type = int()
     >>> op.inputs.energy_type.connect(my_energy_type)
+    >>> my_streams_container = dpf.StreamsContainer()
+    >>> op.inputs.streams_container.connect(my_streams_container)
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
     >>> my_named_selection1 = str()
@@ -70,6 +73,7 @@ class workflow_energy_per_component(Operator):
     ...     time_scoping=my_time_scoping,
     ...     mesh_scoping=my_mesh_scoping,
     ...     energy_type=my_energy_type,
+    ...     streams_container=my_streams_container,
     ...     data_sources=my_data_sources,
     ...     named_selection1=my_named_selection1,
     ...     named_selection2=my_named_selection2,
@@ -91,6 +95,7 @@ class workflow_energy_per_component(Operator):
         time_scoping=None,
         mesh_scoping=None,
         energy_type=None,
+        streams_container=None,
         data_sources=None,
         named_selection1=None,
         named_selection2=None,
@@ -108,6 +113,8 @@ class workflow_energy_per_component(Operator):
             self.inputs.mesh_scoping.connect(mesh_scoping)
         if energy_type is not None:
             self.inputs.energy_type.connect(energy_type)
+        if streams_container is not None:
+            self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:
             self.inputs.data_sources.connect(data_sources)
         if named_selection1 is not None:
@@ -140,6 +147,12 @@ cyclic and multistage models, the expansion will be automatically done.
                     type_names=["int32"],
                     optional=True,
                     document=r"""Type of energy to be processed: (0: Strain + Kinetic energy (default), 1: Strain energy, 2: Kinetic energy, 3: All energy types)""",
+                ),
+                3: PinSpecification(
+                    name="streams_container",
+                    type_names=["streams_container"],
+                    optional=False,
+                    document=r"""""",
                 ),
                 4: PinSpecification(
                     name="data_sources",
@@ -273,6 +286,8 @@ class InputsWorkflowEnergyPerComponent(_Inputs):
     >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
     >>> my_energy_type = int()
     >>> op.inputs.energy_type.connect(my_energy_type)
+    >>> my_streams_container = dpf.StreamsContainer()
+    >>> op.inputs.streams_container.connect(my_streams_container)
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
     >>> my_named_selection1 = str()
@@ -295,6 +310,10 @@ class InputsWorkflowEnergyPerComponent(_Inputs):
             workflow_energy_per_component._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._energy_type)
+        self._streams_container = Input(
+            workflow_energy_per_component._spec().input_pin(3), 3, op, -1
+        )
+        self._inputs.append(self._streams_container)
         self._data_sources = Input(
             workflow_energy_per_component._spec().input_pin(4), 4, op, -1
         )
@@ -368,6 +387,25 @@ class InputsWorkflowEnergyPerComponent(_Inputs):
         >>> op.inputs.energy_type(my_energy_type)
         """
         return self._energy_type
+
+    @property
+    def streams_container(self) -> Input:
+        r"""Allows to connect streams_container input to the operator.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.workflow_energy_per_component()
+        >>> op.inputs.streams_container.connect(my_streams_container)
+        >>> # or
+        >>> op.inputs.streams_container(my_streams_container)
+        """
+        return self._streams_container
 
     @property
     def data_sources(self) -> Input:
