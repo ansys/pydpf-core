@@ -25,6 +25,7 @@ class accumulation_per_scoping(Operator):
     fields_container: FieldsContainer
     mesh_scoping: Scoping, optional
         Master scoping. All scopings in the Scopings Container will be intersected with this scoping.
+    streams_container: StreamsContainer
     data_sources: DataSources
     scopings_container: ScopingsContainer
         The intersection between the of the first will be used.
@@ -46,6 +47,8 @@ class accumulation_per_scoping(Operator):
     >>> op.inputs.fields_container.connect(my_fields_container)
     >>> my_mesh_scoping = dpf.Scoping()
     >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+    >>> my_streams_container = dpf.StreamsContainer()
+    >>> op.inputs.streams_container.connect(my_streams_container)
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
     >>> my_scopings_container = dpf.ScopingsContainer()
@@ -55,6 +58,7 @@ class accumulation_per_scoping(Operator):
     >>> op = dpf.operators.math.accumulation_per_scoping(
     ...     fields_container=my_fields_container,
     ...     mesh_scoping=my_mesh_scoping,
+    ...     streams_container=my_streams_container,
     ...     data_sources=my_data_sources,
     ...     scopings_container=my_scopings_container,
     ... )
@@ -68,6 +72,7 @@ class accumulation_per_scoping(Operator):
         self,
         fields_container=None,
         mesh_scoping=None,
+        streams_container=None,
         data_sources=None,
         scopings_container=None,
         config=None,
@@ -80,6 +85,8 @@ class accumulation_per_scoping(Operator):
             self.inputs.fields_container.connect(fields_container)
         if mesh_scoping is not None:
             self.inputs.mesh_scoping.connect(mesh_scoping)
+        if streams_container is not None:
+            self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:
             self.inputs.data_sources.connect(data_sources)
         if scopings_container is not None:
@@ -104,6 +111,12 @@ input fields container for each scoping of the scopings container.
                     type_names=["scoping"],
                     optional=True,
                     document=r"""Master scoping. All scopings in the Scopings Container will be intersected with this scoping.""",
+                ),
+                3: PinSpecification(
+                    name="streams_container",
+                    type_names=["streams_container"],
+                    optional=False,
+                    document=r"""""",
                 ),
                 4: PinSpecification(
                     name="data_sources",
@@ -191,6 +204,8 @@ class InputsAccumulationPerScoping(_Inputs):
     >>> op.inputs.fields_container.connect(my_fields_container)
     >>> my_mesh_scoping = dpf.Scoping()
     >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+    >>> my_streams_container = dpf.StreamsContainer()
+    >>> op.inputs.streams_container.connect(my_streams_container)
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
     >>> my_scopings_container = dpf.ScopingsContainer()
@@ -207,6 +222,10 @@ class InputsAccumulationPerScoping(_Inputs):
             accumulation_per_scoping._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._mesh_scoping)
+        self._streams_container = Input(
+            accumulation_per_scoping._spec().input_pin(3), 3, op, -1
+        )
+        self._inputs.append(self._streams_container)
         self._data_sources = Input(
             accumulation_per_scoping._spec().input_pin(4), 4, op, -1
         )
@@ -255,6 +274,25 @@ class InputsAccumulationPerScoping(_Inputs):
         >>> op.inputs.mesh_scoping(my_mesh_scoping)
         """
         return self._mesh_scoping
+
+    @property
+    def streams_container(self) -> Input:
+        r"""Allows to connect streams_container input to the operator.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.math.accumulation_per_scoping()
+        >>> op.inputs.streams_container.connect(my_streams_container)
+        >>> # or
+        >>> op.inputs.streams_container(my_streams_container)
+        """
+        return self._streams_container
 
     @property
     def data_sources(self) -> Input:
