@@ -31,6 +31,7 @@ import numpy as np
 from ansys import dpf
 from ansys.dpf.core import dimensionality, errors, meshed_region, scoping, time_freq_support
 from ansys.dpf.core.available_result import Homogeneity
+from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.core.common import (
     _get_size_of_list,
     locations,
@@ -50,6 +51,7 @@ from ansys.dpf.gate import (
 from ansys.dpf.gate.errors import DPFServerException
 
 if TYPE_CHECKING:  # pragma: nocover
+    from ansys.dpf.core.data_tree import DataTree
     from ansys.dpf.core.dpf_operator import Operator
     from ansys.dpf.core.meshed_region import MeshedRegion
     from ansys.dpf.core.results import Result
@@ -804,6 +806,23 @@ class Field(_FieldBase):
     @meshed_region.setter
     def meshed_region(self, value: MeshedRegion):
         self._set_support(support=value, support_type="MESHED_REGION")
+
+    @property
+    @version_requires("11.0")
+    def header(self) -> DataTree:
+        """Field Header, which stores metadata of the Field.
+
+        Returns
+        -------
+        :class:`ansys.dpf.core.data_tree.DataTree`
+
+        """
+        from ansys.dpf.core import dpf_operator
+
+        op = dpf_operator.Operator("field::get_attribute", server=self._server)
+        op.connect(0, self)
+        op.connect(1, "header")
+        return op.get_output(0, types.data_tree)
 
     def __add__(self, field_b):
         """Add two fields.
