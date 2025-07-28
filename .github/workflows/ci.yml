@@ -120,7 +120,7 @@ jobs:
       wheelhouse: false
       standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
       test_any: ${{ matrix.test-any }}
-      DOCSTRING: ${{ !matrix.test-any }}
+      DOCSTRING: ${{ matrix.test-any == 'false' }}
     secrets: inherit
 
   docker_tests:
