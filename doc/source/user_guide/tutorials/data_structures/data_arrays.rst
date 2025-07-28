@@ -357,8 +357,8 @@ the shape of the data stored, its number of components, and its unit.
 
             # Components count
             # Vectors dimension, here we have a displacement so we expect to have 3 components (X, Y and Z)
-            my_components_count = my_temp_field.component_count
-            print("components_count", '\n', my_components_count, '\n')
+            my_component_count = my_temp_field.component_count
+            print("components_count", '\n', my_component_count, '\n')
 
             # Size
             # Length of the data entire vector (equal to the number of elementary data times the number of components.)
@@ -396,8 +396,8 @@ the shape of the data stored, its number of components, and its unit.
 
             # Components count
             # Data dimension, here we expect one name by zone
-            my_components_count = my_string_field.component_count
-            print("components_count", '\n', my_components_count, '\n')
+            my_component_count = my_string_field.component_count
+            print("components_count", '\n', my_component_count, '\n')
 
             # Size
             # Length of the data entire array (equal to the number of elementary data times the number of components.)
@@ -431,7 +431,7 @@ the shape of the data stored, its number of components, and its unit.
 
             # Components count
             # Data dimension, we expect to have one id by face that makes part of a body
-            my_components_count = my_property_field.component_count
+            my_component_count = my_property_field.component_count
             print("components_count", '\n', my_component_count, '\n')
 
             # Size
