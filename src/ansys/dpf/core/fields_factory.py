@@ -26,30 +26,39 @@ fields_factory.
 Contains functions to simplify creating fields.
 """
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 import numpy as np
 
 from ansys.dpf.core import Field, server as server_module
 from ansys.dpf.core.common import locations, natures
 from ansys.dpf.gate import field_capi, field_grpcapi
 
+if TYPE_CHECKING:  # pragma: nocover
+    from ansys.dpf.core.server_types import AnyServerType
 
-def field_from_array(arr, server=None):
+
+def field_from_array(
+    arr: list | np.ndarray,
+    server: AnyServerType = None,
+) -> Field:
     """Create a DPF vector or scalar field from a numpy array or a Python list.
 
     Parameters
     ----------
-    arr : np.ndarray or List
+    arr:
         Numpy array or Python list containing either 1 or 3 dimensions.
-
-    server : ansys.dpf.core.server, optional
+    server:
         Server with the channel connected to the remote or local instance.
         The default is ``None``, in which case an attempt is made to use the
         global server.
 
     Returns
     -------
-    field : Field
-        Field constructed from the array.
+    field:
+        DPF field constructed from the array.
     """
     from ansys.dpf.core import Field, natures
 
@@ -83,7 +92,13 @@ def field_from_array(arr, server=None):
     return field
 
 
-def create_matrix_field(num_entities, num_lines, num_col, location=locations.nodal, server=None):
+def create_matrix_field(
+    num_entities,
+    num_lines,
+    num_col,
+    location: locations = locations.nodal,
+    server: AnyServerType = None,
+) -> Field:
     """Create a matrix :class:`ansys.dpf.core.Field`.
 
     This field contains entities that have a matrix format. This is a "reserve" mechanism,
@@ -91,24 +106,22 @@ def create_matrix_field(num_entities, num_lines, num_col, location=locations.nod
 
     Parameters
     ----------
-    num_entities : int
+    num_entities:
         Number of entities to reserve.
     num_lines : int
         Number of matrix line.
     num_col : int
         Number of matrix columns.
-    location : str, optional
+    location:
         Location of the field. Options are in :class:`locations <ansys.dpf.core.common.locations>`.
-        The default is ``dpf.locations.nodal``.
-
-    server : ansys.dpf.core.server, optional
+    server:
         Server with the channel connected to the remote or local instance.
         The default is ``None``, in which case an attempt is made to use the
         global server.
 
     Returns
     -------
-    field : Field
+    field:
         DPF field of the requested format.
 
     Examples
@@ -123,14 +136,18 @@ def create_matrix_field(num_entities, num_lines, num_col, location=locations.nod
     return _create_field(
         server=server,
         nature=natures.matrix,
-        nentities=num_entities,
+        n_entities=num_entities,
         location=location,
         ncomp_m=num_col,
         ncomp_n=num_lines,
     )
 
 
-def create_3d_vector_field(num_entities, location=locations.nodal, server=None):
+def create_3d_vector_field(
+    num_entities,
+    location: locations = locations.nodal,
+    server: AnyServerType = None,
+) -> Field:
     """Create a specific :class:`ansys.dpf.core.Field` with entities that have 3D vector format.
 
     This is a "reserve" mechanism, not a resize one. This means that you
@@ -138,21 +155,18 @@ def create_3d_vector_field(num_entities, location=locations.nodal, server=None):
 
     Parameters
     ----------
-    num_entities : int
+    num_entities:
         Number of entities to reserve
-
-    location : str, optional
+    location:
         Location of the field. Options are in :class:`locations <ansys.dpf.core.common.locations>`.
-        The default is ``dpf.locations.nodal``.
-
-    server : ansys.dpf.core.server, optional
+    server:
         Server with the channel connected to the remote or local instance.
         The default is ``None``, in which case an attempt is made to use the
         global server.
 
     Returns
     -------
-    field : Field
+    field:
         DPF field of the requested format.
 
     Examples
@@ -166,7 +180,11 @@ def create_3d_vector_field(num_entities, location=locations.nodal, server=None):
     return _create_field(server, natures.vector, num_entities, location)
 
 
-def create_tensor_field(num_entities, location=locations.nodal, server=None):
+def create_tensor_field(
+    num_entities,
+    location: locations = locations.nodal,
+    server: AnyServerType = None,
+) -> Field:
     """Create a specific :class:`ansys.dpf.core.Field` with entities that have a 3*3 format.
 
     This is a "reserve" mechanism, not a resize one. This means that you
@@ -174,20 +192,18 @@ def create_tensor_field(num_entities, location=locations.nodal, server=None):
 
     Parameters
     ----------
-    num_entities : int
+    num_entities:
         Number of entities to reserve.
-    location : str, optional
+    location:
         Location of the field. Options are in :class:`locations <ansys.dpf.core.common.locations>`.
-        The default is ``dpf.locations.nodal``.
-
-    server : ansys.dpf.core.server, optional
+    server:
         Server with the channel connected to the remote or local instance.
         The default is ``None``, in which case an attempt is made to use the
         global server.
 
     Returns
     -------
-    field : Field
+    field:
         DPF field in the requested format.
 
     Examples
@@ -201,7 +217,11 @@ def create_tensor_field(num_entities, location=locations.nodal, server=None):
     return _create_field(server, natures.symmatrix, num_entities, location)
 
 
-def create_scalar_field(num_entities, location=locations.nodal, server=None):
+def create_scalar_field(
+    num_entities,
+    location: locations = locations.nodal,
+    server: AnyServerType = None,
+) -> Field:
     """Create a specific `:class:`ansys.dpf.core.Field` with entities that are scalar.
 
     This is a "reserve" mechanism, not a resize one. This means that you
@@ -209,20 +229,18 @@ def create_scalar_field(num_entities, location=locations.nodal, server=None):
 
     Parameters
     ----------
-    num_entities : int
+    num_entities:
         Number of entities to reserve
-    location : str, optional
+    location:
         Location of the field. Options are in :class:`locations <ansys.dpf.core.common.locations>`.
-        The default is ``dpf.locations.nodal``.
-
-    server : ansys.dpf.core.server, optional
+    server:
         Server with the channel connected to the remote or local instance.
         The default is ``None``, in which case an attempt is made to use the
         global server.
 
     Returns
     -------
-    field : Field
+    field:
         DPF field in the requested format.
 
     Examples
@@ -236,7 +254,12 @@ def create_scalar_field(num_entities, location=locations.nodal, server=None):
     return _create_field(server, natures.scalar, num_entities, location)
 
 
-def create_vector_field(num_entities, num_comp, location=locations.nodal, server=None):
+def create_vector_field(
+    num_entities,
+    num_comp,
+    location: locations = locations.nodal,
+    server: AnyServerType = None,
+) -> Field:
     """Create a specific `:class:`ansys.dpf.core.Field` with entities that have a vector format.
 
     This is a "reserve" mechanism, not a resize one. This means that you
@@ -244,22 +267,20 @@ def create_vector_field(num_entities, num_comp, location=locations.nodal, server
 
     Parameters
     ----------
-    num_entities : int
+    num_entities:
         Number of entities to reserve.
-    num_comp : int
+    num_comp:
         Number of vector components.
-    location : str, optional
+    location:
         Location of the field. Options are in :class:`locations <ansys.dpf.core.common.locations>`.
-        The default is ``dpf.locations.nodal``.
-
-    server : ansys.dpf.core.server, optional
+    server:
         Server with the channel connected to the remote or local instance.
         The default is ``None``, in which case an attempt is made to use the
         global server.
 
     Returns
     -------
-    field : Field
+    field:
         DPF field in the requested format.
 
     Examples
@@ -275,8 +296,12 @@ def create_vector_field(num_entities, num_comp, location=locations.nodal, server
 
 
 def create_overall_field(
-    value, nature, num_entities, num_comp, location=locations.overall, server=None
-):
+    value: float,
+    nature: natures = natures.scalar,
+    num_entities: int = 1,
+    num_comp: int = 1,
+    server: AnyServerType = None,
+) -> Field:
     """Create a specific `:class:`ansys.dpf.core.Field` with entities that have an overall location.
 
     Regarding the nature of the entity contained in the field, we set the same value
@@ -284,29 +309,26 @@ def create_overall_field(
 
     Parameters
     ----------
-    value : float
+    value:
         Value of the entity
-    nature : str
+    nature:
         Nature of the field entity data. For example:
 
         - :class:`ansys.dpf.core.natures.matrix`
         - :class:`ansys.dpf.core.natures.scalar`
-    num_entities : int
-        Number of entities to reserve.
-    num_comp : int
-        Number of vector components.
-    location : str, optional
-        Location of the field. Options are in :class:`locations <ansys.dpf.core.common.locations>`.
-        The default is ``dpf.locations.nodal``.
 
-    server : ansys.dpf.core.server, optional
+    num_entities:
+        Number of entities to reserve.
+    num_comp:
+        Number of vector components.
+    server:
         Server with the channel connected to the remote or local instance.
         The default is ``None``, in which case an attempt is made to use the
         global server.
 
     Returns
     -------
-    field : Field
+    field:
         DPF field in the requested format.
 
     Examples
@@ -318,13 +340,22 @@ def create_overall_field(
     >>> field = fields_factory.create_overall_field(1.0, natures.scalar, 10, 1)
 
     """
-    overall_field = _create_field(server, nature, num_entities, location, ncomp_n=num_comp)
+    overall_field = _create_field(
+        server, nature, num_entities, location=locations.overall, ncomp_n=num_comp
+    )
     for i in range(num_entities):
         overall_field.append(value, i)
     return overall_field
 
 
-def _create_field(server, nature, nentities, location=locations.nodal, ncomp_n=0, ncomp_m=0):
+def _create_field(
+    server: AnyServerType = None,
+    nature: natures = natures.scalar,
+    n_entities: int = 0,
+    location: locations = locations.nodal,
+    ncomp_n: int = 0,
+    ncomp_m: int = 0,
+) -> Field:
     """Create a specific :class:`ansys.dpf.core.Field`.
 
     This is a "reserve" mechanism, not a resize one. This means that you
@@ -332,45 +363,41 @@ def _create_field(server, nature, nentities, location=locations.nodal, ncomp_n=0
 
     Parameters
     ----------
-    server : ansys.dpf.core.server, optional
+    server:
         Server with the channel connected to the remote or local instance.
         The default is ``None``, in which case an attempt is made to use the
         global server.
-    nature : str
+    nature:
         Nature of the field entity data. For example:
 
         - :class:`ansys.dpf.core.natures.matrix`
         - :class:`ansys.dpf.core.natures.scalar`
 
-    nentities : int
+    n_entities:
         Number of entities to reserve.
-
-    location : str, optional
+    location:
         Location of the field. Options are in :class:`locations <ansys.dpf.core.common.locations>`.
         The default is ``dpf.locations.nodal``.
-
-    ncomp_n : int
+    ncomp_n:
         Number of lines.
-    ncomp_m : int
+    ncomp_m:
         Number of columns.
 
     Returns
     -------
-    field : Field
+    field:
         DPF field in the requested format.
     """
-    if server is None:
-        server = server_module.get_or_create_server(server)
+    server = server_module.get_or_create_server(server)
     api = server.get_api_for_type(capi=field_capi.FieldCAPI, grpcapi=field_grpcapi.FieldGRPCAPI)
     api.init_field_environment(server)
     internal_obj = Field._field_create_internal_obj(
         api=api,
         client=server.client,
         nature=nature,
-        nentities=nentities,
-        location=location,
+        nentities=n_entities,
+        location=str(location),
         ncomp_n=ncomp_n,
         ncomp_m=ncomp_m,
     )
-    field = Field(field=internal_obj, server=server)
-    return field
+    return Field(field=internal_obj, server=server)
