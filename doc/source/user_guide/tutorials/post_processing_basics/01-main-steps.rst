@@ -46,16 +46,19 @@ be used to visualize and analyze simulation results:
 
 First, import the DPF-Core module as ``dpf`` and import the included examples file
 
-.. code-block:: python
+.. jupyter-execute::
 
-   from ansys.dpf import core as dpf
-   from ansys.dpf.core import examples
-   from ansys.dpf.core import operators as ops
+    # Import the ansys.dpf.core module as ``dpf``
+    from ansys.dpf import core as dpf
+    # Import the examples module
+    from ansys.dpf.core import examples
+    # Import the operators module
+    from ansys.dpf.core import operators as ops
 
 `DataSources' is a class that manages paths to their files. Use this object to declare
 data inputs for DPF and define their locations.
 
-.. code-block:: python
+.. jupyter-execute::
 
    # Define the DataSources object
    my_data_sources = dpf.DataSources(result_path=examples.find_simple_bar())
@@ -73,23 +76,11 @@ Printing the model displays:
   - Size of the mesh
   - Number of results
 
-.. code-block:: python
+.. jupyter-execute::
 
    # Define the Model object
    my_model = dpf.Model(data_sources=my_data_sources)
    print(my_model)
-
-.. rst-class:: sphx-glr-script-out
-
- .. jupyter-execute::
-    :hide-code:
-
-    from ansys.dpf import core as dpf
-    from ansys.dpf.core import examples
-    from ansys.dpf.core import operators as ops
-    my_data_sources = dpf.DataSources(result_path=examples.find_simple_bar())
-    my_model = dpf.Model(data_sources=my_data_sources)
-    print(my_model)
 
 .. _tutorials_main_steps_2:
 
@@ -98,35 +89,19 @@ Printing the model displays:
 
 We see in the model that a displacement result is available. You can access this result by:
 
-.. code-block:: python
+.. jupyter-execute::
 
    # Define the displacement results through the models property `results`
    my_displacements = my_model.results.displacement.eval()
    print(my_displacements)
 
-.. rst-class:: sphx-glr-script-out
-
- .. jupyter-execute::
-    :hide-code:
-
-    my_displacements = my_model.results.displacement.eval()
-    print(my_displacements)
-
 The displacement data can be extract by:
 
-.. code-block:: python
+.. jupyter-execute::
 
    # Extract the data of the displacement field
    my_displacements_0 = my_displacements[0].data
    print(my_displacements_0)
-
-.. rst-class:: sphx-glr-script-out
-
- .. jupyter-execute::
-    :hide-code:
-
-    my_displacements_0 = my_displacements[0].data
-    print(my_displacements_0)
 
 .. _tutorials_main_steps_3:
 
@@ -139,35 +114,19 @@ workflow with chained operators.
 
 Here we star by computing the displacements norm.
 
-.. code-block:: python
+.. jupyter-execute::
 
    # Define the norm operator (here for a fields container) for the displacement
    my_norm = ops.math.norm_fc(fields_container=my_displacements).eval()
    print(my_norm[0].data)
 
-.. rst-class:: sphx-glr-script-out
-
- .. jupyter-execute::
-    :hide-code:
-
-    my_norm = ops.math.norm_fc(fields_container=my_displacements).eval()
-    print(my_norm[0].data)
-
 Then we compute the maximum values of the normalised displacement
 
-.. code-block:: python
+.. jupyter-execute::
 
    # Define the maximum operator and chain it to the norm operator
    my_max= ops.min_max.min_max_fc(fields_container=my_norm).outputs.field_max()
    print(my_max)
-
-.. rst-class:: sphx-glr-script-out
-
- .. jupyter-execute::
-    :hide-code:
-
-    my_max = ops.min_max.min_max_fc(fields_container=my_norm).outputs.field_max()
-    print(my_max)
 
 .. _tutorials_main_steps_4:
 
@@ -176,14 +135,7 @@ Then we compute the maximum values of the normalised displacement
 
 Plot the transformed displacement results
 
-.. code-block:: python
+.. jupyter-execute::
 
    # Define the support of the plot (here we plot the displacement over the mesh)
    my_model.metadata.meshed_region.plot(field_or_fields_container=my_displacements)
-
-.. rst-class:: sphx-glr-script-out
-
- .. jupyter-execute::
-    :hide-code:
-
-    my_model.metadata.meshed_region.plot(field_or_fields_container=my_displacements)
