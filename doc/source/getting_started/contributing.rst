@@ -3,10 +3,14 @@
 Contributing
 ############
 
+.. include:: ../links_and_refs.rst
+
+There are several ways to contribute to PyDPF-Core.
+
 Overall guidance on contributing to a PyAnsys repository appears in
-`Contribute <https://dev.docs.pyansys.com/how-to/contributing.html>`_
-in the *PyAnsys Developer's Guide*. Ensure that you are thoroughly familiar
-with this guide before attempting to contribute to PyDPF-Core.
+`Contributing <dev_guide_contributing_>`_ in the *PyAnsys Developer's Guide*.
+Ensure that you are thoroughly familiar with this guide before attempting
+to contribute to PyDPF-Core.
 
 .. important::
 
@@ -19,28 +23,27 @@ The following contribution information is specific to PyDPF-Core. Start by selec
     :padding: 2 2 2 2
 
     .. grid-item-card:: :fa:`user` User
-        :link: contribute/user
-        :link-type: doc
+        :link: contributing_as_a_user
+        :link-type: ref
 
         Report bugs, suggesting features, and ask questions.
 
-    .. grid-item-card:: :fa:`book` Documentarian
-        :link: contribute/documentarian
-        :link-type: doc
-
-        Improve the documentation and write new guides.
-
     .. grid-item-card:: :fa:`laptop-code` Developer
-        :link: contribute/developer
-        :link-type: doc
+        :link: contributing_as_a_developer
+        :link-type: ref
 
         Fix bugs, add new features, and improve the codebase.
+
+    .. grid-item-card:: :fa:`book` Documentation
+        :link: contributing_documentation
+        :link-type: ref
+
+        Improve the documentation and write new guides.
 
 .. toctree::
     :hidden:
     :maxdepth: 3
-    :caption: Contribute
 
     User<contribute/user>
-    Documentarian<contribute/documentarian>
     Developer<contribute/developer>
+    Documentation<contribute/documentarian>
