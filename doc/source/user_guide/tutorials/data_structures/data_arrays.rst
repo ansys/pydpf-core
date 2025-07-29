@@ -232,100 +232,117 @@ Create a |Field| with the fields_factory
 
 The :mod:`fields_factory <ansys.dpf.core.fields_factory>` module provides helpers to create a |Field|:
 
-- Use :func:`create_scalar_field <ansys.dpf.core.fields_factory.create_scalar_field>` to create a scalar field:
+.. tab-set::
 
-.. jupyter-execute::
+    .. tab-item:: Scalar Field
 
-    # Create a scalar field ready to hold data for two entities
-    # The field is nodal by default
-    my_field = dpf.fields_factory.create_scalar_field(num_entities=2)
-    my_field.data = [1.0, 2.0]
-    my_field.scoping.ids = [1, 2]
-    # Print the field
-    print(my_field)
+        Use :func:`create_scalar_field <ansys.dpf.core.fields_factory.create_scalar_field>` to create a scalar field:
 
-- Use :func:`create_vector_field <ansys.dpf.core.fields_factory.create_vector_field>` to create a generic vector field:
+        .. jupyter-execute::
 
-.. jupyter-execute::
+            # Create a scalar field ready to hold data for two entities
+            # The field is nodal by default
+            my_field = dpf.fields_factory.create_scalar_field(num_entities=2)
+            my_field.data = [1.0, 2.0]
+            my_field.scoping.ids = [1, 2]
+            # Print the field
+            print(my_field)
 
-    # Create a 2D vector field ready to hold data for two entities
-    # The field is nodal by default
-    my_field = dpf.fields_factory.create_vector_field(num_entities=2, num_comp=2)
-    my_field.data = [1.0, 2.0, 3.0, 4.0]
-    my_field.scoping.ids = [1, 2]
-    # Print the field
-    print(my_field)
+    .. tab-item:: Generic Vector Field
 
-- Use :func:`create_3d_vector_field <ansys.dpf.core.fields_factory.create_3d_vector_field>` to create a 3D vector field:
+        Use :func:`create_vector_field <ansys.dpf.core.fields_factory.create_vector_field>` to create a generic vector field:
 
-.. jupyter-execute::
+        .. jupyter-execute::
 
-    # Create a 3D vector field ready to hold data for two entities
-    # The field is nodal by default
-    my_field = dpf.fields_factory.create_3d_vector_field(num_entities=2)
-    my_field.data = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
-    my_field.scoping.ids = [1, 2]
-    # Print the field
-    print(my_field)
+            # Create a 2D vector field ready to hold data for two entities
+            # The field is nodal by default
+            my_field = dpf.fields_factory.create_vector_field(num_entities=2, num_comp=2)
+            my_field.data = [1.0, 2.0, 3.0, 4.0]
+            my_field.scoping.ids = [1, 2]
+            # Print the field
+            print(my_field)
 
-- Use :func:`create_matrix_field <ansys.dpf.core.fields_factory.create_matrix_field>` to create a generic matrix field:
+    .. tab-item:: 3D Vector Field
 
-.. jupyter-execute::
 
-    # Create a 2x3 matrix field ready to hold data for two entities
-    # The field is nodal by default
-    my_field = dpf.fields_factory.create_matrix_field(num_entities=2, num_lines=2, num_col=3)
-    my_field.data = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
-    my_field.scoping.ids = [1, 2]
-    # Print the field
-    print(my_field)
+        Use :func:`create_3d_vector_field <ansys.dpf.core.fields_factory.create_3d_vector_field>` to create a 3D vector field:
 
-- Use :func:`create_tensor_field <ansys.dpf.core.fields_factory.create_tensor_field>` to create a 3x3 matrix field:
+        .. jupyter-execute::
 
-.. jupyter-execute::
+            # Create a 3D vector field ready to hold data for two entities
+            # The field is nodal by default
+            my_field = dpf.fields_factory.create_3d_vector_field(num_entities=2)
+            my_field.data = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
+            my_field.scoping.ids = [1, 2]
+            # Print the field
+            print(my_field)
 
-    # Create a 3x3 matrix field ready to hold data for two entities
-    # The field is nodal by default
-    my_field = dpf.fields_factory.create_tensor_field(num_entities=2)
-    my_field.data = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0]
-    my_field.scoping.ids = [1, 2]
-    # Print the field
-    print(my_field)
+    .. tab-item:: Generic Matrix Field
 
-- Use :func:`create_overall_field <ansys.dpf.core.fields_factory.create_overall_field>` to create a field with a single value for the whole support:
+        Use :func:`create_matrix_field <ansys.dpf.core.fields_factory.create_matrix_field>` to create a generic matrix field:
 
-.. jupyter-execute::
+        .. jupyter-execute::
 
-    # Create a field storing a value applied to every node in the support
-    my_field = dpf.fields_factory.create_overall_field(value=1.0)
-    # Print the field
-    print(my_field)
+            # Create a 2x3 matrix field ready to hold data for two entities
+            # The field is nodal by default
+            my_field = dpf.fields_factory.create_matrix_field(num_entities=2, num_lines=2, num_col=3)
+            my_field.data = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
+            my_field.scoping.ids = [1, 2]
+            # Print the field
+            print(my_field)
 
-- Use :func:`field_from_array <ansys.dpf.core.fields_factory.field_from_array>` to create a scalar, 3D vector, or symmetric matrix field directly from a numpy array or a Python list
+    .. tab-item:: 3x3 Matrix Field
 
-.. jupyter-execute::
+        Use :func:`create_tensor_field <ansys.dpf.core.fields_factory.create_tensor_field>` to create a 3x3 matrix field:
 
-    # Create a scalar field from a 1D array or a list
-    arr = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
-    my_field = dpf.fields_factory.field_from_array(arr=arr)
-    # Print the field
-    print(my_field)
+        .. jupyter-execute::
 
-.. jupyter-execute::
+            # Create a 3x3 matrix field ready to hold data for two entities
+            # The field is nodal by default
+            my_field = dpf.fields_factory.create_tensor_field(num_entities=2)
+            my_field.data = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0]
+            my_field.scoping.ids = [1, 2]
+            # Print the field
+            print(my_field)
 
-    # Create a 3D vector field from an array or a list
-    arr = [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]]
-    my_field = dpf.fields_factory.field_from_array(arr=arr)
-    # Print the field
-    print(my_field)
+    .. tab-item:: Single Value Field
 
-.. jupyter-execute::
+        Use :func:`create_overall_field <ansys.dpf.core.fields_factory.create_overall_field>` to create a field with a single value for the whole support:
 
-    # Create a symmetric matrix field from an array or a list
-    arr = [[1.0, 2.0, 3.0, 4.0, 5.0, 6.0]]
-    my_field = dpf.fields_factory.field_from_array(arr=arr)
-    # Print the field
-    print(my_field)
+        .. jupyter-execute::
+
+            # Create a field storing a value applied to every node in the support
+            my_field = dpf.fields_factory.create_overall_field(value=1.0)
+            # Print the field
+            print(my_field)
+
+    .. tab-item:: Field from Array
+
+        Use :func:`field_from_array <ansys.dpf.core.fields_factory.field_from_array>` to create a scalar, 3D vector, or symmetric matrix field directly from a numpy array or a Python list
+
+        .. jupyter-execute::
+
+            # Create a scalar field from a 1D array or a list
+            arr = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
+            my_field = dpf.fields_factory.field_from_array(arr=arr)
+            # Print the field
+            print(my_field)
+
+        .. jupyter-execute::
+
+            # Create a 3D vector field from an array or a list
+            arr = [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]]
+            my_field = dpf.fields_factory.field_from_array(arr=arr)
+            # Print the field
+            print(my_field)
+
+        .. jupyter-execute::
+
+            # Create a symmetric matrix field from an array or a list
+            arr = [[1.0, 2.0, 3.0, 4.0, 5.0, 6.0]]
+            my_field = dpf.fields_factory.field_from_array(arr=arr)
+            # Print the field
+            print(my_field)
 
 
 Access the field metadata
