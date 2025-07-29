@@ -39,6 +39,10 @@ be used to visualize and analyze simulation results:
 
        Visualize the data
 
+
+:jupyter-download-script:`Download tutorial as Python script<01-main-steps>`
+:jupyter-download-notebook:`Download tutorial as Jupyter notebook<01-main-steps>`
+
 .. _tutorials_main_steps_1:
 
 1- Import and open results files

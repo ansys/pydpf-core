@@ -30,8 +30,8 @@ DPF uses |Field| and |FieldsContainer| objects to handle data. The |Field| is a 
 and a |FieldsContainer| is a labeled collection of |Field|. For more information on DPF data structures
 such as the |Field| and their use check the :ref:`ref_tutorials_data_structures` tutorials section.
 
-:jupyter-download-script:`Download tutorial as Python script<field_with_custom_data>`
-:jupyter-download-notebook:`Download tutorial as Jupyter notebook<field_with_custom_data>`
+:jupyter-download-script:`Download tutorial as Python script<load_custom_data>`
+:jupyter-download-notebook:`Download tutorial as Jupyter notebook<load_custom_data>`
 
 Define the data
 ---------------
