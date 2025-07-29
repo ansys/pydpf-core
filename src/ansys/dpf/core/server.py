@@ -26,6 +26,8 @@ Server.
 Contains the directives necessary to start the DPF server.
 """
 
+from __future__ import annotations
+
 import copy
 import functools
 import inspect
@@ -397,7 +399,7 @@ def connect_to_server(
         raise e
 
 
-def get_or_create_server(server: BaseServer) -> Union[BaseServer, None]:
+def get_or_create_server(server: BaseServer | None) -> Union[BaseServer, None]:
     """Return the given server or if None, creates a new one.
 
     Parameters

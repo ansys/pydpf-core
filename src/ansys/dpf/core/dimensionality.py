@@ -67,6 +67,8 @@ class Dimensionality:
                 self.dim = [3, 3]
             elif self.nature == natures.scalar:
                 self.dim = [1]
+            elif self.nature == natures.matrix:
+                self.dim = [3, 3]
 
     def is_1d_dim(self):
         """Check if dimensionality is 1."""
