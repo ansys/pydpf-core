@@ -10,7 +10,7 @@ They are designed to teach how to perform a task, providing explanations at each
 It helps to have a Python interpreter for hands-on experience, but all code examples are
 executed, so the tutorial can be read off-line as well.
 
-For a complete description of all the objects and modules, see the :ref:`API reference <ref_api_section>`
+For a complete description of all the objects and modules, see the :doc:`API reference <../../api/index>`
 section.
 
 :fa:`person-running` Beginner's guide

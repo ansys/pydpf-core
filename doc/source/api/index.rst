@@ -1,5 +1,3 @@
-.. _ref_api_section:
-
 API reference
 =============
 
