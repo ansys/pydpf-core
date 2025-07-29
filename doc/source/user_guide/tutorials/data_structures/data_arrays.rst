@@ -308,7 +308,7 @@ The :mod:`fields_factory <ansys.dpf.core.fields_factory>` module provides helper
             # Print the field
             print(my_field)
 
-    .. tab-item:: Single Value Field
+    .. tab-item:: Overall Field
 
         Use :func:`create_overall_field <ansys.dpf.core.fields_factory.create_overall_field>` to create a field with a single value for the whole support:
 
