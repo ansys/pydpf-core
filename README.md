@@ -7,7 +7,7 @@
 [![docs](https://img.shields.io/website?down_color=lightgrey&down_message=invalid&label=documentation&up_color=brightgreen&up_message=up&url=https%3A%2F%2Fdpfdocs.pyansys.com%2F)](https://dpfdocs.pyansys.com)
 [![MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![pypidl](https://img.shields.io/pypi/dm/ansys-dpf-core.svg?label=PyPI%20downloads)](https://pypi.org/project/ansys-dpf-core/)
-[![cov](https://codecov.io/gh/ansys/pydpf-core/branch/master/graph/badge.svg)](https://codecov.io/gh/ansys/pydpf-core)
+[![cov](https://codecov.io/gh/ansys/pydpf-core/branch/main/graph/badge.svg)](https://codecov.io/gh/ansys/pydpf-core)
 [![codacy](https://app.codacy.com/project/badge/Grade/61b6a519aea64715ad1726b3955fcf98)](https://www.codacy.com/gh/ansys/pydpf-core/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ansys/pydpf-core&amp;utm_campaign=Badge_Grade)
 
 Ansys Data Processing Framework (DPF) provides numerical simulation 
@@ -187,7 +187,7 @@ module. It closes when you exit Python or connect to a different server.
 ## License and acknowledgments
 
 PyDPF-Core is licensed under the MIT license. For more information, see the
-[LICENSE](https://github.com/ansys/pydpf-post/raw/master/LICENSE) file.
+[LICENSE](https://github.com/ansys/pydpf-post/raw/main/LICENSE) file.
 
 PyDPF-Core makes no commercial claim over Ansys whatsoever. This library
 extends the functionality of Ansys DPF by adding a Python interface

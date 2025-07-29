@@ -7,7 +7,7 @@ on:
       - '*no-ci*'
   push:
     branches:
-      - master
+      - main
   workflow_dispatch:
     inputs:
       ansys_version:
@@ -120,7 +120,7 @@ jobs:
       wheelhouse: false
       standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
       test_any: ${{ matrix.test-any }}
-      DOCSTRING: ${{ !matrix.test-any }}
+      DOCSTRING: ${{ matrix.test-any == 'false' }}
     secrets: inherit
 
   docker_tests:
@@ -148,7 +148,7 @@ jobs:
     if: |
       github.event.action != 'closed' &&
       (github.event.action != 'labeled' || github.event.label.name == 'deploy-pr-doc') &&
-      (startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft)
+      (startsWith(github.head_ref, 'main') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft)
     uses: ./.github/workflows/docs.yml
     needs: pick_server_suffix
     with:
@@ -183,7 +183,7 @@ jobs:
     if: |
       github.event.action != 'closed' &&
       (github.event.action != 'labeled' || github.event.label.name == 'deploy-pr-doc') &&
-      (github.ref == 'refs/heads/master' && github.event_name == 'push')
+      (github.ref == 'refs/heads/main' && github.event_name == 'push')
     needs: [docs]
     steps:
       - name: "Upload development documentation"
@@ -200,7 +200,7 @@ jobs:
     if: |
       github.event.action != 'closed' &&
       (github.event.action != 'labeled' || github.event.label.name == 'deploy-pr-doc') &&
-      (startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft)
+      (startsWith(github.head_ref, 'main') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft)
     uses: ./.github/workflows/examples.yml
     needs: pick_server_suffix
     with:
@@ -214,12 +214,12 @@ jobs:
     if: |
       github.event.action != 'closed' &&
       (github.event.action != 'labeled' || github.event.label.name == 'deploy-pr-doc') &&
-      (startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft)
+      (startsWith(github.head_ref, 'main') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft)
     uses: ./.github/workflows/pydpf-post.yml
     needs: pick_server_suffix
     with:
       ANSYS_VERSION: ${{ inputs.ansys_version || vars.ANSYS_VERSION_DEFAULT }}
-      post_branch: "master"
+      post_branch: "main"
       standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
       test_docstrings: "true"
     secrets: inherit
@@ -229,7 +229,7 @@ jobs:
     if: |
       github.event.action != 'closed' &&
       (github.event.action != 'labeled' || github.event.label.name == 'deploy-pr-doc') &&
-      (startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft)
+      (startsWith(github.head_ref, 'main') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft)
     strategy:
       fail-fast: false
       matrix:
@@ -248,3 +248,39 @@ jobs:
       DOCSTRING: false
       standalone_suffix: ${{ matrix.dpf.standalone-suffix }}
     secrets: inherit
+
+  sync-main-with-master:
+    name: "Sync main with master"
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Install Git and clone project"
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          token: ${{ secrets.MIGRATION_PAT }}
+          fetch-depth: 0
+
+      - name: "Verify that main is the default branch"
+        shell: bash
+        run: |
+          head_branch=$(git remote show origin | grep "HEAD branch:")
+          main_branch=${head_branch#*: }
+          
+          if [[ $main_branch != "main" ]]; then
+            echo "The default branch is not 'main'. It is set to '$main_branch'."
+            echo "Please set 'main' as the default branch in the repository settings."
+            exit 1
+          fi
+
+      - name: "Configure git username and email"
+        shell: bash
+        run: |
+          git config --global user.name "${{ secrets.PYANSYS_CI_BOT_USERNAME }}"
+          git config --global user.email "${{ secrets.PYANSYS_CI_BOT_EMAIL }}"
+
+      - name: "Sync main to master"
+        shell: bash
+        run: |
+          git checkout master
+          git reset --hard main
+          git push

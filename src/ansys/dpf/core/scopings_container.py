@@ -170,17 +170,17 @@ class ScopingsContainer(CollectionBase[scoping.Scoping]):
         >>> node_scoping_1 = dpf.Scoping(
         ...    location=dpf.locations.nodal,
         ...    ids=mesh.nodes.scoping.ids[0:100]
-        ...)
+        ... )
         >>> node_scoping_2 = dpf.Scoping(
         ...    location=dpf.locations.nodal,
         ...    ids=mesh.nodes.scoping.ids[300:400]
-        ...)
+        ... )
         >>> node_sc = dpf.ScopingsContainer()
         >>> node_sc.add_label(label="scoping", default_value=1)
         >>> node_sc.add_scoping(label_space={"scoping": 1}, scoping=node_scoping_1)
         >>> node_sc.add_scoping(label_space={"scoping": 2}, scoping=node_scoping_2)
         >>> node_sc.plot(mesh=mesh, show_mesh=True)
-
+        (None, <pyvista.plotting.plotter.Plotter ...>)
         """
         from itertools import cycle
 

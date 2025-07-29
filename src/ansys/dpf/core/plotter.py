@@ -678,7 +678,7 @@ class DpfPlotter:
         ...        radius=0.001,
         ...        )
         >>> pl.show_figure(show_axes=True)
-
+        (None, <pyvista.plotting.plotter.Plotter ...>)
         """
         self._internal_plotter.add_streamlines(
             streamlines=streamlines,
@@ -788,17 +788,17 @@ class DpfPlotter:
         >>> node_scoping = dpf.Scoping(
         ...    location=dpf.locations.nodal,
         ...    ids=mesh.nodes.scoping.ids[0:100]
-        ...)
+        ... )
         >>> element_scoping = dpf.Scoping(
         ...    location=dpf.locations.elemental,
         ...    ids=mesh.elements.scoping.ids[0:100]
-        ...)
+        ... )
         >>> from ansys.dpf.core.plotter import DpfPlotter
         >>> plt = DpfPlotter()
         >>> plt.add_scoping(node_scoping, mesh, show_mesh=True, color="red")
         >>> plt.add_scoping(element_scoping, mesh, color="green")
         >>> plt.show_figure()
-
+        (None, <pyvista.plotting.plotter.Plotter ...>)
         """
         self._internal_plotter.add_scoping(
             scoping=scoping, mesh=mesh, show_mesh=show_mesh, **kwargs
@@ -824,7 +824,7 @@ class DpfPlotter:
         >>> pl = DpfPlotter()
         >>> pl.add_field(field, mesh)
         >>> pl.show_figure()
-
+        (None, <pyvista.plotting.plotter.Plotter ...>)
         """
         if "notebook" in kwargs.keys():
             warnings.simplefilter("once")
