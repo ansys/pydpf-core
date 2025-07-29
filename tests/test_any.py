@@ -123,9 +123,9 @@ def test_cast_scoping_any(server_type):
 
 
 @conftest.raises_for_servers_version_under("7.0")
-def test_cast_data_sources_any(server_in_process):
+def test_cast_data_sources_any(server_type):
     # Not available through grpc yet
-    entity = dpf.DataSources(server=server_in_process, result_path="test.pth")
+    entity = dpf.DataSources(server=server_type, result_path="test.pth")
     any_dpf = dpf.Any.new_from(entity)
     new_entity = any_dpf.cast()
 
