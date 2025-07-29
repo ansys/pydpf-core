@@ -24,6 +24,9 @@ The data containers can be:
 
 This tutorial presents how to define and manipulate DPF data arrays specifically.
 
+:jupyter-download-script:`Download tutorial as Python script<data_arrays>`
+:jupyter-download-notebook:`Download tutorial as Jupyter notebook<data_arrays>`
+
 Introduction
 ------------
 
