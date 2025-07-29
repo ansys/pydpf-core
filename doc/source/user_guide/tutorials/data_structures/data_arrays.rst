@@ -543,7 +543,7 @@ using either the :func:`get_entity_data()<ansys.dpf.core.field.Field.get_entity_
 
         Note that this would correspond to an index of 2 within the
         field. Be aware that scoping IDs are not sequential. You would
-        get the index of element 2 in the field with:
+        get the index of element 532 in the field with:
 
         .. jupyter-execute::
 
