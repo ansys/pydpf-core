@@ -36,6 +36,7 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
             field,
             fields_container,
             property_field,
+            data_sources,
             generic_data_container,
             string_field,
             scoping,
@@ -62,6 +63,7 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
                 (collection_base.CollectionBase, base_pb2.Type.COLLECTION, base_pb2.Type.ANY),
                 (dpf_vector.DPFVectorInt, base_pb2.Type.COLLECTION, base_pb2.Type.INT),
                 (dpf_operator.Operator, base_pb2.Type.OPERATOR),
+                (data_sources.DataSources, base_pb2.Type.DATA_SOURCES),
                 ]
 
     @staticmethod
@@ -136,6 +138,10 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
     @staticmethod
     def any_get_as_scoping(any):
         return AnyGRPCAPI._get_as(any).scoping
+
+    @staticmethod
+    def any_get_as_data_sources(any):
+        return AnyGRPCAPI._get_as(any).data_sources
 
     @staticmethod
     def any_get_as_data_tree(any):
@@ -237,6 +243,10 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
 
     @staticmethod
     def any_new_from_scoping(any):
+        return AnyGRPCAPI._new_from(any, any._server)
+
+    @staticmethod
+    def any_new_from_data_sources(any):
         return AnyGRPCAPI._new_from(any, any._server)
 
     @staticmethod

@@ -113,6 +113,7 @@ class Any:
         from ansys.dpf.core import (
             collection,
             custom_type_field,
+            data_sources,
             data_tree,
             dpf_operator,
             field,
@@ -204,6 +205,11 @@ class Any:
             return (
                 self._api.any_new_from_operator,
                 self._api.any_get_as_operator,
+            )
+        elif issubclass(obj, data_sources.DataSources):
+            return (
+                self._api.any_new_from_data_sources,
+                self._api.any_get_as_data_sources,
             )
         elif issubclass(obj, Any):
             return (
