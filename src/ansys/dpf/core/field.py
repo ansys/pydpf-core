@@ -660,9 +660,7 @@ class Field(_FieldBase):
         Setting a named dimensionless unit requires DPF 11.0 (2026 R1) or above.
 
         """
-        field_def = self.field_definition
-        field_def.unit = value
-        self.field_definition = field_def
+        self.field_definition.unit = value
 
     @property
     def dimensionality(self):
