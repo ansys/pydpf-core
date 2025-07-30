@@ -37,13 +37,13 @@ For comprehensive examples on writing operator plugins, see :ref:`python_operato
     :margin: 2
 
     .. grid-item-card:: Create a DPF plugin with a single operator
-        :link: tutorials_custom_operators_and_plugins_custom_operator
-        :link-type: ref
-        :text-align: center
-        :class-header: sd-bg-light sd-text-dark
-        :class-footer: sd-bg-light sd-text-dark
+       :link: tutorials_custom_operators_and_plugins_custom_operator
+       :link-type: ref
+       :text-align: center
+       :class-header: sd-bg-light sd-text-dark
+       :class-footer: sd-bg-light sd-text-dark
 
-        This tutorial shows how to create, load, and use a custom plugin containing a single custom operator.
+       This tutorial shows how to create, load, and use a custom plugin containing a single custom operator.
 
        +++
        Requires DPF 7.1 or above (2024 R1).
