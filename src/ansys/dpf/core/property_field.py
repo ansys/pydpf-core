@@ -91,7 +91,7 @@ class PropertyField(_FieldBase):
             field=property_field,
             server=server,
         )
-        if server is not None and meets_version(server.version, "11.0"):
+        if meets_version(self._server.version, "11.0"):
             self._field_definition_instance = self._load_field_definition()
         else:
             self._field_definition_instance = None
