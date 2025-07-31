@@ -8,6 +8,7 @@ from .change_location import change_location
 from .change_shell_layers import change_shell_layers
 from .compute_time_scoping import compute_time_scoping
 from .customtypefield_get_attribute import customtypefield_get_attribute
+from .customtypefield_set_property import customtypefield_set_property
 from .default_value import default_value
 from .delegate_to_operator import delegate_to_operator
 from .ds_get_attribute import ds_get_attribute
@@ -21,6 +22,7 @@ from .fc_get_attribute import fc_get_attribute
 from .field import field
 from .field_clone_to_shell_layer import field_clone_to_shell_layer
 from .field_get_attribute import field_get_attribute
+from .field_set_property import field_set_property
 from .field_to_fc import field_to_fc
 from .fields_container import fields_container
 from .fields_container_matrices_label import fields_container_matrices_label
@@ -66,6 +68,7 @@ from .overlap_fields import overlap_fields
 from .producer_consumer_for_each import producer_consumer_for_each
 from .property_field import property_field
 from .propertyfield_get_attribute import propertyfield_get_attribute
+from .propertyfield_set_property import propertyfield_set_property
 from .python_generator import python_generator
 from .remote_operator_instantiate import remote_operator_instantiate
 from .remote_workflow_instantiate import remote_workflow_instantiate
@@ -73,7 +76,6 @@ from .remove_unnecessary_labels import remove_unnecessary_labels
 from .scalars_to_field import scalars_to_field
 from .server_path import server_path
 from .set_attribute import set_attribute
-from .set_property import set_property
 from .split_in_for_each_range import split_in_for_each_range
 from .strain_from_voigt import strain_from_voigt
 from .strain_from_voigt_fc import strain_from_voigt_fc
