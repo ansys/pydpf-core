@@ -350,6 +350,14 @@ _result_properties = {
         "scripting_name": "contact_fluid_penetration_pressure",
     },
     "ECT_FLUX": {"location": "ElementalNodal", "scripting_name": "contact_surface_heat_flux"},
+    "B_N": {"location": "ElementalNodal", "scripting_name": "beam_axial_force"},
+    "B_M1": {"location": "ElementalNodal", "scripting_name": "beam_s_bending_moment"},
+    "B_M2": {"location": "ElementalNodal", "scripting_name": "beam_t_bending_moment"},
+    "B_MT": {"location": "ElementalNodal", "scripting_name": "beam_torsional_moment"},
+    "B_SN": {"location": "ElementalNodal", "scripting_name": "beam_axial_stress"},
+    "B_EL": {"location": "ElementalNodal", "scripting_name": "beam_axial_total_strain"},
+    "B_T1": {"location": "ElementalNodal", "scripting_name": "beam_s_shear_force"},
+    "B_T2": {"location": "ElementalNodal", "scripting_name": "beam_t_shear_force"},
 }
 
 
