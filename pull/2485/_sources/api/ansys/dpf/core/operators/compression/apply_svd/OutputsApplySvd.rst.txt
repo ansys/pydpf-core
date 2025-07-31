@@ -1,0 +1,147 @@
+
+
+
+
+
+
+:class:`OutputsApplySvd`
+========================
+
+
+.. py:class:: ansys.dpf.core.operators.compression.apply_svd.OutputsApplySvd(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   apply_svd operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.apply_svd()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_us_svd = op.outputs.us_svd()
+   >>> result_vt_svd = op.outputs.vt_svd()
+   >>> result_sigma = op.outputs.sigma()
+
+
+
+
+
+.. py:currentmodule:: OutputsApplySvd
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~us_svd`
+            - Allows to get us_svd output of the operator
+          * - :py:attr:`~vt_svd`
+            - Allows to get vt_svd output of the operator
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~sigma_as_field`
+            - 
+          * - :py:attr:`~sigma_as_fields_container`
+            - 
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.compression.apply_svd import OutputsApplySvd
+
+Property detail
+---------------
+
+.. py:property:: us_svd
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get us_svd output of the operator
+
+   the output entity is a field container (time dependant); it contains the multiplication of two matrices, U and S, where A=U.S.Vt
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.apply_svd()
+   >>> # Get the output from op.outputs. ...
+   >>> result_us_svd = op.outputs.us_svd()
+
+.. py:property:: vt_svd
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get vt_svd output of the operator
+
+   the output entity is a field container (space dependant), containing the Vt, where A=U.S.Vt
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.apply_svd()
+   >>> # Get the output from op.outputs. ...
+   >>> result_vt_svd = op.outputs.vt_svd()
+
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: sigma_as_field
+
+.. py:attribute:: sigma_as_fields_container
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+
