@@ -206,22 +206,17 @@ class PropertyField(_FieldBase):
         if meets_version(self._server.version, "11.0"):
             if self._field_definition:
                 self._field_definition.location = value
+                return
             else:
                 raise Exception(
                     "Property field location is based on field definition, and field definition is not defined"
                 )
         elif self.scoping:
             self.scoping.location = value
+            return
         else:
             raise Exception(
-                "Property field location before v11.0 was based on scoping, and scoping is not defined"
-            )
-
-        if self.scoping:
-            self.scoping.location = value
-        else:
-            raise Exception(
-                "Property field location is based on scoping, and scoping is not defined"
+                "Property field location before is based on scoping, and scoping is not defined"
             )
 
     @property
