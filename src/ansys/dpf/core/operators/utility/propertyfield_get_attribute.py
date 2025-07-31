@@ -17,20 +17,20 @@ from ansys.dpf.core.server_types import AnyServerType
 
 
 class propertyfield_get_attribute(Operator):
-    r"""A PropertyField in pin 0 and a property name (string) in pin 1 are
-    expected in input.
+    r"""Gets a property from an input field/field container. A PropertyFieldin
+    pin 0, a property name (string) in pin 1 are expected as inputs
 
 
     Parameters
     ----------
-    property_field: PropertyField
+    property_field: PropertyField or PropertyFieldsContainer
     property_name: str
-        Accepted inputs are: 'time_freq_support', 'scoping' and 'header'.
+        Property to get. Accepted inputs are specific strings namely: 'unit, 'name','time_freq_support', 'scoping' and 'header'.
 
     Returns
     -------
-    property: TimeFreqSupport or Scoping or DataTree
-        Property value.
+    property_value: str or TimeFreqSupport or Scoping or DataTree
+        Property value that is returned. Accepted Outputs are: Field, PropertyField, StringField, CustomTypeField or their containers.
 
     Examples
     --------
@@ -52,7 +52,7 @@ class propertyfield_get_attribute(Operator):
     ... )
 
     >>> # Get output data
-    >>> result_property = op.outputs.property()
+    >>> result_property_value = op.outputs.property_value()
     """
 
     def __init__(
@@ -70,15 +70,15 @@ class propertyfield_get_attribute(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""A PropertyField in pin 0 and a property name (string) in pin 1 are
-expected in input.
+        description = r"""Gets a property from an input field/field container. A PropertyFieldin
+pin 0, a property name (string) in pin 1 are expected as inputs
 """
         spec = Specification(
             description=description,
             map_input_pin_spec={
                 0: PinSpecification(
                     name="property_field",
-                    type_names=["property_field"],
+                    type_names=["property_field", "property_fields_container"],
                     optional=False,
                     document=r"""""",
                 ),
@@ -86,15 +86,20 @@ expected in input.
                     name="property_name",
                     type_names=["string"],
                     optional=False,
-                    document=r"""Accepted inputs are: 'time_freq_support', 'scoping' and 'header'.""",
+                    document=r"""Property to get. Accepted inputs are specific strings namely: 'unit, 'name','time_freq_support', 'scoping' and 'header'.""",
                 ),
             },
             map_output_pin_spec={
                 0: PinSpecification(
-                    name="property",
-                    type_names=["time_freq_support", "scoping", "abstract_data_tree"],
+                    name="property_value",
+                    type_names=[
+                        "string",
+                        "time_freq_support",
+                        "scoping",
+                        "abstract_data_tree",
+                    ],
                     optional=False,
-                    document=r"""Property value.""",
+                    document=r"""Property value that is returned. Accepted Outputs are: Field, PropertyField, StringField, CustomTypeField or their containers.""",
                 ),
             },
         )
@@ -194,7 +199,7 @@ class InputsPropertyfieldGetAttribute(_Inputs):
     def property_name(self) -> Input:
         r"""Allows to connect property_name input to the operator.
 
-        Accepted inputs are: 'time_freq_support', 'scoping' and 'header'.
+        Property to get. Accepted inputs are specific strings namely: 'unit, 'name','time_freq_support', 'scoping' and 'header'.
 
         Returns
         -------
@@ -221,32 +226,40 @@ class OutputsPropertyfieldGetAttribute(_Outputs):
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.utility.propertyfield_get_attribute()
     >>> # Connect inputs : op.inputs. ...
-    >>> result_property = op.outputs.property()
+    >>> result_property_value = op.outputs.property_value()
     """
 
     def __init__(self, op: Operator):
         super().__init__(propertyfield_get_attribute._spec().outputs, op)
-        self.property_as_time_freq_support = Output(
+        self.property_value_as_string = Output(
+            _modify_output_spec_with_one_type(
+                propertyfield_get_attribute._spec().output_pin(0), "string"
+            ),
+            0,
+            op,
+        )
+        self._outputs.append(self.property_value_as_string)
+        self.property_value_as_time_freq_support = Output(
             _modify_output_spec_with_one_type(
                 propertyfield_get_attribute._spec().output_pin(0), "time_freq_support"
             ),
             0,
             op,
         )
-        self._outputs.append(self.property_as_time_freq_support)
-        self.property_as_scoping = Output(
+        self._outputs.append(self.property_value_as_time_freq_support)
+        self.property_value_as_scoping = Output(
             _modify_output_spec_with_one_type(
                 propertyfield_get_attribute._spec().output_pin(0), "scoping"
             ),
             0,
             op,
         )
-        self._outputs.append(self.property_as_scoping)
-        self.property_as_data_tree = Output(
+        self._outputs.append(self.property_value_as_scoping)
+        self.property_value_as_data_tree = Output(
             _modify_output_spec_with_one_type(
                 propertyfield_get_attribute._spec().output_pin(0), "data_tree"
             ),
             0,
             op,
         )
-        self._outputs.append(self.property_as_data_tree)
+        self._outputs.append(self.property_value_as_data_tree)
