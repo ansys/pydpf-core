@@ -8,6 +8,7 @@ from .change_location import change_location
 from .change_shell_layers import change_shell_layers
 from .compute_time_scoping import compute_time_scoping
 from .customtypefield_get_attribute import customtypefield_get_attribute
+from .customtypefield_set_property import customtypefield_set_property
 from .default_value import default_value
 from .delegate_to_operator import delegate_to_operator
 from .ds_get_attribute import ds_get_attribute
@@ -66,6 +67,7 @@ from .overlap_fields import overlap_fields
 from .producer_consumer_for_each import producer_consumer_for_each
 from .property_field import property_field
 from .propertyfield_get_attribute import propertyfield_get_attribute
+from .propertyfield_set_property import propertyfield_set_property
 from .python_generator import python_generator
 from .remote_operator_instantiate import remote_operator_instantiate
 from .remote_workflow_instantiate import remote_workflow_instantiate
