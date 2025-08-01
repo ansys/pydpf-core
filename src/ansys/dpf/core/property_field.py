@@ -91,10 +91,7 @@ class PropertyField(_FieldBase):
             field=property_field,
             server=server,
         )
-        if meets_version(self._server.version, "11.0"):
-            self._field_definition_instance = self._load_field_definition()
-        else:
-            self._field_definition_instance = None
+        self._field_definition_instance = None
 
     @property
     def _api(self) -> property_field_abstract_api.PropertyFieldAbstractAPI:
