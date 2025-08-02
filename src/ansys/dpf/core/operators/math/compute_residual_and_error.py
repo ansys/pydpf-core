@@ -33,9 +33,9 @@ class compute_residual_and_error(Operator):
     normalization_type: int, optional
         type of normalization applied to the residuals and norm  calculation (optional, defaut: absolute):
                                                                                                                         0 for absolute,
-                                                                                                                        1 for relative to the first entry at a given time step,
-                                                                                                                        2 for normalized by the max at a given time step of the first entry or residuals depending on the reference field option,
-                                                                                                                        3 for normalized by the max over all time steps of the first entry or residuals depending on the reference field option
+                                                                                                                        1 for relative to the first entry,
+                                                                                                                        2 for normalized by the max of each field of the first entry or residuals depending on the reference field option,
+                                                                                                                        3 for normalized by the max over all fields of the first entry or residuals depending on the reference field option
     norm_calculation_type: int, optional
         type for norm calculation (optional, default: L2) - It is normalized depending on Pin2 selection
                                                                                                                         1 for L1, ie sum(abs(xi)),
@@ -140,9 +140,9 @@ of error norm (L1 vs L2), and pin 3 which entity to use as a reference
                     optional=True,
                     document=r"""type of normalization applied to the residuals and norm  calculation (optional, defaut: absolute): 
 														0 for absolute, 
-														1 for relative to the first entry at a given time step, 
-														2 for normalized by the max at a given time step of the first entry or residuals depending on the reference field option, 
-														3 for normalized by the max over all time steps of the first entry or residuals depending on the reference field option""",
+														1 for relative to the first entry, 
+														2 for normalized by the max of each field of the first entry or residuals depending on the reference field option, 
+														3 for normalized by the max over all fields of the first entry or residuals depending on the reference field option""",
                 ),
                 2: PinSpecification(
                     name="norm_calculation_type",
@@ -308,9 +308,9 @@ class InputsComputeResidualAndError(_Inputs):
 
         type of normalization applied to the residuals and norm  calculation (optional, defaut: absolute):
                                                                                                                         0 for absolute,
-                                                                                                                        1 for relative to the first entry at a given time step,
-                                                                                                                        2 for normalized by the max at a given time step of the first entry or residuals depending on the reference field option,
-                                                                                                                        3 for normalized by the max over all time steps of the first entry or residuals depending on the reference field option
+                                                                                                                        1 for relative to the first entry,
+                                                                                                                        2 for normalized by the max of each field of the first entry or residuals depending on the reference field option,
+                                                                                                                        3 for normalized by the max over all fields of the first entry or residuals depending on the reference field option
 
         Returns
         -------

@@ -17,20 +17,20 @@ from ansys.dpf.core.server_types import AnyServerType
 
 
 class field_get_attribute(Operator):
-    r"""A Field in pin 0 and a property name (string) in pin 1 are expected in
-    input.
+    r"""Gets a property from an input field/field container. A Fieldin pin 0, a
+    property name (string) in pin 1 are expected as inputs
 
 
     Parameters
     ----------
-    field: Field
+    field: Field or FieldsContainer
     property_name: str
-        Accepted inputs are: 'time_freq_support', 'scoping' and 'header'.
+        Property to get. Accepted inputs are specific strings namely: 'unit, 'name','time_freq_support', 'scoping' and 'header'.
 
     Returns
     -------
-    property: TimeFreqSupport or Scoping or DataTree
-        Property value.
+    property: str or TimeFreqSupport or Scoping or DataTree
+        Property value that is returned. Accepted Outputs are: Field, PropertyField, CustomTypeField or their containers.
 
     Examples
     --------
@@ -66,15 +66,15 @@ class field_get_attribute(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""A Field in pin 0 and a property name (string) in pin 1 are expected in
-input.
+        description = r"""Gets a property from an input field/field container. A Fieldin pin 0, a
+property name (string) in pin 1 are expected as inputs
 """
         spec = Specification(
             description=description,
             map_input_pin_spec={
                 0: PinSpecification(
                     name="field",
-                    type_names=["field"],
+                    type_names=["field", "fields_container"],
                     optional=False,
                     document=r"""""",
                 ),
@@ -82,15 +82,20 @@ input.
                     name="property_name",
                     type_names=["string"],
                     optional=False,
-                    document=r"""Accepted inputs are: 'time_freq_support', 'scoping' and 'header'.""",
+                    document=r"""Property to get. Accepted inputs are specific strings namely: 'unit, 'name','time_freq_support', 'scoping' and 'header'.""",
                 ),
             },
             map_output_pin_spec={
                 0: PinSpecification(
                     name="property",
-                    type_names=["time_freq_support", "scoping", "abstract_data_tree"],
+                    type_names=[
+                        "string",
+                        "time_freq_support",
+                        "scoping",
+                        "abstract_data_tree",
+                    ],
                     optional=False,
-                    document=r"""Property value.""",
+                    document=r"""Property value that is returned. Accepted Outputs are: Field, PropertyField, CustomTypeField or their containers.""",
                 ),
             },
         )
@@ -184,7 +189,7 @@ class InputsFieldGetAttribute(_Inputs):
     def property_name(self) -> Input:
         r"""Allows to connect property_name input to the operator.
 
-        Accepted inputs are: 'time_freq_support', 'scoping' and 'header'.
+        Property to get. Accepted inputs are specific strings namely: 'unit, 'name','time_freq_support', 'scoping' and 'header'.
 
         Returns
         -------
@@ -216,6 +221,14 @@ class OutputsFieldGetAttribute(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(field_get_attribute._spec().outputs, op)
+        self.property_as_string = Output(
+            _modify_output_spec_with_one_type(
+                field_get_attribute._spec().output_pin(0), "string"
+            ),
+            0,
+            op,
+        )
+        self._outputs.append(self.property_as_string)
         self.property_as_time_freq_support = Output(
             _modify_output_spec_with_one_type(
                 field_get_attribute._spec().output_pin(0), "time_freq_support"
