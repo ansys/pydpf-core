@@ -126,6 +126,10 @@ from .erp_radiation_efficiency import erp_radiation_efficiency
 from .euler_load_buckling import euler_load_buckling
 from .euler_nodes import euler_nodes
 from .fluid_velocity import fluid_velocity
+from .gasket_deformation import gasket_deformation
+from .gasket_deformation_X import gasket_deformation_X
+from .gasket_deformation_XY import gasket_deformation_XY
+from .gasket_deformation_XZ import gasket_deformation_XZ
 from .gasket_inelastic_closure import gasket_inelastic_closure
 from .gasket_inelastic_closure_X import gasket_inelastic_closure_X
 from .gasket_inelastic_closure_XY import gasket_inelastic_closure_XY
