@@ -17,20 +17,24 @@ from ansys.dpf.core.server_types import AnyServerType
 
 
 class set_property(Operator):
-    r"""Sets a property to an input field/field container.
+    r"""Sets a property to an input field/field container. A Fieldin pin 0, a
+    property name (string) in pin 1 and a valid property value in pin 2 are
+    expected as inputs
 
 
     Parameters
     ----------
     field: Field or FieldsContainer
     property_name: str
-        Property to set
-    property_value: str or int or float
-        Property to set
+        Property to set. Accepted inputs are specific strings namely: 'unit', 'name', 'time_freq_support', 'scoping', 'header'.
+    property: str or TimeFreqSupport or Scoping or DataTree or int or
+        float
+        Property Value to set. Accepted inputs on this pin are: CTimeFreqSupport, CScoping, DataTree, int, double, string.
 
     Returns
     -------
     field: Field or FieldsContainer
+        Accepted Outputs are: Field, PropertyField, CustomTypeField or their containers.
 
     Examples
     --------
@@ -44,14 +48,14 @@ class set_property(Operator):
     >>> op.inputs.field.connect(my_field)
     >>> my_property_name = str()
     >>> op.inputs.property_name.connect(my_property_name)
-    >>> my_property_value = str()
-    >>> op.inputs.property_value.connect(my_property_value)
+    >>> my_property = str()
+    >>> op.inputs.property.connect(my_property)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.utility.set_property(
     ...     field=my_field,
     ...     property_name=my_property_name,
-    ...     property_value=my_property_value,
+    ...     property=my_property,
     ... )
 
     >>> # Get output data
@@ -59,12 +63,7 @@ class set_property(Operator):
     """
 
     def __init__(
-        self,
-        field=None,
-        property_name=None,
-        property_value=None,
-        config=None,
-        server=None,
+        self, field=None, property_name=None, property=None, config=None, server=None
     ):
         super().__init__(name="field::set_property", config=config, server=server)
         self._inputs = InputsSetProperty(self)
@@ -73,12 +72,14 @@ class set_property(Operator):
             self.inputs.field.connect(field)
         if property_name is not None:
             self.inputs.property_name.connect(property_name)
-        if property_value is not None:
-            self.inputs.property_value.connect(property_value)
+        if property is not None:
+            self.inputs.property.connect(property)
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Sets a property to an input field/field container.
+        description = r"""Sets a property to an input field/field container. A Fieldin pin 0, a
+property name (string) in pin 1 and a valid property value in pin 2 are
+expected as inputs
 """
         spec = Specification(
             description=description,
@@ -93,13 +94,20 @@ class set_property(Operator):
                     name="property_name",
                     type_names=["string"],
                     optional=False,
-                    document=r"""Property to set""",
+                    document=r"""Property to set. Accepted inputs are specific strings namely: 'unit', 'name', 'time_freq_support', 'scoping', 'header'.""",
                 ),
                 2: PinSpecification(
-                    name="property_value",
-                    type_names=["string", "int32", "double"],
+                    name="property",
+                    type_names=[
+                        "string",
+                        "time_freq_support",
+                        "scoping",
+                        "abstract_data_tree",
+                        "int32",
+                        "double",
+                    ],
                     optional=False,
-                    document=r"""Property to set""",
+                    document=r"""Property Value to set. Accepted inputs on this pin are: CTimeFreqSupport, CScoping, DataTree, int, double, string.""",
                 ),
             },
             map_output_pin_spec={
@@ -107,7 +115,7 @@ class set_property(Operator):
                     name="field",
                     type_names=["field", "fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Accepted Outputs are: Field, PropertyField, CustomTypeField or their containers.""",
                 ),
             },
         )
@@ -169,8 +177,8 @@ class InputsSetProperty(_Inputs):
     >>> op.inputs.field.connect(my_field)
     >>> my_property_name = str()
     >>> op.inputs.property_name.connect(my_property_name)
-    >>> my_property_value = str()
-    >>> op.inputs.property_value.connect(my_property_value)
+    >>> my_property = str()
+    >>> op.inputs.property.connect(my_property)
     """
 
     def __init__(self, op: Operator):
@@ -179,8 +187,8 @@ class InputsSetProperty(_Inputs):
         self._inputs.append(self._field)
         self._property_name = Input(set_property._spec().input_pin(1), 1, op, -1)
         self._inputs.append(self._property_name)
-        self._property_value = Input(set_property._spec().input_pin(2), 2, op, -1)
-        self._inputs.append(self._property_value)
+        self._property = Input(set_property._spec().input_pin(2), 2, op, -1)
+        self._inputs.append(self._property)
 
     @property
     def field(self) -> Input:
@@ -205,7 +213,7 @@ class InputsSetProperty(_Inputs):
     def property_name(self) -> Input:
         r"""Allows to connect property_name input to the operator.
 
-        Property to set
+        Property to set. Accepted inputs are specific strings namely: 'unit', 'name', 'time_freq_support', 'scoping', 'header'.
 
         Returns
         -------
@@ -223,10 +231,10 @@ class InputsSetProperty(_Inputs):
         return self._property_name
 
     @property
-    def property_value(self) -> Input:
-        r"""Allows to connect property_value input to the operator.
+    def property(self) -> Input:
+        r"""Allows to connect property input to the operator.
 
-        Property to set
+        Property Value to set. Accepted inputs on this pin are: CTimeFreqSupport, CScoping, DataTree, int, double, string.
 
         Returns
         -------
@@ -237,11 +245,11 @@ class InputsSetProperty(_Inputs):
         --------
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.utility.set_property()
-        >>> op.inputs.property_value.connect(my_property_value)
+        >>> op.inputs.property.connect(my_property)
         >>> # or
-        >>> op.inputs.property_value(my_property_value)
+        >>> op.inputs.property(my_property)
         """
-        return self._property_value
+        return self._property
 
 
 class OutputsSetProperty(_Outputs):
