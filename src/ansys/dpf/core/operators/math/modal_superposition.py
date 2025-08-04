@@ -23,6 +23,8 @@ class modal_superposition(Operator):
 
     Parameters
     ----------
+    is_output_custom: bool, optional
+        If true, output will be a a custom container, otherwise a reconstructed fields_container. Default is false.
     modal_basis: FieldsContainer
         One field by mode with each field representing a mode shape on nodes or elements.
     solution_in_modal_space: FieldsContainer
@@ -46,6 +48,8 @@ class modal_superposition(Operator):
     >>> op = dpf.operators.math.modal_superposition()
 
     >>> # Make input connections
+    >>> my_is_output_custom = bool()
+    >>> op.inputs.is_output_custom.connect(my_is_output_custom)
     >>> my_modal_basis = dpf.FieldsContainer()
     >>> op.inputs.modal_basis.connect(my_modal_basis)
     >>> my_solution_in_modal_space = dpf.FieldsContainer()
@@ -59,6 +63,7 @@ class modal_superposition(Operator):
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.math.modal_superposition(
+    ...     is_output_custom=my_is_output_custom,
     ...     modal_basis=my_modal_basis,
     ...     solution_in_modal_space=my_solution_in_modal_space,
     ...     incremental_fc=my_incremental_fc,
@@ -72,6 +77,7 @@ class modal_superposition(Operator):
 
     def __init__(
         self,
+        is_output_custom=None,
         modal_basis=None,
         solution_in_modal_space=None,
         incremental_fc=None,
@@ -85,6 +91,8 @@ class modal_superposition(Operator):
         )
         self._inputs = InputsModalSuperposition(self)
         self._outputs = OutputsModalSuperposition(self)
+        if is_output_custom is not None:
+            self.inputs.is_output_custom.connect(is_output_custom)
         if modal_basis is not None:
             self.inputs.modal_basis.connect(modal_basis)
         if solution_in_modal_space is not None:
@@ -105,6 +113,12 @@ by multiplying a modal basis (in 0)by the solution in this modal space
         spec = Specification(
             description=description,
             map_input_pin_spec={
+                -1: PinSpecification(
+                    name="is_output_custom",
+                    type_names=["bool"],
+                    optional=True,
+                    document=r"""If true, output will be a a custom container, otherwise a reconstructed fields_container. Default is false.""",
+                ),
                 0: PinSpecification(
                     name="modal_basis",
                     type_names=["fields_container"],
@@ -201,6 +215,8 @@ class InputsModalSuperposition(_Inputs):
     --------
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.math.modal_superposition()
+    >>> my_is_output_custom = bool()
+    >>> op.inputs.is_output_custom.connect(my_is_output_custom)
     >>> my_modal_basis = dpf.FieldsContainer()
     >>> op.inputs.modal_basis.connect(my_modal_basis)
     >>> my_solution_in_modal_space = dpf.FieldsContainer()
@@ -215,6 +231,10 @@ class InputsModalSuperposition(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(modal_superposition._spec().inputs, op)
+        self._is_output_custom = Input(
+            modal_superposition._spec().input_pin(-1), -1, op, -1
+        )
+        self._inputs.append(self._is_output_custom)
         self._modal_basis = Input(modal_superposition._spec().input_pin(0), 0, op, -1)
         self._inputs.append(self._modal_basis)
         self._solution_in_modal_space = Input(
@@ -229,6 +249,27 @@ class InputsModalSuperposition(_Inputs):
         self._inputs.append(self._time_scoping)
         self._mesh_scoping = Input(modal_superposition._spec().input_pin(4), 4, op, -1)
         self._inputs.append(self._mesh_scoping)
+
+    @property
+    def is_output_custom(self) -> Input:
+        r"""Allows to connect is_output_custom input to the operator.
+
+        If true, output will be a a custom container, otherwise a reconstructed fields_container. Default is false.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.math.modal_superposition()
+        >>> op.inputs.is_output_custom.connect(my_is_output_custom)
+        >>> # or
+        >>> op.inputs.is_output_custom(my_is_output_custom)
+        """
+        return self._is_output_custom
 
     @property
     def modal_basis(self) -> Input:
