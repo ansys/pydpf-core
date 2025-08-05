@@ -29,8 +29,8 @@ import conftest
 
 
 @mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_9_0,
-    reason="Gasket operator available starting with 9.0,",
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_9_1,
+    reason="Gasket operator available starting with 2025 R1.",
 )
 def test_operator_gasket_deformation_deprecation(server_type):
     with warns(match="Operator 'gasket_deformation' is renamed as"):
