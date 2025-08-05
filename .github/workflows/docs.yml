@@ -94,7 +94,7 @@ jobs:
         id: set-server-path
         uses: ansys/pydpf-actions/install-dpf-server@v2.3
         with:
-          dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
+          dpf-standalone-TOKEN: ${{secrets.PYANSYS_CI_BOT_TOKEN}}
           standalone_suffix: ${{ inputs.standalone_suffix }}
           ANSYS_VERSION : ${{inputs.ANSYS_VERSION}}
 
@@ -117,18 +117,24 @@ jobs:
         run: |
           choco install pandoc
 
+      - name: "Restore doc build cache"
+        id: cache-doc-build-restore
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            doc/source/examples
+          # Cache key is composed of branch name, ansys version, hash of requirements_doc,
+          # and run_id to work around immutability
+          # We should also track version of pandoc, of graphviz, of packages installed by headless-display, and even of pydpf-core?
+          key: doc-build-${{ github.ref_name }}-DPF_${{inputs.ANSYS_VERSION}}${{inputs.standalone_suffix}}-${{hashfiles('requirements/requirements_docs.txt')}}-${{ github.run_id }}
+          restore-keys: |
+            doc-build-${{ github.ref_name }}-DPF_${{inputs.ANSYS_VERSION}}${{inputs.standalone_suffix}}-${{hashfiles('requirements/requirements_docs.txt')}}-
+            doc-build-master-DPF_${{inputs.ANSYS_VERSION}}${{inputs.standalone_suffix}}-${{hashfiles('requirements/requirements_docs.txt')}}-
+
       - name: "Build HTML Documentation"
         shell: bash
         run: |
           tox -e doc-html --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv:doc-html.setenv+='VIRTUALENV_SYSTEM_SITE_PACKAGES=true'
-
-      - name: "Retrieve package version"
-        shell: bash
-        run: |
-          echo "VERSION=$(python -c "from ansys.dpf.${{env.MODULE}} import __version__; print(__version__)")" >> GITHUB_OUTPUT
-          echo "${{env.PACKAGE_NAME}} version is: $(python -c "from ansys.dpf.${{env.MODULE}} import __version__; print(__version__)")"
-        id: version
-        if: always()
 
       - name: "Upload Documentation Build log"
         uses: actions/upload-artifact@v4
@@ -136,6 +142,15 @@ jobs:
           name: doc-${{env.PACKAGE_NAME}}-log
           path: doc/*.txt
         if: always()
+
+      - name: "Save doc-build cache"
+        id: cache-doc-build-save
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            doc/build
+            doc/source/examples
+          key: ${{ steps.cache-doc-build-restore.outputs.cache-primary-key }}
 
       - name: "Zip HTML Documentation"
         shell: pwsh

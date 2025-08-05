@@ -64,6 +64,8 @@ class CustomTypeField(_FieldBase):
     The ``CustomTypeField`` class gives you the ability to choose the most optimized unitary
     data type for a given usage, and hence, allows you to optimize memory usage.
 
+    The unitary data type must have an equivalent ctype (check this with ``np.ctypeslib.as_ctypes_type``).
+
     This can be evaluated data from the :class:`Operator <ansys.dpf.core.Operator>` class
     or created directly by an instance of this class.
 
@@ -75,6 +77,7 @@ class CustomTypeField(_FieldBase):
     ----------
     unitary_type : numpy.dtype
         The data vector of the Field will be a vector of this custom unitary type.
+        This dtype must have an equivalent ctype (check this with ``np.ctypeslib.as_ctypes_type``).
     nentities : int, optional
         Number of entities reserved. The default is ``0``.
     field : CustomTypeField, ansys.grpc.dpf.field_pb2.Field, ctypes.c_void_p, optional
@@ -118,6 +121,13 @@ class CustomTypeField(_FieldBase):
             raise errors.DpfVersionNotSupported("5.0")
         if unitary_type is not None:
             self._type = np.dtype(unitary_type)
+            try:
+                # Check the type can be converted to a ctype
+                np.ctypeslib.as_ctypes_type(self._type)
+            except NotImplementedError as e:
+                raise ValueError(
+                    f"CustomTypeField: invalid unitary_type {self._type} (numpy: NotImplementedError: {e})."
+                )
         else:
             self._type = unitary_type
         super().__init__(nentities=nentities, field=field, server=server)
@@ -159,7 +169,7 @@ class CustomTypeField(_FieldBase):
     @staticmethod
     def _field_create_internal_obj(
         api,
-        client,
+        server,
         nature,
         nentities,
         location=locations.nodal,
@@ -168,6 +178,7 @@ class CustomTypeField(_FieldBase):
         with_type=None,
     ):
         dpf_type_name = numpy_type_to_dpf[with_type]
+        client = server.client
         if client is not None:
             return api.cscustom_type_field_new_on_client(
                 client, dpf_type_name, with_type.itemsize, nentities, nentities

@@ -36,6 +36,7 @@ from ansys.dpf.core import examples
 
 # Plot the bare mesh of a model
 model = dpf.Model(examples.find_multishells_rst())
+print(model)
 model.plot(color="w", show_edges=True, title="Model", text="Model plot")
 # # Additional PyVista kwargs are supported, such as:
 model.plot(
@@ -45,6 +46,7 @@ model.plot(
     title="Model",
     text="Model plot off",
     parallel_projection=True,
+    zoom=2.0,
 )
 
 # Notes:
@@ -52,8 +54,10 @@ model.plot(
 # - The "off_screen" keyword only works when "notebook=False" to prevent the GUI from appearing.
 
 
-# Plot a field on its supporting mesh (field location must be Elemental or Nodal)
+# Plot a field on its supporting mesh
 stress = model.results.stress()
+# We request the stress as nodal to bypass a bug for DPF 2025 R1 and below
+# which prevents from plotting ElementalNodal data on shells
 stress.inputs.requested_location.connect(dpf.locations.nodal)
 fc = stress.outputs.fields_container()
 field = fc[0]

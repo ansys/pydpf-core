@@ -31,8 +31,7 @@ class real_constants_provider(Operator):
 
     Returns
     -------
-    real_constants1: Field
-    real_constants2: Field
+    real_constants: Field
 
     Examples
     --------
@@ -57,8 +56,7 @@ class real_constants_provider(Operator):
     ... )
 
     >>> # Get output data
-    >>> result_real_constants1 = op.outputs.real_constants1()
-    >>> result_real_constants2 = op.outputs.real_constants2()
+    >>> result_real_constants = op.outputs.real_constants()
     """
 
     def __init__(
@@ -108,13 +106,7 @@ data sources.
             },
             map_output_pin_spec={
                 0: PinSpecification(
-                    name="real_constants1",
-                    type_names=["field"],
-                    optional=False,
-                    document=r"""""",
-                ),
-                1: PinSpecification(
-                    name="real_constants2",
+                    name="real_constants",
                     type_names=["field"],
                     optional=False,
                     document=r"""""",
@@ -269,24 +261,19 @@ class OutputsRealConstantsProvider(_Outputs):
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.metadata.real_constants_provider()
     >>> # Connect inputs : op.inputs. ...
-    >>> result_real_constants1 = op.outputs.real_constants1()
-    >>> result_real_constants2 = op.outputs.real_constants2()
+    >>> result_real_constants = op.outputs.real_constants()
     """
 
     def __init__(self, op: Operator):
         super().__init__(real_constants_provider._spec().outputs, op)
-        self._real_constants1 = Output(
+        self._real_constants = Output(
             real_constants_provider._spec().output_pin(0), 0, op
         )
-        self._outputs.append(self._real_constants1)
-        self._real_constants2 = Output(
-            real_constants_provider._spec().output_pin(1), 1, op
-        )
-        self._outputs.append(self._real_constants2)
+        self._outputs.append(self._real_constants)
 
     @property
-    def real_constants1(self) -> Output:
-        r"""Allows to get real_constants1 output of the operator
+    def real_constants(self) -> Output:
+        r"""Allows to get real_constants output of the operator
 
         Returns
         -------
@@ -298,24 +285,6 @@ class OutputsRealConstantsProvider(_Outputs):
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.metadata.real_constants_provider()
         >>> # Get the output from op.outputs. ...
-        >>> result_real_constants1 = op.outputs.real_constants1()
+        >>> result_real_constants = op.outputs.real_constants()
         """
-        return self._real_constants1
-
-    @property
-    def real_constants2(self) -> Output:
-        r"""Allows to get real_constants2 output of the operator
-
-        Returns
-        -------
-        output:
-            An Output instance for this pin.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.metadata.real_constants_provider()
-        >>> # Get the output from op.outputs. ...
-        >>> result_real_constants2 = op.outputs.real_constants2()
-        """
-        return self._real_constants2
+        return self._real_constants

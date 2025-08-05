@@ -491,6 +491,49 @@ class Scoping:
         """  # noqa: E501
         return _LocalScoping(self)
 
+    def plot(self, mesh, show_mesh: bool = False, **kwargs):
+        """Plot the entities of the mesh corresponding to the scoping.
+
+        Parameters
+        ----------
+        mesh:
+            Mesh to use to translate the scoping into mesh entities.
+        show_mesh:
+            Whether to also show the mesh with low opacity.
+        **kwargs : optional
+            Additional keyword arguments for the plotter. More information
+            are available at :func:`pyvista.plot`.
+
+        Returns
+        -------
+        (cpos, image):
+            Returns what the pyvista.show() method returns based on arguments.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.download_cfx_mixing_elbow())
+        >>> mesh = model.metadata.meshed_region
+        >>> node_scoping = dpf.Scoping(
+        ...    location=dpf.locations.nodal,
+        ...    ids=mesh.nodes.scoping.ids[0:100]
+        ... )
+        >>> node_scoping.plot(mesh=mesh, color="red")
+        (None, <pyvista.plotting.plotter.Plotter ...>)
+        >>> element_scoping = dpf.Scoping(
+        ...    location=dpf.locations.elemental,
+        ...    ids=mesh.elements.scoping.ids[0:100]
+        ... )
+        >>> element_scoping.plot(mesh=mesh, color="green")
+        (None, <pyvista.plotting.plotter.Plotter ...>)
+        """
+        from ansys.dpf.core.plotter import DpfPlotter
+
+        plt = DpfPlotter(**kwargs)
+        plt.add_scoping(scoping=self, mesh=mesh, show_mesh=show_mesh, **kwargs)
+        return plt.show_figure(**kwargs)
+
 
 class _LocalScoping(Scoping):
     """Caches the internal data of the scoping so that it can be modified locally.

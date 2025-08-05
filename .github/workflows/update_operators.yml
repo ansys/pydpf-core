@@ -45,7 +45,7 @@ jobs:
         id: set-server-path
         uses: ansys/pydpf-actions/install-dpf-server@v2.3
         with:
-          dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
+          dpf-standalone-TOKEN: ${{secrets.PYANSYS_CI_BOT_TOKEN}}
           standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
           ANSYS_VERSION : ${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}
 
@@ -136,7 +136,7 @@ jobs:
           branch: maint/update_code_for_${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}${{ github.event.inputs.standalone_branch_suffix || '' }}_on_${{ github.ref_name }}
           labels: server-sync
           token: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
-          reviewers: ${{ github.ref_name == 'master' && 'ansys/dpf_integration_proxies' || '' }}
+          reviewers: ${{ github.ref_name == 'main' && 'ansys/dpf_integration_proxies' || '' }}
 
       - name: "Kill all servers"
         uses: ansys/pydpf-actions/kill-dpf-servers@v2.3

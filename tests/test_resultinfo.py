@@ -31,6 +31,7 @@ from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_1,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0,
 )
 
 if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0:
@@ -51,10 +52,33 @@ def test_get_resultinfo_no_model(velocity_acceleration, server_type):
     op.connect(4, dataSource)
     res = op.get_output(0, dpf.core.types.result_info)
     assert res.analysis_type == "static"
+
     if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_1:
         assert res.n_results == 14
     else:
-        assert res.n_results == 15
+        available_results_names = []
+        for result in res.available_results:
+            available_results_names.append(result.name)
+        expected_results = [
+            "displacement",
+            "velocity",
+            "acceleration",
+            "reaction_force",
+            "stress",
+            "elemental_volume",
+            "stiffness_matrix_energy",
+            "artificial_hourglass_energy",
+            "thermal_dissipation_energy",
+            "kinetic_energy",
+            "co_energy",
+            "incremental_energy",
+            "elastic_strain",
+            "element_orientations",
+            "structural_temperature",
+        ]
+        for result in expected_results:
+            assert result in available_results_names
+
     assert "m, kg, N, s, V, A" in res.unit_system
     assert res.physics_type == mechanical
 
@@ -65,7 +89,29 @@ def test_get_resultinfo(model):
     if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_1:
         assert res.n_results == 14
     else:
-        assert res.n_results == 15
+        available_results_names = []
+        for result in res.available_results:
+            available_results_names.append(result.name)
+        expected_results = [
+            "displacement",
+            "velocity",
+            "acceleration",
+            "reaction_force",
+            "stress",
+            "elemental_volume",
+            "stiffness_matrix_energy",
+            "artificial_hourglass_energy",
+            "thermal_dissipation_energy",
+            "kinetic_energy",
+            "co_energy",
+            "incremental_energy",
+            "elastic_strain",
+            "element_orientations",
+            "structural_temperature",
+        ]
+        for result in expected_results:
+            assert result in available_results_names
+
     assert "m, kg, N, s, V, A" in res.unit_system
     assert res.physics_type == mechanical
     assert "Static analysis" in str(res)
@@ -161,47 +207,50 @@ Available qualifier labels:"""  # noqa: E501
 )
 def test_print_result_info_with_qualifiers(cfx_heating_coil, server_type):
     model = Model(cfx_heating_coil(server=server_type), server=server_type)
-    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0:
-        ref = """Static analysis
-Unit system: Custom: m, kg, N, s, V, A, K
-Physics Type: Fluid
-Available results:
-     -  specific_heat: Nodal Specific Heat
-     -  epsilon: Nodal Epsilon        
-     -  enthalpy: Nodal Enthalpy      
-     -  turbulent_kinetic_energy: Nodal Turbulent Kinetic Energy
-     -  thermal_conductivity: Nodal Thermal Conductivity
-     -  dynamic_viscosity: Nodal Dynamic Viscosity
-     -  turbulent_viscosity: Nodal Turbulent Viscosity
-     -  static_pressure: Nodal Static Pressure
-     -  total_pressure: Nodal Total Pressure
-     -  density: Nodal Density        
-     -  entropy: Nodal Entropy        
-     -  temperature: Nodal Temperature
-     -  total_temperature: Nodal Total Temperature
-     -  velocity: Nodal Velocity      
-Available qualifier labels:"""  # noqa
-    else:
-        ref = """Static analysis
-Unit system: SI: m, kg, N, s, V, A, K
-Physics Type: Fluid
-Available results:
-     -  specific_heat: Nodal Specific Heat
-     -  epsilon: Nodal Epsilon        
-     -  enthalpy: Nodal Enthalpy      
-     -  turbulent_kinetic_energy: Nodal Turbulent Kinetic Energy
-     -  thermal_conductivity: Nodal Thermal Conductivity
-     -  dynamic_viscosity: Nodal Dynamic Viscosity
-     -  turbulent_viscosity: Nodal Turbulent Viscosity
-     -  static_pressure: Nodal Static Pressure
-     -  total_pressure: Nodal Total Pressure
-     -  density: Nodal Density        
-     -  entropy: Nodal Entropy        
-     -  temperature: Nodal Temperature
-     -  total_temperature: Nodal Total Temperature
-     -  velocity: Nodal Velocity      
-Available qualifier labels:"""  # noqa
-    assert ref in str(model.metadata.result_info)
+    available_results_names = []
+    for result in model.metadata.result_info.available_results:
+        available_results_names.append(result.name)
+
+    expected_results = [
+        "specific_heat",
+        "epsilon",
+        "enthalpy",
+        "turbulent_kinetic_energy",
+        "thermal_conductivity",
+        "dynamic_viscosity",
+        "turbulent_viscosity",
+        "static_pressure",
+        "total_pressure",
+        "density",
+        "entropy",
+        "temperature",
+        "total_temperature",
+        "velocity",
+    ]
+    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0:
+        expected_results.append("aspect_ratio")
+        expected_results.append("static_enthalpy_beta")
+        expected_results.append("velocity_u_beta")
+        expected_results.append("velocity_v_beta")
+        expected_results.append("velocity_w_beta")
+        expected_results.append("courant_number")
+        expected_results.append("volume_of_finite_volumes")
+        expected_results.append("volume_porosity")
+        expected_results.append("static_enthalpy_gradient")
+        expected_results.append("pressure_gradient")
+        expected_results.append("velocity_u_gradient")
+        expected_results.append("velocity_v_gradient")
+        expected_results.append("velocity_w_gradient")
+        expected_results.append("mesh_expansion_factor")
+        expected_results.append("orthogonality_angle")
+        expected_results.append("absolute_pressure")
+        expected_results.append("specific_heat_capacity_at_constant_volume")
+        expected_results.append("specific_volume")
+        expected_results.append("shear_strain_rate")
+        expected_results.append("turbulence_eddy_frequency")
+
+    for result in expected_results:
+        assert result in available_results_names
 
 
 @pytest.mark.skipif(True, reason="Used to test memory leaks")
