@@ -58,6 +58,7 @@ LOG.setLevel("DEBUG")
 
 
 class WorkflowInfo(TypedDict):
+    """Names of the workflow's operators, inputs and outputs."""
     operator_names: list[str]
     input_names: list[str]
     output_names: list[str]
