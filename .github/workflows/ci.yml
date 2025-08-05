@@ -235,6 +235,7 @@ jobs:
       matrix:
         version:
           - ${{ fromJson(vars.ANSYS_VERSIONS_RETRO) }}
+          - ${{ fromJson(vars.ANSYS_VERSION_LAST_RELEASED) }}
         standalone-suffix:
           - ""
         include:
