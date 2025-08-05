@@ -132,20 +132,12 @@ jobs:
       matrix:
         version:
           - ${{ fromJson(vars.ANSYS_VERSIONS_RETRO) }}
-        standalone-suffix:
-          - ""
-        include:
-          - version: "241"
-            standalone-suffix: ".sp01"
-        exclude:
-          - version: "241"
-            standalone-suffix: ""
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: ${{ matrix.version }}
       python_versions: '["3.10"]'
       DOCSTRING: false
-      standalone_suffix: ${{ matrix.standalone-suffix }}
+      standalone_suffix: ${{ matrix.version == '241' && '.sp01' || '' }}
     secrets: inherit
 
   tests-pydpf-post:
@@ -155,23 +147,18 @@ jobs:
       matrix:
         version:
           - ${{ fromJson(vars.ANSYS_VERSIONS_RETRO) }}
-        standalone-suffix:
+        standalone_suffix:
           - ""
         test_docstrings:
           - "false"
         include:
           - version: ${{ vars.ANSYS_VERSION_LAST_RELEASED }}
-            standalone-suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+            standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
             test_docstrings": "true"
-          - version: "241"
-            standalone-suffix: ".sp01"
-        exclude:
-          - version: "241"
-            standalone-suffix: ""
     uses: ./.github/workflows/pydpf-post.yml
     with:
       ANSYS_VERSION: ${{ matrix.version }}
-      standalone_suffix: ${{ matrix.standalone-suffix }}
+      standalone_suffix: ${{ matrix.version == '241' && '.sp01' || matrix.standalone_suffix }}
       test_docstrings: ${{ matrix.test_docstrings }}
     secrets: inherit
 
