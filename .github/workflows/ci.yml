@@ -225,7 +225,7 @@ jobs:
     secrets: inherit
 
   tests-retro:
-    name: "Test DPF ${{ matrix.dpf.version }} compatibility"
+    name: "Test DPF ${{ matrix.version }} compatibility"
     if: |
       github.event.action != 'closed' &&
       (github.event.action != 'labeled' || github.event.label.name == 'deploy-pr-doc') &&
@@ -233,20 +233,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        dpf:
-          - {"version": "252", "standalone-suffix": ""}
-          - {"version": "251", "standalone-suffix": ""}
-          - {"version": "242", "standalone-suffix": ""}
-          - {"version": "241", "standalone-suffix": ".sp01"}
-          - {"version": "232", "standalone-suffix": ""}
-          - {"version": "231", "standalone-suffix": ""}
-          - {"version": "222", "standalone-suffix": ""}
+        version:
+          - ${{ fromJson(vars.ANSYS_VERSIONS_RETRO) }}
+          - ${{ fromJson(vars.ANSYS_VERSION_LAST_RELEASED) }}
     uses: ./.github/workflows/tests.yml
     with:
-      ANSYS_VERSION: ${{ matrix.dpf.version }}
+      ANSYS_VERSION: ${{ matrix.version }}
       python_versions: '["3.10"]'
       DOCSTRING: false
-      standalone_suffix: ${{ matrix.dpf.standalone-suffix }}
+      standalone_suffix: ${{ matrix.version == '241' && '.sp01' || '' }}
     secrets: inherit
 
   sync-main-with-master:
