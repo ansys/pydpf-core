@@ -9,9 +9,9 @@ on:
   workflow_dispatch:
     inputs:
       ansys_version:
-        description: "Ansys version of the standalone."
+        description: "ANSYS version"
         required: false
-        default: '252'
+        type: string
       standalone_branch_suffix:
         description: 'Suffix of the branch on standalone'
         required: false
@@ -100,7 +100,7 @@ jobs:
             DOCSTRING: false
             test_any: true
     with:
-      ANSYS_VERSION: ${{ inputs.ansys_version || '252' }}
+      ANSYS_VERSION: ${{ inputs.ansys_version || vars.ANSYS_VERSION_LAST_RELEASED }}
       python_versions: ${{ matrix.python_versions }}
       wheel: ${{ matrix.wheel }}
       wheelhouse: ${{ matrix.wheelhouse }}
@@ -112,7 +112,7 @@ jobs:
   docs:
     uses: ./.github/workflows/docs.yml
     with:
-      ANSYS_VERSION: ${{ inputs.ansys_version || '252' }}
+      ANSYS_VERSION: ${{ inputs.ansys_version || vars.ANSYS_VERSION_LAST_RELEASED }}
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
       event_name: ${{ github.event_name }}
     secrets: inherit
@@ -120,7 +120,7 @@ jobs:
   examples:
     uses: ./.github/workflows/examples.yml
     with:
-      ANSYS_VERSION: ${{ inputs.ansys_version || '252' }}
+      ANSYS_VERSION: ${{ inputs.ansys_version || vars.ANSYS_VERSION_LAST_RELEASED }}
       python_versions: '["3.10", "3.11", "3.12", "3.13"]'
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
     secrets: inherit
@@ -169,7 +169,7 @@ jobs:
     name: "Build and Test on Docker"
     uses: ./.github/workflows/test_docker.yml
     with:
-      ANSYS_VERSION: ${{ inputs.ansys_version || '252' }}
+      ANSYS_VERSION: ${{ inputs.ansys_version || vars.ANSYS_VERSION_LAST_RELEASED }}
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
     secrets: inherit
 
@@ -177,7 +177,7 @@ jobs:
     name: "Run examples on Docker"
     uses: ./.github/workflows/examples_docker.yml
     with:
-      ANSYS_VERSION: ${{ inputs.ansys_version || '252' }}
+      ANSYS_VERSION: ${{ inputs.ansys_version || vars.ANSYS_VERSION_LAST_RELEASED }}
       python_versions: '["3.10", "3.11", "3.12", "3.13"]'
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
     secrets: inherit
