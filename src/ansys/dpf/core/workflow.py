@@ -29,7 +29,7 @@ import logging
 import os
 from pathlib import Path
 import traceback
-from typing import Union
+from typing import TypedDict, Union
 import warnings
 
 import numpy
@@ -41,7 +41,7 @@ from ansys.dpf.core.check_version import (
     server_meet_version_and_raise,
     version_requires,
 )
-from ansys.dpf.core.server_types import BaseServer
+from ansys.dpf.core.server_types import AnyServerType
 from ansys.dpf.gate import (
     data_processing_capi,
     data_processing_grpcapi,
@@ -55,6 +55,12 @@ from ansys.dpf.gate import (
 
 LOG = logging.getLogger(__name__)
 LOG.setLevel("DEBUG")
+
+
+class WorkflowInfo(TypedDict):
+    operator_names: list[str]
+    input_names: list[str]
+    output_names: list[str]
 
 
 class Workflow:
@@ -625,7 +631,7 @@ class Workflow:
         return self._api.work_flow_record_instance(self, identifier, transfer_ownership)
 
     @staticmethod
-    def get_recorded_workflow(id: int, server: BaseServer | None = None) -> Workflow:
+    def get_recorded_workflow(id: int, server: AnyServerType | None = None) -> Workflow:
         """Retrieve a workflow registered (with workflow.record()).
 
         Parameters
@@ -662,19 +668,19 @@ class Workflow:
         return wf
 
     @property
-    def info(self) -> dict[str, list[str]]:
+    def info(self) -> WorkflowInfo:
         """Dictionary with the operator names and the exposed input and output names.
 
         Returns
         -------
-        info : dictionary str->list str
-            Dictionary with ``"operator_names"``, ``"input_names"``, and ``"output_names"`` key.
+        info :
+            Dictionary with ``"operator_names"``, ``"input_names"``, and ``"output_names"`` keys.
         """
-        return {
-            "operator_names": self.operator_names,
-            "input_names": self.input_names,
-            "output_names": self.output_names,
-        }
+        return WorkflowInfo(
+            operator_names=self.operator_names,
+            input_names=self.input_names,
+            output_names=self.output_names
+        )
 
     @property
     def operator_names(self) -> list[str]:
