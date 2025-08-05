@@ -57,13 +57,6 @@ LOG = logging.getLogger(__name__)
 LOG.setLevel("DEBUG")
 
 
-class WorkflowInfo(TypedDict):
-    """Names of the workflow's operators, inputs and outputs."""
-    operator_names: list[str]
-    input_names: list[str]
-    output_names: list[str]
-
-
 class Workflow:
     """Represents a workflow.
 
@@ -669,7 +662,7 @@ class Workflow:
         return wf
 
     @property
-    def info(self) -> WorkflowInfo:
+    def info(self) -> dict[str, list[str]]:
         """Dictionary with the operator names and the exposed input and output names.
 
         Returns
@@ -677,11 +670,11 @@ class Workflow:
         info:
             Dictionary with ``"operator_names"``, ``"input_names"``, and ``"output_names"`` keys.
         """
-        return WorkflowInfo(
-            operator_names=self.operator_names,
-            input_names=self.input_names,
-            output_names=self.output_names
-        )
+        return {
+            "operator_names": self.operator_names,
+            "input_names": self.input_names,
+            "output_names": self.output_names
+        }
 
     @property
     def operator_names(self) -> list[str]:
