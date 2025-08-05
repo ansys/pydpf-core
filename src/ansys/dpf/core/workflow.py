@@ -636,14 +636,14 @@ class Workflow:
 
         Parameters
         ----------
-        id : int
+        id :
             ID given by the method "record".
-        server: server.BaseServer
+        server:
             Server from which to get the recorded workflow.
 
         Returns
         -------
-        workflow : core.Workflow()
+        workflow :
             workflow registered in dpf's registry (server side)
 
         Examples
