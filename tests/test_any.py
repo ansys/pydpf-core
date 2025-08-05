@@ -122,7 +122,10 @@ def test_cast_scoping_any(server_type):
     assert entity.location == new_entity.location
 
 
-@conftest.raises_for_servers_version_under("8.0")
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0,
+    reason="Requires 24R2.",
+)
 def test_cast_data_sources_any(server_type):
     # Not available through grpc yet
     entity = dpf.DataSources(server=server_type, result_path="test.pth")
