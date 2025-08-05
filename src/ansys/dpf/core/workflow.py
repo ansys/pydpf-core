@@ -637,7 +637,7 @@ class Workflow:
 
         Parameters
         ----------
-        id :
+        id:
             ID given by the method "record".
         server:
             Server from which to get the recorded workflow.
