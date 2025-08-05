@@ -50,7 +50,7 @@ package should also be synchronized with the server version.
      - ``ansys.dpf.gatebin`` binaries Python module version
      - ``ansys.dpf.gate`` Python module version
    * - 10.0 (Ansys 2025 R2)
-     - 0.13.4 and later
+     - 0.13.8 and later
      - None
      - None
      - None
