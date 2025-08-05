@@ -674,7 +674,7 @@ class Workflow:
 
         Returns
         -------
-        info :
+        info:
             Dictionary with ``"operator_names"``, ``"input_names"``, and ``"output_names"`` keys.
         """
         return WorkflowInfo(
