@@ -644,7 +644,7 @@ class Workflow:
 
         Returns
         -------
-        workflow :
+        workflow:
             workflow registered in dpf's registry (server side)
 
         Examples
