@@ -20,13 +20,18 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-# Tests the result.gasket_deformation operator deprecation
+# Test the result.gasket_deformation operator deprecation
 
-from pytest import warns
+from pytest import mark, warns
 
 import ansys.dpf.core as dpf
+import conftest
 
 
+@mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_9_0,
+    reason="Gasket operator available starting with 9.0,",
+)
 def test_operator_gasket_deformation_deprecation(server_type):
     with warns(match="Operator 'gasket_deformation' is renamed as"):
         _ = dpf.operators.result.gasket_deformation()
