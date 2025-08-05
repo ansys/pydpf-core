@@ -225,7 +225,7 @@ jobs:
     secrets: inherit
 
   tests-retro:
-    name: "Test DPF ${{ matrix.dpf.version }} compatibility"
+    name: "Test DPF ${{ matrix.version }} compatibility"
     if: |
       github.event.action != 'closed' &&
       (github.event.action != 'labeled' || github.event.label.name == 'deploy-pr-doc') &&

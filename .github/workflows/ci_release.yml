@@ -126,7 +126,7 @@ jobs:
     secrets: inherit
 
   tests-retro:
-    name: "Test DPF ${{ matrix.dpf.version }} compatibility"
+    name: "Test DPF ${{ matrix.version }} compatibility"
     strategy:
       fail-fast: false
       matrix:
@@ -141,7 +141,7 @@ jobs:
     secrets: inherit
 
   tests-pydpf-post:
-    name: "Test PyDPF-Post with ${{ matrix.dpf.version}}"
+    name: "Test PyDPF-Post with ${{ matrix.version}}"
     strategy:
       fail-fast: false
       matrix:
