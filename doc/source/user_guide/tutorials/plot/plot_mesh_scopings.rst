@@ -28,6 +28,8 @@ For more information see the :ref:`ref_tutorials_get_mesh_from_result_file` tuto
     import ansys.dpf.core as dpf
     # Import the examples module
     from ansys.dpf.core import examples
+    # Import the operator module
+    import ansys.dpf.core.operators as ops
 
     # Download and get the path to an example result file
     result_file_path_1 = examples.download_piston_rod()
