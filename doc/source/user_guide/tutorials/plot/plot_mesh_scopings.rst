@@ -52,7 +52,7 @@ First for a node scoping:
     # Create a scoping of the first 100 node IDs of the mesh
     node_scoping = dpf.Scoping(location=dpf.locations.nodal, ids=mesh_1.nodes.scoping.ids[0:100])
     # Plot the node scoping applied to the mesh, with nodes shown as red dots
-    node_scoping.plot(mesh=mesh_1, color="red")
+    node_scoping.plot(mesh=mesh_1, color="red", show_mesh=True)
 
 Then for an element scoping:
 
@@ -63,7 +63,7 @@ Then for an element scoping:
         location=dpf.locations.elemental, ids=mesh_1.elements.scoping.ids[0:100]
     )
     # Plot the element scoping applied to the mesh, with elements shown in green
-    element_scoping.plot(mesh=mesh_1, color="green")
+    element_scoping.plot(mesh=mesh_1, color="green", show_mesh=True)
 
 
 Plot a collection of mesh scopings
