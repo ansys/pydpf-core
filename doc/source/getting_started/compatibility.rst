@@ -49,6 +49,11 @@ package should also be synchronized with the server version.
      - ``ansys.grpc.dpf`` Python module version
      - ``ansys.dpf.gatebin`` binaries Python module version
      - ``ansys.dpf.gate`` Python module version
+   * - 11.0 (Ansys 2026 R1 pre0)
+     - 0.14.0 and later
+     - None
+     - None
+     - None
    * - 10.0 (Ansys 2025 R2)
      - 0.13.8 and later
      - None
