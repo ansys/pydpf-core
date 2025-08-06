@@ -45,10 +45,10 @@ Create a single |Scoping| and plot the targeted entities when applied to a singl
 
 .. jupyter-execute::
 
-    node_scoping = core.Scoping(location=core.locations.nodal, ids=mesh_1.nodes.scoping.ids[0:100])
+    node_scoping = dpf.Scoping(location=dpf.locations.nodal, ids=mesh_1.nodes.scoping.ids[0:100])
     node_scoping.plot(mesh=mesh_1, color="red")
-    element_scoping = core.Scoping(
-        location=core.locations.elemental, ids=mesh_1.elements.scoping.ids[0:100]
+    element_scoping = dpf.Scoping(
+        location=dpf.locations.elemental, ids=mesh_1.elements.scoping.ids[0:100]
     )
     element_scoping.plot(mesh=mesh_1, color="green")
 
@@ -61,11 +61,11 @@ and plot targeted entities of a |MeshedRegion|.
 
 .. jupyter-execute::
 
-    node_scoping_1 = core.Scoping(location=core.locations.nodal, ids=mesh_1.nodes.scoping.ids[0:100])
-    node_scoping_2 = core.Scoping(
-        location=core.locations.nodal, ids=mesh_1.nodes.scoping.ids[300:400]
+    node_scoping_1 = dpf.Scoping(location=dpf.locations.nodal, ids=mesh_1.nodes.scoping.ids[0:100])
+    node_scoping_2 = dpf.Scoping(
+        location=dpf.locations.nodal, ids=mesh_1.nodes.scoping.ids[300:400]
     )
-    node_sc = core.ScopingsContainer()
+    node_sc = dpf.ScopingsContainer()
     node_sc.add_label(label="scoping", default_value=1)
     node_sc.add_scoping(label_space={"scoping": 1}, scoping=node_scoping_1)
     node_sc.add_scoping(label_space={"scoping": 2}, scoping=node_scoping_2)
@@ -78,10 +78,10 @@ Then plot the |ScopingsContainer| applied to a |MeshesContainer| with similarly 
     meshes: dpf.MeshesContainer = ops.mesh.split_mesh(mesh=mesh_1, property="mat").eval()
 
     label_space = {"mat": 1, "body": 1}
-    node_scoping_3 = core.Scoping(
-        location=core.locations.nodal, ids=meshes.get_mesh(label_space).nodes.scoping.ids[0:100]
+    node_scoping_3 = dpf.Scoping(
+        location=dpf.locations.nodal, ids=meshes.get_mesh(label_space).nodes.scoping.ids[0:100]
     )
-    node_sc_2 = core.ScopingsContainer()
+    node_sc_2 = dpf.ScopingsContainer()
     node_sc_2.add_label(label="mat")
     node_sc_2.add_label(label="body")
     node_sc_2.add_scoping(label_space=label_space, scoping=node_scoping_3)
@@ -94,9 +94,9 @@ We now use the |DpfPlotter| to add scopings applied to |MeshedRegion| to a scene
 
 .. jupyter-execute::
 
-    node_scoping = core.Scoping(location=core.locations.nodal, ids=mesh_1.nodes.scoping.ids[0:100])
-    element_scoping = core.Scoping(
-        location=core.locations.elemental, ids=mesh_1.elements.scoping.ids[0:100]
+    node_scoping = dpf.Scoping(location=dpf.locations.nodal, ids=mesh_1.nodes.scoping.ids[0:100])
+    element_scoping = dpf.Scoping(
+        location=dpf.locations.elemental, ids=mesh_1.elements.scoping.ids[0:100]
     )
 
     from ansys.dpf.core.plotter import DpfPlotter
