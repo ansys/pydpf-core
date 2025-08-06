@@ -185,12 +185,18 @@ def dpf_mesh_to_vtk_op(mesh, nodes=None, as_linear=True):
     celltypes_pv = mesh_to_pyvista.outputs.cell_types()
     if VTK9:
         grid = pv.UnstructuredGrid(cells_pv, celltypes_pv, nodes_pv)
-        setattr(grid, "_dpf_cache_op", [cells_pv, celltypes_pv, nodes_pv])
+        # setattr(grid, "_dpf_cache_op", [cells_pv, celltypes_pv, nodes_pv])
+        pv.set_new_attribute(
+            obj=grid, name="_dpf_cache_op", value=[cells_pv, celltypes_pv, nodes_pv]
+        )
         return grid
     else:
         offsets_pv = mesh_to_pyvista.outputs.offsets()
         grid = pv.UnstructuredGrid(offsets_pv, cells_pv, celltypes_pv, nodes_pv)
-        setattr(grid, "_dpf_cache_op", [cells_pv, celltypes_pv, nodes_pv, offsets_pv])
+        # setattr(grid, "_dpf_cache_op", [cells_pv, celltypes_pv, nodes_pv, offsets_pv])
+        pv.set_new_attribute(
+            obj=grid, name="_dpf_cache_op", value=[cells_pv, celltypes_pv, nodes_pv, offsets_pv]
+        )
         return grid
 
 
@@ -350,7 +356,10 @@ def dpf_mesh_to_vtk_py(mesh, nodes, as_linear):
 
         # Quick fix required to hold onto the data as PyVista does not make a copy.
         # All of those now return DPFArrays
-        setattr(grid, "_dpf_cache", [node_coordinates, coordinates_field])
+        # setattr(grid, "_dpf_cache", [node_coordinates, coordinates_field])
+        pv.set_new_attribute(
+            obj=grid, name="_dpf_cache", value=[node_coordinates, coordinates_field]
+        )
 
         return grid
 
