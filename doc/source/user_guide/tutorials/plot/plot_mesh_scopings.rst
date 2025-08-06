@@ -11,6 +11,20 @@ This tutorial shows different commands for plotting mesh entities targeted by me
 
 A mesh scoping is a |Scoping| with a location related to mesh entities.
 
+The entities shown correspond to the intersection of the IDs in the scoping of the mesh
+and the IDs in the provided scoping.
+
+If the scoping and the mesh do not have entity IDs in common, nothing is shown.
+
+For example, a scoping on elements associated to a mesh without elements results in an empty plot.
+
+A scoping on node IDs 1 to 2 associated to a mesh whose node IDs start at 3
+results in an empty plot.
+
+.. note::
+
+    Scopings of faces are not supported.
+
 PyDPF-Core has a variety of plotting methods for generating 3D plots with Python.
 These methods use VTK and leverage the `PyVista <https://github.com/pyvista/pyvista>`_ library.
 
