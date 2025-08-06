@@ -262,7 +262,7 @@ class FieldDefinition:
         self._api.csfield_definition_set_shell_layers(self, value)
 
     @dimensionality.setter
-    def dimensionality(self, value):
+    def dimensionality(self, value: Dimensionality):
         if not isinstance(value, Dimensionality):
             raise TypeError("the dimensionality needs to be of type Dimensionality")
         self._api.csfield_definition_set_dimensionality(

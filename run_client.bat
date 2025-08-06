@@ -20,5 +20,6 @@ call %root%\Scripts\activate.bat %root%
 
 call jupyter lab
 
+rem testsync
  
 

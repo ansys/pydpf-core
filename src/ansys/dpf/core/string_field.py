@@ -103,7 +103,7 @@ class StringField(_FieldBase):
     @staticmethod
     def _field_create_internal_obj(
         api: string_field_abstract_api.StringFieldAbstractAPI,
-        client,
+        server,
         nature,
         nentities,
         location=locations.nodal,
@@ -111,6 +111,7 @@ class StringField(_FieldBase):
         ncomp_m=0,
         with_type=None,
     ):
+        client = server.client
         if client is not None:
             return api.csstring_field_new_on_client(client, nentities, nentities)
         else:
@@ -143,10 +144,8 @@ class StringField(_FieldBase):
         'Nodal'
 
         """
-        if self.scoping:
-            return self.scoping.location
-        else:
-            return None
+        location = self.scoping.location
+        return location if location else None
 
     @location.setter
     def location(self, value):
@@ -168,12 +167,7 @@ class StringField(_FieldBase):
         'Nodal'
 
         """
-        if self.scoping:
-            self.scoping.location = value
-        else:
-            raise Exception(
-                "Property field location is based on scoping, and scoping is not defined"
-            )
+        self.scoping.location = value
 
     @property
     def component_count(self):

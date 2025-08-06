@@ -34,7 +34,7 @@ def _sort_supported_kwargs(bound_method, **kwargs):
 
         warnings.simplefilter("ignore")
     # Get supported arguments
-    supported_args = inspect.getfullargspec(bound_method).args
+    supported_args = inspect.signature(bound_method).parameters.keys()
     kwargs_in = {}
     kwargs_not_avail = {}
     # Filter the given arguments
