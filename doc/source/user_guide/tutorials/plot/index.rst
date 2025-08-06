@@ -39,6 +39,13 @@ These tutorials demonstrate different ways one can visualize the data in plots u
 
        This tutorial shows how to plot graphs using matplotlib.
 
+    .. grid-item-card:: Plot mesh scopings
+       :link: ref_tutorials_plot_mesh_scopings
+       :link-type: ref
+       :text-align: center
+
+       This tutorial shows how to plot mesh scopings.
+
 .. toctree::
     :maxdepth: 2
     :hidden:
@@ -47,3 +54,4 @@ These tutorials demonstrate different ways one can visualize the data in plots u
     plot_deformed_mesh.rst
     plot_contour.rst
     plot_a_graph.rst
+    plot_mesh_scopings.rst
