@@ -5,6 +5,7 @@ Plot mesh scopings
 ==================
 
 .. include:: ../../../links_and_refs.rst
+.. |add_scoping| replace:: :py:meth:`DpfPlotter.add_scoping() <ansys.dpf.core.plotter.DpfPlotter.add_scoping>`
 
 This tutorial shows different commands for plotting mesh entities targeted by mesh scopings.
 
@@ -122,7 +123,7 @@ Then plot the |ScopingsContainer| applied to a |MeshesContainer| with similarly 
 Use DpfPlotter.add_scoping
 --------------------------
 
-We now use the |DpfPlotter| to add scopings applied to |MeshedRegion| to a scene.
+We now use the |add_scoping| to add scopings applied to |MeshedRegion| to a scene.
 
 .. jupyter-execute::
 
