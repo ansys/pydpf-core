@@ -142,6 +142,10 @@ from .gasket_thermal_closure import gasket_thermal_closure
 from .gasket_thermal_closure_X import gasket_thermal_closure_X
 from .gasket_thermal_closure_XY import gasket_thermal_closure_XY
 from .gasket_thermal_closure_XZ import gasket_thermal_closure_XZ
+from .gasket_total_closure import gasket_total_closure
+from .gasket_total_closure_X import gasket_total_closure_X
+from .gasket_total_closure_XY import gasket_total_closure_XY
+from .gasket_total_closure_XZ import gasket_total_closure_XZ
 from .global_added_mass import global_added_mass
 from .global_added_mass_pct import global_added_mass_pct
 from .global_center_mass import global_center_mass

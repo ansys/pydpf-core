@@ -123,6 +123,19 @@ def test_cast_scoping_any(server_type):
 
 
 @pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0,
+    reason="Requires 26R1.",
+)
+def test_cast_data_sources_any(server_type):
+    # Not available through grpc yet
+    entity = dpf.DataSources(server=server_type, result_path="test.pth")
+    any_dpf = dpf.Any.new_from(entity)
+    new_entity = any_dpf.cast()
+
+    assert entity.result_files[0] == new_entity.result_files[0]
+
+
+@pytest.mark.skipif(
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
     reason="for_each not implemented below 8.0. Failing for gRPC CLayer below 10.0 for any.whl",
 )

@@ -77,7 +77,7 @@ class _FieldBase:
         else:
             self._internal_obj = self.__class__._field_create_internal_obj(
                 self._api,
-                client=self._server.client,
+                server=self._server,
                 nature=nature,
                 nentities=nentities,
                 location=location,
@@ -97,7 +97,7 @@ class _FieldBase:
     @abstractmethod
     def _field_create_internal_obj(
         api: field_abstract_api.FieldAbstractAPI,
-        client,
+        server,
         nature,
         nentities,
         location=locations.nodal,
