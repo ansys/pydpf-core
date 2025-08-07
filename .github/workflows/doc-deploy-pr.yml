@@ -1,0 +1,46 @@
+name: doc-deploy-PR
+
+on:
+  workflow_run:
+    workflows: [docs]
+    types: [completed]
+
+env:
+  DOCUMENTATION_CNAME: 'dpf.docs.pyansys.com'
+
+jobs:
+  debug:
+    name: debug
+    runs-on: ubuntu-latest
+    env:
+      EVENT_OBJ:  ${{ toJson(github.event) }}
+    steps:
+        - run: echo $EVENT_OBJ
+  doc-deploy-pr:
+    name: "Deploy PR documentation"
+    runs-on: ubuntu-latest
+    if: |
+      github.event.workflow_run.conclusion == 'success' &&
+      contains(github.event.workflow_run.pull_requests.*.labels.*.name, 'deploy-pr-doc')
+    steps:
+      - name: "Download artifacts"
+        uses: dawidd6/action-download-artifact@v11
+        with:
+          workflow: docs.yml
+          name: HTML-doc-ansys-dpf-core.zip
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          run_id: ${{ github.event.workflow_run.id }}
+
+
+      - name: "Display downloaded files"
+        run: ls -R
+
+      - uses: ansys/actions/doc-deploy-pr@v10
+        with:
+          cname: ${{ env.DOCUMENTATION_CNAME }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          doc-artifact-name: HTML-doc-ansys-dpf-core.zip
+          decompress-artifact: true
+          bot-user: ${{ secrets.PYANSYS_CI_BOT_USERNAME }}
+          bot-email: ${{ secrets.PYANSYS_CI_BOT_EMAIL }}
+          maximum-pr-doc-deployments: 10
