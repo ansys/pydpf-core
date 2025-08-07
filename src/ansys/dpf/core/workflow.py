@@ -673,7 +673,7 @@ class Workflow:
         return {
             "operator_names": self.operator_names,
             "input_names": self.input_names,
-            "output_names": self.output_names
+            "output_names": self.output_names,
         }
 
     @property
