@@ -26,11 +26,11 @@ import pytest
 from ansys.dpf import core
 from ansys.dpf.core import operators as ops
 import conftest
-from conftest import local_servers
+from conftest import local_servers, running_docker
 
 
 @pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0 or running_docker,
     reason="Connecting data from different servers is " "supported starting server version 3.0",
 )
 def test_connect_remote_operators(simple_bar):
@@ -44,7 +44,7 @@ def test_connect_remote_operators(simple_bar):
 
 
 @pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0 or running_docker,
     reason="Connecting data from different servers is " "supported starting server version 3.0",
 )
 def test_connect_3remote_operators(simple_bar):
@@ -58,7 +58,7 @@ def test_connect_3remote_operators(simple_bar):
 
 
 @pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0 or running_docker,
     reason="Connecting data from different servers is " "supported starting server version 4.0",
 )
 def test_connect_remote_data_to_operator(simple_bar):

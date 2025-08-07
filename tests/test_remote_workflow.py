@@ -171,7 +171,7 @@ def test_multi_process_connect_remote_workflow():
 
 @pytest.mark.xfail(raises=ServerTypeError)
 @pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0 or running_docker,
     reason="Connecting data from different servers is " "supported starting server version 3.0",
 )
 def test_multi_process_connect_operator_remote_workflow():

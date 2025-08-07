@@ -26,7 +26,7 @@ import pytest
 from ansys.dpf import core
 from ansys.dpf.core import examples, operators as ops
 from ansys.dpf.core.check_version import get_server_version, meets_version
-from conftest import local_servers
+from conftest import local_servers, running_docker
 
 SERVER_VERSION_HIGHER_THAN_3_0 = meets_version(get_server_version(core._global_server()), "3.0")
 
@@ -163,7 +163,7 @@ def test_multi_process_connect_remote_workflow():
 
 
 @pytest.mark.skipif(
-    not SERVER_VERSION_HIGHER_THAN_3_0, reason="Requires server version higher than 3.0"
+    not SERVER_VERSION_HIGHER_THAN_3_0 or running_docker, reason="Requires server version higher than 3.0"
 )
 def test_multi_process_connect_operator_remote_workflow():
     files = examples.download_distributed_files()
