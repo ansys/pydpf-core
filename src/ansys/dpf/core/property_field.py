@@ -158,7 +158,7 @@ class PropertyField(_FieldBase):
         Returns
         -------
         location : str
-            Location string, can be found in :class:`ansys.dpf.core.locations`: ie.
+            Location string, can be found in :class:`ansys.dpf.core.locations`: i.e.
             ``dpf.locations.nodal`` or ``dpf.locations.elemental``.
 
         Examples
@@ -166,16 +166,21 @@ class PropertyField(_FieldBase):
         Create a property field and request the location.
 
         >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core.check_version import meets_version
         >>> pfield = dpf.PropertyField()
-        >>> pfield.location = dpf.locations.nodal
+        >>> if meets_version(dpf.SERVER.version, "11.0"):
+        ...    pfield.location = dpf.locations.elemental
+        ... else:
+        ...    pfield.scoping = dpf.Scoping()
+        ...    pfield.scoping.location = dpf.locations.elemental
         >>> pfield.location
-        'Nodal'
+        'Elemental'
 
         """
         if meets_version(self._server.version, "11.0"):
             if self._field_definition:
                 return self._field_definition.location
-        elif self.scoping:
+        elif self.scoping is not None:
             return self.scoping.location
         else:
             return None
