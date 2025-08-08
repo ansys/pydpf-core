@@ -25,6 +25,16 @@ class PropertyFieldGRPCAPI(property_field_abstract_api.PropertyFieldAbstractAPI)
         return field_grpcapi._get_stub(client).Create(request)
 
     @staticmethod
+    def csproperty_field_new_location_on_client(client, numEntities, data_size, location):
+        from ansys.grpc.dpf import field_pb2
+        request = field_pb2.FieldRequest()
+        request.size.scoping_size = numEntities
+        request.size.data_size = data_size
+        request.location.location = location
+        request.datatype = "int"
+        return field_grpcapi._get_stub(client).Create(request)
+
+    @staticmethod
     def csproperty_field_get_number_elementary_data(field):
         return api_to_call.csfield_get_number_elementary_data(field)
 
