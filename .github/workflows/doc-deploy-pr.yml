@@ -2,8 +2,10 @@ name: doc-deploy-PR
 
 on:
   workflow_run:
-    workflows: [docs]
+    workflows: [ci]
     types: [completed]
+  pull_request:
+    types: [closed]
 
 env:
   DOCUMENTATION_CNAME: 'dpf.docs.pyansys.com'
@@ -20,10 +22,30 @@ jobs:
     name: "Deploy PR documentation"
     runs-on: ubuntu-latest
     if: |
-      github.event.workflow_run.conclusion == 'success' &&
-      contains(github.event.workflow_run.pull_requests.*.labels.*.name, 'deploy-pr-doc')
+      (
+        github.event_name == 'workflow_run' &&
+        github.event.workflow_run.conclusion == 'success' &&
+        contains(github.event.workflow_run.pull_requests.*.labels.*.name, 'deploy-pr-doc')
+      ) || (
+        github.event_name == 'pull_request' &&
+        github.event.action == 'closed' &&
+        contains(github.event.pull_request.labels.*.name, 'deploy-pr-doc')
+      )
     steps:
-      - name: "Download artifacts"
+      - name: Set PR number
+        id: pr
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_run" ]]; then
+            echo "pr_number=${{ fromJson(toJson(github.event.workflow_run.pull_requests[0])).number }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "pr_number=${{ github.event.pull_request.number }}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Print PR number
+        run: echo "PR number is ${{ steps.pr.outputs.pr_number }}"
+
+      - name: Download artifacts (if workflow_run)
+        if: ${{ github.event_name == 'workflow_run' }}
         uses: dawidd6/action-download-artifact@v11
         with:
           workflow: docs.yml
@@ -31,11 +53,12 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           run_id: ${{ github.event.workflow_run.id }}
 
-
-      - name: "Display downloaded files"
+      - name: Display downloaded files (if workflow_run)
+        if: ${{ github.event_name == 'workflow_run' }}
         run: ls -R
 
-      - uses: ansys/actions/doc-deploy-pr@v10
+      - name: Deploy PR documentation
+        uses: ansys/actions/doc-deploy-pr@v10
         with:
           cname: ${{ env.DOCUMENTATION_CNAME }}
           token: ${{ secrets.GITHUB_TOKEN }}
