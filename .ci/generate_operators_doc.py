@@ -20,15 +20,20 @@ def initialize_server(ansys_path=None, include_composites=False, include_sound=F
     if include_composites:
         print("Loading Composites Plugin")
         load_library(
-            Path(server.ansys_path)
+            filename=Path(server.ansys_path)
             / "dpf"
             / "plugins"
             / "dpf_composites"
-            / "composite_operators.dll"
+            / "composite_operators.dll",
+            name="composites",
         )
     if include_sound:
         print("Loading Acoustics Plugin")
-        load_library(Path(server.ansys_path) / "Acoustics" / "SAS" / "ads" / "dpf_sound.dll")
+        load_library(
+            filename=Path(server.ansys_path) / "Acoustics" / "SAS" / "ads" / "dpf_sound.dll",
+            name="sound",
+        )
+    print(f"Loaded plugins: {list(server.plugins.keys())}")
     return server
 
 
