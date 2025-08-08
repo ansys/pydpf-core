@@ -1,0 +1,71 @@
+ansys.dpf.core.workflow_topology.DataConnection
+===============================================
+
+.. py:class:: ansys.dpf.core.workflow_topology.DataConnection(container: ansys.dpf.core.generic_data_container.GenericDataContainer)
+
+   Bases: :py:obj:`ansys.dpf.core.custom_container_base.CustomContainerBase`
+
+
+   Represents a connection between a data and an operator in a workflow.
+
+   This class provides access to the source data and target operator, as well as its pin ID.
+
+
+   .. py:attribute:: _source_data
+      :type:  Optional[Any]
+      :value: None
+
+
+
+   .. py:attribute:: _target_operator
+      :type:  Optional[ansys.dpf.core.dpf_operator.Operator]
+      :value: None
+
+
+
+   .. py:attribute:: _target_pin_id
+      :type:  Optional[int]
+      :value: None
+
+
+
+   .. py:property:: source_data
+      :type: Any
+
+
+      Retrieve the source data of the connection.
+
+      :returns: The data serving as the source of this connection.
+      :rtype: Any
+
+
+   .. py:property:: target_operator
+      :type: ansys.dpf.core.dpf_operator.Operator
+
+
+      Retrieve the target operator of the connection.
+
+      :returns: The operator serving as the target of this connection.
+      :rtype: Operator
+
+
+   .. py:property:: target_pin_id
+      :type: int
+
+
+      Retrieve the pin ID of the target operator.
+
+      :returns: The pin ID of the target operator.
+      :rtype: int
+
+
+   .. py:method:: __str__() -> str
+
+      Return a string representation of the data connection.
+
+      This includes the source data and target operator, with its pin ID.
+
+      :returns: String representation of the data connection.
+      :rtype: str
+
+

@@ -1,0 +1,42 @@
+ansys.dpf.core._version
+=======================
+
+.. py:module:: ansys.dpf.core._version
+
+.. autoapi-nested-parse::
+
+   Version for ansys-dpf-core.
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   ansys.dpf.core._version.min_server_version
+   ansys.dpf.core._version.server_to_ansys_version
+
+
+Classes
+-------
+
+.. toctree::
+   :hidden:
+
+   /api/ansys/dpf/core/_version/ServerToAnsysVersion
+
+.. autoapisummary::
+
+   ansys.dpf.core._version.ServerToAnsysVersion
+
+
+Module Contents
+---------------
+
+.. py:data:: min_server_version
+   :value: '4.0'
+
+
+.. py:data:: server_to_ansys_version
+

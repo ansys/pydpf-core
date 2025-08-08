@@ -1,0 +1,99 @@
+ansys.dpf.core.operators.serialization.vtk_export
+=================================================
+
+.. py:class:: ansys.dpf.core.operators.serialization.vtk_export(export_type=None, file_path=None, mesh=None, fields1=None, fields2=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Write the input field and fields container into a given vtk path
+
+
+   :param export_type: Either export volume elements in the mesh with their fields with value 0 or faces elements in the mesh with their fields with value 1 (default is 0)
+   :type export_type: int, optional
+   :param file_path: path with vtk extension were the export occurs
+   :type file_path: str
+   :param mesh: necessary if the first field or fields container don't have a mesh in their support
+   :type mesh: MeshedRegion, optional
+   :param fields1: fields exported
+   :type fields1: FieldsContainer or Field
+   :param fields2: fields exported
+   :type fields2: FieldsContainer or Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.serialization.vtk_export()
+
+   >>> # Make input connections
+   >>> my_export_type = int()
+   >>> op.inputs.export_type.connect(my_export_type)
+   >>> my_file_path = str()
+   >>> op.inputs.file_path.connect(my_file_path)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_fields1 = dpf.FieldsContainer()
+   >>> op.inputs.fields1.connect(my_fields1)
+   >>> my_fields2 = dpf.FieldsContainer()
+   >>> op.inputs.fields2.connect(my_fields2)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.serialization.vtk_export(
+   ...     export_type=my_export_type,
+   ...     file_path=my_file_path,
+   ...     mesh=my_mesh,
+   ...     fields1=my_fields1,
+   ...     fields2=my_fields2,
+   ... )
+
+
+   .. py:attribute:: _inputs
+
+
+   .. py:attribute:: _outputs
+
+
+   .. py:method:: _spec() -> ansys.dpf.core.operators.specification.Specification
+      :staticmethod:
+
+
+
+   .. py:method:: default_config(server: ansys.dpf.core.server_types.AnyServerType = None) -> ansys.dpf.core.config.Config
+      :staticmethod:
+
+
+      Returns the default config of the operator.
+
+      This config can then be changed to the user needs and be used to
+      instantiate the operator. The Configuration allows to customize
+      how the operation will be processed by the operator.
+
+      :param server: Server with channel connected to the remote or local instance. When
+                     ``None``, attempts to use the global server.
+
+      :returns: A new Config instance equivalent to the default config for this operator.
+      :rtype: config
+
+
+
+   .. py:property:: inputs
+      :type: InputsVtkExport
+
+
+      Enables to connect inputs to the operator
+
+      :returns: An instance of InputsVtkExport.
+      :rtype: inputs
+
+
+   .. py:property:: outputs
+      :type: OutputsVtkExport
+
+
+      Enables to get outputs of the operator by evaluating it
+
+      :returns: An instance of OutputsVtkExport.
+      :rtype: outputs
+

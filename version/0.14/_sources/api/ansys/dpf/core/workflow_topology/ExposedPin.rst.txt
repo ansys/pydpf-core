@@ -1,0 +1,71 @@
+ansys.dpf.core.workflow_topology.ExposedPin
+===========================================
+
+.. py:class:: ansys.dpf.core.workflow_topology.ExposedPin(container: ansys.dpf.core.generic_data_container.GenericDataContainer)
+
+   Bases: :py:obj:`ansys.dpf.core.custom_container_base.CustomContainerBase`
+
+
+   Represents an exposed input or output pin in a workflow.
+
+   This class provides access to the name and the associated operator, as well as its pin ID.
+
+
+   .. py:attribute:: _name
+      :type:  Optional[str]
+      :value: None
+
+
+
+   .. py:attribute:: _operator
+      :type:  Optional[ansys.dpf.core.dpf_operator.Operator]
+      :value: None
+
+
+
+   .. py:attribute:: _pin_id
+      :type:  Optional[int]
+      :value: None
+
+
+
+   .. py:property:: name
+      :type: str
+
+
+      Retrieve the name of the exposed pin.
+
+      :returns: The name of the exposed pin.
+      :rtype: str
+
+
+   .. py:property:: operator
+      :type: ansys.dpf.core.dpf_operator.Operator
+
+
+      Retrieve the operator associated with the exposed pin.
+
+      :returns: The operator associated with this exposed pin.
+      :rtype: Operator
+
+
+   .. py:property:: pin_id
+      :type: int
+
+
+      Retrieve the pin ID of the operator.
+
+      :returns: The pin ID of the operator.
+      :rtype: int
+
+
+   .. py:method:: __str__() -> str
+
+      Return a string representation of the exposed pin.
+
+      This includes the name and associated operator, with its pin ID.
+
+      :returns: String representation of the exposed pin.
+      :rtype: str
+
+

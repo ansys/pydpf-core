@@ -1,0 +1,90 @@
+ansys.dpf.core.operators.utility.merge_result_infos
+===================================================
+
+.. py:class:: ansys.dpf.core.operators.utility.merge_result_infos(result_infos1=None, result_infos2=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Assembles a set of result information into a unique one.
+
+
+   :param result_infos1: A vector of result info containers to merge or result infos from pin 0 to ...
+   :type result_infos1: ResultInfo
+   :param result_infos2: A vector of result info containers to merge or result infos from pin 0 to ...
+   :type result_infos2: ResultInfo
+
+   :returns: **merged_result_infos**
+   :rtype: ResultInfo
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.utility.merge_result_infos()
+
+   >>> # Make input connections
+   >>> my_result_infos1 = dpf.ResultInfo()
+   >>> op.inputs.result_infos1.connect(my_result_infos1)
+   >>> my_result_infos2 = dpf.ResultInfo()
+   >>> op.inputs.result_infos2.connect(my_result_infos2)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.utility.merge_result_infos(
+   ...     result_infos1=my_result_infos1,
+   ...     result_infos2=my_result_infos2,
+   ... )
+
+   >>> # Get output data
+   >>> result_merged_result_infos = op.outputs.merged_result_infos()
+
+
+   .. py:attribute:: _inputs
+
+
+   .. py:attribute:: _outputs
+
+
+   .. py:method:: _spec() -> ansys.dpf.core.operators.specification.Specification
+      :staticmethod:
+
+
+
+   .. py:method:: default_config(server: ansys.dpf.core.server_types.AnyServerType = None) -> ansys.dpf.core.config.Config
+      :staticmethod:
+
+
+      Returns the default config of the operator.
+
+      This config can then be changed to the user needs and be used to
+      instantiate the operator. The Configuration allows to customize
+      how the operation will be processed by the operator.
+
+      :param server: Server with channel connected to the remote or local instance. When
+                     ``None``, attempts to use the global server.
+
+      :returns: A new Config instance equivalent to the default config for this operator.
+      :rtype: config
+
+
+
+   .. py:property:: inputs
+      :type: InputsMergeResultInfos
+
+
+      Enables to connect inputs to the operator
+
+      :returns: An instance of InputsMergeResultInfos.
+      :rtype: inputs
+
+
+   .. py:property:: outputs
+      :type: OutputsMergeResultInfos
+
+
+      Enables to get outputs of the operator by evaluating it
+
+      :returns: An instance of OutputsMergeResultInfos.
+      :rtype: outputs
+

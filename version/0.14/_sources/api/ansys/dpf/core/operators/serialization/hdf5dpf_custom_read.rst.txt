@@ -1,0 +1,110 @@
+ansys.dpf.core.operators.serialization.hdf5dpf_custom_read
+==========================================================
+
+.. py:class:: ansys.dpf.core.operators.serialization.hdf5dpf_custom_read(time_scoping=None, mesh_scoping=None, streams=None, data_sources=None, meta_data=None, result_name=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Extract a custom result from an hdf5dpf file. This operator is
+   deprecated, please use the ‘custom’ operator instead.
+
+
+   :param time_scoping:
+   :type time_scoping: Scoping, optional
+   :param mesh_scoping:
+   :type mesh_scoping: Scoping, optional
+   :param streams: Hdf5df file stream.
+   :type streams: StreamsContainer, optional
+   :param data_sources: Hdf5df file data source.
+   :type data_sources: DataSources, optional
+   :param meta_data: meta_data that may be used to evaluate results or extract workflows.
+   :type meta_data: DataTree, optional
+   :param result_name: Name of the result that must be extracted from the hdf5dpf file
+
+   :returns: **field_or_fields_container**
+   :rtype: FieldsContainer or Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.serialization.hdf5dpf_custom_read()
+
+   >>> # Make input connections
+   >>> my_time_scoping = dpf.Scoping()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> my_mesh_scoping = dpf.Scoping()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> my_streams = dpf.StreamsContainer()
+   >>> op.inputs.streams.connect(my_streams)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_meta_data = dpf.DataTree()
+   >>> op.inputs.meta_data.connect(my_meta_data)
+   >>> my_result_name = dpf.()
+   >>> op.inputs.result_name.connect(my_result_name)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.serialization.hdf5dpf_custom_read(
+   ...     time_scoping=my_time_scoping,
+   ...     mesh_scoping=my_mesh_scoping,
+   ...     streams=my_streams,
+   ...     data_sources=my_data_sources,
+   ...     meta_data=my_meta_data,
+   ...     result_name=my_result_name,
+   ... )
+
+   >>> # Get output data
+   >>> result_field_or_fields_container = op.outputs.field_or_fields_container()
+
+
+   .. py:attribute:: _inputs
+
+
+   .. py:attribute:: _outputs
+
+
+   .. py:method:: _spec() -> ansys.dpf.core.operators.specification.Specification
+      :staticmethod:
+
+
+
+   .. py:method:: default_config(server: ansys.dpf.core.server_types.AnyServerType = None) -> ansys.dpf.core.config.Config
+      :staticmethod:
+
+
+      Returns the default config of the operator.
+
+      This config can then be changed to the user needs and be used to
+      instantiate the operator. The Configuration allows to customize
+      how the operation will be processed by the operator.
+
+      :param server: Server with channel connected to the remote or local instance. When
+                     ``None``, attempts to use the global server.
+
+      :returns: A new Config instance equivalent to the default config for this operator.
+      :rtype: config
+
+
+
+   .. py:property:: inputs
+      :type: InputsHdf5DpfCustomRead
+
+
+      Enables to connect inputs to the operator
+
+      :returns: An instance of InputsHdf5DpfCustomRead.
+      :rtype: inputs
+
+
+   .. py:property:: outputs
+      :type: OutputsHdf5DpfCustomRead
+
+
+      Enables to get outputs of the operator by evaluating it
+
+      :returns: An instance of OutputsHdf5DpfCustomRead.
+      :rtype: outputs
+

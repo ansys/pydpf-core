@@ -1,0 +1,42 @@
+ansys.dpf.core.plotter._PyVistaPlotter
+======================================
+
+.. py:class:: ansys.dpf.core.plotter._PyVistaPlotter(**kwargs)
+
+   The _InternalPlotter class is based on PyVista.
+
+
+   .. py:attribute:: _plotter
+
+
+   .. py:method:: add_scale_factor_legend(scale_factor, **kwargs)
+
+
+   .. py:method:: add_points(points, field, **kwargs)
+
+
+   .. py:method:: add_line(points, field=None, **kwargs)
+
+
+   .. py:method:: add_plane(plane, field=None, **kwargs)
+
+
+   .. py:method:: add_mesh(meshed_region, deform_by=None, scale_factor=1.0, as_linear=True, **kwargs)
+
+
+   .. py:method:: add_point_labels(nodes: Union[ansys.dpf.core.nodes.Nodes, List[ansys.dpf.core.nodes.Node], List[int]], meshed_region: ansys.dpf.core.meshed_region.MeshedRegion, labels: Union[List[str], None] = None, **kwargs) -> List
+
+
+   .. py:method:: add_field(field, meshed_region=None, show_max=False, show_min=False, label_text_size=30, label_point_size=20, deform_by=None, scale_factor=1.0, scale_factor_legend=None, as_linear=True, shell_layer=eshell_layers.top, **kwargs)
+
+
+   .. py:method:: add_streamlines(streamlines, source=None, radius=1.0, **kwargs)
+
+
+   .. py:method:: show_figure(**kwargs)
+
+
+   .. py:method:: _set_scalar_bar_title(kwargs)
+      :staticmethod:
+
+

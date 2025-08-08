@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.metadata.collection
+   :inherited-members:

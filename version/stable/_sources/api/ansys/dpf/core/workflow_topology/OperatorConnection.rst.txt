@@ -1,0 +1,87 @@
+ansys.dpf.core.workflow_topology.OperatorConnection
+===================================================
+
+.. py:class:: ansys.dpf.core.workflow_topology.OperatorConnection(container: ansys.dpf.core.generic_data_container.GenericDataContainer)
+
+   Bases: :py:obj:`ansys.dpf.core.custom_container_base.CustomContainerBase`
+
+
+   Represents a connection between two operators in a workflow.
+
+   This class provides access to the source and target operators, as well as their respective pin IDs.
+
+
+   .. py:attribute:: _source_operator
+      :type:  Optional[ansys.dpf.core.dpf_operator.Operator]
+      :value: None
+
+
+
+   .. py:attribute:: _source_pin_id
+      :type:  Optional[int]
+      :value: None
+
+
+
+   .. py:attribute:: _target_operator
+      :type:  Optional[ansys.dpf.core.dpf_operator.Operator]
+      :value: None
+
+
+
+   .. py:attribute:: _target_pin_id
+      :type:  Optional[int]
+      :value: None
+
+
+
+   .. py:property:: source_operator
+      :type: ansys.dpf.core.dpf_operator.Operator
+
+
+      Retrieve the source operator of the connection.
+
+      :returns: The operator serving as the source of this connection.
+      :rtype: Operator
+
+
+   .. py:property:: source_pin_id
+      :type: int
+
+
+      Retrieve the pin ID of the source operator.
+
+      :returns: The pin ID of the source operator.
+      :rtype: int
+
+
+   .. py:property:: target_operator
+      :type: ansys.dpf.core.dpf_operator.Operator
+
+
+      Retrieve the target operator of the connection.
+
+      :returns: The operator serving as the target of this connection.
+      :rtype: Operator
+
+
+   .. py:property:: target_pin_id
+      :type: int
+
+
+      Retrieve the pin ID of the target operator.
+
+      :returns: The pin ID of the target operator.
+      :rtype: int
+
+
+   .. py:method:: __str__() -> str
+
+      Return a string representation of the operator connection.
+
+      This includes the source and target operators and their respective pin IDs.
+
+      :returns: String representation of the operator connection.
+      :rtype: str
+
+
