@@ -35,6 +35,7 @@
 * [Jose Armando Henriquez Roa](https://github.com/jose-henriquez-roa)
 * [jose-henriquezroa](https://github.com/jose-henriquezroa)
 * [Joshua Fairchild](https://github.com/joshuafairch)
+* [Josip Vidal Orlovac](https://github.com/jvidalor)
 * [jviqueg](https://github.com/jviqueg)
 * [Kathy Pippert](https://github.com/PipKat)
 * [kmahajan-cadfem](https://github.com/kmahajan-cadfem)
