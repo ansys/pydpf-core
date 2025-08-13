@@ -169,14 +169,14 @@ mesh_deser_set_per_set.plot(res_deser_set_per_set_list[num_res * 1 + 0])
 
 ###############################################################################
 # compare ENF at 6 time set:
-position_ENF = result_names_on_all_time_steps.index("result_ENF")
+position_result = result_names_on_all_time_steps.index("result_ENF")
 to_nodal_op = dpf.operators.averaging.to_nodal_fc()
 
-fc_all_steps_first_step_first_res = res_deser_all_times_list[position_ENF].get_field_by_time_id(6)  # set 6
+fc_all_steps_first_step_first_res = res_deser_all_times_list[position_result].get_field_by_time_id(6)  # set 6
 mesh_deser_all_times.plot(
     dpf.operators.averaging.to_nodal(fc_all_steps_first_step_first_res).outputs.field()
 )
 
 mesh_deser_set_per_set.plot(
-    dpf.operators.averaging.to_nodal(res_deser_set_per_set_list[num_res * 5 + position_ENF]).outputs.field()
+    dpf.operators.averaging.to_nodal(res_deser_set_per_set_list[num_res * 5 + position_result]).outputs.field()
 )
