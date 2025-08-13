@@ -1,0 +1,12 @@
+ansys.dpf.core.animator._InternalAnimatorFactory
+================================================
+
+.. py:class:: ansys.dpf.core.animator._InternalAnimatorFactory
+
+   Factory for _InternalAnimator based on the backend.
+
+
+   .. py:method:: get_animator_class()
+      :staticmethod:
+
+

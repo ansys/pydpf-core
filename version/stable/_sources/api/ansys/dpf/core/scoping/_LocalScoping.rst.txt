@@ -1,0 +1,135 @@
+ansys.dpf.core.scoping._LocalScoping
+====================================
+
+.. py:class:: ansys.dpf.core.scoping._LocalScoping(scoping)
+
+   Bases: :py:obj:`Scoping`
+
+
+   Caches the internal data of the scoping so that it can be modified locally.
+
+   A single update request is sent to the server when the local scoping is deleted.
+
+   :param scoping: Scoping to copy locally.
+   :type scoping: Scoping
+
+
+   .. py:method:: __cache_data__(owner_scoping)
+
+
+   .. py:method:: __init_map__()
+
+
+   .. py:method:: _count()
+
+      Return the number of scoping ids.
+
+      :returns: **count** -- Number of scoping IDs.
+      :rtype: int
+
+
+
+   .. py:method:: _get_location()
+
+      Retrieve the location of the IDs.
+
+      :returns: **location** -- Location of the IDs.
+      :rtype: str
+
+
+
+   .. py:method:: _set_location(loc=locations.nodal)
+
+      Set the location.
+
+      :param loc: Location needed.
+      :type loc: str or core.locations enum
+
+
+
+   .. py:method:: _set_ids(ids)
+
+      Set scoping ids.
+
+      :param ids: IDs to set.
+      :type ids: list of int
+
+      .. rubric:: Notes
+
+      Print a progress bar.
+
+
+
+   .. py:method:: _get_ids(np_array=False)
+
+      Return the scoping ids.
+
+      :returns: **ids** -- List of IDs.
+      :rtype: list[int], numpy.array (if np_array==True)
+
+      .. rubric:: Notes
+
+      Print a progress bar.
+
+
+
+   .. py:method:: set_id(index, scopingid)
+
+      Set the ID of a scoping's index.
+
+      :param index: Index of the scoping.
+      :type index: int
+      :param scopingid: ID of the scoping.
+      :type scopingid: int
+
+
+
+   .. py:method:: append(id)
+
+
+   .. py:method:: _get_id(index)
+
+      Retrieve the index that the scoping ID is located on.
+
+      :param index: Index of the scoping
+      :type index: int
+
+      :returns: **id** -- ID of the scoping's index.
+      :rtype: int
+
+
+
+   .. py:method:: _get_index(scopingid)
+
+      Retrieve an ID corresponding to an ID in the scoping.
+
+      :param id: ID to retrieve.
+      :type id: int
+
+      :returns: **index** -- Index of the ID.
+      :rtype: int
+
+
+
+   .. py:method:: release_data()
+
+      Release the data.
+
+
+
+   .. py:method:: __enter__()
+
+
+   .. py:method:: __exit__(type, value, tb)
+
+
+   .. py:method:: __del__()
+
+      Clean up resources associated with the instance.
+
+      This method calls the deleter function to release resources. If an exception
+      occurs during deletion, a warning is issued.
+
+      :raises Warning: If an exception occurs while attempting to delete resources.
+
+

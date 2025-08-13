@@ -1,0 +1,81 @@
+
+
+.. _sphx_glr_examples_01-transient_analyses:
+
+.. _static_transient_examples:
+
+Transient analysis examples
+===========================
+These examples show how to use DPF to extract and plot displacements,
+stresses, and strains for a transient result.
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to postprocess a transient result and visualize the outputs.">
+
+.. only:: html
+
+  .. image:: /examples/01-transient_analyses/images/thumb/sphx_glr_00-basic_transient_thumb.png
+    :alt: Transient analysis result example
+
+  :ref:`sphx_glr_examples_01-transient_analyses_00-basic_transient.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Transient analysis result example</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to use a model&#x27;s result to choose a time scoping.">
+
+.. only:: html
+
+  .. image:: /examples/01-transient_analyses/images/thumb/sphx_glr_01-transient_easy_time_scoping_thumb.png
+    :alt: Choose a time scoping for a transient analysis
+
+  :ref:`sphx_glr_examples_01-transient_analyses_01-transient_easy_time_scoping.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Choose a time scoping for a transient analysis</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example provides an overview of the LS-DYNA results providers.">
+
+.. only:: html
+
+  .. image:: /examples/01-transient_analyses/images/thumb/sphx_glr_02-lsdyna_operators_thumb.png
+    :alt: Results extraction and analysis from LS-DYNA sources
+
+  :ref:`sphx_glr_examples_01-transient_analyses_02-lsdyna_operators.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Results extraction and analysis from LS-DYNA sources</div>
+    </div>
+
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /examples/01-transient_analyses/00-basic_transient
+   /examples/01-transient_analyses/01-transient_easy_time_scoping
+   /examples/01-transient_analyses/02-lsdyna_operators
+

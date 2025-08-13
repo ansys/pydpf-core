@@ -1,0 +1,138 @@
+
+
+
+
+
+
+:class:`Categories`
+===================
+
+
+.. py:class:: ansys.dpf.core.operator_specification.Categories
+
+   Categories class.
+
+
+
+.. py:currentmodule:: Categories
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~result`
+            - 
+          * - :py:attr:`~math`
+            - 
+          * - :py:attr:`~mesh`
+            - 
+          * - :py:attr:`~min_max`
+            - 
+          * - :py:attr:`~scoping`
+            - 
+          * - :py:attr:`~mapping`
+            - 
+          * - :py:attr:`~geo`
+            - 
+          * - :py:attr:`~filter`
+            - 
+          * - :py:attr:`~utility`
+            - 
+          * - :py:attr:`~averaging`
+            - 
+          * - :py:attr:`~serialization`
+            - 
+          * - :py:attr:`~invariant`
+            - 
+          * - :py:attr:`~logic`
+            - 
+          * - :py:attr:`~metadata`
+            - 
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operator_specification import Categories
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: result
+   :value: 'result'
+
+
+.. py:attribute:: math
+   :value: 'math'
+
+
+.. py:attribute:: mesh
+   :value: 'mesh'
+
+
+.. py:attribute:: min_max
+   :value: 'min_max'
+
+
+.. py:attribute:: scoping
+   :value: 'scoping'
+
+
+.. py:attribute:: mapping
+   :value: 'mapping'
+
+
+.. py:attribute:: geo
+   :value: 'geo'
+
+
+.. py:attribute:: filter
+   :value: 'filter'
+
+
+.. py:attribute:: utility
+   :value: 'utility'
+
+
+.. py:attribute:: averaging
+   :value: 'averaging'
+
+
+.. py:attribute:: serialization
+   :value: 'serialization'
+
+
+.. py:attribute:: invariant
+   :value: 'invariant'
+
+
+.. py:attribute:: logic
+   :value: 'logic'
+
+
+.. py:attribute:: metadata
+   :value: 'metadata'
+
+
+
+
+
+

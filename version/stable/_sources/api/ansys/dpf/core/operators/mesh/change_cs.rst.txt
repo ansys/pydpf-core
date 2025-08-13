@@ -1,0 +1,91 @@
+ansys.dpf.core.operators.mesh.change_cs
+=======================================
+
+.. py:class:: ansys.dpf.core.operators.mesh.change_cs(meshes=None, coordinate_system=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Applies a transformation (rotation and displacement) matrix on a mesh or
+   meshes container.
+
+
+   :param meshes:
+   :type meshes: MeshedRegion or MeshesContainer
+   :param coordinate_system: 3-3 rotation matrix + 3 translations (X, Y, Z)
+   :type coordinate_system: Field
+
+   :returns: **meshed_region**
+   :rtype: MeshedRegion or MeshesContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.mesh.change_cs()
+
+   >>> # Make input connections
+   >>> my_meshes = dpf.MeshedRegion()
+   >>> op.inputs.meshes.connect(my_meshes)
+   >>> my_coordinate_system = dpf.Field()
+   >>> op.inputs.coordinate_system.connect(my_coordinate_system)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.mesh.change_cs(
+   ...     meshes=my_meshes,
+   ...     coordinate_system=my_coordinate_system,
+   ... )
+
+   >>> # Get output data
+   >>> result_meshed_region = op.outputs.meshed_region()
+
+
+   .. py:attribute:: _inputs
+
+
+   .. py:attribute:: _outputs
+
+
+   .. py:method:: _spec() -> ansys.dpf.core.operators.specification.Specification
+      :staticmethod:
+
+
+
+   .. py:method:: default_config(server: ansys.dpf.core.server_types.AnyServerType = None) -> ansys.dpf.core.config.Config
+      :staticmethod:
+
+
+      Returns the default config of the operator.
+
+      This config can then be changed to the user needs and be used to
+      instantiate the operator. The Configuration allows to customize
+      how the operation will be processed by the operator.
+
+      :param server: Server with channel connected to the remote or local instance. When
+                     ``None``, attempts to use the global server.
+
+      :returns: A new Config instance equivalent to the default config for this operator.
+      :rtype: config
+
+
+
+   .. py:property:: inputs
+      :type: InputsChangeCs
+
+
+      Enables to connect inputs to the operator
+
+      :returns: An instance of InputsChangeCs.
+      :rtype: inputs
+
+
+   .. py:property:: outputs
+      :type: OutputsChangeCs
+
+
+      Enables to get outputs of the operator by evaluating it
+
+      :returns: An instance of OutputsChangeCs.
+      :rtype: outputs
+

@@ -1,0 +1,31 @@
+ansys.dpf.core.outputs._Outputs
+===============================
+
+.. py:class:: ansys.dpf.core.outputs._Outputs(dict_outputs, operator)
+
+   Base class subclassed by the :class:`ansys.dpf.core.outputs.Output` class.
+
+   :param dict_outputs: Dictionary of outputs.
+   :type dict_outputs: dict
+   :param operator:
+
+
+   .. py:attribute:: _dict_outputs
+
+
+   .. py:attribute:: _operator
+
+
+   .. py:attribute:: _outputs
+      :value: []
+
+
+
+   .. py:method:: _get_given_output(input_type_name)
+
+
+   .. py:method:: __getitem__(index) -> Output
+
+
+   .. py:method:: __str__()
+
