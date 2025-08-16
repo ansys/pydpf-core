@@ -28,6 +28,8 @@ class on_coordinates(Operator):
         if this pin is set to true, then, a support associated to the fields consisting of points is created
     mapping_on_scoping: bool, optional
         if this pin is set to true, then the mapping between the coordinates and the fields is created only on the first field scoping
+    tolerance: float, optional
+        Tolerance used in the iterative algorithm to locate coordinates inside the mesh. Default value: 5e-5.
     mesh: MeshedRegion or MeshesContainer, optional
         if the first field in input has no mesh in support, then the mesh in this pin is expected (default is false), if a meshes container with several meshes is set, it should be on the same label spaces as the coordinates fields container
     use_quadratic_elements: bool, optional
@@ -53,6 +55,8 @@ class on_coordinates(Operator):
     >>> op.inputs.create_support.connect(my_create_support)
     >>> my_mapping_on_scoping = bool()
     >>> op.inputs.mapping_on_scoping.connect(my_mapping_on_scoping)
+    >>> my_tolerance = float()
+    >>> op.inputs.tolerance.connect(my_tolerance)
     >>> my_mesh = dpf.MeshedRegion()
     >>> op.inputs.mesh.connect(my_mesh)
     >>> my_use_quadratic_elements = bool()
@@ -64,6 +68,7 @@ class on_coordinates(Operator):
     ...     coordinates=my_coordinates,
     ...     create_support=my_create_support,
     ...     mapping_on_scoping=my_mapping_on_scoping,
+    ...     tolerance=my_tolerance,
     ...     mesh=my_mesh,
     ...     use_quadratic_elements=my_use_quadratic_elements,
     ... )
@@ -78,6 +83,7 @@ class on_coordinates(Operator):
         coordinates=None,
         create_support=None,
         mapping_on_scoping=None,
+        tolerance=None,
         mesh=None,
         use_quadratic_elements=None,
         config=None,
@@ -94,6 +100,8 @@ class on_coordinates(Operator):
             self.inputs.create_support.connect(create_support)
         if mapping_on_scoping is not None:
             self.inputs.mapping_on_scoping.connect(mapping_on_scoping)
+        if tolerance is not None:
+            self.inputs.tolerance.connect(tolerance)
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
         if use_quadratic_elements is not None:
@@ -135,6 +143,12 @@ elements with shape functions).
                     type_names=["bool"],
                     optional=True,
                     document=r"""if this pin is set to true, then the mapping between the coordinates and the fields is created only on the first field scoping""",
+                ),
+                5: PinSpecification(
+                    name="tolerance",
+                    type_names=["double"],
+                    optional=True,
+                    document=r"""Tolerance used in the iterative algorithm to locate coordinates inside the mesh. Default value: 5e-5.""",
                 ),
                 7: PinSpecification(
                     name="mesh",
@@ -220,6 +234,8 @@ class InputsOnCoordinates(_Inputs):
     >>> op.inputs.create_support.connect(my_create_support)
     >>> my_mapping_on_scoping = bool()
     >>> op.inputs.mapping_on_scoping.connect(my_mapping_on_scoping)
+    >>> my_tolerance = float()
+    >>> op.inputs.tolerance.connect(my_tolerance)
     >>> my_mesh = dpf.MeshedRegion()
     >>> op.inputs.mesh.connect(my_mesh)
     >>> my_use_quadratic_elements = bool()
@@ -236,6 +252,8 @@ class InputsOnCoordinates(_Inputs):
         self._inputs.append(self._create_support)
         self._mapping_on_scoping = Input(on_coordinates._spec().input_pin(3), 3, op, -1)
         self._inputs.append(self._mapping_on_scoping)
+        self._tolerance = Input(on_coordinates._spec().input_pin(5), 5, op, -1)
+        self._inputs.append(self._tolerance)
         self._mesh = Input(on_coordinates._spec().input_pin(7), 7, op, -1)
         self._inputs.append(self._mesh)
         self._use_quadratic_elements = Input(
@@ -322,6 +340,27 @@ class InputsOnCoordinates(_Inputs):
         >>> op.inputs.mapping_on_scoping(my_mapping_on_scoping)
         """
         return self._mapping_on_scoping
+
+    @property
+    def tolerance(self) -> Input:
+        r"""Allows to connect tolerance input to the operator.
+
+        Tolerance used in the iterative algorithm to locate coordinates inside the mesh. Default value: 5e-5.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.mapping.on_coordinates()
+        >>> op.inputs.tolerance.connect(my_tolerance)
+        >>> # or
+        >>> op.inputs.tolerance(my_tolerance)
+        """
+        return self._tolerance
 
     @property
     def mesh(self) -> Input:
