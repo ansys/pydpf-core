@@ -32,6 +32,7 @@ import logging
 import os
 import subprocess
 import time
+import re
 
 from ansys.dpf.gate.load_api import (
     _find_outdated_ansys_version,
@@ -220,6 +221,30 @@ class DockerConfig:
             f"\t- mounted_volume: {self.mounted_volumes}\n"
             f"\t- extra_args: {self.extra_args}\n"
         )
+
+    def find_ip_for_docker_container(self) -> str:
+        """Finds the ip of the latest container running for the image name in the current config."""
+        id_cmd = f"$(docker ps -q -l -f ancestor={self.docker_name})"
+        ip_cmd = "docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "
+        run_cmd = ip_cmd + id_cmd
+        b_shell = False
+        if os.name == "posix":
+            b_shell = True
+
+        ip_expression = re.compile(
+            r"^\d+.\d+.\d+.\d+$"
+        )
+        with subprocess.Popen(
+            run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=b_shell
+        ) as process:
+            with io.TextIOWrapper(process.stdout, encoding="utf-8") as log_out:
+                for line in log_out:
+                    print(line)
+                    if ip_expression.match(line):
+                        return line
+                raise ValueError(
+                    f"Could not find IP of a running container for image {self.docker_name}"
+                )
 
     @staticmethod
     def find_port_available_for_docker_bind(port: int) -> int:
