@@ -32,6 +32,7 @@ import logging
 import os
 import subprocess
 import time
+from typing import TYPE_CHECKING
 
 from ansys.dpf.gate.load_api import (
     _find_outdated_ansys_version,
@@ -76,7 +77,7 @@ class DockerConfig:
         To prevent from uploading result files on the Docker Image
         :func:`ansys.dpc.core.server_factory.RunningDockerConfig.replace_with_mounted_volumes`
         iterates through this dictionary to replace local path instances by their mapped value.
-    extra_args : str, optional
+    extra_args : list[str], optional
         Extra arguments to add to the docker run command.
 
     """
@@ -86,7 +87,7 @@ class DockerConfig:
         use_docker: bool = False,
         docker_name: str = "",
         mounted_volumes: dict = None,
-        extra_args: str = "",
+        extra_args: list[str] = None,
     ):
         from ansys.dpf.core import LOCAL_DOWNLOADED_EXAMPLES_PATH
 
@@ -96,7 +97,10 @@ class DockerConfig:
         self._use_docker = use_docker
         self._docker_name = docker_name
         self._mounted_volumes = mounted_volumes
-        self._extra_args = extra_args
+        if isinstance(extra_args, list) or extra_args is None:
+            self._extra_args = extra_args
+        else:
+            raise TypeError("DockerConfig: 'extra_args' must be a list.")
 
     @property
     def use_docker(self) -> bool:
@@ -141,7 +145,7 @@ class DockerConfig:
         self._mounted_volumes = mounted_volumes
 
     @property
-    def licensing_args(self) -> str:
+    def licensing_args(self) -> list[str]:
         """Generate licensing-related environment variables for the Docker container.
 
         Returns
@@ -152,15 +156,13 @@ class DockerConfig:
         """
         la = os.environ.get("ANSYS_DPF_ACCEPT_LA", "N")
         lf = os.environ.get("ANSYSLMD_LICENSE_FILE", None)
-        additional_option = " -e ANSYS_DPF_ACCEPT_LA=" + la + " "
+        additional_option = ["-e", f'ANSYS_DPF_ACCEPT_LA="{la}"']
         if lf is not None:
-            additional_option += " -e ANSYSLMD_LICENSE_FILE="
-            additional_option += lf
-            additional_option += " "
+            additional_option.extend(["-e", f'ANSYSLMD_LICENSE_FILE="{lf}"'])
         return additional_option
 
     @property
-    def extra_args(self) -> str:
+    def extra_args(self) -> list[str]:
         """Extra arguments to add to the docker run command.
 
         Returns
@@ -169,7 +171,7 @@ class DockerConfig:
         """
         return self._extra_args
 
-    def docker_run_cmd_command(self, docker_server_port: int, local_port: int) -> str:
+    def docker_run_cmd_command(self, docker_server_port: int, local_port: int) -> list[str]:
         """Build the Docker run command using DockerConfig attributes and specified ports.
 
         Creates the docker run command with the ``DockerConfig`` attributes as well
@@ -187,20 +189,25 @@ class DockerConfig:
         -------
         str
         """
-        mounted_volumes_args = "-v " + " -v ".join(
-            key + ":" + val for key, val in self.mounted_volumes.items()
-        )
+        mounted_volumes_args = []
+        for key, val in self.mounted_volumes.items():
+            mounted_volumes_args.extend(["-v", f"{key}:{val}"])
         licensing_options = self.licensing_args
-        return (
-            f"docker run -d "
-            f" {licensing_options} "
-            f"-p {local_port}:{docker_server_port} "
-            f"{self.extra_args} "
-            f"{mounted_volumes_args} "
-            f"-e DOCKER_SERVER_PORT={docker_server_port} "
-            f"--expose={docker_server_port} "
-            f"{self.docker_name}"
+        cmd_args = ["docker", "run", "-d"]
+        cmd_args.extend(licensing_options)
+        cmd_args.extend(["-p", f"{int(local_port)}:{int(docker_server_port)}"])
+        if self.extra_args:
+            cmd_args.extend(self.extra_args)
+        cmd_args.extend(mounted_volumes_args)
+        cmd_args.extend(
+            [
+                "-e",
+                f"DOCKER_SERVER_PORT={int(docker_server_port)}",
+                f"--expose={int(docker_server_port)}",
+            ]
         )
+        cmd_args.extend([f"{self.docker_name}"])
+        return cmd_args
 
     def __str__(self):
         """Return a string representation of the DockerConfig object.
@@ -647,7 +654,7 @@ class RunningDockerConfig:
                                 lines.append(line)
                 docker_process.kill()
 
-    def docker_run_cmd_command(self, docker_server_port: int, local_port: int) -> str:
+    def docker_run_cmd_command(self, docker_server_port: int, local_port: int) -> list[str]:
         """Return a docker run command using DockerConfig attributes and specified ports.
 
         Creates the docker run command with the ``DockerConfig`` attributes as well

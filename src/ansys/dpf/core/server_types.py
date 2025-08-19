@@ -131,6 +131,8 @@ def _run_launch_server_process(
         if os.name == "posix":
             bShell = True
         run_cmd = docker_config.docker_run_cmd_command(docker_server_port, port)
+        print(run_cmd)
+        exit()
     else:
         if os.name == "nt":
             executable = "Ans.Dpf.Grpc.bat"
