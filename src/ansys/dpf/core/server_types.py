@@ -36,7 +36,10 @@ import io
 import os
 from pathlib import Path
 import socket
-import subprocess
+
+# Subprocess is needed to start the backend DPF server process.
+# The input is controlled by the library. Excluding bandit check
+import subprocess  # nosec B404
 import sys
 from threading import Lock, Thread
 import time
@@ -157,11 +160,11 @@ def _run_launch_server_process(
     old_dir = Path.cwd()
     os.chdir(dpf_run_dir)
     if not bShell:
-        process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    else:
+        process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)  # nosec B603
+    else:  # To launch a server on Docker from Linux
         process = subprocess.Popen(
             run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
-        )
+        )  # nosec B602
     os.chdir(old_dir)
     return process
 
