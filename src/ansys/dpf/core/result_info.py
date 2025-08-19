@@ -472,17 +472,11 @@ class ResultInfo:
             self._api.result_info_get_result_location(self, numres, loc_name)
             loc_name = str(loc_name)
         except AttributeError:
-            if name in available_result._result_properties:
-                loc_name = available_result._result_properties[name]["location"]
-            else:
-                loc_name = ""
+            loc_name = ""
         try:
             scripting_name = self._api.result_info_get_result_scripting_name(self, numres)
         except AttributeError:
-            if name in available_result._result_properties:
-                scripting_name = available_result._result_properties[name]["scripting_name"]
-            else:
-                scripting_name = available_result._remove_spaces(physic_name)
+            scripting_name = available_result._remove_spaces(physic_name)
         num_sub_res = self._api.result_info_get_number_of_sub_results(self, numres)
         sub_res = {}
         for ires in range(num_sub_res):
