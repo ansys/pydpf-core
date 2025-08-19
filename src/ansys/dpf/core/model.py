@@ -31,6 +31,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:  # pragma: nocover
+    from ansys.dpf.core.operators.mesh.mesh_provider import mesh_provider
     from ansys.dpf.core.scoping import Scoping
     from ansys.dpf.core.server_types import AnyServerType
 
@@ -321,7 +322,7 @@ class Metadata:
             )
         else:
             self._stream_provider = Operator("stream_provider", server=self._server)
-            self._stream_provider.inputs.connect(self._data_sources)
+            self._stream_provider.inputs.data_sources.connect(self._data_sources)
         try:
             self._stream_provider.run()
         except:
@@ -369,12 +370,16 @@ class Metadata:
 
         """
         if self._time_freq_support is None:
-            timeProvider = Operator("TimeFreqSupportProvider", server=self._server)
+            time_provider: dpf.core.operators.metadata.time_freq_provider = Operator(
+                name="TimeFreqSupportProvider", server=self._server
+            )
             if self._stream_provider:
-                timeProvider.inputs.connect(self._stream_provider.outputs)
+                time_provider.inputs.streams_container.connect(
+                    self._stream_provider.outputs.streams_container
+                )
             else:
-                timeProvider.inputs.connect(self.data_sources)
-            self._time_freq_support = timeProvider.get_output(0, types.time_freq_support)
+                time_provider.inputs.data_sources.connect(self.data_sources)
+            self._time_freq_support = time_provider.get_output(0, types.time_freq_support)
         return self._time_freq_support
 
     @property
@@ -443,7 +448,7 @@ class Metadata:
     def _load_result_info(self):
         """Return a result info object."""
         op = Operator("ResultInfoProvider", server=self._server)
-        op.inputs.connect(self._stream_provider.outputs)
+        op.inputs.streams_container.connect(self._stream_provider.outputs.streams_container)
         try:
             result_info = op.get_output(0, types.result_info)
         except Exception as e:
@@ -491,7 +496,7 @@ class Metadata:
         return self._meshed_region
 
     @property
-    def mesh_provider(self):
+    def mesh_provider(self) -> mesh_provider:
         """Mesh provider operator.
 
         This operator reads a mesh from the result file. The underlying
@@ -500,15 +505,19 @@ class Metadata:
 
         Returns
         -------
-        mesh_provider : :class:`ansys.dpf.core.operators.mesh.mesh_provider`
+        mesh_provider:
             Mesh provider operator.
 
         """
-        mesh_provider = Operator("MeshProvider", server=self._server)
+        mesh_provider: dpf.core.operators.mesh.mesh_provider = Operator(
+            name="MeshProvider", server=self._server
+        )
         if self._stream_provider:
-            mesh_provider.inputs.connect(self._stream_provider.outputs)
+            mesh_provider.inputs.streams_container.connect(
+                self._stream_provider.outputs.streams_container
+            )
         else:
-            mesh_provider.inputs.connect(self.data_sources)
+            mesh_provider.inputs.data_sources.connect(self.data_sources)
         return mesh_provider
 
     @property
@@ -577,11 +586,15 @@ class Metadata:
         Underlying operator symbol is
         "meshes_provider" operator
         """
-        meshes_provider = Operator("meshes_provider", server=self._server)
+        meshes_provider: dpf.core.operators.mesh.meshes_provider = Operator(
+            name="meshes_provider", server=self._server
+        )
         if self._stream_provider:
-            meshes_provider.inputs.connect(self._stream_provider.outputs)
+            meshes_provider.inputs.streams_container.connect(
+                self._stream_provider.outputs.streams_container
+            )
         else:
-            meshes_provider.inputs.connect(self.data_sources)
+            meshes_provider.inputs.data_sources.connect(self.data_sources)
         return meshes_provider
 
     @property
