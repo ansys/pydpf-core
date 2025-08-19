@@ -41,9 +41,6 @@ from ansys.dpf.core.server_factory import CommunicationProtocols, ServerConfig
 import ansys.dpf.core.server_types
 from ansys.dpf.gate.load_api import _try_use_gatebin
 
-# Enable all warnings
-warnings.simplefilter("always")
-
 ACCEPTABLE_FAILURE_RATE = 0
 
 core.settings.disable_off_screen_rendering()
