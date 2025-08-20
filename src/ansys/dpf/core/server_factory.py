@@ -30,13 +30,13 @@ protocols and server configurations available.
 import io
 import logging
 import os
-import subprocess
+
+# Calls to subprocess are properly managed with lists of arguments
+import subprocess  # nosec B404
 import time
-from typing import TYPE_CHECKING
 
 from ansys.dpf.gate.load_api import (
     _find_outdated_ansys_version,
-    _get_path_in_install,
 )
 
 
