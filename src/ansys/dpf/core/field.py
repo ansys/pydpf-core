@@ -941,16 +941,16 @@ class Field(_FieldBase):
         f.field_definition = self.field_definition.deep_copy(server)
         try:
             f._data_pointer = self._data_pointer
-        except:
-            pass
+        except Exception as e:
+            raise e
         try:
             f.meshed_region = self.meshed_region.deep_copy(server=server)
-        except:
-            pass
+        except Exception as e:
+            raise e
         try:
             f.time_freq_support = self.time_freq_support.deep_copy(server=server)
-        except:
-            pass
+        except Exception as e:
+            raise e
 
         return f
 

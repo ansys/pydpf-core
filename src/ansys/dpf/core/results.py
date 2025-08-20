@@ -550,8 +550,8 @@ class Result:
         if previous_mesh_scoping:
             try:
                 self._mesh_scoping.inputs.mesh_scoping(previous_mesh_scoping)
-            except:
-                pass
+            except Exception as e:
+                raise e
         return self
 
     def on_mesh_scoping(self, mesh_scoping):

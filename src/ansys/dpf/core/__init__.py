@@ -21,8 +21,8 @@ try:
     LOCAL_DOWNLOADED_EXAMPLES_PATH = os.path.join(USER_DATA_PATH, "examples")
     if not os.path.exists(LOCAL_DOWNLOADED_EXAMPLES_PATH):  # pragma: no cover
         os.makedirs(LOCAL_DOWNLOADED_EXAMPLES_PATH)
-except:  # pragma: no cover
-    pass
+except Exception as e:  # pragma: no cover
+    raise e
 
 installed = [d.metadata["Name"] for d in importlib_metadata.distributions()]
 check_for = ["ansys-dpf-gatebin", "ansys-dpf-gate", "ansys-grpc-dpf"]
