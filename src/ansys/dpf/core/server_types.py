@@ -152,8 +152,10 @@ def _run_launch_server_process(
     old_dir = Path.cwd()
     os.chdir(dpf_run_dir)
     if not bShell:
+        # Ignoring B603 as the input is properly formatted as a list of arguments
         process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)  # nosec B603
     else:
+        # Ignoring B602 as the input is properly formatted as a list of arguments
         process = subprocess.Popen(
             run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
         )  # nosec B602
