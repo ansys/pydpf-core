@@ -257,7 +257,8 @@ def build_operators():
                     category,
                     specification_description,
                 )
-                exec(operator_str, globals())
+                # Ignoring B102 as executed code comes from internal definitions
+                exec(operator_str, globals())  # nosec B102
                 f.write(operator_str)
                 succeeded += 1
             except SyntaxError as e:
