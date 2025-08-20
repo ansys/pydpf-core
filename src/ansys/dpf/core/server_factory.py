@@ -92,7 +92,8 @@ class DockerConfig:
         from ansys.dpf.core import LOCAL_DOWNLOADED_EXAMPLES_PATH
 
         if mounted_volumes is None:
-            mounted_volumes = {LOCAL_DOWNLOADED_EXAMPLES_PATH: "/tmp/downloaded_examples"}
+            # Ignoring B108 in this case due to no nefarious consequences
+            mounted_volumes = {LOCAL_DOWNLOADED_EXAMPLES_PATH: "/tmp/downloaded_examples"}  # nosec B108
 
         self._use_docker = use_docker
         self._docker_name = docker_name
@@ -244,9 +245,10 @@ class DockerConfig:
         b_shell = False
         if os.name == "posix":
             b_shell = True
+        # Ignoring B602 as the command is hard-coded
         with subprocess.Popen(
             run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=b_shell
-        ) as process:
+        ) as process:  # nosec B602
             used_ports = []
             with io.TextIOWrapper(process.stdout, encoding="utf-8") as log_out:
                 for line in log_out:
@@ -583,25 +585,27 @@ class RunningDockerConfig:
         """Stop and Removes the Docker image with its id==server_id."""
         if not self.use_docker or not self.server_id:
             return
-        stop_cmd = f"docker stop {self.server_id}"
+        stop_cmd = ["docker", "stop", f"{int(self.server_id)}"]
         b_shell = False
         if os.name == "posix":
             b_shell = True
+        # Ignoring B602 and B603 as the input is correctly sanitized
         with subprocess.Popen(
             stop_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=b_shell
-        ) as process:
-            rm_cmd = f"docker rm {self.server_id}"
+        ) as process:  # nosec B602, B603
+            rm_cmd = ["docker", "rm", f"{int(self.server_id)}"]
             with io.TextIOWrapper(process.stdout, encoding="utf-8") as log_out:
                 for _ in log_out:
                     pass
             try:
+                # Ignoring B602 and B603 as the input is correctly sanitized
                 subprocess.run(
                     rm_cmd,
                     stdout=subprocess.PIPE,
                     stderr=subprocess.STDOUT,
                     shell=b_shell,
                     check=True,
-                )
+                )  # nosec B602, B603
             except subprocess.CalledProcessError as e:
                 if "No such container" in str(e.output):
                     pass
@@ -635,12 +639,13 @@ class RunningDockerConfig:
         self.server_id = cmd_lines[0].replace("\n", "")
         t_timeout = time.time() + timeout
         while time.time() < t_timeout:
+            # Ignoring B602 and B603 as the input is correctly sanitized
             with subprocess.Popen(
-                f"docker logs {self.server_id}",
+                args=["docker", "logs", f"{int(self.server_id)}"],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 shell=(os.name == "posix"),
-            ) as docker_process:
+            ) as docker_process:  # nosec B602, B603
                 self._use_docker = True
                 if stdout:
                     with io.TextIOWrapper(docker_process.stdout, encoding="utf-8") as log_out:
