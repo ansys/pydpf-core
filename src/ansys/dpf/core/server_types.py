@@ -134,26 +134,18 @@ def _run_launch_server_process(
     else:
         if os.name == "nt":
             executable = "Ans.Dpf.Grpc.bat"
-            run_cmd = f"{executable} --address {ip} --port {port}"
-            if context not in (
-                None,
-                AvailableServerContexts.entry,
-                AvailableServerContexts.premium,
-            ):
-                run_cmd += f" --context {int(context.licensing_context_type)}"
         else:
-            executable = "./Ans.Dpf.Grpc.sh"  # pragma: no cover
-            run_cmd = [
-                executable,
-                f"--address {ip}",
-                f"--port {port}",
-            ]  # pragma: no cover
-            if context not in (
-                None,
-                AvailableServerContexts.entry,
-                AvailableServerContexts.premium,
-            ):
-                run_cmd.append(f"--context {int(context.licensing_context_type)}")
+            executable = "./Ans.Dpf.Grpc.sh"
+
+        run_cmd = [executable, "--address", f"{ip}", "--port", f"{int(port)}"]
+
+        if context not in (
+            None,
+            AvailableServerContexts.entry,
+            AvailableServerContexts.premium,
+        ):
+            run_cmd.extend(["--context", f"{int(context.licensing_context_type)}"])
+
         path_in_install = load_api._get_path_in_install(internal_folder="bin")
         dpf_run_dir = _verify_ansys_path_is_valid(ansys_path, executable, path_in_install)
 
@@ -161,7 +153,7 @@ def _run_launch_server_process(
     os.chdir(dpf_run_dir)
     if not bShell:
         process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)  # nosec B603
-    else:  # To launch a server on Docker from Linux
+    else:
         process = subprocess.Popen(
             run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
         )  # nosec B602
