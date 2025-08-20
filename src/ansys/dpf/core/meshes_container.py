@@ -134,7 +134,8 @@ class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
                 if mesh.nodes.n_nodes == 0:
                     continue
                 if random_color:
-                    kwargs["color"] = [random(), random(), random()]
+                    # Ignoring B311 for use of random() as this is for color generation
+                    kwargs["color"] = [random(), random(), random()]  # nosec B311
                 pl.add_mesh(
                     mesh,
                     deform_by=deform_by,
