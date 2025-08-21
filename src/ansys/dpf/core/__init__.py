@@ -15,6 +15,10 @@ try:
 
     spec = pkgutil.get_loader(__name__)
     USER_DATA_PATH = os.path.dirname(spec.get_filename(__name__))
+    # Handle the case of ansys-dpf-core loaded in dpf-site.zip for Python custom operators
+    if "dpf-site.zip" in USER_DATA_PATH:
+        from tempfile import mkdtemp
+        USER_DATA_PATH = mkdtemp(prefix="PyDPF-Core_")
     if not os.path.exists(USER_DATA_PATH):  # pragma: no cover
         os.makedirs(USER_DATA_PATH)
 
