@@ -951,11 +951,21 @@ class Field(_FieldBase):
                 pass
             else:
                 raise e
+        except RuntimeError as e:
+            if "The field's support is not a mesh." in str(e):
+                pass
+            else:
+                raise e
         try:
             if self.time_freq_support:
                 f.time_freq_support = self.time_freq_support.deep_copy(server=server)
         except DPFServerException as e:
             if "the field doesn't have this support type" in str(e):
+                pass
+            else:
+                raise e
+        except RuntimeError as e:
+            if "The field's support is not a timefreqsupport." in str(e):
                 pass
             else:
                 raise e
