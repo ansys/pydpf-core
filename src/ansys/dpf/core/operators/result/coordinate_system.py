@@ -68,7 +68,7 @@ class coordinate_system(Operator):
         try:
             super().__init__(name="CS", config=config, server=server)
         except (KeyError, errors.DPFServerException) as e:
-            if "doesn't exist in the registry" in str(e):
+            if "doesn't exist" in str(e):
                 super().__init__(name="mapdl::rst::CS", config=config, server=server)
             else:
                 raise e
