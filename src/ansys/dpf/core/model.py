@@ -31,7 +31,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:  # pragma: nocover
-    from ansys.dpf.core.operators.mesh.mesh_provider import mesh_provider
+    from ansys.dpf.core.operators.mesh.mesh_provider import mesh_provider as mesh_provider_op
     from ansys.dpf.core.scoping import Scoping
     from ansys.dpf.core.server_types import AnyServerType
 
@@ -496,7 +496,7 @@ class Metadata:
         return self._meshed_region
 
     @property
-    def mesh_provider(self) -> mesh_provider:
+    def mesh_provider(self) -> mesh_provider_op:
         """Mesh provider operator.
 
         This operator reads a mesh from the result file. The underlying
