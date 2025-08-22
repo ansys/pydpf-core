@@ -133,7 +133,7 @@ class nmisc(Operator):
         try:
             super().__init__(name="NMISC", config=config, server=server)
         except (KeyError, errors.DPFServerException) as e:
-            if "doesn't exist in the registry" in str(e):
+            if "doesn't exist" in str(e):
                 super().__init__(name="mapdl::nmisc", config=config, server=server)
             else:
                 raise e

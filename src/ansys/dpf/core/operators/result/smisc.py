@@ -135,7 +135,7 @@ class smisc(Operator):
         try:
             super().__init__(name="SMISC", config=config, server=server)
         except (KeyError, errors.DPFServerException) as e:
-            if "doesn't exist in the registry" in str(e):
+            if "doesn't exist" in str(e):
                 super().__init__(name="mapdl::smisc", config=config, server=server)
             else:
                 raise e
