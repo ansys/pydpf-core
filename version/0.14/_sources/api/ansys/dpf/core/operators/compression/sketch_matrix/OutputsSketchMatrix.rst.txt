@@ -1,0 +1,114 @@
+
+
+
+
+
+
+:class:`OutputsSketchMatrix`
+============================
+
+.. py:class:: ansys.dpf.core.operators.compression.sketch_matrix.OutputsSketchMatrix(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   sketch_matrix operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.sketch_matrix()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_dataOut = op.outputs.dataOut()
+   >>> result_sketch_matrix = op.outputs.sketch_matrix()
+   >>> result_shell_field = op.outputs.shell_field()
+
+
+
+.. py:currentmodule:: OutputsSketchMatrix
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~dataOut`
+            - Allows to get dataOut output of the operator
+          * - :py:attr:`~sketch_matrix`
+            - Allows to get sketch_matrix output of the operator
+          * - :py:attr:`~shell_field`
+            - Allows to get shell_field output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.compression.sketch_matrix import OutputsSketchMatrix
+
+Property detail
+---------------
+
+.. py:property:: dataOut
+
+   Allows to get dataOut output of the operator
+
+   :returns: **my_dataOut**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.sketch_matrix()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_dataOut = op.outputs.dataOut()
+
+.. py:property:: sketch_matrix
+
+   Allows to get sketch_matrix output of the operator
+
+   :returns: **my_sketch_matrix**
+   :rtype: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.sketch_matrix()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_sketch_matrix = op.outputs.sketch_matrix()
+
+.. py:property:: shell_field
+
+   Allows to get shell_field output of the operator
+
+   :returns: **my_shell_field**
+   :rtype: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.sketch_matrix()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_shell_field = op.outputs.shell_field()
+
+
+
+
+
+

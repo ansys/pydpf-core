@@ -1,0 +1,139 @@
+
+
+
+
+
+
+:class:`Node`
+=============
+
+.. py:class:: ansys.dpf.core.nodes.Node(mesh, nodeid, index, coordinates)
+
+   Encapsulates all properties of a node in the mesh.
+
+   A node is created from the :class:`ansys.dpf.core.elements` or
+   :class:`ansys.dpf.core.meshed_region` class.
+
+   :param mesh: Mesh region that the node is contained in.
+   :type mesh: :class:`ansys.dpf.core.meshed_region` class
+   :param nodeid: ID of the node.
+   :type nodeid: int
+   :param index: Index of the node.
+   :type index: int
+   :param coordinates: List of ``[x, y, z]`` coordinates for the node.
+   :type coordinates: list
+
+   .. rubric:: Examples
+
+   >>> import ansys.dpf.core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.find_static_rst())
+   >>> nodes = model.metadata.meshed_region.nodes
+
+   >>> # Initialize a node from a nodes collection
+   >>> node = nodes[0]
+
+   Initialize a node from an element.
+
+   >>> element = model.metadata.meshed_region.elements[0]
+   >>> node = element.nodes[0]
+
+
+
+
+.. py:currentmodule:: Node
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~index`
+            - Index of the node. The index starts at 0.
+          * - :py:attr:`~id`
+            - ID of the node.
+          * - :py:attr:`~coordinates`
+            - Cartesian coordinates of the node.
+          * - :py:attr:`~nodal_connectivity`
+            - Elements indices connected to the node.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - Return string representation of the node.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.nodes import Node
+
+Property detail
+---------------
+
+.. py:property:: index
+   :type: int
+
+
+   Index of the node. The index starts at 0.
+
+.. py:property:: id
+   :type: int
+
+
+   ID of the node.
+
+.. py:property:: coordinates
+
+   Cartesian coordinates of the node.
+
+   .. rubric:: Examples
+
+   >>> import ansys.dpf.core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.find_static_rst())
+   >>> node = model.metadata.meshed_region.nodes[0]
+   >>> node.coordinates
+   [0.015, 0.045, 0.015]
+
+.. py:property:: nodal_connectivity
+
+   Elements indices connected to the node.
+
+   :returns: **nodal_connectivity**
+   :rtype: numpy.array
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+   Return string representation of the node.
+
+
+
+
+

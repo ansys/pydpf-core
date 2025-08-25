@@ -1,0 +1,103 @@
+ansys.dpf.core.operators.math.scale_fc
+======================================
+
+.. py:class:: ansys.dpf.core.operators.math.scale_fc(fields_container=None, weights=None, boolean=None, algorithm=None, config=None, server=None, ponderation=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Scales a fields container by a constant factor. This factor can be a
+   scalar, a vector a field, a fields container, where each value of the
+   vector represents a scaler per component. Number of the components are
+   corresponding to the input field dimensionality
+
+
+   :param fields_container: fields container to be scaled
+   :type fields_container: FieldsContainer
+   :param weights: Double/Vector of doubles/Field/FieldsContainer. When scoped on overall, same value(s) applied on all the data, when scoped elsewhere, corresponding values will be multiplied due to the scoping
+   :type weights: float or Field or FieldsContainer
+   :param boolean: Default is false. If set to true, output of scale is made dimensionless
+   :type boolean: bool, optional
+   :param algorithm: Default is 0 use mkl. If set to 1, don't
+   :type algorithm: int, optional
+
+   :returns: **fields_container**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.math.scale_fc()
+
+   >>> # Make input connections
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_weights = float()
+   >>> op.inputs.weights.connect(my_weights)
+   >>> my_boolean = bool()
+   >>> op.inputs.boolean.connect(my_boolean)
+   >>> my_algorithm = int()
+   >>> op.inputs.algorithm.connect(my_algorithm)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.math.scale_fc(
+   ...     fields_container=my_fields_container,
+   ...     weights=my_weights,
+   ...     boolean=my_boolean,
+   ...     algorithm=my_algorithm,
+   ... )
+
+   >>> # Get output data
+   >>> result_fields_container = op.outputs.fields_container()
+
+
+   .. py:attribute:: _inputs
+
+
+   .. py:attribute:: _outputs
+
+
+   .. py:method:: _spec() -> ansys.dpf.core.operators.specification.Specification
+      :staticmethod:
+
+
+
+   .. py:method:: default_config(server: ansys.dpf.core.server_types.AnyServerType = None) -> ansys.dpf.core.config.Config
+      :staticmethod:
+
+
+      Returns the default config of the operator.
+
+      This config can then be changed to the user needs and be used to
+      instantiate the operator. The Configuration allows to customize
+      how the operation will be processed by the operator.
+
+      :param server: Server with channel connected to the remote or local instance. When
+                     ``None``, attempts to use the global server.
+
+      :returns: A new Config instance equivalent to the default config for this operator.
+      :rtype: config
+
+
+
+   .. py:property:: inputs
+      :type: InputsScaleFc
+
+
+      Enables to connect inputs to the operator
+
+      :returns: An instance of InputsScaleFc.
+      :rtype: inputs
+
+
+   .. py:property:: outputs
+      :type: OutputsScaleFc
+
+
+      Enables to get outputs of the operator by evaluating it
+
+      :returns: An instance of OutputsScaleFc.
+      :rtype: outputs
+

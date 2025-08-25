@@ -1,0 +1,84 @@
+ansys.dpf.core.operators.utility.html_doc
+=========================================
+
+.. py:class:: ansys.dpf.core.operators.utility.html_doc(output_path=None, exposure_level=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Create dpf’s html documentation. Only on Windows.
+
+
+   :param output_path: default is {working directory}/dataProcessingDoc.html
+   :type output_path: str, optional
+   :param exposure_level: Generate the documentation depending on exposure level : 0 (default) for public operators, 1 includes hidden operator, 2 includes private operator, 3 includes operator without specifications.
+   :type exposure_level: int, optional
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.utility.html_doc()
+
+   >>> # Make input connections
+   >>> my_output_path = str()
+   >>> op.inputs.output_path.connect(my_output_path)
+   >>> my_exposure_level = int()
+   >>> op.inputs.exposure_level.connect(my_exposure_level)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.utility.html_doc(
+   ...     output_path=my_output_path,
+   ...     exposure_level=my_exposure_level,
+   ... )
+
+
+   .. py:attribute:: _inputs
+
+
+   .. py:attribute:: _outputs
+
+
+   .. py:method:: _spec() -> ansys.dpf.core.operators.specification.Specification
+      :staticmethod:
+
+
+
+   .. py:method:: default_config(server: ansys.dpf.core.server_types.AnyServerType = None) -> ansys.dpf.core.config.Config
+      :staticmethod:
+
+
+      Returns the default config of the operator.
+
+      This config can then be changed to the user needs and be used to
+      instantiate the operator. The Configuration allows to customize
+      how the operation will be processed by the operator.
+
+      :param server: Server with channel connected to the remote or local instance. When
+                     ``None``, attempts to use the global server.
+
+      :returns: A new Config instance equivalent to the default config for this operator.
+      :rtype: config
+
+
+
+   .. py:property:: inputs
+      :type: InputsHtmlDoc
+
+
+      Enables to connect inputs to the operator
+
+      :returns: An instance of InputsHtmlDoc.
+      :rtype: inputs
+
+
+   .. py:property:: outputs
+      :type: OutputsHtmlDoc
+
+
+      Enables to get outputs of the operator by evaluating it
+
+      :returns: An instance of OutputsHtmlDoc.
+      :rtype: outputs
+

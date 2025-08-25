@@ -1,0 +1,203 @@
+
+
+
+
+
+
+:class:`cyclic_equivalent_mass`
+===============================
+
+.. py:class:: ansys.dpf.core.operators.result.cyclic_equivalent_mass.cyclic_equivalent_mass(time_scoping=None, mesh_scoping=None, fields_container=None, streams_container=None, data_sources=None, bool_rotate_to_global=None, all_dofs=None, sector_mesh=None, requested_location=None, read_cyclic=None, expanded_meshed_region=None, cyclic_support=None, sectors_to_expand=None, phi=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Read equivalent mass from an rst file and expand it with cyclic
+   symmetry.
+
+   :param time_scoping:
+   :type time_scoping: Scoping, optional
+   :param mesh_scoping:
+   :type mesh_scoping: ScopingsContainer or Scoping, optional
+   :param fields_container: Fieldscontainer already allocated modified
+                            inplace
+   :type fields_container: FieldsContainer, optional
+   :param streams_container: Streams containing the result file.
+   :type streams_container: StreamsContainer or Stream, optional
+   :param data_sources: Data sources containing the result file.
+   :type data_sources: DataSources
+   :param bool_rotate_to_global: If true the field is rotated to global
+                                 coordinate system (default true)
+   :type bool_rotate_to_global: bool, optional
+   :param all_dofs: Default is false.
+   :type all_dofs: bool, optional
+   :param sector_mesh: Mesh of the base sector (can be a skin).
+   :type sector_mesh: MeshedRegion or MeshesContainer, optional
+   :param requested_location: Location needed in output
+   :type requested_location: str, optional
+   :param read_cyclic: If 0 cyclic symmetry is ignored, if 1 cyclic
+                       sector is read, if 2 cyclic expansion
+                       is done, if 3 cyclic expansion is
+                       done and stages are merged (default
+                       is 1)
+   :type read_cyclic: int, optional
+   :param expanded_meshed_region: Mesh expanded.
+   :type expanded_meshed_region: MeshedRegion or MeshesContainer, optional
+   :param cyclic_support:
+   :type cyclic_support: CyclicSupport, optional
+   :param sectors_to_expand: Sectors to expand (start at 0), for
+                             multistage: use scopings container
+                             with 'stage' label.
+   :type sectors_to_expand: Scoping or ScopingsContainer, optional
+   :param phi: Angle phi in degrees (default value 0.0)
+   :type phi: float, optional
+
+   :returns: * **fields_container** (*FieldsContainer*) -- Fieldscontainer filled in
+             * **expanded_meshes** (*MeshesContainer*)
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.result.cyclic_equivalent_mass()
+
+   >>> # Make input connections
+   >>> my_time_scoping = dpf.Scoping()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> my_mesh_scoping = dpf.ScopingsContainer()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_streams_container = dpf.StreamsContainer()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_bool_rotate_to_global = bool()
+   >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+   >>> my_all_dofs = bool()
+   >>> op.inputs.all_dofs.connect(my_all_dofs)
+   >>> my_sector_mesh = dpf.MeshedRegion()
+   >>> op.inputs.sector_mesh.connect(my_sector_mesh)
+   >>> my_requested_location = str()
+   >>> op.inputs.requested_location.connect(my_requested_location)
+   >>> my_read_cyclic = int()
+   >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+   >>> my_expanded_meshed_region = dpf.MeshedRegion()
+   >>> op.inputs.expanded_meshed_region.connect(my_expanded_meshed_region)
+   >>> my_cyclic_support = dpf.CyclicSupport()
+   >>> op.inputs.cyclic_support.connect(my_cyclic_support)
+   >>> my_sectors_to_expand = dpf.Scoping()
+   >>> op.inputs.sectors_to_expand.connect(my_sectors_to_expand)
+   >>> my_phi = float()
+   >>> op.inputs.phi.connect(my_phi)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.result.cyclic_equivalent_mass(
+   ...     time_scoping=my_time_scoping,
+   ...     mesh_scoping=my_mesh_scoping,
+   ...     fields_container=my_fields_container,
+   ...     streams_container=my_streams_container,
+   ...     data_sources=my_data_sources,
+   ...     bool_rotate_to_global=my_bool_rotate_to_global,
+   ...     all_dofs=my_all_dofs,
+   ...     sector_mesh=my_sector_mesh,
+   ...     requested_location=my_requested_location,
+   ...     read_cyclic=my_read_cyclic,
+   ...     expanded_meshed_region=my_expanded_meshed_region,
+   ...     cyclic_support=my_cyclic_support,
+   ...     sectors_to_expand=my_sectors_to_expand,
+   ...     phi=my_phi,
+   ... )
+
+   >>> # Get output data
+   >>> result_fields_container = op.outputs.fields_container()
+   >>> result_expanded_meshes = op.outputs.expanded_meshes()
+
+
+
+
+.. py:currentmodule:: cyclic_equivalent_mass
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.cyclic_equivalent_mass import cyclic_equivalent_mass
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsCyclicEquivalentMass
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsCyclicEquivalentMass
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

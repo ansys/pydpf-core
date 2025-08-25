@@ -1,0 +1,90 @@
+ansys.dpf.core.operators.utility.forward_meshes_container
+=========================================================
+
+.. py:class:: ansys.dpf.core.operators.utility.forward_meshes_container(meshes=None, default_label=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Returns the input mesh or meshes container into a meshes container.
+
+
+   :param meshes:
+   :type meshes: MeshesContainer or MeshedRegion
+   :param default_label: this default label is used if a new meshes container needs to be created (default is unknown)
+   :type default_label: str, optional
+
+   :returns: **meshes_container**
+   :rtype: MeshesContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.utility.forward_meshes_container()
+
+   >>> # Make input connections
+   >>> my_meshes = dpf.MeshesContainer()
+   >>> op.inputs.meshes.connect(my_meshes)
+   >>> my_default_label = str()
+   >>> op.inputs.default_label.connect(my_default_label)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.utility.forward_meshes_container(
+   ...     meshes=my_meshes,
+   ...     default_label=my_default_label,
+   ... )
+
+   >>> # Get output data
+   >>> result_meshes_container = op.outputs.meshes_container()
+
+
+   .. py:attribute:: _inputs
+
+
+   .. py:attribute:: _outputs
+
+
+   .. py:method:: _spec() -> ansys.dpf.core.operators.specification.Specification
+      :staticmethod:
+
+
+
+   .. py:method:: default_config(server: ansys.dpf.core.server_types.AnyServerType = None) -> ansys.dpf.core.config.Config
+      :staticmethod:
+
+
+      Returns the default config of the operator.
+
+      This config can then be changed to the user needs and be used to
+      instantiate the operator. The Configuration allows to customize
+      how the operation will be processed by the operator.
+
+      :param server: Server with channel connected to the remote or local instance. When
+                     ``None``, attempts to use the global server.
+
+      :returns: A new Config instance equivalent to the default config for this operator.
+      :rtype: config
+
+
+
+   .. py:property:: inputs
+      :type: InputsForwardMeshesContainer
+
+
+      Enables to connect inputs to the operator
+
+      :returns: An instance of InputsForwardMeshesContainer.
+      :rtype: inputs
+
+
+   .. py:property:: outputs
+      :type: OutputsForwardMeshesContainer
+
+
+      Enables to get outputs of the operator by evaluating it
+
+      :returns: An instance of OutputsForwardMeshesContainer.
+      :rtype: outputs
+

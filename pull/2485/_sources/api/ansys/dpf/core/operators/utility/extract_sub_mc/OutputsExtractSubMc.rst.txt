@@ -1,0 +1,106 @@
+
+
+
+
+
+
+:class:`OutputsExtractSubMc`
+============================
+
+
+.. py:class:: ansys.dpf.core.operators.utility.extract_sub_mc.OutputsExtractSubMc(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   extract_sub_mc operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.extract_sub_mc()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_meshes_container = op.outputs.meshes_container()
+
+
+
+
+
+.. py:currentmodule:: OutputsExtractSubMc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~meshes_container`
+            - Allows to get meshes_container output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.extract_sub_mc import OutputsExtractSubMc
+
+Property detail
+---------------
+
+.. py:property:: meshes_container
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get meshes_container output of the operator
+
+   meshes
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.extract_sub_mc()
+   >>> # Get the output from op.outputs. ...
+   >>> result_meshes_container = op.outputs.meshes_container()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+
