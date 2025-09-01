@@ -16,8 +16,8 @@ from ansys.dpf.core.server_types import AnyServerType
 
 
 class solid_to_skin_fc(Operator):
-    r"""Maps a field defined on solid elements to a field defined on skin
-    elements. Three cases are possible, based on the solid field data
+    r"""Maps a fields container defined on solid elements to a field defined on
+    skin elements. Three cases are possible, based on the solid field data
     location; (i) Elemental: The values associated with the solid elements
     are copied according to those underlying the skin, (ii) Nodal: The solid
     field is rescoped with respect to the nodes of the skin mesh, (iii)
@@ -28,7 +28,6 @@ class solid_to_skin_fc(Operator):
     Parameters
     ----------
     fields_container: FieldsContainer
-        field or fields container with only one field is expected
     mesh: MeshedRegion
         skin mesh region expected
     solid_mesh: MeshedRegion, optional
@@ -84,8 +83,8 @@ class solid_to_skin_fc(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Maps a field defined on solid elements to a field defined on skin
-elements. Three cases are possible, based on the solid field data
+        description = r"""Maps a fields container defined on solid elements to a field defined on
+skin elements. Three cases are possible, based on the solid field data
 location; (i) Elemental: The values associated with the solid elements
 are copied according to those underlying the skin, (ii) Nodal: The solid
 field is rescoped with respect to the nodes of the skin mesh, (iii)
@@ -99,7 +98,7 @@ mesh for each element face and the nodes associated with it.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""field or fields container with only one field is expected""",
+                    document=r"""""",
                 ),
                 1: PinSpecification(
                     name="mesh",
@@ -197,8 +196,6 @@ class InputsSolidToSkinFc(_Inputs):
     @property
     def fields_container(self) -> Input:
         r"""Allows to connect fields_container input to the operator.
-
-        field or fields container with only one field is expected
 
         Returns
         -------
