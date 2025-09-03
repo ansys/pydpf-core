@@ -42,8 +42,6 @@ class gasket_total_closure_X(Operator):
         requested location, default is Nodal
     read_cyclic: int, optional
         if 0 cyclic symmetry is ignored, if 1 cyclic sector is read, if 2 cyclic expansion is done, if 3 cyclic expansion is done and stages are merged (default is 1)
-    read_beams: bool, optional
-        elemental nodal beam results are read if this pin is set to true (default is false)
 
     Returns
     -------
@@ -75,8 +73,6 @@ class gasket_total_closure_X(Operator):
     >>> op.inputs.requested_location.connect(my_requested_location)
     >>> my_read_cyclic = int()
     >>> op.inputs.read_cyclic.connect(my_read_cyclic)
-    >>> my_read_beams = bool()
-    >>> op.inputs.read_beams.connect(my_read_beams)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.gasket_total_closure_X(
@@ -89,7 +85,6 @@ class gasket_total_closure_X(Operator):
     ...     mesh=my_mesh,
     ...     requested_location=my_requested_location,
     ...     read_cyclic=my_read_cyclic,
-    ...     read_beams=my_read_beams,
     ... )
 
     >>> # Get output data
@@ -107,7 +102,6 @@ class gasket_total_closure_X(Operator):
         mesh=None,
         requested_location=None,
         read_cyclic=None,
-        read_beams=None,
         config=None,
         server=None,
     ):
@@ -132,8 +126,6 @@ class gasket_total_closure_X(Operator):
             self.inputs.requested_location.connect(requested_location)
         if read_cyclic is not None:
             self.inputs.read_cyclic.connect(read_cyclic)
-        if read_beams is not None:
-            self.inputs.read_beams.connect(read_beams)
 
     @staticmethod
     def _spec() -> Specification:
@@ -205,12 +197,6 @@ can be Nodal/ElementalNodal/Elemental.
                     type_names=["enum dataProcessing::ECyclicReading", "int32"],
                     optional=True,
                     document=r"""if 0 cyclic symmetry is ignored, if 1 cyclic sector is read, if 2 cyclic expansion is done, if 3 cyclic expansion is done and stages are merged (default is 1)""",
-                ),
-                22: PinSpecification(
-                    name="read_beams",
-                    type_names=["bool"],
-                    optional=True,
-                    document=r"""elemental nodal beam results are read if this pin is set to true (default is false)""",
                 ),
             },
             map_output_pin_spec={
@@ -294,8 +280,6 @@ class InputsGasketTotalClosureX(_Inputs):
     >>> op.inputs.requested_location.connect(my_requested_location)
     >>> my_read_cyclic = int()
     >>> op.inputs.read_cyclic.connect(my_read_cyclic)
-    >>> my_read_beams = bool()
-    >>> op.inputs.read_beams.connect(my_read_beams)
     """
 
     def __init__(self, op: Operator):
@@ -334,10 +318,6 @@ class InputsGasketTotalClosureX(_Inputs):
             gasket_total_closure_X._spec().input_pin(14), 14, op, -1
         )
         self._inputs.append(self._read_cyclic)
-        self._read_beams = Input(
-            gasket_total_closure_X._spec().input_pin(22), 22, op, -1
-        )
-        self._inputs.append(self._read_beams)
 
     @property
     def time_scoping(self) -> Input:
@@ -527,27 +507,6 @@ class InputsGasketTotalClosureX(_Inputs):
         >>> op.inputs.read_cyclic(my_read_cyclic)
         """
         return self._read_cyclic
-
-    @property
-    def read_beams(self) -> Input:
-        r"""Allows to connect read_beams input to the operator.
-
-        elemental nodal beam results are read if this pin is set to true (default is false)
-
-        Returns
-        -------
-        input:
-            An Input instance for this pin.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.result.gasket_total_closure_X()
-        >>> op.inputs.read_beams.connect(my_read_beams)
-        >>> # or
-        >>> op.inputs.read_beams(my_read_beams)
-        """
-        return self._read_beams
 
 
 class OutputsGasketTotalClosureX(_Outputs):
