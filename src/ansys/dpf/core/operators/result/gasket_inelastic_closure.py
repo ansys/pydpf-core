@@ -150,8 +150,6 @@ class gasket_inelastic_closure(Operator):
         prevents from reading the mesh in the result files
     requested_location: str, optional
         requested location Nodal, Elemental or ElementalNodal
-    read_beams: bool, optional
-        elemental nodal beam results are read if this pin is set to true (default is false)
     split_shells: bool, optional
         If true, this pin forces the results to be split by element shape, indicated by the presence of the 'elshape' label in the output. If false, the results for all elements shapes are combined. Default value is false if averaging is not required and true if averaging is required.
     shell_layer: int, optional
@@ -185,8 +183,6 @@ class gasket_inelastic_closure(Operator):
     >>> op.inputs.mesh.connect(my_mesh)
     >>> my_requested_location = str()
     >>> op.inputs.requested_location.connect(my_requested_location)
-    >>> my_read_beams = bool()
-    >>> op.inputs.read_beams.connect(my_read_beams)
     >>> my_split_shells = bool()
     >>> op.inputs.split_shells.connect(my_split_shells)
     >>> my_shell_layer = int()
@@ -202,7 +198,6 @@ class gasket_inelastic_closure(Operator):
     ...     bool_rotate_to_global=my_bool_rotate_to_global,
     ...     mesh=my_mesh,
     ...     requested_location=my_requested_location,
-    ...     read_beams=my_read_beams,
     ...     split_shells=my_split_shells,
     ...     shell_layer=my_shell_layer,
     ... )
@@ -221,7 +216,6 @@ class gasket_inelastic_closure(Operator):
         bool_rotate_to_global=None,
         mesh=None,
         requested_location=None,
-        read_beams=None,
         split_shells=None,
         shell_layer=None,
         config=None,
@@ -246,8 +240,6 @@ class gasket_inelastic_closure(Operator):
             self.inputs.mesh.connect(mesh)
         if requested_location is not None:
             self.inputs.requested_location.connect(requested_location)
-        if read_beams is not None:
-            self.inputs.read_beams.connect(read_beams)
         if split_shells is not None:
             self.inputs.split_shells.connect(split_shells)
         if shell_layer is not None:
@@ -428,12 +420,6 @@ elshape Related elements
                     optional=True,
                     document=r"""requested location Nodal, Elemental or ElementalNodal""",
                 ),
-                22: PinSpecification(
-                    name="read_beams",
-                    type_names=["bool"],
-                    optional=True,
-                    document=r"""elemental nodal beam results are read if this pin is set to true (default is false)""",
-                ),
                 26: PinSpecification(
                     name="split_shells",
                     type_names=["bool"],
@@ -526,8 +512,6 @@ class InputsGasketInelasticClosure(_Inputs):
     >>> op.inputs.mesh.connect(my_mesh)
     >>> my_requested_location = str()
     >>> op.inputs.requested_location.connect(my_requested_location)
-    >>> my_read_beams = bool()
-    >>> op.inputs.read_beams.connect(my_read_beams)
     >>> my_split_shells = bool()
     >>> op.inputs.split_shells.connect(my_split_shells)
     >>> my_shell_layer = int()
@@ -566,10 +550,6 @@ class InputsGasketInelasticClosure(_Inputs):
             gasket_inelastic_closure._spec().input_pin(9), 9, op, -1
         )
         self._inputs.append(self._requested_location)
-        self._read_beams = Input(
-            gasket_inelastic_closure._spec().input_pin(22), 22, op, -1
-        )
-        self._inputs.append(self._read_beams)
         self._split_shells = Input(
             gasket_inelastic_closure._spec().input_pin(26), 26, op, -1
         )
@@ -746,27 +726,6 @@ class InputsGasketInelasticClosure(_Inputs):
         >>> op.inputs.requested_location(my_requested_location)
         """
         return self._requested_location
-
-    @property
-    def read_beams(self) -> Input:
-        r"""Allows to connect read_beams input to the operator.
-
-        elemental nodal beam results are read if this pin is set to true (default is false)
-
-        Returns
-        -------
-        input:
-            An Input instance for this pin.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.result.gasket_inelastic_closure()
-        >>> op.inputs.read_beams.connect(my_read_beams)
-        >>> # or
-        >>> op.inputs.read_beams(my_read_beams)
-        """
-        return self._read_beams
 
     @property
     def split_shells(self) -> Input:
