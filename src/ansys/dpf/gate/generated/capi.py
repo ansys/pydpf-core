@@ -5078,4 +5078,35 @@ def load_api(path):
 		dll.Workflow_create_connection_map_for_object.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Workflow_create_connection_map_for_object.restype = ctypes.c_void_p
 
+	#-------------------------------------------------------------------------------
+	# FbsRef
+	#-------------------------------------------------------------------------------
+	if hasattr(dll, "FbsRef_new"):
+		dll.FbsRef_new.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.c_void_p, ctypes.c_size_t, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.FbsRef_new.restype = ctypes.c_void_p
+
+	if hasattr(dll, "FbsRef_getFromDB"):
+		dll.FbsRef_getFromDB.argtypes = (ctypes.c_size_t, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.FbsRef_getFromDB.restype = ctypes.c_void_p
+
+	if hasattr(dll, "FbsRef_getID"):
+		dll.FbsRef_getID.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.FbsRef_getID.restype = ctypes.c_size_t
+
+	if hasattr(dll, "Any_getAs_FbsRef"):
+		dll.Any_getAs_FbsRef.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.c_void_p, ctypes.POINTER(ctypes.c_size_t), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.Any_getAs_FbsRef.restype = None
+
+	if hasattr(dll, "FbsRef_StartOrGetThreadServer"):
+		dll.FbsRef_StartOrGetThreadServer.argtypes = (ctypes.c_bool, ctypes.POINTER(ctypes.c_char), ctypes.c_int32, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.FbsRef_StartOrGetThreadServer.restype = ctypes.c_void_p
+
+	if hasattr(dll, "FbsRef_new_on_client"):
+		dll.FbsRef_new_on_client.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.c_void_p, ctypes.c_size_t, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.FbsRef_new_on_client.restype = ctypes.c_void_p
+
+	if hasattr(dll, "FbsRef_StartOrGetThreadServer_on_client"):
+		dll.FbsRef_StartOrGetThreadServer_on_client.argtypes = (ctypes.c_void_p, ctypes.c_bool, ctypes.POINTER(ctypes.c_char), ctypes.c_int32, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.FbsRef_StartOrGetThreadServer_on_client.restype = ctypes.c_void_p
+
 
