@@ -1,0 +1,7 @@
+ansys.dpf.core.runtime_config._RuntimeConfig
+============================================
+
+.. py:class:: ansys.dpf.core.runtime_config._RuntimeConfig(data_tree, server=None)
+
+   Parent class for configuration options.
+

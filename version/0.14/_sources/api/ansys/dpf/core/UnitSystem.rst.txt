@@ -1,0 +1,32 @@
+ansys.dpf.core.UnitSystem
+=========================
+
+.. py:class:: ansys.dpf.core.UnitSystem(name, ID=None, unit_names=None)
+
+   Defines an internally coherent way of measuring units.
+
+   .. rubric:: Notes
+
+   Class available with server's version starting at 6.1 (Ansys 2023R2).
+
+
+   .. py:property:: ID
+      :type: int
+
+
+      Return ID of the unit system.
+
+
+   .. py:property:: name
+      :type: str
+
+
+      Return the name of the unit system.
+
+
+   .. py:property:: unit_names
+      :type: str
+
+
+      Return unit names making up the unit system.
+

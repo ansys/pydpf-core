@@ -1,0 +1,10 @@
+ansys.dpf.core.helpers.Streamlines
+==================================
+
+.. py:class:: ansys.dpf.core.helpers.Streamlines(data)
+
+   Bases: :py:obj:`_PvFieldsContainerBase`
+
+
+   Class to define the Streamlines object scripting with `ansys-dpf-core`.
+

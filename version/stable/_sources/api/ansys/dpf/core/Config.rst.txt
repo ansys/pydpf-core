@@ -1,0 +1,194 @@
+ansys.dpf.core.Config
+=====================
+
+.. py:class:: ansys.dpf.core.Config(operator_name=None, config=None, server=None, spec=None)
+
+   Represents an operator's configuration.
+
+   You can use configurations to choose how an operator will run.
+   This is an advanced feature for deep customization.
+   The different options can change the way loops are done.
+   They can also change whether the operator needs to perform checks on the input.
+
+   :param operator_name: Name of the operator. The default is ``None``.
+   :type operator_name: str, optional
+   :param config: Name of the configuration. The default is ``None``.
+   :type config: str, optional
+   :param server: Server with the channel connected to the remote or local instance. The default is
+                  ``None``, in which case an attempt is made to use the global server.
+   :type server: str, optional
+
+   .. rubric:: Examples
+
+   Create an operator configuration, instantiate the operator and
+   run it with the configuration.
+
+   >>> from ansys.dpf import core as dpf
+   >>> config_add = dpf.Config("add")
+   >>> config_add.set_work_by_index_option(True)
+   >>> op = dpf.operators.math.add(config=config_add)
+
+   Modify the copy of an operator's configuration and set it as current config
+   of the operator.
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.add()
+   >>> config_add = op.config
+   >>> config_add.set_work_by_index_option(True)
+   >>> op.config = config_add
+
+
+   .. py:attribute:: _server
+
+
+   .. py:attribute:: _api_instance
+      :value: None
+
+
+
+   .. py:attribute:: _operator_name
+      :value: None
+
+
+
+   .. py:attribute:: _spec_instance
+      :value: None
+
+
+
+   .. py:attribute:: _config_help_instance
+      :value: None
+
+
+
+   .. py:property:: _api
+      :type: ansys.dpf.gate.operator_config_abstract_api.OperatorConfigAbstractAPI
+
+
+
+   .. py:property:: _spec
+
+
+   .. py:property:: _config_help
+
+
+   .. py:property:: options
+
+      Retrieve a list of configuration options and their values.
+
+      :returns: List of configuration options and their values.
+      :rtype: list
+
+
+   .. py:method:: __set_config_option__(config_value, config_name)
+
+      Change the value of a configuration option.
+
+      :param config_value: Value to give to a configuration option.
+      :type config_value: bool, int, float
+      :param config_name: Name of the configuration option.
+      :type config_name: str
+
+
+
+   .. py:method:: set_config_option(config_name, config_value)
+
+      Change the value of a configuration option.
+
+      :param config_value: Value to give to a configuration option.
+      :type config_value: bool, int, float
+      :param config_name: Name of the configuration option.
+      :type config_name: str
+
+      .. rubric:: Examples
+
+      Modify the copy of an operator's configuration and set it as current config
+      of the operator.
+
+      >>> from ansys.dpf import core as dpf
+      >>> op = dpf.operators.math.add()
+      >>> config_add = op.config
+      >>> config_add.set_config_option(config_name="work_by_index", config_value=True)
+      >>> op.config = config_add
+
+
+
+   .. py:method:: config_option_value(config_name)
+
+      Retrieve the value for a configuration option.
+
+      :param config_name: Name of the configuration option.
+      :type config_name: str
+
+      :returns: Value for the configuration option.
+      :rtype: str
+
+
+
+   .. py:method:: __try_get_option__(config_name)
+
+      Return option associated with a given config name.
+
+      :param config_name: Name of the configuration.
+      :type config_name: _type_
+
+      :returns: Available configuration options supported by the Operator
+      :rtype: ConfigSpecification
+
+
+
+   .. py:method:: config_option_documentation(config_name)
+
+      Retrieve the documentation for a configuration option.
+
+      :param config_name: Name of the configuration option.
+      :type config_name: str
+
+      :returns: Documentation for the configuration option.
+      :rtype: str
+
+
+
+   .. py:method:: config_option_accepted_types(config_name)
+
+      Retrieve accepted types for a configuration option.
+
+      :param config_name: Name of the configuration option.
+      :type config_name: str
+
+      :returns: One or more accepted types for the configuration option.
+      :rtype: list, str
+
+
+
+   .. py:method:: config_option_default_value(config_name)
+
+      Retrieve the default value for a configuration option.
+
+      :returns: Default value for the configuration option.
+      :rtype: str
+
+
+
+   .. py:property:: available_config_options
+
+      Available configuration options for the operator.
+
+      :returns: One or more available configuration options for the operator.
+      :rtype: list, str
+
+
+   .. py:method:: __str__()
+
+      Describe the entity.
+
+      :returns: Description of the entity.
+      :rtype: str
+
+
+
+   .. py:method:: __del__()
+
+      Delete this instance of config.
+
+

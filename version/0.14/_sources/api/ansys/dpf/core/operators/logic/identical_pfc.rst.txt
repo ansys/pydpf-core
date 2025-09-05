@@ -1,0 +1,91 @@
+ansys.dpf.core.operators.logic.identical_pfc
+============================================
+
+.. py:class:: ansys.dpf.core.operators.logic.identical_pfc(property_fields_containerA=None, property_fields_containerB=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Checks if two property_fields_container are identical.
+
+
+   :param property_fields_containerA:
+   :type property_fields_containerA: PropertyFieldsContainer
+   :param property_fields_containerB:
+   :type property_fields_containerB: PropertyFieldsContainer
+
+   :returns: * **boolean** (*bool*) -- bool (true if identical...)
+             * **message** (*str*)
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.logic.identical_pfc()
+
+   >>> # Make input connections
+   >>> my_property_fields_containerA = dpf.PropertyFieldsContainer()
+   >>> op.inputs.property_fields_containerA.connect(my_property_fields_containerA)
+   >>> my_property_fields_containerB = dpf.PropertyFieldsContainer()
+   >>> op.inputs.property_fields_containerB.connect(my_property_fields_containerB)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.logic.identical_pfc(
+   ...     property_fields_containerA=my_property_fields_containerA,
+   ...     property_fields_containerB=my_property_fields_containerB,
+   ... )
+
+   >>> # Get output data
+   >>> result_boolean = op.outputs.boolean()
+   >>> result_message = op.outputs.message()
+
+
+   .. py:attribute:: _inputs
+
+
+   .. py:attribute:: _outputs
+
+
+   .. py:method:: _spec() -> ansys.dpf.core.operators.specification.Specification
+      :staticmethod:
+
+
+
+   .. py:method:: default_config(server: ansys.dpf.core.server_types.AnyServerType = None) -> ansys.dpf.core.config.Config
+      :staticmethod:
+
+
+      Returns the default config of the operator.
+
+      This config can then be changed to the user needs and be used to
+      instantiate the operator. The Configuration allows to customize
+      how the operation will be processed by the operator.
+
+      :param server: Server with channel connected to the remote or local instance. When
+                     ``None``, attempts to use the global server.
+
+      :returns: A new Config instance equivalent to the default config for this operator.
+      :rtype: config
+
+
+
+   .. py:property:: inputs
+      :type: InputsIdenticalPfc
+
+
+      Enables to connect inputs to the operator
+
+      :returns: An instance of InputsIdenticalPfc.
+      :rtype: inputs
+
+
+   .. py:property:: outputs
+      :type: OutputsIdenticalPfc
+
+
+      Enables to get outputs of the operator by evaluating it
+
+      :returns: An instance of OutputsIdenticalPfc.
+      :rtype: outputs
+

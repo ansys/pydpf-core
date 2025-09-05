@@ -1,0 +1,85 @@
+ansys.dpf.core.operators.mesh.node_coordinates
+==============================================
+
+.. py:class:: ansys.dpf.core.operators.mesh.node_coordinates(mesh=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Returns the node coordinates of the mesh(es) in input.
+
+
+   :param mesh:
+   :type mesh: MeshedRegion or MeshesContainer
+
+   :returns: **coordinates** -- if the input is a meshed region, a field of coordinates is the output, else if the input is a  meshes container, a fields container (one field by mesh) is the output
+   :rtype: Field or FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.mesh.node_coordinates()
+
+   >>> # Make input connections
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.mesh.node_coordinates(
+   ...     mesh=my_mesh,
+   ... )
+
+   >>> # Get output data
+   >>> result_coordinates = op.outputs.coordinates()
+
+
+   .. py:attribute:: _inputs
+
+
+   .. py:attribute:: _outputs
+
+
+   .. py:method:: _spec() -> ansys.dpf.core.operators.specification.Specification
+      :staticmethod:
+
+
+
+   .. py:method:: default_config(server: ansys.dpf.core.server_types.AnyServerType = None) -> ansys.dpf.core.config.Config
+      :staticmethod:
+
+
+      Returns the default config of the operator.
+
+      This config can then be changed to the user needs and be used to
+      instantiate the operator. The Configuration allows to customize
+      how the operation will be processed by the operator.
+
+      :param server: Server with channel connected to the remote or local instance. When
+                     ``None``, attempts to use the global server.
+
+      :returns: A new Config instance equivalent to the default config for this operator.
+      :rtype: config
+
+
+
+   .. py:property:: inputs
+      :type: InputsNodeCoordinates
+
+
+      Enables to connect inputs to the operator
+
+      :returns: An instance of InputsNodeCoordinates.
+      :rtype: inputs
+
+
+   .. py:property:: outputs
+      :type: OutputsNodeCoordinates
+
+
+      Enables to get outputs of the operator by evaluating it
+
+      :returns: An instance of OutputsNodeCoordinates.
+      :rtype: outputs
+

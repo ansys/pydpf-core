@@ -1,0 +1,20 @@
+ansys.dpf.core.property_field._LocalPropertyField
+=================================================
+
+.. py:class:: ansys.dpf.core.property_field._LocalPropertyField(field)
+
+   Bases: :py:obj:`ansys.dpf.core.field_base._LocalFieldBase`, :py:obj:`PropertyField`
+
+
+   Caches the internal data of a field so that it can be modified locally.
+
+   A single update request is sent to the server when the local field is deleted.
+
+   :param field: Property field to copy.
+   :type field: PropertyField
+
+
+   .. py:attribute:: _is_property_field
+      :value: True
+
+
