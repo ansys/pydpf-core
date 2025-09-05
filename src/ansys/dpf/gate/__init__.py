@@ -27,6 +27,8 @@ from .generated import external_operator_abstract_api
 from .generated import external_operator_capi
 from .generated import f_e_model_abstract_api
 from .generated import f_e_model_capi
+from .generated import fbs_ref_abstract_api
+from .generated import fbs_ref_capi
 from .generated import field_abstract_api
 from .generated import field_capi
 from .generated import field_definition_abstract_api
