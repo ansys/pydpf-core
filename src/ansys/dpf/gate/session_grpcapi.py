@@ -61,11 +61,11 @@ class SessionGRPCAPI(session_abstract_api.SessionAbstractAPI):
                 if len(chunk.state.state):
                     LOG.warning(chunk.state.state)
             except Exception as e:
-                pass
+                raise e
         try:
             bar.finish()
-        except:
-            pass
+        except Exception as e:
+            raise e
 
     @staticmethod
     def flush_workflows(session):
