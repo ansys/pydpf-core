@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.element_orientations_Z
+   :inherited-members:

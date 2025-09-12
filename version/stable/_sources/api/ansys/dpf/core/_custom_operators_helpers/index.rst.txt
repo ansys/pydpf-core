@@ -1,0 +1,40 @@
+ansys.dpf.core._custom_operators_helpers
+========================================
+
+.. py:module:: ansys.dpf.core._custom_operators_helpers
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   ansys.dpf.core._custom_operators_helpers.external_operator_api
+   ansys.dpf.core._custom_operators_helpers.functions_registry
+   ansys.dpf.core._custom_operators_helpers._type_to_output_method
+   ansys.dpf.core._custom_operators_helpers._type_to_input_method
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   ansys.dpf.core._custom_operators_helpers.__operator_main__
+
+
+Module Contents
+---------------
+
+.. py:data:: external_operator_api
+
+.. py:data:: functions_registry
+   :value: []
+
+
+.. py:function:: __operator_main__(operator_functor, data)
+
+.. py:data:: _type_to_output_method
+
+.. py:data:: _type_to_input_method
+

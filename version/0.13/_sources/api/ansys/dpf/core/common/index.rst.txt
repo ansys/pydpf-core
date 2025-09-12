@@ -1,0 +1,242 @@
+
+
+
+
+
+
+The ``common.py`` module
+========================
+
+.. py:module:: ansys.dpf.core.common
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.. py:currentmodule:: common
+.. tab-set::
+
+
+
+
+    .. tab-item:: Classes
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.common.elemental_properties`
+            - Contains strings to define elemental property fields.
+
+
+          * - :py:obj:`~ansys.dpf.core.common.nodal_properties`
+            - Contains strings to define nodal property fields.
+
+
+          * - :py:obj:`~ansys.dpf.core.common.face_properties`
+            - Contains strings to define face property fields.
+
+
+          * - :py:obj:`~ansys.dpf.core.common.config_options`
+            - Contains strings to define configuration options.
+
+
+          * - :py:obj:`~ansys.dpf.core.common.DefinitionLabels`
+            - Contains Python definition labels.
+
+
+          * - :py:obj:`~ansys.dpf.core.common.TqdmProgressBar`
+            - Custom progress bar implementation based on tqdm.
+
+
+          * - :py:obj:`~ansys.dpf.core.common.SubClassSmartDict`
+            - Return the superclass name for a key if not found initially.
+
+
+
+    .. tab-item:: Enums
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.common.types`
+            - The ``'types'`` enum contains the available types passed through operators and workflows to DPF.
+
+
+          * - :py:obj:`~ansys.dpf.core.common.natures`
+            - The ``'natures'`` enum contains the dimensionality types.
+
+
+          * - :py:obj:`~ansys.dpf.core.common.shell_layers`
+            - Contains data identifying shell layers.
+
+
+
+
+    .. tab-item:: Functions
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~types_enum_to_types`
+            - Return a mapping of enums and corresponding python or dpf types.
+
+
+          * - :py:obj:`~type_to_internal_object_keyword`
+            - Return dpf types mapped to internal object keywords.
+
+
+          * - :py:obj:`~type_to_special_dpf_constructors`
+            - Return dpf type mapped to special dpf constructors.
+
+
+          * - :py:obj:`~derived_class_name_to_type`
+            - Return a mapping of derived class names to their corresponding Python classes.
+
+
+          * - :py:obj:`~record_derived_class`
+            - Record a new derived class in the mapping of class names to their corresponding Python classes.
+
+
+          * - :py:obj:`~create_dpf_instance`
+            - Create a server instance of a given type.
+
+
+
+
+
+
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-cod-symbol_class"></span> elemental_properties</api/ansys/dpf/core/common/elemental_properties>
+    <span class="nf nf-cod-symbol_class"></span> nodal_properties</api/ansys/dpf/core/common/nodal_properties>
+    <span class="nf nf-cod-symbol_class"></span> face_properties</api/ansys/dpf/core/common/face_properties>
+    <span class="nf nf-cod-symbol_class"></span> config_options</api/ansys/dpf/core/common/config_options>
+    <span class="nf nf-cod-symbol_class"></span> DefinitionLabels</api/ansys/dpf/core/common/DefinitionLabels>
+    <span class="nf nf-cod-symbol_class"></span> TqdmProgressBar</api/ansys/dpf/core/common/TqdmProgressBar>
+    <span class="nf nf-cod-symbol_class"></span> SubClassSmartDict</api/ansys/dpf/core/common/SubClassSmartDict>
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-cod-symbol_enum"></span> types</api/ansys/dpf/core/common/types>
+    <span class="nf nf-cod-symbol_enum"></span> natures</api/ansys/dpf/core/common/natures>
+    <span class="nf nf-cod-symbol_enum"></span> shell_layers</api/ansys/dpf/core/common/shell_layers>
+
+
+
+
+
+
+
+
+Description
+-----------
+
+Common.
+
+
+
+
+
+
+
+Module detail
+-------------
+
+.. py:function:: types_enum_to_types()
+
+   Return a mapping of enums and corresponding python or dpf types.
+
+   :returns: Mapping of enum to the corresponding type.
+   :rtype: dict
+
+
+.. py:function:: type_to_internal_object_keyword()
+
+   Return dpf types mapped to internal object keywords.
+
+   :returns: Custom dictionary that returns superclass name for a key if not found initially.
+   :rtype: SubClassSmartDict
+
+
+.. py:function:: type_to_special_dpf_constructors()
+
+   Return dpf type mapped to special dpf constructors.
+
+
+.. py:function:: derived_class_name_to_type() -> Dict[str, type]
+
+   Return a mapping of derived class names to their corresponding Python classes.
+
+   :returns: A dictionary mapping derived class names (str) to their corresponding
+             Python class objects.
+   :rtype: dict[str, type]
+
+
+.. py:function:: record_derived_class(class_name: str, py_class: type, overwrite: bool = False)
+
+   Record a new derived class in the mapping of class names to their corresponding Python classes.
+
+   This function updates the global dictionary that maps derived class names (str) to their corresponding
+   Python class objects (type). If the provided class name already exists in the dictionary, it will either
+   overwrite the existing mapping or leave it unchanged based on the `overwrite` flag.
+
+   :param class_name: The name of the derived class to be recorded.
+   :type class_name: str
+   :param py_class: The Python class type corresponding to the derived class.
+   :type py_class: type
+   :param overwrite: A flag indicating whether to overwrite an existing entry for the `class_name`.
+                     If `True`, the entry will be overwritten. If `False` (default), the entry will
+                     not be overwritten if it already exists.
+   :type overwrite: bool, optional
+
+
+.. py:function:: create_dpf_instance(type, internal_obj, server)
+
+   Create a server instance of a given type.
+
+
+
+

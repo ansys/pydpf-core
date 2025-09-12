@@ -1,0 +1,95 @@
+ansys.dpf.core.operators.math.accumulate_level_over_label_fc
+============================================================
+
+.. py:class:: ansys.dpf.core.operators.math.accumulate_level_over_label_fc(fields_container=None, label=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Compute the component-wise sum over all the fields that have the same ID
+   as the label set as input in the fields container and apply
+   10.0xlog10(data/10xx-12) on the result. This computation can be
+   incremental. If the input fields container is connected and the operator
+   is run multiple times, the output field will be on all the connected
+   inputs.
+
+
+   :param fields_container:
+   :type fields_container: FieldsContainer
+   :param label: Label of the fields container where it should operate.
+   :type label: str, optional
+
+   :returns: **field**
+   :rtype: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.math.accumulate_level_over_label_fc()
+
+   >>> # Make input connections
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_label = str()
+   >>> op.inputs.label.connect(my_label)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.math.accumulate_level_over_label_fc(
+   ...     fields_container=my_fields_container,
+   ...     label=my_label,
+   ... )
+
+   >>> # Get output data
+   >>> result_field = op.outputs.field()
+
+
+   .. py:attribute:: _inputs
+
+
+   .. py:attribute:: _outputs
+
+
+   .. py:method:: _spec() -> ansys.dpf.core.operators.specification.Specification
+      :staticmethod:
+
+
+
+   .. py:method:: default_config(server: ansys.dpf.core.server_types.AnyServerType = None) -> ansys.dpf.core.config.Config
+      :staticmethod:
+
+
+      Returns the default config of the operator.
+
+      This config can then be changed to the user needs and be used to
+      instantiate the operator. The Configuration allows to customize
+      how the operation will be processed by the operator.
+
+      :param server: Server with channel connected to the remote or local instance. When
+                     ``None``, attempts to use the global server.
+
+      :returns: A new Config instance equivalent to the default config for this operator.
+      :rtype: config
+
+
+
+   .. py:property:: inputs
+      :type: InputsAccumulateLevelOverLabelFc
+
+
+      Enables to connect inputs to the operator
+
+      :returns: An instance of InputsAccumulateLevelOverLabelFc.
+      :rtype: inputs
+
+
+   .. py:property:: outputs
+      :type: OutputsAccumulateLevelOverLabelFc
+
+
+      Enables to get outputs of the operator by evaluating it
+
+      :returns: An instance of OutputsAccumulateLevelOverLabelFc.
+      :rtype: outputs
+

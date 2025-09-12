@@ -1,0 +1,100 @@
+ansys.dpf.core.operators.logic.elementary_data_selector
+=======================================================
+
+.. py:class:: ansys.dpf.core.operators.logic.elementary_data_selector(field=None, elementary_data_index=None, default_value=None, elementary_data_index_2=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Creates a scalar/vector field based on the selected elementary data.
+
+
+   :param field:
+   :type field: Field or FieldsContainer
+   :param elementary_data_index: One or several elementary data index that will be extracted from the initial field. For field with nature matrix, this is the line indices to extract.
+   :type elementary_data_index: int
+   :param default_value: Set a default value for elementary data that do not exist.
+   :type default_value: float, optional
+   :param elementary_data_index_2: For field with nature matrix, this is the column indices to extract.
+   :type elementary_data_index_2: int, optional
+
+   :returns: **field**
+   :rtype: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.logic.elementary_data_selector()
+
+   >>> # Make input connections
+   >>> my_field = dpf.Field()
+   >>> op.inputs.field.connect(my_field)
+   >>> my_elementary_data_index = int()
+   >>> op.inputs.elementary_data_index.connect(my_elementary_data_index)
+   >>> my_default_value = float()
+   >>> op.inputs.default_value.connect(my_default_value)
+   >>> my_elementary_data_index_2 = int()
+   >>> op.inputs.elementary_data_index_2.connect(my_elementary_data_index_2)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.logic.elementary_data_selector(
+   ...     field=my_field,
+   ...     elementary_data_index=my_elementary_data_index,
+   ...     default_value=my_default_value,
+   ...     elementary_data_index_2=my_elementary_data_index_2,
+   ... )
+
+   >>> # Get output data
+   >>> result_field = op.outputs.field()
+
+
+   .. py:attribute:: _inputs
+
+
+   .. py:attribute:: _outputs
+
+
+   .. py:method:: _spec() -> ansys.dpf.core.operators.specification.Specification
+      :staticmethod:
+
+
+
+   .. py:method:: default_config(server: ansys.dpf.core.server_types.AnyServerType = None) -> ansys.dpf.core.config.Config
+      :staticmethod:
+
+
+      Returns the default config of the operator.
+
+      This config can then be changed to the user needs and be used to
+      instantiate the operator. The Configuration allows to customize
+      how the operation will be processed by the operator.
+
+      :param server: Server with channel connected to the remote or local instance. When
+                     ``None``, attempts to use the global server.
+
+      :returns: A new Config instance equivalent to the default config for this operator.
+      :rtype: config
+
+
+
+   .. py:property:: inputs
+      :type: InputsElementaryDataSelector
+
+
+      Enables to connect inputs to the operator
+
+      :returns: An instance of InputsElementaryDataSelector.
+      :rtype: inputs
+
+
+   .. py:property:: outputs
+      :type: OutputsElementaryDataSelector
+
+
+      Enables to get outputs of the operator by evaluating it
+
+      :returns: An instance of OutputsElementaryDataSelector.
+      :rtype: outputs
+

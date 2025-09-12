@@ -1,0 +1,28 @@
+ansys.dpf.core._model_helpers.DataSourcesOrStreamsConnector
+===========================================================
+
+.. py:class:: ansys.dpf.core._model_helpers.DataSourcesOrStreamsConnector(metadata)
+
+   .. py:attribute:: _metadata
+
+
+   .. py:property:: streams_provider
+
+
+   .. py:property:: time_freq_support
+
+
+   .. py:property:: mesh_provider
+
+
+   .. py:property:: data_sources
+
+
+   .. py:method:: named_selection(name)
+
+
+   .. py:method:: __connect_op__(op, mesh_by_default=True)
+
+      Connect the data sources or the streams to the operator.
+
+
