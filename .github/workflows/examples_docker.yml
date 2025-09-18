@@ -113,9 +113,13 @@ jobs:
           else
               export platform="windows"
           fi
-          docker pull ghcr.io/ansys-dpf/dpf-standalone:$platform-26.1
+          ansys_version=${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}
+          suffix=${{ inputs.standalone_suffix && format('.{0}', inputs.standalone_suffix) || '' }}
+          version=${ansys_version:0:2}.${ansys_version:2:1}${suffix}
+          image_name=$platform-$version
+          docker pull ghcr.io/ansys-dpf/dpf-standalone:$image_name
           docker images
-          echo "DPF_DOCKER=$platform-26.1" >> $GITHUB_ENV
+          echo "DPF_DOCKER=$image_name" >> $GITHUB_ENV
 
 #      - name: "Install DPF"
 #        id: set-server-path
