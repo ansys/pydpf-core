@@ -181,8 +181,7 @@ merge_fields = ops.utility.merge_fields_containers()
 merge_mesh = ops.utility.merge_meshes()
 
 ds = dpf.DataSources(files_rfrq[0])
-response = ops.result.displacement(data_sources=ds)
-response.inputs.mesh(merge_mesh.outputs.merges_mesh)
+response = ops.result.modal_coordinate(data_sources=ds)
 
 ds = dpf.DataSources(files_rfrq[1])
 response2 = ops.result.modal_coordinate(data_sources=ds)
