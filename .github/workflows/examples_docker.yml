@@ -119,7 +119,7 @@ jobs:
           tag=$platform-$version
           docker pull ghcr.io/ansys-dpf/dpf-standalone:$tag
           docker images
-          echo "DPF_DOCKER=dpf-standalone:$tag" >> $GITHUB_ENV
+          echo "DPF_DOCKER=ghcr.io/ansys-dpf/dpf-standalone:$tag" >> $GITHUB_ENV
 
 #      - name: "Install DPF"
 #        id: set-server-path
