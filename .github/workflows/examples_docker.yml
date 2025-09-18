@@ -97,13 +97,29 @@ jobs:
         run: |
           pip install dist/${{ steps.wheel.outputs.wheel_name }}[graphics]
 
+      - name: Login in GitHub Container registry
+        uses: docker/login-action@184bdaa0721073962dff0199f1fb9940f07167d1 # v3.5.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
+
       - name: "Install DPF"
         id: set-server-path
-        uses: ansys/pydpf-actions/install-dpf-docker@v2.3
-        with:
-          dpf-standalone-TOKEN: ${{secrets.PYANSYS_CI_BOT_TOKEN}}
-          standalone_suffix: ${{ inputs.standalone_suffix }}
-          ANSYS_VERSION : ${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}
+        shell: bash
+        run: |
+          docker pull ghcr.io/ansys-dpf/dpf-standalone:windows-26.1
+          docker container list -a
+          echo "DPF_DOCKER=dpfv2026.1.pre0" >> $GITHUB_ENV
+
+#      - name: "Install DPF"
+#        id: set-server-path
+#        uses: ansys/pydpf-actions/install-dpf-docker@v2.3
+#        with:
+#          dpf-standalone-TOKEN: ${{secrets.PYANSYS_CI_BOT_TOKEN}}
+#          standalone_suffix: ${{ inputs.standalone_suffix }}
+#          ANSYS_VERSION : ${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}
+
 
       - name: "Check licences of packages"
         uses: ansys/pydpf-actions/check-licenses@v2.3
