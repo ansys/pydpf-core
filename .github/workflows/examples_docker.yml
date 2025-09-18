@@ -60,7 +60,7 @@ jobs:
       fail-fast: false
       matrix:
         python-version: ${{ fromJSON(needs.setup.outputs.python_versions) }}
-        os: ["ubuntu-latest"]
+        os: ["ubuntu-latest", "windows-latest"]
 
     steps:
       - uses: actions/checkout@v4
@@ -108,7 +108,12 @@ jobs:
         id: set-server-path
         shell: bash
         run: |
-          docker pull ghcr.io/ansys-dpf/dpf-standalone:windows-26.1
+          if [ ${{ matrix.os }} == "ubuntu-latest" ]; then
+              export platform="linux"
+          else
+              export platform="windows"
+          fi
+          docker pull ghcr.io/ansys-dpf/dpf-standalone:$platform-26.1
           docker container list -a
           echo "DPF_DOCKER=dpfv2026.1.pre0" >> $GITHUB_ENV
 
