@@ -188,20 +188,25 @@ class DockerConfig:
         -------
         str
         """
-        mounted_volumes_args = "-v " + " -v ".join(
-            key + ":" + val for key, val in self.mounted_volumes.items()
-        )
         licensing_options = self.licensing_args
-        return (
+        docker_cmd = (
             f"docker run -d "
             f" {licensing_options} "
             f"-p {local_port}:{docker_server_port} "
             f"{self.extra_args} "
-            f"{mounted_volumes_args} "
+        )
+        if len(self.mounted_volumes) > 0:
+            mounted_volumes_args = "-v " + " -v ".join(
+                key + ":" + val for key, val in self.mounted_volumes.items()
+            )
+            docker_cmd += f"{mounted_volumes_args} "
+
+        docker_cmd += (
             f"-e DOCKER_SERVER_PORT={docker_server_port} "
             f"--expose={docker_server_port} "
             f"{self.docker_name}"
         )
+        return docker_cmd
 
     def __str__(self):
         """Return a string representation of the DockerConfig object.
