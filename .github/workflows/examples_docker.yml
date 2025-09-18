@@ -115,8 +115,7 @@ jobs:
           fi
           docker pull ghcr.io/ansys-dpf/dpf-standalone:$platform-26.1
           docker images
-          docker container list -a
-          echo "DPF_DOCKER=dpfv2026.1.pre0" >> $GITHUB_ENV
+          echo "DPF_DOCKER=$platform-26.1" >> $GITHUB_ENV
 
 #      - name: "Install DPF"
 #        id: set-server-path
