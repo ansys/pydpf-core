@@ -114,6 +114,7 @@ jobs:
               export platform="windows"
           fi
           docker pull ghcr.io/ansys-dpf/dpf-standalone:$platform-26.1
+          docker images
           docker container list -a
           echo "DPF_DOCKER=dpfv2026.1.pre0" >> $GITHUB_ENV
 
