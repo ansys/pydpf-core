@@ -88,10 +88,11 @@ class DockerConfig:
         mounted_volumes: dict = None,
         extra_args: str = "",
     ):
-        from ansys.dpf.core import LOCAL_DOWNLOADED_EXAMPLES_PATH
-
+        # from ansys.dpf.core import LOCAL_DOWNLOADED_EXAMPLES_PATH
+        #
         if mounted_volumes is None:
-            mounted_volumes = {LOCAL_DOWNLOADED_EXAMPLES_PATH: "/tmp/downloaded_examples"}
+            mounted_volumes = {}
+        #     mounted_volumes = {LOCAL_DOWNLOADED_EXAMPLES_PATH: "/tmp/downloaded_examples"}
 
         self._use_docker = use_docker
         self._docker_name = docker_name
