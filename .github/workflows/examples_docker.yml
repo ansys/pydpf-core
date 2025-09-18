@@ -116,11 +116,10 @@ jobs:
           ansys_version=${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}
           suffix=${{ inputs.standalone_suffix && format('.{0}', inputs.standalone_suffix) || '' }}
           version=${ansys_version:0:2}.${ansys_version:2:1}${suffix}
-          image_name=$platform-$version
-          docker pull ghcr.io/ansys-dpf/dpf-standalone:$image_name
-          docker image tag $image_name: $image_name:latest
+          tag=$platform-$version
+          docker pull ghcr.io/ansys-dpf/dpf-standalone:$tag
           docker images
-          echo "DPF_DOCKER=$image_name" >> $GITHUB_ENV
+          echo "DPF_DOCKER=dpf-standalone:$tag" >> $GITHUB_ENV
 
 #      - name: "Install DPF"
 #        id: set-server-path
