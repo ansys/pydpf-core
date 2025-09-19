@@ -1,0 +1,90 @@
+ansys.dpf.core.operators.math.unit_convert_fc
+=============================================
+
+.. py:class:: ansys.dpf.core.operators.math.unit_convert_fc(fields_container=None, unit_name=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Converts an input fields container of a given unit to another unit.
+
+
+   :param fields_container:
+   :type fields_container: FieldsContainer
+   :param unit_name: unit as a string, ex 'm' for meter, 'Pa' for pascal,...
+   :type unit_name: str
+
+   :returns: **fields_container**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.math.unit_convert_fc()
+
+   >>> # Make input connections
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_unit_name = str()
+   >>> op.inputs.unit_name.connect(my_unit_name)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.math.unit_convert_fc(
+   ...     fields_container=my_fields_container,
+   ...     unit_name=my_unit_name,
+   ... )
+
+   >>> # Get output data
+   >>> result_fields_container = op.outputs.fields_container()
+
+
+   .. py:attribute:: _inputs
+
+
+   .. py:attribute:: _outputs
+
+
+   .. py:method:: _spec() -> ansys.dpf.core.operators.specification.Specification
+      :staticmethod:
+
+
+
+   .. py:method:: default_config(server: ansys.dpf.core.server_types.AnyServerType = None) -> ansys.dpf.core.config.Config
+      :staticmethod:
+
+
+      Returns the default config of the operator.
+
+      This config can then be changed to the user needs and be used to
+      instantiate the operator. The Configuration allows to customize
+      how the operation will be processed by the operator.
+
+      :param server: Server with channel connected to the remote or local instance. When
+                     ``None``, attempts to use the global server.
+
+      :returns: A new Config instance equivalent to the default config for this operator.
+      :rtype: config
+
+
+
+   .. py:property:: inputs
+      :type: InputsUnitConvertFc
+
+
+      Enables to connect inputs to the operator
+
+      :returns: An instance of InputsUnitConvertFc.
+      :rtype: inputs
+
+
+   .. py:property:: outputs
+      :type: OutputsUnitConvertFc
+
+
+      Enables to get outputs of the operator by evaluating it
+
+      :returns: An instance of OutputsUnitConvertFc.
+      :rtype: outputs
+

@@ -1,0 +1,132 @@
+ansys.dpf.core.operators.result.members_in_bending_not_certified
+================================================================
+
+.. py:class:: ansys.dpf.core.operators.result.members_in_bending_not_certified(time_scoping=None, field_yield_strength=None, class_cross_section=None, streams=None, data_sources=None, partial_factor=None, mesh=None, bending_moment_y=None, bending_moment_z=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   This operator is a non-certified example of buckling resistance
+   verification for the bending members. It is only provided as an example
+   if you want to develop your own compute norm operator. The results
+   computed by this beta operator have not been certified by ANSYS. ANSYS
+   declines all responsibility for the use of this operator. HATS Beam and
+   irregular beams (unequal I-Beam, not-square Channel-Beam, not-square
+   Angle L-beam, unequal hollow rectangular beam) not supported.
+
+
+   :param time_scoping:
+   :type time_scoping: Scoping or int, optional
+   :param field_yield_strength: This pin contains field of beam's Yield Strength defined by the user.
+   :type field_yield_strength: Field
+   :param class_cross_section: Selection for a cross-section. True: Class 1 or 2 cross-sections. False: Class 3 cross section. If the user defines the cross section as class 1 or 2, the section modulus would be plastic section modulus. If it's class 3- cross section,the section modulus would be elastic section modulus
+   :type class_cross_section: bool
+   :param streams: result file container allowed to be kept open to cache data.
+   :type streams: StreamsContainer, optional
+   :param data_sources: result file path container, used if no streams are set.
+   :type data_sources: DataSources, optional
+   :param partial_factor: partial safety factor for resistance of members to instability assessed by member checks. Default value: 1.
+   :type partial_factor: float
+   :param mesh: Mesh containing beam's properties defined by user
+   :type mesh: MeshedRegion
+   :param bending_moment_y: Fields Container of bending moment on axis y defined by user
+   :type bending_moment_y: FieldsContainer
+   :param bending_moment_z: Fields Container of bending moment on axis z defined by user
+   :type bending_moment_z: FieldsContainer
+
+   :returns: * **buckling_resistance_bending_yy** (*FieldsContainer*) -- Fields Container of buckling resistance factor on axis y-y in case of bending(M). These factors should be less than 1 and positive.
+             * **buckling_resistance_bending_zz** (*FieldsContainer*) -- Fields Container of buckling resistance factor on axis z-z in case of bending(M). These factors should be less than 1 and positive.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.result.members_in_bending_not_certified()
+
+   >>> # Make input connections
+   >>> my_time_scoping = dpf.Scoping()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> my_field_yield_strength = dpf.Field()
+   >>> op.inputs.field_yield_strength.connect(my_field_yield_strength)
+   >>> my_class_cross_section = bool()
+   >>> op.inputs.class_cross_section.connect(my_class_cross_section)
+   >>> my_streams = dpf.StreamsContainer()
+   >>> op.inputs.streams.connect(my_streams)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_partial_factor = float()
+   >>> op.inputs.partial_factor.connect(my_partial_factor)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_bending_moment_y = dpf.FieldsContainer()
+   >>> op.inputs.bending_moment_y.connect(my_bending_moment_y)
+   >>> my_bending_moment_z = dpf.FieldsContainer()
+   >>> op.inputs.bending_moment_z.connect(my_bending_moment_z)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.result.members_in_bending_not_certified(
+   ...     time_scoping=my_time_scoping,
+   ...     field_yield_strength=my_field_yield_strength,
+   ...     class_cross_section=my_class_cross_section,
+   ...     streams=my_streams,
+   ...     data_sources=my_data_sources,
+   ...     partial_factor=my_partial_factor,
+   ...     mesh=my_mesh,
+   ...     bending_moment_y=my_bending_moment_y,
+   ...     bending_moment_z=my_bending_moment_z,
+   ... )
+
+   >>> # Get output data
+   >>> result_buckling_resistance_bending_yy = op.outputs.buckling_resistance_bending_yy()
+   >>> result_buckling_resistance_bending_zz = op.outputs.buckling_resistance_bending_zz()
+
+
+   .. py:attribute:: _inputs
+
+
+   .. py:attribute:: _outputs
+
+
+   .. py:method:: _spec() -> ansys.dpf.core.operators.specification.Specification
+      :staticmethod:
+
+
+
+   .. py:method:: default_config(server: ansys.dpf.core.server_types.AnyServerType = None) -> ansys.dpf.core.config.Config
+      :staticmethod:
+
+
+      Returns the default config of the operator.
+
+      This config can then be changed to the user needs and be used to
+      instantiate the operator. The Configuration allows to customize
+      how the operation will be processed by the operator.
+
+      :param server: Server with channel connected to the remote or local instance. When
+                     ``None``, attempts to use the global server.
+
+      :returns: A new Config instance equivalent to the default config for this operator.
+      :rtype: config
+
+
+
+   .. py:property:: inputs
+      :type: InputsMembersInBendingNotCertified
+
+
+      Enables to connect inputs to the operator
+
+      :returns: An instance of InputsMembersInBendingNotCertified.
+      :rtype: inputs
+
+
+   .. py:property:: outputs
+      :type: OutputsMembersInBendingNotCertified
+
+
+      Enables to get outputs of the operator by evaluating it
+
+      :returns: An instance of OutputsMembersInBendingNotCertified.
+      :rtype: outputs
+

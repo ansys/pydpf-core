@@ -1,0 +1,98 @@
+ansys.dpf.core.operators.serialization.serialize_to_hdf5
+========================================================
+
+.. py:class:: ansys.dpf.core.operators.serialization.serialize_to_hdf5(file_path=None, export_floats=None, export_flat_vectors=None, data1=None, data2=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   This operator is deprecated: use ‘hdf5::h5dpf::make_result_file’
+   instead. Serialize the inputs in an hdf5 format.
+
+
+   :param file_path: output file path with .h5 extension
+   :type file_path: str
+   :param export_floats: converts double to float to reduce file size (default is true)
+   :type export_floats: bool, optional
+   :param export_flat_vectors: if true, vectors and matrices data are exported flat (x1,y1,z1,x2,y2,z2..) (default is false)
+   :type export_flat_vectors: bool, optional
+   :param data1: only the data set explicitly to export is exported
+   :param data2: only the data set explicitly to export is exported
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.serialization.serialize_to_hdf5()
+
+   >>> # Make input connections
+   >>> my_file_path = str()
+   >>> op.inputs.file_path.connect(my_file_path)
+   >>> my_export_floats = bool()
+   >>> op.inputs.export_floats.connect(my_export_floats)
+   >>> my_export_flat_vectors = bool()
+   >>> op.inputs.export_flat_vectors.connect(my_export_flat_vectors)
+   >>> my_data1 = dpf.()
+   >>> op.inputs.data1.connect(my_data1)
+   >>> my_data2 = dpf.()
+   >>> op.inputs.data2.connect(my_data2)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.serialization.serialize_to_hdf5(
+   ...     file_path=my_file_path,
+   ...     export_floats=my_export_floats,
+   ...     export_flat_vectors=my_export_flat_vectors,
+   ...     data1=my_data1,
+   ...     data2=my_data2,
+   ... )
+
+
+   .. py:attribute:: _inputs
+
+
+   .. py:attribute:: _outputs
+
+
+   .. py:method:: _spec() -> ansys.dpf.core.operators.specification.Specification
+      :staticmethod:
+
+
+
+   .. py:method:: default_config(server: ansys.dpf.core.server_types.AnyServerType = None) -> ansys.dpf.core.config.Config
+      :staticmethod:
+
+
+      Returns the default config of the operator.
+
+      This config can then be changed to the user needs and be used to
+      instantiate the operator. The Configuration allows to customize
+      how the operation will be processed by the operator.
+
+      :param server: Server with channel connected to the remote or local instance. When
+                     ``None``, attempts to use the global server.
+
+      :returns: A new Config instance equivalent to the default config for this operator.
+      :rtype: config
+
+
+
+   .. py:property:: inputs
+      :type: InputsSerializeToHdf5
+
+
+      Enables to connect inputs to the operator
+
+      :returns: An instance of InputsSerializeToHdf5.
+      :rtype: inputs
+
+
+   .. py:property:: outputs
+      :type: OutputsSerializeToHdf5
+
+
+      Enables to get outputs of the operator by evaluating it
+
+      :returns: An instance of OutputsSerializeToHdf5.
+      :rtype: outputs
+

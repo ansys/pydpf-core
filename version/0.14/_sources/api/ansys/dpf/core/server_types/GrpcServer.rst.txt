@@ -1,0 +1,385 @@
+
+
+
+
+
+
+:class:`GrpcServer`
+===================
+
+
+.. py:class:: ansys.dpf.core.server_types.GrpcServer(ansys_path: Union[str, None] = None, ip: str = LOCALHOST, port: str = DPF_DEFAULT_PORT, timeout: float = 10.0, as_global: bool = True, load_operators: bool = True, launch_server: bool = True, docker_config: ansys.dpf.core.server_factory.DockerConfig = RUNNING_DOCKER, use_pypim: bool = True, context: ansys.dpf.core.server_context.ServerContext = server_context.SERVER_CONTEXT)
+
+   Bases: :py:obj:`CServer`
+
+
+   Server using the gRPC communication protocol.
+
+
+
+
+
+
+
+.. py:currentmodule:: GrpcServer
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~shutdown`
+            - Shutdown the server instance.
+          * - :py:attr:`~get_api_for_type`
+            - Return api for type.
+          * - :py:attr:`~set_as_global`
+            - Set the current server as global if necessary.
+          * - :py:attr:`~has_client`
+            - Check if server has a connected client.
+          * - :py:attr:`~release`
+            - Clear the available Operators and Releases licenses when necessary.
+          * - :py:attr:`~apply_context`
+            - Define the settings that will be used to load DPF's plugins.
+          * - :py:attr:`~check_version`
+            - Check if the server version matches with a required version.
+          * - :py:attr:`~meet_version`
+            - Check if the server version matches with a required version.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~version`
+            - Get the version of the server.
+          * - :py:attr:`~os`
+            - Get the operating system on which the server is running.
+          * - :py:attr:`~client`
+            - Get the client associated with the server.
+          * - :py:attr:`~address`
+            - Address of the server.
+          * - :py:attr:`~ip`
+            - IP address of the server.
+          * - :py:attr:`~port`
+            - Port of the server.
+          * - :py:attr:`~external_ip`
+            - Public IP address of the server.
+          * - :py:attr:`~external_port`
+            - Public Port of the server.
+          * - :py:attr:`~local_server`
+            - Get whether the server is running locally.
+          * - :py:attr:`~config`
+            - Get the server configuration for the gRPC server.
+          * - :py:attr:`~available_api_types`
+            - Return available api type, always c_api.
+          * - :py:attr:`~plugins`
+            - Return the list of plugins loaded on the server.
+          * - :py:attr:`~info`
+            - Server information.
+          * - :py:attr:`~session`
+            - Plan event callbacks from the server, such as progress bars during workflow execution and logging.
+          * - :py:attr:`~on_docker`
+            - Whether the DPF server should be started in a Docker Container by default.
+          * - :py:attr:`~docker_config`
+            - Return the docker config associated with the server.
+          * - :py:attr:`~context`
+            - Returns the settings used to load DPF's plugins.
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~live`
+            - 
+          * - :py:attr:`~ansys_path`
+            - 
+          * - :py:attr:`~__slots__`
+            - 
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__eq__`
+            - Return true, if ***** are equals.
+          * - :py:attr:`~__del__`
+            - Clean up resources associated with the instance.
+          * - :py:attr:`~__str__`
+            - Return string representation of the instance.
+          * - :py:attr:`~__ne__`
+            - Return true, if the servers are not equal.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.server_types import GrpcServer
+
+Property detail
+---------------
+
+.. py:property:: version
+
+   Get the version of the server.
+
+   :returns: **version** -- The version of the server in 'major.minor' format.
+   :rtype: str
+
+.. py:property:: os
+
+   Get the operating system on which the server is running.
+
+.. py:property:: client
+
+   Get the client associated with the server.
+
+   :returns: **client** -- The GrpcClient instance associated with the server.
+   :rtype: GrpcClient
+
+.. py:property:: address
+
+   Address of the server.
+
+   :returns: **address**
+   :rtype: str
+
+.. py:property:: ip
+
+   IP address of the server.
+
+   :returns: **ip**
+   :rtype: str
+
+.. py:property:: port
+
+   Port of the server.
+
+   :returns: **port**
+   :rtype: int
+
+.. py:property:: external_ip
+
+   Public IP address of the server.
+
+   Is the same as  :func:`ansys.dpf.core.GrpcServer.ip` in all cases except
+   for servers using a gateway:
+   for example, servers running in Docker Images might have an internal
+   :func:`ansys.dpf.core.GrpcServer.ip` different from the public
+   :func:`ansys.dpf.core.GrpcServer.external_ip`, the latter should be used to get
+   connected to the server from outside the Docker Image.
+
+   :returns: **external_ip**
+   :rtype: str
+
+.. py:property:: external_port
+
+   Public Port of the server.
+
+   Is the same as  :func:`ansys.dpf.core.GrpcServer.port` in all cases except
+   for servers using a gateway:
+   for example, servers running in Docker Images might have an internal
+   :func:`ansys.dpf.core.GrpcServer.port` different from the public
+   :func:`ansys.dpf.core.GrpcServer.external_port`, the latter should be used to get
+   connected to the server from outside the Docker Image.
+
+   :returns: **port**
+   :rtype: int
+
+.. py:property:: local_server
+
+   Get whether the server is running locally.
+
+   :returns: **local_server** -- True if the server is running locally, False otherwise.
+   :rtype: bool
+
+.. py:property:: config
+
+   Get the server configuration for the gRPC server.
+
+   :returns: **config** -- The server configuration for the gRPC server from the AvailableServerConfigs.
+   :rtype: AvailableServerConfigs
+
+.. py:property:: available_api_types
+
+   Return available api type, always c_api.
+
+.. py:property:: plugins
+   :type: dict
+
+
+   Return the list of plugins loaded on the server.
+
+.. py:property:: info
+
+   Server information.
+
+   :returns: **info** -- Dictionary with server information, including ``"server_ip"``,
+             ``"server_port"``, ``"server_process_id"``, ``"server_version"`` , ``"os"``
+             and ``"path"`` keys.
+   :rtype: dictionary
+
+.. py:property:: session
+
+   Plan event callbacks from the server, such as progress bars during workflow execution and logging.
+
+   :rtype: ansys.dpf.core.session.Session
+
+.. py:property:: on_docker
+
+   Whether the DPF server should be started in a Docker Container by default.
+
+.. py:property:: docker_config
+
+   Return the docker config associated with the server.
+
+.. py:property:: context
+
+   Returns the settings used to load DPF's plugins.
+
+   To update the context server side, use
+   :func:`ansys.dpf.core.BaseServer.server_types.apply_context`
+
+   :rtype: ServerContext
+
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: live
+   :value: False
+
+
+.. py:attribute:: ansys_path
+   :value: None
+
+
+.. py:attribute:: __slots__
+   :value: ()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: shutdown()
+
+   Shutdown the server instance.
+
+
+.. py:method:: __eq__(other_server)
+
+   Return true, if ***** are equals.
+
+
+.. py:method:: get_api_for_type(capi, grpcapi)
+
+   Return api for type.
+
+
+.. py:method:: __del__()
+
+   Clean up resources associated with the instance.
+
+   :raises Warning: If an exception occurs while attempting to delete resources.
+
+
+.. py:method:: set_as_global(as_global=True)
+
+   Set the current server as global if necessary.
+
+   :param as_global: Global variable that stores the IP address and port for the DPF
+                     module. All DPF objects created in this Python session will
+                     use this IP and port. The default is ``True``.
+   :type as_global: bool, optional
+
+
+.. py:method:: has_client()
+
+   Check if server has a connected client.
+
+
+.. py:method:: release()
+
+   Clear the available Operators and Releases licenses when necessary.
+
+   .. rubric:: Notes
+
+   Available with server's version starting at 6.0 (Ansys 2023R2).
+
+
+.. py:method:: apply_context(context)
+
+   Define the settings that will be used to load DPF's plugins.
+
+   A DPF xml file can be used to list the plugins and set up variables.
+
+   :param context: The context allows to choose which capabilities are available server side.
+   :type context: ServerContext
+
+   .. rubric:: Notes
+
+   Available with server's version starting at 6.0 (Ansys 2023R2).
+
+
+.. py:method:: check_version(required_version, msg=None)
+
+   Check if the server version matches with a required version.
+
+   :param required_version: Required version to compare with the server version.
+   :type required_version: str
+   :param msg: Message for the raised exception if version requirements do not match.
+   :type msg: str, optional
+
+   :raises dpf_errors : errors: errors.DpfVersionNotSupported is raised if failure.
+
+   :returns: ``True`` if the server version meets the requirement.
+   :rtype: bool
+
+
+.. py:method:: meet_version(required_version)
+
+   Check if the server version matches with a required version.
+
+   :param required_version: Required version to compare with the server version.
+   :type required_version: str
+
+   :returns: ``True`` if the server version meets the requirement.
+   :rtype: bool
+
+
+.. py:method:: __str__()
+
+   Return string representation of the instance.
+
+
+.. py:method:: __ne__(other_server)
+
+   Return true, if the servers are not equal.
+
+
+
+
+
