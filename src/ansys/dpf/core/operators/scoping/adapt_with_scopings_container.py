@@ -24,6 +24,8 @@ class adapt_with_scopings_container(Operator):
     ----------
     field_or_fields_container: FieldsContainer or Field
     scopings_container: ScopingsContainer
+    keep_empty_fields: bool, optional
+        Default false.
 
     Returns
     -------
@@ -41,11 +43,14 @@ class adapt_with_scopings_container(Operator):
     >>> op.inputs.field_or_fields_container.connect(my_field_or_fields_container)
     >>> my_scopings_container = dpf.ScopingsContainer()
     >>> op.inputs.scopings_container.connect(my_scopings_container)
+    >>> my_keep_empty_fields = bool()
+    >>> op.inputs.keep_empty_fields.connect(my_keep_empty_fields)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.scoping.adapt_with_scopings_container(
     ...     field_or_fields_container=my_field_or_fields_container,
     ...     scopings_container=my_scopings_container,
+    ...     keep_empty_fields=my_keep_empty_fields,
     ... )
 
     >>> # Get output data
@@ -56,6 +61,7 @@ class adapt_with_scopings_container(Operator):
         self,
         field_or_fields_container=None,
         scopings_container=None,
+        keep_empty_fields=None,
         config=None,
         server=None,
     ):
@@ -66,6 +72,8 @@ class adapt_with_scopings_container(Operator):
             self.inputs.field_or_fields_container.connect(field_or_fields_container)
         if scopings_container is not None:
             self.inputs.scopings_container.connect(scopings_container)
+        if keep_empty_fields is not None:
+            self.inputs.keep_empty_fields.connect(keep_empty_fields)
 
     @staticmethod
     def _spec() -> Specification:
@@ -86,6 +94,12 @@ container.
                     type_names=["scopings_container"],
                     optional=False,
                     document=r"""""",
+                ),
+                2: PinSpecification(
+                    name="keep_empty_fields",
+                    type_names=["bool"],
+                    optional=True,
+                    document=r"""Default false.""",
                 ),
             },
             map_output_pin_spec={
@@ -155,6 +169,8 @@ class InputsAdaptWithScopingsContainer(_Inputs):
     >>> op.inputs.field_or_fields_container.connect(my_field_or_fields_container)
     >>> my_scopings_container = dpf.ScopingsContainer()
     >>> op.inputs.scopings_container.connect(my_scopings_container)
+    >>> my_keep_empty_fields = bool()
+    >>> op.inputs.keep_empty_fields.connect(my_keep_empty_fields)
     """
 
     def __init__(self, op: Operator):
@@ -167,6 +183,10 @@ class InputsAdaptWithScopingsContainer(_Inputs):
             adapt_with_scopings_container._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._scopings_container)
+        self._keep_empty_fields = Input(
+            adapt_with_scopings_container._spec().input_pin(2), 2, op, -1
+        )
+        self._inputs.append(self._keep_empty_fields)
 
     @property
     def field_or_fields_container(self) -> Input:
@@ -205,6 +225,27 @@ class InputsAdaptWithScopingsContainer(_Inputs):
         >>> op.inputs.scopings_container(my_scopings_container)
         """
         return self._scopings_container
+
+    @property
+    def keep_empty_fields(self) -> Input:
+        r"""Allows to connect keep_empty_fields input to the operator.
+
+        Default false.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.scoping.adapt_with_scopings_container()
+        >>> op.inputs.keep_empty_fields.connect(my_keep_empty_fields)
+        >>> # or
+        >>> op.inputs.keep_empty_fields(my_keep_empty_fields)
+        """
+        return self._keep_empty_fields
 
 
 class OutputsAdaptWithScopingsContainer(_Outputs):

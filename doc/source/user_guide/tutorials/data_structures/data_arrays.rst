@@ -224,8 +224,14 @@ You can also create a |Field|, |StringField| or |PropertyField| from scratch bas
             # Set the data values
             my_property_field.data = [12, 25]
             # Set the location
-            my_property_field.location = dpf.locations.modal
-            # Set the element IDs
+            # For DPF 26R1 and above, directly set the location of the PropertyField
+            from ansys.dpf.core.check_version import meets_version
+            if meets_version(dpf.SERVER.version, "11.0"):
+                my_property_field.location = dpf.locations.modal
+            # For DPF older than 26R1, you must set the location with a Scoping
+            else:
+                my_property_field.scoping = dpf.Scoping(location=dpf.locations.modal)
+            # Set the mode IDs
             my_property_field.scoping.ids = [1, 2]
             # Print the property field
             print(my_property_field)
