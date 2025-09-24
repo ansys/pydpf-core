@@ -60,6 +60,11 @@ plotting = [
     "imageio-ffmpeg",
 ]
 
+operator_doc = [
+    # Operator documentation generation
+    "jinja2"
+]
+
 [project.urls]
 Homepage = "https://dpf.docs.pyansys.com/"
 Documentation = "https://dpf.docs.pyansys.com/"
