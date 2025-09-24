@@ -62,7 +62,7 @@ plotting = [
 
 operator_doc = [
     # Operator documentation generation
-    "jinja2"
+    "jinja2",
 ]
 
 [project.urls]
