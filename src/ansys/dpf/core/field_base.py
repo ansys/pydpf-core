@@ -504,6 +504,8 @@ class _FieldBase:
 
     @data.setter
     def data(self, data):
+        if isinstance(data, (np.ndarray, np.generic)):
+            data = data.copy()
         self._set_data(data)
 
     @abstractmethod
