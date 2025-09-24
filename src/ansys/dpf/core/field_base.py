@@ -504,7 +504,7 @@ class _FieldBase:
 
     @data.setter
     def data(self, data):
-        if isinstance(data, (np.ndarray, np.generic)):
+        if isinstance(data, (np.ndarray, np.generic)) and data.base is not None:
             data = data.copy()
         self._set_data(data)
 
