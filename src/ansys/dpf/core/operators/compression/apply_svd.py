@@ -23,22 +23,22 @@ class apply_svd(Operator):
     Parameters
     ----------
     field_contaner_to_compress: FieldsContainer
-        Fields container with data to be compressed
-    scalar_int: int, optional
-        Number of vectors (r) to keep for the future reconstraction of the matrix A, ex.A[m,n] = coef[m,r] * VT[r,n], where coef = U * Sigma
-    scalar_double: float, optional
-        Threshold (precision) as a double (Default : 1e-7). If both pin1 and pin2 are provided, choose the min r-vectors
-    boolean: bool, optional
-        Apply SVD on the initial data (Default : false), otherwise use reduced data (square matrix with the smallest dimensions).
+        fields container to be compressed
+    scalar_int: int
+        number of vectors (r) to keep for the future reconstraction of the matrix A, ex. A[m,n]=coef[m,r]*VT[r,n], where coef=U*Sigma
+    scalar_double: float
+        threshold (precision) as a double, default value is 1e-7. If both pin1 and pin2 are provided, choose the min r-vectors
+    boolean: bool
+        apply svd on the initial data (Default : false), otherwise use reduced data (square matrix with the smallest dimensions).
 
     Returns
     -------
     us_svd: FieldsContainer
-        The output entity is a fields container (time dependant); it contains the product of two matrices, U and S, where A=U.S.Vt
+        the output entity is a field container (time dependant); it contains the multiplication of two matrices, U and S, where A=U.S.Vt
     vt_svd: FieldsContainer
-        The output entity is a field container (space dependant), containing the Vt, where A=U.S.Vt
+        the output entity is a field container (space dependant), containing the Vt, where A=U.S.Vt
     sigma: Field or FieldsContainer
-        The output entity is a field (or a field container if input fc contains several labels, where field contains results per label), containing singular (S) values of the input data, where A=U.S.Vt
+        the output entity is a field (or a field container if input fc contains several labels, where field contains results per label), containing singular (S) values of the input data, where A=U.S.Vt
 
     Examples
     --------
@@ -103,25 +103,25 @@ class apply_svd(Operator):
                     name="field_contaner_to_compress",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Fields container with data to be compressed""",
+                    document=r"""fields container to be compressed""",
                 ),
                 1: PinSpecification(
                     name="scalar_int",
                     type_names=["int32"],
-                    optional=True,
-                    document=r"""Number of vectors (r) to keep for the future reconstraction of the matrix A, ex.A[m,n] = coef[m,r] * VT[r,n], where coef = U * Sigma""",
+                    optional=False,
+                    document=r"""number of vectors (r) to keep for the future reconstraction of the matrix A, ex. A[m,n]=coef[m,r]*VT[r,n], where coef=U*Sigma""",
                 ),
                 2: PinSpecification(
                     name="scalar_double",
                     type_names=["double"],
-                    optional=True,
-                    document=r"""Threshold (precision) as a double (Default : 1e-7). If both pin1 and pin2 are provided, choose the min r-vectors""",
+                    optional=False,
+                    document=r"""threshold (precision) as a double, default value is 1e-7. If both pin1 and pin2 are provided, choose the min r-vectors""",
                 ),
                 3: PinSpecification(
                     name="boolean",
                     type_names=["bool"],
-                    optional=True,
-                    document=r"""Apply SVD on the initial data (Default : false), otherwise use reduced data (square matrix with the smallest dimensions).""",
+                    optional=False,
+                    document=r"""apply svd on the initial data (Default : false), otherwise use reduced data (square matrix with the smallest dimensions).""",
                 ),
             },
             map_output_pin_spec={
@@ -129,19 +129,19 @@ class apply_svd(Operator):
                     name="us_svd",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""The output entity is a fields container (time dependant); it contains the product of two matrices, U and S, where A=U.S.Vt""",
+                    document=r"""the output entity is a field container (time dependant); it contains the multiplication of two matrices, U and S, where A=U.S.Vt""",
                 ),
                 1: PinSpecification(
                     name="vt_svd",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""The output entity is a field container (space dependant), containing the Vt, where A=U.S.Vt""",
+                    document=r"""the output entity is a field container (space dependant), containing the Vt, where A=U.S.Vt""",
                 ),
                 2: PinSpecification(
                     name="sigma",
                     type_names=["field", "fields_container"],
                     optional=False,
-                    document=r"""The output entity is a field (or a field container if input fc contains several labels, where field contains results per label), containing singular (S) values of the input data, where A=U.S.Vt""",
+                    document=r"""the output entity is a field (or a field container if input fc contains several labels, where field contains results per label), containing singular (S) values of the input data, where A=U.S.Vt""",
                 ),
             },
         )
@@ -226,7 +226,7 @@ class InputsApplySvd(_Inputs):
     def field_contaner_to_compress(self) -> Input:
         r"""Allows to connect field_contaner_to_compress input to the operator.
 
-        Fields container with data to be compressed
+        fields container to be compressed
 
         Returns
         -------
@@ -247,7 +247,7 @@ class InputsApplySvd(_Inputs):
     def scalar_int(self) -> Input:
         r"""Allows to connect scalar_int input to the operator.
 
-        Number of vectors (r) to keep for the future reconstraction of the matrix A, ex.A[m,n] = coef[m,r] * VT[r,n], where coef = U * Sigma
+        number of vectors (r) to keep for the future reconstraction of the matrix A, ex. A[m,n]=coef[m,r]*VT[r,n], where coef=U*Sigma
 
         Returns
         -------
@@ -268,7 +268,7 @@ class InputsApplySvd(_Inputs):
     def scalar_double(self) -> Input:
         r"""Allows to connect scalar_double input to the operator.
 
-        Threshold (precision) as a double (Default : 1e-7). If both pin1 and pin2 are provided, choose the min r-vectors
+        threshold (precision) as a double, default value is 1e-7. If both pin1 and pin2 are provided, choose the min r-vectors
 
         Returns
         -------
@@ -289,7 +289,7 @@ class InputsApplySvd(_Inputs):
     def boolean(self) -> Input:
         r"""Allows to connect boolean input to the operator.
 
-        Apply SVD on the initial data (Default : false), otherwise use reduced data (square matrix with the smallest dimensions).
+        apply svd on the initial data (Default : false), otherwise use reduced data (square matrix with the smallest dimensions).
 
         Returns
         -------
@@ -346,7 +346,7 @@ class OutputsApplySvd(_Outputs):
     def us_svd(self) -> Output:
         r"""Allows to get us_svd output of the operator
 
-        The output entity is a fields container (time dependant); it contains the product of two matrices, U and S, where A=U.S.Vt
+        the output entity is a field container (time dependant); it contains the multiplication of two matrices, U and S, where A=U.S.Vt
 
         Returns
         -------
@@ -366,7 +366,7 @@ class OutputsApplySvd(_Outputs):
     def vt_svd(self) -> Output:
         r"""Allows to get vt_svd output of the operator
 
-        The output entity is a field container (space dependant), containing the Vt, where A=U.S.Vt
+        the output entity is a field container (space dependant), containing the Vt, where A=U.S.Vt
 
         Returns
         -------
