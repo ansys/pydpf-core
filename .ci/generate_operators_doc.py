@@ -138,7 +138,7 @@ def get_plugin_operators(server, plugin_name):
     return plugin_operators
 
 
-def generate_operator_doc(server, operator_name, include_private):
+def generate_operator_doc(server, operator_name, include_private, output_path):
     operator_info = fetch_doc_info(server, operator_name)
     scripting_name = operator_info["scripting_info"]["scripting_name"]
     category = operator_info["scripting_info"]["category"]
@@ -153,12 +153,14 @@ def generate_operator_doc(server, operator_name, include_private):
     script_path = Path(__file__)
     root_dir = script_path.parent.parent
     template_dir = Path(root_dir) / "doc" / "source" / "operators_doc" / "operator-specifications"
-    category_dir = Path(template_dir) / category
+    spec_folder = Path(output_path) / "operator-specifications"
+    category_dir = spec_folder / category
+    spec_folder.mkdir(parents=True, exist_ok=True)
     if category is not None:
         category_dir.mkdir(parents=True, exist_ok=True)  # Ensure all parent directories are created
         file_dir = category_dir
     else:
-        file_dir = template_dir
+        file_dir = Path(output_path) / "operator-specifications"
     with Path.open(Path(template_dir) / "operator_doc_template.md", "r") as file:
         template = Template(file.read())
 
@@ -168,10 +170,9 @@ def generate_operator_doc(server, operator_name, include_private):
 
 
 def generate_toc_tree(docs_path):
-    # Target the operator-specifications folder for iteration
-    # operator_specs_path = docs_path / "operator-specifications"
     data = []
-    for folder in docs_path.iterdir():
+    specs_path = docs_path / "operator-specifications"
+    for folder in specs_path.iterdir():
         if folder.is_dir():  # Ensure 'folder' is a directory
             category = folder.name
             operators = []  # Reset operators for each category
@@ -186,7 +187,10 @@ def generate_toc_tree(docs_path):
             data.append({"category": category, "operators": operators})
 
     # Render the Jinja2 template
-    template_path = docs_path / "toc_template.j2"
+    script_path = Path(__file__)
+    root_dir = script_path.parent.parent
+    template_dir = Path(root_dir) / "doc" / "source" / "operators_doc" / "operator-specifications"
+    template_path = template_dir / "toc_template.j2"
     with Path.open(template_path, "r") as template_file:
         template = Template(template_file.read())
     output = template.render(data=data)  # Pass 'data' as a named argument
@@ -203,6 +207,7 @@ def main():
     parser.add_argument(
         "--ansys_path", default=None, help="Path to Ansys DPF Server installation directory"
     )
+    parser.add_argument("--output_path", default=None, help="Path to output directory")
     parser.add_argument("--include_private", action="store_true", help="Include private operators")
     parser.add_argument(
         "--include_composites", action="store_true", help="Include composites operators"
@@ -210,6 +215,11 @@ def main():
     parser.add_argument("--include_sound", action="store_true", help="Include sound operators")
     args = parser.parse_args()
     desired_plugin = args.plugin
+    output_path = (
+        args.output_path
+        if args.output_path
+        else (Path(__file__).parent.parent / "doc" / "source" / "operators_doc")
+    )
 
     server = initialize_server(args.ansys_path, args.include_composites, args.include_sound)
     if desired_plugin is None:
@@ -217,17 +227,9 @@ def main():
     else:
         operators = get_plugin_operators(server, desired_plugin)
     for operator_name in operators:
-        generate_operator_doc(server, operator_name, args.include_private)
-
-    docs_path = (
-        Path(__file__).parent.parent
-        / "doc"
-        / "source"
-        / "operators_doc"
-        / "operator-specifications"
-    )
-    print(docs_path)
-    generate_toc_tree(docs_path)
+        generate_operator_doc(server, operator_name, args.include_private, output_path)
+    print(output_path)
+    generate_toc_tree(Path(output_path))
 
 
 if __name__ == "__main__":
