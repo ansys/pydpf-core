@@ -425,6 +425,20 @@ def test_append_data_elemental_nodal_field(allkindofcomplexity):
     for i in range(0, size):
         assert np.allclose(f_new.get_entity_data(i), f.get_entity_data(i))
 
+def test_distinct_fields_created_from_views():
+    points = np.array([[1,2,3],[4,5,6], [7,8,9]])
+    points_transpose = points.T
+
+    coordinates_field_one = dpf.core.fields_factory.create_3d_vector_field(len(points))
+    coordinates_field_one.data = points
+    coordinates_field_one.scoping.ids = range(1, len(coordinates_field_one.data) + 1)
+
+    coordinates_field_two = dpf.core.fields_factory.create_3d_vector_field(len(points_transpose))
+    coordinates_field_two.data = points_transpose
+    coordinates_field_two.scoping.ids = range(1, len(coordinates_field_two.data))
+    
+    check_data_equality = (coordinates_field_one.data == coordinates_field_two.data).all()
+    assert check_data_equality == False 
 
 def test_str_field(stress_field):
     assert "Location" in str(stress_field)
