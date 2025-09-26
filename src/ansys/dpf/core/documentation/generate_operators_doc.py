@@ -33,7 +33,7 @@ from ansys.dpf.core.core import load_library
 from ansys.dpf.core.dpf_operator import available_operator_names
 
 
-class Jinja2ImportError(ModuleNotFoundError):
+class Jinja2ImportError(ModuleNotFoundError):  # pragma: nocover
     """Error raised when Jinja2 could not be imported during operator documentation generation."""
 
     def __init__(
@@ -46,7 +46,7 @@ class Jinja2ImportError(ModuleNotFoundError):
 
 try:
     import jinja2
-except ModuleNotFoundError:
+except ModuleNotFoundError:  # pragma: nocover
     raise Jinja2ImportError
 
 
@@ -76,13 +76,13 @@ def initialize_server(
 
     """
     server = dpf.start_local_server(ansys_path=ansys_path)
-    if verbose:
+    if verbose:  # pragma: nocover
         print(f"Ansys Path: {server.ansys_path}")
         print(f"Server Info: {server.info}")
         print(f"Server Context: {server.context}")
         print(f"Server Config: {server.config}")
         print(f"Server version: {dpf.global_server().version}")
-    if include_composites:
+    if include_composites:  # pragma: nocover
         if verbose:
             print("Loading Composites Plugin")
         if server.os == "nt":
@@ -93,14 +93,14 @@ def initialize_server(
             filename=Path(server.ansys_path) / "dpf" / "plugins" / "dpf_composites" / binary_name,
             name="composites",
         )
-    if include_sound and server.os == "nt":
+    if include_sound and server.os == "nt":  # pragma: nocover
         if verbose:
             print("Loading Acoustics Plugin")
         load_library(
             filename=Path(server.ansys_path) / "Acoustics" / "SAS" / "ads" / "dpf_sound.dll",
             name="sound",
         )
-    if verbose:
+    if verbose:  # pragma: nocover
         print(f"Loaded plugins: {list(server.plugins.keys())}")
     return server
 
@@ -360,7 +360,7 @@ def generate_operators_doc(
     generate_toc_tree(output_path)
 
 
-def run_with_args():
+def run_with_args():  # pragma: nocover
     """Run generate_operators_doc from the command line with argument parsing."""
     parser = argparse.ArgumentParser(
         description="Generate the operator documentation sources for operators of a given DPF installation."
@@ -398,5 +398,5 @@ def run_with_args():
     )
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: nocover
     run_with_args()
