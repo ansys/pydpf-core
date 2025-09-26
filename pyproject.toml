@@ -123,4 +123,5 @@ where = ["src"]
 
 [tool.setuptools.package-data]
 "ansys.dpf.gatebin" = ["*.so", "*.dll"]
+"ansys.dpf.core.documentation" = ["toc_template.j2", "operator_doc_template.md"]
 
