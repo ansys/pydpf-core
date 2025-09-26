@@ -71,6 +71,9 @@ Documentation = "https://dpf.docs.pyansys.com/"
 Source = "https://github.com/ansys/pydpf-core"
 Tracker = "https://github.com/ansys/pydpf-core/issues"
 
+[project.scripts]
+dpf_generate_operators_doc = "ansys.dpf.core.documentation.generate_operators_doc:generate_operators_doc"
+
 [tool.ruff]
 line-length = 100
 
