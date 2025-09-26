@@ -99,7 +99,7 @@ from ansys.dpf.core.server_context import (
     AvailableServerContexts,
     LicenseContextManager
 )
-from ansys.dpf.core.server_types import AnyServerType
+from ansys.dpf.core.server_types import AnyServerType  # noqa: F401
 from ansys.dpf.core.unit_system import UnitSystem, unit_systems
 from ansys.dpf.core.incremental import IncrementalHelper, split_workflow_in_chunks
 from ansys.dpf.core.any import Any
