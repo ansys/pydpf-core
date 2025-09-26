@@ -79,15 +79,15 @@ def initialize_server(
     print(f"Server version: {dpf.global_server().version}")
     if include_composites:
         print("Loading Composites Plugin")
+        if server.os == "nt":
+            binary_name = "composite_operators.dll"
+        else:
+            binary_name = "libcomposite_operators.so"
         load_library(
-            filename=Path(server.ansys_path)
-            / "dpf"
-            / "plugins"
-            / "dpf_composites"
-            / "composite_operators.dll",
+            filename=Path(server.ansys_path) / "dpf" / "plugins" / "dpf_composites" / binary_name,
             name="composites",
         )
-    if include_sound:
+    if include_sound and server.os == "nt":
         print("Loading Acoustics Plugin")
         load_library(
             filename=Path(server.ansys_path) / "Acoustics" / "SAS" / "ads" / "dpf_sound.dll",
@@ -364,7 +364,9 @@ def run_with_args():
     parser.add_argument(
         "--include_composites", action="store_true", help="Include Composites operators"
     )
-    parser.add_argument("--include_sound", action="store_true", help="Include Sound operators")
+    parser.add_argument(
+        "--include_sound", action="store_true", help="Include Sound operators (Windows only)"
+    )
     parser.add_argument("--plugin", help="Restrict to the given plugin.")
     args = parser.parse_args()
 
