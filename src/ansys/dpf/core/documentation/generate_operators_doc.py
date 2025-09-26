@@ -51,7 +51,10 @@ except ModuleNotFoundError:
 
 
 def initialize_server(
-    ansys_path: str | PathLike = None, include_composites: bool = False, include_sound: bool = False
+    ansys_path: str | PathLike = None,
+    include_composites: bool = False,
+    include_sound: bool = False,
+    verbose: bool = False,
 ) -> dpf.AnyServerType:
     """Initialize a DPF server for a given installation folder by loading required plugins.
 
@@ -63,6 +66,8 @@ def initialize_server(
         Whether to generate documentation for operators of the Composites plugin.
     include_sound:
         Whether to generate documentation for operators of the Sound DPF plugin.
+    verbose:
+        Whether to print progress information.
 
     Returns
     -------
@@ -71,14 +76,15 @@ def initialize_server(
 
     """
     server = dpf.start_local_server(ansys_path=ansys_path)
-    print(server.plugins)
-    print(f"Ansys Path: {server.ansys_path}")
-    print(f"Server Info: {server.info}")
-    print(f"Server Context: {server.context}")
-    print(f"Server Config: {server.config}")
-    print(f"Server version: {dpf.global_server().version}")
+    if verbose:
+        print(f"Ansys Path: {server.ansys_path}")
+        print(f"Server Info: {server.info}")
+        print(f"Server Context: {server.context}")
+        print(f"Server Config: {server.config}")
+        print(f"Server version: {dpf.global_server().version}")
     if include_composites:
-        print("Loading Composites Plugin")
+        if verbose:
+            print("Loading Composites Plugin")
         if server.os == "nt":
             binary_name = "composite_operators.dll"
         else:
@@ -88,12 +94,14 @@ def initialize_server(
             name="composites",
         )
     if include_sound and server.os == "nt":
-        print("Loading Acoustics Plugin")
+        if verbose:
+            print("Loading Acoustics Plugin")
         load_library(
             filename=Path(server.ansys_path) / "Acoustics" / "SAS" / "ads" / "dpf_sound.dll",
             name="sound",
         )
-    print(f"Loaded plugins: {list(server.plugins.keys())}")
+    if verbose:
+        print(f"Loaded plugins: {list(server.plugins.keys())}")
     return server
 
 
@@ -316,6 +324,7 @@ def generate_operators_doc(
     include_sound: bool = False,
     include_private: bool = False,
     desired_plugin: str = None,
+    verbose: bool = True,
 ):
     """Generate the Markdown source files for the DPF operator documentation.
 
@@ -337,9 +346,11 @@ def generate_operators_doc(
         Whether to include private operators.
     desired_plugin:
         Restrict documentation generation to the operators of this specific plugin.
+    verbose:
+        Whether to print progress information.
 
     """
-    server = initialize_server(ansys_path, include_composites, include_sound)
+    server = initialize_server(ansys_path, include_composites, include_sound, verbose)
     if desired_plugin is None:
         operators = available_operator_names(server)
     else:
@@ -368,6 +379,13 @@ def run_with_args():
         "--include_sound", action="store_true", help="Include Sound operators (Windows only)"
     )
     parser.add_argument("--plugin", help="Restrict to the given plugin.")
+    parser.add_argument(
+        "-v",
+        "--verbose",
+        action="store_true",
+        default=True,
+        help="Print script progress information.",
+    )
     args = parser.parse_args()
 
     generate_operators_doc(
