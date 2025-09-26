@@ -1,0 +1,127 @@
+ansys.dpf.core.operators.averaging.force_summation
+==================================================
+
+.. py:class:: ansys.dpf.core.operators.averaging.force_summation(time_scoping=None, nodal_scoping=None, elemental_scoping=None, streams_container=None, data_sources=None, force_type=None, spoint=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Computes the sum of elemental forces contribution on a set of nodes in
+   Global Coordinate System. Equivalent to MAPDL FSUM & NFORCE commands.
+   Supports Static, Transient, Modal & Harmonic analysis for thermal and
+   structural degrees of freedom.
+
+
+   :param time_scoping: default = all time steps
+   :type time_scoping: Scoping, optional
+   :param nodal_scoping: Nodal Scoping. Set of nodes in which elemental contribution forces will be accumulated (default = all nodes)
+   :type nodal_scoping: Scoping, optional
+   :param elemental_scoping: Elemental Scoping. Set of elements contributing to the force calcuation. (default = all elements)
+   :type elemental_scoping: Scoping, optional
+   :param streams_container: Streams container. Optional if using data sources.
+   :type streams_container: StreamsContainer, optional
+   :param data_sources: Data sources. Optional if using a streams container.
+   :type data_sources: DataSources
+   :param force_type: Type of force to be processed (0 - default: Total forces (static, damping, and inertia)., 1: Static forces, 2: Damping forces, 3: Inertia forces)
+   :type force_type: int, optional
+   :param spoint: Coordinate field of a point for moment summations. Defaults to (0,0,0).
+   :type spoint: Field, optional
+
+   :returns: * **force_accumulation** (*FieldsContainer*)
+             * **moment_accumulation** (*FieldsContainer*)
+             * **heat_accumulation** (*FieldsContainer*)
+             * **forces_on_nodes** (*FieldsContainer*)
+             * **moments_on_nodes** (*FieldsContainer*)
+             * **heats_on_nodes** (*FieldsContainer*)
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.averaging.force_summation()
+
+   >>> # Make input connections
+   >>> my_time_scoping = dpf.Scoping()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> my_nodal_scoping = dpf.Scoping()
+   >>> op.inputs.nodal_scoping.connect(my_nodal_scoping)
+   >>> my_elemental_scoping = dpf.Scoping()
+   >>> op.inputs.elemental_scoping.connect(my_elemental_scoping)
+   >>> my_streams_container = dpf.StreamsContainer()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_force_type = int()
+   >>> op.inputs.force_type.connect(my_force_type)
+   >>> my_spoint = dpf.Field()
+   >>> op.inputs.spoint.connect(my_spoint)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.averaging.force_summation(
+   ...     time_scoping=my_time_scoping,
+   ...     nodal_scoping=my_nodal_scoping,
+   ...     elemental_scoping=my_elemental_scoping,
+   ...     streams_container=my_streams_container,
+   ...     data_sources=my_data_sources,
+   ...     force_type=my_force_type,
+   ...     spoint=my_spoint,
+   ... )
+
+   >>> # Get output data
+   >>> result_force_accumulation = op.outputs.force_accumulation()
+   >>> result_moment_accumulation = op.outputs.moment_accumulation()
+   >>> result_heat_accumulation = op.outputs.heat_accumulation()
+   >>> result_forces_on_nodes = op.outputs.forces_on_nodes()
+   >>> result_moments_on_nodes = op.outputs.moments_on_nodes()
+   >>> result_heats_on_nodes = op.outputs.heats_on_nodes()
+
+
+   .. py:attribute:: _inputs
+
+
+   .. py:attribute:: _outputs
+
+
+   .. py:method:: _spec() -> ansys.dpf.core.operators.specification.Specification
+      :staticmethod:
+
+
+
+   .. py:method:: default_config(server: ansys.dpf.core.server_types.AnyServerType = None) -> ansys.dpf.core.config.Config
+      :staticmethod:
+
+
+      Returns the default config of the operator.
+
+      This config can then be changed to the user needs and be used to
+      instantiate the operator. The Configuration allows to customize
+      how the operation will be processed by the operator.
+
+      :param server: Server with channel connected to the remote or local instance. When
+                     ``None``, attempts to use the global server.
+
+      :returns: A new Config instance equivalent to the default config for this operator.
+      :rtype: config
+
+
+
+   .. py:property:: inputs
+      :type: InputsForceSummation
+
+
+      Enables to connect inputs to the operator
+
+      :returns: An instance of InputsForceSummation.
+      :rtype: inputs
+
+
+   .. py:property:: outputs
+      :type: OutputsForceSummation
+
+
+      Enables to get outputs of the operator by evaluating it
+
+      :returns: An instance of OutputsForceSummation.
+      :rtype: outputs
+

@@ -1,0 +1,80 @@
+
+
+
+
+
+
+:class:`OutputsSketchMatrixDecompress`
+======================================
+
+.. py:class:: ansys.dpf.core.operators.compression.sketch_matrix_decompress.OutputsSketchMatrixDecompress(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   sketch_matrix_decompress operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.sketch_matrix_decompress()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_dataOut = op.outputs.dataOut()
+
+
+
+.. py:currentmodule:: OutputsSketchMatrixDecompress
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~dataOut`
+            - Allows to get dataOut output of the operator
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.compression.sketch_matrix_decompress import OutputsSketchMatrixDecompress
+
+Property detail
+---------------
+
+.. py:property:: dataOut
+
+   Allows to get dataOut output of the operator
+
+   :returns: **my_dataOut**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.sketch_matrix_decompress()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_dataOut = op.outputs.dataOut()
+
+
+
+
+
+

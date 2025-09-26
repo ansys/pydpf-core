@@ -1,0 +1,40 @@
+ansys.dpf.core.operators.averaging package
+==========================================
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   ansys.dpf.core.operators.averaging.elemental_difference
+   ansys.dpf.core.operators.averaging.elemental_difference_fc
+   ansys.dpf.core.operators.averaging.elemental_fraction_fc
+   ansys.dpf.core.operators.averaging.elemental_mean
+   ansys.dpf.core.operators.averaging.elemental_mean_fc
+   ansys.dpf.core.operators.averaging.elemental_nodal_to_nodal
+   ansys.dpf.core.operators.averaging.elemental_nodal_to_nodal_elemental
+   ansys.dpf.core.operators.averaging.elemental_nodal_to_nodal_elemental_fc
+   ansys.dpf.core.operators.averaging.elemental_nodal_to_nodal_fc
+   ansys.dpf.core.operators.averaging.elemental_to_elemental_nodal
+   ansys.dpf.core.operators.averaging.elemental_to_elemental_nodal_fc
+   ansys.dpf.core.operators.averaging.elemental_to_nodal
+   ansys.dpf.core.operators.averaging.elemental_to_nodal_fc
+   ansys.dpf.core.operators.averaging.extend_to_mid_nodes
+   ansys.dpf.core.operators.averaging.extend_to_mid_nodes_fc
+   ansys.dpf.core.operators.averaging.gauss_to_node_fc
+   ansys.dpf.core.operators.averaging.nodal_difference
+   ansys.dpf.core.operators.averaging.nodal_difference_fc
+   ansys.dpf.core.operators.averaging.nodal_fraction_fc
+   ansys.dpf.core.operators.averaging.nodal_to_elemental
+   ansys.dpf.core.operators.averaging.nodal_to_elemental_fc
+   ansys.dpf.core.operators.averaging.to_elemental_fc
+   ansys.dpf.core.operators.averaging.to_elemental_nodal_fc
+   ansys.dpf.core.operators.averaging.to_nodal
+   ansys.dpf.core.operators.averaging.to_nodal_fc
+
+Module contents
+---------------
+
+.. automodule:: ansys.dpf.core.operators.averaging
+   :inherited-members:

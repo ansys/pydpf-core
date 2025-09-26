@@ -1,0 +1,128 @@
+
+
+
+
+
+
+:class:`InputsSketchMatrixDecompress`
+=====================================
+
+.. py:class:: ansys.dpf.core.operators.compression.sketch_matrix_decompress.InputsSketchMatrixDecompress(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   sketch_matrix_decompress operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.sketch_matrix_decompress()
+   >>> my_dataIn = dpf.FieldsContainer()
+   >>> op.inputs.dataIn.connect(my_dataIn)
+   >>> my_sketch_matrix = dpf.Field()
+   >>> op.inputs.sketch_matrix.connect(my_sketch_matrix)
+   >>> my_shell_field = dpf.Field()
+   >>> op.inputs.shell_field.connect(my_shell_field)
+
+
+
+.. py:currentmodule:: InputsSketchMatrixDecompress
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~dataIn`
+            - Allows to connect dataIn input to the operator.
+          * - :py:attr:`~sketch_matrix`
+            - Allows to connect sketch_matrix input to the operator.
+          * - :py:attr:`~shell_field`
+            - Allows to connect shell_field input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.compression.sketch_matrix_decompress import InputsSketchMatrixDecompress
+
+Property detail
+---------------
+
+.. py:property:: dataIn
+
+   Allows to connect dataIn input to the operator.
+
+   Fields container to be decompressed. it is
+   assumed that all fields have the same
+   structure (scoping, num_entities).
+
+   :param my_dataIn:
+   :type my_dataIn: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.sketch_matrix_decompress()
+   >>> op.inputs.dataIn.connect(my_dataIn)
+   >>> # or
+   >>> op.inputs.dataIn(my_dataIn)
+
+.. py:property:: sketch_matrix
+
+   Allows to connect sketch_matrix input to the operator.
+
+   Field containing the sketch matrix.
+
+   :param my_sketch_matrix:
+   :type my_sketch_matrix: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.sketch_matrix_decompress()
+   >>> op.inputs.sketch_matrix.connect(my_sketch_matrix)
+   >>> # or
+   >>> op.inputs.sketch_matrix(my_sketch_matrix)
+
+.. py:property:: shell_field
+
+   Allows to connect shell_field input to the operator.
+
+   Empty field containing the shell of the field
+   of decompressed data.
+
+   :param my_shell_field:
+   :type my_shell_field: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.sketch_matrix_decompress()
+   >>> op.inputs.shell_field.connect(my_shell_field)
+   >>> # or
+   >>> op.inputs.shell_field(my_shell_field)
+
+
+
+
+
+
