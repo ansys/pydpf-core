@@ -5,8 +5,19 @@ class DPFServerException(Exception):
     """Error raised when the DPF server has encountered an error."""
 
     def __init__(self, msg=""):
-        Exception.__init__(self, msg)
+        parties = [p.strip() for p in msg.split('<-')]
 
+        if len(parties) >= 2:
+            explicit = parties[-1]
+            entities = parties[:-1]
+            result = "<-".join(entities)
+        else:
+            explicit = msg.strip()
+            result = ""
+
+        Exception.__init__(self, explicit)
+        self.add_note(result)
+        
 
 class DPFServerNullObject(Exception):
     """Error raised when the DPF server cannot find an object."""
