@@ -72,7 +72,7 @@ Source = "https://github.com/ansys/pydpf-core"
 Tracker = "https://github.com/ansys/pydpf-core/issues"
 
 [project.scripts]
-dpf_generate_operators_doc = "ansys.dpf.core.documentation.generate_operators_doc:generate_operators_doc"
+dpf_generate_operators_doc = "ansys.dpf.core.documentation.generate_operators_doc:run_with_args"
 
 [tool.ruff]
 line-length = 100

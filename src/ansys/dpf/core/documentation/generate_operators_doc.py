@@ -349,9 +349,11 @@ def generate_operators_doc(
     generate_toc_tree(output_path)
 
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Fetch available operators")
-    parser.add_argument("--plugin", help="Filter operators by plugin")
+def run_with_args():
+    """Run generate_operators_doc from the command line with argument parsing."""
+    parser = argparse.ArgumentParser(
+        description="Generate the operator documentation sources for operators of a given DPF installation."
+    )
     parser.add_argument(
         "--ansys_path", default=None, help="Path to Ansys DPF Server installation directory"
     )
@@ -360,9 +362,10 @@ if __name__ == "__main__":
     )
     parser.add_argument("--include_private", action="store_true", help="Include private operators")
     parser.add_argument(
-        "--include_composites", action="store_true", help="Include composites operators"
+        "--include_composites", action="store_true", help="Include Composites operators"
     )
-    parser.add_argument("--include_sound", action="store_true", help="Include sound operators")
+    parser.add_argument("--include_sound", action="store_true", help="Include Sound operators")
+    parser.add_argument("--plugin", help="Restrict to the given plugin.")
     args = parser.parse_args()
 
     generate_operators_doc(
@@ -371,4 +374,9 @@ if __name__ == "__main__":
         include_composites=args.include_composites,
         include_sound=args.include_sound,
         include_private=args.include_private,
+        desired_plugin=args.plugin,
     )
+
+
+if __name__ == "__main__":
+    run_with_args()
