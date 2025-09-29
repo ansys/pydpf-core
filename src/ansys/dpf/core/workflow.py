@@ -625,7 +625,7 @@ class Workflow:
         return self._api.work_flow_record_instance(self, identifier, transfer_ownership)
 
     @staticmethod
-    def get_recorded_workflow(id: int, server: AnyServerType | None = None) -> Workflow:  # noqa: W0622
+    def get_recorded_workflow(id: int, server: AnyServerType | None = None) -> Workflow:  # noqa: W0622  # pylint: disable=redefined-builtin
         """Retrieve a workflow registered (with workflow.record()).
 
         Parameters
