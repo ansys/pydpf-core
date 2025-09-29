@@ -39,9 +39,9 @@ def test_generate_operators_doc_plugin(tmp_path: Path):
         ansys_path=dpf.SERVER.ansys_path,
         output_path=tmp_path,
         verbose=False,
-        desired_plugin="vtk",
+        desired_plugin="core",
     )
     file_to_test = tmp_path / "toc.yml"
     assert file_to_test.exists()
-    file_to_test = tmp_path / "operator-specifications" / "serialization" / "vtu_export.md"
+    file_to_test = tmp_path / "operator-specifications" / "utility" / "forward.md"
     assert file_to_test.exists()
