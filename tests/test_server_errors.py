@@ -44,9 +44,7 @@ def test_server_exception_from_workflow():
     
     with pytest.raises(errors.DPFServerException) as exception_note:
         wf.get_output("out", output_type=dpf.FieldsContainer)
-    
-    print(type(exception_note))
+
     exception = exception_note.value
     assert hasattr(exception, '__notes__'), "The exception does not contain any note"
     assert exception.__notes__
-  
