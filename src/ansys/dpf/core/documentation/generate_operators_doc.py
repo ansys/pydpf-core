@@ -144,13 +144,18 @@ def replace_operator_description(original_documentation: str, new_description: s
     )
 
 
-def update_operator_descriptions(docs_path: Path):
+def update_operator_descriptions(
+    docs_path: Path,
+    verbose: bool = False,
+):
     """Update operator descriptions based on '*_upd.md' files in DPF documentation sources.
 
     Parameters
     ----------
     docs_path:
         Root path of the DPF documentation to update operator descriptions for.
+    verbose:
+        Whether to print progress information.
 
     """
     all_md_files = {}
@@ -186,9 +191,11 @@ def update_operator_descriptions(docs_path: Path):
             updated_content = replace_operator_description(base_content, new_description)
             with Path(base_path).open(mode="w", encoding="utf-8") as bf:
                 bf.write(updated_content)
-            print(f"Updated description for: {file_name}")
+            if verbose:
+                print(f"Updated description for: {file_name}")
         else:
-            print(f"No operator description found in: {upd_path}")
+            if verbose:
+                print(f"No operator description found in: {upd_path}")
 
 
 def fetch_doc_info(server: dpf.AnyServerType, operator_name: str) -> dict:
