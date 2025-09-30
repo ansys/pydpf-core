@@ -60,11 +60,19 @@ plotting = [
     "imageio-ffmpeg",
 ]
 
+operator_doc = [
+    # Operator documentation generation
+    "jinja2",
+]
+
 [project.urls]
 Homepage = "https://dpf.docs.pyansys.com/"
 Documentation = "https://dpf.docs.pyansys.com/"
 Source = "https://github.com/ansys/pydpf-core"
 Tracker = "https://github.com/ansys/pydpf-core/issues"
+
+[project.scripts]
+dpf_generate_operators_doc = "ansys.dpf.core.documentation.generate_operators_doc:run_with_args"
 
 [tool.ruff]
 line-length = 100
@@ -115,4 +123,5 @@ where = ["src"]
 
 [tool.setuptools.package-data]
 "ansys.dpf.gatebin" = ["*.so", "*.dll"]
+"ansys.dpf.core.documentation" = ["toc_template.j2", "operator_doc_template.md"]
 
