@@ -20,7 +20,7 @@ class DPFServerException(Exception):
             if not hasattr(self, "__notes__"): #if the system is python < 3.11 we custom our own notes property
                 self.__notes__ = []
             self.__notes__.append(error_note)
-        
+
 
 class DPFServerNullObject(Exception):
     """Error raised when the DPF server cannot find an object."""
