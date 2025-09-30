@@ -23,6 +23,8 @@ operator_aliases = {
     "NMISC": "mapdl::nmisc",
     "SMISC": "mapdl::smisc",
     "result_provider": "custom",
+    "CS": "mapdl::rst::CS",
+    "MCF": "U",
 }
 
 def build_docstring(specification_description):

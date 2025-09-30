@@ -205,6 +205,15 @@ jobs:
           command: |
             pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results12.xml tests/operators/.
 
+      - name: "Test Documentation"
+        uses: nick-fields/retry@v3
+        with:
+          timeout_minutes: 4
+          max_attempts: 2
+          shell: bash
+          command: |
+            pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results13.xml test_documentation/.
+
 #      - name: "Test API Entry"
 #        shell: bash
 #        working-directory: tests

@@ -421,3 +421,8 @@ if BUILD_EXAMPLES:
     extensions.extend(["sphinx_gallery.gen_gallery"])
 
 print(f"{extensions=}")
+
+# PyAnsys tags configuration
+html_context = {
+    "pyansys_tags": ['Structures']
+}

@@ -87,7 +87,7 @@ class cyclic_support_provider(Operator):
                 name="support_provider_cyclic", config=config, server=server
             )
         except (KeyError, errors.DPFServerException) as e:
-            if "doesn't exist in the registry" in str(e):
+            if "doesn't exist" in str(e):
                 super().__init__(
                     name="mapdl::rst::support_provider_cyclic",
                     config=config,

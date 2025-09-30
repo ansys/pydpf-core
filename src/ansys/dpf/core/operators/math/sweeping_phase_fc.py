@@ -17,7 +17,10 @@ from ansys.dpf.core.server_types import AnyServerType
 
 class sweeping_phase_fc(Operator):
     r"""Shifts the phase of all the corresponding real and imaginary fields of a
-    fields container for a given angle (in 2) of a unit (in 4).
+    fields container for a given angle (in 2) of a unit (in 4). An output
+    field is computed for each pair of real and imaginary fields in the
+    input fields_container as field_out = real_field\ ``*``\ cos(angle) -
+    imaginary_field\ ``*``\ sin(angle).
 
 
     Parameters
@@ -85,7 +88,10 @@ class sweeping_phase_fc(Operator):
     @staticmethod
     def _spec() -> Specification:
         description = r"""Shifts the phase of all the corresponding real and imaginary fields of a
-fields container for a given angle (in 2) of a unit (in 4).
+fields container for a given angle (in 2) of a unit (in 4). An output
+field is computed for each pair of real and imaginary fields in the
+input fields_container as field_out = real_field\ ``*``\ cos(angle) -
+imaginary_field\ ``*``\ sin(angle).
 """
         spec = Specification(
             description=description,

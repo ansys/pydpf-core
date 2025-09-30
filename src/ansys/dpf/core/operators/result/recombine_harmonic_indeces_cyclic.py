@@ -23,6 +23,8 @@ class recombine_harmonic_indeces_cyclic(Operator):
     Parameters
     ----------
     fields_container: FieldsContainer
+    is_constant: bool, optional
+        If the result is constant, it will only copy the first result found.
 
     Returns
     -------
@@ -38,17 +40,22 @@ class recombine_harmonic_indeces_cyclic(Operator):
     >>> # Make input connections
     >>> my_fields_container = dpf.FieldsContainer()
     >>> op.inputs.fields_container.connect(my_fields_container)
+    >>> my_is_constant = bool()
+    >>> op.inputs.is_constant.connect(my_is_constant)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.recombine_harmonic_indeces_cyclic(
     ...     fields_container=my_fields_container,
+    ...     is_constant=my_is_constant,
     ... )
 
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    def __init__(self, fields_container=None, config=None, server=None):
+    def __init__(
+        self, fields_container=None, is_constant=None, config=None, server=None
+    ):
         super().__init__(
             name="recombine_harmonic_indeces_cyclic", config=config, server=server
         )
@@ -56,6 +63,8 @@ class recombine_harmonic_indeces_cyclic(Operator):
         self._outputs = OutputsRecombineHarmonicIndecesCyclic(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
+        if is_constant is not None:
+            self.inputs.is_constant.connect(is_constant)
 
     @staticmethod
     def _spec() -> Specification:
@@ -70,6 +79,12 @@ frequencies to compute the response.
                     type_names=["fields_container"],
                     optional=False,
                     document=r"""""",
+                ),
+                1: PinSpecification(
+                    name="is_constant",
+                    type_names=["bool"],
+                    optional=True,
+                    document=r"""If the result is constant, it will only copy the first result found.""",
                 ),
             },
             map_output_pin_spec={
@@ -139,6 +154,8 @@ class InputsRecombineHarmonicIndecesCyclic(_Inputs):
     >>> op = dpf.operators.result.recombine_harmonic_indeces_cyclic()
     >>> my_fields_container = dpf.FieldsContainer()
     >>> op.inputs.fields_container.connect(my_fields_container)
+    >>> my_is_constant = bool()
+    >>> op.inputs.is_constant.connect(my_is_constant)
     """
 
     def __init__(self, op: Operator):
@@ -147,6 +164,10 @@ class InputsRecombineHarmonicIndecesCyclic(_Inputs):
             recombine_harmonic_indeces_cyclic._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._fields_container)
+        self._is_constant = Input(
+            recombine_harmonic_indeces_cyclic._spec().input_pin(1), 1, op, -1
+        )
+        self._inputs.append(self._is_constant)
 
     @property
     def fields_container(self) -> Input:
@@ -166,6 +187,27 @@ class InputsRecombineHarmonicIndecesCyclic(_Inputs):
         >>> op.inputs.fields_container(my_fields_container)
         """
         return self._fields_container
+
+    @property
+    def is_constant(self) -> Input:
+        r"""Allows to connect is_constant input to the operator.
+
+        If the result is constant, it will only copy the first result found.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.recombine_harmonic_indeces_cyclic()
+        >>> op.inputs.is_constant.connect(my_is_constant)
+        >>> # or
+        >>> op.inputs.is_constant(my_is_constant)
+        """
+        return self._is_constant
 
 
 class OutputsRecombineHarmonicIndecesCyclic(_Outputs):

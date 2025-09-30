@@ -22,9 +22,9 @@ class torque(Operator):
     Parameters
     ----------
     fields_container: FieldsContainer
-        fields_container
-    field: Field
-        field
+        Fields container containing the nodal forces.
+    spoint: Field or FieldsContainer
+        Field or fields container containing the summation points for each associated field on pin 0.
 
     Returns
     -------
@@ -40,27 +40,41 @@ class torque(Operator):
     >>> # Make input connections
     >>> my_fields_container = dpf.FieldsContainer()
     >>> op.inputs.fields_container.connect(my_fields_container)
-    >>> my_field = dpf.Field()
-    >>> op.inputs.field.connect(my_field)
+    >>> my_spoint = dpf.Field()
+    >>> op.inputs.spoint.connect(my_spoint)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.torque(
     ...     fields_container=my_fields_container,
-    ...     field=my_field,
+    ...     spoint=my_spoint,
     ... )
 
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    def __init__(self, fields_container=None, field=None, config=None, server=None):
+    def __init__(
+        self,
+        fields_container=None,
+        spoint=None,
+        config=None,
+        server=None,
+        field=None,
+    ):
         super().__init__(name="torque", config=config, server=server)
         self._inputs = InputsTorque(self)
         self._outputs = OutputsTorque(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
-        if field is not None:
-            self.inputs.field.connect(field)
+        if spoint is not None:
+            self.inputs.spoint.connect(spoint)
+        elif field is not None:
+            warn(
+                DeprecationWarning(
+                    f'Operator torque: Input name "field" is deprecated in favor of "spoint".'
+                )
+            )
+            self.inputs.spoint.connect(field)
 
     @staticmethod
     def _spec() -> Specification:
@@ -73,13 +87,14 @@ class torque(Operator):
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""fields_container""",
+                    document=r"""Fields container containing the nodal forces.""",
                 ),
                 1: PinSpecification(
-                    name="field",
-                    type_names=["field"],
+                    name="spoint",
+                    type_names=["field", "fields_container"],
                     optional=False,
-                    document=r"""field""",
+                    document=r"""Field or fields container containing the summation points for each associated field on pin 0.""",
+                    aliases=["field"],
                 ),
             },
             map_output_pin_spec={
@@ -147,22 +162,22 @@ class InputsTorque(_Inputs):
     >>> op = dpf.operators.result.torque()
     >>> my_fields_container = dpf.FieldsContainer()
     >>> op.inputs.fields_container.connect(my_fields_container)
-    >>> my_field = dpf.Field()
-    >>> op.inputs.field.connect(my_field)
+    >>> my_spoint = dpf.Field()
+    >>> op.inputs.spoint.connect(my_spoint)
     """
 
     def __init__(self, op: Operator):
         super().__init__(torque._spec().inputs, op)
         self._fields_container = Input(torque._spec().input_pin(0), 0, op, -1)
         self._inputs.append(self._fields_container)
-        self._field = Input(torque._spec().input_pin(1), 1, op, -1)
-        self._inputs.append(self._field)
+        self._spoint = Input(torque._spec().input_pin(1), 1, op, -1)
+        self._inputs.append(self._spoint)
 
     @property
     def fields_container(self) -> Input:
         r"""Allows to connect fields_container input to the operator.
 
-        fields_container
+        Fields container containing the nodal forces.
 
         Returns
         -------
@@ -180,10 +195,10 @@ class InputsTorque(_Inputs):
         return self._fields_container
 
     @property
-    def field(self) -> Input:
-        r"""Allows to connect field input to the operator.
+    def spoint(self) -> Input:
+        r"""Allows to connect spoint input to the operator.
 
-        field
+        Field or fields container containing the summation points for each associated field on pin 0.
 
         Returns
         -------
@@ -194,11 +209,23 @@ class InputsTorque(_Inputs):
         --------
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.result.torque()
-        >>> op.inputs.field.connect(my_field)
+        >>> op.inputs.spoint.connect(my_spoint)
         >>> # or
-        >>> op.inputs.field(my_field)
+        >>> op.inputs.spoint(my_spoint)
         """
-        return self._field
+        return self._spoint
+
+    def __getattr__(self, name):
+        if name in ["field"]:
+            warn(
+                DeprecationWarning(
+                    f'Operator torque: Input name "{name}" is deprecated in favor of "spoint".'
+                )
+            )
+            return self.spoint
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
 
 
 class OutputsTorque(_Outputs):
