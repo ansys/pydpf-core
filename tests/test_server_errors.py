@@ -21,30 +21,32 @@
 # SOFTWARE.
 
 import pytest
-import sys
+
 import ansys.dpf.core as dpf
 from ansys.dpf.core import errors, operators as ops
+
 
 def test_server_exception_from_operator():
     ds = dpf.DataSources(r"dummy/file.rst")
     op = ops.result.displacement(data_sources=ds)
     with pytest.raises(errors.DPFServerException) as exception_note:
         op.eval()
-    
+
     exception = exception_note.value
-    assert hasattr(exception, '__notes__'), "The exception does not contain any note"
+    assert hasattr(exception, "__notes__"), "The exception does not contain any note"
     assert exception.__notes__
+
 
 def test_server_exception_from_workflow():
     op = dpf.operators.result.displacement(data_sources=dpf.DataSources("toto.rst"))
- 
+
     wf = dpf.Workflow()
     wf.add_operator(op)
     wf.set_output_name("out", op.outputs.fields_container)
-    
+
     with pytest.raises(errors.DPFServerException) as exception_note:
         wf.get_output("out", output_type=dpf.FieldsContainer)
 
     exception = exception_note.value
-    assert hasattr(exception, '__notes__'), "The exception does not contain any note"
+    assert hasattr(exception, "__notes__"), "The exception does not contain any note"
     assert exception.__notes__
