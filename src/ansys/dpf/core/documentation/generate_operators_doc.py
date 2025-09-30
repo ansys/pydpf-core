@@ -24,8 +24,9 @@
 from __future__ import annotations
 
 import argparse
-from os import PathLike
+import os
 from pathlib import Path
+import re
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core.changelog import Changelog
@@ -51,7 +52,7 @@ except ModuleNotFoundError:  # pragma: nocover
 
 
 def initialize_server(
-    ansys_path: str | PathLike = None,
+    ansys_path: str | os.PathLike = None,
     include_composites: bool = False,
     include_sound: bool = False,
     verbose: bool = False,
@@ -103,6 +104,91 @@ def initialize_server(
     if verbose:  # pragma: nocover
         print(f"Loaded plugins: {list(server.plugins.keys())}")
     return server
+
+
+def extract_operator_description_update(content: str) -> str:
+    """Extract the updated description to use for an operator.
+
+    Parameters
+    ----------
+    content:
+        The contents of the '*-upd.md' file.
+
+    Returns
+    -------
+        description_update:
+            The updated description to use for the operator.
+    """
+    match = re.search(r"## Description\s*(.*?)\s*(?=## |\Z)", content, re.DOTALL)
+    return match.group(0) if match else None
+
+
+def replace_operator_description(original_documentation: str, new_description: str):
+    """Replace the original operator description with a new one in the operator documentation file.
+
+    Parameters
+    ----------
+    original_documentation:
+        Original operator documentation.
+    new_description:
+        New operator description
+
+    Returns
+    -------
+    updated_documentation:
+        The updated operator documentation content
+
+    """
+    return re.sub(
+        r"## Description\s*.*?(?=## |\Z)", new_description, original_documentation, flags=re.DOTALL
+    )
+
+
+def update_operator_descriptions(docs_path: Path):
+    """Update operator descriptions based on '*-upd.md' files in DPF documentation sources.
+
+    Parameters
+    ----------
+    docs_path:
+        Root path of the DPF documentation to update operator descriptions for.
+
+    """
+    all_md_files = {}
+    specs_path = docs_path / "operator-specifications"
+    # Walk through the target directory and all subdirectories
+    for root, _, files in os.walk(specs_path):
+        for file in files:
+            if file.endswith(".md"):
+                full_path = Path(root) / file
+                all_md_files[str(full_path)] = file  # Store full path and just filename
+
+    for base_path, file_name in all_md_files.items():
+        if file_name.endswith("_upd.md"):
+            continue  # Skip update files
+
+        # Construct the expected update file name and path
+        upd_file_name = f"{file_name[:-3]}_upd.md"
+
+        # Look for the update file in the same folder
+        upd_path = Path(base_path).parent / upd_file_name
+        if not upd_path.exists:
+            continue
+
+        # Load contents
+        with Path(base_path).open(mode="r", encoding="utf-8") as bf:
+            base_content = bf.read()
+        with Path(upd_path).open(mode="r", encoding="utf-8") as uf:
+            upd_content = uf.read()
+
+        # Extract and replace description
+        new_description = extract_operator_description_update(upd_content)
+        if new_description:
+            updated_content = replace_operator_description(base_content, new_description)
+            with Path(base_path).open(mode="w", encoding="utf-8") as bf:
+                bf.write(updated_content)
+            print(f"Updated description for: {file_name}")
+        else:
+            print(f"No operator description found in: {upd_path}")
 
 
 def fetch_doc_info(server: dpf.AnyServerType, operator_name: str) -> dict:
@@ -357,7 +443,10 @@ def generate_operators_doc(
         operators = get_plugin_operators(server, desired_plugin)
     for operator_name in operators:
         generate_operator_doc(server, operator_name, include_private, output_path)
+    # Generate the toc tree
     generate_toc_tree(output_path)
+    # Use update files in output_path
+    update_operator_descriptions(output_path)
 
 
 def run_with_args():  # pragma: nocover
