@@ -26,18 +26,18 @@ class force_summation(Operator):
     ----------
     time_scoping: Scoping, optional
         default = all time steps
-    nodal_scoping: Scoping, optional
-        Nodal Scoping. Set of nodes in which elemental contribution forces will be accumulated (default = all nodes)
-    elemental_scoping: Scoping, optional
-        Elemental Scoping. Set of elements contributing to the force calcuation. (default = all elements)
+    nodal_scoping: Scoping or ScopingsContainer, optional
+        Nodal Scoping or Scopings Container with a single label. Set of nodes in which elemental contribution forces will be accumulated (default = all nodes)
+    elemental_scoping: Scoping or ScopingsContainer, optional
+        Elemental Scoping or Scopings Container with a single label. Set of elements contributing to the force calculation. (default = all elements)
     streams_container: StreamsContainer, optional
         Streams container. Optional if using data sources.
     data_sources: DataSources
         Data sources. Optional if using a streams container.
     force_type: int, optional
-        Type of force to be processed (0 - default: Total forces (static, damping, and inertia)., 1: Static forces, 2: Damping forces, 3: Inertia forces)
-    spoint: Field, optional
-        Coordinate field of a point for moment summations. Defaults to (0,0,0).
+        Type of force to be processed (0: Total forces (static, damping, and inertia)., 1 (default): Static forces, 2: Damping forces, 3: Inertia forces)
+    spoint: Field or FieldsContainer, optional
+        Field or fields container of the coordinates of the point used for moment summations. Defaults to (0,0,0).
 
     Returns
     -------
@@ -139,15 +139,15 @@ structural degrees of freedom.
                 ),
                 1: PinSpecification(
                     name="nodal_scoping",
-                    type_names=["scoping"],
+                    type_names=["scoping", "scopings_container"],
                     optional=True,
-                    document=r"""Nodal Scoping. Set of nodes in which elemental contribution forces will be accumulated (default = all nodes)""",
+                    document=r"""Nodal Scoping or Scopings Container with a single label. Set of nodes in which elemental contribution forces will be accumulated (default = all nodes)""",
                 ),
                 2: PinSpecification(
                     name="elemental_scoping",
-                    type_names=["scoping"],
+                    type_names=["scoping", "scopings_container"],
                     optional=True,
-                    document=r"""Elemental Scoping. Set of elements contributing to the force calcuation. (default = all elements)""",
+                    document=r"""Elemental Scoping or Scopings Container with a single label. Set of elements contributing to the force calculation. (default = all elements)""",
                 ),
                 3: PinSpecification(
                     name="streams_container",
@@ -165,13 +165,13 @@ structural degrees of freedom.
                     name="force_type",
                     type_names=["int32"],
                     optional=True,
-                    document=r"""Type of force to be processed (0 - default: Total forces (static, damping, and inertia)., 1: Static forces, 2: Damping forces, 3: Inertia forces)""",
+                    document=r"""Type of force to be processed (0: Total forces (static, damping, and inertia)., 1 (default): Static forces, 2: Damping forces, 3: Inertia forces)""",
                 ),
                 6: PinSpecification(
                     name="spoint",
-                    type_names=["field"],
+                    type_names=["field", "fields_container"],
                     optional=True,
-                    document=r"""Coordinate field of a point for moment summations. Defaults to (0,0,0).""",
+                    document=r"""Field or fields container of the coordinates of the point used for moment summations. Defaults to (0,0,0).""",
                 ),
             },
             map_output_pin_spec={
@@ -325,7 +325,7 @@ class InputsForceSummation(_Inputs):
     def nodal_scoping(self) -> Input:
         r"""Allows to connect nodal_scoping input to the operator.
 
-        Nodal Scoping. Set of nodes in which elemental contribution forces will be accumulated (default = all nodes)
+        Nodal Scoping or Scopings Container with a single label. Set of nodes in which elemental contribution forces will be accumulated (default = all nodes)
 
         Returns
         -------
@@ -346,7 +346,7 @@ class InputsForceSummation(_Inputs):
     def elemental_scoping(self) -> Input:
         r"""Allows to connect elemental_scoping input to the operator.
 
-        Elemental Scoping. Set of elements contributing to the force calcuation. (default = all elements)
+        Elemental Scoping or Scopings Container with a single label. Set of elements contributing to the force calculation. (default = all elements)
 
         Returns
         -------
@@ -409,7 +409,7 @@ class InputsForceSummation(_Inputs):
     def force_type(self) -> Input:
         r"""Allows to connect force_type input to the operator.
 
-        Type of force to be processed (0 - default: Total forces (static, damping, and inertia)., 1: Static forces, 2: Damping forces, 3: Inertia forces)
+        Type of force to be processed (0: Total forces (static, damping, and inertia)., 1 (default): Static forces, 2: Damping forces, 3: Inertia forces)
 
         Returns
         -------
@@ -430,7 +430,7 @@ class InputsForceSummation(_Inputs):
     def spoint(self) -> Input:
         r"""Allows to connect spoint input to the operator.
 
-        Coordinate field of a point for moment summations. Defaults to (0,0,0).
+        Field or fields container of the coordinates of the point used for moment summations. Defaults to (0,0,0).
 
         Returns
         -------
