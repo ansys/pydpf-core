@@ -53,7 +53,7 @@ from ansys.dpf.core.server_types import (
     LOCALHOST,
     RUNNING_DOCKER,
     AnyServerType,
-    BaseServer,  # noqa: F401
+    BaseServer,  # noqa: F401  # pylint: disable=unused-import
 )
 
 
