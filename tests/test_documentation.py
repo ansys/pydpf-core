@@ -34,7 +34,17 @@ def test_generate_operators_doc(tmp_path: Path):
     assert file_to_test.exists()
 
 
-def test_generate_operators_doc_plugin(tmp_path: Path):
+def test_generate_operators_doc_plugin_and_update(tmp_path: Path):
+    specs_path = tmp_path / "operator-specifications"
+    specs_path.mkdir()
+    utility_path = specs_path / "utility"
+    utility_path.mkdir()
+    forward_update_path = utility_path / "forward_upd.md"
+    test_string = r"""## Description
+        
+Test update"""
+    with forward_update_path.open(mode="w", encoding="utf-8") as ff:
+        ff.write(test_string)
     generate_operators_doc(
         ansys_path=dpf.SERVER.ansys_path,
         output_path=tmp_path,
@@ -43,5 +53,8 @@ def test_generate_operators_doc_plugin(tmp_path: Path):
     )
     file_to_test = tmp_path / "toc.yml"
     assert file_to_test.exists()
-    file_to_test = tmp_path / "operator-specifications" / "utility" / "forward.md"
+    file_to_test = utility_path / "forward.md"
     assert file_to_test.exists()
+    with file_to_test.open(mode="r", encoding="utf-8") as ff:
+        text = ff.read()
+    assert test_string in text
