@@ -52,7 +52,7 @@ from ansys.dpf.core.server_types import (
     DPF_DEFAULT_PORT, 
     LOCALHOST, 
     RUNNING_DOCKER, 
-    ServerBase, 
+    BaseServer, 
     AnyServerType,
 )
 
