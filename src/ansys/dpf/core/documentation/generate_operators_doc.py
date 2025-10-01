@@ -24,8 +24,9 @@
 from __future__ import annotations
 
 import argparse
-from os import PathLike
+import os
 from pathlib import Path
+import re
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core.changelog import Changelog
@@ -51,7 +52,7 @@ except ModuleNotFoundError:  # pragma: nocover
 
 
 def initialize_server(
-    ansys_path: str | PathLike = None,
+    ansys_path: str | os.PathLike = None,
     include_composites: bool = False,
     include_sound: bool = False,
     verbose: bool = False,
@@ -103,6 +104,98 @@ def initialize_server(
     if verbose:  # pragma: nocover
         print(f"Loaded plugins: {list(server.plugins.keys())}")
     return server
+
+
+def extract_operator_description_update(content: str) -> str:
+    """Extract the updated description to use for an operator.
+
+    Parameters
+    ----------
+    content:
+        The contents of the '*_upd.md' file.
+
+    Returns
+    -------
+        description_update:
+            The updated description to use for the operator.
+    """
+    match = re.search(r"## Description\s*(.*?)\s*(?=## |\Z)", content, re.DOTALL)
+    return match.group(0) + os.linesep if match else None
+
+
+def replace_operator_description(original_documentation: str, new_description: str):
+    """Replace the original operator description with a new one in the operator documentation file.
+
+    Parameters
+    ----------
+    original_documentation:
+        Original operator documentation.
+    new_description:
+        New operator description
+
+    Returns
+    -------
+    updated_documentation:
+        The updated operator documentation content
+
+    """
+    return re.sub(
+        r"## Description\s*.*?(?=## |\Z)", new_description, original_documentation, flags=re.DOTALL
+    )
+
+
+def update_operator_descriptions(
+    docs_path: Path,
+    verbose: bool = False,
+):
+    """Update operator descriptions based on '*_upd.md' files in DPF documentation sources.
+
+    Parameters
+    ----------
+    docs_path:
+        Root path of the DPF documentation to update operator descriptions for.
+    verbose:
+        Whether to print progress information.
+
+    """
+    all_md_files = {}
+    specs_path = docs_path / Path("operator-specifications")
+    # Walk through the target directory and all subdirectories
+    for root, _, files in os.walk(specs_path):
+        for file in files:
+            if file.endswith(".md"):
+                full_path = Path(root) / Path(file)
+                all_md_files[str(full_path)] = file  # Store full path and just filename
+
+    for base_path, file_name in all_md_files.items():
+        if file_name.endswith("_upd.md"):
+            continue  # Skip update files
+
+        # Construct the expected update file name and path
+        upd_file_name = f"{file_name[:-3]}_upd.md"
+
+        # Look for the update file in the same folder
+        upd_path = Path(base_path).parent / Path(upd_file_name)
+        if not upd_path.exists():
+            continue
+
+        # Load contents
+        with Path(base_path).open(mode="r", encoding="utf-8") as bf:
+            base_content = bf.read()
+        with Path(upd_path).open(mode="r", encoding="utf-8") as uf:
+            upd_content = uf.read()
+
+        # Extract and replace description
+        new_description = extract_operator_description_update(upd_content)
+        if new_description:
+            updated_content = replace_operator_description(base_content, new_description)
+            with Path(base_path).open(mode="w", encoding="utf-8") as bf:
+                bf.write(updated_content)
+            if verbose:
+                print(f"Updated description for: {file_name}")
+        else:
+            if verbose:
+                print(f"No operator description found in: {upd_path}")
 
 
 def fetch_doc_info(server: dpf.AnyServerType, operator_name: str) -> dict:
@@ -265,14 +358,14 @@ def generate_operator_doc(
     if not include_private and operator_info["exposure"] == "private":
         return
     template_path = Path(__file__).parent / "operator_doc_template.md"
-    spec_folder = output_path / "operator-specifications"
+    spec_folder = output_path / Path("operator-specifications")
     category_dir = spec_folder / category
     spec_folder.mkdir(parents=True, exist_ok=True)
     if category is not None:
         category_dir.mkdir(parents=True, exist_ok=True)  # Ensure all parent directories are created
         file_dir = category_dir
     else:
-        file_dir = output_path / "operator-specifications"
+        file_dir = spec_folder
     with Path.open(template_path, "r") as file:
         template = jinja2.Template(file.read())
 
@@ -291,7 +384,7 @@ def generate_toc_tree(docs_path: Path):
 
     """
     data = []
-    specs_path = docs_path / "operator-specifications"
+    specs_path = docs_path / Path("operator-specifications")
     for folder in specs_path.iterdir():
         if folder.is_dir():  # Ensure 'folder' is a directory
             category = folder.name
@@ -308,18 +401,19 @@ def generate_toc_tree(docs_path: Path):
 
     # Render the Jinja2 template
     template_path = Path(__file__).parent / "toc_template.j2"
-    with Path.open(template_path, "r") as template_file:
+    with template_path.open(mode="r") as template_file:
         template = jinja2.Template(template_file.read())
     output = template.render(data=data)  # Pass 'data' as a named argument
 
     # Write the rendered output to toc.yml at the operators_doc level
-    with Path.open(docs_path / "toc.yml", "w") as file:
+    toc_path = docs_path / Path("toc.yml")
+    with toc_path.open(mode="w") as file:
         file.write(output)
 
 
 def generate_operators_doc(
-    ansys_path: Path,
     output_path: Path,
+    ansys_path: Path = None,
     include_composites: bool = False,
     include_sound: bool = False,
     include_private: bool = False,
@@ -334,10 +428,10 @@ def generate_operators_doc(
 
     Parameters
     ----------
-    ansys_path:
-        Path to an Ansys/DPF installation.
     output_path:
         Path to write the output files at.
+    ansys_path:
+        Path to an Ansys/DPF installation.
     include_composites:
         Whether to include operators of the Composites plugin.
     include_sound:
@@ -357,7 +451,10 @@ def generate_operators_doc(
         operators = get_plugin_operators(server, desired_plugin)
     for operator_name in operators:
         generate_operator_doc(server, operator_name, include_private, output_path)
+    # Generate the toc tree
     generate_toc_tree(output_path)
+    # Use update files in output_path
+    update_operator_descriptions(output_path)
 
 
 def run_with_args():  # pragma: nocover
@@ -389,8 +486,8 @@ def run_with_args():  # pragma: nocover
     args = parser.parse_args()
 
     generate_operators_doc(
-        ansys_path=args.ansys_path,
         output_path=args.output_path,
+        ansys_path=args.ansys_path,
         include_composites=args.include_composites,
         include_sound=args.include_sound,
         include_private=args.include_private,
