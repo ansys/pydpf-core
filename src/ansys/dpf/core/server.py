@@ -53,7 +53,7 @@ from ansys.dpf.core.server_types import (
     LOCALHOST,
     RUNNING_DOCKER,
     AnyServerType,
-    BaseServer,
+    BaseServer,  # noqa: F401
 )
 
 
