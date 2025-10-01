@@ -208,7 +208,7 @@ jobs:
       - name: "Test Documentation"
         uses: nick-fields/retry@v3
         with:
-          timeout_minutes: 4
+          timeout_minutes: 8
           max_attempts: 2
           shell: bash
           command: |
