@@ -49,7 +49,13 @@ from ansys.dpf.core.server_factory import (
     ServerFactory,
     GrpcMode
 )
-from ansys.dpf.core.server_types import DPF_DEFAULT_PORT, LOCALHOST, RUNNING_DOCKER, AnyServerType
+from ansys.dpf.core.server_types import (  # noqa: F401  # pylint: disable=unused-import
+    DPF_DEFAULT_PORT,
+    LOCALHOST,
+    RUNNING_DOCKER,
+    AnyServerType,
+    BaseServer,
+)
 
 
 def shutdown_global_server():
