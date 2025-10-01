@@ -49,11 +49,11 @@ from ansys.dpf.core.server_factory import (
     ServerFactory,
 )
 from ansys.dpf.core.server_types import (
-    DPF_DEFAULT_PORT, 
-    LOCALHOST, 
-    RUNNING_DOCKER, 
-    BaseServer, 
+    DPF_DEFAULT_PORT,
+    LOCALHOST,
+    RUNNING_DOCKER,
     AnyServerType,
+    BaseServer,
 )
 
 
