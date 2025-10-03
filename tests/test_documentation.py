@@ -27,16 +27,33 @@ from ansys.dpf.core.documentation.generate_operators_doc import generate_operato
 
 
 def test_generate_operators_doc(tmp_path: Path):
+    specs_path = tmp_path / "operator-specifications"
+    specs_path.mkdir()
+    toc_path = tmp_path / "toc.yml"
+    toc_string = r"""- name: Operator specifications
+  items:
+        
+- name: Changelog
+  href: changelog/changelog.md"""
+    with toc_path.open(mode="w") as ff:
+        ff.write(toc_string)
     generate_operators_doc(ansys_path=dpf.SERVER.ansys_path, output_path=tmp_path, verbose=False)
-    file_to_test = tmp_path / "toc.yml"
-    assert file_to_test.exists()
-    file_to_test = tmp_path / "operator-specifications" / "utility" / "forward.md"
+    assert toc_path.exists()
+    file_to_test = specs_path / "utility" / "forward.md"
     assert file_to_test.exists()
 
 
 def test_generate_operators_doc_plugin_and_update(tmp_path: Path):
     specs_path = tmp_path / "operator-specifications"
     specs_path.mkdir()
+    toc_path = tmp_path / "toc.yml"
+    toc_string = r"""- name: Operator specifications
+  items:
+        
+- name: Changelog
+  href: changelog/changelog.md"""
+    with toc_path.open(mode="w") as ff:
+        ff.write(toc_string)
     utility_path = specs_path / "utility"
     utility_path.mkdir()
     forward_update_path = utility_path / "forward_upd.md"
@@ -51,8 +68,7 @@ Test update"""
         verbose=False,
         desired_plugin="core",
     )
-    file_to_test = tmp_path / "toc.yml"
-    assert file_to_test.exists()
+    assert toc_path.exists()
     file_to_test = utility_path / "forward.md"
     assert file_to_test.exists()
     with file_to_test.open(mode="r", encoding="utf-8") as ff:

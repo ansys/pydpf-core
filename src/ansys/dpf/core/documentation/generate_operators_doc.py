@@ -374,8 +374,8 @@ def generate_operator_doc(
         file.write(output)
 
 
-def generate_toc_tree(docs_path: Path):
-    """Write the global toc.yml file for the DPF documentation based on the operators found.
+def update_toc_tree(docs_path: Path):
+    """Update the global toc.yml file for the DPF documentation based on the operators found.
 
     Parameters
     ----------
@@ -391,7 +391,7 @@ def generate_toc_tree(docs_path: Path):
             operators = []  # Reset operators for each category
             for file in folder.iterdir():
                 if (
-                    file.is_file() and file.suffix == ".md"
+                    file.is_file() and file.suffix == ".md" and not file.name.endswith("_upd.md")
                 ):  # Ensure 'file' is a file with .md extension
                     file_name = file.name
                     file_path = f"{category}/{file_name}"
@@ -405,10 +405,18 @@ def generate_toc_tree(docs_path: Path):
         template = jinja2.Template(template_file.read())
     output = template.render(data=data)  # Pass 'data' as a named argument
 
-    # Write the rendered output to toc.yml at the operators_doc level
+    # Update the original toc.yml file with the rendered output for operator_specifications
     toc_path = docs_path / Path("toc.yml")
+    with toc_path.open(mode="r") as file:
+        original_toc = file.read()
+    new_toc = re.sub(
+        pattern=r"- name: Operator specifications\s*.*?(?=- name: Changelog|\Z)",
+        repl=output,
+        string=original_toc,
+        flags=re.DOTALL,
+    )
     with toc_path.open(mode="w") as file:
-        file.write(output)
+        file.write(new_toc)
 
 
 def generate_operators_doc(
@@ -452,7 +460,7 @@ def generate_operators_doc(
     for operator_name in operators:
         generate_operator_doc(server, operator_name, include_private, output_path)
     # Generate the toc tree
-    generate_toc_tree(output_path)
+    update_toc_tree(output_path)
     # Use update files in output_path
     update_operator_descriptions(output_path)
 
