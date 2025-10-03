@@ -51,7 +51,7 @@ from ansys.dpf.core import __version__, errors, server_context, server_factory
 from ansys.dpf.core._version import min_server_version, server_to_ansys_version
 from ansys.dpf.core.check_version import get_server_version, meets_version, version_requires
 from ansys.dpf.core.server_context import AvailableServerContexts, ServerContext
-from ansys.dpf.gate import data_processing_grpcapi, load_api
+from ansys.dpf.gate import data_processing_capi, data_processing_grpcapi, load_api
 
 if TYPE_CHECKING:  # pragma: no cover
     from ansys.dpf.core.server_factory import DockerConfig
@@ -708,6 +708,29 @@ class BaseServer(abc.ABC):
                             core._server_instances.remove(server)
         except:
             warnings.warn(traceback.format_exc())
+
+    def start_debug(self, folder_path: str | Path):
+        """Start writing server debug information within the given folder.
+
+        Parameters
+        ----------
+        folder_path:
+            Path to a folder where to write server debug info.
+
+        """
+        api = self.get_api_for_type(
+            capi=data_processing_capi.DataProcessingCAPI,
+            grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI,
+        )
+        api.data_processing_set_debug_trace(text=str(folder_path))
+
+    def stop_debug(self):
+        """Stop writing server debug information."""
+        api = self.get_api_for_type(
+            capi=data_processing_capi.DataProcessingCAPI,
+            grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI,
+        )
+        api.data_processing_set_debug_trace(text="")
 
 
 class CServer(BaseServer, ABC):
