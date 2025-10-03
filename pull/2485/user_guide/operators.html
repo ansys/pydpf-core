@@ -1,0 +1,996 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <meta property="og:site_name" content="PyAnsys" />
+    <title>Operators &#8212; PyDPF-Core</title>
+  
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/ansys-sphinx-theme.css?v=ce7f2556" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles\ansys-sphinx-theme.css?v=ce7f2556" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://www.nerdfonts.com/assets/css/webfont.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=2be88464" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+
+  <!-- Include desired assets -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  
+
+  
+    <link href="../_static/css/breadcrumbs.css" rel="stylesheet" />
+  
+    <script src="../_static/documentation_options.js?v=8c207667"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/operators';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://dpf.docs.pyansys.com/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="icon" href="../_static/ansys-favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Fields containers and fields" href="fields_container.html" />
+    <link rel="prev" title="DPF model" href="model.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.13.9.dev0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="https://docs.pyansys.com">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/pyansys_logo_transparent_black.png" class="logo__image only-light" alt="PyDPF-Core - Home"/>
+    <img src="../_static/pyansys_logo_transparent_white.png" class="logo__image only-dark pst-js-only" alt="PyDPF-Core - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../operator_reference.html">
+    Operators
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+      
+        <div class="navbar-item">
+<div class="search-bar pst-js-only" id="search-bar">
+  <form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="search" class="form-control" name="q" placeholder="Search the docs ..."
+      aria-label="Search the docs ..." autocomplete="off" autocorrect="off"
+      autocapitalize="off" spellcheck="false" />
+    <span class="search-button__kbd-shortcut">
+      <kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd>
+    </span>
+  </form>
+  <div id="static-search-results" class="static-search-results" style="display:none;" tabindex="0"></div>
+</div></div>
+      
+        <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+  
+    <div id="announcement_msg"></div>
+<script>
+  fetch("announcement.html")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(
+      (text) => (document.getElementById("announcement_msg").innerHTML = text),
+    )
+    .catch((error) => console.error(`Fetch problem: ${error.message}`));
+</script>
+  
+
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../operator_reference.html">
+    Operators
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<div class="search-bar pst-js-only" id="search-bar">
+  <form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="search" class="form-control" name="q" placeholder="Search the docs ..."
+      aria-label="Search the docs ..." autocomplete="off" autocorrect="off"
+      autocapitalize="off" spellcheck="false" />
+    <span class="search-button__kbd-shortcut">
+      <kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd>
+    </span>
+  </form>
+  <div id="static-search-results" class="static-search-results" style="display:none;" tabindex="0"></div>
+</div></div>
+        
+          <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="concepts/concepts.html">Terms and concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="concepts/waysofusing.html">DPF capabilities and scripting languages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="concepts/stepbystep.html">DPF usage</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">DPF most-used entities</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="model.html">DPF model</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Operators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fields_container.html">Fields containers and fields</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">How-tos</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="plotting.html">Plotting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_operators.html">Custom operators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="server_types.html">Client-server communication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="server_context.html">Server context</a></li>
+<li class="toctree-l1"><a class="reference internal" href="xmlfiles.html">DPF XML files</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Troubleshooting</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+         
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="https://docs.pyansys.com/" class="nav-link">PyAnsys</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a
+        href="../index.html"
+        class="nav-link"
+        aria-label="Home"
+      >
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="index.html" class="nav-link">User guide</a>
+    </li>
+      
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Operators</span></li>
+    
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="operators">
+<span id="ref-user-guide-operators"></span><h1>Operators<a class="headerlink" href="#operators" title="Link to this heading">#</a></h1>
+<p>An operator is the main object that is used to create, transform, and stream
+data. In DPF, you use operators to load, operate on, and output data.</p>
+<p>Each operator contains <code class="docutils literal notranslate"><span class="pre">input</span></code> and <code class="docutils literal notranslate"><span class="pre">output</span></code> attributes, which
+allow you to make various input and output connections.</p>
+<p>During an evaluation, an operator processes inputs to
+compute an output with respect to the operator’s description:</p>
+<figure class="align-default">
+<img alt="../_images/operator_drawing.svg" src="../_images/operator_drawing.svg" />
+</figure>
+<p>You can attach one operator’s outputs to another operator’s inputs to
+chain operators together, thereby creating workflows for conducting simple or
+complex data processing. Through lazy evaluation, DPF approaches data processing
+in an efficient manner, evaluating each operator only when the final operator
+is evaluated and the data is requested.</p>
+<p>For example, if you want the maximum normalized displacement of a
+result, you construct operators in this order:</p>
+<figure class="align-default">
+<img alt="../_images/max_u_norm.png" src="../_images/max_u_norm.png" />
+</figure>
+<p>This example shows how to compute the maximum normalized displacement
+of a result:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">Model</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">examples</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">operators</span> <span class="k">as</span> <span class="n">ops</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">find_simple_bar</span><span class="p">())</span>
+<span class="n">displacement</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="p">()</span>
+<span class="n">norm</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">displacement</span><span class="p">)</span>
+<span class="n">min_max</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">min_max</span><span class="o">.</span><span class="n">min_max</span><span class="p">(</span><span class="n">norm</span><span class="p">)</span>
+<span class="n">max_displacement</span> <span class="o">=</span> <span class="n">min_max</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field_max</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This approach efficiently computes the maximum
+displacement of a result entirely within the DPF service, without
+transferring any data from DPF to Python until DPF arrives at the
+solution data that you want.</p>
+<p>A DPF operator can be licensed, meaning it requires a license checkout to run.
+The license type can be specific, or amongst a given list, and is defined at the operator level.
+For more information about the DPF licensing logic, see <a class="reference internal" href="server_context.html#user-guide-server-context"><span class="std std-ref">Server context</span></a>.</p>
+<p>The library of DPF operators is large and includes file readers and mathematical,
+geometrical, and logical transformations. For more information on this library,
+which is progressively enhanced, see <a class="reference internal" href="../operator_reference.html#ref-dpf-operators-reference"><span class="std std-ref">Operators</span></a>.</p>
+<section id="create-operators">
+<h2>Create operators<a class="headerlink" href="#create-operators" title="Link to this heading">#</a></h2>
+<p>Each operator is of type <a class="reference internal" href="../api/ansys/dpf/core/dpf_operator/index.html#module-ansys.dpf.core.dpf_operator" title="ansys.dpf.core.dpf_operator"><code class="xref py py-mod docutils literal notranslate"><span class="pre">Operator</span></code></a>. You can create an instance
+in Python with any of the derived classes available in the
+<a class="reference internal" href="../api/ansys/dpf/core/operators/index.html#module-ansys.dpf.core.operators" title="ansys.dpf.core.operators"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ansys.dpf.core.operators</span></code></a> package or directly with the <a class="reference internal" href="../api/ansys/dpf/core/dpf_operator/index.html#module-ansys.dpf.core.dpf_operator" title="ansys.dpf.core.dpf_operator"><code class="xref py py-mod docutils literal notranslate"><span class="pre">Operator</span></code></a>
+class using the internal name string that indicates the operator type.
+For more information, see <a class="reference internal" href="../operator_reference.html#ref-dpf-operators-reference"><span class="std std-ref">Operators</span></a>.</p>
+<p>This example shows how to create the displacement operator:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">operators</span> <span class="k">as</span> <span class="n">ops</span>
+<span class="n">op</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">displacement</span><span class="p">()</span> <span class="c1"># or op = ansys.dpf.core.Operator(&quot;U&quot;)</span>
+</pre></div>
+</div>
+<p>You can view the description and available inputs and available outputs of this
+operator by printing it:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">op</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF U Operator:
+  Read/compute nodal displacements by calling the readers defined by the datasources.
+  Inputs:
+         time_scoping (optional) [scoping, int32, vector&lt;int32&gt;, double, field, vector&lt;double&gt;]: time/freq (use doubles or field), time/freq set ids (use ints or scoping) or time/freq step ids (use scoping with TimeFreq_steps location) required in output
+         mesh_scoping (optional) [scopings_container, scoping]: nodes or elements scoping required in output. The scoping&#39;s location indicates whether nodes or elements are asked. Using scopings container enables to split the result fields container in domains
+         fields_container (optional) [fields_container]: Fields container already allocated modified inplace
+         streams_container (optional) [streams_container]: result file container allowed to be kept open to cache data
+         data_sources [data_sources]: result file path container, used if no streams are set
+         bool_rotate_to_global (optional) [bool]: if true the field is rotated to global coordinate system (default true)
+         mesh (optional) [abstract_meshed_region, meshes_container]: prevents from reading the mesh in the result files
+         read_cyclic (optional) [enum dataProcessing::ECyclicReading, int32]: if 0 cyclic symmetry is ignored, if 1 cyclic sector is read, if 2 cyclic expansion is done, if 3 cyclic expansion is done and stages are merged (default is 1)
+  Outputs:
+         fields_container [fields_container]
+</pre></div>
+</div>
+<p>Alternatively, you can instantiate result providers using the <code class="docutils literal notranslate"><span class="pre">Model</span></code> object.
+For more information, see <a class="reference internal" href="model.html#user-guide-model"><span class="std std-ref">DPF model</span></a>.</p>
+<p>When using this model’s results, file paths for the results are directly
+connected to the operator, which means that you can only instantiate
+available results for your result files:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">Model</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">examples</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">operators</span> <span class="k">as</span> <span class="n">ops</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">find_simple_bar</span><span class="p">())</span>
+<span class="n">displacement</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="connect-operators">
+<h2>Connect operators<a class="headerlink" href="#connect-operators" title="Link to this heading">#</a></h2>
+<p>The only required input for the displacement operator is the <code class="docutils literal notranslate"><span class="pre">data_sources``input</span> <span class="pre">(see</span> <span class="pre">above).</span>
+<span class="pre">To</span> <span class="pre">compute</span> <span class="pre">an</span> <span class="pre">output</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">``fields_container</span></code> object, which contains the displacement
+results, you must provide paths for the result files.</p>
+<p>You can create data sources in two ways:</p>
+<ul class="simple">
+<li><p>Use the <a class="reference internal" href="../api/ansys/dpf/core/model/index.html#module-ansys.dpf.core.model" title="ansys.dpf.core.model"><code class="xref py py-mod docutils literal notranslate"><span class="pre">Model</span></code></a> class.</p></li>
+<li><p>Use the <a class="reference internal" href="../api/ansys/dpf/core/data_sources/index.html#module-ansys.dpf.core.data_sources" title="ansys.dpf.core.data_sources"><code class="xref py py-mod docutils literal notranslate"><span class="pre">Data</span> <span class="pre">Sources</span></code></a> class.</p></li>
+</ul>
+<p>Because several other examples use the <code class="docutils literal notranslate"><span class="pre">Model</span></code> class, this example uses the
+<code class="docutils literal notranslate"><span class="pre">DataSources</span></code> class:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">examples</span>
+<span class="n">data_src</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">find_multishells_rst</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data_src</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF  DataSources:
+Result files:
+   result key: rst and path: path\...\ansys\dpf\core\examples\model_with_ns.rst
+Secondary files:
+</pre></div>
+</div>
+<p>This code demonstrates how to connect the data source to the displacement operator:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">data_sources</span><span class="p">(</span><span class="n">data_src</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can connect other optional inputs to the displacement operator.
+The output from printing the operator shows that a <code class="docutils literal notranslate"><span class="pre">mesh_scoping</span></code> of type <a class="reference internal" href="../api/ansys/dpf/core/scoping/index.html#module-ansys.dpf.core.scoping" title="ansys.dpf.core.scoping"><code class="xref py py-mod docutils literal notranslate"><span class="pre">Scoping</span></code></a>
+can be connected to work on a spatial subset. A <code class="docutils literal notranslate"><span class="pre">time_scoping</span></code> of a list of integers
+can also be connected to work on a temporal subset:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mesh_scoping</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">mesh_scoping_factory</span><span class="o">.</span><span class="n">nodal_scoping</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mesh_scoping</span><span class="p">(</span><span class="n">mesh_scoping</span><span class="p">)</span>
+<span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">time_scoping</span><span class="p">([</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</section>
+<section id="evaluate-operators">
+<h2>Evaluate operators<a class="headerlink" href="#evaluate-operators" title="Link to this heading">#</a></h2>
+<p>With all the required inputs assigned, you can output the <a class="reference internal" href="../api/ansys/dpf/core/fields_container/index.html#module-ansys.dpf.core.fields_container" title="ansys.dpf.core.fields_container"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.fields_container</span></code></a>
+class from the operator:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">fc</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF displacement(s)Fields Container
+  with 1 field(s)
+  defined on labels: time
+
+  with:
+  - field 0 {time:  1} with Nodal location, 3 components and 2 entities.
+</pre></div>
+</div>
+<p>At run time, the operator checks if all required inputs have been assigned.
+Evaluating an operator with missing inputs raises a <code class="docutils literal notranslate"><span class="pre">DPFServerException</span></code>
+like this one:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">new_oper</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">displacement</span><span class="p">()</span>
+<span class="n">fc</span> <span class="o">=</span> <span class="n">new_oper</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPFServerException: U&lt;-Data sources are not defined.
+</pre></div>
+</div>
+<p>For more information on using a fields container, see <a class="reference internal" href="fields_container.html#ref-user-guide-fields-container"><span class="std std-ref">Fields containers and fields</span></a>.</p>
+</section>
+<section id="chain-operators">
+<h2>Chain operators<a class="headerlink" href="#chain-operators" title="Link to this heading">#</a></h2>
+<p>To create more complex operations and customizable results, you can chain operators
+together to create workflows. Using the large library of DPF operators, you can
+customize results to get a specific output.</p>
+<p>While manually customizing results on the Python side is far less efficient
+than using operators, for a very small model, it is acceptable to bring all
+displacement data on the client side to compute the maximum:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">Model</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">examples</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">operators</span> <span class="k">as</span> <span class="n">ops</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">find_simple_bar</span><span class="p">())</span>
+<span class="n">displacement</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="p">()</span>
+<span class="n">fc</span> <span class="o">=</span> <span class="n">displacement</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+
+<span class="c1"># Compute the maximum displacement of the first field using NumPy.</span>
+<span class="c1"># Note that the data returned is a numpy array.</span>
+
+<span class="n">disp</span> <span class="o">=</span> <span class="n">fc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span>
+<span class="n">disp</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPFArray([8.20217171e-07, 6.26510654e-06, 0.00000000e+00])
+</pre></div>
+</div>
+<p>On an industrial model, however, you should use code like this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">Model</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">examples</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">operators</span> <span class="k">as</span> <span class="n">ops</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">find_simple_bar</span><span class="p">())</span>
+<span class="n">displacement</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="p">()</span>
+<span class="n">min_max</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">min_max</span><span class="o">.</span><span class="n">min_max</span><span class="p">(</span><span class="n">displacement</span><span class="p">)</span>
+<span class="n">max_field</span> <span class="o">=</span> <span class="n">min_max</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field_max</span><span class="p">()</span>
+<span class="n">max_field</span><span class="o">.</span><span class="n">data</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPFArray([8.20217171e-07, 6.26510654e-06, 0.00000000e+00])
+</pre></div>
+</div>
+<p>In the preceding example, only the maximum displacements in the X, Y, and Z
+components are transferred and returned as a numpy array.</p>
+<p>For small data sets, you can compute the maximum of the array in <a class="reference external" href="https://numpy.org/">NumpPy</a>.
+While there may be times where having the entire data array for a given
+result type is necessary, many times it is not necessary. In these
+cases, it is faster not to transfer the array to Python but rather to
+compute the maximum of the fields container within DPF and then return
+the result to Python.</p>
+<p>This example instantiates operators with other operators:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">min_max</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">min_max</span><span class="o">.</span><span class="n">min_max</span><span class="p">(</span><span class="n">displacement</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This automatically connects the matching <code class="docutils literal notranslate"><span class="pre">displacement</span></code> output with the
+matching <code class="docutils literal notranslate"><span class="pre">min_max</span></code> input. You can also use the <code class="xref py py-meth docutils literal notranslate"><span class="pre">connect()</span></code>
+method to manually connect the outputs of one operator to the inputs of another operator:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">min_max</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">min_max</span><span class="o">.</span><span class="n">min_max</span><span class="p">()</span>
+<span class="n">min_max</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">displacement</span><span class="o">.</span><span class="n">outputs</span><span class="p">)</span>
+<span class="c1">#or</span>
+<span class="n">min_max</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">field</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">displacement</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>While this last approach is more verbose, it can be useful for operators
+having several matching inputs or outputs.</p>
+</section>
+<section id="types-of-operators">
+<h2>Types of operators<a class="headerlink" href="#types-of-operators" title="Link to this heading">#</a></h2>
+<p>DPF provides three main types of operators:</p>
+<ul class="simple">
+<li><p>Operators for importing or reading data</p></li>
+<li><p>Operators for transforming data</p></li>
+<li><p>Operators for exporting data</p></li>
+</ul>
+<section id="operators-for-importing-or-reading-data">
+<h3>Operators for importing or reading data<a class="headerlink" href="#operators-for-importing-or-reading-data" title="Link to this heading">#</a></h3>
+<p>These operators read data from solver files or from standard file types
+such as .RST (MAPDL), .D3Plot (LS DYNA), .CAS.H5/.DAT.H5 (Fluent) or .CAS.CFF/.DAT.CFF (CFX).</p>
+<p>To read these files, different readers are implemented as plugins.
+Plugins can be loaded on demand in any DPF scripting language with “load library” methods.
+File readers can be used generically thanks to the DPF result providers, which means that the same operators can be used for any file types.</p>
+<p>This example shows how to read a displacement and a stress for any file:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">examples</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">operators</span> <span class="k">as</span> <span class="n">ops</span>
+<span class="n">data_src</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">find_multishells_rst</span><span class="p">())</span>
+<span class="n">disp</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">displacement</span><span class="p">(</span><span class="n">data_sources</span> <span class="o">=</span> <span class="n">data_src</span><span class="p">)</span>
+<span class="n">stress</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">stress</span><span class="p">(</span><span class="n">data_sources</span> <span class="o">=</span> <span class="n">data_src</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Standard file format readers are also supported to import custom data.
+Fields can be imported from CSV, VTK, and HDF5 files.</p>
+<p>For an example of importing and exporting a CSV file, see <a class="reference internal" href="../examples/05-file-IO/04-basic-load-file.html#ref-basic-load-file-example"><span class="std std-ref">Working with a result file</span></a>.</p>
+</section>
+<section id="operators-for-transforming-data">
+<h3>Operators for transforming data<a class="headerlink" href="#operators-for-transforming-data" title="Link to this heading">#</a></h3>
+<p>A field is the main data container in DPF. Most of the operators that transform
+data take a field or a fields container as input and return a transformed
+field or fields container as output. You can perform analytic, averaging,
+or filtering operations on simulation data.</p>
+<p>For example, after creation of a field, you can use scaling and filtering
+operators:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">operators</span> <span class="k">as</span> <span class="n">ops</span>
+
+<span class="n">field1</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">nentities</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">field1</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">2.0</span><span class="p">,</span><span class="mf">3.0</span><span class="p">,</span><span class="mf">4.0</span><span class="p">,</span><span class="mf">5.0</span><span class="p">,</span><span class="mf">6.0</span><span class="p">,</span><span class="mf">7.0</span><span class="p">,</span><span class="mf">8.0</span><span class="p">,</span><span class="mf">9.0</span><span class="p">]</span>
+<span class="n">field1</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">field1</span><span class="o">.</span><span class="n">unit</span> <span class="o">=</span> <span class="s1">&#39;m&#39;</span>
+
+<span class="c1">#example 1 analytic operator: scale operator</span>
+<span class="n">op1</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">scale</span><span class="p">()</span>
+<span class="n">op1</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">field</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">field1</span><span class="p">)</span>
+<span class="n">op1</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">ponderation</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
+<span class="n">out</span> <span class="o">=</span> <span class="n">op1</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
+<span class="n">out</span><span class="o">.</span><span class="n">data</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPFArray([[ 2.,  4.,  6.],
+     [ 8., 10., 12.],
+     [14., 16., 18.]])
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">#example 2 filtering operator</span>
+<span class="n">op2</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">filter</span><span class="o">.</span><span class="n">field_high_pass</span><span class="p">()</span>
+<span class="n">op2</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">field</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">field1</span><span class="p">)</span>
+<span class="n">op2</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">threshold</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="mf">3.0</span><span class="p">)</span>
+<span class="n">out</span> <span class="o">=</span> <span class="n">op2</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
+<span class="n">out</span><span class="o">.</span><span class="n">data</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPFArray([[4., 5., 6.],
+     [7., 8., 9.]])
+</pre></div>
+</div>
+</section>
+<section id="operators-for-exporting-data">
+<h3>Operators for exporting data<a class="headerlink" href="#operators-for-exporting-data" title="Link to this heading">#</a></h3>
+<p>After using DPF to read or transform simulation data, you might want
+to export the results in a given format to either use them in another
+environment or save them for future use with DPF. Supported file formats
+for export include VTK, H5, CSV, and TXT (serializer operator). Export
+operators often match with import operators, allowing you to reuse data.
+In <a class="reference internal" href="../operator_reference.html#ref-dpf-operators-reference"><span class="std std-ref">Operators</span></a>, both the <strong>Entry</strong>
+and <strong>Premium</strong> sections have a <strong>Serialization</strong> category that
+displays available import and export operators.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">examples</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">operators</span> <span class="k">as</span> <span class="n">ops</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">find_multishells_rst</span><span class="p">())</span>
+<span class="n">disp</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="p">()</span>
+<span class="n">vtk</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">serialization</span><span class="o">.</span><span class="n">vtk_export</span><span class="p">(</span><span class="n">file_path</span><span class="o">=</span><span class="s1">&#39;c:/temp/file.vtk&#39;</span><span class="p">,</span>
+    <span class="n">mesh</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span><span class="p">,</span> <span class="n">fields1</span><span class="o">=</span><span class="n">disp</span><span class="p">)</span>
+<span class="n">vtk</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This example demonstrates how to use import and export operators if the
+Python client is not on the same machine as the server:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">examples</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">operators</span> <span class="k">as</span> <span class="n">ops</span>
+<span class="n">server_dir</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">make_tmp_dir_server</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">server_dir</span><span class="p">)</span>
+<span class="n">up_loaded_file</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">upload_file_in_tmp_folder</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">find_multishells_rst</span><span class="p">())</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">up_loaded_file</span><span class="p">)</span>
+<span class="n">disp</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="p">()</span>
+<span class="n">vtk</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">serialization</span><span class="o">.</span><span class="n">vtk_export</span><span class="p">(</span><span class="n">file_path</span><span class="o">=</span><span class="n">server_dir</span><span class="o">+</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">file.vtk&quot;</span><span class="p">,</span>
+    <span class="n">mesh</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span><span class="p">,</span> <span class="n">fields1</span><span class="o">=</span><span class="n">disp</span><span class="p">)</span>
+<span class="n">vtk</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="n">dpf</span><span class="o">.</span><span class="n">download_file</span><span class="p">(</span><span class="n">server_dir</span><span class="o">+</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">file.vtk&quot;</span><span class="p">,</span><span class="sa">r</span><span class="s2">&quot;c:/temp/file_downloaded.vtk&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>C:\Users\user_name\AppData\Local\Temp\dataProcessingTemp17168
+Downloading...: 759 KB|
+</pre></div>
+</div>
+</section>
+</section>
+<section id="api-reference">
+<h2>API reference<a class="headerlink" href="#api-reference" title="Link to this heading">#</a></h2>
+<p>For a list of all operators in DPF, see <a class="reference internal" href="../operator_reference.html#ref-dpf-operators-reference"><span class="std std-ref">Operators</span></a>
+or the package <a class="reference internal" href="../api/ansys/dpf/core/operators/index.html#module-ansys.dpf.core.operators" title="ansys.dpf.core.operators"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ansys.dpf.core.operators</span></code></a>.  For more information about the
+class itself, see <a class="reference internal" href="../api/ansys/dpf/core/dpf_operator/index.html#module-ansys.dpf.core.dpf_operator" title="ansys.dpf.core.dpf_operator"><code class="xref py py-mod docutils literal notranslate"><span class="pre">Operator</span></code></a>.</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-operators">Create operators</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connect-operators">Connect operators</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluate-operators">Evaluate operators</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chain-operators">Chain operators</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-operators">Types of operators</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#operators-for-importing-or-reading-data">Operators for importing or reading data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#operators-for-transforming-data">Operators for transforming data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#operators-for-exporting-data">Operators for exporting data</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#api-reference">API reference</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+<!-- If there is no fix edit button function, use the PyData edit-this-button-->
+</div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <ul class="this-page-menu">
+      <li><a href="../_sources/user_guide/operators.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+
+  <!-- Include desired assets -->
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.7/require.min.js"></script>
+
+<script>
+// Passing the search options to the search.js file
+const SEARCH_OPTIONS = JSON.parse('{"ignoreLocation": true, "keys": ["title", "text", "objectID"], "limit": 10, "minMatchCharLength": 2, "threshold": 0.5}');
+const SEARCH_FILE = "../_static/search.json";
+const ADVANCE_SEARCH_PATH = "../search.html";
+const EXTRA_SOURCES = JSON.parse('""');
+</script>
+
+
+<script src="../_static/js/search.js"></script>
+
+  
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright (c) 2025 ANSYS, Inc. All rights reserved.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the
+  <a href="https://sphinxdocs.ansys.com/version/stable/index.html"
+    >Ansys Sphinx Theme</a
+  >
+  1.5.3. <br />Last updated on
+  <span id="ast_build_date"></span>
+</p>
+<script>
+  var options = { day: "numeric", month: "long", year: "numeric" };
+  var ast_lastModifiedDate = new Date(document.lastModified);
+  var ast_build_date = ast_lastModifiedDate.toLocaleDateString("en-US", options);
+  document.getElementById("ast_build_date").innerHTML = ast_build_date;
+</script></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

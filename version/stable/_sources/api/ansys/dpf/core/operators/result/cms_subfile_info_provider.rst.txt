@@ -1,0 +1,96 @@
+ansys.dpf.core.operators.result.cms_subfile_info_provider
+=========================================================
+
+.. py:class:: ansys.dpf.core.operators.result.cms_subfile_info_provider(data_sources=None, cms_subfile_data=None, output_maxdof_on_masternodes=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Read required information from a subfile.
+
+
+   :param data_sources: Data_sources (must contain at least one subfile).
+   :type data_sources: DataSources
+   :param cms_subfile_data: If this pin i set to true, data are return in a field.
+   :type cms_subfile_data: bool
+   :param output_maxdof_on_masternodes: If this pin is set to true, compute and add field with max degrees of freedom on master nodes
+   :type output_maxdof_on_masternodes: bool, optional
+
+   :returns: * **int32** (*int*) -- returns integer values in the order : unit system used, stiffness matrix present key, damping matrix present key, mass matrix present key, number of master nodes, number of virtual nodes
+             * **field** (*PropertyField*) -- returns integer values in the order : number of load vectors (nvects), number of nodes (nnod), number of virtual nodes (nvnodes), number of modes (nvmodes)
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.result.cms_subfile_info_provider()
+
+   >>> # Make input connections
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_cms_subfile_data = bool()
+   >>> op.inputs.cms_subfile_data.connect(my_cms_subfile_data)
+   >>> my_output_maxdof_on_masternodes = bool()
+   >>> op.inputs.output_maxdof_on_masternodes.connect(my_output_maxdof_on_masternodes)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.result.cms_subfile_info_provider(
+   ...     data_sources=my_data_sources,
+   ...     cms_subfile_data=my_cms_subfile_data,
+   ...     output_maxdof_on_masternodes=my_output_maxdof_on_masternodes,
+   ... )
+
+   >>> # Get output data
+   >>> result_int32 = op.outputs.int32()
+   >>> result_field = op.outputs.field()
+
+
+   .. py:attribute:: _inputs
+
+
+   .. py:attribute:: _outputs
+
+
+   .. py:method:: _spec() -> ansys.dpf.core.operators.specification.Specification
+      :staticmethod:
+
+
+
+   .. py:method:: default_config(server: ansys.dpf.core.server_types.AnyServerType = None) -> ansys.dpf.core.config.Config
+      :staticmethod:
+
+
+      Returns the default config of the operator.
+
+      This config can then be changed to the user needs and be used to
+      instantiate the operator. The Configuration allows to customize
+      how the operation will be processed by the operator.
+
+      :param server: Server with channel connected to the remote or local instance. When
+                     ``None``, attempts to use the global server.
+
+      :returns: A new Config instance equivalent to the default config for this operator.
+      :rtype: config
+
+
+
+   .. py:property:: inputs
+      :type: InputsCmsSubfileInfoProvider
+
+
+      Enables to connect inputs to the operator
+
+      :returns: An instance of InputsCmsSubfileInfoProvider.
+      :rtype: inputs
+
+
+   .. py:property:: outputs
+      :type: OutputsCmsSubfileInfoProvider
+
+
+      Enables to get outputs of the operator by evaluating it
+
+      :returns: An instance of OutputsCmsSubfileInfoProvider.
+      :rtype: outputs
+

@@ -1,0 +1,125 @@
+ansys.dpf.core.data_tree._LocalDataTree
+=======================================
+
+.. py:class:: ansys.dpf.core.data_tree._LocalDataTree(data_tree)
+
+   Bases: :py:obj:`DataTree`
+
+
+   Represents an entity mapping attributes names to values.
+
+   :param data: Dictionary attributes names to its associated data to add to the data tree.
+   :type data: dict(string:object)
+   :param data_tree:
+   :type data_tree: ctypes.c_void_p, ansys.grpc.dpf.data_tree_pb2.DataTree message, optional
+   :param server: Server with channel connected to the remote or local instance.
+                  The default is ``None``, in which case an attempt is made to use the
+                  global server.
+   :type server: DPFServer, optional
+
+   .. rubric:: Examples
+
+   Create a data tree from a dictionary.
+
+   >>> from ansys.dpf import core as dpf
+   >>> data_tree = dpf.DataTree({"num_entities":3, "list_of_raws":[1,2,3,4], "name": "George"})
+   >>> data_tree.get_as("name", dpf.types.string)
+   'George'
+   >>> data_tree.get_as("list_of_raws", dpf.types.vec_int)
+   [1, 2, 3, 4]
+
+   Create a data tree with add.
+
+   >>> from ansys.dpf import core as dpf
+   >>> data_tree = dpf.DataTree()
+   >>> data_tree.add(num_entities=3, list_of_raws=[1,2,3,4], name="George")
+   >>> txt = data_tree.write_to_txt()
+
+   Create a data tree with a context manager.
+
+   >>> from ansys.dpf import core as dpf
+   >>> data_tree = dpf.DataTree()
+   >>> with data_tree.to_fill() as to_fill:
+   ...     to_fill.num_entities = 3
+   ...     to_fill.list_of_raws = [1,2,3,4]
+   >>> json = data_tree.write_to_json()
+
+   .. rubric:: Notes
+
+   Class available with server's version starting at 4.0 (Ansys 2022R2).
+
+
+   .. py:attribute:: _common_keys
+      :value: ['_owner_data_tree', '_dict', '_common_keys', '_is_exited']
+
+
+
+   .. py:attribute:: _owner_data_tree
+
+
+   .. py:attribute:: _is_exited
+      :value: False
+
+
+
+   .. py:method:: add(*args, **kwargs)
+
+      Add attributes with their value to the data tree.
+
+      :param kwargs: Data to add.
+      :type kwargs: int, float, string, list[int], list[double], list[str], DataTree
+
+
+
+   .. py:method:: __cache_data__()
+
+
+   .. py:method:: release_data()
+
+      Release the data.
+
+
+
+   .. py:method:: __setattr__(key, value)
+
+      Set an attribute for the DataTree object.
+
+      :param key: The name of the attribute to set. If the attribute is a reserved key
+                  (e.g., internal attributes starting with "_common_keys" or attributes
+                  defined in the class), it is set using the parent class's `__setattr__` method.
+                  Otherwise, it adds the attribute and its value to the data tree.
+      :type key: str
+      :param value: The value of the attribute to set.
+      :type value: object
+
+
+
+   .. py:method:: __enter__()
+
+
+   .. py:method:: __exit__(type_to_use, value, tb)
+
+
+   .. py:method:: to_dict()
+
+      Return a read-only dictionary representation of the DataTree.
+
+      :rtype: dict
+
+      .. rubric:: Examples
+
+      >>> from ansys.dpf import core as dpf
+      >>> data_tree = dpf.DataTree()
+      >>> sub = dpf.DataTree()
+      >>> sub.add(str="hello world")
+      >>> data_tree.add(id=3, sub_tree=sub)
+      >>> data_tree.to_dict()
+      {'id': '3', 'sub_tree': {'str': 'hello world'}}
+
+
+
+   .. py:method:: __del__()
+
+      Delete this instance.
+
+

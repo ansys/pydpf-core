@@ -1,0 +1,74 @@
+
+
+
+
+
+
+The ``server`` package
+==========================
+
+.. py:module:: ansys.dpf.core.operators.server
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+.. py:currentmodule:: server
+.. tab-set::
+
+
+    .. tab-item:: Submodules
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.server.grpc_shutdown_server`
+            - grpc_shutdown_server
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.server.grpc_start_server`
+            - grpc_start_server
+
+
+
+
+
+
+
+
+
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-fa-file"></span> grpc_shutdown_server</api/ansys/dpf/core/operators/server/grpc_shutdown_server/index>
+    <span class="nf nf-fa-file"></span> grpc_start_server</api/ansys/dpf/core/operators/server/grpc_start_server/index>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

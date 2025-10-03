@@ -1,0 +1,180 @@
+
+
+
+
+
+
+:class:`sketch_matrix`
+======================
+
+.. py:class:: ansys.dpf.core.operators.compression.sketch_matrix.sketch_matrix(dataIn=None, sketch_matrix=None, rank=None, random_generator_seed=None, mean=None, standard_deviation=None, othogonalized=None, power_iterations=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Compress fields container using an orthonormal randomized (Gaussian
+   distribution) sketch matrix.
+
+   :param dataIn: Fields container to be compressed. it is
+                  assumed that all fields have the same
+                  structure (scoping, num_entities).
+   :type dataIn: FieldsContainer
+   :param sketch_matrix: Field containing the sketch matrix.
+   :type sketch_matrix: Field, optional
+   :param rank: Rank of the output matrix fields_container.
+   :type rank: int
+   :param random_generator_seed: Value used as the seed for the random number
+                                 generator. default = 0.
+   :type random_generator_seed: int, optional
+   :param mean: Mean value of the random numbers matrix.
+                default = 0.0.
+   :type mean: float, optional
+   :param standard_deviation: Standard deviation of the random numbers
+                              matrix. default = 1.0.
+   :type standard_deviation: float, optional
+   :param othogonalized: Orthogonalize matrix. default = true.
+   :type othogonalized: bool, optional
+   :param power_iterations: Number of power iterations to perform. a
+                            larger number of iterations impact
+                            performance, but increase the
+                            accuracy. default = 0.
+   :type power_iterations: int, optional
+
+   :returns: * **dataOut** (*FieldsContainer*) -- The output matrix is a 'fields_container';
+               each field correspond to the
+               multiplication of the sketch matrix
+               by the original fields.
+             * **sketch_matrix** (*Field*) -- Field containing the sketch matrix.
+             * **shell_field** (*Field*) -- Empty field containing the shell of the
+               original field for future
+               reconstruction.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.compression.sketch_matrix()
+
+   >>> # Make input connections
+   >>> my_dataIn = dpf.FieldsContainer()
+   >>> op.inputs.dataIn.connect(my_dataIn)
+   >>> my_sketch_matrix = dpf.Field()
+   >>> op.inputs.sketch_matrix.connect(my_sketch_matrix)
+   >>> my_rank = int()
+   >>> op.inputs.rank.connect(my_rank)
+   >>> my_random_generator_seed = int()
+   >>> op.inputs.random_generator_seed.connect(my_random_generator_seed)
+   >>> my_mean = float()
+   >>> op.inputs.mean.connect(my_mean)
+   >>> my_standard_deviation = float()
+   >>> op.inputs.standard_deviation.connect(my_standard_deviation)
+   >>> my_othogonalized = bool()
+   >>> op.inputs.othogonalized.connect(my_othogonalized)
+   >>> my_power_iterations = int()
+   >>> op.inputs.power_iterations.connect(my_power_iterations)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.compression.sketch_matrix(
+   ...     dataIn=my_dataIn,
+   ...     sketch_matrix=my_sketch_matrix,
+   ...     rank=my_rank,
+   ...     random_generator_seed=my_random_generator_seed,
+   ...     mean=my_mean,
+   ...     standard_deviation=my_standard_deviation,
+   ...     othogonalized=my_othogonalized,
+   ...     power_iterations=my_power_iterations,
+   ... )
+
+   >>> # Get output data
+   >>> result_dataOut = op.outputs.dataOut()
+   >>> result_sketch_matrix = op.outputs.sketch_matrix()
+   >>> result_shell_field = op.outputs.shell_field()
+
+
+
+
+.. py:currentmodule:: sketch_matrix
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.compression.sketch_matrix import sketch_matrix
+
+Property detail
+---------------
+
+.. py:property:: inputs
+
+   Enables to connect inputs to the operator
+
+   :returns: **inputs**
+   :rtype: InputsSketchMatrix
+
+.. py:property:: outputs
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: **outputs**
+   :rtype: OutputsSketchMatrix
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server=None)
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+

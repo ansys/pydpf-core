@@ -1,0 +1,39 @@
+ansys.dpf.core.helpers.streamlines._PvFieldsContainerBase
+=========================================================
+
+.. py:class:: ansys.dpf.core.helpers.streamlines._PvFieldsContainerBase(data)
+
+   .. py:attribute:: _pv_data_set
+      :value: None
+
+
+
+   .. py:attribute:: _streamlines_fc
+      :value: None
+
+
+
+   .. py:method:: _pv_data_set_to_fc()
+
+      Convert pyvista.PolyData into FieldsContainer.
+
+
+
+   .. py:method:: _fc_to_pv_data_set()
+
+      Convert FieldsContainer into pyvista.PolyData.
+
+
+
+   .. py:method:: _as_pyvista_data_set()
+
+
+   .. py:method:: _as_fields_container()
+
+      Return a FieldsContainer representing the streamlines related objects.
+
+      :returns: **streamlines_fields_container** -- FieldsContainer containing the streamlines data array,
+                and a MeshedRegion as support.
+      :rtype: FieldsContainer
+
+

@@ -1,0 +1,12 @@
+ansys.dpf.core.plotter._InternalPlotterFactory
+==============================================
+
+.. py:class:: ansys.dpf.core.plotter._InternalPlotterFactory
+
+   Factory for _InternalPlotter based on the backend.
+
+
+   .. py:method:: get_plotter_class()
+      :staticmethod:
+
+

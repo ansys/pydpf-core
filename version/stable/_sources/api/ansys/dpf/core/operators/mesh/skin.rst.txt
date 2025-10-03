@@ -1,0 +1,108 @@
+ansys.dpf.core.operators.mesh.skin
+==================================
+
+.. py:class:: ansys.dpf.core.operators.mesh.skin(mesh=None, mesh_scoping=None, duplicate_shell=None, add_beam_point=None, config=None, server=None, add_beam=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Extracts a skin of the mesh in a new meshed region. The material ID of
+   initial elements are propagated to their facets.
+
+
+   :param mesh:
+   :type mesh: MeshedRegion
+   :param mesh_scoping: Nodal scoping to restrict the skin extraction to a set of nodes. If provided, a skin element is added to the skin mesh if all its nodes are in the scoping.
+   :type mesh_scoping: Scoping, optional
+   :param duplicate_shell: If input mesh contains shell elements, output mesh shell elements (boolean = 1) are duplicated, one per each orientation, or (boolean = 0) remain unchanged.
+   :type duplicate_shell: bool, optional
+   :param add_beam_point: If input mesh contains beam or point elements, output mesh beam point elements (boolean = 1) are added or (boolean = 0) are ignored. Default: False
+   :type add_beam_point: bool, optional
+
+   :returns: * **mesh** (*MeshedRegion*) -- Skin meshed region with facets and facets_to_ele property fields.
+             * **nodes_mesh_scoping** (*Scoping*)
+             * *map_new_elements_to_old*
+             * **property_field_new_elements_to_old** (*PropertyField*) -- This property field provides, for each new face element ID (in the scoping), the corresponding 3D volume element index (in the data) it has been extracted from. The 3D volume element ID can be found with the element scoping of the input mesh.
+             * **facet_indices** (*PropertyField*) -- This property field gives, for each new face element ID (in the scoping), the corresponding face index on the source 3D volume element. The 3D volume element can be extracted from the previous output.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.mesh.skin()
+
+   >>> # Make input connections
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_mesh_scoping = dpf.Scoping()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> my_duplicate_shell = bool()
+   >>> op.inputs.duplicate_shell.connect(my_duplicate_shell)
+   >>> my_add_beam_point = bool()
+   >>> op.inputs.add_beam_point.connect(my_add_beam_point)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.mesh.skin(
+   ...     mesh=my_mesh,
+   ...     mesh_scoping=my_mesh_scoping,
+   ...     duplicate_shell=my_duplicate_shell,
+   ...     add_beam_point=my_add_beam_point,
+   ... )
+
+   >>> # Get output data
+   >>> result_mesh = op.outputs.mesh()
+   >>> result_nodes_mesh_scoping = op.outputs.nodes_mesh_scoping()
+   >>> result_map_new_elements_to_old = op.outputs.map_new_elements_to_old()
+   >>> result_property_field_new_elements_to_old = op.outputs.property_field_new_elements_to_old()
+   >>> result_facet_indices = op.outputs.facet_indices()
+
+
+   .. py:attribute:: _inputs
+
+
+   .. py:attribute:: _outputs
+
+
+   .. py:method:: _spec() -> ansys.dpf.core.operators.specification.Specification
+      :staticmethod:
+
+
+
+   .. py:method:: default_config(server: ansys.dpf.core.server_types.AnyServerType = None) -> ansys.dpf.core.config.Config
+      :staticmethod:
+
+
+      Returns the default config of the operator.
+
+      This config can then be changed to the user needs and be used to
+      instantiate the operator. The Configuration allows to customize
+      how the operation will be processed by the operator.
+
+      :param server: Server with channel connected to the remote or local instance. When
+                     ``None``, attempts to use the global server.
+
+      :returns: A new Config instance equivalent to the default config for this operator.
+      :rtype: config
+
+
+
+   .. py:property:: inputs
+      :type: InputsSkin
+
+
+      Enables to connect inputs to the operator
+
+      :returns: An instance of InputsSkin.
+      :rtype: inputs
+
+
+   .. py:property:: outputs
+      :type: OutputsSkin
+
+
+      Enables to get outputs of the operator by evaluating it
+
+      :returns: An instance of OutputsSkin.
+      :rtype: outputs
+

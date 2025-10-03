@@ -1,0 +1,105 @@
+ansys.dpf.core.operators.math.expansion_psd
+===========================================
+
+.. py:class:: ansys.dpf.core.operators.math.expansion_psd(mode_shapes=None, static_shapes=None, rel_rel_covar_matrix=None, stat_stat_covar_matrix=None, rel_stat_covar_matrix=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Computes the PSD response for one-sigma solution.
+
+
+   :param mode_shapes: Fields container containing the mode shapes from modal analysis file: mode shapes for dynamic and pseudo-static displacements
+   :type mode_shapes: FieldsContainer
+   :param static_shapes: Fields container containing the static shapes (base excitations) from spectral analysis file
+   :type static_shapes: FieldsContainer, optional
+   :param rel_rel_covar_matrix: Fields container containing covariance matrices from a psd file: covariance matrix terms for displacement/velocity/acceleration mode-mode shapes
+   :type rel_rel_covar_matrix: FieldsContainer
+   :param stat_stat_covar_matrix: Fields container containing covariance matrices from a psd file: covariance matrix terms for displacement/velocity/acceleration static-static shapes
+   :type stat_stat_covar_matrix: FieldsContainer, optional
+   :param rel_stat_covar_matrix: Fields container containing covariance matrices from a psd file: covariance matrix terms for displacement/velocity/acceleration mode-static shapes
+   :type rel_stat_covar_matrix: FieldsContainer, optional
+
+   :returns: **psd** -- PSD solution per label
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.math.expansion_psd()
+
+   >>> # Make input connections
+   >>> my_mode_shapes = dpf.FieldsContainer()
+   >>> op.inputs.mode_shapes.connect(my_mode_shapes)
+   >>> my_static_shapes = dpf.FieldsContainer()
+   >>> op.inputs.static_shapes.connect(my_static_shapes)
+   >>> my_rel_rel_covar_matrix = dpf.FieldsContainer()
+   >>> op.inputs.rel_rel_covar_matrix.connect(my_rel_rel_covar_matrix)
+   >>> my_stat_stat_covar_matrix = dpf.FieldsContainer()
+   >>> op.inputs.stat_stat_covar_matrix.connect(my_stat_stat_covar_matrix)
+   >>> my_rel_stat_covar_matrix = dpf.FieldsContainer()
+   >>> op.inputs.rel_stat_covar_matrix.connect(my_rel_stat_covar_matrix)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.math.expansion_psd(
+   ...     mode_shapes=my_mode_shapes,
+   ...     static_shapes=my_static_shapes,
+   ...     rel_rel_covar_matrix=my_rel_rel_covar_matrix,
+   ...     stat_stat_covar_matrix=my_stat_stat_covar_matrix,
+   ...     rel_stat_covar_matrix=my_rel_stat_covar_matrix,
+   ... )
+
+   >>> # Get output data
+   >>> result_psd = op.outputs.psd()
+
+
+   .. py:attribute:: _inputs
+
+
+   .. py:attribute:: _outputs
+
+
+   .. py:method:: _spec() -> ansys.dpf.core.operators.specification.Specification
+      :staticmethod:
+
+
+
+   .. py:method:: default_config(server: ansys.dpf.core.server_types.AnyServerType = None) -> ansys.dpf.core.config.Config
+      :staticmethod:
+
+
+      Returns the default config of the operator.
+
+      This config can then be changed to the user needs and be used to
+      instantiate the operator. The Configuration allows to customize
+      how the operation will be processed by the operator.
+
+      :param server: Server with channel connected to the remote or local instance. When
+                     ``None``, attempts to use the global server.
+
+      :returns: A new Config instance equivalent to the default config for this operator.
+      :rtype: config
+
+
+
+   .. py:property:: inputs
+      :type: InputsExpansionPsd
+
+
+      Enables to connect inputs to the operator
+
+      :returns: An instance of InputsExpansionPsd.
+      :rtype: inputs
+
+
+   .. py:property:: outputs
+      :type: OutputsExpansionPsd
+
+
+      Enables to get outputs of the operator by evaluating it
+
+      :returns: An instance of OutputsExpansionPsd.
+      :rtype: outputs
+

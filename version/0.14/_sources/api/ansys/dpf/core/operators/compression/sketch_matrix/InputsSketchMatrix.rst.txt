@@ -1,0 +1,238 @@
+
+
+
+
+
+
+:class:`InputsSketchMatrix`
+===========================
+
+.. py:class:: ansys.dpf.core.operators.compression.sketch_matrix.InputsSketchMatrix(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   sketch_matrix operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.sketch_matrix()
+   >>> my_dataIn = dpf.FieldsContainer()
+   >>> op.inputs.dataIn.connect(my_dataIn)
+   >>> my_sketch_matrix = dpf.Field()
+   >>> op.inputs.sketch_matrix.connect(my_sketch_matrix)
+   >>> my_rank = int()
+   >>> op.inputs.rank.connect(my_rank)
+   >>> my_random_generator_seed = int()
+   >>> op.inputs.random_generator_seed.connect(my_random_generator_seed)
+   >>> my_mean = float()
+   >>> op.inputs.mean.connect(my_mean)
+   >>> my_standard_deviation = float()
+   >>> op.inputs.standard_deviation.connect(my_standard_deviation)
+   >>> my_othogonalized = bool()
+   >>> op.inputs.othogonalized.connect(my_othogonalized)
+   >>> my_power_iterations = int()
+   >>> op.inputs.power_iterations.connect(my_power_iterations)
+
+
+
+.. py:currentmodule:: InputsSketchMatrix
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~dataIn`
+            - Allows to connect dataIn input to the operator.
+          * - :py:attr:`~sketch_matrix`
+            - Allows to connect sketch_matrix input to the operator.
+          * - :py:attr:`~rank`
+            - Allows to connect rank input to the operator.
+          * - :py:attr:`~random_generator_seed`
+            - Allows to connect random_generator_seed input to the operator.
+          * - :py:attr:`~mean`
+            - Allows to connect mean input to the operator.
+          * - :py:attr:`~standard_deviation`
+            - Allows to connect standard_deviation input to the operator.
+          * - :py:attr:`~othogonalized`
+            - Allows to connect othogonalized input to the operator.
+          * - :py:attr:`~power_iterations`
+            - Allows to connect power_iterations input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.compression.sketch_matrix import InputsSketchMatrix
+
+Property detail
+---------------
+
+.. py:property:: dataIn
+
+   Allows to connect dataIn input to the operator.
+
+   Fields container to be compressed. it is
+   assumed that all fields have the same
+   structure (scoping, num_entities).
+
+   :param my_dataIn:
+   :type my_dataIn: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.sketch_matrix()
+   >>> op.inputs.dataIn.connect(my_dataIn)
+   >>> # or
+   >>> op.inputs.dataIn(my_dataIn)
+
+.. py:property:: sketch_matrix
+
+   Allows to connect sketch_matrix input to the operator.
+
+   Field containing the sketch matrix.
+
+   :param my_sketch_matrix:
+   :type my_sketch_matrix: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.sketch_matrix()
+   >>> op.inputs.sketch_matrix.connect(my_sketch_matrix)
+   >>> # or
+   >>> op.inputs.sketch_matrix(my_sketch_matrix)
+
+.. py:property:: rank
+
+   Allows to connect rank input to the operator.
+
+   Rank of the output matrix fields_container.
+
+   :param my_rank:
+   :type my_rank: int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.sketch_matrix()
+   >>> op.inputs.rank.connect(my_rank)
+   >>> # or
+   >>> op.inputs.rank(my_rank)
+
+.. py:property:: random_generator_seed
+
+   Allows to connect random_generator_seed input to the operator.
+
+   Value used as the seed for the random number
+   generator. default = 0.
+
+   :param my_random_generator_seed:
+   :type my_random_generator_seed: int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.sketch_matrix()
+   >>> op.inputs.random_generator_seed.connect(my_random_generator_seed)
+   >>> # or
+   >>> op.inputs.random_generator_seed(my_random_generator_seed)
+
+.. py:property:: mean
+
+   Allows to connect mean input to the operator.
+
+   Mean value of the random numbers matrix.
+   default = 0.0.
+
+   :param my_mean:
+   :type my_mean: float
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.sketch_matrix()
+   >>> op.inputs.mean.connect(my_mean)
+   >>> # or
+   >>> op.inputs.mean(my_mean)
+
+.. py:property:: standard_deviation
+
+   Allows to connect standard_deviation input to the operator.
+
+   Standard deviation of the random numbers
+   matrix. default = 1.0.
+
+   :param my_standard_deviation:
+   :type my_standard_deviation: float
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.sketch_matrix()
+   >>> op.inputs.standard_deviation.connect(my_standard_deviation)
+   >>> # or
+   >>> op.inputs.standard_deviation(my_standard_deviation)
+
+.. py:property:: othogonalized
+
+   Allows to connect othogonalized input to the operator.
+
+   Orthogonalize matrix. default = true.
+
+   :param my_othogonalized:
+   :type my_othogonalized: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.sketch_matrix()
+   >>> op.inputs.othogonalized.connect(my_othogonalized)
+   >>> # or
+   >>> op.inputs.othogonalized(my_othogonalized)
+
+.. py:property:: power_iterations
+
+   Allows to connect power_iterations input to the operator.
+
+   Number of power iterations to perform. a
+   larger number of iterations impact
+   performance, but increase the
+   accuracy. default = 0.
+
+   :param my_power_iterations:
+   :type my_power_iterations: int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.sketch_matrix()
+   >>> op.inputs.power_iterations.connect(my_power_iterations)
+   >>> # or
+   >>> op.inputs.power_iterations(my_power_iterations)
+
+
+
+
+
+
