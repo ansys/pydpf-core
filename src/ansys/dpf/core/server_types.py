@@ -445,6 +445,8 @@ class BaseServer(abc.ABC):
         self._info_instance = None
         self._docker_config = server_factory.RunningDockerConfig()
         self._server_meet_version = {}
+        if core.DEFAULT_SERVER_DEBUG is not None:
+            self.start_debug(folder_path=core.DEFAULT_SERVER_DEBUG)
 
     def set_as_global(self, as_global=True):
         """Set the current server as global if necessary.
