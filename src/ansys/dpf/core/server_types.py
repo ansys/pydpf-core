@@ -34,7 +34,7 @@ from abc import ABC
 import ctypes
 import io
 import os
-from pathlib import Path
+from pathlib import Path, PurePosixPath, PureWindowsPath
 import socket
 import subprocess
 import sys
@@ -710,14 +710,17 @@ class BaseServer(abc.ABC):
             warnings.warn(traceback.format_exc())
 
     def start_debug(self, folder_path: str | Path):
-        """Start writing server debug information within the given folder.
+        """Start writing server-side debug information within the given folder.
 
         Parameters
         ----------
         folder_path:
-            Path to a folder where to write server debug info.
+            Path to a folder server-side where to write debug info.
 
         """
+        folder_path = (
+            PurePosixPath(folder_path) if self.os == "posix" else PureWindowsPath(folder_path)
+        )
         api = self.get_api_for_type(
             capi=data_processing_capi.DataProcessingCAPI,
             grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI,
@@ -725,7 +728,7 @@ class BaseServer(abc.ABC):
         api.data_processing_set_debug_trace(text=str(folder_path))
 
     def stop_debug(self):
-        """Stop writing server debug information."""
+        """Stop writing server-side debug information."""
         api = self.get_api_for_type(
             capi=data_processing_capi.DataProcessingCAPI,
             grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI,
