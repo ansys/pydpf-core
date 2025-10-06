@@ -91,7 +91,8 @@ class DockerConfig:
         from ansys.dpf.core import LOCAL_DOWNLOADED_EXAMPLES_PATH
 
         if mounted_volumes is None:
-            mounted_volumes = {LOCAL_DOWNLOADED_EXAMPLES_PATH: "/tmp/downloaded_examples"}
+            # mounted_volumes = {LOCAL_DOWNLOADED_EXAMPLES_PATH: "/tmp/downloaded_examples"}
+            mounted_volumes = {LOCAL_DOWNLOADED_EXAMPLES_PATH: "C:\\Users\\ContainerAdministrator\\AppData\\Local\\Temp\\downloaded_examples"}
 
         self._use_docker = use_docker
         self._docker_name = docker_name

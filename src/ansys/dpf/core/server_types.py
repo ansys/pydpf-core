@@ -222,7 +222,7 @@ def _wait_and_check_server_connection(
 
 
 def launch_dpf(
-    ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10, context: ServerContext = None
+    ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=100, context: ServerContext = None
 ):
     """Launch Ansys DPF.
 
@@ -258,7 +258,7 @@ def launch_dpf_on_docker(
     ansys_path=None,
     ip=LOCALHOST,
     port=DPF_DEFAULT_PORT,
-    timeout=10.0,
+    timeout=100.0,
 ):
     """Launch Ansys DPF.
 
@@ -791,7 +791,7 @@ class GrpcServer(CServer):
         ansys_path: Union[str, None] = None,
         ip: str = LOCALHOST,
         port: str = DPF_DEFAULT_PORT,
-        timeout: float = 10.0,
+        timeout: float = 100.0,
         as_global: bool = True,
         load_operators: bool = True,
         launch_server: bool = True,
@@ -1222,7 +1222,7 @@ class LegacyGrpcServer(BaseServer):
         ansys_path: Union[str, None] = None,
         ip: str = LOCALHOST,
         port: str = DPF_DEFAULT_PORT,
-        timeout: float = 5.0,
+        timeout: float = 100.0,
         as_global: bool = True,
         load_operators: bool = True,
         launch_server: bool = True,
