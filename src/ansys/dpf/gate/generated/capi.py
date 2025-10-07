@@ -2063,6 +2063,14 @@ def load_api(path):
 		dll.CSField_GetEntityIndex.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.CSField_GetEntityIndex.restype = ctypes.c_int32
 
+	if hasattr(dll, "CSField_SetHeaderAsDataTree"):
+		dll.CSField_SetHeaderAsDataTree.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.CSField_SetHeaderAsDataTree.restype = None
+
+	if hasattr(dll, "CSField_GetHeaderAsDataTree"):
+		dll.CSField_GetHeaderAsDataTree.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.CSField_GetHeaderAsDataTree.restype = ctypes.c_void_p
+
 	if hasattr(dll, "CSField_GetData_For_DpfVector"):
 		dll.CSField_GetData_For_DpfVector.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.POINTER(ctypes.c_double)), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.CSField_GetData_For_DpfVector.restype = None
@@ -4249,6 +4257,10 @@ def load_api(path):
 	if hasattr(dll, "CSCustomTypeField_GetEntityIndex"):
 		dll.CSCustomTypeField_GetEntityIndex.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.CSCustomTypeField_GetEntityIndex.restype = ctypes.c_int32
+
+	if hasattr(dll, "CSCustomTypeField_SetHeaderAsDataTree"):
+		dll.CSCustomTypeField_SetHeaderAsDataTree.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.CSCustomTypeField_SetHeaderAsDataTree.restype = None
 
 	if hasattr(dll, "CSCustomTypeField_new_on_client"):
 		dll.CSCustomTypeField_new_on_client.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.c_int32, ctypes.c_int32, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
