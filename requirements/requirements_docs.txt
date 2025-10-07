@@ -1,4 +1,4 @@
-ansys-sphinx-theme[autoapi]==1.5.3
+ansys-sphinx-theme[autoapi]==1.6.1
 enum-tools[sphinx]==0.13.0
 graphviz==0.21
 imageio==2.37.0
