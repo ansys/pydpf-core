@@ -430,7 +430,7 @@ class BaseService:
         >>> # base.load_library('meshOperatorsCore.dll', 'mesh_operators')
 
         """
-        if not name:
+        if name is None:
             name = Path(file_path).name
         file_path = str(
             PurePosixPath(file_path)
