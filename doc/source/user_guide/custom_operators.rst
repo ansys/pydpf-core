@@ -41,7 +41,7 @@ installer's Python interpreter.
 
    - ``-awp_root``: Path to the Ansys root installation folder. For example, the 2023 R1 installation folder ends
      with ``Ansys Inc/v231``, and the default environment variable is ``AWP_ROOT231``.
-   - ``-pip_args``: Optional arguments to add to the ``pip`` command. For example, ``--extra-index-url`` or
+   - ``-pip_args``: Optional arguments to add to the ``pip`` command. For example, ``--index-url`` or
      ``--trusted-host``.
 
 If you ever want to uninstall the ``ansys-dpf-core`` module from the Ansys installation, you can do so.

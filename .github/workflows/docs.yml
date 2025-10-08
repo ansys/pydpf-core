@@ -136,7 +136,7 @@ jobs:
       - name: "Ensure VTK compatibility"
         run: |
           python -m pip uninstall --yes vtk
-          python -m pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==${{ env.VTK_OSMESA_VERSION }}
+          python -m pip install --index-url https://wheels.vtk.org vtk-osmesa==${{ env.VTK_OSMESA_VERSION }}
 
       - name: "List installed packages"
         shell: bash
