@@ -254,10 +254,10 @@ Testing on Linux via WSL
 Some system dependencies required for VTK to run properly might be missing when running tests on linux via WSL (or even linux in general). 
 The identified workaround for this is to install the OSMesa wheel variant that leverages offscreen rendering with OSMesa.
 This wheel is being built for both Linux and Windows at this time and bundles all of the necessary libraries into the wheel. This is
-achieved by adding ``-x testenv.commands_pre="uv pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==<version>"``
+achieved by adding ``-x testenv.commands_pre="uv pip install --index-url https://wheels.vtk.org vtk-osmesa==<version>"``
 
 For example, to run all tests sequentially on linux, while using a Standalone DPF Server whose path is ``ansys_dpf_server_lin_v2025.1.pre0``, simply run:
 
 .. code-block:: text
 
-    python -m tox --parallel -x testenv.deps+="-e ansys_dpf_server_lin_v2025.1.pre0" -x testenv.commands_pre="uv pip install --extra-index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"
+    python -m tox --parallel -x testenv.deps+="-e ansys_dpf_server_lin_v2025.1.pre0" -x testenv.commands_pre="uv pip install --index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"
