@@ -78,7 +78,7 @@ jobs:
         run: |
           if [ ${{ matrix.os }} == "macos-latest" ]; then
               export platform="any" 
-          if [ ${{ matrix.os }} == "ubuntu-latest" ]; then
+          elif [ ${{ matrix.os }} == "ubuntu-latest" ]; then
               export platform="manylinux_2_17"
           else
               export platform="win"
