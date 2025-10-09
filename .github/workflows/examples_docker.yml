@@ -76,7 +76,7 @@ jobs:
       - name: "Build the wheel"
         shell: bash
         run: |
-          if [ ${{ matrix.os }} == "macos-latest" ]; then
+          if [ ${{ matrix.os }} == "macos-15-intel" ]; then
               export platform="any" 
           elif [ ${{ matrix.os }} == "ubuntu-latest" ]; then
               export platform="manylinux_2_17"
@@ -101,7 +101,7 @@ jobs:
 
       - name: "Install Colima for Docker on macOS"
         shell: bash
-        if: (matrix.os == 'macos-latest')
+        if: (matrix.os == 'macos-15-intel')
         run: |          
           brew install colima
           brew install docker
