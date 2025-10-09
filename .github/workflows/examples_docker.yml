@@ -60,7 +60,7 @@ jobs:
       fail-fast: false
       matrix:
         python-version: ${{ fromJSON(needs.setup.outputs.python_versions) }}
-        os: ["ubuntu-latest"]
+        os: ["ubuntu-latest", "macos-latest"]
 
     steps:
       - uses: actions/checkout@v4
@@ -76,6 +76,8 @@ jobs:
       - name: "Build the wheel"
         shell: bash
         run: |
+          if [ ${{ matrix.os }} == "macos-latest" ]; then
+              export platform="any" 
           if [ ${{ matrix.os }} == "ubuntu-latest" ]; then
               export platform="manylinux_2_17"
           else
@@ -97,13 +99,25 @@ jobs:
         run: |
           pip install dist/${{ steps.wheel.outputs.wheel_name }}[graphics]
 
+      - name: Login in GitHub Container registry
+        uses: docker/login-action@184bdaa0721073962dff0199f1fb9940f07167d1 # v3.5.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
+
       - name: "Install DPF"
         id: set-server-path
-        uses: ansys/pydpf-actions/install-dpf-docker@v2.3
-        with:
-          dpf-standalone-TOKEN: ${{secrets.PYANSYS_CI_BOT_TOKEN}}
-          standalone_suffix: ${{ inputs.standalone_suffix }}
-          ANSYS_VERSION : ${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}
+        shell: bash
+        run: |
+          export platform="linux"
+          ansys_version=${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}
+          suffix=${{ inputs.standalone_suffix && format('.{0}', inputs.standalone_suffix) || '' }}
+          version=${ansys_version:0:2}.${ansys_version:2:1}${suffix}
+          tag=$platform-$version
+          docker pull ghcr.io/ansys-dpf/dpf-standalone:$tag
+          docker images
+          echo "DPF_DOCKER=ghcr.io/ansys-dpf/dpf-standalone:$tag" >> $GITHUB_ENV
 
       - name: "Check licences of packages"
         uses: ansys/pydpf-actions/check-licenses@v2.3
