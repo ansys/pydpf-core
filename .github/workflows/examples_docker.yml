@@ -99,19 +99,19 @@ jobs:
         run: |
           pip install dist/${{ steps.wheel.outputs.wheel_name }}[graphics]
 
-      - name: Login in GitHub Container registry
-        uses: docker/login-action@184bdaa0721073962dff0199f1fb9940f07167d1 # v3.5.0
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
-
       - name: "Install Colima for Docker on macOS"
         shell: bash
         if: (matrix.os == 'macos-latest')
         run: |          
           brew install colima
           colima start
+
+      - name: Login in GitHub Container registry
+        uses: docker/login-action@184bdaa0721073962dff0199f1fb9940f07167d1 # v3.5.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
 
       - name: "Install DPF"
         id: set-server-path
