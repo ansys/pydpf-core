@@ -108,7 +108,7 @@ jobs:
 
       - name: "Install Colima for Docker on macOS"
         shell: bash
-        if: (matrix.os == "macos-latest")
+        if: (matrix.os == 'macos-latest')
         run: |          
           brew install colima
           colima start
