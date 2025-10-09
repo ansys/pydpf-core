@@ -137,6 +137,22 @@ class RuntimeClientConfig(_RuntimeConfig):
     def return_arrays(self, value):
         self._data_tree.add(return_arrays=int(value))
 
+    @property
+    def grpc_mode(self):
+        return str(self._data_tree.get_as("grpc_mode", types.string))
+
+    @grpc_mode.setter
+    def grpc_mode(self, value: str):
+        self._data_tree.add(grpc_mode=str(value))
+
+    @property
+    def grpc_certs_dir(self):
+        return str(self._data_tree.get_as("grpc_certs_dir", types.string))
+
+    @grpc_certs_dir.setter
+    def grpc_certs_dir(self, value: str):
+        self._data_tree.add(grpc_certs_dir=str(value))
+
     def copy_config(self, config):
         """Add config to data tree."""
         config._data_tree.add(self._data_tree.to_dict())
