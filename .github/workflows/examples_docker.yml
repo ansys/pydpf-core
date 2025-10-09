@@ -106,6 +106,13 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
 
+      - name: "Install Colima for Docker on macOS"
+        shell: bash
+        if: (matrix.os == "macos-latest")
+        run: |          
+          brew install colima
+          colima start
+
       - name: "Install DPF"
         id: set-server-path
         shell: bash
