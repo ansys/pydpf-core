@@ -179,6 +179,20 @@ class TestServer:
         assert isinstance(server_plugins, dict)
         assert "native" in server_plugins.keys()
 
+    def test_server_debug(self, server_config, tmp_path):
+        from pathlib import Path
+
+        server_instance = start_local_server(config=server_config)
+        server_instance.start_debug(tmp_path / Path("DEBUG_TEST_"))
+        f = dpf.core.field_from_array([1.0], server=server_instance)
+        fwd = dpf.core.operators.utility.forward(any=f, server=server_instance)
+        fwd.run()
+        server_instance.stop_debug()
+        debug_folder = sorted(tmp_path.glob("DEBUG_TEST_*"))
+        assert len(debug_folder) == 1
+        init_path = debug_folder[0] / Path("init.log")
+        assert init_path.exists()
+
 
 @pytest.mark.skipif(
     os.name == "posix" or running_docker,
