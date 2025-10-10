@@ -52,6 +52,9 @@ DPF_SERVER_TYPE = os.environ.get("DPF_SERVER_TYPE", None)
 running_docker = ansys.dpf.core.server_types.RUNNING_DOCKER.use_docker
 local_test_repo = False
 
+# Detect if gatebin binaries are available
+IS_USING_GATEBIN = _try_use_gatebin()
+
 
 def _get_test_files_directory():
     if local_test_repo is False:
@@ -70,6 +73,10 @@ if running_docker:
     ansys.dpf.core.server_types.RUNNING_DOCKER.mounted_volumes[_get_test_files_directory()] = (
         "/tmp/test_files"
     )
+
+
+# Start a first global server to test for version
+global_server = core.start_local_server(config=core.AvailableServerConfigs.LegacyGrpcServer)
 
 
 @pytest.hookimpl()
@@ -374,9 +381,6 @@ SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0 = meets_version(
 SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2_0 = meets_version(
     get_server_version(core._global_server()), "2.1"
 )
-
-# Detect if gatebin binaries are available
-IS_USING_GATEBIN = _try_use_gatebin()
 
 
 def raises_for_servers_version_under(version):
