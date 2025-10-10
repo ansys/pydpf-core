@@ -255,6 +255,20 @@ def fluent_axial_comp():
 
 
 @pytest.fixture()
+def fluent_axial_comp_flprj():
+    """Return a function which creates a data sources
+    with a 'flrpj' file of fluent axial compressor case."""
+
+    def return_ds(server=None):
+        ds = core.DataSources(server=server)
+        files = examples.download_fluent_axial_comp(server=server)
+        ds.set_result_file_path(files["flprj"], "flprj")
+        return ds
+
+    return return_ds
+
+
+@pytest.fixture()
 def fluent_mixing_elbow_steady_state():
     """Return a function which creates a data sources
     with a cas and a dat file of fluent mixing elbow steady-state case."""
