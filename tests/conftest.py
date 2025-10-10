@@ -375,7 +375,7 @@ SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2_0 = meets_version(
     get_server_version(core._global_server()), "2.1"
 )
 
-
+# Detect if gatebin binaries are available
 IS_USING_GATEBIN = _try_use_gatebin()
 
 
@@ -419,8 +419,11 @@ def remove_none_available_config(configs, config_names):
                 configs_out.append(conf)
                 config_names_out.append(conf_name)
     elif running_docker:
+        unavailable_configs = [core.AvailableServerConfigs.InProcessServer]
+        if not IS_USING_GATEBIN:
+            unavailable_configs.append(core.AvailableServerConfigs.GrpcServer)
         for conf, conf_name in zip(configs, config_names):
-            if conf != core.AvailableServerConfigs.InProcessServer:
+            if conf not in unavailable_configs:
                 configs_out.append(conf)
                 config_names_out.append(conf_name)
 
