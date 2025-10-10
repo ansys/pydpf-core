@@ -1,0 +1,13 @@
+ansys.dpf.core.animator._PyVistaAnimator
+========================================
+
+.. py:class:: ansys.dpf.core.animator._PyVistaAnimator(**kwargs)
+
+   Bases: :py:obj:`ansys.dpf.core.plotter._PyVistaPlotter`
+
+
+   An InternalAnimator class based on PyVista.
+
+
+   .. py:method:: animate_workflow(loop_over, workflow, output_name, input_name='loop_over', save_as='', mode_number=None, mode_frequency=None, scale_factor=1.0, shell_layer=core.shell_layers.top, **kwargs)
+

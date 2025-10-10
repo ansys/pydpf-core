@@ -1,0 +1,19 @@
+ansys.dpf.core._model_helpers
+=============================
+
+.. py:module:: ansys.dpf.core._model_helpers
+
+
+Classes
+-------
+
+.. toctree::
+   :hidden:
+
+   /api/ansys/dpf/core/_model_helpers/DataSourcesOrStreamsConnector
+
+.. autoapisummary::
+
+   ansys.dpf.core._model_helpers.DataSourcesOrStreamsConnector
+
+

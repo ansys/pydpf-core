@@ -1,0 +1,7 @@
+ansys.dpf.core._version.ServerToAnsysVersion
+============================================
+
+.. py:class:: ansys.dpf.core._version.ServerToAnsysVersion
+
+   .. py:method:: __getitem__(item)
+

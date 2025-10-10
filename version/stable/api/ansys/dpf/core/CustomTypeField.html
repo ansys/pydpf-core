@@ -1,0 +1,1061 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <meta property="og:site_name" content="PyAnsys" />
+    <title>ansys.dpf.core.CustomTypeField &#8212; PyDPF-Core</title>
+  
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/ansys-sphinx-theme.css?v=ce7f2556" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/jupyter-sphinx.css?v=572af1d6" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles\ansys-sphinx-theme.css?v=ce7f2556" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://www.nerdfonts.com/assets/css/webfont.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/custom.css?v=f3be7b20" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+
+  <!-- Include desired assets -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  
+
+  
+    <link href="../../../../_static/css/breadcrumbs.css" rel="stylesheet" />
+  
+    <script src="../../../../_static/documentation_options.js?v=361a893e"></script>
+    <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../../_static/thebelab-helper.js"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/ansys/dpf/core/CustomTypeField';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://dpf.docs.pyansys.com/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '0.14';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="icon" href="../../../../_static/ansys-favicon.png"/>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.14.0" />
+  <link rel="canonical" href="https://dpf.docs.pyansys.com/version/stable/api/ansys/dpf/core/CustomTypeField.html" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="https://docs.pyansys.com">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../_static/pyansys_logo_transparent_black.png" class="logo__image only-light" alt="PyDPF-Core - Home"/>
+    <img src="../../../../_static/pyansys_logo_transparent_white.png" class="logo__image only-dark pst-js-only" alt="PyDPF-Core - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../operator_reference.html">
+    Operators
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+      
+        <div class="navbar-item">
+<div class="search-bar pst-js-only" id="search-bar">
+  <form class="bd-search d-flex align-items-center" action="../../../../search.html" method="get">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="search" class="form-control" name="q" placeholder="Search the docs ..."
+      aria-label="Search the docs ..." autocomplete="off" autocorrect="off"
+      autocapitalize="off" spellcheck="false" />
+    <span class="search-button__kbd-shortcut">
+      <kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd>
+    </span>
+  </form>
+  <div id="static-search-results" class="static-search-results" style="display:none;" tabindex="0"></div>
+</div></div>
+      
+        <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+  
+    <div id="announcement_msg"></div>
+<script>
+  fetch("announcement.html")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(
+      (text) => (document.getElementById("announcement_msg").innerHTML = text),
+    )
+    .catch((error) => console.error(`Fetch problem: ${error.message}`));
+</script>
+  
+
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../operator_reference.html">
+    Operators
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<div class="search-bar pst-js-only" id="search-bar">
+  <form class="bd-search d-flex align-items-center" action="../../../../search.html" method="get">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="search" class="form-control" name="q" placeholder="Search the docs ..."
+      aria-label="Search the docs ..." autocomplete="off" autocorrect="off"
+      autocapitalize="off" spellcheck="false" />
+    <span class="search-button__kbd-shortcut">
+      <kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd>
+    </span>
+  </form>
+  <div id="static-search-results" class="static-search-results" style="display:none;" tabindex="0"></div>
+</div></div>
+        
+          <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+         
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="https://docs.pyansys.com/" class="nav-link">PyAnsys</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a
+        href="../../../../index.html"
+        class="nav-link"
+        aria-label="Home"
+      >
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+      
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">ansys.dpf.core.CustomTypeField</span></li>
+    
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="ansys-dpf-core-customtypefield">
+<h1>ansys.dpf.core.CustomTypeField<a class="headerlink" href="#ansys-dpf-core-customtypefield" title="Link to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="ansys.dpf.core.CustomTypeField">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.</span></span><span class="sig-name descname"><span class="pre">CustomTypeField</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unitary_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nentities</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.CustomTypeField" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">ansys.dpf.core.field_base._FieldBase</span></code></p>
+<p>Represents a simulation data container with each unitary data being of a custom type.</p>
+<p>When initializing the <code class="docutils literal notranslate"><span class="pre">CustomTypeField</span></code> class, provide a unitary data type.
+The <code class="docutils literal notranslate"><span class="pre">CustomTypeField</span></code> class gives you the ability to choose the most optimized unitary
+data type for a given usage, and hence, allows you to optimize memory usage.</p>
+<p>This can be evaluated data from the <a class="reference internal" href="Operator.html#ansys.dpf.core.Operator" title="ansys.dpf.core.Operator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Operator</span></code></a> class
+or created directly by an instance of this class.</p>
+<p>A field’s data is always associated to its scoping (entities
+associated to each value) and support (subset of the model where the
+data is), making the field a self-describing piece of data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>unitary_type</strong> (<em>numpy.dtype</em>) – The data vector of the Field will be a vector of this custom unitary type.</p></li>
+<li><p><strong>nentities</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of entities reserved. The default is <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p></li>
+<li><p><strong>field</strong> (<a class="reference internal" href="#ansys.dpf.core.CustomTypeField" title="ansys.dpf.core.CustomTypeField"><em>CustomTypeField</em></a><em>, </em><em>ansys.grpc.dpf.field_pb2.Field</em><em>, </em><em>ctypes.c_void_p</em><em>, </em><em>optional</em>) – Field message generated from a gRPC stub, or returned by DPF’s C clients.</p></li>
+<li><p><strong>server</strong> (<a class="reference internal" href="server/index.html#module-ansys.dpf.core.server" title="ansys.dpf.core.server"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.server</span></code></a>, optional) – Server with the channel connected to the remote or local instance. The
+default is <code class="docutils literal notranslate"><span class="pre">None</span></code>, in which case an attempt is made to use the global
+server.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Create a custom type field from scratch.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">locations</span>
+<span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">>>> </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">>>> </span><span class="n">field</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">CustomTypeField</span><span class="p">(</span><span class="n">unitary_type</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint64</span><span class="p">)</span>
+<span class="gp">>>> </span><span class="n">field</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="n">locations</span><span class="o">.</span><span class="n">nodal</span>
+<span class="gp">>>> </span><span class="n">field</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="mi">1000000</span><span class="p">,</span><span class="mi">2000000</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">>>> </span><span class="n">float_field</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">CustomTypeField</span><span class="p">(</span><span class="n">unitary_type</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="gp">>>> </span><span class="n">float_field</span><span class="o">.</span><span class="n">is_of_type</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p class="rubric">Notes</p>
+<p>Class available with server’s version starting at 5.0 (Ansys 2023R1).</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.CustomTypeField._server">
+<span class="sig-name descname"><span class="pre">_server</span></span><a class="headerlink" href="#ansys.dpf.core.CustomTypeField._server" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.CustomTypeField._field_definition">
+<span class="sig-name descname"><span class="pre">_field_definition</span></span><a class="headerlink" href="#ansys.dpf.core.CustomTypeField._field_definition" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.CustomTypeField._load_type">
+<span class="sig-name descname"><span class="pre">_load_type</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.CustomTypeField._load_type" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.CustomTypeField._api">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_api</span></span><a class="headerlink" href="#ansys.dpf.core.CustomTypeField._api" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.CustomTypeField._init_api_env">
+<span class="sig-name descname"><span class="pre">_init_api_env</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.CustomTypeField._init_api_env" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.CustomTypeField._field_create_internal_obj">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_field_create_internal_obj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nentities</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">locations.nodal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ncomp_n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ncomp_m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">with_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.CustomTypeField._field_create_internal_obj" title="Link to this definition">#</a></dt>
+<dd><p>Return a gRPC field message or C object instance of a new field.</p>
+<p>This new field is created with this functions parameter attributes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>client</strong> (<em>None</em><em>, </em><a class="reference internal" href="server_types/GrpcClient.html#ansys.dpf.core.server_types.GrpcClient" title="ansys.dpf.core.server_types.GrpcClient"><em>GrpcClient</em></a><em>, </em><a class="reference internal" href="server_types/GrpcServer.html#ansys.dpf.core.server_types.GrpcServer" title="ansys.dpf.core.server_types.GrpcServer"><em>GrpcServer</em></a>)</p></li>
+<li><p><strong>snature</strong> (<em>str</em>) – <p>Nature of the field entity data. For example:</p>
+<ul>
+<li><p><a class="reference internal" href="natures.html#ansys.dpf.core.natures.matrix" title="ansys.dpf.core.natures.matrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.natures.matrix</span></code></a></p></li>
+<li><p><a class="reference internal" href="natures.html#ansys.dpf.core.natures.scalar" title="ansys.dpf.core.natures.scalar"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.natures.scalar</span></code></a></p></li>
+</ul>
+</p></li>
+<li><p><strong>num_entities</strong> (<em>int</em>) – Number of entities to reserve.</p></li>
+<li><p><strong>location</strong> (<em>str</em><em>, </em><em>optional</em>) – <p>Location of the field. For example:</p>
+<ul>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.natures.nodal</span></code> (<code class="docutils literal notranslate"><span class="pre">&quot;Nodal&quot;</span></code>)</p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.natures.elemental</span></code> (<code class="docutils literal notranslate"><span class="pre">&quot;Elemental&quot;</span></code>)</p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.natures.elemental_nodal</span></code> (<code class="docutils literal notranslate"><span class="pre">&quot;ElementalNodal&quot;</span></code>)</p></li>
+<li><p>…</p></li>
+</ul>
+</p></li>
+<li><p><strong>ncomp_n</strong> (<em>int</em>) – Number of lines.</p></li>
+<li><p><strong>ncomp_m</strong> (<em>int</em>) – Number of columns.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>field</strong> – DPF field in the requested format.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>field_pb2.Field or ctypes.void_p</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.CustomTypeField.location">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">location</span></span><a class="headerlink" href="#ansys.dpf.core.CustomTypeField.location" title="Link to this definition">#</a></dt>
+<dd><p>CustomTypeField location.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Location string, which can be <code class="docutils literal notranslate"><span class="pre">&quot;Nodal&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;Elemental&quot;</span></code>,
+<code class="docutils literal notranslate"><span class="pre">&quot;ElementalNodal&quot;</span></code>… See <a class="reference internal" href="common/locations.html#ansys.dpf.core.common.locations" title="ansys.dpf.core.common.locations"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.common.locations</span></code></a>.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">locations</span>
+<span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">>>> </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">>>> </span><span class="n">field</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">CustomTypeField</span><span class="p">(</span><span class="n">unitary_type</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint64</span><span class="p">)</span>
+<span class="gp">>>> </span><span class="n">field</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="n">locations</span><span class="o">.</span><span class="n">nodal</span>
+<span class="gp">>>> </span><span class="n">field</span><span class="o">.</span><span class="n">location</span>
+<span class="go">&#39;Nodal&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.CustomTypeField.is_of_type">
+<span class="sig-name descname"><span class="pre">is_of_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type_to_compare</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.dtype</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#ansys.dpf.core.CustomTypeField.is_of_type" title="Link to this definition">#</a></dt>
+<dd><p>Check whether the Field’s unitary type is the same as the input type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>type_to_compare</strong> (<em>numpy.dtype</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Create a custom type field from scratch.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">>>> </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">>>> </span><span class="n">field</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">CustomTypeField</span><span class="p">(</span><span class="n">unitary_type</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)</span>
+<span class="gp">>>> </span><span class="n">field</span><span class="o">.</span><span class="n">is_of_type</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">>>> </span><span class="n">field</span><span class="o">.</span><span class="n">is_of_type</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">short</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">>>> </span><span class="n">field</span><span class="o">.</span><span class="n">is_of_type</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.CustomTypeField.type">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">type</span></span><a class="headerlink" href="#ansys.dpf.core.CustomTypeField.type" title="Link to this definition">#</a></dt>
+<dd><p>Type of unitary data in the Field’s data vector.</p>
+<p>Should be properly set at the Field construction to have properly allocated data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.dtype</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">locations</span>
+<span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">>>> </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">>>> </span><span class="n">field</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">CustomTypeField</span><span class="p">(</span><span class="n">unitary_type</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint64</span><span class="p">)</span>
+<span class="gp">>>> </span><span class="n">field</span><span class="o">.</span><span class="n">type</span>
+<span class="go">dtype(&#39;uint64&#39;)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.CustomTypeField.component_count">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">component_count</span></span><a class="headerlink" href="#ansys.dpf.core.CustomTypeField.component_count" title="Link to this definition">#</a></dt>
+<dd><p>Number of components.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.CustomTypeField.elementary_data_count">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">elementary_data_count</span></span><a class="headerlink" href="#ansys.dpf.core.CustomTypeField.elementary_data_count" title="Link to this definition">#</a></dt>
+<dd><p>Number of elementary data.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.CustomTypeField.size">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">size</span></span><a class="headerlink" href="#ansys.dpf.core.CustomTypeField.size" title="Link to this definition">#</a></dt>
+<dd><p>Size of data.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.CustomTypeField._set_scoping">
+<span class="sig-name descname"><span class="pre">_set_scoping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scoping</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.CustomTypeField._set_scoping" title="Link to this definition">#</a></dt>
+<dd><p>Set the scoping.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>scoping</strong> (<a class="reference internal" href="scoping/Scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.scoping.Scoping</span></code></a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.CustomTypeField._get_scoping">
+<span class="sig-name descname"><span class="pre">_get_scoping</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.CustomTypeField._get_scoping" title="Link to this definition">#</a></dt>
+<dd><p>Retrieve the scoping.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>scoping</strong></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="scoping/Scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.scoping.Scoping</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.CustomTypeField.get_entity_data">
+<span class="sig-name descname"><span class="pre">get_entity_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.CustomTypeField.get_entity_data" title="Link to this definition">#</a></dt>
+<dd><p>Return the array corresponding to the data of a given entity index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>index</strong> (<em>int</em>) – Index in the <code class="docutils literal notranslate"><span class="pre">Scoping</span></code>.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>numpy.ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">locations</span>
+<span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">>>> </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">>>> </span><span class="n">field</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">CustomTypeField</span><span class="p">(</span><span class="n">unitary_type</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint64</span><span class="p">)</span>
+<span class="gp">>>> </span><span class="n">field</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="mi">1000000</span><span class="p">,</span> <span class="mi">2000000</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">>>> </span><span class="n">field</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="mi">1000000</span><span class="p">,</span> <span class="mi">2000000</span><span class="p">,</span> <span class="mi">3000000</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">>>> </span><span class="n">field</span><span class="o">.</span><span class="n">get_entity_data</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">DPFArray([1000000, 2000000]...</span>
+<span class="gp">>>> </span><span class="n">field</span><span class="o">.</span><span class="n">get_entity_data</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">DPFArray([1000000, 2000000, 3000000]...</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.CustomTypeField.get_entity_data_by_id">
+<span class="sig-name descname"><span class="pre">get_entity_data_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.CustomTypeField.get_entity_data_by_id" title="Link to this definition">#</a></dt>
+<dd><p>Return the array corresponding to the data of a given entity id.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>id</strong> (<em>int</em>) – Entity ID in the <code class="docutils literal notranslate"><span class="pre">Scoping</span></code>.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>numpy.ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">locations</span>
+<span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">>>> </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">>>> </span><span class="n">field</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">CustomTypeField</span><span class="p">(</span><span class="n">unitary_type</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint64</span><span class="p">)</span>
+<span class="gp">>>> </span><span class="n">field</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="mi">1000000</span><span class="p">,</span> <span class="mi">2000000</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">>>> </span><span class="n">field</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="mi">1000000</span><span class="p">,</span> <span class="mi">2000000</span><span class="p">,</span> <span class="mi">3000000</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">>>> </span><span class="n">field</span><span class="o">.</span><span class="n">get_entity_data_by_id</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">DPFArray([1000000, 2000000]...</span>
+<span class="gp">>>> </span><span class="n">field</span><span class="o">.</span><span class="n">get_entity_data_by_id</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">DPFArray([1000000, 2000000, 3000000]...</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.CustomTypeField.append">
+<span class="sig-name descname"><span class="pre">append</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scopingid</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.CustomTypeField.append" title="Link to this definition">#</a></dt>
+<dd><p>Append data to the api instance.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.CustomTypeField._get_data_pointer">
+<span class="sig-name descname"><span class="pre">_get_data_pointer</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.CustomTypeField._get_data_pointer" title="Link to this definition">#</a></dt>
+<dd><p>First index of each entity data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Data in the field.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>numpy.ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Print a progress bar.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.CustomTypeField._set_data_pointer">
+<span class="sig-name descname"><span class="pre">_set_data_pointer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.CustomTypeField._set_data_pointer" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.CustomTypeField._get_data">
+<span class="sig-name descname"><span class="pre">_get_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">np_array</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.CustomTypeField._get_data" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.CustomTypeField._set_data">
+<span class="sig-name descname"><span class="pre">_set_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.CustomTypeField._set_data" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.CustomTypeField.resize">
+<span class="sig-name descname"><span class="pre">resize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nentities</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">datasize</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.CustomTypeField.resize" title="Link to this definition">#</a></dt>
+<dd><p>Allocate memory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nentities</strong> (<em>int</em>) – Number of IDs in the scoping.</p></li>
+<li><p><strong>datasize</strong> (<em>int</em>) – Size of the data vector.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.CustomTypeField._load_field_definition">
+<span class="sig-name descname"><span class="pre">_load_field_definition</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.CustomTypeField._load_field_definition" title="Link to this definition">#</a></dt>
+<dd><p>Attempt to load the field definition for this field.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.CustomTypeField.unit">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">unit</span></span><a class="headerlink" href="#ansys.dpf.core.CustomTypeField.unit" title="Link to this definition">#</a></dt>
+<dd><p>Units for the field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Units for the field.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Units for a displacement field.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">>>> </span><span class="n">my_field</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">CustomTypeField</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="gp">>>> </span><span class="n">my_field</span><span class="o">.</span><span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;m&quot;</span>
+<span class="gp">>>> </span><span class="n">my_field</span><span class="o">.</span><span class="n">unit</span>
+<span class="go">&#39;m&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.CustomTypeField.dimensionality">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dimensionality</span></span><a class="headerlink" href="#ansys.dpf.core.CustomTypeField.dimensionality" title="Link to this definition">#</a></dt>
+<dd><p>Dimensionality represents the shape of the elementary data contained in the field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dimensionality</strong> – Nature and size of the elementary data.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="dimensionality/Dimensionality.html#ansys.dpf.core.dimensionality.Dimensionality" title="ansys.dpf.core.dimensionality.Dimensionality"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.dimensionality.Dimensionality</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.CustomTypeField.name">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#ansys.dpf.core.CustomTypeField.name" title="Link to this definition">#</a></dt>
+<dd><p>Name of the field.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.CustomTypeField._set_field_definition">
+<span class="sig-name descname"><span class="pre">_set_field_definition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field_definition</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.CustomTypeField._set_field_definition" title="Link to this definition">#</a></dt>
+<dd><p>Set the field definition.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>field_definition</strong> (:class”<cite>ansys.dpf.core.field_definition.FieldDefinition</cite>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.CustomTypeField.field_definition">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">field_definition</span></span><a class="headerlink" href="#ansys.dpf.core.CustomTypeField.field_definition" title="Link to this definition">#</a></dt>
+<dd><p>CustomTypeField information, including its location, unit, dimensionality and shell layers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="field_definition/FieldDefinition.html#ansys.dpf.core.field_definition.FieldDefinition" title="ansys.dpf.core.field_definition.FieldDefinition"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.field_definition.FieldDefinition</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.CustomTypeField._set_support">
+<span class="sig-name descname"><span class="pre">_set_support</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">support</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.CustomTypeField._set_support" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.CustomTypeField.support">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">support</span></span><a class="headerlink" href="#ansys.dpf.core.CustomTypeField.support" title="Link to this definition">#</a></dt>
+<dd><p>Return the support associated with the custom field.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.CustomTypeField"><code class="docutils literal notranslate"><span class="pre">ansys.dpf.core.CustomTypeField</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.CustomTypeField._server"><code class="docutils literal notranslate"><span class="pre">ansys.dpf.core.CustomTypeField._server</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.CustomTypeField._field_definition"><code class="docutils literal notranslate"><span class="pre">ansys.dpf.core.CustomTypeField._field_definition</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.CustomTypeField._load_type"><code class="docutils literal notranslate"><span class="pre">ansys.dpf.core.CustomTypeField._load_type()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.CustomTypeField._api"><code class="docutils literal notranslate"><span class="pre">ansys.dpf.core.CustomTypeField._api</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.CustomTypeField._init_api_env"><code class="docutils literal notranslate"><span class="pre">ansys.dpf.core.CustomTypeField._init_api_env()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.CustomTypeField._field_create_internal_obj"><code class="docutils literal notranslate"><span class="pre">ansys.dpf.core.CustomTypeField._field_create_internal_obj()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.CustomTypeField.location"><code class="docutils literal notranslate"><span class="pre">ansys.dpf.core.CustomTypeField.location</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.CustomTypeField.is_of_type"><code class="docutils literal notranslate"><span class="pre">ansys.dpf.core.CustomTypeField.is_of_type()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.CustomTypeField.type"><code class="docutils literal notranslate"><span class="pre">ansys.dpf.core.CustomTypeField.type</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.CustomTypeField.component_count"><code class="docutils literal notranslate"><span class="pre">ansys.dpf.core.CustomTypeField.component_count</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.CustomTypeField.elementary_data_count"><code class="docutils literal notranslate"><span class="pre">ansys.dpf.core.CustomTypeField.elementary_data_count</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.CustomTypeField.size"><code class="docutils literal notranslate"><span class="pre">ansys.dpf.core.CustomTypeField.size</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.CustomTypeField._set_scoping"><code class="docutils literal notranslate"><span class="pre">ansys.dpf.core.CustomTypeField._set_scoping()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.CustomTypeField._get_scoping"><code class="docutils literal notranslate"><span class="pre">ansys.dpf.core.CustomTypeField._get_scoping()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.CustomTypeField.get_entity_data"><code class="docutils literal notranslate"><span class="pre">ansys.dpf.core.CustomTypeField.get_entity_data()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.CustomTypeField.get_entity_data_by_id"><code class="docutils literal notranslate"><span class="pre">ansys.dpf.core.CustomTypeField.get_entity_data_by_id()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.CustomTypeField.append"><code class="docutils literal notranslate"><span class="pre">ansys.dpf.core.CustomTypeField.append()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.CustomTypeField._get_data_pointer"><code class="docutils literal notranslate"><span class="pre">ansys.dpf.core.CustomTypeField._get_data_pointer()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.CustomTypeField._set_data_pointer"><code class="docutils literal notranslate"><span class="pre">ansys.dpf.core.CustomTypeField._set_data_pointer()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.CustomTypeField._get_data"><code class="docutils literal notranslate"><span class="pre">ansys.dpf.core.CustomTypeField._get_data()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.CustomTypeField._set_data"><code class="docutils literal notranslate"><span class="pre">ansys.dpf.core.CustomTypeField._set_data()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.CustomTypeField.resize"><code class="docutils literal notranslate"><span class="pre">ansys.dpf.core.CustomTypeField.resize()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.CustomTypeField._load_field_definition"><code class="docutils literal notranslate"><span class="pre">ansys.dpf.core.CustomTypeField._load_field_definition()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.CustomTypeField.unit"><code class="docutils literal notranslate"><span class="pre">ansys.dpf.core.CustomTypeField.unit</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.CustomTypeField.dimensionality"><code class="docutils literal notranslate"><span class="pre">ansys.dpf.core.CustomTypeField.dimensionality</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.CustomTypeField.name"><code class="docutils literal notranslate"><span class="pre">ansys.dpf.core.CustomTypeField.name</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.CustomTypeField._set_field_definition"><code class="docutils literal notranslate"><span class="pre">ansys.dpf.core.CustomTypeField._set_field_definition()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.CustomTypeField.field_definition"><code class="docutils literal notranslate"><span class="pre">ansys.dpf.core.CustomTypeField.field_definition</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.CustomTypeField._set_support"><code class="docutils literal notranslate"><span class="pre">ansys.dpf.core.CustomTypeField._set_support()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.CustomTypeField.support"><code class="docutils literal notranslate"><span class="pre">ansys.dpf.core.CustomTypeField.support</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+<!-- If there is no fix edit button function, use the PyData edit-this-button-->
+</div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <ul class="this-page-menu">
+      <li><a href="../../../../_sources/api/ansys/dpf/core/CustomTypeField.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+
+  <!-- Include desired assets -->
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.7/require.min.js"></script>
+
+<script>
+// Passing the search options to the search.js file
+const SEARCH_OPTIONS = JSON.parse('{"ignoreLocation": true, "keys": ["title", "text", "objectID"], "limit": 10, "minMatchCharLength": 2, "threshold": 0.5}');
+const SEARCH_FILE = "../../../../_static/search.json";
+const ADVANCE_SEARCH_PATH = "../../../../search.html";
+const EXTRA_SOURCES = JSON.parse('""');
+</script>
+
+
+<script src="../../../../_static/js/search.js"></script>
+
+  
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright (c) 2025 ANSYS, Inc. All rights reserved.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the
+  <a href="https://sphinxdocs.ansys.com/version/stable/index.html"
+    >Ansys Sphinx Theme</a
+  >
+  1.5.3. <br />Last updated on
+  <span id="ast_build_date"></span>
+</p>
+<script>
+  var options = { day: "numeric", month: "long", year: "numeric" };
+  var ast_lastModifiedDate = new Date(document.lastModified);
+  var ast_build_date = ast_lastModifiedDate.toLocaleDateString("en-US", options);
+  document.getElementById("ast_build_date").innerHTML = ast_build_date;
+</script></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

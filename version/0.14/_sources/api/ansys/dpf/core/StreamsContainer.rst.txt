@@ -1,0 +1,52 @@
+ansys.dpf.core.StreamsContainer
+===============================
+
+.. py:class:: ansys.dpf.core.StreamsContainer(streams_container=None, server: ansys.dpf.core.server_types.BaseServer = None)
+
+   Python wrapper for operator input or output of streams.
+
+   Streams define open, ready-to-use, data sources.
+   Once the files in the streams are opened, they stay opened and
+   they keep some data in cache to make the next evaluations faster.
+   To close the opened files, release the handles.
+
+   .. note:: Only available for an InProcess server configuration.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.find_multishells_rst())
+   >>> streams_provider = model.metadata.streams_provider
+   >>> sc = streams_provider.outputs.streams_container()
+
+
+   .. py:property:: _server
+
+
+   .. py:attribute:: _internal_obj
+      :value: None
+
+
+
+   .. py:attribute:: owned
+      :value: False
+
+
+
+   .. py:property:: datasources
+
+      Return the data sources.
+
+
+   .. py:method:: release_handles()
+
+      Release the streams.
+
+
+
+   .. py:method:: __del__()
+
+      Delete the entry.
+
+

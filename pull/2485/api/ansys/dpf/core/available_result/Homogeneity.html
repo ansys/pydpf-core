@@ -1,0 +1,1380 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <meta property="og:site_name" content="PyAnsys" />
+    <title>Homogeneity &#8212; PyDPF-Core</title>
+  
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/ansys-sphinx-theme.css?v=ce7f2556" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/styles\ansys-sphinx-theme.css?v=ce7f2556" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://www.nerdfonts.com/assets/css/webfont.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/custom.css?v=2be88464" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+
+  <!-- Include desired assets -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  
+
+  
+    <link href="../../../../../_static/css/breadcrumbs.css" rel="stylesheet" />
+  
+    <script src="../../../../../_static/documentation_options.js?v=8c207667"></script>
+    <script src="../../../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/ansys/dpf/core/available_result/Homogeneity';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://dpf.docs.pyansys.com/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="icon" href="../../../../../_static/ansys-favicon.png"/>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+    <link rel="next" title="The changelog.py module" href="../changelog/index.html" />
+    <link rel="prev" title="AvailableResult" href="AvailableResult.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.13.9.dev0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="https://docs.pyansys.com">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../../_static/pyansys_logo_transparent_black.png" class="logo__image only-light" alt="PyDPF-Core - Home"/>
+    <img src="../../../../../_static/pyansys_logo_transparent_white.png" class="logo__image only-dark pst-js-only" alt="PyDPF-Core - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../../../index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../operator_reference.html">
+    Operators
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+      
+        <div class="navbar-item">
+<div class="search-bar pst-js-only" id="search-bar">
+  <form class="bd-search d-flex align-items-center" action="../../../../../search.html" method="get">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="search" class="form-control" name="q" placeholder="Search the docs ..."
+      aria-label="Search the docs ..." autocomplete="off" autocorrect="off"
+      autocapitalize="off" spellcheck="false" />
+    <span class="search-button__kbd-shortcut">
+      <kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd>
+    </span>
+  </form>
+  <div id="static-search-results" class="static-search-results" style="display:none;" tabindex="0"></div>
+</div></div>
+      
+        <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+  
+    <div id="announcement_msg"></div>
+<script>
+  fetch("announcement.html")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(
+      (text) => (document.getElementById("announcement_msg").innerHTML = text),
+    )
+    .catch((error) => console.error(`Fetch problem: ${error.message}`));
+</script>
+  
+
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../../../index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../operator_reference.html">
+    Operators
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<div class="search-bar pst-js-only" id="search-bar">
+  <form class="bd-search d-flex align-items-center" action="../../../../../search.html" method="get">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="search" class="form-control" name="q" placeholder="Search the docs ..."
+      aria-label="Search the docs ..." autocomplete="off" autocorrect="off"
+      autocapitalize="off" spellcheck="false" />
+    <span class="search-button__kbd-shortcut">
+      <kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd>
+    </span>
+  </form>
+  <div id="static-search-results" class="static-search-results" style="display:none;" tabindex="0"></div>
+</div></div>
+        
+          <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html"><span class="nf nf-md-package"></span> ansys.dpf.core</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../examples/index.html"> <span class="nf nf-md-package"></span> examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/index.html"> <span class="nf nf-md-package"></span> helpers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../operators/index.html"> <span class="nf nf-md-package"></span> operators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflow_topology/index.html"> <span class="nf nf-md-package"></span> workflow_topology</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../animation/index.html"> <span class="nf nf-fa-file"></span> animation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../animator/index.html"> <span class="nf nf-fa-file"></span> animator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../any/index.html"> <span class="nf nf-fa-file"></span> any</a></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="index.html"> <span class="nf nf-fa-file"></span> available_result</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="AvailableResult.html"> <span class="nf nf-cod-symbol_class"></span> AvailableResult</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#"> <span class="nf nf-cod-symbol_enum"></span> Homogeneity</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog/index.html"> <span class="nf nf-fa-file"></span> changelog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../collection/index.html"> <span class="nf nf-fa-file"></span> collection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../collection_base/index.html"> <span class="nf nf-fa-file"></span> collection_base</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../common/index.html"> <span class="nf nf-fa-file"></span> common</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../config/index.html"> <span class="nf nf-fa-file"></span> config</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../core/index.html"> <span class="nf nf-fa-file"></span> core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../custom_container_base/index.html"> <span class="nf nf-fa-file"></span> custom_container_base</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../custom_fields_container/index.html"> <span class="nf nf-fa-file"></span> custom_fields_container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../custom_operator/index.html"> <span class="nf nf-fa-file"></span> custom_operator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../custom_type_field/index.html"> <span class="nf nf-fa-file"></span> custom_type_field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cyclic_support/index.html"> <span class="nf nf-fa-file"></span> cyclic_support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../data_sources/index.html"> <span class="nf nf-fa-file"></span> data_sources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../data_tree/index.html"> <span class="nf nf-fa-file"></span> data_tree</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dimensionality/index.html"> <span class="nf nf-fa-file"></span> dimensionality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dpf_array/index.html"> <span class="nf nf-fa-file"></span> dpf_array</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dpf_operator/index.html"> <span class="nf nf-fa-file"></span> dpf_operator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../element_descriptor/index.html"> <span class="nf nf-fa-file"></span> element_descriptor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../elements/index.html"> <span class="nf nf-fa-file"></span> elements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../errors/index.html"> <span class="nf nf-fa-file"></span> errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faces/index.html"> <span class="nf nf-fa-file"></span> faces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../field/index.html"> <span class="nf nf-fa-file"></span> field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../field_definition/index.html"> <span class="nf nf-fa-file"></span> field_definition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fields_container/index.html"> <span class="nf nf-fa-file"></span> fields_container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fields_container_factory/index.html"> <span class="nf nf-fa-file"></span> fields_container_factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fields_factory/index.html"> <span class="nf nf-fa-file"></span> fields_factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generic_data_container/index.html"> <span class="nf nf-fa-file"></span> generic_data_container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generic_support/index.html"> <span class="nf nf-fa-file"></span> generic_support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../geometry/index.html"> <span class="nf nf-fa-file"></span> geometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../geometry_factory/index.html"> <span class="nf nf-fa-file"></span> geometry_factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../incremental/index.html"> <span class="nf nf-fa-file"></span> incremental</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../inputs/index.html"> <span class="nf nf-fa-file"></span> inputs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mesh_info/index.html"> <span class="nf nf-fa-file"></span> mesh_info</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mesh_scoping_factory/index.html"> <span class="nf nf-fa-file"></span> mesh_scoping_factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../meshed_region/index.html"> <span class="nf nf-fa-file"></span> meshed_region</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../meshes_container/index.html"> <span class="nf nf-fa-file"></span> meshes_container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../model/index.html"> <span class="nf nf-fa-file"></span> model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nodes/index.html"> <span class="nf nf-fa-file"></span> nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../operator_specification/index.html"> <span class="nf nf-fa-file"></span> operator_specification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../outputs/index.html"> <span class="nf nf-fa-file"></span> outputs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../path_utilities/index.html"> <span class="nf nf-fa-file"></span> path_utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../plotter/index.html"> <span class="nf nf-fa-file"></span> plotter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../plugins/index.html"> <span class="nf nf-fa-file"></span> plugins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../property_field/index.html"> <span class="nf nf-fa-file"></span> property_field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../result_info/index.html"> <span class="nf nf-fa-file"></span> result_info</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../results/index.html"> <span class="nf nf-fa-file"></span> results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../runtime_config/index.html"> <span class="nf nf-fa-file"></span> runtime_config</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../scoping/index.html"> <span class="nf nf-fa-file"></span> scoping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../scopings_container/index.html"> <span class="nf nf-fa-file"></span> scopings_container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../server/index.html"> <span class="nf nf-fa-file"></span> server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../server_context/index.html"> <span class="nf nf-fa-file"></span> server_context</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../server_factory/index.html"> <span class="nf nf-fa-file"></span> server_factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../server_types/index.html"> <span class="nf nf-fa-file"></span> server_types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../session/index.html"> <span class="nf nf-fa-file"></span> session</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../settings/index.html"> <span class="nf nf-fa-file"></span> settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../streams_container/index.html"> <span class="nf nf-fa-file"></span> streams_container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../string_field/index.html"> <span class="nf nf-fa-file"></span> string_field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../support/index.html"> <span class="nf nf-fa-file"></span> support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../time_freq_scoping_factory/index.html"> <span class="nf nf-fa-file"></span> time_freq_scoping_factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../time_freq_support/index.html"> <span class="nf nf-fa-file"></span> time_freq_support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit_system/index.html"> <span class="nf nf-fa-file"></span> unit_system</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflow/index.html"> <span class="nf nf-fa-file"></span> workflow</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+         
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="https://docs.pyansys.com/" class="nav-link">PyAnsys</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a
+        href="../../../../../index.html"
+        class="nav-link"
+        aria-label="Home"
+      >
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="../../../../index.html" class="nav-link">API reference</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="../index.html" class="nav-link">The <code class="docutils literal notranslate"><span class="pre">ansys.dpf.core</span></code> library</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="index.html" class="nav-link">The <code class="docutils literal notranslate"><span class="pre">available_result.py</span></code> module</a>
+    </li>
+      
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis"><code class="xref py py-class docutils literal notranslate"><span class="pre">Homogeneity</span></code></span></li>
+    
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="homogeneity">
+<h1><code class="xref py py-class docutils literal notranslate"><span class="pre">Homogeneity</span></code><a class="headerlink" href="#homogeneity" title="Link to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.available_result.</span></span><span class="sig-name descname"><span class="pre">Homogeneity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>Enum class listing all possible homogeneity names of results.</p>
+</dd></dl>
+
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-0">
+Attributes</label><div class="sd-tab-content docutils">
+<div class="pst-scrollable-table-container"><table class="table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Homogeneity.acceleration" title="Homogeneity.acceleration"><code class="xref py py-attr docutils literal notranslate"><span class="pre">acceleration</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Homogeneity.angle" title="Homogeneity.angle"><code class="xref py py-attr docutils literal notranslate"><span class="pre">angle</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Homogeneity.angular_velocity" title="Homogeneity.angular_velocity"><code class="xref py py-attr docutils literal notranslate"><span class="pre">angular_velocity</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Homogeneity.surface" title="Homogeneity.surface"><code class="xref py py-attr docutils literal notranslate"><span class="pre">surface</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Homogeneity.capacitance" title="Homogeneity.capacitance"><code class="xref py py-attr docutils literal notranslate"><span class="pre">capacitance</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Homogeneity.electric_charge" title="Homogeneity.electric_charge"><code class="xref py py-attr docutils literal notranslate"><span class="pre">electric_charge</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Homogeneity.electric_charge_density" title="Homogeneity.electric_charge_density"><code class="xref py py-attr docutils literal notranslate"><span class="pre">electric_charge_density</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Homogeneity.conductivity" title="Homogeneity.conductivity"><code class="xref py py-attr docutils literal notranslate"><span class="pre">conductivity</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Homogeneity.current" title="Homogeneity.current"><code class="xref py py-attr docutils literal notranslate"><span class="pre">current</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Homogeneity.current_density" title="Homogeneity.current_density"><code class="xref py py-attr docutils literal notranslate"><span class="pre">current_density</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Homogeneity.density" title="Homogeneity.density"><code class="xref py py-attr docutils literal notranslate"><span class="pre">density</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Homogeneity.displacement" title="Homogeneity.displacement"><code class="xref py py-attr docutils literal notranslate"><span class="pre">displacement</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Homogeneity.electric_conductivity" title="Homogeneity.electric_conductivity"><code class="xref py py-attr docutils literal notranslate"><span class="pre">electric_conductivity</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Homogeneity.electric_field" title="Homogeneity.electric_field"><code class="xref py py-attr docutils literal notranslate"><span class="pre">electric_field</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Homogeneity.electric_flux_density" title="Homogeneity.electric_flux_density"><code class="xref py py-attr docutils literal notranslate"><span class="pre">electric_flux_density</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Homogeneity.electric_resistivity" title="Homogeneity.electric_resistivity"><code class="xref py py-attr docutils literal notranslate"><span class="pre">electric_resistivity</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Homogeneity.energy" title="Homogeneity.energy"><code class="xref py py-attr docutils literal notranslate"><span class="pre">energy</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Homogeneity.film_coefficient" title="Homogeneity.film_coefficient"><code class="xref py py-attr docutils literal notranslate"><span class="pre">film_coefficient</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Homogeneity.force" title="Homogeneity.force"><code class="xref py py-attr docutils literal notranslate"><span class="pre">force</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Homogeneity.force_intensity" title="Homogeneity.force_intensity"><code class="xref py py-attr docutils literal notranslate"><span class="pre">force_intensity</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Homogeneity.frequency" title="Homogeneity.frequency"><code class="xref py py-attr docutils literal notranslate"><span class="pre">frequency</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Homogeneity.heat_flux" title="Homogeneity.heat_flux"><code class="xref py py-attr docutils literal notranslate"><span class="pre">heat_flux</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Homogeneity.heat_generation" title="Homogeneity.heat_generation"><code class="xref py py-attr docutils literal notranslate"><span class="pre">heat_generation</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Homogeneity.heat_rate" title="Homogeneity.heat_rate"><code class="xref py py-attr docutils literal notranslate"><span class="pre">heat_rate</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Homogeneity.inductance" title="Homogeneity.inductance"><code class="xref py py-attr docutils literal notranslate"><span class="pre">inductance</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Homogeneity.inverse_stress" title="Homogeneity.inverse_stress"><code class="xref py py-attr docutils literal notranslate"><span class="pre">inverse_stress</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Homogeneity.length" title="Homogeneity.length"><code class="xref py py-attr docutils literal notranslate"><span class="pre">length</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Homogeneity.magnetic_field_intensity" title="Homogeneity.magnetic_field_intensity"><code class="xref py py-attr docutils literal notranslate"><span class="pre">magnetic_field_intensity</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Homogeneity.magnetic_flux" title="Homogeneity.magnetic_flux"><code class="xref py py-attr docutils literal notranslate"><span class="pre">magnetic_flux</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Homogeneity.magnetic_flux_density" title="Homogeneity.magnetic_flux_density"><code class="xref py py-attr docutils literal notranslate"><span class="pre">magnetic_flux_density</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Homogeneity.mass" title="Homogeneity.mass"><code class="xref py py-attr docutils literal notranslate"><span class="pre">mass</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Homogeneity.moment" title="Homogeneity.moment"><code class="xref py py-attr docutils literal notranslate"><span class="pre">moment</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Homogeneity.moment_inertia" title="Homogeneity.moment_inertia"><code class="xref py py-attr docutils literal notranslate"><span class="pre">moment_inertia</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Homogeneity.permeability" title="Homogeneity.permeability"><code class="xref py py-attr docutils literal notranslate"><span class="pre">permeability</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Homogeneity.permittivity" title="Homogeneity.permittivity"><code class="xref py py-attr docutils literal notranslate"><span class="pre">permittivity</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Homogeneity.poisson" title="Homogeneity.poisson"><code class="xref py py-attr docutils literal notranslate"><span class="pre">poisson</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Homogeneity.power" title="Homogeneity.power"><code class="xref py py-attr docutils literal notranslate"><span class="pre">power</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Homogeneity.pressure" title="Homogeneity.pressure"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pressure</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Homogeneity.relative_permeability" title="Homogeneity.relative_permeability"><code class="xref py py-attr docutils literal notranslate"><span class="pre">relative_permeability</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Homogeneity.relative_permittivity" title="Homogeneity.relative_permittivity"><code class="xref py py-attr docutils literal notranslate"><span class="pre">relative_permittivity</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Homogeneity.section_modulus" title="Homogeneity.section_modulus"><code class="xref py py-attr docutils literal notranslate"><span class="pre">section_modulus</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Homogeneity.specific_heat" title="Homogeneity.specific_heat"><code class="xref py py-attr docutils literal notranslate"><span class="pre">specific_heat</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Homogeneity.specific_weight" title="Homogeneity.specific_weight"><code class="xref py py-attr docutils literal notranslate"><span class="pre">specific_weight</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Homogeneity.shear_strain" title="Homogeneity.shear_strain"><code class="xref py py-attr docutils literal notranslate"><span class="pre">shear_strain</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Homogeneity.stiffness" title="Homogeneity.stiffness"><code class="xref py py-attr docutils literal notranslate"><span class="pre">stiffness</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Homogeneity.strain" title="Homogeneity.strain"><code class="xref py py-attr docutils literal notranslate"><span class="pre">strain</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Homogeneity.stress" title="Homogeneity.stress"><code class="xref py py-attr docutils literal notranslate"><span class="pre">stress</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Homogeneity.strength" title="Homogeneity.strength"><code class="xref py py-attr docutils literal notranslate"><span class="pre">strength</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Homogeneity.thermal_expansion" title="Homogeneity.thermal_expansion"><code class="xref py py-attr docutils literal notranslate"><span class="pre">thermal_expansion</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Homogeneity.temperature" title="Homogeneity.temperature"><code class="xref py py-attr docutils literal notranslate"><span class="pre">temperature</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Homogeneity.time" title="Homogeneity.time"><code class="xref py py-attr docutils literal notranslate"><span class="pre">time</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Homogeneity.velocity" title="Homogeneity.velocity"><code class="xref py py-attr docutils literal notranslate"><span class="pre">velocity</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Homogeneity.voltage" title="Homogeneity.voltage"><code class="xref py py-attr docutils literal notranslate"><span class="pre">voltage</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Homogeneity.volume" title="Homogeneity.volume"><code class="xref py py-attr docutils literal notranslate"><span class="pre">volume</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Homogeneity.moment_inertia_mass" title="Homogeneity.moment_inertia_mass"><code class="xref py py-attr docutils literal notranslate"><span class="pre">moment_inertia_mass</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Homogeneity.angular_acceleration" title="Homogeneity.angular_acceleration"><code class="xref py py-attr docutils literal notranslate"><span class="pre">angular_acceleration</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Homogeneity.temperature_difference" title="Homogeneity.temperature_difference"><code class="xref py py-attr docutils literal notranslate"><span class="pre">temperature_difference</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Homogeneity.stress_intensity_factor" title="Homogeneity.stress_intensity_factor"><code class="xref py py-attr docutils literal notranslate"><span class="pre">stress_intensity_factor</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Homogeneity.thermal_gradient" title="Homogeneity.thermal_gradient"><code class="xref py py-attr docutils literal notranslate"><span class="pre">thermal_gradient</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Homogeneity.resistance" title="Homogeneity.resistance"><code class="xref py py-attr docutils literal notranslate"><span class="pre">resistance</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Homogeneity.dimensionless" title="Homogeneity.dimensionless"><code class="xref py py-attr docutils literal notranslate"><span class="pre">dimensionless</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Homogeneity.dynamic_viscosity" title="Homogeneity.dynamic_viscosity"><code class="xref py py-attr docutils literal notranslate"><span class="pre">dynamic_viscosity</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Homogeneity.dissipation_rate" title="Homogeneity.dissipation_rate"><code class="xref py py-attr docutils literal notranslate"><span class="pre">dissipation_rate</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Homogeneity.momentum" title="Homogeneity.momentum"><code class="xref py py-attr docutils literal notranslate"><span class="pre">momentum</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Homogeneity.volume_flow_rate" title="Homogeneity.volume_flow_rate"><code class="xref py py-attr docutils literal notranslate"><span class="pre">volume_flow_rate</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Homogeneity.mass_flow_rate" title="Homogeneity.mass_flow_rate"><code class="xref py py-attr docutils literal notranslate"><span class="pre">mass_flow_rate</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Homogeneity.specific_energy" title="Homogeneity.specific_energy"><code class="xref py py-attr docutils literal notranslate"><span class="pre">specific_energy</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Homogeneity.specific_entropy" title="Homogeneity.specific_entropy"><code class="xref py py-attr docutils literal notranslate"><span class="pre">specific_entropy</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Homogeneity.force_density" title="Homogeneity.force_density"><code class="xref py py-attr docutils literal notranslate"><span class="pre">force_density</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Homogeneity.magnetic_potential" title="Homogeneity.magnetic_potential"><code class="xref py py-attr docutils literal notranslate"><span class="pre">magnetic_potential</span></code></a></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="import-detail">
+<h2>Import detail<a class="headerlink" href="#import-detail" title="Link to this heading">#</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core.available_result</span><span class="w"> </span><span class="kn">import</span> <span class="n">Homogeneity</span>
+</pre></div>
+</div>
+</section>
+<section id="attribute-detail">
+<h2>Attribute detail<a class="headerlink" href="#attribute-detail" title="Link to this heading">#</a></h2>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.acceleration">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">acceleration</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#Homogeneity.acceleration" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.angle">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">angle</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#Homogeneity.angle" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.angular_velocity">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">angular_velocity</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#Homogeneity.angular_velocity" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.surface">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">surface</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#Homogeneity.surface" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.capacitance">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">capacitance</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#Homogeneity.capacitance" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.electric_charge">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">electric_charge</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5</span></em><a class="headerlink" href="#Homogeneity.electric_charge" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.electric_charge_density">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">electric_charge_density</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">6</span></em><a class="headerlink" href="#Homogeneity.electric_charge_density" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.conductivity">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">conductivity</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">7</span></em><a class="headerlink" href="#Homogeneity.conductivity" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.current">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">current</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">8</span></em><a class="headerlink" href="#Homogeneity.current" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.current_density">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">current_density</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">9</span></em><a class="headerlink" href="#Homogeneity.current_density" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.density">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">density</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">10</span></em><a class="headerlink" href="#Homogeneity.density" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.displacement">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">displacement</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">11</span></em><a class="headerlink" href="#Homogeneity.displacement" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.electric_conductivity">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">electric_conductivity</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">12</span></em><a class="headerlink" href="#Homogeneity.electric_conductivity" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.electric_field">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">electric_field</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">13</span></em><a class="headerlink" href="#Homogeneity.electric_field" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.electric_flux_density">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">electric_flux_density</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">14</span></em><a class="headerlink" href="#Homogeneity.electric_flux_density" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.electric_resistivity">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">electric_resistivity</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">15</span></em><a class="headerlink" href="#Homogeneity.electric_resistivity" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.energy">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">energy</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">16</span></em><a class="headerlink" href="#Homogeneity.energy" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.film_coefficient">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">film_coefficient</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">17</span></em><a class="headerlink" href="#Homogeneity.film_coefficient" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.force">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">force</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">18</span></em><a class="headerlink" href="#Homogeneity.force" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.force_intensity">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">force_intensity</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">19</span></em><a class="headerlink" href="#Homogeneity.force_intensity" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.frequency">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">frequency</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">20</span></em><a class="headerlink" href="#Homogeneity.frequency" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.heat_flux">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">heat_flux</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">21</span></em><a class="headerlink" href="#Homogeneity.heat_flux" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.heat_generation">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">heat_generation</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">22</span></em><a class="headerlink" href="#Homogeneity.heat_generation" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.heat_rate">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">heat_rate</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">23</span></em><a class="headerlink" href="#Homogeneity.heat_rate" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.inductance">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">inductance</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">24</span></em><a class="headerlink" href="#Homogeneity.inductance" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.inverse_stress">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">inverse_stress</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">25</span></em><a class="headerlink" href="#Homogeneity.inverse_stress" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.length">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">length</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">26</span></em><a class="headerlink" href="#Homogeneity.length" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.magnetic_field_intensity">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">magnetic_field_intensity</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">27</span></em><a class="headerlink" href="#Homogeneity.magnetic_field_intensity" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.magnetic_flux">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">magnetic_flux</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">28</span></em><a class="headerlink" href="#Homogeneity.magnetic_flux" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.magnetic_flux_density">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">magnetic_flux_density</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">29</span></em><a class="headerlink" href="#Homogeneity.magnetic_flux_density" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.mass">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">mass</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">30</span></em><a class="headerlink" href="#Homogeneity.mass" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.moment">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">moment</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">31</span></em><a class="headerlink" href="#Homogeneity.moment" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.moment_inertia">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">moment_inertia</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">32</span></em><a class="headerlink" href="#Homogeneity.moment_inertia" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.permeability">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">permeability</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">33</span></em><a class="headerlink" href="#Homogeneity.permeability" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.permittivity">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">permittivity</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">34</span></em><a class="headerlink" href="#Homogeneity.permittivity" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.poisson">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">poisson</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">35</span></em><a class="headerlink" href="#Homogeneity.poisson" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.power">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">power</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">36</span></em><a class="headerlink" href="#Homogeneity.power" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.pressure">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">pressure</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">37</span></em><a class="headerlink" href="#Homogeneity.pressure" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.relative_permeability">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">relative_permeability</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">38</span></em><a class="headerlink" href="#Homogeneity.relative_permeability" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.relative_permittivity">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">relative_permittivity</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">39</span></em><a class="headerlink" href="#Homogeneity.relative_permittivity" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.section_modulus">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">section_modulus</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">40</span></em><a class="headerlink" href="#Homogeneity.section_modulus" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.specific_heat">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">specific_heat</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">41</span></em><a class="headerlink" href="#Homogeneity.specific_heat" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.specific_weight">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">specific_weight</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">42</span></em><a class="headerlink" href="#Homogeneity.specific_weight" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.shear_strain">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">shear_strain</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">43</span></em><a class="headerlink" href="#Homogeneity.shear_strain" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.stiffness">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">stiffness</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">44</span></em><a class="headerlink" href="#Homogeneity.stiffness" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.strain">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">strain</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">45</span></em><a class="headerlink" href="#Homogeneity.strain" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.stress">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">stress</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">46</span></em><a class="headerlink" href="#Homogeneity.stress" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.strength">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">strength</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">47</span></em><a class="headerlink" href="#Homogeneity.strength" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.thermal_expansion">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">thermal_expansion</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">48</span></em><a class="headerlink" href="#Homogeneity.thermal_expansion" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.temperature">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">temperature</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">49</span></em><a class="headerlink" href="#Homogeneity.temperature" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.time">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">time</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">50</span></em><a class="headerlink" href="#Homogeneity.time" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.velocity">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">velocity</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">51</span></em><a class="headerlink" href="#Homogeneity.velocity" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.voltage">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">voltage</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">52</span></em><a class="headerlink" href="#Homogeneity.voltage" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.volume">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">volume</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">53</span></em><a class="headerlink" href="#Homogeneity.volume" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.moment_inertia_mass">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">moment_inertia_mass</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">55</span></em><a class="headerlink" href="#Homogeneity.moment_inertia_mass" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.angular_acceleration">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">angular_acceleration</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">63</span></em><a class="headerlink" href="#Homogeneity.angular_acceleration" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.temperature_difference">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">temperature_difference</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">78</span></em><a class="headerlink" href="#Homogeneity.temperature_difference" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.stress_intensity_factor">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">stress_intensity_factor</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">92</span></em><a class="headerlink" href="#Homogeneity.stress_intensity_factor" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.thermal_gradient">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">thermal_gradient</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">95</span></em><a class="headerlink" href="#Homogeneity.thermal_gradient" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.resistance">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">resistance</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1000</span></em><a class="headerlink" href="#Homogeneity.resistance" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.dimensionless">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">dimensionless</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">117</span></em><a class="headerlink" href="#Homogeneity.dimensionless" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.dynamic_viscosity">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">dynamic_viscosity</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">118</span></em><a class="headerlink" href="#Homogeneity.dynamic_viscosity" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.dissipation_rate">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">dissipation_rate</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">119</span></em><a class="headerlink" href="#Homogeneity.dissipation_rate" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.momentum">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">momentum</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">120</span></em><a class="headerlink" href="#Homogeneity.momentum" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.volume_flow_rate">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">volume_flow_rate</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">121</span></em><a class="headerlink" href="#Homogeneity.volume_flow_rate" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.mass_flow_rate">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">mass_flow_rate</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">122</span></em><a class="headerlink" href="#Homogeneity.mass_flow_rate" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.specific_energy">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">specific_energy</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">123</span></em><a class="headerlink" href="#Homogeneity.specific_energy" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.specific_entropy">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">specific_entropy</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">124</span></em><a class="headerlink" href="#Homogeneity.specific_entropy" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.force_density">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">force_density</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">125</span></em><a class="headerlink" href="#Homogeneity.force_density" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Homogeneity.magnetic_potential">
+<span class="sig-prename descclassname"><span class="pre">Homogeneity.</span></span><span class="sig-name descname"><span class="pre">magnetic_potential</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">126</span></em><a class="headerlink" href="#Homogeneity.magnetic_potential" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity"><code class="docutils literal notranslate"><span class="pre">ansys.dpf.core.available_result.Homogeneity</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-detail">Import detail</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attribute-detail">Attribute detail</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.acceleration"><code class="docutils literal notranslate"><span class="pre">acceleration</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.angle"><code class="docutils literal notranslate"><span class="pre">angle</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.angular_velocity"><code class="docutils literal notranslate"><span class="pre">angular_velocity</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.surface"><code class="docutils literal notranslate"><span class="pre">surface</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.capacitance"><code class="docutils literal notranslate"><span class="pre">capacitance</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.electric_charge"><code class="docutils literal notranslate"><span class="pre">electric_charge</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.electric_charge_density"><code class="docutils literal notranslate"><span class="pre">electric_charge_density</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.conductivity"><code class="docutils literal notranslate"><span class="pre">conductivity</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.current"><code class="docutils literal notranslate"><span class="pre">current</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.current_density"><code class="docutils literal notranslate"><span class="pre">current_density</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.density"><code class="docutils literal notranslate"><span class="pre">density</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.displacement"><code class="docutils literal notranslate"><span class="pre">displacement</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.electric_conductivity"><code class="docutils literal notranslate"><span class="pre">electric_conductivity</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.electric_field"><code class="docutils literal notranslate"><span class="pre">electric_field</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.electric_flux_density"><code class="docutils literal notranslate"><span class="pre">electric_flux_density</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.electric_resistivity"><code class="docutils literal notranslate"><span class="pre">electric_resistivity</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.energy"><code class="docutils literal notranslate"><span class="pre">energy</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.film_coefficient"><code class="docutils literal notranslate"><span class="pre">film_coefficient</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.force"><code class="docutils literal notranslate"><span class="pre">force</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.force_intensity"><code class="docutils literal notranslate"><span class="pre">force_intensity</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.frequency"><code class="docutils literal notranslate"><span class="pre">frequency</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.heat_flux"><code class="docutils literal notranslate"><span class="pre">heat_flux</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.heat_generation"><code class="docutils literal notranslate"><span class="pre">heat_generation</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.heat_rate"><code class="docutils literal notranslate"><span class="pre">heat_rate</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.inductance"><code class="docutils literal notranslate"><span class="pre">inductance</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.inverse_stress"><code class="docutils literal notranslate"><span class="pre">inverse_stress</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.length"><code class="docutils literal notranslate"><span class="pre">length</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.magnetic_field_intensity"><code class="docutils literal notranslate"><span class="pre">magnetic_field_intensity</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.magnetic_flux"><code class="docutils literal notranslate"><span class="pre">magnetic_flux</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.magnetic_flux_density"><code class="docutils literal notranslate"><span class="pre">magnetic_flux_density</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.mass"><code class="docutils literal notranslate"><span class="pre">mass</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.moment"><code class="docutils literal notranslate"><span class="pre">moment</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.moment_inertia"><code class="docutils literal notranslate"><span class="pre">moment_inertia</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.permeability"><code class="docutils literal notranslate"><span class="pre">permeability</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.permittivity"><code class="docutils literal notranslate"><span class="pre">permittivity</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.poisson"><code class="docutils literal notranslate"><span class="pre">poisson</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.power"><code class="docutils literal notranslate"><span class="pre">power</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.pressure"><code class="docutils literal notranslate"><span class="pre">pressure</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.relative_permeability"><code class="docutils literal notranslate"><span class="pre">relative_permeability</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.relative_permittivity"><code class="docutils literal notranslate"><span class="pre">relative_permittivity</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.section_modulus"><code class="docutils literal notranslate"><span class="pre">section_modulus</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.specific_heat"><code class="docutils literal notranslate"><span class="pre">specific_heat</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.specific_weight"><code class="docutils literal notranslate"><span class="pre">specific_weight</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.shear_strain"><code class="docutils literal notranslate"><span class="pre">shear_strain</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.stiffness"><code class="docutils literal notranslate"><span class="pre">stiffness</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.strain"><code class="docutils literal notranslate"><span class="pre">strain</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.stress"><code class="docutils literal notranslate"><span class="pre">stress</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.strength"><code class="docutils literal notranslate"><span class="pre">strength</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.thermal_expansion"><code class="docutils literal notranslate"><span class="pre">thermal_expansion</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.temperature"><code class="docutils literal notranslate"><span class="pre">temperature</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.time"><code class="docutils literal notranslate"><span class="pre">time</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.velocity"><code class="docutils literal notranslate"><span class="pre">velocity</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.voltage"><code class="docutils literal notranslate"><span class="pre">voltage</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.volume"><code class="docutils literal notranslate"><span class="pre">volume</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.moment_inertia_mass"><code class="docutils literal notranslate"><span class="pre">moment_inertia_mass</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.angular_acceleration"><code class="docutils literal notranslate"><span class="pre">angular_acceleration</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.temperature_difference"><code class="docutils literal notranslate"><span class="pre">temperature_difference</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.stress_intensity_factor"><code class="docutils literal notranslate"><span class="pre">stress_intensity_factor</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.thermal_gradient"><code class="docutils literal notranslate"><span class="pre">thermal_gradient</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.resistance"><code class="docutils literal notranslate"><span class="pre">resistance</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.dimensionless"><code class="docutils literal notranslate"><span class="pre">dimensionless</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.dynamic_viscosity"><code class="docutils literal notranslate"><span class="pre">dynamic_viscosity</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.dissipation_rate"><code class="docutils literal notranslate"><span class="pre">dissipation_rate</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.momentum"><code class="docutils literal notranslate"><span class="pre">momentum</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.volume_flow_rate"><code class="docutils literal notranslate"><span class="pre">volume_flow_rate</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.mass_flow_rate"><code class="docutils literal notranslate"><span class="pre">mass_flow_rate</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.specific_energy"><code class="docutils literal notranslate"><span class="pre">specific_energy</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.specific_entropy"><code class="docutils literal notranslate"><span class="pre">specific_entropy</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.force_density"><code class="docutils literal notranslate"><span class="pre">force_density</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Homogeneity.magnetic_potential"><code class="docutils literal notranslate"><span class="pre">magnetic_potential</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+<!-- If there is no fix edit button function, use the PyData edit-this-button-->
+</div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <ul class="this-page-menu">
+      <li><a href="../../../../../_sources/api/ansys/dpf/core/available_result/Homogeneity.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+
+  <!-- Include desired assets -->
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.7/require.min.js"></script>
+
+<script>
+// Passing the search options to the search.js file
+const SEARCH_OPTIONS = JSON.parse('{"ignoreLocation": true, "keys": ["title", "text", "objectID"], "limit": 10, "minMatchCharLength": 2, "threshold": 0.5}');
+const SEARCH_FILE = "../../../../../_static/search.json";
+const ADVANCE_SEARCH_PATH = "../../../../../search.html";
+const EXTRA_SOURCES = JSON.parse('""');
+</script>
+
+
+<script src="../../../../../_static/js/search.js"></script>
+
+  
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright (c) 2025 ANSYS, Inc. All rights reserved.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the
+  <a href="https://sphinxdocs.ansys.com/version/stable/index.html"
+    >Ansys Sphinx Theme</a
+  >
+  1.5.3. <br />Last updated on
+  <span id="ast_build_date"></span>
+</p>
+<script>
+  var options = { day: "numeric", month: "long", year: "numeric" };
+  var ast_lastModifiedDate = new Date(document.lastModified);
+  var ast_build_date = ast_lastModifiedDate.toLocaleDateString("en-US", options);
+  document.getElementById("ast_build_date").innerHTML = ast_build_date;
+</script></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

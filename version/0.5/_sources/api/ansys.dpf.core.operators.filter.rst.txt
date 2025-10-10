@@ -1,0 +1,24 @@
+ansys.dpf.core.operators.filter package
+=======================================
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   ansys.dpf.core.operators.filter.field_band_pass
+   ansys.dpf.core.operators.filter.field_band_pass_fc
+   ansys.dpf.core.operators.filter.field_high_pass
+   ansys.dpf.core.operators.filter.field_high_pass_fc
+   ansys.dpf.core.operators.filter.field_low_pass
+   ansys.dpf.core.operators.filter.field_low_pass_fc
+   ansys.dpf.core.operators.filter.scoping_band_pass
+   ansys.dpf.core.operators.filter.scoping_high_pass
+   ansys.dpf.core.operators.filter.scoping_low_pass
+
+Module contents
+---------------
+
+.. automodule:: ansys.dpf.core.operators.filter
+   :inherited-members:

@@ -1,0 +1,106 @@
+ansys.dpf.core.operators.result.cyclic_analytic_seqv_max
+========================================================
+
+.. py:class:: ansys.dpf.core.operators.result.cyclic_analytic_seqv_max(time_scoping=None, mesh_scoping=None, fields_container=None, bool_rotate_to_global=None, cyclic_support=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Compute the maximum of the Von Mises equivalent stress that can be
+   expected on 360 degrees
+
+
+   :param time_scoping:
+   :type time_scoping: Scoping, optional
+   :param mesh_scoping:
+   :type mesh_scoping: ScopingsContainer or Scoping, optional
+   :param fields_container: field container with the base and duplicate sectors
+   :type fields_container: FieldsContainer
+   :param bool_rotate_to_global: default is true
+   :type bool_rotate_to_global: bool, optional
+   :param cyclic_support:
+   :type cyclic_support: CyclicSupport
+
+   :returns: **fields_container** -- FieldsContainer filled in
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.result.cyclic_analytic_seqv_max()
+
+   >>> # Make input connections
+   >>> my_time_scoping = dpf.Scoping()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> my_mesh_scoping = dpf.ScopingsContainer()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_bool_rotate_to_global = bool()
+   >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+   >>> my_cyclic_support = dpf.CyclicSupport()
+   >>> op.inputs.cyclic_support.connect(my_cyclic_support)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.result.cyclic_analytic_seqv_max(
+   ...     time_scoping=my_time_scoping,
+   ...     mesh_scoping=my_mesh_scoping,
+   ...     fields_container=my_fields_container,
+   ...     bool_rotate_to_global=my_bool_rotate_to_global,
+   ...     cyclic_support=my_cyclic_support,
+   ... )
+
+   >>> # Get output data
+   >>> result_fields_container = op.outputs.fields_container()
+
+
+   .. py:attribute:: _inputs
+
+
+   .. py:attribute:: _outputs
+
+
+   .. py:method:: _spec() -> ansys.dpf.core.operators.specification.Specification
+      :staticmethod:
+
+
+
+   .. py:method:: default_config(server: ansys.dpf.core.server_types.AnyServerType = None) -> ansys.dpf.core.config.Config
+      :staticmethod:
+
+
+      Returns the default config of the operator.
+
+      This config can then be changed to the user needs and be used to
+      instantiate the operator. The Configuration allows to customize
+      how the operation will be processed by the operator.
+
+      :param server: Server with channel connected to the remote or local instance. When
+                     ``None``, attempts to use the global server.
+
+      :returns: A new Config instance equivalent to the default config for this operator.
+      :rtype: config
+
+
+
+   .. py:property:: inputs
+      :type: InputsCyclicAnalyticSeqvMax
+
+
+      Enables to connect inputs to the operator
+
+      :returns: An instance of InputsCyclicAnalyticSeqvMax.
+      :rtype: inputs
+
+
+   .. py:property:: outputs
+      :type: OutputsCyclicAnalyticSeqvMax
+
+
+      Enables to get outputs of the operator by evaluating it
+
+      :returns: An instance of OutputsCyclicAnalyticSeqvMax.
+      :rtype: outputs
+

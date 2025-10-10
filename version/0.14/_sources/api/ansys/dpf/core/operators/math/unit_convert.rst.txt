@@ -1,0 +1,91 @@
+ansys.dpf.core.operators.math.unit_convert
+==========================================
+
+.. py:class:: ansys.dpf.core.operators.math.unit_convert(entity_to_convert=None, unit_name=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Converts an input field/fields container or mesh of a given unit to
+   another unit.
+
+
+   :param entity_to_convert:
+   :type entity_to_convert: Field or FieldsContainer or MeshedRegion or MeshesContainer
+   :param unit_name: unit as a string, ex 'm' for meter, 'Pa' for pascal,... Or ansys unit system's ID, or a field from which expected unit will be extracted.
+   :type unit_name: str or int or Field
+
+   :returns: **converted_entity** -- the output entity is the same as the input (inplace operator)
+   :rtype: Field or FieldsContainer or MeshedRegion or MeshesContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.math.unit_convert()
+
+   >>> # Make input connections
+   >>> my_entity_to_convert = dpf.Field()
+   >>> op.inputs.entity_to_convert.connect(my_entity_to_convert)
+   >>> my_unit_name = str()
+   >>> op.inputs.unit_name.connect(my_unit_name)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.math.unit_convert(
+   ...     entity_to_convert=my_entity_to_convert,
+   ...     unit_name=my_unit_name,
+   ... )
+
+   >>> # Get output data
+   >>> result_converted_entity = op.outputs.converted_entity()
+
+
+   .. py:attribute:: _inputs
+
+
+   .. py:attribute:: _outputs
+
+
+   .. py:method:: _spec() -> ansys.dpf.core.operators.specification.Specification
+      :staticmethod:
+
+
+
+   .. py:method:: default_config(server: ansys.dpf.core.server_types.AnyServerType = None) -> ansys.dpf.core.config.Config
+      :staticmethod:
+
+
+      Returns the default config of the operator.
+
+      This config can then be changed to the user needs and be used to
+      instantiate the operator. The Configuration allows to customize
+      how the operation will be processed by the operator.
+
+      :param server: Server with channel connected to the remote or local instance. When
+                     ``None``, attempts to use the global server.
+
+      :returns: A new Config instance equivalent to the default config for this operator.
+      :rtype: config
+
+
+
+   .. py:property:: inputs
+      :type: InputsUnitConvert
+
+
+      Enables to connect inputs to the operator
+
+      :returns: An instance of InputsUnitConvert.
+      :rtype: inputs
+
+
+   .. py:property:: outputs
+      :type: OutputsUnitConvert
+
+
+      Enables to get outputs of the operator by evaluating it
+
+      :returns: An instance of OutputsUnitConvert.
+      :rtype: outputs
+

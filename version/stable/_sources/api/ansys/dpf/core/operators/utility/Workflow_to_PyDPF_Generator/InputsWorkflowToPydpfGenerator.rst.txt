@@ -1,0 +1,119 @@
+
+
+
+
+
+
+:class:`InputsWorkflowToPydpfGenerator`
+=======================================
+
+.. py:class:: ansys.dpf.core.operators.utility.Workflow_to_PyDPF_Generator.InputsWorkflowToPydpfGenerator(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   Workflow_to_PyDPF_Generator operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.Workflow_to_PyDPF_Generator()
+   >>> my_workflow = dpf.Workflow()
+   >>> op.inputs.workflow.connect(my_workflow)
+   >>> my_output_path = str()
+   >>> op.inputs.output_path.connect(my_output_path)
+   >>> my_output_file_name = str()
+   >>> op.inputs.output_file_name.connect(my_output_file_name)
+
+
+
+.. py:currentmodule:: InputsWorkflowToPydpfGenerator
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~workflow`
+            - Allows to connect workflow input to the operator.
+          * - :py:attr:`~output_path`
+            - Allows to connect output_path input to the operator.
+          * - :py:attr:`~output_file_name`
+            - Allows to connect output_file_name input to the operator.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.Workflow_to_PyDPF_Generator import InputsWorkflowToPydpfGenerator
+
+Property detail
+---------------
+
+.. py:property:: workflow
+
+   Allows to connect workflow input to the operator.
+
+   :param my_workflow:
+   :type my_workflow: Workflow
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.Workflow_to_PyDPF_Generator()
+   >>> op.inputs.workflow.connect(my_workflow)
+   >>> # or
+   >>> op.inputs.workflow(my_workflow)
+
+.. py:property:: output_path
+
+   Allows to connect output_path input to the operator.
+
+   :param my_output_path:
+   :type my_output_path: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.Workflow_to_PyDPF_Generator()
+   >>> op.inputs.output_path.connect(my_output_path)
+   >>> # or
+   >>> op.inputs.output_path(my_output_path)
+
+.. py:property:: output_file_name
+
+   Allows to connect output_file_name input to the operator.
+
+   :param my_output_file_name:
+   :type my_output_file_name: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.Workflow_to_PyDPF_Generator()
+   >>> op.inputs.output_file_name.connect(my_output_file_name)
+   >>> # or
+   >>> op.inputs.output_file_name(my_output_file_name)
+
+
+
+
+
+

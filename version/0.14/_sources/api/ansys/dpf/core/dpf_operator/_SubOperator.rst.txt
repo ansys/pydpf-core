@@ -1,0 +1,13 @@
+ansys.dpf.core.dpf_operator._SubOperator
+========================================
+
+.. py:class:: ansys.dpf.core.dpf_operator._SubOperator(op_name, op_to_connect)
+
+   .. py:attribute:: op_name
+
+
+   .. py:attribute:: op
+
+
+   .. py:method:: __call__()
+

@@ -1,0 +1,165 @@
+ansys.dpf.core.types
+====================
+
+.. py:class:: ansys.dpf.core.types(*args, **kwds)
+
+   Bases: :py:obj:`enum.Enum`
+
+
+   The ``'types'`` enum contains the available types passed through operators and workflows to DPF.
+
+
+   .. py:attribute:: string
+      :value: 0
+
+
+
+   .. py:attribute:: int
+      :value: 1
+
+
+
+   .. py:attribute:: double
+      :value: 2
+
+
+
+   .. py:attribute:: bool
+      :value: 3
+
+
+
+   .. py:attribute:: field
+      :value: 4
+
+
+
+   .. py:attribute:: collection
+      :value: 5
+
+
+
+   .. py:attribute:: scoping
+      :value: 6
+
+
+
+   .. py:attribute:: data_sources
+      :value: 7
+
+
+
+   .. py:attribute:: meshed_region
+      :value: 8
+
+
+
+   .. py:attribute:: time_freq_support
+      :value: 9
+
+
+
+   .. py:attribute:: result_info
+      :value: 10
+
+
+
+   .. py:attribute:: cyclic_support
+      :value: 11
+
+
+
+   .. py:attribute:: property_field
+      :value: 12
+
+
+
+   .. py:attribute:: workflow
+      :value: 13
+
+
+
+   .. py:attribute:: run
+      :value: 14
+
+
+
+   .. py:attribute:: any
+      :value: 15
+
+
+
+   .. py:attribute:: vec_int
+      :value: 16
+
+
+
+   .. py:attribute:: vec_double
+      :value: 17
+
+
+
+   .. py:attribute:: support
+      :value: 18
+
+
+
+   .. py:attribute:: operator
+      :value: 19
+
+
+
+   .. py:attribute:: data_tree
+      :value: 20
+
+
+
+   .. py:attribute:: vec_string
+      :value: 21
+
+
+
+   .. py:attribute:: string_field
+      :value: 22
+
+
+
+   .. py:attribute:: custom_type_field
+      :value: 23
+
+
+
+   .. py:attribute:: generic_data_container
+      :value: 24
+
+
+
+   .. py:attribute:: mesh_info
+      :value: 25
+
+
+
+   .. py:attribute:: fields_container
+      :value: -1
+
+
+
+   .. py:attribute:: scopings_container
+      :value: -2
+
+
+
+   .. py:attribute:: meshes_container
+      :value: -3
+
+
+
+   .. py:attribute:: streams_container
+      :value: -4
+
+
+
+   .. py:attribute:: bytes
+      :value: -5
+
+

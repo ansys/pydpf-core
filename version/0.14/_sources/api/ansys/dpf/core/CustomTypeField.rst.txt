@@ -1,0 +1,342 @@
+ansys.dpf.core.CustomTypeField
+==============================
+
+.. py:class:: ansys.dpf.core.CustomTypeField(unitary_type=None, nentities=0, field=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.field_base._FieldBase`
+
+
+   Represents a simulation data container with each unitary data being of a custom type.
+
+   When initializing the ``CustomTypeField`` class, provide a unitary data type.
+   The ``CustomTypeField`` class gives you the ability to choose the most optimized unitary
+   data type for a given usage, and hence, allows you to optimize memory usage.
+
+   This can be evaluated data from the :class:`Operator <ansys.dpf.core.Operator>` class
+   or created directly by an instance of this class.
+
+   A field's data is always associated to its scoping (entities
+   associated to each value) and support (subset of the model where the
+   data is), making the field a self-describing piece of data.
+
+   :param unitary_type: The data vector of the Field will be a vector of this custom unitary type.
+   :type unitary_type: numpy.dtype
+   :param nentities: Number of entities reserved. The default is ``0``.
+   :type nentities: int, optional
+   :param field: Field message generated from a gRPC stub, or returned by DPF's C clients.
+   :type field: CustomTypeField, ansys.grpc.dpf.field_pb2.Field, ctypes.c_void_p, optional
+   :param server: Server with the channel connected to the remote or local instance. The
+                  default is ``None``, in which case an attempt is made to use the global
+                  server.
+   :type server: :class:`ansys.dpf.core.server`, optional
+
+   .. rubric:: Examples
+
+   Create a custom type field from scratch.
+
+   >>> from ansys.dpf.core import locations
+   >>> from ansys.dpf import core as dpf
+   >>> import numpy as np
+   >>> field = dpf.CustomTypeField(unitary_type=np.uint64)
+   >>> field.location = locations.nodal
+   >>> field.append([1000000,2000000], 1)
+   >>> float_field = dpf.CustomTypeField(unitary_type=np.float32)
+   >>> float_field.is_of_type(np.float32)
+   True
+
+   .. rubric:: Notes
+
+   Class available with server's version starting at 5.0 (Ansys 2023R1).
+
+
+   .. py:attribute:: _server
+
+
+   .. py:attribute:: _field_definition
+
+
+   .. py:method:: _load_type()
+
+
+   .. py:property:: _api
+
+
+   .. py:method:: _init_api_env()
+
+
+   .. py:method:: _field_create_internal_obj(api, client, nature, nentities, location=locations.nodal, ncomp_n=0, ncomp_m=0, with_type=None)
+      :staticmethod:
+
+
+      Return a gRPC field message or C object instance of a new field.
+
+      This new field is created with this functions parameter attributes
+
+      :param client:
+      :type client: None, GrpcClient, GrpcServer
+      :param snature: Nature of the field entity data. For example:
+
+                      - :class:`ansys.dpf.core.natures.matrix`
+                      - :class:`ansys.dpf.core.natures.scalar`
+      :type snature: str
+      :param num_entities: Number of entities to reserve.
+      :type num_entities: int
+      :param location: Location of the field. For example:
+
+                       - :class:`ansys.dpf.core.natures.nodal` (``"Nodal"``)
+                       - :class:`ansys.dpf.core.natures.elemental` (``"Elemental"``)
+                       - :class:`ansys.dpf.core.natures.elemental_nodal` (``"ElementalNodal"``)
+                       - ...
+      :type location: str, optional
+      :param ncomp_n: Number of lines.
+      :type ncomp_n: int
+      :param ncomp_m: Number of columns.
+      :type ncomp_m: int
+
+      :returns: **field** -- DPF field in the requested format.
+      :rtype: field_pb2.Field or ctypes.void_p
+
+
+
+   .. py:property:: location
+
+      CustomTypeField location.
+
+      :returns: Location string, which can be ``"Nodal"``, ``"Elemental"``,
+                ``"ElementalNodal"``... See :class:`ansys.dpf.core.common.locations`.
+      :rtype: str
+
+      .. rubric:: Examples
+
+      >>> from ansys.dpf.core import locations
+      >>> from ansys.dpf import core as dpf
+      >>> import numpy as np
+      >>> field = dpf.CustomTypeField(unitary_type=np.uint64)
+      >>> field.location = locations.nodal
+      >>> field.location
+      'Nodal'
+
+
+   .. py:method:: is_of_type(type_to_compare: numpy.dtype) -> bool
+
+      Check whether the Field's unitary type is the same as the input type.
+
+      :param type_to_compare:
+      :type type_to_compare: numpy.dtype
+
+      :rtype: bool
+
+      .. rubric:: Examples
+
+      Create a custom type field from scratch.
+
+      >>> from ansys.dpf import core as dpf
+      >>> import numpy as np
+      >>> field = dpf.CustomTypeField(unitary_type=np.int16)
+      >>> field.is_of_type(np.int16)
+      True
+      >>> field.is_of_type(np.short)
+      True
+      >>> field.is_of_type(np.int32)
+      False
+
+
+
+   .. py:property:: type
+
+      Type of unitary data in the Field's data vector.
+
+      Should be properly set at the Field construction to have properly allocated data.
+
+      :rtype: numpy.dtype
+
+      .. rubric:: Examples
+
+      >>> from ansys.dpf.core import locations
+      >>> from ansys.dpf import core as dpf
+      >>> import numpy as np
+      >>> field = dpf.CustomTypeField(unitary_type=np.uint64)
+      >>> field.type
+      dtype('uint64')
+
+
+   .. py:property:: component_count
+
+      Number of components.
+
+
+   .. py:property:: elementary_data_count
+
+      Number of elementary data.
+
+
+   .. py:property:: size
+
+      Size of data.
+
+
+   .. py:method:: _set_scoping(scoping)
+
+      Set the scoping.
+
+      :param scoping:
+      :type scoping: :class:`ansys.dpf.core.scoping.Scoping`
+
+
+
+   .. py:method:: _get_scoping()
+
+      Retrieve the scoping.
+
+      :returns: **scoping**
+      :rtype: :class:`ansys.dpf.core.scoping.Scoping`
+
+
+
+   .. py:method:: get_entity_data(index)
+
+      Return the array corresponding to the data of a given entity index.
+
+      :param index: Index in the ``Scoping``.
+      :type index: int
+
+      :rtype: numpy.ndarray
+
+      .. rubric:: Examples
+
+      >>> from ansys.dpf.core import locations
+      >>> from ansys.dpf import core as dpf
+      >>> import numpy as np
+      >>> field = dpf.CustomTypeField(unitary_type=np.uint64)
+      >>> field.append([1000000, 2000000], 1)
+      >>> field.append([1000000, 2000000, 3000000], 2)
+      >>> field.get_entity_data(0)
+      DPFArray([1000000, 2000000]...
+      >>> field.get_entity_data(1)
+      DPFArray([1000000, 2000000, 3000000]...
+
+
+
+   .. py:method:: get_entity_data_by_id(id)
+
+      Return the array corresponding to the data of a given entity id.
+
+      :param id: Entity ID in the ``Scoping``.
+      :type id: int
+
+      :rtype: numpy.ndarray
+
+      .. rubric:: Examples
+
+      >>> from ansys.dpf.core import locations
+      >>> from ansys.dpf import core as dpf
+      >>> import numpy as np
+      >>> field = dpf.CustomTypeField(unitary_type=np.uint64)
+      >>> field.append([1000000, 2000000], 1)
+      >>> field.append([1000000, 2000000, 3000000], 2)
+      >>> field.get_entity_data_by_id(1)
+      DPFArray([1000000, 2000000]...
+      >>> field.get_entity_data_by_id(2)
+      DPFArray([1000000, 2000000, 3000000]...
+
+
+
+   .. py:method:: append(data, scopingid)
+
+      Append data to the api instance.
+
+
+
+   .. py:method:: _get_data_pointer()
+
+      First index of each entity data.
+
+      :returns: Data in the field.
+      :rtype: numpy.ndarray
+
+      .. rubric:: Notes
+
+      Print a progress bar.
+
+
+
+   .. py:method:: _set_data_pointer(data)
+
+
+   .. py:method:: _get_data(np_array=True)
+
+
+   .. py:method:: _set_data(data)
+
+
+   .. py:method:: resize(nentities, datasize)
+
+      Allocate memory.
+
+      :param nentities: Number of IDs in the scoping.
+      :type nentities: int
+      :param datasize: Size of the data vector.
+      :type datasize: int
+
+
+
+   .. py:method:: _load_field_definition()
+
+      Attempt to load the field definition for this field.
+
+
+
+   .. py:property:: unit
+
+      Units for the field.
+
+      :returns: Units for the field.
+      :rtype: str
+
+      .. rubric:: Examples
+
+      Units for a displacement field.
+
+      >>> from ansys.dpf import core as dpf
+      >>> my_field = dpf.CustomTypeField(int, 10)
+      >>> my_field.unit = "m"
+      >>> my_field.unit
+      'm'
+
+
+   .. py:property:: dimensionality
+
+      Dimensionality represents the shape of the elementary data contained in the field.
+
+      :returns: **dimensionality** -- Nature and size of the elementary data.
+      :rtype: :class:`ansys.dpf.core.dimensionality.Dimensionality`
+
+
+   .. py:property:: name
+
+      Name of the field.
+
+
+   .. py:method:: _set_field_definition(field_definition)
+
+      Set the field definition.
+
+      :param field_definition:
+      :type field_definition: :class"`ansys.dpf.core.field_definition.FieldDefinition`
+
+
+
+   .. py:property:: field_definition
+
+      CustomTypeField information, including its location, unit, dimensionality and shell layers.
+
+      :rtype: :class:`ansys.dpf.core.field_definition.FieldDefinition`
+
+
+   .. py:method:: _set_support(support)
+
+
+   .. py:property:: support
+
+      Return the support associated with the custom field.
+
