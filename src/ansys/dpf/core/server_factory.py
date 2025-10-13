@@ -32,6 +32,7 @@ import logging
 import os
 import subprocess
 import time
+import json
 
 from ansys.dpf.gate.load_api import (
     _find_outdated_ansys_version,
@@ -90,9 +91,19 @@ class DockerConfig:
     ):
         from ansys.dpf.core import LOCAL_DOWNLOADED_EXAMPLES_PATH
 
-        if mounted_volumes is None:
-            # mounted_volumes = {LOCAL_DOWNLOADED_EXAMPLES_PATH: "/tmp/downloaded_examples"}
-            mounted_volumes = {LOCAL_DOWNLOADED_EXAMPLES_PATH: "C:\\Users\\ContainerAdministrator\\AppData\\Local\\Temp\\downloaded_examples"}
+        if use_docker:
+            args = ['docker', 'inspect', '-f', 'json', docker_name]
+            inspect_docker_image = subprocess.run(args, capture_output=True)
+            if inspect_docker_image.stderr:
+                raise Exception(f"Specified docker image not found. Verify that the image name '{docker_name}' is valid and the image file is available locally.")
+
+            output = json.loads(inspect_docker_image.stdout)
+            image_os = output[0]['Os']
+            if mounted_volumes is None:
+                if image_os == 'linux':
+                    mounted_volumes = {LOCAL_DOWNLOADED_EXAMPLES_PATH: "/tmp/downloaded_examples"}
+                else: # image is windows
+                    mounted_volumes = {LOCAL_DOWNLOADED_EXAMPLES_PATH: "C:\\Users\\ContainerAdministrator\\AppData\\Local\\Temp\\downloaded_examples"}
 
         self._use_docker = use_docker
         self._docker_name = docker_name

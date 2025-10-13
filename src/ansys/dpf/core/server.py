@@ -164,7 +164,7 @@ def start_local_server(
     load_operators=True,
     use_docker_by_default=True,
     docker_config=RUNNING_DOCKER,
-    timeout=100.0,
+    timeout=20.0,
     config=None,
     use_pypim_by_default=True,
     context=None,
@@ -310,7 +310,7 @@ def connect_to_server(
     ip=LOCALHOST,
     port=DPF_DEFAULT_PORT,
     as_global=True,
-    timeout=100.0,
+    timeout=10.0,
     config=None,
     context=None,
 ):

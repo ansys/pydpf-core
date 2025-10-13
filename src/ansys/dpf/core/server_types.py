@@ -222,7 +222,7 @@ def _wait_and_check_server_connection(
 
 
 def launch_dpf(
-    ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=100, context: ServerContext = None
+    ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10, context: ServerContext = None
 ):
     """Launch Ansys DPF.
 
@@ -258,7 +258,7 @@ def launch_dpf_on_docker(
     ansys_path=None,
     ip=LOCALHOST,
     port=DPF_DEFAULT_PORT,
-    timeout=100.0,
+    timeout=50.0,
 ):
     """Launch Ansys DPF.
 
@@ -277,7 +277,7 @@ def launch_dpf_on_docker(
         ``"DPF_DEFAULT_PORT"``, which is 50054.
     timeout : float, optional
         Maximum number of seconds for the initialization attempt.
-        The default is ``10``. Once the specified number of seconds
+        The default is ``50``. Once the specified number of seconds
         passes, the connection fails.
 
     """
@@ -791,7 +791,7 @@ class GrpcServer(CServer):
         ansys_path: Union[str, None] = None,
         ip: str = LOCALHOST,
         port: str = DPF_DEFAULT_PORT,
-        timeout: float = 100.0,
+        timeout: float = 10.0,
         as_global: bool = True,
         load_operators: bool = True,
         launch_server: bool = True,
@@ -836,7 +836,6 @@ class GrpcServer(CServer):
                     ansys_path=ansys_path,
                     ip=ip,
                     port=port,
-                    timeout=timeout,
                 )
             else:
                 launch_dpf(ansys_path, ip, port, timeout=timeout, context=context)
@@ -1271,7 +1270,6 @@ class LegacyGrpcServer(BaseServer):
                         ansys_path=ansys_path,
                         ip=ip,
                         port=port,
-                        timeout=timeout,
                     )
                 else:
                     launch_dpf(ansys_path, ip, port, timeout=timeout, context=context)
