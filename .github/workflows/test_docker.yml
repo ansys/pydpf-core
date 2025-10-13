@@ -33,7 +33,7 @@ env:
 
 jobs:
   docker_tests:
-    name: "Build and Test On Docker"
+    name: "Build and Test On Docker on ${{ matrix.platform.os }}"
     runs-on: ${{ matrix.platform.os }}
     strategy:
       fail-fast: false
