@@ -101,10 +101,18 @@ jobs:
           password: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
 
       - name: Download DPF docker container
+        if: runner.os == 'Linux'
         env:
           IMAGE_NAME: ${{ env.DPF_DOCKER }}
         run: |
-          docker pull $IMAGE_NAME
+          docker pull "$IMAGE_NAME"
+
+      - name: Download DPF docker container
+        if: runner.os == 'Windows'
+        env:
+          IMAGE_NAME: ${{ env.DPF_DOCKER }}
+        run: |
+          docker pull "$env:IMAGE_NAME"
 
       - name: "Check licences of packages"
         uses: ansys/pydpf-actions/check-licenses@v2.3
