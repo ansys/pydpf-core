@@ -1202,76 +1202,6 @@ def get_system_path() -> str:
         return sys.path
 
 
-def create_mtls_channel(
-    host: str,
-    port: int | str,
-    certs_dir: str | Path | None = None,
-    grpc_options: list[tuple[str, object]] | None = None,
-):
-    """Create a gRPC channel using Mutual TLS (mTLS).
-
-    Parameters
-    ----------
-    host : str
-        Hostname or IP address of the server.
-    port : int | str
-        Port in which the server is running.
-    certs_dir : str | Path | None
-        Directory to use for TLS certificates.
-        By default `None` and thus search for the "ANSYS_GRPC_CERTIFICATES" environment variable.
-        If not found, it will use the "certs" folder assuming it is in the current working
-        directory.
-    cert_files: CertificateFiles | None
-        Path to the client certificate file, client key file, and issuing certificate authority.
-        By default `None`.
-        If all three file paths are not all provided, use the certs_dir parameter.
-    grpc_options: list[tuple[str, object]] | None
-        gRPC channel options to pass when creating the channel.
-        Each option is a tuple of the form ("option_name", value).
-        By default `None` and thus no extra options are added.
-
-    Returns
-    -------
-    grpc.Channel
-        The created gRPC channel
-
-    """
-    import grpc
-
-    certs_folder = None
-    if certs_dir:
-        certs_folder = Path(certs_dir)
-    elif os.environ.get("ANSYS_GRPC_CERTIFICATES"):
-        certs_folder = Path(cast(str, os.environ.get("ANSYS_GRPC_CERTIFICATES")))
-    else:
-        certs_folder = Path("certs")
-    ca_file = certs_folder / "ca.crt"
-    cert_file = certs_folder / "client.crt"
-    key_file = certs_folder / "client.key"
-
-    # Load certificates
-    try:
-        with (ca_file).open("rb") as f:
-            trusted_certs = f.read()
-        with (cert_file).open("rb") as f:
-            client_cert = f.read()
-        with (key_file).open("rb") as f:
-            client_key = f.read()
-    except FileNotFoundError as e:
-        error_message = f"Certificate file not found: {e.filename}. "
-        if certs_folder is not None:
-            error_message += f"Ensure that the certificates are present in the '{certs_folder}' folder or " \
-            "set the 'ANSYS_GRPC_CERTIFICATES' environment variable."
-        raise FileNotFoundError(error_message) from e
-
-    # Create SSL credentials
-    credentials = grpc.ssl_channel_credentials(
-        root_certificates=trusted_certs, private_key=client_key, certificate_chain=client_cert
-    )
-
-    target = f"{host}:{port}"
-    return grpc.secure_channel(target, credentials, options=grpc_options)
-
 class LegacyGrpcServer(BaseServer):
     """Provides an instance of the DPF server using InProcess gRPC.
 
@@ -1378,10 +1308,11 @@ class LegacyGrpcServer(BaseServer):
             self_config = settings.get_runtime_client_config(server=self)
             misc.RUNTIME_CLIENT_CONFIG.copy_config(self_config)
 
+        from ansys.dpf.core import cyberchannel
         if self._grpc_mode == server_factory.GrpcMode.Insecure:
-            self.channel = grpc.insecure_channel(address)
+            self.channel = cyberchannel.create_channel(transport_mode="insecure", host=ip, port=port)
         elif self._grpc_mode == server_factory.GrpcMode.mTLS:
-            self.channel = create_mtls_channel(ip, port, self._certs_dir)
+            self.channel = cyberchannel.create_channel(transport_mode="mtls", host=ip, port=port, certs_dir=self._certs_dir)
 
         # store the address for later reference
         self._address = address
