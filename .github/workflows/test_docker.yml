@@ -30,6 +30,7 @@ env:
   MODULE: core
   ANSYS_DPF_ACCEPT_LA: Y
   ANSYSLMD_LICENSE_FILE: 1055@${{secrets.LICENSE_SERVER}}
+  DPF_DOCKER: ghcr.io/ansys-dpf/dpf-standalone:linux-25.1
 
 jobs:
   docker_tests:
@@ -79,13 +80,26 @@ jobs:
         run: |
           pip install dist/${{ steps.wheel.outputs.wheel_name }}[graphics]
 
-      - name: "Install DPF"
-        id: set-server-path
-        uses: ansys/pydpf-actions/install-dpf-docker@v2.3
+      # - name: "Install DPF"
+      #   id: set-server-path
+      #   uses: ansys/pydpf-actions/install-dpf-docker@v2.3
+      #   with:
+      #     dpf-standalone-TOKEN: ${{secrets.PYANSYS_CI_BOT_TOKEN}}
+      #     standalone_suffix: ${{ inputs.standalone_suffix }}
+      #     ANSYS_VERSION : ${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}
+
+      - name: "Login to Github Container Registry"
+        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3.6.0
         with:
-          dpf-standalone-TOKEN: ${{secrets.PYANSYS_CI_BOT_TOKEN}}
-          standalone_suffix: ${{ inputs.standalone_suffix }}
-          ANSYS_VERSION : ${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Download DPF docker container
+        env:
+          IMAGE_NAME: ${{ env.DPF_DOCKER }}
+        run: |
+          docker pull $IMAGE_NAME
 
       - name: "Check licences of packages"
         uses: ansys/pydpf-actions/check-licenses@v2.3
