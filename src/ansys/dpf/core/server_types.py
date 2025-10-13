@@ -1221,7 +1221,7 @@ class LegacyGrpcServer(BaseServer):
         ansys_path: Union[str, None] = None,
         ip: str = LOCALHOST,
         port: str = DPF_DEFAULT_PORT,
-        timeout: float = 100.0,
+        timeout: float = 5.0,
         as_global: bool = True,
         load_operators: bool = True,
         launch_server: bool = True,
