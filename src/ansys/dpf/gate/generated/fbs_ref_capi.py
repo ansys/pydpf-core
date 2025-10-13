@@ -27,19 +27,10 @@ class FbsRefCAPI(fbs_ref_abstract_api.FbsRefAbstractAPI):
 		return res
 
 	@staticmethod
-	def fbs_ref_get_from_db(id):
+	def fbs_ref_get_from_db(ptr, size):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
-		res = capi.dll.FbsRef_getFromDB(id, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
-		if errorSize.value != 0:
-			raise errors.DPFServerException(sError.value)
-		return res
-
-	@staticmethod
-	def fbs_ref_get_id(obj):
-		errorSize = ctypes.c_int(0)
-		sError = ctypes.c_wchar_p()
-		res = capi.dll.FbsRef_getID(obj._internal_obj if obj is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		res = capi.dll.FbsRef_getFromDB(ptr, size, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res
@@ -58,6 +49,33 @@ class FbsRefCAPI(fbs_ref_abstract_api.FbsRefAbstractAPI):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.FbsRef_StartOrGetThreadServer(get_existing, utils.to_char_ptr(ip), utils.to_int32(port), utils.to_char_ptr(address), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def fbs_get_bytes_buffer_from_slice(req_slice, req_offset, size_out):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Fbs_GetBytesBufferFromSlice(req_slice, req_offset, size_out, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def fbs_delete_channel(client):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Fbs_DeleteChannel(client, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def fbs_delete_slice(req_slice):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Fbs_DeleteSlice(req_slice, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res
