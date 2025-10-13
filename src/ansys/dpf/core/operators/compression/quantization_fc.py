@@ -16,21 +16,25 @@ from ansys.dpf.core.server_types import AnyServerType
 
 
 class quantization_fc(Operator):
-    r"""Applies scaling to precision to all the values from fields container
-    input, then rounding to the unit.
+    r"""Scales all the fields of a fields container to a given precision
+    threshold, then rounds all the values to the unit.
 
 
     Parameters
     ----------
     input_fc: FieldsContainer
-        Input fields container
+        Fields container to be quantized.
     threshold: float or Field or FieldsContainer
-        Threshold (precision) desired.
+        Precision threshold desired.
+        Case double : the threshold is applied on all the fields of the input fields container.
+        Case field with one, numComp or input size values : the threshold is used for each field of the input fields container.
+        Case fields container : the corresponding threshold field is found by matching label.
+
 
     Returns
     -------
     output_fc: FieldsContainer
-        Scaled and rounded fields container
+        Quantized fields container.
 
     Examples
     --------
@@ -66,8 +70,8 @@ class quantization_fc(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Applies scaling to precision to all the values from fields container
-input, then rounding to the unit.
+        description = r"""Scales all the fields of a fields container to a given precision
+threshold, then rounds all the values to the unit.
 """
         spec = Specification(
             description=description,
@@ -76,13 +80,17 @@ input, then rounding to the unit.
                     name="input_fc",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Input fields container""",
+                    document=r"""Fields container to be quantized.""",
                 ),
                 1: PinSpecification(
                     name="threshold",
                     type_names=["double", "field", "fields_container"],
                     optional=False,
-                    document=r"""Threshold (precision) desired.""",
+                    document=r"""Precision threshold desired.
+Case double : the threshold is applied on all the fields of the input fields container.
+Case field with one, numComp or input size values : the threshold is used for each field of the input fields container.
+Case fields container : the corresponding threshold field is found by matching label.
+""",
                 ),
             },
             map_output_pin_spec={
@@ -90,7 +98,7 @@ input, then rounding to the unit.
                     name="output_fc",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Scaled and rounded fields container""",
+                    document=r"""Quantized fields container.""",
                 ),
             },
         )
@@ -165,7 +173,7 @@ class InputsQuantizationFc(_Inputs):
     def input_fc(self) -> Input:
         r"""Allows to connect input_fc input to the operator.
 
-        Input fields container
+        Fields container to be quantized.
 
         Returns
         -------
@@ -186,7 +194,11 @@ class InputsQuantizationFc(_Inputs):
     def threshold(self) -> Input:
         r"""Allows to connect threshold input to the operator.
 
-        Threshold (precision) desired.
+        Precision threshold desired.
+        Case double : the threshold is applied on all the fields of the input fields container.
+        Case field with one, numComp or input size values : the threshold is used for each field of the input fields container.
+        Case fields container : the corresponding threshold field is found by matching label.
+
 
         Returns
         -------
@@ -225,7 +237,7 @@ class OutputsQuantizationFc(_Outputs):
     def output_fc(self) -> Output:
         r"""Allows to get output_fc output of the operator
 
-        Scaled and rounded fields container
+        Quantized fields container.
 
         Returns
         -------
