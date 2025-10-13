@@ -93,7 +93,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
 
       - name: Download DPF docker container
         env:
