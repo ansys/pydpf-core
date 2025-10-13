@@ -30,17 +30,22 @@ env:
   MODULE: core
   ANSYS_DPF_ACCEPT_LA: Y
   ANSYSLMD_LICENSE_FILE: 1055@${{secrets.LICENSE_SERVER}}
-  DPF_DOCKER: ghcr.io/ansys-dpf/dpf-standalone:linux-25.1
 
 jobs:
   docker_tests:
     name: "Build and Test On Docker"
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.platform.os }}
     strategy:
       fail-fast: false
       matrix:
         python-version: ["3.10"]
-        os: ["ubuntu-latest"]
+        platform:
+          - os: "ubuntu-latest"
+            image-name: ghcr.io/ansys-dpf/dpf-standalone:linux-26.1
+          - os: "windows-latest"
+            image-name: ghcr.io/ansys-dpf/dpf-standalone:windows-26.1
+    env:
+      DPF_DOCKER: ${{ matrix.platform.os }}
 
     steps:
       - uses: actions/checkout@v4
@@ -59,7 +64,7 @@ jobs:
       - name: "Build the wheel"
         shell: bash
         run: |
-          if [ ${{ matrix.os }} == "ubuntu-latest" ]; then
+          if [ ${{ matrix.platform.os }} == "ubuntu-latest" ]; then
               export platform="manylinux_2_17"
           else
               export platform="win"
@@ -240,7 +245,7 @@ jobs:
       - name: "Upload Test Results"
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}_docker
+          name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.platform.os }}_pytest_${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}_docker
           path: tests/junit/test-results.xml
         timeout-minutes: 5
 
@@ -248,13 +253,13 @@ jobs:
         uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }} # required
-          name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}_docker.xml
-          flags: docker,${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }},${{ matrix.os }},${{ matrix.python-version }}
+          name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.platform.os }}_pytest_${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}_docker.xml
+          flags: docker,${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }},${{ matrix.platform.os }},${{ matrix.python-version }}
 
       - name: "Upload test analytics results to Codecov"
         if: ${{ !cancelled() }}
         uses: codecov/test-results-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          name: test_results_${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}${{ inputs.test_any == 'true' && '_any' || '' }}
-          flags: ${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }},${{ matrix.os }},${{ matrix.python-version }}${{ inputs.test_any == 'true' && ',any' || '' }}
+          name: test_results_${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.platform.os }}_${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}${{ inputs.test_any == 'true' && '_any' || '' }}
+          flags: ${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }},${{ matrix.platform.os }},${{ matrix.python-version }}${{ inputs.test_any == 'true' && ',any' || '' }}
