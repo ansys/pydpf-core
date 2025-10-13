@@ -473,9 +473,7 @@ def run_with_args():  # pragma: nocover
     parser.add_argument(
         "--ansys_path", default=None, help="Path to Ansys DPF Server installation directory"
     )
-    parser.add_argument(
-        "--output_path", default=".", help="Path to output directory"
-    )
+    parser.add_argument("--output_path", default=".", help="Path to output directory")
     parser.add_argument("--include_private", action="store_true", help="Include private operators")
     parser.add_argument(
         "--include_composites", action="store_true", help="Include Composites operators"
