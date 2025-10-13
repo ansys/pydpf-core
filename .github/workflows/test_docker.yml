@@ -45,7 +45,7 @@ jobs:
           - os: "windows-latest"
             image-name: ghcr.io/ansys-dpf/dpf-standalone:windows-26.1
     env:
-      DPF_DOCKER: ${{ matrix.platform.os }}
+      DPF_DOCKER: ${{ matrix.platform.image-name }}
 
     steps:
       - uses: actions/checkout@v4
