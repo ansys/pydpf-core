@@ -136,6 +136,7 @@ jobs:
       ANSYS_VERSION: ${{ inputs.ansys_version || vars.ANSYS_VERSION_DEFAULT }}
       python_versions: '["3.10"]'
       standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
+      test_any: true
     secrets: inherit
 
   docs:
