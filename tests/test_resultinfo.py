@@ -315,7 +315,7 @@ Available results:
 """
         assert str(result_info) == ref
         with pytest.raises(ValueError, match="requires"):
-            _ = dpf.core.ResultInfo()
+            _ = dpf.core.ResultInfo(server=server_type)
     else:
         with pytest.raises(NotImplementedError, match="Cannot create a new ResultInfo via gRPC."):
             _ = dpf.core.ResultInfo(
