@@ -457,10 +457,13 @@ def test_multi_process_with_names_transparent_api_remote_workflow():
 
         workflows.append(wf)
 
-    local_wf = core.Workflow()
+    # Make sure to reuse the same type of remote server as for the previous ones:
+    # Cannot merge a Workflow from a non-legacy grpc server to a workflow on a legacy grpc server
+    merge_server = local_servers[len(files)]
+    local_wf = core.Workflow(server=merge_server)
     local_wf.progress_bar = False
-    merge = ops.utility.merge_fields_containers()
-    min_max = ops.min_max.min_max_fc(merge)
+    merge = ops.utility.merge_fields_containers(server=merge_server)
+    min_max = ops.min_max.min_max_fc(merge, server=merge_server)
     local_wf.add_operator(merge)
     local_wf.add_operator(min_max)
     local_wf.set_output_name("tot_output", min_max.outputs.field_max)
