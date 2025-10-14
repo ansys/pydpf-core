@@ -552,25 +552,28 @@ def test_multi_process_transparent_api_connect_local_op_remote_workflow():
 )
 def test_multi_process_transparent_api_create_on_local_remote_workflow():
     files = examples.download_distributed_files()
-    wf = core.Workflow()
+    # Make sure to reuse the same type of remote server as for the previous ones:
+    # Cannot merge a Workflow from a non-legacy grpc server to a workflow on a legacy grpc server
+    merge_server = local_servers[len(files)]
+    wf = core.Workflow(server=merge_server)
     wf.progress_bar = False
-    op = ops.result.displacement()
-    average = core.operators.math.norm_fc(op)
+    op = ops.result.displacement(server=merge_server)
+    average = core.operators.math.norm_fc(op, server=merge_server)
 
     wf.add_operators([op, average])
     wf.set_output_name("distrib", average.outputs.fields_container)
     wf.set_input_name("ds", op.inputs.data_sources)
 
-    local_wf = core.Workflow()
+    local_wf = core.Workflow(server=merge_server)
     local_wf.progress_bar = False
-    merge = ops.utility.merge_fields_containers()
-    min_max = ops.min_max.min_max_fc(merge)
+    merge = ops.utility.merge_fields_containers(server=merge_server)
+    min_max = ops.min_max.min_max_fc(merge, server=merge_server)
     local_wf.add_operator(merge)
     local_wf.add_operator(min_max)
     local_wf.set_output_name("tot_output", min_max.outputs.field_max)
 
     for i in files:
-        data_sources1 = core.DataSources(files[i])
+        data_sources1 = core.DataSources(files[i], server=merge_server)
         remote_wf = wf.create_on_other_server(server=local_servers[i])
         remote_wf.connect("ds", data_sources1)
         local_wf.set_input_name("distrib" + str(i), merge, i)
