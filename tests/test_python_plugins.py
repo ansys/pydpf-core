@@ -20,7 +20,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import os
 from pathlib import Path
 import platform
 
@@ -37,6 +36,7 @@ from ansys.dpf.core.operator_specification import (
     PinSpecification,
     SpecificationProperties,
 )
+from ansys.dpf.core.server_factory import CommunicationProtocols
 import conftest
 from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
@@ -46,16 +46,14 @@ from conftest import (
 
 if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
     pytest.skip("Requires server version higher than 4.0", allow_module_level=True)
-# if platform.python_version().startswith("3.7"):
-#     pytest.skip(
-#         "Known failures in the GitHub pipelines for 3.7",
-#         allow_module_level=True
-#     )
+
 if platform.system() == "Linux":
     pytest.skip("Known failures for the Ubuntu-latest GitHub pipelines", allow_module_level=True)
 
-update_virtual_environment_for_custom_operators(restore_original=True)
-update_virtual_environment_for_custom_operators()
+# Updating the dpf-site.zip of a DPF Server is only available when InProcess.
+if dpf.SERVER.config.protocol == CommunicationProtocols.InProcess:
+    update_virtual_environment_for_custom_operators(restore_original=True)
+    update_virtual_environment_for_custom_operators()
 
 
 @pytest.fixture(scope="module")
