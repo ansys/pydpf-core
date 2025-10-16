@@ -447,6 +447,10 @@ def test_dpf_plotter_add_field_elemental_nodal_plot_simple(simple_bar):
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+@pytest.mark.skipif(
+    running_docker and image_os == "windows",
+    reason="Test fails when running DPF server on a windows container",
+)
 def test_dpf_plotter_add_field_elemental_nodal_plot_scoped(simple_bar):
     mesh_scoping = dpf.core.mesh_scoping_factory.elemental_scoping(
         element_ids=list(range(1501, 3001))
