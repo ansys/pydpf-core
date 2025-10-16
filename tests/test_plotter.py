@@ -252,6 +252,10 @@ def test_field_nodal_plot(allkindofcomplexity):
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+@pytest.mark.skipif(
+    running_docker and image_os == "windows",
+    reason="Test fails when running DPF server on a windows container",
+)
 def test_field_elemental_nodal_plot_simple(simple_bar):
     model = Model(simple_bar)
     stress = model.results.element_nodal_forces()
