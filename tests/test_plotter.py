@@ -277,6 +277,10 @@ def test_field_elemental_nodal_plot_scoped(simple_bar):
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+@pytest.mark.skipif(
+    running_docker and image_os == "windows",
+    reason="Test fails when running DPF server on a windows container",
+)
 def test_field_elemental_nodal_plot_multiple_solid_types():
     from ansys.dpf.core import examples
 
