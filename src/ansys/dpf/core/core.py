@@ -300,19 +300,27 @@ def _deep_copy(dpf_entity, server=None):
                                 core.Field, core.FieldsContainer, core.MeshedRegion...
     """
     from ansys.dpf.core.common import types, types_enum_to_types
-    from ansys.dpf.core.operators.serialization import serializer_to_string, string_deserializer
+    from ansys.dpf.core.operators.serialization.serializer_to_string import serializer_to_string
+    from ansys.dpf.core.operators.serialization.string_deserializer import string_deserializer
 
     entity_server = dpf_entity._server if hasattr(dpf_entity, "_server") else None
-    serializer = serializer_to_string(server=entity_server)
-    serializer.connect(1, dpf_entity)
-    deserializer = string_deserializer(server=server)
-    stream_type = 1 if server_meet_version("8.0", serializer._server) else 0
-    serializer.connect(-1, stream_type)
+    # Set stream_type to 1 (binary) if available, else use 0 (string)
+    stream_type = 1 if server_meet_version(required_version="8.0", server=entity_server) else 0
+
+    serializer = serializer_to_string(
+        stream_type=stream_type,
+        server=entity_server,
+    )
+    serializer.connect(0, dpf_entity)
     if stream_type == 1:
         out = serializer.get_output(0, types.bytes)
     else:
-        out = serializer.outputs.serialized_string  # Required for retro with 241
-    deserializer.connect(-1, stream_type)
+        out = serializer.outputs.serialized_string1()  # Required for retro with 241
+
+    deserializer = string_deserializer(
+        stream_type=stream_type,
+        server=server,
+    )
     deserializer.connect(0, out)
     type_map = types_enum_to_types()
     output_type = list(type_map.keys())[list(type_map.values()).index(dpf_entity.__class__)]
