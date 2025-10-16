@@ -37,6 +37,7 @@ from ansys.dpf.core.operator_specification import (
     PinSpecification,
     SpecificationProperties,
 )
+import ansys.dpf.core.server_types
 import conftest
 from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
@@ -53,6 +54,10 @@ if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
 #     )
 if platform.system() == "Linux":
     pytest.skip("Known failures for the Ubuntu-latest GitHub pipelines", allow_module_level=True)
+
+running_docker = ansys.dpf.core.server_types.RUNNING_DOCKER.use_docker
+if running_docker:
+    pytest.skip("Skip python plugins tests in docker", allow_module_level=True)
 
 update_virtual_environment_for_custom_operators(restore_original=True)
 update_virtual_environment_for_custom_operators()
