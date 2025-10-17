@@ -79,7 +79,7 @@ jobs:
       - name: "Build the wheel"
         shell: pwsh
         run: |
-          tox -e build-wheel
+          tox -e build-wheel -- "any"
 
       - name: "Expose the wheel"
         shell: bash
