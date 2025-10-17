@@ -162,8 +162,10 @@ class element_nodal_forces(Operator):
         elemental nodal beam results are read if this pin is set to true (default is false)
     split_shells: bool, optional
         If true, this pin forces the results to be split by element shape, indicated by the presence of the 'elshape' label in the output. If false, the results for all elements shapes are combined. Default value is false if averaging is not required and true if averaging is required.
-    shell_layer: int, optional
+    shell_layer: bool, optional
         If connected, this pin allows you to extract the result only on the selected shell layer(s). The available values are: 0: Top, 1: Bottom, 2: TopBottom, 3: Mid, 4: TopBottomMid.
+    extend_to_mid_nodes: bool, optional
+        Compute mid nodes (when available) by averaging the neighbour corner nodes. Default: True
     split_force_components: bool, optional
         If this pin is set to true, the output fields container splits the ENF by degree of freedom ("dof" label, 0 for translation, 1 for rotation, 2 for temperature) and derivative order ("derivative_order" label, 0 for stiffness terms, 1 for damping terms and 2 for inertial terms). Default is false.
 
@@ -207,8 +209,10 @@ class element_nodal_forces(Operator):
     >>> op.inputs.read_beams.connect(my_read_beams)
     >>> my_split_shells = bool()
     >>> op.inputs.split_shells.connect(my_split_shells)
-    >>> my_shell_layer = int()
+    >>> my_shell_layer = bool()
     >>> op.inputs.shell_layer.connect(my_shell_layer)
+    >>> my_extend_to_mid_nodes = bool()
+    >>> op.inputs.extend_to_mid_nodes.connect(my_extend_to_mid_nodes)
     >>> my_split_force_components = bool()
     >>> op.inputs.split_force_components.connect(my_split_force_components)
 
@@ -229,6 +233,7 @@ class element_nodal_forces(Operator):
     ...     read_beams=my_read_beams,
     ...     split_shells=my_split_shells,
     ...     shell_layer=my_shell_layer,
+    ...     extend_to_mid_nodes=my_extend_to_mid_nodes,
     ...     split_force_components=my_split_force_components,
     ... )
 
@@ -253,6 +258,7 @@ class element_nodal_forces(Operator):
         read_beams=None,
         split_shells=None,
         shell_layer=None,
+        extend_to_mid_nodes=None,
         split_force_components=None,
         config=None,
         server=None,
@@ -290,6 +296,8 @@ class element_nodal_forces(Operator):
             self.inputs.split_shells.connect(split_shells)
         if shell_layer is not None:
             self.inputs.shell_layer.connect(shell_layer)
+        if extend_to_mid_nodes is not None:
+            self.inputs.extend_to_mid_nodes.connect(extend_to_mid_nodes)
         if split_force_components is not None:
             self.inputs.split_force_components.connect(split_force_components)
 
@@ -506,9 +514,15 @@ elshape Related elements
                 ),
                 27: PinSpecification(
                     name="shell_layer",
-                    type_names=["int32"],
+                    type_names=["bool"],
                     optional=True,
                     document=r"""If connected, this pin allows you to extract the result only on the selected shell layer(s). The available values are: 0: Top, 1: Bottom, 2: TopBottom, 3: Mid, 4: TopBottomMid.""",
+                ),
+                28: PinSpecification(
+                    name="extend_to_mid_nodes",
+                    type_names=["bool"],
+                    optional=True,
+                    document=r"""Compute mid nodes (when available) by averaging the neighbour corner nodes. Default: True""",
                 ),
                 200: PinSpecification(
                     name="split_force_components",
@@ -608,8 +622,10 @@ class InputsElementNodalForces(_Inputs):
     >>> op.inputs.read_beams.connect(my_read_beams)
     >>> my_split_shells = bool()
     >>> op.inputs.split_shells.connect(my_split_shells)
-    >>> my_shell_layer = int()
+    >>> my_shell_layer = bool()
     >>> op.inputs.shell_layer.connect(my_shell_layer)
+    >>> my_extend_to_mid_nodes = bool()
+    >>> op.inputs.extend_to_mid_nodes.connect(my_extend_to_mid_nodes)
     >>> my_split_force_components = bool()
     >>> op.inputs.split_force_components.connect(my_split_force_components)
     """
@@ -664,6 +680,10 @@ class InputsElementNodalForces(_Inputs):
             element_nodal_forces._spec().input_pin(27), 27, op, -1
         )
         self._inputs.append(self._shell_layer)
+        self._extend_to_mid_nodes = Input(
+            element_nodal_forces._spec().input_pin(28), 28, op, -1
+        )
+        self._inputs.append(self._extend_to_mid_nodes)
         self._split_force_components = Input(
             element_nodal_forces._spec().input_pin(200), 200, op, -1
         )
@@ -983,6 +1003,27 @@ class InputsElementNodalForces(_Inputs):
         >>> op.inputs.shell_layer(my_shell_layer)
         """
         return self._shell_layer
+
+    @property
+    def extend_to_mid_nodes(self) -> Input:
+        r"""Allows to connect extend_to_mid_nodes input to the operator.
+
+        Compute mid nodes (when available) by averaging the neighbour corner nodes. Default: True
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.element_nodal_forces()
+        >>> op.inputs.extend_to_mid_nodes.connect(my_extend_to_mid_nodes)
+        >>> # or
+        >>> op.inputs.extend_to_mid_nodes(my_extend_to_mid_nodes)
+        """
+        return self._extend_to_mid_nodes
 
     @property
     def split_force_components(self) -> Input:

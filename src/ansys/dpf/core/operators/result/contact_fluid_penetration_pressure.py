@@ -162,8 +162,10 @@ class contact_fluid_penetration_pressure(Operator):
         elemental nodal beam results are read if this pin is set to true (default is false)
     split_shells: bool, optional
         If true, this pin forces the results to be split by element shape, indicated by the presence of the 'elshape' label in the output. If false, the results for all elements shapes are combined. Default value is false if averaging is not required and true if averaging is required.
-    shell_layer: int, optional
+    shell_layer: bool, optional
         If connected, this pin allows you to extract the result only on the selected shell layer(s). The available values are: 0: Top, 1: Bottom, 2: TopBottom, 3: Mid, 4: TopBottomMid.
+    extend_to_mid_nodes: bool, optional
+        Compute mid nodes (when available) by averaging the neighbour corner nodes. Default: True
 
     Returns
     -------
@@ -205,8 +207,10 @@ class contact_fluid_penetration_pressure(Operator):
     >>> op.inputs.read_beams.connect(my_read_beams)
     >>> my_split_shells = bool()
     >>> op.inputs.split_shells.connect(my_split_shells)
-    >>> my_shell_layer = int()
+    >>> my_shell_layer = bool()
     >>> op.inputs.shell_layer.connect(my_shell_layer)
+    >>> my_extend_to_mid_nodes = bool()
+    >>> op.inputs.extend_to_mid_nodes.connect(my_extend_to_mid_nodes)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.contact_fluid_penetration_pressure(
@@ -225,6 +229,7 @@ class contact_fluid_penetration_pressure(Operator):
     ...     read_beams=my_read_beams,
     ...     split_shells=my_split_shells,
     ...     shell_layer=my_shell_layer,
+    ...     extend_to_mid_nodes=my_extend_to_mid_nodes,
     ... )
 
     >>> # Get output data
@@ -248,6 +253,7 @@ class contact_fluid_penetration_pressure(Operator):
         read_beams=None,
         split_shells=None,
         shell_layer=None,
+        extend_to_mid_nodes=None,
         config=None,
         server=None,
     ):
@@ -284,6 +290,8 @@ class contact_fluid_penetration_pressure(Operator):
             self.inputs.split_shells.connect(split_shells)
         if shell_layer is not None:
             self.inputs.shell_layer.connect(shell_layer)
+        if extend_to_mid_nodes is not None:
+            self.inputs.extend_to_mid_nodes.connect(extend_to_mid_nodes)
 
     @staticmethod
     def _spec() -> Specification:
@@ -498,9 +506,15 @@ elshape Related elements
                 ),
                 27: PinSpecification(
                     name="shell_layer",
-                    type_names=["int32"],
+                    type_names=["bool"],
                     optional=True,
                     document=r"""If connected, this pin allows you to extract the result only on the selected shell layer(s). The available values are: 0: Top, 1: Bottom, 2: TopBottom, 3: Mid, 4: TopBottomMid.""",
+                ),
+                28: PinSpecification(
+                    name="extend_to_mid_nodes",
+                    type_names=["bool"],
+                    optional=True,
+                    document=r"""Compute mid nodes (when available) by averaging the neighbour corner nodes. Default: True""",
                 ),
             },
             map_output_pin_spec={
@@ -594,8 +608,10 @@ class InputsContactFluidPenetrationPressure(_Inputs):
     >>> op.inputs.read_beams.connect(my_read_beams)
     >>> my_split_shells = bool()
     >>> op.inputs.split_shells.connect(my_split_shells)
-    >>> my_shell_layer = int()
+    >>> my_shell_layer = bool()
     >>> op.inputs.shell_layer.connect(my_shell_layer)
+    >>> my_extend_to_mid_nodes = bool()
+    >>> op.inputs.extend_to_mid_nodes.connect(my_extend_to_mid_nodes)
     """
 
     def __init__(self, op: Operator):
@@ -660,6 +676,10 @@ class InputsContactFluidPenetrationPressure(_Inputs):
             contact_fluid_penetration_pressure._spec().input_pin(27), 27, op, -1
         )
         self._inputs.append(self._shell_layer)
+        self._extend_to_mid_nodes = Input(
+            contact_fluid_penetration_pressure._spec().input_pin(28), 28, op, -1
+        )
+        self._inputs.append(self._extend_to_mid_nodes)
 
     @property
     def time_scoping(self) -> Input:
@@ -975,6 +995,27 @@ class InputsContactFluidPenetrationPressure(_Inputs):
         >>> op.inputs.shell_layer(my_shell_layer)
         """
         return self._shell_layer
+
+    @property
+    def extend_to_mid_nodes(self) -> Input:
+        r"""Allows to connect extend_to_mid_nodes input to the operator.
+
+        Compute mid nodes (when available) by averaging the neighbour corner nodes. Default: True
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.contact_fluid_penetration_pressure()
+        >>> op.inputs.extend_to_mid_nodes.connect(my_extend_to_mid_nodes)
+        >>> # or
+        >>> op.inputs.extend_to_mid_nodes(my_extend_to_mid_nodes)
+        """
+        return self._extend_to_mid_nodes
 
 
 class OutputsContactFluidPenetrationPressure(_Outputs):
