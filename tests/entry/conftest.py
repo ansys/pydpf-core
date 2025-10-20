@@ -29,8 +29,10 @@ pytest as a session fixture
 """
 
 import functools
+import json
 import os
 from pathlib import Path
+import subprocess
 
 import pytest
 
@@ -67,9 +69,23 @@ if os.name == "posix":
     ssl._create_default_https_context = ssl._create_unverified_context
 
 if running_docker:
-    ansys.dpf.core.server_types.RUNNING_DOCKER.mounted_volumes[_get_test_files_directory()] = (
-        "/tmp/test_files"
-    )
+    docker_name = ansys.dpf.core.server_types.RUNNING_DOCKER.docker_name
+    args = ["docker", "inspect", "-f", "json", docker_name]
+    inspect_docker_image = subprocess.run(args, capture_output=True)
+    if inspect_docker_image.stderr:
+        raise Exception(
+            f"Specified docker image not found. Verify that the image name '{docker_name}' is valid and the image file is available locally."
+        )
+    output = json.loads(inspect_docker_image.stdout)
+    image_os = output[0]["Os"]
+    if image_os == "linux":
+        ansys.dpf.core.server_types.RUNNING_DOCKER.mounted_volumes[_get_test_files_directory()] = (
+            "/tmp/test_files"
+        )
+    else:  # image is windows
+        ansys.dpf.core.server_types.RUNNING_DOCKER.mounted_volumes[_get_test_files_directory()] = (
+            "C:\\Users\\ContainerAdministrator\\AppData\\Local\\Temp\\test_files"
+        )
 
 SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_1 = meets_version(
     get_server_version(core._global_server()), "8.1"

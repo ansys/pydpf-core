@@ -258,7 +258,7 @@ def launch_dpf_on_docker(
     ansys_path=None,
     ip=LOCALHOST,
     port=DPF_DEFAULT_PORT,
-    timeout=10.0,
+    timeout=50.0,
 ):
     """Launch Ansys DPF.
 
@@ -277,7 +277,7 @@ def launch_dpf_on_docker(
         ``"DPF_DEFAULT_PORT"``, which is 50054.
     timeout : float, optional
         Maximum number of seconds for the initialization attempt.
-        The default is ``10``. Once the specified number of seconds
+        The default is ``50``. Once the specified number of seconds
         passes, the connection fails.
 
     """
@@ -836,7 +836,6 @@ class GrpcServer(CServer):
                     ansys_path=ansys_path,
                     ip=ip,
                     port=port,
-                    timeout=timeout,
                 )
             else:
                 launch_dpf(ansys_path, ip, port, timeout=timeout, context=context)
@@ -1271,7 +1270,6 @@ class LegacyGrpcServer(BaseServer):
                         ansys_path=ansys_path,
                         ip=ip,
                         port=port,
-                        timeout=timeout,
                     )
                 else:
                     launch_dpf(ansys_path, ip, port, timeout=timeout, context=context)
