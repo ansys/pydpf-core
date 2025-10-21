@@ -1,11 +1,25 @@
 import types
+import sys
 from functools import wraps
 
 class DPFServerException(Exception):
     """Error raised when the DPF server has encountered an error."""
 
     def __init__(self, msg=""):
-        Exception.__init__(self, msg)
+        message_parts = msg.rsplit('<-', maxsplit=1)
+        error_note = ""
+        if len(message_parts) == 1:
+            error_message = message_parts[0]
+        else:
+            error_note, error_message = message_parts
+
+        Exception.__init__(self, error_message)
+        if sys.version_info >= (3, 11): #add_note method is supported only in python >= 3.11
+            self.add_note(error_note)
+        else:
+            if not hasattr(self, "__notes__"): #if the system is python < 3.11 we custom our own notes property
+                self.__notes__ = []
+            self.__notes__.append(error_note)
 
 
 class DPFServerNullObject(Exception):

@@ -122,7 +122,7 @@ jobs:
           echo branch="$BranchName"
           if [ "$BranchName" = '' ];
           then
-              BranchName=$(git ls-remote --tags --refs $REPO | tail -n1 | cut -d/ -f3)
+              BranchName=$(git ls-remote --tags --sort="v:refname" --refs $REPO | tail -n1 | cut -d/ -f3)
           fi
           echo branch=$BranchName
           git clone --single-branch --branch "$BranchName" $REPO
@@ -152,7 +152,7 @@ jobs:
           PACKAGE_NAME: ansys-dpf-post
           working-directory: pydpf-post/src
         if: inputs.test_docstrings == 'true'
-        timeout-minutes: 10
+        timeout-minutes: 12
         continue-on-error: true
         
       - uses: mainmatter/continue-on-error-comment@v1

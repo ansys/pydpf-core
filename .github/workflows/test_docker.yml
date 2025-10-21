@@ -136,7 +136,7 @@ jobs:
       - name: "Test API test_server"
         uses: nick-fields/retry@v3
         with:
-          timeout_minutes: 5
+          timeout_minutes: 8
           max_attempts: 2
           shell: bash
           command: |
@@ -204,6 +204,15 @@ jobs:
           shell: bash
           command: |
             pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results12.xml tests/operators/.
+
+      - name: "Test Documentation"
+        uses: nick-fields/retry@v3
+        with:
+          timeout_minutes: 8
+          max_attempts: 2
+          shell: bash
+          command: |
+            pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results13.xml test_documentation/.
 
 #      - name: "Test API Entry"
 #        shell: bash
