@@ -10,6 +10,7 @@ from warnings import warn
 from ansys.dpf.core.dpf_operator import Operator
 from ansys.dpf.core.inputs import Input, _Inputs
 from ansys.dpf.core.outputs import Output, _Outputs
+from ansys.dpf.core.outputs import _modify_output_spec_with_one_type
 from ansys.dpf.core.operators.specification import PinSpecification, Specification
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
@@ -28,10 +29,12 @@ class element_types_provider(Operator):
         Result file container allowed to be kept open to cache data.
     data_sources: DataSources
         Result file path container, used if no streams are set.
+    output_type: int, optional
+        Get the output as a GenericDataContainer (pin value 1, default) or as a PropertyField (pin value 2). If a PropertyField is recovered, the 200 ElementTypesProperties are recovered for each element type, in order.
 
     Returns
     -------
-    element_types_data: GenericDataContainer
+    element_types_data: GenericDataContainer or PropertyField
         The generic_data_container has a class_name: ElementTypesProperties. It contains the following property fields: element_routine_number: Element routine number. E.g 186 for SOLID186, keyopts: Element type option keys, kdofs: DOF/node for this element type.This is a bit mapping, nodelm: Number of nodes for this element type, nodfor: Number of nodes per element having nodal forces, nodstr: Number of nodes per element having nodal stresses, new_gen_element: Element of new generation.
 
     Examples
@@ -48,12 +51,15 @@ class element_types_provider(Operator):
     >>> op.inputs.streams.connect(my_streams)
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
+    >>> my_output_type = int()
+    >>> op.inputs.output_type.connect(my_output_type)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.metadata.element_types_provider(
     ...     solver_element_types_ids=my_solver_element_types_ids,
     ...     streams=my_streams,
     ...     data_sources=my_data_sources,
+    ...     output_type=my_output_type,
     ... )
 
     >>> # Get output data
@@ -65,6 +71,7 @@ class element_types_provider(Operator):
         solver_element_types_ids=None,
         streams=None,
         data_sources=None,
+        output_type=None,
         config=None,
         server=None,
     ):
@@ -77,6 +84,8 @@ class element_types_provider(Operator):
             self.inputs.streams.connect(streams)
         if data_sources is not None:
             self.inputs.data_sources.connect(data_sources)
+        if output_type is not None:
+            self.inputs.output_type.connect(output_type)
 
     @staticmethod
     def _spec() -> Specification:
@@ -104,11 +113,17 @@ or data sources.
                     optional=False,
                     document=r"""Result file path container, used if no streams are set.""",
                 ),
+                200: PinSpecification(
+                    name="output_type",
+                    type_names=["int32"],
+                    optional=True,
+                    document=r"""Get the output as a GenericDataContainer (pin value 1, default) or as a PropertyField (pin value 2). If a PropertyField is recovered, the 200 ElementTypesProperties are recovered for each element type, in order.""",
+                ),
             },
             map_output_pin_spec={
                 0: PinSpecification(
                     name="element_types_data",
-                    type_names=["generic_data_container"],
+                    type_names=["generic_data_container", "property_field"],
                     optional=False,
                     document=r"""The generic_data_container has a class_name: ElementTypesProperties. It contains the following property fields: element_routine_number: Element routine number. E.g 186 for SOLID186, keyopts: Element type option keys, kdofs: DOF/node for this element type.This is a bit mapping, nodelm: Number of nodes for this element type, nodfor: Number of nodes per element having nodal forces, nodstr: Number of nodes per element having nodal stresses, new_gen_element: Element of new generation.""",
                 ),
@@ -174,6 +189,8 @@ class InputsElementTypesProvider(_Inputs):
     >>> op.inputs.streams.connect(my_streams)
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
+    >>> my_output_type = int()
+    >>> op.inputs.output_type.connect(my_output_type)
     """
 
     def __init__(self, op: Operator):
@@ -188,6 +205,10 @@ class InputsElementTypesProvider(_Inputs):
             element_types_provider._spec().input_pin(4), 4, op, -1
         )
         self._inputs.append(self._data_sources)
+        self._output_type = Input(
+            element_types_provider._spec().input_pin(200), 200, op, -1
+        )
+        self._inputs.append(self._output_type)
 
     @property
     def solver_element_types_ids(self) -> Input:
@@ -252,6 +273,27 @@ class InputsElementTypesProvider(_Inputs):
         """
         return self._data_sources
 
+    @property
+    def output_type(self) -> Input:
+        r"""Allows to connect output_type input to the operator.
+
+        Get the output as a GenericDataContainer (pin value 1, default) or as a PropertyField (pin value 2). If a PropertyField is recovered, the 200 ElementTypesProperties are recovered for each element type, in order.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.metadata.element_types_provider()
+        >>> op.inputs.output_type.connect(my_output_type)
+        >>> # or
+        >>> op.inputs.output_type(my_output_type)
+        """
+        return self._output_type
+
 
 class OutputsElementTypesProvider(_Outputs):
     """Intermediate class used to get outputs from
@@ -267,27 +309,19 @@ class OutputsElementTypesProvider(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(element_types_provider._spec().outputs, op)
-        self._element_types_data = Output(
-            element_types_provider._spec().output_pin(0), 0, op
+        self.element_types_data_as_generic_data_container = Output(
+            _modify_output_spec_with_one_type(
+                element_types_provider._spec().output_pin(0), "generic_data_container"
+            ),
+            0,
+            op,
         )
-        self._outputs.append(self._element_types_data)
-
-    @property
-    def element_types_data(self) -> Output:
-        r"""Allows to get element_types_data output of the operator
-
-        The generic_data_container has a class_name: ElementTypesProperties. It contains the following property fields: element_routine_number: Element routine number. E.g 186 for SOLID186, keyopts: Element type option keys, kdofs: DOF/node for this element type.This is a bit mapping, nodelm: Number of nodes for this element type, nodfor: Number of nodes per element having nodal forces, nodstr: Number of nodes per element having nodal stresses, new_gen_element: Element of new generation.
-
-        Returns
-        -------
-        output:
-            An Output instance for this pin.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.metadata.element_types_provider()
-        >>> # Get the output from op.outputs. ...
-        >>> result_element_types_data = op.outputs.element_types_data()
-        """
-        return self._element_types_data
+        self._outputs.append(self.element_types_data_as_generic_data_container)
+        self.element_types_data_as_property_field = Output(
+            _modify_output_spec_with_one_type(
+                element_types_provider._spec().output_pin(0), "property_field"
+            ),
+            0,
+            op,
+        )
+        self._outputs.append(self.element_types_data_as_property_field)
