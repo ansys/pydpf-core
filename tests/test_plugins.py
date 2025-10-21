@@ -26,6 +26,7 @@ import pytest
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
+import conftest
 from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0
 
 
@@ -134,3 +135,13 @@ def test_vtk(server_type, tmpdir):
     #     print(e)
     #     pass
     # assert os.path.exists(tmp_path)
+
+
+def test_load_library_default_name(config_server_type):
+    xml_path = Path(conftest.DEFAULT_ANSYS_PATH) / "dpf" / "utilities" / "DpfCustomDefined.xml"
+    server_context = dpf.server_context.ServerContext(xml_path=str(xml_path))
+    print(server_context)
+    server = dpf.start_local_server(config=config_server_type, context=server_context)
+    print(server.plugins)
+    # TODO: fix use of custom XML at server startup. The above should only show grpc loaded
+    # https://github.com/ansys/pydpf-core/issues/2666
