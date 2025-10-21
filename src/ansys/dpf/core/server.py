@@ -48,7 +48,13 @@ from ansys.dpf.core.server_factory import (
     ServerConfig,
     ServerFactory,
 )
-from ansys.dpf.core.server_types import DPF_DEFAULT_PORT, LOCALHOST, RUNNING_DOCKER, BaseServer
+from ansys.dpf.core.server_types import (  # noqa: F401  # pylint: disable=unused-import
+    DPF_DEFAULT_PORT,
+    LOCALHOST,
+    RUNNING_DOCKER,
+    AnyServerType,
+    BaseServer,
+)
 
 
 def shutdown_global_server():
@@ -73,7 +79,7 @@ def has_local_server():
     return dpf.core.SERVER is not None
 
 
-def _global_server() -> BaseServer:
+def _global_server() -> AnyServerType:
     """Retrieve the global server if it exists.
 
     If the global server has not been specified, check the expected server type in
@@ -162,7 +168,7 @@ def start_local_server(
     config=None,
     use_pypim_by_default=True,
     context=None,
-) -> BaseServer:
+) -> AnyServerType:
     """Start a new local DPF server at a given port and IP address.
 
     This method requires Windows and ANSYS 2021 R1 or later. If ``as_global=True``, which is
@@ -399,12 +405,12 @@ def connect_to_server(
         raise e
 
 
-def get_or_create_server(server: BaseServer | None) -> Union[BaseServer, None]:
+def get_or_create_server(server: AnyServerType | None) -> Union[AnyServerType, None]:
     """Return the given server or if None, creates a new one.
 
     Parameters
     ----------
-    server: BaseServer, None
+    server:
 
     Returns
     -------
