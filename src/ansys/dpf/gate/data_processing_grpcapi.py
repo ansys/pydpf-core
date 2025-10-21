@@ -56,14 +56,14 @@ class DataProcessingYielderHelper:
                 if need_progress_bar:
                     try:
                         bar.update(min(i, tot_size))
-                    except:
-                        pass
+                    except Exception as e:
+                        raise e
 
         if need_progress_bar:
             try:
                 bar.finish()
-            except:
-                pass
+            except Exception as e:
+                raise e
 
 
 @errors.protect_grpc_class
@@ -320,8 +320,8 @@ class DataProcessingGRPCAPI(data_processing_abstract_api.DataProcessingAbstractA
                 try:
                     if bar is not None:
                         bar.update(min(i, tot_size))
-                except:
-                    pass
+                except Exception as e:
+                    raise e
         if bar is not None:
             bar.finish()
 
@@ -388,8 +388,8 @@ class DataProcessingGRPCAPI(data_processing_abstract_api.DataProcessingAbstractA
                     try:
                         if bar is not None:
                             bar.update(len(client_paths))
-                    except:
-                        pass
+                    except Exception as e:
+                        raise e
                 else:
                     f = None
             if f is not None:
@@ -397,6 +397,6 @@ class DataProcessingGRPCAPI(data_processing_abstract_api.DataProcessingAbstractA
         try:
             if bar is not None:
                 bar.finish()
-        except:
-            pass
+        except Exception as e:
+            raise e
         return client_paths
