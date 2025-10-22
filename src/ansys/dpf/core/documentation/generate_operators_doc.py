@@ -120,7 +120,9 @@ def extract_operator_description_update(content: str) -> str:
             The updated description to use for the operator.
     """
     match = re.search(r"## Description\s*(.*?)\s*(?=## |\Z)", content, re.DOTALL)
-    return match.group(0) + os.linesep if match else None
+    description = match.group(0) + os.linesep if match else None
+    # Handle unicode characters
+    return description.encode("unicode-escape").decode()
 
 
 def replace_operator_description(original_documentation: str, new_description: str):
@@ -293,15 +295,30 @@ def fetch_doc_info(server: dpf.AnyServerType, operator_name: str) -> dict:
         "changelog": changelog_entries,  # Include all changelog entries
     }
 
+    op_description = latex_to_dollars(spec.description)
+
     return {
         "operator_name": op_friendly_name,
-        "operator_description": spec.description,
+        "operator_description": op_description,
         "inputs": input_info,
         "outputs": output_info,
         "configurations": configurations_info,
         "scripting_info": scripting_info,
         "exposure": exposure,
     }
+
+
+def latex_to_dollars(text: str) -> str:
+    r"""Convert LaTeX math delimiters from \\[.\\] to $$.$$ and from \\(.\\) to $.$ in a given text.
+
+    Parameters
+    ----------
+    text:
+        The input text containing LaTeX math delimiters.
+    """
+    return (
+        text.replace(r"\\[", "$$").replace(r"\\]", "$$").replace(r"\\(", "$").replace(r"\\)", "$")
+    )
 
 
 def get_plugin_operators(server: dpf.AnyServerType, plugin_name: str) -> list[str]:
