@@ -488,7 +488,7 @@ def update_operator_index(docs_path: Path):
             if folder.is_dir():  # Ensure 'folder' is a directory
                 category = folder.name
                 index_file.write(
-                    f"## [{category.capitalize()} operators]({category}/{category}_category.md)\n\n"
+                    f"- [{category.capitalize()} operators]({category}/{category}_category.md)\n\n"
                 )
                 index_file.write("\n")
 
