@@ -109,17 +109,16 @@ from ansys.dpf.core.generic_data_container import GenericDataContainer
 from ansys.dpf.core.dpf_operator import available_operator_names
 
 
-from ansys.dpf.core.collection import CollectionFactory as _CollectionFactory
 from ansys.dpf.core.collection import Collection as _Collection
 from ansys.dpf.core.label_space import LabelSpace
 
 
 # register classes for collection types:
-CustomTypeFieldsCollection:type = _CollectionFactory(CustomTypeField)
-GenericDataContainersCollection:type = _CollectionFactory(GenericDataContainer)
-StringFieldsCollection:type = _CollectionFactory(StringField)
-OperatorsCollection: type = _CollectionFactory(Operator)
-AnyCollection:type = _Collection
+CustomTypeFieldsCollection = _Collection.CollectionFactory(CustomTypeField)
+GenericDataContainersCollection = _Collection.CollectionFactory(GenericDataContainer)
+StringFieldsCollection = _Collection.CollectionFactory(StringField)
+OperatorsCollection = _Collection.CollectionFactory(Operator)
+AnyCollection = _Collection
 
 # for matplotlib
 # solves "QApplication: invalid style override passed, ignoring it."

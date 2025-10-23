@@ -25,13 +25,16 @@
 
 from __future__ import annotations
 
+from typing import Generic, Type, TypeVar
+
 from ansys.dpf.core import errors, server as server_module
 from ansys.dpf.core.any import Any
-from ansys.dpf.core.collection_base import TYPE, CollectionBase
+from ansys.dpf.core.collection_base import CollectionBase
 from ansys.dpf.core.common import create_dpf_instance
 
+TYPE = TypeVar('TYPE')
 
-class Collection(CollectionBase[TYPE]):
+class Collection(CollectionBase[TYPE], Generic[TYPE]):
     """Represents a collection of dpf objects organised by label spaces.
 
     Parameters
@@ -120,16 +123,16 @@ class Collection(CollectionBase[TYPE]):
         """
         return super()._add_entry(label_space, Any.new_from(entry, server=self._server))
 
+    @classmethod
+    def CollectionFactory(cls, subtype: TYPE) -> Type[Collection[TYPE]]:
+        """Create classes deriving from Collection at runtime for a given subtype."""
 
-def CollectionFactory(subtype, BaseClass=Collection):
-    """Create classes deriving from Collection at runtime for a given subtype."""
+        def __init__(self, **kwargs):
+            cls.__init__(self, **kwargs)
 
-    def __init__(self, **kwargs):
-        BaseClass.__init__(self, **kwargs)
-
-    new_class = type(
-        str(subtype.__name__) + "sCollection",
-        (BaseClass,),
-        {"__init__": __init__, "entries_type": subtype},
-    )
-    return new_class
+        new_class = type(
+            str(subtype.__name__) + "sCollection",
+            (cls,),
+            {"__init__": __init__, "entries_type": subtype},
+        )
+        return new_class
