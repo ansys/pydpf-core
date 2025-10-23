@@ -35,6 +35,7 @@ from ansys.dpf.core.common import create_dpf_instance
 TYPE = TypeVar("TYPE")
 
 
+# Explicit Generic[TYPE] helps some type checkers Collection as a generic.
 class Collection(CollectionBase[TYPE], Generic[TYPE]):
     """Represents a collection of dpf objects organised by label spaces.
 
@@ -126,7 +127,34 @@ class Collection(CollectionBase[TYPE], Generic[TYPE]):
 
     @classmethod
     def collection_factory(cls, subtype: TYPE) -> Type[Collection[TYPE]]:
-        """Create classes deriving from Collection at runtime for a given subtype."""
+        """Create classes deriving from Collection at runtime for a given subtype.
+
+        This factory method dynamically creates a new class that inherits from Collection
+        and is specialized for storing entries of the specified subtype.
+
+        Parameters
+        ----------
+        subtype : type
+            Any recognized DPF type. For example, CustomTypeField, GenericDataContainer,
+            StringField, Operator, etc. This type will be used as the entries_type for
+            the new collection class.
+
+        Returns
+        -------
+        Type[Collection[TYPE]]
+            A new class that inherits from Collection and is specialized for the given
+            subtype. The class name will be "{subtype.__name__}sCollection".
+
+        Examples
+        --------
+        >>> from ansys.dpf.core.string_field import StringField
+        >>> from ansys.dpf.core.collection import Collection
+        >>> string_fields_collection = Collection.collection_factory(StringField)()
+        >>> string_fields_collection.__class__.__name__
+        'StringFieldsCollection'
+        >>> string_fields_collection.entries_type.__name__
+        'StringField'
+        """
         new_class = type(
             str(subtype.__name__) + "sCollection",
             (cls,),
