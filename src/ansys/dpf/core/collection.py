@@ -125,7 +125,7 @@ class Collection(CollectionBase[TYPE], Generic[TYPE]):
         return super()._add_entry(label_space, Any.new_from(entry, server=self._server))
 
     @classmethod
-    def CollectionFactory(cls, subtype: TYPE) -> Type[Collection[TYPE]]:
+    def collection_factory(cls, subtype: TYPE) -> Type[Collection[TYPE]]:
         """Create classes deriving from Collection at runtime for a given subtype."""
 
         def __init__(self, **kwargs):
