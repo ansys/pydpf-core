@@ -32,7 +32,8 @@ from ansys.dpf.core.any import Any
 from ansys.dpf.core.collection_base import CollectionBase
 from ansys.dpf.core.common import create_dpf_instance
 
-TYPE = TypeVar('TYPE')
+TYPE = TypeVar("TYPE")
+
 
 class Collection(CollectionBase[TYPE], Generic[TYPE]):
     """Represents a collection of dpf objects organised by label spaces.
