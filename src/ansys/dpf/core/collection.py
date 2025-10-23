@@ -127,13 +127,9 @@ class Collection(CollectionBase[TYPE], Generic[TYPE]):
     @classmethod
     def collection_factory(cls, subtype: TYPE) -> Type[Collection[TYPE]]:
         """Create classes deriving from Collection at runtime for a given subtype."""
-
-        def __init__(self, **kwargs):
-            cls.__init__(self, **kwargs)
-
         new_class = type(
             str(subtype.__name__) + "sCollection",
             (cls,),
-            {"__init__": __init__, "entries_type": subtype},
+            {"entries_type": subtype},
         )
         return new_class
