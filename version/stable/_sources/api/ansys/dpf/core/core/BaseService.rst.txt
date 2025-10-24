@@ -1,0 +1,274 @@
+
+
+
+
+
+
+:class:`BaseService`
+====================
+
+
+.. py:class:: ansys.dpf.core.core.BaseService(server=None, load_operators=True, timeout=5)
+
+   The Base Service class allows to make generic requests to dpf's server.
+
+   For example, information about the server can be requested,
+   uploading/downloading file from and to the server can be done,
+   new operators plugins can be loaded...
+   Most of the request done by the BaseService class are wrapped by
+   functions.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+   :param timeout: Fails when a connection takes longer than ``timeout`` seconds
+                   to initialize.
+   :type timeout: float, optional
+   :param load_operators: Automatically load the math operators
+   :type load_operators: bool, optional
+
+   .. rubric:: Examples
+
+   Connect to an existing DPF server
+   >>> from ansys.dpf import core as dpf
+   >>> #server = dpf.connect_to_server(ip='127.0.0.1', port = 50054, as_global=False)
+   >>> #base = dpf.BaseService(server=server)
+
+
+
+.. py:currentmodule:: BaseService
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~make_tmp_dir_server`
+            - Create a temporary folder server side. Only one temporary folder can be created by server instance.
+          * - :py:attr:`~load_library`
+            - Dynamically load an operators library for dpf.core.
+          * - :py:attr:`~apply_context`
+            - Define the settings that will be used to load DPF's plugins.
+          * - :py:attr:`~initialize_with_context`
+            - Define the settings that will be used to initialize DPF.
+          * - :py:attr:`~initialize`
+            - Initialize a DPF server without a context.
+          * - :py:attr:`~release_dpf`
+            - Clear the available Operators and release licenses when necessary.
+          * - :py:attr:`~get_runtime_core_config`
+            - Determine runtime configuration.
+          * - :py:attr:`~download_file`
+            - Download a file from the server to the target client file path.
+          * - :py:attr:`~download_files_in_folder`
+            - Download all the files from a folder of the server to the target client folder path.
+          * - :py:attr:`~upload_files_in_folder`
+            - Upload all the files from a folder of the client to the target server folder path.
+          * - :py:attr:`~upload_file`
+            - Upload a file from the client to the target server file path.
+          * - :py:attr:`~upload_file_in_tmp_folder`
+            - Upload a file from the client to a temporary server folder deleted on shutdown.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~server_info`
+            - Send the request for server information and keep the info into a dictionary.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.core import BaseService
+
+Property detail
+---------------
+
+.. py:property:: server_info
+
+   Send the request for server information and keep the info into a dictionary.
+
+   :returns: **info** -- dictionary with "server_ip", "server_port", "server_process_id"
+             "server_version" keys
+   :rtype: dictionary
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: make_tmp_dir_server()
+
+   Create a temporary folder server side. Only one temporary folder can be created by server instance.
+
+   The folder will be deleted when the server is stopped.
+
+   :returns: **path** -- path to the temporary dir
+   :rtype: str
+
+
+.. py:method:: load_library(file_path, name='', symbol='LoadOperators', generate_operators=False)
+
+   Dynamically load an operators library for dpf.core.
+
+   Code containing this library's operators is generated in
+   ansys.dpf.core.operators
+
+   :param file_path: file_path of the operator library.
+   :type file_path: str or os.PathLike
+   :param name: Library name.  Probably optional
+   :type name: str, optional
+   :param generate_operators: Whether operators code generation should be done or not (default is False).
+   :type generate_operators: bool, optional
+
+   .. rubric:: Examples
+
+   Load the mesh operators for Windows (for Linux, just use
+   'libmeshOperatorsCore.so' instead of 'meshOperatorsCore.dll')
+
+   >>> from ansys.dpf import core as dpf
+   >>> base = dpf.BaseService()
+   >>> # base.load_library('meshOperatorsCore.dll', 'mesh_operators')
+
+
+.. py:method:: apply_context(context)
+
+   Define the settings that will be used to load DPF's plugins.
+
+   A DPF xml file can be used to list the plugins and set up variables.
+
+   :param context: The context allows to choose which capabilities are available server side.
+   :type context: ServerContext
+
+   .. rubric:: Notes
+
+   Available with server's version starting at 6.0 (Ansys 2023R2).
+
+
+.. py:method:: initialize_with_context(context)
+
+   Define the settings that will be used to initialize DPF.
+
+   A DPF xml file can be used to list the plugins and set up variables.
+
+   :param context: The context allows to choose which capabilities are available server side.
+   :type context: ServerContext
+
+   .. rubric:: Notes
+
+   Available with server's version starting at 4.0 (Ansys 2022R2) for InProcess Server
+   and starting at 6.0 (Ansys 2023R2) for Grpc Servers.
+
+
+.. py:method:: initialize()
+
+   Initialize a DPF server without a context.
+
+
+.. py:method:: release_dpf()
+
+   Clear the available Operators and release licenses when necessary.
+
+   .. rubric:: Notes
+
+   Available with server's version starting at 6.0 (Ansys 2023R2).
+
+
+.. py:method:: get_runtime_core_config()
+
+   Determine runtime configuration.
+
+   :returns: Runtime configuration options in DataProcessingCore
+   :rtype: RuntimeCoreConfig
+
+
+.. py:method:: download_file(server_file_path, to_client_file_path)
+
+   Download a file from the server to the target client file path.
+
+   :param server_file_path: file path to download on the server side
+   :type server_file_path: str or os.PathLike
+   :param to_client_file_path: file path target where the file will be located client side
+   :type to_client_file_path: str or os.PathLike
+
+
+.. py:method:: download_files_in_folder(server_folder_path, to_client_folder_path, specific_extension=None)
+
+   Download all the files from a folder of the server to the target client folder path.
+
+   :param server_folder_path: folder path to download on the server side
+   :type server_folder_path: str or os.PathLike
+   :param to_client_folder_path: folder path target where the files will be located client side
+   :type to_client_folder_path: str or os.PathLike
+   :param specific_extension (optional): copies only the files with the given extension
+   :type specific_extension (optional): str
+
+   :returns: **paths** -- new file paths client side
+   :rtype: list of str
+
+
+.. py:method:: upload_files_in_folder(to_server_folder_path, client_folder_path, specific_extension=None)
+
+   Upload all the files from a folder of the client to the target server folder path.
+
+   :param to_server_folder_path: folder path target where will be uploaded files on the server side
+   :type to_server_folder_path: str or os.PathLike
+   :param client_folder_path: folder path where the files that must be uploaded are located
+                              on client side
+   :type client_folder_path: str or os.PathLike
+   :param specific_extension (optional): copies only the files with the given extension
+   :type specific_extension (optional): str
+
+   :returns: **paths** -- new file paths server side
+   :rtype: list of str
+
+
+.. py:method:: upload_file(file_path, to_server_file_path)
+
+   Upload a file from the client to the target server file path.
+
+   :param file_path: file path on the client side to upload
+   :type file_path: str or os.PathLike
+   :param to_server_file_path: file path target where the file will be located server side
+   :type to_server_file_path: str or os.PathLike
+
+   :returns: **server_file_path** -- path generated server side
+   :rtype: str
+
+
+.. py:method:: upload_file_in_tmp_folder(file_path, new_file_name=None)
+
+   Upload a file from the client to a temporary server folder deleted on shutdown.
+
+   :param file_path: file path on the client side to upload
+   :type file_path: str or os.PathLike
+   :param new_file_name: name to give to the file server side,
+                         if no name is specified, the same name as the input file is given
+   :type new_file_name: str, optional
+
+   :returns: **server_file_path** -- path generated server side
+   :rtype: str
+
+
+
+
+
