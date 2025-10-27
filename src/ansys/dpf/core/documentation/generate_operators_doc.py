@@ -373,7 +373,7 @@ def generate_operator_doc(
     operator_info["is_router"] = operator_name in router_info["router_map"].keys()
     supported_file_types = {}
     if operator_info["is_router"]:
-        supported_keys = router_info["router_map"].get(operator_name, [])
+        supported_keys = router_info["router_map"].get(operator_name, []).split(";")
         for key in supported_keys:
             if key in router_info["namespace_ext_map"]:
                 namespace = router_info["namespace_ext_map"][key]
@@ -381,6 +381,8 @@ def generate_operator_doc(
                     supported_file_types[namespace] = [key]
                 else:
                     supported_file_types[namespace].append(key)
+    for namespace, supported_keys in supported_file_types.items():
+        supported_file_types[namespace] = ", ".join(sorted(supported_keys))
     operator_info["supported_file_types"] = supported_file_types
     scripting_name = operator_info["scripting_info"]["scripting_name"]
     category: str = operator_info["scripting_info"]["category"]

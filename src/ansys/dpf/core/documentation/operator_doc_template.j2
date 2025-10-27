@@ -13,8 +13,8 @@ license: {{ scripting_info.license }}
 {{ operator_description }}
 {% if is_router %}
 ## Supported file types
-{% for namespace in supported_file_types | sort %}
-- {{ namespace }}: {% for file_type in supported_file_types[namespace] %}{{ file_type }}{% endfor %}{% endfor %}
+{% for namespace, supported_files in supported_file_types.items() | sort %}
+- {{ namespace }}: {{ supported_files }} {% endfor %}
 {% endif %}
 ## Inputs
 
