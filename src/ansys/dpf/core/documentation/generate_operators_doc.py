@@ -351,7 +351,7 @@ def generate_operator_doc(
     operator_name: str,
     include_private: bool,
     output_path: Path,
-    router_info: dict,
+    router_info: dict = None,
 ):
     """Write the Markdown documentation page for a given operator on a given DPF server.
 
@@ -370,19 +370,22 @@ def generate_operator_doc(
 
     """
     operator_info = fetch_doc_info(server, operator_name)
-    operator_info["is_router"] = operator_name in router_info["router_map"].keys()
     supported_file_types = {}
-    if operator_info["is_router"]:
-        supported_keys = router_info["router_map"].get(operator_name, []).split(";")
-        for key in supported_keys:
-            if key in router_info["namespace_ext_map"]:
-                namespace = router_info["namespace_ext_map"][key]
-                if namespace not in supported_file_types:
-                    supported_file_types[namespace] = [key]
-                else:
-                    supported_file_types[namespace].append(key)
-    for namespace, supported_keys in supported_file_types.items():
-        supported_file_types[namespace] = ", ".join(sorted(supported_keys))
+    if router_info is not None:
+        operator_info["is_router"] = operator_name in router_info["router_map"].keys()
+        if operator_info["is_router"]:
+            supported_keys = router_info["router_map"].get(operator_name, []).split(";")
+            for key in supported_keys:
+                if key in router_info["namespace_ext_map"]:
+                    namespace = router_info["namespace_ext_map"][key]
+                    if namespace not in supported_file_types:
+                        supported_file_types[namespace] = [key]
+                    else:
+                        supported_file_types[namespace].append(key)
+        for namespace, supported_keys in supported_file_types.items():
+            supported_file_types[namespace] = ", ".join(sorted(supported_keys))
+    else:
+        operator_info["is_router"] = False
     operator_info["supported_file_types"] = supported_file_types
     scripting_name = operator_info["scripting_info"]["scripting_name"]
     category: str = operator_info["scripting_info"]["category"]
@@ -575,7 +578,10 @@ def generate_operators_doc(
         operators = available_operator_names(server)
     else:
         operators = get_plugin_operators(server, desired_plugin)
-    router_info = get_operator_routing_info(server)
+    if server.meet_version(required_version="11.0"):
+        router_info = get_operator_routing_info(server)
+    else:
+        router_info = None
     for operator_name in operators:
         generate_operator_doc(server, operator_name, include_private, output_path, router_info)
     # Generate the toc tree
