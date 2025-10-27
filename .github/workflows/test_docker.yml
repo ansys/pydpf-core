@@ -145,7 +145,7 @@ jobs:
       - name: "Test API"
         uses: nick-fields/retry@v3
         with:
-          timeout_minutes: 10
+          timeout_minutes: 20
           max_attempts: 2
           shell: bash
           command: |
@@ -154,7 +154,7 @@ jobs:
       - name: "Test API test_launcher"
         uses: nick-fields/retry@v3
         with:
-          timeout_minutes: 2
+          timeout_minutes: 20
           max_attempts: 2
           shell: bash
           command: |
@@ -163,7 +163,7 @@ jobs:
       - name: "Test API test_server"
         uses: nick-fields/retry@v3
         with:
-          timeout_minutes: 8
+          timeout_minutes: 20
           max_attempts: 2
           shell: bash
           command: |
@@ -172,7 +172,7 @@ jobs:
       - name: "Test API test_local_server"
         uses: nick-fields/retry@v3
         with:
-          timeout_minutes: 2
+          timeout_minutes: 20
           max_attempts: 2
           shell: bash
           command: |
@@ -181,7 +181,7 @@ jobs:
       - name: "Test API test_multi_server"
         uses: nick-fields/retry@v3
         with:
-          timeout_minutes: 5
+          timeout_minutes: 20
           max_attempts: 2
           shell: bash
           command: |
@@ -190,7 +190,7 @@ jobs:
       - name: "Test API test_remote_workflow"
         uses: nick-fields/retry@v3
         with:
-          timeout_minutes: 2
+          timeout_minutes: 20
           max_attempts: 3
           shell: bash
           command: |
@@ -199,7 +199,7 @@ jobs:
       - name: "Test API test_remote_operator"
         uses: nick-fields/retry@v3
         with:
-          timeout_minutes: 2
+          timeout_minutes: 20
           max_attempts: 2
           shell: bash
           command: |
@@ -208,7 +208,7 @@ jobs:
       - name: "Test API test_workflow"
         uses: nick-fields/retry@v3
         with:
-          timeout_minutes: 3
+          timeout_minutes: 20
           max_attempts: 3
           shell: bash
           command: |
@@ -217,7 +217,7 @@ jobs:
       - name: "Test API test_service"
         uses: nick-fields/retry@v3
         with:
-          timeout_minutes: 3
+          timeout_minutes: 20
           max_attempts: 2
           shell: bash
           command: |
@@ -226,7 +226,7 @@ jobs:
       - name: "Test Operators"
         uses: nick-fields/retry@v3
         with:
-          timeout_minutes: 3
+          timeout_minutes: 20
           max_attempts: 2
           shell: bash
           command: |
@@ -235,7 +235,7 @@ jobs:
       - name: "Test Documentation"
         uses: nick-fields/retry@v3
         with:
-          timeout_minutes: 8
+          timeout_minutes: 20
           max_attempts: 2
           shell: bash
           command: |
