@@ -52,6 +52,9 @@ DPF_SERVER_TYPE = os.environ.get("DPF_SERVER_TYPE", None)
 running_docker = ansys.dpf.core.server_types.RUNNING_DOCKER.use_docker
 local_test_repo = False
 
+# Detect if gatebin binaries are available
+IS_USING_GATEBIN = _try_use_gatebin()
+
 
 def _get_test_files_directory():
     if local_test_repo is False:
@@ -70,6 +73,10 @@ if running_docker:
     ansys.dpf.core.server_types.RUNNING_DOCKER.mounted_volumes[_get_test_files_directory()] = (
         "/tmp/test_files"
     )
+
+
+# Start a first global server to test for version
+global_server = core.start_local_server(config=core.AvailableServerConfigs.LegacyGrpcServer)
 
 
 @pytest.hookimpl()
@@ -376,9 +383,6 @@ SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2_0 = meets_version(
 )
 
 
-IS_USING_GATEBIN = _try_use_gatebin()
-
-
 def raises_for_servers_version_under(version):
     """Launch the test normally if the server version is equal or higher than the "version"
     parameter. Else it makes sure that the test fails by raising a "DpfVersionNotSupported"
@@ -419,8 +423,11 @@ def remove_none_available_config(configs, config_names):
                 configs_out.append(conf)
                 config_names_out.append(conf_name)
     elif running_docker:
+        unavailable_configs = [core.AvailableServerConfigs.InProcessServer]
+        if not IS_USING_GATEBIN:
+            unavailable_configs.append(core.AvailableServerConfigs.GrpcServer)
         for conf, conf_name in zip(configs, config_names):
-            if conf != core.AvailableServerConfigs.InProcessServer:
+            if conf not in unavailable_configs:
                 configs_out.append(conf)
                 config_names_out.append(conf_name)
 

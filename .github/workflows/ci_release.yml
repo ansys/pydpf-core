@@ -168,6 +168,7 @@ jobs:
     with:
       ANSYS_VERSION: ${{ inputs.ansys_version || vars.ANSYS_VERSION_LAST_RELEASED }}
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+      test_any: true
     secrets: inherit
 
   docker_examples:
@@ -177,6 +178,7 @@ jobs:
       ANSYS_VERSION: ${{ inputs.ansys_version || vars.ANSYS_VERSION_LAST_RELEASED }}
       python_versions: '["3.10", "3.11", "3.12", "3.13"]'
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+      test_any: true
     secrets: inherit
 
   draft_release:
