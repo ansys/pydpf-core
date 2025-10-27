@@ -11,7 +11,11 @@ license: {{ scripting_info.license }}
 ## Description
 
 {{ operator_description }}
-
+{% if is_router %}
+## Supported file types
+{% for namespace in supported_file_types | sort %}
+- {{ namespace }}: {% for file_type in supported_file_types[namespace] %}{{ file_type }}{% endfor %}{% endfor %}
+{% endif %}
 ## Inputs
 
 | Input | Name | Expected type(s) | Description |
