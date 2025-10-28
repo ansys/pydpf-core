@@ -585,6 +585,10 @@ def test_connection_to_input_is_ambiguous():
         dpf.core.operators.min_max.min_max(field=min_max_op_1)
 
 
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
+    reason="extract_scoping unavailable for server version < 5.0",
+)
 def test_connection_to_input_is_not_ambiguous():
     # Ensures that connecting an operator with a single output with multiple types all compatible
     # does not raise an ambiguity warning.
