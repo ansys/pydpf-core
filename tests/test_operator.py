@@ -586,6 +586,12 @@ def test_connection_to_input_is_ambiguous():
 
 
 def test_connection_to_input_is_not_ambiguous():
+    # Ensures that connecting an operator with a single output with multiple types all compatible
+    # does not raise an ambiguity warning.
+    # Here extract_scoping has only one output of type either Scoping or ScopingsContainer
+    # This output was reported twice and raised an ambiguity warning despite both types being
+    # compatible with the input
+    # This behavior is now fixed and enforced by this test
     field = dpf.core.fields_factory.field_from_array(arr=[1.0, 2.0, 3.0])
     field.scoping = dpf.core.mesh_scoping_factory.nodal_scoping(node_ids=[1, 2, 3])
     scop = dpf.core.operators.utility.extract_scoping(field_or_fields_container=field)
