@@ -577,6 +577,14 @@ def test_inputs_outputs_scopings_container(allkindofcomplexity):
     assert len(fc) == 4
 
 
+def test_connection_to_input_is_ambiguous():
+    field = dpf.core.fields_factory.field_from_array(arr=[1.0, 2.0, 3.0])
+    field.scoping = dpf.core.mesh_scoping_factory.nodal_scoping(node_ids=[1, 2, 3])
+    min_max_op_1 = dpf.core.operators.min_max.min_max(field=field)
+    with pytest.warns(match="Pin connection is ambiguous"):
+        dpf.core.operators.min_max.min_max(field=min_max_op_1)
+
+
 def test_connection_to_input_is_not_ambiguous():
     field = dpf.core.fields_factory.field_from_array(arr=[1.0, 2.0, 3.0])
     field.scoping = dpf.core.mesh_scoping_factory.nodal_scoping(node_ids=[1, 2, 3])
