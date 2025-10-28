@@ -258,7 +258,7 @@ def launch_dpf_on_docker(
     ansys_path=None,
     ip=LOCALHOST,
     port=DPF_DEFAULT_PORT,
-    timeout=50.0,
+    timeout=120.0,
 ):
     """Launch Ansys DPF.
 
