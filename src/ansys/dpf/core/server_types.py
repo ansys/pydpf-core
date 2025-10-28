@@ -60,7 +60,7 @@ import logging
 
 LOG = logging.getLogger(__name__)
 LOG.setLevel("DEBUG")
-DPF_DEFAULT_PORT = int(os.environ.get("DPF_PORT", 50054))
+DPF_DEFAULT_PORT = int(os.environ.get("DPF_PORT", 60054))
 LOCALHOST = os.environ.get("DPF_IP", "127.0.0.1")
 RUNNING_DOCKER = server_factory.create_default_docker_config()
 
@@ -236,7 +236,7 @@ def launch_dpf(
         default is ``"LOCALHOST"``.
     port : int
         Port to connect to the remote instance on. The default is
-        ``"DPF_DEFAULT_PORT"``, which is 50054.
+        ``"DPF_DEFAULT_PORT"``, which is 60054.
     timeout : float, optional
         Maximum number of seconds for the initialization attempt.
         The default is ``10``. Once the specified number of seconds
@@ -274,7 +274,7 @@ def launch_dpf_on_docker(
         default is ``"LOCALHOST"``.
     port : int
         Port to connect to the remote instance on. The default is
-        ``"DPF_DEFAULT_PORT"``, which is 50054.
+        ``"DPF_DEFAULT_PORT"``, which is 60054.
     timeout : float, optional
         Maximum number of seconds for the initialization attempt.
         The default is ``50``. Once the specified number of seconds
@@ -1195,7 +1195,7 @@ class LegacyGrpcServer(BaseServer):
         default is ``"LOCALHOST"``.
     port : int
         Port to connect to the remote instance on. The default is
-        ``"DPF_DEFAULT_PORT"``, which is 50054.
+        ``"DPF_DEFAULT_PORT"``, which is 60054.
     timeout : float, optional
         Maximum number of seconds for the initialization attempt.
         The default is ``10``. Once the specified number of seconds
