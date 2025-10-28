@@ -119,14 +119,17 @@ class Input:
             self._python_expected_types, inpt, self._pin, corresponding_pins, input_type_name
         )
         if len(corresponding_pins) > 1:
-            err_str = "Pin connection is ambiguous, specify the input to connect to with:\n"
+            op_name = self._operator().specification.properties["scripting_name"]
+            err_str = f"Operator {op_name}:\n"
+            err_str += "Pin connection is ambiguous, specify the input to connect to with:\n"
+            inpt_name = inpt._operator.name
             for pin in corresponding_pins:
                 err_str += (
-                    "   - operator.inputs."
+                    f"   - {op_name}.inputs."
                     + self._spec.name
-                    + "(out_op."
+                    + f"({inpt_name}."
                     + inpt._dict_outputs[pin[1]].name
-                    + ")"
+                    + ")\n"
                 )
             err_str += "Connecting to first input in the list.\n"
             warnings.warn(message=err_str)
