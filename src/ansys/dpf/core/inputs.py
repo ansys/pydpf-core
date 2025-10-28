@@ -122,7 +122,11 @@ class Input:
         # if it accepts several of these types so we need to check for unique combinations
         corresponding_pins = list(set(corresponding_pins))
         if len(corresponding_pins) > 1:
-            op_name = self._operator().specification.properties["scripting_name"]
+            op_name = (
+                self._operator().specification.properties["scripting_name"]
+                if "scripting_name" in self._operator().specification.properties
+                else self._operator().name
+            )
             err_str = f"Operator {op_name}:\n"
             err_str += "Pin connection is ambiguous, specify the input to connect to with:\n"
             inpt_name = inpt._operator.name
