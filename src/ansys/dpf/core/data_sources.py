@@ -701,6 +701,21 @@ class DataSources:
         """
         return self._api.data_sources_get_namespace(self, result_key)
 
+    @property
+    def streams_container(self) -> dpf.StreamsContainer:
+        """Get the streams container representation of the data sources.
+
+        .. warning:: Only available with an InProcess server.
+
+        Returns
+        -------
+        streams_container:
+            StreamsContainer representation of the data sources.
+        """
+        from ansys.dpf.core.operators.metadata.streams_provider import streams_provider
+
+        return streams_provider(data_sources=self, server=self._server).outputs.streams_container()
+
     def __str__(self):
         """Describe the entity.
 
