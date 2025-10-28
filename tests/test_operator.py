@@ -26,6 +26,7 @@ import os
 from pathlib import Path
 import shutil
 import types
+import warnings
 import weakref
 
 import numpy
@@ -574,6 +575,16 @@ def test_inputs_outputs_scopings_container(allkindofcomplexity):
     fc = stress.outputs.fields_container()
     assert fc.labels == ["elshape", "time"]
     assert len(fc) == 4
+
+
+def test_connection_to_input_is_not_ambiguous():
+    field = dpf.core.fields_factory.field_from_array(arr=[1.0, 2.0, 3.0])
+    field.scoping = dpf.core.mesh_scoping_factory.nodal_scoping(node_ids=[1, 2, 3])
+    scop = dpf.core.operators.utility.extract_scoping(field_or_fields_container=field)
+    stress = dpf.core.operators.result.stress()
+    with warnings.catch_warnings():
+        warnings.filterwarnings(action="error", category=UserWarning, message="Operator stress:")
+        stress.inputs.mesh_scoping.connect(scop)
 
 
 def test_inputs_outputs_meshes_container(allkindofcomplexity):

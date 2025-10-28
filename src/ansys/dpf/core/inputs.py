@@ -118,6 +118,9 @@ class Input:
         self._operator()._find_outputs_corresponding_pins(
             self._python_expected_types, inpt, self._pin, corresponding_pins, input_type_name
         )
+        # We can have a single output with multiple types compatible with this input
+        # if it accepts several of these types so we need to check for unique combinations
+        corresponding_pins = list(set(corresponding_pins))
         if len(corresponding_pins) > 1:
             op_name = self._operator().specification.properties["scripting_name"]
             err_str = f"Operator {op_name}:\n"
