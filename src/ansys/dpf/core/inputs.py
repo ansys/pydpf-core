@@ -118,15 +118,25 @@ class Input:
         self._operator()._find_outputs_corresponding_pins(
             self._python_expected_types, inpt, self._pin, corresponding_pins, input_type_name
         )
+        # We can have a single output with multiple types compatible with this input
+        # if it accepts several of these types so we need to check for unique combinations
+        corresponding_pins = list(set(corresponding_pins))
         if len(corresponding_pins) > 1:
-            err_str = "Pin connection is ambiguous, specify the input to connect to with:\n"
+            op_name = (
+                self._operator().specification.properties["scripting_name"]
+                if "scripting_name" in self._operator().specification.properties
+                else self._operator().name
+            )
+            err_str = f"Operator {op_name}:\n"
+            err_str += "Pin connection is ambiguous, specify the input to connect to with:\n"
+            inpt_name = inpt._operator.name
             for pin in corresponding_pins:
                 err_str += (
-                    "   - operator.inputs."
+                    f"   - {op_name}.inputs."
                     + self._spec.name
-                    + "(out_op."
+                    + f"({inpt_name}."
                     + inpt._dict_outputs[pin[1]].name
-                    + ")"
+                    + ")\n"
                 )
             err_str += "Connecting to first input in the list.\n"
             warnings.warn(message=err_str)
