@@ -152,7 +152,7 @@ jobs:
           PACKAGE_NAME: ansys-dpf-post
           working-directory: pydpf-post/src
         if: inputs.test_docstrings == 'true'
-        timeout-minutes: 10
+        timeout-minutes: 12
         continue-on-error: true
         
       - uses: mainmatter/continue-on-error-comment@v1

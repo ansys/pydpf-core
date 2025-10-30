@@ -120,7 +120,9 @@ def extract_operator_description_update(content: str) -> str:
             The updated description to use for the operator.
     """
     match = re.search(r"## Description\s*(.*?)\s*(?=## |\Z)", content, re.DOTALL)
-    return match.group(0) + os.linesep if match else None
+    description = match.group(0) + os.linesep if match else None
+    # Handle unicode characters
+    return description.encode("unicode-escape").decode()
 
 
 def replace_operator_description(original_documentation: str, new_description: str):
@@ -293,15 +295,30 @@ def fetch_doc_info(server: dpf.AnyServerType, operator_name: str) -> dict:
         "changelog": changelog_entries,  # Include all changelog entries
     }
 
+    op_description = latex_to_dollars(spec.description)
+
     return {
         "operator_name": op_friendly_name,
-        "operator_description": spec.description,
+        "operator_description": op_description,
         "inputs": input_info,
         "outputs": output_info,
         "configurations": configurations_info,
         "scripting_info": scripting_info,
         "exposure": exposure,
     }
+
+
+def latex_to_dollars(text: str) -> str:
+    r"""Convert LaTeX math delimiters from \\[.\\] to $$.$$ and from \\(.\\) to $.$ in a given text.
+
+    Parameters
+    ----------
+    text:
+        The input text containing LaTeX math delimiters.
+    """
+    return (
+        text.replace(r"\\[", "$$").replace(r"\\]", "$$").replace(r"\\(", "$").replace(r"\\)", "$")
+    )
 
 
 def get_plugin_operators(server: dpf.AnyServerType, plugin_name: str) -> list[str]:
@@ -348,7 +365,7 @@ def generate_operator_doc(
     """
     operator_info = fetch_doc_info(server, operator_name)
     scripting_name = operator_info["scripting_info"]["scripting_name"]
-    category = operator_info["scripting_info"]["category"]
+    category: str = operator_info["scripting_info"]["category"]
     if scripting_name:
         file_name = scripting_name
     else:
@@ -391,7 +408,10 @@ def update_toc_tree(docs_path: Path):
             operators = []  # Reset operators for each category
             for file in folder.iterdir():
                 if (
-                    file.is_file() and file.suffix == ".md" and not file.name.endswith("_upd.md")
+                    file.is_file()
+                    and file.suffix == ".md"
+                    and not file.name.endswith("_upd.md")
+                    and not file.name.endswith("_category.md")
                 ):  # Ensure 'file' is a file with .md extension
                     file_name = file.name
                     file_path = f"{category}/{file_name}"
@@ -417,6 +437,60 @@ def update_toc_tree(docs_path: Path):
     )
     with toc_path.open(mode="w") as file:
         file.write(new_toc)
+
+
+def update_categories(docs_path: Path):
+    """Update the category index files for the operator specifications.
+
+    Parameters
+    ----------
+    docs_path:
+        Path to the root of the DPF documentation sources.
+
+    """
+    specs_path = docs_path / Path("operator-specifications")
+    for folder in specs_path.iterdir():
+        if folder.is_dir():  # Ensure 'folder' is a directory
+            category = folder.name
+            operators = []  # Reset operators for each category
+            for file in folder.iterdir():
+                if (
+                    file.is_file()
+                    and file.suffix == ".md"
+                    and not file.name.endswith("_upd.md")
+                    and not file.name.endswith("_category.md")
+                ):  # Ensure 'file' is a file with .md extension
+                    file_name = file.name
+                    operator_name = file_name.replace("_", " ").replace(".md", "")
+                    operators.append({"operator_name": operator_name, "file_path": file_name})
+            # Update category index file
+            category_file_path = folder / f"{category}_category.md"
+            with category_file_path.open(mode="w") as cat_file:
+                cat_file.write(f"# {category.capitalize()} operators\n\n")
+                for operator in operators:
+                    cat_file.write(f"- [{operator['operator_name']}]({operator['file_path']})\n")
+
+
+def update_operator_index(docs_path: Path):
+    """Update the main index file for all operator specifications.
+
+    Parameters
+    ----------
+    docs_path:
+        Path to the root of the DPF documentation sources.
+
+    """
+    specs_path = docs_path / Path("operator-specifications")
+    index_file_path = specs_path / "operator-specifications.md"
+    with index_file_path.open(mode="w") as index_file:
+        index_file.write("# Operator Specifications\n\n")
+        for folder in specs_path.iterdir():
+            if folder.is_dir():  # Ensure 'folder' is a directory
+                category = folder.name
+                index_file.write(
+                    f"- [{category.capitalize()} operators]({category}/{category}_category.md)\n\n"
+                )
+                index_file.write("\n")
 
 
 def generate_operators_doc(
@@ -461,6 +535,10 @@ def generate_operators_doc(
         generate_operator_doc(server, operator_name, include_private, output_path)
     # Generate the toc tree
     update_toc_tree(output_path)
+    # Generate the category index files
+    update_categories(output_path)
+    # Generate the main index file for all categories
+    update_operator_index(output_path)
     # Use update files in output_path
     update_operator_descriptions(output_path)
 
@@ -473,9 +551,7 @@ def run_with_args():  # pragma: nocover
     parser.add_argument(
         "--ansys_path", default=None, help="Path to Ansys DPF Server installation directory"
     )
-    parser.add_argument(
-        "--output_path", default=None, help="Path to output directory", required=True
-    )
+    parser.add_argument("--output_path", default=".", help="Path to output directory")
     parser.add_argument("--include_private", action="store_true", help="Include private operators")
     parser.add_argument(
         "--include_composites", action="store_true", help="Include Composites operators"
