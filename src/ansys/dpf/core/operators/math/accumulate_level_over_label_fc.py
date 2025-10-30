@@ -28,7 +28,7 @@ class accumulate_level_over_label_fc(Operator):
     ----------
     fields_container: FieldsContainer
     label: str, optional
-        Label of the fields container where it should operate.
+        Label of the fields container where it should operate. If not defined and the input Fields Container has only one Label, the operation will be done over all the fields.
 
     Returns
     -------
@@ -90,7 +90,7 @@ inputs.
                     name="label",
                     type_names=["string"],
                     optional=True,
-                    document=r"""Label of the fields container where it should operate.""",
+                    document=r"""Label of the fields container where it should operate. If not defined and the input Fields Container has only one Label, the operation will be done over all the fields.""",
                 ),
             },
             map_output_pin_spec={
@@ -198,7 +198,7 @@ class InputsAccumulateLevelOverLabelFc(_Inputs):
     def label(self) -> Input:
         r"""Allows to connect label input to the operator.
 
-        Label of the fields container where it should operate.
+        Label of the fields container where it should operate. If not defined and the input Fields Container has only one Label, the operation will be done over all the fields.
 
         Returns
         -------
