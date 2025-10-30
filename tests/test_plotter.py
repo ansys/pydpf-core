@@ -20,7 +20,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import json
 from pathlib import Path
+import subprocess
 
 import pytest
 
@@ -28,6 +30,7 @@ from ansys import dpf
 from ansys.dpf import core
 from ansys.dpf.core import Model, Operator, element_types, errors as dpf_errors, misc
 from ansys.dpf.core.plotter import plot_chart
+import ansys.dpf.core.server_types
 from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
@@ -42,6 +45,21 @@ if misc.module_exists("pyvista"):
     from ansys.dpf.core.plotter import DpfPlotter, Plotter
 else:
     HAS_PYVISTA = False
+
+running_docker = ansys.dpf.core.server_types.RUNNING_DOCKER.use_docker
+
+# Determine image os if running docker
+image_os = None
+if running_docker:
+    docker_name = ansys.dpf.core.server_types.RUNNING_DOCKER.docker_name
+    args = ["docker", "inspect", "-f", "json", docker_name]
+    inspect_docker_image = subprocess.run(args, capture_output=True)
+    if inspect_docker_image.stderr:
+        raise Exception(
+            f"Specified docker image not found. Verify that the image name '{docker_name}' is valid and the image file is available locally."
+        )
+    output = json.loads(inspect_docker_image.stdout)
+    image_os = output[0]["Os"]
 
 
 def remove_picture(picture):
@@ -234,6 +252,10 @@ def test_field_nodal_plot(allkindofcomplexity):
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+# @pytest.mark.skipif(
+#     running_docker and image_os == "windows",
+#     reason="Test fails when running DPF server on a windows container",
+# )
 def test_field_elemental_nodal_plot_simple(simple_bar):
     model = Model(simple_bar)
     stress = model.results.element_nodal_forces()
@@ -255,6 +277,10 @@ def test_field_elemental_nodal_plot_scoped(simple_bar):
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+# @pytest.mark.skipif(
+#     running_docker and image_os == "windows",
+#     reason="Test fails when running DPF server on a windows container",
+# )
 def test_field_elemental_nodal_plot_multiple_solid_types():
     from ansys.dpf.core import examples
 
@@ -266,6 +292,10 @@ def test_field_elemental_nodal_plot_multiple_solid_types():
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+# @pytest.mark.skipif(
+#     running_docker and image_os == "windows",
+#     reason="Test fails when running DPF server on a windows container",
+# )
 def test_field_elemental_nodal_plot_shells():
     from ansys.dpf.core import examples
 
@@ -290,6 +320,10 @@ def test_field_elemental_nodal_plot_multi_shells(multishells):
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 @pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0, reason="Old bug before 25R2")
+# @pytest.mark.skipif(
+#     running_docker and image_os == "windows",
+#     reason="Test fails when running DPF server on a windows container",
+# )
 def test_dpf_plotter_add_field_elemental_nodal_multi_shells(multishells):
     fc: core.FieldsContainer = core.operators.result.stress(
         data_sources=core.DataSources(multishells),
@@ -413,6 +447,10 @@ def test_dpf_plotter_add_field_elemental_nodal_plot_simple(simple_bar):
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+# @pytest.mark.skipif(
+#     running_docker and image_os == "windows",
+#     reason="Test fails when running DPF server on a windows container",
+# )
 def test_dpf_plotter_add_field_elemental_nodal_plot_scoped(simple_bar):
     mesh_scoping = dpf.core.mesh_scoping_factory.elemental_scoping(
         element_ids=list(range(1501, 3001))
