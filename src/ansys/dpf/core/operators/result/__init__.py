@@ -234,6 +234,10 @@ from .nodal_rotational_velocity_X import nodal_rotational_velocity_X
 from .nodal_rotational_velocity_Y import nodal_rotational_velocity_Y
 from .nodal_rotational_velocity_Z import nodal_rotational_velocity_Z
 from .nodal_to_global import nodal_to_global
+from .node_orientations import node_orientations
+from .node_orientations_X import node_orientations_X
+from .node_orientations_Y import node_orientations_Y
+from .node_orientations_Z import node_orientations_Z
 from .normal_contact_force import normal_contact_force
 from .normal_contact_moment import normal_contact_moment
 from .num_surface_status_changes import num_surface_status_changes
