@@ -163,7 +163,9 @@ print(result_names_time_per_time)
 ###############################################################################
 # compare first result at second time set:
 position_result = result_names_on_all_time_steps.index("result_U")
-fc_all_steps_first_step_first_res = res_deser_all_times_list[position_result].get_field_by_time_id(2)  # set 1
+fc_all_steps_first_step_first_res = res_deser_all_times_list[position_result].get_field_by_time_id(
+    2
+)  # set 2
 mesh_deser_all_times.plot(fc_all_steps_first_step_first_res)
 
 mesh_deser_set_per_set.plot(res_deser_set_per_set_list[num_res * 1 + 0])
