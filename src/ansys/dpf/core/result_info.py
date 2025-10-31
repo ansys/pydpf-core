@@ -109,7 +109,7 @@ class ResultInfo:
     >>> transient = examples.download_transient_result()
     >>> model = dpf.Model(transient)
     >>> result_info = model.metadata.result_info # printable result_info
-    
+
     >>> result_info.available_results[1].name
     'displacement'
     >>> result_info.available_results[1].homogeneity

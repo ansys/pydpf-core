@@ -132,7 +132,7 @@ class AvailableResult:
     'length'
     >>> res.dimensionality
     'vector'
-    
+
     Create the operator of the given available result.
 
     >>> disp = model.results.displacement()
