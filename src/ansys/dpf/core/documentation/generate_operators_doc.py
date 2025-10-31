@@ -27,6 +27,7 @@ import argparse
 import os
 from pathlib import Path
 import re
+import warnings
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core.changelog import Changelog
@@ -90,17 +91,27 @@ def initialize_server(
             binary_name = "composite_operators.dll"
         else:
             binary_name = "libcomposite_operators.so"
-        load_library(
-            filename=Path(server.ansys_path) / "dpf" / "plugins" / "dpf_composites" / binary_name,
-            name="composites",
-        )
+        try:
+            load_library(
+                filename=Path(server.ansys_path)
+                / "dpf"
+                / "plugins"
+                / "dpf_composites"
+                / binary_name,
+                name="composites",
+            )
+        except Exception as e:
+            warnings.warn("Could not load Composites plugin:" f"{e}")
     if include_sound and server.os == "nt":  # pragma: nocover
         if verbose:
             print("Loading Acoustics Plugin")
-        load_library(
-            filename=Path(server.ansys_path) / "Acoustics" / "SAS" / "ads" / "dpf_sound.dll",
-            name="sound",
-        )
+        try:
+            load_library(
+                filename=Path(server.ansys_path) / "Acoustics" / "SAS" / "ads" / "dpf_sound.dll",
+                name="sound",
+            )
+        except Exception as e:
+            warnings.warn("Could not load Acoustics plugin:" f"{e}")
     if verbose:  # pragma: nocover
         print(f"Loaded plugins: {list(server.plugins.keys())}")
     return server
