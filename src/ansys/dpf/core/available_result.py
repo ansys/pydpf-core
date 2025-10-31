@@ -125,7 +125,14 @@ class AvailableResult:
     >>> transient = examples.download_transient_result()
     >>> model = dpf.Model(transient)
     >>> result_info = model.metadata.result_info
-
+    >>> res = result_info.available_results[1]
+    >>> res.name
+    'displacement'
+    >>> res.homogeneity
+    'length'
+    >>> res.dimensionality
+    'vector'
+    
     Create the operator of the given available result.
 
     >>> disp = model.results.displacement()

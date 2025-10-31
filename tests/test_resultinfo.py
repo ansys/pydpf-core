@@ -137,15 +137,18 @@ def test_byitem_resultinfo(model):
     assert res[0] is not None
 
 
-# def test_get_result_resultinfo_from_index(model):
-#     res = model.metadata.result_info[3]
-#     assert res.name == "acceleration"
-#     assert res.n_components == 3
-#     assert res.dimensionality == "vector"
-#     assert res.homogeneity == "acceleration"
-#     assert res.unit == "m/s^2"
-#     assert res.name == "acceleration"
-#     assert res.qualifiers == []
+def test_get_result_resultinfo_from_index(model):
+    if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0:
+        res = model.metadata.result_info[3]
+    else:
+        res = model.metadata.result_info[2]
+    assert res.name == "acceleration"
+    assert res.n_components == 3
+    assert res.dimensionality == "vector"
+    assert res.homogeneity == "acceleration"
+    assert res.unit == "m/s^2"
+    assert res.name == "acceleration"
+    assert res.qualifiers == []
 
 
 def test_print_result_info(model):
