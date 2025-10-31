@@ -529,7 +529,8 @@ class TimeFreqSupport(Support):
         tf_copy : TimeFreqSupport
         """
         tf = TimeFreqSupport(server=server)
-        tf.time_frequencies = self.time_frequencies.deep_copy(server=server)
+        if self.time_frequencies:
+            tf.time_frequencies = self.time_frequencies.deep_copy(server=server)
         if self.complex_frequencies:
             tf.complex_frequencies = self.complex_frequencies.deep_copy(server=server)
         if self.rpms:
