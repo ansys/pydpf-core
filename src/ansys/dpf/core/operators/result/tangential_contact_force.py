@@ -79,6 +79,9 @@ class tangential_contact_force(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsTangentialContactForce
+    _outputs: OutputsTangentialContactForce
+
     def __init__(
         self,
         time_scoping=None,
@@ -208,7 +211,7 @@ the datasources.
         inputs:
             An instance of InputsTangentialContactForce.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsTangentialContactForce:
@@ -219,7 +222,7 @@ the datasources.
         outputs:
             An instance of OutputsTangentialContactForce.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsTangentialContactForce(_Inputs):

@@ -71,6 +71,9 @@ class apply_svd(Operator):
     >>> result_sigma = op.outputs.sigma()
     """
 
+    _inputs: InputsApplySvd
+    _outputs: OutputsApplySvd
+
     def __init__(
         self,
         field_contaner_to_compress=None,
@@ -177,7 +180,7 @@ class apply_svd(Operator):
         inputs:
             An instance of InputsApplySvd.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsApplySvd:
@@ -188,7 +191,7 @@ class apply_svd(Operator):
         outputs:
             An instance of OutputsApplySvd.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsApplySvd(_Inputs):

@@ -216,6 +216,9 @@ class structural_temperature(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsStructuralTemperature
+    _outputs: OutputsStructuralTemperature
+
     def __init__(
         self,
         time_scoping=None,
@@ -502,7 +505,7 @@ elshape Related elements
         inputs:
             An instance of InputsStructuralTemperature.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsStructuralTemperature:
@@ -513,7 +516,7 @@ elshape Related elements
         outputs:
             An instance of OutputsStructuralTemperature.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsStructuralTemperature(_Inputs):

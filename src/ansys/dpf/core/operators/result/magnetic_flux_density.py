@@ -216,6 +216,9 @@ class magnetic_flux_density(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsMagneticFluxDensity
+    _outputs: OutputsMagneticFluxDensity
+
     def __init__(
         self,
         time_scoping=None,
@@ -502,7 +505,7 @@ elshape Related elements
         inputs:
             An instance of InputsMagneticFluxDensity.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMagneticFluxDensity:
@@ -513,7 +516,7 @@ elshape Related elements
         outputs:
             An instance of OutputsMagneticFluxDensity.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMagneticFluxDensity(_Inputs):

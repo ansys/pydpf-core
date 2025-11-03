@@ -61,6 +61,9 @@ class element_nodal_contribution(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsElementNodalContribution
+    _outputs: OutputsElementNodalContribution
+
     def __init__(
         self, mesh=None, scoping=None, volume_fraction=None, config=None, server=None
     ):
@@ -149,7 +152,7 @@ node within each element.
         inputs:
             An instance of InputsElementNodalContribution.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsElementNodalContribution:
@@ -160,7 +163,7 @@ node within each element.
         outputs:
             An instance of OutputsElementNodalContribution.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsElementNodalContribution(_Inputs):

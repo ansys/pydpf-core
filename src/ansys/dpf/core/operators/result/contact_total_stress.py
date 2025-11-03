@@ -236,6 +236,9 @@ class contact_total_stress(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsContactTotalStress
+    _outputs: OutputsContactTotalStress
+
     def __init__(
         self,
         time_scoping=None,
@@ -558,7 +561,7 @@ elshape Related elements
         inputs:
             An instance of InputsContactTotalStress.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsContactTotalStress:
@@ -569,7 +572,7 @@ elshape Related elements
         outputs:
             An instance of OutputsContactTotalStress.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsContactTotalStress(_Inputs):

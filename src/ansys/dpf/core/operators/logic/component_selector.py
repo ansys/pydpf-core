@@ -57,6 +57,9 @@ class component_selector(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsComponentSelector
+    _outputs: OutputsComponentSelector
+
     def __init__(
         self,
         field=None,
@@ -142,7 +145,7 @@ class component_selector(Operator):
         inputs:
             An instance of InputsComponentSelector.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsComponentSelector:
@@ -153,7 +156,7 @@ class component_selector(Operator):
         outputs:
             An instance of OutputsComponentSelector.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsComponentSelector(_Inputs):

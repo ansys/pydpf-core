@@ -96,6 +96,9 @@ class elastic_strain_X(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsElasticStrainX
+    _outputs: OutputsElasticStrainX
+
     def __init__(
         self,
         time_scoping=None,
@@ -254,7 +257,7 @@ location can be Nodal/ElementalNodal/Elemental.
         inputs:
             An instance of InputsElasticStrainX.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsElasticStrainX:
@@ -265,7 +268,7 @@ location can be Nodal/ElementalNodal/Elemental.
         outputs:
             An instance of OutputsElasticStrainX.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsElasticStrainX(_Inputs):

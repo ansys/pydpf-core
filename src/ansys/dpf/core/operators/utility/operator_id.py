@@ -47,6 +47,9 @@ class operator_id(Operator):
     >>> result_id = op.outputs.id()
     """
 
+    _inputs: InputsOperatorId
+    _outputs: OutputsOperatorId
+
     def __init__(self, op=None, config=None, server=None):
         super().__init__(name="operator_id", config=config, server=server)
         self._inputs = InputsOperatorId(self)
@@ -109,7 +112,7 @@ class operator_id(Operator):
         inputs:
             An instance of InputsOperatorId.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsOperatorId:
@@ -120,7 +123,7 @@ class operator_id(Operator):
         outputs:
             An instance of OutputsOperatorId.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsOperatorId(_Inputs):

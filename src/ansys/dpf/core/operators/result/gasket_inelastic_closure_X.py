@@ -91,6 +91,9 @@ class gasket_inelastic_closure_X(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsGasketInelasticClosureX
+    _outputs: OutputsGasketInelasticClosureX
+
     def __init__(
         self,
         time_scoping=None,
@@ -240,7 +243,7 @@ can be Nodal/ElementalNodal/Elemental.
         inputs:
             An instance of InputsGasketInelasticClosureX.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsGasketInelasticClosureX:
@@ -251,7 +254,7 @@ can be Nodal/ElementalNodal/Elemental.
         outputs:
             An instance of OutputsGasketInelasticClosureX.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsGasketInelasticClosureX(_Inputs):

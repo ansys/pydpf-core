@@ -51,6 +51,9 @@ class pow_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsPowFc
+    _outputs: OutputsPowFc
+
     def __init__(self, fields_container=None, factor=None, config=None, server=None):
         super().__init__(name="Pow_fc", config=config, server=server)
         self._inputs = InputsPowFc(self)
@@ -121,7 +124,7 @@ class pow_fc(Operator):
         inputs:
             An instance of InputsPowFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsPowFc:
@@ -132,7 +135,7 @@ class pow_fc(Operator):
         outputs:
             An instance of OutputsPowFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsPowFc(_Inputs):

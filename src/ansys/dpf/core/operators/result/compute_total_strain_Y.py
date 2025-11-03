@@ -97,6 +97,9 @@ class compute_total_strain_Y(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsComputeTotalStrainY
+    _outputs: OutputsComputeTotalStrainY
+
     def __init__(
         self,
         time_scoping=None,
@@ -251,7 +254,7 @@ the database. Get the YY normal component (11 component).
         inputs:
             An instance of InputsComputeTotalStrainY.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsComputeTotalStrainY:
@@ -262,7 +265,7 @@ the database. Get the YY normal component (11 component).
         outputs:
             An instance of OutputsComputeTotalStrainY.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsComputeTotalStrainY(_Inputs):

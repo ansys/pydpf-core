@@ -58,6 +58,9 @@ class ints_to_scoping(Operator):
     >>> result_scoping = op.outputs.scoping()
     """
 
+    _inputs: InputsIntsToScoping
+    _outputs: OutputsIntsToScoping
+
     def __init__(
         self,
         int_or_vector_int=None,
@@ -144,7 +147,7 @@ location “numeric”.
         inputs:
             An instance of InputsIntsToScoping.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsIntsToScoping:
@@ -155,7 +158,7 @@ location “numeric”.
         outputs:
             An instance of OutputsIntsToScoping.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsIntsToScoping(_Inputs):

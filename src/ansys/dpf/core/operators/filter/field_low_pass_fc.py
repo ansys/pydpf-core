@@ -59,6 +59,9 @@ class field_low_pass_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsFieldLowPassFc
+    _outputs: OutputsFieldLowPassFc
+
     def __init__(
         self, fields_container=None, threshold=None, both=None, config=None, server=None
     ):
@@ -140,7 +143,7 @@ threshold value in input.
         inputs:
             An instance of InputsFieldLowPassFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsFieldLowPassFc:
@@ -151,7 +154,7 @@ threshold value in input.
         outputs:
             An instance of OutputsFieldLowPassFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsFieldLowPassFc(_Inputs):

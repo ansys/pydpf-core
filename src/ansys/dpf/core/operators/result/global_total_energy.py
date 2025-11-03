@@ -59,6 +59,9 @@ class global_total_energy(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsGlobalTotalEnergy
+    _outputs: OutputsGlobalTotalEnergy
+
     def __init__(
         self,
         streams_container=None,
@@ -149,7 +152,7 @@ datasources.
         inputs:
             An instance of InputsGlobalTotalEnergy.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsGlobalTotalEnergy:
@@ -160,7 +163,7 @@ datasources.
         outputs:
             An instance of OutputsGlobalTotalEnergy.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsGlobalTotalEnergy(_Inputs):

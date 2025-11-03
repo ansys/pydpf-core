@@ -64,6 +64,9 @@ class part_momentum(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsPartMomentum
+    _outputs: OutputsPartMomentum
+
     def __init__(
         self,
         streams_container=None,
@@ -163,7 +166,7 @@ datasources.
         inputs:
             An instance of InputsPartMomentum.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsPartMomentum:
@@ -174,7 +177,7 @@ datasources.
         outputs:
             An instance of OutputsPartMomentum.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsPartMomentum(_Inputs):

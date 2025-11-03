@@ -79,6 +79,9 @@ class thermal_dissipation_energy(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsThermalDissipationEnergy
+    _outputs: OutputsThermalDissipationEnergy
+
     def __init__(
         self,
         time_scoping=None,
@@ -208,7 +211,7 @@ by the datasources.
         inputs:
             An instance of InputsThermalDissipationEnergy.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsThermalDissipationEnergy:
@@ -219,7 +222,7 @@ by the datasources.
         outputs:
             An instance of OutputsThermalDissipationEnergy.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsThermalDissipationEnergy(_Inputs):

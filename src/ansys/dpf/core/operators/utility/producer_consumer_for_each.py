@@ -65,6 +65,9 @@ class producer_consumer_for_each(Operator):
     >>> result_output2 = op.outputs.output2()
     """
 
+    _inputs: InputsProducerConsumerForEach
+    _outputs: OutputsProducerConsumerForEach
+
     def __init__(
         self,
         producer_consumer_iterableq=None,
@@ -164,7 +167,7 @@ These 2 parts will run asynchronously on 2 threads.
         inputs:
             An instance of InputsProducerConsumerForEach.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsProducerConsumerForEach:
@@ -175,7 +178,7 @@ These 2 parts will run asynchronously on 2 threads.
         outputs:
             An instance of OutputsProducerConsumerForEach.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsProducerConsumerForEach(_Inputs):

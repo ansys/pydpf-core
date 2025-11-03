@@ -60,6 +60,9 @@ class mesh_get_attribute(Operator):
     >>> result_property = op.outputs.property()
     """
 
+    _inputs: InputsMeshGetAttribute
+    _outputs: OutputsMeshGetAttribute
+
     def __init__(
         self,
         abstract_meshed_region=None,
@@ -152,7 +155,7 @@ input.
         inputs:
             An instance of InputsMeshGetAttribute.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMeshGetAttribute:
@@ -163,7 +166,7 @@ input.
         outputs:
             An instance of OutputsMeshGetAttribute.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMeshGetAttribute(_Inputs):

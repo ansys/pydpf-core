@@ -96,6 +96,9 @@ class temperature_grad_Y(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsTemperatureGradY
+    _outputs: OutputsTemperatureGradY
+
     def __init__(
         self,
         time_scoping=None,
@@ -254,7 +257,7 @@ can be Nodal/ElementalNodal/Elemental.
         inputs:
             An instance of InputsTemperatureGradY.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsTemperatureGradY:
@@ -265,7 +268,7 @@ can be Nodal/ElementalNodal/Elemental.
         outputs:
             An instance of OutputsTemperatureGradY.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsTemperatureGradY(_Inputs):

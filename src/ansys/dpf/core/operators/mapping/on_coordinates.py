@@ -77,6 +77,9 @@ class on_coordinates(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsOnCoordinates
+    _outputs: OutputsOnCoordinates
+
     def __init__(
         self,
         fields_container=None,
@@ -204,7 +207,7 @@ elements with shape functions).
         inputs:
             An instance of InputsOnCoordinates.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsOnCoordinates:
@@ -215,7 +218,7 @@ elements with shape functions).
         outputs:
             An instance of OutputsOnCoordinates.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsOnCoordinates(_Inputs):

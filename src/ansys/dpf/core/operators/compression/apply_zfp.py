@@ -85,6 +85,9 @@ class apply_zfp(Operator):
     >>> result_dataOut = op.outputs.dataOut()
     """
 
+    _inputs: InputsApplyZfp
+    _outputs: OutputsApplyZfp
+
     def __init__(
         self,
         dataIn=None,
@@ -218,7 +221,7 @@ class apply_zfp(Operator):
         inputs:
             An instance of InputsApplyZfp.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsApplyZfp:
@@ -229,7 +232,7 @@ class apply_zfp(Operator):
         outputs:
             An instance of OutputsApplyZfp.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsApplyZfp(_Inputs):

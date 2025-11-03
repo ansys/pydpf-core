@@ -83,6 +83,9 @@ class entropy(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsEntropy
+    _outputs: OutputsEntropy
+
     def __init__(
         self,
         time_scoping=None,
@@ -220,7 +223,7 @@ class entropy(Operator):
         inputs:
             An instance of InputsEntropy.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsEntropy:
@@ -231,7 +234,7 @@ class entropy(Operator):
         outputs:
             An instance of OutputsEntropy.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsEntropy(_Inputs):

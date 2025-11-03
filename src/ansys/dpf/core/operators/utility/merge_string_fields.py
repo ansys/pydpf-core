@@ -53,6 +53,9 @@ class merge_string_fields(Operator):
     >>> result_string_field = op.outputs.string_field()
     """
 
+    _inputs: InputsMergeStringFields
+    _outputs: OutputsMergeStringFields
+
     def __init__(
         self, string_fields1=None, string_fields2=None, config=None, server=None
     ):
@@ -125,7 +128,7 @@ class merge_string_fields(Operator):
         inputs:
             An instance of InputsMergeStringFields.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMergeStringFields:
@@ -136,7 +139,7 @@ class merge_string_fields(Operator):
         outputs:
             An instance of OutputsMergeStringFields.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMergeStringFields(_Inputs):

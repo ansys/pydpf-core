@@ -49,6 +49,9 @@ class absolute_value_by_component_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsAbsoluteValueByComponentFc
+    _outputs: OutputsAbsoluteValueByComponentFc
+
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(
             name="absolute_value_by_component_fc", config=config, server=server
@@ -116,7 +119,7 @@ norm performed.
         inputs:
             An instance of InputsAbsoluteValueByComponentFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsAbsoluteValueByComponentFc:
@@ -127,7 +130,7 @@ norm performed.
         outputs:
             An instance of OutputsAbsoluteValueByComponentFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsAbsoluteValueByComponentFc(_Inputs):

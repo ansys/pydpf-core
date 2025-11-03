@@ -55,6 +55,9 @@ class scale_by_field(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsScaleByField
+    _outputs: OutputsScaleByField
+
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
         super().__init__(name="scale_by_field", config=config, server=server)
         self._inputs = InputsScaleByField(self)
@@ -127,7 +130,7 @@ field’s values are applied on the other field entirely.
         inputs:
             An instance of InputsScaleByField.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsScaleByField:
@@ -138,7 +141,7 @@ field’s values are applied on the other field entirely.
         outputs:
             An instance of OutputsScaleByField.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsScaleByField(_Inputs):

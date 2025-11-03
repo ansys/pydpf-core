@@ -79,6 +79,9 @@ class elemental_mass(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsElementalMass
+    _outputs: OutputsElementalMass
+
     def __init__(
         self,
         time_scoping=None,
@@ -208,7 +211,7 @@ datasources.
         inputs:
             An instance of InputsElementalMass.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsElementalMass:
@@ -219,7 +222,7 @@ datasources.
         outputs:
             An instance of OutputsElementalMass.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsElementalMass(_Inputs):

@@ -74,6 +74,9 @@ class cgns_result_provider(Operator):
     >>> result_fields = op.outputs.fields()
     """
 
+    _inputs: InputsCgnsResultProvider
+    _outputs: OutputsCgnsResultProvider
+
     def __init__(
         self,
         time_scoping=None,
@@ -190,7 +193,7 @@ class cgns_result_provider(Operator):
         inputs:
             An instance of InputsCgnsResultProvider.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsCgnsResultProvider:
@@ -201,7 +204,7 @@ class cgns_result_provider(Operator):
         outputs:
             An instance of OutputsCgnsResultProvider.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsCgnsResultProvider(_Inputs):

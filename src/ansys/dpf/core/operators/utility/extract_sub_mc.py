@@ -61,6 +61,9 @@ class extract_sub_mc(Operator):
     >>> result_meshes_container = op.outputs.meshes_container()
     """
 
+    _inputs: InputsExtractSubMc
+    _outputs: OutputsExtractSubMc
+
     def __init__(
         self,
         meshes=None,
@@ -148,7 +151,7 @@ be copied to the output.
         inputs:
             An instance of InputsExtractSubMc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsExtractSubMc:
@@ -159,7 +162,7 @@ be copied to the output.
         outputs:
             An instance of OutputsExtractSubMc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsExtractSubMc(_Inputs):

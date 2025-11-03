@@ -89,6 +89,9 @@ class vtu_export(Operator):
     >>> result_path = op.outputs.path()
     """
 
+    _inputs: InputsVtuExport
+    _outputs: OutputsVtuExport
+
     def __init__(
         self,
         directory=None,
@@ -228,7 +231,7 @@ class vtu_export(Operator):
         inputs:
             An instance of InputsVtuExport.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsVtuExport:
@@ -239,7 +242,7 @@ class vtu_export(Operator):
         outputs:
             An instance of OutputsVtuExport.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsVtuExport(_Inputs):

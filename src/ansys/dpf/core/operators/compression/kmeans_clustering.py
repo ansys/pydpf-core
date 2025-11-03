@@ -65,6 +65,9 @@ class kmeans_clustering(Operator):
     >>> result_scoping_clusters = op.outputs.scoping_clusters()
     """
 
+    _inputs: InputsKmeansClustering
+    _outputs: OutputsKmeansClustering
+
     def __init__(
         self,
         clusters_number=None,
@@ -160,7 +163,7 @@ non-linearity.
         inputs:
             An instance of InputsKmeansClustering.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsKmeansClustering:
@@ -171,7 +174,7 @@ non-linearity.
         outputs:
             An instance of OutputsKmeansClustering.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsKmeansClustering(_Inputs):

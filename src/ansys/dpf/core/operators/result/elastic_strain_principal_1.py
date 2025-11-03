@@ -98,6 +98,9 @@ class elastic_strain_principal_1(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsElasticStrainPrincipal1
+    _outputs: OutputsElasticStrainPrincipal1
+
     def __init__(
         self,
         time_scoping=None,
@@ -259,7 +262,7 @@ standard strain values.
         inputs:
             An instance of InputsElasticStrainPrincipal1.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsElasticStrainPrincipal1:
@@ -270,7 +273,7 @@ standard strain values.
         outputs:
             An instance of OutputsElasticStrainPrincipal1.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsElasticStrainPrincipal1(_Inputs):

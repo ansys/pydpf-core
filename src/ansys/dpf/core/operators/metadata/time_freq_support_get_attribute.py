@@ -65,6 +65,9 @@ class time_freq_support_get_attribute(Operator):
     >>> result_property = op.outputs.property()
     """
 
+    _inputs: InputsTimeFreqSupportGetAttribute
+    _outputs: OutputsTimeFreqSupportGetAttribute
+
     def __init__(
         self,
         time_freq_support=None,
@@ -164,7 +167,7 @@ in input.
         inputs:
             An instance of InputsTimeFreqSupportGetAttribute.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsTimeFreqSupportGetAttribute:
@@ -175,7 +178,7 @@ in input.
         outputs:
             An instance of OutputsTimeFreqSupportGetAttribute.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsTimeFreqSupportGetAttribute(_Inputs):

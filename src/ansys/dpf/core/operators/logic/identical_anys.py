@@ -74,6 +74,9 @@ class identical_anys(Operator):
     >>> result_message = op.outputs.message()
     """
 
+    _inputs: InputsIdenticalAnys
+    _outputs: OutputsIdenticalAnys
+
     def __init__(
         self,
         anyA=None,
@@ -188,7 +191,7 @@ property check.
         inputs:
             An instance of InputsIdenticalAnys.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsIdenticalAnys:
@@ -199,7 +202,7 @@ property check.
         outputs:
             An instance of OutputsIdenticalAnys.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsIdenticalAnys(_Inputs):

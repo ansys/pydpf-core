@@ -76,6 +76,9 @@ class to_elemental_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsToElementalFc
+    _outputs: OutputsToElementalFc
+
     def __init__(
         self,
         fields_container=None,
@@ -198,7 +201,7 @@ process. The result is computed on a given element’s scoping.
         inputs:
             An instance of InputsToElementalFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsToElementalFc:
@@ -209,7 +212,7 @@ process. The result is computed on a given element’s scoping.
         outputs:
             An instance of OutputsToElementalFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsToElementalFc(_Inputs):

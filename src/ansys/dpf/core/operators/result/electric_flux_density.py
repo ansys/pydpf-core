@@ -216,6 +216,9 @@ class electric_flux_density(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsElectricFluxDensity
+    _outputs: OutputsElectricFluxDensity
+
     def __init__(
         self,
         time_scoping=None,
@@ -502,7 +505,7 @@ elshape Related elements
         inputs:
             An instance of InputsElectricFluxDensity.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsElectricFluxDensity:
@@ -513,7 +516,7 @@ elshape Related elements
         outputs:
             An instance of OutputsElectricFluxDensity.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsElectricFluxDensity(_Inputs):

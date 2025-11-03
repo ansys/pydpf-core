@@ -52,6 +52,9 @@ class points_from_coordinates(Operator):
     >>> result_abstract_meshed_region = op.outputs.abstract_meshed_region()
     """
 
+    _inputs: InputsPointsFromCoordinates
+    _outputs: OutputsPointsFromCoordinates
+
     def __init__(self, nodes_to_keep=None, mesh=None, config=None, server=None):
         super().__init__(
             name="mesh::points_from_coordinates", config=config, server=server
@@ -127,7 +130,7 @@ meshes coordinates on the input scopings.
         inputs:
             An instance of InputsPointsFromCoordinates.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsPointsFromCoordinates:
@@ -138,7 +141,7 @@ meshes coordinates on the input scopings.
         outputs:
             An instance of OutputsPointsFromCoordinates.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsPointsFromCoordinates(_Inputs):

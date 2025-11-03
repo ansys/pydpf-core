@@ -68,6 +68,9 @@ class elemental_difference_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsElementalDifferenceFc
+    _outputs: OutputsElementalDifferenceFc
+
     def __init__(
         self,
         fields_container=None,
@@ -168,7 +171,7 @@ the output fields container has an elshape label.
         inputs:
             An instance of InputsElementalDifferenceFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsElementalDifferenceFc:
@@ -179,7 +182,7 @@ the output fields container has an elshape label.
         outputs:
             An instance of OutputsElementalDifferenceFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsElementalDifferenceFc(_Inputs):

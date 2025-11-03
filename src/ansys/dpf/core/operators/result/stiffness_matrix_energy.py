@@ -99,6 +99,9 @@ class stiffness_matrix_energy(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsStiffnessMatrixEnergy
+    _outputs: OutputsStiffnessMatrixEnergy
+
     def __init__(
         self,
         time_scoping=None,
@@ -264,7 +267,7 @@ calling the readers defined by the datasources.
         inputs:
             An instance of InputsStiffnessMatrixEnergy.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsStiffnessMatrixEnergy:
@@ -275,7 +278,7 @@ calling the readers defined by the datasources.
         outputs:
             An instance of OutputsStiffnessMatrixEnergy.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsStiffnessMatrixEnergy(_Inputs):

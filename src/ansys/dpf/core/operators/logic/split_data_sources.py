@@ -62,6 +62,9 @@ class split_data_sources(Operator):
     >>> result_outputs2 = op.outputs.outputs2()
     """
 
+    _inputs: InputsSplitDataSources
+    _outputs: OutputsSplitDataSources
+
     def __init__(self, data_sources=None, output_count=None, config=None, server=None):
         super().__init__(name="splitter::data_sources", config=config, server=server)
         self._inputs = InputsSplitDataSources(self)
@@ -146,7 +149,7 @@ ouputs.
         inputs:
             An instance of InputsSplitDataSources.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsSplitDataSources:
@@ -157,7 +160,7 @@ ouputs.
         outputs:
             An instance of OutputsSplitDataSources.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsSplitDataSources(_Inputs):

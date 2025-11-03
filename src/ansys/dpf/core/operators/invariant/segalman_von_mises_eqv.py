@@ -48,6 +48,9 @@ class segalman_von_mises_eqv(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsSegalmanVonMisesEqv
+    _outputs: OutputsSegalmanVonMisesEqv
+
     def __init__(self, field=None, config=None, server=None):
         super().__init__(name="segalmaneqv", config=config, server=server)
         self._inputs = InputsSegalmanVonMisesEqv(self)
@@ -110,7 +113,7 @@ class segalman_von_mises_eqv(Operator):
         inputs:
             An instance of InputsSegalmanVonMisesEqv.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsSegalmanVonMisesEqv:
@@ -121,7 +124,7 @@ class segalman_von_mises_eqv(Operator):
         outputs:
             An instance of OutputsSegalmanVonMisesEqv.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsSegalmanVonMisesEqv(_Inputs):

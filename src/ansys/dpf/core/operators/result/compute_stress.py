@@ -70,6 +70,9 @@ class compute_stress(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsComputeStress
+    _outputs: OutputsComputeStress
+
     def __init__(
         self,
         scoping=None,
@@ -174,7 +177,7 @@ limitations are applicable for stress computation
         inputs:
             An instance of InputsComputeStress.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsComputeStress:
@@ -185,7 +188,7 @@ limitations are applicable for stress computation
         outputs:
             An instance of OutputsComputeStress.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsComputeStress(_Inputs):

@@ -53,6 +53,9 @@ class identical_string_fields(Operator):
     >>> result_information = op.outputs.information()
     """
 
+    _inputs: InputsIdenticalStringFields
+    _outputs: OutputsIdenticalStringFields
+
     def __init__(
         self, string_fieldA=None, string_fieldB=None, config=None, server=None
     ):
@@ -131,7 +134,7 @@ class identical_string_fields(Operator):
         inputs:
             An instance of InputsIdenticalStringFields.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsIdenticalStringFields:
@@ -142,7 +145,7 @@ class identical_string_fields(Operator):
         outputs:
             An instance of OutputsIdenticalStringFields.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsIdenticalStringFields(_Inputs):

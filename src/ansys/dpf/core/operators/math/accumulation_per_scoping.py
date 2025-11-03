@@ -68,6 +68,9 @@ class accumulation_per_scoping(Operator):
     >>> result_accumulation_per_scoping_percentage = op.outputs.accumulation_per_scoping_percentage()
     """
 
+    _inputs: InputsAccumulationPerScoping
+    _outputs: OutputsAccumulationPerScoping
+
     def __init__(
         self,
         fields_container=None,
@@ -178,7 +181,7 @@ input fields container for each scoping of the scopings container.
         inputs:
             An instance of InputsAccumulationPerScoping.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsAccumulationPerScoping:
@@ -189,7 +192,7 @@ input fields container for each scoping of the scopings container.
         outputs:
             An instance of OutputsAccumulationPerScoping.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsAccumulationPerScoping(_Inputs):

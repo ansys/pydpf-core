@@ -52,6 +52,9 @@ class forward_meshes_container(Operator):
     >>> result_meshes_container = op.outputs.meshes_container()
     """
 
+    _inputs: InputsForwardMeshesContainer
+    _outputs: OutputsForwardMeshesContainer
+
     def __init__(self, meshes=None, default_label=None, config=None, server=None):
         super().__init__(name="forward_meshes_container", config=config, server=server)
         self._inputs = InputsForwardMeshesContainer(self)
@@ -122,7 +125,7 @@ class forward_meshes_container(Operator):
         inputs:
             An instance of InputsForwardMeshesContainer.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsForwardMeshesContainer:
@@ -133,7 +136,7 @@ class forward_meshes_container(Operator):
         outputs:
             An instance of OutputsForwardMeshesContainer.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsForwardMeshesContainer(_Inputs):

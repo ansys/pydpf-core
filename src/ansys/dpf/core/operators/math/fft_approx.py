@@ -92,6 +92,9 @@ class fft_approx(Operator):
     >>> result_second_der_d2y = op.outputs.second_der_d2y()
     """
 
+    _inputs: InputsFftApprox
+    _outputs: OutputsFftApprox
+
     def __init__(
         self,
         time_scoping=None,
@@ -236,7 +239,7 @@ first and the second derivatives of the curve.
         inputs:
             An instance of InputsFftApprox.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsFftApprox:
@@ -247,7 +250,7 @@ first and the second derivatives of the curve.
         outputs:
             An instance of OutputsFftApprox.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsFftApprox(_Inputs):

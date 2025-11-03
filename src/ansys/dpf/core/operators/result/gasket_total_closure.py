@@ -89,6 +89,9 @@ class gasket_total_closure(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsGasketTotalClosure
+    _outputs: OutputsGasketTotalClosure
+
     def __init__(
         self,
         time_scoping=None,
@@ -236,7 +239,7 @@ gasket inelastic closure).
         inputs:
             An instance of InputsGasketTotalClosure.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsGasketTotalClosure:
@@ -247,7 +250,7 @@ gasket inelastic closure).
         outputs:
             An instance of OutputsGasketTotalClosure.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsGasketTotalClosure(_Inputs):

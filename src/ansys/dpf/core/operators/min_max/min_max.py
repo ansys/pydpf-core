@@ -51,6 +51,9 @@ class min_max(Operator):
     >>> result_field_max = op.outputs.field_max()
     """
 
+    _inputs: InputsMinMax
+    _outputs: OutputsMinMax
+
     def __init__(self, field=None, config=None, server=None):
         super().__init__(name="min_max", config=config, server=server)
         self._inputs = InputsMinMax(self)
@@ -120,7 +123,7 @@ field.
         inputs:
             An instance of InputsMinMax.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMinMax:
@@ -131,7 +134,7 @@ field.
         outputs:
             An instance of OutputsMinMax.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMinMax(_Inputs):

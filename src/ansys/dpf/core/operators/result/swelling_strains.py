@@ -216,6 +216,9 @@ class swelling_strains(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsSwellingStrains
+    _outputs: OutputsSwellingStrains
+
     def __init__(
         self,
         time_scoping=None,
@@ -502,7 +505,7 @@ elshape Related elements
         inputs:
             An instance of InputsSwellingStrains.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsSwellingStrains:
@@ -513,7 +516,7 @@ elshape Related elements
         outputs:
             An instance of OutputsSwellingStrains.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsSwellingStrains(_Inputs):

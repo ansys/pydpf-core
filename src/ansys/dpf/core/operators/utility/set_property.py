@@ -62,6 +62,9 @@ class set_property(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsSetProperty
+    _outputs: OutputsSetProperty
+
     def __init__(
         self, field=None, property_name=None, property=None, config=None, server=None
     ):
@@ -151,7 +154,7 @@ expected as inputs
         inputs:
             An instance of InputsSetProperty.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsSetProperty:
@@ -162,7 +165,7 @@ expected as inputs
         outputs:
             An instance of OutputsSetProperty.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsSetProperty(_Inputs):

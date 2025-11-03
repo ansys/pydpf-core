@@ -58,6 +58,9 @@ class min_max_inc(Operator):
     >>> result_domain_ids_max = op.outputs.domain_ids_max()
     """
 
+    _inputs: InputsMinMaxInc
+    _outputs: OutputsMinMaxInc
+
     def __init__(self, field=None, domain_id=None, config=None, server=None):
         super().__init__(name="min_max_inc", config=config, server=server)
         self._inputs = InputsMinMaxInc(self)
@@ -147,7 +150,7 @@ coming fields.
         inputs:
             An instance of InputsMinMaxInc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMinMaxInc:
@@ -158,7 +161,7 @@ coming fields.
         outputs:
             An instance of OutputsMinMaxInc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMinMaxInc(_Inputs):

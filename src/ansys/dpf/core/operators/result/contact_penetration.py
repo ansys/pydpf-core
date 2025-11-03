@@ -236,6 +236,9 @@ class contact_penetration(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsContactPenetration
+    _outputs: OutputsContactPenetration
+
     def __init__(
         self,
         time_scoping=None,
@@ -558,7 +561,7 @@ elshape Related elements
         inputs:
             An instance of InputsContactPenetration.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsContactPenetration:
@@ -569,7 +572,7 @@ elshape Related elements
         outputs:
             An instance of OutputsContactPenetration.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsContactPenetration(_Inputs):

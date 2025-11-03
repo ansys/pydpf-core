@@ -84,6 +84,9 @@ class thermal_conductivity(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsThermalConductivity
+    _outputs: OutputsThermalConductivity
+
     def __init__(
         self,
         time_scoping=None,
@@ -222,7 +225,7 @@ datasources.
         inputs:
             An instance of InputsThermalConductivity.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsThermalConductivity:
@@ -233,7 +236,7 @@ datasources.
         outputs:
             An instance of OutputsThermalConductivity.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsThermalConductivity(_Inputs):

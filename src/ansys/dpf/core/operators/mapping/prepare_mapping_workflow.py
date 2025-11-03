@@ -60,6 +60,9 @@ class prepare_mapping_workflow(Operator):
     >>> result_mapping_workflow = op.outputs.mapping_workflow()
     """
 
+    _inputs: InputsPrepareMappingWorkflow
+    _outputs: OutputsPrepareMappingWorkflow
+
     def __init__(
         self,
         input_support=None,
@@ -154,7 +157,7 @@ class prepare_mapping_workflow(Operator):
         inputs:
             An instance of InputsPrepareMappingWorkflow.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsPrepareMappingWorkflow:
@@ -165,7 +168,7 @@ class prepare_mapping_workflow(Operator):
         outputs:
             An instance of OutputsPrepareMappingWorkflow.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsPrepareMappingWorkflow(_Inputs):

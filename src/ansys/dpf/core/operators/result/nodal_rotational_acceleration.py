@@ -79,6 +79,9 @@ class nodal_rotational_acceleration(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsNodalRotationalAcceleration
+    _outputs: OutputsNodalRotationalAcceleration
+
     def __init__(
         self,
         time_scoping=None,
@@ -208,7 +211,7 @@ defined by the datasources.
         inputs:
             An instance of InputsNodalRotationalAcceleration.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsNodalRotationalAcceleration:
@@ -219,7 +222,7 @@ defined by the datasources.
         outputs:
             An instance of OutputsNodalRotationalAcceleration.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsNodalRotationalAcceleration(_Inputs):

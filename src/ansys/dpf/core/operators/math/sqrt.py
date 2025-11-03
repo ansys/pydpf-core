@@ -48,6 +48,9 @@ class sqrt(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsSqrt
+    _outputs: OutputsSqrt
+
     def __init__(self, field=None, config=None, server=None):
         super().__init__(name="sqrt", config=config, server=server)
         self._inputs = InputsSqrt(self)
@@ -110,7 +113,7 @@ class sqrt(Operator):
         inputs:
             An instance of InputsSqrt.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsSqrt:
@@ -121,7 +124,7 @@ class sqrt(Operator):
         outputs:
             An instance of OutputsSqrt.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsSqrt(_Inputs):

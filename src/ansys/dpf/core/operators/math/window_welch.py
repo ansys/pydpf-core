@@ -50,6 +50,9 @@ class window_welch(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsWindowWelch
+    _outputs: OutputsWindowWelch
+
     def __init__(self, field=None, config=None, server=None):
         super().__init__(name="window::welch", config=config, server=server)
         self._inputs = InputsWindowWelch(self)
@@ -114,7 +117,7 @@ time_freq_interpolation before otherwise).
         inputs:
             An instance of InputsWindowWelch.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsWindowWelch:
@@ -125,7 +128,7 @@ time_freq_interpolation before otherwise).
         outputs:
             An instance of OutputsWindowWelch.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsWindowWelch(_Inputs):

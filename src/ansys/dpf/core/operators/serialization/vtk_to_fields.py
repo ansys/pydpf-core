@@ -57,6 +57,9 @@ class vtk_to_fields(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsVtkToFields
+    _outputs: OutputsVtkToFields
+
     def __init__(
         self, field_name=None, streams=None, data_sources=None, config=None, server=None
     ):
@@ -137,7 +140,7 @@ class vtk_to_fields(Operator):
         inputs:
             An instance of InputsVtkToFields.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsVtkToFields:
@@ -148,7 +151,7 @@ class vtk_to_fields(Operator):
         outputs:
             An instance of OutputsVtkToFields.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsVtkToFields(_Inputs):

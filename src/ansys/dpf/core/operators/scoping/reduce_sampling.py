@@ -52,6 +52,9 @@ class reduce_sampling(Operator):
     >>> result_mesh_scoping = op.outputs.mesh_scoping()
     """
 
+    _inputs: InputsReduceSampling
+    _outputs: OutputsReduceSampling
+
     def __init__(self, mesh_scoping=None, denominator=None, config=None, server=None):
         super().__init__(name="scoping::reduce_sampling", config=config, server=server)
         self._inputs = InputsReduceSampling(self)
@@ -122,7 +125,7 @@ class reduce_sampling(Operator):
         inputs:
             An instance of InputsReduceSampling.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsReduceSampling:
@@ -133,7 +136,7 @@ class reduce_sampling(Operator):
         outputs:
             An instance of OutputsReduceSampling.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsReduceSampling(_Inputs):

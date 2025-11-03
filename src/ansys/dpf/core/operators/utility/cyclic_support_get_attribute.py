@@ -55,6 +55,9 @@ class cyclic_support_get_attribute(Operator):
     >>> result_property = op.outputs.property()
     """
 
+    _inputs: InputsCyclicSupportGetAttribute
+    _outputs: OutputsCyclicSupportGetAttribute
+
     def __init__(
         self, cyclic_support=None, property_name=None, config=None, server=None
     ):
@@ -132,7 +135,7 @@ expected in input.
         inputs:
             An instance of InputsCyclicSupportGetAttribute.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsCyclicSupportGetAttribute:
@@ -143,7 +146,7 @@ expected in input.
         outputs:
             An instance of OutputsCyclicSupportGetAttribute.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsCyclicSupportGetAttribute(_Inputs):

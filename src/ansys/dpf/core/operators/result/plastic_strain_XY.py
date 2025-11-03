@@ -96,6 +96,9 @@ class plastic_strain_XY(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsPlasticStrainXy
+    _outputs: OutputsPlasticStrainXy
+
     def __init__(
         self,
         time_scoping=None,
@@ -254,7 +257,7 @@ location can be Nodal/ElementalNodal/Elemental.
         inputs:
             An instance of InputsPlasticStrainXy.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsPlasticStrainXy:
@@ -265,7 +268,7 @@ location can be Nodal/ElementalNodal/Elemental.
         outputs:
             An instance of OutputsPlasticStrainXy.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsPlasticStrainXy(_Inputs):

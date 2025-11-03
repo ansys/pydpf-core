@@ -61,6 +61,9 @@ class phase_of_max(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsPhaseOfMax
+    _outputs: OutputsPhaseOfMax
+
     def __init__(
         self,
         real_field=None,
@@ -155,7 +158,7 @@ class phase_of_max(Operator):
         inputs:
             An instance of InputsPhaseOfMax.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsPhaseOfMax:
@@ -166,7 +169,7 @@ class phase_of_max(Operator):
         outputs:
             An instance of OutputsPhaseOfMax.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsPhaseOfMax(_Inputs):

@@ -53,6 +53,9 @@ class phase(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsPhase
+    _outputs: OutputsPhase
+
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
         super().__init__(name="phase", config=config, server=server)
         self._inputs = InputsPhase(self)
@@ -123,7 +126,7 @@ class phase(Operator):
         inputs:
             An instance of InputsPhase.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsPhase:
@@ -134,7 +137,7 @@ class phase(Operator):
         outputs:
             An instance of OutputsPhase.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsPhase(_Inputs):

@@ -69,6 +69,9 @@ class mesh_clip(Operator):
     >>> result_mesh = op.outputs.mesh()
     """
 
+    _inputs: InputsMeshClip
+    _outputs: OutputsMeshClip
+
     def __init__(
         self,
         field=None,
@@ -179,7 +182,7 @@ defined by v < x.
         inputs:
             An instance of InputsMeshClip.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMeshClip:
@@ -190,7 +193,7 @@ defined by v < x.
         outputs:
             An instance of OutputsMeshClip.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMeshClip(_Inputs):

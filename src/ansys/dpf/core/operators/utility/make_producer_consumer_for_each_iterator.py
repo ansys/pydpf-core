@@ -114,6 +114,9 @@ class make_producer_consumer_for_each_iterator(Operator):
     >>> result_iterator = op.outputs.iterator()
     """
 
+    _inputs: InputsMakeProducerConsumerForEachIterator
+    _outputs: OutputsMakeProducerConsumerForEachIterator
+
     def __init__(
         self,
         try_generate_iterable=None,
@@ -324,7 +327,7 @@ the producers and the consumers.
         inputs:
             An instance of InputsMakeProducerConsumerForEachIterator.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMakeProducerConsumerForEachIterator:
@@ -335,7 +338,7 @@ the producers and the consumers.
         outputs:
             An instance of OutputsMakeProducerConsumerForEachIterator.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMakeProducerConsumerForEachIterator(_Inputs):

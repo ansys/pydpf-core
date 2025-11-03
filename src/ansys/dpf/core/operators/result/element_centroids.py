@@ -79,6 +79,9 @@ class element_centroids(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsElementCentroids
+    _outputs: OutputsElementCentroids
+
     def __init__(
         self,
         time_scoping=None,
@@ -208,7 +211,7 @@ readers defined by the datasources.
         inputs:
             An instance of InputsElementCentroids.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsElementCentroids:
@@ -219,7 +222,7 @@ readers defined by the datasources.
         outputs:
             An instance of OutputsElementCentroids.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsElementCentroids(_Inputs):

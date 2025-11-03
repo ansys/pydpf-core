@@ -61,6 +61,9 @@ class field_clone_to_shell_layer(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsFieldCloneToShellLayer
+    _outputs: OutputsFieldCloneToShellLayer
+
     def __init__(
         self,
         field=None,
@@ -154,7 +157,7 @@ be shared or not based on the optional pin 2.
         inputs:
             An instance of InputsFieldCloneToShellLayer.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsFieldCloneToShellLayer:
@@ -165,7 +168,7 @@ be shared or not based on the optional pin 2.
         outputs:
             An instance of OutputsFieldCloneToShellLayer.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsFieldCloneToShellLayer(_Inputs):

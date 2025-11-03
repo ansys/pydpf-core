@@ -48,6 +48,9 @@ class eigen_values(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsEigenValues
+    _outputs: OutputsEigenValues
+
     def __init__(self, field=None, config=None, server=None):
         super().__init__(name="eig_values", config=config, server=server)
         self._inputs = InputsEigenValues(self)
@@ -110,7 +113,7 @@ class eigen_values(Operator):
         inputs:
             An instance of InputsEigenValues.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsEigenValues:
@@ -121,7 +124,7 @@ class eigen_values(Operator):
         outputs:
             An instance of OutputsEigenValues.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsEigenValues(_Inputs):

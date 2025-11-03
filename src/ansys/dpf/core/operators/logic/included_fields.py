@@ -64,6 +64,9 @@ class included_fields(Operator):
     >>> result_message = op.outputs.message()
     """
 
+    _inputs: InputsIncludedFields
+    _outputs: OutputsIncludedFields
+
     def __init__(
         self,
         fieldA=None,
@@ -164,7 +167,7 @@ class included_fields(Operator):
         inputs:
             An instance of InputsIncludedFields.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsIncludedFields:
@@ -175,7 +178,7 @@ class included_fields(Operator):
         outputs:
             An instance of OutputsIncludedFields.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsIncludedFields(_Inputs):

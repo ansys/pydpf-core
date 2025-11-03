@@ -47,6 +47,9 @@ class streams_provider(Operator):
     >>> result_streams_container = op.outputs.streams_container()
     """
 
+    _inputs: InputsStreamsProvider
+    _outputs: OutputsStreamsProvider
+
     def __init__(self, data_sources=None, config=None, server=None):
         super().__init__(name="stream_provider", config=config, server=server)
         self._inputs = InputsStreamsProvider(self)
@@ -109,7 +112,7 @@ class streams_provider(Operator):
         inputs:
             An instance of InputsStreamsProvider.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsStreamsProvider:
@@ -120,7 +123,7 @@ class streams_provider(Operator):
         outputs:
             An instance of OutputsStreamsProvider.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsStreamsProvider(_Inputs):

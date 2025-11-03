@@ -62,6 +62,9 @@ class connectivity_ids(Operator):
     >>> result_elemental_scoping = op.outputs.elemental_scoping()
     """
 
+    _inputs: InputsConnectivityIds
+    _outputs: OutputsConnectivityIds
+
     def __init__(
         self,
         mesh_scoping=None,
@@ -154,7 +157,7 @@ input. For each element the node ids are its connectivity.
         inputs:
             An instance of InputsConnectivityIds.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsConnectivityIds:
@@ -165,7 +168,7 @@ input. For each element the node ids are its connectivity.
         outputs:
             An instance of OutputsConnectivityIds.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsConnectivityIds(_Inputs):

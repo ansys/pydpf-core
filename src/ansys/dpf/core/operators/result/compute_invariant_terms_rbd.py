@@ -140,6 +140,9 @@ class compute_invariant_terms_rbd(Operator):
     >>> result_dnzn = op.outputs.dnzn()
     """
 
+    _inputs: InputsComputeInvariantTermsRbd
+    _outputs: OutputsComputeInvariantTermsRbd
+
     def __init__(
         self,
         rom_matrices=None,
@@ -425,7 +428,7 @@ matrices, lumped mass matrix, modes …)
         inputs:
             An instance of InputsComputeInvariantTermsRbd.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsComputeInvariantTermsRbd:
@@ -436,7 +439,7 @@ matrices, lumped mass matrix, modes …)
         outputs:
             An instance of OutputsComputeInvariantTermsRbd.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsComputeInvariantTermsRbd(_Inputs):

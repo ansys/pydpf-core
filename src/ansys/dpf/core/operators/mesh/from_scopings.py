@@ -63,6 +63,9 @@ class from_scopings(Operator):
     >>> result_meshes = op.outputs.meshes()
     """
 
+    _inputs: InputsFromScopings
+    _outputs: OutputsFromScopings
+
     def __init__(
         self,
         scopings_container=None,
@@ -158,7 +161,7 @@ MeshesContainer
         inputs:
             An instance of InputsFromScopings.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsFromScopings:
@@ -169,7 +172,7 @@ MeshesContainer
         outputs:
             An instance of OutputsFromScopings.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsFromScopings(_Inputs):

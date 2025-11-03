@@ -68,6 +68,9 @@ class erp_radiation_efficiency(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsErpRadiationEfficiency
+    _outputs: OutputsErpRadiationEfficiency
+
     def __init__(
         self,
         fields_container=None,
@@ -171,7 +174,7 @@ class erp_radiation_efficiency(Operator):
         inputs:
             An instance of InputsErpRadiationEfficiency.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsErpRadiationEfficiency:
@@ -182,7 +185,7 @@ class erp_radiation_efficiency(Operator):
         outputs:
             An instance of OutputsErpRadiationEfficiency.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsErpRadiationEfficiency(_Inputs):

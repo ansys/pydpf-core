@@ -50,6 +50,9 @@ class operator_changelog(Operator):
     >>> result_changelog_gdc = op.outputs.changelog_gdc()
     """
 
+    _inputs: InputsOperatorChangelog
+    _outputs: OutputsOperatorChangelog
+
     def __init__(self, operator_name=None, config=None, server=None):
         super().__init__(name="operator_changelog", config=config, server=server)
         self._inputs = InputsOperatorChangelog(self)
@@ -113,7 +116,7 @@ operator based on its name.
         inputs:
             An instance of InputsOperatorChangelog.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsOperatorChangelog:
@@ -124,7 +127,7 @@ operator based on its name.
         outputs:
             An instance of OutputsOperatorChangelog.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsOperatorChangelog(_Inputs):

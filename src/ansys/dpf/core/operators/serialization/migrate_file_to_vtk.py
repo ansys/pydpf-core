@@ -57,6 +57,9 @@ class migrate_file_to_vtk(Operator):
     >>> result_data_sources = op.outputs.data_sources()
     """
 
+    _inputs: InputsMigrateFileToVtk
+    _outputs: OutputsMigrateFileToVtk
+
     def __init__(
         self,
         output_filename=None,
@@ -143,7 +146,7 @@ possible to vtk.
         inputs:
             An instance of InputsMigrateFileToVtk.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMigrateFileToVtk:
@@ -154,7 +157,7 @@ possible to vtk.
         outputs:
             An instance of OutputsMigrateFileToVtk.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMigrateFileToVtk(_Inputs):

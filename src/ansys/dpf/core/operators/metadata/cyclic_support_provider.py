@@ -72,6 +72,9 @@ class cyclic_support_provider(Operator):
     >>> result_sector_meshes = op.outputs.sector_meshes()
     """
 
+    _inputs: InputsCyclicSupportProvider
+    _outputs: OutputsCyclicSupportProvider
+
     def __init__(
         self,
         streams_container=None,
@@ -194,7 +197,7 @@ expansions) and expands the mesh.
         inputs:
             An instance of InputsCyclicSupportProvider.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsCyclicSupportProvider:
@@ -205,7 +208,7 @@ expansions) and expands the mesh.
         outputs:
             An instance of OutputsCyclicSupportProvider.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsCyclicSupportProvider(_Inputs):

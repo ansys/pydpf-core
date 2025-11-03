@@ -54,6 +54,9 @@ class boundary_condition_provider(Operator):
     >>> result_results_info = op.outputs.results_info()
     """
 
+    _inputs: InputsBoundaryConditionProvider
+    _outputs: OutputsBoundaryConditionProvider
+
     def __init__(
         self, streams_container=None, data_sources=None, config=None, server=None
     ):
@@ -127,7 +130,7 @@ streams or data sources.
         inputs:
             An instance of InputsBoundaryConditionProvider.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsBoundaryConditionProvider:
@@ -138,7 +141,7 @@ streams or data sources.
         outputs:
             An instance of OutputsBoundaryConditionProvider.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsBoundaryConditionProvider(_Inputs):

@@ -64,6 +64,9 @@ class part_internal_energy(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsPartInternalEnergy
+    _outputs: OutputsPartInternalEnergy
+
     def __init__(
         self,
         streams_container=None,
@@ -163,7 +166,7 @@ datasources.
         inputs:
             An instance of InputsPartInternalEnergy.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsPartInternalEnergy:
@@ -174,7 +177,7 @@ datasources.
         outputs:
             An instance of OutputsPartInternalEnergy.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsPartInternalEnergy(_Inputs):

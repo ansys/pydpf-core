@@ -62,6 +62,9 @@ class cms_subfile_info_provider(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsCmsSubfileInfoProvider
+    _outputs: OutputsCmsSubfileInfoProvider
+
     def __init__(
         self,
         data_sources=None,
@@ -155,7 +158,7 @@ class cms_subfile_info_provider(Operator):
         inputs:
             An instance of InputsCmsSubfileInfoProvider.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsCmsSubfileInfoProvider:
@@ -166,7 +169,7 @@ class cms_subfile_info_provider(Operator):
         outputs:
             An instance of OutputsCmsSubfileInfoProvider.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsCmsSubfileInfoProvider(_Inputs):

@@ -79,6 +79,9 @@ class raw_displacement(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsRawDisplacement
+    _outputs: OutputsRawDisplacement
+
     def __init__(
         self,
         time_scoping=None,
@@ -208,7 +211,7 @@ the readers defined by the datasources.
         inputs:
             An instance of InputsRawDisplacement.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsRawDisplacement:
@@ -219,7 +222,7 @@ the readers defined by the datasources.
         outputs:
             An instance of OutputsRawDisplacement.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsRawDisplacement(_Inputs):

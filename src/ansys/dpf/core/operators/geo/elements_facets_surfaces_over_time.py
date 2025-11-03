@@ -63,6 +63,9 @@ class elements_facets_surfaces_over_time(Operator):
     >>> result_mesh = op.outputs.mesh()
     """
 
+    _inputs: InputsElementsFacetsSurfacesOverTime
+    _outputs: OutputsElementsFacetsSurfacesOverTime
+
     def __init__(
         self, scoping=None, displacement=None, mesh=None, config=None, server=None
     ):
@@ -151,7 +154,7 @@ surface elements.
         inputs:
             An instance of InputsElementsFacetsSurfacesOverTime.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsElementsFacetsSurfacesOverTime:
@@ -162,7 +165,7 @@ surface elements.
         outputs:
             An instance of OutputsElementsFacetsSurfacesOverTime.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsElementsFacetsSurfacesOverTime(_Inputs):

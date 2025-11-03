@@ -216,6 +216,9 @@ class accu_eqv_plastic_strain(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsAccuEqvPlasticStrain
+    _outputs: OutputsAccuEqvPlasticStrain
+
     def __init__(
         self,
         time_scoping=None,
@@ -502,7 +505,7 @@ elshape Related elements
         inputs:
             An instance of InputsAccuEqvPlasticStrain.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsAccuEqvPlasticStrain:
@@ -513,7 +516,7 @@ elshape Related elements
         outputs:
             An instance of OutputsAccuEqvPlasticStrain.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsAccuEqvPlasticStrain(_Inputs):

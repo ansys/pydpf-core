@@ -51,6 +51,9 @@ class exclude_levelset(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsExcludeLevelset
+    _outputs: OutputsExcludeLevelset
+
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
         super().__init__(name="levelset::exclude", config=config, server=server)
         self._inputs = InputsExcludeLevelset(self)
@@ -121,7 +124,7 @@ class exclude_levelset(Operator):
         inputs:
             An instance of InputsExcludeLevelset.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsExcludeLevelset:
@@ -132,7 +135,7 @@ class exclude_levelset(Operator):
         outputs:
             An instance of OutputsExcludeLevelset.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsExcludeLevelset(_Inputs):
