@@ -106,14 +106,14 @@ jobs:
       wheelhouse: ${{ matrix.wheelhouse }}
       DOCSTRING: ${{ matrix.DOCSTRING }}
       test_any: ${{ matrix.test_any }}
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || vars.ANSYS_VERSION_LAST_RELEASED_PATCH }}
     secrets: inherit
 
   docs:
     uses: ./.github/workflows/docs.yml
     with:
       ANSYS_VERSION: ${{ inputs.ansys_version || vars.ANSYS_VERSION_LAST_RELEASED }}
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || vars.ANSYS_VERSION_LAST_RELEASED_PATCH }}
       event_name: ${{ github.event_name }}
     secrets: inherit
 
@@ -122,7 +122,7 @@ jobs:
     with:
       ANSYS_VERSION: ${{ inputs.ansys_version || vars.ANSYS_VERSION_LAST_RELEASED }}
       python_versions: '["3.10", "3.11", "3.12", "3.13"]'
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || vars.ANSYS_VERSION_LAST_RELEASED_PATCH }}
     secrets: inherit
 
   tests-retro:
@@ -153,7 +153,7 @@ jobs:
           - "false"
         include:
           - version: ${{ vars.ANSYS_VERSION_LAST_RELEASED }}
-            standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+            standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || vars.ANSYS_VERSION_LAST_RELEASED_PATCH }}
             test_docstrings": "true"
     uses: ./.github/workflows/pydpf-post.yml
     with:
@@ -167,7 +167,7 @@ jobs:
     uses: ./.github/workflows/test_docker.yml
     with:
       ANSYS_VERSION: ${{ inputs.ansys_version || vars.ANSYS_VERSION_LAST_RELEASED }}
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || vars.ANSYS_VERSION_LAST_RELEASED_PATCH }}
     secrets: inherit
 
   docker_examples:
@@ -176,7 +176,7 @@ jobs:
     with:
       ANSYS_VERSION: ${{ inputs.ansys_version || vars.ANSYS_VERSION_LAST_RELEASED }}
       python_versions: '["3.10", "3.11", "3.12", "3.13"]'
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || vars.ANSYS_VERSION_LAST_RELEASED_PATCH }}
     secrets: inherit
 
   draft_release:
