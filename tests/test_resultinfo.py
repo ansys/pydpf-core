@@ -138,7 +138,7 @@ def test_byitem_resultinfo(model):
 
 
 def test_get_result_resultinfo_from_index(model):
-    if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0:
+    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0:
         res = model.metadata.result_info[3]
     else:
         res = model.metadata.result_info[2]
