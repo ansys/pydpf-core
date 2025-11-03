@@ -197,12 +197,12 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - ${{ fromJson(vars.ANSYS_VERSIONS_RETRO) }}
-          - ${{ fromJson(vars.ANSYS_VERSION_LAST_RELEASED) }}
+          - ${{ fromJson(vars.ANSYS_VERSIONS_RETRO_WITH_PATCH) }}
+          - ${{ fromJson(vars.ANSYS_VERSION_LAST_RELEASED_WITH_PATCH) }}
     uses: ./.github/workflows/tests.yml
     with:
-      ANSYS_VERSION: ${{ matrix.version }}
+      ANSYS_VERSION: ${{ matrix.version.version }}
       python_versions: '["3.10"]'
       DOCSTRING: false
-      standalone_suffix: ${{ matrix.version == '241' && '.sp01' || ( matrix.version == '252' && '.sp04' || '' ) }}
+      standalone_suffix: ${{ matrix.version.patch }}
     secrets: inherit
