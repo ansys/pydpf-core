@@ -114,6 +114,9 @@ class smisc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsSmisc
+    _outputs: OutputsSmisc
+
     def __init__(
         self,
         time_scoping=None,
@@ -307,7 +310,7 @@ each item.
         inputs:
             An instance of InputsSmisc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsSmisc:
@@ -318,7 +321,7 @@ each item.
         outputs:
             An instance of OutputsSmisc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsSmisc(_Inputs):

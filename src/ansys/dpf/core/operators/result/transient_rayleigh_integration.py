@@ -78,6 +78,9 @@ class transient_rayleigh_integration(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsTransientRayleighIntegration
+    _outputs: OutputsTransientRayleighIntegration
+
     def __init__(
         self,
         fields_container=None,
@@ -203,7 +206,7 @@ class transient_rayleigh_integration(Operator):
         inputs:
             An instance of InputsTransientRayleighIntegration.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsTransientRayleighIntegration:
@@ -214,7 +217,7 @@ class transient_rayleigh_integration(Operator):
         outputs:
             An instance of OutputsTransientRayleighIntegration.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsTransientRayleighIntegration(_Inputs):

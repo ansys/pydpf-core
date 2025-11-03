@@ -57,6 +57,9 @@ class integrate_over_elements(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsIntegrateOverElements
+    _outputs: OutputsIntegrateOverElements
+
     def __init__(self, field=None, scoping=None, mesh=None, config=None, server=None):
         super().__init__(name="element::integrate", config=config, server=server)
         self._inputs = InputsIntegrateOverElements(self)
@@ -135,7 +138,7 @@ class integrate_over_elements(Operator):
         inputs:
             An instance of InputsIntegrateOverElements.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsIntegrateOverElements:
@@ -146,7 +149,7 @@ class integrate_over_elements(Operator):
         outputs:
             An instance of OutputsIntegrateOverElements.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsIntegrateOverElements(_Inputs):

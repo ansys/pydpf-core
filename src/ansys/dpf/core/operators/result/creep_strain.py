@@ -216,6 +216,9 @@ class creep_strain(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsCreepStrain
+    _outputs: OutputsCreepStrain
+
     def __init__(
         self,
         time_scoping=None,
@@ -502,7 +505,7 @@ elshape Related elements
         inputs:
             An instance of InputsCreepStrain.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsCreepStrain:
@@ -513,7 +516,7 @@ elshape Related elements
         outputs:
             An instance of OutputsCreepStrain.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsCreepStrain(_Inputs):

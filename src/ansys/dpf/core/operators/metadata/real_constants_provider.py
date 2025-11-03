@@ -59,6 +59,9 @@ class real_constants_provider(Operator):
     >>> result_real_constants = op.outputs.real_constants()
     """
 
+    _inputs: InputsRealConstantsProvider
+    _outputs: OutputsRealConstantsProvider
+
     def __init__(
         self,
         solver_real_constants_ids=None,
@@ -145,7 +148,7 @@ data sources.
         inputs:
             An instance of InputsRealConstantsProvider.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsRealConstantsProvider:
@@ -156,7 +159,7 @@ data sources.
         outputs:
             An instance of OutputsRealConstantsProvider.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsRealConstantsProvider(_Inputs):

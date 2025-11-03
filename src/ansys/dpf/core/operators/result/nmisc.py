@@ -112,6 +112,9 @@ class nmisc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsNmisc
+    _outputs: OutputsNmisc
+
     def __init__(
         self,
         time_scoping=None,
@@ -303,7 +306,7 @@ results cannot be summed.
         inputs:
             An instance of InputsNmisc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsNmisc:
@@ -314,7 +317,7 @@ results cannot be summed.
         outputs:
             An instance of OutputsNmisc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsNmisc(_Inputs):

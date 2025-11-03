@@ -216,6 +216,9 @@ class plastic_state_variable(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsPlasticStateVariable
+    _outputs: OutputsPlasticStateVariable
+
     def __init__(
         self,
         time_scoping=None,
@@ -502,7 +505,7 @@ elshape Related elements
         inputs:
             An instance of InputsPlasticStateVariable.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsPlasticStateVariable:
@@ -513,7 +516,7 @@ elshape Related elements
         outputs:
             An instance of OutputsPlasticStateVariable.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsPlasticStateVariable(_Inputs):

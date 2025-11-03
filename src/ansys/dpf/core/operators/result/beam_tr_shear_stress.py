@@ -74,6 +74,9 @@ class beam_tr_shear_stress(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsBeamTrShearStress
+    _outputs: OutputsBeamTrShearStress
+
     def __init__(
         self,
         time_scoping=None,
@@ -198,7 +201,7 @@ datasources.
         inputs:
             An instance of InputsBeamTrShearStress.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsBeamTrShearStress:
@@ -209,7 +212,7 @@ datasources.
         outputs:
             An instance of OutputsBeamTrShearStress.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsBeamTrShearStress(_Inputs):

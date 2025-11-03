@@ -76,6 +76,9 @@ class nodal_to_elemental_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsNodalToElementalFc
+    _outputs: OutputsNodalToElementalFc
+
     def __init__(
         self,
         fields_container=None,
@@ -192,7 +195,7 @@ the output fields container has an elshape label.
         inputs:
             An instance of InputsNodalToElementalFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsNodalToElementalFc:
@@ -203,7 +206,7 @@ the output fields container has an elshape label.
         outputs:
             An instance of OutputsNodalToElementalFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsNodalToElementalFc(_Inputs):

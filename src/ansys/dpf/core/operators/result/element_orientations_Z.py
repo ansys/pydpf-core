@@ -96,6 +96,9 @@ class element_orientations_Z(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsElementOrientationsZ
+    _outputs: OutputsElementOrientationsZ
+
     def __init__(
         self,
         time_scoping=None,
@@ -254,7 +257,7 @@ can be Nodal/ElementalNodal/Elemental.
         inputs:
             An instance of InputsElementOrientationsZ.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsElementOrientationsZ:
@@ -265,7 +268,7 @@ can be Nodal/ElementalNodal/Elemental.
         outputs:
             An instance of OutputsElementOrientationsZ.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsElementOrientationsZ(_Inputs):

@@ -52,6 +52,9 @@ class bind_support_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsBindSupportFc
+    _outputs: OutputsBindSupportFc
+
     def __init__(self, fields_container=None, support=None, config=None, server=None):
         super().__init__(name="BindSupportFC", config=config, server=server)
         self._inputs = InputsBindSupportFc(self)
@@ -126,7 +129,7 @@ class bind_support_fc(Operator):
         inputs:
             An instance of InputsBindSupportFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsBindSupportFc:
@@ -137,7 +140,7 @@ class bind_support_fc(Operator):
         outputs:
             An instance of OutputsBindSupportFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsBindSupportFc(_Inputs):

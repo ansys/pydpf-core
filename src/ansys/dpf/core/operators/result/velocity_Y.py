@@ -84,6 +84,9 @@ class velocity_Y(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsVelocityY
+    _outputs: OutputsVelocityY
+
     def __init__(
         self,
         time_scoping=None,
@@ -222,7 +225,7 @@ by calling the readers defined by the datasources.
         inputs:
             An instance of InputsVelocityY.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsVelocityY:
@@ -233,7 +236,7 @@ by calling the readers defined by the datasources.
         outputs:
             An instance of OutputsVelocityY.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsVelocityY(_Inputs):

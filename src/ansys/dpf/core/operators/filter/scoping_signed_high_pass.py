@@ -59,6 +59,9 @@ class scoping_signed_high_pass(Operator):
     >>> result_scoping = op.outputs.scoping()
     """
 
+    _inputs: InputsScopingSignedHighPass
+    _outputs: OutputsScopingSignedHighPass
+
     def __init__(self, field=None, threshold=None, both=None, config=None, server=None):
         super().__init__(
             name="core::scoping::signed_high_pass", config=config, server=server
@@ -142,7 +145,7 @@ value to the threshold value in input.
         inputs:
             An instance of InputsScopingSignedHighPass.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsScopingSignedHighPass:
@@ -153,7 +156,7 @@ value to the threshold value in input.
         outputs:
             An instance of OutputsScopingSignedHighPass.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsScopingSignedHighPass(_Inputs):

@@ -60,6 +60,9 @@ class accumulate_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsAccumulateFc
+    _outputs: OutputsAccumulateFc
+
     def __init__(
         self,
         fields_container=None,
@@ -155,7 +158,7 @@ point.
         inputs:
             An instance of InputsAccumulateFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsAccumulateFc:
@@ -166,7 +169,7 @@ point.
         outputs:
             An instance of OutputsAccumulateFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsAccumulateFc(_Inputs):

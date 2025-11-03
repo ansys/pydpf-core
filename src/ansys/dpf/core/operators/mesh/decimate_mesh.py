@@ -59,6 +59,9 @@ class decimate_mesh(Operator):
     >>> result_mesh = op.outputs.mesh()
     """
 
+    _inputs: InputsDecimateMesh
+    _outputs: OutputsDecimateMesh
+
     def __init__(
         self,
         mesh=None,
@@ -144,7 +147,7 @@ class decimate_mesh(Operator):
         inputs:
             An instance of InputsDecimateMesh.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsDecimateMesh:
@@ -155,7 +158,7 @@ class decimate_mesh(Operator):
         outputs:
             An instance of OutputsDecimateMesh.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsDecimateMesh(_Inputs):

@@ -50,6 +50,9 @@ class window_triangular(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsWindowTriangular
+    _outputs: OutputsWindowTriangular
+
     def __init__(self, field=None, config=None, server=None):
         super().__init__(name="window::triangular", config=config, server=server)
         self._inputs = InputsWindowTriangular(self)
@@ -114,7 +117,7 @@ or a Field located on time. Assume that time sampling is evenly spaced
         inputs:
             An instance of InputsWindowTriangular.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsWindowTriangular:
@@ -125,7 +128,7 @@ or a Field located on time. Assume that time sampling is evenly spaced
         outputs:
             An instance of OutputsWindowTriangular.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsWindowTriangular(_Inputs):

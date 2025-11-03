@@ -96,6 +96,9 @@ class creep_strain_Z(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsCreepStrainZ
+    _outputs: OutputsCreepStrainZ
+
     def __init__(
         self,
         time_scoping=None,
@@ -254,7 +257,7 @@ location can be Nodal/ElementalNodal/Elemental.
         inputs:
             An instance of InputsCreepStrainZ.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsCreepStrainZ:
@@ -265,7 +268,7 @@ location can be Nodal/ElementalNodal/Elemental.
         outputs:
             An instance of OutputsCreepStrainZ.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsCreepStrainZ(_Inputs):

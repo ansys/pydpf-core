@@ -57,6 +57,9 @@ class extract_time_freq(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsExtractTimeFreq
+    _outputs: OutputsExtractTimeFreq
+
     def __init__(
         self,
         time_freq_support=None,
@@ -142,7 +145,7 @@ class extract_time_freq(Operator):
         inputs:
             An instance of InputsExtractTimeFreq.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsExtractTimeFreq:
@@ -153,7 +156,7 @@ class extract_time_freq(Operator):
         outputs:
             An instance of OutputsExtractTimeFreq.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsExtractTimeFreq(_Inputs):

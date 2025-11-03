@@ -59,6 +59,9 @@ class global_external_work(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsGlobalExternalWork
+    _outputs: OutputsGlobalExternalWork
+
     def __init__(
         self,
         streams_container=None,
@@ -149,7 +152,7 @@ datasources.
         inputs:
             An instance of InputsGlobalExternalWork.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsGlobalExternalWork:
@@ -160,7 +163,7 @@ datasources.
         outputs:
             An instance of OutputsGlobalExternalWork.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsGlobalExternalWork(_Inputs):

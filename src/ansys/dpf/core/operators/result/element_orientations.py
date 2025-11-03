@@ -216,6 +216,9 @@ class element_orientations(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsElementOrientations
+    _outputs: OutputsElementOrientations
+
     def __init__(
         self,
         time_scoping=None,
@@ -502,7 +505,7 @@ elshape Related elements
         inputs:
             An instance of InputsElementOrientations.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsElementOrientations:
@@ -513,7 +516,7 @@ elshape Related elements
         outputs:
             An instance of OutputsElementOrientations.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsElementOrientations(_Inputs):

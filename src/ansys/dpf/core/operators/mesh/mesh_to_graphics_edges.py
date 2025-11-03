@@ -58,6 +58,9 @@ class mesh_to_graphics_edges(Operator):
     >>> result_connectivity = op.outputs.connectivity()
     """
 
+    _inputs: InputsMeshToGraphicsEdges
+    _outputs: OutputsMeshToGraphicsEdges
+
     def __init__(
         self,
         mesh_scoping=None,
@@ -149,7 +152,7 @@ class mesh_to_graphics_edges(Operator):
         inputs:
             An instance of InputsMeshToGraphicsEdges.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMeshToGraphicsEdges:
@@ -160,7 +163,7 @@ class mesh_to_graphics_edges(Operator):
         outputs:
             An instance of OutputsMeshToGraphicsEdges.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMeshToGraphicsEdges(_Inputs):

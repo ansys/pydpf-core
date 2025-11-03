@@ -59,6 +59,9 @@ class scoping_low_pass(Operator):
     >>> result_scoping = op.outputs.scoping()
     """
 
+    _inputs: InputsScopingLowPass
+    _outputs: OutputsScopingLowPass
+
     def __init__(self, field=None, threshold=None, both=None, config=None, server=None):
         super().__init__(name="core::scoping::low_pass", config=config, server=server)
         self._inputs = InputsScopingLowPass(self)
@@ -138,7 +141,7 @@ threshold value in input.
         inputs:
             An instance of InputsScopingLowPass.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsScopingLowPass:
@@ -149,7 +152,7 @@ threshold value in input.
         outputs:
             An instance of OutputsScopingLowPass.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsScopingLowPass(_Inputs):

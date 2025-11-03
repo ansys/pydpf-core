@@ -58,6 +58,9 @@ class elements_volumes_over_time(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsElementsVolumesOverTime
+    _outputs: OutputsElementsVolumesOverTime
+
     def __init__(
         self, scoping=None, displacement=None, mesh=None, config=None, server=None
     ):
@@ -139,7 +142,7 @@ specified time step.
         inputs:
             An instance of InputsElementsVolumesOverTime.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsElementsVolumesOverTime:
@@ -150,7 +153,7 @@ specified time step.
         outputs:
             An instance of OutputsElementsVolumesOverTime.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsElementsVolumesOverTime(_Inputs):

@@ -54,6 +54,9 @@ class nodal_to_global(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsNodalToGlobal
+    _outputs: OutputsNodalToGlobal
+
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
         super().__init__(
             name="NodalElementalResultsRotation", config=config, server=server
@@ -128,7 +131,7 @@ class nodal_to_global(Operator):
         inputs:
             An instance of InputsNodalToGlobal.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsNodalToGlobal:
@@ -139,7 +142,7 @@ class nodal_to_global(Operator):
         outputs:
             An instance of OutputsNodalToGlobal.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsNodalToGlobal(_Inputs):

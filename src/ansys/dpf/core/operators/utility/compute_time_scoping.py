@@ -66,6 +66,9 @@ class compute_time_scoping(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsComputeTimeScoping
+    _outputs: OutputsComputeTimeScoping
+
     def __init__(
         self,
         time_freq_values=None,
@@ -172,7 +175,7 @@ interpolate on a list of time or frequencies.
         inputs:
             An instance of InputsComputeTimeScoping.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsComputeTimeScoping:
@@ -183,7 +186,7 @@ interpolate on a list of time or frequencies.
         outputs:
             An instance of OutputsComputeTimeScoping.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsComputeTimeScoping(_Inputs):

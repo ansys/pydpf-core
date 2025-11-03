@@ -59,6 +59,9 @@ class tri_mesh_skin(Operator):
     >>> result_nodes_mesh_scoping = op.outputs.nodes_mesh_scoping()
     """
 
+    _inputs: InputsTriMeshSkin
+    _outputs: OutputsTriMeshSkin
+
     def __init__(
         self,
         mesh=None,
@@ -154,7 +157,7 @@ class tri_mesh_skin(Operator):
         inputs:
             An instance of InputsTriMeshSkin.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsTriMeshSkin:
@@ -165,7 +168,7 @@ class tri_mesh_skin(Operator):
         outputs:
             An instance of OutputsTriMeshSkin.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsTriMeshSkin(_Inputs):

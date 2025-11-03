@@ -50,6 +50,9 @@ class min_max_fc(Operator):
     >>> result_field_max = op.outputs.field_max()
     """
 
+    _inputs: InputsMinMaxFc
+    _outputs: OutputsMinMaxFc
+
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="min_max_fc", config=config, server=server)
         self._inputs = InputsMinMaxFc(self)
@@ -119,7 +122,7 @@ fields container.
         inputs:
             An instance of InputsMinMaxFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMinMaxFc:
@@ -130,7 +133,7 @@ fields container.
         outputs:
             An instance of OutputsMinMaxFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMinMaxFc(_Inputs):

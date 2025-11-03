@@ -97,6 +97,9 @@ class compute_total_strain_X(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsComputeTotalStrainX
+    _outputs: OutputsComputeTotalStrainX
+
     def __init__(
         self,
         time_scoping=None,
@@ -251,7 +254,7 @@ the database. Get the XX normal component (00 component).
         inputs:
             An instance of InputsComputeTotalStrainX.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsComputeTotalStrainX:
@@ -262,7 +265,7 @@ the database. Get the XX normal component (00 component).
         outputs:
             An instance of OutputsComputeTotalStrainX.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsComputeTotalStrainX(_Inputs):

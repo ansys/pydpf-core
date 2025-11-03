@@ -83,6 +83,9 @@ class enthalpy(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsEnthalpy
+    _outputs: OutputsEnthalpy
+
     def __init__(
         self,
         time_scoping=None,
@@ -220,7 +223,7 @@ class enthalpy(Operator):
         inputs:
             An instance of InputsEnthalpy.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsEnthalpy:
@@ -231,7 +234,7 @@ class enthalpy(Operator):
         outputs:
             An instance of OutputsEnthalpy.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsEnthalpy(_Inputs):

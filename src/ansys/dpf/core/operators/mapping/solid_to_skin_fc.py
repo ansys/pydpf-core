@@ -63,6 +63,9 @@ class solid_to_skin_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsSolidToSkinFc
+    _outputs: OutputsSolidToSkinFc
+
     def __init__(
         self,
         fields_container=None,
@@ -154,7 +157,7 @@ skin mesh for each element face and the nodes associated with it.
         inputs:
             An instance of InputsSolidToSkinFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsSolidToSkinFc:
@@ -165,7 +168,7 @@ skin mesh for each element face and the nodes associated with it.
         outputs:
             An instance of OutputsSolidToSkinFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsSolidToSkinFc(_Inputs):

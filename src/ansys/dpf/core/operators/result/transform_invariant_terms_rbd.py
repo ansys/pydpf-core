@@ -199,6 +199,9 @@ class transform_invariant_terms_rbd(Operator):
     >>> result_dnzn = op.outputs.dnzn()
     """
 
+    _inputs: InputsTransformInvariantTermsRbd
+    _outputs: OutputsTransformInvariantTermsRbd
+
     def __init__(
         self,
         rotation_matrix=None,
@@ -619,7 +622,7 @@ class transform_invariant_terms_rbd(Operator):
         inputs:
             An instance of InputsTransformInvariantTermsRbd.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsTransformInvariantTermsRbd:
@@ -630,7 +633,7 @@ class transform_invariant_terms_rbd(Operator):
         outputs:
             An instance of OutputsTransformInvariantTermsRbd.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsTransformInvariantTermsRbd(_Inputs):

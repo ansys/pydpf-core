@@ -47,6 +47,9 @@ class datasources_provider(Operator):
     >>> result_data_sources = op.outputs.data_sources()
     """
 
+    _inputs: InputsDatasourcesProvider
+    _outputs: OutputsDatasourcesProvider
+
     def __init__(self, data_sources=None, config=None, server=None):
         super().__init__(name="datasources_provider", config=config, server=server)
         self._inputs = InputsDatasourcesProvider(self)
@@ -109,7 +112,7 @@ class datasources_provider(Operator):
         inputs:
             An instance of InputsDatasourcesProvider.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsDatasourcesProvider:
@@ -120,7 +123,7 @@ class datasources_provider(Operator):
         outputs:
             An instance of OutputsDatasourcesProvider.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsDatasourcesProvider(_Inputs):

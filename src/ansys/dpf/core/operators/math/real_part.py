@@ -48,6 +48,9 @@ class real_part(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsRealPart
+    _outputs: OutputsRealPart
+
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="realP_part", config=config, server=server)
         self._inputs = InputsRealPart(self)
@@ -111,7 +114,7 @@ fields.
         inputs:
             An instance of InputsRealPart.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsRealPart:
@@ -122,7 +125,7 @@ fields.
         outputs:
             An instance of OutputsRealPart.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsRealPart(_Inputs):

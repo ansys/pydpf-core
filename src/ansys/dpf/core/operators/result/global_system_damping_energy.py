@@ -59,6 +59,9 @@ class global_system_damping_energy(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsGlobalSystemDampingEnergy
+    _outputs: OutputsGlobalSystemDampingEnergy
+
     def __init__(
         self,
         streams_container=None,
@@ -149,7 +152,7 @@ defined by the datasources.
         inputs:
             An instance of InputsGlobalSystemDampingEnergy.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsGlobalSystemDampingEnergy:
@@ -160,7 +163,7 @@ defined by the datasources.
         outputs:
             An instance of OutputsGlobalSystemDampingEnergy.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsGlobalSystemDampingEnergy(_Inputs):

@@ -62,6 +62,9 @@ class rotate_in_cylindrical_cs_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsRotateInCylindricalCsFc
+    _outputs: OutputsRotateInCylindricalCsFc
+
     def __init__(
         self, field=None, coordinate_system=None, mesh=None, config=None, server=None
     ):
@@ -151,7 +154,7 @@ coordinate system.
         inputs:
             An instance of InputsRotateInCylindricalCsFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsRotateInCylindricalCsFc:
@@ -162,7 +165,7 @@ coordinate system.
         outputs:
             An instance of OutputsRotateInCylindricalCsFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsRotateInCylindricalCsFc(_Inputs):

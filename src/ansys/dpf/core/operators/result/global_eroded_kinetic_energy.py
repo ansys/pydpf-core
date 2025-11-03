@@ -59,6 +59,9 @@ class global_eroded_kinetic_energy(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsGlobalErodedKineticEnergy
+    _outputs: OutputsGlobalErodedKineticEnergy
+
     def __init__(
         self,
         streams_container=None,
@@ -149,7 +152,7 @@ defined by the datasources.
         inputs:
             An instance of InputsGlobalErodedKineticEnergy.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsGlobalErodedKineticEnergy:
@@ -160,7 +163,7 @@ defined by the datasources.
         outputs:
             An instance of OutputsGlobalErodedKineticEnergy.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsGlobalErodedKineticEnergy(_Inputs):

@@ -52,6 +52,9 @@ class from_mesh(Operator):
     >>> result_scoping = op.outputs.scoping()
     """
 
+    _inputs: InputsFromMesh
+    _outputs: OutputsFromMesh
+
     def __init__(self, mesh=None, requested_location=None, config=None, server=None):
         super().__init__(name="MeshScopingProvider", config=config, server=server)
         self._inputs = InputsFromMesh(self)
@@ -122,7 +125,7 @@ class from_mesh(Operator):
         inputs:
             An instance of InputsFromMesh.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsFromMesh:
@@ -133,7 +136,7 @@ class from_mesh(Operator):
         outputs:
             An instance of OutputsFromMesh.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsFromMesh(_Inputs):

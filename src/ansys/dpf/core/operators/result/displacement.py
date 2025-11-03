@@ -99,6 +99,9 @@ class displacement(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsDisplacement
+    _outputs: OutputsDisplacement
+
     def __init__(
         self,
         time_scoping=None,
@@ -264,7 +267,7 @@ datasources.
         inputs:
             An instance of InputsDisplacement.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsDisplacement:
@@ -275,7 +278,7 @@ datasources.
         outputs:
             An instance of OutputsDisplacement.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsDisplacement(_Inputs):

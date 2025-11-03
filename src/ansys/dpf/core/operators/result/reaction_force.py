@@ -79,6 +79,9 @@ class reaction_force(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsReactionForce
+    _outputs: OutputsReactionForce
+
     def __init__(
         self,
         time_scoping=None,
@@ -208,7 +211,7 @@ datasources.
         inputs:
             An instance of InputsReactionForce.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsReactionForce:
@@ -219,7 +222,7 @@ datasources.
         outputs:
             An instance of OutputsReactionForce.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsReactionForce(_Inputs):

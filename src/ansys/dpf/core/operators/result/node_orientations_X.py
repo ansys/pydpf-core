@@ -84,6 +84,9 @@ class node_orientations_X(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsNodeOrientationsX
+    _outputs: OutputsNodeOrientationsX
+
     def __init__(
         self,
         time_scoping=None,
@@ -222,7 +225,7 @@ by calling the readers defined by the datasources.
         inputs:
             An instance of InputsNodeOrientationsX.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsNodeOrientationsX:
@@ -233,7 +236,7 @@ by calling the readers defined by the datasources.
         outputs:
             An instance of OutputsNodeOrientationsX.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsNodeOrientationsX(_Inputs):

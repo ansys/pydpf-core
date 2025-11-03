@@ -47,6 +47,9 @@ class spherical_to_cartesian_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsSphericalToCartesianFc
+    _outputs: OutputsSphericalToCartesianFc
+
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="spherical_to_cartesian_fc", config=config, server=server)
         self._inputs = InputsSphericalToCartesianFc(self)
@@ -109,7 +112,7 @@ class spherical_to_cartesian_fc(Operator):
         inputs:
             An instance of InputsSphericalToCartesianFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsSphericalToCartesianFc:
@@ -120,7 +123,7 @@ class spherical_to_cartesian_fc(Operator):
         outputs:
             An instance of OutputsSphericalToCartesianFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsSphericalToCartesianFc(_Inputs):

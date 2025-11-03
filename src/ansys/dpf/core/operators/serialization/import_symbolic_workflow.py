@@ -53,6 +53,9 @@ class import_symbolic_workflow(Operator):
     >>> result_workflow = op.outputs.workflow()
     """
 
+    _inputs: InputsImportSymbolicWorkflow
+    _outputs: OutputsImportSymbolicWorkflow
+
     def __init__(self, string_or_path=None, format=None, config=None, server=None):
         super().__init__(name="import_symbolic_workflow", config=config, server=server)
         self._inputs = InputsImportSymbolicWorkflow(self)
@@ -124,7 +127,7 @@ WorkFlow with its data.
         inputs:
             An instance of InputsImportSymbolicWorkflow.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsImportSymbolicWorkflow:
@@ -135,7 +138,7 @@ WorkFlow with its data.
         outputs:
             An instance of OutputsImportSymbolicWorkflow.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsImportSymbolicWorkflow(_Inputs):

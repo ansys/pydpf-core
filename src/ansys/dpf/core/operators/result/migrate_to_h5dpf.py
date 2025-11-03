@@ -102,6 +102,9 @@ class migrate_to_h5dpf(Operator):
     >>> result_migrated_file = op.outputs.migrated_file()
     """
 
+    _inputs: InputsMigrateToH5Dpf
+    _outputs: OutputsMigrateToH5Dpf
+
     def __init__(
         self,
         h5_chunk_size=None,
@@ -271,7 +274,7 @@ will map an item to a result name. Example of Map: {{ default: wf1},
         inputs:
             An instance of InputsMigrateToH5Dpf.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMigrateToH5Dpf:
@@ -282,7 +285,7 @@ will map an item to a result name. Example of Map: {{ default: wf1},
         outputs:
             An instance of OutputsMigrateToH5Dpf.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMigrateToH5Dpf(_Inputs):

@@ -47,6 +47,9 @@ class field(Operator):
     >>> result_incremented_result = op.outputs.incremented_result()
     """
 
+    _inputs: InputsField
+    _outputs: OutputsField
+
     def __init__(self, input=None, config=None, server=None):
         super().__init__(name="incremental::merge::field", config=config, server=server)
         self._inputs = InputsField(self)
@@ -108,7 +111,7 @@ class field(Operator):
         inputs:
             An instance of InputsField.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsField:
@@ -119,7 +122,7 @@ class field(Operator):
         outputs:
             An instance of OutputsField.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsField(_Inputs):

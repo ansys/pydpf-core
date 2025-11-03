@@ -59,6 +59,9 @@ class global_total_mass(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsGlobalTotalMass
+    _outputs: OutputsGlobalTotalMass
+
     def __init__(
         self,
         streams_container=None,
@@ -149,7 +152,7 @@ datasources.
         inputs:
             An instance of InputsGlobalTotalMass.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsGlobalTotalMass:
@@ -160,7 +163,7 @@ datasources.
         outputs:
             An instance of OutputsGlobalTotalMass.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsGlobalTotalMass(_Inputs):

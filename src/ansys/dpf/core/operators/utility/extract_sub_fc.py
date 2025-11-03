@@ -61,6 +61,9 @@ class extract_sub_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsExtractSubFc
+    _outputs: OutputsExtractSubFc
+
     def __init__(
         self,
         fields_container=None,
@@ -148,7 +151,7 @@ copied to the output.
         inputs:
             An instance of InputsExtractSubFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsExtractSubFc:
@@ -159,7 +162,7 @@ copied to the output.
         outputs:
             An instance of OutputsExtractSubFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsExtractSubFc(_Inputs):

@@ -79,6 +79,9 @@ class modal_velocity(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsModalVelocity
+    _outputs: OutputsModalVelocity
+
     def __init__(
         self,
         time_scoping=None,
@@ -208,7 +211,7 @@ datasources.
         inputs:
             An instance of InputsModalVelocity.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsModalVelocity:
@@ -219,7 +222,7 @@ datasources.
         outputs:
             An instance of OutputsModalVelocity.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsModalVelocity(_Inputs):

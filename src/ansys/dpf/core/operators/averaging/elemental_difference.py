@@ -65,6 +65,9 @@ class elemental_difference(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsElementalDifference
+    _outputs: OutputsElementalDifference
+
     def __init__(
         self,
         field=None,
@@ -162,7 +165,7 @@ element scoping.
         inputs:
             An instance of InputsElementalDifference.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsElementalDifference:
@@ -173,7 +176,7 @@ element scoping.
         outputs:
             An instance of OutputsElementalDifference.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsElementalDifference(_Inputs):

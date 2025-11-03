@@ -48,6 +48,9 @@ class exponential_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsExponentialFc
+    _outputs: OutputsExponentialFc
+
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="exponential_fc", config=config, server=server)
         self._inputs = InputsExponentialFc(self)
@@ -110,7 +113,7 @@ class exponential_fc(Operator):
         inputs:
             An instance of InputsExponentialFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsExponentialFc:
@@ -121,7 +124,7 @@ class exponential_fc(Operator):
         outputs:
             An instance of OutputsExponentialFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsExponentialFc(_Inputs):

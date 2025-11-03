@@ -65,6 +65,9 @@ class vtk_export(Operator):
 
     """
 
+    _inputs: InputsVtkExport
+    _outputs: OutputsVtkExport
+
     def __init__(
         self,
         export_type=None,
@@ -161,7 +164,7 @@ class vtk_export(Operator):
         inputs:
             An instance of InputsVtkExport.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsVtkExport:
@@ -172,7 +175,7 @@ class vtk_export(Operator):
         outputs:
             An instance of OutputsVtkExport.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsVtkExport(_Inputs):

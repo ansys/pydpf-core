@@ -53,6 +53,9 @@ class convertnum_nod_to_bcs(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsConvertnumNodToBcs
+    _outputs: OutputsConvertnumNodToBcs
+
     def __init__(
         self, fields_container=None, data_sources=None, config=None, server=None
     ):
@@ -125,7 +128,7 @@ class convertnum_nod_to_bcs(Operator):
         inputs:
             An instance of InputsConvertnumNodToBcs.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsConvertnumNodToBcs:
@@ -136,7 +139,7 @@ class convertnum_nod_to_bcs(Operator):
         outputs:
             An instance of OutputsConvertnumNodToBcs.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsConvertnumNodToBcs(_Inputs):

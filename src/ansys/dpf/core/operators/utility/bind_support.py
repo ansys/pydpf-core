@@ -53,6 +53,9 @@ class bind_support(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsBindSupport
+    _outputs: OutputsBindSupport
+
     def __init__(self, field=None, support=None, config=None, server=None):
         super().__init__(name="BindSupport", config=config, server=server)
         self._inputs = InputsBindSupport(self)
@@ -123,7 +126,7 @@ class bind_support(Operator):
         inputs:
             An instance of InputsBindSupport.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsBindSupport:
@@ -134,7 +137,7 @@ class bind_support(Operator):
         outputs:
             An instance of OutputsBindSupport.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsBindSupport(_Inputs):

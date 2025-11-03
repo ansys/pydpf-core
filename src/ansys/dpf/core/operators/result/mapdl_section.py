@@ -77,6 +77,9 @@ class mapdl_section(Operator):
     >>> result_layers_per_section = op.outputs.layers_per_section()
     """
 
+    _inputs: InputsMapdlSection
+    _outputs: OutputsMapdlSection
+
     def __init__(
         self,
         properties_name=None,
@@ -199,7 +202,7 @@ Orientation, NumIntPoints.
         inputs:
             An instance of InputsMapdlSection.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMapdlSection:
@@ -210,7 +213,7 @@ Orientation, NumIntPoints.
         outputs:
             An instance of OutputsMapdlSection.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMapdlSection(_Inputs):

@@ -49,6 +49,9 @@ class matrix_inverse(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsMatrixInverse
+    _outputs: OutputsMatrixInverse
+
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="inverseOp", config=config, server=server)
         self._inputs = InputsMatrixInverse(self)
@@ -112,7 +115,7 @@ container.
         inputs:
             An instance of InputsMatrixInverse.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMatrixInverse:
@@ -123,7 +126,7 @@ container.
         outputs:
             An instance of OutputsMatrixInverse.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMatrixInverse(_Inputs):

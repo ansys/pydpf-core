@@ -52,6 +52,9 @@ class overlap_fields(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsOverlapFields
+    _outputs: OutputsOverlapFields
+
     def __init__(
         self, base_field=None, overlapping_field=None, config=None, server=None
     ):
@@ -125,7 +128,7 @@ values of base_field.
         inputs:
             An instance of InputsOverlapFields.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsOverlapFields:
@@ -136,7 +139,7 @@ values of base_field.
         outputs:
             An instance of OutputsOverlapFields.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsOverlapFields(_Inputs):

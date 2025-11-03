@@ -45,6 +45,9 @@ class grpc_shutdown_server(Operator):
 
     """
 
+    _inputs: InputsGrpcShutdownServer
+    _outputs: OutputsGrpcShutdownServer
+
     def __init__(self, grpc_stream=None, config=None, server=None):
         super().__init__(name="grpc_server_shutdown", config=config, server=server)
         self._inputs = InputsGrpcShutdownServer(self)
@@ -100,7 +103,7 @@ class grpc_shutdown_server(Operator):
         inputs:
             An instance of InputsGrpcShutdownServer.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsGrpcShutdownServer:
@@ -111,7 +114,7 @@ class grpc_shutdown_server(Operator):
         outputs:
             An instance of OutputsGrpcShutdownServer.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsGrpcShutdownServer(_Inputs):

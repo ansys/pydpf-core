@@ -53,6 +53,9 @@ class split_fields(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsSplitFields
+    _outputs: OutputsSplitFields
+
     def __init__(
         self, field_or_fields_container=None, meshes=None, config=None, server=None
     ):
@@ -126,7 +129,7 @@ regions
         inputs:
             An instance of InputsSplitFields.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsSplitFields:
@@ -137,7 +140,7 @@ regions
         outputs:
             An instance of OutputsSplitFields.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsSplitFields(_Inputs):

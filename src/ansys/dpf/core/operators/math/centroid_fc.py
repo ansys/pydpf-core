@@ -61,6 +61,9 @@ class centroid_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsCentroidFc
+    _outputs: OutputsCentroidFc
+
     def __init__(
         self,
         fields_container=None,
@@ -157,7 +160,7 @@ field1\ *(1.-fact)+field2*\ (fact).
         inputs:
             An instance of InputsCentroidFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsCentroidFc:
@@ -168,7 +171,7 @@ field1\ *(1.-fact)+field2*\ (fact).
         outputs:
             An instance of OutputsCentroidFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsCentroidFc(_Inputs):

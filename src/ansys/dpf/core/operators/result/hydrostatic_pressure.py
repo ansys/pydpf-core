@@ -216,6 +216,9 @@ class hydrostatic_pressure(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsHydrostaticPressure
+    _outputs: OutputsHydrostaticPressure
+
     def __init__(
         self,
         time_scoping=None,
@@ -502,7 +505,7 @@ elshape Related elements
         inputs:
             An instance of InputsHydrostaticPressure.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsHydrostaticPressure:
@@ -513,7 +516,7 @@ elshape Related elements
         outputs:
             An instance of OutputsHydrostaticPressure.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsHydrostaticPressure(_Inputs):

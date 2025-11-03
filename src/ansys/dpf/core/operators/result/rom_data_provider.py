@@ -113,6 +113,9 @@ class rom_data_provider(Operator):
     >>> result_phi_ortho = op.outputs.phi_ortho()
     """
 
+    _inputs: InputsRomDataProvider
+    _outputs: OutputsRomDataProvider
+
     def __init__(
         self,
         rom_type=None,
@@ -304,7 +307,7 @@ matrices, lumped mass matrix, modes …)
         inputs:
             An instance of InputsRomDataProvider.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsRomDataProvider:
@@ -315,7 +318,7 @@ matrices, lumped mass matrix, modes …)
         outputs:
             An instance of OutputsRomDataProvider.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsRomDataProvider(_Inputs):

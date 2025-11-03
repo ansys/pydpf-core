@@ -64,6 +64,9 @@ class part_rigid_body_velocity(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsPartRigidBodyVelocity
+    _outputs: OutputsPartRigidBodyVelocity
+
     def __init__(
         self,
         streams_container=None,
@@ -163,7 +166,7 @@ the datasources.
         inputs:
             An instance of InputsPartRigidBodyVelocity.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsPartRigidBodyVelocity:
@@ -174,7 +177,7 @@ the datasources.
         outputs:
             An instance of OutputsPartRigidBodyVelocity.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsPartRigidBodyVelocity(_Inputs):

@@ -51,6 +51,9 @@ class pow(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsPow
+    _outputs: OutputsPow
+
     def __init__(self, field=None, factor=None, config=None, server=None):
         super().__init__(name="Pow", config=config, server=server)
         self._inputs = InputsPow(self)
@@ -121,7 +124,7 @@ class pow(Operator):
         inputs:
             An instance of InputsPow.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsPow:
@@ -132,7 +135,7 @@ class pow(Operator):
         outputs:
             An instance of OutputsPow.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsPow(_Inputs):

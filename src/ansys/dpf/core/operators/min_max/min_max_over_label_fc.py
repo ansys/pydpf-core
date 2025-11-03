@@ -71,6 +71,9 @@ class min_max_over_label_fc(Operator):
     >>> result_scoping_ids_max = op.outputs.scoping_ids_max()
     """
 
+    _inputs: InputsMinMaxOverLabelFc
+    _outputs: OutputsMinMaxOverLabelFc
+
     def __init__(self, fields_container=None, label=None, config=None, server=None):
         super().__init__(name="min_max_over_label_fc", config=config, server=server)
         self._inputs = InputsMinMaxOverLabelFc(self)
@@ -180,7 +183,7 @@ kept in min max are also returned in the scopings in pin 4 (min) and 5
         inputs:
             An instance of InputsMinMaxOverLabelFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMinMaxOverLabelFc:
@@ -191,7 +194,7 @@ kept in min max are also returned in the scopings in pin 4 (min) and 5
         outputs:
             An instance of OutputsMinMaxOverLabelFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMinMaxOverLabelFc(_Inputs):

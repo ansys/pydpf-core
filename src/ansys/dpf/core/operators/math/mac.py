@@ -62,6 +62,9 @@ class mac(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsMac
+    _outputs: OutputsMac
+
     def __init__(
         self,
         fields_containerA=None,
@@ -159,7 +162,7 @@ an user responsability.
         inputs:
             An instance of InputsMac.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMac:
@@ -170,7 +173,7 @@ an user responsability.
         outputs:
             An instance of OutputsMac.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMac(_Inputs):

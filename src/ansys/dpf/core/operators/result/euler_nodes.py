@@ -66,6 +66,9 @@ class euler_nodes(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsEulerNodes
+    _outputs: OutputsEulerNodes
+
     def __init__(
         self,
         streams_container=None,
@@ -170,7 +173,7 @@ from the result file.
         inputs:
             An instance of InputsEulerNodes.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsEulerNodes:
@@ -181,7 +184,7 @@ from the result file.
         outputs:
             An instance of OutputsEulerNodes.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsEulerNodes(_Inputs):

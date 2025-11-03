@@ -55,6 +55,9 @@ class cms_matrices_provider(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsCmsMatricesProvider
+    _outputs: OutputsCmsMatricesProvider
+
     def __init__(self, data_sources=None, matrix_form=None, config=None, server=None):
         super().__init__(name="cms_matrices_provider", config=config, server=server)
         self._inputs = InputsCmsMatricesProvider(self)
@@ -126,7 +129,7 @@ matrices and load vector from a subfile.
         inputs:
             An instance of InputsCmsMatricesProvider.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsCmsMatricesProvider:
@@ -137,7 +140,7 @@ matrices and load vector from a subfile.
         outputs:
             An instance of OutputsCmsMatricesProvider.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsCmsMatricesProvider(_Inputs):

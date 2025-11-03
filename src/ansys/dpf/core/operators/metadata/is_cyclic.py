@@ -54,6 +54,9 @@ class is_cyclic(Operator):
     >>> result_file_path = op.outputs.file_path()
     """
 
+    _inputs: InputsIsCyclic
+    _outputs: OutputsIsCyclic
+
     def __init__(
         self, streams_container=None, data_sources=None, config=None, server=None
     ):
@@ -126,7 +129,7 @@ class is_cyclic(Operator):
         inputs:
             An instance of InputsIsCyclic.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsIsCyclic:
@@ -137,7 +140,7 @@ class is_cyclic(Operator):
         outputs:
             An instance of OutputsIsCyclic.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsIsCyclic(_Inputs):

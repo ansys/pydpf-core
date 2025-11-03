@@ -79,6 +79,9 @@ class magnetic_vector_potential(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsMagneticVectorPotential
+    _outputs: OutputsMagneticVectorPotential
+
     def __init__(
         self,
         time_scoping=None,
@@ -208,7 +211,7 @@ the datasources.
         inputs:
             An instance of InputsMagneticVectorPotential.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMagneticVectorPotential:
@@ -219,7 +222,7 @@ the datasources.
         outputs:
             An instance of OutputsMagneticVectorPotential.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMagneticVectorPotential(_Inputs):

@@ -114,6 +114,9 @@ class members_in_linear_compression_bending_not_certified(Operator):
     >>> result_buckling_resistance_linear_summation_utilization_ratios = op.outputs.buckling_resistance_linear_summation_utilization_ratios()
     """
 
+    _inputs: InputsMembersInLinearCompressionBendingNotCertified
+    _outputs: OutputsMembersInLinearCompressionBendingNotCertified
+
     def __init__(
         self,
         time_scoping=None,
@@ -301,7 +304,7 @@ ANSYS declines all responsibility for the use of this operator.
         inputs:
             An instance of InputsMembersInLinearCompressionBendingNotCertified.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMembersInLinearCompressionBendingNotCertified:
@@ -312,7 +315,7 @@ ANSYS declines all responsibility for the use of this operator.
         outputs:
             An instance of OutputsMembersInLinearCompressionBendingNotCertified.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMembersInLinearCompressionBendingNotCertified(_Inputs):

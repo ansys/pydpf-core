@@ -64,6 +64,9 @@ class filtering_max_over_time(Operator):
     >>> result_workflow = op.outputs.workflow()
     """
 
+    _inputs: InputsFilteringMaxOverTime
+    _outputs: OutputsFilteringMaxOverTime
+
     def __init__(
         self,
         invariant_fc_operator=None,
@@ -159,7 +162,7 @@ threshold of a selected invariant.
         inputs:
             An instance of InputsFilteringMaxOverTime.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsFilteringMaxOverTime:
@@ -170,7 +173,7 @@ threshold of a selected invariant.
         outputs:
             An instance of OutputsFilteringMaxOverTime.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsFilteringMaxOverTime(_Inputs):

@@ -76,6 +76,9 @@ class elemental_nodal_to_nodal(Operator):
     >>> result_weight = op.outputs.weight()
     """
 
+    _inputs: InputsElementalNodalToNodal
+    _outputs: OutputsElementalNodalToNodal
+
     def __init__(
         self,
         field=None,
@@ -195,7 +198,7 @@ averaging process. The result is computed on a given node’s scoping.
         inputs:
             An instance of InputsElementalNodalToNodal.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsElementalNodalToNodal:
@@ -206,7 +209,7 @@ averaging process. The result is computed on a given node’s scoping.
         outputs:
             An instance of OutputsElementalNodalToNodal.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsElementalNodalToNodal(_Inputs):

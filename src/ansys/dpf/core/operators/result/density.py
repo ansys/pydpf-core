@@ -83,6 +83,9 @@ class density(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsDensity
+    _outputs: OutputsDensity
+
     def __init__(
         self,
         time_scoping=None,
@@ -220,7 +223,7 @@ class density(Operator):
         inputs:
             An instance of InputsDensity.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsDensity:
@@ -231,7 +234,7 @@ class density(Operator):
         outputs:
             An instance of OutputsDensity.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsDensity(_Inputs):

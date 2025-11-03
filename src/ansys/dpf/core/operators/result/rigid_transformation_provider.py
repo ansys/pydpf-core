@@ -53,6 +53,9 @@ class rigid_transformation_provider(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsRigidTransformationProvider
+    _outputs: OutputsRigidTransformationProvider
+
     def __init__(self, streams=None, data_sources=None, config=None, server=None):
         super().__init__(
             name="mapdl::dsub::rigid_transformation_provider",
@@ -129,7 +132,7 @@ class rigid_transformation_provider(Operator):
         inputs:
             An instance of InputsRigidTransformationProvider.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsRigidTransformationProvider:
@@ -140,7 +143,7 @@ class rigid_transformation_provider(Operator):
         outputs:
             An instance of OutputsRigidTransformationProvider.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsRigidTransformationProvider(_Inputs):

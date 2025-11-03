@@ -58,6 +58,9 @@ class extract_scoping(Operator):
     >>> result_mesh_scoping = op.outputs.mesh_scoping()
     """
 
+    _inputs: InputsExtractScoping
+    _outputs: OutputsExtractScoping
+
     def __init__(
         self,
         field_or_fields_container=None,
@@ -147,7 +150,7 @@ scoping or scopings container.
         inputs:
             An instance of InputsExtractScoping.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsExtractScoping:
@@ -158,7 +161,7 @@ scoping or scopings container.
         outputs:
             An instance of OutputsExtractScoping.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsExtractScoping(_Inputs):

@@ -56,6 +56,9 @@ class accumulate_over_label_fc(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsAccumulateOverLabelFc
+    _outputs: OutputsAccumulateOverLabelFc
+
     def __init__(self, fields_container=None, label=None, config=None, server=None):
         super().__init__(name="accumulate_over_label_fc", config=config, server=server)
         self._inputs = InputsAccumulateOverLabelFc(self)
@@ -130,7 +133,7 @@ connected inputs.
         inputs:
             An instance of InputsAccumulateOverLabelFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsAccumulateOverLabelFc:
@@ -141,7 +144,7 @@ connected inputs.
         outputs:
             An instance of OutputsAccumulateOverLabelFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsAccumulateOverLabelFc(_Inputs):

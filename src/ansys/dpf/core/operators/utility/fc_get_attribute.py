@@ -60,6 +60,9 @@ class fc_get_attribute(Operator):
     >>> result_property = op.outputs.property()
     """
 
+    _inputs: InputsFcGetAttribute
+    _outputs: OutputsFcGetAttribute
+
     def __init__(
         self,
         fields_container=None,
@@ -157,7 +160,7 @@ container in input.
         inputs:
             An instance of InputsFcGetAttribute.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsFcGetAttribute:
@@ -168,7 +171,7 @@ container in input.
         outputs:
             An instance of OutputsFcGetAttribute.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsFcGetAttribute(_Inputs):

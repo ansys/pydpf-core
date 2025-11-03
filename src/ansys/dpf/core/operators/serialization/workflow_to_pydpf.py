@@ -53,6 +53,9 @@ class workflow_to_pydpf(Operator):
     >>> result_pydpf_code = op.outputs.pydpf_code()
     """
 
+    _inputs: InputsWorkflowToPydpf
+    _outputs: OutputsWorkflowToPydpf
+
     def __init__(self, workflow=None, output_path=None, config=None, server=None):
         super().__init__(name="workflow_to_pydpf", config=config, server=server)
         self._inputs = InputsWorkflowToPydpf(self)
@@ -125,7 +128,7 @@ specified path.
         inputs:
             An instance of InputsWorkflowToPydpf.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsWorkflowToPydpf:
@@ -136,7 +139,7 @@ specified path.
         outputs:
             An instance of OutputsWorkflowToPydpf.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsWorkflowToPydpf(_Inputs):

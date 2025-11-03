@@ -48,6 +48,9 @@ class img_part(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsImgPart
+    _outputs: OutputsImgPart
+
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="img_part", config=config, server=server)
         self._inputs = InputsImgPart(self)
@@ -111,7 +114,7 @@ complex fields.
         inputs:
             An instance of InputsImgPart.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsImgPart:
@@ -122,7 +125,7 @@ complex fields.
         outputs:
             An instance of OutputsImgPart.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsImgPart(_Inputs):

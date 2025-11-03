@@ -83,6 +83,9 @@ class static_pressure(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsStaticPressure
+    _outputs: OutputsStaticPressure
+
     def __init__(
         self,
         time_scoping=None,
@@ -220,7 +223,7 @@ class static_pressure(Operator):
         inputs:
             An instance of InputsStaticPressure.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsStaticPressure:
@@ -231,7 +234,7 @@ class static_pressure(Operator):
         outputs:
             An instance of OutputsStaticPressure.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsStaticPressure(_Inputs):

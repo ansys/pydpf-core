@@ -69,6 +69,9 @@ class identical_mc(Operator):
     >>> result_message = op.outputs.message()
     """
 
+    _inputs: InputsIdenticalMc
+    _outputs: OutputsIdenticalMc
+
     def __init__(
         self,
         meshes_containerA=None,
@@ -178,7 +181,7 @@ class identical_mc(Operator):
         inputs:
             An instance of InputsIdenticalMc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsIdenticalMc:
@@ -189,7 +192,7 @@ class identical_mc(Operator):
         outputs:
             An instance of OutputsIdenticalMc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsIdenticalMc(_Inputs):

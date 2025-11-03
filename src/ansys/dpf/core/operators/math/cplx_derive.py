@@ -47,6 +47,9 @@ class cplx_derive(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsCplxDerive
+    _outputs: OutputsCplxDerive
+
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="cplx_derive", config=config, server=server)
         self._inputs = InputsCplxDerive(self)
@@ -109,7 +112,7 @@ class cplx_derive(Operator):
         inputs:
             An instance of InputsCplxDerive.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsCplxDerive:
@@ -120,7 +123,7 @@ class cplx_derive(Operator):
         outputs:
             An instance of OutputsCplxDerive.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsCplxDerive(_Inputs):

@@ -58,6 +58,9 @@ class merge_property_fields(Operator):
     >>> result_property_field = op.outputs.property_field()
     """
 
+    _inputs: InputsMergePropertyFields
+    _outputs: OutputsMergePropertyFields
+
     def __init__(
         self,
         naive_merge=None,
@@ -143,7 +146,7 @@ class merge_property_fields(Operator):
         inputs:
             An instance of InputsMergePropertyFields.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMergePropertyFields:
@@ -154,7 +157,7 @@ class merge_property_fields(Operator):
         outputs:
             An instance of OutputsMergePropertyFields.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMergePropertyFields(_Inputs):

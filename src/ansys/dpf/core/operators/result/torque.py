@@ -53,6 +53,9 @@ class torque(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsTorque
+    _outputs: OutputsTorque
+
     def __init__(
         self,
         fields_container=None,
@@ -138,7 +141,7 @@ class torque(Operator):
         inputs:
             An instance of InputsTorque.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsTorque:
@@ -149,7 +152,7 @@ class torque(Operator):
         outputs:
             An instance of OutputsTorque.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsTorque(_Inputs):

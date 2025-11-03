@@ -55,6 +55,9 @@ class nodal_to_elemental_nodal_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsNodalToElementalNodalFc
+    _outputs: OutputsNodalToElementalNodalFc
+
     def __init__(
         self,
         fields_container=None,
@@ -144,7 +147,7 @@ class nodal_to_elemental_nodal_fc(Operator):
         inputs:
             An instance of InputsNodalToElementalNodalFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsNodalToElementalNodalFc:
@@ -155,7 +158,7 @@ class nodal_to_elemental_nodal_fc(Operator):
         outputs:
             An instance of OutputsNodalToElementalNodalFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsNodalToElementalNodalFc(_Inputs):

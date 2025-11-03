@@ -73,6 +73,9 @@ class merge_fields_containers(Operator):
     >>> result_merged_fields_container = op.outputs.merged_fields_container()
     """
 
+    _inputs: InputsMergeFieldsContainers
+    _outputs: OutputsMergeFieldsContainers
+
     def __init__(
         self,
         should_merge_named_selections=None,
@@ -192,7 +195,7 @@ class merge_fields_containers(Operator):
         inputs:
             An instance of InputsMergeFieldsContainers.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMergeFieldsContainers:
@@ -203,7 +206,7 @@ class merge_fields_containers(Operator):
         outputs:
             An instance of OutputsMergeFieldsContainers.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMergeFieldsContainers(_Inputs):

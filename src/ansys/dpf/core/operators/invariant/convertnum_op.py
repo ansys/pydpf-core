@@ -64,6 +64,9 @@ class convertnum_op(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsConvertnumOp
+    _outputs: OutputsConvertnumOp
+
     def __init__(
         self,
         input_ordering=None,
@@ -159,7 +162,7 @@ ordering. Supported mapdl ordering are BCS=0, FUL=1, NOD=2.
         inputs:
             An instance of InputsConvertnumOp.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsConvertnumOp:
@@ -170,7 +173,7 @@ ordering. Supported mapdl ordering are BCS=0, FUL=1, NOD=2.
         outputs:
             An instance of OutputsConvertnumOp.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsConvertnumOp(_Inputs):

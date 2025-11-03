@@ -60,6 +60,9 @@ class descending_sort(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsDescendingSort
+    _outputs: OutputsDescendingSort
+
     def __init__(
         self,
         field=None,
@@ -147,7 +150,7 @@ operator doesn’t support multiple elementary data per entity.
         inputs:
             An instance of InputsDescendingSort.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsDescendingSort:
@@ -158,7 +161,7 @@ operator doesn’t support multiple elementary data per entity.
         outputs:
             An instance of OutputsDescendingSort.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsDescendingSort(_Inputs):

@@ -61,6 +61,9 @@ class coordinate_system_data_provider(Operator):
     >>> result_coordinate_system_data2 = op.outputs.coordinate_system_data2()
     """
 
+    _inputs: InputsCoordinateSystemDataProvider
+    _outputs: OutputsCoordinateSystemDataProvider
+
     def __init__(
         self,
         solver_coordinate_system_ids=None,
@@ -159,7 +162,7 @@ streams or data sources.
         inputs:
             An instance of InputsCoordinateSystemDataProvider.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsCoordinateSystemDataProvider:
@@ -170,7 +173,7 @@ streams or data sources.
         outputs:
             An instance of OutputsCoordinateSystemDataProvider.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsCoordinateSystemDataProvider(_Inputs):

@@ -54,6 +54,9 @@ class field_to_csv(Operator):
 
     """
 
+    _inputs: InputsFieldToCsv
+    _outputs: OutputsFieldToCsv
+
     def __init__(
         self,
         field_or_fields_container=None,
@@ -132,7 +135,7 @@ class field_to_csv(Operator):
         inputs:
             An instance of InputsFieldToCsv.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsFieldToCsv:
@@ -143,7 +146,7 @@ class field_to_csv(Operator):
         outputs:
             An instance of OutputsFieldToCsv.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsFieldToCsv(_Inputs):

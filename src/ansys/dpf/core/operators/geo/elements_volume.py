@@ -54,6 +54,9 @@ class elements_volume(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsElementsVolume
+    _outputs: OutputsElementsVolume
+
     def __init__(self, mesh=None, mesh_scoping=None, config=None, server=None):
         super().__init__(name="element::volume", config=config, server=server)
         self._inputs = InputsElementsVolume(self)
@@ -126,7 +129,7 @@ except for polyhedrons.
         inputs:
             An instance of InputsElementsVolume.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsElementsVolume:
@@ -137,7 +140,7 @@ except for polyhedrons.
         outputs:
             An instance of OutputsElementsVolume.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsElementsVolume(_Inputs):

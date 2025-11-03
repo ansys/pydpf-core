@@ -79,6 +79,9 @@ class nodal_rotation(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsNodalRotation
+    _outputs: OutputsNodalRotation
+
     def __init__(
         self,
         time_scoping=None,
@@ -208,7 +211,7 @@ datasources.
         inputs:
             An instance of InputsNodalRotation.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsNodalRotation:
@@ -219,7 +222,7 @@ datasources.
         outputs:
             An instance of OutputsNodalRotation.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsNodalRotation(_Inputs):

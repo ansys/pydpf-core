@@ -90,6 +90,9 @@ class elemental_nodal_to_nodal_fc(Operator):
     >>> result_weights = op.outputs.weights()
     """
 
+    _inputs: InputsElementalNodalToNodalFc
+    _outputs: OutputsElementalNodalToNodalFc
+
     def __init__(
         self,
         fields_container=None,
@@ -236,7 +239,7 @@ merge_solid_shell input.
         inputs:
             An instance of InputsElementalNodalToNodalFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsElementalNodalToNodalFc:
@@ -247,7 +250,7 @@ merge_solid_shell input.
         outputs:
             An instance of OutputsElementalNodalToNodalFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsElementalNodalToNodalFc(_Inputs):

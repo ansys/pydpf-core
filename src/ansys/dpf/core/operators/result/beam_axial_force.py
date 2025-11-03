@@ -69,6 +69,9 @@ class beam_axial_force(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsBeamAxialForce
+    _outputs: OutputsBeamAxialForce
+
     def __init__(
         self,
         time_scoping=None,
@@ -184,7 +187,7 @@ datasources.
         inputs:
             An instance of InputsBeamAxialForce.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsBeamAxialForce:
@@ -195,7 +198,7 @@ datasources.
         outputs:
             An instance of OutputsBeamAxialForce.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsBeamAxialForce(_Inputs):

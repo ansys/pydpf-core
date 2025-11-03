@@ -99,6 +99,9 @@ class elemental_volume(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsElementalVolume
+    _outputs: OutputsElementalVolume
+
     def __init__(
         self,
         time_scoping=None,
@@ -264,7 +267,7 @@ datasources.
         inputs:
             An instance of InputsElementalVolume.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsElementalVolume:
@@ -275,7 +278,7 @@ datasources.
         outputs:
             An instance of OutputsElementalVolume.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsElementalVolume(_Inputs):

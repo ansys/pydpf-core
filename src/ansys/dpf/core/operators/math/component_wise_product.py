@@ -57,6 +57,9 @@ class component_wise_product(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsComponentWiseProduct
+    _outputs: OutputsComponentWiseProduct
+
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
         super().__init__(name="component_wise_product", config=config, server=server)
         self._inputs = InputsComponentWiseProduct(self)
@@ -131,7 +134,7 @@ fields.
         inputs:
             An instance of InputsComponentWiseProduct.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsComponentWiseProduct:
@@ -142,7 +145,7 @@ fields.
         outputs:
             An instance of OutputsComponentWiseProduct.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsComponentWiseProduct(_Inputs):

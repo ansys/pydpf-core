@@ -84,6 +84,9 @@ class dynamic_viscosity(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsDynamicViscosity
+    _outputs: OutputsDynamicViscosity
+
     def __init__(
         self,
         time_scoping=None,
@@ -222,7 +225,7 @@ datasources.
         inputs:
             An instance of InputsDynamicViscosity.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsDynamicViscosity:
@@ -233,7 +236,7 @@ datasources.
         outputs:
             An instance of OutputsDynamicViscosity.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsDynamicViscosity(_Inputs):

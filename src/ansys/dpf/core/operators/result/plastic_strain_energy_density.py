@@ -216,6 +216,9 @@ class plastic_strain_energy_density(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsPlasticStrainEnergyDensity
+    _outputs: OutputsPlasticStrainEnergyDensity
+
     def __init__(
         self,
         time_scoping=None,
@@ -502,7 +505,7 @@ elshape Related elements
         inputs:
             An instance of InputsPlasticStrainEnergyDensity.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsPlasticStrainEnergyDensity:
@@ -513,7 +516,7 @@ elshape Related elements
         outputs:
             An instance of OutputsPlasticStrainEnergyDensity.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsPlasticStrainEnergyDensity(_Inputs):

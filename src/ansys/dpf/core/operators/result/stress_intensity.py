@@ -95,6 +95,9 @@ class stress_intensity(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsStressIntensity
+    _outputs: OutputsStressIntensity
+
     def __init__(
         self,
         time_scoping=None,
@@ -253,7 +256,7 @@ which case a rotation to the global coordinate system is performed.
         inputs:
             An instance of InputsStressIntensity.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsStressIntensity:
@@ -264,7 +267,7 @@ which case a rotation to the global coordinate system is performed.
         outputs:
             An instance of OutputsStressIntensity.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsStressIntensity(_Inputs):

@@ -74,6 +74,9 @@ class beam_axial_stress(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsBeamAxialStress
+    _outputs: OutputsBeamAxialStress
+
     def __init__(
         self,
         time_scoping=None,
@@ -198,7 +201,7 @@ datasources.
         inputs:
             An instance of InputsBeamAxialStress.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsBeamAxialStress:
@@ -209,7 +212,7 @@ datasources.
         outputs:
             An instance of OutputsBeamAxialStress.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsBeamAxialStress(_Inputs):

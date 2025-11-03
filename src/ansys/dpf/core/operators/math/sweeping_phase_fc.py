@@ -64,6 +64,9 @@ class sweeping_phase_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsSweepingPhaseFc
+    _outputs: OutputsSweepingPhaseFc
+
     def __init__(
         self,
         fields_container=None,
@@ -162,7 +165,7 @@ imaginary_field\ ``*``\ sin(angle).
         inputs:
             An instance of InputsSweepingPhaseFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsSweepingPhaseFc:
@@ -173,7 +176,7 @@ imaginary_field\ ``*``\ sin(angle).
         outputs:
             An instance of OutputsSweepingPhaseFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsSweepingPhaseFc(_Inputs):

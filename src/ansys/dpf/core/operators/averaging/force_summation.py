@@ -91,6 +91,9 @@ class force_summation(Operator):
     >>> result_heats_on_nodes = op.outputs.heats_on_nodes()
     """
 
+    _inputs: InputsForceSummation
+    _outputs: OutputsForceSummation
+
     def __init__(
         self,
         time_scoping=None,
@@ -245,7 +248,7 @@ structural degrees of freedom.
         inputs:
             An instance of InputsForceSummation.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsForceSummation:
@@ -256,7 +259,7 @@ structural degrees of freedom.
         outputs:
             An instance of OutputsForceSummation.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsForceSummation(_Inputs):

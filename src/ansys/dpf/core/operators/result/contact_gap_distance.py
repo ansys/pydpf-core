@@ -236,6 +236,9 @@ class contact_gap_distance(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsContactGapDistance
+    _outputs: OutputsContactGapDistance
+
     def __init__(
         self,
         time_scoping=None,
@@ -558,7 +561,7 @@ elshape Related elements
         inputs:
             An instance of InputsContactGapDistance.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsContactGapDistance:
@@ -569,7 +572,7 @@ elshape Related elements
         outputs:
             An instance of OutputsContactGapDistance.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsContactGapDistance(_Inputs):

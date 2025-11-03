@@ -60,6 +60,9 @@ class relative_error(Operator):
     >>> result_no_ref_scoping = op.outputs.no_ref_scoping()
     """
 
+    _inputs: InputsRelativeError
+    _outputs: OutputsRelativeError
+
     def __init__(self, value=None, reference=None, config=None, server=None):
         super().__init__(name="relative_error", config=config, server=server)
         self._inputs = InputsRelativeError(self)
@@ -153,7 +156,7 @@ scalar field.
         inputs:
             An instance of InputsRelativeError.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsRelativeError:
@@ -164,7 +167,7 @@ scalar field.
         outputs:
             An instance of OutputsRelativeError.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsRelativeError(_Inputs):

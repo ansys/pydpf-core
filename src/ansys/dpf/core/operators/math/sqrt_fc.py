@@ -48,6 +48,9 @@ class sqrt_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsSqrtFc
+    _outputs: OutputsSqrtFc
+
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="sqrt_fc", config=config, server=server)
         self._inputs = InputsSqrtFc(self)
@@ -110,7 +113,7 @@ class sqrt_fc(Operator):
         inputs:
             An instance of InputsSqrtFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsSqrtFc:
@@ -121,7 +124,7 @@ class sqrt_fc(Operator):
         outputs:
             An instance of OutputsSqrtFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsSqrtFc(_Inputs):

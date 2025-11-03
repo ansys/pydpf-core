@@ -83,6 +83,9 @@ class rms_temperature(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsRmsTemperature
+    _outputs: OutputsRmsTemperature
+
     def __init__(
         self,
         time_scoping=None,
@@ -220,7 +223,7 @@ class rms_temperature(Operator):
         inputs:
             An instance of InputsRmsTemperature.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsRmsTemperature:
@@ -231,7 +234,7 @@ class rms_temperature(Operator):
         outputs:
             An instance of OutputsRmsTemperature.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsRmsTemperature(_Inputs):

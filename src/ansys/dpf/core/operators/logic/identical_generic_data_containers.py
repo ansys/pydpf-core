@@ -74,6 +74,9 @@ class identical_generic_data_containers(Operator):
     >>> result_message = op.outputs.message()
     """
 
+    _inputs: InputsIdenticalGenericDataContainers
+    _outputs: OutputsIdenticalGenericDataContainers
+
     def __init__(
         self,
         generic_data_containerA=None,
@@ -192,7 +195,7 @@ check.
         inputs:
             An instance of InputsIdenticalGenericDataContainers.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsIdenticalGenericDataContainers:
@@ -203,7 +206,7 @@ check.
         outputs:
             An instance of OutputsIdenticalGenericDataContainers.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsIdenticalGenericDataContainers(_Inputs):

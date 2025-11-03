@@ -97,6 +97,9 @@ class compute_total_strain_XZ(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsComputeTotalStrainXz
+    _outputs: OutputsComputeTotalStrainXz
+
     def __init__(
         self,
         time_scoping=None,
@@ -251,7 +254,7 @@ the database. Get the XZ shear component (02 component).
         inputs:
             An instance of InputsComputeTotalStrainXz.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsComputeTotalStrainXz:
@@ -262,7 +265,7 @@ the database. Get the XZ shear component (02 component).
         outputs:
             An instance of OutputsComputeTotalStrainXz.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsComputeTotalStrainXz(_Inputs):
