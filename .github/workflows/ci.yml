@@ -204,5 +204,5 @@ jobs:
       ANSYS_VERSION: ${{ matrix.version }}
       python_versions: '["3.10"]'
       DOCSTRING: false
-      standalone_suffix: ${{ matrix.version == '241' && '.sp01' || ${{ matrix.version == '252' && '.sp04' || '' }} }}
+      standalone_suffix: ${{ matrix.version == '241' && '.sp01' || ( matrix.version == '252' && '.sp04' || '' ) }}
     secrets: inherit
