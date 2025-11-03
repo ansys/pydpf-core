@@ -126,39 +126,36 @@ jobs:
     secrets: inherit
 
   tests-retro:
-    name: "Test DPF ${{ matrix.version }} compatibility"
+    name: "Test DPF ${{ matrix.version.version }}${{ matrix.version.patch }} compatibility"
     strategy:
       fail-fast: false
       matrix:
         version:
-          - ${{ fromJson(vars.ANSYS_VERSIONS_RETRO) }}
+          - ${{ fromJson(vars.ANSYS_VERSIONS_RETRO_WITH_PATCH) }}
     uses: ./.github/workflows/tests.yml
     with:
-      ANSYS_VERSION: ${{ matrix.version }}
+      ANSYS_VERSION: ${{ matrix.version.version }}
       python_versions: '["3.10"]'
       DOCSTRING: false
-      standalone_suffix: ${{ matrix.version == '241' && '.sp01' || '' }}
+      standalone_suffix: ${{ matrix.version.patch }}
     secrets: inherit
 
   tests-pydpf-post:
-    name: "Test PyDPF-Post with ${{ matrix.version}}"
+    name: "Test PyDPF-Post with ${{ matrix.version.version }}${{ matrix.version.patch }}"
     strategy:
       fail-fast: false
       matrix:
         version:
-          - ${{ fromJson(vars.ANSYS_VERSIONS_RETRO) }}
-        standalone_suffix:
-          - ""
+          - ${{ fromJson(vars.ANSYS_VERSIONS_RETRO_WITH_PATCH) }}
         test_docstrings:
           - "false"
         include:
-          - version: ${{ fromJson(vars.ANSYS_VERSION_LAST_RELEASED_WITH_PATCH).version }}
-            standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || fromJson(vars.ANSYS_VERSION_LAST_RELEASED_WITH_PATCH).patch }}
+          - version: ${{ fromJson(vars.ANSYS_VERSION_LAST_RELEASED_WITH_PATCH) }}
             test_docstrings": "true"
     uses: ./.github/workflows/pydpf-post.yml
     with:
-      ANSYS_VERSION: ${{ matrix.version }}
-      standalone_suffix: ${{ matrix.version == '241' && '.sp01' || matrix.standalone_suffix }}
+      ANSYS_VERSION: ${{ matrix.version.version }}
+      standalone_suffix: ${{ matrix.version.patch }}
       test_docstrings: ${{ matrix.test_docstrings }}
     secrets: inherit
 
