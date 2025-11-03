@@ -20,12 +20,12 @@ class absolute_value_by_component_fc(Operator):
     norm performed.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
         field or fields container with only one field is expected
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

@@ -19,14 +19,14 @@ class mesh_to_graphics(Operator):
     r"""Generate tessellation for input mesh
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mesh_scoping: Scoping, optional
     node_normals: bool, optional
         average element normals for node normals (default no, use element normals for node normals)
     mesh: MeshedRegion
 
-    Returns
+    Outputs
     -------
     nodes: Field
         node coordinates

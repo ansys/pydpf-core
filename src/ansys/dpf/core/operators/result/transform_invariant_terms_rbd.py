@@ -20,8 +20,8 @@ class transform_invariant_terms_rbd(Operator):
     + rotation).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     rotation_matrix: Field
         3-3 rotation matrix.
     coordinate_system: Field
@@ -55,7 +55,7 @@ class transform_invariant_terms_rbd(Operator):
     dnyn:
     dnzn:
 
-    Returns
+    Outputs
     -------
     model_data: PropertyField
         data describing the finite element model

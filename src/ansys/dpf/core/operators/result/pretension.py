@@ -20,8 +20,8 @@ class pretension(Operator):
     allowed for these results.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     time_scoping: ScopingsContainer or Scoping, optional
     mesh_scoping: ScopingsContainer or Scoping, optional
     fields_container: FieldsContainer, optional
@@ -38,7 +38,7 @@ class pretension(Operator):
     phi: float, optional
         angle phi in degrees (default value 0.0), use if cyclic expansion is to be done.
 
-    Returns
+    Outputs
     -------
     adjustment: FieldsContainer
         Adjustment

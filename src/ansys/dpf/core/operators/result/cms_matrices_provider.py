@@ -20,14 +20,14 @@ class cms_matrices_provider(Operator):
     matrices and load vector from a subfile.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     data_sources: DataSources
         Data_sources (must contain at list one subfile).
     matrix_form: bool
         If this pin i set to true, data are return as matrix form.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
         Fields container containing in this order : stiffness, damping, mass matrices, and then load vector. But if pin 200 is set to true, it's in matrix form.

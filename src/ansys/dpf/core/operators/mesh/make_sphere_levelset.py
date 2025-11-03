@@ -19,15 +19,15 @@ class make_sphere_levelset(Operator):
     r"""Computes the level set for a sphere using coordinates.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     coordinates: MeshedRegion or Field
     origin: Field
         An overall 3d vector that gives a point of the plane.
     radius: float
         Sphere radius.
 
-    Returns
+    Outputs
     -------
     field: Field
 

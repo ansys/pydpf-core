@@ -24,8 +24,8 @@ class identical_anys(Operator):
     property check.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     anyA: Any
     anyB: Any
     double_value: float
@@ -35,7 +35,7 @@ class identical_anys(Operator):
     compare_auxiliary: bool
         For meshes and meshescontainer: compare auxiliary data (i.e property fields, scopings...). Default value is 'false'.
 
-    Returns
+    Outputs
     -------
     included: bool
         bool (true if belongs...)

@@ -19,12 +19,12 @@ class read_cms_rbd_file(Operator):
     r"""Read the invariant terms and the model data from a cms_rbd file
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     in_cms_rbd_file_path: str
         file name with cms_rbd extension where to read the input cms_rbd file.
 
-    Returns
+    Outputs
     -------
     model_data: PropertyField
         data describing the finite element model

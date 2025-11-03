@@ -19,13 +19,13 @@ class change_location(Operator):
     r"""change the location of a field.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field
     new_location: str
         new location of the output field ex 'Nodal', 'ElementalNodal', 'Elemental'...
 
-    Returns
+    Outputs
     -------
     field: Field
 

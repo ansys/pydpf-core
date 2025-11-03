@@ -19,15 +19,15 @@ class integrate_over_elements(Operator):
     r"""Integration of an input field over mesh.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field
     scoping: Scoping, optional
         Integrate the input field over a specific scoping.
     mesh: MeshedRegion, optional
         Mesh to integrate on. If not provided, the one from input field is employed.
 
-    Returns
+    Outputs
     -------
     field: Field
 

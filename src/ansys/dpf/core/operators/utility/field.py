@@ -19,11 +19,11 @@ class field(Operator):
     r"""Incrementaly merge the input.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     input: Field
 
-    Returns
+    Outputs
     -------
     incremented_result:
 

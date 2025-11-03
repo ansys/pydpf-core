@@ -20,8 +20,8 @@ class accumulate(Operator):
     point.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fieldA: Field or FieldsContainer
         field or fields container with only one field is expected
     weights: Field, optional
@@ -29,7 +29,7 @@ class accumulate(Operator):
     time_scoping: Scoping, optional
         time_scoping
 
-    Returns
+    Outputs
     -------
     field: Field
         Field containing the (weighted) sum for each component in an elementary data

@@ -19,14 +19,14 @@ class cyclic_mesh_expansion(Operator):
     r"""Expand the mesh.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     sector_meshed_region: MeshedRegion or MeshesContainer, optional
     cyclic_support: CyclicSupport
     sectors_to_expand: Scoping or ScopingsContainer, optional
         sectors to expand (start at 0), for multistage: use scopings container with 'stage' label.
 
-    Returns
+    Outputs
     -------
     meshed_region: MeshedRegion
         expanded meshed region.

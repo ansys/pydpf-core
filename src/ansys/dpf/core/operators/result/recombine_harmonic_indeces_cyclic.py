@@ -20,13 +20,13 @@ class recombine_harmonic_indeces_cyclic(Operator):
     frequencies to compute the response.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     is_constant: bool, optional
         If the result is constant, it will only copy the first result found.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

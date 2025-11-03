@@ -21,8 +21,8 @@ class correlation(Operator):
     container), correlation is computed for each of them.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fieldA: Field or float
         Field a. The reference field.
     fieldB: Field or FieldsContainer
@@ -32,7 +32,7 @@ class correlation(Operator):
     absoluteValue: bool
         If true, correlation factor is ||aMb||/(||aMa||.||bMb||)
 
-    Returns
+    Outputs
     -------
     field: Field
         Correlation factor for each input field b.

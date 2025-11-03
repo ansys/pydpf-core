@@ -22,8 +22,8 @@ class scale(Operator):
     dimensionality
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
         field or fields container with only one field is expected
     weights: float or Field
@@ -33,7 +33,7 @@ class scale(Operator):
     algorithm: int, optional
         Default is 0 use mkl. If set to 1, don't
 
-    Returns
+    Outputs
     -------
     field: Field
 

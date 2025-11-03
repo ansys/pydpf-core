@@ -20,11 +20,11 @@ class node_coordinates(Operator):
     r"""Returns the node coordinates of the mesh(es) in input.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mesh: MeshedRegion or MeshesContainer
 
-    Returns
+    Outputs
     -------
     coordinates: Field or FieldsContainer
         if the input is a meshed region, a field of coordinates is the output, else if the input is a  meshes container, a fields container (one field by mesh) is the output

@@ -19,11 +19,11 @@ class json_to_data_tree(Operator):
     r"""Reads a json file or string to a DataTree
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     string_or_path: str or DataSources
 
-    Returns
+    Outputs
     -------
     data_tree: DataTree
 

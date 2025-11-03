@@ -20,8 +20,8 @@ class euler_load_buckling(Operator):
     /(L*L)
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field_beam_end_condition: DataSources or Field
         This pin contains file csv or field of beam's end condition added by the user. If there's no file added, it would take value of all beam's end condition as 1.
     field_beam_moment_inertia: Field
@@ -31,7 +31,7 @@ class euler_load_buckling(Operator):
     field_beam_length: Field
         Field of beam's length
 
-    Returns
+    Outputs
     -------
     field_euler_critical_load: Field
         This field contains Euler's Critical Load about the principle axis of the cross section having the least moment of inertia.

@@ -20,8 +20,8 @@ class connectivity_ids(Operator):
     input. For each element the node ids are its connectivity.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mesh_scoping: Scoping
         Elemental scoping
     mesh: MeshedRegion, optional
@@ -29,7 +29,7 @@ class connectivity_ids(Operator):
     take_mid_nodes: bool, optional
         default is true
 
-    Returns
+    Outputs
     -------
     mesh_scoping: Scoping
     elemental_scoping: Scoping

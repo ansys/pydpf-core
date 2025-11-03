@@ -20,8 +20,8 @@ class centroid(Operator):
     field1\ *(1.-fact)+field2*\ (fact). Only works by index.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fieldA: Field or FieldsContainer
         field or fields container with only one field is expected
     fieldB: Field or FieldsContainer
@@ -29,7 +29,7 @@ class centroid(Operator):
     factor: float
         Scalar
 
-    Returns
+    Outputs
     -------
     field: Field
 

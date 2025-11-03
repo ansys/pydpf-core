@@ -19,12 +19,12 @@ class cos(Operator):
     r"""Computes element-wise cos(field[i]).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
         field or fields container with only one field is expected
 
-    Returns
+    Outputs
     -------
     field: Field
 

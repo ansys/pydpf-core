@@ -20,8 +20,8 @@ class grpc_start_server(Operator):
     waiting for requests in a streams.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     ip: str, optional
         If no ip address is put, the local ip address is taken
     port: str or int, optional
@@ -35,7 +35,7 @@ class grpc_start_server(Operator):
     dpf_context: str or int, optional
         This pin is associated with pin(2) = 2 (server started in a new process). User can enter the integer associated with a DPF context (1: Standalone Context - DpfCoreStandalone.xml, 3: Custom - DpfCustomDefined.xml) or a string with the path of the XML specifying the context.
 
-    Returns
+    Outputs
     -------
     grpc_streams: StreamsContainer, optional
         dpf streams handling the server, if the server is started in this thread, then nothing is added in output

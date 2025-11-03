@@ -19,14 +19,14 @@ class merge_materials(Operator):
     r"""Assembles a set of materials into a unique one.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     materials1: Materials
         A vector of materials to merge or materials from pin 0 to ...
     materials2: Materials
         A vector of materials to merge or materials from pin 0 to ...
 
-    Returns
+    Outputs
     -------
     merged_materials: Materials
 

@@ -19,8 +19,8 @@ class min_by_component(Operator):
     r"""Give the minimum for each element rank by comparing several fields.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     use_absolute_value: bool
         use_absolute_value
     field1: Field or FieldsContainer
@@ -28,7 +28,7 @@ class min_by_component(Operator):
     field2: Field or FieldsContainer
         field or fields container with only one field is expected
 
-    Returns
+    Outputs
     -------
     field: Field
 

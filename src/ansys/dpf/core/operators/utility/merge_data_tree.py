@@ -20,14 +20,14 @@ class merge_data_tree(Operator):
     accross data tree instances.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     data_tree1: DataTree
         Either a vector of data trees or data trees from pin 0 to ... to merge.
     data_tree2: DataTree
         Either a vector of data trees or data trees from pin 0 to ... to merge.
 
-    Returns
+    Outputs
     -------
     any: Any
 

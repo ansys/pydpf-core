@@ -20,8 +20,8 @@ class convertnum_op(Operator):
     ordering. Supported mapdl ordering are BCS=0, FUL=1, NOD=2.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     input_ordering: int
         Input ordering number
     output_ordering: int
@@ -31,7 +31,7 @@ class convertnum_op(Operator):
     data_sources: DataSources
         Data_sources (must contain the full file).
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

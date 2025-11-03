@@ -19,12 +19,12 @@ class sqrt(Operator):
     r"""Computes element-wise sqrt(field1).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
         field or fields container with only one field is expected
 
-    Returns
+    Outputs
     -------
     field: Field
 

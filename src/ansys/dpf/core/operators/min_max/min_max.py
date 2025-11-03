@@ -20,12 +20,12 @@ class min_max(Operator):
     field.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
         field or fields container with only one field is expected
 
-    Returns
+    Outputs
     -------
     field_min: Field
     field_max: Field

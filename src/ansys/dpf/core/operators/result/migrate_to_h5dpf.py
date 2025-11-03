@@ -23,8 +23,8 @@ class migrate_to_h5dpf(Operator):
     {EUL: wf2}, {ENG_SE: wf3}}.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     h5_chunk_size: int or GenericDataContainer, optional
         Size of each HDF5 chunk in kilobytes (KB). Default: 1 MB when compression is enabled; for uncompressed datasets, the default is the full dataset size x dimension.
     dataset_size_compression_threshold: int or GenericDataContainer, optional
@@ -48,7 +48,7 @@ class migrate_to_h5dpf(Operator):
     filtering_workflow: Workflow or GenericDataContainer, optional
         Applies input filtering workflow.
 
-    Returns
+    Outputs
     -------
     migrated_file: DataSources
 

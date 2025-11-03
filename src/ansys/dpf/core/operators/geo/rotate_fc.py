@@ -20,13 +20,13 @@ class rotate_fc(Operator):
     container.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     coordinate_system: Field
         3-3 rotation matrix
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

@@ -20,14 +20,14 @@ class mesh_extraction(Operator):
     that contains this selection only.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mesh: MeshedRegion
     mesh_scoping: Scoping
     extension: int, optional
         Number of extension layer
 
-    Returns
+    Outputs
     -------
     abstract_meshed_region: MeshedRegion
 

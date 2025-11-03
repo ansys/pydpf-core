@@ -19,14 +19,14 @@ class qr_solve(Operator):
     r"""Computes the solution using QR factorization.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
         fields_container
     rhs: FieldsContainer
         fields_container
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

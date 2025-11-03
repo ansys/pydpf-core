@@ -20,14 +20,14 @@ class string_deserializer(Operator):
     DPF’s entities.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     stream_type: int
         0 for string (default), and 1 for binary
     serialized_string1: str
     serialized_string2: str
 
-    Returns
+    Outputs
     -------
     any_output1: Any
         number and types of outputs corresponding of the inputs used in the serialization

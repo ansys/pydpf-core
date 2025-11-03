@@ -25,15 +25,15 @@ class min_max_over_time_by_entity(Operator):
       the minimum and maximum values.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     compute_absolute_value: bool, optional
         Calculate the absolute value of field entities before computing the min/max.
     compute_amplitude: bool, optional
         Do calculate amplitude.
 
-    Returns
+    Outputs
     -------
     min: FieldsContainer
     max: FieldsContainer

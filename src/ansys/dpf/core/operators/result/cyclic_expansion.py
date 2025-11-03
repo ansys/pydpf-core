@@ -20,8 +20,8 @@ class cyclic_expansion(Operator):
     scoping (optionals).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     time_scoping: Scoping, optional
     mesh_scoping: ScopingsContainer or Scoping, optional
     fields_container: FieldsContainer
@@ -39,7 +39,7 @@ class cyclic_expansion(Operator):
     phi: float, optional
         angle phi in degrees (default value 0.0)
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
         FieldsContainer filled in

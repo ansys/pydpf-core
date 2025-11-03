@@ -19,14 +19,14 @@ class pres_to_field(Operator):
     r"""Read the presol generated file from mapdl.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     filepath: str
         filepath
     columns_to_read: int, optional
         columns_to_read
 
-    Returns
+    Outputs
     -------
     field: Field
 

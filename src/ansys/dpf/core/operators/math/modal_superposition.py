@@ -21,8 +21,8 @@ class modal_superposition(Operator):
     (coefficients for each mode for each time/frequency) (in 1).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     modal_basis: FieldsContainer
         One field by mode with each field representing a mode shape on nodes or elements.
     solution_in_modal_space: FieldsContainer
@@ -34,7 +34,7 @@ class modal_superposition(Operator):
     mesh_scoping: Scoping or ScopingsContainer, optional
         Compute the result on a subset of the space domain defined in the modal_basis fields container.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

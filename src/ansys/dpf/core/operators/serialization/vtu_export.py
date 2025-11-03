@@ -19,8 +19,8 @@ class vtu_export(Operator):
     r"""Export DPF data into vtu format.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     directory: str
         directory path
     base_name: str, optional
@@ -40,7 +40,7 @@ class vtu_export(Operator):
     mesh_properties: StringField, optional
         List of names of mesh properties to export.
 
-    Returns
+    Outputs
     -------
     path: DataSources
         list of output vtu file path

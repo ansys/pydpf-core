@@ -20,14 +20,14 @@ class compute_element_centroids(Operator):
     measure.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     element_scoping: Scoping, optional
         If provided, only the centroids of the elements in the scoping are computed.
     mesh: MeshedRegion
         Mesh to compute centroids
 
-    Returns
+    Outputs
     -------
     centroids: Field
         element centroids.

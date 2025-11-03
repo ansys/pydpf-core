@@ -21,8 +21,8 @@ class max_over_phase(Operator):
     increment in input.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     real_field: Field
     imaginary_field: Field
     abs_value: bool, optional
@@ -30,7 +30,7 @@ class max_over_phase(Operator):
     phase_increment: float, optional
         Phase increment (default is 10.0 degrees).
 
-    Returns
+    Outputs
     -------
     field: Field
 

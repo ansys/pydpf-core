@@ -19,15 +19,15 @@ class make_label_space(Operator):
     r"""Assemble strings and integers to make a label space.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     base_label: dict or FieldsContainer or ScopingsContainer, optional
         Used as a base label (extracted from Fields/Scoping Container, or directly from Label Space) that is concatenated with provided values.
     label_name: str
     label_value1: int
     label_value2: int
 
-    Returns
+    Outputs
     -------
     label: dict
 

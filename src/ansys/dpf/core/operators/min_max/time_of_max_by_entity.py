@@ -19,15 +19,15 @@ class time_of_max_by_entity(Operator):
     r"""Evaluates time/frequency of maximum.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     abs_value: bool, optional
         Should use absolute value.
     compute_amplitude: bool, optional
         Do calculate amplitude.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

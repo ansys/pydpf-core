@@ -20,8 +20,8 @@ class skin(Operator):
     initial elements are propagated to their facets.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mesh: MeshedRegion
     mesh_scoping: Scoping, optional
         Nodal scoping to restrict the skin extraction to a set of nodes. If provided, a skin element is added to the skin mesh if all its nodes are in the scoping.
@@ -30,7 +30,7 @@ class skin(Operator):
     add_beam_point: bool, optional
         If input mesh contains beam or point elements, output mesh beam point elements (boolean = 1) are added or (boolean = 0) are ignored. Default: False
 
-    Returns
+    Outputs
     -------
     mesh: MeshedRegion
         Skin meshed region with facets and facets_to_ele property fields.

@@ -20,13 +20,13 @@ class split_fields(Operator):
     regions
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field_or_fields_container: Field or FieldsContainer
     meshes: MeshesContainer
         body meshes in the mesh controller cannot be mixed shell/solid
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

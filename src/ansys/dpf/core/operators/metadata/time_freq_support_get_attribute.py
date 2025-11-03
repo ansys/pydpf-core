@@ -21,8 +21,8 @@ class time_freq_support_get_attribute(Operator):
     in input.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     time_freq_support: TimeFreqSupport
     property_name: str
         Supported property names are: "time_freqs", "imaginary_freqs", "frequency_tolerance", "set_id", "cummulative_index", "sets_freqs", "step_id_from_harmonic_index".
@@ -31,7 +31,7 @@ class time_freq_support_get_attribute(Operator):
     property_identifier_2: int, optional
         Additional pin for properties "set_id" and "cummulative_index": the substep id (if none, last substep is considered).
 
-    Returns
+    Outputs
     -------
     property: float or Field or Scoping
         Returns a double for property: "frequency_tolerance", a single-value Scoping for properties for "set_id" and "cummulative_index", an int for "step_id_from_harmonic_index" and a Field otherwise.

@@ -19,14 +19,14 @@ class rigid_transformation_provider(Operator):
     r"""Extracts rigid body transformation from dsub file.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     streams: Stream, optional
         streams (result file container) (optional)
     data_sources: DataSources
         data source of dsub file.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

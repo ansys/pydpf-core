@@ -22,15 +22,15 @@ class gauss_to_node(Operator):
     tetrahedral, and quadratic tetrahedral
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field
     scoping: Scoping, optional
         Scoping to integrate on, if not provided, the one from input field is provided.
     mesh: MeshedRegion, optional
         Mesh to integrate on.
 
-    Returns
+    Outputs
     -------
     field: Field
 

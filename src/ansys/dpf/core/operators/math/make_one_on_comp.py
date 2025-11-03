@@ -20,12 +20,12 @@ class make_one_on_comp(Operator):
     except for the indexes from pin 1 that will hold 1.0.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fieldA: Field
     scalar_int: int
 
-    Returns
+    Outputs
     -------
     field: Field
 

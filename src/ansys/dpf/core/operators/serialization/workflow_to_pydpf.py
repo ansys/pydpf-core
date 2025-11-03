@@ -21,12 +21,12 @@ class workflow_to_pydpf(Operator):
     specified path.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     workflow: Workflow
     output_path: str, optional
 
-    Returns
+    Outputs
     -------
     pydpf_code: str
 

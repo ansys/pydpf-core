@@ -23,15 +23,15 @@ class field_clone_to_shell_layer(Operator):
     be shared or not based on the optional pin 2.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field
     shell_layer: int
         0: Top, 1: Bottom, 2: TopBottom, 3: Mid, 4: TopBottomMid.
     duplicate_scoping: bool, optional
         If true, a new scoping is computed for the output Field. If false, the input Field scoping is used. Default is false.
 
-    Returns
+    Outputs
     -------
     field: Field
 

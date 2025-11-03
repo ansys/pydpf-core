@@ -20,11 +20,11 @@ class nodal_from_mesh(Operator):
     node IDs.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mesh: MeshedRegion
 
-    Returns
+    Outputs
     -------
     mesh_scoping: Scoping
 

@@ -21,8 +21,8 @@ class ascending_sort_fc(Operator):
     operator does not support multiple elementary data per entity.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
         field or fields container with only one field is expected
     component_priority_table: optional
@@ -30,7 +30,7 @@ class ascending_sort_fc(Operator):
     sort_by_scoping: bool, optional
         if true, uses scoping to sort the field (default is false)
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

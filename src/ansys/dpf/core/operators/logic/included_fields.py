@@ -19,8 +19,8 @@ class included_fields(Operator):
     r"""Checks if one field belongs to another.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fieldA: Field
     fieldB: Field
     double_value: float
@@ -28,7 +28,7 @@ class included_fields(Operator):
     double_tolerance: float, optional
         Double relative tolerance. Maximum tolerance gap between two compared values. Values within relative tolerance are considered identical. Formula is (v1-v2)/v2 < relativeTol. Default is 0.001.
 
-    Returns
+    Outputs
     -------
     included: bool
         bool (true if belongs...)

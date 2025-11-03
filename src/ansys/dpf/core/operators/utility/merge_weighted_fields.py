@@ -20,8 +20,8 @@ class merge_weighted_fields(Operator):
     sum of the fields.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     sum_merge: bool, optional
         Default is false. If true, redundant quantities are summed instead of being ignored.
     merged_support: AbstractFieldSupport, optional
@@ -35,7 +35,7 @@ class merge_weighted_fields(Operator):
     weights2: PropertyField
         Weights to apply to each field from pin 1000 to ...
 
-    Returns
+    Outputs
     -------
     merged_field: Field
 

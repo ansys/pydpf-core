@@ -20,14 +20,14 @@ class deserializer(Operator):
     entities.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     stream_type: int
         0 for ASCII (default), and 1 for binary
     file_path: str
         file path
 
-    Returns
+    Outputs
     -------
     any_output1: Any
         number and types of outputs corresponding of the inputs used in the serialization

@@ -20,12 +20,12 @@ class overlap_fields(Operator):
     values of base_field.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     base_field: Field, optional
     overlapping_field: Field, optional
 
-    Returns
+    Outputs
     -------
     field: Field
 

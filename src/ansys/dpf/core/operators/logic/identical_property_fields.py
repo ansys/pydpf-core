@@ -19,12 +19,12 @@ class identical_property_fields(Operator):
     r"""Takes two property fields and compares them.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     property_fieldA: MeshedRegion
     property_fieldB: MeshedRegion
 
-    Returns
+    Outputs
     -------
     are_identical: bool
     information: str
