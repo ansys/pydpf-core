@@ -73,6 +73,9 @@ class weighted_merge_fields_by_label(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsWeightedMergeFieldsByLabel
+    _outputs: OutputsWeightedMergeFieldsByLabel
+
     def __init__(
         self,
         fields_container=None,
@@ -190,7 +193,7 @@ same label value.
         inputs:
             An instance of InputsWeightedMergeFieldsByLabel.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsWeightedMergeFieldsByLabel:
@@ -201,7 +204,7 @@ same label value.
         outputs:
             An instance of OutputsWeightedMergeFieldsByLabel.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsWeightedMergeFieldsByLabel(_Inputs):

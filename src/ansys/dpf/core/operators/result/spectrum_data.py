@@ -70,6 +70,9 @@ class spectrum_data(Operator):
     >>> result_rigid_response = op.outputs.rigid_response()
     """
 
+    _inputs: InputsSpectrumData
+    _outputs: OutputsSpectrumData
+
     def __init__(self, streams=None, data_sources=None, config=None, server=None):
         super().__init__(name="spectrum_data", config=config, server=server)
         self._inputs = InputsSpectrumData(self)
@@ -171,7 +174,7 @@ data sources.
         inputs:
             An instance of InputsSpectrumData.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsSpectrumData:
@@ -182,7 +185,7 @@ data sources.
         outputs:
             An instance of OutputsSpectrumData.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsSpectrumData(_Inputs):

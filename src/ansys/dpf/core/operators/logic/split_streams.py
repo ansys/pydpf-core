@@ -61,6 +61,9 @@ class split_streams(Operator):
     >>> result_outputs2 = op.outputs.outputs2()
     """
 
+    _inputs: InputsSplitStreams
+    _outputs: OutputsSplitStreams
+
     def __init__(self, streams=None, output_count=None, config=None, server=None):
         super().__init__(name="splitter::streams", config=config, server=server)
         self._inputs = InputsSplitStreams(self)
@@ -144,7 +147,7 @@ outputs is always less or equal to the given desired number of ouputs.
         inputs:
             An instance of InputsSplitStreams.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsSplitStreams:
@@ -155,7 +158,7 @@ outputs is always less or equal to the given desired number of ouputs.
         outputs:
             An instance of OutputsSplitStreams.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsSplitStreams(_Inputs):

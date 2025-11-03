@@ -96,6 +96,9 @@ class creep_strain_intensity(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsCreepStrainIntensity
+    _outputs: OutputsCreepStrainIntensity
+
     def __init__(
         self,
         time_scoping=None,
@@ -255,7 +258,7 @@ performed.
         inputs:
             An instance of InputsCreepStrainIntensity.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsCreepStrainIntensity:
@@ -266,7 +269,7 @@ performed.
         outputs:
             An instance of OutputsCreepStrainIntensity.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsCreepStrainIntensity(_Inputs):

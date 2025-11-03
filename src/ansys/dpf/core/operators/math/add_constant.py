@@ -53,6 +53,9 @@ class add_constant(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsAddConstant
+    _outputs: OutputsAddConstant
+
     def __init__(
         self,
         field=None,
@@ -138,7 +141,7 @@ class add_constant(Operator):
         inputs:
             An instance of InputsAddConstant.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsAddConstant:
@@ -149,7 +152,7 @@ class add_constant(Operator):
         outputs:
             An instance of OutputsAddConstant.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsAddConstant(_Inputs):

@@ -114,6 +114,9 @@ class velocity(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsVelocity
+    _outputs: OutputsVelocity
+
     def __init__(
         self,
         time_scoping=None,
@@ -306,7 +309,7 @@ datasources.
         inputs:
             An instance of InputsVelocity.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsVelocity:
@@ -317,7 +320,7 @@ datasources.
         outputs:
             An instance of OutputsVelocity.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsVelocity(_Inputs):

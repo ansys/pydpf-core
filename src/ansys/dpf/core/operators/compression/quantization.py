@@ -60,6 +60,9 @@ class quantization(Operator):
     >>> result_output_field = op.outputs.output_field()
     """
 
+    _inputs: InputsQuantization
+    _outputs: OutputsQuantization
+
     def __init__(self, input_field=None, threshold=None, config=None, server=None):
         super().__init__(name="quantization", config=config, server=server)
         self._inputs = InputsQuantization(self)
@@ -136,7 +139,7 @@ Case field with the same number of values than the input field : quantization is
         inputs:
             An instance of InputsQuantization.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsQuantization:
@@ -147,7 +150,7 @@ Case field with the same number of values than the input field : quantization is
         outputs:
             An instance of OutputsQuantization.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsQuantization(_Inputs):

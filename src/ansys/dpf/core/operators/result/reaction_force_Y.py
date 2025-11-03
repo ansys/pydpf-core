@@ -84,6 +84,9 @@ class reaction_force_Y(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsReactionForceY
+    _outputs: OutputsReactionForceY
+
     def __init__(
         self,
         time_scoping=None,
@@ -222,7 +225,7 @@ component) by calling the readers defined by the datasources.
         inputs:
             An instance of InputsReactionForceY.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsReactionForceY:
@@ -233,7 +236,7 @@ component) by calling the readers defined by the datasources.
         outputs:
             An instance of OutputsReactionForceY.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsReactionForceY(_Inputs):

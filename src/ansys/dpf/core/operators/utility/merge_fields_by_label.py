@@ -64,6 +64,9 @@ class merge_fields_by_label(Operator):
     >>> result_merged_field_support = op.outputs.merged_field_support()
     """
 
+    _inputs: InputsMergeFieldsByLabel
+    _outputs: OutputsMergeFieldsByLabel
+
     def __init__(
         self,
         fields_container=None,
@@ -168,7 +171,7 @@ class merge_fields_by_label(Operator):
         inputs:
             An instance of InputsMergeFieldsByLabel.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMergeFieldsByLabel:
@@ -179,7 +182,7 @@ class merge_fields_by_label(Operator):
         outputs:
             An instance of OutputsMergeFieldsByLabel.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMergeFieldsByLabel(_Inputs):

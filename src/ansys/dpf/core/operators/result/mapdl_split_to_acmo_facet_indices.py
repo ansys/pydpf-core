@@ -57,6 +57,9 @@ class mapdl_split_to_acmo_facet_indices(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsMapdlSplitToAcmoFacetIndices
+    _outputs: OutputsMapdlSplitToAcmoFacetIndices
+
     def __init__(
         self,
         fields_container=None,
@@ -142,7 +145,7 @@ to the appropriate entity.
         inputs:
             An instance of InputsMapdlSplitToAcmoFacetIndices.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMapdlSplitToAcmoFacetIndices:
@@ -153,7 +156,7 @@ to the appropriate entity.
         outputs:
             An instance of OutputsMapdlSplitToAcmoFacetIndices.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMapdlSplitToAcmoFacetIndices(_Inputs):

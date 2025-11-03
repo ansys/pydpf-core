@@ -96,6 +96,9 @@ class elastic_strain_max_shear(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsElasticStrainMaxShear
+    _outputs: OutputsElasticStrainMaxShear
+
     def __init__(
         self,
         time_scoping=None,
@@ -255,7 +258,7 @@ performed.
         inputs:
             An instance of InputsElasticStrainMaxShear.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsElasticStrainMaxShear:
@@ -266,7 +269,7 @@ performed.
         outputs:
             An instance of OutputsElasticStrainMaxShear.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsElasticStrainMaxShear(_Inputs):

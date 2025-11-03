@@ -58,6 +58,9 @@ class rescope(Operator):
     >>> result_fields = op.outputs.fields()
     """
 
+    _inputs: InputsRescope
+    _outputs: OutputsRescope
+
     def __init__(
         self,
         fields=None,
@@ -144,7 +147,7 @@ original field, the default value (in 2) is used when defined.
         inputs:
             An instance of InputsRescope.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsRescope:
@@ -155,7 +158,7 @@ original field, the default value (in 2) is used when defined.
         outputs:
             An instance of OutputsRescope.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsRescope(_Inputs):

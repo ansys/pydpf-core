@@ -99,6 +99,9 @@ class acceleration(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsAcceleration
+    _outputs: OutputsAcceleration
+
     def __init__(
         self,
         time_scoping=None,
@@ -264,7 +267,7 @@ datasources.
         inputs:
             An instance of InputsAcceleration.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsAcceleration:
@@ -275,7 +278,7 @@ datasources.
         outputs:
             An instance of OutputsAcceleration.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsAcceleration(_Inputs):

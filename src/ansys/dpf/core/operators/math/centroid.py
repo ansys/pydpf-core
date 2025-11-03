@@ -59,6 +59,9 @@ class centroid(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsCentroid
+    _outputs: OutputsCentroid
+
     def __init__(self, fieldA=None, fieldB=None, factor=None, config=None, server=None):
         super().__init__(name="centroid", config=config, server=server)
         self._inputs = InputsCentroid(self)
@@ -138,7 +141,7 @@ field1\ *(1.-fact)+field2*\ (fact). Only works by index.
         inputs:
             An instance of InputsCentroid.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsCentroid:
@@ -149,7 +152,7 @@ field1\ *(1.-fact)+field2*\ (fact). Only works by index.
         outputs:
             An instance of OutputsCentroid.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsCentroid(_Inputs):

@@ -66,6 +66,9 @@ class linear_combination(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsLinearCombination
+    _outputs: OutputsLinearCombination
+
     def __init__(
         self,
         a=None,
@@ -170,7 +173,7 @@ are complex numbers.
         inputs:
             An instance of InputsLinearCombination.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsLinearCombination:
@@ -181,7 +184,7 @@ are complex numbers.
         outputs:
             An instance of OutputsLinearCombination.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsLinearCombination(_Inputs):

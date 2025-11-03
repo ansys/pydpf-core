@@ -53,6 +53,9 @@ class von_mises_eqv(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsVonMisesEqv
+    _outputs: OutputsVonMisesEqv
+
     def __init__(self, field=None, poisson_ratio=None, config=None, server=None):
         super().__init__(name="eqv", config=config, server=server)
         self._inputs = InputsVonMisesEqv(self)
@@ -123,7 +126,7 @@ class von_mises_eqv(Operator):
         inputs:
             An instance of InputsVonMisesEqv.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsVonMisesEqv:
@@ -134,7 +137,7 @@ class von_mises_eqv(Operator):
         outputs:
             An instance of OutputsVonMisesEqv.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsVonMisesEqv(_Inputs):

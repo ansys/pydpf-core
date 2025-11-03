@@ -74,6 +74,9 @@ class sweeping_phase(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsSweepingPhase
+    _outputs: OutputsSweepingPhase
+
     def __init__(
         self,
         real_field=None,
@@ -189,7 +192,7 @@ imaginary_field\ ``*``\ sin(angle).
         inputs:
             An instance of InputsSweepingPhase.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsSweepingPhase:
@@ -200,7 +203,7 @@ imaginary_field\ ``*``\ sin(angle).
         outputs:
             An instance of OutputsSweepingPhase.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsSweepingPhase(_Inputs):

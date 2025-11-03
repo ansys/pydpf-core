@@ -54,6 +54,9 @@ class zfp_decompress(Operator):
     >>> result_decompress_speed = op.outputs.decompress_speed()
     """
 
+    _inputs: InputsZfpDecompress
+    _outputs: OutputsZfpDecompress
+
     def __init__(self, dataIn=None, config=None, server=None):
         super().__init__(name="zfp_decompress", config=config, server=server)
         self._inputs = InputsZfpDecompress(self)
@@ -123,7 +126,7 @@ the properties of the field(s)
         inputs:
             An instance of InputsZfpDecompress.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsZfpDecompress:
@@ -134,7 +137,7 @@ the properties of the field(s)
         outputs:
             An instance of OutputsZfpDecompress.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsZfpDecompress(_Inputs):

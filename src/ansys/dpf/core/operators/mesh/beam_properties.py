@@ -94,6 +94,9 @@ class beam_properties(Operator):
     >>> result_field_offset_z = op.outputs.field_offset_z()
     """
 
+    _inputs: InputsBeamProperties
+    _outputs: OutputsBeamProperties
+
     def __init__(self, streams=None, data_sources=None, config=None, server=None):
         super().__init__(name="beam_properties", config=config, server=server)
         self._inputs = InputsBeamProperties(self)
@@ -243,7 +246,7 @@ streams or data sources.
         inputs:
             An instance of InputsBeamProperties.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsBeamProperties:
@@ -254,7 +257,7 @@ streams or data sources.
         outputs:
             An instance of OutputsBeamProperties.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsBeamProperties(_Inputs):

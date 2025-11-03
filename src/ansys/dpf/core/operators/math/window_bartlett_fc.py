@@ -49,6 +49,9 @@ class window_bartlett_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsWindowBartlettFc
+    _outputs: OutputsWindowBartlettFc
+
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="window::bartlett_fc", config=config, server=server)
         self._inputs = InputsWindowBartlettFc(self)
@@ -113,7 +116,7 @@ time_freq_interpolation before otherwise).
         inputs:
             An instance of InputsWindowBartlettFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsWindowBartlettFc:
@@ -124,7 +127,7 @@ time_freq_interpolation before otherwise).
         outputs:
             An instance of OutputsWindowBartlettFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsWindowBartlettFc(_Inputs):

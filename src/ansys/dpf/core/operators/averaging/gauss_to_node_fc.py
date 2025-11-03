@@ -60,6 +60,9 @@ class gauss_to_node_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsGaussToNodeFc
+    _outputs: OutputsGaussToNodeFc
+
     def __init__(
         self, fields_container=None, mesh=None, scoping=None, config=None, server=None
     ):
@@ -143,7 +146,7 @@ linear tetrahedral, and quadratic tetrahedral.
         inputs:
             An instance of InputsGaussToNodeFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsGaussToNodeFc:
@@ -154,7 +157,7 @@ linear tetrahedral, and quadratic tetrahedral.
         outputs:
             An instance of OutputsGaussToNodeFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsGaussToNodeFc(_Inputs):

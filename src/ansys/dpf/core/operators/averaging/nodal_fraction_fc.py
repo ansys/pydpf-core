@@ -64,6 +64,9 @@ class nodal_fraction_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsNodalFractionFc
+    _outputs: OutputsNodalFractionFc
+
     def __init__(
         self,
         fields_container=None,
@@ -160,7 +163,7 @@ result is computed on a given node’s scoping.
         inputs:
             An instance of InputsNodalFractionFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsNodalFractionFc:
@@ -171,7 +174,7 @@ result is computed on a given node’s scoping.
         outputs:
             An instance of OutputsNodalFractionFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsNodalFractionFc(_Inputs):

@@ -96,6 +96,9 @@ class stress_principal_3(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsStressPrincipal3
+    _outputs: OutputsStressPrincipal3
+
     def __init__(
         self,
         time_scoping=None,
@@ -255,7 +258,7 @@ global coordinate system is performed.
         inputs:
             An instance of InputsStressPrincipal3.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsStressPrincipal3:
@@ -266,7 +269,7 @@ global coordinate system is performed.
         outputs:
             An instance of OutputsStressPrincipal3.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsStressPrincipal3(_Inputs):

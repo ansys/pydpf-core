@@ -71,6 +71,9 @@ class mapdl_material_properties(Operator):
     >>> result_properties_value = op.outputs.properties_value()
     """
 
+    _inputs: InputsMapdlMaterialProperties
+    _outputs: OutputsMapdlMaterialProperties
+
     def __init__(
         self,
         properties_name=None,
@@ -176,7 +179,7 @@ Resistivity (keys: RSVX, RSVY, RSVZ), Specific heat in constant volume
         inputs:
             An instance of InputsMapdlMaterialProperties.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMapdlMaterialProperties:
@@ -187,7 +190,7 @@ Resistivity (keys: RSVX, RSVY, RSVZ), Specific heat in constant volume
         outputs:
             An instance of OutputsMapdlMaterialProperties.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMapdlMaterialProperties(_Inputs):

@@ -55,6 +55,9 @@ class merge_any(Operator):
     >>> result_any = op.outputs.any()
     """
 
+    _inputs: InputsMergeAny
+    _outputs: OutputsMergeAny
+
     def __init__(self, any1=None, any2=None, config=None, server=None):
         super().__init__(name="merge::any", config=config, server=server)
         self._inputs = InputsMergeAny(self)
@@ -127,7 +130,7 @@ Operator.
         inputs:
             An instance of InputsMergeAny.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMergeAny:
@@ -138,7 +141,7 @@ Operator.
         outputs:
             An instance of OutputsMergeAny.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMergeAny(_Inputs):

@@ -66,6 +66,9 @@ class scale(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsScale
+    _outputs: OutputsScale
+
     def __init__(
         self,
         field=None,
@@ -172,7 +175,7 @@ dimensionality
         inputs:
             An instance of InputsScale.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsScale:
@@ -183,7 +186,7 @@ dimensionality
         outputs:
             An instance of OutputsScale.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsScale(_Inputs):

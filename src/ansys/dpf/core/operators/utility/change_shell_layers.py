@@ -69,6 +69,9 @@ class change_shell_layers(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsChangeShellLayers
+    _outputs: OutputsChangeShellLayers
+
     def __init__(
         self,
         fields_container=None,
@@ -169,7 +172,7 @@ the result.
         inputs:
             An instance of InputsChangeShellLayers.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsChangeShellLayers:
@@ -180,7 +183,7 @@ the result.
         outputs:
             An instance of OutputsChangeShellLayers.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsChangeShellLayers(_Inputs):

@@ -236,6 +236,9 @@ class contact_surface_heat_flux(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsContactSurfaceHeatFlux
+    _outputs: OutputsContactSurfaceHeatFlux
+
     def __init__(
         self,
         time_scoping=None,
@@ -558,7 +561,7 @@ elshape Related elements
         inputs:
             An instance of InputsContactSurfaceHeatFlux.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsContactSurfaceHeatFlux:
@@ -569,7 +572,7 @@ elshape Related elements
         outputs:
             An instance of OutputsContactSurfaceHeatFlux.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsContactSurfaceHeatFlux(_Inputs):

@@ -99,6 +99,9 @@ class hdf5dpf_generate_result_file(Operator):
     >>> result_data_sources = op.outputs.data_sources()
     """
 
+    _inputs: InputsHdf5DpfGenerateResultFile
+    _outputs: OutputsHdf5DpfGenerateResultFile
+
     def __init__(
         self,
         h5_chunk_size=None,
@@ -262,7 +265,7 @@ class hdf5dpf_generate_result_file(Operator):
         inputs:
             An instance of InputsHdf5DpfGenerateResultFile.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsHdf5DpfGenerateResultFile:
@@ -273,7 +276,7 @@ class hdf5dpf_generate_result_file(Operator):
         outputs:
             An instance of OutputsHdf5DpfGenerateResultFile.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsHdf5DpfGenerateResultFile(_Inputs):

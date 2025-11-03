@@ -64,6 +64,9 @@ class identical_fields(Operator):
     >>> result_message = op.outputs.message()
     """
 
+    _inputs: InputsIdenticalFields
+    _outputs: OutputsIdenticalFields
+
     def __init__(
         self,
         fieldA=None,
@@ -164,7 +167,7 @@ class identical_fields(Operator):
         inputs:
             An instance of InputsIdenticalFields.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsIdenticalFields:
@@ -175,7 +178,7 @@ class identical_fields(Operator):
         outputs:
             An instance of OutputsIdenticalFields.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsIdenticalFields(_Inputs):

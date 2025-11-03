@@ -67,6 +67,9 @@ class cyclic_analytic_seqv_max(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsCyclicAnalyticSeqvMax
+    _outputs: OutputsCyclicAnalyticSeqvMax
+
     def __init__(
         self,
         time_scoping=None,
@@ -175,7 +178,7 @@ expected on 360 degrees
         inputs:
             An instance of InputsCyclicAnalyticSeqvMax.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsCyclicAnalyticSeqvMax:
@@ -186,7 +189,7 @@ expected on 360 degrees
         outputs:
             An instance of OutputsCyclicAnalyticSeqvMax.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsCyclicAnalyticSeqvMax(_Inputs):

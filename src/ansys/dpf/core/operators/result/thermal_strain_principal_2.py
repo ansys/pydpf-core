@@ -98,6 +98,9 @@ class thermal_strain_principal_2(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsThermalStrainPrincipal2
+    _outputs: OutputsThermalStrainPrincipal2
+
     def __init__(
         self,
         time_scoping=None,
@@ -259,7 +262,7 @@ standard strain values.
         inputs:
             An instance of InputsThermalStrainPrincipal2.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsThermalStrainPrincipal2:
@@ -270,7 +273,7 @@ standard strain values.
         outputs:
             An instance of OutputsThermalStrainPrincipal2.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsThermalStrainPrincipal2(_Inputs):

@@ -76,6 +76,9 @@ class element_types_provider(Operator):
     >>> result_element_types_data = op.outputs.element_types_data()
     """
 
+    _inputs: InputsElementTypesProvider
+    _outputs: OutputsElementTypesProvider
+
     def __init__(
         self,
         solver_element_types_ids=None,
@@ -182,7 +185,7 @@ documented in ansys/customize/include/elccmt.inc.
         inputs:
             An instance of InputsElementTypesProvider.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsElementTypesProvider:
@@ -193,7 +196,7 @@ documented in ansys/customize/include/elccmt.inc.
         outputs:
             An instance of OutputsElementTypesProvider.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsElementTypesProvider(_Inputs):

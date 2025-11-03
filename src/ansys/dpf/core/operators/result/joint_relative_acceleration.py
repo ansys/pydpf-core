@@ -79,6 +79,9 @@ class joint_relative_acceleration(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsJointRelativeAcceleration
+    _outputs: OutputsJointRelativeAcceleration
+
     def __init__(
         self,
         time_scoping=None,
@@ -208,7 +211,7 @@ by the datasources.
         inputs:
             An instance of InputsJointRelativeAcceleration.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsJointRelativeAcceleration:
@@ -219,7 +222,7 @@ by the datasources.
         outputs:
             An instance of OutputsJointRelativeAcceleration.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsJointRelativeAcceleration(_Inputs):

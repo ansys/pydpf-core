@@ -66,6 +66,9 @@ class scale_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsScaleFc
+    _outputs: OutputsScaleFc
+
     def __init__(
         self,
         fields_container=None,
@@ -177,7 +180,7 @@ corresponding to the input field dimensionality
         inputs:
             An instance of InputsScaleFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsScaleFc:
@@ -188,7 +191,7 @@ corresponding to the input field dimensionality
         outputs:
             An instance of OutputsScaleFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsScaleFc(_Inputs):

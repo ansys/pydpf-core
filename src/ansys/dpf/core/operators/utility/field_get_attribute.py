@@ -55,6 +55,9 @@ class field_get_attribute(Operator):
     >>> result_property = op.outputs.property()
     """
 
+    _inputs: InputsFieldGetAttribute
+    _outputs: OutputsFieldGetAttribute
+
     def __init__(self, field=None, property_name=None, config=None, server=None):
         super().__init__(name="field::get_attribute", config=config, server=server)
         self._inputs = InputsFieldGetAttribute(self)
@@ -131,7 +134,7 @@ property name (string) in pin 1 are expected as inputs
         inputs:
             An instance of InputsFieldGetAttribute.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsFieldGetAttribute:
@@ -142,7 +145,7 @@ property name (string) in pin 1 are expected as inputs
         outputs:
             An instance of OutputsFieldGetAttribute.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsFieldGetAttribute(_Inputs):

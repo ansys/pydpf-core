@@ -53,6 +53,9 @@ class time_derivation(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsTimeDerivation
+    _outputs: OutputsTimeDerivation
+
     def __init__(self, field=None, spline_fitting=None, config=None, server=None):
         super().__init__(name="TimeDerivation", config=config, server=server)
         self._inputs = InputsTimeDerivation(self)
@@ -123,7 +126,7 @@ class time_derivation(Operator):
         inputs:
             An instance of InputsTimeDerivation.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsTimeDerivation:
@@ -134,7 +137,7 @@ class time_derivation(Operator):
         outputs:
             An instance of OutputsTimeDerivation.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsTimeDerivation(_Inputs):

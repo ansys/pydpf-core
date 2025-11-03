@@ -60,6 +60,9 @@ class nodal_difference(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsNodalDifference
+    _outputs: OutputsNodalDifference
+
     def __init__(
         self, field=None, mesh_scoping=None, mesh=None, config=None, server=None
     ):
@@ -143,7 +146,7 @@ given node’s scoping.
         inputs:
             An instance of InputsNodalDifference.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsNodalDifference:
@@ -154,7 +157,7 @@ given node’s scoping.
         outputs:
             An instance of OutputsNodalDifference.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsNodalDifference(_Inputs):

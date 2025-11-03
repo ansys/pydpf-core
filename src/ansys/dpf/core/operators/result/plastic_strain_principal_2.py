@@ -98,6 +98,9 @@ class plastic_strain_principal_2(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsPlasticStrainPrincipal2
+    _outputs: OutputsPlasticStrainPrincipal2
+
     def __init__(
         self,
         time_scoping=None,
@@ -259,7 +262,7 @@ standard strain values.
         inputs:
             An instance of InputsPlasticStrainPrincipal2.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsPlasticStrainPrincipal2:
@@ -270,7 +273,7 @@ standard strain values.
         outputs:
             An instance of OutputsPlasticStrainPrincipal2.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsPlasticStrainPrincipal2(_Inputs):

@@ -69,6 +69,9 @@ class expansion_psd(Operator):
     >>> result_psd = op.outputs.psd()
     """
 
+    _inputs: InputsExpansionPsd
+    _outputs: OutputsExpansionPsd
+
     def __init__(
         self,
         mode_shapes=None,
@@ -172,7 +175,7 @@ class expansion_psd(Operator):
         inputs:
             An instance of InputsExpansionPsd.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsExpansionPsd:
@@ -183,7 +186,7 @@ class expansion_psd(Operator):
         outputs:
             An instance of OutputsExpansionPsd.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsExpansionPsd(_Inputs):

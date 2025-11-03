@@ -60,6 +60,9 @@ class accumulate(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsAccumulate
+    _outputs: OutputsAccumulate
+
     def __init__(
         self,
         fieldA=None,
@@ -155,7 +158,7 @@ point.
         inputs:
             An instance of InputsAccumulate.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsAccumulate:
@@ -166,7 +169,7 @@ point.
         outputs:
             An instance of OutputsAccumulate.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsAccumulate(_Inputs):

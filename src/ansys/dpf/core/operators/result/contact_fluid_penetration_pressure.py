@@ -236,6 +236,9 @@ class contact_fluid_penetration_pressure(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsContactFluidPenetrationPressure
+    _outputs: OutputsContactFluidPenetrationPressure
+
     def __init__(
         self,
         time_scoping=None,
@@ -558,7 +561,7 @@ elshape Related elements
         inputs:
             An instance of InputsContactFluidPenetrationPressure.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsContactFluidPenetrationPressure:
@@ -569,7 +572,7 @@ elshape Related elements
         outputs:
             An instance of OutputsContactFluidPenetrationPressure.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsContactFluidPenetrationPressure(_Inputs):

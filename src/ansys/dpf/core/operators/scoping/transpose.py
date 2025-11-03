@@ -65,6 +65,9 @@ class transpose(Operator):
     >>> result_mesh_scoping = op.outputs.mesh_scoping()
     """
 
+    _inputs: InputsTranspose
+    _outputs: OutputsTranspose
+
     def __init__(
         self,
         mesh_scoping=None,
@@ -160,7 +163,7 @@ Nodal, or Nodal —> Elemental/Faces), based on the input mesh region.
         inputs:
             An instance of InputsTranspose.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsTranspose:
@@ -171,7 +174,7 @@ Nodal, or Nodal —> Elemental/Faces), based on the input mesh region.
         outputs:
             An instance of OutputsTranspose.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsTranspose(_Inputs):

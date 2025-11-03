@@ -56,6 +56,9 @@ class python_generator(Operator):
 
     """
 
+    _inputs: InputsPythonGenerator
+    _outputs: OutputsPythonGenerator
+
     def __init__(
         self,
         dll_source_path=None,
@@ -143,7 +146,7 @@ class python_generator(Operator):
         inputs:
             An instance of InputsPythonGenerator.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsPythonGenerator:
@@ -154,7 +157,7 @@ class python_generator(Operator):
         outputs:
             An instance of OutputsPythonGenerator.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsPythonGenerator(_Inputs):

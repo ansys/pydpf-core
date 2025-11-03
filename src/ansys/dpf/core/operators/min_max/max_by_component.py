@@ -58,6 +58,9 @@ class max_by_component(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsMaxByComponent
+    _outputs: OutputsMaxByComponent
+
     def __init__(
         self,
         use_absolute_value=None,
@@ -143,7 +146,7 @@ class max_by_component(Operator):
         inputs:
             An instance of InputsMaxByComponent.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMaxByComponent:
@@ -154,7 +157,7 @@ class max_by_component(Operator):
         outputs:
             An instance of OutputsMaxByComponent.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMaxByComponent(_Inputs):

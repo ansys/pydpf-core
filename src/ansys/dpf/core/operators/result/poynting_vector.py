@@ -69,6 +69,9 @@ class poynting_vector(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsPoyntingVector
+    _outputs: OutputsPoyntingVector
+
     def __init__(
         self,
         fields_containerA=None,
@@ -181,7 +184,7 @@ class poynting_vector(Operator):
         inputs:
             An instance of InputsPoyntingVector.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsPoyntingVector:
@@ -192,7 +195,7 @@ class poynting_vector(Operator):
         outputs:
             An instance of OutputsPoyntingVector.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsPoyntingVector(_Inputs):

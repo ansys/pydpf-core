@@ -71,6 +71,9 @@ class compute_stress_von_mises(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsComputeStressVonMises
+    _outputs: OutputsComputeStressVonMises
+
     def __init__(
         self,
         scoping=None,
@@ -176,7 +179,7 @@ equivalent stress.
         inputs:
             An instance of InputsComputeStressVonMises.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsComputeStressVonMises:
@@ -187,7 +190,7 @@ equivalent stress.
         outputs:
             An instance of OutputsComputeStressVonMises.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsComputeStressVonMises(_Inputs):

@@ -53,6 +53,9 @@ class merge_time_freq_supports(Operator):
     >>> result_merged_support = op.outputs.merged_support()
     """
 
+    _inputs: InputsMergeTimeFreqSupports
+    _outputs: OutputsMergeTimeFreqSupports
+
     def __init__(
         self,
         time_freq_supports1=None,
@@ -129,7 +132,7 @@ class merge_time_freq_supports(Operator):
         inputs:
             An instance of InputsMergeTimeFreqSupports.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMergeTimeFreqSupports:
@@ -140,7 +143,7 @@ class merge_time_freq_supports(Operator):
         outputs:
             An instance of OutputsMergeTimeFreqSupports.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMergeTimeFreqSupports(_Inputs):

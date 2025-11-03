@@ -85,6 +85,9 @@ class assemble_scalars_to_matrices(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsAssembleScalarsToMatrices
+    _outputs: OutputsAssembleScalarsToMatrices
+
     def __init__(
         self,
         xx=None,
@@ -239,7 +242,7 @@ class assemble_scalars_to_matrices(Operator):
         inputs:
             An instance of InputsAssembleScalarsToMatrices.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsAssembleScalarsToMatrices:
@@ -250,7 +253,7 @@ class assemble_scalars_to_matrices(Operator):
         outputs:
             An instance of OutputsAssembleScalarsToMatrices.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsAssembleScalarsToMatrices(_Inputs):

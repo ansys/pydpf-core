@@ -114,6 +114,9 @@ class compute_invariant_terms_motion(Operator):
     >>> result_invrt_8 = op.outputs.invrt_8()
     """
 
+    _inputs: InputsComputeInvariantTermsMotion
+    _outputs: OutputsComputeInvariantTermsMotion
+
     def __init__(
         self,
         rom_matrices=None,
@@ -336,7 +339,7 @@ matrices, lumped mass matrix, modes …)
         inputs:
             An instance of InputsComputeInvariantTermsMotion.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsComputeInvariantTermsMotion:
@@ -347,7 +350,7 @@ matrices, lumped mass matrix, modes …)
         outputs:
             An instance of OutputsComputeInvariantTermsMotion.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsComputeInvariantTermsMotion(_Inputs):

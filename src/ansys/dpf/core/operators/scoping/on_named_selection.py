@@ -65,6 +65,9 @@ class on_named_selection(Operator):
     >>> result_mesh_scoping = op.outputs.mesh_scoping()
     """
 
+    _inputs: InputsOnNamedSelection
+    _outputs: OutputsOnNamedSelection
+
     def __init__(
         self,
         requested_location=None,
@@ -168,7 +171,7 @@ class on_named_selection(Operator):
         inputs:
             An instance of InputsOnNamedSelection.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsOnNamedSelection:
@@ -179,7 +182,7 @@ class on_named_selection(Operator):
         outputs:
             An instance of OutputsOnNamedSelection.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsOnNamedSelection(_Inputs):

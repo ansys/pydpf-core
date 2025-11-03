@@ -60,6 +60,9 @@ class ascending_sort_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsAscendingSortFc
+    _outputs: OutputsAscendingSortFc
+
     def __init__(
         self,
         fields_container=None,
@@ -147,7 +150,7 @@ operator does not support multiple elementary data per entity.
         inputs:
             An instance of InputsAscendingSortFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsAscendingSortFc:
@@ -158,7 +161,7 @@ operator does not support multiple elementary data per entity.
         outputs:
             An instance of OutputsAscendingSortFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsAscendingSortFc(_Inputs):

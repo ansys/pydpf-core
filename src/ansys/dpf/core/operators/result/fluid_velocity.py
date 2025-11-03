@@ -78,6 +78,9 @@ class fluid_velocity(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsFluidVelocity
+    _outputs: OutputsFluidVelocity
+
     def __init__(
         self,
         time_scoping=None,
@@ -206,7 +209,7 @@ class fluid_velocity(Operator):
         inputs:
             An instance of InputsFluidVelocity.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsFluidVelocity:
@@ -217,7 +220,7 @@ class fluid_velocity(Operator):
         outputs:
             An instance of OutputsFluidVelocity.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsFluidVelocity(_Inputs):

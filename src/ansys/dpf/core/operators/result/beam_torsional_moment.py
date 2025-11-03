@@ -69,6 +69,9 @@ class beam_torsional_moment(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsBeamTorsionalMoment
+    _outputs: OutputsBeamTorsionalMoment
+
     def __init__(
         self,
         time_scoping=None,
@@ -184,7 +187,7 @@ datasources.
         inputs:
             An instance of InputsBeamTorsionalMoment.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsBeamTorsionalMoment:
@@ -195,7 +198,7 @@ datasources.
         outputs:
             An instance of OutputsBeamTorsionalMoment.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsBeamTorsionalMoment(_Inputs):

@@ -47,6 +47,9 @@ class from_field(Operator):
     >>> result_mesh = op.outputs.mesh()
     """
 
+    _inputs: InputsFromField
+    _outputs: OutputsFromField
+
     def __init__(self, field=None, config=None, server=None):
         super().__init__(name="GetSupportFromField", config=config, server=server)
         self._inputs = InputsFromField(self)
@@ -109,7 +112,7 @@ class from_field(Operator):
         inputs:
             An instance of InputsFromField.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsFromField:
@@ -120,7 +123,7 @@ class from_field(Operator):
         outputs:
             An instance of OutputsFromField.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsFromField(_Inputs):

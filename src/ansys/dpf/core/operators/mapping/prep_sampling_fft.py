@@ -63,6 +63,9 @@ class prep_sampling_fft(Operator):
     >>> result_freq_tfs_fft = op.outputs.freq_tfs_fft()
     """
 
+    _inputs: InputsPrepSamplingFft
+    _outputs: OutputsPrepSamplingFft
+
     def __init__(
         self,
         time_freq_support=None,
@@ -155,7 +158,7 @@ frequencies in output.
         inputs:
             An instance of InputsPrepSamplingFft.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsPrepSamplingFft:
@@ -166,7 +169,7 @@ frequencies in output.
         outputs:
             An instance of OutputsPrepSamplingFft.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsPrepSamplingFft(_Inputs):

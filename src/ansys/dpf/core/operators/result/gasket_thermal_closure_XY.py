@@ -91,6 +91,9 @@ class gasket_thermal_closure_XY(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsGasketThermalClosureXy
+    _outputs: OutputsGasketThermalClosureXy
+
     def __init__(
         self,
         time_scoping=None,
@@ -240,7 +243,7 @@ can be Nodal/ElementalNodal/Elemental.
         inputs:
             An instance of InputsGasketThermalClosureXy.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsGasketThermalClosureXy:
@@ -251,7 +254,7 @@ can be Nodal/ElementalNodal/Elemental.
         outputs:
             An instance of OutputsGasketThermalClosureXy.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsGasketThermalClosureXy(_Inputs):

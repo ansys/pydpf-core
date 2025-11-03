@@ -59,6 +59,9 @@ class quantization_fc(Operator):
     >>> result_output_fc = op.outputs.output_fc()
     """
 
+    _inputs: InputsQuantizationFc
+    _outputs: OutputsQuantizationFc
+
     def __init__(self, input_fc=None, threshold=None, config=None, server=None):
         super().__init__(name="quantization_fc", config=config, server=server)
         self._inputs = InputsQuantizationFc(self)
@@ -134,7 +137,7 @@ Case fields container : the corresponding threshold field is found by matching l
         inputs:
             An instance of InputsQuantizationFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsQuantizationFc:
@@ -145,7 +148,7 @@ Case fields container : the corresponding threshold field is found by matching l
         outputs:
             An instance of OutputsQuantizationFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsQuantizationFc(_Inputs):

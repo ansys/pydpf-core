@@ -66,6 +66,9 @@ class split_in_for_each_range(Operator):
     >>> result_output = op.outputs.output()
     """
 
+    _inputs: InputsSplitInForEachRange
+    _outputs: OutputsSplitInForEachRange
+
     def __init__(
         self,
         iterable=None,
@@ -169,7 +172,7 @@ for_each loop.
         inputs:
             An instance of InputsSplitInForEachRange.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsSplitInForEachRange:
@@ -180,7 +183,7 @@ for_each loop.
         outputs:
             An instance of OutputsSplitInForEachRange.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsSplitInForEachRange(_Inputs):

@@ -87,6 +87,9 @@ class stress_eqv_as_mechanical(Operator):
     >>> result_meshes_container = op.outputs.meshes_container()
     """
 
+    _inputs: InputsStressEqvAsMechanical
+    _outputs: OutputsStressEqvAsMechanical
+
     def __init__(
         self,
         time_scoping=None,
@@ -225,7 +228,7 @@ can either be activated or deactivated.
         inputs:
             An instance of InputsStressEqvAsMechanical.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsStressEqvAsMechanical:
@@ -236,7 +239,7 @@ can either be activated or deactivated.
         outputs:
             An instance of OutputsStressEqvAsMechanical.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsStressEqvAsMechanical(_Inputs):

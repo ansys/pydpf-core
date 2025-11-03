@@ -83,6 +83,9 @@ class volume_fraction(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsVolumeFraction
+    _outputs: OutputsVolumeFraction
+
     def __init__(
         self,
         time_scoping=None,
@@ -220,7 +223,7 @@ class volume_fraction(Operator):
         inputs:
             An instance of InputsVolumeFraction.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsVolumeFraction:
@@ -231,7 +234,7 @@ class volume_fraction(Operator):
         outputs:
             An instance of OutputsVolumeFraction.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsVolumeFraction(_Inputs):

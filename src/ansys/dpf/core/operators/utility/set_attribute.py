@@ -58,6 +58,9 @@ class set_attribute(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsSetAttribute
+    _outputs: OutputsSetAttribute
+
     def __init__(
         self,
         fields_container=None,
@@ -147,7 +150,7 @@ class set_attribute(Operator):
         inputs:
             An instance of InputsSetAttribute.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsSetAttribute:
@@ -158,7 +161,7 @@ class set_attribute(Operator):
         outputs:
             An instance of OutputsSetAttribute.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsSetAttribute(_Inputs):

@@ -57,6 +57,9 @@ class split_mesh(Operator):
     >>> result_meshes = op.outputs.meshes()
     """
 
+    _inputs: InputsSplitMesh
+    _outputs: OutputsSplitMesh
+
     def __init__(
         self, mesh_scoping=None, mesh=None, property=None, config=None, server=None
     ):
@@ -138,7 +141,7 @@ class split_mesh(Operator):
         inputs:
             An instance of InputsSplitMesh.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsSplitMesh:
@@ -149,7 +152,7 @@ class split_mesh(Operator):
         outputs:
             An instance of OutputsSplitMesh.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsSplitMesh(_Inputs):

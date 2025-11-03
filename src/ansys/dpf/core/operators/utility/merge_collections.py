@@ -53,6 +53,9 @@ class merge_collections(Operator):
     >>> result_merged_collections = op.outputs.merged_collections()
     """
 
+    _inputs: InputsMergeCollections
+    _outputs: OutputsMergeCollections
+
     def __init__(self, collections1=None, collections2=None, config=None, server=None):
         super().__init__(name="merge::any_collection", config=config, server=server)
         self._inputs = InputsMergeCollections(self)
@@ -123,7 +126,7 @@ class merge_collections(Operator):
         inputs:
             An instance of InputsMergeCollections.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMergeCollections:
@@ -134,7 +137,7 @@ class merge_collections(Operator):
         outputs:
             An instance of OutputsMergeCollections.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMergeCollections(_Inputs):

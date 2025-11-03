@@ -216,6 +216,9 @@ class eqv_stress_parameter(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsEqvStressParameter
+    _outputs: OutputsEqvStressParameter
+
     def __init__(
         self,
         time_scoping=None,
@@ -502,7 +505,7 @@ elshape Related elements
         inputs:
             An instance of InputsEqvStressParameter.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsEqvStressParameter:
@@ -513,7 +516,7 @@ elshape Related elements
         outputs:
             An instance of OutputsEqvStressParameter.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsEqvStressParameter(_Inputs):

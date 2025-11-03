@@ -57,6 +57,9 @@ class stress_rotation_by_euler_nodes(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsStressRotationByEulerNodes
+    _outputs: OutputsStressRotationByEulerNodes
+
     def __init__(
         self,
         fields_container=None,
@@ -151,7 +154,7 @@ in the fieldsContainer.
         inputs:
             An instance of InputsStressRotationByEulerNodes.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsStressRotationByEulerNodes:
@@ -162,7 +165,7 @@ in the fieldsContainer.
         outputs:
             An instance of OutputsStressRotationByEulerNodes.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsStressRotationByEulerNodes(_Inputs):

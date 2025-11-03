@@ -60,6 +60,9 @@ class fields_container_matrices_label(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsFieldsContainerMatricesLabel
+    _outputs: OutputsFieldsContainerMatricesLabel
+
     def __init__(
         self,
         fields_container=None,
@@ -150,7 +153,7 @@ fields container of field matrices.
         inputs:
             An instance of InputsFieldsContainerMatricesLabel.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsFieldsContainerMatricesLabel:
@@ -161,7 +164,7 @@ fields container of field matrices.
         outputs:
             An instance of OutputsFieldsContainerMatricesLabel.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsFieldsContainerMatricesLabel(_Inputs):

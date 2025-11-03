@@ -54,6 +54,9 @@ class identical_pfc(Operator):
     >>> result_message = op.outputs.message()
     """
 
+    _inputs: InputsIdenticalPfc
+    _outputs: OutputsIdenticalPfc
+
     def __init__(
         self,
         property_fields_containerA=None,
@@ -140,7 +143,7 @@ class identical_pfc(Operator):
         inputs:
             An instance of InputsIdenticalPfc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsIdenticalPfc:
@@ -151,7 +154,7 @@ class identical_pfc(Operator):
         outputs:
             An instance of OutputsIdenticalPfc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsIdenticalPfc(_Inputs):

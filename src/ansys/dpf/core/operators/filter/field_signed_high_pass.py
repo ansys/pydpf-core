@@ -59,6 +59,9 @@ class field_signed_high_pass(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsFieldSignedHighPass
+    _outputs: OutputsFieldSignedHighPass
+
     def __init__(self, field=None, threshold=None, both=None, config=None, server=None):
         super().__init__(
             name="core::field::signed_high_pass", config=config, server=server
@@ -142,7 +145,7 @@ value to the threshold value in input.
         inputs:
             An instance of InputsFieldSignedHighPass.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsFieldSignedHighPass:
@@ -153,7 +156,7 @@ value to the threshold value in input.
         outputs:
             An instance of OutputsFieldSignedHighPass.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsFieldSignedHighPass(_Inputs):

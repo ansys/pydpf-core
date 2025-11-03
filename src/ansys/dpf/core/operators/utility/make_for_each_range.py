@@ -78,6 +78,9 @@ class make_for_each_range(Operator):
     >>> result_output = op.outputs.output()
     """
 
+    _inputs: InputsMakeForEachRange
+    _outputs: OutputsMakeForEachRange
+
     def __init__(
         self,
         try_generate_iterable=None,
@@ -207,7 +210,7 @@ class make_for_each_range(Operator):
         inputs:
             An instance of InputsMakeForEachRange.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMakeForEachRange:
@@ -218,7 +221,7 @@ class make_for_each_range(Operator):
         outputs:
             An instance of OutputsMakeForEachRange.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMakeForEachRange(_Inputs):

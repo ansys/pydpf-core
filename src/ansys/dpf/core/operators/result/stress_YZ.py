@@ -96,6 +96,9 @@ class stress_YZ(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsStressYz
+    _outputs: OutputsStressYz
+
     def __init__(
         self,
         time_scoping=None,
@@ -254,7 +257,7 @@ can be Nodal/ElementalNodal/Elemental.
         inputs:
             An instance of InputsStressYz.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsStressYz:
@@ -265,7 +268,7 @@ can be Nodal/ElementalNodal/Elemental.
         outputs:
             An instance of OutputsStressYz.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsStressYz(_Inputs):

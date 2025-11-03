@@ -83,6 +83,9 @@ class equivalent_radiated_power(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsEquivalentRadiatedPower
+    _outputs: OutputsEquivalentRadiatedPower
+
     def __init__(
         self,
         fields_container=None,
@@ -213,7 +216,7 @@ class equivalent_radiated_power(Operator):
         inputs:
             An instance of InputsEquivalentRadiatedPower.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsEquivalentRadiatedPower:
@@ -224,7 +227,7 @@ class equivalent_radiated_power(Operator):
         outputs:
             An instance of OutputsEquivalentRadiatedPower.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsEquivalentRadiatedPower(_Inputs):

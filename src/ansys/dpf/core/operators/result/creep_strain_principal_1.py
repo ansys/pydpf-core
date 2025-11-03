@@ -98,6 +98,9 @@ class creep_strain_principal_1(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsCreepStrainPrincipal1
+    _outputs: OutputsCreepStrainPrincipal1
+
     def __init__(
         self,
         time_scoping=None,
@@ -259,7 +262,7 @@ standard strain values.
         inputs:
             An instance of InputsCreepStrainPrincipal1.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsCreepStrainPrincipal1:
@@ -270,7 +273,7 @@ standard strain values.
         outputs:
             An instance of OutputsCreepStrainPrincipal1.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsCreepStrainPrincipal1(_Inputs):

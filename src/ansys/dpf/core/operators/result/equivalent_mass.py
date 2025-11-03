@@ -104,6 +104,9 @@ class equivalent_mass(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsEquivalentMass
+    _outputs: OutputsEquivalentMass
+
     def __init__(
         self,
         time_scoping=None,
@@ -278,7 +281,7 @@ datasources.
         inputs:
             An instance of InputsEquivalentMass.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsEquivalentMass:
@@ -289,7 +292,7 @@ datasources.
         outputs:
             An instance of OutputsEquivalentMass.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsEquivalentMass(_Inputs):

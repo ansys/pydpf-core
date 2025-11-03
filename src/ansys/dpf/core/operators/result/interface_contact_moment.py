@@ -64,6 +64,9 @@ class interface_contact_moment(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsInterfaceContactMoment
+    _outputs: OutputsInterfaceContactMoment
+
     def __init__(
         self,
         streams_container=None,
@@ -163,7 +166,7 @@ the datasources.
         inputs:
             An instance of InputsInterfaceContactMoment.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsInterfaceContactMoment:
@@ -174,7 +177,7 @@ the datasources.
         outputs:
             An instance of OutputsInterfaceContactMoment.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsInterfaceContactMoment(_Inputs):

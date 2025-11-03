@@ -125,6 +125,9 @@ class write_motion_dfmf_file(Operator):
     >>> result_dfmf_data_source = op.outputs.dfmf_data_source()
     """
 
+    _inputs: InputsWriteMotionDfmfFile
+    _outputs: OutputsWriteMotionDfmfFile
+
     def __init__(
         self,
         model_data=None,
@@ -354,7 +357,7 @@ class write_motion_dfmf_file(Operator):
         inputs:
             An instance of InputsWriteMotionDfmfFile.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsWriteMotionDfmfFile:
@@ -365,7 +368,7 @@ class write_motion_dfmf_file(Operator):
         outputs:
             An instance of OutputsWriteMotionDfmfFile.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsWriteMotionDfmfFile(_Inputs):

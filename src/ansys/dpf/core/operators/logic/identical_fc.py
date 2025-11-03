@@ -64,6 +64,9 @@ class identical_fc(Operator):
     >>> result_message = op.outputs.message()
     """
 
+    _inputs: InputsIdenticalFc
+    _outputs: OutputsIdenticalFc
+
     def __init__(
         self,
         fields_containerA=None,
@@ -164,7 +167,7 @@ class identical_fc(Operator):
         inputs:
             An instance of InputsIdenticalFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsIdenticalFc:
@@ -175,7 +178,7 @@ class identical_fc(Operator):
         outputs:
             An instance of OutputsIdenticalFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsIdenticalFc(_Inputs):

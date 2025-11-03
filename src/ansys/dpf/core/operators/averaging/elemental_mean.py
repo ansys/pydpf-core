@@ -63,6 +63,9 @@ class elemental_mean(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsElementalMean
+    _outputs: OutputsElementalMean
+
     def __init__(
         self,
         field=None,
@@ -158,7 +161,7 @@ Elemental), (NodalElemental -> Nodal).
         inputs:
             An instance of InputsElementalMean.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsElementalMean:
@@ -169,7 +172,7 @@ Elemental), (NodalElemental -> Nodal).
         outputs:
             An instance of OutputsElementalMean.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsElementalMean(_Inputs):

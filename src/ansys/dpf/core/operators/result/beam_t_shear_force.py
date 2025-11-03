@@ -69,6 +69,9 @@ class beam_t_shear_force(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsBeamTShearForce
+    _outputs: OutputsBeamTShearForce
+
     def __init__(
         self,
         time_scoping=None,
@@ -184,7 +187,7 @@ datasources.
         inputs:
             An instance of InputsBeamTShearForce.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsBeamTShearForce:
@@ -195,7 +198,7 @@ datasources.
         outputs:
             An instance of OutputsBeamTShearForce.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsBeamTShearForce(_Inputs):

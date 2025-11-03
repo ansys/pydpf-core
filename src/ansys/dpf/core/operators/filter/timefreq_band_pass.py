@@ -61,6 +61,9 @@ class timefreq_band_pass(Operator):
     >>> result_scoping = op.outputs.scoping()
     """
 
+    _inputs: InputsTimefreqBandPass
+    _outputs: OutputsTimefreqBandPass
+
     def __init__(
         self,
         time_freq_support=None,
@@ -154,7 +157,7 @@ threshold value in input.
         inputs:
             An instance of InputsTimefreqBandPass.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsTimefreqBandPass:
@@ -165,7 +168,7 @@ threshold value in input.
         outputs:
             An instance of OutputsTimefreqBandPass.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsTimefreqBandPass(_Inputs):

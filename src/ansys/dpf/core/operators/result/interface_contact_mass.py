@@ -64,6 +64,9 @@ class interface_contact_mass(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsInterfaceContactMass
+    _outputs: OutputsInterfaceContactMass
+
     def __init__(
         self,
         streams_container=None,
@@ -163,7 +166,7 @@ the datasources.
         inputs:
             An instance of InputsInterfaceContactMass.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsInterfaceContactMass:
@@ -174,7 +177,7 @@ the datasources.
         outputs:
             An instance of OutputsInterfaceContactMass.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsInterfaceContactMass(_Inputs):

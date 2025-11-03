@@ -79,6 +79,9 @@ class joint_relative_angular_velocity(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsJointRelativeAngularVelocity
+    _outputs: OutputsJointRelativeAngularVelocity
+
     def __init__(
         self,
         time_scoping=None,
@@ -208,7 +211,7 @@ defined by the datasources.
         inputs:
             An instance of InputsJointRelativeAngularVelocity.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsJointRelativeAngularVelocity:
@@ -219,7 +222,7 @@ defined by the datasources.
         outputs:
             An instance of OutputsJointRelativeAngularVelocity.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsJointRelativeAngularVelocity(_Inputs):

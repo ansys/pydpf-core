@@ -56,6 +56,9 @@ class minus(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsMinus
+    _outputs: OutputsMinus
+
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
         super().__init__(name="minus", config=config, server=server)
         self._inputs = InputsMinus(self)
@@ -139,7 +142,7 @@ field entirely. When using a constant or ‘work_by_index’, you can use
         inputs:
             An instance of InputsMinus.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMinus:
@@ -150,7 +153,7 @@ field entirely. When using a constant or ‘work_by_index’, you can use
         outputs:
             An instance of OutputsMinus.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMinus(_Inputs):

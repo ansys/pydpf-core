@@ -79,6 +79,9 @@ class modal_acceleration(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsModalAcceleration
+    _outputs: OutputsModalAcceleration
+
     def __init__(
         self,
         time_scoping=None,
@@ -208,7 +211,7 @@ datasources.
         inputs:
             An instance of InputsModalAcceleration.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsModalAcceleration:
@@ -219,7 +222,7 @@ datasources.
         outputs:
             An instance of OutputsModalAcceleration.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsModalAcceleration(_Inputs):

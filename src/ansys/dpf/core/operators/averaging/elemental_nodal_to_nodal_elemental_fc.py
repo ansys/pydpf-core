@@ -52,6 +52,9 @@ class elemental_nodal_to_nodal_elemental_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsElementalNodalToNodalElementalFc
+    _outputs: OutputsElementalNodalToNodalElementalFc
+
     def __init__(
         self, fields_container=None, mesh_scoping=None, config=None, server=None
     ):
@@ -129,7 +132,7 @@ is computed on a given node’s scoping.
         inputs:
             An instance of InputsElementalNodalToNodalElementalFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsElementalNodalToNodalElementalFc:
@@ -140,7 +143,7 @@ is computed on a given node’s scoping.
         outputs:
             An instance of OutputsElementalNodalToNodalElementalFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsElementalNodalToNodalElementalFc(_Inputs):

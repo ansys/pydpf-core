@@ -58,6 +58,9 @@ class timescoping_low_pass(Operator):
     >>> result_scoping = op.outputs.scoping()
     """
 
+    _inputs: InputsTimescopingLowPass
+    _outputs: OutputsTimescopingLowPass
+
     def __init__(
         self,
         time_freq_support=None,
@@ -148,7 +151,7 @@ threshold value in input.
         inputs:
             An instance of InputsTimescopingLowPass.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsTimescopingLowPass:
@@ -159,7 +162,7 @@ threshold value in input.
         outputs:
             An instance of OutputsTimescopingLowPass.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsTimescopingLowPass(_Inputs):

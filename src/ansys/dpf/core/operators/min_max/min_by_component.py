@@ -58,6 +58,9 @@ class min_by_component(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsMinByComponent
+    _outputs: OutputsMinByComponent
+
     def __init__(
         self,
         use_absolute_value=None,
@@ -143,7 +146,7 @@ class min_by_component(Operator):
         inputs:
             An instance of InputsMinByComponent.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMinByComponent:
@@ -154,7 +157,7 @@ class min_by_component(Operator):
         outputs:
             An instance of OutputsMinByComponent.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMinByComponent(_Inputs):

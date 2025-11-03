@@ -79,6 +79,9 @@ class incremental_energy(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsIncrementalEnergy
+    _outputs: OutputsIncrementalEnergy
+
     def __init__(
         self,
         time_scoping=None,
@@ -208,7 +211,7 @@ defined by the datasources.
         inputs:
             An instance of InputsIncrementalEnergy.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsIncrementalEnergy:
@@ -219,7 +222,7 @@ defined by the datasources.
         outputs:
             An instance of OutputsIncrementalEnergy.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsIncrementalEnergy(_Inputs):

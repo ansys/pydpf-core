@@ -85,6 +85,9 @@ class elemental_mean_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsElementalMeanFc
+    _outputs: OutputsElementalMeanFc
+
     def __init__(
         self,
         fields_container=None,
@@ -214,7 +217,7 @@ layers are collapsed and shells and solid fields are always merged.
         inputs:
             An instance of InputsElementalMeanFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsElementalMeanFc:
@@ -225,7 +228,7 @@ layers are collapsed and shells and solid fields are always merged.
         outputs:
             An instance of OutputsElementalMeanFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsElementalMeanFc(_Inputs):

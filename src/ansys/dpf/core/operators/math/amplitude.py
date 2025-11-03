@@ -53,6 +53,9 @@ class amplitude(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsAmplitude
+    _outputs: OutputsAmplitude
+
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
         super().__init__(name="amplitude", config=config, server=server)
         self._inputs = InputsAmplitude(self)
@@ -123,7 +126,7 @@ class amplitude(Operator):
         inputs:
             An instance of InputsAmplitude.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsAmplitude:
@@ -134,7 +137,7 @@ class amplitude(Operator):
         outputs:
             An instance of OutputsAmplitude.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsAmplitude(_Inputs):

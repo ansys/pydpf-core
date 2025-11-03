@@ -59,6 +59,9 @@ class global_spring_damper_energy(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsGlobalSpringDamperEnergy
+    _outputs: OutputsGlobalSpringDamperEnergy
+
     def __init__(
         self,
         streams_container=None,
@@ -149,7 +152,7 @@ defined by the datasources.
         inputs:
             An instance of InputsGlobalSpringDamperEnergy.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsGlobalSpringDamperEnergy:
@@ -160,7 +163,7 @@ defined by the datasources.
         outputs:
             An instance of OutputsGlobalSpringDamperEnergy.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsGlobalSpringDamperEnergy(_Inputs):

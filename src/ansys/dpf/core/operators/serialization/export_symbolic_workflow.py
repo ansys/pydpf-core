@@ -63,6 +63,9 @@ class export_symbolic_workflow(Operator):
     >>> result_data_sources = op.outputs.data_sources()
     """
 
+    _inputs: InputsExportSymbolicWorkflow
+    _outputs: OutputsExportSymbolicWorkflow
+
     def __init__(
         self,
         workflow=None,
@@ -158,7 +161,7 @@ class export_symbolic_workflow(Operator):
         inputs:
             An instance of InputsExportSymbolicWorkflow.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsExportSymbolicWorkflow:
@@ -169,7 +172,7 @@ class export_symbolic_workflow(Operator):
         outputs:
             An instance of OutputsExportSymbolicWorkflow.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsExportSymbolicWorkflow(_Inputs):

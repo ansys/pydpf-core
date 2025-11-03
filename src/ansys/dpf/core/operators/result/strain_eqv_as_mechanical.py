@@ -92,6 +92,9 @@ class strain_eqv_as_mechanical(Operator):
     >>> result_meshes_container = op.outputs.meshes_container()
     """
 
+    _inputs: InputsStrainEqvAsMechanical
+    _outputs: OutputsStrainEqvAsMechanical
+
     def __init__(
         self,
         time_scoping=None,
@@ -239,7 +242,7 @@ bodies can either be activated or deactivated.
         inputs:
             An instance of InputsStrainEqvAsMechanical.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsStrainEqvAsMechanical:
@@ -250,7 +253,7 @@ bodies can either be activated or deactivated.
         outputs:
             An instance of OutputsStrainEqvAsMechanical.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsStrainEqvAsMechanical(_Inputs):

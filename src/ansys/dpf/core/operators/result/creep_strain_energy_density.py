@@ -216,6 +216,9 @@ class creep_strain_energy_density(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsCreepStrainEnergyDensity
+    _outputs: OutputsCreepStrainEnergyDensity
+
     def __init__(
         self,
         time_scoping=None,
@@ -502,7 +505,7 @@ elshape Related elements
         inputs:
             An instance of InputsCreepStrainEnergyDensity.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsCreepStrainEnergyDensity:
@@ -513,7 +516,7 @@ elshape Related elements
         outputs:
             An instance of OutputsCreepStrainEnergyDensity.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsCreepStrainEnergyDensity(_Inputs):

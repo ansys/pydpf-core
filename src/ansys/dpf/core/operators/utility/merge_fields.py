@@ -63,6 +63,9 @@ class merge_fields(Operator):
     >>> result_merged_field = op.outputs.merged_field()
     """
 
+    _inputs: InputsMergeFields
+    _outputs: OutputsMergeFields
+
     def __init__(
         self,
         sum_merge=None,
@@ -157,7 +160,7 @@ class merge_fields(Operator):
         inputs:
             An instance of InputsMergeFields.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMergeFields:
@@ -168,7 +171,7 @@ class merge_fields(Operator):
         outputs:
             An instance of OutputsMergeFields.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMergeFields(_Inputs):

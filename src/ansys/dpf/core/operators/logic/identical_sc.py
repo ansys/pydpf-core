@@ -54,6 +54,9 @@ class identical_sc(Operator):
     >>> result_message = op.outputs.message()
     """
 
+    _inputs: InputsIdenticalSc
+    _outputs: OutputsIdenticalSc
+
     def __init__(
         self,
         scopings_containerA=None,
@@ -140,7 +143,7 @@ class identical_sc(Operator):
         inputs:
             An instance of InputsIdenticalSc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsIdenticalSc:
@@ -151,7 +154,7 @@ class identical_sc(Operator):
         outputs:
             An instance of OutputsIdenticalSc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsIdenticalSc(_Inputs):

@@ -55,6 +55,9 @@ class unit_convert(Operator):
     >>> result_converted_entity = op.outputs.converted_entity()
     """
 
+    _inputs: InputsUnitConvert
+    _outputs: OutputsUnitConvert
+
     def __init__(
         self, entity_to_convert=None, unit_name=None, config=None, server=None
     ):
@@ -138,7 +141,7 @@ another unit.
         inputs:
             An instance of InputsUnitConvert.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsUnitConvert:
@@ -149,7 +152,7 @@ another unit.
         outputs:
             An instance of OutputsUnitConvert.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsUnitConvert(_Inputs):
