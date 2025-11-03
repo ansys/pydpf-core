@@ -190,7 +190,7 @@ jobs:
     secrets: inherit
 
   tests-retro:
-    name: "Test DPF ${{ matrix.version }} compatibility"
+    name: "Test DPF ${{ matrix.version.version }}${{ matrix.version.patch }} compatibility"
     if: |
       (startsWith(github.head_ref, 'main') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft)
     strategy:
