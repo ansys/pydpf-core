@@ -29,8 +29,8 @@ from ansys.dpf.core.server_types import AnyServerType
 class {{class_name}}(Operator):
     r"""{{{docstring}}}
 
-    Parameters
-    ----------
+    Inputs
+    ------
     {{#input_pins}}
     {{#optional}}
     {{name}}:{{#types_for_docstring}} {{types_for_docstring}},{{/types_for_docstring}} optional
@@ -43,7 +43,7 @@ class {{class_name}}(Operator):
     {{/document_pin_docstring}}
     {{/input_pins}}
 
-    Returns
+    Outputs
     -------
     {{#output_pins}}
     {{#optional}}
