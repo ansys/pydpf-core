@@ -19,11 +19,11 @@ class streams_provider(Operator):
     r"""Creates streams (files with cache) from the data sources.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     data_sources: DataSources
 
-    Returns
+    Outputs
     -------
     streams_container: StreamsContainer
 

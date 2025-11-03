@@ -19,8 +19,8 @@ class abc_weightings(Operator):
     r"""Computes ABC-weightings for the amplitude spectrum in dB units.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
         data to be weighted in dB units.
     weighting_type: int
@@ -28,7 +28,7 @@ class abc_weightings(Operator):
     shape_by_tf_scoping: bool
         if this pin is set to true, each field of the input fields container is defined by time freq scoping and not by ids. Default is false
 
-    Returns
+    Outputs
     -------
     weightings: FieldsContainer
         weighted data in dB units.

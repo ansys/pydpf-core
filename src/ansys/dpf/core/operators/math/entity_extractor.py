@@ -19,12 +19,12 @@ class entity_extractor(Operator):
     r"""Extracts an entity from a field, based on its ID.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fieldA: Field
     scalar_int: int
 
-    Returns
+    Outputs
     -------
     field: Field
 

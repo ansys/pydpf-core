@@ -20,12 +20,12 @@ class make_overall(Operator):
     value, with the associated scoping’s location set as ‘overall’.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field
     id: int
 
-    Returns
+    Outputs
     -------
     field: Field
 

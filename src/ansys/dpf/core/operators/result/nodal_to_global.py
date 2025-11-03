@@ -19,14 +19,14 @@ class nodal_to_global(Operator):
     r"""Rotates nodal elemental results to global coordinate system
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fieldA: Field
         Vector or tensor field that must be rotated, expressed in nodal coordinate system.
     fieldB: Field
         Nodal euler angles defined from a result file. Those must be the rotations from Nodal to Global.
 
-    Returns
+    Outputs
     -------
     field: Field
         Rotated field

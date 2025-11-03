@@ -28,13 +28,13 @@ class min_max_over_label_fc(Operator):
     (max).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     label: str
         label name from the fields container
 
-    Returns
+    Outputs
     -------
     field_min: Field
     field_max: Field

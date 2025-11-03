@@ -19,12 +19,12 @@ class stl_export(Operator):
     r"""export a mesh into a stl file.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mesh: MeshedRegion
     file_path: str
 
-    Returns
+    Outputs
     -------
     data_sources: DataSources
 

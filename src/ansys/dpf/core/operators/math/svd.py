@@ -20,12 +20,12 @@ class svd(Operator):
     the given fields container.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
         fields_container
 
-    Returns
+    Outputs
     -------
     s_svd: FieldsContainer
         Singular values of the input data, where A=U.S.Vt

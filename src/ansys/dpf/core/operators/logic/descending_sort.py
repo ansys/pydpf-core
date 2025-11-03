@@ -21,8 +21,8 @@ class descending_sort(Operator):
     operator doesn’t support multiple elementary data per entity.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
         field or fields container with only one field is expected
     component_priority_table: optional
@@ -30,7 +30,7 @@ class descending_sort(Operator):
     sort_by_scoping: bool, optional
         if true, uses scoping to sort the field (default is false)
 
-    Returns
+    Outputs
     -------
     field: Field
 

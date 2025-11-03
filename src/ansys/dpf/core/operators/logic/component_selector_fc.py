@@ -20,13 +20,13 @@ class component_selector_fc(Operator):
     each field.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer or Field
     component_number: int
         one or several component index that will be extracted from the initial field.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

@@ -19,12 +19,12 @@ class scoping_on_coordinates(Operator):
     r"""Finds the Elemental scoping of a set of coordinates.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     coordinates: Field
     mesh: MeshedRegion
 
-    Returns
+    Outputs
     -------
     scoping: Scoping
 

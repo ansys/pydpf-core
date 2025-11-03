@@ -20,13 +20,13 @@ class elemental_nodal_to_nodal_elemental(Operator):
     computed on a given node’s scoping.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
         field or fields container with only one field is expected
     mesh_scoping: Scoping, optional
 
-    Returns
+    Outputs
     -------
     field: Field
 

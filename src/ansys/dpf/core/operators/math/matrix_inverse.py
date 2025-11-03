@@ -20,12 +20,12 @@ class matrix_inverse(Operator):
     container.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
         fields_container
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

@@ -19,13 +19,13 @@ class incremental_concatenate_as_fc(Operator):
     r"""Assemble fields in a fields container.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field
     label: dict, optional
         Label space value that must be applied to the added field.
 
-    Returns
+    Outputs
     -------
     output: FieldsContainer
 

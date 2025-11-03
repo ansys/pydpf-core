@@ -21,14 +21,14 @@ class merge_any(Operator):
     Operator.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     any1: Any
         Either a vector of objects (sharing the same data types) or objects from pin 0 to ... to merge. Supported types rely on existing type specific merge operators.
     any2: Any
         Either a vector of objects (sharing the same data types) or objects from pin 0 to ... to merge. Supported types rely on existing type specific merge operators.
 
-    Returns
+    Outputs
     -------
     any: Any
 

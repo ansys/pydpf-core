@@ -20,8 +20,8 @@ class property_field_provider_by_name(Operator):
     property name.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mesh_scoping: Scoping, optional
         scoping that defines the set of elements to fetch the property values for. If not specified, applied on all the elements of the mesh.
     streams_container: StreamsContainer, optional
@@ -31,7 +31,7 @@ class property_field_provider_by_name(Operator):
     property_name: str
         property to read, that can be the following: elements_connectivity, nodes_connectivity, material, element_type, apdl_section_id, apdl_real_id, apdl_esys_id, mapdl_element_type, mapdl_element_type_id, harmonic_index, step, substep, keyopt_i (i = 1 -> 18).
 
-    Returns
+    Outputs
     -------
     property_field: PropertyField
         property field

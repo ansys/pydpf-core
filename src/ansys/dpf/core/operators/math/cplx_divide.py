@@ -20,12 +20,12 @@ class cplx_divide(Operator):
     fields.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_containerA: FieldsContainer
     fields_containerB: FieldsContainer
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

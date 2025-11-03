@@ -19,14 +19,14 @@ class fft_eval(Operator):
     r"""Evaluate the fast fourier transforms at a given set of fields.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field_t: Field
         field of values to evaluate
     time_scoping: Scoping, optional
         if specified only the results at these set ids are used
 
-    Returns
+    Outputs
     -------
     field: Field
     offset: Field

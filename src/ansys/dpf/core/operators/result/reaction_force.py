@@ -20,8 +20,8 @@ class reaction_force(Operator):
     datasources.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     time_scoping: Scoping or int or float or Field, optional
         time/freq values (use doubles or field), time/freq set ids (use ints or scoping) or time/freq step ids (use scoping with TimeFreq_steps location) required in output. To specify time/freq values at specific load steps, put a Field (and not a list) in input with a scoping located on "TimeFreq_steps". Linear time freq intrapolation is performed if the values are not in the result files and the data at the max time or freq is taken when time/freqs are higher than available time/freqs in result files. To get all data for all time/freq sets, connect an int with value -1.
     mesh_scoping: ScopingsContainer or Scoping, optional
@@ -37,7 +37,7 @@ class reaction_force(Operator):
     mesh: MeshedRegion or MeshesContainer, optional
         prevents from reading the mesh in the result files
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

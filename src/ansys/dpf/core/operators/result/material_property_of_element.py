@@ -20,12 +20,12 @@ class material_property_of_element(Operator):
     material properties.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     streams_container: StreamsContainer, optional
     data_sources: DataSources
 
-    Returns
+    Outputs
     -------
     material_properties: Field
         material properties

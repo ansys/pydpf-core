@@ -37,8 +37,8 @@ class elemental_to_nodal(Operator):
        used.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
         field or fields container with only one field is expected
     mesh_scoping: Scoping, optional
@@ -47,7 +47,7 @@ class elemental_to_nodal(Operator):
     algorithm: int, optional
         Forces the usage of algorithm 1, 2 or 3 (default is chosen based on the type of mesh).
 
-    Returns
+    Outputs
     -------
     field: Field
 

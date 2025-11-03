@@ -22,14 +22,14 @@ class rescope_custom_type_field(Operator):
     used when defined.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields: CustomTypeFieldsContainer or CustomTypeField
     mesh_scoping: Scoping, optional
     default_value: CustomTypeField or CustomTypeField, optional
         If pin 2 is used, the IDs not found in the custom type field are added with this default value.
 
-    Returns
+    Outputs
     -------
     fields: CustomTypeFieldsContainer or CustomTypeField
 

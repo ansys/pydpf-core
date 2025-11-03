@@ -20,13 +20,13 @@ class min_max_by_time(Operator):
     each field
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     compute_absolute_value: bool, optional
         Calculate the absolute value of field entities before computing the min/max.
 
-    Returns
+    Outputs
     -------
     min: FieldsContainer
     max: FieldsContainer

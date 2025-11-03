@@ -20,11 +20,11 @@ class min_max_by_entity(Operator):
     fields of a fields container.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
 
-    Returns
+    Outputs
     -------
     field_min: Field
     field_max: Field

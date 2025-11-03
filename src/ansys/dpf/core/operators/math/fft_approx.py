@@ -21,8 +21,8 @@ class fft_approx(Operator):
     first and the second derivatives of the curve.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     time_scoping: Scoping, optional
         A time scoping to rescope / split the fields container given as input.
     mesh_scoping: Scoping or ScopingsContainer, optional
@@ -40,7 +40,7 @@ class fft_approx(Operator):
     cutoff_fr: float or int, optional
         Cutoff frequency.
 
-    Returns
+    Outputs
     -------
     fitted_entity_y: FieldsContainer
         The fitted entity is fitted using FFT along the space scoping (node i: x=time, y=data). Fitted Y is expected to be close to the input data.

@@ -19,14 +19,14 @@ class merge_time_freq_supports(Operator):
     r"""Assembles a set of time/frequency supports into a unique one.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     time_freq_supports1: TimeFreqSupport
         A vector of time/frequency supports to merge or time/frequency supports from pin 0 to ...
     time_freq_supports2: TimeFreqSupport
         A vector of time/frequency supports to merge or time/frequency supports from pin 0 to ...
 
-    Returns
+    Outputs
     -------
     merged_support: TimeFreqSupport
 

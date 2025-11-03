@@ -19,12 +19,12 @@ class forward(Operator):
     r"""Return all the inputs as outputs.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     any: Any
         any type of input
 
-    Returns
+    Outputs
     -------
     any: Any
         same types as inputs

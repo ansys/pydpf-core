@@ -19,11 +19,11 @@ class datasources_provider(Operator):
     r"""Creates a DataSources by expanding another.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     data_sources: DataSources
 
-    Returns
+    Outputs
     -------
     data_sources: DataSources
 

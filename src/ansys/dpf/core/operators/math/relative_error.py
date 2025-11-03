@@ -20,14 +20,14 @@ class relative_error(Operator):
     scalar field.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     value: Field or FieldsContainer or float
         field or fields container with only one field is expected
     reference: Field or FieldsContainer or float
         field or fields container with only one field is expected
 
-    Returns
+    Outputs
     -------
     field: Field
     zero_ref_scoping: Scoping

@@ -21,13 +21,13 @@ class customtypefield_get_attribute(Operator):
     pin 0, a property name (string) in pin 1 are expected as inputs
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     custom_type_field: CustomTypeField or CustomTypeFieldsContainer
     property_name: str
         Property to get. Accepted inputs are specific strings namely: 'unit, 'name','time_freq_support', 'scoping' and 'header'.
 
-    Returns
+    Outputs
     -------
     property: str or TimeFreqSupport or Scoping or DataTree
         Property value that is returned. Accepted Outputs are: Field, PropertyField, CustomTypeField or their containers.

@@ -19,8 +19,8 @@ class vtk_export(Operator):
     r"""Write the input field and fields container into a given vtk path
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     export_type: int, optional
         Either export volume elements in the mesh with their fields with value 0 or faces elements in the mesh with their fields with value 1 (default is 0)
     file_path: str
@@ -32,7 +32,7 @@ class vtk_export(Operator):
     fields2: FieldsContainer or Field
         fields exported
 
-    Returns
+    Outputs
     -------
 
     Examples

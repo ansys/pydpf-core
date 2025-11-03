@@ -19,14 +19,14 @@ class merge_string_fields(Operator):
     r"""Assembles a set of string fields into a unique one.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     string_fields1: StringField
         Either a a vector of string fields to merge or string fields from pin 0 to ...
     string_fields2: StringField
         Either a a vector of string fields to merge or string fields from pin 0 to ...
 
-    Returns
+    Outputs
     -------
     string_field: StringField
 

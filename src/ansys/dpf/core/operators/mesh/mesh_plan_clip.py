@@ -19,15 +19,15 @@ class mesh_plan_clip(Operator):
     r"""Clips a volume mesh along a plane and keeps one side.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mesh_or_field: MeshedRegion or Field
     normal: Field
         An overall 3D vector that gives the normal direction of the plane.
     origin: Field
         An overall 3D vector that gives a point of the plane.
 
-    Returns
+    Outputs
     -------
     field: Field
     mesh: MeshedRegion

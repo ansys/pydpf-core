@@ -20,14 +20,14 @@ class split_streams(Operator):
     outputs is always less or equal to the given desired number of ouputs.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     streams: StreamsContainer
         Streams to split.
     output_count: int
         Number of desired outputs.
 
-    Returns
+    Outputs
     -------
     output_count: int
         Actual number of outputs.

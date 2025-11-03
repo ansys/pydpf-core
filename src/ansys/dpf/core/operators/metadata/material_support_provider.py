@@ -19,14 +19,14 @@ class material_support_provider(Operator):
     r"""Reads the material support.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     streams_container: StreamsContainer, optional
         Streams result file container (optional).
     data_sources: DataSources
         if the stream is null, get the file path from the data sources.
 
-    Returns
+    Outputs
     -------
     abstract_field_support: AbstractFieldSupport
 

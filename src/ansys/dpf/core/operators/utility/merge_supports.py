@@ -19,8 +19,8 @@ class merge_supports(Operator):
     r"""Assembles a set of supports into a unique one.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     should_merge_named_selections: bool, optional
         For some result files (such as RST), the scoping on names selection is duplicated through all the distributed files.If this pin is false, the merging process is skipped. If it is true, this scoping is merged. Default is true.
     supports1: AbstractFieldSupport
@@ -28,7 +28,7 @@ class merge_supports(Operator):
     supports2: AbstractFieldSupport
         A vector of supports to merge or supports from pin 0 to ...
 
-    Returns
+    Outputs
     -------
     merged_support: AbstractFieldSupport
 

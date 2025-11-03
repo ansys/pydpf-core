@@ -19,13 +19,13 @@ class reduce_sampling(Operator):
     r"""Take a scoping and remove half of it’s content.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mesh_scoping: Scoping
     denominator: int, optional
         Set the number of time the scoping is reduced (default is 2). Must be integer value above 1.
 
-    Returns
+    Outputs
     -------
     mesh_scoping: Scoping
 

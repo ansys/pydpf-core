@@ -20,11 +20,11 @@ class external_layer(Operator):
     new meshed region.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mesh: MeshedRegion
 
-    Returns
+    Outputs
     -------
     mesh: MeshedRegion
     nodes_mesh_scoping: Scoping

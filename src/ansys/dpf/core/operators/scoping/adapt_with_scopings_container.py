@@ -20,14 +20,14 @@ class adapt_with_scopings_container(Operator):
     container.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field_or_fields_container: FieldsContainer or Field
     scopings_container: ScopingsContainer
     keep_empty_fields: bool, optional
         Default false.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

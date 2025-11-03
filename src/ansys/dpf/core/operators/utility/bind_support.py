@@ -19,14 +19,14 @@ class bind_support(Operator):
     r"""Ties a support to a field.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
         field or fields container with only one field is expected
     support: MeshedRegion or AbstractFieldSupport
         meshed region or a support of the field
 
-    Returns
+    Outputs
     -------
     field: Field
 

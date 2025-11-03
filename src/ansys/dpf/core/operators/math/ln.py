@@ -19,12 +19,12 @@ class ln(Operator):
     r"""Computes element-wise ln(field[i]).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer or float
         field or fields container with only one field is expected
 
-    Returns
+    Outputs
     -------
     field: Field
 

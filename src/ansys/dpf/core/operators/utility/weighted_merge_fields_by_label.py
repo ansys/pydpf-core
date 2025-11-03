@@ -20,8 +20,8 @@ class weighted_merge_fields_by_label(Operator):
     same label value.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     label: str
         Label identifier that should be merged.
@@ -34,7 +34,7 @@ class weighted_merge_fields_by_label(Operator):
     weights2: PropertyField
         Weights to apply to each field from pin 1000 to ...
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

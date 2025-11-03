@@ -19,8 +19,8 @@ class identical_fields(Operator):
     r"""Check if two fields are identical.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fieldA: Field
     fieldB: Field
     double_value: float, optional
@@ -28,7 +28,7 @@ class identical_fields(Operator):
     double_tolerance: float, optional
         Double relative tolerance. Maximum tolerance gap between two compared values. Values within relative tolerance are considered identical. Formula is (v1 - v2) / v2 < relativeTol. Default is 0.001.
 
-    Returns
+    Outputs
     -------
     boolean: bool
         bool (true if identical...)

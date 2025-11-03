@@ -26,8 +26,8 @@ class change_shell_layers(Operator):
     the result.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer or Field
     e_shell_layer: int
         0: Top, 1: Bottom, 2: TopBottom, 3: Mid, 4: TopBottomMid.
@@ -36,7 +36,7 @@ class change_shell_layers(Operator):
     merge: bool, optional
         For fields with mixed shell layers (solid/shell elements with heterogeneous shell layers), group all of them in the same field (false by default).
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer or Field
 

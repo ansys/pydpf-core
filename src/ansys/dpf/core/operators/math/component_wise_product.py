@@ -23,14 +23,14 @@ class component_wise_product(Operator):
     fields.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fieldA: Field or FieldsContainer
         field or fields container with only one field is expected
     fieldB: Field or FieldsContainer
         field or fields container with only one field is expected
 
-    Returns
+    Outputs
     -------
     field: Field
 

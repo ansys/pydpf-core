@@ -19,14 +19,14 @@ class merge_result_infos(Operator):
     r"""Assembles a set of result information into a unique one.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     result_infos1: ResultInfo
         A vector of result info containers to merge or result infos from pin 0 to ...
     result_infos2: ResultInfo
         A vector of result info containers to merge or result infos from pin 0 to ...
 
-    Returns
+    Outputs
     -------
     merged_result_infos: ResultInfo
 

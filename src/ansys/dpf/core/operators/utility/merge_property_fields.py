@@ -19,8 +19,8 @@ class merge_property_fields(Operator):
     r"""Assembles a set of property fields into a unique one.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     naive_merge: bool
         If true, merge the input property fields assuming that there is no repetition in their scoping ids. Default is false.
     property_fields1: PropertyField or PropertyFieldsContainer
@@ -28,7 +28,7 @@ class merge_property_fields(Operator):
     property_fields2: PropertyField or PropertyFieldsContainer
         Either a property fields container, a vector of property fields to merge or property fields from pin 0 to ...
 
-    Returns
+    Outputs
     -------
     property_field: PropertyField
 

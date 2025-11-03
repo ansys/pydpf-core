@@ -20,11 +20,11 @@ class delegate_to_operator(Operator):
     (forwards all the input of this Operator to the sub Operator).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     operator_name: str
 
-    Returns
+    Outputs
     -------
     any1: Any
         inputs

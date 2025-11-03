@@ -22,8 +22,8 @@ class elemental_difference(Operator):
     element scoping.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
         field or fields container with only one field is expected
     mesh_scoping: Scoping, optional
@@ -32,7 +32,7 @@ class elemental_difference(Operator):
     through_layers: bool, optional
         The maximum elemental difference is taken through the different shell layers if true (default is false).
 
-    Returns
+    Outputs
     -------
     field: Field
 

@@ -19,8 +19,8 @@ class hdf5dpf_workglow_provider(Operator):
     r"""Extract a custom result from an hdf5dpf file as an executable workflow.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     time_scoping: Scoping, optional
     mesh_scoping: Scoping, optional
     streams: StreamsContainer, optional
@@ -32,7 +32,7 @@ class hdf5dpf_workglow_provider(Operator):
     result_name:
         Name of the result that must be extracted from the hdf5dpf file
 
-    Returns
+    Outputs
     -------
     field_or_fields_container: Workflow
 

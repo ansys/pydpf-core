@@ -19,11 +19,11 @@ class cplx_derive(Operator):
     r"""Derives field containers containing complex fields.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

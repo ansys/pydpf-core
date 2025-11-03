@@ -20,8 +20,8 @@ class quantization_fc(Operator):
     threshold, then rounds all the values to the unit.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     input_fc: FieldsContainer
         Fields container to be quantized.
     threshold: float or Field or FieldsContainer
@@ -31,7 +31,7 @@ class quantization_fc(Operator):
         Case fields container : the corresponding threshold field is found by matching label.
 
 
-    Returns
+    Outputs
     -------
     output_fc: FieldsContainer
         Quantized fields container.

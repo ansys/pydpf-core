@@ -20,8 +20,8 @@ class apply_svd(Operator):
     r"""Computes the coefficients (=U*Sigma) and VT components from SVD.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field_contaner_to_compress: FieldsContainer
         Fields container with data to be compressed
     scalar_int: int, optional
@@ -31,7 +31,7 @@ class apply_svd(Operator):
     boolean: bool, optional
         Apply SVD on the initial data (Default : false), otherwise use reduced data (square matrix with the smallest dimensions).
 
-    Returns
+    Outputs
     -------
     us_svd: FieldsContainer
         The output entity is a fields container (time dependant); it contains the product of two matrices, U and S, where A=U.S.Vt

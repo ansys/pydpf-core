@@ -21,8 +21,8 @@ class extract_sub_sc(Operator):
     copied to the output.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     scopings_container: ScopingsContainer
         scopings_container
     label_space: dict or Scoping, optional
@@ -30,7 +30,7 @@ class extract_sub_sc(Operator):
     collapse_labels: bool, optional
         If set to true (default) the input label space (scoping location) is suppressed from the output scopings container, otherwise, label space is kept.
 
-    Returns
+    Outputs
     -------
     scopings_container: ScopingsContainer
         scopings_container

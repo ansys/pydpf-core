@@ -20,13 +20,13 @@ class norm_fc(Operator):
     process is applied on each field of the input fields container.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     scalar_int: int, optional
         Lp normalisation type, p = 1, 2, ...n - Default Lp=2
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

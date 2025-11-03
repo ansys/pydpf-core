@@ -22,8 +22,8 @@ class scale_fc(Operator):
     corresponding to the input field dimensionality
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
         fields container to be scaled
     weights: float or Field or FieldsContainer
@@ -33,7 +33,7 @@ class scale_fc(Operator):
     algorithm: int, optional
         Default is 0 use mkl. If set to 1, don't
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

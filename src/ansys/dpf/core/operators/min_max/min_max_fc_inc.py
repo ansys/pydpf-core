@@ -20,11 +20,11 @@ class min_max_fc_inc(Operator):
     fields container.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
 
-    Returns
+    Outputs
     -------
     field_min: Field
     field_max: Field
