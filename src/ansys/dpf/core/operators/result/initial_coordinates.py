@@ -79,6 +79,9 @@ class initial_coordinates(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsInitialCoordinates
+    _outputs: OutputsInitialCoordinates
+
     def __init__(
         self,
         time_scoping=None,
@@ -208,7 +211,7 @@ by the datasources.
         inputs:
             An instance of InputsInitialCoordinates.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsInitialCoordinates:
@@ -219,7 +222,7 @@ by the datasources.
         outputs:
             An instance of OutputsInitialCoordinates.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsInitialCoordinates(_Inputs):

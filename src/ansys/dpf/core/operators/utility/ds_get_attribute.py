@@ -71,6 +71,9 @@ class ds_get_attribute(Operator):
     >>> result_property = op.outputs.property()
     """
 
+    _inputs: InputsDsGetAttribute
+    _outputs: OutputsDsGetAttribute
+
     def __init__(
         self,
         data_sources=None,
@@ -178,7 +181,7 @@ provided.
         inputs:
             An instance of InputsDsGetAttribute.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsDsGetAttribute:
@@ -189,7 +192,7 @@ provided.
         outputs:
             An instance of OutputsDsGetAttribute.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsDsGetAttribute(_Inputs):

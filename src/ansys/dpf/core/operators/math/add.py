@@ -57,6 +57,9 @@ class add(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsAdd
+    _outputs: OutputsAdd
+
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
         super().__init__(name="add", config=config, server=server)
         self._inputs = InputsAdd(self)
@@ -141,7 +144,7 @@ use ‘inplace’ to reuse one of the fields.
         inputs:
             An instance of InputsAdd.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsAdd:
@@ -152,7 +155,7 @@ use ‘inplace’ to reuse one of the fields.
         outputs:
             An instance of OutputsAdd.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsAdd(_Inputs):

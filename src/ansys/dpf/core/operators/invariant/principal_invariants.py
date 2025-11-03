@@ -54,6 +54,9 @@ class principal_invariants(Operator):
     >>> result_field_eig_3 = op.outputs.field_eig_3()
     """
 
+    _inputs: InputsPrincipalInvariants
+    _outputs: OutputsPrincipalInvariants
+
     def __init__(self, field=None, config=None, server=None):
         super().__init__(name="invariants", config=config, server=server)
         self._inputs = InputsPrincipalInvariants(self)
@@ -128,7 +131,7 @@ class principal_invariants(Operator):
         inputs:
             An instance of InputsPrincipalInvariants.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsPrincipalInvariants:
@@ -139,7 +142,7 @@ class principal_invariants(Operator):
         outputs:
             An instance of OutputsPrincipalInvariants.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsPrincipalInvariants(_Inputs):

@@ -90,6 +90,9 @@ class force_summation_psd(Operator):
     >>> result_moments_on_nodes = op.outputs.moments_on_nodes()
     """
 
+    _inputs: InputsForceSummationPsd
+    _outputs: OutputsForceSummationPsd
+
     def __init__(
         self,
         nodal_scoping=None,
@@ -231,7 +234,7 @@ FSUM/NFORCE.
         inputs:
             An instance of InputsForceSummationPsd.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsForceSummationPsd:
@@ -242,7 +245,7 @@ FSUM/NFORCE.
         outputs:
             An instance of OutputsForceSummationPsd.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsForceSummationPsd(_Inputs):

@@ -79,6 +79,9 @@ class joint_force_reaction(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsJointForceReaction
+    _outputs: OutputsJointForceReaction
+
     def __init__(
         self,
         time_scoping=None,
@@ -208,7 +211,7 @@ datasources.
         inputs:
             An instance of InputsJointForceReaction.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsJointForceReaction:
@@ -219,7 +222,7 @@ datasources.
         outputs:
             An instance of OutputsJointForceReaction.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsJointForceReaction(_Inputs):

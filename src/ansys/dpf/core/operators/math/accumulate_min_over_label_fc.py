@@ -56,6 +56,9 @@ class accumulate_min_over_label_fc(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsAccumulateMinOverLabelFc
+    _outputs: OutputsAccumulateMinOverLabelFc
+
     def __init__(self, fields_container=None, label=None, config=None, server=None):
         super().__init__(
             name="accumulate_min_over_label_fc", config=config, server=server
@@ -134,7 +137,7 @@ be on all the connected inputs.
         inputs:
             An instance of InputsAccumulateMinOverLabelFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsAccumulateMinOverLabelFc:
@@ -145,7 +148,7 @@ be on all the connected inputs.
         outputs:
             An instance of OutputsAccumulateMinOverLabelFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsAccumulateMinOverLabelFc(_Inputs):

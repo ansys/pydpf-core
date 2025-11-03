@@ -59,6 +59,9 @@ class global_added_mass_pct(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsGlobalAddedMassPct
+    _outputs: OutputsGlobalAddedMassPct
+
     def __init__(
         self,
         streams_container=None,
@@ -149,7 +152,7 @@ defined by the datasources.
         inputs:
             An instance of InputsGlobalAddedMassPct.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsGlobalAddedMassPct:
@@ -160,7 +163,7 @@ defined by the datasources.
         outputs:
             An instance of OutputsGlobalAddedMassPct.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsGlobalAddedMassPct(_Inputs):

@@ -95,6 +95,9 @@ class stress_von_mises(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsStressVonMises
+    _outputs: OutputsStressVonMises
+
     def __init__(
         self,
         time_scoping=None,
@@ -253,7 +256,7 @@ which case a rotation to the global coordinate system is performed.
         inputs:
             An instance of InputsStressVonMises.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsStressVonMises:
@@ -264,7 +267,7 @@ which case a rotation to the global coordinate system is performed.
         outputs:
             An instance of OutputsStressVonMises.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsStressVonMises(_Inputs):

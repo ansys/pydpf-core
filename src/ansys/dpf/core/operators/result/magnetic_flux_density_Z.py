@@ -96,6 +96,9 @@ class magnetic_flux_density_Z(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsMagneticFluxDensityZ
+    _outputs: OutputsMagneticFluxDensityZ
+
     def __init__(
         self,
         time_scoping=None,
@@ -254,7 +257,7 @@ can be Nodal/ElementalNodal/Elemental.
         inputs:
             An instance of InputsMagneticFluxDensityZ.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMagneticFluxDensityZ:
@@ -265,7 +268,7 @@ can be Nodal/ElementalNodal/Elemental.
         outputs:
             An instance of OutputsMagneticFluxDensityZ.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMagneticFluxDensityZ(_Inputs):

@@ -55,6 +55,9 @@ class scoping_get_attribute(Operator):
     >>> result_property = op.outputs.property()
     """
 
+    _inputs: InputsScopingGetAttribute
+    _outputs: OutputsScopingGetAttribute
+
     def __init__(self, scoping=None, property_name=None, config=None, server=None):
         super().__init__(name="scoping::get_attribute", config=config, server=server)
         self._inputs = InputsScopingGetAttribute(self)
@@ -126,7 +129,7 @@ input.
         inputs:
             An instance of InputsScopingGetAttribute.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsScopingGetAttribute:
@@ -137,7 +140,7 @@ input.
         outputs:
             An instance of OutputsScopingGetAttribute.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsScopingGetAttribute(_Inputs):

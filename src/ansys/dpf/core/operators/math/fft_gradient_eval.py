@@ -58,6 +58,9 @@ class fft_gradient_eval(Operator):
     >>> result_coefficients = op.outputs.coefficients()
     """
 
+    _inputs: InputsFftGradientEval
+    _outputs: OutputsFftGradientEval
+
     def __init__(
         self,
         fields_container=None,
@@ -144,7 +147,7 @@ using gradient method for adaptative time step.
         inputs:
             An instance of InputsFftGradientEval.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsFftGradientEval:
@@ -155,7 +158,7 @@ using gradient method for adaptative time step.
         outputs:
             An instance of OutputsFftGradientEval.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsFftGradientEval(_Inputs):

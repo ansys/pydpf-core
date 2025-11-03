@@ -59,6 +59,9 @@ class global_sliding_interface_energy(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsGlobalSlidingInterfaceEnergy
+    _outputs: OutputsGlobalSlidingInterfaceEnergy
+
     def __init__(
         self,
         streams_container=None,
@@ -149,7 +152,7 @@ defined by the datasources.
         inputs:
             An instance of InputsGlobalSlidingInterfaceEnergy.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsGlobalSlidingInterfaceEnergy:
@@ -160,7 +163,7 @@ defined by the datasources.
         outputs:
             An instance of OutputsGlobalSlidingInterfaceEnergy.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsGlobalSlidingInterfaceEnergy(_Inputs):

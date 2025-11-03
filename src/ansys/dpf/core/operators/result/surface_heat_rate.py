@@ -84,6 +84,9 @@ class surface_heat_rate(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsSurfaceHeatRate
+    _outputs: OutputsSurfaceHeatRate
+
     def __init__(
         self,
         time_scoping=None,
@@ -222,7 +225,7 @@ datasources.
         inputs:
             An instance of InputsSurfaceHeatRate.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsSurfaceHeatRate:
@@ -233,7 +236,7 @@ datasources.
         outputs:
             An instance of OutputsSurfaceHeatRate.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsSurfaceHeatRate(_Inputs):

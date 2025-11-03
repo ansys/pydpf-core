@@ -66,6 +66,9 @@ class add_rigid_body_motion(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsAddRigidBodyMotion
+    _outputs: OutputsAddRigidBodyMotion
+
     def __init__(
         self,
         displacement_field=None,
@@ -171,7 +174,7 @@ displacement field has to be in the global coordinate system
         inputs:
             An instance of InputsAddRigidBodyMotion.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsAddRigidBodyMotion:
@@ -182,7 +185,7 @@ displacement field has to be in the global coordinate system
         outputs:
             An instance of OutputsAddRigidBodyMotion.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsAddRigidBodyMotion(_Inputs):

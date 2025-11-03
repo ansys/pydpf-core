@@ -69,6 +69,9 @@ class remote_operator_instantiate(Operator):
     >>> result_remote_workflow = op.outputs.remote_workflow()
     """
 
+    _inputs: InputsRemoteOperatorInstantiate
+    _outputs: OutputsRemoteOperatorInstantiate
+
     def __init__(
         self,
         operator_to_send=None,
@@ -178,7 +181,7 @@ workflow is created with this operator and returned in output
         inputs:
             An instance of InputsRemoteOperatorInstantiate.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsRemoteOperatorInstantiate:
@@ -189,7 +192,7 @@ workflow is created with this operator and returned in output
         outputs:
             An instance of OutputsRemoteOperatorInstantiate.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsRemoteOperatorInstantiate(_Inputs):

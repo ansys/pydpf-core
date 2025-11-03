@@ -79,6 +79,9 @@ class run(Operator):
     >>> result_port = op.outputs.port()
     """
 
+    _inputs: InputsRun
+    _outputs: OutputsRun
+
     def __init__(
         self,
         mapdl_exe_path=None,
@@ -204,7 +207,7 @@ file.
         inputs:
             An instance of InputsRun.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsRun:
@@ -215,7 +218,7 @@ file.
         outputs:
             An instance of OutputsRun.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsRun(_Inputs):

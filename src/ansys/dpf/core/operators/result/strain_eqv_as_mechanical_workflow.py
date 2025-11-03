@@ -86,6 +86,9 @@ class strain_eqv_as_mechanical_workflow(Operator):
     >>> result_workflow = op.outputs.workflow()
     """
 
+    _inputs: InputsStrainEqvAsMechanicalWorkflow
+    _outputs: OutputsStrainEqvAsMechanicalWorkflow
+
     def __init__(
         self,
         time_scoping=None,
@@ -223,7 +226,7 @@ deactivated.
         inputs:
             An instance of InputsStrainEqvAsMechanicalWorkflow.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsStrainEqvAsMechanicalWorkflow:
@@ -234,7 +237,7 @@ deactivated.
         outputs:
             An instance of OutputsStrainEqvAsMechanicalWorkflow.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsStrainEqvAsMechanicalWorkflow(_Inputs):

@@ -74,6 +74,9 @@ class merge_weighted_fields(Operator):
     >>> result_merged_field = op.outputs.merged_field()
     """
 
+    _inputs: InputsMergeWeightedFields
+    _outputs: OutputsMergeWeightedFields
+
     def __init__(
         self,
         sum_merge=None,
@@ -187,7 +190,7 @@ sum of the fields.
         inputs:
             An instance of InputsMergeWeightedFields.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMergeWeightedFields:
@@ -198,7 +201,7 @@ sum of the fields.
         outputs:
             An instance of OutputsMergeWeightedFields.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMergeWeightedFields(_Inputs):

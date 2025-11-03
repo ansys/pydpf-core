@@ -211,6 +211,9 @@ class gasket_thermal_closure(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsGasketThermalClosure
+    _outputs: OutputsGasketThermalClosure
+
     def __init__(
         self,
         time_scoping=None,
@@ -488,7 +491,7 @@ elshape Related elements
         inputs:
             An instance of InputsGasketThermalClosure.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsGasketThermalClosure:
@@ -499,7 +502,7 @@ elshape Related elements
         outputs:
             An instance of OutputsGasketThermalClosure.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsGasketThermalClosure(_Inputs):

@@ -79,6 +79,9 @@ class joint_relative_rotation(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsJointRelativeRotation
+    _outputs: OutputsJointRelativeRotation
+
     def __init__(
         self,
         time_scoping=None,
@@ -208,7 +211,7 @@ the datasources.
         inputs:
             An instance of InputsJointRelativeRotation.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsJointRelativeRotation:
@@ -219,7 +222,7 @@ the datasources.
         outputs:
             An instance of OutputsJointRelativeRotation.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsJointRelativeRotation(_Inputs):

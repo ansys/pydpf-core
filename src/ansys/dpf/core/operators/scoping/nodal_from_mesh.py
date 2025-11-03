@@ -48,6 +48,9 @@ class nodal_from_mesh(Operator):
     >>> result_mesh_scoping = op.outputs.mesh_scoping()
     """
 
+    _inputs: InputsNodalFromMesh
+    _outputs: OutputsNodalFromMesh
+
     def __init__(self, mesh=None, config=None, server=None):
         super().__init__(name="GetNodeScopingFromMesh", config=config, server=server)
         self._inputs = InputsNodalFromMesh(self)
@@ -111,7 +114,7 @@ node IDs.
         inputs:
             An instance of InputsNodalFromMesh.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsNodalFromMesh:
@@ -122,7 +125,7 @@ node IDs.
         outputs:
             An instance of OutputsNodalFromMesh.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsNodalFromMesh(_Inputs):

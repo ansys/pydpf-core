@@ -58,6 +58,9 @@ class timescoping_signed_high_pass(Operator):
     >>> result_scoping = op.outputs.scoping()
     """
 
+    _inputs: InputsTimescopingSignedHighPass
+    _outputs: OutputsTimescopingSignedHighPass
+
     def __init__(
         self,
         time_freq_support=None,
@@ -148,7 +151,7 @@ value to the threshold value in input.
         inputs:
             An instance of InputsTimescopingSignedHighPass.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsTimescopingSignedHighPass:
@@ -159,7 +162,7 @@ value to the threshold value in input.
         outputs:
             An instance of OutputsTimescopingSignedHighPass.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsTimescopingSignedHighPass(_Inputs):

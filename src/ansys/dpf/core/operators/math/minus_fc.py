@@ -56,6 +56,9 @@ class minus_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsMinusFc
+    _outputs: OutputsMinusFc
+
     def __init__(
         self,
         field_or_fields_container_A=None,
@@ -145,7 +148,7 @@ field entirely. When using a constant or ‘work_by_index’, you can use
         inputs:
             An instance of InputsMinusFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMinusFc:
@@ -156,7 +159,7 @@ field entirely. When using a constant or ‘work_by_index’, you can use
         outputs:
             An instance of OutputsMinusFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMinusFc(_Inputs):

@@ -79,6 +79,9 @@ class normal_contact_force(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsNormalContactForce
+    _outputs: OutputsNormalContactForce
+
     def __init__(
         self,
         time_scoping=None,
@@ -208,7 +211,7 @@ datasources.
         inputs:
             An instance of InputsNormalContactForce.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsNormalContactForce:
@@ -219,7 +222,7 @@ datasources.
         outputs:
             An instance of OutputsNormalContactForce.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsNormalContactForce(_Inputs):

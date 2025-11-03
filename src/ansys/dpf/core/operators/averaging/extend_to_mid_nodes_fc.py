@@ -53,6 +53,9 @@ class extend_to_mid_nodes_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsExtendToMidNodesFc
+    _outputs: OutputsExtendToMidNodesFc
+
     def __init__(self, fields_container=None, mesh=None, config=None, server=None):
         super().__init__(name="extend_to_mid_nodes_fc", config=config, server=server)
         self._inputs = InputsExtendToMidNodesFc(self)
@@ -124,7 +127,7 @@ Elemental Nodal fields defined also on the mid nodes.
         inputs:
             An instance of InputsExtendToMidNodesFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsExtendToMidNodesFc:
@@ -135,7 +138,7 @@ Elemental Nodal fields defined also on the mid nodes.
         outputs:
             An instance of OutputsExtendToMidNodesFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsExtendToMidNodesFc(_Inputs):

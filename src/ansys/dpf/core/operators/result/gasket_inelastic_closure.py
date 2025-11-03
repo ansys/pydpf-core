@@ -211,6 +211,9 @@ class gasket_inelastic_closure(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsGasketInelasticClosure
+    _outputs: OutputsGasketInelasticClosure
+
     def __init__(
         self,
         time_scoping=None,
@@ -488,7 +491,7 @@ elshape Related elements
         inputs:
             An instance of InputsGasketInelasticClosure.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsGasketInelasticClosure:
@@ -499,7 +502,7 @@ elshape Related elements
         outputs:
             An instance of OutputsGasketInelasticClosure.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsGasketInelasticClosure(_Inputs):

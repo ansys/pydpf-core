@@ -55,6 +55,9 @@ class customtypefield_get_attribute(Operator):
     >>> result_property = op.outputs.property()
     """
 
+    _inputs: InputsCustomtypefieldGetAttribute
+    _outputs: OutputsCustomtypefieldGetAttribute
+
     def __init__(
         self, custom_type_field=None, property_name=None, config=None, server=None
     ):
@@ -137,7 +140,7 @@ pin 0, a property name (string) in pin 1 are expected as inputs
         inputs:
             An instance of InputsCustomtypefieldGetAttribute.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsCustomtypefieldGetAttribute:
@@ -148,7 +151,7 @@ pin 0, a property name (string) in pin 1 are expected as inputs
         outputs:
             An instance of OutputsCustomtypefieldGetAttribute.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsCustomtypefieldGetAttribute(_Inputs):

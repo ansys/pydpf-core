@@ -69,6 +69,9 @@ class correlation(Operator):
     >>> result_index = op.outputs.index()
     """
 
+    _inputs: InputsCorrelation
+    _outputs: OutputsCorrelation
+
     def __init__(
         self,
         fieldA=None,
@@ -180,7 +183,7 @@ container), correlation is computed for each of them.
         inputs:
             An instance of InputsCorrelation.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsCorrelation:
@@ -191,7 +194,7 @@ container), correlation is computed for each of them.
         outputs:
             An instance of OutputsCorrelation.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsCorrelation(_Inputs):

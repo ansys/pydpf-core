@@ -55,6 +55,9 @@ class mesh_selection_manager_provider(Operator):
     >>> result_mesh_selection_manager = op.outputs.mesh_selection_manager()
     """
 
+    _inputs: InputsMeshSelectionManagerProvider
+    _outputs: OutputsMeshSelectionManagerProvider
+
     def __init__(
         self, streams_container=None, data_sources=None, config=None, server=None
     ):
@@ -133,7 +136,7 @@ selection manager in output.
         inputs:
             An instance of InputsMeshSelectionManagerProvider.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMeshSelectionManagerProvider:
@@ -144,7 +147,7 @@ selection manager in output.
         outputs:
             An instance of OutputsMeshSelectionManagerProvider.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMeshSelectionManagerProvider(_Inputs):

@@ -53,6 +53,9 @@ class outer_product(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsOuterProduct
+    _outputs: OutputsOuterProduct
+
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
         super().__init__(name="outer_product", config=config, server=server)
         self._inputs = InputsOuterProduct(self)
@@ -133,7 +136,7 @@ class outer_product(Operator):
         inputs:
             An instance of InputsOuterProduct.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsOuterProduct:
@@ -144,7 +147,7 @@ class outer_product(Operator):
         outputs:
             An instance of OutputsOuterProduct.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsOuterProduct(_Inputs):

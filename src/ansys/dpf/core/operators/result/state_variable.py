@@ -221,6 +221,9 @@ class state_variable(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsStateVariable
+    _outputs: OutputsStateVariable
+
     def __init__(
         self,
         time_scoping=None,
@@ -516,7 +519,7 @@ elshape Related elements
         inputs:
             An instance of InputsStateVariable.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsStateVariable:
@@ -527,7 +530,7 @@ elshape Related elements
         outputs:
             An instance of OutputsStateVariable.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsStateVariable(_Inputs):

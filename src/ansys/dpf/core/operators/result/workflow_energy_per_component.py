@@ -90,6 +90,9 @@ class workflow_energy_per_component(Operator):
     >>> result_component_kinetic_energy_percentage = op.outputs.component_kinetic_energy_percentage()
     """
 
+    _inputs: InputsWorkflowEnergyPerComponent
+    _outputs: OutputsWorkflowEnergyPerComponent
+
     def __init__(
         self,
         time_scoping=None,
@@ -258,7 +261,7 @@ cyclic and multistage models, the expansion will be automatically done.
         inputs:
             An instance of InputsWorkflowEnergyPerComponent.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsWorkflowEnergyPerComponent:
@@ -269,7 +272,7 @@ cyclic and multistage models, the expansion will be automatically done.
         outputs:
             An instance of OutputsWorkflowEnergyPerComponent.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsWorkflowEnergyPerComponent(_Inputs):

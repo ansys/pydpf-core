@@ -79,6 +79,9 @@ class electric_potential(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsElectricPotential
+    _outputs: OutputsElectricPotential
+
     def __init__(
         self,
         time_scoping=None,
@@ -208,7 +211,7 @@ datasources.
         inputs:
             An instance of InputsElectricPotential.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsElectricPotential:
@@ -219,7 +222,7 @@ datasources.
         outputs:
             An instance of OutputsElectricPotential.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsElectricPotential(_Inputs):

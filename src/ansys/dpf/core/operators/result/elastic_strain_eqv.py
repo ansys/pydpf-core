@@ -216,6 +216,9 @@ class elastic_strain_eqv(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsElasticStrainEqv
+    _outputs: OutputsElasticStrainEqv
+
     def __init__(
         self,
         time_scoping=None,
@@ -502,7 +505,7 @@ elshape Related elements
         inputs:
             An instance of InputsElasticStrainEqv.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsElasticStrainEqv:
@@ -513,7 +516,7 @@ elshape Related elements
         outputs:
             An instance of OutputsElasticStrainEqv.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsElasticStrainEqv(_Inputs):

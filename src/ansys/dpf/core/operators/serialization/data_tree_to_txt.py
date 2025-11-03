@@ -52,6 +52,9 @@ class data_tree_to_txt(Operator):
     >>> result_data_sources = op.outputs.data_sources()
     """
 
+    _inputs: InputsDataTreeToTxt
+    _outputs: OutputsDataTreeToTxt
+
     def __init__(self, data_tree=None, path=None, config=None, server=None):
         super().__init__(name="data_tree_to_txt", config=config, server=server)
         self._inputs = InputsDataTreeToTxt(self)
@@ -122,7 +125,7 @@ class data_tree_to_txt(Operator):
         inputs:
             An instance of InputsDataTreeToTxt.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsDataTreeToTxt:
@@ -133,7 +136,7 @@ class data_tree_to_txt(Operator):
         outputs:
             An instance of OutputsDataTreeToTxt.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsDataTreeToTxt(_Inputs):

@@ -59,6 +59,9 @@ class normals_provider_nl(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsNormalsProviderNl
+    _outputs: OutputsNormalsProviderNl
+
     def __init__(
         self,
         mesh=None,
@@ -145,7 +148,7 @@ class normals_provider_nl(Operator):
         inputs:
             An instance of InputsNormalsProviderNl.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsNormalsProviderNl:
@@ -156,7 +159,7 @@ class normals_provider_nl(Operator):
         outputs:
             An instance of OutputsNormalsProviderNl.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsNormalsProviderNl(_Inputs):

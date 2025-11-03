@@ -84,6 +84,9 @@ class displacement_Z(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsDisplacementZ
+    _outputs: OutputsDisplacementZ
+
     def __init__(
         self,
         time_scoping=None,
@@ -222,7 +225,7 @@ component) by calling the readers defined by the datasources.
         inputs:
             An instance of InputsDisplacementZ.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsDisplacementZ:
@@ -233,7 +236,7 @@ component) by calling the readers defined by the datasources.
         outputs:
             An instance of OutputsDisplacementZ.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsDisplacementZ(_Inputs):

@@ -49,6 +49,9 @@ class node_coordinates(Operator):
     >>> result_coordinates = op.outputs.coordinates()
     """
 
+    _inputs: InputsNodeCoordinates
+    _outputs: OutputsNodeCoordinates
+
     def __init__(self, mesh=None, config=None, server=None):
         super().__init__(name="mesh::node_coordinates", config=config, server=server)
         self._inputs = InputsNodeCoordinates(self)
@@ -111,7 +114,7 @@ class node_coordinates(Operator):
         inputs:
             An instance of InputsNodeCoordinates.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsNodeCoordinates:
@@ -122,7 +125,7 @@ class node_coordinates(Operator):
         outputs:
             An instance of OutputsNodeCoordinates.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsNodeCoordinates(_Inputs):

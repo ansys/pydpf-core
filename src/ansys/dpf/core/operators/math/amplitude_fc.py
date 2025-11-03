@@ -47,6 +47,9 @@ class amplitude_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsAmplitudeFc
+    _outputs: OutputsAmplitudeFc
+
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="amplitude_fc", config=config, server=server)
         self._inputs = InputsAmplitudeFc(self)
@@ -109,7 +112,7 @@ class amplitude_fc(Operator):
         inputs:
             An instance of InputsAmplitudeFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsAmplitudeFc:
@@ -120,7 +123,7 @@ class amplitude_fc(Operator):
         outputs:
             An instance of OutputsAmplitudeFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsAmplitudeFc(_Inputs):

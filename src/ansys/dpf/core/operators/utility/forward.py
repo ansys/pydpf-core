@@ -49,6 +49,9 @@ class forward(Operator):
     >>> result_any = op.outputs.any()
     """
 
+    _inputs: InputsForward
+    _outputs: OutputsForward
+
     def __init__(self, any=None, config=None, server=None):
         super().__init__(name="forward", config=config, server=server)
         self._inputs = InputsForward(self)
@@ -111,7 +114,7 @@ class forward(Operator):
         inputs:
             An instance of InputsForward.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsForward:
@@ -122,7 +125,7 @@ class forward(Operator):
         outputs:
             An instance of OutputsForward.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsForward(_Inputs):

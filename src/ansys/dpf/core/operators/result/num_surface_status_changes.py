@@ -236,6 +236,9 @@ class num_surface_status_changes(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsNumSurfaceStatusChanges
+    _outputs: OutputsNumSurfaceStatusChanges
+
     def __init__(
         self,
         time_scoping=None,
@@ -558,7 +561,7 @@ elshape Related elements
         inputs:
             An instance of InputsNumSurfaceStatusChanges.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsNumSurfaceStatusChanges:
@@ -569,7 +572,7 @@ elshape Related elements
         outputs:
             An instance of OutputsNumSurfaceStatusChanges.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsNumSurfaceStatusChanges(_Inputs):

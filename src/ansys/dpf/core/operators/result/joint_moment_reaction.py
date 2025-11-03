@@ -79,6 +79,9 @@ class joint_moment_reaction(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsJointMomentReaction
+    _outputs: OutputsJointMomentReaction
+
     def __init__(
         self,
         time_scoping=None,
@@ -208,7 +211,7 @@ datasources.
         inputs:
             An instance of InputsJointMomentReaction.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsJointMomentReaction:
@@ -219,7 +222,7 @@ datasources.
         outputs:
             An instance of OutputsJointMomentReaction.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsJointMomentReaction(_Inputs):

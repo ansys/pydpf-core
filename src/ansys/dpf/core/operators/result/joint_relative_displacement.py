@@ -79,6 +79,9 @@ class joint_relative_displacement(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsJointRelativeDisplacement
+    _outputs: OutputsJointRelativeDisplacement
+
     def __init__(
         self,
         time_scoping=None,
@@ -208,7 +211,7 @@ by the datasources.
         inputs:
             An instance of InputsJointRelativeDisplacement.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsJointRelativeDisplacement:
@@ -219,7 +222,7 @@ by the datasources.
         outputs:
             An instance of OutputsJointRelativeDisplacement.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsJointRelativeDisplacement(_Inputs):

@@ -59,6 +59,9 @@ class rescope_property_field(Operator):
     >>> result_fields = op.outputs.fields()
     """
 
+    _inputs: InputsRescopePropertyField
+    _outputs: OutputsRescopePropertyField
+
     def __init__(
         self,
         fields=None,
@@ -146,7 +149,7 @@ defined.
         inputs:
             An instance of InputsRescopePropertyField.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsRescopePropertyField:
@@ -157,7 +160,7 @@ defined.
         outputs:
             An instance of OutputsRescopePropertyField.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsRescopePropertyField(_Inputs):

@@ -62,6 +62,9 @@ class nodal_difference_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsNodalDifferenceFc
+    _outputs: OutputsNodalDifferenceFc
+
     def __init__(
         self, fields_container=None, mesh=None, scoping=None, config=None, server=None
     ):
@@ -147,7 +150,7 @@ elshape label.
         inputs:
             An instance of InputsNodalDifferenceFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsNodalDifferenceFc:
@@ -158,7 +161,7 @@ elshape label.
         outputs:
             An instance of OutputsNodalDifferenceFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsNodalDifferenceFc(_Inputs):

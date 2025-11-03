@@ -60,6 +60,9 @@ class mesh_info_provider(Operator):
     >>> result_mesh_info = op.outputs.mesh_info()
     """
 
+    _inputs: InputsMeshInfoProvider
+    _outputs: OutputsMeshInfoProvider
+
     def __init__(
         self,
         time_scoping=None,
@@ -148,7 +151,7 @@ plugins) on files contained in the streams or data sources.
         inputs:
             An instance of InputsMeshInfoProvider.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMeshInfoProvider:
@@ -159,7 +162,7 @@ plugins) on files contained in the streams or data sources.
         outputs:
             An instance of OutputsMeshInfoProvider.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMeshInfoProvider(_Inputs):

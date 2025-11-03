@@ -96,6 +96,9 @@ class electric_flux_density_X(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsElectricFluxDensityX
+    _outputs: OutputsElectricFluxDensityX
+
     def __init__(
         self,
         time_scoping=None,
@@ -254,7 +257,7 @@ can be Nodal/ElementalNodal/Elemental.
         inputs:
             An instance of InputsElectricFluxDensityX.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsElectricFluxDensityX:
@@ -265,7 +268,7 @@ can be Nodal/ElementalNodal/Elemental.
         outputs:
             An instance of OutputsElectricFluxDensityX.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsElectricFluxDensityX(_Inputs):

@@ -59,6 +59,9 @@ class abc_weightings(Operator):
     >>> result_weightings = op.outputs.weightings()
     """
 
+    _inputs: InputsAbcWeightings
+    _outputs: OutputsAbcWeightings
+
     def __init__(
         self,
         fields_container=None,
@@ -144,7 +147,7 @@ class abc_weightings(Operator):
         inputs:
             An instance of InputsAbcWeightings.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsAbcWeightings:
@@ -155,7 +158,7 @@ class abc_weightings(Operator):
         outputs:
             An instance of OutputsAbcWeightings.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsAbcWeightings(_Inputs):

@@ -53,6 +53,9 @@ class overall_dot(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsOverallDot
+    _outputs: OutputsOverallDot
+
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
         super().__init__(name="native::overall_dot", config=config, server=server)
         self._inputs = InputsOverallDot(self)
@@ -124,7 +127,7 @@ large vector) and returns a scalar.
         inputs:
             An instance of InputsOverallDot.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsOverallDot:
@@ -135,7 +138,7 @@ large vector) and returns a scalar.
         outputs:
             An instance of OutputsOverallDot.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsOverallDot(_Inputs):

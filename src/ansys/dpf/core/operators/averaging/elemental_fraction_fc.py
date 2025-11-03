@@ -69,6 +69,9 @@ class elemental_fraction_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsElementalFractionFc
+    _outputs: OutputsElementalFractionFc
+
     def __init__(
         self,
         fields_container=None,
@@ -174,7 +177,7 @@ average. The result is computed on a given element’s scoping.
         inputs:
             An instance of InputsElementalFractionFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsElementalFractionFc:
@@ -185,7 +188,7 @@ average. The result is computed on a given element’s scoping.
         outputs:
             An instance of OutputsElementalFractionFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsElementalFractionFc(_Inputs):

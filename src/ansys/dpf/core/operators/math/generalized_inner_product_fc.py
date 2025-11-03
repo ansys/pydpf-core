@@ -54,6 +54,9 @@ class generalized_inner_product_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsGeneralizedInnerProductFc
+    _outputs: OutputsGeneralizedInnerProductFc
+
     def __init__(
         self,
         field_or_fields_container_A=None,
@@ -145,7 +148,7 @@ possibly different dimensionality.
         inputs:
             An instance of InputsGeneralizedInnerProductFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsGeneralizedInnerProductFc:
@@ -156,7 +159,7 @@ possibly different dimensionality.
         outputs:
             An instance of OutputsGeneralizedInnerProductFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsGeneralizedInnerProductFc(_Inputs):

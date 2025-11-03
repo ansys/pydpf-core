@@ -79,6 +79,9 @@ class co_energy(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsCoEnergy
+    _outputs: OutputsCoEnergy
+
     def __init__(
         self,
         time_scoping=None,
@@ -208,7 +211,7 @@ datasources.
         inputs:
             An instance of InputsCoEnergy.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsCoEnergy:
@@ -219,7 +222,7 @@ datasources.
         outputs:
             An instance of OutputsCoEnergy.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsCoEnergy(_Inputs):

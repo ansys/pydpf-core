@@ -72,6 +72,9 @@ class mesh_property_provider(Operator):
     >>> result_property = op.outputs.property()
     """
 
+    _inputs: InputsMeshPropertyProvider
+    _outputs: OutputsMeshPropertyProvider
+
     def __init__(
         self,
         mesh_scoping=None,
@@ -177,7 +180,7 @@ fill in the mesh.
         inputs:
             An instance of InputsMeshPropertyProvider.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMeshPropertyProvider:
@@ -188,7 +191,7 @@ fill in the mesh.
         outputs:
             An instance of OutputsMeshPropertyProvider.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMeshPropertyProvider(_Inputs):

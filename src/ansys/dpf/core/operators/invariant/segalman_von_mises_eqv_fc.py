@@ -48,6 +48,9 @@ class segalman_von_mises_eqv_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsSegalmanVonMisesEqvFc
+    _outputs: OutputsSegalmanVonMisesEqvFc
+
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="segalmaneqv_fc", config=config, server=server)
         self._inputs = InputsSegalmanVonMisesEqvFc(self)
@@ -111,7 +114,7 @@ fields of a fields container.
         inputs:
             An instance of InputsSegalmanVonMisesEqvFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsSegalmanVonMisesEqvFc:
@@ -122,7 +125,7 @@ fields of a fields container.
         outputs:
             An instance of OutputsSegalmanVonMisesEqvFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsSegalmanVonMisesEqvFc(_Inputs):

@@ -68,6 +68,9 @@ class identical_meshes(Operator):
     >>> result_are_identical = op.outputs.are_identical()
     """
 
+    _inputs: InputsIdenticalMeshes
+    _outputs: OutputsIdenticalMeshes
+
     def __init__(
         self,
         meshA=None,
@@ -173,7 +176,7 @@ the first mesh (pin 0) are included in the second mesh (pin 1).
         inputs:
             An instance of InputsIdenticalMeshes.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsIdenticalMeshes:
@@ -184,7 +187,7 @@ the first mesh (pin 0) are included in the second mesh (pin 1).
         outputs:
             An instance of OutputsIdenticalMeshes.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsIdenticalMeshes(_Inputs):

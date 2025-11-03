@@ -61,6 +61,9 @@ class extract_sub_sc(Operator):
     >>> result_scopings_container = op.outputs.scopings_container()
     """
 
+    _inputs: InputsExtractSubSc
+    _outputs: OutputsExtractSubSc
+
     def __init__(
         self,
         scopings_container=None,
@@ -148,7 +151,7 @@ copied to the output.
         inputs:
             An instance of InputsExtractSubSc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsExtractSubSc:
@@ -159,7 +162,7 @@ copied to the output.
         outputs:
             An instance of OutputsExtractSubSc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsExtractSubSc(_Inputs):

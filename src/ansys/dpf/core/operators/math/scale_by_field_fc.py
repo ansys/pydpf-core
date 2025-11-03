@@ -55,6 +55,9 @@ class scale_by_field_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsScaleByFieldFc
+    _outputs: OutputsScaleByFieldFc
+
     def __init__(
         self,
         field_or_fields_container_A=None,
@@ -133,7 +136,7 @@ field’s values are applied on the other field entirely.
         inputs:
             An instance of InputsScaleByFieldFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsScaleByFieldFc:
@@ -144,7 +147,7 @@ field’s values are applied on the other field entirely.
         outputs:
             An instance of OutputsScaleByFieldFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsScaleByFieldFc(_Inputs):

@@ -60,6 +60,9 @@ class field_band_pass_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsFieldBandPassFc
+    _outputs: OutputsFieldBandPassFc
+
     def __init__(
         self,
         fields_container=None,
@@ -147,7 +150,7 @@ threshold value in input.
         inputs:
             An instance of InputsFieldBandPassFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsFieldBandPassFc:
@@ -158,7 +161,7 @@ threshold value in input.
         outputs:
             An instance of OutputsFieldBandPassFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsFieldBandPassFc(_Inputs):

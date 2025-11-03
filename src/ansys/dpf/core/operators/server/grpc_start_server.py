@@ -75,6 +75,9 @@ class grpc_start_server(Operator):
     >>> result_grpc_streams = op.outputs.grpc_streams()
     """
 
+    _inputs: InputsGrpcStartServer
+    _outputs: OutputsGrpcStartServer
+
     def __init__(
         self,
         ip=None,
@@ -188,7 +191,7 @@ waiting for requests in a streams.
         inputs:
             An instance of InputsGrpcStartServer.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsGrpcStartServer:
@@ -199,7 +202,7 @@ waiting for requests in a streams.
         outputs:
             An instance of OutputsGrpcStartServer.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsGrpcStartServer(_Inputs):

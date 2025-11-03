@@ -58,6 +58,9 @@ class merge_supports(Operator):
     >>> result_merged_support = op.outputs.merged_support()
     """
 
+    _inputs: InputsMergeSupports
+    _outputs: OutputsMergeSupports
+
     def __init__(
         self,
         should_merge_named_selections=None,
@@ -145,7 +148,7 @@ class merge_supports(Operator):
         inputs:
             An instance of InputsMergeSupports.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMergeSupports:
@@ -156,7 +159,7 @@ class merge_supports(Operator):
         outputs:
             An instance of OutputsMergeSupports.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMergeSupports(_Inputs):

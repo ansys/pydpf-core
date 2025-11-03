@@ -146,6 +146,9 @@ class write_cms_rbd_file(Operator):
     >>> result_data_sources = op.outputs.data_sources()
     """
 
+    _inputs: InputsWriteCmsRbdFile
+    _outputs: OutputsWriteCmsRbdFile
+
     def __init__(
         self,
         model_data=None,
@@ -420,7 +423,7 @@ class write_cms_rbd_file(Operator):
         inputs:
             An instance of InputsWriteCmsRbdFile.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsWriteCmsRbdFile:
@@ -431,7 +434,7 @@ class write_cms_rbd_file(Operator):
         outputs:
             An instance of OutputsWriteCmsRbdFile.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsWriteCmsRbdFile(_Inputs):

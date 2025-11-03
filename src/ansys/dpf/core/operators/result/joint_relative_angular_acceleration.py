@@ -79,6 +79,9 @@ class joint_relative_angular_acceleration(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsJointRelativeAngularAcceleration
+    _outputs: OutputsJointRelativeAngularAcceleration
+
     def __init__(
         self,
         time_scoping=None,
@@ -208,7 +211,7 @@ defined by the datasources.
         inputs:
             An instance of InputsJointRelativeAngularAcceleration.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsJointRelativeAngularAcceleration:
@@ -219,7 +222,7 @@ defined by the datasources.
         outputs:
             An instance of OutputsJointRelativeAngularAcceleration.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsJointRelativeAngularAcceleration(_Inputs):

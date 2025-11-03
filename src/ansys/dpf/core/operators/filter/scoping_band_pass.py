@@ -60,6 +60,9 @@ class scoping_band_pass(Operator):
     >>> result_scoping = op.outputs.scoping()
     """
 
+    _inputs: InputsScopingBandPass
+    _outputs: OutputsScopingBandPass
+
     def __init__(
         self,
         field=None,
@@ -147,7 +150,7 @@ threshold value in input.
         inputs:
             An instance of InputsScopingBandPass.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsScopingBandPass:
@@ -158,7 +161,7 @@ threshold value in input.
         outputs:
             An instance of OutputsScopingBandPass.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsScopingBandPass(_Inputs):

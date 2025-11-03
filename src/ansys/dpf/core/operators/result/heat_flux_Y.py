@@ -96,6 +96,9 @@ class heat_flux_Y(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsHeatFluxY
+    _outputs: OutputsHeatFluxY
+
     def __init__(
         self,
         time_scoping=None,
@@ -254,7 +257,7 @@ Nodal/ElementalNodal/Elemental.
         inputs:
             An instance of InputsHeatFluxY.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsHeatFluxY:
@@ -265,7 +268,7 @@ Nodal/ElementalNodal/Elemental.
         outputs:
             An instance of OutputsHeatFluxY.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsHeatFluxY(_Inputs):

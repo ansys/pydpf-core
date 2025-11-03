@@ -54,6 +54,9 @@ class time_freq_provider(Operator):
     >>> result_time_freq_support = op.outputs.time_freq_support()
     """
 
+    _inputs: InputsTimeFreqProvider
+    _outputs: OutputsTimeFreqProvider
+
     def __init__(
         self, streams_container=None, data_sources=None, config=None, server=None
     ):
@@ -129,7 +132,7 @@ streams or data sources.
         inputs:
             An instance of InputsTimeFreqProvider.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsTimeFreqProvider:
@@ -140,7 +143,7 @@ streams or data sources.
         outputs:
             An instance of OutputsTimeFreqProvider.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsTimeFreqProvider(_Inputs):

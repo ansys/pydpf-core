@@ -56,6 +56,9 @@ class average_over_label_fc(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsAverageOverLabelFc
+    _outputs: OutputsAverageOverLabelFc
+
     def __init__(self, fields_container=None, label=None, config=None, server=None):
         super().__init__(name="average_over_label_fc", config=config, server=server)
         self._inputs = InputsAverageOverLabelFc(self)
@@ -130,7 +133,7 @@ be on all the connected inputs.
         inputs:
             An instance of InputsAverageOverLabelFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsAverageOverLabelFc:
@@ -141,7 +144,7 @@ be on all the connected inputs.
         outputs:
             An instance of OutputsAverageOverLabelFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsAverageOverLabelFc(_Inputs):

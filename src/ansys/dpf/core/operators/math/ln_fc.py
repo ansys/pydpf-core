@@ -48,6 +48,9 @@ class ln_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsLnFc
+    _outputs: OutputsLnFc
+
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="ln_fc", config=config, server=server)
         self._inputs = InputsLnFc(self)
@@ -110,7 +113,7 @@ class ln_fc(Operator):
         inputs:
             An instance of InputsLnFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsLnFc:
@@ -121,7 +124,7 @@ class ln_fc(Operator):
         outputs:
             An instance of OutputsLnFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsLnFc(_Inputs):

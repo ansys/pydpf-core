@@ -97,6 +97,9 @@ class members_in_bending_not_certified(Operator):
     >>> result_buckling_resistance_bending_zz = op.outputs.buckling_resistance_bending_zz()
     """
 
+    _inputs: InputsMembersInBendingNotCertified
+    _outputs: OutputsMembersInBendingNotCertified
+
     def __init__(
         self,
         time_scoping=None,
@@ -252,7 +255,7 @@ Angle L-beam, unequal hollow rectangular beam) not supported.
         inputs:
             An instance of InputsMembersInBendingNotCertified.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMembersInBendingNotCertified:
@@ -263,7 +266,7 @@ Angle L-beam, unequal hollow rectangular beam) not supported.
         outputs:
             An instance of OutputsMembersInBendingNotCertified.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMembersInBendingNotCertified(_Inputs):

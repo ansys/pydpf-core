@@ -56,6 +56,9 @@ class svd(Operator):
     >>> result_vt_svd = op.outputs.vt_svd()
     """
 
+    _inputs: InputsSvd
+    _outputs: OutputsSvd
+
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="svdOp", config=config, server=server)
         self._inputs = InputsSvd(self)
@@ -131,7 +134,7 @@ the given fields container.
         inputs:
             An instance of InputsSvd.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsSvd:
@@ -142,7 +145,7 @@ the given fields container.
         outputs:
             An instance of OutputsSvd.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsSvd(_Inputs):

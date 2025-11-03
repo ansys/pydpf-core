@@ -96,6 +96,9 @@ class electric_field_Y(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsElectricFieldY
+    _outputs: OutputsElectricFieldY
+
     def __init__(
         self,
         time_scoping=None,
@@ -254,7 +257,7 @@ Nodal/ElementalNodal/Elemental.
         inputs:
             An instance of InputsElectricFieldY.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsElectricFieldY:
@@ -265,7 +268,7 @@ Nodal/ElementalNodal/Elemental.
         outputs:
             An instance of OutputsElectricFieldY.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsElectricFieldY(_Inputs):

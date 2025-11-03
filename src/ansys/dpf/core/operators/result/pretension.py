@@ -93,6 +93,9 @@ class pretension(Operator):
     >>> result_tension_force = op.outputs.tension_force()
     """
 
+    _inputs: InputsPretension
+    _outputs: OutputsPretension
+
     def __init__(
         self,
         time_scoping=None,
@@ -248,7 +251,7 @@ allowed for these results.
         inputs:
             An instance of InputsPretension.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsPretension:
@@ -259,7 +262,7 @@ allowed for these results.
         outputs:
             An instance of OutputsPretension.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsPretension(_Inputs):

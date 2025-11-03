@@ -216,6 +216,9 @@ class thermal_strains_eqv(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsThermalStrainsEqv
+    _outputs: OutputsThermalStrainsEqv
+
     def __init__(
         self,
         time_scoping=None,
@@ -502,7 +505,7 @@ elshape Related elements
         inputs:
             An instance of InputsThermalStrainsEqv.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsThermalStrainsEqv:
@@ -513,7 +516,7 @@ elshape Related elements
         outputs:
             An instance of OutputsThermalStrainsEqv.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsThermalStrainsEqv(_Inputs):

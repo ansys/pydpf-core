@@ -48,6 +48,9 @@ class eigen_vectors(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsEigenVectors
+    _outputs: OutputsEigenVectors
+
     def __init__(self, field=None, config=None, server=None):
         super().__init__(name="eig_vectors", config=config, server=server)
         self._inputs = InputsEigenVectors(self)
@@ -110,7 +113,7 @@ class eigen_vectors(Operator):
         inputs:
             An instance of InputsEigenVectors.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsEigenVectors:
@@ -121,7 +124,7 @@ class eigen_vectors(Operator):
         outputs:
             An instance of OutputsEigenVectors.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsEigenVectors(_Inputs):

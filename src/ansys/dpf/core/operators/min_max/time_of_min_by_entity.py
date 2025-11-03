@@ -57,6 +57,9 @@ class time_of_min_by_entity(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsTimeOfMinByEntity
+    _outputs: OutputsTimeOfMinByEntity
+
     def __init__(
         self,
         fields_container=None,
@@ -142,7 +145,7 @@ class time_of_min_by_entity(Operator):
         inputs:
             An instance of InputsTimeOfMinByEntity.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsTimeOfMinByEntity:
@@ -153,7 +156,7 @@ class time_of_min_by_entity(Operator):
         outputs:
             An instance of OutputsTimeOfMinByEntity.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsTimeOfMinByEntity(_Inputs):

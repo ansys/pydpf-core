@@ -59,6 +59,9 @@ class global_rigid_body_stopper_energy(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsGlobalRigidBodyStopperEnergy
+    _outputs: OutputsGlobalRigidBodyStopperEnergy
+
     def __init__(
         self,
         streams_container=None,
@@ -149,7 +152,7 @@ defined by the datasources.
         inputs:
             An instance of InputsGlobalRigidBodyStopperEnergy.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsGlobalRigidBodyStopperEnergy:
@@ -160,7 +163,7 @@ defined by the datasources.
         outputs:
             An instance of OutputsGlobalRigidBodyStopperEnergy.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsGlobalRigidBodyStopperEnergy(_Inputs):

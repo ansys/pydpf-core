@@ -58,6 +58,9 @@ class compute_element_centroids(Operator):
     >>> result_measure = op.outputs.measure()
     """
 
+    _inputs: InputsComputeElementCentroids
+    _outputs: OutputsComputeElementCentroids
+
     def __init__(self, element_scoping=None, mesh=None, config=None, server=None):
         super().__init__(name="compute_element_centroids", config=config, server=server)
         self._inputs = InputsComputeElementCentroids(self)
@@ -135,7 +138,7 @@ measure.
         inputs:
             An instance of InputsComputeElementCentroids.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsComputeElementCentroids:
@@ -146,7 +149,7 @@ measure.
         outputs:
             An instance of OutputsComputeElementCentroids.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsComputeElementCentroids(_Inputs):

@@ -61,6 +61,9 @@ class string_deserializer(Operator):
     >>> result_any_output2 = op.outputs.any_output2()
     """
 
+    _inputs: InputsStringDeserializer
+    _outputs: OutputsStringDeserializer
+
     def __init__(
         self,
         stream_type=None,
@@ -153,7 +156,7 @@ DPF’s entities.
         inputs:
             An instance of InputsStringDeserializer.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsStringDeserializer:
@@ -164,7 +167,7 @@ DPF’s entities.
         outputs:
             An instance of OutputsStringDeserializer.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsStringDeserializer(_Inputs):

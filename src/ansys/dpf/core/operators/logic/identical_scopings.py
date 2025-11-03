@@ -54,6 +54,9 @@ class identical_scopings(Operator):
     >>> result_message = op.outputs.message()
     """
 
+    _inputs: InputsIdenticalScopings
+    _outputs: OutputsIdenticalScopings
+
     def __init__(self, scopingA=None, scopingB=None, config=None, server=None):
         super().__init__(name="compare::scoping", config=config, server=server)
         self._inputs = InputsIdenticalScopings(self)
@@ -130,7 +133,7 @@ class identical_scopings(Operator):
         inputs:
             An instance of InputsIdenticalScopings.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsIdenticalScopings:
@@ -141,7 +144,7 @@ class identical_scopings(Operator):
         outputs:
             An instance of OutputsIdenticalScopings.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsIdenticalScopings(_Inputs):

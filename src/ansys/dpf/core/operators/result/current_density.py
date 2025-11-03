@@ -87,6 +87,9 @@ class current_density(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsCurrentDensity
+    _outputs: OutputsCurrentDensity
+
     def __init__(
         self,
         time_scoping=None,
@@ -224,7 +227,7 @@ MAPDL, use the solver specific operator: ``mapdl::rth::JC``.
         inputs:
             An instance of InputsCurrentDensity.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsCurrentDensity:
@@ -235,7 +238,7 @@ MAPDL, use the solver specific operator: ``mapdl::rth::JC``.
         outputs:
             An instance of OutputsCurrentDensity.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsCurrentDensity(_Inputs):

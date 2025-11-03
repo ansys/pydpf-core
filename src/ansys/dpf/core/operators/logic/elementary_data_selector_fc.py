@@ -58,6 +58,9 @@ class elementary_data_selector_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsElementaryDataSelectorFc
+    _outputs: OutputsElementaryDataSelectorFc
+
     def __init__(
         self,
         fields_container=None,
@@ -148,7 +151,7 @@ for each field.
         inputs:
             An instance of InputsElementaryDataSelectorFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsElementaryDataSelectorFc:
@@ -159,7 +162,7 @@ for each field.
         outputs:
             An instance of OutputsElementaryDataSelectorFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsElementaryDataSelectorFc(_Inputs):

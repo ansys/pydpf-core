@@ -53,6 +53,9 @@ class recombine_harmonic_indeces_cyclic(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsRecombineHarmonicIndecesCyclic
+    _outputs: OutputsRecombineHarmonicIndecesCyclic
+
     def __init__(
         self, fields_container=None, is_constant=None, config=None, server=None
     ):
@@ -130,7 +133,7 @@ frequencies to compute the response.
         inputs:
             An instance of InputsRecombineHarmonicIndecesCyclic.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsRecombineHarmonicIndecesCyclic:
@@ -141,7 +144,7 @@ frequencies to compute the response.
         outputs:
             An instance of OutputsRecombineHarmonicIndecesCyclic.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsRecombineHarmonicIndecesCyclic(_Inputs):

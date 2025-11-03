@@ -79,6 +79,9 @@ class total_contact_force(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsTotalContactForce
+    _outputs: OutputsTotalContactForce
+
     def __init__(
         self,
         time_scoping=None,
@@ -208,7 +211,7 @@ datasources.
         inputs:
             An instance of InputsTotalContactForce.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsTotalContactForce:
@@ -219,7 +222,7 @@ datasources.
         outputs:
             An instance of OutputsTotalContactForce.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsTotalContactForce(_Inputs):

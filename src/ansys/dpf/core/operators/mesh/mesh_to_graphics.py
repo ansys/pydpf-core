@@ -62,6 +62,9 @@ class mesh_to_graphics(Operator):
     >>> result_connectivity = op.outputs.connectivity()
     """
 
+    _inputs: InputsMeshToGraphics
+    _outputs: OutputsMeshToGraphics
+
     def __init__(
         self, mesh_scoping=None, node_normals=None, mesh=None, config=None, server=None
     ):
@@ -154,7 +157,7 @@ class mesh_to_graphics(Operator):
         inputs:
             An instance of InputsMeshToGraphics.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMeshToGraphics:
@@ -165,7 +168,7 @@ class mesh_to_graphics(Operator):
         outputs:
             An instance of OutputsMeshToGraphics.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMeshToGraphics(_Inputs):

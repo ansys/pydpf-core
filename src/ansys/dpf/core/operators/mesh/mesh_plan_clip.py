@@ -59,6 +59,9 @@ class mesh_plan_clip(Operator):
     >>> result_mesh = op.outputs.mesh()
     """
 
+    _inputs: InputsMeshPlanClip
+    _outputs: OutputsMeshPlanClip
+
     def __init__(
         self, mesh_or_field=None, normal=None, origin=None, config=None, server=None
     ):
@@ -145,7 +148,7 @@ class mesh_plan_clip(Operator):
         inputs:
             An instance of InputsMeshPlanClip.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMeshPlanClip:
@@ -156,7 +159,7 @@ class mesh_plan_clip(Operator):
         outputs:
             An instance of OutputsMeshPlanClip.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMeshPlanClip(_Inputs):

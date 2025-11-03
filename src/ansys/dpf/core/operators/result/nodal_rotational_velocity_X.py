@@ -84,6 +84,9 @@ class nodal_rotational_velocity_X(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsNodalRotationalVelocityX
+    _outputs: OutputsNodalRotationalVelocityX
+
     def __init__(
         self,
         time_scoping=None,
@@ -222,7 +225,7 @@ component) by calling the readers defined by the datasources.
         inputs:
             An instance of InputsNodalRotationalVelocityX.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsNodalRotationalVelocityX:
@@ -233,7 +236,7 @@ component) by calling the readers defined by the datasources.
         outputs:
             An instance of OutputsNodalRotationalVelocityX.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsNodalRotationalVelocityX(_Inputs):

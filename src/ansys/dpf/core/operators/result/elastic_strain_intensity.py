@@ -96,6 +96,9 @@ class elastic_strain_intensity(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsElasticStrainIntensity
+    _outputs: OutputsElasticStrainIntensity
+
     def __init__(
         self,
         time_scoping=None,
@@ -255,7 +258,7 @@ performed.
         inputs:
             An instance of InputsElasticStrainIntensity.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsElasticStrainIntensity:
@@ -266,7 +269,7 @@ performed.
         outputs:
             An instance of OutputsElasticStrainIntensity.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsElasticStrainIntensity(_Inputs):

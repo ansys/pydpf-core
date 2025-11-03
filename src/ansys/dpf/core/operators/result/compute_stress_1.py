@@ -71,6 +71,9 @@ class compute_stress_1(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsComputeStress1
+    _outputs: OutputsComputeStress1
+
     def __init__(
         self,
         scoping=None,
@@ -176,7 +179,7 @@ component.
         inputs:
             An instance of InputsComputeStress1.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsComputeStress1:
@@ -187,7 +190,7 @@ component.
         outputs:
             An instance of OutputsComputeStress1.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsComputeStress1(_Inputs):

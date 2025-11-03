@@ -78,6 +78,9 @@ class mesh_to_pyvista(Operator):
     >>> result_offsets = op.outputs.offsets()
     """
 
+    _inputs: InputsMeshToPyvista
+    _outputs: OutputsMeshToPyvista
+
     def __init__(
         self,
         coordinates=None,
@@ -199,7 +202,7 @@ class mesh_to_pyvista(Operator):
         inputs:
             An instance of InputsMeshToPyvista.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMeshToPyvista:
@@ -210,7 +213,7 @@ class mesh_to_pyvista(Operator):
         outputs:
             An instance of OutputsMeshToPyvista.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMeshToPyvista(_Inputs):

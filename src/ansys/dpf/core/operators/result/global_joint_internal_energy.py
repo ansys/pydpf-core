@@ -59,6 +59,9 @@ class global_joint_internal_energy(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsGlobalJointInternalEnergy
+    _outputs: OutputsGlobalJointInternalEnergy
+
     def __init__(
         self,
         streams_container=None,
@@ -149,7 +152,7 @@ defined by the datasources.
         inputs:
             An instance of InputsGlobalJointInternalEnergy.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsGlobalJointInternalEnergy:
@@ -160,7 +163,7 @@ defined by the datasources.
         outputs:
             An instance of OutputsGlobalJointInternalEnergy.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsGlobalJointInternalEnergy(_Inputs):

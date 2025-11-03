@@ -80,6 +80,9 @@ class mapdl_split_on_facet_indices(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsMapdlSplitOnFacetIndices
+    _outputs: OutputsMapdlSplitOnFacetIndices
+
     def __init__(
         self,
         fields_container=None,
@@ -204,7 +207,7 @@ indices in the solid mesh.
         inputs:
             An instance of InputsMapdlSplitOnFacetIndices.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMapdlSplitOnFacetIndices:
@@ -215,7 +218,7 @@ indices in the solid mesh.
         outputs:
             An instance of OutputsMapdlSplitOnFacetIndices.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMapdlSplitOnFacetIndices(_Inputs):

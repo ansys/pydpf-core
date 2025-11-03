@@ -96,6 +96,9 @@ class thermal_strain_XZ(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsThermalStrainXz
+    _outputs: OutputsThermalStrainXz
+
     def __init__(
         self,
         time_scoping=None,
@@ -254,7 +257,7 @@ location can be Nodal/ElementalNodal/Elemental.
         inputs:
             An instance of InputsThermalStrainXz.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsThermalStrainXz:
@@ -265,7 +268,7 @@ location can be Nodal/ElementalNodal/Elemental.
         outputs:
             An instance of OutputsThermalStrainXz.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsThermalStrainXz(_Inputs):

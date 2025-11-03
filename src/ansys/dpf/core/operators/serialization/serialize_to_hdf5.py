@@ -66,6 +66,9 @@ class serialize_to_hdf5(Operator):
 
     """
 
+    _inputs: InputsSerializeToHdf5
+    _outputs: OutputsSerializeToHdf5
+
     def __init__(
         self,
         file_path=None,
@@ -163,7 +166,7 @@ instead. Serialize the inputs in an hdf5 format.
         inputs:
             An instance of InputsSerializeToHdf5.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsSerializeToHdf5:
@@ -174,7 +177,7 @@ instead. Serialize the inputs in an hdf5 format.
         outputs:
             An instance of OutputsSerializeToHdf5.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsSerializeToHdf5(_Inputs):

@@ -71,6 +71,9 @@ class hdf5dpf_workglow_provider(Operator):
     >>> result_field_or_fields_container = op.outputs.field_or_fields_container()
     """
 
+    _inputs: InputsHdf5DpfWorkglowProvider
+    _outputs: OutputsHdf5DpfWorkglowProvider
+
     def __init__(
         self,
         time_scoping=None,
@@ -187,7 +190,7 @@ class hdf5dpf_workglow_provider(Operator):
         inputs:
             An instance of InputsHdf5DpfWorkglowProvider.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsHdf5DpfWorkglowProvider:
@@ -198,7 +201,7 @@ class hdf5dpf_workglow_provider(Operator):
         outputs:
             An instance of OutputsHdf5DpfWorkglowProvider.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsHdf5DpfWorkglowProvider(_Inputs):

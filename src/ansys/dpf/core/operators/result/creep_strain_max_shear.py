@@ -96,6 +96,9 @@ class creep_strain_max_shear(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsCreepStrainMaxShear
+    _outputs: OutputsCreepStrainMaxShear
+
     def __init__(
         self,
         time_scoping=None,
@@ -255,7 +258,7 @@ performed.
         inputs:
             An instance of InputsCreepStrainMaxShear.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsCreepStrainMaxShear:
@@ -266,7 +269,7 @@ performed.
         outputs:
             An instance of OutputsCreepStrainMaxShear.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsCreepStrainMaxShear(_Inputs):

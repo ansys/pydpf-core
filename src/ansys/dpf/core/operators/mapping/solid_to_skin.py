@@ -64,6 +64,9 @@ class solid_to_skin(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsSolidToSkin
+    _outputs: OutputsSolidToSkin
+
     def __init__(
         self, field=None, mesh=None, solid_mesh=None, config=None, server=None
     ):
@@ -150,7 +153,7 @@ mesh for each element face and the nodes associated with it.
         inputs:
             An instance of InputsSolidToSkin.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsSolidToSkin:
@@ -161,7 +164,7 @@ mesh for each element face and the nodes associated with it.
         outputs:
             An instance of OutputsSolidToSkin.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsSolidToSkin(_Inputs):

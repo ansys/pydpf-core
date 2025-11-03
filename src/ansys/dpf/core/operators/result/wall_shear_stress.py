@@ -84,6 +84,9 @@ class wall_shear_stress(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsWallShearStress
+    _outputs: OutputsWallShearStress
+
     def __init__(
         self,
         time_scoping=None,
@@ -222,7 +225,7 @@ datasources.
         inputs:
             An instance of InputsWallShearStress.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsWallShearStress:
@@ -233,7 +236,7 @@ datasources.
         outputs:
             An instance of OutputsWallShearStress.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsWallShearStress(_Inputs):

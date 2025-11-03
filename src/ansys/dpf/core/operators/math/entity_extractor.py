@@ -51,6 +51,9 @@ class entity_extractor(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsEntityExtractor
+    _outputs: OutputsEntityExtractor
+
     def __init__(self, fieldA=None, scalar_int=None, config=None, server=None):
         super().__init__(name="entity_extractor", config=config, server=server)
         self._inputs = InputsEntityExtractor(self)
@@ -121,7 +124,7 @@ class entity_extractor(Operator):
         inputs:
             An instance of InputsEntityExtractor.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsEntityExtractor:
@@ -132,7 +135,7 @@ class entity_extractor(Operator):
         outputs:
             An instance of OutputsEntityExtractor.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsEntityExtractor(_Inputs):

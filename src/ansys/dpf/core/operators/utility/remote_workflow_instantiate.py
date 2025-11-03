@@ -59,6 +59,9 @@ class remote_workflow_instantiate(Operator):
     >>> result_remote_workflow = op.outputs.remote_workflow()
     """
 
+    _inputs: InputsRemoteWorkflowInstantiate
+    _outputs: OutputsRemoteWorkflowInstantiate
+
     def __init__(
         self,
         workflow_to_send=None,
@@ -150,7 +153,7 @@ by an id and an address) for a given protocol registered in the streams.
         inputs:
             An instance of InputsRemoteWorkflowInstantiate.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsRemoteWorkflowInstantiate:
@@ -161,7 +164,7 @@ by an id and an address) for a given protocol registered in the streams.
         outputs:
             An instance of OutputsRemoteWorkflowInstantiate.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsRemoteWorkflowInstantiate(_Inputs):

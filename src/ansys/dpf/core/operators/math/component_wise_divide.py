@@ -57,6 +57,9 @@ class component_wise_divide(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsComponentWiseDivide
+    _outputs: OutputsComponentWiseDivide
+
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
         super().__init__(name="component_wise_divide", config=config, server=server)
         self._inputs = InputsComponentWiseDivide(self)
@@ -131,7 +134,7 @@ fields.
         inputs:
             An instance of InputsComponentWiseDivide.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsComponentWiseDivide:
@@ -142,7 +145,7 @@ fields.
         outputs:
             An instance of OutputsComponentWiseDivide.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsComponentWiseDivide(_Inputs):

@@ -54,6 +54,9 @@ class cross_product_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsCrossProductFc
+    _outputs: OutputsCrossProductFc
+
     def __init__(
         self,
         field_or_fields_container_A=None,
@@ -141,7 +144,7 @@ same location or Elemental Nodal and Nodal locations.
         inputs:
             An instance of InputsCrossProductFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsCrossProductFc:
@@ -152,7 +155,7 @@ same location or Elemental Nodal and Nodal locations.
         outputs:
             An instance of OutputsCrossProductFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsCrossProductFc(_Inputs):

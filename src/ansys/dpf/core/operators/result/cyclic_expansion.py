@@ -94,6 +94,9 @@ class cyclic_expansion(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsCyclicExpansion
+    _outputs: OutputsCyclicExpansion
+
     def __init__(
         self,
         time_scoping=None,
@@ -252,7 +255,7 @@ scoping (optionals).
         inputs:
             An instance of InputsCyclicExpansion.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsCyclicExpansion:
@@ -263,7 +266,7 @@ scoping (optionals).
         outputs:
             An instance of OutputsCyclicExpansion.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsCyclicExpansion(_Inputs):

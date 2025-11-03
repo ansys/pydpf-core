@@ -68,6 +68,9 @@ class time_integration(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsTimeIntegration
+    _outputs: OutputsTimeIntegration
+
     def __init__(
         self,
         field=None,
@@ -171,7 +174,7 @@ class time_integration(Operator):
         inputs:
             An instance of InputsTimeIntegration.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsTimeIntegration:
@@ -182,7 +185,7 @@ class time_integration(Operator):
         outputs:
             An instance of OutputsTimeIntegration.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsTimeIntegration(_Inputs):

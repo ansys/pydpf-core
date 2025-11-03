@@ -76,6 +76,9 @@ class time_freq_interpolation(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsTimeFreqInterpolation
+    _outputs: OutputsTimeFreqInterpolation
+
     def __init__(
         self,
         fields_container=None,
@@ -193,7 +196,7 @@ fields container
         inputs:
             An instance of InputsTimeFreqInterpolation.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsTimeFreqInterpolation:
@@ -204,7 +207,7 @@ fields container
         outputs:
             An instance of OutputsTimeFreqInterpolation.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsTimeFreqInterpolation(_Inputs):

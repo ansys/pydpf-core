@@ -83,6 +83,9 @@ class mass_fraction(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsMassFraction
+    _outputs: OutputsMassFraction
+
     def __init__(
         self,
         time_scoping=None,
@@ -220,7 +223,7 @@ class mass_fraction(Operator):
         inputs:
             An instance of InputsMassFraction.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMassFraction:
@@ -231,7 +234,7 @@ class mass_fraction(Operator):
         outputs:
             An instance of OutputsMassFraction.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMassFraction(_Inputs):

@@ -79,6 +79,9 @@ class nodal_force(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsNodalForce
+    _outputs: OutputsNodalForce
+
     def __init__(
         self,
         time_scoping=None,
@@ -208,7 +211,7 @@ datasources.
         inputs:
             An instance of InputsNodalForce.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsNodalForce:
@@ -219,7 +222,7 @@ datasources.
         outputs:
             An instance of OutputsNodalForce.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsNodalForce(_Inputs):

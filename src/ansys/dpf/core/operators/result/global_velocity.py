@@ -59,6 +59,9 @@ class global_velocity(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsGlobalVelocity
+    _outputs: OutputsGlobalVelocity
+
     def __init__(
         self,
         streams_container=None,
@@ -149,7 +152,7 @@ datasources.
         inputs:
             An instance of InputsGlobalVelocity.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsGlobalVelocity:
@@ -160,7 +163,7 @@ datasources.
         outputs:
             An instance of OutputsGlobalVelocity.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsGlobalVelocity(_Inputs):

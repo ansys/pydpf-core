@@ -86,6 +86,9 @@ class migrate_to_vtu(Operator):
     >>> result_path = op.outputs.path()
     """
 
+    _inputs: InputsMigrateToVtu
+    _outputs: OutputsMigrateToVtu
+
     def __init__(
         self,
         time_scoping=None,
@@ -218,7 +221,7 @@ operators.
         inputs:
             An instance of InputsMigrateToVtu.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMigrateToVtu:
@@ -229,7 +232,7 @@ operators.
         outputs:
             An instance of OutputsMigrateToVtu.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMigrateToVtu(_Inputs):

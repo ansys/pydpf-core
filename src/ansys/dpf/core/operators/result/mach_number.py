@@ -83,6 +83,9 @@ class mach_number(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsMachNumber
+    _outputs: OutputsMachNumber
+
     def __init__(
         self,
         time_scoping=None,
@@ -220,7 +223,7 @@ class mach_number(Operator):
         inputs:
             An instance of InputsMachNumber.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMachNumber:
@@ -231,7 +234,7 @@ class mach_number(Operator):
         outputs:
             An instance of OutputsMachNumber.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMachNumber(_Inputs):

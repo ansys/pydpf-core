@@ -84,6 +84,9 @@ class rms_static_pressure(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsRmsStaticPressure
+    _outputs: OutputsRmsStaticPressure
+
     def __init__(
         self,
         time_scoping=None,
@@ -222,7 +225,7 @@ datasources.
         inputs:
             An instance of InputsRmsStaticPressure.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsRmsStaticPressure:
@@ -233,7 +236,7 @@ datasources.
         outputs:
             An instance of OutputsRmsStaticPressure.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsRmsStaticPressure(_Inputs):
