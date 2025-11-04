@@ -20,8 +20,8 @@ class real_constants_provider(Operator):
     data sources.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     solver_real_constants_ids: int, optional
         Real Constant ids to recover used by the solver. If not set, all available real constants to be recovered.
     streams: StreamsContainer, optional
@@ -29,7 +29,7 @@ class real_constants_provider(Operator):
     data_sources: DataSources
         Result file path container, used if no streams are set.
 
-    Returns
+    Outputs
     -------
     real_constants: Field
 

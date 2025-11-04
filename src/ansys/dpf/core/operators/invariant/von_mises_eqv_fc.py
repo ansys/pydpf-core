@@ -20,13 +20,13 @@ class von_mises_eqv_fc(Operator):
     a fields container.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     poisson_ratio: float or int
         Poisson ratio to be used in equivalent strain calculation.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

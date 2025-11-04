@@ -20,8 +20,8 @@ class workflow_energy_per_harmonic(Operator):
     multiharmonic model.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     time_scoping: Scoping, optional
     mesh_scoping: Scoping, optional
         Master scoping. All harmonics will be intersected with this scoping.
@@ -30,7 +30,7 @@ class workflow_energy_per_harmonic(Operator):
     stream: Stream
     data_sources: DataSources
 
-    Returns
+    Outputs
     -------
     harmonic_energy: FieldsContainer
     harmonic_energy_percentage: FieldsContainer

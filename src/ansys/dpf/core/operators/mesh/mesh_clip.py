@@ -20,8 +20,8 @@ class mesh_clip(Operator):
     defined by v < x.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field
     iso_value: float
         iso value
@@ -31,7 +31,7 @@ class mesh_clip(Operator):
     slice_surfaces: bool
         True: slicing will also take into account shell and skin elements. False: slicing will ignore shell and skin elements. The default is true.
 
-    Returns
+    Outputs
     -------
     field: Field
     mesh: MeshedRegion

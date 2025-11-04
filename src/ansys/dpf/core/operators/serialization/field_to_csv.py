@@ -19,15 +19,15 @@ class field_to_csv(Operator):
     r"""Exports a field or a fields container into a csv file
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field_or_fields_container: FieldsContainer or Field
         field_or_fields_container
     file_path: str
     storage_type: int, optional
         storage type : if matrices (without any particularity) are included in the fields container, the storage format can be chosen. 0 : flat/line format, 1 : ranked format. If 1 is chosen, the csv can not be read by "csv to field" operator anymore. Default : 0.
 
-    Returns
+    Outputs
     -------
 
     Examples

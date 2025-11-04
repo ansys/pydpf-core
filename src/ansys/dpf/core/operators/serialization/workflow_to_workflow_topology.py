@@ -21,11 +21,11 @@ class workflow_to_workflow_topology(Operator):
     connections, data connections, and exposed pins.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     workflow: Workflow
 
-    Returns
+    Outputs
     -------
     workflow_topology: GenericDataContainer
 

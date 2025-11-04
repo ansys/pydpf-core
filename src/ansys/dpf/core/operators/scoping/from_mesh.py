@@ -19,13 +19,13 @@ class from_mesh(Operator):
     r"""Provides the entire mesh scoping based on the requested location
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mesh: MeshedRegion
     requested_location: str, optional
         if nothing the operator returns the nodes scoping, possible locations are: Nodal(default) or Elemental
 
-    Returns
+    Outputs
     -------
     scoping: Scoping
 

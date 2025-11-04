@@ -19,12 +19,12 @@ class identical_scopings(Operator):
     r"""Check if two scopings are identical.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     scopingA: Scoping
     scopingB: Scoping
 
-    Returns
+    Outputs
     -------
     boolean: bool
         bool (true if identical...)

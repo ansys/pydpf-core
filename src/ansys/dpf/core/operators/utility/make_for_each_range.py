@@ -19,8 +19,8 @@ class make_for_each_range(Operator):
     r"""Generate a range that can be consumed by the for_each operator
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     try_generate_iterable: bool, optional
         if true, already iterable values connected in pin 3 like vectors, Scoping, TimefreqSupport, Containers and DataSources are split to iterate on it (default is true)
     iterable: optional
@@ -33,7 +33,7 @@ class make_for_each_range(Operator):
     valueC1:
     valueC2:
 
-    Returns
+    Outputs
     -------
     output:
 

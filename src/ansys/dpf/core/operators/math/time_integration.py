@@ -19,8 +19,8 @@ class time_integration(Operator):
     r"""Integrates a field of time varying quantities over time
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field
         field
     resample_output: bool, optional
@@ -32,7 +32,7 @@ class time_integration(Operator):
     integration_constant: float, optional
         Constant to be added to the integrated field
 
-    Returns
+    Outputs
     -------
     field: Field
 

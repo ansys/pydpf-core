@@ -20,8 +20,8 @@ class normals_provider_nl(Operator):
     (more accurate for non-linear elements) on a skin mesh.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mesh: MeshedRegion
         Skin, face, or shell mesh region.
     mesh_scoping: Scoping, optional
@@ -29,7 +29,7 @@ class normals_provider_nl(Operator):
     requested_location: str, optional
         If no scoping, specifies location. If scoping is Elemental or ElementalNodal this overrides scoping. Default is Elemental.
 
-    Returns
+    Outputs
     -------
     field: Field
 

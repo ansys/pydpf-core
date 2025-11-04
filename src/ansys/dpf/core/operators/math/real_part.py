@@ -20,11 +20,11 @@ class real_part(Operator):
     fields.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

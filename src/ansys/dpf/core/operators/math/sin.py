@@ -19,11 +19,11 @@ class sin(Operator):
     r"""Computes element-wise sin(field[i]).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field
 
-    Returns
+    Outputs
     -------
     field: Field
 

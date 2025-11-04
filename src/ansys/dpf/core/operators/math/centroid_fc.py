@@ -21,14 +21,14 @@ class centroid_fc(Operator):
     field1\ *(1.-fact)+field2*\ (fact).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     time_freq: float
     step: int, optional
     time_freq_support: TimeFreqSupport, optional
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

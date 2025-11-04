@@ -19,14 +19,14 @@ class torque(Operator):
     r"""Compute torque of a force based on a 3D point.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
         Fields container containing the nodal forces.
     spoint: Field or FieldsContainer
         Field or fields container containing the summation points for each associated field on pin 0.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

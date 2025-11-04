@@ -19,14 +19,14 @@ class html_doc(Operator):
     r"""Create dpf’s html documentation. Only on Windows.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     output_path: str, optional
         default is {working directory}/dataProcessingDoc.html
     exposure_level: int, optional
         Generate the documentation depending on exposure level : 0 (default) for public operators, 1 includes hidden operator, 2 includes private operator, 3 includes operator without specifications.
 
-    Returns
+    Outputs
     -------
 
     Examples

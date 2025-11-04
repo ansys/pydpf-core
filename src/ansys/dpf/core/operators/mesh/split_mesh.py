@@ -20,14 +20,14 @@ class split_mesh(Operator):
     (material property be default)
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mesh_scoping: Scoping, optional
         Scoping
     mesh: MeshedRegion
     property: str
 
-    Returns
+    Outputs
     -------
     meshes: MeshesContainer
 

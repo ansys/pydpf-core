@@ -21,8 +21,8 @@ class mesh_info_provider(Operator):
     plugins) on files contained in the streams or data sources.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     time_scoping: int, optional
         Optional time/frequency set ID of the mesh.
     streams_container: StreamsContainer, optional
@@ -30,7 +30,7 @@ class mesh_info_provider(Operator):
     data_sources: DataSources
         If the stream is null, retrieves the file path from the data sources.
 
-    Returns
+    Outputs
     -------
     mesh_info: GenericDataContainer
 

@@ -20,14 +20,14 @@ class time_freq_provider(Operator):
     streams or data sources.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     streams_container: StreamsContainer, optional
         streams (result file container) (optional)
     data_sources: DataSources
         If the stream is null, retrieves the file path from the data sources.
 
-    Returns
+    Outputs
     -------
     time_freq_support: TimeFreqSupport
 

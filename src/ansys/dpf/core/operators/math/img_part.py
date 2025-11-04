@@ -20,11 +20,11 @@ class img_part(Operator):
     complex fields.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

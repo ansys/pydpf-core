@@ -19,12 +19,12 @@ class strain_from_voigt_fc(Operator):
     r"""Converts the strain field from Voigt notation into standard format.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
         field or fields container with only one field is expected
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

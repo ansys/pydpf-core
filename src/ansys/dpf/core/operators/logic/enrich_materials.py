@@ -20,13 +20,13 @@ class enrich_materials(Operator):
     MaterialContainer using stream data.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     MaterialContainer:
     streams: StreamsContainer or FieldsContainer
     streams_mapping: PropertyFieldsContainer
 
-    Returns
+    Outputs
     -------
     MaterialContainer: bool
 

@@ -19,8 +19,8 @@ class scalars_to_field(Operator):
     r"""Create scalar or vector Field.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     double_or_vector_double: float, optional
         Data of the field, default is 0-field. Specify a double to have a field of same value or specify directly the data vector.
     unit: str, optional
@@ -34,7 +34,7 @@ class scalars_to_field(Operator):
     scoping: Scoping, optional
         Scoping.
 
-    Returns
+    Outputs
     -------
     field: Field
 

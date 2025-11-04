@@ -19,8 +19,8 @@ class serializer(Operator):
     r"""Take any input and serialize them in a file.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     stream_type: int
         0 for ASCII (default), and 1 for binary
     file_path: str
@@ -29,7 +29,7 @@ class serializer(Operator):
     any_input2: Any
         any input
 
-    Returns
+    Outputs
     -------
     file_path: str
 

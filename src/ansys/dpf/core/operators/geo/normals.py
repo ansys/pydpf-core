@@ -21,13 +21,13 @@ class normals(Operator):
     shell elements)
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mesh: MeshedRegion, optional
     mesh_scoping: Scoping, optional
     field: Field, optional
 
-    Returns
+    Outputs
     -------
     field: Field
 

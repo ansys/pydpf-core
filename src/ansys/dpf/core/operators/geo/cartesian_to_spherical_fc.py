@@ -19,11 +19,11 @@ class cartesian_to_spherical_fc(Operator):
     r"""Converts 3D field from cartesian coordinates to spherical coordinates.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

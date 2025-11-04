@@ -21,8 +21,8 @@ class transpose(Operator):
     Nodal, or Nodal —> Elemental/Faces), based on the input mesh region.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mesh_scoping: Scoping or ScopingsContainer
         Scoping or scopings container (the input type is the output type)
     meshed_region: MeshedRegion or MeshesContainer
@@ -31,7 +31,7 @@ class transpose(Operator):
     requested_location: str, optional
         Output scoping location for meshes with nodes, faces and elements. By default, elemental and faces scopings transpose to nodal, and nodal scopings transpose to elemental.
 
-    Returns
+    Outputs
     -------
     mesh_scoping: Scoping or ScopingsContainer
         Scoping or scopings container (the input type is the output type)

@@ -22,8 +22,8 @@ class set_property(Operator):
     expected as inputs
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
     property_name: str
         Property to set. Accepted inputs are specific strings namely: 'unit', 'name', 'time_freq_support', 'scoping', 'header'.
@@ -31,7 +31,7 @@ class set_property(Operator):
         float
         Property Value to set. Accepted inputs on this pin are: CTimeFreqSupport, CScoping, DataTree, int, double, string.
 
-    Returns
+    Outputs
     -------
     field: Field or FieldsContainer
         Accepted Outputs are: Field, PropertyField, CustomTypeField or their containers.

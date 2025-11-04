@@ -19,8 +19,8 @@ class hdf5dpf_generate_result_file(Operator):
     r"""Generate a dpf result file from provided information.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     h5_chunk_size: int, optional
         Size of each HDF5 chunk in kilobytes (KB). Default: 1 MB when compression is enabled; for uncompressed datasets, the default is the full dataset size x dimension.
     append_mode: bool, optional
@@ -44,7 +44,7 @@ class hdf5dpf_generate_result_file(Operator):
     input_name2: str or Any, optional
         Set of even and odd pins to serialize results. Odd pins (4, 6, 8...) are strings, and they represent the names of the results to be serialized. Even pins (5, 7, 9...) are DPF types, and they represent the results to be serialized. They should go in pairs (for each result name, there should be a result) and connected sequentially.
 
-    Returns
+    Outputs
     -------
     data_sources: DataSources
         data_sources filled with the H5 generated file path.

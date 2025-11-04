@@ -20,14 +20,14 @@ class spectrum_data(Operator):
     data sources.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     streams: StreamsContainer, optional
         Result file container allowed to be kept open to cache data.
     data_sources: DataSources
         Result file path container, used if no streams are set.
 
-    Returns
+    Outputs
     -------
     participation_factors: FieldsContainer
         Fields container holding participation factors.

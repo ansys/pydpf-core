@@ -21,13 +21,13 @@ class faces_area(Operator):
     for polygons.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mesh: MeshedRegion
     mesh_scoping: Scoping
         If not provided, the measure of all Faces in the mesh is computed. If provided, the Scoping needs to have "Faces" location.
 
-    Returns
+    Outputs
     -------
     field: Field
 

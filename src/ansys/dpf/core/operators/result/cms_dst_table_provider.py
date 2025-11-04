@@ -19,12 +19,12 @@ class cms_dst_table_provider(Operator):
     r"""Read CST table from a subfile.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     data_sources: DataSources
         Data_sources (must contain at least one subfile).
 
-    Returns
+    Outputs
     -------
     dst_table: PropertyField
         returns integer values of the dst table

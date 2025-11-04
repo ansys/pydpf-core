@@ -19,12 +19,12 @@ class grpc_shutdown_server(Operator):
     r"""Shutdowns dpf’s grpc server
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     grpc_stream: StreamsContainer
         dpf streams handling the server
 
-    Returns
+    Outputs
     -------
 
     Examples

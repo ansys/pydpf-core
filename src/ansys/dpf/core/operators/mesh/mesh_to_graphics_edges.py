@@ -19,13 +19,13 @@ class mesh_to_graphics_edges(Operator):
     r"""Generate edges of surface elements for input mesh
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mesh_scoping: Scoping, optional
     include_mid_nodes: bool, optional
     mesh: MeshedRegion
 
-    Returns
+    Outputs
     -------
     nodes: Field
         node coordinates

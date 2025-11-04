@@ -20,8 +20,8 @@ class kmeans_clustering(Operator):
     non-linearity.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     clusters_number: int, optional
         number of the clusters (dafault is 3)
     formula: str, optional
@@ -31,7 +31,7 @@ class kmeans_clustering(Operator):
     component_number: int, optional
         component number as an int (default is 0), ex '0' for X-displacement, '1' for Y-displacement,...
 
-    Returns
+    Outputs
     -------
     scoping_clusters: ScopingsContainer
         Scopings container with the space scoping (entities' ids) corresponding to each of k-clusters

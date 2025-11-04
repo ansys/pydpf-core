@@ -21,8 +21,8 @@ class assemble_scalars_to_matrices(Operator):
     (xx, yy, zz, xy, xz and yz).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     xx: Field, optional
     yy: Field, optional
     zz: Field, optional
@@ -34,7 +34,7 @@ class assemble_scalars_to_matrices(Operator):
     zx: Field, optional
     symmetrical: bool, optional
 
-    Returns
+    Outputs
     -------
     field: Field
 

@@ -21,8 +21,8 @@ class remove_rigid_body_motion(Operator):
     result displacement field.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
         field or fields container with only one field is expected
     reference_node_id: int, optional
@@ -30,7 +30,7 @@ class remove_rigid_body_motion(Operator):
     mesh: MeshedRegion, optional
         default is the mesh in the support
 
-    Returns
+    Outputs
     -------
     field: Field
     translation_field: Field

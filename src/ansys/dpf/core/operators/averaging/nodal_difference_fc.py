@@ -24,15 +24,15 @@ class nodal_difference_fc(Operator):
     elshape label.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     mesh: MeshedRegion or MeshesContainer, optional
         The mesh region in this pin is used to perform the averaging. It is used if there is no fields support.
     scoping: Scoping or ScopingsContainer, optional
         Average only on these nodes. If it is a scoping container, the label must correspond to the one of the fields containers.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

@@ -19,8 +19,8 @@ class remove_unnecessary_labels(Operator):
     r"""Removes the selected label from a fields container.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     permissive: bool, optional
         If true, the operator does not throw an error if the label to be removed has more than one entry.
     fields_container: FieldsContainer
@@ -28,7 +28,7 @@ class remove_unnecessary_labels(Operator):
     label_to_remove: str
         Label to be removed from the fields container.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

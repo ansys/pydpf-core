@@ -22,8 +22,8 @@ class make_producer_consumer_for_each_iterator(Operator):
     the producers and the consumers.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     try_generate_iterable: bool, optional
         if true, already iterable values connected in pin 3 like vectors, Scoping, TimefreqSupport, Containers and DataSources are split to iterate on it (default is true)
     iterable: optional
@@ -44,7 +44,7 @@ class make_producer_consumer_for_each_iterator(Operator):
     consumer_op11: Operator
     consumer_op12: Operator
 
-    Returns
+    Outputs
     -------
     iterator:
         to connect to producer_consumer_for_each

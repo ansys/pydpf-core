@@ -19,14 +19,14 @@ class python_generator(Operator):
     r"""Generates .py file with specifications for loaded plugin(s).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     dll_source_path: str
     output_path: str
     load_symbol: str, optional
     library_key: str, optional
 
-    Returns
+    Outputs
     -------
 
     Examples

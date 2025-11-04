@@ -19,13 +19,13 @@ class min_max_over_time(Operator):
     r"""Evaluates minimum/maximum over time/frequency.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     int32: int
         Define min or max.
 
-    Returns
+    Outputs
     -------
     field_container_1: FieldsContainer
     field_container_2: FieldsContainer, optional

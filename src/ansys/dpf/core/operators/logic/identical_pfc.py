@@ -19,12 +19,12 @@ class identical_pfc(Operator):
     r"""Checks if two property_fields_container are identical.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     property_fields_containerA: PropertyFieldsContainer
     property_fields_containerB: PropertyFieldsContainer
 
-    Returns
+    Outputs
     -------
     boolean: bool
         bool (true if identical...)

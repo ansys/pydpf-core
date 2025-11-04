@@ -19,15 +19,15 @@ class component_selector(Operator):
     r"""Creates a scalar/vector field based on the selected component.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
     component_number: int
         One or several component index that will be extracted from the initial field.
     default_value: float, optional
         Set a default value for components that do not exist.
 
-    Returns
+    Outputs
     -------
     field: Field
 

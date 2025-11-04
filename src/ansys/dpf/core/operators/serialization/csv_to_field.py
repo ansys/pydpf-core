@@ -19,13 +19,13 @@ class csv_to_field(Operator):
     r"""transform csv file to a field or fields container
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     time_scoping: Scoping, optional
     data_sources: DataSources
         data sources containing a file with csv extension
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

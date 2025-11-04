@@ -20,8 +20,8 @@ class compute_invariant_terms_rbd(Operator):
     matrices, lumped mass matrix, modes …)
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     rom_matrices: FieldsContainer
         FieldsContainers containing the reduced matrices
     mode_shapes: FieldsContainer
@@ -41,7 +41,7 @@ class compute_invariant_terms_rbd(Operator):
     constraint_mode_check: bool, optional
         if true, the orthogonality of the constraint modes are checked. Default is false.
 
-    Returns
+    Outputs
     -------
     model_data: PropertyField
         data describing the finite element model

@@ -20,8 +20,8 @@ class to_nodal(Operator):
     result is computed on a given node’s scoping.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
         field or fields container with only one field is expected
     mesh_scoping: Scoping, optional
@@ -30,7 +30,7 @@ class to_nodal(Operator):
     shell_layer: int, optional
         0: Top, 1: Bottom, 2: TopBottom, 3: Mid, 4: TopBottomMid. If merge_solid_shell is true, this pin needs to be specified to a value that extracts only one layer (Top, Bottom or Mid).
 
-    Returns
+    Outputs
     -------
     field: Field
 

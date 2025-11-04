@@ -20,12 +20,12 @@ class min_max_inc(Operator):
     coming fields.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field
     domain_id: int, optional
 
-    Returns
+    Outputs
     -------
     field_min: Field
     field_max: Field

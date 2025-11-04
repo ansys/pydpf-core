@@ -20,8 +20,8 @@ class cyclic_analytic_seqv_max(Operator):
     expected on 360 degrees
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     time_scoping: Scoping, optional
     mesh_scoping: ScopingsContainer or Scoping, optional
     fields_container: FieldsContainer
@@ -30,7 +30,7 @@ class cyclic_analytic_seqv_max(Operator):
         default is true
     cyclic_support: CyclicSupport
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
         FieldsContainer filled in
