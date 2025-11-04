@@ -32,11 +32,11 @@ from ansys.dpf.core.any import Any
 from ansys.dpf.core.collection_base import CollectionBase
 from ansys.dpf.core.common import create_dpf_instance
 
-TYPE = TypeVar("TYPE")
+T = TypeVar("T")
+S = TypeVar("S")
 
 
-# Explicit Generic[TYPE] helps some type checkers Collection as a generic.
-class Collection(CollectionBase[TYPE], Generic[TYPE]):
+class Collection(CollectionBase[T]):
     """Represents a collection of dpf objects organised by label spaces.
 
     Parameters
@@ -94,7 +94,7 @@ class Collection(CollectionBase[TYPE], Generic[TYPE]):
         """
         return super()._get_entries(label_space)
 
-    def get_entry(self, label_space_or_index) -> TYPE:
+    def get_entry(self, label_space_or_index) -> T:
         """Retrieve the entry at a requested index or label space.
 
         Raises an exception if the request returns more than one entry.
@@ -126,7 +126,7 @@ class Collection(CollectionBase[TYPE], Generic[TYPE]):
         return super()._add_entry(label_space, Any.new_from(entry, server=self._server))
 
     @classmethod
-    def collection_factory(cls, subtype: TYPE) -> Type[Collection[TYPE]]:
+    def collection_factory(cls, subtype: Type[S]) -> Type[Collection[S]]:
         """Create classes deriving from Collection at runtime for a given subtype.
 
         This factory method dynamically creates a new class that inherits from Collection
@@ -141,7 +141,7 @@ class Collection(CollectionBase[TYPE], Generic[TYPE]):
 
         Returns
         -------
-        Type[Collection[TYPE]]
+        Type[Collection[S]]
             A new class that inherits from Collection and is specialized for the given
             subtype. The class name will be "{subtype.__name__}sCollection".
 
