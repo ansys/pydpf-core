@@ -1,0 +1,11 @@
+- name: Operator specifications
+  items:
+  - name: Operator specifications
+    href: operator-specifications/operator-specifications.md
+  {% for category in data -%}
+  - name: {{ category.category }}
+    items:{% for operator in category.operators %}
+    - name: {{ operator.operator_name }}
+      href: operator-specifications/{{ operator.file_path }}{% endfor %}
+  {% endfor %}
+

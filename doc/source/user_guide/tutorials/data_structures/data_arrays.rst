@@ -224,8 +224,14 @@ You can also create a |Field|, |StringField| or |PropertyField| from scratch bas
             # Set the data values
             my_property_field.data = [12, 25]
             # Set the location
-            my_property_field.location = dpf.locations.modal
-            # Set the element IDs
+            # For DPF 26R1 and above, directly set the location of the PropertyField
+            from ansys.dpf.core.check_version import meets_version
+            if meets_version(dpf.SERVER.version, "11.0"):
+                my_property_field.location = dpf.locations.modal
+            # For DPF older than 26R1, you must set the location with a Scoping
+            else:
+                my_property_field.scoping = dpf.Scoping(location=dpf.locations.modal)
+            # Set the mode IDs
             my_property_field.scoping.ids = [1, 2]
             # Print the property field
             print(my_property_field)
@@ -560,3 +566,11 @@ a field's data can be recovered locally before sending a large number of request
     with my_temp_field.as_local_field() as f:
         for i in range(1,100):
             f.get_entity_data_by_id(i)
+
+.. tip::
+
+    When using a remote DPF server, accessing a field's data within the ``with`` context manager
+    ensures deletion of local data when exiting the ``with`` block. Following this approach is
+    advisable for efficient remote processing workflows since it guarantees non-persistence of
+    unnecessary local data, especially if the data is not needed beyond the code being executed
+    within the ``with`` block.
