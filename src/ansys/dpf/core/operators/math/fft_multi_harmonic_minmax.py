@@ -21,8 +21,8 @@ class fft_multi_harmonic_minmax(Operator):
     using the gradient method for adaptive time steping
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     rpm_scoping: Scoping, optional
         rpm scoping, by default the fourier series sum is evaluated using all the rpms
@@ -41,7 +41,7 @@ class fft_multi_harmonic_minmax(Operator):
     substeps_selector: optional
         substeps to evaluate (frequencies), by default the operator is evaluated using all the available steps
 
-    Returns
+    Outputs
     -------
     field_min: FieldsContainer
     field_max: FieldsContainer

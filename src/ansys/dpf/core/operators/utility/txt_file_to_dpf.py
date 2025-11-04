@@ -19,12 +19,12 @@ class txt_file_to_dpf(Operator):
     r"""Take an input string and parse it into dataProcessing type
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     input_string: str
         ex: 'double:1.0', 'int:1', 'vector<double>:1.0;1.0'
 
-    Returns
+    Outputs
     -------
     any_output1:
         any output

@@ -19,11 +19,11 @@ class forward_fields_container(Operator):
     r"""Returns the input field or fields container.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields: FieldsContainer or Field
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

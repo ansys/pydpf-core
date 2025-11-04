@@ -19,11 +19,11 @@ class operator_id(Operator):
     r"""Return the id of an Operator.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     op: Operator
 
-    Returns
+    Outputs
     -------
     id: int
 

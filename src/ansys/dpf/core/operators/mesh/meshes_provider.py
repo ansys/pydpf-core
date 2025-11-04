@@ -20,8 +20,8 @@ class meshes_provider(Operator):
     varying.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     time_scoping: Scoping or int, optional
         Time/frequency set IDs required in output.
     streams_container: StreamsContainer, optional
@@ -33,7 +33,7 @@ class meshes_provider(Operator):
     region_scoping: Scoping or int, optional
         region id (integer) or vector of region ids (vector) or region scoping (scoping) of the model (region corresponds to zone for Fluid results or part for LSDyna results).
 
-    Returns
+    Outputs
     -------
     meshes: MeshesContainer
 

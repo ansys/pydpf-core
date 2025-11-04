@@ -20,8 +20,8 @@ class split_in_for_each_range(Operator):
     for_each loop.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     iterable: optional
         Iterable that can be combined with the one currently generated.
     operator_to_iterate: Operator
@@ -30,7 +30,7 @@ class split_in_for_each_range(Operator):
     scoping: Scoping
     chunk_size: int
 
-    Returns
+    Outputs
     -------
     output:
 

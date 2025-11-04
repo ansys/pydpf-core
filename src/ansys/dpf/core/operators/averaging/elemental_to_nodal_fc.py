@@ -35,8 +35,8 @@ class elemental_to_nodal_fc(Operator):
        used.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     mesh: MeshedRegion or MeshesContainer, optional
     force_averaging: int, optional
@@ -45,7 +45,7 @@ class elemental_to_nodal_fc(Operator):
     algorithm: int, optional
         Forces the usage of algorithm 1, 2 or 3 (default is chosen based on the type of mesh).
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

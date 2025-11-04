@@ -19,14 +19,14 @@ class mesh_support_provider(Operator):
     r"""Reads the mesh support.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     streams_container: StreamsContainer, optional
         Streams (result file container) (optional).
     data_sources: DataSources
         If the stream is null, retrieves the file path from the data sources.
 
-    Returns
+    Outputs
     -------
     abstract_field_support: AbstractFieldSupport
 

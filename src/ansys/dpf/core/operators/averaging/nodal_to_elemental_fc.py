@@ -23,8 +23,8 @@ class nodal_to_elemental_fc(Operator):
     the output fields container has an elshape label.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     mesh: MeshedRegion or MeshesContainer, optional
         The mesh region in this pin is used to perform the averaging. It is used if there is no fields support.
@@ -37,7 +37,7 @@ class nodal_to_elemental_fc(Operator):
     shell_layer: int, optional
         0: Top, 1: Bottom, 2: TopBottom, 3: Mid, 4: TopBottomMid. If merge_solid_shell is true, this pin needs to be specified to a value that extracts only one layer (Top, Bottom or Mid).
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

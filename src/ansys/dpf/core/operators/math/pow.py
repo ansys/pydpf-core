@@ -19,12 +19,12 @@ class pow(Operator):
     r"""Computes element-wise field[i]^p.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field
     factor: float
 
-    Returns
+    Outputs
     -------
     field: Field
 

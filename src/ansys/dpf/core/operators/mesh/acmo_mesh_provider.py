@@ -19,12 +19,12 @@ class acmo_mesh_provider(Operator):
     r"""Converts an Assembly Mesh into a DPF Meshes container
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     assembly_mesh: AnsDispatchHolder or Struct Iansdispatch
     unit: str, optional
 
-    Returns
+    Outputs
     -------
     meshes_container: MeshesContainer
 

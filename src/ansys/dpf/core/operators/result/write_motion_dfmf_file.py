@@ -19,8 +19,8 @@ class write_motion_dfmf_file(Operator):
     r"""Write the invariant terms and the model data in a motion dfmf file
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     model_data: PropertyField
         data describing the finite element model
     mode_shapes: FieldsContainer
@@ -46,7 +46,7 @@ class write_motion_dfmf_file(Operator):
         path with motion dfmf extension where the export occurs
     rstfile_path: str
 
-    Returns
+    Outputs
     -------
     dfmf_data_source: DataSources
         Data Source containing the dfmf file generated.

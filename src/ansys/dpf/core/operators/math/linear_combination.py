@@ -20,8 +20,8 @@ class linear_combination(Operator):
     are complex numbers.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     a: float
         Double
     fields_containerA: FieldsContainer
@@ -30,7 +30,7 @@ class linear_combination(Operator):
         Double
     fields_containerC: FieldsContainer
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

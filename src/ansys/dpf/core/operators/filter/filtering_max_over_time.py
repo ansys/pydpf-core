@@ -20,8 +20,8 @@ class filtering_max_over_time(Operator):
     threshold of a selected invariant.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     invariant_fc_operator: str
         Name of the invariant operator to be used to calculate filter (available: eqv_fc, invariants_deriv_fc, invariants_fc).
     output_pin: int, optional
@@ -31,7 +31,7 @@ class filtering_max_over_time(Operator):
     threshold: float, optional
         Threshold from which the operator will filter.
 
-    Returns
+    Outputs
     -------
     workflow: Workflow
 

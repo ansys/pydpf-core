@@ -20,13 +20,13 @@ class extend_to_mid_nodes(Operator):
     field defined also on the mid nodes.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
         field or fields container with only one field is expected
     mesh: MeshedRegion, optional
 
-    Returns
+    Outputs
     -------
     field: Field
 

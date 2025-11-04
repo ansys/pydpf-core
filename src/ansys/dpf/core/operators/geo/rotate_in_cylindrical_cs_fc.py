@@ -24,15 +24,15 @@ class rotate_in_cylindrical_cs_fc(Operator):
     coordinate system.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
     coordinate_system: Field, optional
         3-3 rotation matrix and origin coordinates must be set here to define a coordinate system.
     mesh: MeshedRegion, optional
         Mesh support of the input fields_container, in case it does not have one defined.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

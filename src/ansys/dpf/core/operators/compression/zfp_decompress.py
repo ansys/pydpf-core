@@ -21,12 +21,12 @@ class zfp_decompress(Operator):
     the properties of the field(s)
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     dataIn: CustomTypeFieldsContainer
         custom type field container from zfp_compression operator to decompress
 
-    Returns
+    Outputs
     -------
     dataOut: Field or FieldsContainer
         the output entity is a field or a fields container; it contains decompressed data

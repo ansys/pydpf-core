@@ -19,8 +19,8 @@ class decimate_mesh(Operator):
     r"""Decimate a meshed region
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mesh: MeshedRegion
         Mesh to decimate
     preservation_ratio: float, optional
@@ -28,7 +28,7 @@ class decimate_mesh(Operator):
     aggressiveness: int, optional
         Quality measure for the resulting decimated mesh. Lower aggresiveness will provide a higher quality mesh with the tradeoff of higher execution time. Value range is 0 to 150, default is 0.
 
-    Returns
+    Outputs
     -------
     mesh: MeshedRegion
         Decimated mesh with triangle elements

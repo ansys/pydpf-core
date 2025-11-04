@@ -19,12 +19,12 @@ class exclude_levelset(Operator):
     r"""Takes two level sets and excludes the second one from the first.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fieldA: Field
     fieldB: Field
 
-    Returns
+    Outputs
     -------
     field: Field
 

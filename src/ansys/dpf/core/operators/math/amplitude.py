@@ -19,14 +19,14 @@ class amplitude(Operator):
     r"""Computes amplitude of a real and an imaginary field.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fieldA: Field or FieldsContainer
         field or fields container with only one field is expected
     fieldB: Field or FieldsContainer
         field or fields container with only one field is expected
 
-    Returns
+    Outputs
     -------
     field: Field
 

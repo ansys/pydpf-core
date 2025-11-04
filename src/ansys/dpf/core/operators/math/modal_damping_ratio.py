@@ -20,8 +20,8 @@ class modal_damping_ratio(Operator):
     m_coefficient / (2\ *omega_i) + k_coefficient* omega_i/2.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     natural_freq:
         input vector expects natural frequencies.
     const_ratio: float, optional
@@ -33,7 +33,7 @@ class modal_damping_ratio(Operator):
     k_coefficient: float
         global stiffness matrix multiplier
 
-    Returns
+    Outputs
     -------
     field: Field
         field of modal damping ratio.

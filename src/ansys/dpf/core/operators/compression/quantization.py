@@ -20,8 +20,8 @@ class quantization(Operator):
     values to the unit.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     input_field: Field
         Field to quantize.
     threshold: float or Field
@@ -32,7 +32,7 @@ class quantization(Operator):
         Case field with the same number of values than the input field : quantization is performed component-wise.
 
 
-    Returns
+    Outputs
     -------
     output_field: Field
         Scaled and rounded field

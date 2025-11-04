@@ -22,14 +22,14 @@ class minus(Operator):
     ‘inplace’ to reuse one of the fields.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fieldA: Field or FieldsContainer or float
         field or fields container with only one field is expected
     fieldB: Field or FieldsContainer or float
         field or fields container with only one field is expected
 
-    Returns
+    Outputs
     -------
     field: Field
 

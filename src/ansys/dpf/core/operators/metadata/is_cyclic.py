@@ -19,14 +19,14 @@ class is_cyclic(Operator):
     r"""Reads if the model is cyclic from the result file.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     streams_container: StreamsContainer, optional
         streams (result file container) (optional)
     data_sources: DataSources
         If the stream is null, retrieves the file path from the data sources.
 
-    Returns
+    Outputs
     -------
     file_path: str
         returns 'single_stage' or 'multi_stage' or an empty string for non cyclic model

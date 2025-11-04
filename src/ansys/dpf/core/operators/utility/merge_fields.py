@@ -19,8 +19,8 @@ class merge_fields(Operator):
     r"""Assembles a set of fields into a unique one.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     sum_merge: bool, optional
         Default is false. If true, redundant quantities are summed instead of being ignored.
     merged_support: AbstractFieldSupport, optional
@@ -30,7 +30,7 @@ class merge_fields(Operator):
     fields2: Field or FieldsContainer
         Either a fields container, a vector of fields to merge, or fields from pin 0 to ...
 
-    Returns
+    Outputs
     -------
     merged_field: Field
 

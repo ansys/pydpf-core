@@ -19,14 +19,14 @@ class rigid_transformation(Operator):
     r"""Extracts rigid body motions from a displacement in input.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     streams_container: StreamsContainer, optional
         streams (result file container) (optional)
     data_sources: DataSources
         If the stream is null, retrieves the file path from the data sources.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

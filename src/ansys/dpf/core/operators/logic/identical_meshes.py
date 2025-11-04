@@ -21,8 +21,8 @@ class identical_meshes(Operator):
     the first mesh (pin 0) are included in the second mesh (pin 1).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     meshA: MeshedRegion
     meshB: MeshedRegion
     small_value: float, optional
@@ -32,7 +32,7 @@ class identical_meshes(Operator):
     compare_auxiliary: bool
         compare auxiliary data (i.e property fields, scopings...). Default value is 'false'.
 
-    Returns
+    Outputs
     -------
     are_identical: bool
 

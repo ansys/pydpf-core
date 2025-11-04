@@ -21,15 +21,15 @@ class mesh_get_attribute(Operator):
     input.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     abstract_meshed_region: MeshedRegion
     property_name: str
         Supported property names are: "connectivity", "reverse_connectivity", "mat", "faces_nodes_connectivity", "elements_faces_connectivity" (or any mesh's property field), "coordinates", "named_selection", "num_named_selections", "named_selection_names", "named_selection_locations", "node_scoping", "element_scoping", "face_scoping"...
     property_identifier: int or str, optional
         Can be used to get a property at a given index, example: a named selection's number or by name, example: a named selection's name.
 
-    Returns
+    Outputs
     -------
     property: Scoping or Field or PropertyField or int or StringField
         Returns a property field for properties: "connectivity", "reverse_connectivity", "mat", "faces_nodes_connectivity", "elements_faces_connectivity" (or any mesh's property field), a field for property: "coordinates", a scoping for properties:"named_selection", "node_scoping", "element_scoping", "face_scoping", a string field for properties: "named_selection_names", "named_selection_locations" and an int for property: "num_named_selections".

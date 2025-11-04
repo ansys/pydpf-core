@@ -21,14 +21,14 @@ class merge_generic_data_container(Operator):
     cannot be merged, first instance found will be maintained in the result.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     generic_data_container1: GenericDataContainer
         Either a vector of generic data containers (sharing the same data types) or generic data containers from pin 0 to ... to merge. Supported types rely on existing type specific merge operators.
     generic_data_container2: GenericDataContainer
         Either a vector of generic data containers (sharing the same data types) or generic data containers from pin 0 to ... to merge. Supported types rely on existing type specific merge operators.
 
-    Returns
+    Outputs
     -------
     generic_data_container: GenericDataContainer
 

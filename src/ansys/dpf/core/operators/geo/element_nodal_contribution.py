@@ -23,15 +23,15 @@ class element_nodal_contribution(Operator):
     node within each element.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mesh: MeshedRegion
     scoping: Scoping, optional
         Integrate the input field over a specific scoping.
     volume_fraction: bool, optional
         If true, returns influence volume, area or length. If false, the values are normalized with the element volume, area or length. Default: true.
 
-    Returns
+    Outputs
     -------
     field: Field
 

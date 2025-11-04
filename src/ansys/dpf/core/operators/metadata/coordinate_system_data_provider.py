@@ -20,8 +20,8 @@ class coordinate_system_data_provider(Operator):
     streams or data sources.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     solver_coordinate_system_ids: int, optional
         Coorfinate System ids to recover used by the solver. If not set, all available materials to be recovered.
     streams: StreamsContainer, optional
@@ -29,7 +29,7 @@ class coordinate_system_data_provider(Operator):
     data_sources: DataSources
         Result file path container, used if no streams are set.
 
-    Returns
+    Outputs
     -------
     coordinate_system_data1: GenericDataContainer
     coordinate_system_data2: GenericDataContainer

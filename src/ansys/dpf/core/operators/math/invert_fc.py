@@ -20,12 +20,12 @@ class invert_fc(Operator):
     component-wise inverse of a field (1./x).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
         field or fields container with only one field is expected
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

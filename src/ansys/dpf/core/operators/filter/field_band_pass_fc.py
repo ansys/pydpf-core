@@ -21,8 +21,8 @@ class field_band_pass_fc(Operator):
     threshold value in input.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
         field or fields container with only one field is expected
     min_threshold: float or Field
@@ -30,7 +30,7 @@ class field_band_pass_fc(Operator):
     max_threshold: float or Field, optional
         A maximum threshold scalar or a field containing one value is expected.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

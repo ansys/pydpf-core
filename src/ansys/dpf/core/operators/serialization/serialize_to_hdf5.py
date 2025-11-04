@@ -20,8 +20,8 @@ class serialize_to_hdf5(Operator):
     instead. Serialize the inputs in an hdf5 format.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     file_path: str
         output file path with .h5 extension
     export_floats: bool, optional
@@ -33,7 +33,7 @@ class serialize_to_hdf5(Operator):
     data2:
         only the data set explicitly to export is exported
 
-    Returns
+    Outputs
     -------
 
     Examples

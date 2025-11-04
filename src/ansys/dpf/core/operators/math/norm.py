@@ -20,14 +20,14 @@ class norm(Operator):
     Lp=L2
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
         field or fields container with only one field is expected
     scalar_int: int, optional
         Lp normalisation type, p = 1, 2, ...n - Default Lp=L2
 
-    Returns
+    Outputs
     -------
     field: Field
 

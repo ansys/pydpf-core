@@ -20,8 +20,8 @@ class euler_nodes(Operator):
     from the result file.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     streams_container: StreamsContainer or Stream, optional
     data_sources: DataSources
     filter_zeros: bool
@@ -30,7 +30,7 @@ class euler_nodes(Operator):
         if true, then the field has ncomp=6 with 3 coordinates and 3 Euler angles, else there is only the Euler angles (default is true).
     mesh: MeshedRegion, optional
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

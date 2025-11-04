@@ -21,14 +21,14 @@ class to_polar_coordinates(Operator):
     defines the rotation axis and the origin.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
         field or fields container with only one field is expected
     coordinate_system: Field, optional
         3-3 rotation matrix and origin coordinates must be set here to define a coordinate system. By default, the rotation axis is the z axis and the origin is [0,0,0].
 
-    Returns
+    Outputs
     -------
     field: Field
 

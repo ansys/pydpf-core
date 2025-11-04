@@ -19,14 +19,14 @@ class add_constant_fc(Operator):
     r"""Computes the sum of a field (in 0) and a scalar (in 1).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
         field or fields container with only one field is expected
     weights: float
         double or vector of double
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

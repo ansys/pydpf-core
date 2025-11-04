@@ -20,11 +20,11 @@ class principal_invariants_fc(Operator):
     fields container.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
 
-    Returns
+    Outputs
     -------
     fields_eig_1: FieldsContainer
         first eigen value fields

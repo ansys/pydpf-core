@@ -19,15 +19,15 @@ class integrate_over_time_freq(Operator):
     r"""Integration of an input field over timefreq.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field
     scoping: Scoping, optional
         Integrate the input field over a specific scoping.
     time_freq_support: TimeFreqSupport, optional
         Time Freq to integrate on, otherwise time freq support from the input field is taken.
 
-    Returns
+    Outputs
     -------
     field: Field
 

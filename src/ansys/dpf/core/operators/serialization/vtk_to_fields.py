@@ -19,14 +19,14 @@ class vtk_to_fields(Operator):
     r"""Write a field based on a vtk file.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field_name: str, optional
         name of the field in the vtk file
     streams: StreamsContainer, optional
     data_sources: DataSources
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
         fields_container

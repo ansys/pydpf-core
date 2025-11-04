@@ -19,8 +19,8 @@ class poynting_vector_surface(Operator):
     r"""Compute the Poynting Vector surface integral
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_containerA: FieldsContainer
     fields_containerB: FieldsContainer
     fields_containerC: FieldsContainer
@@ -30,7 +30,7 @@ class poynting_vector_surface(Operator):
     int32: int, optional
         load step number, if it's specified, the Poynting Vector is computed only on the substeps of this step
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

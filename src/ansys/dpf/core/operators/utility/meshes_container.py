@@ -19,11 +19,11 @@ class meshes_container(Operator):
     r"""Incrementaly merge the input.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     input: MeshesContainer
 
-    Returns
+    Outputs
     -------
     incremented_result:
 

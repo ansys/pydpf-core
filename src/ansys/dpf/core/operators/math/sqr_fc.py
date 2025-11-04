@@ -19,12 +19,12 @@ class sqr_fc(Operator):
     r"""Computes element-wise field[i]^2.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
         field or fields container with only one field is expected
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

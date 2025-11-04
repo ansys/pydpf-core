@@ -19,11 +19,11 @@ class sin_fc(Operator):
     r"""Computes element-wise sin(field[i]).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

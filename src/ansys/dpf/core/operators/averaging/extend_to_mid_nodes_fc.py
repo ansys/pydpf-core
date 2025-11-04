@@ -20,13 +20,13 @@ class extend_to_mid_nodes_fc(Operator):
     Elemental Nodal fields defined also on the mid nodes.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     mesh: MeshedRegion, optional
         The mesh region in this pin is used to perform the averaging. It is used if there is no fields support.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

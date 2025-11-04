@@ -20,13 +20,13 @@ class import_symbolic_workflow(Operator):
     WorkFlow with its data.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     string_or_path: str or DataSources
     format: int, optional
         -1 is auto-detection, 0 is ASCII format, 1 is binary, 2 is json, default is -1 (auto-detection).
 
-    Returns
+    Outputs
     -------
     workflow: Workflow
 

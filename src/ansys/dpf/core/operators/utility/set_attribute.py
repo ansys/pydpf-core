@@ -19,15 +19,15 @@ class set_attribute(Operator):
     r"""Uses the FieldsContainer APIs to modify it.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     property_name: str
         Supported property names are: "labels".
     property_identifier: dict, optional
         Value of the property to be set : vector of string or LabelSpace for "labels".
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
         Returns the modified FieldsContainer.
