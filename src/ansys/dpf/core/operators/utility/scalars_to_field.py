@@ -73,6 +73,9 @@ class scalars_to_field(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsScalarsToField
+    _outputs: OutputsScalarsToField
+
     def __init__(
         self,
         double_or_vector_double=None,
@@ -185,7 +188,7 @@ class scalars_to_field(Operator):
         inputs:
             An instance of InputsScalarsToField.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsScalarsToField:
@@ -196,7 +199,7 @@ class scalars_to_field(Operator):
         outputs:
             An instance of OutputsScalarsToField.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsScalarsToField(_Inputs):

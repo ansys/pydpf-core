@@ -48,6 +48,9 @@ class exponential(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsExponential
+    _outputs: OutputsExponential
+
     def __init__(self, field=None, config=None, server=None):
         super().__init__(name="exponential", config=config, server=server)
         self._inputs = InputsExponential(self)
@@ -115,7 +118,7 @@ class exponential(Operator):
         inputs:
             An instance of InputsExponential.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsExponential:
@@ -126,7 +129,7 @@ class exponential(Operator):
         outputs:
             An instance of OutputsExponential.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsExponential(_Inputs):

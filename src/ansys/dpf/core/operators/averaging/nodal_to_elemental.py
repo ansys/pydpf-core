@@ -58,6 +58,9 @@ class nodal_to_elemental(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsNodalToElemental
+    _outputs: OutputsNodalToElemental
+
     def __init__(
         self,
         field=None,
@@ -144,7 +147,7 @@ on a given element’s scoping.
         inputs:
             An instance of InputsNodalToElemental.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsNodalToElemental:
@@ -155,7 +158,7 @@ on a given element’s scoping.
         outputs:
             An instance of OutputsNodalToElemental.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsNodalToElemental(_Inputs):

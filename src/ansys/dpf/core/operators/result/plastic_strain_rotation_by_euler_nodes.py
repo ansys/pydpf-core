@@ -57,6 +57,9 @@ class plastic_strain_rotation_by_euler_nodes(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsPlasticStrainRotationByEulerNodes
+    _outputs: OutputsPlasticStrainRotationByEulerNodes
+
     def __init__(
         self,
         fields_container=None,
@@ -153,7 +156,7 @@ in the fieldsContainer.
         inputs:
             An instance of InputsPlasticStrainRotationByEulerNodes.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsPlasticStrainRotationByEulerNodes:
@@ -164,7 +167,7 @@ in the fieldsContainer.
         outputs:
             An instance of OutputsPlasticStrainRotationByEulerNodes.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsPlasticStrainRotationByEulerNodes(_Inputs):

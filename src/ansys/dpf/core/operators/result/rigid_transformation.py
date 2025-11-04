@@ -53,6 +53,9 @@ class rigid_transformation(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsRigidTransformation
+    _outputs: OutputsRigidTransformation
+
     def __init__(
         self, streams_container=None, data_sources=None, config=None, server=None
     ):
@@ -129,7 +132,7 @@ class rigid_transformation(Operator):
         inputs:
             An instance of InputsRigidTransformation.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsRigidTransformation:
@@ -140,7 +143,7 @@ class rigid_transformation(Operator):
         outputs:
             An instance of OutputsRigidTransformation.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsRigidTransformation(_Inputs):

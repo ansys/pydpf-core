@@ -53,6 +53,9 @@ class merge_meshes_containers(Operator):
     >>> result_merged_meshes_container = op.outputs.merged_meshes_container()
     """
 
+    _inputs: InputsMergeMeshesContainers
+    _outputs: OutputsMergeMeshesContainers
+
     def __init__(
         self, meshes_containers1=None, meshes_containers2=None, config=None, server=None
     ):
@@ -125,7 +128,7 @@ class merge_meshes_containers(Operator):
         inputs:
             An instance of InputsMergeMeshesContainers.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMergeMeshesContainers:
@@ -136,7 +139,7 @@ class merge_meshes_containers(Operator):
         outputs:
             An instance of OutputsMergeMeshesContainers.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMergeMeshesContainers(_Inputs):

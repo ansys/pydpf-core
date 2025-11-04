@@ -25,6 +25,8 @@ class migrate_to_h5dpf(Operator):
 
     Parameters
     ----------
+    h5_chunk_size: int or GenericDataContainer, optional
+        Size of each HDF5 chunk in kilobytes (KB). Default: 1 MB when compression is enabled; for uncompressed datasets, the default is the full dataset size x dimension.
     dataset_size_compression_threshold: int or GenericDataContainer, optional
         Integer value that defines the minimum dataset size (in bytes) to use h5 native compression Applicable for arrays of floats, doubles and integers.
     h5_native_compression: int or DataTree or GenericDataContainer, optional
@@ -58,6 +60,8 @@ class migrate_to_h5dpf(Operator):
     >>> op = dpf.operators.result.migrate_to_h5dpf()
 
     >>> # Make input connections
+    >>> my_h5_chunk_size = int()
+    >>> op.inputs.h5_chunk_size.connect(my_h5_chunk_size)
     >>> my_dataset_size_compression_threshold = int()
     >>> op.inputs.dataset_size_compression_threshold.connect(my_dataset_size_compression_threshold)
     >>> my_h5_native_compression = int()
@@ -81,6 +85,7 @@ class migrate_to_h5dpf(Operator):
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.migrate_to_h5dpf(
+    ...     h5_chunk_size=my_h5_chunk_size,
     ...     dataset_size_compression_threshold=my_dataset_size_compression_threshold,
     ...     h5_native_compression=my_h5_native_compression,
     ...     export_floats=my_export_floats,
@@ -97,8 +102,12 @@ class migrate_to_h5dpf(Operator):
     >>> result_migrated_file = op.outputs.migrated_file()
     """
 
+    _inputs: InputsMigrateToH5Dpf
+    _outputs: OutputsMigrateToH5Dpf
+
     def __init__(
         self,
+        h5_chunk_size=None,
         dataset_size_compression_threshold=None,
         h5_native_compression=None,
         export_floats=None,
@@ -115,6 +124,8 @@ class migrate_to_h5dpf(Operator):
         super().__init__(name="hdf5::h5dpf::migrate_file", config=config, server=server)
         self._inputs = InputsMigrateToH5Dpf(self)
         self._outputs = OutputsMigrateToH5Dpf(self)
+        if h5_chunk_size is not None:
+            self.inputs.h5_chunk_size.connect(h5_chunk_size)
         if dataset_size_compression_threshold is not None:
             self.inputs.dataset_size_compression_threshold.connect(
                 dataset_size_compression_threshold
@@ -151,6 +162,12 @@ will map an item to a result name. Example of Map: {{ default: wf1},
         spec = Specification(
             description=description,
             map_input_pin_spec={
+                -7: PinSpecification(
+                    name="h5_chunk_size",
+                    type_names=["int32", "generic_data_container"],
+                    optional=True,
+                    document=r"""Size of each HDF5 chunk in kilobytes (KB). Default: 1 MB when compression is enabled; for uncompressed datasets, the default is the full dataset size x dimension.""",
+                ),
                 -5: PinSpecification(
                     name="dataset_size_compression_threshold",
                     type_names=["int32", "generic_data_container"],
@@ -257,7 +274,7 @@ will map an item to a result name. Example of Map: {{ default: wf1},
         inputs:
             An instance of InputsMigrateToH5Dpf.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMigrateToH5Dpf:
@@ -268,7 +285,7 @@ will map an item to a result name. Example of Map: {{ default: wf1},
         outputs:
             An instance of OutputsMigrateToH5Dpf.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMigrateToH5Dpf(_Inputs):
@@ -279,6 +296,8 @@ class InputsMigrateToH5Dpf(_Inputs):
     --------
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.result.migrate_to_h5dpf()
+    >>> my_h5_chunk_size = int()
+    >>> op.inputs.h5_chunk_size.connect(my_h5_chunk_size)
     >>> my_dataset_size_compression_threshold = int()
     >>> op.inputs.dataset_size_compression_threshold.connect(my_dataset_size_compression_threshold)
     >>> my_h5_native_compression = int()
@@ -303,6 +322,8 @@ class InputsMigrateToH5Dpf(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(migrate_to_h5dpf._spec().inputs, op)
+        self._h5_chunk_size = Input(migrate_to_h5dpf._spec().input_pin(-7), -7, op, -1)
+        self._inputs.append(self._h5_chunk_size)
         self._dataset_size_compression_threshold = Input(
             migrate_to_h5dpf._spec().input_pin(-5), -5, op, -1
         )
@@ -335,6 +356,27 @@ class InputsMigrateToH5Dpf(_Inputs):
             migrate_to_h5dpf._spec().input_pin(7), 7, op, -1
         )
         self._inputs.append(self._filtering_workflow)
+
+    @property
+    def h5_chunk_size(self) -> Input:
+        r"""Allows to connect h5_chunk_size input to the operator.
+
+        Size of each HDF5 chunk in kilobytes (KB). Default: 1 MB when compression is enabled; for uncompressed datasets, the default is the full dataset size x dimension.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.migrate_to_h5dpf()
+        >>> op.inputs.h5_chunk_size.connect(my_h5_chunk_size)
+        >>> # or
+        >>> op.inputs.h5_chunk_size(my_h5_chunk_size)
+        """
+        return self._h5_chunk_size
 
     @property
     def dataset_size_compression_threshold(self) -> Input:

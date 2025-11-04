@@ -52,6 +52,9 @@ class csv_to_field(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsCsvToField
+    _outputs: OutputsCsvToField
+
     def __init__(self, time_scoping=None, data_sources=None, config=None, server=None):
         super().__init__(name="csv_to_field", config=config, server=server)
         self._inputs = InputsCsvToField(self)
@@ -122,7 +125,7 @@ class csv_to_field(Operator):
         inputs:
             An instance of InputsCsvToField.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsCsvToField:
@@ -133,7 +136,7 @@ class csv_to_field(Operator):
         outputs:
             An instance of OutputsCsvToField.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsCsvToField(_Inputs):

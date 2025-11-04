@@ -57,6 +57,9 @@ class make_plane_levelset(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsMakePlaneLevelset
+    _outputs: OutputsMakePlaneLevelset
+
     def __init__(
         self, coordinates=None, normal=None, origin=None, config=None, server=None
     ):
@@ -137,7 +140,7 @@ class make_plane_levelset(Operator):
         inputs:
             An instance of InputsMakePlaneLevelset.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMakePlaneLevelset:
@@ -148,7 +151,7 @@ class make_plane_levelset(Operator):
         outputs:
             An instance of OutputsMakePlaneLevelset.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMakePlaneLevelset(_Inputs):

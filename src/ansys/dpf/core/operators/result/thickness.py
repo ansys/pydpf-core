@@ -79,6 +79,9 @@ class thickness(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsThickness
+    _outputs: OutputsThickness
+
     def __init__(
         self,
         time_scoping=None,
@@ -208,7 +211,7 @@ datasources.
         inputs:
             An instance of InputsThickness.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsThickness:
@@ -219,7 +222,7 @@ datasources.
         outputs:
             An instance of OutputsThickness.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsThickness(_Inputs):

@@ -52,6 +52,9 @@ class change_location(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsChangeLocation
+    _outputs: OutputsChangeLocation
+
     def __init__(self, field=None, new_location=None, config=None, server=None):
         super().__init__(name="change_location", config=config, server=server)
         self._inputs = InputsChangeLocation(self)
@@ -122,7 +125,7 @@ class change_location(Operator):
         inputs:
             An instance of InputsChangeLocation.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsChangeLocation:
@@ -133,7 +136,7 @@ class change_location(Operator):
         outputs:
             An instance of OutputsChangeLocation.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsChangeLocation(_Inputs):

@@ -96,6 +96,9 @@ class magnetic_field_X(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsMagneticFieldX
+    _outputs: OutputsMagneticFieldX
+
     def __init__(
         self,
         time_scoping=None,
@@ -254,7 +257,7 @@ Nodal/ElementalNodal/Elemental.
         inputs:
             An instance of InputsMagneticFieldX.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMagneticFieldX:
@@ -265,7 +268,7 @@ Nodal/ElementalNodal/Elemental.
         outputs:
             An instance of OutputsMagneticFieldX.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMagneticFieldX(_Inputs):

@@ -51,6 +51,9 @@ class combine_levelset(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsCombineLevelset
+    _outputs: OutputsCombineLevelset
+
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
         super().__init__(name="levelset::combine", config=config, server=server)
         self._inputs = InputsCombineLevelset(self)
@@ -121,7 +124,7 @@ class combine_levelset(Operator):
         inputs:
             An instance of InputsCombineLevelset.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsCombineLevelset:
@@ -132,7 +135,7 @@ class combine_levelset(Operator):
         outputs:
             An instance of OutputsCombineLevelset.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsCombineLevelset(_Inputs):

@@ -70,6 +70,9 @@ class modal_superposition(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsModalSuperposition
+    _outputs: OutputsModalSuperposition
+
     def __init__(
         self,
         modal_basis=None,
@@ -179,7 +182,7 @@ by multiplying a modal basis (in 0)by the solution in this modal space
         inputs:
             An instance of InputsModalSuperposition.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsModalSuperposition:
@@ -190,7 +193,7 @@ by multiplying a modal basis (in 0)by the solution in this modal space
         outputs:
             An instance of OutputsModalSuperposition.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsModalSuperposition(_Inputs):

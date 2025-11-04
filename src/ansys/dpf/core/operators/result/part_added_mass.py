@@ -64,6 +64,9 @@ class part_added_mass(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsPartAddedMass
+    _outputs: OutputsPartAddedMass
+
     def __init__(
         self,
         streams_container=None,
@@ -163,7 +166,7 @@ datasources.
         inputs:
             An instance of InputsPartAddedMass.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsPartAddedMass:
@@ -174,7 +177,7 @@ datasources.
         outputs:
             An instance of OutputsPartAddedMass.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsPartAddedMass(_Inputs):

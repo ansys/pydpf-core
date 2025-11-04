@@ -60,6 +60,9 @@ class cyclic_mesh_expansion(Operator):
     >>> result_cyclic_support = op.outputs.cyclic_support()
     """
 
+    _inputs: InputsCyclicMeshExpansion
+    _outputs: OutputsCyclicMeshExpansion
+
     def __init__(
         self,
         sector_meshed_region=None,
@@ -151,7 +154,7 @@ class cyclic_mesh_expansion(Operator):
         inputs:
             An instance of InputsCyclicMeshExpansion.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsCyclicMeshExpansion:
@@ -162,7 +165,7 @@ class cyclic_mesh_expansion(Operator):
         outputs:
             An instance of OutputsCyclicMeshExpansion.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsCyclicMeshExpansion(_Inputs):

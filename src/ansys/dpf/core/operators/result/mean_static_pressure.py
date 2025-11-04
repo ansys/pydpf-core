@@ -84,6 +84,9 @@ class mean_static_pressure(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsMeanStaticPressure
+    _outputs: OutputsMeanStaticPressure
+
     def __init__(
         self,
         time_scoping=None,
@@ -222,7 +225,7 @@ datasources.
         inputs:
             An instance of InputsMeanStaticPressure.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMeanStaticPressure:
@@ -233,7 +236,7 @@ datasources.
         outputs:
             An instance of OutputsMeanStaticPressure.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMeanStaticPressure(_Inputs):

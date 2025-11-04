@@ -74,6 +74,9 @@ class skin(Operator):
     >>> result_facet_indices = op.outputs.facet_indices()
     """
 
+    _inputs: InputsSkin
+    _outputs: OutputsSkin
+
     def __init__(
         self,
         mesh=None,
@@ -202,7 +205,7 @@ initial elements are propagated to their facets.
         inputs:
             An instance of InputsSkin.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsSkin:
@@ -213,7 +216,7 @@ initial elements are propagated to their facets.
         outputs:
             An instance of OutputsSkin.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsSkin(_Inputs):

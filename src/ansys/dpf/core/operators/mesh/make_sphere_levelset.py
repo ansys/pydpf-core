@@ -57,6 +57,9 @@ class make_sphere_levelset(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsMakeSphereLevelset
+    _outputs: OutputsMakeSphereLevelset
+
     def __init__(
         self, coordinates=None, origin=None, radius=None, config=None, server=None
     ):
@@ -137,7 +140,7 @@ class make_sphere_levelset(Operator):
         inputs:
             An instance of InputsMakeSphereLevelset.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMakeSphereLevelset:
@@ -148,7 +151,7 @@ class make_sphere_levelset(Operator):
         outputs:
             An instance of OutputsMakeSphereLevelset.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMakeSphereLevelset(_Inputs):

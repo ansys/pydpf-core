@@ -57,6 +57,9 @@ class min_over_time_by_entity(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsMinOverTimeByEntity
+    _outputs: OutputsMinOverTimeByEntity
+
     def __init__(
         self,
         fields_container=None,
@@ -142,7 +145,7 @@ class min_over_time_by_entity(Operator):
         inputs:
             An instance of InputsMinOverTimeByEntity.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMinOverTimeByEntity:
@@ -153,7 +156,7 @@ class min_over_time_by_entity(Operator):
         outputs:
             An instance of OutputsMinOverTimeByEntity.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMinOverTimeByEntity(_Inputs):

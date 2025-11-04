@@ -58,6 +58,9 @@ class dot(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsDot
+    _outputs: OutputsDot
+
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
         super().__init__(name="dot", config=config, server=server)
         self._inputs = InputsDot(self)
@@ -133,7 +136,7 @@ fields are scalar.
         inputs:
             An instance of InputsDot.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsDot:
@@ -144,7 +147,7 @@ fields are scalar.
         outputs:
             An instance of OutputsDot.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsDot(_Inputs):

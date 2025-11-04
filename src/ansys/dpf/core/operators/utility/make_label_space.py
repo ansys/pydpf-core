@@ -60,6 +60,9 @@ class make_label_space(Operator):
     >>> result_label = op.outputs.label()
     """
 
+    _inputs: InputsMakeLabelSpace
+    _outputs: OutputsMakeLabelSpace
+
     def __init__(
         self,
         base_label=None,
@@ -158,7 +161,7 @@ class make_label_space(Operator):
         inputs:
             An instance of InputsMakeLabelSpace.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMakeLabelSpace:
@@ -169,7 +172,7 @@ class make_label_space(Operator):
         outputs:
             An instance of OutputsMakeLabelSpace.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMakeLabelSpace(_Inputs):

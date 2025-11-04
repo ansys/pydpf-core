@@ -25,16 +25,16 @@ class time_freq_support_get_attribute(Operator):
     ----------
     time_freq_support: TimeFreqSupport
     property_name: str
-        Supported property names are: "time_freqs", "imaginary_freqs", "frequency_tolerance", "set_id", "cummulative_index", "sets_freqs".
-    property_identifier: int, optional
-        Additional pin for properties "set_id" and "cummulative_index": the step id, for "sets_freqs": the sets scoping.
+        Supported property names are: "time_freqs", "imaginary_freqs", "frequency_tolerance", "set_id", "cummulative_index", "sets_freqs", "step_id_from_harmonic_index".
+    property_identifier: int or Scoping, optional
+        Additional pin for properties "set_id" and "cummulative_index": the step id, for "sets_freqs": the sets scoping, for "step_id_from_harmonic_index" : the harmonic index.
     property_identifier_2: int, optional
         Additional pin for properties "set_id" and "cummulative_index": the substep id (if none, last substep is considered).
 
     Returns
     -------
     property: float or Field or Scoping
-        Returns a double for property: "frequency_tolerance", a single-value Scoping for properties for "set_id" and "cummulative_index", and a Field otherwise.
+        Returns a double for property: "frequency_tolerance", a single-value Scoping for properties for "set_id" and "cummulative_index", an int for "step_id_from_harmonic_index" and a Field otherwise.
 
     Examples
     --------
@@ -64,6 +64,9 @@ class time_freq_support_get_attribute(Operator):
     >>> # Get output data
     >>> result_property = op.outputs.property()
     """
+
+    _inputs: InputsTimeFreqSupportGetAttribute
+    _outputs: OutputsTimeFreqSupportGetAttribute
 
     def __init__(
         self,
@@ -106,13 +109,13 @@ in input.
                     name="property_name",
                     type_names=["string"],
                     optional=False,
-                    document=r"""Supported property names are: "time_freqs", "imaginary_freqs", "frequency_tolerance", "set_id", "cummulative_index", "sets_freqs".""",
+                    document=r"""Supported property names are: "time_freqs", "imaginary_freqs", "frequency_tolerance", "set_id", "cummulative_index", "sets_freqs", "step_id_from_harmonic_index".""",
                 ),
                 2: PinSpecification(
                     name="property_identifier",
-                    type_names=["int32"],
+                    type_names=["int32", "scoping"],
                     optional=True,
-                    document=r"""Additional pin for properties "set_id" and "cummulative_index": the step id, for "sets_freqs": the sets scoping.""",
+                    document=r"""Additional pin for properties "set_id" and "cummulative_index": the step id, for "sets_freqs": the sets scoping, for "step_id_from_harmonic_index" : the harmonic index.""",
                 ),
                 3: PinSpecification(
                     name="property_identifier_2",
@@ -126,7 +129,7 @@ in input.
                     name="property",
                     type_names=["double", "field", "scoping"],
                     optional=False,
-                    document=r"""Returns a double for property: "frequency_tolerance", a single-value Scoping for properties for "set_id" and "cummulative_index", and a Field otherwise.""",
+                    document=r"""Returns a double for property: "frequency_tolerance", a single-value Scoping for properties for "set_id" and "cummulative_index", an int for "step_id_from_harmonic_index" and a Field otherwise.""",
                 ),
             },
         )
@@ -164,7 +167,7 @@ in input.
         inputs:
             An instance of InputsTimeFreqSupportGetAttribute.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsTimeFreqSupportGetAttribute:
@@ -175,7 +178,7 @@ in input.
         outputs:
             An instance of OutputsTimeFreqSupportGetAttribute.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsTimeFreqSupportGetAttribute(_Inputs):
@@ -238,7 +241,7 @@ class InputsTimeFreqSupportGetAttribute(_Inputs):
     def property_name(self) -> Input:
         r"""Allows to connect property_name input to the operator.
 
-        Supported property names are: "time_freqs", "imaginary_freqs", "frequency_tolerance", "set_id", "cummulative_index", "sets_freqs".
+        Supported property names are: "time_freqs", "imaginary_freqs", "frequency_tolerance", "set_id", "cummulative_index", "sets_freqs", "step_id_from_harmonic_index".
 
         Returns
         -------
@@ -259,7 +262,7 @@ class InputsTimeFreqSupportGetAttribute(_Inputs):
     def property_identifier(self) -> Input:
         r"""Allows to connect property_identifier input to the operator.
 
-        Additional pin for properties "set_id" and "cummulative_index": the step id, for "sets_freqs": the sets scoping.
+        Additional pin for properties "set_id" and "cummulative_index": the step id, for "sets_freqs": the sets scoping, for "step_id_from_harmonic_index" : the harmonic index.
 
         Returns
         -------

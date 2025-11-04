@@ -52,6 +52,9 @@ class make_overall(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsMakeOverall
+    _outputs: OutputsMakeOverall
+
     def __init__(self, field=None, id=None, config=None, server=None):
         super().__init__(name="make_overall", config=config, server=server)
         self._inputs = InputsMakeOverall(self)
@@ -123,7 +126,7 @@ value, with the associated scoping’s location set as ‘overall’.
         inputs:
             An instance of InputsMakeOverall.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMakeOverall:
@@ -134,7 +137,7 @@ value, with the associated scoping’s location set as ‘overall’.
         outputs:
             An instance of OutputsMakeOverall.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMakeOverall(_Inputs):

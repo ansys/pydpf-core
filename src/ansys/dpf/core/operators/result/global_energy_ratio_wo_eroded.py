@@ -59,6 +59,9 @@ class global_energy_ratio_wo_eroded(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsGlobalEnergyRatioWoEroded
+    _outputs: OutputsGlobalEnergyRatioWoEroded
+
     def __init__(
         self,
         streams_container=None,
@@ -149,7 +152,7 @@ readers defined by the datasources.
         inputs:
             An instance of InputsGlobalEnergyRatioWoEroded.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsGlobalEnergyRatioWoEroded:
@@ -160,7 +163,7 @@ readers defined by the datasources.
         outputs:
             An instance of OutputsGlobalEnergyRatioWoEroded.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsGlobalEnergyRatioWoEroded(_Inputs):

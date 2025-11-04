@@ -73,6 +73,9 @@ class on_property(Operator):
     >>> result_mesh_scoping = op.outputs.mesh_scoping()
     """
 
+    _inputs: InputsOnProperty
+    _outputs: OutputsOnProperty
+
     def __init__(
         self,
         requested_location=None,
@@ -186,7 +189,7 @@ and a property number.
         inputs:
             An instance of InputsOnProperty.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsOnProperty:
@@ -197,7 +200,7 @@ and a property number.
         outputs:
             An instance of OutputsOnProperty.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsOnProperty(_Inputs):

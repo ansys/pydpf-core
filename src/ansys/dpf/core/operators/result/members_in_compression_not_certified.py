@@ -102,6 +102,9 @@ class members_in_compression_not_certified(Operator):
     >>> result_buckling_resistance_compression_zz = op.outputs.buckling_resistance_compression_zz()
     """
 
+    _inputs: InputsMembersInCompressionNotCertified
+    _outputs: OutputsMembersInCompressionNotCertified
+
     def __init__(
         self,
         time_scoping=None,
@@ -265,7 +268,7 @@ responsibility for the use of this operator.
         inputs:
             An instance of InputsMembersInCompressionNotCertified.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMembersInCompressionNotCertified:
@@ -276,7 +279,7 @@ responsibility for the use of this operator.
         outputs:
             An instance of OutputsMembersInCompressionNotCertified.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMembersInCompressionNotCertified(_Inputs):

@@ -69,6 +69,9 @@ class meshes_provider(Operator):
     >>> result_meshes = op.outputs.meshes()
     """
 
+    _inputs: InputsMeshesProvider
+    _outputs: OutputsMeshesProvider
+
     def __init__(
         self,
         time_scoping=None,
@@ -173,7 +176,7 @@ varying.
         inputs:
             An instance of InputsMeshesProvider.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMeshesProvider:
@@ -184,7 +187,7 @@ varying.
         outputs:
             An instance of OutputsMeshesProvider.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMeshesProvider(_Inputs):

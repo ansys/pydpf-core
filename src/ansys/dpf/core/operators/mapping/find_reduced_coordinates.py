@@ -62,6 +62,9 @@ class find_reduced_coordinates(Operator):
     >>> result_element_ids = op.outputs.element_ids()
     """
 
+    _inputs: InputsFindReducedCoordinates
+    _outputs: OutputsFindReducedCoordinates
+
     def __init__(
         self,
         coordinates=None,
@@ -159,7 +162,7 @@ computes their reduced coordinates in those elements.
         inputs:
             An instance of InputsFindReducedCoordinates.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsFindReducedCoordinates:
@@ -170,7 +173,7 @@ computes their reduced coordinates in those elements.
         outputs:
             An instance of OutputsFindReducedCoordinates.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsFindReducedCoordinates(_Inputs):

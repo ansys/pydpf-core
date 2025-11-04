@@ -58,6 +58,9 @@ class deserializer(Operator):
     >>> result_any_output2 = op.outputs.any_output2()
     """
 
+    _inputs: InputsDeserializer
+    _outputs: OutputsDeserializer
+
     def __init__(self, stream_type=None, file_path=None, config=None, server=None):
         super().__init__(name="deserializer", config=config, server=server)
         self._inputs = InputsDeserializer(self)
@@ -135,7 +138,7 @@ entities.
         inputs:
             An instance of InputsDeserializer.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsDeserializer:
@@ -146,7 +149,7 @@ entities.
         outputs:
             An instance of OutputsDeserializer.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsDeserializer(_Inputs):

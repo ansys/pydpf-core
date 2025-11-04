@@ -83,6 +83,9 @@ class y_plus(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsYPlus
+    _outputs: OutputsYPlus
+
     def __init__(
         self,
         time_scoping=None,
@@ -220,7 +223,7 @@ class y_plus(Operator):
         inputs:
             An instance of InputsYPlus.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsYPlus:
@@ -231,7 +234,7 @@ class y_plus(Operator):
         outputs:
             An instance of OutputsYPlus.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsYPlus(_Inputs):

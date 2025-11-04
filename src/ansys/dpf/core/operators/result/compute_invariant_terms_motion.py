@@ -33,6 +33,8 @@ class compute_invariant_terms_motion(Operator):
     field_coordinates: Field
         coordinates of all nodes
     nod:
+    phi_ortho: FieldsContainer, optional
+        Orthonormalizated modes transformation
 
     Returns
     -------
@@ -78,6 +80,8 @@ class compute_invariant_terms_motion(Operator):
     >>> op.inputs.field_coordinates.connect(my_field_coordinates)
     >>> my_nod = dpf.()
     >>> op.inputs.nod.connect(my_nod)
+    >>> my_phi_ortho = dpf.FieldsContainer()
+    >>> op.inputs.phi_ortho.connect(my_phi_ortho)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.compute_invariant_terms_motion(
@@ -87,6 +91,7 @@ class compute_invariant_terms_motion(Operator):
     ...     model_data=my_model_data,
     ...     field_coordinates=my_field_coordinates,
     ...     nod=my_nod,
+    ...     phi_ortho=my_phi_ortho,
     ... )
 
     >>> # Get output data
@@ -109,6 +114,9 @@ class compute_invariant_terms_motion(Operator):
     >>> result_invrt_8 = op.outputs.invrt_8()
     """
 
+    _inputs: InputsComputeInvariantTermsMotion
+    _outputs: OutputsComputeInvariantTermsMotion
+
     def __init__(
         self,
         rom_matrices=None,
@@ -117,6 +125,7 @@ class compute_invariant_terms_motion(Operator):
         model_data=None,
         field_coordinates=None,
         nod=None,
+        phi_ortho=None,
         config=None,
         server=None,
     ):
@@ -137,6 +146,8 @@ class compute_invariant_terms_motion(Operator):
             self.inputs.field_coordinates.connect(field_coordinates)
         if nod is not None:
             self.inputs.nod.connect(nod)
+        if phi_ortho is not None:
+            self.inputs.phi_ortho.connect(phi_ortho)
 
     @staticmethod
     def _spec() -> Specification:
@@ -181,6 +192,12 @@ matrices, lumped mass matrix, modes …)
                     type_names=["vector<int32>"],
                     optional=False,
                     document=r"""""",
+                ),
+                6: PinSpecification(
+                    name="phi_ortho",
+                    type_names=["fields_container"],
+                    optional=True,
+                    document=r"""Orthonormalizated modes transformation""",
                 ),
             },
             map_output_pin_spec={
@@ -322,7 +339,7 @@ matrices, lumped mass matrix, modes …)
         inputs:
             An instance of InputsComputeInvariantTermsMotion.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsComputeInvariantTermsMotion:
@@ -333,7 +350,7 @@ matrices, lumped mass matrix, modes …)
         outputs:
             An instance of OutputsComputeInvariantTermsMotion.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsComputeInvariantTermsMotion(_Inputs):
@@ -356,6 +373,8 @@ class InputsComputeInvariantTermsMotion(_Inputs):
     >>> op.inputs.field_coordinates.connect(my_field_coordinates)
     >>> my_nod = dpf.()
     >>> op.inputs.nod.connect(my_nod)
+    >>> my_phi_ortho = dpf.FieldsContainer()
+    >>> op.inputs.phi_ortho.connect(my_phi_ortho)
     """
 
     def __init__(self, op: Operator):
@@ -384,6 +403,10 @@ class InputsComputeInvariantTermsMotion(_Inputs):
             compute_invariant_terms_motion._spec().input_pin(5), 5, op, -1
         )
         self._inputs.append(self._nod)
+        self._phi_ortho = Input(
+            compute_invariant_terms_motion._spec().input_pin(6), 6, op, -1
+        )
+        self._inputs.append(self._phi_ortho)
 
     @property
     def rom_matrices(self) -> Input:
@@ -508,6 +531,27 @@ class InputsComputeInvariantTermsMotion(_Inputs):
         >>> op.inputs.nod(my_nod)
         """
         return self._nod
+
+    @property
+    def phi_ortho(self) -> Input:
+        r"""Allows to connect phi_ortho input to the operator.
+
+        Orthonormalizated modes transformation
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.compute_invariant_terms_motion()
+        >>> op.inputs.phi_ortho.connect(my_phi_ortho)
+        >>> # or
+        >>> op.inputs.phi_ortho(my_phi_ortho)
+        """
+        return self._phi_ortho
 
 
 class OutputsComputeInvariantTermsMotion(_Outputs):

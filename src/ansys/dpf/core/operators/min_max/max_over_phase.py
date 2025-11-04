@@ -63,6 +63,9 @@ class max_over_phase(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsMaxOverPhase
+    _outputs: OutputsMaxOverPhase
+
     def __init__(
         self,
         real_field=None,
@@ -159,7 +162,7 @@ increment in input.
         inputs:
             An instance of InputsMaxOverPhase.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMaxOverPhase:
@@ -170,7 +173,7 @@ increment in input.
         outputs:
             An instance of OutputsMaxOverPhase.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMaxOverPhase(_Inputs):

@@ -54,6 +54,9 @@ class min_max_over_time(Operator):
     >>> result_field_container_2 = op.outputs.field_container_2()
     """
 
+    _inputs: InputsMinMaxOverTime
+    _outputs: OutputsMinMaxOverTime
+
     def __init__(self, fields_container=None, int32=None, config=None, server=None):
         super().__init__(
             name="mechanical::min_max_over_time", config=config, server=server
@@ -134,7 +137,7 @@ class min_max_over_time(Operator):
         inputs:
             An instance of InputsMinMaxOverTime.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMinMaxOverTime:
@@ -145,7 +148,7 @@ class min_max_over_time(Operator):
         outputs:
             An instance of OutputsMinMaxOverTime.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMinMaxOverTime(_Inputs):

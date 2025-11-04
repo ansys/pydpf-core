@@ -49,6 +49,9 @@ class window_blackman_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsWindowBlackmanFc
+    _outputs: OutputsWindowBlackmanFc
+
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="window::blackman_fc", config=config, server=server)
         self._inputs = InputsWindowBlackmanFc(self)
@@ -113,7 +116,7 @@ time_freq_interpolation before otherwise).
         inputs:
             An instance of InputsWindowBlackmanFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsWindowBlackmanFc:
@@ -124,7 +127,7 @@ time_freq_interpolation before otherwise).
         outputs:
             An instance of OutputsWindowBlackmanFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsWindowBlackmanFc(_Inputs):

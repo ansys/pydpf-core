@@ -54,6 +54,9 @@ class dot_tensor(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsDotTensor
+    _outputs: OutputsDotTensor
+
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
         super().__init__(name="dot_tensor", config=config, server=server)
         self._inputs = InputsDotTensor(self)
@@ -125,7 +128,7 @@ dot product between two tensor fields.
         inputs:
             An instance of InputsDotTensor.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsDotTensor:
@@ -136,7 +139,7 @@ dot product between two tensor fields.
         outputs:
             An instance of OutputsDotTensor.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsDotTensor(_Inputs):

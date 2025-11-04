@@ -53,6 +53,9 @@ class rotate(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsRotate
+    _outputs: OutputsRotate
+
     def __init__(
         self, field=None, field_rotation_matrix=None, config=None, server=None
     ):
@@ -125,7 +128,7 @@ class rotate(Operator):
         inputs:
             An instance of InputsRotate.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsRotate:
@@ -136,7 +139,7 @@ class rotate(Operator):
         outputs:
             An instance of OutputsRotate.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsRotate(_Inputs):

@@ -59,6 +59,8 @@ class rom_data_provider(Operator):
         ids of master nodes
     meshed_region: MeshedRegion
         expanded meshed region.
+    phi_ortho: FieldsContainer, optional
+        Orthonormalized mode shape transformation
 
     Examples
     --------
@@ -108,7 +110,11 @@ class rom_data_provider(Operator):
     >>> result_field_coordinates_and_euler_angles = op.outputs.field_coordinates_and_euler_angles()
     >>> result_nod = op.outputs.nod()
     >>> result_meshed_region = op.outputs.meshed_region()
+    >>> result_phi_ortho = op.outputs.phi_ortho()
     """
+
+    _inputs: InputsRomDataProvider
+    _outputs: OutputsRomDataProvider
 
     def __init__(
         self,
@@ -261,6 +267,12 @@ matrices, lumped mass matrix, modes …)
                     optional=False,
                     document=r"""expanded meshed region.""",
                 ),
+                10: PinSpecification(
+                    name="phi_ortho",
+                    type_names=["fields_container"],
+                    optional=True,
+                    document=r"""Orthonormalized mode shape transformation""",
+                ),
             },
         )
         return spec
@@ -295,7 +307,7 @@ matrices, lumped mass matrix, modes …)
         inputs:
             An instance of InputsRomDataProvider.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsRomDataProvider:
@@ -306,7 +318,7 @@ matrices, lumped mass matrix, modes …)
         outputs:
             An instance of OutputsRomDataProvider.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsRomDataProvider(_Inputs):
@@ -550,6 +562,7 @@ class OutputsRomDataProvider(_Outputs):
     >>> result_field_coordinates_and_euler_angles = op.outputs.field_coordinates_and_euler_angles()
     >>> result_nod = op.outputs.nod()
     >>> result_meshed_region = op.outputs.meshed_region()
+    >>> result_phi_ortho = op.outputs.phi_ortho()
     """
 
     def __init__(self, op: Operator):
@@ -576,6 +589,8 @@ class OutputsRomDataProvider(_Outputs):
         self._outputs.append(self._nod)
         self._meshed_region = Output(rom_data_provider._spec().output_pin(9), 9, op)
         self._outputs.append(self._meshed_region)
+        self._phi_ortho = Output(rom_data_provider._spec().output_pin(10), 10, op)
+        self._outputs.append(self._phi_ortho)
 
     @property
     def rom_matrices(self) -> Output:
@@ -774,3 +789,23 @@ class OutputsRomDataProvider(_Outputs):
         >>> result_meshed_region = op.outputs.meshed_region()
         """
         return self._meshed_region
+
+    @property
+    def phi_ortho(self) -> Output:
+        r"""Allows to get phi_ortho output of the operator
+
+        Orthonormalized mode shape transformation
+
+        Returns
+        -------
+        output:
+            An Output instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.rom_data_provider()
+        >>> # Get the output from op.outputs. ...
+        >>> result_phi_ortho = op.outputs.phi_ortho()
+        """
+        return self._phi_ortho

@@ -83,6 +83,9 @@ class specific_heat(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsSpecificHeat
+    _outputs: OutputsSpecificHeat
+
     def __init__(
         self,
         time_scoping=None,
@@ -220,7 +223,7 @@ class specific_heat(Operator):
         inputs:
             An instance of InputsSpecificHeat.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsSpecificHeat:
@@ -231,7 +234,7 @@ class specific_heat(Operator):
         outputs:
             An instance of OutputsSpecificHeat.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsSpecificHeat(_Inputs):

@@ -53,6 +53,9 @@ class mesh_support_provider(Operator):
     >>> result_abstract_field_support = op.outputs.abstract_field_support()
     """
 
+    _inputs: InputsMeshSupportProvider
+    _outputs: OutputsMeshSupportProvider
+
     def __init__(
         self, streams_container=None, data_sources=None, config=None, server=None
     ):
@@ -125,7 +128,7 @@ class mesh_support_provider(Operator):
         inputs:
             An instance of InputsMeshSupportProvider.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMeshSupportProvider:
@@ -136,7 +139,7 @@ class mesh_support_provider(Operator):
         outputs:
             An instance of OutputsMeshSupportProvider.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMeshSupportProvider(_Inputs):

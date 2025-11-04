@@ -53,6 +53,9 @@ class add_constant_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsAddConstantFc
+    _outputs: OutputsAddConstantFc
+
     def __init__(
         self,
         fields_container=None,
@@ -138,7 +141,7 @@ class add_constant_fc(Operator):
         inputs:
             An instance of InputsAddConstantFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsAddConstantFc:
@@ -149,7 +152,7 @@ class add_constant_fc(Operator):
         outputs:
             An instance of OutputsAddConstantFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsAddConstantFc(_Inputs):

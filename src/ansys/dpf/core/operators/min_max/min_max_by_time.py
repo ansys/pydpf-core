@@ -55,6 +55,9 @@ class min_max_by_time(Operator):
     >>> result_max = op.outputs.max()
     """
 
+    _inputs: InputsMinMaxByTime
+    _outputs: OutputsMinMaxByTime
+
     def __init__(
         self,
         fields_container=None,
@@ -138,7 +141,7 @@ each field
         inputs:
             An instance of InputsMinMaxByTime.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMinMaxByTime:
@@ -149,7 +152,7 @@ each field
         outputs:
             An instance of OutputsMinMaxByTime.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMinMaxByTime(_Inputs):

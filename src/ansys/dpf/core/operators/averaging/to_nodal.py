@@ -63,6 +63,9 @@ class to_nodal(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsToNodal
+    _outputs: OutputsToNodal
+
     def __init__(
         self,
         field=None,
@@ -158,7 +161,7 @@ result is computed on a given node’s scoping.
         inputs:
             An instance of InputsToNodal.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsToNodal:
@@ -169,7 +172,7 @@ result is computed on a given node’s scoping.
         outputs:
             An instance of OutputsToNodal.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsToNodal(_Inputs):

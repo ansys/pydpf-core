@@ -67,6 +67,9 @@ class cyclic_analytic_usum_max(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsCyclicAnalyticUsumMax
+    _outputs: OutputsCyclicAnalyticUsumMax
+
     def __init__(
         self,
         time_scoping=None,
@@ -171,7 +174,7 @@ degrees
         inputs:
             An instance of InputsCyclicAnalyticUsumMax.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsCyclicAnalyticUsumMax:
@@ -182,7 +185,7 @@ degrees
         outputs:
             An instance of OutputsCyclicAnalyticUsumMax.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsCyclicAnalyticUsumMax(_Inputs):

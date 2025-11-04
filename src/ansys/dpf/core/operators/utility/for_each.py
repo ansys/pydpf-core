@@ -68,6 +68,9 @@ class for_each(Operator):
     >>> result_output2 = op.outputs.output2()
     """
 
+    _inputs: InputsForEach
+    _outputs: OutputsForEach
+
     def __init__(
         self,
         iterable=None,
@@ -180,7 +183,7 @@ class for_each(Operator):
         inputs:
             An instance of InputsForEach.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsForEach:
@@ -191,7 +194,7 @@ class for_each(Operator):
         outputs:
             An instance of OutputsForEach.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsForEach(_Inputs):

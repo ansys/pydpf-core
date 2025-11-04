@@ -55,6 +55,9 @@ class merge_generic_data_container(Operator):
     >>> result_generic_data_container = op.outputs.generic_data_container()
     """
 
+    _inputs: InputsMergeGenericDataContainer
+    _outputs: OutputsMergeGenericDataContainer
+
     def __init__(
         self,
         generic_data_container1=None,
@@ -137,7 +140,7 @@ cannot be merged, first instance found will be maintained in the result.
         inputs:
             An instance of InputsMergeGenericDataContainer.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMergeGenericDataContainer:
@@ -148,7 +151,7 @@ cannot be merged, first instance found will be maintained in the result.
         outputs:
             An instance of OutputsMergeGenericDataContainer.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMergeGenericDataContainer(_Inputs):

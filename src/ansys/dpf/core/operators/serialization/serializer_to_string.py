@@ -63,6 +63,9 @@ class serializer_to_string(Operator):
     >>> result_serialized_string2 = op.outputs.serialized_string2()
     """
 
+    _inputs: InputsSerializerToString
+    _outputs: OutputsSerializerToString
+
     def __init__(
         self,
         stream_type=None,
@@ -160,7 +163,7 @@ class serializer_to_string(Operator):
         inputs:
             An instance of InputsSerializerToString.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsSerializerToString:
@@ -171,7 +174,7 @@ class serializer_to_string(Operator):
         outputs:
             An instance of OutputsSerializerToString.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsSerializerToString(_Inputs):

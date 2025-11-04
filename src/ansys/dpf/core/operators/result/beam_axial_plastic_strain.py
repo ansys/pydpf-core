@@ -74,6 +74,9 @@ class beam_axial_plastic_strain(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsBeamAxialPlasticStrain
+    _outputs: OutputsBeamAxialPlasticStrain
+
     def __init__(
         self,
         time_scoping=None,
@@ -198,7 +201,7 @@ by the datasources.
         inputs:
             An instance of InputsBeamAxialPlasticStrain.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsBeamAxialPlasticStrain:
@@ -209,7 +212,7 @@ by the datasources.
         outputs:
             An instance of OutputsBeamAxialPlasticStrain.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsBeamAxialPlasticStrain(_Inputs):

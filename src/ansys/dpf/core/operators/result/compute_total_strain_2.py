@@ -97,6 +97,9 @@ class compute_total_strain_2(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsComputeTotalStrain2
+    _outputs: OutputsComputeTotalStrain2
+
     def __init__(
         self,
         time_scoping=None,
@@ -251,7 +254,7 @@ the database. Get the 2nd principal component.
         inputs:
             An instance of InputsComputeTotalStrain2.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsComputeTotalStrain2:
@@ -262,7 +265,7 @@ the database. Get the 2nd principal component.
         outputs:
             An instance of OutputsComputeTotalStrain2.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsComputeTotalStrain2(_Inputs):

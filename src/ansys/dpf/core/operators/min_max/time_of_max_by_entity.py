@@ -57,6 +57,9 @@ class time_of_max_by_entity(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsTimeOfMaxByEntity
+    _outputs: OutputsTimeOfMaxByEntity
+
     def __init__(
         self,
         fields_container=None,
@@ -142,7 +145,7 @@ class time_of_max_by_entity(Operator):
         inputs:
             An instance of InputsTimeOfMaxByEntity.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsTimeOfMaxByEntity:
@@ -153,7 +156,7 @@ class time_of_max_by_entity(Operator):
         outputs:
             An instance of OutputsTimeOfMaxByEntity.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsTimeOfMaxByEntity(_Inputs):

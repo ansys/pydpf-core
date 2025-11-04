@@ -69,6 +69,9 @@ class beam_s_bending_moment(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsBeamSBendingMoment
+    _outputs: OutputsBeamSBendingMoment
+
     def __init__(
         self,
         time_scoping=None,
@@ -184,7 +187,7 @@ datasources.
         inputs:
             An instance of InputsBeamSBendingMoment.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsBeamSBendingMoment:
@@ -195,7 +198,7 @@ datasources.
         outputs:
             An instance of OutputsBeamSBendingMoment.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsBeamSBendingMoment(_Inputs):

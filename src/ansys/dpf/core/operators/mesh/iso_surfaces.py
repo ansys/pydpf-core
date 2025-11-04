@@ -74,6 +74,9 @@ class iso_surfaces(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsIsoSurfaces
+    _outputs: OutputsIsoSurfaces
+
     def __init__(
         self,
         field=None,
@@ -187,7 +190,7 @@ are stored into a FieldsContainer.
         inputs:
             An instance of InputsIsoSurfaces.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsIsoSurfaces:
@@ -198,7 +201,7 @@ are stored into a FieldsContainer.
         outputs:
             An instance of OutputsIsoSurfaces.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsIsoSurfaces(_Inputs):

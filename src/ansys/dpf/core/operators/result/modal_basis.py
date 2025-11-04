@@ -79,6 +79,9 @@ class modal_basis(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsModalBasis
+    _outputs: OutputsModalBasis
+
     def __init__(
         self,
         time_scoping=None,
@@ -208,7 +211,7 @@ datasources.
         inputs:
             An instance of InputsModalBasis.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsModalBasis:
@@ -219,7 +222,7 @@ datasources.
         outputs:
             An instance of OutputsModalBasis.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsModalBasis(_Inputs):

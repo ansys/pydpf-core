@@ -53,6 +53,9 @@ class merge_to_field_matrix(Operator):
     >>> result_merged_field_matrix = op.outputs.merged_field_matrix()
     """
 
+    _inputs: InputsMergeToFieldMatrix
+    _outputs: OutputsMergeToFieldMatrix
+
     def __init__(self, fields1=None, fields2=None, config=None, server=None):
         super().__init__(name="merge::to_field_matrix", config=config, server=server)
         self._inputs = InputsMergeToFieldMatrix(self)
@@ -123,7 +126,7 @@ class merge_to_field_matrix(Operator):
         inputs:
             An instance of InputsMergeToFieldMatrix.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMergeToFieldMatrix:
@@ -134,7 +137,7 @@ class merge_to_field_matrix(Operator):
         outputs:
             An instance of OutputsMergeToFieldMatrix.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMergeToFieldMatrix(_Inputs):

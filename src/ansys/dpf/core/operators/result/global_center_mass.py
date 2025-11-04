@@ -59,6 +59,9 @@ class global_center_mass(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsGlobalCenterMass
+    _outputs: OutputsGlobalCenterMass
+
     def __init__(
         self,
         streams_container=None,
@@ -149,7 +152,7 @@ the datasources.
         inputs:
             An instance of InputsGlobalCenterMass.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsGlobalCenterMass:
@@ -160,7 +163,7 @@ the datasources.
         outputs:
             An instance of OutputsGlobalCenterMass.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsGlobalCenterMass(_Inputs):

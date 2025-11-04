@@ -57,6 +57,9 @@ class coordinate_system(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsCoordinateSystem
+    _outputs: OutputsCoordinateSystem
+
     def __init__(
         self,
         cs_id=None,
@@ -148,7 +151,7 @@ class coordinate_system(Operator):
         inputs:
             An instance of InputsCoordinateSystem.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsCoordinateSystem:
@@ -159,7 +162,7 @@ class coordinate_system(Operator):
         outputs:
             An instance of OutputsCoordinateSystem.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsCoordinateSystem(_Inputs):

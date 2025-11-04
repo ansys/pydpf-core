@@ -61,6 +61,9 @@ class rotate_in_cylindrical_cs(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsRotateInCylindricalCs
+    _outputs: OutputsRotateInCylindricalCs
+
     def __init__(
         self, field=None, coordinate_system=None, mesh=None, config=None, server=None
     ):
@@ -144,7 +147,7 @@ is rotated on each node following the local polar coordinate system.
         inputs:
             An instance of InputsRotateInCylindricalCs.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsRotateInCylindricalCs:
@@ -155,7 +158,7 @@ is rotated on each node following the local polar coordinate system.
         outputs:
             An instance of OutputsRotateInCylindricalCs.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsRotateInCylindricalCs(_Inputs):

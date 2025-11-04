@@ -67,6 +67,9 @@ class from_scoping(Operator):
     >>> result_mesh = op.outputs.mesh()
     """
 
+    _inputs: InputsFromScoping
+    _outputs: OutputsFromScoping
+
     def __init__(
         self,
         scoping=None,
@@ -166,7 +169,7 @@ the rest of the property fields are not present in the output mesh.
         inputs:
             An instance of InputsFromScoping.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsFromScoping:
@@ -177,7 +180,7 @@ the rest of the property fields are not present in the output mesh.
         outputs:
             An instance of OutputsFromScoping.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsFromScoping(_Inputs):

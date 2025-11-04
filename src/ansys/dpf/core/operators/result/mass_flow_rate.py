@@ -83,6 +83,9 @@ class mass_flow_rate(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsMassFlowRate
+    _outputs: OutputsMassFlowRate
+
     def __init__(
         self,
         time_scoping=None,
@@ -220,7 +223,7 @@ class mass_flow_rate(Operator):
         inputs:
             An instance of InputsMassFlowRate.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMassFlowRate:
@@ -231,7 +234,7 @@ class mass_flow_rate(Operator):
         outputs:
             An instance of OutputsMassFlowRate.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMassFlowRate(_Inputs):

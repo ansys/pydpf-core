@@ -91,6 +91,9 @@ class compute_residual_and_error(Operator):
     >>> result_error_normalization_factor = op.outputs.error_normalization_factor()
     """
 
+    _inputs: InputsComputeResidualAndError
+    _outputs: OutputsComputeResidualAndError
+
     def __init__(
         self,
         field_or_fields_container1=None,
@@ -224,7 +227,7 @@ of error norm (L1 vs L2), and pin 3 which entity to use as a reference
         inputs:
             An instance of InputsComputeResidualAndError.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsComputeResidualAndError:
@@ -235,7 +238,7 @@ of error norm (L1 vs L2), and pin 3 which entity to use as a reference
         outputs:
             An instance of OutputsComputeResidualAndError.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsComputeResidualAndError(_Inputs):

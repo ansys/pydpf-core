@@ -58,6 +58,9 @@ class component_transformer(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsComponentTransformer
+    _outputs: OutputsComponentTransformer
+
     def __init__(
         self,
         field=None,
@@ -144,7 +147,7 @@ components.
         inputs:
             An instance of InputsComponentTransformer.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsComponentTransformer:
@@ -155,7 +158,7 @@ components.
         outputs:
             An instance of OutputsComponentTransformer.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsComponentTransformer(_Inputs):

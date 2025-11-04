@@ -53,6 +53,9 @@ class extend_to_mid_nodes(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsExtendToMidNodes
+    _outputs: OutputsExtendToMidNodes
+
     def __init__(self, field=None, mesh=None, config=None, server=None):
         super().__init__(name="extend_to_mid_nodes", config=config, server=server)
         self._inputs = InputsExtendToMidNodes(self)
@@ -124,7 +127,7 @@ field defined also on the mid nodes.
         inputs:
             An instance of InputsExtendToMidNodes.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsExtendToMidNodes:
@@ -135,7 +138,7 @@ field defined also on the mid nodes.
         outputs:
             An instance of OutputsExtendToMidNodes.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsExtendToMidNodes(_Inputs):

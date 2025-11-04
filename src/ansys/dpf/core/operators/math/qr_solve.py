@@ -53,6 +53,9 @@ class qr_solve(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsQrSolve
+    _outputs: OutputsQrSolve
+
     def __init__(self, fields_container=None, rhs=None, config=None, server=None):
         super().__init__(name="qrsolveOp", config=config, server=server)
         self._inputs = InputsQrSolve(self)
@@ -123,7 +126,7 @@ class qr_solve(Operator):
         inputs:
             An instance of InputsQrSolve.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsQrSolve:
@@ -134,7 +137,7 @@ class qr_solve(Operator):
         outputs:
             An instance of OutputsQrSolve.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsQrSolve(_Inputs):

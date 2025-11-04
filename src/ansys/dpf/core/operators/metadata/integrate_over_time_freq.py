@@ -57,6 +57,9 @@ class integrate_over_time_freq(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsIntegrateOverTimeFreq
+    _outputs: OutputsIntegrateOverTimeFreq
+
     def __init__(
         self, field=None, scoping=None, time_freq_support=None, config=None, server=None
     ):
@@ -137,7 +140,7 @@ class integrate_over_time_freq(Operator):
         inputs:
             An instance of InputsIntegrateOverTimeFreq.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsIntegrateOverTimeFreq:
@@ -148,7 +151,7 @@ class integrate_over_time_freq(Operator):
         outputs:
             An instance of OutputsIntegrateOverTimeFreq.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsIntegrateOverTimeFreq(_Inputs):

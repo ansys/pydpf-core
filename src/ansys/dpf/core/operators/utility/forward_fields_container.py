@@ -47,6 +47,9 @@ class forward_fields_container(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsForwardFieldsContainer
+    _outputs: OutputsForwardFieldsContainer
+
     def __init__(self, fields=None, config=None, server=None):
         super().__init__(name="forward_fc", config=config, server=server)
         self._inputs = InputsForwardFieldsContainer(self)
@@ -109,7 +112,7 @@ class forward_fields_container(Operator):
         inputs:
             An instance of InputsForwardFieldsContainer.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsForwardFieldsContainer:
@@ -120,7 +123,7 @@ class forward_fields_container(Operator):
         outputs:
             An instance of OutputsForwardFieldsContainer.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsForwardFieldsContainer(_Inputs):

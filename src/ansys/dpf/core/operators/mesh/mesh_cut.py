@@ -68,6 +68,9 @@ class mesh_cut(Operator):
     >>> result_mesh = op.outputs.mesh()
     """
 
+    _inputs: InputsMeshCut
+    _outputs: OutputsMeshCut
+
     def __init__(
         self,
         field=None,
@@ -171,7 +174,7 @@ class mesh_cut(Operator):
         inputs:
             An instance of InputsMeshCut.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMeshCut:
@@ -182,7 +185,7 @@ class mesh_cut(Operator):
         outputs:
             An instance of OutputsMeshCut.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMeshCut(_Inputs):

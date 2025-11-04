@@ -16,16 +16,21 @@ from ansys.dpf.core.server_types import AnyServerType
 
 
 class quantization(Operator):
-    r"""Applies scaling to precision to all the values from field input, then
-    rounding to the unit.
+    r"""Scales a field to a given precision threshold, then rounds all the
+    values to the unit.
 
 
     Parameters
     ----------
     input_field: Field
-        Input field
-    threshold: float
-        Threshold (precision) desired.
+        Field to quantize.
+    threshold: float or Field
+        Precision threshold desired.
+        Case double : the threshold is applied on all the input field.
+        Case field with one value : the threshold is applied on all the input field.
+        Case field with "numComp" values : each threhsold is applied to the corresponding component of the input field.
+        Case field with the same number of values than the input field : quantization is performed component-wise.
+
 
     Returns
     -------
@@ -55,6 +60,9 @@ class quantization(Operator):
     >>> result_output_field = op.outputs.output_field()
     """
 
+    _inputs: InputsQuantization
+    _outputs: OutputsQuantization
+
     def __init__(self, input_field=None, threshold=None, config=None, server=None):
         super().__init__(name="quantization", config=config, server=server)
         self._inputs = InputsQuantization(self)
@@ -66,8 +74,8 @@ class quantization(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Applies scaling to precision to all the values from field input, then
-rounding to the unit.
+        description = r"""Scales a field to a given precision threshold, then rounds all the
+values to the unit.
 """
         spec = Specification(
             description=description,
@@ -76,13 +84,18 @@ rounding to the unit.
                     name="input_field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""Input field""",
+                    document=r"""Field to quantize.""",
                 ),
                 1: PinSpecification(
                     name="threshold",
-                    type_names=["double"],
+                    type_names=["double", "field"],
                     optional=False,
-                    document=r"""Threshold (precision) desired.""",
+                    document=r"""Precision threshold desired.
+Case double : the threshold is applied on all the input field.
+Case field with one value : the threshold is applied on all the input field.
+Case field with "numComp" values : each threhsold is applied to the corresponding component of the input field.
+Case field with the same number of values than the input field : quantization is performed component-wise.
+""",
                 ),
             },
             map_output_pin_spec={
@@ -126,7 +139,7 @@ rounding to the unit.
         inputs:
             An instance of InputsQuantization.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsQuantization:
@@ -137,7 +150,7 @@ rounding to the unit.
         outputs:
             An instance of OutputsQuantization.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsQuantization(_Inputs):
@@ -165,7 +178,7 @@ class InputsQuantization(_Inputs):
     def input_field(self) -> Input:
         r"""Allows to connect input_field input to the operator.
 
-        Input field
+        Field to quantize.
 
         Returns
         -------
@@ -186,7 +199,12 @@ class InputsQuantization(_Inputs):
     def threshold(self) -> Input:
         r"""Allows to connect threshold input to the operator.
 
-        Threshold (precision) desired.
+        Precision threshold desired.
+        Case double : the threshold is applied on all the input field.
+        Case field with one value : the threshold is applied on all the input field.
+        Case field with "numComp" values : each threhsold is applied to the corresponding component of the input field.
+        Case field with the same number of values than the input field : quantization is performed component-wise.
+
 
         Returns
         -------

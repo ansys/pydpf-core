@@ -53,6 +53,9 @@ class identical_property_fields(Operator):
     >>> result_information = op.outputs.information()
     """
 
+    _inputs: InputsIdenticalPropertyFields
+    _outputs: OutputsIdenticalPropertyFields
+
     def __init__(
         self, property_fieldA=None, property_fieldB=None, config=None, server=None
     ):
@@ -131,7 +134,7 @@ class identical_property_fields(Operator):
         inputs:
             An instance of InputsIdenticalPropertyFields.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsIdenticalPropertyFields:
@@ -142,7 +145,7 @@ class identical_property_fields(Operator):
         outputs:
             An instance of OutputsIdenticalPropertyFields.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsIdenticalPropertyFields(_Inputs):

@@ -47,6 +47,9 @@ class meshes_container(Operator):
     >>> result_incremented_result = op.outputs.incremented_result()
     """
 
+    _inputs: InputsMeshesContainer
+    _outputs: OutputsMeshesContainer
+
     def __init__(self, input=None, config=None, server=None):
         super().__init__(
             name="incremental::merge::meshes_container", config=config, server=server
@@ -112,7 +115,7 @@ class meshes_container(Operator):
         inputs:
             An instance of InputsMeshesContainer.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMeshesContainer:
@@ -123,7 +126,7 @@ class meshes_container(Operator):
         outputs:
             An instance of OutputsMeshesContainer.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMeshesContainer(_Inputs):

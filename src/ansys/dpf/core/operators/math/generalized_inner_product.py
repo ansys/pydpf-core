@@ -54,6 +54,9 @@ class generalized_inner_product(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsGeneralizedInnerProduct
+    _outputs: OutputsGeneralizedInnerProduct
+
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
         super().__init__(name="generalized_inner_product", config=config, server=server)
         self._inputs = InputsGeneralizedInnerProduct(self)
@@ -135,7 +138,7 @@ possibly different dimensionality.
         inputs:
             An instance of InputsGeneralizedInnerProduct.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsGeneralizedInnerProduct:
@@ -146,7 +149,7 @@ possibly different dimensionality.
         outputs:
             An instance of OutputsGeneralizedInnerProduct.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsGeneralizedInnerProduct(_Inputs):

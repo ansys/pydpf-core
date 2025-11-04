@@ -50,6 +50,9 @@ class window_hamming(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsWindowHamming
+    _outputs: OutputsWindowHamming
+
     def __init__(self, field=None, config=None, server=None):
         super().__init__(name="window::hamming", config=config, server=server)
         self._inputs = InputsWindowHamming(self)
@@ -114,7 +117,7 @@ time_freq_interpolation before otherwise).
         inputs:
             An instance of InputsWindowHamming.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsWindowHamming:
@@ -125,7 +128,7 @@ time_freq_interpolation before otherwise).
         outputs:
             An instance of OutputsWindowHamming.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsWindowHamming(_Inputs):

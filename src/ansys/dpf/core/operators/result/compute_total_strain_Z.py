@@ -97,6 +97,9 @@ class compute_total_strain_Z(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsComputeTotalStrainZ
+    _outputs: OutputsComputeTotalStrainZ
+
     def __init__(
         self,
         time_scoping=None,
@@ -251,7 +254,7 @@ the database. Get the ZZ normal component (22 component).
         inputs:
             An instance of InputsComputeTotalStrainZ.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsComputeTotalStrainZ:
@@ -262,7 +265,7 @@ the database. Get the ZZ normal component (22 component).
         outputs:
             An instance of OutputsComputeTotalStrainZ.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsComputeTotalStrainZ(_Inputs):

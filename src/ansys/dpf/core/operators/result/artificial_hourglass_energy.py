@@ -79,6 +79,9 @@ class artificial_hourglass_energy(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsArtificialHourglassEnergy
+    _outputs: OutputsArtificialHourglassEnergy
+
     def __init__(
         self,
         time_scoping=None,
@@ -208,7 +211,7 @@ by the datasources.
         inputs:
             An instance of InputsArtificialHourglassEnergy.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsArtificialHourglassEnergy:
@@ -219,7 +222,7 @@ by the datasources.
         outputs:
             An instance of OutputsArtificialHourglassEnergy.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsArtificialHourglassEnergy(_Inputs):

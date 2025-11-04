@@ -59,6 +59,9 @@ class field_low_pass(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsFieldLowPass
+    _outputs: OutputsFieldLowPass
+
     def __init__(self, field=None, threshold=None, both=None, config=None, server=None):
         super().__init__(name="core::field::low_pass", config=config, server=server)
         self._inputs = InputsFieldLowPass(self)
@@ -138,7 +141,7 @@ threshold value in input.
         inputs:
             An instance of InputsFieldLowPass.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsFieldLowPass:
@@ -149,7 +152,7 @@ threshold value in input.
         outputs:
             An instance of OutputsFieldLowPass.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsFieldLowPass(_Inputs):

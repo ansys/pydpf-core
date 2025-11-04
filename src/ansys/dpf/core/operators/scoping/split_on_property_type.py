@@ -77,6 +77,9 @@ class split_on_property_type(Operator):
     >>> result_mesh_scoping = op.outputs.mesh_scoping()
     """
 
+    _inputs: InputsSplitOnPropertyType
+    _outputs: OutputsSplitOnPropertyType
+
     def __init__(
         self,
         mesh_scoping=None,
@@ -192,7 +195,7 @@ scopings container with those split scopings.
         inputs:
             An instance of InputsSplitOnPropertyType.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsSplitOnPropertyType:
@@ -203,7 +206,7 @@ scopings container with those split scopings.
         outputs:
             An instance of OutputsSplitOnPropertyType.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsSplitOnPropertyType(_Inputs):

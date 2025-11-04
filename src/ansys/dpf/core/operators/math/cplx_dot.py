@@ -51,6 +51,9 @@ class cplx_dot(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsCplxDot
+    _outputs: OutputsCplxDot
+
     def __init__(
         self, fields_containerA=None, fields_containerB=None, config=None, server=None
     ):
@@ -123,7 +126,7 @@ class cplx_dot(Operator):
         inputs:
             An instance of InputsCplxDot.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsCplxDot:
@@ -134,7 +137,7 @@ class cplx_dot(Operator):
         outputs:
             An instance of OutputsCplxDot.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsCplxDot(_Inputs):

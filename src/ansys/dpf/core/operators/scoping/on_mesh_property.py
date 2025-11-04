@@ -67,6 +67,9 @@ class on_mesh_property(Operator):
     >>> result_mesh_scoping = op.outputs.mesh_scoping()
     """
 
+    _inputs: InputsOnMeshProperty
+    _outputs: OutputsOnMeshProperty
+
     def __init__(
         self,
         requested_location=None,
@@ -174,7 +177,7 @@ class on_mesh_property(Operator):
         inputs:
             An instance of InputsOnMeshProperty.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsOnMeshProperty:
@@ -185,7 +188,7 @@ class on_mesh_property(Operator):
         outputs:
             An instance of OutputsOnMeshProperty.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsOnMeshProperty(_Inputs):

@@ -54,6 +54,9 @@ class global_to_nodal(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsGlobalToNodal
+    _outputs: OutputsGlobalToNodal
+
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
         super().__init__(name="GlobalToNodal", config=config, server=server)
         self._inputs = InputsGlobalToNodal(self)
@@ -124,7 +127,7 @@ class global_to_nodal(Operator):
         inputs:
             An instance of InputsGlobalToNodal.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsGlobalToNodal:
@@ -135,7 +138,7 @@ class global_to_nodal(Operator):
         outputs:
             An instance of OutputsGlobalToNodal.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsGlobalToNodal(_Inputs):

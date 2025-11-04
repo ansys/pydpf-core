@@ -154,6 +154,8 @@ class gasket_thermal_closure(Operator):
         If true, this pin forces the results to be split by element shape, indicated by the presence of the 'elshape' label in the output. If false, the results for all elements shapes are combined. Default value is false if averaging is not required and true if averaging is required.
     shell_layer: int, optional
         If connected, this pin allows you to extract the result only on the selected shell layer(s). The available values are: 0: Top, 1: Bottom, 2: TopBottom, 3: Mid, 4: TopBottomMid.
+    extend_to_mid_nodes: bool, optional
+        Compute mid nodes (when available) by averaging the neighbour corner nodes. Default: True
 
     Returns
     -------
@@ -187,6 +189,8 @@ class gasket_thermal_closure(Operator):
     >>> op.inputs.split_shells.connect(my_split_shells)
     >>> my_shell_layer = int()
     >>> op.inputs.shell_layer.connect(my_shell_layer)
+    >>> my_extend_to_mid_nodes = bool()
+    >>> op.inputs.extend_to_mid_nodes.connect(my_extend_to_mid_nodes)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.gasket_thermal_closure(
@@ -200,11 +204,15 @@ class gasket_thermal_closure(Operator):
     ...     requested_location=my_requested_location,
     ...     split_shells=my_split_shells,
     ...     shell_layer=my_shell_layer,
+    ...     extend_to_mid_nodes=my_extend_to_mid_nodes,
     ... )
 
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsGasketThermalClosure
+    _outputs: OutputsGasketThermalClosure
 
     def __init__(
         self,
@@ -218,6 +226,7 @@ class gasket_thermal_closure(Operator):
         requested_location=None,
         split_shells=None,
         shell_layer=None,
+        extend_to_mid_nodes=None,
         config=None,
         server=None,
     ):
@@ -244,6 +253,8 @@ class gasket_thermal_closure(Operator):
             self.inputs.split_shells.connect(split_shells)
         if shell_layer is not None:
             self.inputs.shell_layer.connect(shell_layer)
+        if extend_to_mid_nodes is not None:
+            self.inputs.extend_to_mid_nodes.connect(extend_to_mid_nodes)
 
     @staticmethod
     def _spec() -> Specification:
@@ -432,6 +443,12 @@ elshape Related elements
                     optional=True,
                     document=r"""If connected, this pin allows you to extract the result only on the selected shell layer(s). The available values are: 0: Top, 1: Bottom, 2: TopBottom, 3: Mid, 4: TopBottomMid.""",
                 ),
+                28: PinSpecification(
+                    name="extend_to_mid_nodes",
+                    type_names=["bool"],
+                    optional=True,
+                    document=r"""Compute mid nodes (when available) by averaging the neighbour corner nodes. Default: True""",
+                ),
             },
             map_output_pin_spec={
                 0: PinSpecification(
@@ -474,7 +491,7 @@ elshape Related elements
         inputs:
             An instance of InputsGasketThermalClosure.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsGasketThermalClosure:
@@ -485,7 +502,7 @@ elshape Related elements
         outputs:
             An instance of OutputsGasketThermalClosure.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsGasketThermalClosure(_Inputs):
@@ -516,6 +533,8 @@ class InputsGasketThermalClosure(_Inputs):
     >>> op.inputs.split_shells.connect(my_split_shells)
     >>> my_shell_layer = int()
     >>> op.inputs.shell_layer.connect(my_shell_layer)
+    >>> my_extend_to_mid_nodes = bool()
+    >>> op.inputs.extend_to_mid_nodes.connect(my_extend_to_mid_nodes)
     """
 
     def __init__(self, op: Operator):
@@ -558,6 +577,10 @@ class InputsGasketThermalClosure(_Inputs):
             gasket_thermal_closure._spec().input_pin(27), 27, op, -1
         )
         self._inputs.append(self._shell_layer)
+        self._extend_to_mid_nodes = Input(
+            gasket_thermal_closure._spec().input_pin(28), 28, op, -1
+        )
+        self._inputs.append(self._extend_to_mid_nodes)
 
     @property
     def time_scoping(self) -> Input:
@@ -768,6 +791,27 @@ class InputsGasketThermalClosure(_Inputs):
         >>> op.inputs.shell_layer(my_shell_layer)
         """
         return self._shell_layer
+
+    @property
+    def extend_to_mid_nodes(self) -> Input:
+        r"""Allows to connect extend_to_mid_nodes input to the operator.
+
+        Compute mid nodes (when available) by averaging the neighbour corner nodes. Default: True
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.gasket_thermal_closure()
+        >>> op.inputs.extend_to_mid_nodes.connect(my_extend_to_mid_nodes)
+        >>> # or
+        >>> op.inputs.extend_to_mid_nodes(my_extend_to_mid_nodes)
+        """
+        return self._extend_to_mid_nodes
 
 
 class OutputsGasketThermalClosure(_Outputs):

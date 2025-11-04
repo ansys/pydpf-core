@@ -52,6 +52,9 @@ class delegate_to_operator(Operator):
     >>> result_any2 = op.outputs.any2()
     """
 
+    _inputs: InputsDelegateToOperator
+    _outputs: OutputsDelegateToOperator
+
     def __init__(self, operator_name=None, config=None, server=None):
         super().__init__(name="delegate_to_operator", config=config, server=server)
         self._inputs = InputsDelegateToOperator(self)
@@ -121,7 +124,7 @@ class delegate_to_operator(Operator):
         inputs:
             An instance of InputsDelegateToOperator.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsDelegateToOperator:
@@ -132,7 +135,7 @@ class delegate_to_operator(Operator):
         outputs:
             An instance of OutputsDelegateToOperator.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsDelegateToOperator(_Inputs):

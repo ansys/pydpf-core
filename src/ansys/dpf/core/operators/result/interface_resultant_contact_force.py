@@ -64,6 +64,9 @@ class interface_resultant_contact_force(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsInterfaceResultantContactForce
+    _outputs: OutputsInterfaceResultantContactForce
+
     def __init__(
         self,
         streams_container=None,
@@ -163,7 +166,7 @@ defined by the datasources.
         inputs:
             An instance of InputsInterfaceResultantContactForce.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsInterfaceResultantContactForce:
@@ -174,7 +177,7 @@ defined by the datasources.
         outputs:
             An instance of OutputsInterfaceResultantContactForce.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsInterfaceResultantContactForce(_Inputs):

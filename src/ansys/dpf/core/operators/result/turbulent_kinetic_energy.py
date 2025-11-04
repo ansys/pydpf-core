@@ -84,6 +84,9 @@ class turbulent_kinetic_energy(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsTurbulentKineticEnergy
+    _outputs: OutputsTurbulentKineticEnergy
+
     def __init__(
         self,
         time_scoping=None,
@@ -222,7 +225,7 @@ datasources.
         inputs:
             An instance of InputsTurbulentKineticEnergy.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsTurbulentKineticEnergy:
@@ -233,7 +236,7 @@ datasources.
         outputs:
             An instance of OutputsTurbulentKineticEnergy.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsTurbulentKineticEnergy(_Inputs):

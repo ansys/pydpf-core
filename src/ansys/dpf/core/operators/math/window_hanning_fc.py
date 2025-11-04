@@ -49,6 +49,9 @@ class window_hanning_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsWindowHanningFc
+    _outputs: OutputsWindowHanningFc
+
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="window::hanning_fc", config=config, server=server)
         self._inputs = InputsWindowHanningFc(self)
@@ -113,7 +116,7 @@ time_freq_interpolation before otherwise).
         inputs:
             An instance of InputsWindowHanningFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsWindowHanningFc:
@@ -124,7 +127,7 @@ time_freq_interpolation before otherwise).
         outputs:
             An instance of OutputsWindowHanningFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsWindowHanningFc(_Inputs):

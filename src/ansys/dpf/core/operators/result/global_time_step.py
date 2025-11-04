@@ -59,6 +59,9 @@ class global_time_step(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsGlobalTimeStep
+    _outputs: OutputsGlobalTimeStep
+
     def __init__(
         self,
         streams_container=None,
@@ -149,7 +152,7 @@ datasources.
         inputs:
             An instance of InputsGlobalTimeStep.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsGlobalTimeStep:
@@ -160,7 +163,7 @@ datasources.
         outputs:
             An instance of OutputsGlobalTimeStep.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsGlobalTimeStep(_Inputs):

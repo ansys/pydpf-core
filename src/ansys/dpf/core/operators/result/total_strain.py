@@ -79,6 +79,9 @@ class total_strain(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsTotalStrain
+    _outputs: OutputsTotalStrain
+
     def __init__(
         self,
         time_scoping=None,
@@ -208,7 +211,7 @@ datasources.
         inputs:
             An instance of InputsTotalStrain.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsTotalStrain:
@@ -219,7 +222,7 @@ datasources.
         outputs:
             An instance of OutputsTotalStrain.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsTotalStrain(_Inputs):

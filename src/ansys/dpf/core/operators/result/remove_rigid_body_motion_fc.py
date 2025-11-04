@@ -69,6 +69,9 @@ class remove_rigid_body_motion_fc(Operator):
     >>> result_center_field = op.outputs.center_field()
     """
 
+    _inputs: InputsRemoveRigidBodyMotionFc
+    _outputs: OutputsRemoveRigidBodyMotionFc
+
     def __init__(
         self,
         fields_container=None,
@@ -174,7 +177,7 @@ result displacement field.
         inputs:
             An instance of InputsRemoveRigidBodyMotionFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsRemoveRigidBodyMotionFc:
@@ -185,7 +188,7 @@ result displacement field.
         outputs:
             An instance of OutputsRemoveRigidBodyMotionFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsRemoveRigidBodyMotionFc(_Inputs):

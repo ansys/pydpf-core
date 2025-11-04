@@ -79,6 +79,9 @@ class raw_reaction_force(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsRawReactionForce
+    _outputs: OutputsRawReactionForce
+
     def __init__(
         self,
         time_scoping=None,
@@ -208,7 +211,7 @@ the readers defined by the datasources.
         inputs:
             An instance of InputsRawReactionForce.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsRawReactionForce:
@@ -219,7 +222,7 @@ the readers defined by the datasources.
         outputs:
             An instance of OutputsRawReactionForce.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsRawReactionForce(_Inputs):

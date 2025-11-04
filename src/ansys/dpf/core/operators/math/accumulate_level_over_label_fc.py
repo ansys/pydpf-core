@@ -28,7 +28,7 @@ class accumulate_level_over_label_fc(Operator):
     ----------
     fields_container: FieldsContainer
     label: str, optional
-        Label of the fields container where it should operate.
+        Label of the fields container where it should operate. If not defined and the input Fields Container has only one Label, the operation will be done over all the fields.
 
     Returns
     -------
@@ -56,6 +56,9 @@ class accumulate_level_over_label_fc(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsAccumulateLevelOverLabelFc
+    _outputs: OutputsAccumulateLevelOverLabelFc
 
     def __init__(self, fields_container=None, label=None, config=None, server=None):
         super().__init__(
@@ -90,7 +93,7 @@ inputs.
                     name="label",
                     type_names=["string"],
                     optional=True,
-                    document=r"""Label of the fields container where it should operate.""",
+                    document=r"""Label of the fields container where it should operate. If not defined and the input Fields Container has only one Label, the operation will be done over all the fields.""",
                 ),
             },
             map_output_pin_spec={
@@ -136,7 +139,7 @@ inputs.
         inputs:
             An instance of InputsAccumulateLevelOverLabelFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsAccumulateLevelOverLabelFc:
@@ -147,7 +150,7 @@ inputs.
         outputs:
             An instance of OutputsAccumulateLevelOverLabelFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsAccumulateLevelOverLabelFc(_Inputs):
@@ -198,7 +201,7 @@ class InputsAccumulateLevelOverLabelFc(_Inputs):
     def label(self) -> Input:
         r"""Allows to connect label input to the operator.
 
-        Label of the fields container where it should operate.
+        Label of the fields container where it should operate. If not defined and the input Fields Container has only one Label, the operation will be done over all the fields.
 
         Returns
         -------

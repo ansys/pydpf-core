@@ -47,6 +47,9 @@ class txt_to_data_tree(Operator):
     >>> result_data_tree = op.outputs.data_tree()
     """
 
+    _inputs: InputsTxtToDataTree
+    _outputs: OutputsTxtToDataTree
+
     def __init__(self, string_or_path=None, config=None, server=None):
         super().__init__(name="txt_to_data_tree", config=config, server=server)
         self._inputs = InputsTxtToDataTree(self)
@@ -109,7 +112,7 @@ class txt_to_data_tree(Operator):
         inputs:
             An instance of InputsTxtToDataTree.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsTxtToDataTree:
@@ -120,7 +123,7 @@ class txt_to_data_tree(Operator):
         outputs:
             An instance of OutputsTxtToDataTree.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsTxtToDataTree(_Inputs):

@@ -53,6 +53,9 @@ class material_property_of_element(Operator):
     >>> result_material_properties = op.outputs.material_properties()
     """
 
+    _inputs: InputsMaterialPropertyOfElement
+    _outputs: OutputsMaterialPropertyOfElement
+
     def __init__(
         self, streams_container=None, data_sources=None, config=None, server=None
     ):
@@ -126,7 +129,7 @@ material properties.
         inputs:
             An instance of InputsMaterialPropertyOfElement.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMaterialPropertyOfElement:
@@ -137,7 +140,7 @@ material properties.
         outputs:
             An instance of OutputsMaterialPropertyOfElement.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMaterialPropertyOfElement(_Inputs):

@@ -79,6 +79,9 @@ class joint_relative_velocity(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsJointRelativeVelocity
+    _outputs: OutputsJointRelativeVelocity
+
     def __init__(
         self,
         time_scoping=None,
@@ -208,7 +211,7 @@ the datasources.
         inputs:
             An instance of InputsJointRelativeVelocity.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsJointRelativeVelocity:
@@ -219,7 +222,7 @@ the datasources.
         outputs:
             An instance of OutputsJointRelativeVelocity.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsJointRelativeVelocity(_Inputs):

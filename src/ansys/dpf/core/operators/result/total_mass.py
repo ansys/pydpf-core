@@ -49,6 +49,9 @@ class total_mass(Operator):
     >>> result_mass = op.outputs.mass()
     """
 
+    _inputs: InputsTotalMass
+    _outputs: OutputsTotalMass
+
     def __init__(self, data_sources=None, config=None, server=None):
         super().__init__(name="mapdl::mode::total_mass", config=config, server=server)
         self._inputs = InputsTotalMass(self)
@@ -111,7 +114,7 @@ class total_mass(Operator):
         inputs:
             An instance of InputsTotalMass.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsTotalMass:
@@ -122,7 +125,7 @@ class total_mass(Operator):
         outputs:
             An instance of OutputsTotalMass.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsTotalMass(_Inputs):

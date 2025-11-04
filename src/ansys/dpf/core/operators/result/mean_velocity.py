@@ -83,6 +83,9 @@ class mean_velocity(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsMeanVelocity
+    _outputs: OutputsMeanVelocity
+
     def __init__(
         self,
         time_scoping=None,
@@ -220,7 +223,7 @@ class mean_velocity(Operator):
         inputs:
             An instance of InputsMeanVelocity.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMeanVelocity:
@@ -231,7 +234,7 @@ class mean_velocity(Operator):
         outputs:
             An instance of OutputsMeanVelocity.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMeanVelocity(_Inputs):

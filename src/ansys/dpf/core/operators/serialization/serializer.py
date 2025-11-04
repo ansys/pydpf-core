@@ -62,6 +62,9 @@ class serializer(Operator):
     >>> result_file_path = op.outputs.file_path()
     """
 
+    _inputs: InputsSerializer
+    _outputs: OutputsSerializer
+
     def __init__(
         self,
         stream_type=None,
@@ -156,7 +159,7 @@ class serializer(Operator):
         inputs:
             An instance of InputsSerializer.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsSerializer:
@@ -167,7 +170,7 @@ class serializer(Operator):
         outputs:
             An instance of OutputsSerializer.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsSerializer(_Inputs):

@@ -53,6 +53,9 @@ class field_to_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsFieldToFc
+    _outputs: OutputsFieldToFc
+
     def __init__(self, field=None, label=None, config=None, server=None):
         super().__init__(name="InjectToFieldContainer", config=config, server=server)
         self._inputs = InputsFieldToFc(self)
@@ -123,7 +126,7 @@ class field_to_fc(Operator):
         inputs:
             An instance of InputsFieldToFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsFieldToFc:
@@ -134,7 +137,7 @@ class field_to_fc(Operator):
         outputs:
             An instance of OutputsFieldToFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsFieldToFc(_Inputs):

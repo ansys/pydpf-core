@@ -85,6 +85,9 @@ class stress_eqv_as_mechanical_workflow(Operator):
     >>> result_workflow = op.outputs.workflow()
     """
 
+    _inputs: InputsStressEqvAsMechanicalWorkflow
+    _outputs: OutputsStressEqvAsMechanicalWorkflow
+
     def __init__(
         self,
         time_scoping=None,
@@ -221,7 +224,7 @@ averaging across bodies can either be activated or deactivated.
         inputs:
             An instance of InputsStressEqvAsMechanicalWorkflow.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsStressEqvAsMechanicalWorkflow:
@@ -232,7 +235,7 @@ averaging across bodies can either be activated or deactivated.
         outputs:
             An instance of OutputsStressEqvAsMechanicalWorkflow.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsStressEqvAsMechanicalWorkflow(_Inputs):

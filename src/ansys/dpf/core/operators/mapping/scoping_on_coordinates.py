@@ -51,6 +51,9 @@ class scoping_on_coordinates(Operator):
     >>> result_scoping = op.outputs.scoping()
     """
 
+    _inputs: InputsScopingOnCoordinates
+    _outputs: OutputsScopingOnCoordinates
+
     def __init__(self, coordinates=None, mesh=None, config=None, server=None):
         super().__init__(name="scoping::on_coordinates", config=config, server=server)
         self._inputs = InputsScopingOnCoordinates(self)
@@ -121,7 +124,7 @@ class scoping_on_coordinates(Operator):
         inputs:
             An instance of InputsScopingOnCoordinates.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsScopingOnCoordinates:
@@ -132,7 +135,7 @@ class scoping_on_coordinates(Operator):
         outputs:
             An instance of OutputsScopingOnCoordinates.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsScopingOnCoordinates(_Inputs):

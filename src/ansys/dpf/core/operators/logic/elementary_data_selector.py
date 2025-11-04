@@ -62,6 +62,9 @@ class elementary_data_selector(Operator):
     >>> result_field = op.outputs.field()
     """
 
+    _inputs: InputsElementaryDataSelector
+    _outputs: OutputsElementaryDataSelector
+
     def __init__(
         self,
         field=None,
@@ -156,7 +159,7 @@ class elementary_data_selector(Operator):
         inputs:
             An instance of InputsElementaryDataSelector.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsElementaryDataSelector:
@@ -167,7 +170,7 @@ class elementary_data_selector(Operator):
         outputs:
             An instance of OutputsElementaryDataSelector.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsElementaryDataSelector(_Inputs):

@@ -91,6 +91,9 @@ class gasket_stress_XY(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
+    _inputs: InputsGasketStressXy
+    _outputs: OutputsGasketStressXy
+
     def __init__(
         self,
         time_scoping=None,
@@ -240,7 +243,7 @@ be Nodal/ElementalNodal/Elemental.
         inputs:
             An instance of InputsGasketStressXy.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsGasketStressXy:
@@ -251,7 +254,7 @@ be Nodal/ElementalNodal/Elemental.
         outputs:
             An instance of OutputsGasketStressXy.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsGasketStressXy(_Inputs):
