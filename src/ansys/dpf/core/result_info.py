@@ -110,9 +110,9 @@ class ResultInfo:
     >>> model = dpf.Model(transient)
     >>> result_info = model.metadata.result_info # printable result_info
 
-    >>> result_info.available_results[1].name
+    >>> result_info["displacement"].name
     'displacement'
-    >>> result_info.available_results[1].homogeneity
+    >>> result_info["displacement"].homogeneity
     'length'
 
     """
