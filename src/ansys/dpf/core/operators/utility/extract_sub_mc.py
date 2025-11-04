@@ -21,8 +21,8 @@ class extract_sub_mc(Operator):
     be copied to the output.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     meshes: MeshesContainer
         meshes
     label_space: dict or Scoping, optional
@@ -30,7 +30,7 @@ class extract_sub_mc(Operator):
     collapse_labels: bool, optional
         If set to true (default) the input label space (scoping location) is suppressed from the output meshes container, otherwise, label space is kept.
 
-    Returns
+    Outputs
     -------
     meshes_container: MeshesContainer
         meshes

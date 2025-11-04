@@ -20,12 +20,12 @@ class change_fc(Operator):
     fields container to correspond to a scopings container.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field_or_fields_container: FieldsContainer or Field
     scopings_container: ScopingsContainer
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

@@ -20,15 +20,15 @@ class elements_volumes_over_time(Operator):
     specified time step.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     scoping: Scoping, optional
     displacement: FieldsContainer, optional
         Displacement field's container. Must contain the mesh if mesh not specified in input.
     mesh: MeshedRegion, optional
         Mesh must be defined if the displacement field's container does not contain it, or if there is no displacement.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

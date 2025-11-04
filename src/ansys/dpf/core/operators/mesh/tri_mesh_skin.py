@@ -19,15 +19,15 @@ class tri_mesh_skin(Operator):
     r"""Extracts a skin of the mesh in triangles in a new meshed region.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mesh: MeshedRegion
     include_surfaces: bool, optional
         True: meshing will also take into account shell and skin elements. False: meshing will ignore shell and skin elements. The default is false.
     mesh_scoping: Scoping, optional
         Nodal scoping to restrict the skin extraction to a set of nodes. If provided, a skin element is added to the skin mesh if all its nodes are in the scoping.
 
-    Returns
+    Outputs
     -------
     mesh: MeshedRegion
     nodes_mesh_scoping: Scoping

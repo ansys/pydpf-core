@@ -22,14 +22,14 @@ class rescope_property_field(Operator):
     defined.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields: PropertyFieldsContainer or PropertyField
     mesh_scoping: Scoping, optional
     default_value: int, optional
         If pin 2 is used, the IDs not found in the property field are added with this default value.
 
-    Returns
+    Outputs
     -------
     fields: PropertyFieldsContainer or PropertyField
 

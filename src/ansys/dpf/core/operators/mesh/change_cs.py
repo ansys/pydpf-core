@@ -21,13 +21,13 @@ class change_cs(Operator):
     meshes container.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     meshes: MeshedRegion or MeshesContainer
     coordinate_system: Field
         3-3 rotation matrix + 3 translations (X, Y, Z)
 
-    Returns
+    Outputs
     -------
     meshed_region: MeshedRegion or MeshesContainer
 

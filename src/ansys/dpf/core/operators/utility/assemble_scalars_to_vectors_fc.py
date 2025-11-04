@@ -20,13 +20,13 @@ class assemble_scalars_to_vectors_fc(Operator):
     fields container.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     x: FieldsContainer, optional
     y: FieldsContainer, optional
     z: FieldsContainer, optional
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

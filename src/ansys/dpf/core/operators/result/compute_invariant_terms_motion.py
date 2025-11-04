@@ -20,8 +20,8 @@ class compute_invariant_terms_motion(Operator):
     matrices, lumped mass matrix, modes …)
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     rom_matrices: FieldsContainer
         FieldsContainers containing the reduced matrices
     mode_shapes: FieldsContainer
@@ -36,7 +36,7 @@ class compute_invariant_terms_motion(Operator):
     phi_ortho: FieldsContainer, optional
         Orthonormalizated modes transformation
 
-    Returns
+    Outputs
     -------
     model_data: PropertyField
         data describing the finite element model

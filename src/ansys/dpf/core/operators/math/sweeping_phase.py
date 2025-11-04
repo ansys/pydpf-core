@@ -22,8 +22,8 @@ class sweeping_phase(Operator):
     imaginary_field\ ``*``\ sin(angle).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     real_field: Field or FieldsContainer
         field or fields container with only one field is expected
     imaginary_field: Field or FieldsContainer
@@ -35,7 +35,7 @@ class sweeping_phase(Operator):
     imaginary_part_null: bool
         If the imaginary part field is empty and this pin is true, then the imaginary part is supposed to be 0 (default is false).
 
-    Returns
+    Outputs
     -------
     field: Field
 

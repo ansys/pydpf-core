@@ -19,8 +19,8 @@ class mesh_provider(Operator):
     r"""Reads a mesh from result files.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     time_scoping: int, optional
         Optional time/frequency set ID of the mesh, supported for adaptative meshes.
     streams_container: StreamsContainer, optional
@@ -37,7 +37,7 @@ class mesh_provider(Operator):
         - all mesh property fields "mat", "named_selection", "apdl_element_type", "section"-> if set to 1 these properties will not be read and a workflow will be bounded to the properties to be evaluated on demand, with 0 they are read (default is 0).
         - "all_available_properties" option set to 0 will return all possible properties
 
-    Returns
+    Outputs
     -------
     mesh: MeshedRegion
 

@@ -19,14 +19,14 @@ class time_derivation(Operator):
     r"""Derives a field of time varying quantities with respect to time
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field
         field
     spline_fitting: bool, optional
         Uses spline fitting on the input field to compute smooth derivatives
 
-    Returns
+    Outputs
     -------
     field: Field
 

@@ -20,8 +20,8 @@ class part_kinetic_energy(Operator):
     datasources.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     streams_container: StreamsContainer, optional
         result file container allowed to be kept open to cache data
     data_sources: DataSources
@@ -31,7 +31,7 @@ class part_kinetic_energy(Operator):
     unit_system: int or str or UnitSystem, optional
         (LSDyna) Unit System ID (int), semicolon-separated list of base unit strings (str) or UnitSystem instance
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

@@ -20,8 +20,8 @@ class elemental_mean(Operator):
     Elemental), (NodalElemental -> Nodal).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field
     collapse_shell_layers: bool, optional
         If true, shell layers are averaged as well (default is false).
@@ -30,7 +30,7 @@ class elemental_mean(Operator):
     scoping: Scoping, optional
         Average only on these elements. If it is a scoping container, the label must correspond to the one of the fields containers.
 
-    Returns
+    Outputs
     -------
     field: Field
 

@@ -21,12 +21,12 @@ class add_fc(Operator):
     doubles, are put in input they are added to all the fields.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container1: FieldsContainer or Field or float
     fields_container2: FieldsContainer or Field or float
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

@@ -20,8 +20,8 @@ class from_scopings(Operator):
     MeshesContainer
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     scopings_container: ScopingsContainer
         if nodal scoping, then the scoping is transposed respecting the inclusive pin
     inclusive: int, optional
@@ -30,7 +30,7 @@ class from_scopings(Operator):
         returns mesh with nodes only (without any elements). Default is false.
     mesh: MeshedRegion
 
-    Returns
+    Outputs
     -------
     meshes: MeshesContainer
 

@@ -19,8 +19,8 @@ class write_cms_rbd_file(Operator):
     r"""Write the invariant terms and the model data in a cms_rbd file
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     model_data: PropertyField
         data describing the finite element model
     center_of_mass: Field
@@ -52,7 +52,7 @@ class write_cms_rbd_file(Operator):
     file_path: str
         path with cms_rbd extension where the export occurs
 
-    Returns
+    Outputs
     -------
     data_sources: DataSources
         Data Source containing the cms_rbd file generated.

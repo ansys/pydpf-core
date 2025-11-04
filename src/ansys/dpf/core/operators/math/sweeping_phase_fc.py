@@ -23,15 +23,15 @@ class sweeping_phase_fc(Operator):
     imaginary_field\ ``*``\ sin(angle).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     angle: float
     unit_name: str, optional
         String Unit. Supported values: "deg" or "rad". Default: "rad".
     abs_value: bool
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

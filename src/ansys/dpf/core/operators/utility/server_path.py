@@ -19,12 +19,12 @@ class server_path(Operator):
     r"""Returns the platform-specific path to a folder in the Dpf server
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     subpath: int, optional
         Subpath of the Dpf server. Supported values: 0 (default): root of the server, 1: "dpf/bin/platform", 2: "aisol/bin(dll)/platform", 3: "dpf/plugins", 4: "dpf/workflows".
 
-    Returns
+    Outputs
     -------
     path: str
         Path to the requested folder in the Dpf server

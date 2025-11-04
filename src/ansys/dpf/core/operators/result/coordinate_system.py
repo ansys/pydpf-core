@@ -20,13 +20,13 @@ class coordinate_system(Operator):
     r"""Extracts the Rotation Matrix and Origin of a specific coordinate system.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     cs_id: int
     streams_container: StreamsContainer, optional
     data_sources: DataSources
 
-    Returns
+    Outputs
     -------
     field: Field
         the first 9 double are the rotation (3x3 matrix) and the last 3 is the translation vector

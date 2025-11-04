@@ -21,8 +21,8 @@ class extract_sub_fc(Operator):
     copied to the output.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
         fields_container
     label_space: dict or Scoping, optional
@@ -30,7 +30,7 @@ class extract_sub_fc(Operator):
     collapse_labels: bool, optional
         If set to true (default) the input label space (scoping location) is suppressed from the output fields container, otherwise, label space is kept.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
         fields_container

@@ -19,12 +19,12 @@ class forward_field(Operator):
     r"""Returns the input field or fields container.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
         field or fields container with only one field is expected
 
-    Returns
+    Outputs
     -------
     field: Field
 

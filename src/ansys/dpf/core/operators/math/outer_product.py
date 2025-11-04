@@ -19,14 +19,14 @@ class outer_product(Operator):
     r"""Computes the outer product of two vector fields.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fieldA: Field or FieldsContainer or float
         field or fields container with only one field is expected
     fieldB: Field or FieldsContainer or float
         field or fields container with only one field is expected
 
-    Returns
+    Outputs
     -------
     field: Field
 

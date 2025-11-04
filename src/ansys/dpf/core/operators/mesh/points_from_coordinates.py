@@ -20,12 +20,12 @@ class points_from_coordinates(Operator):
     meshes coordinates on the input scopings.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     nodes_to_keep: Scoping or ScopingsContainer
     mesh: MeshedRegion or MeshesContainer
 
-    Returns
+    Outputs
     -------
     abstract_meshed_region: MeshedRegion
 

@@ -19,8 +19,8 @@ class for_each(Operator):
     r"""Allows to write a loop over a chunk of operators.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     iterable:
         Either the result of the make_iterable_info operator, or the operator that must be incremented.
     iterable_values: optional
@@ -28,7 +28,7 @@ class for_each(Operator):
     forward1:
     forward2:
 
-    Returns
+    Outputs
     -------
     empty:
     output1:

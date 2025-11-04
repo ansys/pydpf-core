@@ -20,13 +20,13 @@ class to_elemental_nodal_fc(Operator):
     process. The result is computed on a given element’s scoping.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     mesh_scoping: Scoping, optional
     mesh: MeshedRegion, optional
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

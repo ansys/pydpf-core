@@ -19,8 +19,8 @@ class on_named_selection(Operator):
     r"""provides a scoping at a given location based on a given named selection
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     requested_location: str
     named_selection_name: str
         the string is expected to be in upper case
@@ -29,7 +29,7 @@ class on_named_selection(Operator):
     streams_container: StreamsContainer, optional
     data_sources: DataSources
 
-    Returns
+    Outputs
     -------
     mesh_scoping: Scoping
 

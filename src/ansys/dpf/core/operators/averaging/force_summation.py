@@ -22,8 +22,8 @@ class force_summation(Operator):
     structural degrees of freedom.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     time_scoping: Scoping, optional
         default = all time steps
     nodal_scoping: Scoping or ScopingsContainer, optional
@@ -39,7 +39,7 @@ class force_summation(Operator):
     spoint: Field or FieldsContainer, optional
         Field or fields container of the coordinates of the point used for moment summations. Defaults to (0,0,0).
 
-    Returns
+    Outputs
     -------
     force_accumulation: FieldsContainer
     moment_accumulation: FieldsContainer

@@ -21,8 +21,8 @@ class force_summation_psd(Operator):
     FSUM/NFORCE.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     nodal_scoping: Scoping or ScopingsContainer, optional
         Nodal scoping or scopings container with a single label. Set of nodes in which elemental contribution forces will be accumulated. Defaults to all nodes.
     elemental_scoping: Scoping or ScopingsContainer, optional
@@ -38,7 +38,7 @@ class force_summation_psd(Operator):
     signif: float, optional
         Significance threshold, defaults to 0.0001. Any mode with a significance level above this value will be included in the combination.The significance level is defined as the modal covariance matrix term, divided by the maximum modal covariance matrix term.
 
-    Returns
+    Outputs
     -------
     force_accumulation: FieldsContainer
         Returns the sum of forces for the 1-sigma displacement solution on the scoped nodes/elements.

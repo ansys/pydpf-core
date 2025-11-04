@@ -21,8 +21,8 @@ class nodal_fraction_fc(Operator):
     result is computed on a given node’s scoping.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     mesh: MeshedRegion, optional
         The mesh region in this pin is used to perform the averaging. It is used if there is no fields support.
@@ -31,7 +31,7 @@ class nodal_fraction_fc(Operator):
     denominator: FieldsContainer, optional
         If a fields container is set in this pin, it is used as the denominator of the fraction instead of elemental_nodal_To_nodal_fc.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

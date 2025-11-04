@@ -22,8 +22,8 @@ class ds_get_attribute(Operator):
     provided.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     data_sources: DataSources
     property_name: str
         Accepted inputs are: 'file_path' (returns string), 'result_file_name' (returns string), 'domain_file_path' (returns string), 'domain_result_file_name' (returns string), 'num_keys' (returns int), num_result_key (returns int), num_file_path (returns int), 'num_result_file_path' (returns int), 'key_by_index' (returns string), 'result_key_by_index' (returns string), 'path_by_index' (returns string), 'path_key_by_index' (returns string).
@@ -34,7 +34,7 @@ class ds_get_attribute(Operator):
     property_result_key: str, optional
         Result key to look for. Can be used for 'file_path', 'result_file_name', 'domain_file_path' and 'domain_result_file_name'.
 
-    Returns
+    Outputs
     -------
     property: str or int
         Property value.

@@ -21,13 +21,13 @@ class unit_convert(Operator):
     another unit.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     entity_to_convert: Field or FieldsContainer or MeshedRegion or MeshesContainer
     unit_name: str or int or Field
         unit as a string, ex 'm' for meter, 'Pa' for pascal,... Or ansys unit system's ID, or a field from which expected unit will be extracted.
 
-    Returns
+    Outputs
     -------
     converted_entity: Field or FieldsContainer or MeshedRegion or MeshesContainer
         the output entity is the same as the input (inplace operator)

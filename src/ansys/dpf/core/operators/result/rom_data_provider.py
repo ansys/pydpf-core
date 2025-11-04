@@ -20,8 +20,8 @@ class rom_data_provider(Operator):
     matrices, lumped mass matrix, modes …)
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     rom_type: bool
         If this pin is set to true, customized rom data must be given
     reduced_stiff_matrix: FieldsContainer
@@ -38,7 +38,7 @@ class rom_data_provider(Operator):
     mode_shapes: FieldsContainer
         FieldsContainers containing the customized mode shapes
 
-    Returns
+    Outputs
     -------
     rom_matrices: FieldsContainer
         FieldsContainers containing the reduced matrices

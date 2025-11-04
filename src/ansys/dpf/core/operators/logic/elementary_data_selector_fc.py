@@ -20,15 +20,15 @@ class elementary_data_selector_fc(Operator):
     for each field.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer or Field
     elementary_data_index: int
         one or several elementary data indices that will be extracted from the initial field. For a field with a nature matrix, this extracts the line indices.
     elementary_data_index_2: int, optional
         For a field with nature matrix, this extracts the column indices.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

@@ -20,12 +20,12 @@ class intersect(Operator):
     between the intersection and the first scoping.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     scopingA: Scoping
     scopingB: Scoping
 
-    Returns
+    Outputs
     -------
     intersection: Scoping
     scopingA_min_intersection: Scoping

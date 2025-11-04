@@ -25,15 +25,15 @@ class solid_to_skin_fc(Operator):
     skin mesh for each element face and the nodes associated with it.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     mesh: MeshedRegion
         skin mesh region expected
     solid_mesh: MeshedRegion, optional
         Solid mesh support (optional).
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

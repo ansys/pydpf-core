@@ -20,11 +20,11 @@ class elemental_from_mesh(Operator):
     the element IDs.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mesh: MeshedRegion
 
-    Returns
+    Outputs
     -------
     mesh_scoping: Scoping
 

@@ -20,8 +20,8 @@ class on_reduced_coordinates(Operator):
     (interpolates results inside elements with shape functions).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     reduced_coordinates: Field or FieldsContainer
         coordinates in the reference elements to find (found with the operator "find_reduced_coordinates")
@@ -32,7 +32,7 @@ class on_reduced_coordinates(Operator):
     use_quadratic_elements: bool, optional
         If this pin is set to true, the interpolation is computed on the quadratic element if the element is quadratic (more precise but less performant). Default is false. To use only when results have mid side nodes values.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

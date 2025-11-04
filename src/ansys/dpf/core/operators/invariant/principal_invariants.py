@@ -19,11 +19,11 @@ class principal_invariants(Operator):
     r"""Computes the element-wise Eigen values of a tensor field.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field
 
-    Returns
+    Outputs
     -------
     field_eig_1: Field
         first eigen value field

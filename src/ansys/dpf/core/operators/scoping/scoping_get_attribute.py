@@ -21,13 +21,13 @@ class scoping_get_attribute(Operator):
     input.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     scoping: Scoping
     property_name: str
         Supported property names are: "ids", "location".
 
-    Returns
+    Outputs
     -------
     property: str
         Returns a vector of int for property: "ids" and a string for property: "location".

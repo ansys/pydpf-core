@@ -20,14 +20,14 @@ class result_info_provider(Operator):
     from the results files contained in the streams or data sources.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     streams_container: StreamsContainer, optional
         streams (result file container) (optional)
     data_sources: DataSources
         If the stream is null, retrieves the file path from the data sources.
 
-    Returns
+    Outputs
     -------
     result_info: ResultInfo
 

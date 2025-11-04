@@ -21,8 +21,8 @@ class strain_eqv_as_mechanical(Operator):
     bodies can either be activated or deactivated.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     time_scoping: Scoping, optional
         time/freq (use doubles or field), time/freq set ids (use ints or scoping) or time/freq step ids use scoping with TimeFreq_steps location) required in output.
     mesh_scoping: Scoping or ScopingsContainer, optional
@@ -42,7 +42,7 @@ class strain_eqv_as_mechanical(Operator):
     average_across_bodies: bool, optional
         for multibody simulations, the stresses are averaged across bodies if true or not if false (default).
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
     meshes_container: MeshesContainer

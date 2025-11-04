@@ -19,8 +19,8 @@ class merge_fields_by_label(Operator):
     r"""Merges the fields of a fields container that share the same label value.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     label: str
         Label identifier that should be merged.
@@ -29,7 +29,7 @@ class merge_fields_by_label(Operator):
     sum_merge: bool, optional
         Default is false. If true, redundant quantities are summed instead of being ignored.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
     merged_field_support: AbstractFieldSupport

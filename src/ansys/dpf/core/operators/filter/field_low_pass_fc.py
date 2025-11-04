@@ -20,8 +20,8 @@ class field_low_pass_fc(Operator):
     threshold value in input.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
         field or fields container with only one field is expected
     threshold: float or Field
@@ -29,7 +29,7 @@ class field_low_pass_fc(Operator):
     both: bool, optional
         The default is false. If set to true, the complement of the filtered fields container is returned on output pin 1.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

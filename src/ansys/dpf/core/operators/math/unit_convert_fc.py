@@ -19,13 +19,13 @@ class unit_convert_fc(Operator):
     r"""Converts an input fields container of a given unit to another unit.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     unit_name: str
         unit as a string, ex 'm' for meter, 'Pa' for pascal,...
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

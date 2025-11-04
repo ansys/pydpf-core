@@ -21,14 +21,14 @@ class scale_by_field(Operator):
     field’s values are applied on the other field entirely.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fieldA: Field or FieldsContainer
         field or fields container with only one field is expected
     fieldB: Field or FieldsContainer
         field or fields container with only one field is expected
 
-    Returns
+    Outputs
     -------
     field: Field
 

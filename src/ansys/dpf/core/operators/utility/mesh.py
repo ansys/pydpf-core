@@ -19,11 +19,11 @@ class mesh(Operator):
     r"""Incrementaly merge the input.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     input: MeshedRegion
 
-    Returns
+    Outputs
     -------
     incremented_result:
 

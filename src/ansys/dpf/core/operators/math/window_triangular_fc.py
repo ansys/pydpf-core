@@ -21,11 +21,11 @@ class window_triangular_fc(Operator):
     (use time_freq_interpolation before otherwise).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

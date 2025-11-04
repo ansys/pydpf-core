@@ -21,8 +21,8 @@ class cyclic_support_provider(Operator):
     expansions) and expands the mesh.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     streams_container: StreamsContainer, optional
         Streams containing the result file.
     data_sources: DataSources
@@ -34,7 +34,7 @@ class cyclic_support_provider(Operator):
     sectors_to_expand: Scoping or ScopingsContainer, optional
         sectors to expand (start at 0), for multistage: use scopings container with 'stage' label.
 
-    Returns
+    Outputs
     -------
     cyclic_support: CyclicSupport
     sector_meshes: MeshesContainer

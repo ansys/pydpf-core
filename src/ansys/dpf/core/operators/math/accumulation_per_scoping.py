@@ -20,8 +20,8 @@ class accumulation_per_scoping(Operator):
     input fields container for each scoping of the scopings container.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     mesh_scoping: Scoping, optional
         Master scoping. All scopings in the Scopings Container will be intersected with this scoping.
@@ -30,7 +30,7 @@ class accumulation_per_scoping(Operator):
     scopings_container: ScopingsContainer
         The intersection between the of the first will be used.
 
-    Returns
+    Outputs
     -------
     accumulation_per_scoping: FieldsContainer
     accumulation_per_scoping_percentage: FieldsContainer

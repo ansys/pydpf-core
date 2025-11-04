@@ -26,8 +26,8 @@ class compute_residual_and_error(Operator):
     of error norm (L1 vs L2), and pin 3 which entity to use as a reference
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field_or_fields_container1: Field or FieldsContainer
         field or fields container - compulsory
     normalization_type: int, optional
@@ -45,7 +45,7 @@ class compute_residual_and_error(Operator):
     field_or_fields_container2: Field or FieldsContainer, optional
         field or fields container of same dimensionality as entry 1 - optional
 
-    Returns
+    Outputs
     -------
     residuals: Field or FieldsContainer
         0: normalized residuals (aka field 1 - field 2) as a field or field container, normalized depending on the normalization type
