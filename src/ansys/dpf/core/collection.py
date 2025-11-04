@@ -33,10 +33,11 @@ from ansys.dpf.core.collection_base import CollectionBase
 from ansys.dpf.core.common import create_dpf_instance
 
 TYPE = TypeVar("TYPE")
+SKYE = TypeVar("SKYE")
 
 
 # Explicit Generic[TYPE] helps some type checkers Collection as a generic.
-class Collection(CollectionBase[TYPE], Generic[TYPE]):
+class Collection(CollectionBase[TYPE]):
     """Represents a collection of dpf objects organised by label spaces.
 
     Parameters
@@ -126,7 +127,7 @@ class Collection(CollectionBase[TYPE], Generic[TYPE]):
         return super()._add_entry(label_space, Any.new_from(entry, server=self._server))
 
     @classmethod
-    def collection_factory(cls, subtype: TYPE) -> Type[Collection[TYPE]]:
+    def collection_factory(cls, subtype: Type[SKYE]) -> Type[Collection[SKYE]]:
         """Create classes deriving from Collection at runtime for a given subtype.
 
         This factory method dynamically creates a new class that inherits from Collection
