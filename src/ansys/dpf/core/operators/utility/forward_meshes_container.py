@@ -19,13 +19,13 @@ class forward_meshes_container(Operator):
     r"""Returns the input mesh or meshes container into a meshes container.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     meshes: MeshesContainer or MeshedRegion
     default_label: str, optional
         this default label is used if a new meshes container needs to be created (default is unknown)
 
-    Returns
+    Outputs
     -------
     meshes_container: MeshesContainer
 

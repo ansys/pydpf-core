@@ -20,12 +20,12 @@ class data_tree_to_json(Operator):
     r"""Writes a json file or string from a DataTree
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     data_tree: DataTree
     path: str, optional
 
-    Returns
+    Outputs
     -------
     data_sources: DataSources or str
 

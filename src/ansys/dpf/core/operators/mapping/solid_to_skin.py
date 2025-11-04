@@ -25,8 +25,8 @@ class solid_to_skin(Operator):
     mesh for each element face and the nodes associated with it.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
         field or fields container with only one field is expected
     mesh: MeshedRegion
@@ -34,7 +34,7 @@ class solid_to_skin(Operator):
     solid_mesh: MeshedRegion, optional
         Solid mesh support (optional).
 
-    Returns
+    Outputs
     -------
     field: Field
 

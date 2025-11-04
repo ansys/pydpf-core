@@ -19,13 +19,13 @@ class bind_support_fc(Operator):
     r"""Ties a support to a fields container.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     support: MeshedRegion or AbstractFieldSupport or TimeFreqSupport
         Meshed region or a support of the field.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

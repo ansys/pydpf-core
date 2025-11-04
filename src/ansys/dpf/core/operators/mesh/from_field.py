@@ -19,11 +19,11 @@ class from_field(Operator):
     r"""Returns the meshed region contained in the support of the mesh.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field
 
-    Returns
+    Outputs
     -------
     mesh: MeshedRegion
 

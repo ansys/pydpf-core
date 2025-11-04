@@ -19,14 +19,14 @@ class von_mises_eqv(Operator):
     r"""Computes the element-wise Von-Mises criteria on a tensor field.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
         field or fields container with only one field is expected
     poisson_ratio: float or int
         Poisson ratio to be used in equivalent strain calculation.
 
-    Returns
+    Outputs
     -------
     field: Field
 

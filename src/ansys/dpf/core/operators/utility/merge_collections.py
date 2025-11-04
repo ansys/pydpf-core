@@ -19,14 +19,14 @@ class merge_collections(Operator):
     r"""Merges a set of collections into a unique one.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     collections1: AnyCollection
         a vector of collections to merge or collections from pin 0 to ...
     collections2: AnyCollection
         a vector of collections to merge or collections from pin 0 to ...
 
-    Returns
+    Outputs
     -------
     merged_collections: AnyCollection
 

@@ -19,12 +19,12 @@ class combine_levelset(Operator):
     r"""Takes two level sets and computes their binary union.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fieldA: Field
     fieldB: Field
 
-    Returns
+    Outputs
     -------
     field: Field
 

@@ -20,11 +20,11 @@ class eigen_vectors_fc(Operator):
     the field container.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer or Field
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

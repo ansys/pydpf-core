@@ -19,14 +19,14 @@ class merge_to_field_matrix(Operator):
     r"""Assembles a set of fields into a field matrix.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields1: Field or FieldsContainer
         Either a fields container, a vector of fields to merge, or fields from pin 0 to ...
     fields2: Field or FieldsContainer
         Either a fields container, a vector of fields to merge, or fields from pin 0 to ...
 
-    Returns
+    Outputs
     -------
     merged_field_matrix: Field
 

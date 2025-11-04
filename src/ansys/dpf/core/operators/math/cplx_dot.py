@@ -19,12 +19,12 @@ class cplx_dot(Operator):
     r"""Computes product between two field containers containing complex fields.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_containerA: FieldsContainer
     fields_containerB: FieldsContainer
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

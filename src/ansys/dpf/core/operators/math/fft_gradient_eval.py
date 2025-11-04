@@ -20,15 +20,15 @@ class fft_gradient_eval(Operator):
     using gradient method for adaptative time step.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     time_scoping: Scoping, optional
         if specified only the results at these set ids are used
     fs_ratio: int, optional
         default value = 20
 
-    Returns
+    Outputs
     -------
     coefficients: FieldsContainer
 

@@ -19,8 +19,8 @@ class phase_of_max(Operator):
     r"""Evaluates phase of maximum.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     real_field: Field
     imaginary_field: Field
     abs_value: bool, optional
@@ -28,7 +28,7 @@ class phase_of_max(Operator):
     phase_increment: float
         Phase increment.
 
-    Returns
+    Outputs
     -------
     field: Field
 

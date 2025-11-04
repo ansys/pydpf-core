@@ -19,12 +19,12 @@ class total_mass(Operator):
     r"""Reads total mass from mode file.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     data_sources: DataSources
         Data sources (must contain at least one mode file).
 
-    Returns
+    Outputs
     -------
     mass: float
         the unit should be grabbed from the rst file

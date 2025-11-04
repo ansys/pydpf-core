@@ -19,11 +19,11 @@ class phase_fc(Operator):
     r"""Computes phase (in rad) between real and imaginary fields.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

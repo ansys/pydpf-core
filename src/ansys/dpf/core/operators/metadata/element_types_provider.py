@@ -32,8 +32,8 @@ class element_types_provider(Operator):
     documented in ansys/customize/include/elccmt.inc.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     solver_element_types_ids: int, optional
         Element Type ids to recover used by the solver. If not set, all available element types are recovered.
     streams: StreamsContainer, optional
@@ -43,7 +43,7 @@ class element_types_provider(Operator):
     output_type: int, optional
         Get the output as a GenericDataContainer (pin value 1, default) or as a PropertyField (pin value 2).
 
-    Returns
+    Outputs
     -------
     element_types_data: GenericDataContainer or PropertyField
 

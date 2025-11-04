@@ -20,15 +20,15 @@ class nodal_to_elemental_nodal(Operator):
     computed on a given element’s scoping.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
         field or fields container with only one field is expected
     mesh_scoping: Scoping, optional
     collapse_shell_layers: bool, optional
         If true, the data across different shell layers is averaged as well (default is false).
 
-    Returns
+    Outputs
     -------
     field: Field
 

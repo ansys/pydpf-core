@@ -30,15 +30,15 @@ class mapdl_material_properties(Operator):
     (key: EMIS).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     properties_name: str
     materials: PropertyField
         Property field that contains a material id per element.
     streams_container: StreamsContainer
     data_sources: DataSources
 
-    Returns
+    Outputs
     -------
     properties_value: FieldsContainer
 

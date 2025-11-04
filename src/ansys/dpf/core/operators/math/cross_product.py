@@ -20,14 +20,14 @@ class cross_product(Operator):
     same location or Elemental Nodal and Nodal locations.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fieldA: Field or FieldsContainer or float
         field or fields container with only one field is expected
     fieldB: Field or FieldsContainer or float
         field or fields container with only one field is expected
 
-    Returns
+    Outputs
     -------
     field: Field
 

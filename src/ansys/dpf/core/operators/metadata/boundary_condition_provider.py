@@ -21,12 +21,12 @@ class boundary_condition_provider(Operator):
     streams or data sources.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     streams_container: StreamsContainer, optional
     data_sources: DataSources
 
-    Returns
+    Outputs
     -------
     results_info: Field or FieldsContainer
         results info

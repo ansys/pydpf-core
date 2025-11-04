@@ -19,8 +19,8 @@ class mesh_to_pyvista(Operator):
     r"""Export a MeshedRegion in the pyVista format.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     coordinates: Field, optional
         Node coordinates. If not set, the node coordinates of the mesh are employed.
     as_linear: bool, optional
@@ -32,7 +32,7 @@ class mesh_to_pyvista(Operator):
     as_poly: bool, optional
         Export elements as polyhedrons (cell-face-node representation). Default false.
 
-    Returns
+    Outputs
     -------
     nodes: Field
         Node coordinates double vector

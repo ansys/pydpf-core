@@ -20,14 +20,14 @@ class extract_field(Operator):
     fields container (in 0).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: Field or FieldsContainer
         if a field is in input, it is passed on as an output
     indices: optional
         Default is the first field
 
-    Returns
+    Outputs
     -------
     field: Field
 

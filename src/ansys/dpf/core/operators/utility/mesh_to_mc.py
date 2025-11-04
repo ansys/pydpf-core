@@ -19,14 +19,14 @@ class mesh_to_mc(Operator):
     r"""Creates a meshes container containing the mesh provided on pin 0.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mesh: MeshedRegion or MeshesContainer
         If a meshes container is set in input, it is passed on as an output with the additional label space (if any).
     label: dict
         Sets a label space.
 
-    Returns
+    Outputs
     -------
     meshes_container: MeshesContainer
 

@@ -20,12 +20,12 @@ class default_value(Operator):
     nothing on input pin 0.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     forced_value: optional
     default_value:
 
-    Returns
+    Outputs
     -------
     output:
 

@@ -22,15 +22,15 @@ class nodal_difference(Operator):
     given node’s scoping.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
         field or fields container with only one field is expected
     mesh_scoping: Scoping, optional
         average only on these entities
     mesh: MeshedRegion, optional
 
-    Returns
+    Outputs
     -------
     field: Field
 

@@ -19,11 +19,11 @@ class polar_to_cplx(Operator):
     r"""Converts a complex number from polar form to complex.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

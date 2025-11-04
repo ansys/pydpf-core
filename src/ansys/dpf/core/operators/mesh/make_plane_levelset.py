@@ -19,15 +19,15 @@ class make_plane_levelset(Operator):
     r"""Computes the level set for a plane using coordinates.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     coordinates: MeshedRegion or Field
     normal: Field
         An overall 3D vector that gives the normal direction of the plane.
     origin: Field
         An overall 3d vector that gives a point of the plane.
 
-    Returns
+    Outputs
     -------
     field: Field
 

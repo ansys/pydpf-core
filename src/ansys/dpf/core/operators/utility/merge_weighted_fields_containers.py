@@ -20,8 +20,8 @@ class merge_weighted_fields_containers(Operator):
     weight on the sum of the fields.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     sum_merge: bool, optional
         Default is false. If true, redundant quantities are summed instead of being ignored.
     merged_fields_support: AbstractFieldSupport, optional
@@ -39,7 +39,7 @@ class merge_weighted_fields_containers(Operator):
         Dataprocessing::Cpropertyfield&gt;
         Weights to apply to each field from pin 1000 to ...
 
-    Returns
+    Outputs
     -------
     merged_fields_container: FieldsContainer
 

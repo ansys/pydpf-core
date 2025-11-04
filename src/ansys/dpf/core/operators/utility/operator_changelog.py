@@ -20,12 +20,12 @@ class operator_changelog(Operator):
     operator based on its name.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     operator_name: str
         Operator internal name.
 
-    Returns
+    Outputs
     -------
     changelog_gdc: GenericDataContainer
         GenericDataContainer used to instantiate a Changelog.

@@ -20,14 +20,14 @@ class elastic_strain_rotation_by_euler_nodes(Operator):
     in the fieldsContainer.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer, optional
     streams_container: StreamsContainer or Stream or Class
         Dataprocessing::Crstfilewrapper, optional
     data_sources: DataSources
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

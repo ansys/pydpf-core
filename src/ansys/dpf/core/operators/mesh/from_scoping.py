@@ -24,8 +24,8 @@ class from_scoping(Operator):
     the rest of the property fields are not present in the output mesh.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     scoping: Scoping
         if nodal/face scoping, then the scoping is transposed respecting the inclusive pin
     inclusive: int, optional
@@ -34,7 +34,7 @@ class from_scoping(Operator):
         returns mesh with nodes only (without any elements or property fields). Default is false.
     mesh: MeshedRegion
 
-    Returns
+    Outputs
     -------
     mesh: MeshedRegion
 

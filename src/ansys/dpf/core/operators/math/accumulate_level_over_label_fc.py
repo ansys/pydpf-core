@@ -24,13 +24,13 @@ class accumulate_level_over_label_fc(Operator):
     inputs.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     label: str, optional
         Label of the fields container where it should operate. If not defined and the input Fields Container has only one Label, the operation will be done over all the fields.
 
-    Returns
+    Outputs
     -------
     field: Field
 

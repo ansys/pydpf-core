@@ -20,13 +20,13 @@ class wireframe(Operator):
     threshold angle.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mesh: MeshedRegion
     threshold: float
         angle threshold in radian that will trigger an edge detection.
 
-    Returns
+    Outputs
     -------
     wireframe: MeshedRegion
 

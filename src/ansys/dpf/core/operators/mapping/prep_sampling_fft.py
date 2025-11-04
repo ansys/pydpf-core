@@ -20,8 +20,8 @@ class prep_sampling_fft(Operator):
     frequencies in output.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     time_freq_support: TimeFreqSupport
         Initial time domain TimeFreqSupport.
     cutoff_frequency: float, optional
@@ -29,7 +29,7 @@ class prep_sampling_fft(Operator):
     number_sampling_point: int, optional
         For number of sampling point (calculation with cutoff_frequency is ignored).
 
-    Returns
+    Outputs
     -------
     time_tfs_sampled: TimeFreqSupport
         Optimum sampled time domain TimeFreqSupport.

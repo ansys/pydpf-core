@@ -21,13 +21,13 @@ class cyclic_support_get_attribute(Operator):
     expected in input.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     cyclic_support: CyclicSupport
     property_name: str
         Accepted inputs are: 'element_duplicate_offset' and 'node_duplicate_offset' (returns int).
 
-    Returns
+    Outputs
     -------
     property: str or int
         Property value.

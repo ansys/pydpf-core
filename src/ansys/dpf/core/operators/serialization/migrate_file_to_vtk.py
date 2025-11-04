@@ -20,13 +20,13 @@ class migrate_file_to_vtk(Operator):
     possible to vtk.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     output_filename: str, optional
     streams_container: StreamsContainer, optional
     data_sources: DataSources, optional
 
-    Returns
+    Outputs
     -------
     data_sources: DataSources
         Generated output vtk file

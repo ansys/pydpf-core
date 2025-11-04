@@ -21,8 +21,8 @@ class assemble_scalars_to_matrices_fc(Operator):
     containers are required (xx, yy, zz, xy, xz and yz).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     xx: FieldsContainer, optional
     yy: FieldsContainer, optional
     zz: FieldsContainer, optional
@@ -34,7 +34,7 @@ class assemble_scalars_to_matrices_fc(Operator):
     zx: FieldsContainer, optional
     symmetrical: bool, optional
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

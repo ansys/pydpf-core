@@ -21,11 +21,11 @@ class window_hanning_fc(Operator):
     time_freq_interpolation before otherwise).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

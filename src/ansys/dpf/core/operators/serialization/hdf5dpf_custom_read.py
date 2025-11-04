@@ -21,8 +21,8 @@ class hdf5dpf_custom_read(Operator):
     deprecated, please use the ‘custom’ operator instead.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     time_scoping: Scoping, optional
     mesh_scoping: Scoping, optional
     streams: StreamsContainer, optional
@@ -34,7 +34,7 @@ class hdf5dpf_custom_read(Operator):
     result_name:
         Name of the result that must be extracted from the hdf5dpf file
 
-    Returns
+    Outputs
     -------
     field_or_fields_container: FieldsContainer or Field
 

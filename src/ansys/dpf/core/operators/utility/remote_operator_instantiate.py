@@ -21,8 +21,8 @@ class remote_operator_instantiate(Operator):
     workflow is created with this operator and returned in output
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     operator_to_send: int
         local workflow to push to a remote or id of a remote workflow
     output_pin: int
@@ -32,7 +32,7 @@ class remote_operator_instantiate(Operator):
     output_name: str
         output's name of the workflow to return
 
-    Returns
+    Outputs
     -------
     remote_workflow: Workflow
         remote workflow containing an image of the remote workflow and the protocols streams

@@ -22,15 +22,15 @@ class gauss_to_node_fc(Operator):
     linear tetrahedral, and quadratic tetrahedral.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     mesh: MeshedRegion or MeshesContainer, optional
         The mesh region in this pin is used for extrapolating results available at Gauss or quadrature points to nodal points.
     scoping: Scoping, optional
         Extrapolating results on the selected scoping. If it is a scoping container, the label must correspond to the one of the fields containers.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

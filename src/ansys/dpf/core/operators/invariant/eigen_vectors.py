@@ -19,12 +19,12 @@ class eigen_vectors(Operator):
     r"""Computes the element-wise Eigen vectors for each tensor in the field.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: FieldsContainer or Field
         field or fields container with only one field is expected
 
-    Returns
+    Outputs
     -------
     field: Field
 
