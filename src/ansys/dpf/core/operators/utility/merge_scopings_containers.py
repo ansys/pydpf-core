@@ -19,14 +19,14 @@ class merge_scopings_containers(Operator):
     r"""Assembles a set of scopings containers into a unique one.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     scopings_containers1: ScopingsContainer
         A vector of scopings containers to merge or scopings containers from pin 0 to ...
     scopings_containers2: ScopingsContainer
         A vector of scopings containers to merge or scopings containers from pin 0 to ...
 
-    Returns
+    Outputs
     -------
     merged_scopings_container: ScopingsContainer
 

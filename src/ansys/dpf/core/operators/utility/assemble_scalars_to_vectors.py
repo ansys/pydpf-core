@@ -19,13 +19,13 @@ class assemble_scalars_to_vectors(Operator):
     r"""Takes three scalar fields and assembles them as a 3D vector field.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     x: Field, optional
     y: Field, optional
     z: Field, optional
 
-    Returns
+    Outputs
     -------
     field: Field
 

@@ -20,8 +20,8 @@ class on_coordinates(Operator):
     elements with shape functions).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     coordinates: Field or FieldsContainer or MeshedRegion or MeshesContainer
     create_support: bool, optional
@@ -35,7 +35,7 @@ class on_coordinates(Operator):
     use_quadratic_elements: bool, optional
         If this pin is set to true, the element search for each coordinate is computed on the quadratic element if the element is quadratic (more precise but less performant). Default is false.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

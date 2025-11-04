@@ -23,8 +23,8 @@ class mapdl_section(Operator):
     Orientation, NumIntPoints.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     properties_name: str
     section: PropertyField, optional
         Property field that contains a section id per element.(optional)
@@ -35,7 +35,7 @@ class mapdl_section(Operator):
     layers_requested: optional
         Array with layers requested for the section. Default = AllLayers.
 
-    Returns
+    Outputs
     -------
     properties_value: FieldsContainer
     layers_per_section: PropertyField

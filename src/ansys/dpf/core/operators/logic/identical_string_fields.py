@@ -19,12 +19,12 @@ class identical_string_fields(Operator):
     r"""Takes two string fields and compares them.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     string_fieldA: StringField
     string_fieldB: StringField
 
-    Returns
+    Outputs
     -------
     are_identical: bool
     information: str

@@ -19,8 +19,8 @@ class mesh_cut(Operator):
     r"""Extracts a skin of the mesh in triangles in a new meshed region.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field
         Field containing the values for the iso-surface computation. The mesh can be retrieved from this field's support or through pin 2.
     iso_value: float
@@ -32,7 +32,7 @@ class mesh_cut(Operator):
     slice_surfaces: bool
         True: slicing will also take into account shell and skin elements. False: slicing will ignore shell and skin elements. The default is true.
 
-    Returns
+    Outputs
     -------
     mesh: MeshedRegion
 

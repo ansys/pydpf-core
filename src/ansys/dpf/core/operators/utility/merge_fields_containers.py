@@ -19,8 +19,8 @@ class merge_fields_containers(Operator):
     r"""Assembles a set of fields containers into a unique one.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     should_merge_named_selections: bool, optional
         For some result files (such as RST), the scoping on names selection is duplicated through all the distributed files.If this pin is false, the merging process is skipped. If it is true, this scoping is merged. Default is true.
     sum_merge: bool, optional
@@ -34,7 +34,7 @@ class merge_fields_containers(Operator):
     fields_containers2: FieldsContainer
         A vector of fields containers to merge or fields containers from pin 0 to ...
 
-    Returns
+    Outputs
     -------
     merged_fields_container: FieldsContainer
 

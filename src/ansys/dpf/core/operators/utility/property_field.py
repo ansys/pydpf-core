@@ -19,11 +19,11 @@ class property_field(Operator):
     r"""Incrementaly merge the input.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     input: PropertyField
 
-    Returns
+    Outputs
     -------
     incremented_result:
 

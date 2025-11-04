@@ -25,8 +25,8 @@ class members_in_linear_compression_bending_not_certified(Operator):
     ANSYS declines all responsibility for the use of this operator.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     time_scoping: Scoping or int, optional
     field_yield_strength: Field
         This pin contains field of beam's Yield Strength defined by the user.
@@ -53,7 +53,7 @@ class members_in_linear_compression_bending_not_certified(Operator):
     fabrication_type: bool, optional
         Selection of fabrication's type if there are beams I in the structure. TRUE: Rolled Section, False: Welded Section. Default: Rolled Section.
 
-    Returns
+    Outputs
     -------
     buckling_resistance_linear_summation_utilization_ratios: FieldsContainer
         Linear summation of the utilization ratios in all members submitted under a combination of both bending and compression. These factors should be less than 1 and positive.

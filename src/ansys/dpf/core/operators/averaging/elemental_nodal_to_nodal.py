@@ -20,8 +20,8 @@ class elemental_nodal_to_nodal(Operator):
     averaging process. The result is computed on a given node’s scoping.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
         field or fields container with only one field is expected
     mesh_scoping: Scoping, optional
@@ -34,7 +34,7 @@ class elemental_nodal_to_nodal(Operator):
         Extends weights to mid nodes (when available). Default is false.
     mesh: MeshedRegion, optional
 
-    Returns
+    Outputs
     -------
     field: Field
     weight: PropertyField

@@ -20,15 +20,15 @@ class component_transformer(Operator):
     components.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
     component_number: int
         One or several component index that will be modified from the initial field.
     default_value: float, optional
         Set a default value for components selected.
 
-    Returns
+    Outputs
     -------
     field: Field
 

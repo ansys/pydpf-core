@@ -21,15 +21,15 @@ class elements_facets_surfaces_over_time(Operator):
     surface elements.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     scoping: Scoping, optional
     displacement: FieldsContainer, optional
         Displacement field's container.
     mesh: MeshedRegion, optional
         Mesh must be defined if the displacement field's container does not contain it, or if there is no displacement.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
         Surfaces field.

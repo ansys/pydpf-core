@@ -20,15 +20,15 @@ class timescoping_signed_high_pass(Operator):
     value to the threshold value in input.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     time_freq_support: TimeFreqSupport
     threshold: float or Field
         A threshold scalar or a field containing one value is expected.
     both: bool, optional
         The default is false. If set to true, the complement of the filtered fields container is returned on output pin 1.
 
-    Returns
+    Outputs
     -------
     scoping: Scoping
 

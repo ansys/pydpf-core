@@ -19,13 +19,13 @@ class nodal_to_elemental_nodal_fc(Operator):
     r"""Transforms Nodal fields_container to Elemental Nodal fields_container.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     mesh: MeshedRegion, optional
     mesh_scoping: Scoping, optional
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

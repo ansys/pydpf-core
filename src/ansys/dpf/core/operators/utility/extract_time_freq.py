@@ -20,14 +20,14 @@ class extract_time_freq(Operator):
     r"""Extract timefreqs with sets scoping from a time freq support
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     time_freq_support: TimeFreqSupport
     time_scoping: Scoping, optional
     real_or_complex: bool, optional
         False for real only (default). True for complex output.
 
-    Returns
+    Outputs
     -------
     field: Field or FieldsContainer
 

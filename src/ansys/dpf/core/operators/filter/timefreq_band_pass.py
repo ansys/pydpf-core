@@ -21,15 +21,15 @@ class timefreq_band_pass(Operator):
     threshold value in input.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     time_freq_support: TimeFreqSupport
     min_threshold: float or Field
         A minimum threshold scalar or a field containing one value is expected.
     max_threshold: float or Field, optional
         A maximum threshold scalar or a field containing one value is expected.
 
-    Returns
+    Outputs
     -------
     time_freq_support: TimeFreqSupport
     scoping: Scoping

@@ -19,11 +19,11 @@ class invariants(Operator):
     r"""Computes the element-wise invariants of a tensor field.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field
 
-    Returns
+    Outputs
     -------
     field_int: Field
         stress intensity field

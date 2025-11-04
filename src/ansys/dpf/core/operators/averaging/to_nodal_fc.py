@@ -20,8 +20,8 @@ class to_nodal_fc(Operator):
     result is computed on a given node’s scoping.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     mesh: MeshedRegion, optional
     mesh_scoping: Scoping, optional
@@ -30,7 +30,7 @@ class to_nodal_fc(Operator):
     shell_layer: int, optional
         0: Top, 1: Bottom, 2: TopBottom, 3: Mid, 4: TopBottomMid. If merge_solid_shell is true, this pin needs to be specified to a value that extracts only one layer (Top, Bottom or Mid).
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

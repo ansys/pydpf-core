@@ -20,12 +20,12 @@ class overall_dot(Operator):
     large vector) and returns a scalar.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fieldA: Field
     fieldB: Field
 
-    Returns
+    Outputs
     -------
     field: Field
         Field defined on over-all location, contains a unique scalar value

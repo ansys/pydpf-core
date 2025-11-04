@@ -21,8 +21,8 @@ class export_symbolic_workflow(Operator):
     (if a path is set in input) or string
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     workflow: Workflow
     path: str, optional
     format: int, optional
@@ -30,7 +30,7 @@ class export_symbolic_workflow(Operator):
     options: int, optional
         1 copies connections with its data, 2 forwards named inputs and outputs names, 7 copies connections of named inputs and ouputs with their data. default is 7.
 
-    Returns
+    Outputs
     -------
     data_sources: DataSources or str
 

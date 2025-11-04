@@ -22,12 +22,12 @@ class mesh_to_tetra(Operator):
     input mesh are provided, output pins (1) & (2) respectively.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mesh: MeshedRegion
         Mesh with arbitrary element types.
 
-    Returns
+    Outputs
     -------
     mesh: MeshedRegion
         Tetrahedralized mesh.

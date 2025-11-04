@@ -19,14 +19,14 @@ class field_to_fc(Operator):
     r"""Creates a fields container containing the field provided on pin 0.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
         If a fields container is set in input, it is passed on as an output with the additional label space (if any).
     label: dict
         Sets a label space.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

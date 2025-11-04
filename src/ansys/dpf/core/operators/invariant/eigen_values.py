@@ -19,12 +19,12 @@ class eigen_values(Operator):
     r"""Computes the element-wise Eigen values of a tensor field.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
         field or fields container with only one field is expected
 
-    Returns
+    Outputs
     -------
     field: Field
 

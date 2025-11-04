@@ -20,11 +20,11 @@ class invariants_fc(Operator):
     fields container.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
 
-    Returns
+    Outputs
     -------
     fields_int: FieldsContainer
         stress intensity field

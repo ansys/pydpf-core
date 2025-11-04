@@ -21,14 +21,14 @@ class mesh_selection_manager_provider(Operator):
     selection manager in output.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     streams_container: StreamsContainer, optional
         streams (result file container) (optional)
     data_sources: DataSources
         If the stream is null, retrieves the file path from the data sources.
 
-    Returns
+    Outputs
     -------
     mesh_selection_manager: MeshSelectionManager
 

@@ -19,11 +19,11 @@ class fields_container(Operator):
     r"""Incrementaly merge the input.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     input: FieldsContainer
 
-    Returns
+    Outputs
     -------
     incremented_result:
 

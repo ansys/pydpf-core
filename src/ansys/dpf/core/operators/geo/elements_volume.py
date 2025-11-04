@@ -21,13 +21,13 @@ class elements_volume(Operator):
     except for polyhedrons.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mesh: MeshedRegion
     mesh_scoping: Scoping
         If not provided, the measure of all elements for the mesh is computed. If provided, the Scoping needs to have "Elemental" location.
 
-    Returns
+    Outputs
     -------
     field: Field
 

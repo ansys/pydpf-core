@@ -19,15 +19,15 @@ class max_over_time_by_entity(Operator):
     r"""Evaluates maximum over time/frequency.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     abs_value: bool, optional
         Should use absolute value.
     compute_amplitude: bool, optional
         Do calculate amplitude.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

@@ -21,8 +21,8 @@ class extract_scoping(Operator):
     scoping or scopings container.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field_or_fields_container: Field or FieldsContainer or PropertyField or
         PropertyFieldsContainer or CustomTypeField or
         CustomTypeFieldsContainer or StringField or Scoping
@@ -31,7 +31,7 @@ class extract_scoping(Operator):
     requested_location: int, optional
         If input 0 is a mesh or a meshes_container, the operator returns the nodes scoping, possible locations are: Nodal(default) or Elemental
 
-    Returns
+    Outputs
     -------
     mesh_scoping: Scoping or ScopingsContainer
 

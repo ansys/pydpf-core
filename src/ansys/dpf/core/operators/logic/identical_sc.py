@@ -19,12 +19,12 @@ class identical_sc(Operator):
     r"""Checks if two scopings_container are identical.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     scopings_containerA: ScopingsContainer
     scopings_containerB: ScopingsContainer
 
-    Returns
+    Outputs
     -------
     boolean: bool
         bool (true if identical...)

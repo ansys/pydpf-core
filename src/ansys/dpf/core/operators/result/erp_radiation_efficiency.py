@@ -19,8 +19,8 @@ class erp_radiation_efficiency(Operator):
     r"""Compute the radiation efficiency (enhanced erp divided by classical erp)
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
         the input field container expects displacements fields
     mesh: MeshedRegion or MeshesContainer
@@ -32,7 +32,7 @@ class erp_radiation_efficiency(Operator):
     speed_of_sound: float
         speed of sound (if it's not specified, default value of the speed of sound in the air is applied).
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

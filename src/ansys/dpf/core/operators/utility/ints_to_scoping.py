@@ -20,15 +20,15 @@ class ints_to_scoping(Operator):
     location “numeric”.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     int_or_vector_int: int or Scoping
         int or single value scoping or vector of int
     location: str, optional
     upper_bound: int or Scoping, optional
         Define the upper bound to create a scoping that will contain a range from the single value input in pin 0 to the upper bound defined in this pin.
 
-    Returns
+    Outputs
     -------
     scoping: Scoping
 

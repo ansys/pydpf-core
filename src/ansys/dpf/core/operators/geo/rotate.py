@@ -19,14 +19,14 @@ class rotate(Operator):
     r"""Applies a transformation (rotation) matrix on a field.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
         field or fields container with only one field is expected
     field_rotation_matrix: Field
         3-3 rotation matrix
 
-    Returns
+    Outputs
     -------
     field: Field
 

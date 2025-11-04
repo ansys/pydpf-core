@@ -20,14 +20,14 @@ class beam_properties(Operator):
     streams or data sources.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     streams: StreamsContainer, optional
         Result file container allowed to be kept open to cache data.
     data_sources: DataSources
         Result file path container, used if no streams are set.
 
-    Returns
+    Outputs
     -------
     mesh_out: MeshedRegion
         This mesh updates a new map containing a field of the beam's properties if there is at least one beam in mesh.

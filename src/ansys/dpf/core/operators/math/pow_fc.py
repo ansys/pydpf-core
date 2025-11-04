@@ -19,12 +19,12 @@ class pow_fc(Operator):
     r"""Computes element-wise field[i]^p.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     factor: float
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

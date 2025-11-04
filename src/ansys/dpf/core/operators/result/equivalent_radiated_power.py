@@ -19,8 +19,8 @@ class equivalent_radiated_power(Operator):
     r"""Compute the Equivalent Radiated Power (ERP)
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
         the input field container expects displacements fields
     mesh: MeshedRegion or MeshesContainer
@@ -38,7 +38,7 @@ class equivalent_radiated_power(Operator):
     factor: float
         erp reference value. Default is 1E-12
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

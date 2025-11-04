@@ -25,8 +25,8 @@ class elemental_difference_fc(Operator):
     the output fields container has an elshape label.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     mesh: MeshedRegion or MeshesContainer, optional
         The mesh region in this pin is used to perform the averaging, used if there is no fields support.
@@ -35,7 +35,7 @@ class elemental_difference_fc(Operator):
     collapse_shell_layers: bool, optional
         If true, the data across different shell layers is averaged as well (default is false).
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

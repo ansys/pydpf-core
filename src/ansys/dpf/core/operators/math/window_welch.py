@@ -22,11 +22,11 @@ class window_welch(Operator):
     time_freq_interpolation before otherwise).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
 
-    Returns
+    Outputs
     -------
     field: Field or FieldsContainer
 

@@ -19,11 +19,11 @@ class amplitude_fc(Operator):
     r"""Computes the amplitude of a real and an imaginary field.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

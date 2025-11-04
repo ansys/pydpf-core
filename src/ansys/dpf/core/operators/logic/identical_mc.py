@@ -19,8 +19,8 @@ class identical_mc(Operator):
     r"""Checks if two meshes_container are identical.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     meshes_containerA: MeshesContainer
     meshes_containerB: MeshesContainer
     small_value: float, optional
@@ -30,7 +30,7 @@ class identical_mc(Operator):
     compare_auxiliary: bool
         compare auxiliary data (i.e property fields, scopings...). Default value is 'false'.
 
-    Returns
+    Outputs
     -------
     boolean: bool
         bool (true if identical...)

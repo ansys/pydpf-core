@@ -24,8 +24,8 @@ class identical_generic_data_containers(Operator):
     check.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     generic_data_containerA: GenericDataContainer
     generic_data_containerB: GenericDataContainer
     double_value: float
@@ -35,7 +35,7 @@ class identical_generic_data_containers(Operator):
     compare_auxiliary: bool
         For meshes and meshescontainer: compare auxiliary data (i.e property fields, scopings...). Default value is 'false'.
 
-    Returns
+    Outputs
     -------
     included: bool
         bool (true if belongs...)

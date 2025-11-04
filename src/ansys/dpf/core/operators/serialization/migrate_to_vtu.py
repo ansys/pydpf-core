@@ -21,8 +21,8 @@ class migrate_to_vtu(Operator):
     operators.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     time_scoping: Scoping, optional
         time sets to export, default is all
     streams_container: StreamsContainer, optional
@@ -40,7 +40,7 @@ class migrate_to_vtu(Operator):
     write_mode: str, optional
         Available are rawbinarycompressed, rawbinary, base64appended, base64inline, ascii, default is (rawbinarycompressed)
 
-    Returns
+    Outputs
     -------
     path: DataSources
         list of output vtu file path

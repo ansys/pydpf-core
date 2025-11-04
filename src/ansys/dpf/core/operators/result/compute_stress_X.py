@@ -21,8 +21,8 @@ class compute_stress_X(Operator):
     component (00 component).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     scoping: Scoping, optional
         The element scoping on which the result is computed.
     streams_container: StreamsContainer, optional
@@ -34,7 +34,7 @@ class compute_stress_X(Operator):
     strain: FieldsContainer or Field
         Field/or fields container containing only the elastic strain field (element nodal).
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
         The computed result fields container (elemental nodal).

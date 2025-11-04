@@ -21,8 +21,8 @@ class elemental_fraction_fc(Operator):
     average. The result is computed on a given element’s scoping.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     mesh: MeshedRegion, optional
         The mesh region in this pin is used to perform the averaging. It is used if there is no fields support.
@@ -33,7 +33,7 @@ class elemental_fraction_fc(Operator):
     collapse_shell_layers: bool, optional
         If true, the data across different shell layers is averaged as well (default is false).
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 

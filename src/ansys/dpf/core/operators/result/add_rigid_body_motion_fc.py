@@ -21,8 +21,8 @@ class add_rigid_body_motion_fc(Operator):
     displacement field has to be in the global coordinate system
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     translation_field: Field
     rotation_field: Field
@@ -30,7 +30,7 @@ class add_rigid_body_motion_fc(Operator):
     mesh: MeshedRegion, optional
         default is the mesh in the support
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
