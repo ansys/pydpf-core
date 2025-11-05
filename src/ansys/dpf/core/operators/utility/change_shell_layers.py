@@ -26,8 +26,8 @@ class change_shell_layers(Operator):
     the result.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer or Field
     e_shell_layer: int
         0: Top, 1: Bottom, 2: TopBottom, 3: Mid, 4: TopBottomMid.
@@ -36,7 +36,7 @@ class change_shell_layers(Operator):
     merge: bool, optional
         For fields with mixed shell layers (solid/shell elements with heterogeneous shell layers), group all of them in the same field (false by default).
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer or Field
 
@@ -68,6 +68,9 @@ class change_shell_layers(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsChangeShellLayers
+    _outputs: OutputsChangeShellLayers
 
     def __init__(
         self,
@@ -169,7 +172,7 @@ the result.
         inputs:
             An instance of InputsChangeShellLayers.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsChangeShellLayers:
@@ -180,7 +183,7 @@ the result.
         outputs:
             An instance of OutputsChangeShellLayers.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsChangeShellLayers(_Inputs):

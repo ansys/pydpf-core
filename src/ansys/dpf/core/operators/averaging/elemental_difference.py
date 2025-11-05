@@ -22,8 +22,8 @@ class elemental_difference(Operator):
     element scoping.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
         field or fields container with only one field is expected
     mesh_scoping: Scoping, optional
@@ -32,7 +32,7 @@ class elemental_difference(Operator):
     through_layers: bool, optional
         The maximum elemental difference is taken through the different shell layers if true (default is false).
 
-    Returns
+    Outputs
     -------
     field: Field
 
@@ -64,6 +64,9 @@ class elemental_difference(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsElementalDifference
+    _outputs: OutputsElementalDifference
 
     def __init__(
         self,
@@ -162,7 +165,7 @@ element scoping.
         inputs:
             An instance of InputsElementalDifference.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsElementalDifference:
@@ -173,7 +176,7 @@ element scoping.
         outputs:
             An instance of OutputsElementalDifference.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsElementalDifference(_Inputs):

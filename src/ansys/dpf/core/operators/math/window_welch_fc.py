@@ -21,11 +21,11 @@ class window_welch_fc(Operator):
     time_freq_interpolation before otherwise).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -48,6 +48,9 @@ class window_welch_fc(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsWindowWelchFc
+    _outputs: OutputsWindowWelchFc
 
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="window::welch_fc", config=config, server=server)
@@ -113,7 +116,7 @@ time_freq_interpolation before otherwise).
         inputs:
             An instance of InputsWindowWelchFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsWindowWelchFc:
@@ -124,7 +127,7 @@ time_freq_interpolation before otherwise).
         outputs:
             An instance of OutputsWindowWelchFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsWindowWelchFc(_Inputs):

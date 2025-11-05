@@ -23,14 +23,14 @@ class component_wise_product_fc(Operator):
     fields.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
         field or fields container with only one field is expected
     fieldB: Field or FieldsContainer
         field or fields container with only one field is expected
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -56,6 +56,9 @@ class component_wise_product_fc(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsComponentWiseProductFc
+    _outputs: OutputsComponentWiseProductFc
 
     def __init__(self, fields_container=None, fieldB=None, config=None, server=None):
         super().__init__(name="component_wise_product_fc", config=config, server=server)
@@ -131,7 +134,7 @@ fields.
         inputs:
             An instance of InputsComponentWiseProductFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsComponentWiseProductFc:
@@ -142,7 +145,7 @@ fields.
         outputs:
             An instance of OutputsComponentWiseProductFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsComponentWiseProductFc(_Inputs):

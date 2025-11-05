@@ -19,8 +19,8 @@ class write_motion_dfmf_file(Operator):
     r"""Write the invariant terms and the model data in a motion dfmf file
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     model_data: PropertyField
         data describing the finite element model
     mode_shapes: FieldsContainer
@@ -46,7 +46,7 @@ class write_motion_dfmf_file(Operator):
         path with motion dfmf extension where the export occurs
     rstfile_path: str
 
-    Returns
+    Outputs
     -------
     dfmf_data_source: DataSources
         Data Source containing the dfmf file generated.
@@ -124,6 +124,9 @@ class write_motion_dfmf_file(Operator):
     >>> # Get output data
     >>> result_dfmf_data_source = op.outputs.dfmf_data_source()
     """
+
+    _inputs: InputsWriteMotionDfmfFile
+    _outputs: OutputsWriteMotionDfmfFile
 
     def __init__(
         self,
@@ -354,7 +357,7 @@ class write_motion_dfmf_file(Operator):
         inputs:
             An instance of InputsWriteMotionDfmfFile.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsWriteMotionDfmfFile:
@@ -365,7 +368,7 @@ class write_motion_dfmf_file(Operator):
         outputs:
             An instance of OutputsWriteMotionDfmfFile.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsWriteMotionDfmfFile(_Inputs):

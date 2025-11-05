@@ -19,8 +19,10 @@ class hdf5dpf_generate_result_file(Operator):
     r"""Generate a dpf result file from provided information.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
+    h5_chunk_size: int, optional
+        Size of each HDF5 chunk in kilobytes (KB). Default: 1 MB when compression is enabled; for uncompressed datasets, the default is the full dataset size x dimension.
     append_mode: bool, optional
         Experimental: Allow appending chunked data to the file. This disables fields container content deduplication.
     dataset_size_compression_threshold: int, optional
@@ -42,7 +44,7 @@ class hdf5dpf_generate_result_file(Operator):
     input_name2: str or Any, optional
         Set of even and odd pins to serialize results. Odd pins (4, 6, 8...) are strings, and they represent the names of the results to be serialized. Even pins (5, 7, 9...) are DPF types, and they represent the results to be serialized. They should go in pairs (for each result name, there should be a result) and connected sequentially.
 
-    Returns
+    Outputs
     -------
     data_sources: DataSources
         data_sources filled with the H5 generated file path.
@@ -55,6 +57,8 @@ class hdf5dpf_generate_result_file(Operator):
     >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
 
     >>> # Make input connections
+    >>> my_h5_chunk_size = int()
+    >>> op.inputs.h5_chunk_size.connect(my_h5_chunk_size)
     >>> my_append_mode = bool()
     >>> op.inputs.append_mode.connect(my_append_mode)
     >>> my_dataset_size_compression_threshold = int()
@@ -78,6 +82,7 @@ class hdf5dpf_generate_result_file(Operator):
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file(
+    ...     h5_chunk_size=my_h5_chunk_size,
     ...     append_mode=my_append_mode,
     ...     dataset_size_compression_threshold=my_dataset_size_compression_threshold,
     ...     h5_native_compression=my_h5_native_compression,
@@ -94,8 +99,12 @@ class hdf5dpf_generate_result_file(Operator):
     >>> result_data_sources = op.outputs.data_sources()
     """
 
+    _inputs: InputsHdf5DpfGenerateResultFile
+    _outputs: OutputsHdf5DpfGenerateResultFile
+
     def __init__(
         self,
+        h5_chunk_size=None,
         append_mode=None,
         dataset_size_compression_threshold=None,
         h5_native_compression=None,
@@ -114,6 +123,8 @@ class hdf5dpf_generate_result_file(Operator):
         )
         self._inputs = InputsHdf5DpfGenerateResultFile(self)
         self._outputs = OutputsHdf5DpfGenerateResultFile(self)
+        if h5_chunk_size is not None:
+            self.inputs.h5_chunk_size.connect(h5_chunk_size)
         if append_mode is not None:
             self.inputs.append_mode.connect(append_mode)
         if dataset_size_compression_threshold is not None:
@@ -144,6 +155,12 @@ class hdf5dpf_generate_result_file(Operator):
         spec = Specification(
             description=description,
             map_input_pin_spec={
+                -7: PinSpecification(
+                    name="h5_chunk_size",
+                    type_names=["int32"],
+                    optional=True,
+                    document=r"""Size of each HDF5 chunk in kilobytes (KB). Default: 1 MB when compression is enabled; for uncompressed datasets, the default is the full dataset size x dimension.""",
+                ),
                 -6: PinSpecification(
                     name="append_mode",
                     type_names=["bool"],
@@ -248,7 +265,7 @@ class hdf5dpf_generate_result_file(Operator):
         inputs:
             An instance of InputsHdf5DpfGenerateResultFile.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsHdf5DpfGenerateResultFile:
@@ -259,7 +276,7 @@ class hdf5dpf_generate_result_file(Operator):
         outputs:
             An instance of OutputsHdf5DpfGenerateResultFile.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsHdf5DpfGenerateResultFile(_Inputs):
@@ -270,6 +287,8 @@ class InputsHdf5DpfGenerateResultFile(_Inputs):
     --------
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
+    >>> my_h5_chunk_size = int()
+    >>> op.inputs.h5_chunk_size.connect(my_h5_chunk_size)
     >>> my_append_mode = bool()
     >>> op.inputs.append_mode.connect(my_append_mode)
     >>> my_dataset_size_compression_threshold = int()
@@ -294,6 +313,10 @@ class InputsHdf5DpfGenerateResultFile(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(hdf5dpf_generate_result_file._spec().inputs, op)
+        self._h5_chunk_size = Input(
+            hdf5dpf_generate_result_file._spec().input_pin(-7), -7, op, -1
+        )
+        self._inputs.append(self._h5_chunk_size)
         self._append_mode = Input(
             hdf5dpf_generate_result_file._spec().input_pin(-6), -6, op, -1
         )
@@ -334,6 +357,27 @@ class InputsHdf5DpfGenerateResultFile(_Inputs):
             hdf5dpf_generate_result_file._spec().input_pin(5), 5, op, 1
         )
         self._inputs.append(self._input_name2)
+
+    @property
+    def h5_chunk_size(self) -> Input:
+        r"""Allows to connect h5_chunk_size input to the operator.
+
+        Size of each HDF5 chunk in kilobytes (KB). Default: 1 MB when compression is enabled; for uncompressed datasets, the default is the full dataset size x dimension.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
+        >>> op.inputs.h5_chunk_size.connect(my_h5_chunk_size)
+        >>> # or
+        >>> op.inputs.h5_chunk_size(my_h5_chunk_size)
+        """
+        return self._h5_chunk_size
 
     @property
     def append_mode(self) -> Input:

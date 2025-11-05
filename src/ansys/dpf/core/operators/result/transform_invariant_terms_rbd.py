@@ -20,8 +20,8 @@ class transform_invariant_terms_rbd(Operator):
     + rotation).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     rotation_matrix: Field
         3-3 rotation matrix.
     coordinate_system: Field
@@ -55,7 +55,7 @@ class transform_invariant_terms_rbd(Operator):
     dnyn:
     dnzn:
 
-    Returns
+    Outputs
     -------
     model_data: PropertyField
         data describing the finite element model
@@ -198,6 +198,9 @@ class transform_invariant_terms_rbd(Operator):
     >>> result_dnyn = op.outputs.dnyn()
     >>> result_dnzn = op.outputs.dnzn()
     """
+
+    _inputs: InputsTransformInvariantTermsRbd
+    _outputs: OutputsTransformInvariantTermsRbd
 
     def __init__(
         self,
@@ -619,7 +622,7 @@ class transform_invariant_terms_rbd(Operator):
         inputs:
             An instance of InputsTransformInvariantTermsRbd.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsTransformInvariantTermsRbd:
@@ -630,7 +633,7 @@ class transform_invariant_terms_rbd(Operator):
         outputs:
             An instance of OutputsTransformInvariantTermsRbd.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsTransformInvariantTermsRbd(_Inputs):

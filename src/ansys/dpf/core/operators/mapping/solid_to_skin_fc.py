@@ -25,15 +25,15 @@ class solid_to_skin_fc(Operator):
     skin mesh for each element face and the nodes associated with it.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     mesh: MeshedRegion
         skin mesh region expected
     solid_mesh: MeshedRegion, optional
         Solid mesh support (optional).
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -62,6 +62,9 @@ class solid_to_skin_fc(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsSolidToSkinFc
+    _outputs: OutputsSolidToSkinFc
 
     def __init__(
         self,
@@ -154,7 +157,7 @@ skin mesh for each element face and the nodes associated with it.
         inputs:
             An instance of InputsSolidToSkinFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsSolidToSkinFc:
@@ -165,7 +168,7 @@ skin mesh for each element face and the nodes associated with it.
         outputs:
             An instance of OutputsSolidToSkinFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsSolidToSkinFc(_Inputs):

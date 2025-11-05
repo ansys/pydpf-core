@@ -21,8 +21,8 @@ class remote_operator_instantiate(Operator):
     workflow is created with this operator and returned in output
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     operator_to_send: int
         local workflow to push to a remote or id of a remote workflow
     output_pin: int
@@ -32,7 +32,7 @@ class remote_operator_instantiate(Operator):
     output_name: str
         output's name of the workflow to return
 
-    Returns
+    Outputs
     -------
     remote_workflow: Workflow
         remote workflow containing an image of the remote workflow and the protocols streams
@@ -68,6 +68,9 @@ class remote_operator_instantiate(Operator):
     >>> # Get output data
     >>> result_remote_workflow = op.outputs.remote_workflow()
     """
+
+    _inputs: InputsRemoteOperatorInstantiate
+    _outputs: OutputsRemoteOperatorInstantiate
 
     def __init__(
         self,
@@ -178,7 +181,7 @@ workflow is created with this operator and returned in output
         inputs:
             An instance of InputsRemoteOperatorInstantiate.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsRemoteOperatorInstantiate:
@@ -189,7 +192,7 @@ workflow is created with this operator and returned in output
         outputs:
             An instance of OutputsRemoteOperatorInstantiate.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsRemoteOperatorInstantiate(_Inputs):

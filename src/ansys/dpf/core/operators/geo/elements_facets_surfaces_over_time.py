@@ -21,15 +21,15 @@ class elements_facets_surfaces_over_time(Operator):
     surface elements.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     scoping: Scoping, optional
     displacement: FieldsContainer, optional
         Displacement field's container.
     mesh: MeshedRegion, optional
         Mesh must be defined if the displacement field's container does not contain it, or if there is no displacement.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
         Surfaces field.
@@ -62,6 +62,9 @@ class elements_facets_surfaces_over_time(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     >>> result_mesh = op.outputs.mesh()
     """
+
+    _inputs: InputsElementsFacetsSurfacesOverTime
+    _outputs: OutputsElementsFacetsSurfacesOverTime
 
     def __init__(
         self, scoping=None, displacement=None, mesh=None, config=None, server=None
@@ -151,7 +154,7 @@ surface elements.
         inputs:
             An instance of InputsElementsFacetsSurfacesOverTime.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsElementsFacetsSurfacesOverTime:
@@ -162,7 +165,7 @@ surface elements.
         outputs:
             An instance of OutputsElementsFacetsSurfacesOverTime.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsElementsFacetsSurfacesOverTime(_Inputs):

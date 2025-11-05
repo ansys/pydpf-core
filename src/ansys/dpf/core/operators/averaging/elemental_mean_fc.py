@@ -27,8 +27,8 @@ class elemental_mean_fc(Operator):
     layers are collapsed and shells and solid fields are always merged.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     collapse_shell_layers: bool, optional
         If true, the data across different shell layers is averaged as well (default is false).
@@ -43,7 +43,7 @@ class elemental_mean_fc(Operator):
     e_shell_layer: int, optional
         0: Top, 1: Bottom, 2: TopBottom, 3: Mid, 4: TopBottomMid. This pin only has an effect when collapse_shell_layers is false.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -84,6 +84,9 @@ class elemental_mean_fc(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsElementalMeanFc
+    _outputs: OutputsElementalMeanFc
 
     def __init__(
         self,
@@ -214,7 +217,7 @@ layers are collapsed and shells and solid fields are always merged.
         inputs:
             An instance of InputsElementalMeanFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsElementalMeanFc:
@@ -225,7 +228,7 @@ layers are collapsed and shells and solid fields are always merged.
         outputs:
             An instance of OutputsElementalMeanFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsElementalMeanFc(_Inputs):

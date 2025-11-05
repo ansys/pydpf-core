@@ -27,8 +27,8 @@ class fft(Operator):
     coefficient will be returned).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
         Field or Fields Container.
     scale_forward_transform: float, optional
@@ -42,7 +42,7 @@ class fft(Operator):
     scale_right_amplitude: bool, optional
         If set to true (default is false), 2/field_num_entities scaling will be applied, to have right amplitude values.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
         Output Complex Fields Container with labels matching input Fields Container. No supports binded, but prepare_sampling_fft provides it.
@@ -81,6 +81,9 @@ class fft(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsFft
+    _outputs: OutputsFft
 
     def __init__(
         self,
@@ -202,7 +205,7 @@ coefficient will be returned).
         inputs:
             An instance of InputsFft.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsFft:
@@ -213,7 +216,7 @@ coefficient will be returned).
         outputs:
             An instance of OutputsFft.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsFft(_Inputs):

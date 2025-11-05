@@ -19,14 +19,14 @@ class python_generator(Operator):
     r"""Generates .py file with specifications for loaded plugin(s).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     dll_source_path: str
     output_path: str
     load_symbol: str, optional
     library_key: str, optional
 
-    Returns
+    Outputs
     -------
 
     Examples
@@ -55,6 +55,9 @@ class python_generator(Operator):
     ... )
 
     """
+
+    _inputs: InputsPythonGenerator
+    _outputs: OutputsPythonGenerator
 
     def __init__(
         self,
@@ -143,7 +146,7 @@ class python_generator(Operator):
         inputs:
             An instance of InputsPythonGenerator.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsPythonGenerator:
@@ -154,7 +157,7 @@ class python_generator(Operator):
         outputs:
             An instance of OutputsPythonGenerator.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsPythonGenerator(_Inputs):

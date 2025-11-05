@@ -19,14 +19,14 @@ class merge_materials(Operator):
     r"""Assembles a set of materials into a unique one.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     materials1: Materials
         A vector of materials to merge or materials from pin 0 to ...
     materials2: Materials
         A vector of materials to merge or materials from pin 0 to ...
 
-    Returns
+    Outputs
     -------
     merged_materials: Materials
 
@@ -52,6 +52,9 @@ class merge_materials(Operator):
     >>> # Get output data
     >>> result_merged_materials = op.outputs.merged_materials()
     """
+
+    _inputs: InputsMergeMaterials
+    _outputs: OutputsMergeMaterials
 
     def __init__(self, materials1=None, materials2=None, config=None, server=None):
         super().__init__(name="merge::materials", config=config, server=server)
@@ -123,7 +126,7 @@ class merge_materials(Operator):
         inputs:
             An instance of InputsMergeMaterials.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMergeMaterials:
@@ -134,7 +137,7 @@ class merge_materials(Operator):
         outputs:
             An instance of OutputsMergeMaterials.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMergeMaterials(_Inputs):

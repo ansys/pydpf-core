@@ -20,13 +20,13 @@ class min_max_by_time(Operator):
     each field
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     compute_absolute_value: bool, optional
         Calculate the absolute value of field entities before computing the min/max.
 
-    Returns
+    Outputs
     -------
     min: FieldsContainer
     max: FieldsContainer
@@ -54,6 +54,9 @@ class min_max_by_time(Operator):
     >>> result_min = op.outputs.min()
     >>> result_max = op.outputs.max()
     """
+
+    _inputs: InputsMinMaxByTime
+    _outputs: OutputsMinMaxByTime
 
     def __init__(
         self,
@@ -138,7 +141,7 @@ each field
         inputs:
             An instance of InputsMinMaxByTime.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMinMaxByTime:
@@ -149,7 +152,7 @@ each field
         outputs:
             An instance of OutputsMinMaxByTime.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMinMaxByTime(_Inputs):

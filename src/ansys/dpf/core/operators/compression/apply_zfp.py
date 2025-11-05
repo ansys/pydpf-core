@@ -19,8 +19,8 @@ class apply_zfp(Operator):
     r"""Compressing input data using one of zfp compression algorithm modes.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     dataIn: Field or FieldsContainer
         field or fields container to be compressed
     mode: str or Char
@@ -36,7 +36,7 @@ class apply_zfp(Operator):
     double_relthreshold: float, optional
         Double relative threshold. Values smaller than (v1 - v2) < max(small value, v1 * relativeTol) are considered identical (default value: 1.0e-10).
 
-    Returns
+    Outputs
     -------
     compress_speed: float
         the output entity is a double, containing compression speed of the input data: for ElementalNodal location - [elements/sec], for Nodal location - [nodes/sec]
@@ -84,6 +84,9 @@ class apply_zfp(Operator):
     >>> result_compress_ratio = op.outputs.compress_ratio()
     >>> result_dataOut = op.outputs.dataOut()
     """
+
+    _inputs: InputsApplyZfp
+    _outputs: OutputsApplyZfp
 
     def __init__(
         self,
@@ -218,7 +221,7 @@ class apply_zfp(Operator):
         inputs:
             An instance of InputsApplyZfp.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsApplyZfp:
@@ -229,7 +232,7 @@ class apply_zfp(Operator):
         outputs:
             An instance of OutputsApplyZfp.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsApplyZfp(_Inputs):

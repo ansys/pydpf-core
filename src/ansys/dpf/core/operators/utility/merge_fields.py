@@ -19,8 +19,8 @@ class merge_fields(Operator):
     r"""Assembles a set of fields into a unique one.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     sum_merge: bool, optional
         Default is false. If true, redundant quantities are summed instead of being ignored.
     merged_support: AbstractFieldSupport, optional
@@ -30,7 +30,7 @@ class merge_fields(Operator):
     fields2: Field or FieldsContainer
         Either a fields container, a vector of fields to merge, or fields from pin 0 to ...
 
-    Returns
+    Outputs
     -------
     merged_field: Field
 
@@ -62,6 +62,9 @@ class merge_fields(Operator):
     >>> # Get output data
     >>> result_merged_field = op.outputs.merged_field()
     """
+
+    _inputs: InputsMergeFields
+    _outputs: OutputsMergeFields
 
     def __init__(
         self,
@@ -157,7 +160,7 @@ class merge_fields(Operator):
         inputs:
             An instance of InputsMergeFields.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMergeFields:
@@ -168,7 +171,7 @@ class merge_fields(Operator):
         outputs:
             An instance of OutputsMergeFields.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMergeFields(_Inputs):

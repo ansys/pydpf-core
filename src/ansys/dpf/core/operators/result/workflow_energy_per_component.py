@@ -20,8 +20,8 @@ class workflow_energy_per_component(Operator):
     cyclic and multistage models, the expansion will be automatically done.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     time_scoping: Scoping, optional
     mesh_scoping: Scoping or ScopingsContainer, optional
         When the input is a scoping, it is treated as the master scoping. All named selections will intersect with it. When the input is a scopings container, named selections will not be needed.
@@ -34,7 +34,7 @@ class workflow_energy_per_component(Operator):
     named_selection2: str, optional
         Named Selections. Intersection of all  Named Selections with the master scoping will be done.
 
-    Returns
+    Outputs
     -------
     component_energy: FieldsContainer
     component_energy_percentage: FieldsContainer
@@ -89,6 +89,9 @@ class workflow_energy_per_component(Operator):
     >>> result_component_kinetic_energy = op.outputs.component_kinetic_energy()
     >>> result_component_kinetic_energy_percentage = op.outputs.component_kinetic_energy_percentage()
     """
+
+    _inputs: InputsWorkflowEnergyPerComponent
+    _outputs: OutputsWorkflowEnergyPerComponent
 
     def __init__(
         self,
@@ -258,7 +261,7 @@ cyclic and multistage models, the expansion will be automatically done.
         inputs:
             An instance of InputsWorkflowEnergyPerComponent.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsWorkflowEnergyPerComponent:
@@ -269,7 +272,7 @@ cyclic and multistage models, the expansion will be automatically done.
         outputs:
             An instance of OutputsWorkflowEnergyPerComponent.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsWorkflowEnergyPerComponent(_Inputs):

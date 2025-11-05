@@ -35,8 +35,8 @@ class elemental_to_nodal_fc(Operator):
        used.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     mesh: MeshedRegion or MeshesContainer, optional
     force_averaging: int, optional
@@ -45,7 +45,7 @@ class elemental_to_nodal_fc(Operator):
     algorithm: int, optional
         Forces the usage of algorithm 1, 2 or 3 (default is chosen based on the type of mesh).
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -80,6 +80,9 @@ class elemental_to_nodal_fc(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsElementalToNodalFc
+    _outputs: OutputsElementalToNodalFc
 
     def __init__(
         self,
@@ -200,7 +203,7 @@ value on a node is the average of the values of the neighbour elements.
         inputs:
             An instance of InputsElementalToNodalFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsElementalToNodalFc:
@@ -211,7 +214,7 @@ value on a node is the average of the values of the neighbour elements.
         outputs:
             An instance of OutputsElementalToNodalFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsElementalToNodalFc(_Inputs):

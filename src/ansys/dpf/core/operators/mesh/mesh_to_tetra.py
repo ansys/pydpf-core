@@ -22,12 +22,12 @@ class mesh_to_tetra(Operator):
     input mesh are provided, output pins (1) & (2) respectively.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mesh: MeshedRegion
         Mesh with arbitrary element types.
 
-    Returns
+    Outputs
     -------
     mesh: MeshedRegion
         Tetrahedralized mesh.
@@ -57,6 +57,9 @@ class mesh_to_tetra(Operator):
     >>> result_node_mapping = op.outputs.node_mapping()
     >>> result_element_mapping = op.outputs.element_mapping()
     """
+
+    _inputs: InputsMeshToTetra
+    _outputs: OutputsMeshToTetra
 
     def __init__(self, mesh=None, config=None, server=None):
         super().__init__(name="mesh_to_tetra", config=config, server=server)
@@ -135,7 +138,7 @@ input mesh are provided, output pins (1) & (2) respectively.
         inputs:
             An instance of InputsMeshToTetra.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMeshToTetra:
@@ -146,7 +149,7 @@ input mesh are provided, output pins (1) & (2) respectively.
         outputs:
             An instance of OutputsMeshToTetra.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMeshToTetra(_Inputs):

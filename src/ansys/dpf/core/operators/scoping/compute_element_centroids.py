@@ -20,14 +20,14 @@ class compute_element_centroids(Operator):
     measure.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     element_scoping: Scoping, optional
         If provided, only the centroids of the elements in the scoping are computed.
     mesh: MeshedRegion
         Mesh to compute centroids
 
-    Returns
+    Outputs
     -------
     centroids: Field
         element centroids.
@@ -57,6 +57,9 @@ class compute_element_centroids(Operator):
     >>> result_centroids = op.outputs.centroids()
     >>> result_measure = op.outputs.measure()
     """
+
+    _inputs: InputsComputeElementCentroids
+    _outputs: OutputsComputeElementCentroids
 
     def __init__(self, element_scoping=None, mesh=None, config=None, server=None):
         super().__init__(name="compute_element_centroids", config=config, server=server)
@@ -135,7 +138,7 @@ measure.
         inputs:
             An instance of InputsComputeElementCentroids.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsComputeElementCentroids:
@@ -146,7 +149,7 @@ measure.
         outputs:
             An instance of OutputsComputeElementCentroids.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsComputeElementCentroids(_Inputs):

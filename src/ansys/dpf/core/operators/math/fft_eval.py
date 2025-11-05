@@ -19,14 +19,14 @@ class fft_eval(Operator):
     r"""Evaluate the fast fourier transforms at a given set of fields.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field_t: Field
         field of values to evaluate
     time_scoping: Scoping, optional
         if specified only the results at these set ids are used
 
-    Returns
+    Outputs
     -------
     field: Field
     offset: Field
@@ -54,6 +54,9 @@ class fft_eval(Operator):
     >>> result_field = op.outputs.field()
     >>> result_offset = op.outputs.offset()
     """
+
+    _inputs: InputsFftEval
+    _outputs: OutputsFftEval
 
     def __init__(self, field_t=None, time_scoping=None, config=None, server=None):
         super().__init__(name="fft_eval", config=config, server=server)
@@ -131,7 +134,7 @@ class fft_eval(Operator):
         inputs:
             An instance of InputsFftEval.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsFftEval:
@@ -142,7 +145,7 @@ class fft_eval(Operator):
         outputs:
             An instance of OutputsFftEval.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsFftEval(_Inputs):

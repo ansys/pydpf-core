@@ -19,11 +19,11 @@ class sin(Operator):
     r"""Computes element-wise sin(field[i]).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field
 
-    Returns
+    Outputs
     -------
     field: Field
 
@@ -46,6 +46,9 @@ class sin(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsSin
+    _outputs: OutputsSin
 
     def __init__(self, field=None, config=None, server=None):
         super().__init__(name="sin", config=config, server=server)
@@ -109,7 +112,7 @@ class sin(Operator):
         inputs:
             An instance of InputsSin.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsSin:
@@ -120,7 +123,7 @@ class sin(Operator):
         outputs:
             An instance of OutputsSin.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsSin(_Inputs):

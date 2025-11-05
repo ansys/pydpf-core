@@ -20,8 +20,8 @@ class cyclic_expansion(Operator):
     scoping (optionals).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     time_scoping: Scoping, optional
     mesh_scoping: ScopingsContainer or Scoping, optional
     fields_container: FieldsContainer
@@ -39,7 +39,7 @@ class cyclic_expansion(Operator):
     phi: float, optional
         angle phi in degrees (default value 0.0)
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
         FieldsContainer filled in
@@ -93,6 +93,9 @@ class cyclic_expansion(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsCyclicExpansion
+    _outputs: OutputsCyclicExpansion
 
     def __init__(
         self,
@@ -252,7 +255,7 @@ scoping (optionals).
         inputs:
             An instance of InputsCyclicExpansion.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsCyclicExpansion:
@@ -263,7 +266,7 @@ scoping (optionals).
         outputs:
             An instance of OutputsCyclicExpansion.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsCyclicExpansion(_Inputs):

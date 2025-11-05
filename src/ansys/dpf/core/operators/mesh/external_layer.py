@@ -20,11 +20,11 @@ class external_layer(Operator):
     new meshed region.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mesh: MeshedRegion
 
-    Returns
+    Outputs
     -------
     mesh: MeshedRegion
     nodes_mesh_scoping: Scoping
@@ -51,6 +51,9 @@ class external_layer(Operator):
     >>> result_nodes_mesh_scoping = op.outputs.nodes_mesh_scoping()
     >>> result_elements_mesh_scoping = op.outputs.elements_mesh_scoping()
     """
+
+    _inputs: InputsExternalLayer
+    _outputs: OutputsExternalLayer
 
     def __init__(self, mesh=None, config=None, server=None):
         super().__init__(
@@ -131,7 +134,7 @@ new meshed region.
         inputs:
             An instance of InputsExternalLayer.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsExternalLayer:
@@ -142,7 +145,7 @@ new meshed region.
         outputs:
             An instance of OutputsExternalLayer.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsExternalLayer(_Inputs):

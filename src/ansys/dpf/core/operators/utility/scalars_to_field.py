@@ -19,8 +19,8 @@ class scalars_to_field(Operator):
     r"""Create scalar or vector Field.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     double_or_vector_double: float, optional
         Data of the field, default is 0-field. Specify a double to have a field of same value or specify directly the data vector.
     unit: str, optional
@@ -34,7 +34,7 @@ class scalars_to_field(Operator):
     scoping: Scoping, optional
         Scoping.
 
-    Returns
+    Outputs
     -------
     field: Field
 
@@ -72,6 +72,9 @@ class scalars_to_field(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsScalarsToField
+    _outputs: OutputsScalarsToField
 
     def __init__(
         self,
@@ -185,7 +188,7 @@ class scalars_to_field(Operator):
         inputs:
             An instance of InputsScalarsToField.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsScalarsToField:
@@ -196,7 +199,7 @@ class scalars_to_field(Operator):
         outputs:
             An instance of OutputsScalarsToField.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsScalarsToField(_Inputs):

@@ -22,8 +22,8 @@ class mac(Operator):
     an user responsability.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_containerA: FieldsContainer
         Fields Container A.
     fields_containerB: FieldsContainer
@@ -31,7 +31,7 @@ class mac(Operator):
     weights: Field
         Field M, optional weighting for MAC Matrix computation.
 
-    Returns
+    Outputs
     -------
     field: Field
         MAC Matrix for all the combinations between mode fields of Field Container A and Field Container B. Results listed row by row.
@@ -61,6 +61,9 @@ class mac(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsMac
+    _outputs: OutputsMac
 
     def __init__(
         self,
@@ -159,7 +162,7 @@ an user responsability.
         inputs:
             An instance of InputsMac.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMac:
@@ -170,7 +173,7 @@ an user responsability.
         outputs:
             An instance of OutputsMac.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMac(_Inputs):

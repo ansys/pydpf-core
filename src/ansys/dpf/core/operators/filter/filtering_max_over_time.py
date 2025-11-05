@@ -20,8 +20,8 @@ class filtering_max_over_time(Operator):
     threshold of a selected invariant.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     invariant_fc_operator: str
         Name of the invariant operator to be used to calculate filter (available: eqv_fc, invariants_deriv_fc, invariants_fc).
     output_pin: int, optional
@@ -31,7 +31,7 @@ class filtering_max_over_time(Operator):
     threshold: float, optional
         Threshold from which the operator will filter.
 
-    Returns
+    Outputs
     -------
     workflow: Workflow
 
@@ -63,6 +63,9 @@ class filtering_max_over_time(Operator):
     >>> # Get output data
     >>> result_workflow = op.outputs.workflow()
     """
+
+    _inputs: InputsFilteringMaxOverTime
+    _outputs: OutputsFilteringMaxOverTime
 
     def __init__(
         self,
@@ -159,7 +162,7 @@ threshold of a selected invariant.
         inputs:
             An instance of InputsFilteringMaxOverTime.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsFilteringMaxOverTime:
@@ -170,7 +173,7 @@ threshold of a selected invariant.
         outputs:
             An instance of OutputsFilteringMaxOverTime.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsFilteringMaxOverTime(_Inputs):

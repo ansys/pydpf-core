@@ -22,14 +22,14 @@ class rescope_custom_type_field(Operator):
     used when defined.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields: CustomTypeFieldsContainer or CustomTypeField
     mesh_scoping: Scoping, optional
     default_value: CustomTypeField or CustomTypeField, optional
         If pin 2 is used, the IDs not found in the custom type field are added with this default value.
 
-    Returns
+    Outputs
     -------
     fields: CustomTypeFieldsContainer or CustomTypeField
 
@@ -58,6 +58,9 @@ class rescope_custom_type_field(Operator):
     >>> # Get output data
     >>> result_fields = op.outputs.fields()
     """
+
+    _inputs: InputsRescopeCustomTypeField
+    _outputs: OutputsRescopeCustomTypeField
 
     def __init__(
         self,
@@ -146,7 +149,7 @@ used when defined.
         inputs:
             An instance of InputsRescopeCustomTypeField.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsRescopeCustomTypeField:
@@ -157,7 +160,7 @@ used when defined.
         outputs:
             An instance of OutputsRescopeCustomTypeField.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsRescopeCustomTypeField(_Inputs):

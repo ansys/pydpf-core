@@ -22,8 +22,8 @@ class scale_fc(Operator):
     corresponding to the input field dimensionality
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
         fields container to be scaled
     weights: float or Field or FieldsContainer
@@ -33,7 +33,7 @@ class scale_fc(Operator):
     algorithm: int, optional
         Default is 0 use mkl. If set to 1, don't
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -65,6 +65,9 @@ class scale_fc(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsScaleFc
+    _outputs: OutputsScaleFc
 
     def __init__(
         self,
@@ -177,7 +180,7 @@ corresponding to the input field dimensionality
         inputs:
             An instance of InputsScaleFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsScaleFc:
@@ -188,7 +191,7 @@ corresponding to the input field dimensionality
         outputs:
             An instance of OutputsScaleFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsScaleFc(_Inputs):

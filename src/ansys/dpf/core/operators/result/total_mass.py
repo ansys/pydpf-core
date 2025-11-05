@@ -19,12 +19,12 @@ class total_mass(Operator):
     r"""Reads total mass from mode file.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     data_sources: DataSources
         Data sources (must contain at least one mode file).
 
-    Returns
+    Outputs
     -------
     mass: float
         the unit should be grabbed from the rst file
@@ -48,6 +48,9 @@ class total_mass(Operator):
     >>> # Get output data
     >>> result_mass = op.outputs.mass()
     """
+
+    _inputs: InputsTotalMass
+    _outputs: OutputsTotalMass
 
     def __init__(self, data_sources=None, config=None, server=None):
         super().__init__(name="mapdl::mode::total_mass", config=config, server=server)
@@ -111,7 +114,7 @@ class total_mass(Operator):
         inputs:
             An instance of InputsTotalMass.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsTotalMass:
@@ -122,7 +125,7 @@ class total_mass(Operator):
         outputs:
             An instance of OutputsTotalMass.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsTotalMass(_Inputs):

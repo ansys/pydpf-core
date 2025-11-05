@@ -20,12 +20,12 @@ class default_value(Operator):
     nothing on input pin 0.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     forced_value: optional
     default_value:
 
-    Returns
+    Outputs
     -------
     output:
 
@@ -51,6 +51,9 @@ class default_value(Operator):
     >>> # Get output data
     >>> result_output = op.outputs.output()
     """
+
+    _inputs: InputsDefaultValue
+    _outputs: OutputsDefaultValue
 
     def __init__(self, forced_value=None, default_value=None, config=None, server=None):
         super().__init__(name="default_value", config=config, server=server)
@@ -122,7 +125,7 @@ nothing on input pin 0.
         inputs:
             An instance of InputsDefaultValue.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsDefaultValue:
@@ -133,7 +136,7 @@ nothing on input pin 0.
         outputs:
             An instance of OutputsDefaultValue.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsDefaultValue(_Inputs):

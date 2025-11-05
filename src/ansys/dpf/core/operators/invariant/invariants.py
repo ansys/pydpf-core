@@ -19,11 +19,11 @@ class invariants(Operator):
     r"""Computes the element-wise invariants of a tensor field.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field
 
-    Returns
+    Outputs
     -------
     field_int: Field
         stress intensity field
@@ -53,6 +53,9 @@ class invariants(Operator):
     >>> result_field_eqv = op.outputs.field_eqv()
     >>> result_field_max_shear = op.outputs.field_max_shear()
     """
+
+    _inputs: InputsInvariants
+    _outputs: OutputsInvariants
 
     def __init__(self, field=None, config=None, server=None):
         super().__init__(name="invariants_deriv", config=config, server=server)
@@ -128,7 +131,7 @@ class invariants(Operator):
         inputs:
             An instance of InputsInvariants.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsInvariants:
@@ -139,7 +142,7 @@ class invariants(Operator):
         outputs:
             An instance of OutputsInvariants.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsInvariants(_Inputs):

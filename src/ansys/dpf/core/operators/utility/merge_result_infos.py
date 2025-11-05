@@ -19,14 +19,14 @@ class merge_result_infos(Operator):
     r"""Assembles a set of result information into a unique one.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     result_infos1: ResultInfo
         A vector of result info containers to merge or result infos from pin 0 to ...
     result_infos2: ResultInfo
         A vector of result info containers to merge or result infos from pin 0 to ...
 
-    Returns
+    Outputs
     -------
     merged_result_infos: ResultInfo
 
@@ -52,6 +52,9 @@ class merge_result_infos(Operator):
     >>> # Get output data
     >>> result_merged_result_infos = op.outputs.merged_result_infos()
     """
+
+    _inputs: InputsMergeResultInfos
+    _outputs: OutputsMergeResultInfos
 
     def __init__(
         self, result_infos1=None, result_infos2=None, config=None, server=None
@@ -125,7 +128,7 @@ class merge_result_infos(Operator):
         inputs:
             An instance of InputsMergeResultInfos.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMergeResultInfos:
@@ -136,7 +139,7 @@ class merge_result_infos(Operator):
         outputs:
             An instance of OutputsMergeResultInfos.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMergeResultInfos(_Inputs):

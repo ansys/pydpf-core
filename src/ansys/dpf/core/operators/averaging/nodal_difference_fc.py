@@ -24,15 +24,15 @@ class nodal_difference_fc(Operator):
     elshape label.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     mesh: MeshedRegion or MeshesContainer, optional
         The mesh region in this pin is used to perform the averaging. It is used if there is no fields support.
     scoping: Scoping or ScopingsContainer, optional
         Average only on these nodes. If it is a scoping container, the label must correspond to the one of the fields containers.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -61,6 +61,9 @@ class nodal_difference_fc(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsNodalDifferenceFc
+    _outputs: OutputsNodalDifferenceFc
 
     def __init__(
         self, fields_container=None, mesh=None, scoping=None, config=None, server=None
@@ -147,7 +150,7 @@ elshape label.
         inputs:
             An instance of InputsNodalDifferenceFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsNodalDifferenceFc:
@@ -158,7 +161,7 @@ elshape label.
         outputs:
             An instance of OutputsNodalDifferenceFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsNodalDifferenceFc(_Inputs):

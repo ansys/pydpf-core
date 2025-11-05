@@ -19,12 +19,12 @@ class cos(Operator):
     r"""Computes element-wise cos(field[i]).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
         field or fields container with only one field is expected
 
-    Returns
+    Outputs
     -------
     field: Field
 
@@ -47,6 +47,9 @@ class cos(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsCos
+    _outputs: OutputsCos
 
     def __init__(self, field=None, config=None, server=None):
         super().__init__(name="cos", config=config, server=server)
@@ -110,7 +113,7 @@ class cos(Operator):
         inputs:
             An instance of InputsCos.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsCos:
@@ -121,7 +124,7 @@ class cos(Operator):
         outputs:
             An instance of OutputsCos.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsCos(_Inputs):

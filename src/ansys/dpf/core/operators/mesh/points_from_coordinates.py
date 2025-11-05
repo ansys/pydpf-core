@@ -20,12 +20,12 @@ class points_from_coordinates(Operator):
     meshes coordinates on the input scopings.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     nodes_to_keep: Scoping or ScopingsContainer
     mesh: MeshedRegion or MeshesContainer
 
-    Returns
+    Outputs
     -------
     abstract_meshed_region: MeshedRegion
 
@@ -51,6 +51,9 @@ class points_from_coordinates(Operator):
     >>> # Get output data
     >>> result_abstract_meshed_region = op.outputs.abstract_meshed_region()
     """
+
+    _inputs: InputsPointsFromCoordinates
+    _outputs: OutputsPointsFromCoordinates
 
     def __init__(self, nodes_to_keep=None, mesh=None, config=None, server=None):
         super().__init__(
@@ -127,7 +130,7 @@ meshes coordinates on the input scopings.
         inputs:
             An instance of InputsPointsFromCoordinates.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsPointsFromCoordinates:
@@ -138,7 +141,7 @@ meshes coordinates on the input scopings.
         outputs:
             An instance of OutputsPointsFromCoordinates.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsPointsFromCoordinates(_Inputs):

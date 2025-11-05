@@ -20,15 +20,15 @@ class find_reduced_coordinates(Operator):
     computes their reduced coordinates in those elements.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     coordinates: Field or FieldsContainer or MeshedRegion or MeshesContainer
     mesh: MeshedRegion or MeshesContainer, optional
         If the first field in input has no mesh in support, then the mesh in this pin is expected (default is false). If a meshes container with several meshes is set, it should be on the same label spaces as the coordinates fields container.
     use_quadratic_elements: bool, optional
         If this pin is set to true, reduced coordinates are computed on the quadratic element if the element is quadratic (more precise but less performant). Default is false.
 
-    Returns
+    Outputs
     -------
     reduced_coordinates: FieldsContainer
         coordinates in the reference elements
@@ -61,6 +61,9 @@ class find_reduced_coordinates(Operator):
     >>> result_reduced_coordinates = op.outputs.reduced_coordinates()
     >>> result_element_ids = op.outputs.element_ids()
     """
+
+    _inputs: InputsFindReducedCoordinates
+    _outputs: OutputsFindReducedCoordinates
 
     def __init__(
         self,
@@ -159,7 +162,7 @@ computes their reduced coordinates in those elements.
         inputs:
             An instance of InputsFindReducedCoordinates.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsFindReducedCoordinates:
@@ -170,7 +173,7 @@ computes their reduced coordinates in those elements.
         outputs:
             An instance of OutputsFindReducedCoordinates.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsFindReducedCoordinates(_Inputs):

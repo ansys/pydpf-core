@@ -20,15 +20,15 @@ class timescoping_high_pass(Operator):
     threshold value in input.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     time_freq_support: TimeFreqSupport
     threshold: float or Field
         A threshold scalar or a field containing one value is expected.
     both: bool, optional
         The default is false. If set to true, the complement of the filtered fields container is returned on output pin 1.
 
-    Returns
+    Outputs
     -------
     scoping: Scoping
 
@@ -57,6 +57,9 @@ class timescoping_high_pass(Operator):
     >>> # Get output data
     >>> result_scoping = op.outputs.scoping()
     """
+
+    _inputs: InputsTimescopingHighPass
+    _outputs: OutputsTimescopingHighPass
 
     def __init__(
         self,
@@ -148,7 +151,7 @@ threshold value in input.
         inputs:
             An instance of InputsTimescopingHighPass.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsTimescopingHighPass:
@@ -159,7 +162,7 @@ threshold value in input.
         outputs:
             An instance of OutputsTimescopingHighPass.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsTimescopingHighPass(_Inputs):

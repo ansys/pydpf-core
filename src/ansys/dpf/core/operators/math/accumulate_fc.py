@@ -20,8 +20,8 @@ class accumulate_fc(Operator):
     point.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
         field or fields container with only one field is expected
     weights: Field, optional
@@ -29,7 +29,7 @@ class accumulate_fc(Operator):
     time_scoping: Scoping, optional
         time_scoping
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
         Field containing the (weighted) sum for each component in an elementary data
@@ -59,6 +59,9 @@ class accumulate_fc(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsAccumulateFc
+    _outputs: OutputsAccumulateFc
 
     def __init__(
         self,
@@ -155,7 +158,7 @@ point.
         inputs:
             An instance of InputsAccumulateFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsAccumulateFc:
@@ -166,7 +169,7 @@ point.
         outputs:
             An instance of OutputsAccumulateFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsAccumulateFc(_Inputs):

@@ -20,13 +20,13 @@ class norm_fc(Operator):
     process is applied on each field of the input fields container.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     scalar_int: int, optional
         Lp normalisation type, p = 1, 2, ...n - Default Lp=2
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -52,6 +52,9 @@ class norm_fc(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsNormFc
+    _outputs: OutputsNormFc
 
     def __init__(
         self, fields_container=None, scalar_int=None, config=None, server=None
@@ -126,7 +129,7 @@ process is applied on each field of the input fields container.
         inputs:
             An instance of InputsNormFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsNormFc:
@@ -137,7 +140,7 @@ process is applied on each field of the input fields container.
         outputs:
             An instance of OutputsNormFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsNormFc(_Inputs):

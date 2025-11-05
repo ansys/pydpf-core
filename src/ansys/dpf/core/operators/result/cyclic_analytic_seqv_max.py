@@ -20,8 +20,8 @@ class cyclic_analytic_seqv_max(Operator):
     expected on 360 degrees
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     time_scoping: Scoping, optional
     mesh_scoping: ScopingsContainer or Scoping, optional
     fields_container: FieldsContainer
@@ -30,7 +30,7 @@ class cyclic_analytic_seqv_max(Operator):
         default is true
     cyclic_support: CyclicSupport
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
         FieldsContainer filled in
@@ -66,6 +66,9 @@ class cyclic_analytic_seqv_max(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsCyclicAnalyticSeqvMax
+    _outputs: OutputsCyclicAnalyticSeqvMax
 
     def __init__(
         self,
@@ -175,7 +178,7 @@ expected on 360 degrees
         inputs:
             An instance of InputsCyclicAnalyticSeqvMax.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsCyclicAnalyticSeqvMax:
@@ -186,7 +189,7 @@ expected on 360 degrees
         outputs:
             An instance of OutputsCyclicAnalyticSeqvMax.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsCyclicAnalyticSeqvMax(_Inputs):

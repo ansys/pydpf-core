@@ -19,12 +19,12 @@ class sqr_fc(Operator):
     r"""Computes element-wise field[i]^2.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
         field or fields container with only one field is expected
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -47,6 +47,9 @@ class sqr_fc(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsSqrFc
+    _outputs: OutputsSqrFc
 
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="sqr_fc", config=config, server=server)
@@ -110,7 +113,7 @@ class sqr_fc(Operator):
         inputs:
             An instance of InputsSqrFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsSqrFc:
@@ -121,7 +124,7 @@ class sqr_fc(Operator):
         outputs:
             An instance of OutputsSqrFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsSqrFc(_Inputs):

@@ -24,15 +24,15 @@ class rotate_in_cylindrical_cs_fc(Operator):
     coordinate system.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
     coordinate_system: Field, optional
         3-3 rotation matrix and origin coordinates must be set here to define a coordinate system.
     mesh: MeshedRegion, optional
         Mesh support of the input fields_container, in case it does not have one defined.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -61,6 +61,9 @@ class rotate_in_cylindrical_cs_fc(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsRotateInCylindricalCsFc
+    _outputs: OutputsRotateInCylindricalCsFc
 
     def __init__(
         self, field=None, coordinate_system=None, mesh=None, config=None, server=None
@@ -151,7 +154,7 @@ coordinate system.
         inputs:
             An instance of InputsRotateInCylindricalCsFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsRotateInCylindricalCsFc:
@@ -162,7 +165,7 @@ coordinate system.
         outputs:
             An instance of OutputsRotateInCylindricalCsFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsRotateInCylindricalCsFc(_Inputs):

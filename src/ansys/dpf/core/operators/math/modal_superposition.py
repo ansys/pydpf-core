@@ -21,8 +21,8 @@ class modal_superposition(Operator):
     (coefficients for each mode for each time/frequency) (in 1).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     modal_basis: FieldsContainer
         One field by mode with each field representing a mode shape on nodes or elements.
     solution_in_modal_space: FieldsContainer
@@ -34,7 +34,7 @@ class modal_superposition(Operator):
     mesh_scoping: Scoping or ScopingsContainer, optional
         Compute the result on a subset of the space domain defined in the modal_basis fields container.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -69,6 +69,9 @@ class modal_superposition(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsModalSuperposition
+    _outputs: OutputsModalSuperposition
 
     def __init__(
         self,
@@ -179,7 +182,7 @@ by multiplying a modal basis (in 0)by the solution in this modal space
         inputs:
             An instance of InputsModalSuperposition.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsModalSuperposition:
@@ -190,7 +193,7 @@ by multiplying a modal basis (in 0)by the solution in this modal space
         outputs:
             An instance of OutputsModalSuperposition.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsModalSuperposition(_Inputs):

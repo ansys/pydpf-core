@@ -20,8 +20,8 @@ class to_nodal_fc(Operator):
     result is computed on a given node’s scoping.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     mesh: MeshedRegion, optional
     mesh_scoping: Scoping, optional
@@ -30,7 +30,7 @@ class to_nodal_fc(Operator):
     shell_layer: int, optional
         0: Top, 1: Bottom, 2: TopBottom, 3: Mid, 4: TopBottomMid. If merge_solid_shell is true, this pin needs to be specified to a value that extracts only one layer (Top, Bottom or Mid).
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -65,6 +65,9 @@ class to_nodal_fc(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsToNodalFc
+    _outputs: OutputsToNodalFc
 
     def __init__(
         self,
@@ -170,7 +173,7 @@ result is computed on a given node’s scoping.
         inputs:
             An instance of InputsToNodalFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsToNodalFc:
@@ -181,7 +184,7 @@ result is computed on a given node’s scoping.
         outputs:
             An instance of OutputsToNodalFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsToNodalFc(_Inputs):

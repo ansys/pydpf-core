@@ -21,8 +21,8 @@ class add_rigid_body_motion(Operator):
     displacement field has to be in the global coordinate system
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     displacement_field: Field
     translation_field: Field
     rotation_field: Field
@@ -30,7 +30,7 @@ class add_rigid_body_motion(Operator):
     mesh: MeshedRegion, optional
         default is the mesh in the support
 
-    Returns
+    Outputs
     -------
     field: Field
 
@@ -65,6 +65,9 @@ class add_rigid_body_motion(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsAddRigidBodyMotion
+    _outputs: OutputsAddRigidBodyMotion
 
     def __init__(
         self,
@@ -171,7 +174,7 @@ displacement field has to be in the global coordinate system
         inputs:
             An instance of InputsAddRigidBodyMotion.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsAddRigidBodyMotion:
@@ -182,7 +185,7 @@ displacement field has to be in the global coordinate system
         outputs:
             An instance of OutputsAddRigidBodyMotion.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsAddRigidBodyMotion(_Inputs):

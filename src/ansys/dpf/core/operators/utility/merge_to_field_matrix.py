@@ -19,14 +19,14 @@ class merge_to_field_matrix(Operator):
     r"""Assembles a set of fields into a field matrix.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields1: Field or FieldsContainer
         Either a fields container, a vector of fields to merge, or fields from pin 0 to ...
     fields2: Field or FieldsContainer
         Either a fields container, a vector of fields to merge, or fields from pin 0 to ...
 
-    Returns
+    Outputs
     -------
     merged_field_matrix: Field
 
@@ -52,6 +52,9 @@ class merge_to_field_matrix(Operator):
     >>> # Get output data
     >>> result_merged_field_matrix = op.outputs.merged_field_matrix()
     """
+
+    _inputs: InputsMergeToFieldMatrix
+    _outputs: OutputsMergeToFieldMatrix
 
     def __init__(self, fields1=None, fields2=None, config=None, server=None):
         super().__init__(name="merge::to_field_matrix", config=config, server=server)
@@ -123,7 +126,7 @@ class merge_to_field_matrix(Operator):
         inputs:
             An instance of InputsMergeToFieldMatrix.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMergeToFieldMatrix:
@@ -134,7 +137,7 @@ class merge_to_field_matrix(Operator):
         outputs:
             An instance of OutputsMergeToFieldMatrix.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMergeToFieldMatrix(_Inputs):

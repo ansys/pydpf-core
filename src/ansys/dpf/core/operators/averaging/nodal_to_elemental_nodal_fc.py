@@ -19,13 +19,13 @@ class nodal_to_elemental_nodal_fc(Operator):
     r"""Transforms Nodal fields_container to Elemental Nodal fields_container.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     mesh: MeshedRegion, optional
     mesh_scoping: Scoping, optional
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -54,6 +54,9 @@ class nodal_to_elemental_nodal_fc(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsNodalToElementalNodalFc
+    _outputs: OutputsNodalToElementalNodalFc
 
     def __init__(
         self,
@@ -144,7 +147,7 @@ class nodal_to_elemental_nodal_fc(Operator):
         inputs:
             An instance of InputsNodalToElementalNodalFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsNodalToElementalNodalFc:
@@ -155,7 +158,7 @@ class nodal_to_elemental_nodal_fc(Operator):
         outputs:
             An instance of OutputsNodalToElementalNodalFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsNodalToElementalNodalFc(_Inputs):

@@ -20,8 +20,8 @@ class compute_stress(Operator):
     limitations are applicable for stress computation
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     scoping: Scoping, optional
         The element scoping on which the result is computed.
     streams_container: StreamsContainer, optional
@@ -33,7 +33,7 @@ class compute_stress(Operator):
     strain: FieldsContainer or Field
         Field/or fields container containing only the elastic strain field (element nodal).
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
         The computed result fields container (elemental nodal).
@@ -69,6 +69,9 @@ class compute_stress(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsComputeStress
+    _outputs: OutputsComputeStress
 
     def __init__(
         self,
@@ -174,7 +177,7 @@ limitations are applicable for stress computation
         inputs:
             An instance of InputsComputeStress.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsComputeStress:
@@ -185,7 +188,7 @@ limitations are applicable for stress computation
         outputs:
             An instance of OutputsComputeStress.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsComputeStress(_Inputs):

@@ -19,15 +19,15 @@ class component_selector(Operator):
     r"""Creates a scalar/vector field based on the selected component.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
     component_number: int
         One or several component index that will be extracted from the initial field.
     default_value: float, optional
         Set a default value for components that do not exist.
 
-    Returns
+    Outputs
     -------
     field: Field
 
@@ -56,6 +56,9 @@ class component_selector(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsComponentSelector
+    _outputs: OutputsComponentSelector
 
     def __init__(
         self,
@@ -142,7 +145,7 @@ class component_selector(Operator):
         inputs:
             An instance of InputsComponentSelector.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsComponentSelector:
@@ -153,7 +156,7 @@ class component_selector(Operator):
         outputs:
             An instance of OutputsComponentSelector.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsComponentSelector(_Inputs):

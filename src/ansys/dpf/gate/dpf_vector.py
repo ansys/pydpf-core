@@ -45,7 +45,7 @@ class DPFVectorBase:
             if not server_meet_version("4.1",
                                        owner._server) and owner._server.client is None:  # BUG in 22.2: DpfVector is not holding the data owner and not call to data owner should be done at delete
                 self._modified = False
-        except ctypes.ArgumentError:
+        except (ctypes.ArgumentError, AttributeError):
             raise NotImplementedError
 
     @property

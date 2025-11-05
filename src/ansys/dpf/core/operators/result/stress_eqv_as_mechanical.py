@@ -21,8 +21,8 @@ class stress_eqv_as_mechanical(Operator):
     can either be activated or deactivated.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     time_scoping: Scoping, optional
         time/freq (use doubles or field), time/freq set ids (use ints or scoping) or time/freq step ids use scoping with TimeFreq_steps location) required in output.
     mesh_scoping: Scoping or ScopingsContainer, optional
@@ -40,7 +40,7 @@ class stress_eqv_as_mechanical(Operator):
     average_across_bodies: bool, optional
         for multibody simulations, the stresses are averaged across bodies if true or not if false (default).
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
     meshes_container: MeshesContainer
@@ -86,6 +86,9 @@ class stress_eqv_as_mechanical(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     >>> result_meshes_container = op.outputs.meshes_container()
     """
+
+    _inputs: InputsStressEqvAsMechanical
+    _outputs: OutputsStressEqvAsMechanical
 
     def __init__(
         self,
@@ -225,7 +228,7 @@ can either be activated or deactivated.
         inputs:
             An instance of InputsStressEqvAsMechanical.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsStressEqvAsMechanical:
@@ -236,7 +239,7 @@ can either be activated or deactivated.
         outputs:
             An instance of OutputsStressEqvAsMechanical.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsStressEqvAsMechanical(_Inputs):

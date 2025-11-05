@@ -20,14 +20,14 @@ class cms_matrices_provider(Operator):
     matrices and load vector from a subfile.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     data_sources: DataSources
         Data_sources (must contain at list one subfile).
     matrix_form: bool
         If this pin i set to true, data are return as matrix form.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
         Fields container containing in this order : stiffness, damping, mass matrices, and then load vector. But if pin 200 is set to true, it's in matrix form.
@@ -54,6 +54,9 @@ class cms_matrices_provider(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsCmsMatricesProvider
+    _outputs: OutputsCmsMatricesProvider
 
     def __init__(self, data_sources=None, matrix_form=None, config=None, server=None):
         super().__init__(name="cms_matrices_provider", config=config, server=server)
@@ -126,7 +129,7 @@ matrices and load vector from a subfile.
         inputs:
             An instance of InputsCmsMatricesProvider.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsCmsMatricesProvider:
@@ -137,7 +140,7 @@ matrices and load vector from a subfile.
         outputs:
             An instance of OutputsCmsMatricesProvider.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsCmsMatricesProvider(_Inputs):

@@ -99,6 +99,7 @@ from ansys.dpf.core.server_context import (
     AvailableServerContexts,
     LicenseContextManager
 )
+from ansys.dpf.core.server_types import AnyServerType  # noqa: F401
 from ansys.dpf.core.unit_system import UnitSystem, unit_systems
 from ansys.dpf.core.incremental import IncrementalHelper, split_workflow_in_chunks
 from ansys.dpf.core.any import Any
@@ -108,17 +109,16 @@ from ansys.dpf.core.generic_data_container import GenericDataContainer
 from ansys.dpf.core.dpf_operator import available_operator_names
 
 
-from ansys.dpf.core.collection import CollectionFactory as _CollectionFactory
 from ansys.dpf.core.collection import Collection as _Collection
 from ansys.dpf.core.label_space import LabelSpace
 
 
 # register classes for collection types:
-CustomTypeFieldsCollection:type = _CollectionFactory(CustomTypeField)
-GenericDataContainersCollection:type = _CollectionFactory(GenericDataContainer)
-StringFieldsCollection:type = _CollectionFactory(StringField)
-OperatorsCollection: type = _CollectionFactory(Operator)
-AnyCollection:type = _Collection
+CustomTypeFieldsCollection = _Collection.collection_factory(CustomTypeField)
+GenericDataContainersCollection = _Collection.collection_factory(GenericDataContainer)
+StringFieldsCollection = _Collection.collection_factory(StringField)
+OperatorsCollection = _Collection.collection_factory(Operator)
+AnyCollection = _Collection
 
 # for matplotlib
 # solves "QApplication: invalid style override passed, ignoring it."

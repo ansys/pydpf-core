@@ -21,14 +21,14 @@ class remote_workflow_instantiate(Operator):
     by an id and an address) for a given protocol registered in the streams.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     workflow_to_send: Workflow or int
         local workflow to push to a remote or id of a remote workflow
     streams_to_remote: StreamsContainer
     data_sources_to_remote: DataSources, optional
 
-    Returns
+    Outputs
     -------
     remote_workflow: Workflow
         remote workflow containing an image of the remote workflow and the protocols streams
@@ -58,6 +58,9 @@ class remote_workflow_instantiate(Operator):
     >>> # Get output data
     >>> result_remote_workflow = op.outputs.remote_workflow()
     """
+
+    _inputs: InputsRemoteWorkflowInstantiate
+    _outputs: OutputsRemoteWorkflowInstantiate
 
     def __init__(
         self,
@@ -150,7 +153,7 @@ by an id and an address) for a given protocol registered in the streams.
         inputs:
             An instance of InputsRemoteWorkflowInstantiate.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsRemoteWorkflowInstantiate:
@@ -161,7 +164,7 @@ by an id and an address) for a given protocol registered in the streams.
         outputs:
             An instance of OutputsRemoteWorkflowInstantiate.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsRemoteWorkflowInstantiate(_Inputs):

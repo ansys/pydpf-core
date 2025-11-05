@@ -23,8 +23,8 @@ class mapdl_section(Operator):
     Orientation, NumIntPoints.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     properties_name: str
     section: PropertyField, optional
         Property field that contains a section id per element.(optional)
@@ -35,7 +35,7 @@ class mapdl_section(Operator):
     layers_requested: optional
         Array with layers requested for the section. Default = AllLayers.
 
-    Returns
+    Outputs
     -------
     properties_value: FieldsContainer
     layers_per_section: PropertyField
@@ -76,6 +76,9 @@ class mapdl_section(Operator):
     >>> result_properties_value = op.outputs.properties_value()
     >>> result_layers_per_section = op.outputs.layers_per_section()
     """
+
+    _inputs: InputsMapdlSection
+    _outputs: OutputsMapdlSection
 
     def __init__(
         self,
@@ -199,7 +202,7 @@ Orientation, NumIntPoints.
         inputs:
             An instance of InputsMapdlSection.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMapdlSection:
@@ -210,7 +213,7 @@ Orientation, NumIntPoints.
         outputs:
             An instance of OutputsMapdlSection.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMapdlSection(_Inputs):

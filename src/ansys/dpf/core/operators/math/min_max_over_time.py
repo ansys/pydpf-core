@@ -19,13 +19,13 @@ class min_max_over_time(Operator):
     r"""Evaluates minimum/maximum over time/frequency.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     int32: int
         Define min or max.
 
-    Returns
+    Outputs
     -------
     field_container_1: FieldsContainer
     field_container_2: FieldsContainer, optional
@@ -53,6 +53,9 @@ class min_max_over_time(Operator):
     >>> result_field_container_1 = op.outputs.field_container_1()
     >>> result_field_container_2 = op.outputs.field_container_2()
     """
+
+    _inputs: InputsMinMaxOverTime
+    _outputs: OutputsMinMaxOverTime
 
     def __init__(self, fields_container=None, int32=None, config=None, server=None):
         super().__init__(
@@ -134,7 +137,7 @@ class min_max_over_time(Operator):
         inputs:
             An instance of InputsMinMaxOverTime.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMinMaxOverTime:
@@ -145,7 +148,7 @@ class min_max_over_time(Operator):
         outputs:
             An instance of OutputsMinMaxOverTime.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMinMaxOverTime(_Inputs):

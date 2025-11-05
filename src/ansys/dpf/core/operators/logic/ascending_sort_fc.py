@@ -21,8 +21,8 @@ class ascending_sort_fc(Operator):
     operator does not support multiple elementary data per entity.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
         field or fields container with only one field is expected
     component_priority_table: optional
@@ -30,7 +30,7 @@ class ascending_sort_fc(Operator):
     sort_by_scoping: bool, optional
         if true, uses scoping to sort the field (default is false)
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -59,6 +59,9 @@ class ascending_sort_fc(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsAscendingSortFc
+    _outputs: OutputsAscendingSortFc
 
     def __init__(
         self,
@@ -147,7 +150,7 @@ operator does not support multiple elementary data per entity.
         inputs:
             An instance of InputsAscendingSortFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsAscendingSortFc:
@@ -158,7 +161,7 @@ operator does not support multiple elementary data per entity.
         outputs:
             An instance of OutputsAscendingSortFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsAscendingSortFc(_Inputs):

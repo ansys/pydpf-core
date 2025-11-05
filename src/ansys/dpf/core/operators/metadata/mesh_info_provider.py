@@ -21,8 +21,8 @@ class mesh_info_provider(Operator):
     plugins) on files contained in the streams or data sources.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     time_scoping: int, optional
         Optional time/frequency set ID of the mesh.
     streams_container: StreamsContainer, optional
@@ -30,7 +30,7 @@ class mesh_info_provider(Operator):
     data_sources: DataSources
         If the stream is null, retrieves the file path from the data sources.
 
-    Returns
+    Outputs
     -------
     mesh_info: GenericDataContainer
 
@@ -59,6 +59,9 @@ class mesh_info_provider(Operator):
     >>> # Get output data
     >>> result_mesh_info = op.outputs.mesh_info()
     """
+
+    _inputs: InputsMeshInfoProvider
+    _outputs: OutputsMeshInfoProvider
 
     def __init__(
         self,
@@ -148,7 +151,7 @@ plugins) on files contained in the streams or data sources.
         inputs:
             An instance of InputsMeshInfoProvider.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMeshInfoProvider:
@@ -159,7 +162,7 @@ plugins) on files contained in the streams or data sources.
         outputs:
             An instance of OutputsMeshInfoProvider.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMeshInfoProvider(_Inputs):

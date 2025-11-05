@@ -21,14 +21,14 @@ class merge_any(Operator):
     Operator.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     any1: Any
         Either a vector of objects (sharing the same data types) or objects from pin 0 to ... to merge. Supported types rely on existing type specific merge operators.
     any2: Any
         Either a vector of objects (sharing the same data types) or objects from pin 0 to ... to merge. Supported types rely on existing type specific merge operators.
 
-    Returns
+    Outputs
     -------
     any: Any
 
@@ -54,6 +54,9 @@ class merge_any(Operator):
     >>> # Get output data
     >>> result_any = op.outputs.any()
     """
+
+    _inputs: InputsMergeAny
+    _outputs: OutputsMergeAny
 
     def __init__(self, any1=None, any2=None, config=None, server=None):
         super().__init__(name="merge::any", config=config, server=server)
@@ -127,7 +130,7 @@ Operator.
         inputs:
             An instance of InputsMergeAny.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMergeAny:
@@ -138,7 +141,7 @@ Operator.
         outputs:
             An instance of OutputsMergeAny.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMergeAny(_Inputs):

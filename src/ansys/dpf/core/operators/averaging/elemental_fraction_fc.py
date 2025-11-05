@@ -21,8 +21,8 @@ class elemental_fraction_fc(Operator):
     average. The result is computed on a given element’s scoping.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     mesh: MeshedRegion, optional
         The mesh region in this pin is used to perform the averaging. It is used if there is no fields support.
@@ -33,7 +33,7 @@ class elemental_fraction_fc(Operator):
     collapse_shell_layers: bool, optional
         If true, the data across different shell layers is averaged as well (default is false).
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -68,6 +68,9 @@ class elemental_fraction_fc(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsElementalFractionFc
+    _outputs: OutputsElementalFractionFc
 
     def __init__(
         self,
@@ -174,7 +177,7 @@ average. The result is computed on a given element’s scoping.
         inputs:
             An instance of InputsElementalFractionFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsElementalFractionFc:
@@ -185,7 +188,7 @@ average. The result is computed on a given element’s scoping.
         outputs:
             An instance of OutputsElementalFractionFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsElementalFractionFc(_Inputs):

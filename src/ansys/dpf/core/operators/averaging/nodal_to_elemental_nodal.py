@@ -20,15 +20,15 @@ class nodal_to_elemental_nodal(Operator):
     computed on a given element’s scoping.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
         field or fields container with only one field is expected
     mesh_scoping: Scoping, optional
     collapse_shell_layers: bool, optional
         If true, the data across different shell layers is averaged as well (default is false).
 
-    Returns
+    Outputs
     -------
     field: Field
 
@@ -57,6 +57,9 @@ class nodal_to_elemental_nodal(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsNodalToElementalNodal
+    _outputs: OutputsNodalToElementalNodal
 
     def __init__(
         self,
@@ -144,7 +147,7 @@ computed on a given element’s scoping.
         inputs:
             An instance of InputsNodalToElementalNodal.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsNodalToElementalNodal:
@@ -155,7 +158,7 @@ computed on a given element’s scoping.
         outputs:
             An instance of OutputsNodalToElementalNodal.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsNodalToElementalNodal(_Inputs):

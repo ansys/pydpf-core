@@ -21,8 +21,8 @@ class nodal_fraction_fc(Operator):
     result is computed on a given node’s scoping.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     mesh: MeshedRegion, optional
         The mesh region in this pin is used to perform the averaging. It is used if there is no fields support.
@@ -31,7 +31,7 @@ class nodal_fraction_fc(Operator):
     denominator: FieldsContainer, optional
         If a fields container is set in this pin, it is used as the denominator of the fraction instead of elemental_nodal_To_nodal_fc.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -63,6 +63,9 @@ class nodal_fraction_fc(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsNodalFractionFc
+    _outputs: OutputsNodalFractionFc
 
     def __init__(
         self,
@@ -160,7 +163,7 @@ result is computed on a given node’s scoping.
         inputs:
             An instance of InputsNodalFractionFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsNodalFractionFc:
@@ -171,7 +174,7 @@ result is computed on a given node’s scoping.
         outputs:
             An instance of OutputsNodalFractionFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsNodalFractionFc(_Inputs):

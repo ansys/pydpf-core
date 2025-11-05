@@ -22,14 +22,14 @@ class minus(Operator):
     ‘inplace’ to reuse one of the fields.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fieldA: Field or FieldsContainer or float
         field or fields container with only one field is expected
     fieldB: Field or FieldsContainer or float
         field or fields container with only one field is expected
 
-    Returns
+    Outputs
     -------
     field: Field
 
@@ -55,6 +55,9 @@ class minus(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsMinus
+    _outputs: OutputsMinus
 
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
         super().__init__(name="minus", config=config, server=server)
@@ -139,7 +142,7 @@ field entirely. When using a constant or ‘work_by_index’, you can use
         inputs:
             An instance of InputsMinus.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMinus:
@@ -150,7 +153,7 @@ field entirely. When using a constant or ‘work_by_index’, you can use
         outputs:
             An instance of OutputsMinus.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMinus(_Inputs):

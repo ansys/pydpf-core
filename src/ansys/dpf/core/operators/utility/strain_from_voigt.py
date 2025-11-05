@@ -19,12 +19,12 @@ class strain_from_voigt(Operator):
     r"""Converts the strain field from Voigt notation into standard format.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
         field or fields container with only one field is expected
 
-    Returns
+    Outputs
     -------
     field: Field
 
@@ -47,6 +47,9 @@ class strain_from_voigt(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsStrainFromVoigt
+    _outputs: OutputsStrainFromVoigt
 
     def __init__(self, field=None, config=None, server=None):
         super().__init__(name="strain_from_voigt", config=config, server=server)
@@ -110,7 +113,7 @@ class strain_from_voigt(Operator):
         inputs:
             An instance of InputsStrainFromVoigt.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsStrainFromVoigt:
@@ -121,7 +124,7 @@ class strain_from_voigt(Operator):
         outputs:
             An instance of OutputsStrainFromVoigt.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsStrainFromVoigt(_Inputs):

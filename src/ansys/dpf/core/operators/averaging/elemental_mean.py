@@ -20,8 +20,8 @@ class elemental_mean(Operator):
     Elemental), (NodalElemental -> Nodal).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field
     collapse_shell_layers: bool, optional
         If true, shell layers are averaged as well (default is false).
@@ -30,7 +30,7 @@ class elemental_mean(Operator):
     scoping: Scoping, optional
         Average only on these elements. If it is a scoping container, the label must correspond to the one of the fields containers.
 
-    Returns
+    Outputs
     -------
     field: Field
 
@@ -62,6 +62,9 @@ class elemental_mean(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsElementalMean
+    _outputs: OutputsElementalMean
 
     def __init__(
         self,
@@ -158,7 +161,7 @@ Elemental), (NodalElemental -> Nodal).
         inputs:
             An instance of InputsElementalMean.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsElementalMean:
@@ -169,7 +172,7 @@ Elemental), (NodalElemental -> Nodal).
         outputs:
             An instance of OutputsElementalMean.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsElementalMean(_Inputs):

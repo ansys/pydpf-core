@@ -20,8 +20,8 @@ class euler_nodes(Operator):
     from the result file.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     streams_container: StreamsContainer or Stream, optional
     data_sources: DataSources
     filter_zeros: bool
@@ -30,7 +30,7 @@ class euler_nodes(Operator):
         if true, then the field has ncomp=6 with 3 coordinates and 3 Euler angles, else there is only the Euler angles (default is true).
     mesh: MeshedRegion, optional
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -65,6 +65,9 @@ class euler_nodes(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsEulerNodes
+    _outputs: OutputsEulerNodes
 
     def __init__(
         self,
@@ -170,7 +173,7 @@ from the result file.
         inputs:
             An instance of InputsEulerNodes.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsEulerNodes:
@@ -181,7 +184,7 @@ from the result file.
         outputs:
             An instance of OutputsEulerNodes.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsEulerNodes(_Inputs):

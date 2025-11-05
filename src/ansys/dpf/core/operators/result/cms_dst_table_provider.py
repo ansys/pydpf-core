@@ -19,12 +19,12 @@ class cms_dst_table_provider(Operator):
     r"""Read CST table from a subfile.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     data_sources: DataSources
         Data_sources (must contain at least one subfile).
 
-    Returns
+    Outputs
     -------
     dst_table: PropertyField
         returns integer values of the dst table
@@ -48,6 +48,9 @@ class cms_dst_table_provider(Operator):
     >>> # Get output data
     >>> result_dst_table = op.outputs.dst_table()
     """
+
+    _inputs: InputsCmsDstTableProvider
+    _outputs: OutputsCmsDstTableProvider
 
     def __init__(self, data_sources=None, config=None, server=None):
         super().__init__(name="cms_dst_table_provider", config=config, server=server)
@@ -111,7 +114,7 @@ class cms_dst_table_provider(Operator):
         inputs:
             An instance of InputsCmsDstTableProvider.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsCmsDstTableProvider:
@@ -122,7 +125,7 @@ class cms_dst_table_provider(Operator):
         outputs:
             An instance of OutputsCmsDstTableProvider.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsCmsDstTableProvider(_Inputs):

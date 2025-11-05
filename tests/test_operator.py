@@ -26,6 +26,7 @@ import os
 from pathlib import Path
 import shutil
 import types
+import warnings
 import weakref
 
 import numpy
@@ -574,6 +575,34 @@ def test_inputs_outputs_scopings_container(allkindofcomplexity):
     fc = stress.outputs.fields_container()
     assert fc.labels == ["elshape", "time"]
     assert len(fc) == 4
+
+
+def test_connection_to_input_is_ambiguous():
+    field = dpf.core.fields_factory.field_from_array(arr=[1.0, 2.0, 3.0])
+    field.scoping = dpf.core.mesh_scoping_factory.nodal_scoping(node_ids=[1, 2, 3])
+    min_max_op_1 = dpf.core.operators.min_max.min_max(field=field)
+    with pytest.warns(match="Pin connection is ambiguous"):
+        dpf.core.operators.min_max.min_max(field=min_max_op_1)
+
+
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
+    reason="extract_scoping unavailable for server version < 5.0",
+)
+def test_connection_to_input_is_not_ambiguous():
+    # Ensures that connecting an operator with a single output with multiple types all compatible
+    # does not raise an ambiguity warning.
+    # Here extract_scoping has only one output of type either Scoping or ScopingsContainer
+    # This output was reported twice and raised an ambiguity warning despite both types being
+    # compatible with the input
+    # This behavior is now fixed and enforced by this test
+    field = dpf.core.fields_factory.field_from_array(arr=[1.0, 2.0, 3.0])
+    field.scoping = dpf.core.mesh_scoping_factory.nodal_scoping(node_ids=[1, 2, 3])
+    scop = dpf.core.operators.utility.extract_scoping(field_or_fields_container=field)
+    stress = dpf.core.operators.result.stress()
+    with warnings.catch_warnings():
+        warnings.filterwarnings(action="error", category=UserWarning, message="Operator stress:")
+        stress.inputs.mesh_scoping.connect(scop)
 
 
 def test_inputs_outputs_meshes_container(allkindofcomplexity):

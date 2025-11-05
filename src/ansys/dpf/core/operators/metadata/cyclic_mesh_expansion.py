@@ -19,14 +19,14 @@ class cyclic_mesh_expansion(Operator):
     r"""Expand the mesh.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     sector_meshed_region: MeshedRegion or MeshesContainer, optional
     cyclic_support: CyclicSupport
     sectors_to_expand: Scoping or ScopingsContainer, optional
         sectors to expand (start at 0), for multistage: use scopings container with 'stage' label.
 
-    Returns
+    Outputs
     -------
     meshed_region: MeshedRegion
         expanded meshed region.
@@ -59,6 +59,9 @@ class cyclic_mesh_expansion(Operator):
     >>> result_meshed_region = op.outputs.meshed_region()
     >>> result_cyclic_support = op.outputs.cyclic_support()
     """
+
+    _inputs: InputsCyclicMeshExpansion
+    _outputs: OutputsCyclicMeshExpansion
 
     def __init__(
         self,
@@ -151,7 +154,7 @@ class cyclic_mesh_expansion(Operator):
         inputs:
             An instance of InputsCyclicMeshExpansion.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsCyclicMeshExpansion:
@@ -162,7 +165,7 @@ class cyclic_mesh_expansion(Operator):
         outputs:
             An instance of OutputsCyclicMeshExpansion.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsCyclicMeshExpansion(_Inputs):

@@ -20,13 +20,13 @@ class rotate_fc(Operator):
     container.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     coordinate_system: Field
         3-3 rotation matrix
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -52,6 +52,9 @@ class rotate_fc(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsRotateFc
+    _outputs: OutputsRotateFc
 
     def __init__(
         self, fields_container=None, coordinate_system=None, config=None, server=None
@@ -126,7 +129,7 @@ container.
         inputs:
             An instance of InputsRotateFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsRotateFc:
@@ -137,7 +140,7 @@ container.
         outputs:
             An instance of OutputsRotateFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsRotateFc(_Inputs):

@@ -20,14 +20,14 @@ class merge_data_tree(Operator):
     accross data tree instances.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     data_tree1: DataTree
         Either a vector of data trees or data trees from pin 0 to ... to merge.
     data_tree2: DataTree
         Either a vector of data trees or data trees from pin 0 to ... to merge.
 
-    Returns
+    Outputs
     -------
     any: Any
 
@@ -53,6 +53,9 @@ class merge_data_tree(Operator):
     >>> # Get output data
     >>> result_any = op.outputs.any()
     """
+
+    _inputs: InputsMergeDataTree
+    _outputs: OutputsMergeDataTree
 
     def __init__(self, data_tree1=None, data_tree2=None, config=None, server=None):
         super().__init__(name="merge::data_tree", config=config, server=server)
@@ -125,7 +128,7 @@ accross data tree instances.
         inputs:
             An instance of InputsMergeDataTree.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMergeDataTree:
@@ -136,7 +139,7 @@ accross data tree instances.
         outputs:
             An instance of OutputsMergeDataTree.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMergeDataTree(_Inputs):

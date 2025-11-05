@@ -19,12 +19,12 @@ class txt_file_to_dpf(Operator):
     r"""Take an input string and parse it into dataProcessing type
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     input_string: str
         ex: 'double:1.0', 'int:1', 'vector<double>:1.0;1.0'
 
-    Returns
+    Outputs
     -------
     any_output1:
         any output
@@ -51,6 +51,9 @@ class txt_file_to_dpf(Operator):
     >>> result_any_output1 = op.outputs.any_output1()
     >>> result_any_output2 = op.outputs.any_output2()
     """
+
+    _inputs: InputsTxtFileToDpf
+    _outputs: OutputsTxtFileToDpf
 
     def __init__(self, input_string=None, config=None, server=None):
         super().__init__(name="text_parser", config=config, server=server)
@@ -118,7 +121,7 @@ class txt_file_to_dpf(Operator):
         inputs:
             An instance of InputsTxtFileToDpf.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsTxtFileToDpf:
@@ -129,7 +132,7 @@ class txt_file_to_dpf(Operator):
         outputs:
             An instance of OutputsTxtFileToDpf.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsTxtFileToDpf(_Inputs):

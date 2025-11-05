@@ -19,8 +19,8 @@ class poynting_vector(Operator):
     r"""Compute the Poynting Vector
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_containerA: FieldsContainer
     fields_containerB: FieldsContainer
     fields_containerC: FieldsContainer
@@ -30,7 +30,7 @@ class poynting_vector(Operator):
     int32: int, optional
         load step number, if it's specified, the Poynting Vector is computed only on the substeps of this step
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -68,6 +68,9 @@ class poynting_vector(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsPoyntingVector
+    _outputs: OutputsPoyntingVector
 
     def __init__(
         self,
@@ -181,7 +184,7 @@ class poynting_vector(Operator):
         inputs:
             An instance of InputsPoyntingVector.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsPoyntingVector:
@@ -192,7 +195,7 @@ class poynting_vector(Operator):
         outputs:
             An instance of OutputsPoyntingVector.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsPoyntingVector(_Inputs):

@@ -29,8 +29,8 @@ from ansys.dpf.core.server_types import AnyServerType
 class {{class_name}}(Operator):
     r"""{{{docstring}}}
 
-    Parameters
-    ----------
+    Inputs
+    ------
     {{#input_pins}}
     {{#optional}}
     {{name}}:{{#types_for_docstring}} {{types_for_docstring}},{{/types_for_docstring}} optional
@@ -43,7 +43,7 @@ class {{class_name}}(Operator):
     {{/document_pin_docstring}}
     {{/input_pins}}
 
-    Returns
+    Outputs
     -------
     {{#output_pins}}
     {{#optional}}
@@ -84,6 +84,9 @@ class {{class_name}}(Operator):
     {{/output_pins}}
     {{/outputs}}
     """
+
+    _inputs: Inputs{{capital_class_name}}
+    _outputs: Outputs{{capital_class_name}}
 
     def __init__(self, {{#input_pins}}{{name}}=None, {{/input_pins}}config=None, server=None{{#has_input_aliases}}, {{#input_pins}}{{#aliases_list}}{{alias}}=None, {{/aliases_list}}{{/input_pins}}{{/has_input_aliases}}):
         {{^has_internal_name_alias}}
@@ -189,7 +192,7 @@ class {{class_name}}(Operator):
         inputs:
             An instance of Inputs{{capital_class_name}}.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> Outputs{{capital_class_name}}:
@@ -200,7 +203,7 @@ class {{class_name}}(Operator):
         outputs:
             An instance of Outputs{{capital_class_name}}.
         """
-        return super().outputs
+        return self._outputs
 
 
 class Inputs{{capital_class_name}}(_Inputs):

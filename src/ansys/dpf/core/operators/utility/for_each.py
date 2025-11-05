@@ -19,8 +19,8 @@ class for_each(Operator):
     r"""Allows to write a loop over a chunk of operators.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     iterable:
         Either the result of the make_iterable_info operator, or the operator that must be incremented.
     iterable_values: optional
@@ -28,7 +28,7 @@ class for_each(Operator):
     forward1:
     forward2:
 
-    Returns
+    Outputs
     -------
     empty:
     output1:
@@ -67,6 +67,9 @@ class for_each(Operator):
     >>> result_output1 = op.outputs.output1()
     >>> result_output2 = op.outputs.output2()
     """
+
+    _inputs: InputsForEach
+    _outputs: OutputsForEach
 
     def __init__(
         self,
@@ -180,7 +183,7 @@ class for_each(Operator):
         inputs:
             An instance of InputsForEach.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsForEach:
@@ -191,7 +194,7 @@ class for_each(Operator):
         outputs:
             An instance of OutputsForEach.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsForEach(_Inputs):

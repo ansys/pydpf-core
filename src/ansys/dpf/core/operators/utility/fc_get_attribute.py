@@ -21,15 +21,15 @@ class fc_get_attribute(Operator):
     container in input.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     property_name: str
         Supported property names are: "label_scoping", "label_values", "time_freq_support", "labels", "field_scoping" and "field".
     property_identifier: str or int, optional
         Additional pin for some property : the label name for "label_scoping" or "label_values", the field index (default 0) for "field_scoping" or "field".
 
-    Returns
+    Outputs
     -------
     property: Scoping or TimeFreqSupport or dict or Field
         Returns a Scoping for property: "label_scoping", a vector of int for "label_values", a time freq support for "time_freq_support", a vector of string for "labels", a LabelSpace for "field_scoping" and a "field" for "field".
@@ -59,6 +59,9 @@ class fc_get_attribute(Operator):
     >>> # Get output data
     >>> result_property = op.outputs.property()
     """
+
+    _inputs: InputsFcGetAttribute
+    _outputs: OutputsFcGetAttribute
 
     def __init__(
         self,
@@ -157,7 +160,7 @@ container in input.
         inputs:
             An instance of InputsFcGetAttribute.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsFcGetAttribute:
@@ -168,7 +171,7 @@ container in input.
         outputs:
             An instance of OutputsFcGetAttribute.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsFcGetAttribute(_Inputs):

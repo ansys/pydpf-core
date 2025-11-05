@@ -20,8 +20,8 @@ class on_coordinates(Operator):
     elements with shape functions).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     coordinates: Field or FieldsContainer or MeshedRegion or MeshesContainer
     create_support: bool, optional
@@ -35,7 +35,7 @@ class on_coordinates(Operator):
     use_quadratic_elements: bool, optional
         If this pin is set to true, the element search for each coordinate is computed on the quadratic element if the element is quadratic (more precise but less performant). Default is false.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -76,6 +76,9 @@ class on_coordinates(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsOnCoordinates
+    _outputs: OutputsOnCoordinates
 
     def __init__(
         self,
@@ -204,7 +207,7 @@ elements with shape functions).
         inputs:
             An instance of InputsOnCoordinates.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsOnCoordinates:
@@ -215,7 +218,7 @@ elements with shape functions).
         outputs:
             An instance of OutputsOnCoordinates.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsOnCoordinates(_Inputs):

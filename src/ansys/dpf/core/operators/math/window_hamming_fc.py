@@ -21,11 +21,11 @@ class window_hamming_fc(Operator):
     time_freq_interpolation before otherwise).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -48,6 +48,9 @@ class window_hamming_fc(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsWindowHammingFc
+    _outputs: OutputsWindowHammingFc
 
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="window::hamming_fc", config=config, server=server)
@@ -113,7 +116,7 @@ time_freq_interpolation before otherwise).
         inputs:
             An instance of InputsWindowHammingFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsWindowHammingFc:
@@ -124,7 +127,7 @@ time_freq_interpolation before otherwise).
         outputs:
             An instance of OutputsWindowHammingFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsWindowHammingFc(_Inputs):

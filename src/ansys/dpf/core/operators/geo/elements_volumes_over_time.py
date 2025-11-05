@@ -20,15 +20,15 @@ class elements_volumes_over_time(Operator):
     specified time step.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     scoping: Scoping, optional
     displacement: FieldsContainer, optional
         Displacement field's container. Must contain the mesh if mesh not specified in input.
     mesh: MeshedRegion, optional
         Mesh must be defined if the displacement field's container does not contain it, or if there is no displacement.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -57,6 +57,9 @@ class elements_volumes_over_time(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsElementsVolumesOverTime
+    _outputs: OutputsElementsVolumesOverTime
 
     def __init__(
         self, scoping=None, displacement=None, mesh=None, config=None, server=None
@@ -139,7 +142,7 @@ specified time step.
         inputs:
             An instance of InputsElementsVolumesOverTime.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsElementsVolumesOverTime:
@@ -150,7 +153,7 @@ specified time step.
         outputs:
             An instance of OutputsElementsVolumesOverTime.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsElementsVolumesOverTime(_Inputs):

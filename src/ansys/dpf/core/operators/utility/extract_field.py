@@ -20,14 +20,14 @@ class extract_field(Operator):
     fields container (in 0).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: Field or FieldsContainer
         if a field is in input, it is passed on as an output
     indices: optional
         Default is the first field
 
-    Returns
+    Outputs
     -------
     field: Field
 
@@ -53,6 +53,9 @@ class extract_field(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsExtractField
+    _outputs: OutputsExtractField
 
     def __init__(self, fields_container=None, indices=None, config=None, server=None):
         super().__init__(name="ExtractFromFC", config=config, server=server)
@@ -125,7 +128,7 @@ fields container (in 0).
         inputs:
             An instance of InputsExtractField.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsExtractField:
@@ -136,7 +139,7 @@ fields container (in 0).
         outputs:
             An instance of OutputsExtractField.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsExtractField(_Inputs):

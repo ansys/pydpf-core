@@ -19,8 +19,8 @@ class write_cms_rbd_file(Operator):
     r"""Write the invariant terms and the model data in a cms_rbd file
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     model_data: PropertyField
         data describing the finite element model
     center_of_mass: Field
@@ -52,7 +52,7 @@ class write_cms_rbd_file(Operator):
     file_path: str
         path with cms_rbd extension where the export occurs
 
-    Returns
+    Outputs
     -------
     data_sources: DataSources
         Data Source containing the cms_rbd file generated.
@@ -145,6 +145,9 @@ class write_cms_rbd_file(Operator):
     >>> # Get output data
     >>> result_data_sources = op.outputs.data_sources()
     """
+
+    _inputs: InputsWriteCmsRbdFile
+    _outputs: OutputsWriteCmsRbdFile
 
     def __init__(
         self,
@@ -420,7 +423,7 @@ class write_cms_rbd_file(Operator):
         inputs:
             An instance of InputsWriteCmsRbdFile.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsWriteCmsRbdFile:
@@ -431,7 +434,7 @@ class write_cms_rbd_file(Operator):
         outputs:
             An instance of OutputsWriteCmsRbdFile.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsWriteCmsRbdFile(_Inputs):

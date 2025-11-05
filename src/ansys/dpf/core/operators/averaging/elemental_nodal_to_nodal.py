@@ -20,8 +20,8 @@ class elemental_nodal_to_nodal(Operator):
     averaging process. The result is computed on a given node’s scoping.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
         field or fields container with only one field is expected
     mesh_scoping: Scoping, optional
@@ -34,7 +34,7 @@ class elemental_nodal_to_nodal(Operator):
         Extends weights to mid nodes (when available). Default is false.
     mesh: MeshedRegion, optional
 
-    Returns
+    Outputs
     -------
     field: Field
     weight: PropertyField
@@ -75,6 +75,9 @@ class elemental_nodal_to_nodal(Operator):
     >>> result_field = op.outputs.field()
     >>> result_weight = op.outputs.weight()
     """
+
+    _inputs: InputsElementalNodalToNodal
+    _outputs: OutputsElementalNodalToNodal
 
     def __init__(
         self,
@@ -195,7 +198,7 @@ averaging process. The result is computed on a given node’s scoping.
         inputs:
             An instance of InputsElementalNodalToNodal.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsElementalNodalToNodal:
@@ -206,7 +209,7 @@ averaging process. The result is computed on a given node’s scoping.
         outputs:
             An instance of OutputsElementalNodalToNodal.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsElementalNodalToNodal(_Inputs):

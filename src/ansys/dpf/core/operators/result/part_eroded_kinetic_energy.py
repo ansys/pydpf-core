@@ -20,8 +20,8 @@ class part_eroded_kinetic_energy(Operator):
     by the datasources.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     streams_container: StreamsContainer, optional
         result file container allowed to be kept open to cache data
     data_sources: DataSources
@@ -31,7 +31,7 @@ class part_eroded_kinetic_energy(Operator):
     unit_system: int or str or UnitSystem, optional
         (LSDyna) Unit System ID (int), semicolon-separated list of base unit strings (str) or UnitSystem instance
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -63,6 +63,9 @@ class part_eroded_kinetic_energy(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsPartErodedKineticEnergy
+    _outputs: OutputsPartErodedKineticEnergy
 
     def __init__(
         self,
@@ -163,7 +166,7 @@ by the datasources.
         inputs:
             An instance of InputsPartErodedKineticEnergy.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsPartErodedKineticEnergy:
@@ -174,7 +177,7 @@ by the datasources.
         outputs:
             An instance of OutputsPartErodedKineticEnergy.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsPartErodedKineticEnergy(_Inputs):

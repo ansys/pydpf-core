@@ -20,8 +20,8 @@ class workflow_energy_per_harmonic(Operator):
     multiharmonic model.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     time_scoping: Scoping, optional
     mesh_scoping: Scoping, optional
         Master scoping. All harmonics will be intersected with this scoping.
@@ -30,7 +30,7 @@ class workflow_energy_per_harmonic(Operator):
     stream: Stream
     data_sources: DataSources
 
-    Returns
+    Outputs
     -------
     harmonic_energy: FieldsContainer
     harmonic_energy_percentage: FieldsContainer
@@ -67,6 +67,9 @@ class workflow_energy_per_harmonic(Operator):
     >>> result_harmonic_energy = op.outputs.harmonic_energy()
     >>> result_harmonic_energy_percentage = op.outputs.harmonic_energy_percentage()
     """
+
+    _inputs: InputsWorkflowEnergyPerHarmonic
+    _outputs: OutputsWorkflowEnergyPerHarmonic
 
     def __init__(
         self,
@@ -182,7 +185,7 @@ multiharmonic model.
         inputs:
             An instance of InputsWorkflowEnergyPerHarmonic.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsWorkflowEnergyPerHarmonic:
@@ -193,7 +196,7 @@ multiharmonic model.
         outputs:
             An instance of OutputsWorkflowEnergyPerHarmonic.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsWorkflowEnergyPerHarmonic(_Inputs):

@@ -19,12 +19,12 @@ class identical_sc(Operator):
     r"""Checks if two scopings_container are identical.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     scopings_containerA: ScopingsContainer
     scopings_containerB: ScopingsContainer
 
-    Returns
+    Outputs
     -------
     boolean: bool
         bool (true if identical...)
@@ -53,6 +53,9 @@ class identical_sc(Operator):
     >>> result_boolean = op.outputs.boolean()
     >>> result_message = op.outputs.message()
     """
+
+    _inputs: InputsIdenticalSc
+    _outputs: OutputsIdenticalSc
 
     def __init__(
         self,
@@ -140,7 +143,7 @@ class identical_sc(Operator):
         inputs:
             An instance of InputsIdenticalSc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsIdenticalSc:
@@ -151,7 +154,7 @@ class identical_sc(Operator):
         outputs:
             An instance of OutputsIdenticalSc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsIdenticalSc(_Inputs):

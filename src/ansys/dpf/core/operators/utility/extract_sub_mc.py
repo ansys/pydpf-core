@@ -21,8 +21,8 @@ class extract_sub_mc(Operator):
     be copied to the output.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     meshes: MeshesContainer
         meshes
     label_space: dict or Scoping, optional
@@ -30,7 +30,7 @@ class extract_sub_mc(Operator):
     collapse_labels: bool, optional
         If set to true (default) the input label space (scoping location) is suppressed from the output meshes container, otherwise, label space is kept.
 
-    Returns
+    Outputs
     -------
     meshes_container: MeshesContainer
         meshes
@@ -60,6 +60,9 @@ class extract_sub_mc(Operator):
     >>> # Get output data
     >>> result_meshes_container = op.outputs.meshes_container()
     """
+
+    _inputs: InputsExtractSubMc
+    _outputs: OutputsExtractSubMc
 
     def __init__(
         self,
@@ -148,7 +151,7 @@ be copied to the output.
         inputs:
             An instance of InputsExtractSubMc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsExtractSubMc:
@@ -159,7 +162,7 @@ be copied to the output.
         outputs:
             An instance of OutputsExtractSubMc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsExtractSubMc(_Inputs):

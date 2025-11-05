@@ -21,13 +21,13 @@ class normals(Operator):
     shell elements)
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mesh: MeshedRegion, optional
     mesh_scoping: Scoping, optional
     field: Field, optional
 
-    Returns
+    Outputs
     -------
     field: Field
 
@@ -56,6 +56,9 @@ class normals(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsNormals
+    _outputs: OutputsNormals
 
     def __init__(
         self, mesh=None, mesh_scoping=None, field=None, config=None, server=None
@@ -139,7 +142,7 @@ shell elements)
         inputs:
             An instance of InputsNormals.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsNormals:
@@ -150,7 +153,7 @@ shell elements)
         outputs:
             An instance of OutputsNormals.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsNormals(_Inputs):

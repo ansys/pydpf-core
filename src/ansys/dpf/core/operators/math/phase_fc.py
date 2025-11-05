@@ -19,11 +19,11 @@ class phase_fc(Operator):
     r"""Computes phase (in rad) between real and imaginary fields.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -46,6 +46,9 @@ class phase_fc(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsPhaseFc
+    _outputs: OutputsPhaseFc
 
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="phase_fc", config=config, server=server)
@@ -109,7 +112,7 @@ class phase_fc(Operator):
         inputs:
             An instance of InputsPhaseFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsPhaseFc:
@@ -120,7 +123,7 @@ class phase_fc(Operator):
         outputs:
             An instance of OutputsPhaseFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsPhaseFc(_Inputs):

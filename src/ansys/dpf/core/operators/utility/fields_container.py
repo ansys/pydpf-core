@@ -19,11 +19,11 @@ class fields_container(Operator):
     r"""Incrementaly merge the input.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     input: FieldsContainer
 
-    Returns
+    Outputs
     -------
     incremented_result:
 
@@ -46,6 +46,9 @@ class fields_container(Operator):
     >>> # Get output data
     >>> result_incremented_result = op.outputs.incremented_result()
     """
+
+    _inputs: InputsFieldsContainer
+    _outputs: OutputsFieldsContainer
 
     def __init__(self, input=None, config=None, server=None):
         super().__init__(
@@ -112,7 +115,7 @@ class fields_container(Operator):
         inputs:
             An instance of InputsFieldsContainer.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsFieldsContainer:
@@ -123,7 +126,7 @@ class fields_container(Operator):
         outputs:
             An instance of OutputsFieldsContainer.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsFieldsContainer(_Inputs):

@@ -20,13 +20,13 @@ class enrich_materials(Operator):
     MaterialContainer using stream data.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     MaterialContainer:
     streams: StreamsContainer or FieldsContainer
     streams_mapping: PropertyFieldsContainer
 
-    Returns
+    Outputs
     -------
     MaterialContainer: bool
 
@@ -55,6 +55,9 @@ class enrich_materials(Operator):
     >>> # Get output data
     >>> result_MaterialContainer = op.outputs.MaterialContainer()
     """
+
+    _inputs: InputsEnrichMaterials
+    _outputs: OutputsEnrichMaterials
 
     def __init__(
         self,
@@ -142,7 +145,7 @@ MaterialContainer using stream data.
         inputs:
             An instance of InputsEnrichMaterials.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsEnrichMaterials:
@@ -153,7 +156,7 @@ MaterialContainer using stream data.
         outputs:
             An instance of OutputsEnrichMaterials.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsEnrichMaterials(_Inputs):

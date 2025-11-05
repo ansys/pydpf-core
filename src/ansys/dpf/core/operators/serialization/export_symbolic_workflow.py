@@ -21,8 +21,8 @@ class export_symbolic_workflow(Operator):
     (if a path is set in input) or string
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     workflow: Workflow
     path: str, optional
     format: int, optional
@@ -30,7 +30,7 @@ class export_symbolic_workflow(Operator):
     options: int, optional
         1 copies connections with its data, 2 forwards named inputs and outputs names, 7 copies connections of named inputs and ouputs with their data. default is 7.
 
-    Returns
+    Outputs
     -------
     data_sources: DataSources or str
 
@@ -62,6 +62,9 @@ class export_symbolic_workflow(Operator):
     >>> # Get output data
     >>> result_data_sources = op.outputs.data_sources()
     """
+
+    _inputs: InputsExportSymbolicWorkflow
+    _outputs: OutputsExportSymbolicWorkflow
 
     def __init__(
         self,
@@ -158,7 +161,7 @@ class export_symbolic_workflow(Operator):
         inputs:
             An instance of InputsExportSymbolicWorkflow.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsExportSymbolicWorkflow:
@@ -169,7 +172,7 @@ class export_symbolic_workflow(Operator):
         outputs:
             An instance of OutputsExportSymbolicWorkflow.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsExportSymbolicWorkflow(_Inputs):

@@ -21,8 +21,8 @@ class fft_multi_harmonic_minmax(Operator):
     using the gradient method for adaptive time steping
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     rpm_scoping: Scoping, optional
         rpm scoping, by default the fourier series sum is evaluated using all the rpms
@@ -41,7 +41,7 @@ class fft_multi_harmonic_minmax(Operator):
     substeps_selector: optional
         substeps to evaluate (frequencies), by default the operator is evaluated using all the available steps
 
-    Returns
+    Outputs
     -------
     field_min: FieldsContainer
     field_max: FieldsContainer
@@ -92,6 +92,9 @@ class fft_multi_harmonic_minmax(Operator):
     >>> result_field_max = op.outputs.field_max()
     >>> result_all_fields = op.outputs.all_fields()
     """
+
+    _inputs: InputsFftMultiHarmonicMinmax
+    _outputs: OutputsFftMultiHarmonicMinmax
 
     def __init__(
         self,
@@ -246,7 +249,7 @@ using the gradient method for adaptive time steping
         inputs:
             An instance of InputsFftMultiHarmonicMinmax.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsFftMultiHarmonicMinmax:
@@ -257,7 +260,7 @@ using the gradient method for adaptive time steping
         outputs:
             An instance of OutputsFftMultiHarmonicMinmax.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsFftMultiHarmonicMinmax(_Inputs):

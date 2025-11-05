@@ -22,8 +22,8 @@ class split_on_property_type(Operator):
     scopings container with those split scopings.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mesh_scoping: Scoping, optional
         Scoping
     mesh: MeshedRegion
@@ -37,7 +37,7 @@ class split_on_property_type(Operator):
     label2: str, optional
         properties to apply the filtering 'mat' and/or 'elshape' (since 2025R1 it supports any property name contained in the mesh property fields) (default is 'elshape')
 
-    Returns
+    Outputs
     -------
     mesh_scoping: ScopingsContainer
         Scoping
@@ -76,6 +76,9 @@ class split_on_property_type(Operator):
     >>> # Get output data
     >>> result_mesh_scoping = op.outputs.mesh_scoping()
     """
+
+    _inputs: InputsSplitOnPropertyType
+    _outputs: OutputsSplitOnPropertyType
 
     def __init__(
         self,
@@ -192,7 +195,7 @@ scopings container with those split scopings.
         inputs:
             An instance of InputsSplitOnPropertyType.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsSplitOnPropertyType:
@@ -203,7 +206,7 @@ scopings container with those split scopings.
         outputs:
             An instance of OutputsSplitOnPropertyType.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsSplitOnPropertyType(_Inputs):

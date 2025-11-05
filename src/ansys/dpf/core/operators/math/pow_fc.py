@@ -19,12 +19,12 @@ class pow_fc(Operator):
     r"""Computes element-wise field[i]^p.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     factor: float
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -50,6 +50,9 @@ class pow_fc(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsPowFc
+    _outputs: OutputsPowFc
 
     def __init__(self, fields_container=None, factor=None, config=None, server=None):
         super().__init__(name="Pow_fc", config=config, server=server)
@@ -121,7 +124,7 @@ class pow_fc(Operator):
         inputs:
             An instance of InputsPowFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsPowFc:
@@ -132,7 +135,7 @@ class pow_fc(Operator):
         outputs:
             An instance of OutputsPowFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsPowFc(_Inputs):

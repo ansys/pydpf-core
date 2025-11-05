@@ -21,24 +21,24 @@ class force_summation_psd(Operator):
     FSUM/NFORCE.
 
 
-    Parameters
-    ----------
-    nodal_scoping: Scoping, optional
-        Nodal Scoping. Set of nodes in which elemental contribution forces will be accumulated. Defaults to all nodes.
-    elemental_scoping: Scoping, optional
-        Elemental Scoping. Set of elements contributing to the force calculation. Defaults to all elements.
+    Inputs
+    ------
+    nodal_scoping: Scoping or ScopingsContainer, optional
+        Nodal scoping or scopings container with a single label. Set of nodes in which elemental contribution forces will be accumulated. Defaults to all nodes.
+    elemental_scoping: Scoping or ScopingsContainer, optional
+        Elemental scoping or scopings container with a single label. Set of elements contributing to the force calculation. Defaults to all elements.
     streams: StreamsContainer, optional
         Streams container for RST and PSD files (optional if using data sources). The operator supports both a single RST file and two separate RST files. See data sources pin specifications for details on how to define the streams for both cases.
     data_sources: DataSources
         Data sources containing RST and PSD files (optional if using a streams container). The operator supports both a single RST file (containing both modal and PSD results) and two separate RST files (one for modal and one for PSD analyses).The data source containing modal results must be defined as an upstream data source.If using a single RST file for PSD and modal analysis, the RST file must be in an upstream data source.If using two separate RST files, only the modal RST must be in an upstream data source.
-    spoint: Field, optional
-        Coordinate field of a point for moment summations. Defaults to (0,0,0).
-    abs_rel_key: Field, optional
+    spoint: Field or FieldsContainer, optional
+        Field or fields container of the coordinates of the point used for moment summations. Defaults to (0,0,0).
+    abs_rel_key: int, optional
         Key to select the type of response: 0 for relative response (default) or 1 for absolute response.
     signif: float, optional
         Significance threshold, defaults to 0.0001. Any mode with a significance level above this value will be included in the combination.The significance level is defined as the modal covariance matrix term, divided by the maximum modal covariance matrix term.
 
-    Returns
+    Outputs
     -------
     force_accumulation: FieldsContainer
         Returns the sum of forces for the 1-sigma displacement solution on the scoped nodes/elements.
@@ -67,7 +67,7 @@ class force_summation_psd(Operator):
     >>> op.inputs.data_sources.connect(my_data_sources)
     >>> my_spoint = dpf.Field()
     >>> op.inputs.spoint.connect(my_spoint)
-    >>> my_abs_rel_key = dpf.Field()
+    >>> my_abs_rel_key = int()
     >>> op.inputs.abs_rel_key.connect(my_abs_rel_key)
     >>> my_signif = float()
     >>> op.inputs.signif.connect(my_signif)
@@ -89,6 +89,9 @@ class force_summation_psd(Operator):
     >>> result_forces_on_nodes = op.outputs.forces_on_nodes()
     >>> result_moments_on_nodes = op.outputs.moments_on_nodes()
     """
+
+    _inputs: InputsForceSummationPsd
+    _outputs: OutputsForceSummationPsd
 
     def __init__(
         self,
@@ -131,15 +134,15 @@ FSUM/NFORCE.
             map_input_pin_spec={
                 1: PinSpecification(
                     name="nodal_scoping",
-                    type_names=["scoping"],
+                    type_names=["scoping", "scopings_container"],
                     optional=True,
-                    document=r"""Nodal Scoping. Set of nodes in which elemental contribution forces will be accumulated. Defaults to all nodes.""",
+                    document=r"""Nodal scoping or scopings container with a single label. Set of nodes in which elemental contribution forces will be accumulated. Defaults to all nodes.""",
                 ),
                 2: PinSpecification(
                     name="elemental_scoping",
-                    type_names=["scoping"],
+                    type_names=["scoping", "scopings_container"],
                     optional=True,
-                    document=r"""Elemental Scoping. Set of elements contributing to the force calculation. Defaults to all elements.""",
+                    document=r"""Elemental scoping or scopings container with a single label. Set of elements contributing to the force calculation. Defaults to all elements.""",
                 ),
                 3: PinSpecification(
                     name="streams",
@@ -155,13 +158,13 @@ FSUM/NFORCE.
                 ),
                 6: PinSpecification(
                     name="spoint",
-                    type_names=["field"],
+                    type_names=["field", "fields_container"],
                     optional=True,
-                    document=r"""Coordinate field of a point for moment summations. Defaults to (0,0,0).""",
+                    document=r"""Field or fields container of the coordinates of the point used for moment summations. Defaults to (0,0,0).""",
                 ),
                 7: PinSpecification(
                     name="abs_rel_key",
-                    type_names=["field"],
+                    type_names=["int32"],
                     optional=True,
                     document=r"""Key to select the type of response: 0 for relative response (default) or 1 for absolute response.""",
                 ),
@@ -231,7 +234,7 @@ FSUM/NFORCE.
         inputs:
             An instance of InputsForceSummationPsd.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsForceSummationPsd:
@@ -242,7 +245,7 @@ FSUM/NFORCE.
         outputs:
             An instance of OutputsForceSummationPsd.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsForceSummationPsd(_Inputs):
@@ -263,7 +266,7 @@ class InputsForceSummationPsd(_Inputs):
     >>> op.inputs.data_sources.connect(my_data_sources)
     >>> my_spoint = dpf.Field()
     >>> op.inputs.spoint.connect(my_spoint)
-    >>> my_abs_rel_key = dpf.Field()
+    >>> my_abs_rel_key = int()
     >>> op.inputs.abs_rel_key.connect(my_abs_rel_key)
     >>> my_signif = float()
     >>> op.inputs.signif.connect(my_signif)
@@ -292,7 +295,7 @@ class InputsForceSummationPsd(_Inputs):
     def nodal_scoping(self) -> Input:
         r"""Allows to connect nodal_scoping input to the operator.
 
-        Nodal Scoping. Set of nodes in which elemental contribution forces will be accumulated. Defaults to all nodes.
+        Nodal scoping or scopings container with a single label. Set of nodes in which elemental contribution forces will be accumulated. Defaults to all nodes.
 
         Returns
         -------
@@ -313,7 +316,7 @@ class InputsForceSummationPsd(_Inputs):
     def elemental_scoping(self) -> Input:
         r"""Allows to connect elemental_scoping input to the operator.
 
-        Elemental Scoping. Set of elements contributing to the force calculation. Defaults to all elements.
+        Elemental scoping or scopings container with a single label. Set of elements contributing to the force calculation. Defaults to all elements.
 
         Returns
         -------
@@ -376,7 +379,7 @@ class InputsForceSummationPsd(_Inputs):
     def spoint(self) -> Input:
         r"""Allows to connect spoint input to the operator.
 
-        Coordinate field of a point for moment summations. Defaults to (0,0,0).
+        Field or fields container of the coordinates of the point used for moment summations. Defaults to (0,0,0).
 
         Returns
         -------

@@ -21,8 +21,8 @@ class result_provider(Operator):
     datasources.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     time_scoping: Scoping or int or float or Field, optional
         time/freq values (use doubles or field), time/freq set ids (use ints or scoping) or time/freq step ids (use scoping with TimeFreq_steps location) required in output. To specify time/freq values at specific load steps, put a Field (and not a list) in input with a scoping located on "TimeFreq_steps". Linear time freq intrapolation is performed if the values are not in the result files and the data at the max time or freq is taken when time/freqs are higher than available time/freqs in result files. To get all data for all time/freq sets, connect an int with value -1.
     mesh_scoping: ScopingsContainer or Scoping, optional
@@ -42,7 +42,7 @@ class result_provider(Operator):
     result_scripting_name: optional
         Specifies the scripting name of the result to extract;see ResultInfo for details. Use either "result name" or "result scripting name" with their appropriate pin, but not both.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -89,6 +89,9 @@ class result_provider(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsResultProvider
+    _outputs: OutputsResultProvider
 
     def __init__(
         self,
@@ -243,7 +246,7 @@ datasources.
         inputs:
             An instance of InputsResultProvider.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsResultProvider:
@@ -254,7 +257,7 @@ datasources.
         outputs:
             An instance of OutputsResultProvider.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsResultProvider(_Inputs):

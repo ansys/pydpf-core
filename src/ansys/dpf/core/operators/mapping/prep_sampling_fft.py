@@ -20,8 +20,8 @@ class prep_sampling_fft(Operator):
     frequencies in output.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     time_freq_support: TimeFreqSupport
         Initial time domain TimeFreqSupport.
     cutoff_frequency: float, optional
@@ -29,7 +29,7 @@ class prep_sampling_fft(Operator):
     number_sampling_point: int, optional
         For number of sampling point (calculation with cutoff_frequency is ignored).
 
-    Returns
+    Outputs
     -------
     time_tfs_sampled: TimeFreqSupport
         Optimum sampled time domain TimeFreqSupport.
@@ -62,6 +62,9 @@ class prep_sampling_fft(Operator):
     >>> result_time_tfs_sampled = op.outputs.time_tfs_sampled()
     >>> result_freq_tfs_fft = op.outputs.freq_tfs_fft()
     """
+
+    _inputs: InputsPrepSamplingFft
+    _outputs: OutputsPrepSamplingFft
 
     def __init__(
         self,
@@ -155,7 +158,7 @@ frequencies in output.
         inputs:
             An instance of InputsPrepSamplingFft.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsPrepSamplingFft:
@@ -166,7 +169,7 @@ frequencies in output.
         outputs:
             An instance of OutputsPrepSamplingFft.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsPrepSamplingFft(_Inputs):

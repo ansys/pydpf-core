@@ -19,12 +19,12 @@ class identical_string_fields(Operator):
     r"""Takes two string fields and compares them.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     string_fieldA: StringField
     string_fieldB: StringField
 
-    Returns
+    Outputs
     -------
     are_identical: bool
     information: str
@@ -52,6 +52,9 @@ class identical_string_fields(Operator):
     >>> result_are_identical = op.outputs.are_identical()
     >>> result_information = op.outputs.information()
     """
+
+    _inputs: InputsIdenticalStringFields
+    _outputs: OutputsIdenticalStringFields
 
     def __init__(
         self, string_fieldA=None, string_fieldB=None, config=None, server=None
@@ -131,7 +134,7 @@ class identical_string_fields(Operator):
         inputs:
             An instance of InputsIdenticalStringFields.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsIdenticalStringFields:
@@ -142,7 +145,7 @@ class identical_string_fields(Operator):
         outputs:
             An instance of OutputsIdenticalStringFields.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsIdenticalStringFields(_Inputs):

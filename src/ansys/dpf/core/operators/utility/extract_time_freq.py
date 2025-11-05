@@ -20,14 +20,14 @@ class extract_time_freq(Operator):
     r"""Extract timefreqs with sets scoping from a time freq support
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     time_freq_support: TimeFreqSupport
     time_scoping: Scoping, optional
     real_or_complex: bool, optional
         False for real only (default). True for complex output.
 
-    Returns
+    Outputs
     -------
     field: Field or FieldsContainer
 
@@ -56,6 +56,9 @@ class extract_time_freq(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsExtractTimeFreq
+    _outputs: OutputsExtractTimeFreq
 
     def __init__(
         self,
@@ -142,7 +145,7 @@ class extract_time_freq(Operator):
         inputs:
             An instance of InputsExtractTimeFreq.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsExtractTimeFreq:
@@ -153,7 +156,7 @@ class extract_time_freq(Operator):
         outputs:
             An instance of OutputsExtractTimeFreq.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsExtractTimeFreq(_Inputs):

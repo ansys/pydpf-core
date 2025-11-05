@@ -19,8 +19,8 @@ class cgns_result_provider(Operator):
     r"""Read/compute names result from result streams.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     time_scoping: Scoping, optional
         time/freq (use doubles or field), time/freq set ids (use ints or scoping) or time/freq step ids (use scoping with TimeFreq_steps location) required in output
     mesh_scoping: Scoping or ScopingsContainer, optional
@@ -34,7 +34,7 @@ class cgns_result_provider(Operator):
     region_scoping: Scoping or int, optional
         Optional zone name/Id of the mesh.
 
-    Returns
+    Outputs
     -------
     fields: FieldsContainer
         Results
@@ -73,6 +73,9 @@ class cgns_result_provider(Operator):
     >>> # Get output data
     >>> result_fields = op.outputs.fields()
     """
+
+    _inputs: InputsCgnsResultProvider
+    _outputs: OutputsCgnsResultProvider
 
     def __init__(
         self,
@@ -190,7 +193,7 @@ class cgns_result_provider(Operator):
         inputs:
             An instance of InputsCgnsResultProvider.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsCgnsResultProvider:
@@ -201,7 +204,7 @@ class cgns_result_provider(Operator):
         outputs:
             An instance of OutputsCgnsResultProvider.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsCgnsResultProvider(_Inputs):

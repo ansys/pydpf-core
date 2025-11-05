@@ -19,11 +19,11 @@ class sin_fc(Operator):
     r"""Computes element-wise sin(field[i]).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -46,6 +46,9 @@ class sin_fc(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsSinFc
+    _outputs: OutputsSinFc
 
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="sin_fc", config=config, server=server)
@@ -109,7 +112,7 @@ class sin_fc(Operator):
         inputs:
             An instance of InputsSinFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsSinFc:
@@ -120,7 +123,7 @@ class sin_fc(Operator):
         outputs:
             An instance of OutputsSinFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsSinFc(_Inputs):

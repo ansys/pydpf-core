@@ -23,8 +23,8 @@ class iso_surfaces(Operator):
     are stored into a FieldsContainer.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field
         Field containing the values for the iso-surface computation. The mesh can be retrieved from this field's support or through pin 2.
     num_surfaces: int, optional
@@ -36,7 +36,7 @@ class iso_surfaces(Operator):
     vector_iso_values: optional
         If provided, user defined iso_values to compute. If not provided, iso_values are linearly compute between the min and the max of the field of results.
 
-    Returns
+    Outputs
     -------
     meshes: MeshesContainer
     fields_container: FieldsContainer
@@ -73,6 +73,9 @@ class iso_surfaces(Operator):
     >>> result_meshes = op.outputs.meshes()
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsIsoSurfaces
+    _outputs: OutputsIsoSurfaces
 
     def __init__(
         self,
@@ -187,7 +190,7 @@ are stored into a FieldsContainer.
         inputs:
             An instance of InputsIsoSurfaces.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsIsoSurfaces:
@@ -198,7 +201,7 @@ are stored into a FieldsContainer.
         outputs:
             An instance of OutputsIsoSurfaces.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsIsoSurfaces(_Inputs):

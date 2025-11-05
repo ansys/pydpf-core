@@ -19,8 +19,8 @@ class identical_fc(Operator):
     r"""Checks if two fields_container are identical.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_containerA: FieldsContainer
     fields_containerB: FieldsContainer
     small_value: float, optional
@@ -28,7 +28,7 @@ class identical_fc(Operator):
     tolerance: float, optional
         Double relative tolerance. Maximum tolerance gap between two compared values. Values within relative tolerance are considered identical (v1-v2)/v2 < relativeTol (default is 0.001).
 
-    Returns
+    Outputs
     -------
     boolean: bool
         bool (true if identical...)
@@ -63,6 +63,9 @@ class identical_fc(Operator):
     >>> result_boolean = op.outputs.boolean()
     >>> result_message = op.outputs.message()
     """
+
+    _inputs: InputsIdenticalFc
+    _outputs: OutputsIdenticalFc
 
     def __init__(
         self,
@@ -164,7 +167,7 @@ class identical_fc(Operator):
         inputs:
             An instance of InputsIdenticalFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsIdenticalFc:
@@ -175,7 +178,7 @@ class identical_fc(Operator):
         outputs:
             An instance of OutputsIdenticalFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsIdenticalFc(_Inputs):

@@ -20,13 +20,13 @@ class component_selector_fc(Operator):
     each field.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer or Field
     component_number: int
         one or several component index that will be extracted from the initial field.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -52,6 +52,9 @@ class component_selector_fc(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsComponentSelectorFc
+    _outputs: OutputsComponentSelectorFc
 
     def __init__(
         self, fields_container=None, component_number=None, config=None, server=None
@@ -126,7 +129,7 @@ each field.
         inputs:
             An instance of InputsComponentSelectorFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsComponentSelectorFc:
@@ -137,7 +140,7 @@ each field.
         outputs:
             An instance of OutputsComponentSelectorFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsComponentSelectorFc(_Inputs):

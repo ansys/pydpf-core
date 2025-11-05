@@ -19,14 +19,14 @@ class phase(Operator):
     r"""Computes the phase (in rad) between a real and an imaginary field.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fieldA: Field or FieldsContainer
         field or fields container with only one field is expected
     fieldB: Field or FieldsContainer
         field or fields container with only one field is expected
 
-    Returns
+    Outputs
     -------
     field: Field
 
@@ -52,6 +52,9 @@ class phase(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsPhase
+    _outputs: OutputsPhase
 
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
         super().__init__(name="phase", config=config, server=server)
@@ -123,7 +126,7 @@ class phase(Operator):
         inputs:
             An instance of InputsPhase.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsPhase:
@@ -134,7 +137,7 @@ class phase(Operator):
         outputs:
             An instance of OutputsPhase.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsPhase(_Inputs):

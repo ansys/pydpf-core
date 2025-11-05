@@ -21,8 +21,8 @@ class compute_stress_Z(Operator):
     component (22 component).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     scoping: Scoping, optional
         The element scoping on which the result is computed.
     streams_container: StreamsContainer, optional
@@ -34,7 +34,7 @@ class compute_stress_Z(Operator):
     strain: FieldsContainer or Field
         Field/or fields container containing only the elastic strain field (element nodal).
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
         The computed result fields container (elemental nodal).
@@ -70,6 +70,9 @@ class compute_stress_Z(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsComputeStressZ
+    _outputs: OutputsComputeStressZ
 
     def __init__(
         self,
@@ -176,7 +179,7 @@ component (22 component).
         inputs:
             An instance of InputsComputeStressZ.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsComputeStressZ:
@@ -187,7 +190,7 @@ component (22 component).
         outputs:
             An instance of OutputsComputeStressZ.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsComputeStressZ(_Inputs):

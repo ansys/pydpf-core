@@ -22,14 +22,14 @@ class mapdl_split_to_acmo_facet_indices(Operator):
     to the appropriate entity.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
         Fields container to split, with generic number of labels (e.g. time, zone, complex...), 'facet' label is compulsory.The Fields of the FieldsContainer will have location Elemental and the Scoping Ids will be the Element Ids on the skin mesh.
     property_fields_container_element_types: PropertyFieldsContainer
         It should only have the 'facet' label. For each facet, it stores a PropertyField with the element types of the corresponding elements.The scoping should be the same as the scoping of the corresponding Field in input 0.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
         Output splitted fields containter
@@ -56,6 +56,9 @@ class mapdl_split_to_acmo_facet_indices(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsMapdlSplitToAcmoFacetIndices
+    _outputs: OutputsMapdlSplitToAcmoFacetIndices
 
     def __init__(
         self,
@@ -142,7 +145,7 @@ to the appropriate entity.
         inputs:
             An instance of InputsMapdlSplitToAcmoFacetIndices.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMapdlSplitToAcmoFacetIndices:
@@ -153,7 +156,7 @@ to the appropriate entity.
         outputs:
             An instance of OutputsMapdlSplitToAcmoFacetIndices.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMapdlSplitToAcmoFacetIndices(_Inputs):

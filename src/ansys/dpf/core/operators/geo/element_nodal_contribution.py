@@ -23,15 +23,15 @@ class element_nodal_contribution(Operator):
     node within each element.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mesh: MeshedRegion
     scoping: Scoping, optional
         Integrate the input field over a specific scoping.
     volume_fraction: bool, optional
         If true, returns influence volume, area or length. If false, the values are normalized with the element volume, area or length. Default: true.
 
-    Returns
+    Outputs
     -------
     field: Field
 
@@ -60,6 +60,9 @@ class element_nodal_contribution(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsElementNodalContribution
+    _outputs: OutputsElementNodalContribution
 
     def __init__(
         self, mesh=None, scoping=None, volume_fraction=None, config=None, server=None
@@ -149,7 +152,7 @@ node within each element.
         inputs:
             An instance of InputsElementNodalContribution.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsElementNodalContribution:
@@ -160,7 +163,7 @@ node within each element.
         outputs:
             An instance of OutputsElementNodalContribution.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsElementNodalContribution(_Inputs):

@@ -21,14 +21,14 @@ class rescope(Operator):
     original field, the default value (in 2) is used when defined.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields: FieldsContainer or Field
     mesh_scoping: Scoping, optional
     default_value: float, optional
         If pin 2 is used, the IDs not found in the field are added with this default value.
 
-    Returns
+    Outputs
     -------
     fields: FieldsContainer or Field
 
@@ -57,6 +57,9 @@ class rescope(Operator):
     >>> # Get output data
     >>> result_fields = op.outputs.fields()
     """
+
+    _inputs: InputsRescope
+    _outputs: OutputsRescope
 
     def __init__(
         self,
@@ -144,7 +147,7 @@ original field, the default value (in 2) is used when defined.
         inputs:
             An instance of InputsRescope.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsRescope:
@@ -155,7 +158,7 @@ original field, the default value (in 2) is used when defined.
         outputs:
             An instance of OutputsRescope.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsRescope(_Inputs):

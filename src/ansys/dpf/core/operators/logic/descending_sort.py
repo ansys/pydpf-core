@@ -21,8 +21,8 @@ class descending_sort(Operator):
     operator doesn’t support multiple elementary data per entity.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
         field or fields container with only one field is expected
     component_priority_table: optional
@@ -30,7 +30,7 @@ class descending_sort(Operator):
     sort_by_scoping: bool, optional
         if true, uses scoping to sort the field (default is false)
 
-    Returns
+    Outputs
     -------
     field: Field
 
@@ -59,6 +59,9 @@ class descending_sort(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsDescendingSort
+    _outputs: OutputsDescendingSort
 
     def __init__(
         self,
@@ -147,7 +150,7 @@ operator doesn’t support multiple elementary data per entity.
         inputs:
             An instance of InputsDescendingSort.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsDescendingSort:
@@ -158,7 +161,7 @@ operator doesn’t support multiple elementary data per entity.
         outputs:
             An instance of OutputsDescendingSort.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsDescendingSort(_Inputs):

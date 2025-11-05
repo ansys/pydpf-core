@@ -19,15 +19,15 @@ class set_attribute(Operator):
     r"""Uses the FieldsContainer APIs to modify it.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     property_name: str
         Supported property names are: "labels".
     property_identifier: dict, optional
         Value of the property to be set : vector of string or LabelSpace for "labels".
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
         Returns the modified FieldsContainer.
@@ -57,6 +57,9 @@ class set_attribute(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsSetAttribute
+    _outputs: OutputsSetAttribute
 
     def __init__(
         self,
@@ -147,7 +150,7 @@ class set_attribute(Operator):
         inputs:
             An instance of InputsSetAttribute.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsSetAttribute:
@@ -158,7 +161,7 @@ class set_attribute(Operator):
         outputs:
             An instance of OutputsSetAttribute.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsSetAttribute(_Inputs):

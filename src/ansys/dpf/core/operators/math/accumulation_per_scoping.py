@@ -20,8 +20,8 @@ class accumulation_per_scoping(Operator):
     input fields container for each scoping of the scopings container.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     mesh_scoping: Scoping, optional
         Master scoping. All scopings in the Scopings Container will be intersected with this scoping.
@@ -30,7 +30,7 @@ class accumulation_per_scoping(Operator):
     scopings_container: ScopingsContainer
         The intersection between the of the first will be used.
 
-    Returns
+    Outputs
     -------
     accumulation_per_scoping: FieldsContainer
     accumulation_per_scoping_percentage: FieldsContainer
@@ -67,6 +67,9 @@ class accumulation_per_scoping(Operator):
     >>> result_accumulation_per_scoping = op.outputs.accumulation_per_scoping()
     >>> result_accumulation_per_scoping_percentage = op.outputs.accumulation_per_scoping_percentage()
     """
+
+    _inputs: InputsAccumulationPerScoping
+    _outputs: OutputsAccumulationPerScoping
 
     def __init__(
         self,
@@ -178,7 +181,7 @@ input fields container for each scoping of the scopings container.
         inputs:
             An instance of InputsAccumulationPerScoping.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsAccumulationPerScoping:
@@ -189,7 +192,7 @@ input fields container for each scoping of the scopings container.
         outputs:
             An instance of OutputsAccumulationPerScoping.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsAccumulationPerScoping(_Inputs):

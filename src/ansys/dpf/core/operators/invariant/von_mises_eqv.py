@@ -19,14 +19,14 @@ class von_mises_eqv(Operator):
     r"""Computes the element-wise Von-Mises criteria on a tensor field.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
         field or fields container with only one field is expected
     poisson_ratio: float or int
         Poisson ratio to be used in equivalent strain calculation.
 
-    Returns
+    Outputs
     -------
     field: Field
 
@@ -52,6 +52,9 @@ class von_mises_eqv(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsVonMisesEqv
+    _outputs: OutputsVonMisesEqv
 
     def __init__(self, field=None, poisson_ratio=None, config=None, server=None):
         super().__init__(name="eqv", config=config, server=server)
@@ -123,7 +126,7 @@ class von_mises_eqv(Operator):
         inputs:
             An instance of InputsVonMisesEqv.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsVonMisesEqv:
@@ -134,7 +137,7 @@ class von_mises_eqv(Operator):
         outputs:
             An instance of OutputsVonMisesEqv.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsVonMisesEqv(_Inputs):

@@ -19,13 +19,13 @@ class forward_meshes_container(Operator):
     r"""Returns the input mesh or meshes container into a meshes container.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     meshes: MeshesContainer or MeshedRegion
     default_label: str, optional
         this default label is used if a new meshes container needs to be created (default is unknown)
 
-    Returns
+    Outputs
     -------
     meshes_container: MeshesContainer
 
@@ -51,6 +51,9 @@ class forward_meshes_container(Operator):
     >>> # Get output data
     >>> result_meshes_container = op.outputs.meshes_container()
     """
+
+    _inputs: InputsForwardMeshesContainer
+    _outputs: OutputsForwardMeshesContainer
 
     def __init__(self, meshes=None, default_label=None, config=None, server=None):
         super().__init__(name="forward_meshes_container", config=config, server=server)
@@ -122,7 +125,7 @@ class forward_meshes_container(Operator):
         inputs:
             An instance of InputsForwardMeshesContainer.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsForwardMeshesContainer:
@@ -133,7 +136,7 @@ class forward_meshes_container(Operator):
         outputs:
             An instance of OutputsForwardMeshesContainer.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsForwardMeshesContainer(_Inputs):

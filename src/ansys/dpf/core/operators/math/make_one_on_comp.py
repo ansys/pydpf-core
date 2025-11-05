@@ -20,12 +20,12 @@ class make_one_on_comp(Operator):
     except for the indexes from pin 1 that will hold 1.0.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fieldA: Field
     scalar_int: int
 
-    Returns
+    Outputs
     -------
     field: Field
 
@@ -51,6 +51,9 @@ class make_one_on_comp(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsMakeOneOnComp
+    _outputs: OutputsMakeOneOnComp
 
     def __init__(self, fieldA=None, scalar_int=None, config=None, server=None):
         super().__init__(name="make_one_on_comp", config=config, server=server)
@@ -123,7 +126,7 @@ except for the indexes from pin 1 that will hold 1.0.
         inputs:
             An instance of InputsMakeOneOnComp.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMakeOneOnComp:
@@ -134,7 +137,7 @@ except for the indexes from pin 1 that will hold 1.0.
         outputs:
             An instance of OutputsMakeOneOnComp.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMakeOneOnComp(_Inputs):

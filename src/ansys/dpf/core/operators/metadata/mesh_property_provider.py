@@ -22,8 +22,8 @@ class mesh_property_provider(Operator):
     fill in the mesh.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mesh_scoping: Scoping, optional
         Retrieves a property field on a subset of elements or nodes.
     streams_container: StreamsContainer, optional
@@ -35,7 +35,7 @@ class mesh_property_provider(Operator):
     property_identifier: int or str, optional
         Retrieves a property at a given index or by name. For example, a named selection's number or a named selection's name.
 
-    Returns
+    Outputs
     -------
     property: Scoping or PropertyField or StringField
         Returns a property field for properties: "mat", "apdl_element_type", "section", "elprops", "keyopt_1" to "keyopt_18" (or any mesh's property field), a scoping for properties:"named_selection", a string field for properties: "named_selection_names".
@@ -71,6 +71,9 @@ class mesh_property_provider(Operator):
     >>> # Get output data
     >>> result_property = op.outputs.property()
     """
+
+    _inputs: InputsMeshPropertyProvider
+    _outputs: OutputsMeshPropertyProvider
 
     def __init__(
         self,
@@ -177,7 +180,7 @@ fill in the mesh.
         inputs:
             An instance of InputsMeshPropertyProvider.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMeshPropertyProvider:
@@ -188,7 +191,7 @@ fill in the mesh.
         outputs:
             An instance of OutputsMeshPropertyProvider.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMeshPropertyProvider(_Inputs):

@@ -19,11 +19,11 @@ class mesh(Operator):
     r"""Incrementaly merge the input.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     input: MeshedRegion
 
-    Returns
+    Outputs
     -------
     incremented_result:
 
@@ -46,6 +46,9 @@ class mesh(Operator):
     >>> # Get output data
     >>> result_incremented_result = op.outputs.incremented_result()
     """
+
+    _inputs: InputsMesh
+    _outputs: OutputsMesh
 
     def __init__(self, input=None, config=None, server=None):
         super().__init__(name="incremental::merge::mesh", config=config, server=server)
@@ -108,7 +111,7 @@ class mesh(Operator):
         inputs:
             An instance of InputsMesh.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMesh:
@@ -119,7 +122,7 @@ class mesh(Operator):
         outputs:
             An instance of OutputsMesh.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMesh(_Inputs):

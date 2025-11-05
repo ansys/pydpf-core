@@ -21,12 +21,12 @@ class add_fc(Operator):
     doubles, are put in input they are added to all the fields.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container1: FieldsContainer or Field or float
     fields_container2: FieldsContainer or Field or float
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -52,6 +52,9 @@ class add_fc(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsAddFc
+    _outputs: OutputsAddFc
 
     def __init__(
         self, fields_container1=None, fields_container2=None, config=None, server=None
@@ -137,7 +140,7 @@ doubles, are put in input they are added to all the fields.
         inputs:
             An instance of InputsAddFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsAddFc:
@@ -148,7 +151,7 @@ doubles, are put in input they are added to all the fields.
         outputs:
             An instance of OutputsAddFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsAddFc(_Inputs):

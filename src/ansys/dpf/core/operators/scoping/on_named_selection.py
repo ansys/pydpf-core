@@ -19,8 +19,8 @@ class on_named_selection(Operator):
     r"""provides a scoping at a given location based on a given named selection
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     requested_location: str
     named_selection_name: str
         the string is expected to be in upper case
@@ -29,7 +29,7 @@ class on_named_selection(Operator):
     streams_container: StreamsContainer, optional
     data_sources: DataSources
 
-    Returns
+    Outputs
     -------
     mesh_scoping: Scoping
 
@@ -64,6 +64,9 @@ class on_named_selection(Operator):
     >>> # Get output data
     >>> result_mesh_scoping = op.outputs.mesh_scoping()
     """
+
+    _inputs: InputsOnNamedSelection
+    _outputs: OutputsOnNamedSelection
 
     def __init__(
         self,
@@ -168,7 +171,7 @@ class on_named_selection(Operator):
         inputs:
             An instance of InputsOnNamedSelection.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsOnNamedSelection:
@@ -179,7 +182,7 @@ class on_named_selection(Operator):
         outputs:
             An instance of OutputsOnNamedSelection.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsOnNamedSelection(_Inputs):

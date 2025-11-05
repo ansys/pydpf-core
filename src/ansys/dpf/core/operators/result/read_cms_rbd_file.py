@@ -19,12 +19,12 @@ class read_cms_rbd_file(Operator):
     r"""Read the invariant terms and the model data from a cms_rbd file
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     in_cms_rbd_file_path: str
         file name with cms_rbd extension where to read the input cms_rbd file.
 
-    Returns
+    Outputs
     -------
     model_data: PropertyField
         data describing the finite element model
@@ -95,6 +95,9 @@ class read_cms_rbd_file(Operator):
     >>> result_dnyn = op.outputs.dnyn()
     >>> result_dnzn = op.outputs.dnzn()
     """
+
+    _inputs: InputsReadCmsRbdFile
+    _outputs: OutputsReadCmsRbdFile
 
     def __init__(self, in_cms_rbd_file_path=None, config=None, server=None):
         super().__init__(name="read_cms_rbd_file", config=config, server=server)
@@ -290,7 +293,7 @@ class read_cms_rbd_file(Operator):
         inputs:
             An instance of InputsReadCmsRbdFile.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsReadCmsRbdFile:
@@ -301,7 +304,7 @@ class read_cms_rbd_file(Operator):
         outputs:
             An instance of OutputsReadCmsRbdFile.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsReadCmsRbdFile(_Inputs):

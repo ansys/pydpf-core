@@ -20,12 +20,12 @@ class data_tree_to_txt(Operator):
     r"""Writes a txt file or string from a DataTree
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     data_tree: DataTree
     path: str, optional
 
-    Returns
+    Outputs
     -------
     data_sources: DataSources or str
 
@@ -51,6 +51,9 @@ class data_tree_to_txt(Operator):
     >>> # Get output data
     >>> result_data_sources = op.outputs.data_sources()
     """
+
+    _inputs: InputsDataTreeToTxt
+    _outputs: OutputsDataTreeToTxt
 
     def __init__(self, data_tree=None, path=None, config=None, server=None):
         super().__init__(name="data_tree_to_txt", config=config, server=server)
@@ -122,7 +125,7 @@ class data_tree_to_txt(Operator):
         inputs:
             An instance of InputsDataTreeToTxt.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsDataTreeToTxt:
@@ -133,7 +136,7 @@ class data_tree_to_txt(Operator):
         outputs:
             An instance of OutputsDataTreeToTxt.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsDataTreeToTxt(_Inputs):

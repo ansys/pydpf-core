@@ -21,8 +21,8 @@ class identical_meshes(Operator):
     the first mesh (pin 0) are included in the second mesh (pin 1).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     meshA: MeshedRegion
     meshB: MeshedRegion
     small_value: float, optional
@@ -32,7 +32,7 @@ class identical_meshes(Operator):
     compare_auxiliary: bool
         compare auxiliary data (i.e property fields, scopings...). Default value is 'false'.
 
-    Returns
+    Outputs
     -------
     are_identical: bool
 
@@ -67,6 +67,9 @@ class identical_meshes(Operator):
     >>> # Get output data
     >>> result_are_identical = op.outputs.are_identical()
     """
+
+    _inputs: InputsIdenticalMeshes
+    _outputs: OutputsIdenticalMeshes
 
     def __init__(
         self,
@@ -173,7 +176,7 @@ the first mesh (pin 0) are included in the second mesh (pin 1).
         inputs:
             An instance of InputsIdenticalMeshes.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsIdenticalMeshes:
@@ -184,7 +187,7 @@ the first mesh (pin 0) are included in the second mesh (pin 1).
         outputs:
             An instance of OutputsIdenticalMeshes.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsIdenticalMeshes(_Inputs):

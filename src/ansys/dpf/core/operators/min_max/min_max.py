@@ -20,12 +20,12 @@ class min_max(Operator):
     field.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
         field or fields container with only one field is expected
 
-    Returns
+    Outputs
     -------
     field_min: Field
     field_max: Field
@@ -50,6 +50,9 @@ class min_max(Operator):
     >>> result_field_min = op.outputs.field_min()
     >>> result_field_max = op.outputs.field_max()
     """
+
+    _inputs: InputsMinMax
+    _outputs: OutputsMinMax
 
     def __init__(self, field=None, config=None, server=None):
         super().__init__(name="min_max", config=config, server=server)
@@ -120,7 +123,7 @@ field.
         inputs:
             An instance of InputsMinMax.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMinMax:
@@ -131,7 +134,7 @@ field.
         outputs:
             An instance of OutputsMinMax.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMinMax(_Inputs):

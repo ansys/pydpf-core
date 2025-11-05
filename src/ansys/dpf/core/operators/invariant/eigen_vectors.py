@@ -19,12 +19,12 @@ class eigen_vectors(Operator):
     r"""Computes the element-wise Eigen vectors for each tensor in the field.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: FieldsContainer or Field
         field or fields container with only one field is expected
 
-    Returns
+    Outputs
     -------
     field: Field
 
@@ -47,6 +47,9 @@ class eigen_vectors(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsEigenVectors
+    _outputs: OutputsEigenVectors
 
     def __init__(self, field=None, config=None, server=None):
         super().__init__(name="eig_vectors", config=config, server=server)
@@ -110,7 +113,7 @@ class eigen_vectors(Operator):
         inputs:
             An instance of InputsEigenVectors.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsEigenVectors:
@@ -121,7 +124,7 @@ class eigen_vectors(Operator):
         outputs:
             An instance of OutputsEigenVectors.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsEigenVectors(_Inputs):

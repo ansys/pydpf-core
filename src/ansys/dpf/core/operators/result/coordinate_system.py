@@ -20,13 +20,13 @@ class coordinate_system(Operator):
     r"""Extracts the Rotation Matrix and Origin of a specific coordinate system.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     cs_id: int
     streams_container: StreamsContainer, optional
     data_sources: DataSources
 
-    Returns
+    Outputs
     -------
     field: Field
         the first 9 double are the rotation (3x3 matrix) and the last 3 is the translation vector
@@ -56,6 +56,9 @@ class coordinate_system(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsCoordinateSystem
+    _outputs: OutputsCoordinateSystem
 
     def __init__(
         self,
@@ -148,7 +151,7 @@ class coordinate_system(Operator):
         inputs:
             An instance of InputsCoordinateSystem.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsCoordinateSystem:
@@ -159,7 +162,7 @@ class coordinate_system(Operator):
         outputs:
             An instance of OutputsCoordinateSystem.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsCoordinateSystem(_Inputs):

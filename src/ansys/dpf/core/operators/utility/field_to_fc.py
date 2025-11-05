@@ -19,14 +19,14 @@ class field_to_fc(Operator):
     r"""Creates a fields container containing the field provided on pin 0.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
         If a fields container is set in input, it is passed on as an output with the additional label space (if any).
     label: dict
         Sets a label space.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -52,6 +52,9 @@ class field_to_fc(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsFieldToFc
+    _outputs: OutputsFieldToFc
 
     def __init__(self, field=None, label=None, config=None, server=None):
         super().__init__(name="InjectToFieldContainer", config=config, server=server)
@@ -123,7 +126,7 @@ class field_to_fc(Operator):
         inputs:
             An instance of InputsFieldToFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsFieldToFc:
@@ -134,7 +137,7 @@ class field_to_fc(Operator):
         outputs:
             An instance of OutputsFieldToFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsFieldToFc(_Inputs):

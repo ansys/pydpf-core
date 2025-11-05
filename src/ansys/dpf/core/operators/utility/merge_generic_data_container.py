@@ -21,14 +21,14 @@ class merge_generic_data_container(Operator):
     cannot be merged, first instance found will be maintained in the result.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     generic_data_container1: GenericDataContainer
         Either a vector of generic data containers (sharing the same data types) or generic data containers from pin 0 to ... to merge. Supported types rely on existing type specific merge operators.
     generic_data_container2: GenericDataContainer
         Either a vector of generic data containers (sharing the same data types) or generic data containers from pin 0 to ... to merge. Supported types rely on existing type specific merge operators.
 
-    Returns
+    Outputs
     -------
     generic_data_container: GenericDataContainer
 
@@ -54,6 +54,9 @@ class merge_generic_data_container(Operator):
     >>> # Get output data
     >>> result_generic_data_container = op.outputs.generic_data_container()
     """
+
+    _inputs: InputsMergeGenericDataContainer
+    _outputs: OutputsMergeGenericDataContainer
 
     def __init__(
         self,
@@ -137,7 +140,7 @@ cannot be merged, first instance found will be maintained in the result.
         inputs:
             An instance of InputsMergeGenericDataContainer.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMergeGenericDataContainer:
@@ -148,7 +151,7 @@ cannot be merged, first instance found will be maintained in the result.
         outputs:
             An instance of OutputsMergeGenericDataContainer.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMergeGenericDataContainer(_Inputs):

@@ -20,8 +20,8 @@ class pretension(Operator):
     allowed for these results.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     time_scoping: ScopingsContainer or Scoping, optional
     mesh_scoping: ScopingsContainer or Scoping, optional
     fields_container: FieldsContainer, optional
@@ -38,7 +38,7 @@ class pretension(Operator):
     phi: float, optional
         angle phi in degrees (default value 0.0), use if cyclic expansion is to be done.
 
-    Returns
+    Outputs
     -------
     adjustment: FieldsContainer
         Adjustment
@@ -92,6 +92,9 @@ class pretension(Operator):
     >>> result_adjustment = op.outputs.adjustment()
     >>> result_tension_force = op.outputs.tension_force()
     """
+
+    _inputs: InputsPretension
+    _outputs: OutputsPretension
 
     def __init__(
         self,
@@ -248,7 +251,7 @@ allowed for these results.
         inputs:
             An instance of InputsPretension.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsPretension:
@@ -259,7 +262,7 @@ allowed for these results.
         outputs:
             An instance of OutputsPretension.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsPretension(_Inputs):

@@ -19,14 +19,14 @@ class global_to_nodal(Operator):
     r"""Rotate results from global coordinate system to local coordinate system.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fieldA: Field
         Vector or tensor field that must be rotated, expressed in global coordinate system.
     fieldB: Field
         Nodal euler angles defined from a result file. Those  must be the rotations from Nodal to Global.
 
-    Returns
+    Outputs
     -------
     field: Field
         Rotated field
@@ -53,6 +53,9 @@ class global_to_nodal(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsGlobalToNodal
+    _outputs: OutputsGlobalToNodal
 
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
         super().__init__(name="GlobalToNodal", config=config, server=server)
@@ -124,7 +127,7 @@ class global_to_nodal(Operator):
         inputs:
             An instance of InputsGlobalToNodal.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsGlobalToNodal:
@@ -135,7 +138,7 @@ class global_to_nodal(Operator):
         outputs:
             An instance of OutputsGlobalToNodal.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsGlobalToNodal(_Inputs):

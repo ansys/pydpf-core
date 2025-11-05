@@ -19,14 +19,14 @@ class rigid_transformation(Operator):
     r"""Extracts rigid body motions from a displacement in input.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     streams_container: StreamsContainer, optional
         streams (result file container) (optional)
     data_sources: DataSources
         If the stream is null, retrieves the file path from the data sources.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -52,6 +52,9 @@ class rigid_transformation(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsRigidTransformation
+    _outputs: OutputsRigidTransformation
 
     def __init__(
         self, streams_container=None, data_sources=None, config=None, server=None
@@ -129,7 +132,7 @@ class rigid_transformation(Operator):
         inputs:
             An instance of InputsRigidTransformation.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsRigidTransformation:
@@ -140,7 +143,7 @@ class rigid_transformation(Operator):
         outputs:
             An instance of OutputsRigidTransformation.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsRigidTransformation(_Inputs):

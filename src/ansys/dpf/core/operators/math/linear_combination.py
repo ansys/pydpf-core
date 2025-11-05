@@ -20,8 +20,8 @@ class linear_combination(Operator):
     are complex numbers.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     a: float
         Double
     fields_containerA: FieldsContainer
@@ -30,7 +30,7 @@ class linear_combination(Operator):
         Double
     fields_containerC: FieldsContainer
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -65,6 +65,9 @@ class linear_combination(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsLinearCombination
+    _outputs: OutputsLinearCombination
 
     def __init__(
         self,
@@ -170,7 +173,7 @@ are complex numbers.
         inputs:
             An instance of InputsLinearCombination.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsLinearCombination:
@@ -181,7 +184,7 @@ are complex numbers.
         outputs:
             An instance of OutputsLinearCombination.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsLinearCombination(_Inputs):

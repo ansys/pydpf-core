@@ -23,8 +23,8 @@ class elemental_nodal_to_nodal_fc(Operator):
     merge_solid_shell input.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     mesh: MeshedRegion or MeshesContainer, optional
         The mesh region in this pin is used to perform the averaging. It is used if there is no fields support.
@@ -41,7 +41,7 @@ class elemental_nodal_to_nodal_fc(Operator):
     shell_layer: int, optional
         0: Top, 1: Bottom, 2: TopBottom, 3: Mid, 4: TopBottomMid. If merge_solid_shell is true, this pin needs to be specified to a value that extracts only one layer (Top, Bottom or Mid).
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
     weights: Class Dataprocessing::Dpftypecollection&lt;Class
@@ -89,6 +89,9 @@ class elemental_nodal_to_nodal_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     >>> result_weights = op.outputs.weights()
     """
+
+    _inputs: InputsElementalNodalToNodalFc
+    _outputs: OutputsElementalNodalToNodalFc
 
     def __init__(
         self,
@@ -236,7 +239,7 @@ merge_solid_shell input.
         inputs:
             An instance of InputsElementalNodalToNodalFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsElementalNodalToNodalFc:
@@ -247,7 +250,7 @@ merge_solid_shell input.
         outputs:
             An instance of OutputsElementalNodalToNodalFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsElementalNodalToNodalFc(_Inputs):

@@ -22,8 +22,8 @@ class sweeping_phase(Operator):
     imaginary_field\ ``*``\ sin(angle).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     real_field: Field or FieldsContainer
         field or fields container with only one field is expected
     imaginary_field: Field or FieldsContainer
@@ -35,7 +35,7 @@ class sweeping_phase(Operator):
     imaginary_part_null: bool
         If the imaginary part field is empty and this pin is true, then the imaginary part is supposed to be 0 (default is false).
 
-    Returns
+    Outputs
     -------
     field: Field
 
@@ -73,6 +73,9 @@ class sweeping_phase(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsSweepingPhase
+    _outputs: OutputsSweepingPhase
 
     def __init__(
         self,
@@ -189,7 +192,7 @@ imaginary_field\ ``*``\ sin(angle).
         inputs:
             An instance of InputsSweepingPhase.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsSweepingPhase:
@@ -200,7 +203,7 @@ imaginary_field\ ``*``\ sin(angle).
         outputs:
             An instance of OutputsSweepingPhase.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsSweepingPhase(_Inputs):

@@ -21,13 +21,13 @@ class change_cs(Operator):
     meshes container.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     meshes: MeshedRegion or MeshesContainer
     coordinate_system: Field
         3-3 rotation matrix + 3 translations (X, Y, Z)
 
-    Returns
+    Outputs
     -------
     meshed_region: MeshedRegion or MeshesContainer
 
@@ -53,6 +53,9 @@ class change_cs(Operator):
     >>> # Get output data
     >>> result_meshed_region = op.outputs.meshed_region()
     """
+
+    _inputs: InputsChangeCs
+    _outputs: OutputsChangeCs
 
     def __init__(self, meshes=None, coordinate_system=None, config=None, server=None):
         super().__init__(name="mesh::change_cs", config=config, server=server)
@@ -125,7 +128,7 @@ meshes container.
         inputs:
             An instance of InputsChangeCs.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsChangeCs:
@@ -136,7 +139,7 @@ meshes container.
         outputs:
             An instance of OutputsChangeCs.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsChangeCs(_Inputs):

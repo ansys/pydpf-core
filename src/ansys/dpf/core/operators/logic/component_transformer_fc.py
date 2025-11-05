@@ -20,15 +20,15 @@ class component_transformer_fc(Operator):
     components.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     component_number: int
         One or several component index that will be modified from the initial field.
     default_value: float, optional
         Set a default value for components selected.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -57,6 +57,9 @@ class component_transformer_fc(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsComponentTransformerFc
+    _outputs: OutputsComponentTransformerFc
 
     def __init__(
         self,
@@ -144,7 +147,7 @@ components.
         inputs:
             An instance of InputsComponentTransformerFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsComponentTransformerFc:
@@ -155,7 +158,7 @@ components.
         outputs:
             An instance of OutputsComponentTransformerFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsComponentTransformerFc(_Inputs):

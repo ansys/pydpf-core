@@ -37,8 +37,8 @@ class elemental_to_nodal(Operator):
        used.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
         field or fields container with only one field is expected
     mesh_scoping: Scoping, optional
@@ -47,7 +47,7 @@ class elemental_to_nodal(Operator):
     algorithm: int, optional
         Forces the usage of algorithm 1, 2 or 3 (default is chosen based on the type of mesh).
 
-    Returns
+    Outputs
     -------
     field: Field
 
@@ -79,6 +79,9 @@ class elemental_to_nodal(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsElementalToNodal
+    _outputs: OutputsElementalToNodal
 
     def __init__(
         self,
@@ -192,7 +195,7 @@ on a given node’s scoping.
         inputs:
             An instance of InputsElementalToNodal.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsElementalToNodal:
@@ -203,7 +206,7 @@ on a given node’s scoping.
         outputs:
             An instance of OutputsElementalToNodal.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsElementalToNodal(_Inputs):

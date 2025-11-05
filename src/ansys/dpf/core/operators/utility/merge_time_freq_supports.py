@@ -19,14 +19,14 @@ class merge_time_freq_supports(Operator):
     r"""Assembles a set of time/frequency supports into a unique one.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     time_freq_supports1: TimeFreqSupport
         A vector of time/frequency supports to merge or time/frequency supports from pin 0 to ...
     time_freq_supports2: TimeFreqSupport
         A vector of time/frequency supports to merge or time/frequency supports from pin 0 to ...
 
-    Returns
+    Outputs
     -------
     merged_support: TimeFreqSupport
 
@@ -52,6 +52,9 @@ class merge_time_freq_supports(Operator):
     >>> # Get output data
     >>> result_merged_support = op.outputs.merged_support()
     """
+
+    _inputs: InputsMergeTimeFreqSupports
+    _outputs: OutputsMergeTimeFreqSupports
 
     def __init__(
         self,
@@ -129,7 +132,7 @@ class merge_time_freq_supports(Operator):
         inputs:
             An instance of InputsMergeTimeFreqSupports.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMergeTimeFreqSupports:
@@ -140,7 +143,7 @@ class merge_time_freq_supports(Operator):
         outputs:
             An instance of OutputsMergeTimeFreqSupports.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMergeTimeFreqSupports(_Inputs):

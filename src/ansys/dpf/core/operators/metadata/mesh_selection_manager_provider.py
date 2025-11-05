@@ -21,14 +21,14 @@ class mesh_selection_manager_provider(Operator):
     selection manager in output.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     streams_container: StreamsContainer, optional
         streams (result file container) (optional)
     data_sources: DataSources
         If the stream is null, retrieves the file path from the data sources.
 
-    Returns
+    Outputs
     -------
     mesh_selection_manager: MeshSelectionManager
 
@@ -54,6 +54,9 @@ class mesh_selection_manager_provider(Operator):
     >>> # Get output data
     >>> result_mesh_selection_manager = op.outputs.mesh_selection_manager()
     """
+
+    _inputs: InputsMeshSelectionManagerProvider
+    _outputs: OutputsMeshSelectionManagerProvider
 
     def __init__(
         self, streams_container=None, data_sources=None, config=None, server=None
@@ -133,7 +136,7 @@ selection manager in output.
         inputs:
             An instance of InputsMeshSelectionManagerProvider.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMeshSelectionManagerProvider:
@@ -144,7 +147,7 @@ selection manager in output.
         outputs:
             An instance of OutputsMeshSelectionManagerProvider.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMeshSelectionManagerProvider(_Inputs):

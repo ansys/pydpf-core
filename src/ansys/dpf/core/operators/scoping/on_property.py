@@ -20,8 +20,8 @@ class on_property(Operator):
     and a property number.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     requested_location: str
         Nodal or Elemental location are expected
     property_name: str
@@ -33,7 +33,7 @@ class on_property(Operator):
     inclusive: int, optional
         If element scoping is requested on a nodal named selection, if inclusive == 1 then all the elements/faces adjacent to the nodes/faces ids in input are added, if inclusive == 0, only the elements/faces which have all their nodes/faces in the scoping are included
 
-    Returns
+    Outputs
     -------
     mesh_scoping: Scoping
         Scoping
@@ -72,6 +72,9 @@ class on_property(Operator):
     >>> # Get output data
     >>> result_mesh_scoping = op.outputs.mesh_scoping()
     """
+
+    _inputs: InputsOnProperty
+    _outputs: OutputsOnProperty
 
     def __init__(
         self,
@@ -186,7 +189,7 @@ and a property number.
         inputs:
             An instance of InputsOnProperty.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsOnProperty:
@@ -197,7 +200,7 @@ and a property number.
         outputs:
             An instance of OutputsOnProperty.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsOnProperty(_Inputs):

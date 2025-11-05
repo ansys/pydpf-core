@@ -21,8 +21,8 @@ class extract_scoping(Operator):
     scoping or scopings container.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field_or_fields_container: Field or FieldsContainer or PropertyField or
         PropertyFieldsContainer or CustomTypeField or
         CustomTypeFieldsContainer or StringField or Scoping
@@ -31,7 +31,7 @@ class extract_scoping(Operator):
     requested_location: int, optional
         If input 0 is a mesh or a meshes_container, the operator returns the nodes scoping, possible locations are: Nodal(default) or Elemental
 
-    Returns
+    Outputs
     -------
     mesh_scoping: Scoping or ScopingsContainer
 
@@ -57,6 +57,9 @@ class extract_scoping(Operator):
     >>> # Get output data
     >>> result_mesh_scoping = op.outputs.mesh_scoping()
     """
+
+    _inputs: InputsExtractScoping
+    _outputs: OutputsExtractScoping
 
     def __init__(
         self,
@@ -147,7 +150,7 @@ scoping or scopings container.
         inputs:
             An instance of InputsExtractScoping.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsExtractScoping:
@@ -158,7 +161,7 @@ scoping or scopings container.
         outputs:
             An instance of OutputsExtractScoping.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsExtractScoping(_Inputs):

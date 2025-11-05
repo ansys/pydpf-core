@@ -21,8 +21,8 @@ class fft_approx(Operator):
     first and the second derivatives of the curve.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     time_scoping: Scoping, optional
         A time scoping to rescope / split the fields container given as input.
     mesh_scoping: Scoping or ScopingsContainer, optional
@@ -40,7 +40,7 @@ class fft_approx(Operator):
     cutoff_fr: float or int, optional
         Cutoff frequency.
 
-    Returns
+    Outputs
     -------
     fitted_entity_y: FieldsContainer
         The fitted entity is fitted using FFT along the space scoping (node i: x=time, y=data). Fitted Y is expected to be close to the input data.
@@ -91,6 +91,9 @@ class fft_approx(Operator):
     >>> result_first_der_dy = op.outputs.first_der_dy()
     >>> result_second_der_d2y = op.outputs.second_der_d2y()
     """
+
+    _inputs: InputsFftApprox
+    _outputs: OutputsFftApprox
 
     def __init__(
         self,
@@ -236,7 +239,7 @@ first and the second derivatives of the curve.
         inputs:
             An instance of InputsFftApprox.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsFftApprox:
@@ -247,7 +250,7 @@ first and the second derivatives of the curve.
         outputs:
             An instance of OutputsFftApprox.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsFftApprox(_Inputs):

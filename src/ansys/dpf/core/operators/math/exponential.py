@@ -19,12 +19,12 @@ class exponential(Operator):
     r"""Computes element-wise exp(field[i]).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer or float
         field or fields container with only one field is expected
 
-    Returns
+    Outputs
     -------
     field: Field
 
@@ -47,6 +47,9 @@ class exponential(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsExponential
+    _outputs: OutputsExponential
 
     def __init__(self, field=None, config=None, server=None):
         super().__init__(name="exponential", config=config, server=server)
@@ -115,7 +118,7 @@ class exponential(Operator):
         inputs:
             An instance of InputsExponential.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsExponential:
@@ -126,7 +129,7 @@ class exponential(Operator):
         outputs:
             An instance of OutputsExponential.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsExponential(_Inputs):

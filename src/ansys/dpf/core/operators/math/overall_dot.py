@@ -20,12 +20,12 @@ class overall_dot(Operator):
     large vector) and returns a scalar.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fieldA: Field
     fieldB: Field
 
-    Returns
+    Outputs
     -------
     field: Field
         Field defined on over-all location, contains a unique scalar value
@@ -52,6 +52,9 @@ class overall_dot(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsOverallDot
+    _outputs: OutputsOverallDot
 
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
         super().__init__(name="native::overall_dot", config=config, server=server)
@@ -124,7 +127,7 @@ large vector) and returns a scalar.
         inputs:
             An instance of InputsOverallDot.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsOverallDot:
@@ -135,7 +138,7 @@ large vector) and returns a scalar.
         outputs:
             An instance of OutputsOverallDot.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsOverallDot(_Inputs):

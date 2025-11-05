@@ -25,15 +25,15 @@ class min_max_over_time_by_entity(Operator):
       the minimum and maximum values.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     compute_absolute_value: bool, optional
         Calculate the absolute value of field entities before computing the min/max.
     compute_amplitude: bool, optional
         Do calculate amplitude.
 
-    Returns
+    Outputs
     -------
     min: FieldsContainer
     max: FieldsContainer
@@ -68,6 +68,9 @@ class min_max_over_time_by_entity(Operator):
     >>> result_time_freq_of_min = op.outputs.time_freq_of_min()
     >>> result_time_freq_of_max = op.outputs.time_freq_of_max()
     """
+
+    _inputs: InputsMinMaxOverTimeByEntity
+    _outputs: OutputsMinMaxOverTimeByEntity
 
     def __init__(
         self,
@@ -182,7 +185,7 @@ class min_max_over_time_by_entity(Operator):
         inputs:
             An instance of InputsMinMaxOverTimeByEntity.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMinMaxOverTimeByEntity:
@@ -193,7 +196,7 @@ class min_max_over_time_by_entity(Operator):
         outputs:
             An instance of OutputsMinMaxOverTimeByEntity.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMinMaxOverTimeByEntity(_Inputs):

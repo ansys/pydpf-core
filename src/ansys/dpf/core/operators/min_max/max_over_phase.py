@@ -21,8 +21,8 @@ class max_over_phase(Operator):
     increment in input.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     real_field: Field
     imaginary_field: Field
     abs_value: bool, optional
@@ -30,7 +30,7 @@ class max_over_phase(Operator):
     phase_increment: float, optional
         Phase increment (default is 10.0 degrees).
 
-    Returns
+    Outputs
     -------
     field: Field
 
@@ -62,6 +62,9 @@ class max_over_phase(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsMaxOverPhase
+    _outputs: OutputsMaxOverPhase
 
     def __init__(
         self,
@@ -159,7 +162,7 @@ increment in input.
         inputs:
             An instance of InputsMaxOverPhase.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMaxOverPhase:
@@ -170,7 +173,7 @@ increment in input.
         outputs:
             An instance of OutputsMaxOverPhase.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMaxOverPhase(_Inputs):

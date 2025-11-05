@@ -20,12 +20,12 @@ class change_fc(Operator):
     fields container to correspond to a scopings container.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field_or_fields_container: FieldsContainer or Field
     scopings_container: ScopingsContainer
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -51,6 +51,9 @@ class change_fc(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsChangeFc
+    _outputs: OutputsChangeFc
 
     def __init__(
         self,
@@ -129,7 +132,7 @@ fields container to correspond to a scopings container.
         inputs:
             An instance of InputsChangeFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsChangeFc:
@@ -140,7 +143,7 @@ fields container to correspond to a scopings container.
         outputs:
             An instance of OutputsChangeFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsChangeFc(_Inputs):

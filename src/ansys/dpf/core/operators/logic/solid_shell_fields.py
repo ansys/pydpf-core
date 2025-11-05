@@ -20,11 +20,11 @@ class solid_shell_fields(Operator):
     container.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -47,6 +47,9 @@ class solid_shell_fields(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsSolidShellFields
+    _outputs: OutputsSolidShellFields
 
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="merge::solid_shell_fields", config=config, server=server)
@@ -111,7 +114,7 @@ container.
         inputs:
             An instance of InputsSolidShellFields.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsSolidShellFields:
@@ -122,7 +125,7 @@ container.
         outputs:
             An instance of OutputsSolidShellFields.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsSolidShellFields(_Inputs):

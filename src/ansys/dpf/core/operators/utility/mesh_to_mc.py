@@ -19,14 +19,14 @@ class mesh_to_mc(Operator):
     r"""Creates a meshes container containing the mesh provided on pin 0.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mesh: MeshedRegion or MeshesContainer
         If a meshes container is set in input, it is passed on as an output with the additional label space (if any).
     label: dict
         Sets a label space.
 
-    Returns
+    Outputs
     -------
     meshes_container: MeshesContainer
 
@@ -52,6 +52,9 @@ class mesh_to_mc(Operator):
     >>> # Get output data
     >>> result_meshes_container = op.outputs.meshes_container()
     """
+
+    _inputs: InputsMeshToMc
+    _outputs: OutputsMeshToMc
 
     def __init__(self, mesh=None, label=None, config=None, server=None):
         super().__init__(name="InjectToMeshesContainer", config=config, server=server)
@@ -123,7 +126,7 @@ class mesh_to_mc(Operator):
         inputs:
             An instance of InputsMeshToMc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMeshToMc:
@@ -134,7 +137,7 @@ class mesh_to_mc(Operator):
         outputs:
             An instance of OutputsMeshToMc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMeshToMc(_Inputs):

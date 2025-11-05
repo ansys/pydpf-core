@@ -22,15 +22,15 @@ class nodal_difference(Operator):
     given node’s scoping.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
         field or fields container with only one field is expected
     mesh_scoping: Scoping, optional
         average only on these entities
     mesh: MeshedRegion, optional
 
-    Returns
+    Outputs
     -------
     field: Field
 
@@ -59,6 +59,9 @@ class nodal_difference(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsNodalDifference
+    _outputs: OutputsNodalDifference
 
     def __init__(
         self, field=None, mesh_scoping=None, mesh=None, config=None, server=None
@@ -143,7 +146,7 @@ given node’s scoping.
         inputs:
             An instance of InputsNodalDifference.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsNodalDifference:
@@ -154,7 +157,7 @@ given node’s scoping.
         outputs:
             An instance of OutputsNodalDifference.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsNodalDifference(_Inputs):

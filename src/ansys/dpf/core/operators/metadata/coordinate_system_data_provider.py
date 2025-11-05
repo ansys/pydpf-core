@@ -20,8 +20,8 @@ class coordinate_system_data_provider(Operator):
     streams or data sources.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     solver_coordinate_system_ids: int, optional
         Coorfinate System ids to recover used by the solver. If not set, all available materials to be recovered.
     streams: StreamsContainer, optional
@@ -29,7 +29,7 @@ class coordinate_system_data_provider(Operator):
     data_sources: DataSources
         Result file path container, used if no streams are set.
 
-    Returns
+    Outputs
     -------
     coordinate_system_data1: GenericDataContainer
     coordinate_system_data2: GenericDataContainer
@@ -60,6 +60,9 @@ class coordinate_system_data_provider(Operator):
     >>> result_coordinate_system_data1 = op.outputs.coordinate_system_data1()
     >>> result_coordinate_system_data2 = op.outputs.coordinate_system_data2()
     """
+
+    _inputs: InputsCoordinateSystemDataProvider
+    _outputs: OutputsCoordinateSystemDataProvider
 
     def __init__(
         self,
@@ -159,7 +162,7 @@ streams or data sources.
         inputs:
             An instance of InputsCoordinateSystemDataProvider.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsCoordinateSystemDataProvider:
@@ -170,7 +173,7 @@ streams or data sources.
         outputs:
             An instance of OutputsCoordinateSystemDataProvider.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsCoordinateSystemDataProvider(_Inputs):

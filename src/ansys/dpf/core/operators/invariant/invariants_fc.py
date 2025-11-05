@@ -20,11 +20,11 @@ class invariants_fc(Operator):
     fields container.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
 
-    Returns
+    Outputs
     -------
     fields_int: FieldsContainer
         stress intensity field
@@ -54,6 +54,9 @@ class invariants_fc(Operator):
     >>> result_fields_eqv = op.outputs.fields_eqv()
     >>> result_fields_max_shear = op.outputs.fields_max_shear()
     """
+
+    _inputs: InputsInvariantsFc
+    _outputs: OutputsInvariantsFc
 
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="invariants_deriv_fc", config=config, server=server)
@@ -130,7 +133,7 @@ fields container.
         inputs:
             An instance of InputsInvariantsFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsInvariantsFc:
@@ -141,7 +144,7 @@ fields container.
         outputs:
             An instance of OutputsInvariantsFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsInvariantsFc(_Inputs):

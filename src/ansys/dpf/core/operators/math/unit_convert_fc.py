@@ -19,13 +19,13 @@ class unit_convert_fc(Operator):
     r"""Converts an input fields container of a given unit to another unit.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     unit_name: str
         unit as a string, ex 'm' for meter, 'Pa' for pascal,...
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -51,6 +51,9 @@ class unit_convert_fc(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsUnitConvertFc
+    _outputs: OutputsUnitConvertFc
 
     def __init__(self, fields_container=None, unit_name=None, config=None, server=None):
         super().__init__(name="unit_convert_fc", config=config, server=server)
@@ -122,7 +125,7 @@ class unit_convert_fc(Operator):
         inputs:
             An instance of InputsUnitConvertFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsUnitConvertFc:
@@ -133,7 +136,7 @@ class unit_convert_fc(Operator):
         outputs:
             An instance of OutputsUnitConvertFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsUnitConvertFc(_Inputs):

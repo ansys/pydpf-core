@@ -19,12 +19,12 @@ class ln(Operator):
     r"""Computes element-wise ln(field[i]).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer or float
         field or fields container with only one field is expected
 
-    Returns
+    Outputs
     -------
     field: Field
 
@@ -47,6 +47,9 @@ class ln(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsLn
+    _outputs: OutputsLn
 
     def __init__(self, field=None, config=None, server=None):
         super().__init__(name="ln", config=config, server=server)
@@ -115,7 +118,7 @@ class ln(Operator):
         inputs:
             An instance of InputsLn.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsLn:
@@ -126,7 +129,7 @@ class ln(Operator):
         outputs:
             An instance of OutputsLn.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsLn(_Inputs):

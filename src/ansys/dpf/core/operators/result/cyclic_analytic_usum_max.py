@@ -20,8 +20,8 @@ class cyclic_analytic_usum_max(Operator):
     degrees
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     time_scoping: Scoping, optional
     mesh_scoping: ScopingsContainer or Scoping, optional
     fields_container: FieldsContainer
@@ -30,7 +30,7 @@ class cyclic_analytic_usum_max(Operator):
         default is true
     cyclic_support: CyclicSupport
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
         FieldsContainer filled in
@@ -66,6 +66,9 @@ class cyclic_analytic_usum_max(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsCyclicAnalyticUsumMax
+    _outputs: OutputsCyclicAnalyticUsumMax
 
     def __init__(
         self,
@@ -171,7 +174,7 @@ degrees
         inputs:
             An instance of InputsCyclicAnalyticUsumMax.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsCyclicAnalyticUsumMax:
@@ -182,7 +185,7 @@ degrees
         outputs:
             An instance of OutputsCyclicAnalyticUsumMax.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsCyclicAnalyticUsumMax(_Inputs):

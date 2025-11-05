@@ -22,14 +22,14 @@ class rescope_property_field(Operator):
     defined.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields: PropertyFieldsContainer or PropertyField
     mesh_scoping: Scoping, optional
     default_value: int, optional
         If pin 2 is used, the IDs not found in the property field are added with this default value.
 
-    Returns
+    Outputs
     -------
     fields: PropertyFieldsContainer or PropertyField
 
@@ -58,6 +58,9 @@ class rescope_property_field(Operator):
     >>> # Get output data
     >>> result_fields = op.outputs.fields()
     """
+
+    _inputs: InputsRescopePropertyField
+    _outputs: OutputsRescopePropertyField
 
     def __init__(
         self,
@@ -146,7 +149,7 @@ defined.
         inputs:
             An instance of InputsRescopePropertyField.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsRescopePropertyField:
@@ -157,7 +160,7 @@ defined.
         outputs:
             An instance of OutputsRescopePropertyField.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsRescopePropertyField(_Inputs):

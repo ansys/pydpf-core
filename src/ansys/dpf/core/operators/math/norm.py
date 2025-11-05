@@ -20,14 +20,14 @@ class norm(Operator):
     Lp=L2
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
         field or fields container with only one field is expected
     scalar_int: int, optional
         Lp normalisation type, p = 1, 2, ...n - Default Lp=L2
 
-    Returns
+    Outputs
     -------
     field: Field
 
@@ -53,6 +53,9 @@ class norm(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsNorm
+    _outputs: OutputsNorm
 
     def __init__(self, field=None, scalar_int=None, config=None, server=None):
         super().__init__(name="norm", config=config, server=server)
@@ -125,7 +128,7 @@ Lp=L2
         inputs:
             An instance of InputsNorm.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsNorm:
@@ -136,7 +139,7 @@ Lp=L2
         outputs:
             An instance of OutputsNorm.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsNorm(_Inputs):

@@ -21,8 +21,8 @@ class migrate_to_vtu(Operator):
     operators.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     time_scoping: Scoping, optional
         time sets to export, default is all
     streams_container: StreamsContainer, optional
@@ -40,7 +40,7 @@ class migrate_to_vtu(Operator):
     write_mode: str, optional
         Available are rawbinarycompressed, rawbinary, base64appended, base64inline, ascii, default is (rawbinarycompressed)
 
-    Returns
+    Outputs
     -------
     path: DataSources
         list of output vtu file path
@@ -85,6 +85,9 @@ class migrate_to_vtu(Operator):
     >>> # Get output data
     >>> result_path = op.outputs.path()
     """
+
+    _inputs: InputsMigrateToVtu
+    _outputs: OutputsMigrateToVtu
 
     def __init__(
         self,
@@ -218,7 +221,7 @@ operators.
         inputs:
             An instance of InputsMigrateToVtu.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMigrateToVtu:
@@ -229,7 +232,7 @@ operators.
         outputs:
             An instance of OutputsMigrateToVtu.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMigrateToVtu(_Inputs):

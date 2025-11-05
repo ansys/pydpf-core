@@ -20,14 +20,14 @@ class stress_rotation_by_euler_nodes(Operator):
     in the fieldsContainer.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer, optional
     streams_container: StreamsContainer or Stream or Class
         Dataprocessing::Crstfilewrapper, optional
     data_sources: DataSources
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -56,6 +56,9 @@ class stress_rotation_by_euler_nodes(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsStressRotationByEulerNodes
+    _outputs: OutputsStressRotationByEulerNodes
 
     def __init__(
         self,
@@ -151,7 +154,7 @@ in the fieldsContainer.
         inputs:
             An instance of InputsStressRotationByEulerNodes.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsStressRotationByEulerNodes:
@@ -162,7 +165,7 @@ in the fieldsContainer.
         outputs:
             An instance of OutputsStressRotationByEulerNodes.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsStressRotationByEulerNodes(_Inputs):

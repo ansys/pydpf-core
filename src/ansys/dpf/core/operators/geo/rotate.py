@@ -19,14 +19,14 @@ class rotate(Operator):
     r"""Applies a transformation (rotation) matrix on a field.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
         field or fields container with only one field is expected
     field_rotation_matrix: Field
         3-3 rotation matrix
 
-    Returns
+    Outputs
     -------
     field: Field
 
@@ -52,6 +52,9 @@ class rotate(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsRotate
+    _outputs: OutputsRotate
 
     def __init__(
         self, field=None, field_rotation_matrix=None, config=None, server=None
@@ -125,7 +128,7 @@ class rotate(Operator):
         inputs:
             An instance of InputsRotate.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsRotate:
@@ -136,7 +139,7 @@ class rotate(Operator):
         outputs:
             An instance of OutputsRotate.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsRotate(_Inputs):

@@ -20,8 +20,8 @@ class meshes_provider(Operator):
     varying.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     time_scoping: Scoping or int, optional
         Time/frequency set IDs required in output.
     streams_container: StreamsContainer, optional
@@ -33,7 +33,7 @@ class meshes_provider(Operator):
     region_scoping: Scoping or int, optional
         region id (integer) or vector of region ids (vector) or region scoping (scoping) of the model (region corresponds to zone for Fluid results or part for LSDyna results).
 
-    Returns
+    Outputs
     -------
     meshes: MeshesContainer
 
@@ -68,6 +68,9 @@ class meshes_provider(Operator):
     >>> # Get output data
     >>> result_meshes = op.outputs.meshes()
     """
+
+    _inputs: InputsMeshesProvider
+    _outputs: OutputsMeshesProvider
 
     def __init__(
         self,
@@ -173,7 +176,7 @@ varying.
         inputs:
             An instance of InputsMeshesProvider.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMeshesProvider:
@@ -184,7 +187,7 @@ varying.
         outputs:
             An instance of OutputsMeshesProvider.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMeshesProvider(_Inputs):

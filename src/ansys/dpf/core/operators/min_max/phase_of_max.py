@@ -19,8 +19,8 @@ class phase_of_max(Operator):
     r"""Evaluates phase of maximum.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     real_field: Field
     imaginary_field: Field
     abs_value: bool, optional
@@ -28,7 +28,7 @@ class phase_of_max(Operator):
     phase_increment: float
         Phase increment.
 
-    Returns
+    Outputs
     -------
     field: Field
 
@@ -60,6 +60,9 @@ class phase_of_max(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsPhaseOfMax
+    _outputs: OutputsPhaseOfMax
 
     def __init__(
         self,
@@ -155,7 +158,7 @@ class phase_of_max(Operator):
         inputs:
             An instance of InputsPhaseOfMax.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsPhaseOfMax:
@@ -166,7 +169,7 @@ class phase_of_max(Operator):
         outputs:
             An instance of OutputsPhaseOfMax.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsPhaseOfMax(_Inputs):

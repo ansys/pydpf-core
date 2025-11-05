@@ -23,15 +23,15 @@ class sweeping_phase_fc(Operator):
     imaginary_field\ ``*``\ sin(angle).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     angle: float
     unit_name: str, optional
         String Unit. Supported values: "deg" or "rad". Default: "rad".
     abs_value: bool
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -63,6 +63,9 @@ class sweeping_phase_fc(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsSweepingPhaseFc
+    _outputs: OutputsSweepingPhaseFc
 
     def __init__(
         self,
@@ -162,7 +165,7 @@ imaginary_field\ ``*``\ sin(angle).
         inputs:
             An instance of InputsSweepingPhaseFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsSweepingPhaseFc:
@@ -173,7 +176,7 @@ imaginary_field\ ``*``\ sin(angle).
         outputs:
             An instance of OutputsSweepingPhaseFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsSweepingPhaseFc(_Inputs):

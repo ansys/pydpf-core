@@ -21,8 +21,8 @@ class cyclic_support_provider(Operator):
     expansions) and expands the mesh.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     streams_container: StreamsContainer, optional
         Streams containing the result file.
     data_sources: DataSources
@@ -34,7 +34,7 @@ class cyclic_support_provider(Operator):
     sectors_to_expand: Scoping or ScopingsContainer, optional
         sectors to expand (start at 0), for multistage: use scopings container with 'stage' label.
 
-    Returns
+    Outputs
     -------
     cyclic_support: CyclicSupport
     sector_meshes: MeshesContainer
@@ -71,6 +71,9 @@ class cyclic_support_provider(Operator):
     >>> result_cyclic_support = op.outputs.cyclic_support()
     >>> result_sector_meshes = op.outputs.sector_meshes()
     """
+
+    _inputs: InputsCyclicSupportProvider
+    _outputs: OutputsCyclicSupportProvider
 
     def __init__(
         self,
@@ -194,7 +197,7 @@ expansions) and expands the mesh.
         inputs:
             An instance of InputsCyclicSupportProvider.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsCyclicSupportProvider:
@@ -205,7 +208,7 @@ expansions) and expands the mesh.
         outputs:
             An instance of OutputsCyclicSupportProvider.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsCyclicSupportProvider(_Inputs):

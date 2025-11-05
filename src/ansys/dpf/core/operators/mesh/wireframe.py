@@ -20,13 +20,13 @@ class wireframe(Operator):
     threshold angle.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mesh: MeshedRegion
     threshold: float
         angle threshold in radian that will trigger an edge detection.
 
-    Returns
+    Outputs
     -------
     wireframe: MeshedRegion
 
@@ -52,6 +52,9 @@ class wireframe(Operator):
     >>> # Get output data
     >>> result_wireframe = op.outputs.wireframe()
     """
+
+    _inputs: InputsWireframe
+    _outputs: OutputsWireframe
 
     def __init__(self, mesh=None, threshold=None, config=None, server=None):
         super().__init__(name="wireframe", config=config, server=server)
@@ -124,7 +127,7 @@ threshold angle.
         inputs:
             An instance of InputsWireframe.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsWireframe:
@@ -135,7 +138,7 @@ threshold angle.
         outputs:
             An instance of OutputsWireframe.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsWireframe(_Inputs):

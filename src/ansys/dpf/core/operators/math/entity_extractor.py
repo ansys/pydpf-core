@@ -19,12 +19,12 @@ class entity_extractor(Operator):
     r"""Extracts an entity from a field, based on its ID.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fieldA: Field
     scalar_int: int
 
-    Returns
+    Outputs
     -------
     field: Field
 
@@ -50,6 +50,9 @@ class entity_extractor(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsEntityExtractor
+    _outputs: OutputsEntityExtractor
 
     def __init__(self, fieldA=None, scalar_int=None, config=None, server=None):
         super().__init__(name="entity_extractor", config=config, server=server)
@@ -121,7 +124,7 @@ class entity_extractor(Operator):
         inputs:
             An instance of InputsEntityExtractor.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsEntityExtractor:
@@ -132,7 +135,7 @@ class entity_extractor(Operator):
         outputs:
             An instance of OutputsEntityExtractor.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsEntityExtractor(_Inputs):

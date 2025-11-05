@@ -20,8 +20,8 @@ class compute_invariant_terms_rbd(Operator):
     matrices, lumped mass matrix, modes …)
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     rom_matrices: FieldsContainer
         FieldsContainers containing the reduced matrices
     mode_shapes: FieldsContainer
@@ -41,7 +41,7 @@ class compute_invariant_terms_rbd(Operator):
     constraint_mode_check: bool, optional
         if true, the orthogonality of the constraint modes are checked. Default is false.
 
-    Returns
+    Outputs
     -------
     model_data: PropertyField
         data describing the finite element model
@@ -139,6 +139,9 @@ class compute_invariant_terms_rbd(Operator):
     >>> result_dnyn = op.outputs.dnyn()
     >>> result_dnzn = op.outputs.dnzn()
     """
+
+    _inputs: InputsComputeInvariantTermsRbd
+    _outputs: OutputsComputeInvariantTermsRbd
 
     def __init__(
         self,
@@ -425,7 +428,7 @@ matrices, lumped mass matrix, modes …)
         inputs:
             An instance of InputsComputeInvariantTermsRbd.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsComputeInvariantTermsRbd:
@@ -436,7 +439,7 @@ matrices, lumped mass matrix, modes …)
         outputs:
             An instance of OutputsComputeInvariantTermsRbd.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsComputeInvariantTermsRbd(_Inputs):

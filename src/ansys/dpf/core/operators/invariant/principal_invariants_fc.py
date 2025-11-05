@@ -20,11 +20,11 @@ class principal_invariants_fc(Operator):
     fields container.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
 
-    Returns
+    Outputs
     -------
     fields_eig_1: FieldsContainer
         first eigen value fields
@@ -54,6 +54,9 @@ class principal_invariants_fc(Operator):
     >>> result_fields_eig_2 = op.outputs.fields_eig_2()
     >>> result_fields_eig_3 = op.outputs.fields_eig_3()
     """
+
+    _inputs: InputsPrincipalInvariantsFc
+    _outputs: OutputsPrincipalInvariantsFc
 
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="invariants_fc", config=config, server=server)
@@ -130,7 +133,7 @@ fields container.
         inputs:
             An instance of InputsPrincipalInvariantsFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsPrincipalInvariantsFc:
@@ -141,7 +144,7 @@ fields container.
         outputs:
             An instance of OutputsPrincipalInvariantsFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsPrincipalInvariantsFc(_Inputs):

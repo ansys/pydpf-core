@@ -20,12 +20,12 @@ class cplx_divide(Operator):
     fields.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_containerA: FieldsContainer
     fields_containerB: FieldsContainer
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -51,6 +51,9 @@ class cplx_divide(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsCplxDivide
+    _outputs: OutputsCplxDivide
 
     def __init__(
         self, fields_containerA=None, fields_containerB=None, config=None, server=None
@@ -125,7 +128,7 @@ fields.
         inputs:
             An instance of InputsCplxDivide.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsCplxDivide:
@@ -136,7 +139,7 @@ fields.
         outputs:
             An instance of OutputsCplxDivide.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsCplxDivide(_Inputs):

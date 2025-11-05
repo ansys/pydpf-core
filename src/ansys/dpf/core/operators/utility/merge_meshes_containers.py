@@ -19,14 +19,14 @@ class merge_meshes_containers(Operator):
     r"""Assembles a set of meshes containers into a unique one.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     meshes_containers1: MeshesContainer
         a vector of meshes containers to merge or meshes containers from pin 0 to ...
     meshes_containers2: MeshesContainer
         a vector of meshes containers to merge or meshes containers from pin 0 to ...
 
-    Returns
+    Outputs
     -------
     merged_meshes_container: MeshesContainer
 
@@ -52,6 +52,9 @@ class merge_meshes_containers(Operator):
     >>> # Get output data
     >>> result_merged_meshes_container = op.outputs.merged_meshes_container()
     """
+
+    _inputs: InputsMergeMeshesContainers
+    _outputs: OutputsMergeMeshesContainers
 
     def __init__(
         self, meshes_containers1=None, meshes_containers2=None, config=None, server=None
@@ -125,7 +128,7 @@ class merge_meshes_containers(Operator):
         inputs:
             An instance of InputsMergeMeshesContainers.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMergeMeshesContainers:
@@ -136,7 +139,7 @@ class merge_meshes_containers(Operator):
         outputs:
             An instance of OutputsMergeMeshesContainers.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMergeMeshesContainers(_Inputs):

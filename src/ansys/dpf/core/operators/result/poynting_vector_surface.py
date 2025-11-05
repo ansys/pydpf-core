@@ -19,8 +19,8 @@ class poynting_vector_surface(Operator):
     r"""Compute the Poynting Vector surface integral
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_containerA: FieldsContainer
     fields_containerB: FieldsContainer
     fields_containerC: FieldsContainer
@@ -30,7 +30,7 @@ class poynting_vector_surface(Operator):
     int32: int, optional
         load step number, if it's specified, the Poynting Vector is computed only on the substeps of this step
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -68,6 +68,9 @@ class poynting_vector_surface(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsPoyntingVectorSurface
+    _outputs: OutputsPoyntingVectorSurface
 
     def __init__(
         self,
@@ -181,7 +184,7 @@ class poynting_vector_surface(Operator):
         inputs:
             An instance of InputsPoyntingVectorSurface.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsPoyntingVectorSurface:
@@ -192,7 +195,7 @@ class poynting_vector_surface(Operator):
         outputs:
             An instance of OutputsPoyntingVectorSurface.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsPoyntingVectorSurface(_Inputs):

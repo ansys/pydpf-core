@@ -20,14 +20,14 @@ class generalized_inner_product_fc(Operator):
     possibly different dimensionality.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field_or_fields_container_A: Field or FieldsContainer or float
         field or fields container with only one field is expected
     field_or_fields_container_B: Field or FieldsContainer or float
         field or fields container with only one field is expected
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -53,6 +53,9 @@ class generalized_inner_product_fc(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsGeneralizedInnerProductFc
+    _outputs: OutputsGeneralizedInnerProductFc
 
     def __init__(
         self,
@@ -145,7 +148,7 @@ possibly different dimensionality.
         inputs:
             An instance of InputsGeneralizedInnerProductFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsGeneralizedInnerProductFc:
@@ -156,7 +159,7 @@ possibly different dimensionality.
         outputs:
             An instance of OutputsGeneralizedInnerProductFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsGeneralizedInnerProductFc(_Inputs):

@@ -20,13 +20,13 @@ class to_elemental_nodal_fc(Operator):
     process. The result is computed on a given element’s scoping.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     mesh_scoping: Scoping, optional
     mesh: MeshedRegion, optional
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -55,6 +55,9 @@ class to_elemental_nodal_fc(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsToElementalNodalFc
+    _outputs: OutputsToElementalNodalFc
 
     def __init__(
         self,
@@ -142,7 +145,7 @@ process. The result is computed on a given element’s scoping.
         inputs:
             An instance of InputsToElementalNodalFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsToElementalNodalFc:
@@ -153,7 +156,7 @@ process. The result is computed on a given element’s scoping.
         outputs:
             An instance of OutputsToElementalNodalFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsToElementalNodalFc(_Inputs):

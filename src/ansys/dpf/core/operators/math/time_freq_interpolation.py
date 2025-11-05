@@ -24,8 +24,8 @@ class time_freq_interpolation(Operator):
     fields container
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     time_freq_values: float or Field
         list of frequencies or times needed. To specify load steps, put a Field (and not a list) in input with a scoping located on "TimeFreq_steps".
@@ -37,7 +37,7 @@ class time_freq_interpolation(Operator):
         If set to true, the output fields container will always have a new time freq support rescoped to the output time_freq_values (default is false). If set to false, the time freq support is only recreated when time or frequency values are between existing ones.
     time_freq_support: TimeFreqSupport, optional
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -75,6 +75,9 @@ class time_freq_interpolation(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsTimeFreqInterpolation
+    _outputs: OutputsTimeFreqInterpolation
 
     def __init__(
         self,
@@ -193,7 +196,7 @@ fields container
         inputs:
             An instance of InputsTimeFreqInterpolation.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsTimeFreqInterpolation:
@@ -204,7 +207,7 @@ fields container
         outputs:
             An instance of OutputsTimeFreqInterpolation.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsTimeFreqInterpolation(_Inputs):

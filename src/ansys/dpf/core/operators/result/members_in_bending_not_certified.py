@@ -25,8 +25,8 @@ class members_in_bending_not_certified(Operator):
     Angle L-beam, unequal hollow rectangular beam) not supported.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     time_scoping: Scoping or int, optional
     field_yield_strength: Field
         This pin contains field of beam's Yield Strength defined by the user.
@@ -45,7 +45,7 @@ class members_in_bending_not_certified(Operator):
     bending_moment_z: FieldsContainer
         Fields Container of bending moment on axis z defined by user
 
-    Returns
+    Outputs
     -------
     buckling_resistance_bending_yy: FieldsContainer
         Fields Container of buckling resistance factor on axis y-y in case of bending(M). These factors should be less than 1 and positive.
@@ -96,6 +96,9 @@ class members_in_bending_not_certified(Operator):
     >>> result_buckling_resistance_bending_yy = op.outputs.buckling_resistance_bending_yy()
     >>> result_buckling_resistance_bending_zz = op.outputs.buckling_resistance_bending_zz()
     """
+
+    _inputs: InputsMembersInBendingNotCertified
+    _outputs: OutputsMembersInBendingNotCertified
 
     def __init__(
         self,
@@ -252,7 +255,7 @@ Angle L-beam, unequal hollow rectangular beam) not supported.
         inputs:
             An instance of InputsMembersInBendingNotCertified.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMembersInBendingNotCertified:
@@ -263,7 +266,7 @@ Angle L-beam, unequal hollow rectangular beam) not supported.
         outputs:
             An instance of OutputsMembersInBendingNotCertified.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMembersInBendingNotCertified(_Inputs):

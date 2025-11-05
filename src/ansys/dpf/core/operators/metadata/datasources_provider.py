@@ -19,11 +19,11 @@ class datasources_provider(Operator):
     r"""Creates a DataSources by expanding another.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     data_sources: DataSources
 
-    Returns
+    Outputs
     -------
     data_sources: DataSources
 
@@ -46,6 +46,9 @@ class datasources_provider(Operator):
     >>> # Get output data
     >>> result_data_sources = op.outputs.data_sources()
     """
+
+    _inputs: InputsDatasourcesProvider
+    _outputs: OutputsDatasourcesProvider
 
     def __init__(self, data_sources=None, config=None, server=None):
         super().__init__(name="datasources_provider", config=config, server=server)
@@ -109,7 +112,7 @@ class datasources_provider(Operator):
         inputs:
             An instance of InputsDatasourcesProvider.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsDatasourcesProvider:
@@ -120,7 +123,7 @@ class datasources_provider(Operator):
         outputs:
             An instance of OutputsDatasourcesProvider.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsDatasourcesProvider(_Inputs):

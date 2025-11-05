@@ -22,8 +22,8 @@ class scale(Operator):
     dimensionality
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
         field or fields container with only one field is expected
     weights: float or Field
@@ -33,7 +33,7 @@ class scale(Operator):
     algorithm: int, optional
         Default is 0 use mkl. If set to 1, don't
 
-    Returns
+    Outputs
     -------
     field: Field
 
@@ -65,6 +65,9 @@ class scale(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsScale
+    _outputs: OutputsScale
 
     def __init__(
         self,
@@ -172,7 +175,7 @@ dimensionality
         inputs:
             An instance of InputsScale.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsScale:
@@ -183,7 +186,7 @@ dimensionality
         outputs:
             An instance of OutputsScale.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsScale(_Inputs):

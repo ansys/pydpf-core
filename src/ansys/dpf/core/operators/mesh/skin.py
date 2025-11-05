@@ -20,8 +20,8 @@ class skin(Operator):
     initial elements are propagated to their facets.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mesh: MeshedRegion
     mesh_scoping: Scoping, optional
         Nodal scoping to restrict the skin extraction to a set of nodes. If provided, a skin element is added to the skin mesh if all its nodes are in the scoping.
@@ -30,7 +30,7 @@ class skin(Operator):
     add_beam_point: bool, optional
         If input mesh contains beam or point elements, output mesh beam point elements (boolean = 1) are added or (boolean = 0) are ignored. Default: False
 
-    Returns
+    Outputs
     -------
     mesh: MeshedRegion
         Skin meshed region with facets and facets_to_ele property fields.
@@ -73,6 +73,9 @@ class skin(Operator):
     >>> result_property_field_new_elements_to_old = op.outputs.property_field_new_elements_to_old()
     >>> result_facet_indices = op.outputs.facet_indices()
     """
+
+    _inputs: InputsSkin
+    _outputs: OutputsSkin
 
     def __init__(
         self,
@@ -202,7 +205,7 @@ initial elements are propagated to their facets.
         inputs:
             An instance of InputsSkin.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsSkin:
@@ -213,7 +216,7 @@ initial elements are propagated to their facets.
         outputs:
             An instance of OutputsSkin.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsSkin(_Inputs):

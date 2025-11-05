@@ -19,12 +19,12 @@ class acmo_mesh_provider(Operator):
     r"""Converts an Assembly Mesh into a DPF Meshes container
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     assembly_mesh: AnsDispatchHolder or Struct Iansdispatch
     unit: str, optional
 
-    Returns
+    Outputs
     -------
     meshes_container: MeshesContainer
 
@@ -50,6 +50,9 @@ class acmo_mesh_provider(Operator):
     >>> # Get output data
     >>> result_meshes_container = op.outputs.meshes_container()
     """
+
+    _inputs: InputsAcmoMeshProvider
+    _outputs: OutputsAcmoMeshProvider
 
     def __init__(self, assembly_mesh=None, unit=None, config=None, server=None):
         super().__init__(name="acmo_mesh_provider", config=config, server=server)
@@ -121,7 +124,7 @@ class acmo_mesh_provider(Operator):
         inputs:
             An instance of InputsAcmoMeshProvider.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsAcmoMeshProvider:
@@ -132,7 +135,7 @@ class acmo_mesh_provider(Operator):
         outputs:
             An instance of OutputsAcmoMeshProvider.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsAcmoMeshProvider(_Inputs):

@@ -19,13 +19,13 @@ class assemble_scalars_to_vectors(Operator):
     r"""Takes three scalar fields and assembles them as a 3D vector field.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     x: Field, optional
     y: Field, optional
     z: Field, optional
 
-    Returns
+    Outputs
     -------
     field: Field
 
@@ -54,6 +54,9 @@ class assemble_scalars_to_vectors(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsAssembleScalarsToVectors
+    _outputs: OutputsAssembleScalarsToVectors
 
     def __init__(self, x=None, y=None, z=None, config=None, server=None):
         super().__init__(
@@ -137,7 +140,7 @@ class assemble_scalars_to_vectors(Operator):
         inputs:
             An instance of InputsAssembleScalarsToVectors.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsAssembleScalarsToVectors:
@@ -148,7 +151,7 @@ class assemble_scalars_to_vectors(Operator):
         outputs:
             An instance of OutputsAssembleScalarsToVectors.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsAssembleScalarsToVectors(_Inputs):

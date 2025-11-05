@@ -20,14 +20,14 @@ class adapt_with_scopings_container(Operator):
     container.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field_or_fields_container: FieldsContainer or Field
     scopings_container: ScopingsContainer
     keep_empty_fields: bool, optional
         Default false.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -56,6 +56,9 @@ class adapt_with_scopings_container(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsAdaptWithScopingsContainer
+    _outputs: OutputsAdaptWithScopingsContainer
 
     def __init__(
         self,
@@ -143,7 +146,7 @@ container.
         inputs:
             An instance of InputsAdaptWithScopingsContainer.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsAdaptWithScopingsContainer:
@@ -154,7 +157,7 @@ container.
         outputs:
             An instance of OutputsAdaptWithScopingsContainer.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsAdaptWithScopingsContainer(_Inputs):

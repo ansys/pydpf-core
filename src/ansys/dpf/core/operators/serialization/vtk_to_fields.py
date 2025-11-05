@@ -19,14 +19,14 @@ class vtk_to_fields(Operator):
     r"""Write a field based on a vtk file.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field_name: str, optional
         name of the field in the vtk file
     streams: StreamsContainer, optional
     data_sources: DataSources
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
         fields_container
@@ -56,6 +56,9 @@ class vtk_to_fields(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsVtkToFields
+    _outputs: OutputsVtkToFields
 
     def __init__(
         self, field_name=None, streams=None, data_sources=None, config=None, server=None
@@ -137,7 +140,7 @@ class vtk_to_fields(Operator):
         inputs:
             An instance of InputsVtkToFields.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsVtkToFields:
@@ -148,7 +151,7 @@ class vtk_to_fields(Operator):
         outputs:
             An instance of OutputsVtkToFields.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsVtkToFields(_Inputs):

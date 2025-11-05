@@ -20,11 +20,11 @@ class conjugate(Operator):
     fields.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -47,6 +47,9 @@ class conjugate(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsConjugate
+    _outputs: OutputsConjugate
 
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="conjugate", config=config, server=server)
@@ -111,7 +114,7 @@ fields.
         inputs:
             An instance of InputsConjugate.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsConjugate:
@@ -122,7 +125,7 @@ fields.
         outputs:
             An instance of OutputsConjugate.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsConjugate(_Inputs):

@@ -19,8 +19,8 @@ class vtu_export(Operator):
     r"""Export DPF data into vtu format.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     directory: str
         directory path
     base_name: str, optional
@@ -40,7 +40,7 @@ class vtu_export(Operator):
     mesh_properties: StringField, optional
         List of names of mesh properties to export.
 
-    Returns
+    Outputs
     -------
     path: DataSources
         list of output vtu file path
@@ -88,6 +88,9 @@ class vtu_export(Operator):
     >>> # Get output data
     >>> result_path = op.outputs.path()
     """
+
+    _inputs: InputsVtuExport
+    _outputs: OutputsVtuExport
 
     def __init__(
         self,
@@ -228,7 +231,7 @@ class vtu_export(Operator):
         inputs:
             An instance of InputsVtuExport.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsVtuExport:
@@ -239,7 +242,7 @@ class vtu_export(Operator):
         outputs:
             An instance of OutputsVtuExport.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsVtuExport(_Inputs):

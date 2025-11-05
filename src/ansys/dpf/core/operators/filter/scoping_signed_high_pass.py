@@ -20,8 +20,8 @@ class scoping_signed_high_pass(Operator):
     value to the threshold value in input.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
         field or fields container with only one field is expected
     threshold: float or Field
@@ -29,7 +29,7 @@ class scoping_signed_high_pass(Operator):
     both: bool, optional
         The default is false. If set to true, the complement of the filtered fields container is returned on output pin 1.
 
-    Returns
+    Outputs
     -------
     scoping: Scoping
 
@@ -58,6 +58,9 @@ class scoping_signed_high_pass(Operator):
     >>> # Get output data
     >>> result_scoping = op.outputs.scoping()
     """
+
+    _inputs: InputsScopingSignedHighPass
+    _outputs: OutputsScopingSignedHighPass
 
     def __init__(self, field=None, threshold=None, both=None, config=None, server=None):
         super().__init__(
@@ -142,7 +145,7 @@ value to the threshold value in input.
         inputs:
             An instance of InputsScopingSignedHighPass.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsScopingSignedHighPass:
@@ -153,7 +156,7 @@ value to the threshold value in input.
         outputs:
             An instance of OutputsScopingSignedHighPass.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsScopingSignedHighPass(_Inputs):

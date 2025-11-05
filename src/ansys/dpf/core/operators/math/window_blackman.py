@@ -22,11 +22,11 @@ class window_blackman(Operator):
     time_freq_interpolation before otherwise).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
 
-    Returns
+    Outputs
     -------
     field: Field or FieldsContainer
 
@@ -49,6 +49,9 @@ class window_blackman(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsWindowBlackman
+    _outputs: OutputsWindowBlackman
 
     def __init__(self, field=None, config=None, server=None):
         super().__init__(name="window::blackman", config=config, server=server)
@@ -114,7 +117,7 @@ time_freq_interpolation before otherwise).
         inputs:
             An instance of InputsWindowBlackman.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsWindowBlackman:
@@ -125,7 +128,7 @@ time_freq_interpolation before otherwise).
         outputs:
             An instance of OutputsWindowBlackman.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsWindowBlackman(_Inputs):

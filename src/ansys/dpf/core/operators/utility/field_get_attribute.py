@@ -21,13 +21,13 @@ class field_get_attribute(Operator):
     property name (string) in pin 1 are expected as inputs
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
     property_name: str
         Property to get. Accepted inputs are specific strings namely: 'unit, 'name','time_freq_support', 'scoping' and 'header'.
 
-    Returns
+    Outputs
     -------
     property: str or TimeFreqSupport or Scoping or DataTree
         Property value that is returned. Accepted Outputs are: Field, PropertyField, CustomTypeField or their containers.
@@ -54,6 +54,9 @@ class field_get_attribute(Operator):
     >>> # Get output data
     >>> result_property = op.outputs.property()
     """
+
+    _inputs: InputsFieldGetAttribute
+    _outputs: OutputsFieldGetAttribute
 
     def __init__(self, field=None, property_name=None, config=None, server=None):
         super().__init__(name="field::get_attribute", config=config, server=server)
@@ -131,7 +134,7 @@ property name (string) in pin 1 are expected as inputs
         inputs:
             An instance of InputsFieldGetAttribute.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsFieldGetAttribute:
@@ -142,7 +145,7 @@ property name (string) in pin 1 are expected as inputs
         outputs:
             An instance of OutputsFieldGetAttribute.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsFieldGetAttribute(_Inputs):

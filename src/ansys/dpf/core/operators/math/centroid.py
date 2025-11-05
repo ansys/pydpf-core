@@ -20,8 +20,8 @@ class centroid(Operator):
     field1\ *(1.-fact)+field2*\ (fact). Only works by index.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fieldA: Field or FieldsContainer
         field or fields container with only one field is expected
     fieldB: Field or FieldsContainer
@@ -29,7 +29,7 @@ class centroid(Operator):
     factor: float
         Scalar
 
-    Returns
+    Outputs
     -------
     field: Field
 
@@ -58,6 +58,9 @@ class centroid(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsCentroid
+    _outputs: OutputsCentroid
 
     def __init__(self, fieldA=None, fieldB=None, factor=None, config=None, server=None):
         super().__init__(name="centroid", config=config, server=server)
@@ -138,7 +141,7 @@ field1\ *(1.-fact)+field2*\ (fact). Only works by index.
         inputs:
             An instance of InputsCentroid.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsCentroid:
@@ -149,7 +152,7 @@ field1\ *(1.-fact)+field2*\ (fact). Only works by index.
         outputs:
             An instance of OutputsCentroid.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsCentroid(_Inputs):

@@ -20,8 +20,8 @@ class split_in_for_each_range(Operator):
     for_each loop.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     iterable: optional
         Iterable that can be combined with the one currently generated.
     operator_to_iterate: Operator
@@ -30,7 +30,7 @@ class split_in_for_each_range(Operator):
     scoping: Scoping
     chunk_size: int
 
-    Returns
+    Outputs
     -------
     output:
 
@@ -65,6 +65,9 @@ class split_in_for_each_range(Operator):
     >>> # Get output data
     >>> result_output = op.outputs.output()
     """
+
+    _inputs: InputsSplitInForEachRange
+    _outputs: OutputsSplitInForEachRange
 
     def __init__(
         self,
@@ -169,7 +172,7 @@ for_each loop.
         inputs:
             An instance of InputsSplitInForEachRange.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsSplitInForEachRange:
@@ -180,7 +183,7 @@ for_each loop.
         outputs:
             An instance of OutputsSplitInForEachRange.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsSplitInForEachRange(_Inputs):

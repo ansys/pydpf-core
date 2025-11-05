@@ -21,14 +21,14 @@ class to_polar_coordinates(Operator):
     defines the rotation axis and the origin.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
         field or fields container with only one field is expected
     coordinate_system: Field, optional
         3-3 rotation matrix and origin coordinates must be set here to define a coordinate system. By default, the rotation axis is the z axis and the origin is [0,0,0].
 
-    Returns
+    Outputs
     -------
     field: Field
 
@@ -54,6 +54,9 @@ class to_polar_coordinates(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsToPolarCoordinates
+    _outputs: OutputsToPolarCoordinates
 
     def __init__(self, field=None, coordinate_system=None, config=None, server=None):
         super().__init__(name="polar_coordinates", config=config, server=server)
@@ -127,7 +130,7 @@ defines the rotation axis and the origin.
         inputs:
             An instance of InputsToPolarCoordinates.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsToPolarCoordinates:
@@ -138,7 +141,7 @@ defines the rotation axis and the origin.
         outputs:
             An instance of OutputsToPolarCoordinates.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsToPolarCoordinates(_Inputs):

@@ -21,14 +21,14 @@ class scale_by_field_fc(Operator):
     field’s values are applied on the other field entirely.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field_or_fields_container_A: Field or FieldsContainer
         field or fields container with only one field is expected
     field_or_fields_container_B: Field or FieldsContainer
         field or fields container with only one field is expected
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -54,6 +54,9 @@ class scale_by_field_fc(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsScaleByFieldFc
+    _outputs: OutputsScaleByFieldFc
 
     def __init__(
         self,
@@ -133,7 +136,7 @@ field’s values are applied on the other field entirely.
         inputs:
             An instance of InputsScaleByFieldFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsScaleByFieldFc:
@@ -144,7 +147,7 @@ field’s values are applied on the other field entirely.
         outputs:
             An instance of OutputsScaleByFieldFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsScaleByFieldFc(_Inputs):

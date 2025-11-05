@@ -20,8 +20,8 @@ class global_time_step(Operator):
     datasources.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     streams_container: StreamsContainer, optional
         result file container allowed to be kept open to cache data
     data_sources: DataSources
@@ -29,7 +29,7 @@ class global_time_step(Operator):
     unit_system: int or str or UnitSystem, optional
         (LSDyna) Unit System ID (int), semicolon-separated list of base unit strings (str) or UnitSystem instance
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -58,6 +58,9 @@ class global_time_step(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsGlobalTimeStep
+    _outputs: OutputsGlobalTimeStep
 
     def __init__(
         self,
@@ -149,7 +152,7 @@ datasources.
         inputs:
             An instance of InputsGlobalTimeStep.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsGlobalTimeStep:
@@ -160,7 +163,7 @@ datasources.
         outputs:
             An instance of OutputsGlobalTimeStep.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsGlobalTimeStep(_Inputs):

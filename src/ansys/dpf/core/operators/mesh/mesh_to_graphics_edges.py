@@ -19,13 +19,13 @@ class mesh_to_graphics_edges(Operator):
     r"""Generate edges of surface elements for input mesh
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mesh_scoping: Scoping, optional
     include_mid_nodes: bool, optional
     mesh: MeshedRegion
 
-    Returns
+    Outputs
     -------
     nodes: Field
         node coordinates
@@ -57,6 +57,9 @@ class mesh_to_graphics_edges(Operator):
     >>> result_nodes = op.outputs.nodes()
     >>> result_connectivity = op.outputs.connectivity()
     """
+
+    _inputs: InputsMeshToGraphicsEdges
+    _outputs: OutputsMeshToGraphicsEdges
 
     def __init__(
         self,
@@ -149,7 +152,7 @@ class mesh_to_graphics_edges(Operator):
         inputs:
             An instance of InputsMeshToGraphicsEdges.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMeshToGraphicsEdges:
@@ -160,7 +163,7 @@ class mesh_to_graphics_edges(Operator):
         outputs:
             An instance of OutputsMeshToGraphicsEdges.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMeshToGraphicsEdges(_Inputs):

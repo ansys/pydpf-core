@@ -20,8 +20,8 @@ class on_reduced_coordinates(Operator):
     (interpolates results inside elements with shape functions).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     reduced_coordinates: Field or FieldsContainer
         coordinates in the reference elements to find (found with the operator "find_reduced_coordinates")
@@ -32,7 +32,7 @@ class on_reduced_coordinates(Operator):
     use_quadratic_elements: bool, optional
         If this pin is set to true, the interpolation is computed on the quadratic element if the element is quadratic (more precise but less performant). Default is false. To use only when results have mid side nodes values.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -67,6 +67,9 @@ class on_reduced_coordinates(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsOnReducedCoordinates
+    _outputs: OutputsOnReducedCoordinates
 
     def __init__(
         self,
@@ -172,7 +175,7 @@ class on_reduced_coordinates(Operator):
         inputs:
             An instance of InputsOnReducedCoordinates.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsOnReducedCoordinates:
@@ -183,7 +186,7 @@ class on_reduced_coordinates(Operator):
         outputs:
             An instance of OutputsOnReducedCoordinates.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsOnReducedCoordinates(_Inputs):

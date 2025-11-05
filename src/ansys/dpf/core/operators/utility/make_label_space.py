@@ -19,15 +19,15 @@ class make_label_space(Operator):
     r"""Assemble strings and integers to make a label space.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     base_label: dict or FieldsContainer or ScopingsContainer, optional
         Used as a base label (extracted from Fields/Scoping Container, or directly from Label Space) that is concatenated with provided values.
     label_name: str
     label_value1: int
     label_value2: int
 
-    Returns
+    Outputs
     -------
     label: dict
 
@@ -59,6 +59,9 @@ class make_label_space(Operator):
     >>> # Get output data
     >>> result_label = op.outputs.label()
     """
+
+    _inputs: InputsMakeLabelSpace
+    _outputs: OutputsMakeLabelSpace
 
     def __init__(
         self,
@@ -158,7 +161,7 @@ class make_label_space(Operator):
         inputs:
             An instance of InputsMakeLabelSpace.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMakeLabelSpace:
@@ -169,7 +172,7 @@ class make_label_space(Operator):
         outputs:
             An instance of OutputsMakeLabelSpace.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMakeLabelSpace(_Inputs):

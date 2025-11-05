@@ -20,8 +20,8 @@ class run(Operator):
     file.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mapdl_exe_path: str, optional
     working_dir: str, optional
     number_of_processes: int, optional
@@ -33,7 +33,7 @@ class run(Operator):
     server_mode: bool, optional
         used when a user includes commands in the input file allowing to launch DPF server inside MAPDL to interact with MAPDL using DPF client API
 
-    Returns
+    Outputs
     -------
     data_sources: DataSources
         returns the data source if the server_mode pin is not set to yes
@@ -78,6 +78,9 @@ class run(Operator):
     >>> result_ip = op.outputs.ip()
     >>> result_port = op.outputs.port()
     """
+
+    _inputs: InputsRun
+    _outputs: OutputsRun
 
     def __init__(
         self,
@@ -204,7 +207,7 @@ file.
         inputs:
             An instance of InputsRun.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsRun:
@@ -215,7 +218,7 @@ file.
         outputs:
             An instance of OutputsRun.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsRun(_Inputs):

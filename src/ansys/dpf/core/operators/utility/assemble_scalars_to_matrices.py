@@ -21,8 +21,8 @@ class assemble_scalars_to_matrices(Operator):
     (xx, yy, zz, xy, xz and yz).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     xx: Field, optional
     yy: Field, optional
     zz: Field, optional
@@ -34,7 +34,7 @@ class assemble_scalars_to_matrices(Operator):
     zx: Field, optional
     symmetrical: bool, optional
 
-    Returns
+    Outputs
     -------
     field: Field
 
@@ -84,6 +84,9 @@ class assemble_scalars_to_matrices(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsAssembleScalarsToMatrices
+    _outputs: OutputsAssembleScalarsToMatrices
 
     def __init__(
         self,
@@ -239,7 +242,7 @@ class assemble_scalars_to_matrices(Operator):
         inputs:
             An instance of InputsAssembleScalarsToMatrices.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsAssembleScalarsToMatrices:
@@ -250,7 +253,7 @@ class assemble_scalars_to_matrices(Operator):
         outputs:
             An instance of OutputsAssembleScalarsToMatrices.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsAssembleScalarsToMatrices(_Inputs):

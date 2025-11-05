@@ -21,8 +21,8 @@ class compute_stress_von_mises(Operator):
     equivalent stress.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     scoping: Scoping, optional
         The element scoping on which the result is computed.
     streams_container: StreamsContainer, optional
@@ -34,7 +34,7 @@ class compute_stress_von_mises(Operator):
     strain: FieldsContainer or Field
         Field/or fields container containing only the elastic strain field (element nodal).
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
         The computed result fields container (elemental nodal).
@@ -70,6 +70,9 @@ class compute_stress_von_mises(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsComputeStressVonMises
+    _outputs: OutputsComputeStressVonMises
 
     def __init__(
         self,
@@ -176,7 +179,7 @@ equivalent stress.
         inputs:
             An instance of InputsComputeStressVonMises.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsComputeStressVonMises:
@@ -187,7 +190,7 @@ equivalent stress.
         outputs:
             An instance of OutputsComputeStressVonMises.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsComputeStressVonMises(_Inputs):

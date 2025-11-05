@@ -20,8 +20,8 @@ class normals_provider_nl(Operator):
     (more accurate for non-linear elements) on a skin mesh.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mesh: MeshedRegion
         Skin, face, or shell mesh region.
     mesh_scoping: Scoping, optional
@@ -29,7 +29,7 @@ class normals_provider_nl(Operator):
     requested_location: str, optional
         If no scoping, specifies location. If scoping is Elemental or ElementalNodal this overrides scoping. Default is Elemental.
 
-    Returns
+    Outputs
     -------
     field: Field
 
@@ -58,6 +58,9 @@ class normals_provider_nl(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsNormalsProviderNl
+    _outputs: OutputsNormalsProviderNl
 
     def __init__(
         self,
@@ -145,7 +148,7 @@ class normals_provider_nl(Operator):
         inputs:
             An instance of InputsNormalsProviderNl.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsNormalsProviderNl:
@@ -156,7 +159,7 @@ class normals_provider_nl(Operator):
         outputs:
             An instance of OutputsNormalsProviderNl.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsNormalsProviderNl(_Inputs):

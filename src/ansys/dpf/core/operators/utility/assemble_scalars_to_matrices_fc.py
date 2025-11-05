@@ -21,8 +21,8 @@ class assemble_scalars_to_matrices_fc(Operator):
     containers are required (xx, yy, zz, xy, xz and yz).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     xx: FieldsContainer, optional
     yy: FieldsContainer, optional
     zz: FieldsContainer, optional
@@ -34,7 +34,7 @@ class assemble_scalars_to_matrices_fc(Operator):
     zx: FieldsContainer, optional
     symmetrical: bool, optional
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -84,6 +84,9 @@ class assemble_scalars_to_matrices_fc(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsAssembleScalarsToMatricesFc
+    _outputs: OutputsAssembleScalarsToMatricesFc
 
     def __init__(
         self,
@@ -239,7 +242,7 @@ containers are required (xx, yy, zz, xy, xz and yz).
         inputs:
             An instance of InputsAssembleScalarsToMatricesFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsAssembleScalarsToMatricesFc:
@@ -250,7 +253,7 @@ containers are required (xx, yy, zz, xy, xz and yz).
         outputs:
             An instance of OutputsAssembleScalarsToMatricesFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsAssembleScalarsToMatricesFc(_Inputs):

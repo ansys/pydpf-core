@@ -19,8 +19,8 @@ class merge_meshes(Operator):
     r"""Take a set of meshes and assemble them in a unique one
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     naive_merge_elements: bool, optional
         If true, merge the elemental Property Fields of the input meshes assuming that there is no repetition in their scoping ids. Default is false.
     should_merge_named_selections: bool, optional
@@ -36,7 +36,7 @@ class merge_meshes(Operator):
     remove_duplicate_elements: int, optional
         0: keep duplicate elements (default), 1: remove duplicate elements
 
-    Returns
+    Outputs
     -------
     merges_mesh: MeshedRegion
 
@@ -77,6 +77,9 @@ class merge_meshes(Operator):
     >>> # Get output data
     >>> result_merges_mesh = op.outputs.merges_mesh()
     """
+
+    _inputs: InputsMergeMeshes
+    _outputs: OutputsMergeMeshes
 
     def __init__(
         self,
@@ -201,7 +204,7 @@ class merge_meshes(Operator):
         inputs:
             An instance of InputsMergeMeshes.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMergeMeshes:
@@ -212,7 +215,7 @@ class merge_meshes(Operator):
         outputs:
             An instance of OutputsMergeMeshes.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMergeMeshes(_Inputs):

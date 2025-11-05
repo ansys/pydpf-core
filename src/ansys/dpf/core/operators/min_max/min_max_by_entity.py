@@ -20,11 +20,11 @@ class min_max_by_entity(Operator):
     fields of a fields container.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
 
-    Returns
+    Outputs
     -------
     field_min: Field
     field_max: Field
@@ -49,6 +49,9 @@ class min_max_by_entity(Operator):
     >>> result_field_min = op.outputs.field_min()
     >>> result_field_max = op.outputs.field_max()
     """
+
+    _inputs: InputsMinMaxByEntity
+    _outputs: OutputsMinMaxByEntity
 
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="min_max_by_entity", config=config, server=server)
@@ -119,7 +122,7 @@ fields of a fields container.
         inputs:
             An instance of InputsMinMaxByEntity.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMinMaxByEntity:
@@ -130,7 +133,7 @@ fields of a fields container.
         outputs:
             An instance of OutputsMinMaxByEntity.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMinMaxByEntity(_Inputs):

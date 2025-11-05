@@ -19,8 +19,8 @@ class identical_mc(Operator):
     r"""Checks if two meshes_container are identical.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     meshes_containerA: MeshesContainer
     meshes_containerB: MeshesContainer
     small_value: float, optional
@@ -30,7 +30,7 @@ class identical_mc(Operator):
     compare_auxiliary: bool
         compare auxiliary data (i.e property fields, scopings...). Default value is 'false'.
 
-    Returns
+    Outputs
     -------
     boolean: bool
         bool (true if identical...)
@@ -68,6 +68,9 @@ class identical_mc(Operator):
     >>> result_boolean = op.outputs.boolean()
     >>> result_message = op.outputs.message()
     """
+
+    _inputs: InputsIdenticalMc
+    _outputs: OutputsIdenticalMc
 
     def __init__(
         self,
@@ -178,7 +181,7 @@ class identical_mc(Operator):
         inputs:
             An instance of InputsIdenticalMc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsIdenticalMc:
@@ -189,7 +192,7 @@ class identical_mc(Operator):
         outputs:
             An instance of OutputsIdenticalMc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsIdenticalMc(_Inputs):

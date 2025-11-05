@@ -19,8 +19,8 @@ class equivalent_radiated_power(Operator):
     r"""Compute the Equivalent Radiated Power (ERP)
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
         the input field container expects displacements fields
     mesh: MeshedRegion or MeshesContainer
@@ -38,7 +38,7 @@ class equivalent_radiated_power(Operator):
     factor: float
         erp reference value. Default is 1E-12
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -82,6 +82,9 @@ class equivalent_radiated_power(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsEquivalentRadiatedPower
+    _outputs: OutputsEquivalentRadiatedPower
 
     def __init__(
         self,
@@ -213,7 +216,7 @@ class equivalent_radiated_power(Operator):
         inputs:
             An instance of InputsEquivalentRadiatedPower.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsEquivalentRadiatedPower:
@@ -224,7 +227,7 @@ class equivalent_radiated_power(Operator):
         outputs:
             An instance of OutputsEquivalentRadiatedPower.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsEquivalentRadiatedPower(_Inputs):

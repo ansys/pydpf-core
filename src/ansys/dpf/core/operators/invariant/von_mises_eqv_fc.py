@@ -20,13 +20,13 @@ class von_mises_eqv_fc(Operator):
     a fields container.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     poisson_ratio: float or int
         Poisson ratio to be used in equivalent strain calculation.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -52,6 +52,9 @@ class von_mises_eqv_fc(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsVonMisesEqvFc
+    _outputs: OutputsVonMisesEqvFc
 
     def __init__(
         self, fields_container=None, poisson_ratio=None, config=None, server=None
@@ -126,7 +129,7 @@ a fields container.
         inputs:
             An instance of InputsVonMisesEqvFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsVonMisesEqvFc:
@@ -137,7 +140,7 @@ a fields container.
         outputs:
             An instance of OutputsVonMisesEqvFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsVonMisesEqvFc(_Inputs):

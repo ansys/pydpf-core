@@ -20,14 +20,14 @@ class split_mesh(Operator):
     (material property be default)
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mesh_scoping: Scoping, optional
         Scoping
     mesh: MeshedRegion
     property: str
 
-    Returns
+    Outputs
     -------
     meshes: MeshesContainer
 
@@ -56,6 +56,9 @@ class split_mesh(Operator):
     >>> # Get output data
     >>> result_meshes = op.outputs.meshes()
     """
+
+    _inputs: InputsSplitMesh
+    _outputs: OutputsSplitMesh
 
     def __init__(
         self, mesh_scoping=None, mesh=None, property=None, config=None, server=None
@@ -138,7 +141,7 @@ class split_mesh(Operator):
         inputs:
             An instance of InputsSplitMesh.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsSplitMesh:
@@ -149,7 +152,7 @@ class split_mesh(Operator):
         outputs:
             An instance of OutputsSplitMesh.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsSplitMesh(_Inputs):

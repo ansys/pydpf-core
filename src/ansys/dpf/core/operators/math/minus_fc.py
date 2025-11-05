@@ -22,14 +22,14 @@ class minus_fc(Operator):
     ‘inplace’ to reuse one of the fields.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field_or_fields_container_A: Field or FieldsContainer or float
         field or fields container with only one field is expected
     field_or_fields_container_B: Field or FieldsContainer or float
         field or fields container with only one field is expected
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -55,6 +55,9 @@ class minus_fc(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsMinusFc
+    _outputs: OutputsMinusFc
 
     def __init__(
         self,
@@ -145,7 +148,7 @@ field entirely. When using a constant or ‘work_by_index’, you can use
         inputs:
             An instance of InputsMinusFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMinusFc:
@@ -156,7 +159,7 @@ field entirely. When using a constant or ‘work_by_index’, you can use
         outputs:
             An instance of OutputsMinusFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMinusFc(_Inputs):

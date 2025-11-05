@@ -20,8 +20,8 @@ class weighted_merge_fields_by_label(Operator):
     same label value.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     label: str
         Label identifier that should be merged.
@@ -34,7 +34,7 @@ class weighted_merge_fields_by_label(Operator):
     weights2: PropertyField
         Weights to apply to each field from pin 1000 to ...
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -72,6 +72,9 @@ class weighted_merge_fields_by_label(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsWeightedMergeFieldsByLabel
+    _outputs: OutputsWeightedMergeFieldsByLabel
 
     def __init__(
         self,
@@ -190,7 +193,7 @@ same label value.
         inputs:
             An instance of InputsWeightedMergeFieldsByLabel.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsWeightedMergeFieldsByLabel:
@@ -201,7 +204,7 @@ same label value.
         outputs:
             An instance of OutputsWeightedMergeFieldsByLabel.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsWeightedMergeFieldsByLabel(_Inputs):

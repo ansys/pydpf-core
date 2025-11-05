@@ -19,15 +19,15 @@ class max_over_time_by_entity(Operator):
     r"""Evaluates maximum over time/frequency.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     abs_value: bool, optional
         Should use absolute value.
     compute_amplitude: bool, optional
         Do calculate amplitude.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -56,6 +56,9 @@ class max_over_time_by_entity(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsMaxOverTimeByEntity
+    _outputs: OutputsMaxOverTimeByEntity
 
     def __init__(
         self,
@@ -142,7 +145,7 @@ class max_over_time_by_entity(Operator):
         inputs:
             An instance of InputsMaxOverTimeByEntity.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMaxOverTimeByEntity:
@@ -153,7 +156,7 @@ class max_over_time_by_entity(Operator):
         outputs:
             An instance of OutputsMaxOverTimeByEntity.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMaxOverTimeByEntity(_Inputs):

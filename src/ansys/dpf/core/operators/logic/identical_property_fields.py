@@ -19,12 +19,12 @@ class identical_property_fields(Operator):
     r"""Takes two property fields and compares them.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     property_fieldA: MeshedRegion
     property_fieldB: MeshedRegion
 
-    Returns
+    Outputs
     -------
     are_identical: bool
     information: str
@@ -52,6 +52,9 @@ class identical_property_fields(Operator):
     >>> result_are_identical = op.outputs.are_identical()
     >>> result_information = op.outputs.information()
     """
+
+    _inputs: InputsIdenticalPropertyFields
+    _outputs: OutputsIdenticalPropertyFields
 
     def __init__(
         self, property_fieldA=None, property_fieldB=None, config=None, server=None
@@ -131,7 +134,7 @@ class identical_property_fields(Operator):
         inputs:
             An instance of InputsIdenticalPropertyFields.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsIdenticalPropertyFields:
@@ -142,7 +145,7 @@ class identical_property_fields(Operator):
         outputs:
             An instance of OutputsIdenticalPropertyFields.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsIdenticalPropertyFields(_Inputs):

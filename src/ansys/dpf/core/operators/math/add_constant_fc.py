@@ -19,14 +19,14 @@ class add_constant_fc(Operator):
     r"""Computes the sum of a field (in 0) and a scalar (in 1).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
         field or fields container with only one field is expected
     weights: float
         double or vector of double
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -52,6 +52,9 @@ class add_constant_fc(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsAddConstantFc
+    _outputs: OutputsAddConstantFc
 
     def __init__(
         self,
@@ -138,7 +141,7 @@ class add_constant_fc(Operator):
         inputs:
             An instance of InputsAddConstantFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsAddConstantFc:
@@ -149,7 +152,7 @@ class add_constant_fc(Operator):
         outputs:
             An instance of OutputsAddConstantFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsAddConstantFc(_Inputs):

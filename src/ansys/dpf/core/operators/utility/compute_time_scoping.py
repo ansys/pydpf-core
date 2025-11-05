@@ -20,8 +20,8 @@ class compute_time_scoping(Operator):
     interpolate on a list of time or frequencies.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     time_freq_values: float or Field or TimeFreqSupport
         List of frequencies or times needed. To specify load steps, put a field (and not a list) in input with a scoping located on "TimeFreq_steps".
     step: int, optional
@@ -29,7 +29,7 @@ class compute_time_scoping(Operator):
         1:ramped' or 2:stepped', default is ramped
     time_freq_support: TimeFreqSupport
 
-    Returns
+    Outputs
     -------
     scoping: Scoping
         time_scoping
@@ -65,6 +65,9 @@ class compute_time_scoping(Operator):
     >>> result_scoping = op.outputs.scoping()
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsComputeTimeScoping
+    _outputs: OutputsComputeTimeScoping
 
     def __init__(
         self,
@@ -172,7 +175,7 @@ interpolate on a list of time or frequencies.
         inputs:
             An instance of InputsComputeTimeScoping.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsComputeTimeScoping:
@@ -183,7 +186,7 @@ interpolate on a list of time or frequencies.
         outputs:
             An instance of OutputsComputeTimeScoping.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsComputeTimeScoping(_Inputs):

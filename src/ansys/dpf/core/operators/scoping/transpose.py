@@ -21,8 +21,8 @@ class transpose(Operator):
     Nodal, or Nodal —> Elemental/Faces), based on the input mesh region.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mesh_scoping: Scoping or ScopingsContainer
         Scoping or scopings container (the input type is the output type)
     meshed_region: MeshedRegion or MeshesContainer
@@ -31,7 +31,7 @@ class transpose(Operator):
     requested_location: str, optional
         Output scoping location for meshes with nodes, faces and elements. By default, elemental and faces scopings transpose to nodal, and nodal scopings transpose to elemental.
 
-    Returns
+    Outputs
     -------
     mesh_scoping: Scoping or ScopingsContainer
         Scoping or scopings container (the input type is the output type)
@@ -64,6 +64,9 @@ class transpose(Operator):
     >>> # Get output data
     >>> result_mesh_scoping = op.outputs.mesh_scoping()
     """
+
+    _inputs: InputsTranspose
+    _outputs: OutputsTranspose
 
     def __init__(
         self,
@@ -160,7 +163,7 @@ Nodal, or Nodal —> Elemental/Faces), based on the input mesh region.
         inputs:
             An instance of InputsTranspose.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsTranspose:
@@ -171,7 +174,7 @@ Nodal, or Nodal —> Elemental/Faces), based on the input mesh region.
         outputs:
             An instance of OutputsTranspose.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsTranspose(_Inputs):

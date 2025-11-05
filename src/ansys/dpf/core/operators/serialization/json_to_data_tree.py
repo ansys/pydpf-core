@@ -19,11 +19,11 @@ class json_to_data_tree(Operator):
     r"""Reads a json file or string to a DataTree
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     string_or_path: str or DataSources
 
-    Returns
+    Outputs
     -------
     data_tree: DataTree
 
@@ -46,6 +46,9 @@ class json_to_data_tree(Operator):
     >>> # Get output data
     >>> result_data_tree = op.outputs.data_tree()
     """
+
+    _inputs: InputsJsonToDataTree
+    _outputs: OutputsJsonToDataTree
 
     def __init__(self, string_or_path=None, config=None, server=None):
         super().__init__(name="json_to_data_tree", config=config, server=server)
@@ -109,7 +112,7 @@ class json_to_data_tree(Operator):
         inputs:
             An instance of InputsJsonToDataTree.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsJsonToDataTree:
@@ -120,7 +123,7 @@ class json_to_data_tree(Operator):
         outputs:
             An instance of OutputsJsonToDataTree.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsJsonToDataTree(_Inputs):

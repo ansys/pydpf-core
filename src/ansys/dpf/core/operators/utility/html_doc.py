@@ -19,14 +19,14 @@ class html_doc(Operator):
     r"""Create dpf’s html documentation. Only on Windows.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     output_path: str, optional
         default is {working directory}/dataProcessingDoc.html
     exposure_level: int, optional
         Generate the documentation depending on exposure level : 0 (default) for public operators, 1 includes hidden operator, 2 includes private operator, 3 includes operator without specifications.
 
-    Returns
+    Outputs
     -------
 
     Examples
@@ -49,6 +49,9 @@ class html_doc(Operator):
     ... )
 
     """
+
+    _inputs: InputsHtmlDoc
+    _outputs: OutputsHtmlDoc
 
     def __init__(self, output_path=None, exposure_level=None, config=None, server=None):
         super().__init__(name="html_doc", config=config, server=server)
@@ -113,7 +116,7 @@ class html_doc(Operator):
         inputs:
             An instance of InputsHtmlDoc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsHtmlDoc:
@@ -124,7 +127,7 @@ class html_doc(Operator):
         outputs:
             An instance of OutputsHtmlDoc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsHtmlDoc(_Inputs):

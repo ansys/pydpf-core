@@ -19,12 +19,12 @@ class identical_pfc(Operator):
     r"""Checks if two property_fields_container are identical.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     property_fields_containerA: PropertyFieldsContainer
     property_fields_containerB: PropertyFieldsContainer
 
-    Returns
+    Outputs
     -------
     boolean: bool
         bool (true if identical...)
@@ -53,6 +53,9 @@ class identical_pfc(Operator):
     >>> result_boolean = op.outputs.boolean()
     >>> result_message = op.outputs.message()
     """
+
+    _inputs: InputsIdenticalPfc
+    _outputs: OutputsIdenticalPfc
 
     def __init__(
         self,
@@ -140,7 +143,7 @@ class identical_pfc(Operator):
         inputs:
             An instance of InputsIdenticalPfc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsIdenticalPfc:
@@ -151,7 +154,7 @@ class identical_pfc(Operator):
         outputs:
             An instance of OutputsIdenticalPfc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsIdenticalPfc(_Inputs):

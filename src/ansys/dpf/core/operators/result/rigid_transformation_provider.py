@@ -19,14 +19,14 @@ class rigid_transformation_provider(Operator):
     r"""Extracts rigid body transformation from dsub file.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     streams: Stream, optional
         streams (result file container) (optional)
     data_sources: DataSources
         data source of dsub file.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -52,6 +52,9 @@ class rigid_transformation_provider(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsRigidTransformationProvider
+    _outputs: OutputsRigidTransformationProvider
 
     def __init__(self, streams=None, data_sources=None, config=None, server=None):
         super().__init__(
@@ -129,7 +132,7 @@ class rigid_transformation_provider(Operator):
         inputs:
             An instance of InputsRigidTransformationProvider.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsRigidTransformationProvider:
@@ -140,7 +143,7 @@ class rigid_transformation_provider(Operator):
         outputs:
             An instance of OutputsRigidTransformationProvider.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsRigidTransformationProvider(_Inputs):

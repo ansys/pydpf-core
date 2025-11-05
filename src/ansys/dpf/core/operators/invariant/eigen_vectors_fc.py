@@ -20,11 +20,11 @@ class eigen_vectors_fc(Operator):
     the field container.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer or Field
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -47,6 +47,9 @@ class eigen_vectors_fc(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsEigenVectorsFc
+    _outputs: OutputsEigenVectorsFc
 
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="eig_vectors_fc", config=config, server=server)
@@ -111,7 +114,7 @@ the field container.
         inputs:
             An instance of InputsEigenVectorsFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsEigenVectorsFc:
@@ -122,7 +125,7 @@ the field container.
         outputs:
             An instance of OutputsEigenVectorsFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsEigenVectorsFc(_Inputs):

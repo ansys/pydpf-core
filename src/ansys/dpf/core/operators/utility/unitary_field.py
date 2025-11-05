@@ -20,12 +20,12 @@ class unitary_field(Operator):
     and scoping as the input field.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
         field or fields container with only one field is expected
 
-    Returns
+    Outputs
     -------
     field: Field
 
@@ -48,6 +48,9 @@ class unitary_field(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsUnitaryField
+    _outputs: OutputsUnitaryField
 
     def __init__(self, field=None, config=None, server=None):
         super().__init__(name="make_unit", config=config, server=server)
@@ -112,7 +115,7 @@ and scoping as the input field.
         inputs:
             An instance of InputsUnitaryField.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsUnitaryField:
@@ -123,7 +126,7 @@ and scoping as the input field.
         outputs:
             An instance of OutputsUnitaryField.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsUnitaryField(_Inputs):

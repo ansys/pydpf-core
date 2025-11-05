@@ -21,8 +21,8 @@ class stress_eqv_as_mechanical_workflow(Operator):
     averaging across bodies can either be activated or deactivated.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     time_scoping: Scoping, optional
         time/freq (use doubles or field), time/freq set ids (use ints or scoping) or time/freq step ids use scoping with TimeFreq_steps location) required in output.
     mesh_scoping: Scoping or ScopingsContainer, optional
@@ -40,7 +40,7 @@ class stress_eqv_as_mechanical_workflow(Operator):
     average_across_bodies: bool, optional
         for multibody simulations, the stresses are averaged across bodies if true or not if false (default).
 
-    Returns
+    Outputs
     -------
     workflow: Workflow
 
@@ -84,6 +84,9 @@ class stress_eqv_as_mechanical_workflow(Operator):
     >>> # Get output data
     >>> result_workflow = op.outputs.workflow()
     """
+
+    _inputs: InputsStressEqvAsMechanicalWorkflow
+    _outputs: OutputsStressEqvAsMechanicalWorkflow
 
     def __init__(
         self,
@@ -221,7 +224,7 @@ averaging across bodies can either be activated or deactivated.
         inputs:
             An instance of InputsStressEqvAsMechanicalWorkflow.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsStressEqvAsMechanicalWorkflow:
@@ -232,7 +235,7 @@ averaging across bodies can either be activated or deactivated.
         outputs:
             An instance of OutputsStressEqvAsMechanicalWorkflow.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsStressEqvAsMechanicalWorkflow(_Inputs):

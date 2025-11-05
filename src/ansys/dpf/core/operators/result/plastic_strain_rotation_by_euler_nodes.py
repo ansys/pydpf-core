@@ -20,14 +20,14 @@ class plastic_strain_rotation_by_euler_nodes(Operator):
     in the fieldsContainer.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer, optional
     streams_container: StreamsContainer or Stream or Class
         Dataprocessing::Crstfilewrapper, optional
     data_sources: DataSources
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -56,6 +56,9 @@ class plastic_strain_rotation_by_euler_nodes(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsPlasticStrainRotationByEulerNodes
+    _outputs: OutputsPlasticStrainRotationByEulerNodes
 
     def __init__(
         self,
@@ -153,7 +156,7 @@ in the fieldsContainer.
         inputs:
             An instance of InputsPlasticStrainRotationByEulerNodes.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsPlasticStrainRotationByEulerNodes:
@@ -164,7 +167,7 @@ in the fieldsContainer.
         outputs:
             An instance of OutputsPlasticStrainRotationByEulerNodes.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsPlasticStrainRotationByEulerNodes(_Inputs):

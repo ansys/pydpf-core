@@ -19,14 +19,14 @@ class material_support_provider(Operator):
     r"""Reads the material support.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     streams_container: StreamsContainer, optional
         Streams result file container (optional).
     data_sources: DataSources
         if the stream is null, get the file path from the data sources.
 
-    Returns
+    Outputs
     -------
     abstract_field_support: AbstractFieldSupport
 
@@ -52,6 +52,9 @@ class material_support_provider(Operator):
     >>> # Get output data
     >>> result_abstract_field_support = op.outputs.abstract_field_support()
     """
+
+    _inputs: InputsMaterialSupportProvider
+    _outputs: OutputsMaterialSupportProvider
 
     def __init__(
         self, streams_container=None, data_sources=None, config=None, server=None
@@ -125,7 +128,7 @@ class material_support_provider(Operator):
         inputs:
             An instance of InputsMaterialSupportProvider.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMaterialSupportProvider:
@@ -136,7 +139,7 @@ class material_support_provider(Operator):
         outputs:
             An instance of OutputsMaterialSupportProvider.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMaterialSupportProvider(_Inputs):

@@ -19,8 +19,8 @@ class on_mesh_property(Operator):
     r"""Provides a scoping on a given property name and a property number.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     requested_location: str, optional
         Nodal or Elemental location are expected
     property_name: str
@@ -30,7 +30,7 @@ class on_mesh_property(Operator):
         Default is 1 (inclusive is true). Only used if 'shape_values' property is requested. If inclusive is set to 1 and 'elprops' property field is available, it will select all elements that are set on the corresponding property. If inclusive is set to 0 (exclusive) and 'elprops' property field is available, it will select the elements that are only set on this property.
     mesh: MeshedRegion
 
-    Returns
+    Outputs
     -------
     mesh_scoping: Scoping
         Scoping
@@ -66,6 +66,9 @@ class on_mesh_property(Operator):
     >>> # Get output data
     >>> result_mesh_scoping = op.outputs.mesh_scoping()
     """
+
+    _inputs: InputsOnMeshProperty
+    _outputs: OutputsOnMeshProperty
 
     def __init__(
         self,
@@ -174,7 +177,7 @@ class on_mesh_property(Operator):
         inputs:
             An instance of InputsOnMeshProperty.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsOnMeshProperty:
@@ -185,7 +188,7 @@ class on_mesh_property(Operator):
         outputs:
             An instance of OutputsOnMeshProperty.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsOnMeshProperty(_Inputs):

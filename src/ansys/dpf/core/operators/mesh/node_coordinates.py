@@ -20,11 +20,11 @@ class node_coordinates(Operator):
     r"""Returns the node coordinates of the mesh(es) in input.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mesh: MeshedRegion or MeshesContainer
 
-    Returns
+    Outputs
     -------
     coordinates: Field or FieldsContainer
         if the input is a meshed region, a field of coordinates is the output, else if the input is a  meshes container, a fields container (one field by mesh) is the output
@@ -48,6 +48,9 @@ class node_coordinates(Operator):
     >>> # Get output data
     >>> result_coordinates = op.outputs.coordinates()
     """
+
+    _inputs: InputsNodeCoordinates
+    _outputs: OutputsNodeCoordinates
 
     def __init__(self, mesh=None, config=None, server=None):
         super().__init__(name="mesh::node_coordinates", config=config, server=server)
@@ -111,7 +114,7 @@ class node_coordinates(Operator):
         inputs:
             An instance of InputsNodeCoordinates.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsNodeCoordinates:
@@ -122,7 +125,7 @@ class node_coordinates(Operator):
         outputs:
             An instance of OutputsNodeCoordinates.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsNodeCoordinates(_Inputs):

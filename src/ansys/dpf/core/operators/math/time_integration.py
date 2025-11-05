@@ -19,8 +19,8 @@ class time_integration(Operator):
     r"""Integrates a field of time varying quantities over time
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field
         field
     resample_output: bool, optional
@@ -32,7 +32,7 @@ class time_integration(Operator):
     integration_constant: float, optional
         Constant to be added to the integrated field
 
-    Returns
+    Outputs
     -------
     field: Field
 
@@ -67,6 +67,9 @@ class time_integration(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsTimeIntegration
+    _outputs: OutputsTimeIntegration
 
     def __init__(
         self,
@@ -171,7 +174,7 @@ class time_integration(Operator):
         inputs:
             An instance of InputsTimeIntegration.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsTimeIntegration:
@@ -182,7 +185,7 @@ class time_integration(Operator):
         outputs:
             An instance of OutputsTimeIntegration.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsTimeIntegration(_Inputs):

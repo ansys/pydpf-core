@@ -20,12 +20,12 @@ class intersect(Operator):
     between the intersection and the first scoping.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     scopingA: Scoping
     scopingB: Scoping
 
-    Returns
+    Outputs
     -------
     intersection: Scoping
     scopingA_min_intersection: Scoping
@@ -53,6 +53,9 @@ class intersect(Operator):
     >>> result_intersection = op.outputs.intersection()
     >>> result_scopingA_min_intersection = op.outputs.scopingA_min_intersection()
     """
+
+    _inputs: InputsIntersect
+    _outputs: OutputsIntersect
 
     def __init__(self, scopingA=None, scopingB=None, config=None, server=None):
         super().__init__(name="scoping::intersect", config=config, server=server)
@@ -131,7 +134,7 @@ between the intersection and the first scoping.
         inputs:
             An instance of InputsIntersect.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsIntersect:
@@ -142,7 +145,7 @@ between the intersection and the first scoping.
         outputs:
             An instance of OutputsIntersect.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsIntersect(_Inputs):

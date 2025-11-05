@@ -19,12 +19,12 @@ class sqrt_fc(Operator):
     r"""Computes element-wise sqrt(field1).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
         field or fields container with only one field is expected
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -47,6 +47,9 @@ class sqrt_fc(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsSqrtFc
+    _outputs: OutputsSqrtFc
 
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="sqrt_fc", config=config, server=server)
@@ -110,7 +113,7 @@ class sqrt_fc(Operator):
         inputs:
             An instance of InputsSqrtFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsSqrtFc:
@@ -121,7 +124,7 @@ class sqrt_fc(Operator):
         outputs:
             An instance of OutputsSqrtFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsSqrtFc(_Inputs):

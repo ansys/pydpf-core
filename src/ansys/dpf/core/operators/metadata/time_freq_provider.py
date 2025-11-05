@@ -20,14 +20,14 @@ class time_freq_provider(Operator):
     streams or data sources.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     streams_container: StreamsContainer, optional
         streams (result file container) (optional)
     data_sources: DataSources
         If the stream is null, retrieves the file path from the data sources.
 
-    Returns
+    Outputs
     -------
     time_freq_support: TimeFreqSupport
 
@@ -53,6 +53,9 @@ class time_freq_provider(Operator):
     >>> # Get output data
     >>> result_time_freq_support = op.outputs.time_freq_support()
     """
+
+    _inputs: InputsTimeFreqProvider
+    _outputs: OutputsTimeFreqProvider
 
     def __init__(
         self, streams_container=None, data_sources=None, config=None, server=None
@@ -129,7 +132,7 @@ streams or data sources.
         inputs:
             An instance of InputsTimeFreqProvider.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsTimeFreqProvider:
@@ -140,7 +143,7 @@ streams or data sources.
         outputs:
             An instance of OutputsTimeFreqProvider.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsTimeFreqProvider(_Inputs):

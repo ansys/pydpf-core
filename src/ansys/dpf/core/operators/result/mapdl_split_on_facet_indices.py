@@ -25,8 +25,8 @@ class mapdl_split_on_facet_indices(Operator):
     indices in the solid mesh.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
         Fields container to split, with generic number of labels (e.g. time, zone, complex...), and the Fields of the FieldsContainer will have location Elemental and the Scoping Ids will be the Element Ids on the skin mesh.
     property_field_new_elements_to_old: PropertyField
@@ -40,7 +40,7 @@ class mapdl_split_on_facet_indices(Operator):
     non_degenerated_tets: Scoping, optional
         Elemental scoping of tet elements. If connected, the tets in the scoping are treated as non-degenerated tets (SOLID285), and the rest as degenerated tets (SOLID185). Pins 185 and 285 are mutually exclusionary (they cannot be connected at the same time), and if none of them is connected, all tets are treated as non-degenerated (SOLID285).
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
         Output splitted fields containter
@@ -79,6 +79,9 @@ class mapdl_split_on_facet_indices(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsMapdlSplitOnFacetIndices
+    _outputs: OutputsMapdlSplitOnFacetIndices
 
     def __init__(
         self,
@@ -204,7 +207,7 @@ indices in the solid mesh.
         inputs:
             An instance of InputsMapdlSplitOnFacetIndices.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMapdlSplitOnFacetIndices:
@@ -215,7 +218,7 @@ indices in the solid mesh.
         outputs:
             An instance of OutputsMapdlSplitOnFacetIndices.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMapdlSplitOnFacetIndices(_Inputs):

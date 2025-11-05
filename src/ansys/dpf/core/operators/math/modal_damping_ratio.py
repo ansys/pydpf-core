@@ -20,8 +20,8 @@ class modal_damping_ratio(Operator):
     m_coefficient / (2\ *omega_i) + k_coefficient* omega_i/2.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     natural_freq:
         input vector expects natural frequencies.
     const_ratio: float, optional
@@ -33,7 +33,7 @@ class modal_damping_ratio(Operator):
     k_coefficient: float
         global stiffness matrix multiplier
 
-    Returns
+    Outputs
     -------
     field: Field
         field of modal damping ratio.
@@ -69,6 +69,9 @@ class modal_damping_ratio(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsModalDampingRatio
+    _outputs: OutputsModalDampingRatio
 
     def __init__(
         self,
@@ -174,7 +177,7 @@ m_coefficient / (2\ *omega_i) + k_coefficient* omega_i/2.
         inputs:
             An instance of InputsModalDampingRatio.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsModalDampingRatio:
@@ -185,7 +188,7 @@ m_coefficient / (2\ *omega_i) + k_coefficient* omega_i/2.
         outputs:
             An instance of OutputsModalDampingRatio.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsModalDampingRatio(_Inputs):

@@ -20,8 +20,8 @@ class field_high_pass_fc(Operator):
     threshold value in input.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
         field or fields container with only one field is expected
     threshold: float or Field
@@ -29,7 +29,7 @@ class field_high_pass_fc(Operator):
     both: bool, optional
         The default is false. If set to true, the complement of the filtered fields container is returned on output pin 1.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -58,6 +58,9 @@ class field_high_pass_fc(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsFieldHighPassFc
+    _outputs: OutputsFieldHighPassFc
 
     def __init__(
         self, fields_container=None, threshold=None, both=None, config=None, server=None
@@ -140,7 +143,7 @@ threshold value in input.
         inputs:
             An instance of InputsFieldHighPassFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsFieldHighPassFc:
@@ -151,7 +154,7 @@ threshold value in input.
         outputs:
             An instance of OutputsFieldHighPassFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsFieldHighPassFc(_Inputs):

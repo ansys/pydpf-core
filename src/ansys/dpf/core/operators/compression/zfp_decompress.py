@@ -21,12 +21,12 @@ class zfp_decompress(Operator):
     the properties of the field(s)
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     dataIn: CustomTypeFieldsContainer
         custom type field container from zfp_compression operator to decompress
 
-    Returns
+    Outputs
     -------
     dataOut: Field or FieldsContainer
         the output entity is a field or a fields container; it contains decompressed data
@@ -53,6 +53,9 @@ class zfp_decompress(Operator):
     >>> result_dataOut = op.outputs.dataOut()
     >>> result_decompress_speed = op.outputs.decompress_speed()
     """
+
+    _inputs: InputsZfpDecompress
+    _outputs: OutputsZfpDecompress
 
     def __init__(self, dataIn=None, config=None, server=None):
         super().__init__(name="zfp_decompress", config=config, server=server)
@@ -123,7 +126,7 @@ the properties of the field(s)
         inputs:
             An instance of InputsZfpDecompress.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsZfpDecompress:
@@ -134,7 +137,7 @@ the properties of the field(s)
         outputs:
             An instance of OutputsZfpDecompress.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsZfpDecompress(_Inputs):

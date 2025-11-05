@@ -19,8 +19,8 @@ class cms_subfile_info_provider(Operator):
     r"""Read required information from a subfile.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     data_sources: DataSources
         Data_sources (must contain at least one subfile).
     cms_subfile_data: bool
@@ -28,7 +28,7 @@ class cms_subfile_info_provider(Operator):
     output_maxdof_on_masternodes: bool, optional
         If this pin is set to true, compute and add field with max degrees of freedom on master nodes
 
-    Returns
+    Outputs
     -------
     int32: int
         returns integer values in the order : unit system used, stiffness matrix present key, damping matrix present key, mass matrix present key, number of master nodes, number of virtual nodes
@@ -61,6 +61,9 @@ class cms_subfile_info_provider(Operator):
     >>> result_int32 = op.outputs.int32()
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsCmsSubfileInfoProvider
+    _outputs: OutputsCmsSubfileInfoProvider
 
     def __init__(
         self,
@@ -155,7 +158,7 @@ class cms_subfile_info_provider(Operator):
         inputs:
             An instance of InputsCmsSubfileInfoProvider.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsCmsSubfileInfoProvider:
@@ -166,7 +169,7 @@ class cms_subfile_info_provider(Operator):
         outputs:
             An instance of OutputsCmsSubfileInfoProvider.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsCmsSubfileInfoProvider(_Inputs):

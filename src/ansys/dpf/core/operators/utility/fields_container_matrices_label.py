@@ -20,8 +20,8 @@ class fields_container_matrices_label(Operator):
     fields container of field matrices.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
         fields container to be merged
     label: str
@@ -29,7 +29,7 @@ class fields_container_matrices_label(Operator):
     time_scoping: int or Scoping, optional
         if it's specified, fields container of field matrices is constructed only on the specified time scoping
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
         fields container of field matrices obtained after merging.
@@ -59,6 +59,9 @@ class fields_container_matrices_label(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsFieldsContainerMatricesLabel
+    _outputs: OutputsFieldsContainerMatricesLabel
 
     def __init__(
         self,
@@ -150,7 +153,7 @@ fields container of field matrices.
         inputs:
             An instance of InputsFieldsContainerMatricesLabel.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsFieldsContainerMatricesLabel:
@@ -161,7 +164,7 @@ fields container of field matrices.
         outputs:
             An instance of OutputsFieldsContainerMatricesLabel.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsFieldsContainerMatricesLabel(_Inputs):

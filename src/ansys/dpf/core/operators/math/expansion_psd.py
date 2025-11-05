@@ -19,8 +19,8 @@ class expansion_psd(Operator):
     r"""Computes the PSD response for one-sigma solution.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mode_shapes: FieldsContainer
         Fields container containing the mode shapes from modal analysis file: mode shapes for dynamic and pseudo-static displacements
     static_shapes: FieldsContainer, optional
@@ -32,7 +32,7 @@ class expansion_psd(Operator):
     rel_stat_covar_matrix: FieldsContainer, optional
         Fields container containing covariance matrices from a psd file: covariance matrix terms for displacement/velocity/acceleration mode-static shapes
 
-    Returns
+    Outputs
     -------
     psd: FieldsContainer
         PSD solution per label
@@ -68,6 +68,9 @@ class expansion_psd(Operator):
     >>> # Get output data
     >>> result_psd = op.outputs.psd()
     """
+
+    _inputs: InputsExpansionPsd
+    _outputs: OutputsExpansionPsd
 
     def __init__(
         self,
@@ -172,7 +175,7 @@ class expansion_psd(Operator):
         inputs:
             An instance of InputsExpansionPsd.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsExpansionPsd:
@@ -183,7 +186,7 @@ class expansion_psd(Operator):
         outputs:
             An instance of OutputsExpansionPsd.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsExpansionPsd(_Inputs):

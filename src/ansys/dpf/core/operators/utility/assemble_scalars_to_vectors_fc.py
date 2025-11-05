@@ -20,13 +20,13 @@ class assemble_scalars_to_vectors_fc(Operator):
     fields container.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     x: FieldsContainer, optional
     y: FieldsContainer, optional
     z: FieldsContainer, optional
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -55,6 +55,9 @@ class assemble_scalars_to_vectors_fc(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsAssembleScalarsToVectorsFc
+    _outputs: OutputsAssembleScalarsToVectorsFc
 
     def __init__(self, x=None, y=None, z=None, config=None, server=None):
         super().__init__(
@@ -139,7 +142,7 @@ fields container.
         inputs:
             An instance of InputsAssembleScalarsToVectorsFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsAssembleScalarsToVectorsFc:
@@ -150,7 +153,7 @@ fields container.
         outputs:
             An instance of OutputsAssembleScalarsToVectorsFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsAssembleScalarsToVectorsFc(_Inputs):

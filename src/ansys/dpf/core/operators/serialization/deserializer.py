@@ -20,14 +20,14 @@ class deserializer(Operator):
     entities.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     stream_type: int
         0 for ASCII (default), and 1 for binary
     file_path: str
         file path
 
-    Returns
+    Outputs
     -------
     any_output1: Any
         number and types of outputs corresponding of the inputs used in the serialization
@@ -57,6 +57,9 @@ class deserializer(Operator):
     >>> result_any_output1 = op.outputs.any_output1()
     >>> result_any_output2 = op.outputs.any_output2()
     """
+
+    _inputs: InputsDeserializer
+    _outputs: OutputsDeserializer
 
     def __init__(self, stream_type=None, file_path=None, config=None, server=None):
         super().__init__(name="deserializer", config=config, server=server)
@@ -135,7 +138,7 @@ entities.
         inputs:
             An instance of InputsDeserializer.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsDeserializer:
@@ -146,7 +149,7 @@ entities.
         outputs:
             An instance of OutputsDeserializer.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsDeserializer(_Inputs):

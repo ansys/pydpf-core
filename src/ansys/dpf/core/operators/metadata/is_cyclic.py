@@ -19,14 +19,14 @@ class is_cyclic(Operator):
     r"""Reads if the model is cyclic from the result file.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     streams_container: StreamsContainer, optional
         streams (result file container) (optional)
     data_sources: DataSources
         If the stream is null, retrieves the file path from the data sources.
 
-    Returns
+    Outputs
     -------
     file_path: str
         returns 'single_stage' or 'multi_stage' or an empty string for non cyclic model
@@ -53,6 +53,9 @@ class is_cyclic(Operator):
     >>> # Get output data
     >>> result_file_path = op.outputs.file_path()
     """
+
+    _inputs: InputsIsCyclic
+    _outputs: OutputsIsCyclic
 
     def __init__(
         self, streams_container=None, data_sources=None, config=None, server=None
@@ -126,7 +129,7 @@ class is_cyclic(Operator):
         inputs:
             An instance of InputsIsCyclic.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsIsCyclic:
@@ -137,7 +140,7 @@ class is_cyclic(Operator):
         outputs:
             An instance of OutputsIsCyclic.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsIsCyclic(_Inputs):

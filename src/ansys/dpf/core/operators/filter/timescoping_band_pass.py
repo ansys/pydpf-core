@@ -21,15 +21,15 @@ class timescoping_band_pass(Operator):
     threshold value in input.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     time_freq_support: TimeFreqSupport
     min_threshold: float or Field
         A minimum threshold scalar or a field containing one value is expected.
     max_threshold: float or Field, optional
         A maximum threshold scalar or a field containing one value is expected.
 
-    Returns
+    Outputs
     -------
     scoping: Scoping
 
@@ -58,6 +58,9 @@ class timescoping_band_pass(Operator):
     >>> # Get output data
     >>> result_scoping = op.outputs.scoping()
     """
+
+    _inputs: InputsTimescopingBandPass
+    _outputs: OutputsTimescopingBandPass
 
     def __init__(
         self,
@@ -150,7 +153,7 @@ threshold value in input.
         inputs:
             An instance of InputsTimescopingBandPass.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsTimescopingBandPass:
@@ -161,7 +164,7 @@ threshold value in input.
         outputs:
             An instance of OutputsTimescopingBandPass.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsTimescopingBandPass(_Inputs):

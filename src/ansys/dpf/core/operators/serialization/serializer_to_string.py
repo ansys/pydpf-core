@@ -19,8 +19,8 @@ class serializer_to_string(Operator):
     r"""Take any input and serialize them in a string.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     stream_type: int
         0 for string (default), 1 for binary, 2 for binary with chunked output (the output string will be returned in several chunks to prevent string memory overflows).
     any_input1: Any
@@ -28,7 +28,7 @@ class serializer_to_string(Operator):
     any_input2: Any
         any input
 
-    Returns
+    Outputs
     -------
     nof_chunks: int
         Number of chunks when mode passed to input pin(-1) = 2.
@@ -62,6 +62,9 @@ class serializer_to_string(Operator):
     >>> result_serialized_string1 = op.outputs.serialized_string1()
     >>> result_serialized_string2 = op.outputs.serialized_string2()
     """
+
+    _inputs: InputsSerializerToString
+    _outputs: OutputsSerializerToString
 
     def __init__(
         self,
@@ -160,7 +163,7 @@ class serializer_to_string(Operator):
         inputs:
             An instance of InputsSerializerToString.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsSerializerToString:
@@ -171,7 +174,7 @@ class serializer_to_string(Operator):
         outputs:
             An instance of OutputsSerializerToString.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsSerializerToString(_Inputs):

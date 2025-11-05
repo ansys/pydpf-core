@@ -19,8 +19,8 @@ class make_for_each_range(Operator):
     r"""Generate a range that can be consumed by the for_each operator
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     try_generate_iterable: bool, optional
         if true, already iterable values connected in pin 3 like vectors, Scoping, TimefreqSupport, Containers and DataSources are split to iterate on it (default is true)
     iterable: optional
@@ -33,7 +33,7 @@ class make_for_each_range(Operator):
     valueC1:
     valueC2:
 
-    Returns
+    Outputs
     -------
     output:
 
@@ -77,6 +77,9 @@ class make_for_each_range(Operator):
     >>> # Get output data
     >>> result_output = op.outputs.output()
     """
+
+    _inputs: InputsMakeForEachRange
+    _outputs: OutputsMakeForEachRange
 
     def __init__(
         self,
@@ -207,7 +210,7 @@ class make_for_each_range(Operator):
         inputs:
             An instance of InputsMakeForEachRange.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMakeForEachRange:
@@ -218,7 +221,7 @@ class make_for_each_range(Operator):
         outputs:
             An instance of OutputsMakeForEachRange.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMakeForEachRange(_Inputs):

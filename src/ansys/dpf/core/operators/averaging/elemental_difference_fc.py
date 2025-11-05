@@ -25,8 +25,8 @@ class elemental_difference_fc(Operator):
     the output fields container has an elshape label.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     mesh: MeshedRegion or MeshesContainer, optional
         The mesh region in this pin is used to perform the averaging, used if there is no fields support.
@@ -35,7 +35,7 @@ class elemental_difference_fc(Operator):
     collapse_shell_layers: bool, optional
         If true, the data across different shell layers is averaged as well (default is false).
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -67,6 +67,9 @@ class elemental_difference_fc(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsElementalDifferenceFc
+    _outputs: OutputsElementalDifferenceFc
 
     def __init__(
         self,
@@ -168,7 +171,7 @@ the output fields container has an elshape label.
         inputs:
             An instance of InputsElementalDifferenceFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsElementalDifferenceFc:
@@ -179,7 +182,7 @@ the output fields container has an elshape label.
         outputs:
             An instance of OutputsElementalDifferenceFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsElementalDifferenceFc(_Inputs):

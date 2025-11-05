@@ -21,11 +21,11 @@ class window_triangular_fc(Operator):
     (use time_freq_interpolation before otherwise).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -48,6 +48,9 @@ class window_triangular_fc(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsWindowTriangularFc
+    _outputs: OutputsWindowTriangularFc
 
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="window::triangular_fc", config=config, server=server)
@@ -113,7 +116,7 @@ or a Field located on time. Assume that time sampling is evenly spaced
         inputs:
             An instance of InputsWindowTriangularFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsWindowTriangularFc:
@@ -124,7 +127,7 @@ or a Field located on time. Assume that time sampling is evenly spaced
         outputs:
             An instance of OutputsWindowTriangularFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsWindowTriangularFc(_Inputs):

@@ -20,14 +20,14 @@ class mesh_extraction(Operator):
     that contains this selection only.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mesh: MeshedRegion
     mesh_scoping: Scoping
     extension: int, optional
         Number of extension layer
 
-    Returns
+    Outputs
     -------
     abstract_meshed_region: MeshedRegion
 
@@ -56,6 +56,9 @@ class mesh_extraction(Operator):
     >>> # Get output data
     >>> result_abstract_meshed_region = op.outputs.abstract_meshed_region()
     """
+
+    _inputs: InputsMeshExtraction
+    _outputs: OutputsMeshExtraction
 
     def __init__(
         self, mesh=None, mesh_scoping=None, extension=None, config=None, server=None
@@ -138,7 +141,7 @@ that contains this selection only.
         inputs:
             An instance of InputsMeshExtraction.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMeshExtraction:
@@ -149,7 +152,7 @@ that contains this selection only.
         outputs:
             An instance of OutputsMeshExtraction.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMeshExtraction(_Inputs):

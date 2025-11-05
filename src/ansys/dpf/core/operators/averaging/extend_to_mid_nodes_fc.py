@@ -20,13 +20,13 @@ class extend_to_mid_nodes_fc(Operator):
     Elemental Nodal fields defined also on the mid nodes.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     mesh: MeshedRegion, optional
         The mesh region in this pin is used to perform the averaging. It is used if there is no fields support.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -52,6 +52,9 @@ class extend_to_mid_nodes_fc(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsExtendToMidNodesFc
+    _outputs: OutputsExtendToMidNodesFc
 
     def __init__(self, fields_container=None, mesh=None, config=None, server=None):
         super().__init__(name="extend_to_mid_nodes_fc", config=config, server=server)
@@ -124,7 +127,7 @@ Elemental Nodal fields defined also on the mid nodes.
         inputs:
             An instance of InputsExtendToMidNodesFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsExtendToMidNodesFc:
@@ -135,7 +138,7 @@ Elemental Nodal fields defined also on the mid nodes.
         outputs:
             An instance of OutputsExtendToMidNodesFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsExtendToMidNodesFc(_Inputs):

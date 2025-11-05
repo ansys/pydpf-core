@@ -23,12 +23,12 @@ class component_wise_divide_fc(Operator):
     entirely.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_containerA: FieldsContainer
     fields_containerB: FieldsContainer
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -54,6 +54,9 @@ class component_wise_divide_fc(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsComponentWiseDivideFc
+    _outputs: OutputsComponentWiseDivideFc
 
     def __init__(
         self, fields_containerA=None, fields_containerB=None, config=None, server=None
@@ -131,7 +134,7 @@ entirely.
         inputs:
             An instance of InputsComponentWiseDivideFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsComponentWiseDivideFc:
@@ -142,7 +145,7 @@ entirely.
         outputs:
             An instance of OutputsComponentWiseDivideFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsComponentWiseDivideFc(_Inputs):

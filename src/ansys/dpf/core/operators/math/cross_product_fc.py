@@ -20,14 +20,14 @@ class cross_product_fc(Operator):
     same location or Elemental Nodal and Nodal locations.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field_or_fields_container_A: Field or FieldsContainer or float
         field or fields container with only one field is expected
     field_or_fields_container_B: Field or FieldsContainer or float
         field or fields container with only one field is expected
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -53,6 +53,9 @@ class cross_product_fc(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsCrossProductFc
+    _outputs: OutputsCrossProductFc
 
     def __init__(
         self,
@@ -141,7 +144,7 @@ same location or Elemental Nodal and Nodal locations.
         inputs:
             An instance of InputsCrossProductFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsCrossProductFc:
@@ -152,7 +155,7 @@ same location or Elemental Nodal and Nodal locations.
         outputs:
             An instance of OutputsCrossProductFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsCrossProductFc(_Inputs):

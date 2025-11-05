@@ -21,8 +21,8 @@ class hdf5dpf_custom_read(Operator):
     deprecated, please use the ‘custom’ operator instead.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     time_scoping: Scoping, optional
     mesh_scoping: Scoping, optional
     streams: StreamsContainer, optional
@@ -34,7 +34,7 @@ class hdf5dpf_custom_read(Operator):
     result_name:
         Name of the result that must be extracted from the hdf5dpf file
 
-    Returns
+    Outputs
     -------
     field_or_fields_container: FieldsContainer or Field
 
@@ -72,6 +72,9 @@ class hdf5dpf_custom_read(Operator):
     >>> # Get output data
     >>> result_field_or_fields_container = op.outputs.field_or_fields_container()
     """
+
+    _inputs: InputsHdf5DpfCustomRead
+    _outputs: OutputsHdf5DpfCustomRead
 
     def __init__(
         self,
@@ -186,7 +189,7 @@ deprecated, please use the ‘custom’ operator instead.
         inputs:
             An instance of InputsHdf5DpfCustomRead.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsHdf5DpfCustomRead:
@@ -197,7 +200,7 @@ deprecated, please use the ‘custom’ operator instead.
         outputs:
             An instance of OutputsHdf5DpfCustomRead.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsHdf5DpfCustomRead(_Inputs):

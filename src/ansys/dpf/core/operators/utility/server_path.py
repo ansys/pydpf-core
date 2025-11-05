@@ -19,12 +19,12 @@ class server_path(Operator):
     r"""Returns the platform-specific path to a folder in the Dpf server
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     subpath: int, optional
         Subpath of the Dpf server. Supported values: 0 (default): root of the server, 1: "dpf/bin/platform", 2: "aisol/bin(dll)/platform", 3: "dpf/plugins", 4: "dpf/workflows".
 
-    Returns
+    Outputs
     -------
     path: str
         Path to the requested folder in the Dpf server
@@ -48,6 +48,9 @@ class server_path(Operator):
     >>> # Get output data
     >>> result_path = op.outputs.path()
     """
+
+    _inputs: InputsServerPath
+    _outputs: OutputsServerPath
 
     def __init__(self, subpath=None, config=None, server=None):
         super().__init__(name="server_path", config=config, server=server)
@@ -111,7 +114,7 @@ class server_path(Operator):
         inputs:
             An instance of InputsServerPath.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsServerPath:
@@ -122,7 +125,7 @@ class server_path(Operator):
         outputs:
             An instance of OutputsServerPath.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsServerPath(_Inputs):

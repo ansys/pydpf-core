@@ -19,12 +19,12 @@ class stl_export(Operator):
     r"""export a mesh into a stl file.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mesh: MeshedRegion
     file_path: str
 
-    Returns
+    Outputs
     -------
     data_sources: DataSources
 
@@ -50,6 +50,9 @@ class stl_export(Operator):
     >>> # Get output data
     >>> result_data_sources = op.outputs.data_sources()
     """
+
+    _inputs: InputsStlExport
+    _outputs: OutputsStlExport
 
     def __init__(self, mesh=None, file_path=None, config=None, server=None):
         super().__init__(name="stl_export", config=config, server=server)
@@ -121,7 +124,7 @@ class stl_export(Operator):
         inputs:
             An instance of InputsStlExport.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsStlExport:
@@ -132,7 +135,7 @@ class stl_export(Operator):
         outputs:
             An instance of OutputsStlExport.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsStlExport(_Inputs):

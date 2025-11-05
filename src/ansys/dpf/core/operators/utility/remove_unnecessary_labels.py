@@ -19,8 +19,8 @@ class remove_unnecessary_labels(Operator):
     r"""Removes the selected label from a fields container.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     permissive: bool, optional
         If true, the operator does not throw an error if the label to be removed has more than one entry.
     fields_container: FieldsContainer
@@ -28,7 +28,7 @@ class remove_unnecessary_labels(Operator):
     label_to_remove: str
         Label to be removed from the fields container.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -57,6 +57,9 @@ class remove_unnecessary_labels(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsRemoveUnnecessaryLabels
+    _outputs: OutputsRemoveUnnecessaryLabels
 
     def __init__(
         self,
@@ -143,7 +146,7 @@ class remove_unnecessary_labels(Operator):
         inputs:
             An instance of InputsRemoveUnnecessaryLabels.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsRemoveUnnecessaryLabels:
@@ -154,7 +157,7 @@ class remove_unnecessary_labels(Operator):
         outputs:
             An instance of OutputsRemoveUnnecessaryLabels.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsRemoveUnnecessaryLabels(_Inputs):

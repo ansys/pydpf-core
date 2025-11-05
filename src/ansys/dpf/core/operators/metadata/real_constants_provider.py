@@ -20,8 +20,8 @@ class real_constants_provider(Operator):
     data sources.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     solver_real_constants_ids: int, optional
         Real Constant ids to recover used by the solver. If not set, all available real constants to be recovered.
     streams: StreamsContainer, optional
@@ -29,7 +29,7 @@ class real_constants_provider(Operator):
     data_sources: DataSources
         Result file path container, used if no streams are set.
 
-    Returns
+    Outputs
     -------
     real_constants: Field
 
@@ -58,6 +58,9 @@ class real_constants_provider(Operator):
     >>> # Get output data
     >>> result_real_constants = op.outputs.real_constants()
     """
+
+    _inputs: InputsRealConstantsProvider
+    _outputs: OutputsRealConstantsProvider
 
     def __init__(
         self,
@@ -145,7 +148,7 @@ data sources.
         inputs:
             An instance of InputsRealConstantsProvider.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsRealConstantsProvider:
@@ -156,7 +159,7 @@ data sources.
         outputs:
             An instance of OutputsRealConstantsProvider.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsRealConstantsProvider(_Inputs):

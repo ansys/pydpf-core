@@ -190,55 +190,23 @@ jobs:
     secrets: inherit
 
   tests-retro:
-    name: "Test DPF ${{ matrix.version }} compatibility"
+    name: "Test DPF ${{ matrix.version.version }}${{ matrix.version.patch }} compatibility"
     if: |
       (startsWith(github.head_ref, 'main') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft)
     strategy:
       fail-fast: false
       matrix:
         version:
-          - ${{ fromJson(vars.ANSYS_VERSIONS_RETRO) }}
-          - ${{ fromJson(vars.ANSYS_VERSION_LAST_RELEASED) }}
+          - ${{ fromJson(vars.ANSYS_VERSIONS_RETRO_WITH_PATCH) }}
+        docstring:
+          - "false"
+        include:
+          - version: ${{ fromJson(vars.ANSYS_VERSION_LAST_RELEASED_WITH_PATCH) }}
+            docstring: "true"
     uses: ./.github/workflows/tests.yml
     with:
-      ANSYS_VERSION: ${{ matrix.version }}
+      ANSYS_VERSION: ${{ matrix.version.version }}
       python_versions: '["3.10"]'
-      DOCSTRING: false
-      standalone_suffix: ${{ matrix.version == '241' && '.sp01' || '' }}
+      DOCSTRING: ${{ matrix.docstring }}
+      standalone_suffix: ${{ matrix.version.patch }}
     secrets: inherit
-
-  sync-main-with-master:
-    name: "Sync main with master"
-    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: "Install Git and clone project"
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-        with:
-          token: ${{ secrets.MIGRATION_PAT }}
-          fetch-depth: 0
-
-      - name: "Verify that main is the default branch"
-        shell: bash
-        run: |
-          head_branch=$(git remote show origin | grep "HEAD branch:")
-          main_branch=${head_branch#*: }
-          
-          if [[ $main_branch != "main" ]]; then
-            echo "The default branch is not 'main'. It is set to '$main_branch'."
-            echo "Please set 'main' as the default branch in the repository settings."
-            exit 1
-          fi
-
-      - name: "Configure git username and email"
-        shell: bash
-        run: |
-          git config --global user.name "${{ secrets.PYANSYS_CI_BOT_USERNAME }}"
-          git config --global user.email "${{ secrets.PYANSYS_CI_BOT_EMAIL }}"
-
-      - name: "Sync main to master"
-        shell: bash
-        run: |
-          git checkout master
-          git reset --hard main
-          git push

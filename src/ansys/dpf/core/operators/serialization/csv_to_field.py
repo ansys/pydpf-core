@@ -19,13 +19,13 @@ class csv_to_field(Operator):
     r"""transform csv file to a field or fields container
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     time_scoping: Scoping, optional
     data_sources: DataSources
         data sources containing a file with csv extension
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -51,6 +51,9 @@ class csv_to_field(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsCsvToField
+    _outputs: OutputsCsvToField
 
     def __init__(self, time_scoping=None, data_sources=None, config=None, server=None):
         super().__init__(name="csv_to_field", config=config, server=server)
@@ -122,7 +125,7 @@ class csv_to_field(Operator):
         inputs:
             An instance of InputsCsvToField.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsCsvToField:
@@ -133,7 +136,7 @@ class csv_to_field(Operator):
         outputs:
             An instance of OutputsCsvToField.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsCsvToField(_Inputs):

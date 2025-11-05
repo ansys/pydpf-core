@@ -19,12 +19,12 @@ class forward(Operator):
     r"""Return all the inputs as outputs.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     any: Any
         any type of input
 
-    Returns
+    Outputs
     -------
     any: Any
         same types as inputs
@@ -48,6 +48,9 @@ class forward(Operator):
     >>> # Get output data
     >>> result_any = op.outputs.any()
     """
+
+    _inputs: InputsForward
+    _outputs: OutputsForward
 
     def __init__(self, any=None, config=None, server=None):
         super().__init__(name="forward", config=config, server=server)
@@ -111,7 +114,7 @@ class forward(Operator):
         inputs:
             An instance of InputsForward.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsForward:
@@ -122,7 +125,7 @@ class forward(Operator):
         outputs:
             An instance of OutputsForward.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsForward(_Inputs):

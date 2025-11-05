@@ -19,8 +19,8 @@ class serializer(Operator):
     r"""Take any input and serialize them in a file.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     stream_type: int
         0 for ASCII (default), and 1 for binary
     file_path: str
@@ -29,7 +29,7 @@ class serializer(Operator):
     any_input2: Any
         any input
 
-    Returns
+    Outputs
     -------
     file_path: str
 
@@ -61,6 +61,9 @@ class serializer(Operator):
     >>> # Get output data
     >>> result_file_path = op.outputs.file_path()
     """
+
+    _inputs: InputsSerializer
+    _outputs: OutputsSerializer
 
     def __init__(
         self,
@@ -156,7 +159,7 @@ class serializer(Operator):
         inputs:
             An instance of InputsSerializer.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsSerializer:
@@ -167,7 +170,7 @@ class serializer(Operator):
         outputs:
             An instance of OutputsSerializer.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsSerializer(_Inputs):

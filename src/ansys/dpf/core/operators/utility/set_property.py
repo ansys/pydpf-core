@@ -22,8 +22,8 @@ class set_property(Operator):
     expected as inputs
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
     property_name: str
         Property to set. Accepted inputs are specific strings namely: 'unit', 'name', 'time_freq_support', 'scoping', 'header'.
@@ -31,7 +31,7 @@ class set_property(Operator):
         float
         Property Value to set. Accepted inputs on this pin are: CTimeFreqSupport, CScoping, DataTree, int, double, string.
 
-    Returns
+    Outputs
     -------
     field: Field or FieldsContainer
         Accepted Outputs are: Field, PropertyField, CustomTypeField or their containers.
@@ -61,6 +61,9 @@ class set_property(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsSetProperty
+    _outputs: OutputsSetProperty
 
     def __init__(
         self, field=None, property_name=None, property=None, config=None, server=None
@@ -151,7 +154,7 @@ expected as inputs
         inputs:
             An instance of InputsSetProperty.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsSetProperty:
@@ -162,7 +165,7 @@ expected as inputs
         outputs:
             An instance of OutputsSetProperty.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsSetProperty(_Inputs):

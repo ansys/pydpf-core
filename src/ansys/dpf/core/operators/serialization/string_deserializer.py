@@ -20,14 +20,14 @@ class string_deserializer(Operator):
     DPF’s entities.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     stream_type: int
         0 for string (default), and 1 for binary
     serialized_string1: str
     serialized_string2: str
 
-    Returns
+    Outputs
     -------
     any_output1: Any
         number and types of outputs corresponding of the inputs used in the serialization
@@ -60,6 +60,9 @@ class string_deserializer(Operator):
     >>> result_any_output1 = op.outputs.any_output1()
     >>> result_any_output2 = op.outputs.any_output2()
     """
+
+    _inputs: InputsStringDeserializer
+    _outputs: OutputsStringDeserializer
 
     def __init__(
         self,
@@ -153,7 +156,7 @@ DPF’s entities.
         inputs:
             An instance of InputsStringDeserializer.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsStringDeserializer:
@@ -164,7 +167,7 @@ DPF’s entities.
         outputs:
             An instance of OutputsStringDeserializer.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsStringDeserializer(_Inputs):

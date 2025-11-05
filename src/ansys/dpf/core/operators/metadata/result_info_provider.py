@@ -20,14 +20,14 @@ class result_info_provider(Operator):
     from the results files contained in the streams or data sources.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     streams_container: StreamsContainer, optional
         streams (result file container) (optional)
     data_sources: DataSources
         If the stream is null, retrieves the file path from the data sources.
 
-    Returns
+    Outputs
     -------
     result_info: ResultInfo
 
@@ -53,6 +53,9 @@ class result_info_provider(Operator):
     >>> # Get output data
     >>> result_result_info = op.outputs.result_info()
     """
+
+    _inputs: InputsResultInfoProvider
+    _outputs: OutputsResultInfoProvider
 
     def __init__(
         self, streams_container=None, data_sources=None, config=None, server=None
@@ -127,7 +130,7 @@ from the results files contained in the streams or data sources.
         inputs:
             An instance of InputsResultInfoProvider.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsResultInfoProvider:
@@ -138,7 +141,7 @@ from the results files contained in the streams or data sources.
         outputs:
             An instance of OutputsResultInfoProvider.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsResultInfoProvider(_Inputs):

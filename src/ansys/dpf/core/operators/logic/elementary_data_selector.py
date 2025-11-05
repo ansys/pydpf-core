@@ -19,8 +19,8 @@ class elementary_data_selector(Operator):
     r"""Creates a scalar/vector field based on the selected elementary data.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
     elementary_data_index: int
         One or several elementary data index that will be extracted from the initial field. For field with nature matrix, this is the line indices to extract.
@@ -29,7 +29,7 @@ class elementary_data_selector(Operator):
     elementary_data_index_2: int, optional
         For field with nature matrix, this is the column indices to extract.
 
-    Returns
+    Outputs
     -------
     field: Field
 
@@ -61,6 +61,9 @@ class elementary_data_selector(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsElementaryDataSelector
+    _outputs: OutputsElementaryDataSelector
 
     def __init__(
         self,
@@ -156,7 +159,7 @@ class elementary_data_selector(Operator):
         inputs:
             An instance of InputsElementaryDataSelector.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsElementaryDataSelector:
@@ -167,7 +170,7 @@ class elementary_data_selector(Operator):
         outputs:
             An instance of OutputsElementaryDataSelector.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsElementaryDataSelector(_Inputs):

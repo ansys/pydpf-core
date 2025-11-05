@@ -20,8 +20,8 @@ class global_joint_internal_energy(Operator):
     defined by the datasources.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     streams_container: StreamsContainer, optional
         result file container allowed to be kept open to cache data
     data_sources: DataSources
@@ -29,7 +29,7 @@ class global_joint_internal_energy(Operator):
     unit_system: int or str or UnitSystem, optional
         (LSDyna) Unit System ID (int), semicolon-separated list of base unit strings (str) or UnitSystem instance
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -58,6 +58,9 @@ class global_joint_internal_energy(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsGlobalJointInternalEnergy
+    _outputs: OutputsGlobalJointInternalEnergy
 
     def __init__(
         self,
@@ -149,7 +152,7 @@ defined by the datasources.
         inputs:
             An instance of InputsGlobalJointInternalEnergy.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsGlobalJointInternalEnergy:
@@ -160,7 +163,7 @@ defined by the datasources.
         outputs:
             An instance of OutputsGlobalJointInternalEnergy.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsGlobalJointInternalEnergy(_Inputs):

@@ -24,8 +24,8 @@ class identical_anys(Operator):
     property check.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     anyA: Any
     anyB: Any
     double_value: float
@@ -35,7 +35,7 @@ class identical_anys(Operator):
     compare_auxiliary: bool
         For meshes and meshescontainer: compare auxiliary data (i.e property fields, scopings...). Default value is 'false'.
 
-    Returns
+    Outputs
     -------
     included: bool
         bool (true if belongs...)
@@ -73,6 +73,9 @@ class identical_anys(Operator):
     >>> result_included = op.outputs.included()
     >>> result_message = op.outputs.message()
     """
+
+    _inputs: InputsIdenticalAnys
+    _outputs: OutputsIdenticalAnys
 
     def __init__(
         self,
@@ -188,7 +191,7 @@ property check.
         inputs:
             An instance of InputsIdenticalAnys.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsIdenticalAnys:
@@ -199,7 +202,7 @@ property check.
         outputs:
             An instance of OutputsIdenticalAnys.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsIdenticalAnys(_Inputs):

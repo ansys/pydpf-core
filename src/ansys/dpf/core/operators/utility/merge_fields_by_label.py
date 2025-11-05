@@ -19,8 +19,8 @@ class merge_fields_by_label(Operator):
     r"""Merges the fields of a fields container that share the same label value.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
     label: str
         Label identifier that should be merged.
@@ -29,7 +29,7 @@ class merge_fields_by_label(Operator):
     sum_merge: bool, optional
         Default is false. If true, redundant quantities are summed instead of being ignored.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
     merged_field_support: AbstractFieldSupport
@@ -63,6 +63,9 @@ class merge_fields_by_label(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     >>> result_merged_field_support = op.outputs.merged_field_support()
     """
+
+    _inputs: InputsMergeFieldsByLabel
+    _outputs: OutputsMergeFieldsByLabel
 
     def __init__(
         self,
@@ -168,7 +171,7 @@ class merge_fields_by_label(Operator):
         inputs:
             An instance of InputsMergeFieldsByLabel.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMergeFieldsByLabel:
@@ -179,7 +182,7 @@ class merge_fields_by_label(Operator):
         outputs:
             An instance of OutputsMergeFieldsByLabel.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMergeFieldsByLabel(_Inputs):

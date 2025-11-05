@@ -20,8 +20,8 @@ class merge_weighted_fields(Operator):
     sum of the fields.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     sum_merge: bool, optional
         Default is false. If true, redundant quantities are summed instead of being ignored.
     merged_support: AbstractFieldSupport, optional
@@ -35,7 +35,7 @@ class merge_weighted_fields(Operator):
     weights2: PropertyField
         Weights to apply to each field from pin 1000 to ...
 
-    Returns
+    Outputs
     -------
     merged_field: Field
 
@@ -73,6 +73,9 @@ class merge_weighted_fields(Operator):
     >>> # Get output data
     >>> result_merged_field = op.outputs.merged_field()
     """
+
+    _inputs: InputsMergeWeightedFields
+    _outputs: OutputsMergeWeightedFields
 
     def __init__(
         self,
@@ -187,7 +190,7 @@ sum of the fields.
         inputs:
             An instance of InputsMergeWeightedFields.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMergeWeightedFields:
@@ -198,7 +201,7 @@ sum of the fields.
         outputs:
             An instance of OutputsMergeWeightedFields.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMergeWeightedFields(_Inputs):

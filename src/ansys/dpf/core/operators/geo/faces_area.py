@@ -21,13 +21,13 @@ class faces_area(Operator):
     for polygons.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mesh: MeshedRegion
     mesh_scoping: Scoping
         If not provided, the measure of all Faces in the mesh is computed. If provided, the Scoping needs to have "Faces" location.
 
-    Returns
+    Outputs
     -------
     field: Field
 
@@ -53,6 +53,9 @@ class faces_area(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsFacesArea
+    _outputs: OutputsFacesArea
 
     def __init__(self, mesh=None, mesh_scoping=None, config=None, server=None):
         super().__init__(name="face::area", config=config, server=server)
@@ -126,7 +129,7 @@ for polygons.
         inputs:
             An instance of InputsFacesArea.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsFacesArea:
@@ -137,7 +140,7 @@ for polygons.
         outputs:
             An instance of OutputsFacesArea.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsFacesArea(_Inputs):

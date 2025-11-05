@@ -19,8 +19,8 @@ class total_pressure(Operator):
     r"""Read Total Pressure by calling the readers defined by the datasources.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     time_scoping: Scoping or int or float or Field, optional
         time/freq values (use doubles or field), time/freq set ids (use ints or scoping) or time/freq step ids (use scoping with TimeFreq_steps location) required in output. To specify time/freq values at specific load steps, put a Field (and not a list) in input with a scoping located on "TimeFreq_steps". Linear time freq intrapolation is performed if the values are not in the result files and the data at the max time or freq is taken when time/freqs are higher than available time/freqs in result files. To get all data for all time/freq sets, connect an int with value -1.
     mesh_scoping: ScopingsContainer or Scoping, optional
@@ -38,7 +38,7 @@ class total_pressure(Operator):
     qualifiers2: dict, optional
         (for Fluid results only) LabelSpace with combination of zone, phases or species ids
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -82,6 +82,9 @@ class total_pressure(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsTotalPressure
+    _outputs: OutputsTotalPressure
 
     def __init__(
         self,
@@ -220,7 +223,7 @@ class total_pressure(Operator):
         inputs:
             An instance of InputsTotalPressure.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsTotalPressure:
@@ -231,7 +234,7 @@ class total_pressure(Operator):
         outputs:
             An instance of OutputsTotalPressure.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsTotalPressure(_Inputs):

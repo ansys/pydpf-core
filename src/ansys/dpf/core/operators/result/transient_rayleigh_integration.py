@@ -19,8 +19,8 @@ class transient_rayleigh_integration(Operator):
     r"""Computes the transient Rayleigh integral
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
         the input field container expects acceleration fields
     mesh: MeshedRegion or MeshesContainer
@@ -36,7 +36,7 @@ class transient_rayleigh_integration(Operator):
     speed_of_sound: float
         Speed of sound (if it's not specified, default value of the speed of sound in the air is applied).
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -77,6 +77,9 @@ class transient_rayleigh_integration(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsTransientRayleighIntegration
+    _outputs: OutputsTransientRayleighIntegration
 
     def __init__(
         self,
@@ -203,7 +206,7 @@ class transient_rayleigh_integration(Operator):
         inputs:
             An instance of InputsTransientRayleighIntegration.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsTransientRayleighIntegration:
@@ -214,7 +217,7 @@ class transient_rayleigh_integration(Operator):
         outputs:
             An instance of OutputsTransientRayleighIntegration.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsTransientRayleighIntegration(_Inputs):

@@ -22,15 +22,15 @@ class gauss_to_node(Operator):
     tetrahedral, and quadratic tetrahedral
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field
     scoping: Scoping, optional
         Scoping to integrate on, if not provided, the one from input field is provided.
     mesh: MeshedRegion, optional
         Mesh to integrate on.
 
-    Returns
+    Outputs
     -------
     field: Field
 
@@ -59,6 +59,9 @@ class gauss_to_node(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsGaussToNode
+    _outputs: OutputsGaussToNode
 
     def __init__(self, field=None, scoping=None, mesh=None, config=None, server=None):
         super().__init__(name="gauss_to_node", config=config, server=server)
@@ -141,7 +144,7 @@ tetrahedral, and quadratic tetrahedral
         inputs:
             An instance of InputsGaussToNode.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsGaussToNode:
@@ -152,7 +155,7 @@ tetrahedral, and quadratic tetrahedral
         outputs:
             An instance of OutputsGaussToNode.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsGaussToNode(_Inputs):

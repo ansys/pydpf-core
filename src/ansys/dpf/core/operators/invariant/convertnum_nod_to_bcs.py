@@ -19,14 +19,14 @@ class convertnum_nod_to_bcs(Operator):
     r"""Converts a fields container from NOD to BCS ordering.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
         fields_container
     data_sources: DataSources
         Data_sources (must contain the full file).
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -52,6 +52,9 @@ class convertnum_nod_to_bcs(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsConvertnumNodToBcs
+    _outputs: OutputsConvertnumNodToBcs
 
     def __init__(
         self, fields_container=None, data_sources=None, config=None, server=None
@@ -125,7 +128,7 @@ class convertnum_nod_to_bcs(Operator):
         inputs:
             An instance of InputsConvertnumNodToBcs.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsConvertnumNodToBcs:
@@ -136,7 +139,7 @@ class convertnum_nod_to_bcs(Operator):
         outputs:
             An instance of OutputsConvertnumNodToBcs.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsConvertnumNodToBcs(_Inputs):

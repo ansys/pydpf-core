@@ -20,8 +20,8 @@ class connectivity_ids(Operator):
     input. For each element the node ids are its connectivity.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mesh_scoping: Scoping
         Elemental scoping
     mesh: MeshedRegion, optional
@@ -29,7 +29,7 @@ class connectivity_ids(Operator):
     take_mid_nodes: bool, optional
         default is true
 
-    Returns
+    Outputs
     -------
     mesh_scoping: Scoping
     elemental_scoping: Scoping
@@ -61,6 +61,9 @@ class connectivity_ids(Operator):
     >>> result_mesh_scoping = op.outputs.mesh_scoping()
     >>> result_elemental_scoping = op.outputs.elemental_scoping()
     """
+
+    _inputs: InputsConnectivityIds
+    _outputs: OutputsConnectivityIds
 
     def __init__(
         self,
@@ -154,7 +157,7 @@ input. For each element the node ids are its connectivity.
         inputs:
             An instance of InputsConnectivityIds.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsConnectivityIds:
@@ -165,7 +168,7 @@ input. For each element the node ids are its connectivity.
         outputs:
             An instance of OutputsConnectivityIds.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsConnectivityIds(_Inputs):

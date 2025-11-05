@@ -20,12 +20,12 @@ class invert_fc(Operator):
     component-wise inverse of a field (1./x).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
         field or fields container with only one field is expected
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -48,6 +48,9 @@ class invert_fc(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsInvertFc
+    _outputs: OutputsInvertFc
 
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="invert_fc", config=config, server=server)
@@ -112,7 +115,7 @@ component-wise inverse of a field (1./x).
         inputs:
             An instance of InputsInvertFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsInvertFc:
@@ -123,7 +126,7 @@ component-wise inverse of a field (1./x).
         outputs:
             An instance of OutputsInvertFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsInvertFc(_Inputs):

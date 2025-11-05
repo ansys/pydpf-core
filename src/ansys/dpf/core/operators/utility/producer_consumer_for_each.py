@@ -22,8 +22,8 @@ class producer_consumer_for_each(Operator):
     These 2 parts will run asynchronously on 2 threads.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     producer_consumer_iterableq:
         The result of the make_producer_consumer_for_each_iterator operator.
     forward1:
@@ -31,7 +31,7 @@ class producer_consumer_for_each(Operator):
     forward2:
         output of the last operators of the workflow
 
-    Returns
+    Outputs
     -------
     empty:
     output1:
@@ -64,6 +64,9 @@ class producer_consumer_for_each(Operator):
     >>> result_output1 = op.outputs.output1()
     >>> result_output2 = op.outputs.output2()
     """
+
+    _inputs: InputsProducerConsumerForEach
+    _outputs: OutputsProducerConsumerForEach
 
     def __init__(
         self,
@@ -164,7 +167,7 @@ These 2 parts will run asynchronously on 2 threads.
         inputs:
             An instance of InputsProducerConsumerForEach.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsProducerConsumerForEach:
@@ -175,7 +178,7 @@ These 2 parts will run asynchronously on 2 threads.
         outputs:
             An instance of OutputsProducerConsumerForEach.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsProducerConsumerForEach(_Inputs):

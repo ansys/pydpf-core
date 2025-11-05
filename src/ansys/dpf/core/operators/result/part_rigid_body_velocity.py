@@ -20,8 +20,8 @@ class part_rigid_body_velocity(Operator):
     the datasources.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     streams_container: StreamsContainer, optional
         result file container allowed to be kept open to cache data
     data_sources: DataSources
@@ -31,7 +31,7 @@ class part_rigid_body_velocity(Operator):
     unit_system: int or str or UnitSystem, optional
         (LSDyna) Unit System ID (int), semicolon-separated list of base unit strings (str) or UnitSystem instance
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -63,6 +63,9 @@ class part_rigid_body_velocity(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsPartRigidBodyVelocity
+    _outputs: OutputsPartRigidBodyVelocity
 
     def __init__(
         self,
@@ -163,7 +166,7 @@ the datasources.
         inputs:
             An instance of InputsPartRigidBodyVelocity.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsPartRigidBodyVelocity:
@@ -174,7 +177,7 @@ the datasources.
         outputs:
             An instance of OutputsPartRigidBodyVelocity.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsPartRigidBodyVelocity(_Inputs):

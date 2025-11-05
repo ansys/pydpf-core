@@ -19,8 +19,8 @@ class max_by_component(Operator):
     r"""Give the maximum for each element rank by comparing several fields.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     use_absolute_value: bool
         use_absolute_value
     field1: Field or FieldsContainer
@@ -28,7 +28,7 @@ class max_by_component(Operator):
     field2: Field or FieldsContainer
         field or fields container with only one field is expected
 
-    Returns
+    Outputs
     -------
     field: Field
 
@@ -57,6 +57,9 @@ class max_by_component(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsMaxByComponent
+    _outputs: OutputsMaxByComponent
 
     def __init__(
         self,
@@ -143,7 +146,7 @@ class max_by_component(Operator):
         inputs:
             An instance of InputsMaxByComponent.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMaxByComponent:
@@ -154,7 +157,7 @@ class max_by_component(Operator):
         outputs:
             An instance of OutputsMaxByComponent.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMaxByComponent(_Inputs):

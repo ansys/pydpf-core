@@ -20,13 +20,13 @@ class migrate_file_to_vtk(Operator):
     possible to vtk.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     output_filename: str, optional
     streams_container: StreamsContainer, optional
     data_sources: DataSources, optional
 
-    Returns
+    Outputs
     -------
     data_sources: DataSources
         Generated output vtk file
@@ -56,6 +56,9 @@ class migrate_file_to_vtk(Operator):
     >>> # Get output data
     >>> result_data_sources = op.outputs.data_sources()
     """
+
+    _inputs: InputsMigrateFileToVtk
+    _outputs: OutputsMigrateFileToVtk
 
     def __init__(
         self,
@@ -143,7 +146,7 @@ possible to vtk.
         inputs:
             An instance of InputsMigrateFileToVtk.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMigrateFileToVtk:
@@ -154,7 +157,7 @@ possible to vtk.
         outputs:
             An instance of OutputsMigrateFileToVtk.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMigrateFileToVtk(_Inputs):

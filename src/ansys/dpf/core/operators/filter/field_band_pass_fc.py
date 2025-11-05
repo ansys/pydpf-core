@@ -21,8 +21,8 @@ class field_band_pass_fc(Operator):
     threshold value in input.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
         field or fields container with only one field is expected
     min_threshold: float or Field
@@ -30,7 +30,7 @@ class field_band_pass_fc(Operator):
     max_threshold: float or Field, optional
         A maximum threshold scalar or a field containing one value is expected.
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -59,6 +59,9 @@ class field_band_pass_fc(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsFieldBandPassFc
+    _outputs: OutputsFieldBandPassFc
 
     def __init__(
         self,
@@ -147,7 +150,7 @@ threshold value in input.
         inputs:
             An instance of InputsFieldBandPassFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsFieldBandPassFc:
@@ -158,7 +161,7 @@ threshold value in input.
         outputs:
             An instance of OutputsFieldBandPassFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsFieldBandPassFc(_Inputs):

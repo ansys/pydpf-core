@@ -22,11 +22,11 @@ class window_bartlett(Operator):
     time_freq_interpolation before otherwise).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
 
-    Returns
+    Outputs
     -------
     field: Field or FieldsContainer
 
@@ -49,6 +49,9 @@ class window_bartlett(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsWindowBartlett
+    _outputs: OutputsWindowBartlett
 
     def __init__(self, field=None, config=None, server=None):
         super().__init__(name="window::bartlett", config=config, server=server)
@@ -114,7 +117,7 @@ time_freq_interpolation before otherwise).
         inputs:
             An instance of InputsWindowBartlett.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsWindowBartlett:
@@ -125,7 +128,7 @@ time_freq_interpolation before otherwise).
         outputs:
             An instance of OutputsWindowBartlett.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsWindowBartlett(_Inputs):

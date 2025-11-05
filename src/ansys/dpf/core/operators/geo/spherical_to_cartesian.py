@@ -19,11 +19,11 @@ class spherical_to_cartesian(Operator):
     r"""Converts 3D field from spherical coordinates to cartesian coordinates.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
 
-    Returns
+    Outputs
     -------
     field: Field
 
@@ -46,6 +46,9 @@ class spherical_to_cartesian(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsSphericalToCartesian
+    _outputs: OutputsSphericalToCartesian
 
     def __init__(self, field=None, config=None, server=None):
         super().__init__(name="spherical_to_cartesian", config=config, server=server)
@@ -109,7 +112,7 @@ class spherical_to_cartesian(Operator):
         inputs:
             An instance of InputsSphericalToCartesian.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsSphericalToCartesian:
@@ -120,7 +123,7 @@ class spherical_to_cartesian(Operator):
         outputs:
             An instance of OutputsSphericalToCartesian.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsSphericalToCartesian(_Inputs):

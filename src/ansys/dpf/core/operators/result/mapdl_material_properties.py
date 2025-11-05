@@ -30,15 +30,15 @@ class mapdl_material_properties(Operator):
     (key: EMIS).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     properties_name: str
     materials: PropertyField
         Property field that contains a material id per element.
     streams_container: StreamsContainer
     data_sources: DataSources
 
-    Returns
+    Outputs
     -------
     properties_value: FieldsContainer
 
@@ -70,6 +70,9 @@ class mapdl_material_properties(Operator):
     >>> # Get output data
     >>> result_properties_value = op.outputs.properties_value()
     """
+
+    _inputs: InputsMapdlMaterialProperties
+    _outputs: OutputsMapdlMaterialProperties
 
     def __init__(
         self,
@@ -176,7 +179,7 @@ Resistivity (keys: RSVX, RSVY, RSVZ), Specific heat in constant volume
         inputs:
             An instance of InputsMapdlMaterialProperties.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMapdlMaterialProperties:
@@ -187,7 +190,7 @@ Resistivity (keys: RSVX, RSVY, RSVZ), Specific heat in constant volume
         outputs:
             An instance of OutputsMapdlMaterialProperties.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMapdlMaterialProperties(_Inputs):

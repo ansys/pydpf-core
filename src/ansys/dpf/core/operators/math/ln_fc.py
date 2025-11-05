@@ -19,12 +19,12 @@ class ln_fc(Operator):
     r"""Computes element-wise ln(field[i]).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
         field or fields container with only one field is expected
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -47,6 +47,9 @@ class ln_fc(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsLnFc
+    _outputs: OutputsLnFc
 
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="ln_fc", config=config, server=server)
@@ -110,7 +113,7 @@ class ln_fc(Operator):
         inputs:
             An instance of InputsLnFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsLnFc:
@@ -121,7 +124,7 @@ class ln_fc(Operator):
         outputs:
             An instance of OutputsLnFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsLnFc(_Inputs):

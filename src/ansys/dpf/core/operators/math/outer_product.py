@@ -19,14 +19,14 @@ class outer_product(Operator):
     r"""Computes the outer product of two vector fields.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fieldA: Field or FieldsContainer or float
         field or fields container with only one field is expected
     fieldB: Field or FieldsContainer or float
         field or fields container with only one field is expected
 
-    Returns
+    Outputs
     -------
     field: Field
 
@@ -52,6 +52,9 @@ class outer_product(Operator):
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
+
+    _inputs: InputsOuterProduct
+    _outputs: OutputsOuterProduct
 
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
         super().__init__(name="outer_product", config=config, server=server)
@@ -133,7 +136,7 @@ class outer_product(Operator):
         inputs:
             An instance of InputsOuterProduct.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsOuterProduct:
@@ -144,7 +147,7 @@ class outer_product(Operator):
         outputs:
             An instance of OutputsOuterProduct.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsOuterProduct(_Inputs):

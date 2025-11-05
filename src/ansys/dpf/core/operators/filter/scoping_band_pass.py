@@ -21,8 +21,8 @@ class scoping_band_pass(Operator):
     threshold value in input.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     field: Field or FieldsContainer
         field or fields container with only one field is expected
     min_threshold: float or Field
@@ -30,7 +30,7 @@ class scoping_band_pass(Operator):
     max_threshold: float or Field, optional
         A maximum threshold scalar or a field containing one value is expected.
 
-    Returns
+    Outputs
     -------
     scoping: Scoping
 
@@ -59,6 +59,9 @@ class scoping_band_pass(Operator):
     >>> # Get output data
     >>> result_scoping = op.outputs.scoping()
     """
+
+    _inputs: InputsScopingBandPass
+    _outputs: OutputsScopingBandPass
 
     def __init__(
         self,
@@ -147,7 +150,7 @@ threshold value in input.
         inputs:
             An instance of InputsScopingBandPass.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsScopingBandPass:
@@ -158,7 +161,7 @@ threshold value in input.
         outputs:
             An instance of OutputsScopingBandPass.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsScopingBandPass(_Inputs):

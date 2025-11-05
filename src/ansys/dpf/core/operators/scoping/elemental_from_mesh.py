@@ -20,11 +20,11 @@ class elemental_from_mesh(Operator):
     the element IDs.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mesh: MeshedRegion
 
-    Returns
+    Outputs
     -------
     mesh_scoping: Scoping
 
@@ -47,6 +47,9 @@ class elemental_from_mesh(Operator):
     >>> # Get output data
     >>> result_mesh_scoping = op.outputs.mesh_scoping()
     """
+
+    _inputs: InputsElementalFromMesh
+    _outputs: OutputsElementalFromMesh
 
     def __init__(self, mesh=None, config=None, server=None):
         super().__init__(name="GetElementScopingFromMesh", config=config, server=server)
@@ -111,7 +114,7 @@ the element IDs.
         inputs:
             An instance of InputsElementalFromMesh.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsElementalFromMesh:
@@ -122,7 +125,7 @@ the element IDs.
         outputs:
             An instance of OutputsElementalFromMesh.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsElementalFromMesh(_Inputs):

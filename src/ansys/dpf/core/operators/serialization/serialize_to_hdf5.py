@@ -20,8 +20,8 @@ class serialize_to_hdf5(Operator):
     instead. Serialize the inputs in an hdf5 format.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     file_path: str
         output file path with .h5 extension
     export_floats: bool, optional
@@ -33,7 +33,7 @@ class serialize_to_hdf5(Operator):
     data2:
         only the data set explicitly to export is exported
 
-    Returns
+    Outputs
     -------
 
     Examples
@@ -65,6 +65,9 @@ class serialize_to_hdf5(Operator):
     ... )
 
     """
+
+    _inputs: InputsSerializeToHdf5
+    _outputs: OutputsSerializeToHdf5
 
     def __init__(
         self,
@@ -163,7 +166,7 @@ instead. Serialize the inputs in an hdf5 format.
         inputs:
             An instance of InputsSerializeToHdf5.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsSerializeToHdf5:
@@ -174,7 +177,7 @@ instead. Serialize the inputs in an hdf5 format.
         outputs:
             An instance of OutputsSerializeToHdf5.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsSerializeToHdf5(_Inputs):

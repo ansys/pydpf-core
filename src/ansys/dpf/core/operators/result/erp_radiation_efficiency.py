@@ -19,8 +19,8 @@ class erp_radiation_efficiency(Operator):
     r"""Compute the radiation efficiency (enhanced erp divided by classical erp)
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
         the input field container expects displacements fields
     mesh: MeshedRegion or MeshesContainer
@@ -32,7 +32,7 @@ class erp_radiation_efficiency(Operator):
     speed_of_sound: float
         speed of sound (if it's not specified, default value of the speed of sound in the air is applied).
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
 
@@ -67,6 +67,9 @@ class erp_radiation_efficiency(Operator):
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
+
+    _inputs: InputsErpRadiationEfficiency
+    _outputs: OutputsErpRadiationEfficiency
 
     def __init__(
         self,
@@ -171,7 +174,7 @@ class erp_radiation_efficiency(Operator):
         inputs:
             An instance of InputsErpRadiationEfficiency.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsErpRadiationEfficiency:
@@ -182,7 +185,7 @@ class erp_radiation_efficiency(Operator):
         outputs:
             An instance of OutputsErpRadiationEfficiency.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsErpRadiationEfficiency(_Inputs):

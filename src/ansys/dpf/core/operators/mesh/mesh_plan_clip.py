@@ -19,15 +19,15 @@ class mesh_plan_clip(Operator):
     r"""Clips a volume mesh along a plane and keeps one side.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     mesh_or_field: MeshedRegion or Field
     normal: Field
         An overall 3D vector that gives the normal direction of the plane.
     origin: Field
         An overall 3D vector that gives a point of the plane.
 
-    Returns
+    Outputs
     -------
     field: Field
     mesh: MeshedRegion
@@ -58,6 +58,9 @@ class mesh_plan_clip(Operator):
     >>> result_field = op.outputs.field()
     >>> result_mesh = op.outputs.mesh()
     """
+
+    _inputs: InputsMeshPlanClip
+    _outputs: OutputsMeshPlanClip
 
     def __init__(
         self, mesh_or_field=None, normal=None, origin=None, config=None, server=None
@@ -145,7 +148,7 @@ class mesh_plan_clip(Operator):
         inputs:
             An instance of InputsMeshPlanClip.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMeshPlanClip:
@@ -156,7 +159,7 @@ class mesh_plan_clip(Operator):
         outputs:
             An instance of OutputsMeshPlanClip.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMeshPlanClip(_Inputs):

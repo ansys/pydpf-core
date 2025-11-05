@@ -21,8 +21,8 @@ class remove_rigid_body_motion_fc(Operator):
     result displacement field.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     fields_container: FieldsContainer
         field or fields container with only one field is expected
     reference_node_id: int, optional
@@ -30,7 +30,7 @@ class remove_rigid_body_motion_fc(Operator):
     mesh: MeshedRegion, optional
         default is the mesh in the support
 
-    Returns
+    Outputs
     -------
     fields_container: FieldsContainer
     translation_field: Field
@@ -68,6 +68,9 @@ class remove_rigid_body_motion_fc(Operator):
     >>> result_rotation_field = op.outputs.rotation_field()
     >>> result_center_field = op.outputs.center_field()
     """
+
+    _inputs: InputsRemoveRigidBodyMotionFc
+    _outputs: OutputsRemoveRigidBodyMotionFc
 
     def __init__(
         self,
@@ -174,7 +177,7 @@ result displacement field.
         inputs:
             An instance of InputsRemoveRigidBodyMotionFc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsRemoveRigidBodyMotionFc:
@@ -185,7 +188,7 @@ result displacement field.
         outputs:
             An instance of OutputsRemoveRigidBodyMotionFc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsRemoveRigidBodyMotionFc(_Inputs):

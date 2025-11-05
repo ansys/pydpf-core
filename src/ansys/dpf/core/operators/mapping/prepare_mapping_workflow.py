@@ -19,15 +19,15 @@ class prepare_mapping_workflow(Operator):
     r"""Generates a workflow that can map results from a support to another one.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     input_support: Field or MeshedRegion
     output_support: Field or MeshedRegion
     filter_radius: float
         Radius size for the RBF filter
     influence_box: float, optional
 
-    Returns
+    Outputs
     -------
     mapping_workflow: Workflow
 
@@ -59,6 +59,9 @@ class prepare_mapping_workflow(Operator):
     >>> # Get output data
     >>> result_mapping_workflow = op.outputs.mapping_workflow()
     """
+
+    _inputs: InputsPrepareMappingWorkflow
+    _outputs: OutputsPrepareMappingWorkflow
 
     def __init__(
         self,
@@ -154,7 +157,7 @@ class prepare_mapping_workflow(Operator):
         inputs:
             An instance of InputsPrepareMappingWorkflow.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsPrepareMappingWorkflow:
@@ -165,7 +168,7 @@ class prepare_mapping_workflow(Operator):
         outputs:
             An instance of OutputsPrepareMappingWorkflow.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsPrepareMappingWorkflow(_Inputs):

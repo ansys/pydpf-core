@@ -19,8 +19,8 @@ class mesh_to_pyvista(Operator):
     r"""Export a MeshedRegion in the pyVista format.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     coordinates: Field, optional
         Node coordinates. If not set, the node coordinates of the mesh are employed.
     as_linear: bool, optional
@@ -32,7 +32,7 @@ class mesh_to_pyvista(Operator):
     as_poly: bool, optional
         Export elements as polyhedrons (cell-face-node representation). Default false.
 
-    Returns
+    Outputs
     -------
     nodes: Field
         Node coordinates double vector
@@ -77,6 +77,9 @@ class mesh_to_pyvista(Operator):
     >>> result_cell_types = op.outputs.cell_types()
     >>> result_offsets = op.outputs.offsets()
     """
+
+    _inputs: InputsMeshToPyvista
+    _outputs: OutputsMeshToPyvista
 
     def __init__(
         self,
@@ -199,7 +202,7 @@ class mesh_to_pyvista(Operator):
         inputs:
             An instance of InputsMeshToPyvista.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMeshToPyvista:
@@ -210,7 +213,7 @@ class mesh_to_pyvista(Operator):
         outputs:
             An instance of OutputsMeshToPyvista.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMeshToPyvista(_Inputs):

@@ -19,14 +19,14 @@ class merge_scopings(Operator):
     r"""Assembles a set of scopings into a unique one.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     scopings1: Scoping or ScopingsContainer
         Either a scopings container, a vector of scopings to merge, or scopings from pin 0 to ...
     scopings2: Scoping or ScopingsContainer
         Either a scopings container, a vector of scopings to merge, or scopings from pin 0 to ...
 
-    Returns
+    Outputs
     -------
     merged_scoping: Scoping
 
@@ -52,6 +52,9 @@ class merge_scopings(Operator):
     >>> # Get output data
     >>> result_merged_scoping = op.outputs.merged_scoping()
     """
+
+    _inputs: InputsMergeScopings
+    _outputs: OutputsMergeScopings
 
     def __init__(self, scopings1=None, scopings2=None, config=None, server=None):
         super().__init__(name="merge::scoping", config=config, server=server)
@@ -123,7 +126,7 @@ class merge_scopings(Operator):
         inputs:
             An instance of InputsMergeScopings.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMergeScopings:
@@ -134,7 +137,7 @@ class merge_scopings(Operator):
         outputs:
             An instance of OutputsMergeScopings.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMergeScopings(_Inputs):

@@ -21,11 +21,11 @@ class workflow_to_workflow_topology(Operator):
     connections, data connections, and exposed pins.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     workflow: Workflow
 
-    Returns
+    Outputs
     -------
     workflow_topology: GenericDataContainer
 
@@ -48,6 +48,9 @@ class workflow_to_workflow_topology(Operator):
     >>> # Get output data
     >>> result_workflow_topology = op.outputs.workflow_topology()
     """
+
+    _inputs: InputsWorkflowToWorkflowTopology
+    _outputs: OutputsWorkflowToWorkflowTopology
 
     def __init__(self, workflow=None, config=None, server=None):
         super().__init__(
@@ -118,7 +121,7 @@ connections, data connections, and exposed pins.
         inputs:
             An instance of InputsWorkflowToWorkflowTopology.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsWorkflowToWorkflowTopology:
@@ -129,7 +132,7 @@ connections, data connections, and exposed pins.
         outputs:
             An instance of OutputsWorkflowToWorkflowTopology.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsWorkflowToWorkflowTopology(_Inputs):
