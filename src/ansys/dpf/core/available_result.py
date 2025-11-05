@@ -200,8 +200,6 @@ class AvailableResult:
         """Result operator."""
         if self._properties and "scripting_name" in self._properties.keys():
             name = self._properties["scripting_name"]
-        elif self.operator_name in _result_properties:
-            name = _result_properties[self.operator_name]["scripting_name"]
         else:
             name = _remove_spaces(self._physics_name)
         return _make_as_function_name(name)
@@ -266,8 +264,8 @@ class AvailableResult:
         """Native location of the result."""
         if hasattr(self, "_properties") and "location" in self._properties.keys():
             return self._properties["location"]
-        if self.operator_name in _result_properties:
-            return _result_properties[self.operator_name]["location"]
+        else:
+            return ""
 
     @property
     def native_scoping_location(self):
@@ -305,60 +303,6 @@ class AvailableResult:
         Each combination is a dictionary which can be used for a result request.
         """
         return [q.__dict__() for q in self.qualifiers]
-
-
-_result_properties = {
-    "S": {"location": "ElementalNodal", "scripting_name": "stress"},
-    "ENF": {"location": "ElementalNodal", "scripting_name": "element_nodal_forces"},
-    "EPEL": {"location": "ElementalNodal", "scripting_name": "elastic_strain"},
-    "EPPL": {"location": "ElementalNodal", "scripting_name": "plastic_strain"},
-    "EPCR": {"location": "ElementalNodal", "scripting_name": "creep_strain"},
-    "BFE": {"location": "ElementalNodal", "scripting_name": "structural_temperature"},
-    "ETH": {"location": "ElementalNodal", "scripting_name": "thermal_strain"},
-    "ETH_SWL": {"location": "ElementalNodal", "scripting_name": "swelling_strains"},
-    "ENG_VOL": {"location": "Elemental", "scripting_name": "elemental_volume"},
-    "ENG_SE": {"location": "Elemental", "scripting_name": "stiffness_matrix_energy"},
-    "ENG_AHO": {
-        "location": "Elemental",
-        "scripting_name": "artificial_hourglass_energy",
-    },
-    "ENG_KE": {"location": "Elemental", "scripting_name": "kinetic_energy"},
-    "ENG_CO": {"location": "Elemental", "scripting_name": "co_energy"},
-    "ENG_INC": {"location": "Elemental", "scripting_name": "incremental_energy"},
-    "ENG_TH": {"location": "Elemental", "scripting_name": "thermal_dissipation_energy"},
-    "U": {"location": "Nodal", "scripting_name": "displacement"},
-    "V": {"location": "Nodal", "scripting_name": "velocity"},
-    "A": {"location": "Nodal", "scripting_name": "acceleration"},
-    "RF": {"location": "Nodal", "scripting_name": "reaction_force"},
-    "F": {"location": "Nodal", "scripting_name": "nodal_force"},
-    "M": {"location": "Nodal", "scripting_name": "nodal_moment"},
-    "TEMP": {"location": "Nodal", "scripting_name": "temperature"},
-    "EF": {"location": "ElementalNodal", "scripting_name": "electric_field"},
-    "VOLT": {"location": "Nodal", "scripting_name": "electric_potential"},
-    "TF": {"location": "ElementalNodal", "scripting_name": "heat_flux"},
-    "UTOT": {"location": "Nodal", "scripting_name": "raw_displacement"},
-    "RFTOT": {"location": "Nodal", "scripting_name": "raw_reaction_force"},
-    "ECT_STAT": {"location": "ElementalNodal", "scripting_name": "contact_status"},
-    "ECT_PRES": {"location": "ElementalNodal", "scripting_name": "contact_pressure"},
-    "ECT_PENE": {"location": "ElementalNodal", "scripting_name": "contact_penetration"},
-    "ECT_SLIDE": {"location": "ElementalNodal", "scripting_name": "contact_sliding_distance"},
-    "ECT_GAP": {"location": "ElementalNodal", "scripting_name": "contact_gap_distance"},
-    "ECT_SFRIC": {"location": "ElementalNodal", "scripting_name": "contact_friction_stress"},
-    "ECT_STOT": {"location": "ElementalNodal", "scripting_name": "contact_total_stress"},
-    "ECT_FRES": {
-        "location": "ElementalNodal",
-        "scripting_name": "contact_fluid_penetration_pressure",
-    },
-    "ECT_FLUX": {"location": "ElementalNodal", "scripting_name": "contact_surface_heat_flux"},
-    "B_N": {"location": "ElementalNodal", "scripting_name": "beam_axial_force"},
-    "B_M1": {"location": "ElementalNodal", "scripting_name": "beam_s_bending_moment"},
-    "B_M2": {"location": "ElementalNodal", "scripting_name": "beam_t_bending_moment"},
-    "B_MT": {"location": "ElementalNodal", "scripting_name": "beam_torsional_moment"},
-    "B_SN": {"location": "ElementalNodal", "scripting_name": "beam_axial_stress"},
-    "B_EL": {"location": "ElementalNodal", "scripting_name": "beam_axial_total_strain"},
-    "B_T1": {"location": "ElementalNodal", "scripting_name": "beam_s_shear_force"},
-    "B_T2": {"location": "ElementalNodal", "scripting_name": "beam_t_shear_force"},
-}
 
 
 def available_result_from_name(name) -> AvailableResult:

@@ -272,12 +272,7 @@ class Result:
         self._mesh_scoping = None
         self._location = None
         self._mesh_by_default = mesh_by_default
-        if isinstance(result_info, str):
-            from ansys.dpf.core.available_result import available_result_from_name
-
-            self._result_info = available_result_from_name(result_info)
-        else:
-            self._result_info = result_info
+        self._result_info = result_info
         self._specific_fc_type = None
         from ansys.dpf.core import operators
 
@@ -644,8 +639,9 @@ class CommonResults(Results):
     of the class:'Results'.
     """
 
-    def __init__(self, connector, mesh_by_default, result_info, server):
-        super().__init__(connector, mesh_by_default, result_info, server, False)
+    def __init__(self, connector, result_info, mesh_by_default, server):
+        self._result_info = result_info
+        super().__init__(connector, result_info, mesh_by_default, server, False)
         self._op_map_rev = dict(
             displacement="displacement",
             stress="stress",
@@ -678,7 +674,7 @@ class CommonResults(Results):
         >>> disp = disp.on_last_time_freq.on_named_selection("_CONSTRAINEDNODES")
         >>> last_time_disp = disp.eval()
         """
-        return super().__result__("displacement")
+        return super().__result__(self._result_info["displacement"])
 
     @property
     def elastic_strain(self):
@@ -704,7 +700,7 @@ class CommonResults(Results):
         >>> strain = strain.on_last_time_freq.on_named_selection("_CONSTRAINEDNODES")
         >>> last_time_disp = strain.eval()
         """
-        return super().__result__("elastic_strain")
+        return super().__result__(self._result_info["elastic_strain"])
 
     @property
     def stress(self):
@@ -730,7 +726,7 @@ class CommonResults(Results):
         >>> stress = stress.on_last_time_freq.on_named_selection("_CONSTRAINEDNODES")
         >>> last_time_disp = stress.eval()
         """
-        return super().__result__("stress")
+        return super().__result__(self._result_info["stress"])
 
     @property
     def structural_temperature(self):
@@ -756,7 +752,7 @@ class CommonResults(Results):
         >>> structural_temperature = structural_temperature.on_last_time_freq()
         >>> last_time_disp = structural_temperature.eval()
         """
-        return super().__result__("structural_temperature")
+        return super().__result__(self._result_info["structural_temperature"])
 
     @property
     def temperature(self):
@@ -781,7 +777,7 @@ class CommonResults(Results):
         >>> temperature = model.results.temperature.on_last_time_freq()
         >>> last_time_disp = temperature.eval()
         """
-        return super().__result__("temperature")
+        return super().__result__(self._result_info["temperature"])
 
     @property
     def electric_potential(self):
@@ -806,4 +802,4 @@ class CommonResults(Results):
         >>> electric_potential = model.results.electric_potential.on_first_time_freq()
         >>> last_time_disp = electric_potential.eval()
         """
-        return super().__result__("electric_potential")
+        return super().__result__(self._result_info["electric_potential"])
