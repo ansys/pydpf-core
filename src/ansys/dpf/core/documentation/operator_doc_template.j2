@@ -11,7 +11,13 @@ license: {{ scripting_info.license }}
 ## Description
 
 {{ operator_description }}
+{% if is_router %}
+## Supported file types
 
+This operator supports the following keys ([file formats](../../index.md#overview-of-dpf)) for each listed namespace (plugin/solver):
+{% for namespace, supported_files in supported_file_types.items() | sort %}
+- {{ namespace }}: {{ supported_files }} {% endfor %}
+{% endif %}
 ## Inputs
 
 | Input | Name | Expected type(s) | Description |
