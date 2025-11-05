@@ -358,7 +358,11 @@ def get_plugin_operators(server: dpf.AnyServerType, plugin_name: str) -> list[st
 
 
 def generate_operator_doc(
-    server: dpf.AnyServerType, operator_name: str, include_private: bool, output_path: Path
+    server: dpf.AnyServerType,
+    operator_name: str,
+    include_private: bool,
+    output_path: Path,
+    router_info: dict = None,
 ):
     """Write the Markdown documentation page for a given operator on a given DPF server.
 
@@ -372,9 +376,28 @@ def generate_operator_doc(
         Whether to generate the documentation if the operator is private.
     output_path:
         Path to write the operator documentation at.
+    router_info:
+        Information about router operators.
 
     """
     operator_info = fetch_doc_info(server, operator_name)
+    supported_file_types = {}
+    if router_info is not None:
+        operator_info["is_router"] = operator_name in router_info["router_map"].keys()
+        if operator_info["is_router"]:
+            supported_keys = router_info["router_map"].get(operator_name, []).split(";")
+            for key in supported_keys:
+                if key in router_info["namespace_ext_map"]:
+                    namespace = router_info["namespace_ext_map"][key]
+                    if namespace not in supported_file_types:
+                        supported_file_types[namespace] = [key]
+                    else:
+                        supported_file_types[namespace].append(key)
+        for namespace, supported_keys in supported_file_types.items():
+            supported_file_types[namespace] = ", ".join(sorted(supported_keys))
+    else:
+        operator_info["is_router"] = False
+    operator_info["supported_file_types"] = supported_file_types
     scripting_name = operator_info["scripting_info"]["scripting_name"]
     category: str = operator_info["scripting_info"]["category"]
     if scripting_name:
@@ -385,7 +408,7 @@ def generate_operator_doc(
         file_name = file_name.replace("::", "_")
     if not include_private and operator_info["exposure"] == "private":
         return
-    template_path = Path(__file__).parent / "operator_doc_template.md"
+    template_path = Path(__file__).parent / "operator_doc_template.j2"
     spec_folder = output_path / Path("operator-specifications")
     category_dir = spec_folder / category
     spec_folder.mkdir(parents=True, exist_ok=True)
@@ -504,6 +527,30 @@ def update_operator_index(docs_path: Path):
                 index_file.write("\n")
 
 
+def get_operator_routing_info(server: dpf.AnyServerType) -> dict:
+    """Get information about router operators.
+
+    Parameters
+    ----------
+    server:
+        DPF server to query for the operator routing map.
+
+    Returns
+    -------
+    routing_map:
+        A dictionary with three main keys: "aliases", "namespace_ext_map", and "router_map".
+        "aliases" is a dictionary of operator aliases.
+        "namespace_ext_map" is a dictionary mapping keys to namespaces.
+        "router_map" is a dictionary mapping operator names to lists of supported keys.
+    """
+    dt_root: dpf.DataTree = dpf.dpf_operator.Operator(
+        name="info::router_discovery",
+        server=server,
+    ).eval()
+    router_info: dict = dt_root.to_dict()
+    return router_info
+
+
 def generate_operators_doc(
     output_path: Path,
     ansys_path: Path = None,
@@ -542,8 +589,12 @@ def generate_operators_doc(
         operators = available_operator_names(server)
     else:
         operators = get_plugin_operators(server, desired_plugin)
+    if server.meet_version(required_version="11.0"):
+        router_info = get_operator_routing_info(server)
+    else:
+        router_info = None
     for operator_name in operators:
-        generate_operator_doc(server, operator_name, include_private, output_path)
+        generate_operator_doc(server, operator_name, include_private, output_path, router_info)
     # Generate the toc tree
     update_toc_tree(output_path)
     # Generate the category index files
