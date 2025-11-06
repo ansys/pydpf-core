@@ -1059,4 +1059,4 @@ class Workflow:
             spec = dpf.core.dpf_operator.Operator.operator_specification(op_name, self._server)
             plugin_name = spec.properties["plugin"]
             out.append(plugin_name)
-        return list(set(out))
+        return sorted(list(set(out)))
