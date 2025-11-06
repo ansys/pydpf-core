@@ -1101,6 +1101,18 @@ def test_workflow_get_output_derived_class(server_type):
     assert workflow_topology
 
 
+def test_required_plugins(server_type):
+    wf = dpf.core.Workflow(server=server_type)
+    op1 = dpf.core.Operator("html_doc", server=server_type)  # from 'documentation' plugin
+    op2 = dpf.core.Operator("U", server=server_type)  # from 'core' plugin
+    wf.add_operators([op1, op2])
+    plugins = wf.required_plugins()
+    assert isinstance(plugins, list)
+    assert op1.specification.properties["plugin"] in plugins
+    assert op2.specification.properties["plugin"] in plugins
+    assert len(plugins) >= 2
+
+
 def main():
     test_connect_field_workflow()
     velocity_acceleration = conftest.resolve_test_file("velocity_acceleration.rst", "rst_operators")
