@@ -1103,7 +1103,7 @@ def test_workflow_get_output_derived_class(server_type):
 
 def test_required_plugins(server_type):
     wf = dpf.core.Workflow(server=server_type)
-    op1 = dpf.core.Operator("html_doc", server=server_type)  # from 'documentation' plugin
+    op1 = dpf.core.Operator("csv_to_field", server=server_type)  # from 'csv' plugin
     op2 = dpf.core.Operator("U", server=server_type)  # from 'core' plugin
     wf.add_operators([op1, op2])
     plugins = wf.required_plugins()

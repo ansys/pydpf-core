@@ -1046,11 +1046,11 @@ class Workflow:
         --------
         >>> from ansys.dpf import core as dpf
         >>> wf = dpf.Workflow()
-        >>> op1 = dpf.Operator("html_doc")  # from 'documentation' plugin
+        >>> op1 = dpf.Operator("csv_to_field")  # from 'csv' plugin
         >>> op2 = dpf.Operator("U")         # from 'core' plugin
         >>> wf.add_operators([op1, op2])
         >>> wf.required_plugins()
-        ['core', 'documentation']
+        ['core', 'csv']
         """
         num = self._api.work_flow_number_of_operators(self)
         out = []
