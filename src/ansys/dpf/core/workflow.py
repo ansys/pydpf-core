@@ -1039,7 +1039,7 @@ class Workflow:
         Returns
         -------
         plugins:
-            List of plugins used by the workflow.
+            List of plugins used by the workflow ordered alphabetically.
             The plugin name reported is the one set when loading the plugin.
 
         Examples
