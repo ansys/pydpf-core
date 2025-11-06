@@ -26,13 +26,15 @@ from enum import Enum
 from textwrap import wrap
 import warnings
 import weakref
+from typing import TypeVar, Generic
 
 from ansys.dpf import core
 from ansys.dpf.core.mapping_types import map_types_to_python
 from ansys.dpf.core.outputs import Output, _Outputs
 
+T = TypeVar("T")
 
-class Input:
+class Input(Generic[T]):
     """
     Intermediate class internally instantiated by the :class:`ansys.dpf.core.dpf_operator.Operator`.
 
@@ -70,7 +72,7 @@ class Input:
             self.name += str(self._count_ellipsis + 1)
         self._update_doc_str(docstr, self.name)
 
-    def connect(self, inpt):
+    def connect(self, inpt: T):
         """Connect any input (entity or operator output) to a specified input pin of this operator.
 
         Parameters
@@ -173,7 +175,7 @@ class Input:
 
         self.__inc_if_ellipsis()
 
-    def __call__(self, inpt):
+    def __call__(self, inpt: T):
         """Allow instances to be called like a function."""
         self.connect(inpt)
 

@@ -25,6 +25,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+{{#annotation_import_list}}
+from {{definition_location}} import {{class_name}}
+{{/annotation_import_list}}
+
 
 class {{class_name}}(Operator):
     r"""{{{docstring}}}
@@ -223,13 +228,13 @@ class Inputs{{capital_class_name}}(_Inputs):
     def __init__(self, op: Operator):
         super().__init__({{class_name}}._spec().inputs, op)
         {{#input_pins}}
-        self._{{name}} = Input({{class_name}}._spec().input_pin({{id}}), {{id}}, op, {{ellipsis}})
+        self._{{name}}: Input[{{type_list_for_annotation}}] = Input({{class_name}}._spec().input_pin({{id}}), {{id}}, op, {{ellipsis}})
         self._inputs.append(self._{{name}})
         {{/input_pins}}
     {{#input_pins}}
 
     @property
-    def {{name}}(self) -> Input:
+    def {{name}}(self) -> Input[{{type_list_for_annotation}}]:
         r"""Allows to connect {{name}} input to the operator.
         {{#document_pin_docstring}}
 
@@ -297,7 +302,7 @@ class Outputs{{capital_class_name}}(_Outputs):
 {{^multiple_types}}
 
     @property
-    def {{name}}(self) -> Output:
+    def {{name}}(self) -> Output[{{type_list_for_annotation}}]:
         r"""Allows to get {{name}} output of the operator
         {{#document_pin_docstring}}
 
