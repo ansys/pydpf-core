@@ -1050,7 +1050,7 @@ class Workflow:
         >>> op2 = dpf.Operator("U")         # from 'core' plugin
         >>> wf.add_operators([op1, op2])
         >>> wf.required_plugins()
-        ['documentation', 'core']
+        ['core', 'documentation']
         """
         num = self._api.work_flow_number_of_operators(self)
         out = []
