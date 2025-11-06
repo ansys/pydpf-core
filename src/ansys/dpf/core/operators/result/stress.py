@@ -14,16 +14,6 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
-# For type checking
-from ansys.dpf.core.field import Field
-from ansys.dpf.core.scopings_container import ScopingsContainer
-from ansys.dpf.core.meshes_container import MeshesContainer
-from ansys.dpf.core.meshed_region import MeshedRegion
-from ansys.dpf.core.scoping import Scoping
-from ansys.dpf.core.streams_container import StreamsContainer
-from ansys.dpf.core.fields_container import FieldsContainer
-from ansys.dpf.core.data_sources import DataSources
-
 
 class stress(Operator):
     r"""Read/compute element nodal component stresses by calling the readers
@@ -663,7 +653,7 @@ class InputsStress(_Inputs):
         self._inputs.append(self._extend_to_mid_nodes)
 
     @property
-    def time_scoping(self) -> Input[Scoping | int | float | Field]:
+    def time_scoping(self) -> Input:
         r"""Allows to connect time_scoping input to the operator.
 
         time/freq values (use doubles or field), time/freq set ids (use ints or scoping) or time/freq step ids (use scoping with TimeFreq_steps location) required in output. To specify time/freq values at specific load steps, put a Field (and not a list) in input with a scoping located on "TimeFreq_steps". Linear time freq intrapolation is performed if the values are not in the result files and the data at the max time or freq is taken when time/freqs are higher than available time/freqs in result files. To get all data for all time/freq sets, connect an int with value -1.
@@ -684,7 +674,7 @@ class InputsStress(_Inputs):
         return self._time_scoping
 
     @property
-    def mesh_scoping(self) -> Input[ScopingsContainer | Scoping]:
+    def mesh_scoping(self) -> Input:
         r"""Allows to connect mesh_scoping input to the operator.
 
         nodes or elements scoping required in output. The output fields will be scoped on these node or element IDs. To figure out the ordering of the fields data, look at their scoping IDs as they might not be ordered as the input scoping was. The scoping's location indicates whether nodes or elements are asked for. Using scopings container allows you to split the result fields container into domains
@@ -705,7 +695,7 @@ class InputsStress(_Inputs):
         return self._mesh_scoping
 
     @property
-    def fields_container(self) -> Input[FieldsContainer]:
+    def fields_container(self) -> Input:
         r"""Allows to connect fields_container input to the operator.
 
         Fields container already allocated modified inplace
@@ -726,7 +716,7 @@ class InputsStress(_Inputs):
         return self._fields_container
 
     @property
-    def streams_container(self) -> Input[StreamsContainer]:
+    def streams_container(self) -> Input:
         r"""Allows to connect streams_container input to the operator.
 
         result file container allowed to be kept open to cache data
@@ -747,7 +737,7 @@ class InputsStress(_Inputs):
         return self._streams_container
 
     @property
-    def data_sources(self) -> Input[DataSources]:
+    def data_sources(self) -> Input:
         r"""Allows to connect data_sources input to the operator.
 
         result file path container, used if no streams are set
@@ -768,7 +758,7 @@ class InputsStress(_Inputs):
         return self._data_sources
 
     @property
-    def bool_rotate_to_global(self) -> Input[bool]:
+    def bool_rotate_to_global(self) -> Input:
         r"""Allows to connect bool_rotate_to_global input to the operator.
 
         if true the field is rotated to global coordinate system (default true). Please check your results carefully if 'false' is used for Elemental or ElementalNodal results averaged to the Nodes when adjacent elements do not share the same coordinate system, as results may be incorrect.
@@ -789,7 +779,7 @@ class InputsStress(_Inputs):
         return self._bool_rotate_to_global
 
     @property
-    def mesh(self) -> Input[MeshedRegion | MeshesContainer]:
+    def mesh(self) -> Input:
         r"""Allows to connect mesh input to the operator.
 
         mesh. If cylic expansion is to be done, mesh of the base sector
@@ -810,7 +800,7 @@ class InputsStress(_Inputs):
         return self._mesh
 
     @property
-    def requested_location(self) -> Input[str]:
+    def requested_location(self) -> Input:
         r"""Allows to connect requested_location input to the operator.
 
         requested location Nodal, Elemental or ElementalNodal
@@ -831,7 +821,7 @@ class InputsStress(_Inputs):
         return self._requested_location
 
     @property
-    def read_cyclic(self) -> Input[int]:
+    def read_cyclic(self) -> Input:
         r"""Allows to connect read_cyclic input to the operator.
 
         if 0 cyclic symmetry is ignored, if 1 cyclic sector is read, if 2 cyclic expansion is done, if 3 cyclic expansion is done and stages are merged (default is 1)
@@ -852,7 +842,7 @@ class InputsStress(_Inputs):
         return self._read_cyclic
 
     @property
-    def expanded_meshed_region(self) -> Input[MeshedRegion | MeshesContainer]:
+    def expanded_meshed_region(self) -> Input:
         r"""Allows to connect expanded_meshed_region input to the operator.
 
         mesh expanded, use if cyclic expansion is to be done.
@@ -873,7 +863,7 @@ class InputsStress(_Inputs):
         return self._expanded_meshed_region
 
     @property
-    def sectors_to_expand(self) -> Input[Scoping | ScopingsContainer]:
+    def sectors_to_expand(self) -> Input:
         r"""Allows to connect sectors_to_expand input to the operator.
 
         sectors to expand (start at 0), for multistage: use scopings container with 'stage' label, use if cyclic expansion is to be done.
@@ -894,7 +884,7 @@ class InputsStress(_Inputs):
         return self._sectors_to_expand
 
     @property
-    def phi(self) -> Input[float]:
+    def phi(self) -> Input:
         r"""Allows to connect phi input to the operator.
 
         angle phi in degrees (default value 0.0), use if cyclic expansion is to be done.
@@ -915,7 +905,7 @@ class InputsStress(_Inputs):
         return self._phi
 
     @property
-    def read_beams(self) -> Input[bool]:
+    def read_beams(self) -> Input:
         r"""Allows to connect read_beams input to the operator.
 
         elemental nodal beam results are read if this pin is set to true (default is false)
@@ -936,7 +926,7 @@ class InputsStress(_Inputs):
         return self._read_beams
 
     @property
-    def split_shells(self) -> Input[bool]:
+    def split_shells(self) -> Input:
         r"""Allows to connect split_shells input to the operator.
 
         If true, this pin forces the results to be split by element shape, indicated by the presence of the 'elshape' label in the output. If false, the results for all elements shapes are combined. Default value is false if averaging is not required and true if averaging is required.
@@ -957,7 +947,7 @@ class InputsStress(_Inputs):
         return self._split_shells
 
     @property
-    def shell_layer(self) -> Input[int]:
+    def shell_layer(self) -> Input:
         r"""Allows to connect shell_layer input to the operator.
 
         If connected, this pin allows you to extract the result only on the selected shell layer(s). The available values are: 0: Top, 1: Bottom, 2: TopBottom, 3: Mid, 4: TopBottomMid.
@@ -978,7 +968,7 @@ class InputsStress(_Inputs):
         return self._shell_layer
 
     @property
-    def extend_to_mid_nodes(self) -> Input[bool]:
+    def extend_to_mid_nodes(self) -> Input:
         r"""Allows to connect extend_to_mid_nodes input to the operator.
 
         Compute mid nodes (when available) by averaging the neighbour corner nodes. Default: True
@@ -1017,7 +1007,7 @@ class OutputsStress(_Outputs):
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output[FieldsContainer]:
+    def fields_container(self) -> Output:
         r"""Allows to get fields_container output of the operator
 
         Returns
