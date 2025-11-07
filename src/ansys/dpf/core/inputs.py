@@ -24,15 +24,16 @@
 
 from enum import Enum
 from textwrap import wrap
+from typing import Generic, TypeVar
 import warnings
 import weakref
-from typing import TypeVar, Generic
 
 from ansys.dpf import core
 from ansys.dpf.core.mapping_types import map_types_to_python
 from ansys.dpf.core.outputs import Output, _Outputs
 
 T = TypeVar("T")
+
 
 class Input(Generic[T]):
     """

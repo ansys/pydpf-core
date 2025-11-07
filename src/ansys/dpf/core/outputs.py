@@ -23,13 +23,14 @@
 """Outputs."""
 
 import re
-from typing import TypeVar, Generic
+from typing import Generic, TypeVar
 
 from ansys.dpf.core.common import types
 from ansys.dpf.core.mapping_types import map_types_to_python
 from ansys.dpf.core.operator_specification import PinSpecification
 
 T = TypeVar("T")
+
 
 class Output(Generic[T]):
     """
