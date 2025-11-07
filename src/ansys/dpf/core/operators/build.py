@@ -22,7 +22,7 @@ from ansys.dpf.core.outputs import _make_printable_type
 
 # Operator internal names to call if first name is not available
 # Allows deprecating internal names associated to public Python operator modules
-operator_aliases = {
+OPERATOR_ALIASES = {
     "support_provider_cyclic": "mapdl::rst::support_provider_cyclic",
     "NMISC": "mapdl::nmisc",
     "SMISC": "mapdl::smisc",
@@ -30,6 +30,23 @@ operator_aliases = {
     "CS": "mapdl::rst::CS",
     "MCF": "U",
 }
+
+BUILT_IN_TYPES = ("int", "double", "string", "bool", "float", "str", "dict")
+
+TYPES_WITHOUT_PYTHON_IMPLEMENTATION = (
+    "Materials",
+    "AnsDispatchHolder",
+    "Stream",
+    "AbstractFieldSupport",
+    "AnyCollection",
+    "CustomTypeFieldsContainer",
+    "MeshSelectionManager",
+    "Class Dataprocessing::Dpftypecollection<Class Dataprocessing::Cpropertyfield>",
+    "Struct Iansdispatch",
+    "PropertyFieldsContainer",
+    "Class Dataprocessing::Crstfilewrapper",
+    "Char",
+)
 
 
 def find_class_origin(class_name: str, package_name: str = "ansys.dpf.core") -> Optional[str]:
@@ -121,14 +138,22 @@ def build_pin_data(pins, output=False):
         docstring_types = map_types(type_names)
         parameter_types = " or ".join(docstring_types)
         parameter_types = "\n".join(wrap(parameter_types, subsequent_indent="      ", width=60))
-        type_list_for_annotation = " | ".join(docstring_types)
+
+        type_list_for_annotation = " | ".join(
+            docstring_type
+            for docstring_type in docstring_types
+            if docstring_type
+            not in TYPES_WITHOUT_PYTHON_IMPLEMENTATION  # Types without python implementations can't be typechecked
+        )
+
+        # if not type_list_for_annotation:
+        #     pass
 
         pin_name = specification.name
         pin_name = pin_name.replace("<", "_")
         pin_name = pin_name.replace(">", "_")
 
         main_type = docstring_types[0] if len(docstring_types) >= 1 else ""
-        built_in_types = ("int", "double", "string", "bool", "float", "str", "dict")
 
         # Case where output pin has multiple types.
         multiple_types = len(type_names) >= 2
@@ -138,6 +163,9 @@ def build_pin_data(pins, output=False):
 
         document = specification.document
         document_pin_docstring = document.replace("\n", "\n        ")
+
+        # if output and multiple_types:
+        #     pass
 
         pin_data = {
             "id": id,
@@ -153,7 +181,7 @@ def build_pin_data(pins, output=False):
             "type_list_for_annotation": type_list_for_annotation,
             "types_for_docstring": parameter_types,
             "main_type": main_type,
-            "built_in_main_type": main_type in built_in_types,
+            "built_in_main_type": main_type in BUILT_IN_TYPES,
             "optional": specification.optional,
             "document": document,
             "document_pin_docstring": document_pin_docstring,
@@ -188,6 +216,7 @@ def build_operator(
     category,
     specification_description,
 ):
+    # global all_input_output_types, types_without_concrete_definiton
     input_pins = []
     if specification.inputs:
         input_pins = build_pin_data(specification.inputs)
@@ -203,7 +232,6 @@ def build_operator(
 
     date_and_time = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
 
-    built_in_types = ("int", "double", "string", "bool", "float", "str", "dict")
     annotation_import_types = set()
     for input_pin in input_pins:
         annotation_import_types.update(input_pin["docstring_types"])
@@ -211,14 +239,19 @@ def build_operator(
         annotation_import_types.update(output_pin["docstring_types"])
     annotation_import_list = []
     for annotation_type in annotation_import_types:
-        if annotation_type in built_in_types:
+        if annotation_type in BUILT_IN_TYPES + TYPES_WITHOUT_PYTHON_IMPLEMENTATION:
             continue
+        definition_location = find_class_origin(annotation_type)
         annotation_import_list.append(
             {
                 "class_name": annotation_type,
-                "definition_location": find_class_origin(annotation_type),
+                "definition_location": definition_location,
             }
         )
+        # if not definition_location:
+        #     types_without_concrete_definiton.update([annotation_type])
+
+    # all_input_output_types.update(annotation_import_types)
 
     data = {
         "operator_name": operator_name,
@@ -236,8 +269,8 @@ def build_operator(
         "date_and_time": date_and_time,
         "has_input_aliases": has_input_aliases,
         "has_output_aliases": has_output_aliases,
-        "has_internal_name_alias": operator_name in operator_aliases.keys(),
-        "internal_name_alias": operator_aliases.get(operator_name),
+        "has_internal_name_alias": operator_name in OPERATOR_ALIASES.keys(),
+        "internal_name_alias": OPERATOR_ALIASES.get(operator_name),
     }
 
     this_path = os.path.dirname(os.path.abspath(__file__))
@@ -245,6 +278,7 @@ def build_operator(
     with open(mustache_file, "r") as f:
         cls = chevron.render(f, data)
     try:
+        # return cls
         return black.format_str(cls, mode=black.FileMode())
     except Exception as e:
         print(f"{operator_name=}")
@@ -317,10 +351,10 @@ def build_operators():
         # Convert Markdown descriptions to RST
         specification_description = translator.convert(specification.description)
 
-        if "stress" != scripting_name:
+        if scripting_name not in ("stress", "propertyfield_get_attribute", "mesh_support_provider"):
             continue
-        if "stress" == scripting_name:
-            pass
+        # if "stress" == scripting_name:
+        #     pass
 
         # Write to operator file
         operator_file = os.path.join(category_path, scripting_name + ".py")
@@ -351,24 +385,24 @@ def build_operators():
     print(f"Generated {succeeded} out of {len(available_operators)} ({hidden} hidden)")
 
     # Create __init__.py files
-    print(f"Generating __init__.py files...")
-    with open(
-        os.path.join(this_path, "__init__.py"), "w", encoding="utf-8", newline="\u000a"
-    ) as main_init:
-        for category in sorted(categories):
-            # Add category to main init file imports
-            main_init.write(f"from . import {category}\n")
-            # Create category init file
-            category_operators = os.listdir(os.path.join(this_path, category.split(".")[0]))
-            with open(
-                os.path.join(this_path, category, "__init__.py"),
-                "w",
-                encoding="utf-8",
-                newline="\u000a",
-            ) as category_init:
-                for category_operator in sorted(category_operators):
-                    operator_name = category_operator.split(".")[0]
-                    category_init.write(f"from .{operator_name} import {operator_name}\n")
+    # print(f"Generating __init__.py files...")
+    # with open(
+    #     os.path.join(this_path, "__init__.py"), "w", encoding="utf-8", newline="\u000a"
+    # ) as main_init:
+    #     for category in sorted(categories):
+    #         # Add category to main init file imports
+    #         main_init.write(f"from . import {category}\n")
+    #         # Create category init file
+    #         category_operators = os.listdir(os.path.join(this_path, category.split(".")[0]))
+    #         with open(
+    #             os.path.join(this_path, category, "__init__.py"),
+    #             "w",
+    #             encoding="utf-8",
+    #             newline="\u000a",
+    #         ) as category_init:
+    #             for category_operator in sorted(category_operators):
+    #                 operator_name = category_operator.split(".")[0]
+    #                 category_init.write(f"from .{operator_name} import {operator_name}\n")
 
     if succeeded == len(available_operators) - hidden:
         print("Success")
@@ -380,7 +414,11 @@ def build_operators():
 
 
 if __name__ == "__main__":
+    # all_input_output_types = set()
+    # types_without_concrete_definiton = set()
     dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
     dpf.start_local_server(config=dpf.AvailableServerConfigs.LegacyGrpcServer)
     build_operators()
     dpf.SERVER.shutdown()
+    # print(all_input_output_types)
+    # print(types_without_concrete_definiton)

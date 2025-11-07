@@ -228,13 +228,13 @@ class Inputs{{capital_class_name}}(_Inputs):
     def __init__(self, op: Operator):
         super().__init__({{class_name}}._spec().inputs, op)
         {{#input_pins}}
-        self._{{name}}: Input[{{type_list_for_annotation}}] = Input({{class_name}}._spec().input_pin({{id}}), {{id}}, op, {{ellipsis}})
+        self._{{name}}: Input{{#type_list_for_annotation}}[{{type_list_for_annotation}}]{{/type_list_for_annotation}} = Input({{class_name}}._spec().input_pin({{id}}), {{id}}, op, {{ellipsis}})
         self._inputs.append(self._{{name}})
         {{/input_pins}}
     {{#input_pins}}
 
     @property
-    def {{name}}(self) -> Input[{{type_list_for_annotation}}]:
+    def {{name}}(self) -> Input{{#type_list_for_annotation}}[{{type_list_for_annotation}}]{{/type_list_for_annotation}}:
         r"""Allows to connect {{name}} input to the operator.
         {{#document_pin_docstring}}
 
@@ -294,7 +294,7 @@ class Outputs{{capital_class_name}}(_Outputs):
         {{/printable_type_names}}
         {{/multiple_types}}
         {{^multiple_types}}
-        self._{{name}} = Output({{class_name}}._spec().output_pin({{id}}), {{id}}, op)
+        self._{{name}}: Output{{#type_list_for_annotation}}[{{type_list_for_annotation}}]{{/type_list_for_annotation}} = Output({{class_name}}._spec().output_pin({{id}}), {{id}}, op)
         self._outputs.append(self._{{name}})
         {{/multiple_types}}
         {{/output_pins}}
@@ -302,7 +302,7 @@ class Outputs{{capital_class_name}}(_Outputs):
 {{^multiple_types}}
 
     @property
-    def {{name}}(self) -> Output[{{type_list_for_annotation}}]:
+    def {{name}}(self) -> Output{{#type_list_for_annotation}}[{{type_list_for_annotation}}]{{/type_list_for_annotation}}:
         r"""Allows to get {{name}} output of the operator
         {{#document_pin_docstring}}
 
