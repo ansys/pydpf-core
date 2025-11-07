@@ -182,7 +182,7 @@ def start_local_server(
         default is ``"LOCALHOST"``.
     port : int, optional
         Port to connect to the remote instance on. The default is
-        ``"DPF_DEFAULT_PORT"``, which is 50054.
+        ``"DPF_DEFAULT_PORT"``, which is 60054.
     ansys_path : str or os.PathLike, optional
         Root path for the Ansys installation directory. For example, ``"/ansys_inc/v212/"``.
         The default is the latest Ansys installation.
@@ -326,7 +326,7 @@ def connect_to_server(
         default is ``"LOCALHOST"``.
     port : int
         Port to connect to the remote instance on. The default is
-        ``"DPF_DEFAULT_PORT"``, which is 50054.
+        ``"DPF_DEFAULT_PORT"``, which is 60054.
     as_global : bool, optional
         Global variable that stores the IP address and port for the DPF
         module. All DPF objects created in this Python session will
