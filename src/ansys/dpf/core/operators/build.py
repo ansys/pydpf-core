@@ -33,14 +33,7 @@ operator_aliases = {
 
 
 def find_class_origin(class_name: str, package_name: str = "ansys.dpf.core") -> Optional[str]:
-    """
-    Find the fully qualified import path where a class is *originally defined*
-    within a given package (not just re-exported).
-
-    Example:
-        find_class_origin("HTTPError", "requests")
-        -> "requests.exceptions.HTTPError"
-    """
+    """Find the fully qualified import path where a class is originally defined."""
     try:
         pkg = importlib.import_module(package_name)
     except ModuleNotFoundError:
